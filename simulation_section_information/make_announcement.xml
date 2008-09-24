@@ -1,0 +1,9 @@
+<org.usip.oscw.baseobjects.BaseSimSection>
+  <description>A section to make broadcast announcements.</description>
+  <url></url>
+  <directory>../oscw_core/</directory>
+  <page__file__name>make_announcement.jsp</page__file__name>
+  <rec__tab__heading>Make Announcements</rec__tab__heading>
+  <sample__image>make_announcement.png</sample__image>
+  <control__section>true</control__section>
+</org.usip.oscw.baseobjects.BaseSimSection>

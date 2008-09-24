@@ -1,0 +1,9 @@
+<org.usip.oscw.baseobjects.BaseSimSection>
+  <description>A section to write the after action report, and mark the simulation as terminated.</description>
+  <url></url>
+  <directory>../oscw_core/</directory>
+  <page__file__name>write_aar_end_sim.jsp</page__file__name>
+  <rec__tab__heading>End Sim</rec__tab__heading>
+  <sample__image>no_sample_image.png</sample__image>
+  <control__section>true</control__section>
+</org.usip.oscw.baseobjects.BaseSimSection>

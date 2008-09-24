@@ -1,0 +1,122 @@
+package org.usip.oscw.persistence;
+
+import java.util.Date;
+
+import javax.persistence.*;
+
+import org.hibernate.annotations.Proxy;
+
+/**
+ * @author Ronald "Skip" Cole
+ * 
+ * This file is part of the USIP Online Simulation Platform.<br>
+ * 
+ * The USIP Online Simulation Platform is free software; you can
+ * redistribute it and/or modify it under the terms of the new BSD Style license
+ * associated with this distribution.<br>
+ * 
+ * The USIP Online Simulation Platform is distributed WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. <BR>
+ * 
+ */
+@Entity
+@Table(name = "USER_REG_INVITE")
+@Proxy(lazy = false)
+public class UserRegistrationInvite {
+	
+	/** Database id of this User. */
+	@Id
+	@GeneratedValue
+	@Column(name = "URI_ID")
+	private Long id;
+	
+	/** Email of instructor who sent invite to register. */
+	private String invitingInstructor = "";
+	
+	/** Email sent invitation. */
+	private String originalInviteEmailAddress = "";
+	
+	/** Email addressed used by invited user to register. */
+	private String emailAddressRegistered = "";
+	
+	/** Date the user registers. */
+	@Column(name="INVITATION_DATE", columnDefinition="datetime") 	
+	@GeneratedValue
+	private Date invitationDate;
+	
+	/** Date the user registers. */
+	@Column(name="REGISTRATION_DATE", columnDefinition="datetime") 	
+	@GeneratedValue
+	private Date registrationDate;
+	
+	/** Used to help keep track of a set of students invited all at one time. */
+	private String invitationSet;
+	
+	private String schemaInvitedTo;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getInvitingInstructor() {
+		return invitingInstructor;
+	}
+
+	public void setInvitingInstructor(String invitingInstructor) {
+		this.invitingInstructor = invitingInstructor;
+	}
+
+	public String getOriginalInviteEmailAddress() {
+		return originalInviteEmailAddress;
+	}
+
+	public void setOriginalInviteEmailAddress(String originalInviteEmailAddress) {
+		this.originalInviteEmailAddress = originalInviteEmailAddress;
+	}
+
+	public String getEmailAddressRegistered() {
+		return emailAddressRegistered;
+	}
+
+	public void setEmailAddressRegistered(String emailAddressRegistered) {
+		this.emailAddressRegistered = emailAddressRegistered;
+	}
+
+	public Date getInvitationDate() {
+		return invitationDate;
+	}
+
+	public void setInvitationDate(Date invitationDate) {
+		this.invitationDate = invitationDate;
+	}
+
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public String getInvitationSet() {
+		return invitationSet;
+	}
+
+	public void setInvitationSet(String invitationSet) {
+		this.invitationSet = invitationSet;
+	}
+
+	public String getSchemaInvitedTo() {
+		return schemaInvitedTo;
+	}
+
+	public void setSchemaInvitedTo(String schemaInvitedTo) {
+		this.schemaInvitedTo = schemaInvitedTo;
+	}
+
+}

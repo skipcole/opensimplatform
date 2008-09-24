@@ -1,0 +1,8 @@
+<org.usip.oscw.baseobjects.CustomLibrarySection>
+  <description>The Economic Lever in our simple simulation.</description>
+  <url></url>
+  <directory>../custom_section_libraries/FrameworkForSuccess/</directory>
+  <page__file__name>econ_lever.jsp</page__file__name>
+  <rec__tab__heading>Set Tax Rate</rec__tab__heading>
+  <sample__image>ffs_sample.png</sample__image>
+</org.usip.oscw.baseobjects.CustomLibrarySection>
