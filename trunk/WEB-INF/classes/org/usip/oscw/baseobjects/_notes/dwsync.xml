@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="Actor.class" local="128654698553906250" remote="128654702400000000" testing="0" />
+<file name="Actor.java" local="128654525873281250" remote="128654702400000000" testing="0" />
+<file name="ActorGhost.class" local="128654698553906250" remote="128654702400000000" testing="0" />
+<file name="ActorGhost.java" local="128602669200000000" remote="128625102600000000" testing="0" />
+<file name="BaseSimSection.class" local="128654698553906250" remote="128654702400000000" testing="0" />
+<file name="BaseSimSection.java" local="128648382933437500" remote="128654702400000000" testing="0" />
+<file name="CustomizeableSection.class" local="128654698553750000" remote="128654702400000000" testing="0" />
+<file name="CustomizeableSection.java" local="128654525873281250" remote="128654702400000000" testing="0" />
+<file name="CustomLibrarySection.class" local="128654698553750000" remote="128654702400000000" testing="0" />
+<file name="CustomLibrarySection.java" local="128630511490000000" remote="128632099800000000" testing="0" />
+<file name="Debug.class" local="128654698553593750" remote="128654702400000000" testing="0" />
+<file name="Debug.java" local="128602669200000000" remote="128625103200000000" testing="0" />
+<file name="Emailer$1.class" local="128654698553593750" remote="128654702400000000" testing="0" />
+<file name="Emailer$2.class" local="128654698553593750" remote="128654702400000000" testing="0" />
+<file name="Emailer.class" local="128654698553593750" remote="128654702400000000" testing="0" />
+<file name="Emailer.java" local="128645105750468750" remote="128646763800000000" testing="0" />
+<file name="PlannedSessionParameters.class" local="128654698553281250" remote="128654702400000000" testing="0" />
+<file name="PlannedSessionParameters.java" local="128602669800000000" remote="128625103200000000" testing="0" />
+<file name="RunningSimulation.class" local="128654698553281250" remote="128654702400000000" testing="0" />
+<file name="RunningSimulation.java" local="128648576790312500" remote="128654702400000000" testing="0" />
+<file name="Simulation.class" local="128654698553281250" remote="128654702400000000" testing="0" />
+<file name="Simulation.java" local="128648382933593750" remote="128654703000000000" testing="0" />
+<file name="SimulationPhase.class" local="128654698553125000" remote="128654703000000000" testing="0" />
+<file name="SimulationPhase.java" local="128602669800000000" remote="128625103200000000" testing="0" />
+<file name="SimulationSection.class" local="128654698553125000" remote="128654703000000000" testing="0" />
+<file name="SimulationSection.java" local="128654694266250000" remote="128654703000000000" testing="0" />
+<file name="SimulationSectionGhost.class" local="128654698552968750" remote="128654703000000000" testing="0" />
+<file name="SimulationSectionGhost.java" local="128602669800000000" remote="128625103200000000" testing="0" />
+<file name="User.class" local="128654698552812500" remote="128654703000000000" testing="0" />
+<file name="User.java" local="128632242790937500" remote="128646763800000000" testing="0" />
+<file name="UserAssignment.class" local="128654698552656250" remote="128654703000000000" testing="0" />
+<file name="UserAssignment.java" local="128632294755468750" remote="128646763800000000" testing="0" />
+<file name="UserCreatedSection.class" local="128654698552656250" remote="128654703000000000" testing="0" />
+<file name="UserCreatedSection.java" local="128610373800000000" remote="128625103200000000" testing="0" />
+<file name="UserTrail.class" local="128654698552656250" remote="128654703000000000" testing="0" />
+<file name="UserTrail.java" local="128602669800000000" remote="128625103200000000" testing="0" />
+<file name="USIP_OSCW_Properties.class" local="128654698552812500" remote="128654703000000000" testing="0" />
+<file name="USIP_OSCW_Properties.java" local="128602669800000000" remote="128625103200000000" testing="0" />
+</dwsync>

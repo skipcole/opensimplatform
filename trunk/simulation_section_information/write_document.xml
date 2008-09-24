@@ -1,0 +1,13 @@
+<org.usip.oscw.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>make_write_document_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A section to write a document.</description>
+  <url></url>
+  <directory>../oscw_core/</directory>
+  <page__file__name>write_document.jsp</page__file__name>
+  <rec__tab__heading>Write Document</rec__tab__heading>
+  <sample__image>write_document.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.oscw.baseobjects.CustomizeableSection>

@@ -1,0 +1,232 @@
+<?xml version="1.0" standalone="yes" ?>
+
+<mm_report>
+	<mm_reportname>	trash_ResultsReport.xml</mm_reportname>
+	<mm_reportdate>08/08/08 15:12:22</mm_reportdate>
+	<mm_reportlocation>C:\\apache\apache-tomcat-5.5.26\webapps\simulation_dev\</mm_reportlocation>
+	<mm_reportitem>
+		<mm_file>oscw_core\private_msg_screen.jsp</mm_file>
+		<mm_displaystr><![CDATA[ Hashtable conversation_actors = (Hashtable) getServletContext().getAttribute("conversation_actors"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="288" mm_rangemax="305" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>oscw_core\private_msg_server.jsp</mm_file>
+		<mm_displaystr><![CDATA[ Hashtable broadcast_conversations = (Hashtable) getServletContext().getAttribute("broadcast_conversations"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="1824" mm_rangemax="1841" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\reset.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("sim_section_info", sim_section_info); ]]></mm_displaystr>
+		<mm_data mm_rangemin="357" mm_rangemax="374" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\reset.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("activeTickets", tickets); ]]></mm_displaystr>
+		<mm_data mm_rangemin="535" mm_rangemax="552" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\reset.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("broadcast_conversations", broadcast_conversations); ]]></mm_displaystr>
+		<mm_data mm_rangemin="670" mm_rangemax="687" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\reset.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("conversations", conversations); ]]></mm_displaystr>
+		<mm_data mm_rangemin="875" mm_rangemax="892" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\reset.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("conversation_actors", conversation_actors); ]]></mm_displaystr>
+		<mm_data mm_rangemin="1073" mm_rangemax="1090" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\reset.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("charts", charts); ]]></mm_displaystr>
+		<mm_data mm_rangemin="1258" mm_rangemax="1275" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\toggle_debug.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("activeTickets", tickets); ]]></mm_displaystr>
+		<mm_data mm_rangemin="376" mm_rangemax="393" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\toggle_debug.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("broadcast_conversations", broadcast_conversations); ]]></mm_displaystr>
+		<mm_data mm_rangemin="511" mm_rangemax="528" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\toggle_debug.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("conversations", conversations); ]]></mm_displaystr>
+		<mm_data mm_rangemin="716" mm_rangemax="733" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\toggle_debug.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("conversation_actors", conversation_actors); ]]></mm_displaystr>
+		<mm_data mm_rangemin="914" mm_rangemax="931" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>simulation_authoring\toggle_debug.jsp</mm_file>
+		<mm_displaystr><![CDATA[     getServletContext().setAttribute("charts", charts); ]]></mm_displaystr>
+		<mm_data mm_rangemin="1099" mm_rangemax="1116" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>communications\ChatController.java</mm_file>
+		<mm_displaystr><![CDATA[  .getServletContext().getAttribute("broadcast_conversations"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="1953" mm_rangemax="1970" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>communications\ChatController.java</mm_file>
+		<mm_displaystr><![CDATA[  .getServletContext().getAttribute("conversation_actors"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="5963" mm_rangemax="5980" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>graphs\GraphServer.java</mm_file>
+		<mm_displaystr><![CDATA[ * Hashtable charts = (Hashtable) getServletContext().getAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="9046" mm_rangemax="9063" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>graphs\GraphServer.java</mm_file>
+		<mm_displaystr><![CDATA[    * getServletContext().setAttribute("charts", charts); } else { ]]></mm_displaystr>
+		<mm_data mm_rangemin="9188" mm_rangemax="9205" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ .getSession().getServletContext().getAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="4227" mm_rangemax="4244" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="4460" mm_rangemax="4477" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ roundNames = (Hashtable<Long, String>) session.getServletContext() ]]></mm_displaystr>
+		<mm_data mm_rangemin="24038" mm_rangemax="24055" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ session.getServletContext().setAttribute("roundNames", ]]></mm_displaystr>
+		<mm_data mm_rangemin="24207" mm_rangemax="24224" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute("roundNames", ]]></mm_displaystr>
+		<mm_data mm_rangemin="24472" mm_rangemax="24489" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[  .getServletContext().getAttribute("phaseNames"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="25260" mm_rangemax="25277" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute("phaseNames", ]]></mm_displaystr>
+		<mm_data mm_rangemin="25479" mm_rangemax="25496" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[  .getServletContext().getAttribute("phaseIds"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="25875" mm_rangemax="25892" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute("phaseIds", ]]></mm_displaystr>
+		<mm_data mm_rangemin="26078" mm_rangemax="26095" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ .getSession().getServletContext().getAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="33717" mm_rangemax="33734" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ .getSession().getServletContext().getAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="34174" mm_rangemax="34191" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="34570" mm_rangemax="34587" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[  .getServletContext().getAttribute("phaseIds"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="35415" mm_rangemax="35432" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[  .getServletContext().getAttribute("sim_section_info"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="35836" mm_rangemax="35853" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ session.getServletContext().setAttribute("sim_section_info", ]]></mm_displaystr>
+		<mm_data mm_rangemin="36905" mm_rangemax="36922" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ .getSession().getServletContext().getAttribute("roundNames"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="37643" mm_rangemax="37660" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute("roundNames", ]]></mm_displaystr>
+		<mm_data mm_rangemin="37773" mm_rangemax="37790" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ .getSession().getServletContext() ]]></mm_displaystr>
+		<mm_data mm_rangemin="39229" mm_rangemax="39246" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute("phaseNames", ]]></mm_displaystr>
+		<mm_data mm_rangemin="39363" mm_rangemax="39380" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[   .getServletContext().getAttribute("phaseIds"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="39733" mm_rangemax="39750" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute("phaseIds", ]]></mm_displaystr>
+		<mm_data mm_rangemin="39852" mm_rangemax="39869" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="50210" mm_rangemax="50227" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="50809" mm_rangemax="50826" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ .getSession().getServletContext().getAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="51132" mm_rangemax="51149" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[ request.getSession().getServletContext().setAttribute( ]]></mm_displaystr>
+		<mm_data mm_rangemin="51305" mm_rangemax="51322" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[  .getServletContext().getAttribute("phaseNames"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="55107" mm_rangemax="55124" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\ParticipantSessionObject.java</mm_file>
+		<mm_displaystr><![CDATA[  .getServletContext().getAttribute("roundNames"); ]]></mm_displaystr>
+		<mm_data mm_rangemin="55422" mm_rangemax="55439" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+	<mm_reportitem>
+		<mm_file>networking\USIP_OSCW_ContextListener.java</mm_file>
+		<mm_displaystr><![CDATA[ ServletContext context = sce.getServletContext(); ]]></mm_displaystr>
+		<mm_data mm_rangemin="926" mm_rangemax="943" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
+	</mm_reportitem>
+</mm_report>

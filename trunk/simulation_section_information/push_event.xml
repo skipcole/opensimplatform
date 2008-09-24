@@ -1,0 +1,9 @@
+<org.usip.oscw.baseobjects.BaseSimSection>
+  <description>A section to allow the control player to push out events (injects) to all of the players.</description>
+  <url></url>
+  <directory>../oscw_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <rec__tab__heading>Push Injects</rec__tab__heading>
+  <sample__image>push_injects.png</sample__image>
+  <control__section>true</control__section>
+</org.usip.oscw.baseobjects.BaseSimSection>
