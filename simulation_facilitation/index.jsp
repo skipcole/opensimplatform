@@ -80,7 +80,7 @@ body {
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="80%" valign="top"><!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>List Simulation </h1>
+      <h1>Online Simulation Library </h1>
     <!-- InstanceEndEditable --></td>
     <td width="20%" align="right" valign="top"> 
 		<% 
@@ -115,8 +115,6 @@ body {
         <p>Below are all of the currently published Simulations for your organization.</p>
         <p>Click on the name of the simulation template to begin preparing a play 
           session.</p>
-        <p>&nbsp;</p>
-          
         <table width="100%" border="1" cellspacing="0" cellpadding="2">
           <tr valign="top"> 
             <td width="15%"><strong>Name / Version</strong></td>
@@ -132,9 +130,9 @@ body {
 			%>
           <tr valign="top"> 
             <td><a href="facilitateweb.jsp?loadSim=true&sim_id=<%= sim.getId() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
-            <td>&nbsp;</td>
+            <td>ETCD</td>
             <td><%= sim.getListingKeyWords() %></td>
-            <td>&nbsp;</td>
+            <td>12/2008</td>
             <td><a href="../simulation_authoring/review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
             <td>&nbsp;</td>
           </tr>
