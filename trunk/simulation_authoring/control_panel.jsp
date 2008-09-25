@@ -70,11 +70,11 @@ body {
           <td><h2>Description</h2></td>
         </tr>
         <tr valign="top"> 
-          <td width="1%">1.</td>
-          <td width="35%"><a href="create_simulation.jsp" target="bodyinleft">Create 
+          <td width="3%">1.</td>
+          <td width="25%"><a href="create_simulation.jsp" target="bodyinleft">Create 
             New Simulation</a></td>
-          <td width="1%">&nbsp;</td>
-          <td width="63%">For example, &quot;Dividing Oranges&quot; or &quot;Oil 
+          <td width="2%">&nbsp;</td>
+          <td width="70%">For example, &quot;Dividing Oranges&quot; or &quot;Oil 
             Curse &quot; </td>
         </tr>
         <tr valign="top"> 

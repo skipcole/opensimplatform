@@ -30,17 +30,14 @@
   <tr valign="top"> 
     <td><p><strong>Public Information</strong><br>
         <%= actor.getPublic_description() %></p></td>
-    <td width=350>&nbsp;</td>
   </tr>
   <tr valign="top"> 
     <td><p><strong>Information Your Close Friends and Associates Know</strong><br>
         <%= actor.getSemi_public_description() %></p></td>
-    <td>&nbsp;</td>
   </tr>
   <tr valign="top">
     <td><p><strong>Private Information</strong><br>
         <%= actor.getPrivate_description() %></p></td>
-    <td>&nbsp;</td>
   </tr>
 </table>
 <p>&nbsp;</p>
