@@ -84,15 +84,15 @@ body {
 			InjectGroup ig = (InjectGroup) li.next();
 		%>
           <tr>
-            <td width="25%"><strong><%= ig.getName() %></strong></td>
-            <td width="13%">&nbsp;</td>
-            <td width="27%">&nbsp;</td>
-            <td width="35%"><a href="create_indvidual_inject.jsp?inject_group_id=<%= ig.getId() %>">Create Inject in Group <%= ig.getName() %>
+            <td width="25%" valign="top"><strong><%= ig.getName() %></strong></td>
+            <td width="13%" valign="top">&nbsp;</td>
+            <td width="27%" valign="top">&nbsp;</td>
+            <td width="35%" valign="top"><a href="create_indvidual_inject.jsp?inject_group_id=<%= ig.getId() %>">Create Inject in Group <%= ig.getName() %>
             </a></td>
           </tr>
           <tr>
-            <td>&nbsp;</td>
-            <td colspan="3"><strong>Group Description:</strong> <%= ig.getDescription() %></td>
+            <td valign="top">&nbsp;</td>
+            <td colspan="3" valign="top"><strong>Group Description:</strong> <%= ig.getDescription() %></td>
           </tr>
           <% 
 		  List injectList = Inject.getAllForSimAndGroup(pso.schema, pso.sim_id, ig.getId());
@@ -103,31 +103,33 @@ body {
 		  
 		  %>
           <tr>
-            <td>&nbsp;</td>
-            <td>inject name:</td>
-            <td colspan="2"><%= da_inject.getInject_name() %></td>
+            <td valign="top">&nbsp;</td>
+            <td valign="top">inject name:</td>
+            <td colspan="2" valign="top"><%= da_inject.getInject_name() %></td>
           </tr>
           <tr>
-            <td>&nbsp;</td>
-            <td>inject text:</td>
-            <td colspan="2"><%= da_inject.getInject_text() %></td>
+            <td valign="top">&nbsp;</td>
+            <td valign="top">inject text:</td>
+            <td colspan="2" valign="top"><%= da_inject.getInject_text() %></td>
           </tr>
           <tr>
-            <td>&nbsp;</td>
-            <td>inject notes:</td>
-            <td colspan="2"><%= da_inject.getInject_Notes() %></td>
+            <td valign="top">&nbsp;</td>
+            <td valign="top">inject notes:</td>
+            <td colspan="2" valign="top"><%= da_inject.getInject_Notes() %></td>
           </tr>
           <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td colspan="2">update / deleted</td>
+            <td valign="top">&nbsp;</td>
+            <td valign="top">&nbsp;</td>
+            <td colspan="2" valign="top">update / 
+            <a href="delete_object.jsp?object_type=inject&objid=<%= da_inject.getId() %>&object_info=<%= da_inject.getInject_name() %>"> 
+            delete</a></td>
           </tr>
           <% }  // End of loop.  
 		  } else { %>
           <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td colspan="2">No injects in this group yet. </td>
+            <td valign="top">&nbsp;</td>
+            <td valign="top">&nbsp;</td>
+            <td colspan="2" valign="top">No injects in this group yet. </td>
           </tr>
           <% } %>
         

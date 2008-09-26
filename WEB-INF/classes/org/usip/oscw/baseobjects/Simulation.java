@@ -281,11 +281,12 @@ public class Simulation {
 	/**
 	 * Adds a phase to the list of phases this simulation has.
 	 */
-	public void addNewPhase(String schema, String phase_name) {
+	public void addNewPhase(String schema, String phase_name, String phase_notes) {
 
 		SimulationPhase sp = new SimulationPhase();
 
 		sp.setName(phase_name);
+		sp.setNotes(phase_notes);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 

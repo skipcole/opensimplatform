@@ -36,6 +36,20 @@ public class SimulationPhase{
 	@Column(name = "PHASE_NAME")
 	private String name = "";
 	
+	/** Name of this Phase. */
+	@Column(name = "PHASE_NOTES")
+	@Lob
+	private String notes = "";
+	
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+
 	/** Order of this Phase. This is currently not used. */
 	@Column(name = "PHASE_ORDER")
 	private int order;

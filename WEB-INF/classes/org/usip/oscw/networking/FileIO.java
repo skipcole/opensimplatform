@@ -3,8 +3,17 @@ package org.usip.oscw.networking;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
+import org.usip.oscw.baseobjects.Actor;
+import org.usip.oscw.baseobjects.BaseSimSection;
+import org.usip.oscw.baseobjects.Simulation;
 import org.usip.oscw.baseobjects.USIP_OSCW_Properties;
+import org.usip.oscw.baseobjects.UserAssignment;
+import org.usip.oscw.persistence.MultiSchemaHibernateUtil;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * @author Ronald "Skip" Cole
@@ -135,6 +144,34 @@ public class FileIO {
 		return false;
 	}
 	
+	public static void unpackSim(String fileloc, String schema){
+		
+		String fileLocation = packaged_sim_dir + File.separator + fileloc;
+		
+		System.out.println("looking for file to unpack at " + fileLocation);
+		
+		File simToUnpackFile = new File(fileLocation);
+		
+		String xmlString = getFileContents(simToUnpackFile);
+		
+		XStream xstream = new XStream(new DomDriver());
+		xstream.alias("sim", Simulation.class);
+		
+		Simulation simRead = (Simulation) xstream.fromXML(xmlString);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(simRead);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		for (ListIterator<Actor> li = simRead.getActors().listIterator(); li.hasNext();) {
+			Actor this_a = (Actor) li.next();
+			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this_a);
+		}
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	
 	/**
 	 * 
 	 * @return
@@ -167,6 +204,37 @@ public class FileIO {
 		
 		return returnList;
 	
+	}
+
+	/**
+	 * Gets the contents of a file (such as an xml file) as a string.
+	 * 
+	 * @param thisFile
+	 * @return
+	 */
+	public static String getFileContents(File thisFile) {
+	
+		String fullString = "";
+		try {
+			FileReader fr = new FileReader(thisFile);
+			BufferedReader br = new BufferedReader(fr);
+	
+			String daLine = br.readLine();
+	
+			while (daLine != null) {
+				fullString += daLine;
+	
+				daLine = br.readLine();
+				System.out.println(daLine);
+			}
+	
+			br.close();
+			fr.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		return fullString;
 	}
 
 }

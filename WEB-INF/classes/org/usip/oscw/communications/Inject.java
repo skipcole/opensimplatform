@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
@@ -48,9 +49,11 @@ public class Inject {
 	private String inject_name = "";
 	
 	/** Name of this group of injects. */
+	@Lob
 	private String inject_text = "";
 	
 	/** Description of this group of injects. */
+	@Lob
 	private String inject_notes = "";
 
 	public Long getId() {

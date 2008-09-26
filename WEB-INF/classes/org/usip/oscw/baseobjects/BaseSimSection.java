@@ -16,15 +16,15 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 /**
  * @author Ronald "Skip" Cole
  * 
- * This file is part of the USIP Online Simulation Platform.<br>
+ *         This file is part of the USIP Online Simulation Platform.<br>
  * 
- * The USIP Online Simulation Platform is free software; you can
- * redistribute it and/or modify it under the terms of the new BSD Style license
- * associated with this distribution.<br>
+ *         The USIP Online Simulation Platform is free software; you can
+ *         redistribute it and/or modify it under the terms of the new BSD Style
+ *         license associated with this distribution.<br>
  * 
- * The USIP Online Simulation Platform is distributed WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. <BR>
+ *         The USIP Online Simulation Platform is distributed WITHOUT ANY
+ *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
 @Entity
@@ -158,52 +158,34 @@ public class BaseSimSection {
 
 	public static void readInXMLFile(String schema, File thisFile,
 			String customLibName) {
-		try {
-			FileReader fr = new FileReader(thisFile);
-			BufferedReader br = new BufferedReader(fr);
 
-			String fullBSS = "";
+		String fullBSS = FileIO.getFileContents(thisFile);
 
-			String daLine = br.readLine();
+		// BaseSimSection bRead = unpackageXML(fullBSS);
+		Object bRead = unpackageXML(fullBSS);
 
-			while (daLine != null) {
-				fullBSS += daLine;
+		if (bRead != null) {
+			/*
+			 * if (bRead.getClass().equals(BaseSimSection.class)){
+			 * System.out.println("rec tab: " + bRead.getRec_tab_heading()); }
+			 */
 
-				daLine = br.readLine();
-				System.out.println(daLine);
-			}
-
-			// BaseSimSection bRead = unpackageXML(fullBSS);
-			Object bRead = unpackageXML(fullBSS);
-
-			if (bRead != null) {
-				/*
-				 * if (bRead.getClass().equals(BaseSimSection.class)){
-				 * System.out.println("rec tab: " + bRead.getRec_tab_heading()); }
-				 */
-
-				if (bRead.getClass().equals(CustomLibrarySection.class)) {
-					CustomLibrarySection brc = (CustomLibrarySection) bRead;
-					if (customLibName != null) {
-						brc.setCust_lib_name(customLibName);
-					}
-
-					MultiSchemaHibernateUtil.beginTransaction(schema);
-					MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(
-							brc);
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-				} else {
-
-					MultiSchemaHibernateUtil.beginTransaction(schema);
-					MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(
-							bRead);
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			if (bRead.getClass().equals(CustomLibrarySection.class)) {
+				CustomLibrarySection brc = (CustomLibrarySection) bRead;
+				if (customLibName != null) {
+					brc.setCust_lib_name(customLibName);
 				}
-			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+				MultiSchemaHibernateUtil.beginTransaction(schema);
+				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(brc);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			} else {
+
+				MultiSchemaHibernateUtil.beginTransaction(schema);
+				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(bRead);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			}
 		}
 	}
 
@@ -386,9 +368,11 @@ public class BaseSimSection {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
-				schema).createQuery(
-				"from BaseSimSection where control_section = '1' order by BASE_SIMSEC_ID").list();
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from BaseSimSection where control_section = '1' order by BASE_SIMSEC_ID")
+				.list();
 
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
