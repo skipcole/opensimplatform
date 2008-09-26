@@ -1,18 +1,37 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.oscw.networking.*,org.usip.oscw.persistence.*,org.usip.oscw.baseobjects.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.oscw.communications.*,
+	org.usip.oscw.networking.*,
+	org.usip.oscw.persistence.*,
+	org.usip.oscw.baseobjects.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
+	
 	String inject_group_id = (String) request.getParameter("inject_group_id");
 	String sending_page = (String) request.getParameter("sending_page");
+	
+	String edit = (String) request.getParameter("edit");
+	String inj_id = (String) request.getParameter("inj_id");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_ind_inject"))){
 		pso.handleCreateInject(request);
 		response.sendRedirect("create_injects.jsp");
 		return;
+	}
+	
+	Inject inj = new Inject();
+	boolean in_edit_mode = false;
+	
+	
+	if ( (edit != null) && (edit.equalsIgnoreCase("true"))){
+		
+		inj = Inject.getMe(pso.schema, new Long(inj_id));
+		in_edit_mode = true;
+		
 	}
 	
 %>
@@ -72,19 +91,21 @@ body {
 		%>
         <p>Create Inject</p>
         <form id="form2" name="form2" method="post" action="">
+        <input type="hidden" name="inj_id" value="<%= inj_id %>" />
+        <input type="hidden" name="edit" value="<%= edit %>"  />
         <input type="hidden" name="sending_page" value="create_ind_inject" />
         <table width="100%" border="0" cellspacing="0" cellpadding="4">
           <tr>
             <td valign="top">Inject Name:</td>
             <td valign="top">
               <label>
-                <input type="text" name="inject_name" id="inject_name" />
+                <input type="text" name="inject_name" id="inject_name" value="<%= inj.getInject_name() %>"/>
                 </label>            </td>
           </tr>
           <tr>
             <td valign="top">Inject Text:</td>
             <td valign="top"><label>
-              <textarea name="inject_text" id="inject_text" cols="45" rows="5"></textarea>
+              <textarea name="inject_text" id="inject_text" cols="45" rows="5"><%= inj.getInject_text() %></textarea>
             </label></td>
           </tr>
 
@@ -92,14 +113,20 @@ body {
             <td valign="top">Inject Notes:<br />
               (Notes direct the simulation facilitator on how to use this inject.)</td>
             <td valign="top"><label>
-              <textarea name="inject_notes" id="inject_notes" cols="45" rows="5"></textarea>
+              <textarea name="inject_notes" id="inject_notes" cols="45" rows="5"><%= inj.getInject_Notes() %></textarea>
             </label></td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>
             <input type="hidden" name="inject_group_id" value="<%= inject_group_id %>" />
-            <input type="submit" name="button" id="button" value="Create Inject" /></td>
+            
+            <% if (in_edit_mode) { %>
+            	<input type="submit" name="button" id="button" value="Save Changes" />
+            <% } else { %>
+            	<input type="submit" name="button" id="button" value="Create Inject" />
+            <% } %>
+            </td>
           </tr>
         </table>
         </form>

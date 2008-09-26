@@ -103,6 +103,17 @@ public class Inject {
 	public void setInject_name(String inject_name) {
 		this.inject_name = inject_name;
 	}
+	
+	public static Inject getMe(String schema, Long id) {
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		Inject inj = (Inject)
+		MultiSchemaHibernateUtil.getSession(schema).get(Inject.class, id);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return inj;
+	}
 
 	public void saveMe(String schema) {
 		
