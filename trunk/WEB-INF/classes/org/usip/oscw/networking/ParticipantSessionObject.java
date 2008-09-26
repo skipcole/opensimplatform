@@ -374,6 +374,16 @@ public class ParticipantSessionObject {
 
 		return backPage + "?phase_id=" + _phase_id;
 	}
+	
+	public void handleUnpackSimulation(HttpServletRequest request){
+		
+		String filename = (String) request.getParameter("filename");
+		
+		System.out.println("unpacking " + filename);
+		
+		FileIO.unpackSim(filename, schema);
+		
+	}
 
 	public void handleWriteAARandEndSim(HttpServletRequest request) {
 
@@ -756,6 +766,18 @@ public class ParticipantSessionObject {
 
 		return true;
 	}
+	
+	public void handleAddPhase(Simulation sim, HttpServletRequest request){
+		
+		String phase_name = (String) request.getParameter("phase_name");
+		String phase_notes = (String) request.getParameter("phase_notes");
+		
+		System.out.println("adding phase " + phase_name + " to schema " + schema);
+		
+		sim.addNewPhase(schema, phase_name, phase_notes);
+		
+		addControlSectionsToAllPhasesOfControl(sim);
+	}
 
 	/** Assigns a user to a simulation. */
 	public void handleAssignUser(HttpServletRequest request) {
@@ -824,7 +846,16 @@ public class ParticipantSessionObject {
 
 				MultiSchemaHibernateUtil.getSession(schema).delete(act);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			} else if (objectType.equalsIgnoreCase("sim_section")) {
+			} else if (objectType.equalsIgnoreCase("inject")) {
+				
+				MultiSchemaHibernateUtil.beginTransaction(schema);
+				Inject inject = (Inject) MultiSchemaHibernateUtil
+						.getSession(schema).get(Inject.class, o_id);
+				
+				MultiSchemaHibernateUtil.getSession(schema).delete(inject);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			}  else if (objectType.equalsIgnoreCase("sim_section")) {
 				MultiSchemaHibernateUtil.beginTransaction(schema);
 				SimulationSection ss = (SimulationSection) MultiSchemaHibernateUtil
 						.getSession(schema).get(SimulationSection.class, o_id);

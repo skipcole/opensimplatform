@@ -6,6 +6,16 @@
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
+	if (!(pso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
+	
+	String unpack = (String) request.getParameter("unpack");
+	
+	if ((unpack != null) && (unpack.equalsIgnoreCase("true"))){
+		pso.handleUnpackSimulation(request);
+	}
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -58,7 +68,7 @@ body {
   <p> 
 	<% for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
 			String sim = (String) li.next(); %>
-    		<%= sim %><br />
+    		Load:<a href="unpackage_simulation.jsp?unpack=true&filename=<%= sim %>"> <%= sim %></a><br />
 	<% } %>
   </p>
 

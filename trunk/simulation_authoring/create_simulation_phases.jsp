@@ -15,15 +15,11 @@
 	}
 	
 	String sending_page = (String) request.getParameter("sending_page");
-	String phase_name = (String) request.getParameter("phase_name");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_phase"))){
 	
-		System.out.println("adding phase " + phase_name + " to schema " + pso.schema);
-		
-		simulation.addNewPhase(pso.schema, phase_name);
-		
-		pso.addControlSectionsToAllPhasesOfControl(simulation);
+		pso.handleAddPhase(simulation, request);
+
 	}
 
 %>
@@ -90,28 +86,36 @@ body {
             <input type="hidden" name="sending_page" value="create_phase" />
             <table width="80%" border="0" cellspacing="2" cellpadding="2">
               <tr> 
-                <td>Phase Name:</td>
-                <td><input type="text" name="phase_name" /></td>
+                <td valign="top">Phase Name:</td>
+                <td valign="top"><input type="text" name="phase_name" /></td>
+              </tr>
+              <tr>
+                <td valign="top">Phase Notes:</td>
+                <td valign="top"><label>
+                  <textarea name="phase_notes" id="textarea" cols="45" rows="5"></textarea>
+                </label></td>
               </tr>
               <tr> 
-                <td>&nbsp;</td>
-                <td><input type="submit" name="createphase" value="Submit" /></td>
+                <td valign="top">&nbsp;</td>
+                <td valign="top"><input type="submit" name="createphase" value="Submit" /></td>
               </tr>
             </table>
             <p>&nbsp;</p>
           </form>
           <p>Below are listed all of the current simulation phases for this simulation:</p>
-          <table width="80%" border="1" cellspacing="2" cellpadding="2">
+          <table width="100%" border="1" cellspacing="2" cellpadding="2">
             <tr> 
-              <td><h2>Phase Name</h2></td>
+              <td width="34%" valign="top"><h2>Phase Name</h2></td>
+              <td width="66%" valign="top"><h2>Phase Notes</h2></td>
             </tr>
        <%
 		for (ListIterator li = phaseList.listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 			
 		%>
-            <tr> 
-              <td><%= sp.getName() %></td>
+            <tr>
+              <td valign="top"><%= sp.getName() %></td>
+              <td valign="top"><%= sp.getNotes() %></td> 
             </tr>
             <%
 	}
