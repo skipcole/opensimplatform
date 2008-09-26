@@ -74,8 +74,7 @@ body {
           <input type="submit" name="button" id="button" value="Create Inject Group" />
           </label>
         </form>
-
-                <table width="100%" border="0" cellspacing="0" cellpadding="4">
+        <table width="100%" border="0" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="4"><strong><u>Current Inject Groups and Injects</u></strong></td>
             </tr>
@@ -120,7 +119,7 @@ body {
           <tr>
             <td valign="top">&nbsp;</td>
             <td valign="top">&nbsp;</td>
-            <td colspan="2" valign="top">update / 
+            <td colspan="2" valign="top"><a href="create_indvidual_inject.jsp?edit=true&inj_id=<%= da_inject.getId() %>">update</a> / 
             <a href="delete_object.jsp?object_type=inject&objid=<%= da_inject.getId() %>&object_info=<%= da_inject.getInject_name() %>"> 
             delete</a></td>
           </tr>

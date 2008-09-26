@@ -33,10 +33,10 @@
 			pso.backPage = "make_announcement.jsp";
 			response.sendRedirect("select_actors.jsp");
 			return;
-		
+		} else {
+			rs = pso.makeGeneralAnnouncement(announcement_text, request);
 		}
 		
-		rs = pso.makeGeneralAnnouncement(announcement_text, request);
 		   
 	} // End of if coming from this page and have added announcement.
 	
@@ -86,7 +86,7 @@ To All Players </label>
 			Alert al = (Alert) li.next();
 %>
   <tr>
-  	<td><% if ((!al.isSpecific_targets())) { %>All<% } %>
+  	<td><% if ((!al.isSpecific_targets())) { %>All<% } else { %>Insert names here <% } %>
 	
 	</td>
     <td><%= al.getAlertMessage() %></td>

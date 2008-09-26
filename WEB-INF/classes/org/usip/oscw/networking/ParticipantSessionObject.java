@@ -1201,19 +1201,35 @@ public class ParticipantSessionObject {
 	}
 	
 	public void handleCreateInject(HttpServletRequest request){
+		
 		String inject_name = (String) request.getParameter("inject_name");
 		String inject_text = (String) request.getParameter("inject_text");
 		String inject_notes = (String) request.getParameter("inject_notes");
 		String inject_group_id = (String) request.getParameter("inject_group_id");
 
-		Inject inject = new Inject();
-		inject.setInject_name(inject_name);
-		inject.setInject_text(inject_text);
-		inject.setInject_Notes(inject_notes);
-		inject.setSim_id(sim_id);
-		inject.setGroup_id(new Long(inject_group_id));
+		String edit = (String) request.getParameter("edit");
+		String inj_id = (String) request.getParameter("inj_id");
 		
-		inject.saveMe(schema);
+		
+		if ((edit != null) && (edit.equalsIgnoreCase("true"))){
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			Inject inject = (Inject) MultiSchemaHibernateUtil.getSession(schema).
+				get(Inject.class, new Long(inj_id));
+			inject.setInject_name(inject_name);
+			inject.setInject_text(inject_text);
+			inject.setInject_Notes(inject_notes);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		} else {
+			Inject inject = new Inject();
+			inject.setInject_name(inject_name);
+			inject.setInject_text(inject_text);
+			inject.setInject_Notes(inject_notes);
+			inject.setSim_id(sim_id);
+			inject.setGroup_id(new Long(inject_group_id));
+			inject.saveMe(schema);
+		}	
+		
+		
 	}
 
 	public boolean checkDatabaseCreated() {
@@ -2041,6 +2057,7 @@ public class ParticipantSessionObject {
 				.get(RunningSimulation.class, running_sim_id);
 
 		Alert al = new Alert();
+		al.setSpecific_targets(true);
 		al.setType(Alert.TYPE_ANNOUNCEMENT);
 		al.setAlertMessage(alertInQueueText);
 		al.setThe_specific_targets(targets);
