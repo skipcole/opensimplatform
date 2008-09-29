@@ -80,16 +80,20 @@ To All Players </label>
 <h2 align="center">
   Current Announcements Displayed Here</h2>
 <table width="80%" border="1" align="center">
-<tr><td>To</td><td>Message</td><tr>
+<tr><td width="25%" valign="top">To</td>
+  <td width="19%" valign="top">Date</td>
+  <td width="56%" valign="top">Message</td>
+<tr>
 <%
 	for (ListIterator li = pso.getAllAnnouncements().listIterator(); li.hasNext();) {
 			Alert al = (Alert) li.next();
 %>
   <tr>
-  	<td><% if ((!al.isSpecific_targets())) { %>All<% } else { %>Insert names here <% } %>
-	
-	</td>
-    <td><%= al.getAlertMessage() %></td>
+  	<td valign="top"><% if ((!al.isSpecific_targets())) { %>All<% } else { %>
+  	  <%= pso.stringListToNames(request, al.getThe_specific_targets())%>
+    <% } %>	</td>
+    <td valign="top"><%= al.getTimeOfAlert() %></td>
+    <td valign="top"><%= al.getAlertMessage() %></td>
   </tr>
 <%
 	}

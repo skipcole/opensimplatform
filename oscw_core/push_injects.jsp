@@ -15,8 +15,27 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	String sending_page = (String) request.getParameter("sending_page");
 		
-	RunningSimulation rs = pso.giveMeRunningSim();
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("push_injects"))){
+	
+		String announcement_text = (String) request.getParameter("announcement_text");
+		
+		String player_target = (String) request.getParameter("player_target");
+		
+		if ((player_target != null) && (player_target.equalsIgnoreCase("some"))){
+			pso.alertInQueueText = announcement_text;
+			pso.alertInQueueType = Alert.TYPE_EVENT;
+			pso.backPage = "push_injects.jsp";
+			response.sendRedirect("select_actors.jsp");
+			return;
+		} else {
+			pso.makeGeneralAnnouncement(announcement_text, request);
+		}
+		
+	}
+	
 %>
 <html>
 <head>
@@ -49,6 +68,7 @@
 			
 %>
 <form name="formforinject<%= iii %>" action="push_injects.jsp" method="post">
+<input type="hidden" name="sending_page" value="push_injects">
   <tr>
     <td valign="top">&nbsp;</td>
     <td colspan="3" valign="top"><%= da_inject.getInject_name() %></td>
@@ -68,7 +88,7 @@
     <td width="4%" valign="top">&nbsp;</td>
     <td colspan="2" valign="top">
         <label>
-          <textarea name="textarea" id="textarea" cols="45" rows="5"><%= da_inject.getInject_text() %></textarea>
+          <textarea name="announcement_text" id="textarea" cols="45" rows="5"><%= da_inject.getInject_text() %></textarea>
         </label>
     </td>
   </tr>
