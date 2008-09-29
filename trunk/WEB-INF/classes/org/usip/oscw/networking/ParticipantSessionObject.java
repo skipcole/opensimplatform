@@ -12,7 +12,6 @@ import javax.servlet.http.*;
 
 import org.usip.oscw.baseobjects.*;
 import org.usip.oscw.communications.*;
-import org.usip.oscw.communications.Inject;
 import org.usip.oscw.persistence.*;
 import org.hibernate.Session;
 import org.usip.oscw.sharing.ObjectPackager;
@@ -1488,20 +1487,17 @@ public class ParticipantSessionObject {
 	 */
 	public void changePhase(String r_phase_id, HttpServletRequest request) {
 
+		String notify_via_email = (String) request.getParameter("notify_via_email");
+		
 		try {
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
-
 			phase_id = new Long(r_phase_id);
-
 			RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil
 					.getSession(schema).get(RunningSimulation.class,
 							running_sim_id);
-
 			running_sim.setPhase_id(phase_id);
-
 			System.out.println("set rs " + running_sim_id + " to " + phase_id);
-
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(
 					running_sim);
 
@@ -1510,6 +1506,7 @@ public class ParticipantSessionObject {
 
 			this.phaseName = sp.getName();
 
+			// Store new phase name in web cache.
 			Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) request
 					.getSession().getServletContext()
 					.getAttribute("phaseNames");
@@ -1521,9 +1518,7 @@ public class ParticipantSessionObject {
 			System.out.println("setting phase change alert");
 
 			////////////////////////////////////////////////////////////////////
-			// ////
-			// Store it in the web cache, if this has not been done already
-			// by another user.
+			// Store new phase id in the web cache
 			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session
 					.getServletContext().getAttribute("phaseIds");
 
@@ -1539,6 +1534,7 @@ public class ParticipantSessionObject {
 
 			// Will need to add email text, etc.
 			al.setAlertMessage("phase change");
+			al.setAlertEmailMessage("Phase has changed.");
 
 			running_sim.getAlerts().add(al);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
@@ -1548,6 +1544,24 @@ public class ParticipantSessionObject {
 			// Let people know that there is a change to catch.
 			storeNewHighestChangeNumber(request);
 
+			
+			
+			if ((notify_via_email != null) && (notify_via_email.equalsIgnoreCase("true"))){
+				
+				Hashtable uniqList = new Hashtable();
+				
+				for (ListIterator<UserAssignment> li = running_sim.getUser_assignments().listIterator(); li
+				.hasNext();) {
+					UserAssignment ua = li.next();
+					uniqList.put(ua.getUser_id(), "set");
+				}
+				
+				for (Enumeration e = uniqList.keys(); e.hasMoreElements();){
+					Long key = (Long) e.nextElement();
+					System.out.println("need to email " + key);
+				}
+			}
+			
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		} catch (Exception e) {
@@ -1555,6 +1569,8 @@ public class ParticipantSessionObject {
 		} finally {
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		}
+		
+		
 
 	}
 
@@ -2876,6 +2892,7 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
+	
 
 	/**
 	 * 
@@ -2961,7 +2978,36 @@ public class ParticipantSessionObject {
 
 		return sendToPage;
 	}
+	
+	public String stringListToNames(HttpServletRequest request, String id_list){
+		
+		StringTokenizer str = new StringTokenizer(id_list, ",");
+		
+		String returnList = "";
+		
+        while (str.hasMoreTokens()) {
+        	returnList += (getActorName(request, str.nextToken().trim()) + ", ");	
+          
+        }
+        
+        if (returnList.endsWith(", ")){
+        	returnList = returnList.substring(0, returnList.length() - 2);
+        }
+		
+		return returnList;
+	}
+	
+	public String getActorName(HttpServletRequest request, String a_id){
+		
+		return getActorName(request, new Long(a_id));
+	}
 
+	/**
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
 	public String getActorName(HttpServletRequest request, Long a_id) {
 
 		ServletContext context = request.getSession().getServletContext();

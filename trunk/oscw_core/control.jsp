@@ -59,7 +59,6 @@
 		pso.changePhase(phase_id, request);
 		
 		
-		
 		return;
 	
 	} // End of if conditions met to give news alert
@@ -122,7 +121,9 @@
                       <label>
                       <input type="submit" name="command" value="Change Phase" />
                       </label>
-      (? Allow way to notify users of phase change via email?)
+                      <label>
+                      <input type="checkbox" name="notify_via_email" id="notify_via_email" value="true"/>
+                      NotifyPlayersViaEmail</label>
 </form>	</td>
   </tr>
 </table>
