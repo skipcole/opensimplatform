@@ -1562,6 +1562,7 @@ public class ParticipantSessionObject {
 				}
 			}
 			
+			
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		} catch (Exception e) {
