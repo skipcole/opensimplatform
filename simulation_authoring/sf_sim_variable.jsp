@@ -84,42 +84,74 @@
 <title>Online Simulation Platform Control Page</title>
 <!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
-<link href="../usip_oscw.css" rel="stylesheet" type="text/css" />
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 body {
 	background-color: #FFFFFF;
+	background-image: url(../Templates/images/page_bg.png);
+	background-repeat: repeat-x;
 }
 -->
 </style>
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
-
-<table width="100%" border="0" cellspacing="2" cellpadding="2">
+<% String canEdit = (String) session.getAttribute("author"); %>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="80%" valign="top"><!-- InstanceBeginEditable name="pageTitle" -->
+    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="666" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td align="right" background="../Templates/images/top_fade.png"> 
+
+	  <div align="center">
+	    <table border="0" cellspacing="4" cellpadding="4">
+	<%  if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+        <tr>
+          <td><a href="intro.jsp" target="_top">Home</a></td>
+        </tr>
+	<% } else { %>
+		<tr>
+          <td><a href="../simulation_facilitation/index.jsp" target="_top">Home </a></td>
+        </tr>
+	<% } %>	
+        <tr>
+          <td><a href="../simulation_user_admin/my_profile.jsp"> My Profile</a></td>
+        </tr>
+        <tr>
+          <td><a href="logout.jsp" target="_top">Logout</a></td>
+        </tr>
+      </table>	  
+	  </div>	  </td>
+  </tr>
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"><% 
+		
+		if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+		
+		<table border="0" cellpadding="0" cellspacing="0" >
+		   <tr>
+		<td><a href="../simulation_planning/index.jsp" target="_top" class="menu_item">THINK</a></td>
+		<td>&nbsp;</td>
+	    <td><a href="creationwebui.jsp" target="_top" class="menu_item">CREATE</a></td>
+		<td>&nbsp;</td>
+		<td><a href="../simulation_facilitation/facilitateweb.jsp" target="_top" class="menu_item">PLAY</a></td>
+		<td>&nbsp;</td>
+        <td><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">SHARE</a></td>
+		   </tr>
+		</table>
+	<% } %></td>
+  </tr>
+  <tr>
+    <td colspan="2" valign="top"><!-- InstanceBeginEditable name="pageTitle" -->
       <h1>Add / Edit Simulation Variable</h1>
     <!-- InstanceEndEditable --></td>
-    <td width="20%" align="right" valign="top"> 
-		<% 
-		String canEdit = (String) session.getAttribute("author");
-		if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
-		<a href="../simulation_planning/index.jsp" target="_top">Think</a><br>
-	    <a href="creationwebui.jsp" target="_top">Create</a><br>
-		<a href="../simulation_facilitation/facilitateweb.jsp" target="_top">Play</a><br>
-        <a href="../simulation_sharing/index.jsp" target="_top">Share</a>
-		<% } %>
-		</td>
+    <td width="194" align="right" valign="top">		</td>
   </tr>
 </table>
 <BR />
-<table width="720" bgcolor="#DDDDFF" align="center" border="0" cellspacing="0" cellpadding="0">
-<tr> 
-    <td width="24" height="24"  >&nbsp;</td>
-    <td width="672">&nbsp;</td>
-    <td width="24" height="24" >&nbsp;</td>
-</tr>
+<table width="90%" bgcolor="#FFFFFF" align="center" border="1" cellspacing="0" cellpadding="0">
 <tr> 
     <td colspan="3"><!-- InstanceBeginEditable name="pageBody" --> 
 <p><%= Debug.getDebug(debug) %></p>
@@ -248,36 +280,13 @@ body {
     <p align="center"><a href="add_special_features.jsp">Back to Add Special Features</a></p>
     <p>&nbsp;</p>
 
-<!-- InstanceEndEditable --></td>
-  </tr>
-<tr> 
-    <td width="24" height="24"  >&nbsp;</td>
-    <td width="672">&nbsp;</td>
-    <td width="24" height="24"  >&nbsp;</td>
+<!-- InstanceEndEditable -->
+    <p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
   </tr>
 </table>
 
 <p>&nbsp;</p>
-<table width="100%" border="0" cellspacing="2" cellpadding="2">
-  <tr> 
-    <td align="left" valign="bottom"> 
-	<% 
-		if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
-	<a href="intro.jsp" target="_top">Home 
-      </a>
-	  <% } else { %>
-	  <a href="../simulation_facilitation/index.jsp" target="_top">Home 
-      </a>
-	  <% } %>
-	  </td>
-    <td align="right" valign="bottom"><a href="../simulation_user_admin/my_profile.jsp">My 
-      Profile</a> </td>
-  </tr>
-  <tr>
-    <td align="left" valign="bottom"><a href="logout.jsp" target="_top">Logout</a></td>
-    <td align="right" valign="bottom">&nbsp;</td>
-  </tr>
-</table>
-<p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Platform is a <a href="http://code.google.com/p/usiponlinesimulationcreationwizard/">USIP Open Source Software Project</a>. </p>
+
+<p align="center">&nbsp;</p>
 </body>
 <!-- InstanceEnd --></html>
