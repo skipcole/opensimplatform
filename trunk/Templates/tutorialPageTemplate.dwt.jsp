@@ -8,7 +8,7 @@
 <!-- TemplateEndEditable -->
 <!-- TemplateBeginEditable name="head" -->
 <!-- TemplateEndEditable -->
-<link href="../usip_oscw.css" rel="stylesheet" type="text/css">
+<link href="../usip_osp.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 body {

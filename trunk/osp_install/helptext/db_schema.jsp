@@ -5,7 +5,7 @@
 <title>Help Section Page</title>
 <!-- InstanceEndEditable --> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="../../ver1/oscw_install/usip_oscw.css" rel="stylesheet" type="text/css">
+<link href="../../usip_osp.css" rel="stylesheet" type="text/css">
 <!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 </head>
 

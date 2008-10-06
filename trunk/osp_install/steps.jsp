@@ -146,7 +146,7 @@ errorPage=""
     <td>&nbsp;</td>
     <td>sections</td>
     <td>
-      <form name="form1" id="form1" method="post" action="catalog_of_installed_sections.jsp">
+      <form name="form1" id="form1" method="post" action="../simulation_authoring/catalog_of_installed_sections.jsp">
 	  
         <select name="db_schema">
 		<% 

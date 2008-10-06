@@ -82,7 +82,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Online Simulation Platform Control Page</title>
 <!-- TemplateParam name="theBodyInfo" type="text" value="" --> 
-<link href="../usip_oscw.css" rel="stylesheet" type="text/css" />
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 body {
