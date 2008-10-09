@@ -1,15 +1,16 @@
 
-a {color:#1041a1;}
+a {color:#1041a1;text-decoration: none}
 a:hover {color:#05266C;}
 a:visited {color:#3c15a1;}
 a:visited:hover {color:#05266C;}
 
 
 H1 {
-	color: #5177c5;
-	font-family:palatino,georgia,trebuchet ms, verdana, arial, helvetica;
-	padding-top: 0px; padding-bottom:5px; 
-	font-size:19px;
+	color: #003399;
+	font-family:georgia,trebuchet ms, verdana, arial, helvetica;
+	padding-top: 0px; 
+	padding-bottom:5px; 
+	font-size:18pt;
 	margin: 0px 0px 5px 0px;
 	letter-spacing:.1em;
 	text-align:left;
@@ -100,6 +101,13 @@ text-align:left;
 td.content {
 	text-align:left;
 	}.menu_item {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	color: #FFFFFF;
+	font-style:normal;
+}
+
+a:visited.menu_item {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12pt;
 	color: #FFFFFF;

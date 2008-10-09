@@ -26,14 +26,10 @@
 <body>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<table width="720" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#DDDDFF">
-<tr> 
-    <td width="24" height="24" >&nbsp;</td>
-    <td width="672">&nbsp;</td>
-    <td width="24" height="24" >&nbsp;</td>
-  </tr>
+<table width="720" border="0" cellspacing="0" cellpadding="0" align="center" background="../Templates/images/page_bg.png">
+
   <tr> 
-    <td colspan="3"><P>&nbsp;</P>
+    <td colspan="3" background="../Templates/images/page_bg.png" ><P>&nbsp;</P>
       <h1 align="center">&nbsp;&nbsp;&nbsp;USIP Online Simulation Authoring / 
         Facilitation Login</h1>
       <p>&nbsp;</p>
@@ -70,11 +66,7 @@
       <p align="center">&nbsp;</p>
     </td>
   </tr>
-  <tr> 
-    <td width="24" height="24" >&nbsp;</td>
-    <td width="672">&nbsp;</td>
-    <td width="24" height="24" >&nbsp;</td>
-  </tr>
+
 </table>
 
 <p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Creation Software Wizard is a <a href="http://code.google.com/p/usiponlinesimulationcreationwizard/">USIP Open Source Software Project</a>. </p>
