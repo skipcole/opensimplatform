@@ -16,7 +16,14 @@
 -->
 </style>
 <!-- InstanceEndEditable -->
-</head>
+<style type="text/css">
+<!--
+body {
+	background-image: url(../../Templates/images/page_bg.png);
+	background-repeat: repeat-x;
+}
+-->
+</style></head>
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->

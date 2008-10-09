@@ -17,14 +17,9 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.oscw.networking.*,
 </head>
 
 <body>
-<table width="720" bgcolor="#DDDDFF" align="center" cellpadding="0" cellspacing="0">
-<tr> 
-    <td width="24" height="24" >&nbsp;</td>
-    <td width="672">&nbsp;</td>
-    <td width="24" height="24" >&nbsp;</td>
-  </tr>
+<table width="720" background="../Templates/images/page_bg.png" align="center" cellpadding="0" cellspacing="0">
   <tr> 
-    <td colspan="3"> <h1 align="center"> Welcome! </h1>
+    <td width="720"> <h1 align="center"> Welcome! </h1>
       <blockquote> 
         <p><font size="+1">We have created this wizard to help 
           you, a subject matter expert, create an online training simulation and 
@@ -88,11 +83,6 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.oscw.networking.*,
         <% } %>
         </font><br>
         </font></p></td>
-  </tr>
-<tr> 
-    <td width="24" height="24" >&nbsp;</td>
-    <td width="672">&nbsp;</td>
-    <td width="24" height="24" >&nbsp;</td>
   </tr>
 </table>
 <p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Creation Software Wizard is a <a href="http://code.google.com/p/usiponlinesimulationcreationwizard/">USIP Open Source Software Project</a>. </p>

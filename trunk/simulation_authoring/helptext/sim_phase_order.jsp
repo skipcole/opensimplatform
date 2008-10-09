@@ -7,7 +7,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css">
 <!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
-</head>
+<style type="text/css">
+<!--
+body {
+	background-image: url(../../Templates/images/page_bg.png);
+	background-repeat: repeat-x;
+}
+-->
+</style></head>
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
