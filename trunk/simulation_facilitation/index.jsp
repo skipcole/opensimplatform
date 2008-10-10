@@ -7,56 +7,6 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 
-	Simulation simulation = new Simulation();
-	simulation.setCreator(pso.user_Display_Name);
-	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
-	}
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String addsimulation = (String) request.getParameter("addsimulation");
-	
-	///////////////////////////////////
-	
-	boolean justAdded = false;
-	
-	String debug_string = "";
-	
-	if ( (sending_page != null) && (addsimulation != null) && (sending_page.equalsIgnoreCase("create_simulation"))){
-          pso.createNewSim(request);  
-	} // End of if coming from this page and have added simulation.
-
-	//////////////////////////////////
-	// Put sim on scratch pad
-	String edit_simulation = (String) request.getParameter("edit_simulation");
-	
-	
-	if ((edit_simulation != null) && (edit_simulation.equalsIgnoreCase("true"))){
-		
-		pso.sim_id = new Long(   (String) request.getParameter("sim_id")   );
-		simulation = pso.giveMeSim();
-		
-		pso.simulationSelected = true;
-			
-	}
-	
-	
-	//////////////////////////////////
-	// Clear sim from scratch pad
-	String clear_simulation = (String) request.getParameter("clear_button");
-	
-	if ((clear_simulation != null) && (clear_simulation.equalsIgnoreCase("Clear"))){
-		
-		simulation = new Simulation();
-		simulation.setCreator(pso.user_Display_Name);
-		pso.simulationSelected = false;
-			
-	}
-	
-	//////////////////////////////////
-	List simList = Simulation.getAll(pso.schema);
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -65,6 +15,7 @@
 <title>Online Simulation Platform Control Page</title>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
+<META http-equiv="refresh" content="0;URL=../simulation_authoring/index.jsp"> 
 <!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -94,7 +45,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -158,10 +109,10 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Online Simulation Library </h1>
+      <h1>Redirect to Login </h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-      <form action="index.jsp" method="post" name="form1" id="form1">
+      <form action="instructor_home.jsp" method="post" name="form1" id="form1">
 	  	<input type="hidden" name="sending_page" value="create_simulation" />
         <blockquote>
         <blockquote>
@@ -170,33 +121,9 @@ body {
       </form>
       <blockquote>
         
-        <p>Below are all of the currently published Simulations for your organization.</p>
-        <p>Click on the name of the simulation template to begin preparing a play 
-          session.</p>
-        <table width="100%" border="1" cellspacing="0" cellpadding="2">
-          <tr valign="top"> 
-            <td width="15%"><strong>Name / Version</strong></td>
-            <td width="16%"><strong>Author</strong></td>
-            <td width="16%"><strong>Keywords</strong></td>
-            <td width="16%"><strong>Publish Date</strong></td>
-            <td width="16%"><strong>Review</strong></td>
-            <td width="16%"><strong>User Comments</strong></td>
-          </tr>
-          <% 
-		  for (ListIterator li = Simulation.getAllPublished(pso.schema).listIterator(); li.hasNext();) {
-			Simulation sim = (Simulation) li.next();
-			%>
-          <tr valign="top"> 
-            <td><a href="facilitateweb.jsp?loadSim=true&sim_id=<%= sim.getId() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
-            <td>ETCD</td>
-            <td><%= sim.getListingKeyWords() %></td>
-            <td>12/2008</td>
-            <td><a href="../simulation_authoring/review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
-            <td>&nbsp;</td>
-          </tr>
-          <% } %>
-        </table>
-<br>
+        <p>You should be redirected to the login page.</p>
+        <p>If you are not, please <a href="../simulation_authoring/index.jsp">click here</a>.  <br>
+          </p>
       </blockquote>
       <p align="center"></p>
 

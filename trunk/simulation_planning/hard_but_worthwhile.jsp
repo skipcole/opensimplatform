@@ -1,5 +1,19 @@
-<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" errorPage="" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page 
+	contentType="text/html; charset=iso-8859-1" 
+	language="java" 
+	import="java.sql.*,java.util.*,org.usip.oscw.networking.*,org.usip.oscw.persistence.*,
+	org.hibernate.*,
+	org.usip.oscw.baseobjects.*" 
+	errorPage="" %>
+<%
+	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	
+	if (!(pso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
+%>	
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -35,7 +49,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -98,7 +112,9 @@ body {
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->Title<!-- InstanceEndEditable --><br />
+			<!-- InstanceBeginEditable name="pageTitle" -->
+			<h1>Hard, but Worthwhile </h1>
+			<!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
       <p>Creating an effective online training simulation 
         is not an easy task. This wizard will help step you through all of the 
@@ -129,7 +145,8 @@ body {
         tool has been created open source, so it can always grow, and modular, 
         so it can grow easily. If you have a feature you would like installed, 
         please contact us..</p>
-    <!-- InstanceEndEditable -->
+      <p>&nbsp;</p>
+			<!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

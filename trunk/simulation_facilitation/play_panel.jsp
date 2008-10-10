@@ -45,7 +45,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -114,52 +114,36 @@ body {
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <table width="100%" border="0" cellspacing="2" cellpadding="1">
         <tr valign="top"> 
-          <td>&nbsp;</td>
-          <td><h2>Step</h2></td>
-          <td><h2>&nbsp;</h2></td>
-          <td><h2>Description</h2></td>
-        </tr>
+          <td colspan="2"><h2>Step</h2></td>
+          </tr>
         <tr valign="top"> 
-          <td>&nbsp;</td>
-          <td><a href="create_running_sim.jsp">Create Running Simulation</a></td>
-          <td>&nbsp;</td>
-          <td>This creates a playing session, for example &quot;Summer 2007-1.&quot; 
-          </td>
-        </tr>
+          <td>1. </td>
+          <td><a href="create_running_sim.jsp">Create Running Simulation</a> <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>
+          </tr>
         <tr valign="top">
-          <td>&nbsp;</td>
-          <td><a href="bulk_invite.jsp">Invite Users</a></td>
-          <td>&nbsp;</td>
-          <td>You can enter a list of user emails here to send them an invitation 
-            to self register - saving you the process of entering their information.</td>
-        </tr>
+          <td>2. </td>
+          <td><a href="bulk_invite.jsp">Invite Users</a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></td>
+          </tr>
+        <tr valign="top">
+          <td>3.</td>
+          <td><a href="administrate_users.jsp">Administrate Users</a> <a href="helptext/administrate_users_help.jsp" target="helpinright">(?) </a></td>
+          </tr>
         <tr valign="top"> 
-          <td>&nbsp;</td>
-          <td><a href="../simulation_user_admin/create_user.jsp">Create Users</a></td>
-          <td>&nbsp;</td>
-          <td>This is an entry for the real live simulation participant, for example, 
-            &quot;John Doe.&quot;</td>
-        </tr>
+          <td>4.</td>
+          <td><a href="create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a> </td>
+          </tr>
         <tr valign="top"> 
-          <td>&nbsp;</td>
-          <td><a href="assign_user_to_simulation.jsp">Assigns Users</a></td>
-          <td>&nbsp;</td>
-          <td>For example assigning &quot;John Doe&quot; to the role of &quot;UN 
-            Head of Mission&quot;</td>
-        </tr>
+          <td>5.</td>
+          <td><a href="assign_user_to_simulation.jsp">Assigns Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
+          </tr>
         <tr valign="top"> 
-          <td>&nbsp;</td>
-          <td><a href="enable_simulation.jsp">Begin Simulation</a></td>
-          <td>&nbsp;</td>
-          <td>Here an instructor can enable a simulation to begin.</td>
-        </tr>
+          <td>6.</td>
+          <td><a href="enable_simulation.jsp">Enable Simulation</a> <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></td>
+          </tr>
         <tr valign="top"> 
-          <td>&nbsp;</td>
-          <td><a href="../simulation/index.jsp?schema=<%= pso.schema %>" target="_top">Enter Simulation</a></td>
-          <td>&nbsp;</td>
-          <td>If you are a character (such as control) in a simulation, you can 
-            now log in to it to see how it appears.</td>
-        </tr>
+          <td>7.</td>
+          <td><a href="../simulation/index.jsp?schema=<%= pso.schema %>">Enter Simulation</a> <a href="helptext/enter_sim_help.jsp" target="helpinright">(?)</a> </td>
+          </tr>
       </table>
 <p>
 </p>

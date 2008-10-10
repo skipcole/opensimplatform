@@ -2958,7 +2958,7 @@ public class ParticipantSessionObject {
 					sendToPage = "intro.jsp";
 				} else if (user.isSim_instructor()) {
 					loggedin = true;
-					sendToPage = "../simulation_facilitation/index.jsp";
+					sendToPage = "../simulation_facilitation/instructor_home.jsp";
 				} else {
 					errorMsg = "Not authorized to author or facilitate simulations.";
 				}

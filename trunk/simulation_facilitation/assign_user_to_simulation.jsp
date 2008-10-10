@@ -64,7 +64,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -218,7 +218,7 @@ body {
 %></blockquote>
       <p>&nbsp;</p>
       <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>
-      <p align="left"><a href="../simulation_user_admin/create_user.jsp">&lt;- 
+      <p align="left"><a href="create_user.jsp">&lt;- 
         Back</a></p>
       <!-- InstanceEndEditable -->
 			</td>

@@ -7,13 +7,13 @@
 	errorPage="" %>
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	pso.backPage = "bulk_invite.jsp";
 	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	pso.backPage = "bulk_invite.jsp";
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	String set_of_users = "";
@@ -133,23 +133,18 @@ body {
       <h1>Invite Players to Register </h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-<p></p>
 <blockquote> 
 
-  <p>Bulk Invite <span class="style1">DOES NOT YET</span> Work!</p>
-  <p>Please skip this page.</p>
   <p>Please enter a set of emails below, separated by spaces, commas or carriage returns. Then modify the message text as you see fit, and hit send. The users will 
     receive an email inviting them to autoregister on the system. You will 
     then be able to add them as players in one of your simulations.</p>
-  <p>(if a user is already registered, you will be told this.)</p>
-  <p>(? send email when user registers, or add a way to check if members of group have registered?)</p>
   <p><%= set_of_users %></p>
   <p>&nbsp;</p>
   <form action="bulk_invite.jsp" method="post" name="form1" id="form1">
     <input type="hidden" name="sending_page" value="bulk_invite" />
           <table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr valign="top"> 
-              <td width="34%">Email Addresses: <br /> <br /> </td>
+              <td width="34%">Email Addresses: (?) <br /> <br /> </td>
               <td width="66%"><br /> <p> 
                   <textarea name="email_users" cols="60" rows="5"></textarea>
                 </p>
@@ -158,6 +153,12 @@ body {
             <tr valign="top">
               <td>Message Text: </td>
               <td><textarea name="textarea2" cols="60" rows="5"></textarea></td>
+            </tr>
+            <tr valign="top">
+              <td>Invitation Identifier </td>
+              <td><label>
+                <input type="text" name="invite_identifier" />
+              </label></td>
             </tr>
             <tr valign="top"> 
               <td>&nbsp;</td>
@@ -170,8 +171,8 @@ body {
 
 <blockquote>
       <div align="center">
-        <p><a href="../simulation_user_admin/create_user.jsp" target="_top">Next 
-          Step: Create Users </a></p>
+        <p><a href="administrate_users.jsp" target="_top">Next 
+          Step: Administrate Users </a></p>
         <p align="left"><a href="create_running_sim.jsp">&lt;--</a></p>
       </div>
 </blockquote>

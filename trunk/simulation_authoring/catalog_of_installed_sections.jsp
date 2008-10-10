@@ -1,32 +1,41 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page 
+<%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.oscw.networking.*,org.usip.oscw.persistence.*,org.usip.oscw.baseobjects.*,org.usip.oscw.specialfeatures.*" 
+	import="java.sql.*,java.util.*,
+		org.usip.oscw.baseobjects.*,
+		org.usip.oscw.networking.*,
+		org.usip.oscw.persistence.*" 
 	errorPage="" %>
+
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-
-	String sending_page = (String) request.getParameter("sending_page");
-	String submit_new_image_page = (String) request.getParameter("submit_new_image_page");
 	
-	///////////////////////////////////
+	String db_schema = (String) request.getParameter("db_schema");
 	
-	String debug = "";
-	
-	List simImagePages = pso.simulation.getImage_pages();
-
-	//////////////////////////////////
-	
+	if ((db_schema != null) && (db_schema.length() > 0)) {
+		pso.schema = db_schema;
+	}
 
 
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Online Simulation Platform Control Page</title>
+<title>USIP Online Simulation Platform</title>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
+
+
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+body {
+	background-color: #FFFFFF;
+}
+-->
+</style>
 <!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -120,85 +129,76 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Create Placeholder / Image Page</h1>
-      <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" --> 
-<p><%= Debug.getDebug(debug) %></p>
-      <blockquote>
-        <p>Current images pages for the Simulation <%= pso.simulation.getDisplayName() %>:</p>
-        <blockquote>
-          <p>
-            <% if (simImagePages.size() == 0) { %>
-          </p>
-        </blockquote>
-        <ul>
-          <li>None
-            <p>
-              <% } %>
-              <% for (ListIterator li = simImagePages.listIterator(); li.hasNext();) {
-					IntVariable iv = (IntVariable) li.next();
-	%>
-            </p>
-          </li>
-          <li><a href="sf_image_page.jsp?edit_sv=true&amp;sf_id=<%= iv.getid() %>"><%= iv.getName() %></a>
-		  <a href="delete_object.jsp?object_type=sf_var_int&amp;objid=<%= iv.getid() %>&amp;backpage=sf_image_page.jsp&amp;object_info=&quot;<%= iv.getname() %>&quot;"> 
-              (Remove) <%= iv.getName() %> </a>
-            <p>
-              <% } %>
-            </p>
-          </li>
-        </ul>
-        <p>Add an image page</p>
-      </blockquote>
-	        <form enctype="multipart/form-data" action="jsp_image_page_uploader.jsp" method="post" name="form1" id="form1">
-        <input type="hidden" name="sending_page" value="add_image_page" />
-        <table width="100%" border="0" cellspacing="2" cellpadding="2">
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Internal Name:</td>
-            <td valign="top"> <input type="text" name="section_short_name" /></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Page Tab Heading:</td>
-            <td valign="top"> <input type="text" name="page_tab_heading" /></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Page Title:</td>
-            <td valign="top"> <input type="text" name="page_title" /></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Description Text</td>
-            <td valign="top"> <textarea name="page_description" cols="40" rows="2"></textarea></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Image File:</td>
-            <td valign="top"> <input type="hidden" name="MAX_FILE_SIZE" value="400000" /> 
-              <input name="uploadedfile" type="file" /></td>
-          </tr>
-          <tr> 
-            <td colspan="3" valign="top"></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">&nbsp;</td>
-            <td valign="top">&nbsp;</td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td><input type="submit" name="submit_new_image_page" value="Submit" /></td>
-          </tr>
-        </table>
-        <p>&nbsp;</p>
-      </form>
-      <p align="center"><a href="add_special_features.jsp">Back to Add Special 
-        Features</a></p>
-      <p>&nbsp;</p>
-      <!-- InstanceEndEditable -->
+      <h1>Catalog of Sections </h1>
+    <!-- InstanceEndEditable --><br />
+			<!-- InstanceBeginEditable name="pageBody" -->
+<blockquote> 
+  <p>This page shows all of the sections that have been loaded on your system 
+    that are availabe to a Simulation Creator to add to a simulation. These sections 
+    are divided into two parts: off of the shelf and custom made. The off the 
+    shelf sections are those that just come with the latest version of the tool. 
+    The custom made have been created by a programmer and placed in a library.</p>
+  <ul>
+    <li><a href="#offtheshelf">Off the Shelf</a></li>
+    <li><a href="#customlibraries">Custom Libraries</a></li>
+  </ul>
+  <h2>&nbsp;</h2>
+  <h2>Off the Shelf Sections<a name="offtheshelf" id="offtheshelf"></a></h2>
+  <p>Below are all of the sections that come standard with this too. </p>
+  <table border="1" cellspacing="1">
+    <tr align="left" valign="top"> 
+      <td><h1>Name</h1></td>
+      <td><h1>Description</h1></td>
+      <td><h1>Image</h1></td>
+    </tr>
+    <%
+
+		for (ListIterator li = BaseSimSection.getAllBase(pso.schema).listIterator(); li.hasNext();) {
+			BaseSimSection bss = (BaseSimSection) li.next(); %>
+    <tr align="left" valign="top"> 
+      <td><%= bss.getRec_tab_heading() %></td>
+      <td><%= bss.getDescription() %></td>
+      <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
+    </tr>
+    <%  }  %>
+	
+	    <%
+
+		for (ListIterator li = new CustomizeableSection().getAllCustomizable(pso.schema).listIterator(); li.hasNext();) {
+			CustomizeableSection bss = (CustomizeableSection) li.next(); %>
+    <tr align="left" valign="top"> 
+      <td><%= bss.getRec_tab_heading() %></td>
+      <td><%= bss.getDescription() %></td>
+      <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
+    </tr>
+    <%  }  %>
+  </table>
+  <p>&nbsp;</p>
+  <h2>Custom Libraries<a name="customlibraries" id="customlibraries"></a></h2>
+  <p>Below are all of the custom library sections that have been added to your 
+    installation. </p>
+  <table border="1" cellspacing="1">
+    <tr align="left" valign="top"> 
+      <td><h1>Name</h1></td>
+      <td><h1>Library</h1></td>
+      <td><h1>Description</h1></td>
+      <td><h1>Image</h1></td>
+    </tr>
+    <%
+
+		for (ListIterator li = new CustomLibrarySection().getAll(pso.schema).listIterator(); li.hasNext();) {
+			BaseSimSection bss = (BaseSimSection) li.next(); %>
+    <tr align="left" valign="top"> 
+      <td><%= bss.getRec_tab_heading() %></td>
+      <td><%= bss.getCust_lib_name() %></td>
+      <td><%= bss.getDescription() %></td>
+      <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
+    </tr>
+    <%  }  %>
+  </table>
+  <p>&nbsp;</p>
+</blockquote>
+<!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>
@@ -216,3 +216,6 @@ body {
 <p align="center">&nbsp;</p>
 </body>
 <!-- InstanceEnd --></html>
+<%
+	
+%>
