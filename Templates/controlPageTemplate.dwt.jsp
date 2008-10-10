@@ -36,7 +36,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/index.jsp" target="_top" class="menu_item"><img src="images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>

@@ -5,8 +5,12 @@
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	
 	pso.backPage = "create_simulation_phases.jsp";
+	
+	if (!(pso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
 	
 	Simulation simulation = new Simulation();	
 	
@@ -61,7 +65,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>

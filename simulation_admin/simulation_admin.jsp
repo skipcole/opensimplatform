@@ -44,7 +44,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -126,12 +126,6 @@ body {
   </tr>
   <tr valign="top"> 
     <td>&nbsp;</td>
-    <td><a href="../oscw_install/clean_db.jsp">Clean Database</a></td>
-    <td>&nbsp;</td>
-    <td>Warning! This will clean out all data from the database.</td>
-  </tr>
-  <tr valign="top"> 
-    <td>&nbsp;</td>
           <td><a href="../simulation_authoring/create_simulation_section.jsp">Creates Sections</a></td>
     <td>&nbsp;</td>
     <td>Each section provides a place were the player can see and/or do something. 
@@ -141,8 +135,7 @@ body {
     <td>&nbsp;</td>
     <td><a href="../ver1/oscw_install/install_guide.jsp">Installation Instructions</a></td>
     <td>&nbsp;</td>
-    <td>These should already have been used. A link here is included for reference. 
-    </td>
+    <td>These should already have been used. A link here is included for reference.    </td>
   </tr>
   <tr valign="top"> 
     <td>&nbsp;</td>

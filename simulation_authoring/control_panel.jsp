@@ -54,7 +54,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -140,7 +140,7 @@ body {
           </tr>
         <tr valign="top"> 
           <td>4.</td>
-          <td><a href="create_simulation_introduction.jsp">Enter Introduction</a><a href="create_simulation_audience.jsp"> </a><a href="helptext/create_audience_help.jsp" target="helpinright">(?)</a></td>
+          <td><a href="create_simulation_introduction.jsp">Enter Introduction</a><a href="create_simulation_audience.jsp"> </a><a href="helptext/create_introduction_help.jsp" target="helpinright">(?)</a></td>
           </tr>
         <tr valign="top"> 
           <td>5.</td>

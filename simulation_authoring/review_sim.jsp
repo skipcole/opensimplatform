@@ -74,7 +74,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -338,7 +338,7 @@ body {
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
       <% if (showEdit) { %><a href="create_aar_starter_text.jsp">&lt;-- Back</a><% } else { %>
-	  	<a href="../simulation_facilitation/index.jsp">&lt;-- Back</a>
+	  	<a href="../simulation_facilitation/instructor_home.jsp">&lt;-- Back</a>
 		<% } %>
 	  
 	  <!-- InstanceEndEditable -->

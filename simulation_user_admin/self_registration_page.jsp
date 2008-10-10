@@ -52,7 +52,7 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/index.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -121,7 +121,7 @@ body {
 			<!-- InstanceBeginEditable name="pageBody" -->
 
 <p><font color="#FF0000"><%= pso.errorMsg %></font></p>
-<form action="create_user.jsp" method="post" name="form1" id="form1">
+<form action="../simulation_facilitation/create_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
 		  <tr>
             <td>&nbsp;</td>
