@@ -37,9 +37,6 @@ public class BaseUser {
 
     @Column(name = "USERNAME", unique = true)
     private String username = "";
-    
-    @Column(name = "EMAIL")
-    private String email = "";
 
     @Column(name = "PASSWORD")
     private String password = "";
@@ -327,15 +324,28 @@ public class BaseUser {
         BaseUser bu = null;
 
         try {
-            bu = (BaseUser) returnList.get(0);
+        	if ((returnList != null) && (returnList.size() > 0)){
+        		bu = (BaseUser) returnList.get(0);
+        	}
         } catch (Exception e) {
-            System.out.println("user not found");
+            e.printStackTrace();
         }
 
         MultiSchemaHibernateUtil
                 .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
         return bu;
+    }
+    
+    public static boolean checkIfUserExists(String the_username){
+    	
+    	BaseUser bu = getByUsername(the_username);
+    	
+    	if (bu == null){
+    		return false;
+    	} else {
+    		return true;
+    	}
     }
     
     /**
@@ -353,7 +363,6 @@ public class BaseUser {
         BaseUser bu = getByUsername(the_username);
         
         if (bu!= null) {
-        	System.out.println("found user");
             return bu;
         } else {
             bu = new BaseUser(the_username, the_password);
@@ -404,22 +413,6 @@ public class BaseUser {
                 .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
         return bu;
-    }
-
-
-    /**
-     * @return Returns the email.
-     */
-    private String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email
-     *            The email to set.
-     */
-    public void setEmail(String email) {
-        this.email = email;
     }
     
     /**

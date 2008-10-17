@@ -1,11 +1,10 @@
 package org.usip.oscw.persistence;
 
-import java.sql.*;
 import java.util.*;
 
 import javax.persistence.*;
 
-import org.hibernate.Session;
+import org.hibernate.*;
 import org.hibernate.annotations.Proxy;
 import org.usip.oscw.baseobjects.User;
 import org.usip.oscw.baseobjects.UserAssignment;
@@ -30,10 +29,22 @@ import org.usip.oscw.networking.LoggedInTicket;
 @Proxy(lazy = false)
 public class EmailInvites {
 	
+	/** Database id of this Invite. */
+	@Id
+	@GeneratedValue
+	@Column(name = "ID")
+	private Long id;
+	
+	private String invite_code;
+	
+	private Date invite_date;
+	
 	private String email_address;
 	
 	private String invitor_email_address;
 	
-	private Long user_id;
+	
+	
+	
 
 }

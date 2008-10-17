@@ -22,15 +22,15 @@ import com.oreilly.servlet.MultipartRequest;
 /**
  * @author Ronald "Skip" Cole
  * 
- *         This file is part of the USIP Online Simulation Platform.<br>
+ * This file is part of the USIP Online Simulation Platform.<br>
  * 
- *         The USIP Online Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * The USIP Online Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- *         The USIP Online Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
+ * The USIP Online Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  * 
  */
 public class ParticipantSessionObject {
@@ -43,10 +43,13 @@ public class ParticipantSessionObject {
 	public static final int PAGETYPE_CREATE = 2;
 	public static final int PAGETYPE_PLAY = 3;
 	public static final int PAGETYPE_SHARE = 4;
-	
-	/** Used to give visual cue that user is in section 1 (think), 2 (create), 3 (play) or 4 (share).*/
+
+	/**
+	 * Used to give visual cue that user is in section 1 (think), 2 (create), 3
+	 * (play) or 4 (share).
+	 */
 	public int page_type = PAGETYPE_OTHER;
-	
+
 	/** Schema of the database that the user is working in. */
 	public String schema = "";
 
@@ -382,15 +385,15 @@ public class ParticipantSessionObject {
 
 		return backPage + "?phase_id=" + _phase_id;
 	}
-	
-	public void handleUnpackSimulation(HttpServletRequest request){
-		
+
+	public void handleUnpackSimulation(HttpServletRequest request) {
+
 		String filename = (String) request.getParameter("filename");
-		
+
 		System.out.println("unpacking " + filename);
-		
+
 		FileIO.unpackSim(filename, schema);
-		
+
 	}
 
 	public void handleWriteAARandEndSim(HttpServletRequest request) {
@@ -774,16 +777,17 @@ public class ParticipantSessionObject {
 
 		return true;
 	}
-	
-	public void handleAddPhase(Simulation sim, HttpServletRequest request){
-		
+
+	public void handleAddPhase(Simulation sim, HttpServletRequest request) {
+
 		String phase_name = (String) request.getParameter("phase_name");
 		String phase_notes = (String) request.getParameter("phase_notes");
-		
-		System.out.println("adding phase " + phase_name + " to schema " + schema);
-		
+
+		System.out.println("adding phase " + phase_name + " to schema "
+				+ schema);
+
 		sim.addNewPhase(schema, phase_name, phase_notes);
-		
+
 		addControlSectionsToAllPhasesOfControl(sim);
 	}
 
@@ -809,6 +813,48 @@ public class ParticipantSessionObject {
 						new Long(actor_id), new Long(user_id));
 			}
 		}
+	}
+
+	public String setOfUsers = "";
+	public String defaultInviteEmailMsg = "";
+	public String invitationCode = "";
+
+	{
+		defaultInviteEmailMsg = "Dear Student,<br />\r\n";
+
+	}
+
+	public void handleBulkInvite(HttpServletRequest request) {
+		setOfUsers = (String) request.getParameter("setOfUsers");
+		defaultInviteEmailMsg = (String) request
+				.getParameter("defaultInviteEmailMsg");
+		invitationCode = (String) request.getParameter("invitationCode");
+
+		for (ListIterator<String> li = getSetOfEmails(setOfUsers).listIterator(); li.hasNext();) {
+			String this_email = (String) li.next();
+			
+			if (BaseUser.checkIfUserExists(this_email)){
+				System.out.println("exists:" + this_email);
+			} else {
+				System.out.println("does not exist:" + this_email);
+			}
+		}
+
+	}
+
+	public List getSetOfEmails(String inputSet) {
+		StringTokenizer str = new StringTokenizer(inputSet, ", \r\n");
+
+		ArrayList returnList = new ArrayList();
+		while (str.hasMoreTokens()) {
+			String name = str.nextToken();
+			name = name.trim();
+			if (name.length() > 0){
+				returnList.add(name);
+			}
+		}
+
+		return returnList;
 	}
 
 	public boolean handleDeleteObject(HttpServletRequest request) {
@@ -855,15 +901,15 @@ public class ParticipantSessionObject {
 				MultiSchemaHibernateUtil.getSession(schema).delete(act);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 			} else if (objectType.equalsIgnoreCase("inject")) {
-				
+
 				MultiSchemaHibernateUtil.beginTransaction(schema);
-				Inject inject = (Inject) MultiSchemaHibernateUtil
-						.getSession(schema).get(Inject.class, o_id);
-				
+				Inject inject = (Inject) MultiSchemaHibernateUtil.getSession(
+						schema).get(Inject.class, o_id);
+
 				MultiSchemaHibernateUtil.getSession(schema).delete(inject);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-			}  else if (objectType.equalsIgnoreCase("sim_section")) {
+			} else if (objectType.equalsIgnoreCase("sim_section")) {
 				MultiSchemaHibernateUtil.beginTransaction(schema);
 				SimulationSection ss = (SimulationSection) MultiSchemaHibernateUtil
 						.getSession(schema).get(SimulationSection.class, o_id);
@@ -997,7 +1043,7 @@ public class ParticipantSessionObject {
 
 		this.phaseName = sp.getName();
 
-		////////////////////////////////////////////////////////////////////////
+		// //////////////////////////////////////////////////////////////////////
 		// Store it in the web cache, if this has not been done already
 		// by another user.
 		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session
@@ -1010,10 +1056,10 @@ public class ParticipantSessionObject {
 					phaseNames);
 
 		}
-		////////////////////////////////////////////////////////////////////////
+		// //////////////////////////////////////////////////////////////////////
 		// ///
 
-		////////////////////////////////////////////////////////////////////////
+		// //////////////////////////////////////////////////////////////////////
 		// Store it in the web cache, if this has not been done already
 		// by another user.
 		Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session
@@ -1026,7 +1072,7 @@ public class ParticipantSessionObject {
 					phaseIds);
 
 		}
-		////////////////////////////////////////////////////////////////////////
+		// //////////////////////////////////////////////////////////////////////
 		// ///
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -1190,39 +1236,42 @@ public class ParticipantSessionObject {
 		System.out.println("creating root db");
 		MultiSchemaHibernateUtil.recreateRootDatabase();
 	}
-	
+
 	/**
-	 * Handles the creation of an inject group. 
+	 * Handles the creation of an inject group.
+	 * 
 	 * @param request
 	 */
-	public void handleCreateInjectGroup(HttpServletRequest request){
-		String inject_group_name = (String) request.getParameter("inject_group_name");
-		String inject_group_description = (String) request.getParameter("inject_group_description");
+	public void handleCreateInjectGroup(HttpServletRequest request) {
+		String inject_group_name = (String) request
+				.getParameter("inject_group_name");
+		String inject_group_description = (String) request
+				.getParameter("inject_group_description");
 
 		InjectGroup ig = new InjectGroup();
 		ig.setName(inject_group_name);
 		ig.setDescription(inject_group_description);
 		ig.setSim_id(sim_id);
-		
+
 		ig.saveMe(schema);
 
 	}
-	
-	public void handleCreateInject(HttpServletRequest request){
-		
+
+	public void handleCreateInject(HttpServletRequest request) {
+
 		String inject_name = (String) request.getParameter("inject_name");
 		String inject_text = (String) request.getParameter("inject_text");
 		String inject_notes = (String) request.getParameter("inject_notes");
-		String inject_group_id = (String) request.getParameter("inject_group_id");
+		String inject_group_id = (String) request
+				.getParameter("inject_group_id");
 
 		String edit = (String) request.getParameter("edit");
 		String inj_id = (String) request.getParameter("inj_id");
-		
-		
-		if ((edit != null) && (edit.equalsIgnoreCase("true"))){
+
+		if ((edit != null) && (edit.equalsIgnoreCase("true"))) {
 			MultiSchemaHibernateUtil.beginTransaction(schema);
-			Inject inject = (Inject) MultiSchemaHibernateUtil.getSession(schema).
-				get(Inject.class, new Long(inj_id));
+			Inject inject = (Inject) MultiSchemaHibernateUtil
+					.getSession(schema).get(Inject.class, new Long(inj_id));
 			inject.setInject_name(inject_name);
 			inject.setInject_text(inject_text);
 			inject.setInject_Notes(inject_notes);
@@ -1235,9 +1284,8 @@ public class ParticipantSessionObject {
 			inject.setSim_id(sim_id);
 			inject.setGroup_id(new Long(inject_group_id));
 			inject.saveMe(schema);
-		}	
-		
-		
+		}
+
 	}
 
 	public boolean checkDatabaseCreated() {
@@ -1384,19 +1432,22 @@ public class ParticipantSessionObject {
 
 		return pso;
 	}
-	
-	/** Sets the page type  based on the directory in which these jsps are located. */
-	public void findPageType(HttpServletRequest request){
-		
+
+	/**
+	 * Sets the page type based on the directory in which these jsps are
+	 * located.
+	 */
+	public void findPageType(HttpServletRequest request) {
+
 		String url = request.getRequestURI();
-		
-		if (url.contains("simulation_planning")){
+
+		if (url.contains("simulation_planning")) {
 			page_type = PAGETYPE_THINK;
-		} else if (url.contains("simulation_authoring")){
+		} else if (url.contains("simulation_authoring")) {
 			page_type = PAGETYPE_CREATE;
-		} else if (url.contains("simulation_facilitation")){
+		} else if (url.contains("simulation_facilitation")) {
 			page_type = PAGETYPE_PLAY;
-		} else if (url.contains("simulation_sharing")){
+		} else if (url.contains("simulation_sharing")) {
 			page_type = PAGETYPE_SHARE;
 		} else {
 			page_type = PAGETYPE_OTHER;
@@ -1514,8 +1565,9 @@ public class ParticipantSessionObject {
 	 */
 	public void changePhase(String r_phase_id, HttpServletRequest request) {
 
-		String notify_via_email = (String) request.getParameter("notify_via_email");
-		
+		String notify_via_email = (String) request
+				.getParameter("notify_via_email");
+
 		try {
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -1544,7 +1596,7 @@ public class ParticipantSessionObject {
 
 			System.out.println("setting phase change alert");
 
-			////////////////////////////////////////////////////////////////////
+			// //////////////////////////////////////////////////////////////////
 			// Store new phase id in the web cache
 			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session
 					.getServletContext().getAttribute("phaseIds");
@@ -1553,7 +1605,7 @@ public class ParticipantSessionObject {
 
 			request.getSession().getServletContext().setAttribute("phaseIds",
 					phaseIds);
-			////////////////////////////////////////////////////////////////////
+			// //////////////////////////////////////////////////////////////////
 			// ///////
 
 			Alert al = new Alert();
@@ -1571,25 +1623,23 @@ public class ParticipantSessionObject {
 			// Let people know that there is a change to catch.
 			storeNewHighestChangeNumber(request);
 
-			
-			
-			if ((notify_via_email != null) && (notify_via_email.equalsIgnoreCase("true"))){
-				
+			if ((notify_via_email != null)
+					&& (notify_via_email.equalsIgnoreCase("true"))) {
+
 				Hashtable uniqList = new Hashtable();
-				
-				for (ListIterator<UserAssignment> li = running_sim.getUser_assignments().listIterator(); li
-				.hasNext();) {
+
+				for (ListIterator<UserAssignment> li = running_sim
+						.getUser_assignments().listIterator(); li.hasNext();) {
 					UserAssignment ua = li.next();
 					uniqList.put(ua.getUser_id(), "set");
 				}
-				
-				for (Enumeration e = uniqList.keys(); e.hasMoreElements();){
+
+				for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
 					Long key = (Long) e.nextElement();
 					System.out.println("need to email " + key);
 				}
 			}
-			
-			
+
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		} catch (Exception e) {
@@ -1597,8 +1647,6 @@ public class ParticipantSessionObject {
 		} finally {
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		}
-		
-		
 
 	}
 
@@ -1674,8 +1722,8 @@ public class ParticipantSessionObject {
 		 * 
 		 * debugStuff += bv.propagate(simulation, simulation_round,
 		 * runningGame.id); debugStuff += "<hr>"; } // Get set of changing
-		 * integer variables for this running simulation Vector simIntVarsVector
-		 * = new
+		 * integer variables for this running simulation Vector simIntVarsVector =
+		 * new
 		 * IntegerVariable().getSimVariablesForARunningSimulation(simulation,
 		 * runningGame.id); // Propagate their values. for (Enumeration e =
 		 * simIntVarsVector.elements(); e.hasMoreElements();){ IntegerVariable
@@ -2089,11 +2137,11 @@ public class ParticipantSessionObject {
 		return rs;
 
 	}
-	
-	public void makeTargettedAnnouncement(HttpServletRequest request){
-		
+
+	public void makeTargettedAnnouncement(HttpServletRequest request) {
+
 		String targets = list2String(getIdsOfCheckBoxes("actor_cb_", request));
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil
@@ -2115,10 +2163,10 @@ public class ParticipantSessionObject {
 
 		// Let people know that there is a change to catch.
 		storeNewHighestChangeNumber(request);
-		
+
 		this.alertInQueueText = "";
 		this.alertInQueueType = 0;
-		
+
 	}
 
 	/**
@@ -2810,9 +2858,10 @@ public class ParticipantSessionObject {
 
 	}
 
-	/** returns a list of strings containing the value (
-	 * generally assumed
-	 * to be an id) from the checkboxes of a form. */
+	/**
+	 * returns a list of strings containing the value ( generally assumed to be
+	 * an id) from the checkboxes of a form.
+	 */
 	public List getIdsOfCheckBoxes(String tagString, HttpServletRequest request) {
 
 		ArrayList returnList = new ArrayList();
@@ -2830,26 +2879,26 @@ public class ParticipantSessionObject {
 				}
 			}
 		}
-		
+
 		return returnList;
 	}
-	
+
 	/** Takes a list and turns it into a comma separated string. */
-	public String list2String(List idList){
-		
+	public String list2String(List idList) {
+
 		String returnString = "";
-		
+
 		for (ListIterator<String> li = idList.listIterator(); li.hasNext();) {
 			String s = (String) li.next();
-			
+
 			returnString += s;
-			if (li.hasNext()){
+			if (li.hasNext()) {
 				returnString += ",";
 			}
 		}
-		
+
 		return returnString;
-		
+
 	}
 
 	/**
@@ -2920,7 +2969,6 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
-	
 
 	/**
 	 * 
@@ -3006,27 +3054,27 @@ public class ParticipantSessionObject {
 
 		return sendToPage;
 	}
-	
-	public String stringListToNames(HttpServletRequest request, String id_list){
-		
+
+	public String stringListToNames(HttpServletRequest request, String id_list) {
+
 		StringTokenizer str = new StringTokenizer(id_list, ",");
-		
+
 		String returnList = "";
-		
-        while (str.hasMoreTokens()) {
-        	returnList += (getActorName(request, str.nextToken().trim()) + ", ");	
-          
-        }
-        
-        if (returnList.endsWith(", ")){
-        	returnList = returnList.substring(0, returnList.length() - 2);
-        }
-		
+
+		while (str.hasMoreTokens()) {
+			returnList += (getActorName(request, str.nextToken().trim()) + ", ");
+
+		}
+
+		if (returnList.endsWith(", ")) {
+			returnList = returnList.substring(0, returnList.length() - 2);
+		}
+
 		return returnList;
 	}
-	
-	public String getActorName(HttpServletRequest request, String a_id){
-		
+
+	public String getActorName(HttpServletRequest request, String a_id) {
+
 		return getActorName(request, new Long(a_id));
 	}
 
