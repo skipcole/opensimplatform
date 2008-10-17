@@ -121,16 +121,22 @@ body {
 			<!-- InstanceBeginEditable name="pageBody" -->
 
 <p><font color="#FF0000"><%= pso.errorMsg %></font></p>
-<form action="../simulation_facilitation/create_user.jsp" method="post" name="form1" id="form1">
+<form action="self_registration_page.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
 		  <tr>
             <td>&nbsp;</td>
-            <td>username/email<a href="../simulation_authoring/helptext/user_email.jsp" target="helpinright">(?)</a></td>
+            <td width="50%">username/email<a href="../simulation_authoring/helptext/user_email.jsp" target="helpinright">(?)</a></td>
             <td><input type="text" name="email" tabindex="1" /></td>
           </tr>
           <tr>
             <td>&nbsp;</td>
             <td>password<a href="../simulation_authoring/helptext/user_password.jsp" target="helpinright"> 
+              (?)</a></td>
+            <td><input type="text" name="password" tabindex="2" /></td>
+          </tr>
+		  <tr>
+            <td>&nbsp;</td>
+            <td>confirm password<a href="../simulation_authoring/helptext/user_password.jsp" target="helpinright"> 
               (?)</a></td>
             <td><input type="text" name="password" tabindex="2" /></td>
           </tr>

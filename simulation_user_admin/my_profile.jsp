@@ -119,7 +119,19 @@ body {
 			<!-- InstanceBeginEditable name="pageBody" -->
 <table width="80%" border="0" cellspacing="2" cellpadding="1">
   <tr>
-    <td>Name:</td>
+    <td>Full Name:</td>
+    <td><%= pso.user_Display_Name %></td>
+  </tr>
+    <tr>
+    <td>First Name:</td>
+    <td><%= pso.user_Display_Name %></td>
+  </tr>
+    <tr>
+    <td>Middle Name:</td>
+    <td><%= pso.user_Display_Name %></td>
+  </tr>
+    <tr>
+    <td>Last Name:</td>
     <td><%= pso.user_Display_Name %></td>
   </tr>
   <tr>

@@ -16,11 +16,11 @@
 	
 	
 	String sending_page = (String) request.getParameter("sending_page");
-	String set_of_users = "";
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("bulk_invite"))){
-		set_of_users = (String) request.getParameter("email_users");
-
+		
+		pso.handleBulkInvite(request);
+		System.out.println("okay im here.");
 	}
 	
 
@@ -138,7 +138,6 @@ body {
   <p>Please enter a set of emails below, separated by spaces, commas or carriage returns. Then modify the message text as you see fit, and hit send. The users will 
     receive an email inviting them to autoregister on the system. You will 
     then be able to add them as players in one of your simulations.</p>
-  <p><%= set_of_users %></p>
   <p>&nbsp;</p>
   <form action="bulk_invite.jsp" method="post" name="form1" id="form1">
     <input type="hidden" name="sending_page" value="bulk_invite" />
@@ -146,18 +145,18 @@ body {
             <tr valign="top"> 
               <td width="34%">Email Addresses: (?) <br /> <br /> </td>
               <td width="66%"><br /> <p> 
-                  <textarea name="email_users" cols="60" rows="5"></textarea>
+                  <textarea name="setOfUsers" cols="60" rows="5"><%= pso.setOfUsers %></textarea>
                 </p>
                 <p>&nbsp;</p></td>
             </tr>
             <tr valign="top">
               <td>Message Text: </td>
-              <td><textarea name="textarea2" cols="60" rows="5"></textarea></td>
+              <td><textarea name="defaultInviteEmailMsg" cols="60" rows="5"><%= pso.defaultInviteEmailMsg %></textarea></td>
             </tr>
             <tr valign="top">
               <td>Invitation Identifier </td>
               <td><label>
-                <input type="text" name="invite_identifier" />
+                <input type="text" name="invitationCode" value="<%= pso.invitationCode %>" />
               </label></td>
             </tr>
             <tr valign="top"> 
