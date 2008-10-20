@@ -5,12 +5,12 @@
 	<mm_reportdate>08/08/08 15:12:22</mm_reportdate>
 	<mm_reportlocation>C:\\apache\apache-tomcat-5.5.26\webapps\simulation_dev\</mm_reportlocation>
 	<mm_reportitem>
-		<mm_file>oscw_core\private_msg_screen.jsp</mm_file>
+		<mm_file>oscw_osp\private_msg_screen.jsp</mm_file>
 		<mm_displaystr><![CDATA[ Hashtable conversation_actors = (Hashtable) getServletContext().getAttribute("conversation_actors"); ]]></mm_displaystr>
 		<mm_data mm_rangemin="288" mm_rangemax="305" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
 	</mm_reportitem>
 	<mm_reportitem>
-		<mm_file>oscw_core\private_msg_server.jsp</mm_file>
+		<mm_file>oscw_osp\private_msg_server.jsp</mm_file>
 		<mm_displaystr><![CDATA[ Hashtable broadcast_conversations = (Hashtable) getServletContext().getAttribute("broadcast_conversations"); ]]></mm_displaystr>
 		<mm_data mm_rangemin="1824" mm_rangemax="1841" mm_isshortname="true" mm_replaced="false" mm_matchedtextdirty="false" />
 	</mm_reportitem>

@@ -170,8 +170,7 @@ body {
             <td valign="top"><textarea id="semi_public_description" name="semi_public_description" style="height: 120px; width: 480px;"><%= actorOnScratchPad.getSemi_public_description() %></textarea>
             <script language="javascript1.2">
   			generate_wysiwyg('semi_public_description');
-		</script>
-			</td>
+		</script>			</td>
           </tr>
           <tr>
             <td valign="top">&nbsp;</td>
@@ -185,6 +184,18 @@ body {
 		  <% 
 			if (pso.simulationSelected) {    
 		  %>
+           <tr>
+             <td valign="top">&nbsp;</td>
+             <td valign="top"><label>
+               <% String isShown = "";
+			   		if (actorOnScratchPad.isShown()) {
+						isShown = "checked";
+					}
+				%>
+			  <input name="actor_shown" type="checkbox" value="true" <%= isShown %> />
+		    Shown</label></td>
+             <td valign="top">This actor is shown to other actors. [need to make this work] </td>
+           </tr>
            <tr>
 		  	<td valign="top">&nbsp;</td>
 			<td valign="top"><label>
@@ -229,7 +240,7 @@ body {
 </form>
 <% 
 if ((actorOnScratchPad.getImageFilename() != null) && (actorOnScratchPad.getImageFilename().trim().length() > 0)){ %>
-<img src="../oscw_core/images/actors/<%= actorOnScratchPad.getImageFilename() %>">
+<img src="../oscw_osp/images/actors/<%= actorOnScratchPad.getImageFilename() %>">
 <% } %>
 
 <hr />

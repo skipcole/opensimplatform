@@ -1,7 +1,7 @@
 <org.usip.oscw.baseobjects.BaseSimSection>
   <description>The introductory text will be shown here.</description>
   <url></url>
-  <directory>../oscw_core/</directory>
+  <directory>../oscw_osp/</directory>
   <page__file__name>introduction.jsp</page__file__name>
   <rec__tab__heading>Introduction</rec__tab__heading>
   <sample__image>introduction.png</sample__image>

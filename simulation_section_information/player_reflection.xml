@@ -5,7 +5,7 @@
   <bigString></bigString>
   <description>A section to allow the players to express their impressions, defend their actions, etc.</description>
   <url></url>
-  <directory>../oscw_core/</directory>
+  <directory>../oscw_osp/</directory>
   <page__file__name>player_reflection.jsp</page__file__name>
   <rec__tab__heading>Reflection</rec__tab__heading>
   <sample__image>player_reflection.png</sample__image>
