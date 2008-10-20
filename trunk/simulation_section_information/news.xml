@@ -1,7 +1,7 @@
 <org.usip.oscw.baseobjects.BaseSimSection>
   <description>A section to display news events.</description>
   <url></url>
-  <directory>../oscw_core/</directory>
+  <directory>../oscw_osp/</directory>
   <page__file__name>news.jsp</page__file__name>
   <rec__tab__heading>News</rec__tab__heading>
   <sample__image>news.png</sample__image>

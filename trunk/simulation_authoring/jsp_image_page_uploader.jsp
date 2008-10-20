@@ -56,7 +56,7 @@ import="java.sql.*,java.util.*,com.oreilly.servlet.*, com.oreilly.servlet.multip
                     File thisFile = mpr.getFile(fn);
 
                     File outFile = new File(
-                            "/home/comskipc/public_html/oscw_core/images/placeholders/"
+                            "/home/comskipc/public_html/oscw_osp/images/placeholders/"
                                     + pp.img_file_name);
 
                     byte[] readData = new byte[1024];
@@ -96,7 +96,7 @@ import="java.sql.*,java.util.*,com.oreilly.servlet.*, com.oreilly.servlet.multip
 
 <body>
 <p>Hello World</p>
-<p>image here: <img src="../oscw_core/images/placeholders/<%= pp.img_file_name %>"  /><br>
+<p>image here: <img src="../oscw_osp/images/placeholders/<%= pp.img_file_name %>"  /><br>
 <%= pp.description %><br>
 <%= pp.name %>
 </p>

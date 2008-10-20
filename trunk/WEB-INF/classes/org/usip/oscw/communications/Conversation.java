@@ -5,6 +5,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.oscw.baseobjects.RunningSimulation;
 import org.usip.oscw.baseobjects.Simulation;
 import org.usip.oscw.baseobjects.UserAssignment;
 import org.usip.oscw.persistence.SchemaInformationObject;
@@ -105,6 +106,20 @@ public class Conversation {
 	@OneToMany
 	@JoinColumn(name = "CONV_ID")
 	private List <ConvActorAssignment>  conv_actor_assigns = new ArrayList <ConvActorAssignment>();
+	
+	/** Returns a list of all conversations associated with a particular simulation. */
+	public static List getAllForSim(String schema, Long simid){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Conversation where sim_id = " + simid).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
 	
 	/**
 	 * Checks a conversation for the occurance of a particular actor.

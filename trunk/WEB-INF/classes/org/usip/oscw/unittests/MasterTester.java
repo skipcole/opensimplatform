@@ -378,7 +378,7 @@ public class MasterTester extends BaseTester{
         //gs.section_short_name = iv1.name;
         gs.setTab_heading(iv1.name);
         //gs.tab_position = "6";
-        //gs.directory = "/oscw_core/";
+        //gs.directory = "/oscw_osp/";
         //gs.page_file_name = "show_variable.jsp";
             
         //returnString += " : " + gs.store();
@@ -399,7 +399,7 @@ public class MasterTester extends BaseTester{
         chart1.gs.section_long_name = chart1.name;
         //gs.tab_position = iv1.gs.tab_position;
         chart1.gs.tab_position = "6";
-        chart1.gs.directory = "/oscw_core/";
+        chart1.gs.directory = "/oscw_osp/";
             
         returnString += " : " + chart1.gs.store();
         */
@@ -425,7 +425,7 @@ public class MasterTester extends BaseTester{
         //gs.section_short_name = pc1.gs.section_short_name;
         gs.setTab_heading(pc1.gs.getTab_heading());
         //gs.tab_position = "6"; //pc1.gs.tab_position;
-        //gs.directory = "/oscw_core/";
+        //gs.directory = "/oscw_osp/";
         //gs.page_file_name = pc1.jsp_page;
         
         AllowableResponse ar1 = new AllowableResponse();
@@ -458,7 +458,7 @@ public class MasterTester extends BaseTester{
         //gs.section_short_name = pcbt1.gs.section_short_name;
         gs.setTab_heading(pcbt1.gs.getTab_heading());
         //gs.tab_position = "6"; //pcbt1.gs.tab_position;
-        //gs.directory = "/oscw_core/";
+        //gs.directory = "/oscw_osp/";
         //gs.page_file_name = pcbt1.jsp_page;
             
         //returnString += " : " + gs.store();

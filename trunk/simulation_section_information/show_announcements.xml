@@ -1,7 +1,7 @@
 <org.usip.oscw.baseobjects.BaseSimSection>
   <description>A section to display announcments to the players.</description>
   <url></url>
-  <directory>../oscw_core/</directory>
+  <directory>../oscw_osp/</directory>
   <page__file__name>show_announcements.jsp</page__file__name>
   <rec__tab__heading>Announcements</rec__tab__heading>
   <sample__image>show_announcements.png</sample__image>

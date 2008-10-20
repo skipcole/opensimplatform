@@ -4,7 +4,7 @@
   <specificMakePage>make_read_news_page.jsp</specificMakePage>
   <description>A section to read news.</description>
   <url></url>
-  <directory>../oscw_core/</directory>
+  <directory>../oscw_osp/</directory>
   <page__file__name>read_news.jsp</page__file__name>
   <rec__tab__heading>Read News</rec__tab__heading>
   <sample__image>read_news.png</sample__image>

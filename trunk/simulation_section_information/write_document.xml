@@ -5,7 +5,7 @@
   <bigString></bigString>
   <description>A section to write a document.</description>
   <url></url>
-  <directory>../oscw_core/</directory>
+  <directory>../oscw_osp/</directory>
   <page__file__name>write_document.jsp</page__file__name>
   <rec__tab__heading>Write Document</rec__tab__heading>
   <sample__image>write_document.png</sample__image>

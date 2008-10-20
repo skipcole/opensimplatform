@@ -40,7 +40,7 @@ public class ObjectPackager {
     }
     
     public static void play() {
-    	BaseSimSection bss_intro = new BaseSimSection("usiposcw", "", "../oscw_core", "introduction.jsp", "Introduction",
+    	BaseSimSection bss_intro = new BaseSimSection("usiposcw", "", "../oscw_osp", "introduction.jsp", "Introduction",
 		"Your introductory text will be shown here.");
     	
     	XStream xstream = new XStream();
