@@ -2612,6 +2612,9 @@ public class ParticipantSessionObject {
 		return customizableSectionOnScratchPad;
 	}
 
+	public void handleMakePrivateChatPage(HttpServletRequest request) {
+	//adf
+	}
 	/**
 	 * 
 	 * @param request

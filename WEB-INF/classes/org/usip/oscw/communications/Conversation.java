@@ -30,26 +30,22 @@ import org.usip.oscw.specialfeatures.IntVariable;
 @Table(name = "CONVERSATIONS")
 @Proxy(lazy = false)
 public class Conversation {
+	
+	/** This conversation is of an undefined type.*/
+	public static final int TYPE_UNDEFINED = 0;
+	
+	/** This is a broadcast conversation.*/
+	public static final int TYPE_BROADCAST = 1;
+	
+	/** This is a private conversation. */
+	public static final int TYPE_PRIVATE = 2;
+	
+	/** This is a caucus conversation. */
+	public static final int TYPE_CAUCUS = 3;
+	
+	/** An event for the player. */
+	public static final int TYPE_USER_CONTROLLED_CAUCUS = 4;
 
-	public static void main(String args[]) {
-
-        String schema = "usiposcw";
-        
-        SchemaInformationObject dbi = new SchemaInformationObject();
-        
-		MultiSchemaHibernateUtil.recreateDatabase(dbi);
-		
-		Conversation c = new Conversation();
-		
-		ArrayList la = new ArrayList();
-		la.add(new Long(1));
-
-		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(c);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-	}
 	
 	/** Saves the conversation and makes sure it is affiliated with the simulation at hand. */
     public void save(String schema, Long sim_id){
@@ -102,6 +98,9 @@ public class Conversation {
     
     @Column(name = "CONV_NAME")
     private String conversation_name;
+    
+    @Column(name = "CONV_TYPE")
+    private int conversation_type = TYPE_UNDEFINED;
 
 	@OneToMany
 	@JoinColumn(name = "CONV_ID")
@@ -114,6 +113,22 @@ public class Conversation {
 		
 		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from Conversation where sim_id = " + simid).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
+	/** Returns a list of all conversations associated with a particular simulation. */
+	public static List getAllPrivateChatForSim(String schema, Long simid){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		String getSQL = "from Conversation where sim_id = " + simid + " and conv_type = " +
+			TYPE_PRIVATE;
+		
+		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				getSQL).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
@@ -200,6 +215,14 @@ public class Conversation {
 
 	public void setConv_actor_assigns(List<ConvActorAssignment> conv_actor_assigns) {
 		this.conv_actor_assigns = conv_actor_assigns;
+	}
+
+	public int getConversation_type() {
+		return conversation_type;
+	}
+
+	public void setConversation_type(int conversation_type) {
+		this.conversation_type = conversation_type;
 	}
 	
 }
