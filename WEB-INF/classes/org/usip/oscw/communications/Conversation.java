@@ -99,6 +99,14 @@ public class Conversation {
     @Column(name = "SIM_ID")
     private Long sim_id;
     
+    /** If this is a user controlled conversation, this will contain the id of the 
+     * base conversation from which information is originally pulled. */
+    @Column(name = "BASE_CONV_ID")
+    private Long base_conv_id;
+    
+    @Column(name = "RS_ID")
+    private Long rs_id;
+    
     @Column(name = "CONV_NAME")
     private String conversation_name;
     
@@ -195,15 +203,6 @@ public class Conversation {
 		this.id = id;
 	}
 
-
-    public String getConversation_name() {
-        return conversation_name;
-    }
-
-    public void setConversation_name(String conversation_name) {
-        this.conversation_name = conversation_name;
-    }
-
     public Long getSim_id() {
         return sim_id;
     }
@@ -211,6 +210,31 @@ public class Conversation {
     public void setSim_id(Long sim_id) {
         this.sim_id = sim_id;
     }
+
+    public Long getBase_conv_id() {
+		return base_conv_id;
+	}
+
+	public void setBase_conv_id(Long base_conv_id) {
+		this.base_conv_id = base_conv_id;
+	}
+
+	public Long getRs_id() {
+		return rs_id;
+	}
+
+	public void setRs_id(Long rs_id) {
+		this.rs_id = rs_id;
+	}
+
+	public String getConversation_name() {
+        return conversation_name;
+    }
+
+    public void setConversation_name(String conversation_name) {
+        this.conversation_name = conversation_name;
+    }
+
 
 	public List<ConvActorAssignment> getConv_actor_assigns() {
 		return conv_actor_assigns;
