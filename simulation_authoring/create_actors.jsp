@@ -240,7 +240,7 @@ body {
 </form>
 <% 
 if ((actorOnScratchPad.getImageFilename() != null) && (actorOnScratchPad.getImageFilename().trim().length() > 0)){ %>
-<img src="../oscw_osp/images/actors/<%= actorOnScratchPad.getImageFilename() %>">
+<img src="../osp_core/images/actors/<%= actorOnScratchPad.getImageFilename() %>">
 <% } %>
 
 <hr />

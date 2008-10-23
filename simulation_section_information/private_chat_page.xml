@@ -5,7 +5,7 @@
   <bigString></bigString>
   <description>A page to allow actors to communicate with other actors privately.</description>
   <url></url>
-  <directory>../oscw_osp/</directory>
+  <directory>../osp_core/</directory>
   <page__file__name>private_chat_page.jsp</page__file__name>
   <rec__tab__heading>Private Chat</rec__tab__heading>
   <sample__image>private_chat_page.png</sample__image>

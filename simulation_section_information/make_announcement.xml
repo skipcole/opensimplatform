@@ -1,7 +1,7 @@
 <org.usip.oscw.baseobjects.BaseSimSection>
   <description>A section to make broadcast announcements.</description>
   <url></url>
-  <directory>../oscw_osp/</directory>
+  <directory>../osp_core/</directory>
   <page__file__name>make_announcement.jsp</page__file__name>
   <rec__tab__heading>Make Announcements</rec__tab__heading>
   <sample__image>make_announcement.png</sample__image>

@@ -30,7 +30,7 @@
 
 <body>
 <p><!-- %= debug_string % --></p>
-<p align="center"> <img src="../ver1/oscw_osp/<%= pso.base_servlet_location %>GraphServer?chart_id=<%= chart_id %>&sim_id=<%= sim_id %>&sim_round=<%= pso.simulation_round %>&sim_values_table=<%= sim_values_table %>"  border=2 /> 
+<p align="center"> <img src="../ver1/osp_core/<%= pso.base_servlet_location %>GraphServer?chart_id=<%= chart_id %>&sim_id=<%= sim_id %>&sim_round=<%= pso.simulation_round %>&sim_values_table=<%= sim_values_table %>"  border=2 /> 
 </p>
 <!-- img src="<%= pso.base_servlet_location %>GraphServer?chart_name=generic&sim_round=< % = pso.simulation_round %>&running_sim_id=< % = pso.running_sim.id %>"  border=2 / -->
 </p>
