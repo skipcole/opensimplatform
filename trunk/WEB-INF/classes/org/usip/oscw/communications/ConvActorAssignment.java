@@ -44,6 +44,12 @@ public class ConvActorAssignment {
 	private Long conv_id;
 	
 	private String role = "";
+	
+	private boolean room_owner = false;
+	
+	private boolean initially_present = false;
+	
+	private boolean can_be_added_removed = false;
 
 	public Long getId() {
 		return id;
@@ -77,7 +83,30 @@ public class ConvActorAssignment {
 		this.role = role;
 	}
 	
-	
+	public boolean isRoom_owner() {
+		return room_owner;
+	}
+
+	public void setRoom_owner(boolean room_owner) {
+		this.room_owner = room_owner;
+	}
+
+	public boolean isInitially_present() {
+		return initially_present;
+	}
+
+	public void setInitially_present(boolean initially_present) {
+		this.initially_present = initially_present;
+	}
+
+	public boolean isCan_be_added_removed() {
+		return can_be_added_removed;
+	}
+
+	public void setCan_be_added_removed(boolean can_be_added_removed) {
+		this.can_be_added_removed = can_be_added_removed;
+	}
+
 	public void save(String schema){
         MultiSchemaHibernateUtil.beginTransaction(schema);
         MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);        

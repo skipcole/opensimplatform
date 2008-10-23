@@ -43,8 +43,11 @@ public class Conversation {
 	/** This is a caucus conversation. */
 	public static final int TYPE_CAUCUS = 3;
 	
-	/** An event for the player. */
-	public static final int TYPE_USER_CONTROLLED_CAUCUS = 4;
+	/** This is a chat room that the player can invite people to leave or enter. */
+	public static final int TYPE_BASE_USER_CONTROLLED_CAUCUS = 4;
+	
+	/** This is a chat room that the player can invite people to leave or enter. */
+	public static final int TYPE_RS_USER_CONTROLLED_CAUCUS = 5;
 
 	
 	/** Saves the conversation and makes sure it is affiliated with the simulation at hand. */

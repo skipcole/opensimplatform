@@ -1,7 +1,7 @@
 <org.usip.oscw.baseobjects.BaseSimSection>
   <description>A section to allow control to see all of the conversations going on.</description>
   <url></url>
-  <directory>../oscw_osp/</directory>
+  <directory>../osp_core/</directory>
   <page__file__name>eavesdrop_screen.jsp</page__file__name>
   <rec__tab__heading>Eavesdrop</rec__tab__heading>
   <sample__image>broadcast_screen.png</sample__image>
