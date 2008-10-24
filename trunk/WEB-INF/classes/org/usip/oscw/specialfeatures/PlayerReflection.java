@@ -254,7 +254,6 @@ public class PlayerReflection implements Comparable{
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 
-	@Override
 	public int compareTo(Object arg0) {
 		// TODO Auto-generated method stub
 		return 0;
