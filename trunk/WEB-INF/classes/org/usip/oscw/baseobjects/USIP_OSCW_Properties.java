@@ -31,10 +31,14 @@ public class USIP_OSCW_Properties {
     
     static {
         
-    	
     	String os_name = System.getProperty("os.name");
     	
     	System.out.println(os_name);
+    	
+    	String file_loc = System.getProperty("user.home");
+    	
+    	System.out.println("user.home is" + file_loc);
+    	
         try {
             resourceBundle = ResourceBundle.getBundle("USIP_OSCW_Properties", new Locale("en", "US"));
 
