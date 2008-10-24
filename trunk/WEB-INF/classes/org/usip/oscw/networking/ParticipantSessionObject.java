@@ -2613,7 +2613,35 @@ public class ParticipantSessionObject {
 	}
 
 	public void handleMakePrivateChatPage(HttpServletRequest request) {
-	//adf
+	
+		List currentChats = Conversation.getAllPrivateChatForSim(schema, sim_id);
+		
+		for (ListIterator<Conversation> li = currentChats.listIterator(); li.hasNext();) {
+			Conversation sp = li.next();
+			
+			
+		}
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))){
+	 		
+			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+				String pname = (String) e.nextElement();
+
+				String vname = (String) request.getParameter(pname);
+				System.out.println(pname + " " + vname);
+				
+				if (pname.startsWith("act_cb_")){
+					pname = pname.replaceAll("act_cb_", "");
+					
+					StringTokenizer str = new StringTokenizer(pname, "_");
+					
+					System.out.println("setting up actors " + str.nextToken() + " and " + str.nextToken());
+
+				}
+			}
+			
+		}
 	}
 	/**
 	 * 

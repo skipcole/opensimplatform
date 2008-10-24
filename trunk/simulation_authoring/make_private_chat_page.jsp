@@ -10,7 +10,7 @@
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	Simulation sim = pso.handleMakePrivateChatPage(request);
+	//pso.handleMakePrivateChatPage(request);
 	
 	if (pso.forward_on){
 		pso.forward_on = false;
@@ -18,6 +18,34 @@
 		return;
 	}
 	
+	Simulation sim = new Simulation();
+	
+	if (pso.sim_id != null){
+		sim = pso.giveMeSim();
+	} else {
+		pso.simulationSelected = false;
+	}
+	
+		String sending_page = (String) request.getParameter("sending_page");
+		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))){
+	 		
+			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+				String pname = (String) e.nextElement();
+
+				String vname = (String) request.getParameter(pname);
+				//System.out.println(pname + " " + vname);
+				
+				if (pname.startsWith("act_cb_")){
+					pname = pname.replaceAll("act_cb_", "");
+					
+					StringTokenizer str = new StringTokenizer(pname, "_");
+					
+					System.out.println("setting up actors " + str.nextToken() + " and " + str.nextToken());
+
+				}
+			}
+			
+		}	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -164,9 +192,6 @@ body {
 		<% } // End of loop over Actor Rows! %>
 		
 		</table>
-        <p><br>
-        </p>
-
       
           <p>
             <script language="javascript1.2">
