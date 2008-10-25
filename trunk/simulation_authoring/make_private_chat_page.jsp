@@ -29,21 +29,7 @@
 		String sending_page = (String) request.getParameter("sending_page");
 		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))){
 	 		
-			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
-				String pname = (String) e.nextElement();
-
-				String vname = (String) request.getParameter(pname);
-				//System.out.println(pname + " " + vname);
-				
-				if (pname.startsWith("act_cb_")){
-					pname = pname.replaceAll("act_cb_", "");
-					
-					StringTokenizer str = new StringTokenizer(pname, "_");
-					
-					System.out.println("setting up actors " + str.nextToken() + " and " + str.nextToken());
-
-				}
-			}
+			pso.handleMakePrivateChatPage(request);
 			
 		}	
 %>
@@ -173,17 +159,27 @@ body {
 			%>
           	<tr><td><strong><%= act.getName() %></strong></td>
 				<%
+				// Get this from pso
+				Hashtable setConversations = pso.setOfPrivateConversation();
 				
 				int index_col = 0;
 				for (ListIterator la2 = sim.getActors().listIterator(); la2.hasNext();) {
 					Actor act2 = (Actor) la2.next();
 					index_col += 1;
-					
+				
+					String checked = "";	
 					if ((!(act2.getName().equalsIgnoreCase(act.getName()))) && (index_col > index_row)){
+						
+						String getKey = act.getId() + "_" + act2.getId();
+						
+						if (setConversations.get(getKey) != null){
+							checked = " checked ";
+						}
+				
 				%>
 				<td><input type="checkbox" 
 						name="act_cb_<%= act.getId().toString() %>_<%= act2.getId().toString() %>" 
-						value="true"  /></td>
+						value="true" <%= checked %> /></td>
 					<% }  else { // end of if names are not alike. %>
 				<td>&nbsp;</td>
 					<% } %>
