@@ -145,7 +145,25 @@ public class Conversation {
 		
 		return returnList;
 	}
-	
+	/**
+	 * Delete all private conversations for this simulation
+	 * @param schema
+	 * @param sim_id
+	 */
+	public static void deleteAllPrivateChatForSim(String schema, Long sim_id){
+
+		List currentPrivChats = Conversation.getAllPrivateChatForSim(schema, sim_id);
+		
+		for (ListIterator<Conversation> li = currentPrivChats.listIterator(); li
+		.hasNext();) {
+			
+			Conversation conv = (Conversation) li.next();
+			
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			MultiSchemaHibernateUtil.getSession(schema).delete(conv);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		}
+	}
 	
 	/**
 	 * Checks a conversation for the occurance of a particular actor.

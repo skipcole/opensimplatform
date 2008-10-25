@@ -2611,21 +2611,95 @@ public class ParticipantSessionObject {
 
 		return customizableSectionOnScratchPad;
 	}
-
-	public void handleMakePrivateChatPage(HttpServletRequest request) {
 	
+	/**
+	 * 
+	 * @return A hashtable with all of the actor one on one coversations set in the form of 
+	 * 1_2 and 2_1.
+	 */
+	public Hashtable setOfPrivateConversation(){
+		
+		Hashtable returnTable = new Hashtable<String, String>();
+		
 		List currentChats = Conversation.getAllPrivateChatForSim(schema, sim_id);
 		
+		// Loop over all private conversations in this set
 		for (ListIterator<Conversation> li = currentChats.listIterator(); li.hasNext();) {
-			Conversation sp = li.next();
+			Conversation con_id = li.next();
 			
+			Vector actors = new Vector();
 			
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			Conversation conv = (Conversation)
+				MultiSchemaHibernateUtil.getSession(schema).get(Conversation.class, con_id.getId());
+			
+			// Get the 2 (should be 2) actors in this conversation.
+			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns().listIterator(); liiii.hasNext();) {
+				ConvActorAssignment caa = liiii.next();
+				actors.add(caa.getActor_id());
+			}
+			
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			
+			for (Enumeration e1 = actors.elements(); e1.hasMoreElements();){
+				Long a_id_1 = (Long) e1.nextElement();
+				
+				for (Enumeration e2 = actors.elements(); e2.hasMoreElements();){
+					Long a_id_2 = (Long) e2.nextElement();
+					
+					String key = a_id_1 + "_" + a_id_2;
+					returnTable.put(key, "set");
+				}
+			}
 		}
 		
+		return returnTable;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleMakePrivateChatPage(HttpServletRequest request) {
+	
 		String sending_page = (String) request.getParameter("sending_page");
+		
+		ArrayList<Long> playersWithChat = new ArrayList<Long>();
+		
 		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))){
 	 		
-			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+			// ////////////////////////////////////////////////////
+			// Get the simulation we are working on
+			Simulation sim = new Simulation();
+			if (sim_id != null) {
+				sim = giveMeSim();
+			}
+			
+			// ////////////////////////////////////////////////////
+			// Pull out the standard things passed through.
+			String tab_pos = (String) session.getAttribute("tab_pos");
+
+			String new_tab_heading = request.getParameter("tab_heading");
+
+			if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
+				tab_heading = new_tab_heading;
+			}
+			// /////////////////////////////////////////////////////
+
+			// /////////////////////////////////////////////////////////
+			// Pull this custom page out of the database based on its id.
+			custom_page = request.getParameter("custom_page");
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
+					.getSession(schema).get(CustomizeableSection.class,
+							new Long(custom_page));
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			
+			
+			//Delete all private conversations for this simulation since we recreate them below.
+			Conversation.deleteAllPrivateChatForSim(schema, sim_id);
+			
+			for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
 				String pname = (String) e.nextElement();
 
 				String vname = (String) request.getParameter(pname);
@@ -2636,12 +2710,67 @@ public class ParticipantSessionObject {
 					
 					StringTokenizer str = new StringTokenizer(pname, "_");
 					
-					System.out.println("setting up actors " + str.nextToken() + " and " + str.nextToken());
+					String f_actor =  str.nextToken();
+					String s_actor =  str.nextToken();
+					System.out.println("setting up actors " + f_actor + " and " + s_actor);
+					
+					try{
+						Long actorWithChat = new Long(f_actor);
+						Long actorWithChat2 = new Long(s_actor);
+						
+						if (!(playersWithChat.contains(actorWithChat))){
+							playersWithChat.add(actorWithChat);
+						}
+						
+						if (!(playersWithChat.contains(actorWithChat2))){
+							playersWithChat.add(actorWithChat2);
+						}
+						
+						Conversation conv = new Conversation();
+						conv.setSim_id(sim_id);
+						conv.setConversation_type(Conversation.TYPE_PRIVATE);
+						conv.setConversation_name("One on One");
+						
+						ConvActorAssignment caa = new ConvActorAssignment();
+						caa.setActor_id(actorWithChat);
+						ConvActorAssignment caa2 = new ConvActorAssignment();
+						caa2.setActor_id(actorWithChat2);
+						
+						ArrayList al = new ArrayList();
+						al.add(caa);
+						al.add(caa2);
+						
+						conv.setConv_actor_assigns(al);
 
+						MultiSchemaHibernateUtil.beginTransaction(schema);
+						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(caa);
+						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(caa2);
+						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(conv);
+						MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+						
+					}catch (Exception er){
+						er.printStackTrace();
+					}
 				}
-			}
+			}	
 			
+			String save_and_add = (String) request.getParameter("save_and_add");
+			
+			if (save_and_add != null) {
+
+				// add section to the applicable actors
+				
+				System.out.println("this: " + this);
+				System.out.println("csosp: " + customizableSectionOnScratchPad);
+				
+				SimulationSection.applySectionToSpecificActors(schema, sim,
+						this.phase_id, customizableSectionOnScratchPad.getId(),
+						tab_heading, playersWithChat);
+				// send them back
+				forward_on = true;
+			}	
 		}
+		
 	}
 	/**
 	 * 
