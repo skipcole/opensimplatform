@@ -130,6 +130,38 @@ public class Conversation {
 		return returnList;
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param simid
+	 * @param aid
+	 * @return
+	 */
+	public static List getActorsPrivateChats(String schema, Long simid, Long aid){
+		
+		List baseList = getAllPrivateChatForSim(schema, simid);
+		ArrayList returnList = new ArrayList();
+		
+		for (ListIterator<Conversation> li = baseList.listIterator(); li.hasNext();) {
+			Conversation conv_id = (Conversation) li.next();
+			
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			
+			Conversation conv = (Conversation) 
+				MultiSchemaHibernateUtil.getSession(schema).get(Conversation.class, conv_id.getId());
+			
+			if (conv.hasActor(aid)){
+				returnList.add(conv);
+			}
+			
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			
+		}
+		
+		return returnList;
+		
+	}
+	
 	/** Returns a list of all conversations associated with a particular simulation. */
 	public static List getAllPrivateChatForSim(String schema, Long simid){
 		

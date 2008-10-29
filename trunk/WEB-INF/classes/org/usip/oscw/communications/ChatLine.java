@@ -73,6 +73,25 @@ public class ChatLine {
     }
     
     /**
+     * Packages a line with information (index, from id, and message payload) with
+     * expected delimiters.
+     * 
+     * @return
+     */
+    public String packageIntoXML(){
+    	
+    	String returnString = "<message>";
+    	
+    	returnString += "     <conversation>" + conversation_id + "</conversation>";
+    	returnString += "     <id>" + id + "</id>";
+    	returnString += "     <author>" + fromActor + "</author>";
+    	returnString += "     <text>" + msgtext + "</text>";
+    	returnString += "</message>";
+        
+        return returnString;
+    }
+    
+    /**
      * Zero argument constructor needed by hibernate.
      *
      */
