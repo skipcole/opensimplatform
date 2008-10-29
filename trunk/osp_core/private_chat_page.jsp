@@ -21,12 +21,60 @@
 %>
 <html>
 <head>
+<script type="text/javascript" src="../jquery-1.2.6.js"></script>
 <script type="text/javascript">
 
 	var start_index = 0
 
 </script>
-<script type="text/javascript">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			timestamp = 0;
+			
+		<%  // Loop over the conversations for this Actor
+		for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
+			Conversation conv = (Conversation) li.next(); %>
+		
+			updateMsg<%= conv.getId() %>();
+			$("form#chatform<%= conv.getId() %>").submit(function(){
+				$.post("one_on_one_chat_server.jsp",{
+							message: $("#msg<%= conv.getId() %>").val(),
+							name: $("#author<%= conv.getId() %>").val(),
+							conversation: $("#conversation<%= conv.getId() %>").val(),
+							action: "postmsg",
+							time: timestamp
+						}, function(xml) {
+					$("#msg").empty();
+					addMessages<%= conv.getId() %>(xml);
+				});
+				return false;
+			});
+			<% } %>
+		});
+		
+		<%  // Loop over the conversations for this Actor
+		for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
+			Conversation conv = (Conversation) li.next(); %>
+			
+		function addMessages<%= conv.getId() %>(xml) {
+			if($("status",xml).text() == "2") return;
+			timestamp = $("time",xml).text();
+			$("message",xml).each(function(id) {
+				message = $("message",xml).get(id);
+				$("#messagewindow<%= conv.getId() %>").prepend("<b>"+$("author",message).text()+
+											"</b>: "+$("text",message).text()+
+											"<br />");
+			});
+		}
+		function updateMsg<%= conv.getId() %>() {
+			$.post("one_on_one_chat_server.jsp",{ time: timestamp }, function(xml) {
+				$("#loading").remove();
+				addMessages<%= conv.getId() %>(xml);
+			});
+			setTimeout('updateMsg<%= conv.getId() %>()', 4000);
+		}
+		<% } %>
+
 </script>
 <style type="text/css" media="screen">
 body {
@@ -85,11 +133,10 @@ width:100%;
 		
   <tr valign="top"> 
     <td width="40%"> Your conversation with <%= this_a_name %><br>
-				<form name="form1" method="post" action="">
-  <p>Text to send: 
-          <input name="chattexttosend" type="text" id="chattexttosend" size="40" maxlength="255" />
-          <BR>
-	<input type="submit" name="Submit" value="Submit" onClick="sendText();return false;">
+				<form id="chatform<%= conv.getId() %>" >
+  <p>Message: <input type="text" id="msg<%= conv.getId() %>" width="40" /> <br />
+	<input type="hidden" id="author<%= conv.getId() %>" value="You" />
+	<input type="submit" value="Send">
   </p>
 </form>
 			</td>
