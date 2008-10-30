@@ -8,7 +8,7 @@
 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	String status_code = "2";
+	String status_code = ChatController.NO_NEW_MSG + "";
 	
 	String message = (String) request.getParameter("message");
 	String name =  (String) request.getParameter("name");
@@ -21,15 +21,16 @@
 	
 	String xml_msgs = "";
 							
-	if ((message!= null) && (message.trim().length() > 0)){
+	//if ((message!= null) && (message.trim().length() > 0)){
 		
-		xml_msgs = ChatController.insertAndGetXMLConversation(pso.user_id, pso.actor_id, 
-				start_index, message, conversation, null,
-				pso.running_sim_id, pso.schema);
-		
-				
-		status_code = "1";
+	xml_msgs = ChatController.insertAndGetXMLConversation(pso.user_id, pso.actor_id, 
+				start_index, message, conversation, null, pso, request);
+			
+	if ((xml_msgs != null) && (xml_msgs.trim().length() > 0)){
+		status_code = ChatController.NEW_MSG + "";
+		System.out.println("msg xml: " + xml_msgs);	
 	}
+	//}
 	
 
 	
@@ -37,11 +38,5 @@
 <?xml version="1.0"?>
 <response>
  <status><%= status_code %></status>
- <message>
- 	<conversation><%= conversation %></conversation>
-    <time><%= time_string %></time>
-    <author><%= name %></author>
-    <text><%= message %></text>
- </message>
  <%= xml_msgs %>
 </response>

@@ -23,7 +23,8 @@
 	for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next(); %>
 			
-			var start_index<%= conv.getId() %> = 0
+			var start_index<%= conv.getId() %> = 0;
+			var new_start_index<%= conv.getId() %> = 0;
 	<% } // End of loop over conversations. %>
 
 </script>
@@ -59,17 +60,30 @@
 			Conversation conv = (Conversation) li.next(); %>
 			
 		function addMessages<%= conv.getId() %>(xml) {
-			if($("status",xml).text() == "2") return;
+			if($("status",xml).text() == "<%= ChatController.NO_NEW_MSG %>") return;
 			timestamp = $("time",xml).text();
 			$("message",xml).each(function(id) {
 				message = $("message",xml).get(id);
 				$("#messagewindow<%= conv.getId() %>").prepend("<span class=\"style1\">("+$("time",message).text() + ") </span><b>"+$("author",message).text()+
 											":</b>  " +$("text",message).text()+
 											"<br />");
+											
+				new_start_index<%= conv.getId() %> = $("id",message).text();
+				
+				//document.write("its :" + new_start_index<%= conv.getId() %> + " which has a vlaue of : " + parseInt(new_start_index<%= conv.getId() %>));
+				
+				if (parseInt(new_start_index<%= conv.getId() %>) > parseInt(start_index<%= conv.getId() %>)){
+					start_index<%= conv.getId() %> = new_start_index<%= conv.getId() %>;
+				}
+				
 			});
+			
+			/////////////////////////////////
+			
+			
 		}
 		function updateMsg<%= conv.getId() %>() {
-			$.post("one_on_one_chat_server.jsp",{ time: timestamp }, function(xml) {
+			$.post("one_on_one_chat_server.jsp",{ start_index: start_index<%= conv.getId() %>, conversation: $("#conversation<%= conv.getId() %>").val(), time: timestamp }, function(xml) {
 				$("#loading").remove();
 				addMessages<%= conv.getId() %>(xml);
 			});
