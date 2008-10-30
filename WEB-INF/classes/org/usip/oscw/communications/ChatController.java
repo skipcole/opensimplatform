@@ -49,20 +49,28 @@ public class ChatController {
 		// Get the key for this conversation
 		String conv_id = request.getParameter("conv_id");
 
-		/*
-		 * removing web cache for now
-		 * /////////////////////////////////////////////////////// // The
-		 * conversation is pulled out of the context Hashtable
-		 * broadcast_conversations = (Hashtable) request.getSession()
-		 * .getServletContext().getAttribute("broadcast_conversations");
-		 * 
-		 * // This conversation is pulled from the set of conversations Vector
-		 * this_conv = (Vector) broadcast_conversations .get(pso.running_sim_id
-		 * + "_" + conv_id);
-		 * ///////////////////////////////////////////////////////////
-		 */
-
-		Vector this_conv = null;
+		Vector this_conv = getCachedConversation(request, pso, conv_id);
+		
+		return getConversation(user_id, actor_id, start_index, newtext,
+				conv_id, this_conv, pso.running_sim_id, pso.schema);
+	}
+	
+	public static String getConvKey(ParticipantSessionObject pso, String conv_id){
+		
+		return (pso.schema + "_" + pso.running_sim_id + "_" + conv_id);
+		 
+	}
+	
+	public static Vector getCachedConversation(HttpServletRequest request, ParticipantSessionObject pso, String conv_id){
+		
+		 ///////////////////////////////////////////////////////
+		 // The conversation is pulled out of the context Hashtable
+		 Hashtable conversation_cache = (Hashtable) request.getSession().getServletContext().getAttribute("conversation_cache");
+		 
+		 String conversationKey = getConvKey(pso, conv_id);
+		 
+		 // This conversation is pulled from the set of conversations Vector
+		 Vector this_conv = (Vector) conversation_cache.get(conversationKey);
 
 		// At this point, we will try to pull it out of the database
 		if (this_conv == null) {
@@ -71,12 +79,10 @@ public class ChatController {
 			this_conv = getRunningSimConveration(pso.schema,
 					pso.running_sim_id, conv_id);
 
-			// Removing web cache for now
-			// broadcast_conversations.put(pso.running_sim_id, this_conv);
+			conversation_cache.put(conversationKey, this_conv);
 		}
-
-		return getConversation(user_id, actor_id, start_index, newtext,
-				conv_id, this_conv, pso.running_sim_id, pso.schema);
+		
+		return this_conv;
 	}
 
 	/**
@@ -120,18 +126,15 @@ public class ChatController {
 
 	public static String insertAndGetXMLConversation(Long user_id,
 			Long actor_id, String start_index, String newtext, String conv_id,
-			Vector<ChatLine> this_conv, ParticipantSessionObject pso,
+			ParticipantSessionObject pso,
 			HttpServletRequest request) {
 
-		System.out.println("doing the insertAndGetXMLConversation");
-		
+		 // This conversation is pulled from the set of conversations Vector
+		 Vector this_conv = getCachedConversation(request, pso, conv_id);
+		 		
 		if ((start_index == null) || (start_index.trim().length() == 0)) {
 			start_index = "0";
 		}
-
-		System.out.println("start_index is " + start_index);
-		
-		System.out.println("conv_id is " + conv_id);
 		
 		if (this_conv == null) {
 			

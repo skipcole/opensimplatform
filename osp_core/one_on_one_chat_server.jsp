@@ -21,18 +21,13 @@
 	
 	String xml_msgs = "";
 							
-	//if ((message!= null) && (message.trim().length() > 0)){
-		
 	xml_msgs = ChatController.insertAndGetXMLConversation(pso.user_id, pso.actor_id, 
-				start_index, message, conversation, null, pso, request);
+				start_index, message, conversation, pso, request);
 			
 	if ((xml_msgs != null) && (xml_msgs.trim().length() > 0)){
 		status_code = ChatController.NEW_MSG + "";
 		System.out.println("msg xml: " + xml_msgs);	
 	}
-	//}
-	
-
 	
 %>
 <?xml version="1.0"?>

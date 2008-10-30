@@ -53,8 +53,8 @@ public class USIP_OSCW_ContextListener implements ServletContextListener{
          * Conversations are cached so that the database doesn't have to 
          * be continually hit as players log on and off.
          */
-        Hashtable conversations = new Hashtable();
-        context.setAttribute("conversations", conversations);
+        Hashtable conversation_cache = new Hashtable();
+        context.setAttribute("conversation_cache", conversation_cache);
         
         /**
          * The actors available for conversation are cached to help load 
