@@ -11,34 +11,25 @@ import org.usip.oscw.persistence.MultiSchemaHibernateUtil;
 /**
  * @author Ronald "Skip" Cole
  * 
- * This file is part of the USIP Online Simulation Platform.<br>
+ *         This file is part of the USIP Online Simulation Platform.<br>
  * 
- * The USIP Online Simulation Platform is free software; you can
- * redistribute it and/or modify it under the terms of the new BSD Style license
- * associated with this distribution.<br>
+ *         The USIP Online Simulation Platform is free software; you can
+ *         redistribute it and/or modify it under the terms of the new BSD Style
+ *         license associated with this distribution.<br>
  * 
- * The USIP Online Simulation Platform is distributed WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. <BR>
+ *         The USIP Online Simulation Platform is distributed WITHOUT ANY
+ *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
 public class ChatController {
 
-	/**
-	 * Looks up all of the lines for the conversation needed and passes them
-	 * back. Uses the 'index' to keep track of how much of the conversation the
-	 * user needs.
-	 * 
-	 * @param request
-	 * @param pso
-	 * @return
-	 */
 	public static String getConversation(HttpServletRequest request,
 			ParticipantSessionObject pso) {
-        
-        if (pso.running_sim_id == null) {
-            return "";
-        }
+
+		if ((pso == null) || (pso.running_sim_id == null)) {
+			return "";
+		}
 
 		// Get user id
 		String user_id = request.getParameter("user_id");
@@ -55,45 +46,60 @@ public class ChatController {
 		// Get the key for this conversation
 		String conv_id = request.getParameter("conv_id");
 
+		/*
+		 * removing web cache for now
+		 * /////////////////////////////////////////////////////// // The
+		 * conversation is pulled out of the context Hashtable
+		 * broadcast_conversations = (Hashtable) request.getSession()
+		 * .getServletContext().getAttribute("broadcast_conversations");
+		 * 
+		 * // This conversation is pulled from the set of conversations Vector
+		 * this_conv = (Vector) broadcast_conversations .get(pso.running_sim_id
+		 * + "_" + conv_id);
+		 * ///////////////////////////////////////////////////////////
+		 */
+
+		Vector this_conv = null;
+
+		// At this point, we will try to pull it out of the database
+		if (this_conv == null) {
+			this_conv = new Vector();
+
+			this_conv = getRunningSimConveration(pso.schema,
+					pso.running_sim_id, conv_id);
+
+			// Removing web cache for now
+			// broadcast_conversations.put(pso.running_sim_id, this_conv);
+		}
+
+		return getConversation(user_id, actor_id, start_index, newtext,
+				conv_id, this_conv, pso.running_sim_id, pso.schema);
+	}
+
+	/**
+	 * Looks up all of the lines for the conversation needed and passes them
+	 * back. Uses the 'index' to keep track of how much of the conversation the
+	 * user needs.
+	 * 
+	 * @param request
+	 * @param pso
+	 * @return
+	 */
+	public static String getConversation(String user_id, String actor_id,
+			String start_index, String newtext, String conv_id,
+			Vector<ChatLine> this_conv, Long rsid, String schema) {
+
 		if (start_index == null) {
 			start_index = "0";
 		}
 
 		int start_int = new Integer(start_index).intValue();
 
-		// The conversation is pulled out of the context
-		Hashtable broadcast_conversations = (Hashtable) request.getSession()
-				.getServletContext().getAttribute("broadcast_conversations");
-
-		// This conversation is pulled from the set of conversations
-		Vector this_conv = (Vector) broadcast_conversations
-				.get(pso.running_sim_id + "_" + conv_id);
-
-		// At this point, we will try to pull it out of the database
-		if (this_conv == null) {
-			this_conv = new Vector();
-
-			this_conv = getRunningSimConveration(pso.schema, pso.running_sim_id, conv_id);
-
-			broadcast_conversations.put(pso.running_sim_id, this_conv);
-		}
-
 		if (newtext != null) {
-			System.out.println("really should be inserting something");
-
-			ChatLine cl = new ChatLine();
-			cl.setRunning_sim_id(pso.running_sim_id);
-			cl.setMsgtext(newtext);
-			cl.setConversation_id(new Long(conv_id));
-			cl.setFromActor(new Long(actor_id));
-			cl.setFromUser(new Long(user_id));
-
-			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			MultiSchemaHibernateUtil.getSession(pso.schema).saveOrUpdate(cl);
-			MultiSchemaHibernateUtil.getSession(pso.schema).evict(cl);
+			ChatLine cl = new ChatLine(user_id, rsid.toString(), actor_id,
+					conv_id, newtext);
+			cl.saveMe(schema);
 			this_conv.add(cl);
-			
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 		}
 
 		String convLinesToReturn = "";
@@ -108,6 +114,42 @@ public class ChatController {
 
 		return convLinesToReturn;
 	}
+	
+	
+
+	public static String insertAndGetXMLConversation(Long user_id,
+			Long actor_id, String start_index, String newtext,
+			String conv_id, Vector<ChatLine> this_conv, Long rsid, String schema) {
+
+		if ((start_index == null) || (start_index.trim().length() == 0)) {
+			start_index = "0";
+		}
+		
+		if (this_conv == null){
+			this_conv = new Vector<ChatLine>();
+		}
+
+		int start_int = new Integer(start_index).intValue();
+
+		if (newtext != null) {
+			ChatLine cl = new ChatLine(user_id.toString(), rsid.toString(), actor_id.toString(),
+					conv_id, newtext);
+			cl.saveMe(schema);
+			this_conv.add(cl);
+		}
+
+		String convLinesToReturn = "";
+		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
+			ChatLine bcl = (ChatLine) e.nextElement();
+
+			// Check to see were are above the start index sent.
+			if (bcl.getId().intValue() > start_int) {
+				convLinesToReturn += bcl.packageIntoXML();
+			}
+		}
+
+		return convLinesToReturn;
+	}
 
 	/**
 	 * 
@@ -115,16 +157,18 @@ public class ChatController {
 	 * @param conv_key
 	 * @return
 	 */
-	public static Vector getRunningSimConveration(String schema, Long running_sim_id,
-			String conv_id) {
+	public static Vector getRunningSimConveration(String schema,
+			Long running_sim_id, String conv_id) {
 
 		Vector returnVector = new Vector();
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<ChatLine> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from ChatLine where RUNNING_SIM_ID = " + running_sim_id
-						+ " AND CONV_ID = '" + conv_id + "'").list();
+		List<ChatLine> returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(
+						"from ChatLine where RUNNING_SIM_ID = "
+								+ running_sim_id + " AND CONV_ID = '" + conv_id
+								+ "'").list();
 
 		for (ListIterator li = returnList.listIterator(); li.hasNext();) {
 			ChatLine bcl = (ChatLine) li.next();
@@ -161,20 +205,20 @@ public class ChatController {
 
 		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 
-		Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(pso.schema).get(
-				Conversation.class, conv_id);
+		Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(
+				pso.schema).get(Conversation.class, conv_id);
 
-		for (ListIterator<ConvActorAssignment> ais = conv.getConv_actor_assigns().listIterator(); ais
-				.hasNext();) {
-			
+		for (ListIterator<ConvActorAssignment> ais = conv
+				.getConv_actor_assigns().listIterator(); ais.hasNext();) {
+
 			ConvActorAssignment caa = (ConvActorAssignment) ais.next();
-			
+
 			Long a_id = caa.getActor_id();
-			
+
 			System.out.println("actors id was " + a_id);
 
-			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(pso.schema).get(Actor.class,
-					a_id);
+			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(pso.schema)
+					.get(Actor.class, a_id);
 			System.out.println("actor name is " + act.getName());
 
 			ActorGhost ag = new ActorGhost(act);
@@ -214,8 +258,8 @@ public class ChatController {
 
 			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 
-			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(
-					Simulation.class, pso.sim_id);
+			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
+					pso.schema).get(Simulation.class, pso.sim_id);
 
 			List daActors = sim.getActors();
 
@@ -241,16 +285,18 @@ public class ChatController {
 
 	}
 
-	public static Conversation createConversation(String schema, String conversationName,
-			BaseSimSection bss, Long sid) {
+	public static Conversation createConversation(String schema,
+			String conversationName, BaseSimSection bss, Long sid) {
 
 		Conversation conv = new Conversation();
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List conv_list = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Conversation where CONV_NAME = '" + conversationName
-						+ "' and SIM_ID = " + sid).list();
+		List conv_list = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(
+						"from Conversation where CONV_NAME = '"
+								+ conversationName + "' and SIM_ID = " + sid)
+				.list();
 
 		if ((conv_list == null) || (conv_list.size() == 0)) {
 
@@ -258,8 +304,8 @@ public class ChatController {
 			conv.setSim_id(sid);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(conv);
 
-			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(
-					Simulation.class, sid);
+			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
+					schema).get(Simulation.class, sid);
 			sim.getConversations().add(conv);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sim);
 		} else {
