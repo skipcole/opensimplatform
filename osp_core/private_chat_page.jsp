@@ -13,18 +13,18 @@
 		return;
 	}
 	
-	// Get the id for this conversation
-	String conv_id = request.getParameter("conversation_id");
-	
-	//Vector this_set_of_actors = ChatController.getActorsForConversation(pso, conv_id, request);
-	
 %>
 <html>
 <head>
 <script type="text/javascript" src="../jquery-1.2.6.js"></script>
 <script type="text/javascript">
 
-	var start_index = 0
+	<%  // Loop over the conversations for this Actor
+	for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
+			Conversation conv = (Conversation) li.next(); %>
+			
+			var start_index<%= conv.getId() %> = 0
+	<% } // End of loop over conversations. %>
 
 </script>
 	<script type="text/javascript">
@@ -41,11 +41,13 @@
 							message: $("#msg<%= conv.getId() %>").val(),
 							name: $("#author<%= conv.getId() %>").val(),
 							conversation: $("#conversation<%= conv.getId() %>").val(),
+							start_index: start_index<%= conv.getId() %>,
 							action: "postmsg",
 							time: timestamp
 						}, function(xml) {
-					$("#msg").empty();
+					$("#msg<%= conv.getId() %>").empty();
 					addMessages<%= conv.getId() %>(xml);
+					$("#msg<%= conv.getId() %>").val("");
 				});
 				return false;
 			});
@@ -61,8 +63,8 @@
 			timestamp = $("time",xml).text();
 			$("message",xml).each(function(id) {
 				message = $("message",xml).get(id);
-				$("#messagewindow<%= conv.getId() %>").prepend("<b>"+$("author",message).text()+
-											"</b>: "+$("text",message).text()+
+				$("#messagewindow<%= conv.getId() %>").prepend("<span class=\"style1\">("+$("time",message).text() + ") </span><b>"+$("author",message).text()+
+											":</b>  " +$("text",message).text()+
 											"<br />");
 			});
 		}
@@ -98,6 +100,8 @@ width:100%;
 	} // end of loop over conversations
 %>
 		
+.style1 {font-size: small}
+.style1 {font-size: small}
 </style>
 </head>
 <body onLoad="timedCount();"> 
@@ -136,6 +140,7 @@ width:100%;
 				<form id="chatform<%= conv.getId() %>" >
   <p>Message: <input type="text" id="msg<%= conv.getId() %>" width="40" /> <br />
 	<input type="hidden" id="author<%= conv.getId() %>" value="You" />
+    <input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" />
 	<input type="submit" value="Send">
   </p>
 </form>

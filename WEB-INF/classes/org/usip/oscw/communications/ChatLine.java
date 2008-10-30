@@ -1,6 +1,7 @@
 package org.usip.oscw.communications;
 
 import java.util.*;
+import java.util.Date;
 import java.sql.*;
 
 import javax.persistence.Column;
@@ -11,8 +12,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.oscw.persistence.MultiSchemaHibernateUtil;
 import org.usip.oscw.persistence.MysqlDatabase;
 
 /**
@@ -57,6 +60,12 @@ public class ChatLine {
     @Lob
     protected String msgtext = "";
     
+	@Column(name="MSG_DATE", columnDefinition="datetime") 	
+	private java.util.Date msgDate;
+	
+	@Transient
+	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+	
     /**
      * Packages a line with information (index, from id, and message payload) with
      * expected delimiters.
@@ -80,9 +89,12 @@ public class ChatLine {
      */
     public String packageIntoXML(){
     	
+    	String time_string = sdf.format(this.msgDate);
+    	
     	String returnString = "<message>";
     	
     	returnString += "     <conversation>" + conversation_id + "</conversation>";
+    	returnString += "     <time>" + time_string + "</time>";
     	returnString += "     <id>" + id + "</id>";
     	returnString += "     <author>" + fromActor + "</author>";
     	returnString += "     <text>" + msgtext + "</text>";
@@ -96,7 +108,23 @@ public class ChatLine {
      *
      */
     public ChatLine(){
-        
+    	this.msgDate = new java.util.Date();
+    }
+    
+    public static void main(String args[]){
+    	System.out.println("Hi handsome");
+    	ChatLine cl = new ChatLine("1", "1", "1", "1", "cargo cult");
+    	cl.saveMe("test");
+    	System.out.println("done");
+    	
+    }
+    
+    public void saveMe(String schema){
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
     }
     /**
      * 
@@ -104,15 +132,19 @@ public class ChatLine {
      * @param a
      * @param t
      */
-    public ChatLine(String uid, String rid, String a, String t){
+    public ChatLine(String uid, String rid, String aid, String cid, String text){
         
+    	this.msgDate = new java.util.Date();
+    	
     	this.fromUser = new Long(uid);
     	
         this.running_sim_id = new Long(rid);
         
-        this.fromActor = new Long(a);
+        this.fromActor = new Long(aid);
         
-        this.msgtext = t;
+        this.conversation_id = new Long(cid);
+        
+        this.msgtext = text;
         
     }
 
@@ -162,6 +194,14 @@ public class ChatLine {
 
 	public void setFromUser(Long fromUser) {
 		this.fromUser = fromUser;
+	}
+
+	public Date getMsgDate() {
+		return msgDate;
+	}
+
+	public void setMsgDate(Date msgDate) {
+		this.msgDate = msgDate;
 	}
     
 }
