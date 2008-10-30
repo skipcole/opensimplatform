@@ -13,8 +13,10 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.oscw.networking.ParticipantSessionObject;
 import org.usip.oscw.persistence.MultiSchemaHibernateUtil;
 import org.usip.oscw.persistence.MysqlDatabase;
 
@@ -87,18 +89,20 @@ public class ChatLine {
      * 
      * @return
      */
-    public String packageIntoXML(){
+    public String packageIntoXML(ParticipantSessionObject pso, HttpServletRequest request){
     	
     	String time_string = sdf.format(this.msgDate);
     	
     	String returnString = "<message>";
     	
+    	String actorName = pso.getActorName(request, fromActor);
+    	
     	returnString += "     <conversation>" + conversation_id + "</conversation>";
     	returnString += "     <time>" + time_string + "</time>";
     	returnString += "     <id>" + id + "</id>";
-    	returnString += "     <author>" + fromActor + "</author>";
+    	returnString += "     <author>" + actorName + "</author>";
     	returnString += "     <text>" + msgtext + "</text>";
-    	returnString += "</message>";
+    	returnString += "</message>\r\n";
         
         return returnString;
     }

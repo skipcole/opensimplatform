@@ -24,6 +24,9 @@ import org.usip.oscw.persistence.MultiSchemaHibernateUtil;
  */
 public class ChatController {
 
+	public static final int NEW_MSG = 1;
+	public static final int NO_NEW_MSG = 2;
+	
 	public static String getConversation(HttpServletRequest request,
 			ParticipantSessionObject pso) {
 
@@ -114,27 +117,35 @@ public class ChatController {
 
 		return convLinesToReturn;
 	}
-	
-	
 
 	public static String insertAndGetXMLConversation(Long user_id,
-			Long actor_id, String start_index, String newtext,
-			String conv_id, Vector<ChatLine> this_conv, Long rsid, String schema) {
+			Long actor_id, String start_index, String newtext, String conv_id,
+			Vector<ChatLine> this_conv, ParticipantSessionObject pso,
+			HttpServletRequest request) {
 
+		System.out.println("doing the insertAndGetXMLConversation");
+		
 		if ((start_index == null) || (start_index.trim().length() == 0)) {
 			start_index = "0";
 		}
+
+		System.out.println("start_index is " + start_index);
 		
-		if (this_conv == null){
-			this_conv = new Vector<ChatLine>();
+		System.out.println("conv_id is " + conv_id);
+		
+		if (this_conv == null) {
+			
+			this_conv = getRunningSimConveration(pso.schema,
+					pso.running_sim_id, conv_id);
 		}
 
 		int start_int = new Integer(start_index).intValue();
 
+		// If a line of new text has been passed, tack it on the end.
 		if (newtext != null) {
-			ChatLine cl = new ChatLine(user_id.toString(), rsid.toString(), actor_id.toString(),
-					conv_id, newtext);
-			cl.saveMe(schema);
+			ChatLine cl = new ChatLine(user_id.toString(), pso.running_sim_id
+					.toString(), actor_id.toString(), conv_id, newtext);
+			cl.saveMe(pso.schema);
 			this_conv.add(cl);
 		}
 
@@ -144,7 +155,7 @@ public class ChatController {
 
 			// Check to see were are above the start index sent.
 			if (bcl.getId().intValue() > start_int) {
-				convLinesToReturn += bcl.packageIntoXML();
+				convLinesToReturn += bcl.packageIntoXML(pso, request);
 			}
 		}
 
