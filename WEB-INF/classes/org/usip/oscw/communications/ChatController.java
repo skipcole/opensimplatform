@@ -27,6 +27,59 @@ public class ChatController {
 	public static final int NEW_MSG = 1;
 	public static final int NO_NEW_MSG = 2;
 	
+	/** Hashtable to keep track of users on chat page. */
+	private static Hashtable onlineUsers = new Hashtable();
+	
+	/** Keep track of time to check to see if any of the user online flags have expired. */
+	private static java.util.Date timeOfLastCheck = new java.util.Date();
+	
+	/**
+	 * This checks to see if an actor is online and returns true or false. In addition it does 2 other 
+	 * housekeeping funtions:
+	 * 1.) It checks a timer to see if people's time online has elapsed.
+	 * 2.) It marks the actor doing the checking as present now.
+	 * 
+	 * @param schema
+	 * @param rsid
+	 * @param checking_actor
+	 * @param checked_actor
+	 * @return
+	 */
+	public static boolean checkIfUserOnline (String schema, String rsid, String checking_actor, String checked_actor){
+		
+		java.util.Date now = new java.util.Date();
+		
+		if ((timeOfLastCheck.getTime() + (30 * 1000)) > now.getTime()){
+			checkUserOnlineFlagsExpired();
+			timeOfLastCheck = new java.util.Date();
+		}
+		
+		String checking_actor_key = schema + "_" + rsid + "_" + checking_actor;
+		String checked_actor_key = schema + "_" + rsid + "_" + checked_actor;
+		
+		// Mark the checking actor present
+		onlineUsers.put(checking_actor_key, now.getTime() + "");
+		
+		for (Enumeration e = onlineUsers.keys(); e.hasMoreElements();){
+			String key = (String) e.nextElement();
+			
+			if (key.equalsIgnoreCase(checked_actor_key)){
+				return true;
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	public static void checkUserOnlineFlagsExpired(){
+		System.out.println("checking to see if user flags expired");
+		System.out.println("insert code here");
+	}
+	
+	
+	
+	
 	public static String getConversation(HttpServletRequest request,
 			ParticipantSessionObject pso) {
 
@@ -123,26 +176,14 @@ public class ChatController {
 
 		return convLinesToReturn;
 	}
-
-	public static String insertAndGetXMLConversation(Long user_id,
+	
+	public static void insertChatLine(Long user_id,
 			Long actor_id, String start_index, String newtext, String conv_id,
 			ParticipantSessionObject pso,
-			HttpServletRequest request) {
-
+			HttpServletRequest request){
+		
 		 // This conversation is pulled from the set of conversations Vector
 		 Vector this_conv = getCachedConversation(request, pso, conv_id);
-		 		
-		if ((start_index == null) || (start_index.trim().length() == 0)) {
-			start_index = "0";
-		}
-		
-		if (this_conv == null) {
-			
-			this_conv = getRunningSimConveration(pso.schema,
-					pso.running_sim_id, conv_id);
-		}
-
-		int start_int = new Integer(start_index).intValue();
 
 		// If a line of new text has been passed, tack it on the end.
 		if (newtext != null) {
@@ -151,6 +192,22 @@ public class ChatController {
 			cl.saveMe(pso.schema);
 			this_conv.add(cl);
 		}
+	}
+	
+
+	public static String getXMLConversation(Long user_id,
+			Long actor_id, String start_index, String conv_id,
+			ParticipantSessionObject pso,
+			HttpServletRequest request) {
+		
+		if ((start_index == null) || (start_index.trim().length() == 0)) {
+			start_index = "0";
+		}
+		
+		int start_int = new Integer(start_index).intValue();
+		
+		 // This conversation is pulled from the set of conversations Vector
+		 Vector this_conv = getCachedConversation(request, pso, conv_id);
 
 		String convLinesToReturn = "";
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {

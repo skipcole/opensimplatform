@@ -13,6 +13,9 @@
 		return;
 	}
 	
+	// Keep a set of actors to loop over check on if online.
+	Hashtable setOfActors = new Hashtable();
+	
 %>
 <html>
 <head>
@@ -25,7 +28,19 @@
 			
 			var start_index<%= conv.getId() %> = 0;
 			var new_start_index<%= conv.getId() %> = 0;
-	<% } // End of loop over conversations. %>
+			
+			<%
+			// Take this opportunity to fill up the hashtable with actors
+				// Loop over the conversation actors (should be 2 of them) for this private chat.
+  				for (ListIterator<ConvActorAssignment> liii = conv.getConv_actor_assigns().listIterator(); liii.hasNext();) {
+					ConvActorAssignment caa = (ConvActorAssignment) liii.next();
+			
+					// Don't do the chat with the actor and his or her self.
+					if (!(caa.getActor_id().equals(pso.actor_id))) {
+						setOfActors.put(caa.getActor_id().toString(), "set");
+					} // end of if this is an applicable actor
+				} // End of loop over conversation actors
+	 } // End of loop over conversations. %>
 
 </script>
 	<script type="text/javascript">
@@ -38,7 +53,7 @@
 		
 			updateMsg<%= conv.getId() %>();
 			$("form#chatform<%= conv.getId() %>").submit(function(){
-				$.post("one_on_one_chat_server.jsp",{
+				$.post("one_on_one_chat_inserter.jsp",{
 							message: $("#msg<%= conv.getId() %>").val(),
 							name: $("#author<%= conv.getId() %>").val(),
 							conversation: $("#conversation<%= conv.getId() %>").val(),
@@ -52,8 +67,9 @@
 				});
 				return false;
 			});
-			<% } %>
-		});
+			<% } // End of loop over conversations. %>
+			
+		}); // End of loop over if ready
 		
 		<%  // Loop over the conversations for this Actor
 		for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
@@ -80,16 +96,37 @@
 			
 			/////////////////////////////////
 			
-			
 		}
 		function updateMsg<%= conv.getId() %>() {
-			$.post("one_on_one_chat_server.jsp",{ start_index: start_index<%= conv.getId() %>, conversation: $("#conversation<%= conv.getId() %>").val(), time: timestamp }, function(xml) {
+			$.post("one_on_one_chat_server.jsp",{ 
+				start_index: start_index<%= conv.getId() %>, 
+				conversation: $("#conversation<%= conv.getId() %>").val(), 
+				time: timestamp }, function(xml) {
 				$("#loading").remove();
 				addMessages<%= conv.getId() %>(xml);
 			});
 			setTimeout('updateMsg<%= conv.getId() %>()', 4000);
 		}
-		<% } %>
+		<% } // End of loop over conversations. %>
+		
+		<%
+			for (Enumeration e = setOfActors.keys(); e.hasMoreElements();){
+				String key = (String) e.nextElement();
+		%>
+				function checkOnlineActor<%= key %> (){
+				
+					if($("status",xml).text() == "online") {
+						$("#actor_present<%= key %>").val("online");
+					} else if ($("status",xml).text() == "offline") {
+						$("#actor_present<%= key %>").val("offline");
+					} else {
+						$("#actor_present<%= key %>").val("unknown");
+					}
+				
+				}
+		<%
+			} // End of loop over unique actor ids to add 'user online' function
+		%>
 
 </script>
 <style type="text/css" media="screen">
@@ -150,15 +187,14 @@ width:100%;
 	%>
 		
   <tr valign="top"> 
-    <td width="40%"> Your conversation with <%= this_a_name %><br>
+    <td width="40%"> Your conversation with <%= this_a_name %><div id="actor_present<%= caa.getActor_id().toString() %>"></div><br>
 				<form id="chatform<%= conv.getId() %>" >
   <p>Message: <input type="text" id="msg<%= conv.getId() %>" width="40" /> <br />
 	<input type="hidden" id="author<%= conv.getId() %>" value="You" />
     <input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" />
 	<input type="submit" value="Send">
   </p>
-</form>
-			</td>
+</form>			</td>
 			
     <td><p id="messagewindow<%= conv.getId() %>"><span id="loading">Loading...</span></p></td>
 		</tr>
@@ -166,7 +202,7 @@ width:100%;
 			} //End of if this is a different actor from this particular player character.
 		} // End of loop over conversation actors. %>
 	</table>
- <% 
+<% 
  	}
   %>
 	</P>
