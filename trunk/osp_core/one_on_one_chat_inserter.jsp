@@ -10,6 +10,8 @@
 	
 	String status_code = ChatController.NO_NEW_MSG + "";
 	
+	String message = (String) request.getParameter("message");
+	String name =  (String) request.getParameter("name");
 	String conversation =  (String) request.getParameter("conversation");
 	String start_index = (String) request.getParameter("start_index");
 
@@ -19,12 +21,8 @@
 	
 	String xml_msgs = "";
 							
-	xml_msgs = ChatController.getXMLConversation(pso.user_id, pso.actor_id, 
-				start_index, conversation, pso, request);
-			
-	if ((xml_msgs != null) && (xml_msgs.trim().length() > 0)){
-		status_code = ChatController.NEW_MSG + "";
-	}
+	ChatController.insertChatLine(pso.user_id, pso.actor_id, 
+				start_index, message, conversation, pso, request);
 	
 %>
 <?xml version="1.0"?>

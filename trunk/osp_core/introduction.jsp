@@ -33,7 +33,6 @@
   </tr>
 </table>
 <p>&nbsp;</p>
-<%= pso.debugStuff %>
 </body>
 </html>
 <%
