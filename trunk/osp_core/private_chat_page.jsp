@@ -125,34 +125,22 @@
 				function checkOnlineActor<%= key %> (){
 				
 					$.post("actor_online_checker.jsp", { 
-						checking_actor: "checking_actor<%= pso.actor_id %>", 
-						checked_actor: "checked_actor<%= key %>"
+						checking_actor: "<%= pso.actor_id %>", 
+						checked_actor: "<%= key %>"
 						}, 
 						function(xml){
 							if ($("status_code",xml).text() == "offline") {
-								$("#actorpresent<%= key %>").val("offline");
-    							alert("Data Loaded for : actorpresent<%= key %>" + xml);
-							};
+								$("#actorpresent<%= key %>").text("offline");
+    							//alert("Data Loaded for : actorpresent<%= key %>" + xml);
+							} else if ($("status_code",xml).text() == "online") {
+								$("#actorpresent<%= key %>").text("online");
+    							//alert("Data Loaded for : actorpresent<%= key %>" + xml);
+							}
+							
+							;
   						}
 						
 						);
-
-					/*
-					$.post("actor_online_checker.jsp",{ 
-						checking_actor: checking_actor<%= pso.actor_id %>, 
-						checked_actor: checked_actor<%= key %> },
-						function(xml) {
-							/*
-							if($("status",xml).text() == "online") {
-								$("#actorpresent<%= key %>").val("online");
-							} else if ($("status",xml).text() == "offline") {
-								$("#actorpresent<%= key %>").val("offline");
-							} else {
-								$("#actorpresent<%= key %>").val("unknown");
-							}
-							
-						});
-						*/
 					
 					
 					setTimeout('checkOnlineActor<%= key %>()', 10000);
@@ -233,7 +221,7 @@ width:100%;
 		
   <tr valign="top"> 
     <td width="40%"> Your conversation with <%= this_a_name %> 
-    <p id="actorpresent<%= caa.getActor_id().toString() %>"><span id="loading">Loading...</span></p><br>
+    (<I><span id="actorpresent<%= caa.getActor_id().toString() %>">Checking status ...</span></I>)<br>
 				<form id="chatform<%= conv.getId() %>" >
   <p>Message: <input type="text" id="msg<%= conv.getId() %>" width="40" /> <br />
 	<input type="hidden" id="author<%= conv.getId() %>" value="You" />

@@ -49,7 +49,6 @@ public class ChatController {
 		
 		java.util.Date now = new java.util.Date();
 		
-		System.out.println("now is " + now.getTime());
 		System.out.println("timeOfLastCheck is " + timeOfLastCheck.getTime());
 		
 		if ((timeOfLastCheck.getTime() + (42 * 1000)) > now.getTime()){
@@ -66,8 +65,12 @@ public class ChatController {
 		// Mark the checking actor present
 		onlineUsers.put(checking_actor_key, now.getTime() + "");
 		
+		System.out.println("checked_actor_key: " + checked_actor_key);
+		
 		for (Enumeration e = onlineUsers.keys(); e.hasMoreElements();){
 			String key = (String) e.nextElement();
+			
+			System.out.println("      checking against key: " + key);
 			
 			if (key.equalsIgnoreCase(checked_actor_key)){
 				return "online";
@@ -79,7 +82,6 @@ public class ChatController {
 	}
 	
 	public static void checkUserOnlineFlagsExpired(){
-		System.out.println("checking to see if user flags expired");
 		System.out.println("insert code here");
 	}
 	
