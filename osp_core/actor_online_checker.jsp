@@ -14,7 +14,6 @@
 	String status = "online";
 	
 	if ((pso != null) && (pso.running_sim_id != null)){
-		System.out.println("Hitting ChatController.checkIfUserOnline");
 		status = ChatController.checkIfUserOnline(pso.schema, pso.running_sim_id.toString(), checking_actor, checked_actor);
 	}
 	
