@@ -45,13 +45,19 @@ public class ChatController {
 	 * @param checked_actor
 	 * @return
 	 */
-	public static boolean checkIfUserOnline (String schema, String rsid, String checking_actor, String checked_actor){
+	public static String checkIfUserOnline (String schema, String rsid, String checking_actor, String checked_actor){
 		
 		java.util.Date now = new java.util.Date();
 		
-		if ((timeOfLastCheck.getTime() + (30 * 1000)) > now.getTime()){
-			checkUserOnlineFlagsExpired();
+		System.out.println("now is " + now.getTime());
+		System.out.println("timeOfLastCheck is " + timeOfLastCheck.getTime());
+		
+		if ((timeOfLastCheck.getTime() + (42 * 1000)) > now.getTime()){
+			
 			timeOfLastCheck = new java.util.Date();
+			
+			checkUserOnlineFlagsExpired();
+			
 		}
 		
 		String checking_actor_key = schema + "_" + rsid + "_" + checking_actor;
@@ -64,12 +70,12 @@ public class ChatController {
 			String key = (String) e.nextElement();
 			
 			if (key.equalsIgnoreCase(checked_actor_key)){
-				return true;
+				return "online";
 			}
 			
 		}
 		
-		return false;
+		return "offline";
 	}
 	
 	public static void checkUserOnlineFlagsExpired(){

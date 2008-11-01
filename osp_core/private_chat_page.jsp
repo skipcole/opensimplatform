@@ -47,6 +47,15 @@
 		$(document).ready(function(){
 			timestamp = 0;
 			
+		<%
+			for (Enumeration e = setOfActors.keys(); e.hasMoreElements();){
+				String key = (String) e.nextElement();
+		%>
+			checkOnlineActor<%= key %>();
+		<%
+			} // End of loop over unique actor ids to add 'user online' function
+		%>
+			
 		<%  // Loop over the conversations for this Actor
 		for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next(); %>
@@ -115,13 +124,38 @@
 		%>
 				function checkOnlineActor<%= key %> (){
 				
-					if($("status",xml).text() == "online") {
-						$("#actor_present<%= key %>").val("online");
-					} else if ($("status",xml).text() == "offline") {
-						$("#actor_present<%= key %>").val("offline");
-					} else {
-						$("#actor_present<%= key %>").val("unknown");
-					}
+					$.post("actor_online_checker.jsp", { 
+						checking_actor: "checking_actor<%= pso.actor_id %>", 
+						checked_actor: "checked_actor<%= key %>"
+						}, 
+						function(xml){
+							if ($("status_code",xml).text() == "offline") {
+								$("#actorpresent<%= key %>").val("offline");
+    							alert("Data Loaded for : actorpresent<%= key %>" + xml);
+							};
+  						}
+						
+						);
+
+					/*
+					$.post("actor_online_checker.jsp",{ 
+						checking_actor: checking_actor<%= pso.actor_id %>, 
+						checked_actor: checked_actor<%= key %> },
+						function(xml) {
+							/*
+							if($("status",xml).text() == "online") {
+								$("#actorpresent<%= key %>").val("online");
+							} else if ($("status",xml).text() == "offline") {
+								$("#actorpresent<%= key %>").val("offline");
+							} else {
+								$("#actorpresent<%= key %>").val("unknown");
+							}
+							
+						});
+						*/
+					
+					
+					setTimeout('checkOnlineActor<%= key %>()', 10000);
 				
 				}
 		<%
@@ -150,6 +184,17 @@ width:100%;
 <%
 	} // end of loop over conversations
 %>
+
+		<%
+			for (Enumeration e = setOfActors.keys(); e.hasMoreElements();){
+				String key = (String) e.nextElement();
+		%>
+		#actorpresent<%= key %>{
+			text-decoration:none
+		}	
+		<%
+			}
+		%>
 		
 .style1 {font-size: small}
 .style1 {font-size: small}
@@ -187,7 +232,8 @@ width:100%;
 	%>
 		
   <tr valign="top"> 
-    <td width="40%"> Your conversation with <%= this_a_name %><div id="actor_present<%= caa.getActor_id().toString() %>"></div><br>
+    <td width="40%"> Your conversation with <%= this_a_name %> 
+    <p id="actorpresent<%= caa.getActor_id().toString() %>"><span id="loading">Loading...</span></p><br>
 				<form id="chatform<%= conv.getId() %>" >
   <p>Message: <input type="text" id="msg<%= conv.getId() %>" width="40" /> <br />
 	<input type="hidden" id="author<%= conv.getId() %>" value="You" />
