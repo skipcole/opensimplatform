@@ -8,13 +8,20 @@
 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 
-	String conversation =  (String) request.getParameter("conversation");
-	String start_index = (String) request.getParameter("start_index");
+	String checking_actor =  (String) request.getParameter("checking_actor");
+	String checked_actor = (String) request.getParameter("checked_actor");
 
-	ChatController.checkIfUserOnline(pso.schema, pso.running_sim_id.toString(), checking_actor, checked_actor);
+	String status = "online";
+	
+	if ((pso != null) && (pso.running_sim_id != null)){
+		System.out.println("Hitting ChatController.checkIfUserOnline");
+		status = ChatController.checkIfUserOnline(pso.schema, pso.running_sim_id.toString(), checking_actor, checked_actor);
+	}
+	
+	System.out.println("Hit the actor online checker");
 	
 %>
 <?xml version="1.0"?>
 <response>
- <status><%= status_code %></status>
+<status_code><%= status %></status_code>
 </response>
