@@ -9,6 +9,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.oscw.communications.ConvActorAssignment;
 import org.usip.oscw.communications.Conversation;
 import org.usip.oscw.communications.Alert;
+import org.usip.oscw.communications.Emailer;
 import org.usip.oscw.communications.SharedDocument;
 import org.usip.oscw.persistence.BaseUser;
 import org.usip.oscw.persistence.MultiSchemaHibernateUtil;
