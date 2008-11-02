@@ -26,18 +26,21 @@ public class ChatController {
 
 	public static final int NEW_MSG = 1;
 	public static final int NO_NEW_MSG = 2;
-	
+
 	/** Hashtable to keep track of users on chat page. */
 	private static Hashtable onlineUsers = new Hashtable();
-	
-	/** Keep track of time to check to see if any of the user online flags have expired. */
-	private static java.util.Date timeOfLastCheck = new java.util.Date();
-	
+
 	/**
-	 * This checks to see if an actor is online and returns true or false. In addition it does 2 other 
-	 * housekeeping funtions:
-	 * 1.) It checks a timer to see if people's time online has elapsed.
-	 * 2.) It marks the actor doing the checking as present now.
+	 * Keep track of time to check to see if any of the user online flags have
+	 * expired.
+	 */
+	private static java.util.Date timeOfLastCheck = new java.util.Date();
+
+	/**
+	 * This checks to see if an actor is online and returns true or false. In
+	 * addition it does 2 other housekeeping funtions: 1.) It checks a timer to
+	 * see if people's time online has elapsed. 2.) It marks the actor doing the
+	 * checking as present now.
 	 * 
 	 * @param schema
 	 * @param rsid
@@ -45,49 +48,68 @@ public class ChatController {
 	 * @param checked_actor
 	 * @return
 	 */
-	public static String checkIfUserOnline (String schema, String rsid, String checking_actor, String checked_actor){
-		
+	public static String checkIfUserOnline(String schema, String rsid,
+			String checking_actor, String checked_actor) {
+
 		java.util.Date now = new java.util.Date();
-		
+
 		System.out.println("timeOfLastCheck is " + timeOfLastCheck.getTime());
-		
-		if ((timeOfLastCheck.getTime() + (42 * 1000)) > now.getTime()){
-			
+
+		if ((timeOfLastCheck.getTime() + (42 * 1000)) > now.getTime()) {
+
 			timeOfLastCheck = new java.util.Date();
-			
+
 			checkUserOnlineFlagsExpired();
-			
+
 		}
-		
+
 		String checking_actor_key = schema + "_" + rsid + "_" + checking_actor;
 		String checked_actor_key = schema + "_" + rsid + "_" + checked_actor;
-		
+
 		// Mark the checking actor present
 		onlineUsers.put(checking_actor_key, now.getTime() + "");
-		
+
 		System.out.println("checked_actor_key: " + checked_actor_key);
-		
-		for (Enumeration e = onlineUsers.keys(); e.hasMoreElements();){
+
+		for (Enumeration e = onlineUsers.keys(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
-			
+
 			System.out.println("      checking against key: " + key);
-			
-			if (key.equalsIgnoreCase(checked_actor_key)){
+
+			if (key.equalsIgnoreCase(checked_actor_key)) {
 				return "online";
 			}
-			
+
 		}
-		
+
 		return "offline";
 	}
-	
-	public static void checkUserOnlineFlagsExpired(){
-		System.out.println("insert code here");
+
+	/**
+	 * Checks to see if a user online ticket has expired.
+	 * 
+	 */
+	public static void checkUserOnlineFlagsExpired() {
+
+		for (Enumeration e = onlineUsers.keys(); e.hasMoreElements();) {
+			String key = (String) e.nextElement();
+
+			java.util.Date now = new java.util.Date();
+
+			String usersLastTouchTime = (String) onlineUsers.get(key);
+			
+			System.out.println("usersLastTouchTime: " + usersLastTouchTime);
+
+			long longULTT = new Long(usersLastTouchTime).longValue();
+
+			if (((longULTT + (60 * 1000)) < now.getTime())) {
+				System.out.println("removing: " + key);
+				onlineUsers.remove(key);
+			}
+
+		}
 	}
-	
-	
-	
-	
+
 	public static String getConversation(HttpServletRequest request,
 			ParticipantSessionObject pso) {
 
@@ -111,27 +133,29 @@ public class ChatController {
 		String conv_id = request.getParameter("conv_id");
 
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
-		
+
 		return getConversation(user_id, actor_id, start_index, newtext,
 				conv_id, this_conv, pso.running_sim_id, pso.schema);
 	}
-	
-	public static String getConvKey(ParticipantSessionObject pso, String conv_id){
-		
+
+	public static String getConvKey(ParticipantSessionObject pso, String conv_id) {
+
 		return (pso.schema + "_" + pso.running_sim_id + "_" + conv_id);
-		 
+
 	}
-	
-	public static Vector getCachedConversation(HttpServletRequest request, ParticipantSessionObject pso, String conv_id){
-		
-		 ///////////////////////////////////////////////////////
-		 // The conversation is pulled out of the context Hashtable
-		 Hashtable conversation_cache = (Hashtable) request.getSession().getServletContext().getAttribute("conversation_cache");
-		 
-		 String conversationKey = getConvKey(pso, conv_id);
-		 
-		 // This conversation is pulled from the set of conversations Vector
-		 Vector this_conv = (Vector) conversation_cache.get(conversationKey);
+
+	public static Vector getCachedConversation(HttpServletRequest request,
+			ParticipantSessionObject pso, String conv_id) {
+
+		// /////////////////////////////////////////////////////
+		// The conversation is pulled out of the context Hashtable
+		Hashtable conversation_cache = (Hashtable) request.getSession()
+				.getServletContext().getAttribute("conversation_cache");
+
+		String conversationKey = getConvKey(pso, conv_id);
+
+		// This conversation is pulled from the set of conversations Vector
+		Vector this_conv = (Vector) conversation_cache.get(conversationKey);
 
 		// At this point, we will try to pull it out of the database
 		if (this_conv == null) {
@@ -142,7 +166,7 @@ public class ChatController {
 
 			conversation_cache.put(conversationKey, this_conv);
 		}
-		
+
 		return this_conv;
 	}
 
@@ -184,14 +208,13 @@ public class ChatController {
 
 		return convLinesToReturn;
 	}
-	
-	public static void insertChatLine(Long user_id,
-			Long actor_id, String start_index, String newtext, String conv_id,
-			ParticipantSessionObject pso,
-			HttpServletRequest request){
-		
-		 // This conversation is pulled from the set of conversations Vector
-		 Vector this_conv = getCachedConversation(request, pso, conv_id);
+
+	public static void insertChatLine(Long user_id, Long actor_id,
+			String start_index, String newtext, String conv_id,
+			ParticipantSessionObject pso, HttpServletRequest request) {
+
+		// This conversation is pulled from the set of conversations Vector
+		Vector this_conv = getCachedConversation(request, pso, conv_id);
 
 		// If a line of new text has been passed, tack it on the end.
 		if (newtext != null) {
@@ -201,21 +224,19 @@ public class ChatController {
 			this_conv.add(cl);
 		}
 	}
-	
 
-	public static String getXMLConversation(Long user_id,
-			Long actor_id, String start_index, String conv_id,
-			ParticipantSessionObject pso,
+	public static String getXMLConversation(Long user_id, Long actor_id,
+			String start_index, String conv_id, ParticipantSessionObject pso,
 			HttpServletRequest request) {
-		
+
 		if ((start_index == null) || (start_index.trim().length() == 0)) {
 			start_index = "0";
 		}
-		
+
 		int start_int = new Integer(start_index).intValue();
-		
-		 // This conversation is pulled from the set of conversations Vector
-		 Vector this_conv = getCachedConversation(request, pso, conv_id);
+
+		// This conversation is pulled from the set of conversations Vector
+		Vector this_conv = getCachedConversation(request, pso, conv_id);
 
 		String convLinesToReturn = "";
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {

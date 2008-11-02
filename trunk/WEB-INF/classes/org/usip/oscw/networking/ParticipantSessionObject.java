@@ -824,6 +824,10 @@ public class ParticipantSessionObject {
 
 	}
 
+	/**
+	 * 
+	 * @param request
+	 */
 	public void handleBulkInvite(HttpServletRequest request) {
 		setOfUsers = (String) request.getParameter("setOfUsers");
 		defaultInviteEmailMsg = (String) request
@@ -835,8 +839,12 @@ public class ParticipantSessionObject {
 			
 			if (BaseUser.checkIfUserExists(this_email)){
 				System.out.println("exists:" + this_email);
+				
+				
 			} else {
 				System.out.println("does not exist:" + this_email);
+				
+				
 			}
 		}
 

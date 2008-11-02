@@ -1,8 +1,9 @@
-package org.usip.oscw.baseobjects;
+package org.usip.oscw.communications;
 
 import javax.mail.*;
 import javax.mail.internet.*;
 
+import org.usip.oscw.baseobjects.USIP_OSCW_Properties;
 import org.usip.oscw.persistence.MultiSchemaHibernateUtil;
 import org.usip.oscw.persistence.SchemaInformationObject;
 
@@ -63,6 +64,27 @@ public class Emailer {
         return returnV;
 
     }
+    
+    /**
+     * Returns the schema information object (which contains information on sending out emails
+     * out) from the principal schema.
+     * @param schema_id
+     * @return
+     */
+    public static SchemaInformationObject getSIO(Long schema_id){
+    	
+        MultiSchemaHibernateUtil.beginTransaction(
+                MultiSchemaHibernateUtil.principalschema, true);
+
+        SchemaInformationObject sio = (SchemaInformationObject) MultiSchemaHibernateUtil
+                .getSession(MultiSchemaHibernateUtil.principalschema, true)
+                .get(SchemaInformationObject.class, schema_id);
+
+        MultiSchemaHibernateUtil
+                .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+        
+        return sio;
+    }
 
     /**
      * 
@@ -74,20 +96,12 @@ public class Emailer {
      * @param cced
      * @param bcced
      */
-    public static void postMail(Long schema_id, Vector recipients,
-            String subject, String message, String from, Vector cced,
-            Vector bcced) {
+    public static void postMail(Long schema_id, Vector <String> recipients,
+            String subject, String message, String from, Vector <String> cced,
+            Vector <String> bcced) {
 
-        MultiSchemaHibernateUtil.beginTransaction(
-                MultiSchemaHibernateUtil.principalschema, true);
-
-        final SchemaInformationObject sio = (SchemaInformationObject) MultiSchemaHibernateUtil
-                .getSession(MultiSchemaHibernateUtil.principalschema, true)
-                .get(SchemaInformationObject.class, schema_id);
-
-        MultiSchemaHibernateUtil
-                .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-
+    	final SchemaInformationObject sio = getSIO(schema_id);
+    	
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.host", sio.getEmail_smtp());
@@ -115,7 +129,7 @@ public class Emailer {
             InternetAddress addressFrom = new InternetAddress(from);
             msg.setFrom(addressFrom);
 
-            // /////////////////////////////////////////////////////////
+            // //////////////////////////////////////////////////////// 
             int ii = 0;
             InternetAddress[] addressTo = new InternetAddress[recipients.size()];
             for (Enumeration<String> e = recipients.elements(); e
@@ -124,25 +138,22 @@ public class Emailer {
                 addressTo[ii] = new InternetAddress(s);
             }
             msg.setRecipients(Message.RecipientType.TO, addressTo);
+            // /////////////////////////////////////////////////////////   
+            ii = 0;
+            InternetAddress[] addressCC = new InternetAddress[cced.size()];
+            for (Enumeration<String> e = cced.elements(); e.hasMoreElements();) {
+                String s = (String) e.nextElement();
+                addressCC[ii] = new InternetAddress(s);
+            }
+            msg.setRecipients(Message.RecipientType.CC, addressCC);
             // /////////////////////////////////////////////////////////
-
-            /*
-             * /////////////////////////////////////////////////////////// if
-             * ((cced != null) && (cced.length > 0)){ InternetAddress[]
-             * addressCCTo = new InternetAddress[cced.length]; for (int i = 0; i <
-             * cced.length; i++) { addressCCTo[i] = new
-             * InternetAddress(cced[i]); }
-             * msg.setRecipients(Message.RecipientType.CC, addressCCTo); }
-             * ///////////////////////////////////////////////////////////
-             * 
-             * /////////////////////////////////////////////////////////// if
-             * ((bcced != null) && (bcced.length > 0)){ InternetAddress[]
-             * addressBCCTo = new InternetAddress[bcced.length]; for (int i = 0;
-             * i < bcced.length; i++) { addressBCCTo[i] = new
-             * InternetAddress(bcced[i]); }
-             * msg.setRecipients(Message.RecipientType.BCC, addressBCCTo); }
-             * ///////////////////////////////////////////////////////////
-             */
+            ii = 0;
+            InternetAddress[] addressBCC = new InternetAddress[bcced.size()];
+            for (Enumeration<String> e = bcced.elements(); e.hasMoreElements();) {
+                String s = (String) e.nextElement();
+                addressBCC[ii] = new InternetAddress(s);
+            }
+            msg.setRecipients(Message.RecipientType.BCC, addressBCC);
 
             // Setting the Subject and Content Type
             msg.setSubject(subject);
@@ -152,6 +163,23 @@ public class Emailer {
         } catch (Exception err) {
             err.printStackTrace();
         }
+    }
+    
+    public static String postSimReadyMail(Long schema_id, String to,
+            String from, String cc, String bcc, String subject, String message) {
+    	
+    	Vector recipients = new Vector<String>();
+    	recipients.add(to);
+    	
+    	Vector cced = new Vector<String>();
+    	cced.add(cc);
+    	
+    	Vector bcced = new Vector<String>();
+    	recipients.add(bcc);
+    	
+    	postMail(schema_id, recipients,subject, message, from, cced, bcced);
+    	
+    	return "okay";
     }
 
     /**
@@ -164,18 +192,10 @@ public class Emailer {
      * @param message
      * @return
      */
-    public static String postSimReadyMail(Long schema_id, String to,
-            String from, String cc, String bcc, String subject, String message) {
+    public static String OLDpostSimReadyMail(Long schema_id, String to,
+            String from, String cc, String bcc,  String message) {
 
-        MultiSchemaHibernateUtil.beginTransaction(
-                MultiSchemaHibernateUtil.principalschema, true);
-
-        final SchemaInformationObject sio = (SchemaInformationObject) MultiSchemaHibernateUtil
-                .getSession(MultiSchemaHibernateUtil.principalschema, true)
-                .get(SchemaInformationObject.class, schema_id);
-
-        MultiSchemaHibernateUtil
-                .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+    	final SchemaInformationObject sio = getSIO(schema_id);
 
         Properties props = new Properties();
         props.put("mail.transport.protocol", "smtp");

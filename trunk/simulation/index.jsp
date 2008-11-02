@@ -18,6 +18,11 @@
 <head>
 <title>Online Simulation Platform Login</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.style1 {font-size: small}
+-->
+</style>
 </head>
 
 <body>
@@ -33,7 +38,7 @@
         <input type="hidden" name="attempting_login" value="true">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           <tr> 
-            <td>user name</td>
+            <td>email address</td>
             <td> <input type="text" name="username"> </td>
           </tr>
           <tr> 
@@ -55,14 +60,13 @@
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td>
-    </td>
+    <td><div align="right" class="style1"><a href="../simulation_facilitation/retrieve_password.jsp">Forgot Password?   </a></div></td>
     <td>&nbsp;</td>
   </tr>
 </table>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>Simulations accessed here were generated the <a href="http://www.usip.org">USIP</a> Online Simulation Platform which is a <a href="http://code.google.com/p/usiponlinesimulationcreationwizard/">USIP Open Source Software Project</a>. </p>
+<p>Simulations accessed here were generated the <a href="http://www.usip.org">USIP</a> Open Simulation Platform which is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project. </a></p>
 <p>&nbsp;</p>
 
 </body>
