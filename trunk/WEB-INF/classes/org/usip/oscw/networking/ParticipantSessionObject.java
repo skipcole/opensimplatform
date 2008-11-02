@@ -59,9 +59,11 @@ public class ParticipantSessionObject {
 	/** The page to take them back to if needed. */
 	public String backPage = "index.jsp";
 
-	/** User that is logged in and using this ParticipantSessionObject. */
+	/** Id of User that is logged in and using this ParticipantSessionObject. */
 	public Long user_id;
 
+	/** Username/ Email address of user that is logged in and using this ParticipantSessionObject. */
+	public String user_name;
 	/**
 	 * Once a player has selected a running sim, do not let them back out and
 	 * choose another without logging out and logging in.
@@ -834,6 +836,8 @@ public class ParticipantSessionObject {
 				.getParameter("defaultInviteEmailMsg");
 		invitationCode = (String) request.getParameter("invitationCode");
 
+		Long schema_id = SchemaInformationObject.lookUpId(schema);
+		
 		for (ListIterator<String> li = getSetOfEmails(setOfUsers).listIterator(); li.hasNext();) {
 			String this_email = (String) li.next();
 			
@@ -842,13 +846,29 @@ public class ParticipantSessionObject {
 				
 				
 			} else {
-				System.out.println("does not exist:" + this_email);
 				
+				// Add entry into system to all them to register.
+				
+				// Send them email directing them to the page to register
+				System.out.println("does not exist:" + this_email);
+				String subject = "Invitation to register on an OSP System";
+				sendBulkInvitationEmail(schema_id, this_email, subject, defaultInviteEmailMsg);
 				
 			}
 		}
-
 	}
+	
+	public void sendBulkInvitationEmail(Long schema_id, String the_email, String subject, String message){
+		
+		Vector cced = null;	
+		Vector bcced = new Vector();
+		bcced.add(user_name);
+		
+		Emailer.postMail(schema_id, the_email, subject,
+				message, user_name, cced,
+				bcced);
+	}
+	
 
 	public List getSetOfEmails(String inputSet) {
 		StringTokenizer str = new StringTokenizer(inputSet, ", \r\n");
@@ -1642,9 +1662,28 @@ public class ParticipantSessionObject {
 					uniqList.put(ua.getUser_id(), "set");
 				}
 
+				Long schema_id = SchemaInformationObject.lookUpId(schema);
+				
 				for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
 					Long key = (Long) e.nextElement();
 					System.out.println("need to email " + key);
+					
+					//Need to get user email address from the key, which is the user id.
+					BaseUser bu = BaseUser.getByUserId(key);
+					
+					//String actor_name = getActorName(request, u)
+					
+					String subject = "Simulation Phase Change";
+					String message = "Simulation phase has changed.";
+					
+					Vector cced = null;
+					Vector bcced = new Vector();
+					bcced.add(user_name);
+					
+					Emailer.postMail(schema_id, bu.getUsername(), subject,
+							message, user_name, cced,
+							bcced);
+					
 				}
 			}
 
@@ -1652,9 +1691,18 @@ public class ParticipantSessionObject {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		}
+		} 
+		// Someday, I'll find a way to enter this final block in without causing a spurious error.
+		/* finally {
+			
+			try{
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			} catch (org.hibernate.TransactionException te){
+				// Do nothing
+			} catch (Exception real_e){
+				System.out.println("Exception of type: " + real_e.getClass());
+			}
+		} */
 
 	}
 
@@ -3178,11 +3226,15 @@ public class ParticipantSessionObject {
 				} else {
 					errorMsg = "Not authorized to author or facilitate simulations.";
 				}
+				
+				user_name = bu.getUsername();
 
 			} else if (bu.getAuthorizedSchemas().size() > 1) {
 				// Send them on to the page where they can select schema.
 				loggedin = true;
 				sendToPage = "pick_schema.jsp";
+				
+				user_name = bu.getUsername();
 			}
 
 		} else {
@@ -3212,6 +3264,7 @@ public class ParticipantSessionObject {
 
 			System.out.println("bu id " + bu.getId());
 			user_id = bu.getId();
+			user_name = bu.getUsername();
 
 			loggedin = true;
 			sendToPage = "select_simulation.jsp";
