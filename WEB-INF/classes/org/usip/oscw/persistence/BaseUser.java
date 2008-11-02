@@ -406,8 +406,8 @@ public class BaseUser {
                 MultiSchemaHibernateUtil.principalschema, true).get(
                 BaseUser.class, user_id);
 
-        MultiSchemaHibernateUtil.getSession(
-                MultiSchemaHibernateUtil.principalschema, true).evict(bu);
+        //MultiSchemaHibernateUtil.getSession(
+        //        MultiSchemaHibernateUtil.principalschema, true).evict(bu);
 
         MultiSchemaHibernateUtil
                 .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);

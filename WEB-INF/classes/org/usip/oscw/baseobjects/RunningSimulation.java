@@ -107,7 +107,8 @@ public class RunningSimulation {
 		doFinalChecksOnSim(sim, MultiSchemaHibernateUtil.getSession(schema));
 
 		// Email if desired
-		if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) {
+		//if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) {
+		if (true){
 			System.out.println("sending welcome emails");
 
 			System.out.println("sending from " + from);
@@ -255,8 +256,11 @@ public class RunningSimulation {
 
 			System.out.println("emailing : " + bu.getUsername());
 
-			Emailer.postSimReadyMail(schema_id, bu.getUsername(), from, "",
-					from, "Simulation Starting", fullEmail);
+			String cc = null;
+			String bcc = from;
+			
+			Emailer.postSimReadyMail(schema_id, bu.getUsername(), from, cc,
+					bcc, "Simulation Starting", fullEmail);
 
 		}
 
