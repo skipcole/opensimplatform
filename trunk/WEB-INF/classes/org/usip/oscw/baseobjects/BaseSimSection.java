@@ -31,7 +31,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 @Table(name = "BASE_SIM_SECTIONS")
 @Proxy(lazy = false)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class BaseSimSection {
+public class BaseSimSection implements Comparable{
 
 	public static void main(String args[]) {
 
@@ -210,6 +210,7 @@ public class BaseSimSection {
 
 	/** Description of this standard section. */
 	@Column(name = "BASE_SIMSEC_DESC")
+	@Lob
 	protected String description = "";
 
 	/** URL of this section */
@@ -289,6 +290,8 @@ public class BaseSimSection {
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
 		}
+		
+		Collections.sort(returnList);
 
 		return returnList;
 	}
@@ -307,6 +310,8 @@ public class BaseSimSection {
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
 		}
+		
+		Collections.sort(returnList);
 
 		return returnList;
 	}
@@ -325,7 +330,9 @@ public class BaseSimSection {
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
 		}
-
+		
+		Collections.sort(returnList);
+		
 		return returnList;
 	}
 
@@ -344,6 +351,8 @@ public class BaseSimSection {
 		if (returnList == null) {
 			returnList = new ArrayList<CustomizeableSection>();
 		}
+		
+		Collections.sort(returnList);
 
 		return returnList;
 	}
@@ -380,6 +389,8 @@ public class BaseSimSection {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
+		Collections.sort(returnList);
+		
 		return returnList;
 	}
 
@@ -465,5 +476,14 @@ public class BaseSimSection {
 
 	public void setCust_lib_name(String cust_lib_name) {
 		this.cust_lib_name = cust_lib_name;
+	}
+
+	@Override
+	public int compareTo(Object bss_compared) {
+		
+		BaseSimSection bss = (BaseSimSection) bss_compared;
+		
+		return -(bss.getRec_tab_heading().compareTo(this.getRec_tab_heading()));
+
 	}
 }

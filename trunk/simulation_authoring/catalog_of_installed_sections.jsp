@@ -36,6 +36,11 @@ body {
 }
 -->
 </style>
+<style type="text/css">
+<!--
+.style1 {font-size: small}
+-->
+</style>
 <!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -144,19 +149,15 @@ body {
   </ul>
   <h2>&nbsp;</h2>
   <h2>Off the Shelf Sections<a name="offtheshelf" id="offtheshelf"></a></h2>
-  <p>Below are all of the sections that come standard with this too. </p>
-  <table border="1" cellspacing="1">
-    <tr align="left" valign="top"> 
-      <td><h1>Name</h1></td>
-      <td><h1>Description</h1></td>
-      <td><h1>Image</h1></td>
-    </tr>
+  <p>Below are all of the sections that come standard with this tool. </p>
+  <table border="1"><tr><td>
+  <table border="0" cellspacing="1">
     <%
 
 		for (ListIterator li = BaseSimSection.getAllBase(pso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next(); %>
     <tr align="left" valign="top"> 
-      <td><%= bss.getRec_tab_heading() %></td>
+      <td><strong><%= bss.getRec_tab_heading() %></strong></td>
       <td><%= bss.getDescription() %></td>
       <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
     </tr>
@@ -167,12 +168,14 @@ body {
 		for (ListIterator li = new CustomizeableSection().getAllCustomizable(pso.schema).listIterator(); li.hasNext();) {
 			CustomizeableSection bss = (CustomizeableSection) li.next(); %>
     <tr align="left" valign="top"> 
-      <td><%= bss.getRec_tab_heading() %></td>
+      <td><strong><%= bss.getRec_tab_heading() %></strong><br />
+        <span class="style1">(Customization Required)</span></td>
       <td><%= bss.getDescription() %></td>
       <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
     </tr>
     <%  }  %>
   </table>
+  </td></tr></table>
   <p>&nbsp;</p>
   <h2>Custom Libraries<a name="customlibraries" id="customlibraries"></a></h2>
   <p>Below are all of the custom library sections that have been added to your 

@@ -3,7 +3,7 @@
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>make_write_document_page.jsp</specificMakePage>
   <bigString></bigString>
-  <description>A section to write a document.</description>
+  <description>A section to allow a player to write a document. This document can be any time in nature, a report, a memorandum of understanding, etc. After adding a document to be written by a player, it will probably be necessary to add it as a document that </description>
   <url></url>
   <directory>../osp_core/</directory>
   <page__file__name>write_document.jsp</page__file__name>

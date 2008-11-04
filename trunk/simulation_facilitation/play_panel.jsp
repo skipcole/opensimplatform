@@ -121,27 +121,31 @@ body {
           <td><a href="create_running_sim.jsp">Create Running Simulation</a> <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>
           </tr>
         <tr valign="top">
-          <td>2. </td>
+          <td>2.</td>
+          <td>Create Schedule Page (?) (optional)</td>
+        </tr>
+        <tr valign="top">
+          <td>3. </td>
           <td><a href="bulk_invite.jsp">Invite Users</a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></td>
           </tr>
         <tr valign="top">
-          <td>3.</td>
+          <td>4.</td>
           <td><a href="administrate_users.jsp">Administrate Users</a> <a href="helptext/administrate_users_help.jsp" target="helpinright">(?) </a></td>
           </tr>
         <tr valign="top"> 
-          <td>4.</td>
+          <td>5.</td>
           <td><a href="create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a> </td>
           </tr>
         <tr valign="top"> 
-          <td>5.</td>
+          <td>6.</td>
           <td><a href="assign_user_to_simulation.jsp">Assigns Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
           </tr>
         <tr valign="top"> 
-          <td>6.</td>
+          <td>7.</td>
           <td><a href="enable_simulation.jsp">Enable Simulation</a> <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></td>
           </tr>
         <tr valign="top"> 
-          <td>7.</td>
+          <td>8.</td>
           <td><a href="../simulation/index.jsp?schema=<%= pso.schema %>">Enter Simulation</a> <a href="helptext/enter_sim_help.jsp" target="helpinright">(?)</a> </td>
           </tr>
       </table>

@@ -160,7 +160,7 @@ body {
       <blockquote>
         <p>&nbsp;</p>
       </blockquote>
-      <p align="center"><a href="psp.jsp">Next Step: Enter Planned Play Ideas </a></p>
+      <p align="center"><a href="create_simulation_planned_play_ideas.jsp">Next Step: Enter Planned Play Ideas </a></p>
 	  <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>
