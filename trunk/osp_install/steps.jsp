@@ -30,7 +30,7 @@ errorPage=""
 <p>&nbsp;</p>
 <p>Follow the instructions below to install the USIP Online Simulation Platform <br>
 </p>
-<table width="80%" border="1" cellspacing="0" cellpadding="2">
+<table width="100%" border="1" cellspacing="0" cellpadding="2">
   <tr align="left" valign="top"> 
     <td colspan="2"><strong>Step</strong></td>
     <td colspan="2"><strong>Heading</strong></td>
@@ -127,11 +127,25 @@ errorPage=""
     <td><a href="install_db.jsp">Click Here</a> to install an organization schema 
       Database.</td>
   </tr>
+  <tr align="left" valign="top">
+    <td>&nbsp;</td>
+    <td>4e</td>
+    <td>&nbsp;</td>
+    <td>Add custom library</td>
+    <td>Click here to add a custom library of pages.</td>
+  </tr>
   <tr align="left" valign="top"> 
-    <td>6</td>
+    <td>5</td>
     <td>&nbsp;</td>
     <td colspan="2">Verify Installation</td>
     <td>&nbsp;</td>
+  </tr>
+  <tr align="left" valign="top">
+    <td>&nbsp;</td>
+    <td>5a</td>
+    <td>&nbsp;</td>
+    <td>schema</td>
+    <td>Click here</td>
   </tr>
   <tr align="left" valign="top"> 
     <td>&nbsp;</td>
