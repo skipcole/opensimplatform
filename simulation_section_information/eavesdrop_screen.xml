@@ -4,6 +4,6 @@
   <directory>../osp_core/</directory>
   <page__file__name>eavesdrop_screen.jsp</page__file__name>
   <rec__tab__heading>Eavesdrop</rec__tab__heading>
-  <sample__image>broadcast_screen.png</sample__image>
+  <sample__image>eavesdrop.png</sample__image>
   <control__section>true</control__section>
 </org.usip.oscw.baseobjects.BaseSimSection>
