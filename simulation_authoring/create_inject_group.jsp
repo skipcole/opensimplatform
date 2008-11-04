@@ -1,10 +1,10 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.oscw.networking.*,
-	org.usip.oscw.persistence.*,
-	org.usip.oscw.communications.*,
-	org.usip.oscw.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.communications.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);

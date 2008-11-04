@@ -1,10 +1,10 @@
 <%@ page 
 	contentType="text/html; charset=ISO-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.oscw.baseobjects.*,
-	org.usip.oscw.networking.*,
-	org.usip.oscw.communications.*,
-	org.usip.oscw.persistence.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.baseobjects.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.communications.*,
+	org.usip.osp.persistence.*" 
 	errorPage="" %>
 
 <%

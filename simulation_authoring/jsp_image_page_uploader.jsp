@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" 
-import="java.sql.*,java.util.*,com.oreilly.servlet.*, com.oreilly.servlet.multipart.*,java.io.*,org.usip.oscw.networking.*,org.usip.oscw.persistence.*,org.usip.oscw.baseobjects.*,org.usip.oscw.specialfeatures.*" errorPage="" %>
+import="java.sql.*,java.util.*,com.oreilly.servlet.*, com.oreilly.servlet.multipart.*,java.io.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" errorPage="" %>
 
 <%
 

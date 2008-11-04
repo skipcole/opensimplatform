@@ -1,4 +1,4 @@
-<org.usip.oscw.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
   <description>A section to allow players see public information about other actors in this simulation.</description>
   <url></url>
   <directory>../osp_core/</directory>
@@ -6,4 +6,4 @@
   <rec__tab__heading>Cast</rec__tab__heading>
   <sample__image>cast.png</sample__image>
   <control__section>false</control__section>
-</org.usip.oscw.baseobjects.BaseSimSection>
+</org.usip.osp.baseobjects.BaseSimSection>

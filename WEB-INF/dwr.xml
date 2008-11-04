@@ -6,13 +6,13 @@
   <allow>
   
     <create creator="new" javascript="BroadcastConversation">
-      <param name="class" value="org.usip.oscw.communications.BroadcastConversation"/>
+      <param name="class" value="org.usip.osp.communications.BroadcastConversation"/>
     </create>
     <create creator="new" javascript="JDate">
       <param name="class" value="java.util.Date"/>
     </create>
     <create creator="new" javascript="PlayerSessionObject">
-      <param name="class" value="org.usip.oscw.networking.PlayerSessionObject"/>
+      <param name="class" value="org.usip.osp.networking.PlayerSessionObject"/>
     </create>
   
   </allow>

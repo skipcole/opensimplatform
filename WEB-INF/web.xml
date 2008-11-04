@@ -10,7 +10,7 @@
 
    <listener>
       <listener-class>
-        org.usip.oscw.networking.USIP_OSCW_ContextListener
+        org.usip.osp.networking.USIP_OSCW_ContextListener
       </listener-class>
     </listener>
 <!--

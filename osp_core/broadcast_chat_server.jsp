@@ -1,7 +1,7 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.oscw.communications.*,org.usip.oscw.networking.*,org.usip.oscw.persistence.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.communications.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" 
 	errorPage="" %>
 <%
 

@@ -1,8 +1,8 @@
-<org.usip.oscw.baseobjects.CustomLibrarySection>
+<org.usip.osp.baseobjects.CustomLibrarySection>
   <description>The Rule of Law Lever in our simple simulation.</description>
   <url></url>
   <directory>../oscw_noncore/</directory>
   <page__file__name>rol_lever.jsp</page__file__name>
   <rec__tab__heading>Select Police Chief</rec__tab__heading>
   <sample__image>ffs_sample.png</sample__image>
-</org.usip.oscw.baseobjects.CustomLibrarySection>
+</org.usip.osp.baseobjects.CustomLibrarySection>
