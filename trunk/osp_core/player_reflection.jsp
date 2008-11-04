@@ -3,10 +3,10 @@
 	language="java" 
 	import="java.sql.*,
 	java.util.*,
-	org.usip.oscw.networking.*,
-	org.usip.oscw.persistence.*,
-	org.usip.oscw.baseobjects.*,
-	org.usip.oscw.specialfeatures.*" 
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 
 <%

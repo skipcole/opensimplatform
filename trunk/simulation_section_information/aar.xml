@@ -1,4 +1,4 @@
-<org.usip.oscw.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
   <description>An 'after action report' (AAR) is a document written after an event describing what happened and what the lessons learned were. Adding this section to a simulation adds a page showing the after action report that the instructor has written. This is generally considered the essential final step of a simulation: to provide feedback to the players on how they have done, and give them thoughts to reflect upon.</description>
   <url></url>
   <directory>../osp_core/</directory>
@@ -6,4 +6,4 @@
   <rec__tab__heading>AAR</rec__tab__heading>
   <sample__image>aar.png</sample__image>
   <control__section>false</control__section>
-</org.usip.oscw.baseobjects.BaseSimSection>
+</org.usip.osp.baseobjects.BaseSimSection>

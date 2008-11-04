@@ -1,4 +1,4 @@
-<org.usip.oscw.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
   <description>A section to write the after action report, and mark the simulation as terminated.</description>
   <url></url>
   <directory>../osp_core/</directory>
@@ -6,4 +6,4 @@
   <rec__tab__heading>End Sim</rec__tab__heading>
   <sample__image>end_sim.png</sample__image>
   <control__section>true</control__section>
-</org.usip.oscw.baseobjects.BaseSimSection>
+</org.usip.osp.baseobjects.BaseSimSection>

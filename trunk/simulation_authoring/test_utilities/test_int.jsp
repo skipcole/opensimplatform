@@ -2,7 +2,7 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.oscw.networking.*,org.usip.oscw.persistence.*,org.usip.oscw.baseobjects.*,org.usip.oscw.specialfeatures.*,org.jfree.chart.*;" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*,org.jfree.chart.*;" 
 	errorPage="" %>
 <%
 	class MYIV extends IntegerVariable{

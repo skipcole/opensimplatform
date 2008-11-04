@@ -1,4 +1,4 @@
-<org.usip.oscw.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>make_player_controlled_chat_page.jsp</specificMakePage>
@@ -10,4 +10,4 @@
   <rec__tab__heading>My Chat Room</rec__tab__heading>
   <sample__image>my_chat_room.png</sample__image>
   <control__section>false</control__section>
-</org.usip.oscw.baseobjects.CustomizeableSection>
+</org.usip.osp.baseobjects.CustomizeableSection>

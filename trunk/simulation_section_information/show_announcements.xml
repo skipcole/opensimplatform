@@ -1,4 +1,4 @@
-<org.usip.oscw.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
   <description>A section to display announcments to the players.</description>
   <url></url>
   <directory>../osp_core/</directory>
@@ -6,4 +6,4 @@
   <rec__tab__heading>Announcements</rec__tab__heading>
   <sample__image>announcements.png</sample__image>
   <control__section>false</control__section>
-</org.usip.oscw.baseobjects.BaseSimSection>
+</org.usip.osp.baseobjects.BaseSimSection>

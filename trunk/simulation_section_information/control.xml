@@ -1,4 +1,4 @@
-<org.usip.oscw.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
   <description>A section to allow the game controller to advance round and mark simulation done.</description>
   <url></url>
   <directory>../osp_core/</directory>
@@ -6,4 +6,4 @@
   <rec__tab__heading>Control</rec__tab__heading>
   <sample__image>control.png</sample__image>
   <control__section>true</control__section>
-</org.usip.oscw.baseobjects.BaseSimSection>
+</org.usip.osp.baseobjects.BaseSimSection>

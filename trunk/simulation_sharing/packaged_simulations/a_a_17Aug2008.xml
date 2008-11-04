@@ -1,7 +1,7 @@
-<org.usip.oscw.baseobjects.Simulation>
+<org.usip.osp.baseobjects.Simulation>
   <actors class="org.hibernate.collection.PersistentBag">
     <bag>
-      <org.usip.oscw.baseobjects.Actor>
+      <org.usip.osp.baseobjects.Actor>
         <id>1</id>
         <name>control</name>
         <public__description></public__description>
@@ -11,71 +11,71 @@
         <defaultColorChatBubble>#FFFFFF</defaultColorChatBubble>
         <npc>false</npc>
         <isShown>false</isShown>
-      </org.usip.oscw.baseobjects.Actor>
+      </org.usip.osp.baseobjects.Actor>
     </bag>
     <initialized>true</initialized>
-    <owner class="org.usip.oscw.baseobjects.Simulation" reference="../.."/>
+    <owner class="org.usip.osp.baseobjects.Simulation" reference="../.."/>
     <cachedSize>-1</cachedSize>
-    <role>org.usip.oscw.baseobjects.Simulation.actors</role>
+    <role>org.usip.osp.baseobjects.Simulation.actors</role>
     <key class="long">1</key>
     <dirty>false</dirty>
     <storedSnapshot class="list">
-      <org.usip.oscw.baseobjects.Actor reference="../../bag/org.usip.oscw.baseobjects.Actor"/>
+      <org.usip.osp.baseobjects.Actor reference="../../bag/org.usip.osp.baseobjects.Actor"/>
     </storedSnapshot>
   </actors>
   <phases class="org.hibernate.collection.PersistentBag">
     <bag>
-      <org.usip.oscw.baseobjects.SimulationPhase>
+      <org.usip.osp.baseobjects.SimulationPhase>
         <id>1</id>
         <name>Started</name>
         <order>1</order>
-      </org.usip.oscw.baseobjects.SimulationPhase>
-      <org.usip.oscw.baseobjects.SimulationPhase>
+      </org.usip.osp.baseobjects.SimulationPhase>
+      <org.usip.osp.baseobjects.SimulationPhase>
         <id>2</id>
         <name>Completed</name>
         <order>2</order>
-      </org.usip.oscw.baseobjects.SimulationPhase>
+      </org.usip.osp.baseobjects.SimulationPhase>
     </bag>
     <initialized>true</initialized>
-    <owner class="org.usip.oscw.baseobjects.Simulation" reference="../.."/>
+    <owner class="org.usip.osp.baseobjects.Simulation" reference="../.."/>
     <cachedSize>-1</cachedSize>
-    <role>org.usip.oscw.baseobjects.Simulation.phases</role>
+    <role>org.usip.osp.baseobjects.Simulation.phases</role>
     <key class="long">1</key>
     <dirty>false</dirty>
     <storedSnapshot class="list">
-      <org.usip.oscw.baseobjects.SimulationPhase reference="../../bag/org.usip.oscw.baseobjects.SimulationPhase"/>
-      <org.usip.oscw.baseobjects.SimulationPhase reference="../../bag/org.usip.oscw.baseobjects.SimulationPhase[2]"/>
+      <org.usip.osp.baseobjects.SimulationPhase reference="../../bag/org.usip.osp.baseobjects.SimulationPhase"/>
+      <org.usip.osp.baseobjects.SimulationPhase reference="../../bag/org.usip.osp.baseobjects.SimulationPhase[2]"/>
     </storedSnapshot>
   </phases>
   <running__sims class="org.hibernate.collection.PersistentBag">
     <initialized>false</initialized>
-    <owner class="org.usip.oscw.baseobjects.Simulation" reference="../.."/>
+    <owner class="org.usip.osp.baseobjects.Simulation" reference="../.."/>
     <cachedSize>-1</cachedSize>
-    <role>org.usip.oscw.baseobjects.Simulation.running_sims</role>
+    <role>org.usip.osp.baseobjects.Simulation.running_sims</role>
     <key class="long">1</key>
     <dirty>false</dirty>
   </running__sims>
   <var__int class="org.hibernate.collection.PersistentBag">
     <initialized>false</initialized>
-    <owner class="org.usip.oscw.baseobjects.Simulation" reference="../.."/>
+    <owner class="org.usip.osp.baseobjects.Simulation" reference="../.."/>
     <cachedSize>-1</cachedSize>
-    <role>org.usip.oscw.baseobjects.Simulation.var_int</role>
+    <role>org.usip.osp.baseobjects.Simulation.var_int</role>
     <key class="long">1</key>
     <dirty>false</dirty>
   </var__int>
   <customized__sections class="org.hibernate.collection.PersistentBag">
     <initialized>false</initialized>
-    <owner class="org.usip.oscw.baseobjects.Simulation" reference="../.."/>
+    <owner class="org.usip.osp.baseobjects.Simulation" reference="../.."/>
     <cachedSize>-1</cachedSize>
-    <role>org.usip.oscw.baseobjects.Simulation.customized_sections</role>
+    <role>org.usip.osp.baseobjects.Simulation.customized_sections</role>
     <key class="long">1</key>
     <dirty>false</dirty>
   </customized__sections>
   <conversations class="org.hibernate.collection.PersistentBag">
     <initialized>false</initialized>
-    <owner class="org.usip.oscw.baseobjects.Simulation" reference="../.."/>
+    <owner class="org.usip.osp.baseobjects.Simulation" reference="../.."/>
     <cachedSize>-1</cachedSize>
-    <role>org.usip.oscw.baseobjects.Simulation.conversations</role>
+    <role>org.usip.osp.baseobjects.Simulation.conversations</role>
     <key class="long">1</key>
     <dirty>false</dirty>
   </conversations>
@@ -91,4 +91,4 @@
   <copyright__string></copyright__string>
   <isReadyForPublicListing>false</isReadyForPublicListing>
   <listingKeyWords></listingKeyWords>
-</org.usip.oscw.baseobjects.Simulation>
+</org.usip.osp.baseobjects.Simulation>
