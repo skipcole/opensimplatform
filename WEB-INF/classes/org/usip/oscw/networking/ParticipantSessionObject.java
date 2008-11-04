@@ -843,14 +843,20 @@ public class ParticipantSessionObject {
 			
 			if (BaseUser.checkIfUserExists(this_email)){
 				System.out.println("exists:" + this_email);
-				
+				//?? make sure exists in this schema
 				
 			} else {
 				
+				System.out.println("does not exist:" + this_email);
+				
 				// Add entry into system to all them to register.
+				UserRegistrationInvite uri = new UserRegistrationInvite(user_name, this_email, invitationCode, 
+						schema);
+				
+				uri.saveMe();
 				
 				// Send them email directing them to the page to register
-				System.out.println("does not exist:" + this_email);
+				
 				String subject = "Invitation to register on an OSP System";
 				sendBulkInvitationEmail(schema_id, this_email, subject, defaultInviteEmailMsg);
 				

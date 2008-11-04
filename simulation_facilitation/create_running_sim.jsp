@@ -185,7 +185,7 @@ body {
           </tr>
         </table>
       </form>
-      <p align="center"><a href="bulk_invite.jsp">Next Step: Bulk Invite Users</a></p>
+      <p align="center"><a href="create_schedule_page.jsp">Next step: Create Schedule Page</a></p>
       <% } else { // End of if have set simulation id. %>
       <blockquote> 
         <p>

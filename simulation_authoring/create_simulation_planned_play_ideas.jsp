@@ -140,7 +140,7 @@ body {
 	<p>Enter the planned play ideas for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
           here</a>.)</p>
-<form action="psp.jsp" method="post" name="form2" id="form2">
+<form action="create_simulation_planned_play_ideas.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>
             <textarea id="sim_planned_play_ideas" name="sim_planned_play_ideas" style="height: 710px; width: 710px;"><%= simulation.getPlanned_play_ideas() %></textarea>

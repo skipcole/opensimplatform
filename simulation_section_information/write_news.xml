@@ -3,7 +3,7 @@
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>make_write_news_page.jsp</specificMakePage>
   <bigString></bigString>
-  <description>A section to write news.</description>
+  <description>A section to allow a player (or a control player) to write the news which will appear to players on their 'read news' pages. </description>
   <url></url>
   <directory>../osp_core/</directory>
   <page__file__name>write_news.jsp</page__file__name>

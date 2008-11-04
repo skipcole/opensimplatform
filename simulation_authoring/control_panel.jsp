@@ -144,7 +144,7 @@ body {
           </tr>
         <tr valign="top"> 
           <td>5.</td>
-          <td><a href="psp.jsp">Enter Planned Play Ideas </a><a href="create_simulation_audience.jsp"> </a><a href="helptext/enter_plans_help.jsp" target="helpinright">(?)</a></td>
+          <td><a href="create_simulation_planned_play_ideas.jsp">Enter Planned Play Ideas </a><a href="create_simulation_audience.jsp"> </a><a href="helptext/enter_plans_help.jsp" target="helpinright">(?)</a></td>
           </tr>
         <tr valign="top"> 
           <td>6.</td>

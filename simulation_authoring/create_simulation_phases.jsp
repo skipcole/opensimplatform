@@ -196,7 +196,7 @@ body {
       </blockquote>
 	  
       <% } // End of if have not set simulation for edits. %>
-      <a href="psp.jsp">&lt;- Back</a> <!-- InstanceEndEditable -->
+      <a href="create_simulation_planned_play_ideas.jsp">&lt;- Back</a> <!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

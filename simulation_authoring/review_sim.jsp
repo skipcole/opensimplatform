@@ -187,7 +187,7 @@ body {
 		<h2>5. Simulation Planned Play Ideas </h2>
 			<blockquote>
 			  <p><%= simulation.getPlanned_play_ideas() %></p>
-			  <p><% if (showEdit) { %>(<a href="psp.jsp">edit</a>)<% } %></p>
+			  <p><% if (showEdit) { %>(<a href="create_simulation_planned_play_ideas.jsp">edit</a>)<% } %></p>
 			</blockquote>
 			<blockquote><hr /></blockquote>
 		

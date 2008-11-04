@@ -9,51 +9,74 @@ import org.hibernate.annotations.Proxy;
 /**
  * @author Ronald "Skip" Cole
  * 
- * This file is part of the USIP Online Simulation Platform.<br>
+ *         This file is part of the USIP Online Simulation Platform.<br>
  * 
- * The USIP Online Simulation Platform is free software; you can
- * redistribute it and/or modify it under the terms of the new BSD Style license
- * associated with this distribution.<br>
+ *         The USIP Online Simulation Platform is free software; you can
+ *         redistribute it and/or modify it under the terms of the new BSD Style
+ *         license associated with this distribution.<br>
  * 
- * The USIP Online Simulation Platform is distributed WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. <BR>
+ *         The USIP Online Simulation Platform is distributed WITHOUT ANY
+ *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
 @Entity
 @Table(name = "USER_REG_INVITE")
 @Proxy(lazy = false)
 public class UserRegistrationInvite {
-	
+
 	/** Database id of this User. */
 	@Id
 	@GeneratedValue
 	@Column(name = "URI_ID")
 	private Long id;
-	
+
 	/** Email of instructor who sent invite to register. */
 	private String invitingInstructor = "";
-	
+
 	/** Email sent invitation. */
 	private String originalInviteEmailAddress = "";
-	
+
 	/** Email addressed used by invited user to register. */
 	private String emailAddressRegistered = "";
-	
+
 	/** Date the user registers. */
-	@Column(name="INVITATION_DATE", columnDefinition="datetime") 	
-	@GeneratedValue
+	@Column(name = "INVITATION_DATE", columnDefinition = "datetime")
 	private Date invitationDate;
-	
+
 	/** Date the user registers. */
-	@Column(name="REGISTRATION_DATE", columnDefinition="datetime") 	
-	@GeneratedValue
+	@Column(name = "REGISTRATION_DATE", columnDefinition = "datetime")
 	private Date registrationDate;
-	
+
 	/** Used to help keep track of a set of students invited all at one time. */
 	private String invitationSet;
-	
+
 	private String schemaInvitedTo;
+
+	public UserRegistrationInvite() {
+
+	}
+
+	/**
+	 * Convenience creation method.
+	 * 
+	 * @param invitingInstructor
+	 * @param originalInviteEmailAddress
+	 * @param invitationSet
+	 * @param schemaInvitedTo
+	 */
+	public UserRegistrationInvite(String invitingInstructor,
+			String originalInviteEmailAddress, String invitationSet,
+			String schemaInvitedTo) {
+
+		this.invitingInstructor = invitingInstructor;
+		this.originalInviteEmailAddress = originalInviteEmailAddress;
+		this.invitationSet = invitationSet;
+		this.schemaInvitedTo = schemaInvitedTo;
+		
+		this.registrationDate = new java.util.Date();
+
+	}
 
 	public Long getId() {
 		return id;
@@ -117,6 +140,14 @@ public class UserRegistrationInvite {
 
 	public void setSchemaInvitedTo(String schemaInvitedTo) {
 		this.schemaInvitedTo = schemaInvitedTo;
+	}
+
+	public void saveMe() {
+
+		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
+		MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+
 	}
 
 }
