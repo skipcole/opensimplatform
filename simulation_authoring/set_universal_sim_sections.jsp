@@ -379,14 +379,7 @@ body {
                           </blockquote>
                         </td>
                         <td valign="top"> <label> Tab Heading: 
-                          <input type="text" name="tab_heading" />
-                          <br />
-                          Tab Position: 
-                          <select name="tab_pos" disabled="disabled">
-                            <% for (int tp = 1; tp <= pso.tempSimSecList.size() + 1; ++tp) { %>
-                            <option value="<%= tp %>"><%= tp %></option>
-                            <% } %>
-                          </select>
+                          <input type="text" name="tab_heading" />      
                           <input name="the_id" type="text" disabled="disabled" id="the_id" style="width:0" value="" size="0" />
                           </label> 
                           <p> 

@@ -127,13 +127,7 @@ errorPage=""
     <td><a href="install_db.jsp">Click Here</a> to install an organization schema 
       Database.</td>
   </tr>
-  <tr align="left" valign="top">
-    <td>&nbsp;</td>
-    <td>4e</td>
-    <td>&nbsp;</td>
-    <td>Add custom library</td>
-    <td><a href="../simulation_admin/install_custom_lib.jsp">Click here</a> to add a custom library of pages.</td>
-  </tr>
+
   <tr align="left" valign="top"> 
     <td>5</td>
     <td>&nbsp;</td>
