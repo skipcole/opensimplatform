@@ -178,7 +178,16 @@ body {
               </tr>
               <tr> 
                 <td valign="top">&nbsp;</td>
-                <td valign="top"><input type="submit" name="createphase" value="Submit" /></td>
+                <td valign="top"><input type="submit" name="createphase" value="Create" />
+                <%
+				
+				%>
+                <input type="hidden" name="spid" value="<%= spOnScratchPad.getId() %>" /><input type="submit" name="updatephase" value="Update" />
+                <%
+				
+				%>
+                
+                </td>
               </tr>
             </table>
             <p>&nbsp;</p>
