@@ -182,9 +182,9 @@ body {
             <input name="loadss" type="checkbox" value="true" checked="checked" />
             Load standard sections</p>
           <p> 
-            <input name="load_cs" type="checkbox" value="true" checked="checked" />
-            Check for and load custom simulation sections.</p>
-          </blockquote>
+<input name="load_cs" type="checkbox" value="true"  />            
+Check for and load custom simulation sections.</p>
+        </blockquote>
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
           <tr> 
             <td valign="top">Warning. Hitting submit will purge the database.</td>
@@ -205,7 +205,7 @@ body {
 </table>
 <p>&nbsp;</p>
 
-<p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Platform is a <a href="http://code.google.com/p/usiponlinesimulationcreationwizard/">USIP 
+<p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP 
   Open Source Software Project</a>. </p>
 </body>
 </html>

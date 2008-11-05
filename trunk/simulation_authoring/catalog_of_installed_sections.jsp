@@ -180,28 +180,43 @@ body {
   <h2>Custom Libraries<a name="customlibraries" id="customlibraries"></a></h2>
   <p>Below are all of the custom library sections that have been added to your 
     installation. </p>
+    </blockquote>
+
+    <% if (new CustomLibrarySection().getAll(pso.schema).size() == 0){
+	%>  
+<ul>
+  <ul>
+    <li>
+      No custom libraries loaded. 
+    </li>
+  </ul>
+</ul>
+    <% } else { %>
+
+<blockquote>
   <table border="1" cellspacing="1">
     <tr align="left" valign="top"> 
       <td><h1>Name</h1></td>
-      <td><h1>Library</h1></td>
-      <td><h1>Description</h1></td>
-      <td><h1>Image</h1></td>
-    </tr>
+          <td><h1>Library</h1></td>
+          <td><h1>Description</h1></td>
+          <td><h1>Image</h1></td>
+        </tr>
     <%
 
 		for (ListIterator li = new CustomLibrarySection().getAll(pso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next(); %>
     <tr align="left" valign="top"> 
       <td><%= bss.getRec_tab_heading() %></td>
-      <td><%= bss.getCust_lib_name() %></td>
-      <td><%= bss.getDescription() %></td>
-      <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
-    </tr>
-    <%  }  %>
+          <td><%= bss.getCust_lib_name() %></td>
+          <td><%= bss.getDescription() %></td>
+          <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
+        </tr>
+    <%  } // end of loop over custom libs.  %>
   </table>
+  <% } // end of if more than 0 custom libs installed. %>
   <p>&nbsp;</p>
 </blockquote>
-<!-- InstanceEndEditable -->
+			<!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

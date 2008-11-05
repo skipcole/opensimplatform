@@ -172,6 +172,37 @@ public class FileIO {
 	}
 	
 	
+	public static List getListOfCustomLibraries(){
+		File locDir = new File(custom_section_web_dir);
+
+		ArrayList returnList = new ArrayList();
+		
+		if (locDir == null) {
+			System.out.println("Problem finding files at " + custom_section_web_dir);
+		} else {
+
+			File files[] = locDir.listFiles();
+
+			if (files == null) {
+				System.out.println("Problem finding files at " + custom_section_web_dir);
+			} else {
+				for (int ii = 0; ii < files.length; ii++) {
+
+					String fName = files[ii].getName();
+
+					if (files[ii].isDirectory()) {
+
+						if (!(fName.startsWith("."))){
+							returnList.add(fName);
+						}
+					}
+				}
+			}
+		}
+		
+		return returnList;
+	
+	}
 	/**
 	 * 
 	 * @return
