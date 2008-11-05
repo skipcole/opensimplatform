@@ -17,27 +17,13 @@
 	
 	String error_msg = pso.handleCreateDB(request);
 	
-	String db_schema = pso.getClean(request, "db_schema");
-	String db_org = pso.getClean(request, "db_org");
-    String db_user = pso.getClean(request, "db_user");
-    String db_pass = pso.getClean(request, "db_pass");
-	String db_loc = pso.getClean(request, "db_loc");
-	String db_port = pso.getClean(request, "db_port");
+	String load = request.getParameter("load");
 	
-	String admin_first = pso.getClean(request, "admin_first");
-	String admin_middle = pso.getClean(request, "admin_middle");
-	String admin_last = pso.getClean(request, "admin_last");	
-	String admin_full = pso.getClean(request, "admin_full");
-	
-	String admin_pass = pso.getClean(request, "admin_pass");
-    String admin_email = pso.getClean(request, "admin_email");
-	String new_admin_user_cbox = pso.getClean(request, "new_admin_user_cbox");
-
-    //////////////////////////////////////////////////////////////////    
-    String email_smtp = pso.getClean(request, "email_smtp");
-    String email_user = pso.getClean(request, "email_user");
-    String email_pass = pso.getClean(request, "email_pass");
-    String email_user_address = pso.getClean(request, "email_user_address");
+	if ((load != null) && (load.equalsIgnoreCase("true"))){
+		String filename = request.getParameter("filename");
+		
+		BaseSimSection.readCustomSectionsFromADir(pso.schema, filename);
+	}
         
 
 %>
@@ -67,7 +53,6 @@ body {
   <tr> 
     <td colspan="3"> <form action="install_db.jsp" method="post" name="form1" id="form1">
         <h1>
-          <input type="hidden" name="sending_page" value="clean_db" />
           Install Custom Library</h1>
 
         <blockquote>
@@ -75,7 +60,7 @@ body {
   <p> 
 	<% for (ListIterator li = FileIO.getListOfCustomLibraries().listIterator(); li.hasNext();) {
 			String cust_lib_name = (String) li.next(); %>
-    		Load:<a href="#?unpack=true&filename=<%= cust_lib_name %>"> <%= cust_lib_name %></a><br />
+    		Load:<a href="install_custom_lib.jsp?load=true&filename=<%= cust_lib_name %>"> <%= cust_lib_name %></a><br />
 	<% } %>
   </p>
 
