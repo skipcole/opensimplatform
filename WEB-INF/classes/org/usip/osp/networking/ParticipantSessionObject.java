@@ -1151,6 +1151,11 @@ public class ParticipantSessionObject {
 		return returnString;
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public String handleCreateDB(HttpServletRequest request) {
 
 		getAndLoad(request);

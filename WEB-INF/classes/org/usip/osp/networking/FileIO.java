@@ -48,6 +48,12 @@ public class FileIO {
         
 	}
 	
+	/**
+	 * 
+	 * @param saveType
+	 * @param fileName
+	 * @param fileData
+	 */
 	public static void saveImageFile(String saveType, String fileName, File fileData) {
 
 		String saveDir = "";
@@ -144,6 +150,11 @@ public class FileIO {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param fileloc
+	 * @param schema
+	 */
 	public static void unpackSim(String fileloc, String schema){
 		
 		String fileLocation = packaged_sim_dir + File.separator + fileloc;
@@ -172,6 +183,10 @@ public class FileIO {
 	}
 	
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static List getListOfCustomLibraries(){
 		File locDir = new File(custom_section_web_dir);
 

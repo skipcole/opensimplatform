@@ -52,6 +52,12 @@ public class BaseSimSection implements Comparable{
 		 */
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param dirName
+	 * @return
+	 */
 	public static String readASpecificCustomLibSection(String schema, String dirName){
 		
 		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
@@ -60,6 +66,11 @@ public class BaseSimSection implements Comparable{
 		
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @return
+	 */
 	public static String readCustomLibSimSectionsFromXMLFiles(String schema) {
 
 		String fileLocation = FileIO.getCustom_section_web_dir();
@@ -68,7 +79,19 @@ public class BaseSimSection implements Comparable{
 		
 	}
 	
-	public static String readCustomSectionsFromADir(String schema, String fileLocation){
+	/**
+	 * 
+	 * @param schema
+	 * @param fileLocation
+	 * @return
+	 */
+	public static String readCustomSectionsFromADir(String schema, String dirName){
+		
+		System.out.println("readCustomSectionsFromADir");
+		
+		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
+		
+		System.out.println("files located at " + fileLocation);
 		
 		File locDir = new File(fileLocation);
 
