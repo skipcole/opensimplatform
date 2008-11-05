@@ -126,10 +126,9 @@ body {
   </tr>
   <tr valign="top"> 
     <td>&nbsp;</td>
-          <td><a href="../simulation_authoring/create_simulation_section.jsp">Creates Sections</a></td>
+          <td><a href="install_custom_lib.jsp">Install Custom Library</a></td>
     <td>&nbsp;</td>
-    <td>Each section provides a place were the player can see and/or do something. 
-      One can think of a section as a tab across the top of the player's screen.</td>
+    <td>Installs a library of custom made sections that authors can add to their simulations..</td>
   </tr>
   <tr valign="top"> 
     <td>&nbsp;</td>

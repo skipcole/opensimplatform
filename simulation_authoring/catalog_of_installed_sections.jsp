@@ -16,15 +16,6 @@
 		pso.schema = db_schema;
 	}
 
-	String load = request.getParameter("load");
-	
-	if ((load != null) && (load.equalsIgnoreCase("true"))){
-		String filename = request.getParameter("filename");
-		
-		System.out.println("loading filename " + filename);
-		BaseSimSection.readCustomSectionsFromADir(pso.schema, filename);
-	}
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -196,7 +187,7 @@ body {
   <ul>
     <li>
       No custom libraries loaded. 
-    </li>
+    Please see your administrator if you would like specific custom libraries installed.</li>
   </ul>
 </ul>
     <% } else { %>
@@ -224,17 +215,6 @@ body {
   <% } // end of if more than 0 custom libs installed. %>
   <p>&nbsp;</p>
 </blockquote>
-
-        <blockquote>
-          <p>Below are listed the custom libraries found on this system.</p>
-  <p> 
-	<% for (ListIterator li = FileIO.getListOfCustomLibraries().listIterator(); li.hasNext();) {
-			String cust_lib_name = (String) li.next(); %>
-    		Load:<a href="catalog_of_installed_sections.jsp?load=true&filename=<%= cust_lib_name %>"> <%= cust_lib_name %></a><br />
-	<% } %>
-  </p>
-
-        </blockquote>
 			<!-- InstanceEndEditable -->
 			</td>
 		</tr>
