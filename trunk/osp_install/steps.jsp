@@ -132,7 +132,7 @@ errorPage=""
     <td>4e</td>
     <td>&nbsp;</td>
     <td>Add custom library</td>
-    <td><a href="install_custom_lib.jsp">Click here</a> to add a custom library of pages.</td>
+    <td><a href="../simulation_admin/install_custom_lib.jsp">Click here</a> to add a custom library of pages.</td>
   </tr>
   <tr align="left" valign="top"> 
     <td>5</td>

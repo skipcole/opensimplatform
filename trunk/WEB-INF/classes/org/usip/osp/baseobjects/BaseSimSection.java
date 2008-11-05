@@ -31,7 +31,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 @Table(name = "BASE_SIM_SECTIONS")
 @Proxy(lazy = false)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class BaseSimSection implements Comparable{
+public class BaseSimSection implements Comparable {
 
 	public static void main(String args[]) {
 
@@ -51,19 +51,21 @@ public class BaseSimSection implements Comparable{
 		 * System.out.println("--------------------"); }
 		 */
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
 	 * @param dirName
 	 * @return
 	 */
-	public static String readASpecificCustomLibSection(String schema, String dirName){
-		
-		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
-		
+	public static String readASpecificCustomLibSection(String schema,
+			String dirName) {
+
+		String fileLocation = FileIO.getCustom_section_web_dir()
+				+ File.separator + dirName;
+
 		return readCustomSectionsFromADir(schema, fileLocation);
-		
+
 	}
 
 	/**
@@ -76,23 +78,25 @@ public class BaseSimSection implements Comparable{
 		String fileLocation = FileIO.getCustom_section_web_dir();
 
 		return readCustomSectionsFromADir(schema, fileLocation);
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
 	 * @param fileLocation
 	 * @return
 	 */
-	public static String readCustomSectionsFromADir(String schema, String dirName){
-		
+	public static String readCustomSectionsFromADir(String schema,
+			String dirName) {
+
 		System.out.println("readCustomSectionsFromADir");
-		
-		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
-		
+
+		String fileLocation = FileIO.getCustom_section_web_dir()
+				+ File.separator + dirName;
+
 		System.out.println("files located at " + fileLocation);
-		
+
 		File locDir = new File(fileLocation);
 
 		File files[] = locDir.listFiles();
@@ -103,38 +107,15 @@ public class BaseSimSection implements Comparable{
 
 		for (int ii = 0; ii < files.length; ii++) {
 
-			String customLibraryName = files[ii].getName();
+			String customLibraryFileName = files[ii].getName();
 
-			System.out.println(customLibraryName);
+			System.out.println(customLibraryFileName);
 
-			if (files[ii].isDirectory()) {
-				if (startsWithLetter(customLibraryName)) {
-					// Step down into this directory and read its contents.
-					String lowerLoc = fileLocation + customLibraryName
-							+ File.separator;
+			if (customLibraryFileName.endsWith(".xml")) {
 
-					System.out.println("reading from: " + lowerLoc);
-
-					File lowerLocDir = new File(lowerLoc);
-					File lowerFiles[] = lowerLocDir.listFiles();
-
-					if (lowerFiles != null) {
-
-						for (int jj = 0; jj < lowerFiles.length; jj++) {
-							String lowerFileName = lowerFiles[jj].getName();
-
-							if (lowerFileName.endsWith(".xml")) {
-
-								readInXMLFile(schema, lowerFiles[jj],
-										customLibraryName);
-							}
-						}
-					}
-
-				} else {
-					System.out.println("not valid dir");
-				}
+				readInXMLFile(schema, files[ii], customLibraryFileName);
 			}
+
 		}
 
 		return "done";
@@ -327,7 +308,7 @@ public class BaseSimSection implements Comparable{
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
 		}
-		
+
 		Collections.sort(returnList);
 
 		return returnList;
@@ -347,7 +328,7 @@ public class BaseSimSection implements Comparable{
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
 		}
-		
+
 		Collections.sort(returnList);
 
 		return returnList;
@@ -367,9 +348,9 @@ public class BaseSimSection implements Comparable{
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
 		}
-		
+
 		Collections.sort(returnList);
-		
+
 		return returnList;
 	}
 
@@ -388,7 +369,7 @@ public class BaseSimSection implements Comparable{
 		if (returnList == null) {
 			returnList = new ArrayList<CustomizeableSection>();
 		}
-		
+
 		Collections.sort(returnList);
 
 		return returnList;
@@ -427,7 +408,7 @@ public class BaseSimSection implements Comparable{
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		Collections.sort(returnList);
-		
+
 		return returnList;
 	}
 
@@ -517,9 +498,9 @@ public class BaseSimSection implements Comparable{
 
 	@Override
 	public int compareTo(Object bss_compared) {
-		
+
 		BaseSimSection bss = (BaseSimSection) bss_compared;
-		
+
 		return -(bss.getRec_tab_heading().compareTo(this.getRec_tab_heading()));
 
 	}
