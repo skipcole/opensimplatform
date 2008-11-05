@@ -18,12 +18,24 @@
 		simulation = pso.giveMeSim();
 	}
 	
+	///////////////////////////////////////////////////////////
 	String sending_page = (String) request.getParameter("sending_page");
-	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_phase"))){
+		pso.handleCreatePhase(simulation, request);
+	}
 	
-		pso.handleAddPhase(simulation, request);
-
+		//////////////////////////////////
+	// Put phase on scratch pad
+	String edit_phase = (String) request.getParameter("edit_phase");
+	
+	SimulationPhase spOnScratchPad = new SimulationPhase();
+	
+	if ((edit_phase != null) && (edit_phase.equalsIgnoreCase("true"))){
+		
+		String sp_id = (String) request.getParameter("sp_id");
+		spOnScratchPad = SimulationPhase.getMe(pso.schema, sp_id);
+		
+			
 	}
 
 %>
@@ -149,12 +161,19 @@ body {
             <table width="80%" border="0" cellspacing="2" cellpadding="2">
               <tr> 
                 <td valign="top">Phase Name:</td>
-                <td valign="top"><input type="text" name="phase_name" /></td>
+                <td valign="top"><input type="text" name="phase_name" value="<%= spOnScratchPad.getName() %>" /></td>
               </tr>
               <tr>
                 <td valign="top">Phase Notes:</td>
                 <td valign="top"><label>
-                  <textarea name="phase_notes" id="textarea" cols="45" rows="5"></textarea>
+                  <textarea name="phase_notes" id="textarea" cols="45" rows="5"><%= spOnScratchPad.getNotes() %></textarea>
+                </label></td>
+              </tr>
+              <tr>
+                <td valign="top">Nominal Order<br />
+                  (N.O.) <a href="helptext/phases_nominal_order_help.jsp" target="helpinright">(?)</a>:</td>
+                <td valign="top"><label>
+                  <input type="text" name="nominal_order" id="textfield" value="<%= spOnScratchPad.getOrder() + "" %>" />
                 </label></td>
               </tr>
               <tr> 
@@ -167,17 +186,28 @@ body {
           <p>Below are listed all of the current simulation phases for this simulation:</p>
           <table width="100%" border="1" cellspacing="2" cellpadding="2">
             <tr> 
-              <td width="34%" valign="top"><h2>Phase Name</h2></td>
-              <td width="66%" valign="top"><h2>Phase Notes</h2></td>
+              <td width="20%" valign="top"><h2>Phase Name</h2></td>
+              <td width="80%" valign="top"><h2>Phase Notes</h2></td>
+              <td width="40" valign="top"><h2>N.O.</h2></td>
             </tr>
        <%
 		for (ListIterator li = phaseList.listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 			
+			String flagNotes = "";
+			if (sp.isFirstPhase()){
+				flagNotes = "<I><small>(First Phase)</small></I>";
+			}
+			if (sp.isLastPhase()){
+				flagNotes = "<I><small>(Last Phase)</small></I>";
+			}
+			
+			
 		%>
             <tr>
-              <td valign="top"><%= sp.getName() %></td>
+              <td valign="top"><a href="create_simulation_phases.jsp?edit_simulation=true&sp_id=<%= sp.getId().toString() %>"><%= sp.getName() %></a><%= flagNotes %></td>
               <td valign="top"><%= sp.getNotes() %></td> 
+              <td valign="top"><%= sp.getOrder() + "" %></td>
             </tr>
             <%
 	}

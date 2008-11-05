@@ -258,11 +258,12 @@ public class Simulation {
         return returnList;
     }
 
-	/** Saves a simulation, even if it has been evicted. */
+	/** Saves a simulation. */
 	public void saveMe(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
+		/*
 		Simulation myShadow = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(
 				Simulation.class, this.id);
 
@@ -271,43 +272,13 @@ public class Simulation {
 		myShadow.setIntroduction(this.getIntroduction());
 		myShadow.setAar_starter_text(this.getAar_starter_text());
 		myShadow.setPlanned_play_ideas(this.getPlanned_play_ideas());
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(myShadow);
+		*/
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
 
-	/**
-	 * Adds a phase to the list of phases this simulation has.
-	 */
-	public void addNewPhase(String schema, String phase_name, String phase_notes) {
-
-		SimulationPhase sp = new SimulationPhase();
-
-		sp.setName(phase_name);
-		sp.setNotes(phase_notes);
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		// Creating shadow sim with the same id as this simulation.
-		Simulation myShadow = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(
-				Simulation.class, this.id);
-
-		// Order is currently not used
-		sp.setOrder(new Integer(3).intValue());
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sp);
-
-		myShadow.phases.add(sp);
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(myShadow);
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
-		this.phases.add(sp);
-
-	}
 
 	public void addControlSectionsToAllPhasesOfControl(String schema, Actor controlActor) {
 
@@ -364,7 +335,7 @@ public class Simulation {
 		for (ListIterator li = phases.listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 
-			if (sp.getName().equalsIgnoreCase("Started")) {
+			if (sp.isFirstPhase()) {
 				return sp.getId();
 			}
 

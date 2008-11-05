@@ -32,7 +32,7 @@
 	String debug_string = "";
 	
 	if ( (sending_page != null) && (addsimulation != null) && (sending_page.equalsIgnoreCase("create_simulation"))){
-          pso.createNewSim(request);  
+          pso.handleCreateNewSim(request);  
 	} // End of if coming from this page and have added simulation.
 
 	//////////////////////////////////
@@ -228,7 +228,7 @@ body {
 			
 		%>
           <tr> 
-            <td><a href="create_simulation.jsp?edit_simulation=true&amp;sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
+            <td><a href="create_simulation.jsp?edit_simulation=true&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
             <td>&nbsp;</td>
             <td><a href="delete_object.jsp?object_type=simulation&objid=<%= sim.getId().toString() %>&object_info=<%= nameToSend %>"> 
               (Remove) <%= sim.getName() %> : <%= sim.getVersion() %> </a></td>
