@@ -780,17 +780,36 @@ public class ParticipantSessionObject {
 		return true;
 	}
 
-	public void handleAddPhase(Simulation sim, HttpServletRequest request) {
+	public void handleCreatePhase(Simulation sim, HttpServletRequest request) {
 
 		String phase_name = (String) request.getParameter("phase_name");
 		String phase_notes = (String) request.getParameter("phase_notes");
+		String nominal_order = (String) request.getParameter("nominal_order");
 
-		System.out.println("adding phase " + phase_name + " to schema "
-				+ schema);
+		SimulationPhase sp = new SimulationPhase();
 
-		sim.addNewPhase(schema, phase_name, phase_notes);
-
-		addControlSectionsToAllPhasesOfControl(sim);
+		sp.setName(phase_name);
+		sp.setNotes(phase_notes);
+		sp.setOrder(string2Int(nominal_order));
+		
+		sp.saveMe(schema);
+		
+		sim.getPhases().add(sp);
+		sim.saveMe(schema);
+		
+	}
+	
+	public int string2Int(String input){
+		
+		int returnX = 0;
+		
+		try {
+			returnX = new Integer(input).intValue();
+		} catch (Exception e){
+			// Let it slide
+		}
+		
+		return returnX;
 	}
 
 	/** Assigns a user to a simulation. */
@@ -1717,9 +1736,14 @@ public class ParticipantSessionObject {
 
 	}
 
-	public void createNewSim(HttpServletRequest request) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
+	/**
+	 * Upon the creation of a new simulation several things happen:
+	 * 1.) The values the player entered get stored in the system.
+	 * 2.) Two phases, the starting phase and the completed phase, get added.
+	 * 3.) The control character is created (if necessary) and added to the simulation.
+	 * @param request
+	 */
+	public void handleCreateNewSim(HttpServletRequest request) {
 
 		Simulation simulation = new Simulation();
 
@@ -1739,25 +1763,18 @@ public class ParticipantSessionObject {
 
 		// //////////////////////////////////////////////
 		// All new sims start with 2 phases.
-		SimulationPhase sp1 = new SimulationPhase();
-		sp1.setName("Started");
-		sp1.setOrder(1);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sp1);
+		SimulationPhase sp_first = SimulationPhase.getNewFirstPhase(schema);
+		SimulationPhase sp_last = SimulationPhase.getNewLastPhase(schema);
 
-		SimulationPhase sp2 = new SimulationPhase();
-		sp2.setName("Completed");
-		sp2.setOrder(2);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sp2);
+		simulation.getPhases().add(sp_first);
+		simulation.getPhases().add(sp_last);
+		///////////////////////////////////////////////////
 
-		simulation.getPhases().add(sp1);
-		simulation.getPhases().add(sp2);
-
-		Actor ctrl_act = Actor.getControlActor(MultiSchemaHibernateUtil
-				.getSession(schema));
+		Actor ctrl_act = Actor.getControlActor(schema);
 		simulation.getActors().add(ctrl_act);
-
 		// ///////////////////////////////////////////////
 
+		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(simulation);
 
 		simulationSelected = true;

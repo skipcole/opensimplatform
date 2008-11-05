@@ -212,15 +212,6 @@ body {
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
           here</a>.)</p>
 	  </blockquote>
-		  <% if (simulation.getPhases().size() == 0) { %>
-		  <blockquote>
-		  
-        <p>This simulation does not have any phases created. You must have created 
-          at least one phase to be able to set the simulation sections that will 
-          be displayed in a particular simulation phase. <a href="create_simulation_phases.jsp">Click 
-          here</a> to create a simulation phase.</p>
-		  </blockquote>
-		  <% } else { %>
         
         <table width="100%" border="1">
           <tr>
@@ -479,7 +470,6 @@ body {
         <a href="create_aar_starter_text.jsp"> Next Step: Enter 'After Action Report' Starter Text </a> 
         <% } %>
       </p>
-	  <% } // end of if there are no phases %>
       <% } else { // End of if have set simulation id. %>
       <blockquote> 
         <p> 
