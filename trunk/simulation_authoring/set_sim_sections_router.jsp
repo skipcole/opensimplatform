@@ -12,32 +12,24 @@
 		return;
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////
 	String page_id = request.getParameter("page_id");
-	
 	String bss_id = request.getParameter("bss_id");
-	
 	String command = request.getParameter("command");
-	
 	pso.tab_heading = (String) request.getParameter("tab_heading");
     String tab_pos = (String) request.getParameter("tab_pos");
     String universal = (String) request.getParameter("universal");
-	
-	System.out.println("sussr: universal was : " + universal);
+	System.out.println("universal was : " + universal);
+	///////////////////////////////////////////////////////////////////////////////////////
 	
 	if (bss_id.equalsIgnoreCase("new_section")){
 		response.sendRedirect("create_simulation_section.jsp");
 		return;
 	}
 	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-	BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(BaseSimSection.class, new Long(bss_id));
-
-	MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+	BaseSimSection bss = BaseSimSection.getMe(pso.schema, bss_id);
 	
 	if(command.equalsIgnoreCase("Add Section")){
-	
-		System.out.println("adding section command activated.");
 		
 		if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.BaseSimSection")){
 			// Here we add the class straight away.
@@ -47,15 +39,14 @@
 		} else if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.CustomizeableSection")){
 			
 			session.setAttribute("tab_pos", tab_pos);
+			session.setAttribute("tab_heading", pso.tab_heading);
 			session.setAttribute("universal", universal);
 			
 			pso.custom_page = bss_id;
 			
 			bss = null;
 			
-			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			CustomizeableSection cbss = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(bss_id));
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+			CustomizeableSection cbss = CustomizeableSection.getMe(pso.schema, bss_id);
 			
 			if (!cbss.isHasASpecificMakePage()) {
 				response.sendRedirect("customize_page.jsp?custom_page=" + new Long(bss_id));
@@ -67,13 +58,6 @@
 		}
 	}
 
-	if (page_id == null) {									// Shouldn't be null. If so, then send it back.
-		//response.sendRedirect("set_sim_sections.jsp");
-		//return;
-	} else if (page_id.equalsIgnoreCase("new_section")){	// Creating a new page
-		//response.sendRedirect("create_simulation_section.jsp");
-		//return;
-	} 
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

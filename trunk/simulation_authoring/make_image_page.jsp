@@ -229,12 +229,12 @@ body {
           </tr>
           <tr> 
             <td>&nbsp;</td>
-            <td valign="top">Page Title:</td>
+            <td valign="top">Title Line of Page</td>
             <td valign="top"> <input type="text" name="page_title" value="<%= page_title %>" /></td>
           </tr>
           <tr> 
             <td>&nbsp;</td>
-            <td valign="top">Short Description Text</td>
+            <td valign="top">Description Text of Page</td>
             <td valign="top"> <textarea name="page_description" cols="40" rows="2"><%= cs.getDescription() %></textarea></td>
           </tr>
           <tr> 

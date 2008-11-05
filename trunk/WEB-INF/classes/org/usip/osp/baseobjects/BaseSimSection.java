@@ -115,7 +115,6 @@ public class BaseSimSection implements Comparable {
 
 				readInXMLFile(schema, files[ii], customLibraryFileName);
 			}
-
 		}
 
 		return "done";
@@ -295,6 +294,11 @@ public class BaseSimSection implements Comparable {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 
+	/** Returns all base sim sections.
+	 * 
+	 * @param schema
+	 * @return
+	 */
 	public static List<BaseSimSection> getAll(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -312,6 +316,17 @@ public class BaseSimSection implements Comparable {
 		Collections.sort(returnList);
 
 		return returnList;
+	}
+	
+	public static BaseSimSection getMe(String schema, String the_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.
+			getSession(schema).get(BaseSimSection.class, new Long(the_id));
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return bss;
+		
 	}
 
 	public static List<BaseSimSection> getAllBaseAndCustomizable(String schema) {
@@ -391,6 +406,12 @@ public class BaseSimSection implements Comparable {
 		return returnList;
 	}
 
+	/**
+	 * Returns all control base sim sections.
+	 * 
+	 * @param schema
+	 * @return
+	 */
 	public static List<BaseSimSection> getAllControl(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);

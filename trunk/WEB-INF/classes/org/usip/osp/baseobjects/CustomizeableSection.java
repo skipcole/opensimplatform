@@ -141,6 +141,23 @@ public class CustomizeableSection extends BaseSimSection {
         return cs;
 	
 	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param the_id
+	 * @return
+	 */
+	public static CustomizeableSection getMe(String schema, String the_id){
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.
+			getSession(schema).get(CustomizeableSection.class, new Long(the_id));
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return cs;
+		
+	}
     
     public void save(String schema){
         MultiSchemaHibernateUtil.beginTransaction(schema);
