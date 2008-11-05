@@ -51,11 +51,25 @@ public class BaseSimSection implements Comparable{
 		 * System.out.println("--------------------"); }
 		 */
 	}
+	
+	public static String readASpecificCustomLibSection(String schema, String dirName){
+		
+		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
+		
+		return readCustomSectionsFromADir(schema, fileLocation);
+		
+	}
 
 	public static String readCustomLibSimSectionsFromXMLFiles(String schema) {
 
 		String fileLocation = FileIO.getCustom_section_web_dir();
 
+		return readCustomSectionsFromADir(schema, fileLocation);
+		
+	}
+	
+	public static String readCustomSectionsFromADir(String schema, String fileLocation){
+		
 		File locDir = new File(fileLocation);
 
 		File files[] = locDir.listFiles();

@@ -18,6 +18,7 @@
 	String error_msg = pso.handleCreateDB(request);
 	
 	String db_schema = pso.getClean(request, "db_schema");
+	String db_org = pso.getClean(request, "db_org");
     String db_user = pso.getClean(request, "db_user");
     String db_pass = pso.getClean(request, "db_pass");
 	String db_loc = pso.getClean(request, "db_loc");
@@ -25,18 +26,14 @@
 	
 	String admin_first = pso.getClean(request, "admin_first");
 	String admin_middle = pso.getClean(request, "admin_middle");
-	String admin_last = pso.getClean(request, "admin_last");
-	
+	String admin_last = pso.getClean(request, "admin_last");	
 	String admin_full = pso.getClean(request, "admin_full");
 	
-	String admin_username = pso.getClean(request, "admin_username");
-	
-	String root_realname = pso.getClean(request, "root_realname");
-	String rootpass1 = pso.getClean(request, "rootpass1");
-    String rootpass2 = pso.getClean(request, "rootpass2");
-    String rootemail1 = pso.getClean(request, "rootemail1");
-    String rootemail2 = pso.getClean(request, "rootemail2");
-        
+	String admin_pass = pso.getClean(request, "admin_pass");
+    String admin_email = pso.getClean(request, "admin_email");
+	String new_admin_user_cbox = pso.getClean(request, "new_admin_user_cbox");
+
+    //////////////////////////////////////////////////////////////////    
     String email_smtp = pso.getClean(request, "email_smtp");
     String email_user = pso.getClean(request, "email_user");
     String email_pass = pso.getClean(request, "email_pass");
@@ -71,28 +68,20 @@ body {
     <td colspan="3"> <form action="install_db.jsp" method="post" name="form1" id="form1">
         <h1>
           <input type="hidden" name="sending_page" value="clean_db" />
-          Install Database </h1>
-		  <blockquote>
-          <table width="80%" border="0" cellspacing="2" cellpadding="1">
-            <tr> 
-              <td>id</td>
-              <td>Schema Name</td>
-              <td>Organization</td>
-            </tr>
-            <tr> 
-              <td>1</td>
-              <td>usiposcw</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-          </table>
-          <p>&nbsp;</p>
+          Install Custom Library</h1>
+
+        <blockquote>
+          <p>Below are listed the custom libraries found on this system.</p>
+  <p> 
+	<% for (ListIterator li = FileIO.getListOfCustomLibraries().listIterator(); li.hasNext();) {
+			String cust_lib_name = (String) li.next(); %>
+    		Load:<a href="#?unpack=true&filename=<%= cust_lib_name %>"> <%= cust_lib_name %></a><br />
+	<% } %>
+  </p>
+
         </blockquote>
         <p><font color="#FF0000"><%= error_msg %></font></p>
+        <p><a href="steps.jsp">&lt;-- Back</a></p>
       </form>
       <p>&nbsp;</p>
       <p>&nbsp;</p></td>

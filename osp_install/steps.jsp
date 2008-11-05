@@ -58,7 +58,7 @@ errorPage=""
     <td>2a</td>
     <td width="70">&nbsp;</td>
     <td width="116">Get Files</td>
-    <td>Files may be downloaded from <a href="http://code.google.com/p/usiponlinesimulationcreationwizard/">http://code.google.com/p/usiponlinesimulationcreationwizard/</a></td>
+    <td>Files may be downloaded from <a href="http://code.google.com/p/opensimplatform/">http://code.google.com/p/opensimplatform/</a></td>
   </tr>
   <tr align="left" valign="top"> 
     <td>&nbsp;</td>
@@ -132,7 +132,7 @@ errorPage=""
     <td>4e</td>
     <td>&nbsp;</td>
     <td>Add custom library</td>
-    <td>Click here to add a custom library of pages.</td>
+    <td><a href="install_custom_lib.jsp">Click here</a> to add a custom library of pages.</td>
   </tr>
   <tr align="left" valign="top"> 
     <td>5</td>
