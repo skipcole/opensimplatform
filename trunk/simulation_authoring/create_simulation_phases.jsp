@@ -20,23 +20,7 @@
 	
 	///////////////////////////////////////////////////////////
 	String sending_page = (String) request.getParameter("sending_page");
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_phase"))){
-		pso.handleCreatePhase(simulation, request);
-	}
-	
-		//////////////////////////////////
-	// Put phase on scratch pad
-	String edit_phase = (String) request.getParameter("edit_phase");
-	
-	SimulationPhase spOnScratchPad = new SimulationPhase();
-	
-	if ((edit_phase != null) && (edit_phase.equalsIgnoreCase("true"))){
-		
-		String sp_id = (String) request.getParameter("sp_id");
-		spOnScratchPad = SimulationPhase.getMe(pso.schema, sp_id);
-		
-			
-	}
+	SimulationPhase spOnScratchPad = pso.handleCreateOrUpdatePhase(simulation, request);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" errorPage="" %>
@@ -153,11 +137,8 @@ body {
           <p>Create phases for the simulation <strong><%= simulation.getDisplayName() %></strong>. </p>
           <p>The set of actions and views (simulation sections) that are accessible 
             to each actor can be different in every simulation phase.</p>
-          <p>Every simulation begins in the 'Started' phase, and every simulation 
-            ends in the 'Completed' phase. It is possible, but not necessary, 
-            to add aditional phases that the simulation can pass through. </p>
+          <p>Every simulation has at least two phases: one in which it begins, and one in which it ends. The default names of these are, respectively, 'Started' and 'Completed,' but these names can be changed. One can add as many additional phases as desired.</p>
           <form action="create_simulation_phases.jsp" method="post" name="form1" id="form1">
-            <input type="hidden" name="sending_page" value="create_phase" />
             <table width="80%" border="0" cellspacing="2" cellpadding="2">
               <tr> 
                 <td valign="top">Phase Name:</td>
@@ -178,13 +159,19 @@ body {
               </tr>
               <tr> 
                 <td valign="top">&nbsp;</td>
-                <td valign="top"><input type="submit" name="createphase" value="Create" />
+                <td valign="top">
                 <%
-				
+				if (spOnScratchPad.getId() == null) {
 				%>
-                <input type="hidden" name="spid" value="<%= spOnScratchPad.getId() %>" /><input type="submit" name="updatephase" value="Update" />
+                	<input type="submit" name="command" value="Create" />
                 <%
-				
+				} else {
+				%>
+                	<input type="hidden" name="sp_id" value="<%= spOnScratchPad.getId() %>" />
+                	<input type="submit" name="command" value="Clear" tabindex="6" />
+                	<input type="submit" name="command" value="Update" />
+                <%
+					}
 				%>
                 
                 </td>
@@ -198,6 +185,7 @@ body {
               <td width="20%" valign="top"><h2>Phase Name</h2></td>
               <td width="80%" valign="top"><h2>Phase Notes</h2></td>
               <td width="40" valign="top"><h2>N.O.</h2></td>
+              <td width="40" valign="top"><h2>Remove</h2></td>
             </tr>
        <%
 		for (ListIterator li = phaseList.listIterator(); li.hasNext();) {
@@ -214,9 +202,14 @@ body {
 			
 		%>
             <tr>
-              <td valign="top"><a href="create_simulation_phases.jsp?edit_simulation=true&sp_id=<%= sp.getId().toString() %>"><%= sp.getName() %></a><%= flagNotes %></td>
+              <td valign="top"><a href="create_simulation_phases.jsp?command=Edit&sp_id=<%= sp.getId().toString() %>"><%= sp.getName() %></a>  <%= flagNotes %></td>
               <td valign="top"><%= sp.getNotes() %></td> 
               <td valign="top"><%= sp.getOrder() + "" %></td>
+              <td valign="top">
+              <% if (flagNotes.length() == 0){ %>
+              <a href="delete_object.jsp?object_type=phase&objid=<%= sp.getId().toString() %>&object_info=<%= sp.getName() %>">remove</a>
+              <% } %>
+              </td>
             </tr>
             <%
 	}

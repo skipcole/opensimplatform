@@ -22,15 +22,15 @@ import com.oreilly.servlet.MultipartRequest;
 /**
  * @author Ronald "Skip" Cole
  * 
- * This file is part of the USIP Online Simulation Platform.<br>
+ *         This file is part of the USIP Online Simulation Platform.<br>
  * 
- * The USIP Online Simulation Platform is free software; you can redistribute it
- * and/or modify it under the terms of the new BSD Style license associated with
- * this distribution.<br>
+ *         The USIP Online Simulation Platform is free software; you can
+ *         redistribute it and/or modify it under the terms of the new BSD Style
+ *         license associated with this distribution.<br>
  * 
- * The USIP Online Simulation Platform is distributed WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. <BR>
+ *         The USIP Online Simulation Platform is distributed WITHOUT ANY
+ *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
 public class ParticipantSessionObject {
@@ -62,7 +62,10 @@ public class ParticipantSessionObject {
 	/** Id of User that is logged in and using this ParticipantSessionObject. */
 	public Long user_id;
 
-	/** Username/ Email address of user that is logged in and using this ParticipantSessionObject. */
+	/**
+	 * Username/ Email address of user that is logged in and using this
+	 * ParticipantSessionObject.
+	 */
 	public String user_name;
 	/**
 	 * Once a player has selected a running sim, do not let them back out and
@@ -780,35 +783,61 @@ public class ParticipantSessionObject {
 		return true;
 	}
 
-	public void handleCreatePhase(Simulation sim, HttpServletRequest request) {
+	/**
+	 * This responds to one of threee commands:
+	 * <ol>	<li>Create a new phase.</li>
+	 * 		<li>Queue up a phase for editing.</li>
+	 * 		<li>Update a phase.</li>
+	 * </ol>
+	 * @param sim
+	 * @param request
+	 * @return
+	 */
+	public SimulationPhase handleCreateOrUpdatePhase(Simulation sim,
+			HttpServletRequest request) {
 
+		SimulationPhase returnSP = new SimulationPhase();
+
+		String command = (String) request.getParameter("command");
 		String phase_name = (String) request.getParameter("phase_name");
 		String phase_notes = (String) request.getParameter("phase_notes");
 		String nominal_order = (String) request.getParameter("nominal_order");
 
-		SimulationPhase sp = new SimulationPhase();
-
-		sp.setName(phase_name);
-		sp.setNotes(phase_notes);
-		sp.setOrder(string2Int(nominal_order));
-		
-		sp.saveMe(schema);
-		
-		sim.getPhases().add(sp);
-		sim.saveMe(schema);
-		
+		if (command != null) {
+			if (command.equalsIgnoreCase("Create")) {
+				returnSP.setName(phase_name);
+				returnSP.setNotes(phase_notes);
+				returnSP.setOrder(string2Int(nominal_order));
+				returnSP.saveMe(schema);
+				sim.getPhases().add(returnSP);
+				sim.saveMe(schema);
+			} else if (command.equalsIgnoreCase("Edit")) {
+				String sp_id = (String) request.getParameter("sp_id");
+				returnSP = SimulationPhase.getMe(schema, sp_id);
+			} else if (command.equalsIgnoreCase("Update")) { // 
+				String sp_id = (String) request.getParameter("sp_id");
+				returnSP = SimulationPhase.getMe(schema, sp_id);
+				returnSP.setName(phase_name);
+				returnSP.setNotes(phase_notes);
+				returnSP.setOrder(string2Int(nominal_order));
+				returnSP.saveMe(schema);
+			} else if (command.equalsIgnoreCase("Clear")) { // 
+				// returning new simulation phase will clear fields.
+			}
+		}
+		return returnSP;
 	}
-	
-	public int string2Int(String input){
-		
+
+	public int string2Int(String input) {
+
 		int returnX = 0;
-		
+
 		try {
 			returnX = new Integer(input).intValue();
-		} catch (Exception e){
+		} catch (Exception e) {
 			// Let it slide
 		}
-		
+
 		return returnX;
 	}
 
@@ -856,44 +885,45 @@ public class ParticipantSessionObject {
 		invitationCode = (String) request.getParameter("invitationCode");
 
 		Long schema_id = SchemaInformationObject.lookUpId(schema);
-		
-		for (ListIterator<String> li = getSetOfEmails(setOfUsers).listIterator(); li.hasNext();) {
+
+		for (ListIterator<String> li = getSetOfEmails(setOfUsers)
+				.listIterator(); li.hasNext();) {
 			String this_email = (String) li.next();
-			
-			if (BaseUser.checkIfUserExists(this_email)){
+
+			if (BaseUser.checkIfUserExists(this_email)) {
 				System.out.println("exists:" + this_email);
-				//?? make sure exists in this schema
-				
+				// ?? make sure exists in this schema
+
 			} else {
-				
+
 				System.out.println("does not exist:" + this_email);
-				
+
 				// Add entry into system to all them to register.
-				UserRegistrationInvite uri = new UserRegistrationInvite(user_name, this_email, invitationCode, 
-						schema);
-				
+				UserRegistrationInvite uri = new UserRegistrationInvite(
+						user_name, this_email, invitationCode, schema);
+
 				uri.saveMe();
-				
+
 				// Send them email directing them to the page to register
-				
+
 				String subject = "Invitation to register on an OSP System";
-				sendBulkInvitationEmail(schema_id, this_email, subject, defaultInviteEmailMsg);
-				
+				sendBulkInvitationEmail(schema_id, this_email, subject,
+						defaultInviteEmailMsg);
+
 			}
 		}
 	}
-	
-	public void sendBulkInvitationEmail(Long schema_id, String the_email, String subject, String message){
-		
-		Vector cced = null;	
+
+	public void sendBulkInvitationEmail(Long schema_id, String the_email,
+			String subject, String message) {
+
+		Vector cced = null;
 		Vector bcced = new Vector();
 		bcced.add(user_name);
-		
-		Emailer.postMail(schema_id, the_email, subject,
-				message, user_name, cced,
-				bcced);
+
+		Emailer.postMail(schema_id, the_email, subject, message, user_name,
+				cced, bcced);
 	}
-	
 
 	public List getSetOfEmails(String inputSet) {
 		StringTokenizer str = new StringTokenizer(inputSet, ", \r\n");
@@ -902,7 +932,7 @@ public class ParticipantSessionObject {
 		while (str.hasMoreTokens()) {
 			String name = str.nextToken();
 			name = name.trim();
-			if (name.length() > 0){
+			if (name.length() > 0) {
 				returnList.add(name);
 			}
 		}
@@ -938,6 +968,13 @@ public class ParticipantSessionObject {
 				this.sim_id = null;
 				this.simulationSelected = false;
 
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			} else if (objectType.equalsIgnoreCase("phase")) {
+				MultiSchemaHibernateUtil.beginTransaction(schema);
+				SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil
+						.getSession(schema).get(SimulationPhase.class, o_id);
+				MultiSchemaHibernateUtil.getSession(schema).delete(sp);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 			} else if (objectType.equalsIgnoreCase("actor")) {
@@ -1693,27 +1730,27 @@ public class ParticipantSessionObject {
 				}
 
 				Long schema_id = SchemaInformationObject.lookUpId(schema);
-				
+
 				for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
 					Long key = (Long) e.nextElement();
 					System.out.println("need to email " + key);
-					
-					//Need to get user email address from the key, which is the user id.
+
+					// Need to get user email address from the key, which is the
+					// user id.
 					BaseUser bu = BaseUser.getByUserId(key);
-					
-					//String actor_name = getActorName(request, u)
-					
+
+					// String actor_name = getActorName(request, u)
+
 					String subject = "Simulation Phase Change";
 					String message = "Simulation phase has changed.";
-					
+
 					Vector cced = null;
 					Vector bcced = new Vector();
 					bcced.add(user_name);
-					
+
 					Emailer.postMail(schema_id, bu.getUsername(), subject,
-							message, user_name, cced,
-							bcced);
-					
+							message, user_name, cced, bcced);
+
 				}
 			}
 
@@ -1721,26 +1758,26 @@ public class ParticipantSessionObject {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
-		// Someday, I'll find a way to enter this final block in without causing a spurious error.
-		/* finally {
-			
-			try{
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			} catch (org.hibernate.TransactionException te){
-				// Do nothing
-			} catch (Exception real_e){
-				System.out.println("Exception of type: " + real_e.getClass());
-			}
-		} */
+		}
+		// Someday, I'll find a way to enter this final block in without causing
+		// a spurious error.
+		/*
+		 * finally {
+		 * 
+		 * try{ MultiSchemaHibernateUtil.commitAndCloseTransaction(schema); }
+		 * catch (org.hibernate.TransactionException te){ // Do nothing } catch
+		 * (Exception real_e){ System.out.println("Exception of type: " +
+		 * real_e.getClass()); } }
+		 */
 
 	}
 
 	/**
-	 * Upon the creation of a new simulation several things happen:
-	 * 1.) The values the player entered get stored in the system.
-	 * 2.) Two phases, the starting phase and the completed phase, get added.
-	 * 3.) The control character is created (if necessary) and added to the simulation.
+	 * Upon the creation of a new simulation several things happen: 1.) The
+	 * values the player entered get stored in the system. 2.) Two phases, the
+	 * starting phase and the completed phase, get added. 3.) The control
+	 * character is created (if necessary) and added to the simulation.
+	 * 
 	 * @param request
 	 */
 	public void handleCreateNewSim(HttpServletRequest request) {
@@ -1768,7 +1805,7 @@ public class ParticipantSessionObject {
 
 		simulation.getPhases().add(sp_first);
 		simulation.getPhases().add(sp_last);
-		///////////////////////////////////////////////////
+		// /////////////////////////////////////////////////
 
 		Actor ctrl_act = Actor.getControlActor(schema);
 		simulation.getActors().add(ctrl_act);
@@ -1806,8 +1843,8 @@ public class ParticipantSessionObject {
 		 * 
 		 * debugStuff += bv.propagate(simulation, simulation_round,
 		 * runningGame.id); debugStuff += "<hr>"; } // Get set of changing
-		 * integer variables for this running simulation Vector simIntVarsVector =
-		 * new
+		 * integer variables for this running simulation Vector simIntVarsVector
+		 * = new
 		 * IntegerVariable().getSimVariablesForARunningSimulation(simulation,
 		 * runningGame.id); // Propagate their values. for (Enumeration e =
 		 * simIntVarsVector.elements(); e.hasMoreElements();){ IntegerVariable
@@ -2695,48 +2732,51 @@ public class ParticipantSessionObject {
 
 		return customizableSectionOnScratchPad;
 	}
-	
+
 	/**
 	 * 
-	 * @return A hashtable with all of the actor one on one coversations set in the form of 
-	 * 1_2 and 2_1.
+	 * @return A hashtable with all of the actor one on one coversations set in
+	 *         the form of 1_2 and 2_1.
 	 */
-	public Hashtable setOfPrivateConversation(){
-		
+	public Hashtable setOfPrivateConversation() {
+
 		Hashtable returnTable = new Hashtable<String, String>();
-		
-		List currentChats = Conversation.getAllPrivateChatForSim(schema, sim_id);
-		
+
+		List currentChats = Conversation
+				.getAllPrivateChatForSim(schema, sim_id);
+
 		// Loop over all private conversations in this set
-		for (ListIterator<Conversation> li = currentChats.listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = currentChats.listIterator(); li
+				.hasNext();) {
 			Conversation con_id = li.next();
-			
+
 			Vector actors = new Vector();
-			
+
 			MultiSchemaHibernateUtil.beginTransaction(schema);
-			Conversation conv = (Conversation)
-				MultiSchemaHibernateUtil.getSession(schema).get(Conversation.class, con_id.getId());
-			
+			Conversation conv = (Conversation) MultiSchemaHibernateUtil
+					.getSession(schema).get(Conversation.class, con_id.getId());
+
 			// Get the 2 (should be 2) actors in this conversation.
-			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns().listIterator(); liiii.hasNext();) {
+			for (ListIterator<ConvActorAssignment> liiii = conv
+					.getConv_actor_assigns().listIterator(); liiii.hasNext();) {
 				ConvActorAssignment caa = liiii.next();
 				actors.add(caa.getActor_id());
 			}
-			
+
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			
-			for (Enumeration e1 = actors.elements(); e1.hasMoreElements();){
+
+			for (Enumeration e1 = actors.elements(); e1.hasMoreElements();) {
 				Long a_id_1 = (Long) e1.nextElement();
-				
-				for (Enumeration e2 = actors.elements(); e2.hasMoreElements();){
+
+				for (Enumeration e2 = actors.elements(); e2.hasMoreElements();) {
 					Long a_id_2 = (Long) e2.nextElement();
-					
+
 					String key = a_id_1 + "_" + a_id_2;
 					returnTable.put(key, "set");
 				}
 			}
 		}
-		
+
 		return returnTable;
 	}
 
@@ -2745,20 +2785,21 @@ public class ParticipantSessionObject {
 	 * @param request
 	 */
 	public void handleMakePrivateChatPage(HttpServletRequest request) {
-	
+
 		String sending_page = (String) request.getParameter("sending_page");
-		
+
 		ArrayList<Long> playersWithChat = new ArrayList<Long>();
-		
-		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))){
-	 		
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("make_private_chat_page"))) {
+
 			// ////////////////////////////////////////////////////
 			// Get the simulation we are working on
 			Simulation sim = new Simulation();
 			if (sim_id != null) {
 				sim = giveMeSim();
 			}
-			
+
 			// ////////////////////////////////////////////////////
 			// Pull out the standard things passed through.
 			String tab_pos = (String) session.getAttribute("tab_pos");
@@ -2778,84 +2819,91 @@ public class ParticipantSessionObject {
 					.getSession(schema).get(CustomizeableSection.class,
 							new Long(custom_page));
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			
-			
-			//Delete all private conversations for this simulation since we recreate them below.
+
+			// Delete all private conversations for this simulation since we
+			// recreate them below.
 			Conversation.deleteAllPrivateChatForSim(schema, sim_id);
-			
-			for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+
+			for (Enumeration<String> e = request.getParameterNames(); e
+					.hasMoreElements();) {
 				String pname = (String) e.nextElement();
 
 				String vname = (String) request.getParameter(pname);
 				System.out.println(pname + " " + vname);
-				
-				if (pname.startsWith("act_cb_")){
+
+				if (pname.startsWith("act_cb_")) {
 					pname = pname.replaceAll("act_cb_", "");
-					
+
 					StringTokenizer str = new StringTokenizer(pname, "_");
-					
-					String f_actor =  str.nextToken();
-					String s_actor =  str.nextToken();
-					System.out.println("setting up actors " + f_actor + " and " + s_actor);
-					
-					try{
+
+					String f_actor = str.nextToken();
+					String s_actor = str.nextToken();
+					System.out.println("setting up actors " + f_actor + " and "
+							+ s_actor);
+
+					try {
 						Long actorWithChat = new Long(f_actor);
 						Long actorWithChat2 = new Long(s_actor);
-						
-						if (!(playersWithChat.contains(actorWithChat))){
+
+						if (!(playersWithChat.contains(actorWithChat))) {
 							playersWithChat.add(actorWithChat);
 						}
-						
-						if (!(playersWithChat.contains(actorWithChat2))){
+
+						if (!(playersWithChat.contains(actorWithChat2))) {
 							playersWithChat.add(actorWithChat2);
 						}
-						
+
 						Conversation conv = new Conversation();
 						conv.setSim_id(sim_id);
 						conv.setConversation_type(Conversation.TYPE_PRIVATE);
 						conv.setConversation_name("One on One");
-						
+
 						ConvActorAssignment caa = new ConvActorAssignment();
 						caa.setActor_id(actorWithChat);
 						ConvActorAssignment caa2 = new ConvActorAssignment();
 						caa2.setActor_id(actorWithChat2);
-						
+
 						ArrayList al = new ArrayList();
 						al.add(caa);
 						al.add(caa2);
-						
+
 						conv.setConv_actor_assigns(al);
 
 						MultiSchemaHibernateUtil.beginTransaction(schema);
-						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(caa);
-						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(caa2);
-						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(conv);
-						MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-						
-					}catch (Exception er){
+						MultiSchemaHibernateUtil.getSession(schema)
+								.saveOrUpdate(caa);
+						MultiSchemaHibernateUtil.getSession(schema)
+								.saveOrUpdate(caa2);
+						MultiSchemaHibernateUtil.getSession(schema)
+								.saveOrUpdate(conv);
+						MultiSchemaHibernateUtil
+								.commitAndCloseTransaction(schema);
+
+					} catch (Exception er) {
 						er.printStackTrace();
 					}
 				}
-			}	
-			
+			}
+
 			String save_and_add = (String) request.getParameter("save_and_add");
-			
+
 			if (save_and_add != null) {
 
 				// add section to the applicable actors
-				
+
 				System.out.println("this: " + this);
 				System.out.println("csosp: " + customizableSectionOnScratchPad);
-				
+
 				SimulationSection.applySectionToSpecificActors(schema, sim,
 						this.phase_id, customizableSectionOnScratchPad.getId(),
 						tab_heading, playersWithChat);
 				// send them back
 				forward_on = true;
-			}	
+			}
 		}
-		
+
 	}
+
 	/**
 	 * 
 	 * @param request
@@ -3254,14 +3302,14 @@ public class ParticipantSessionObject {
 				} else {
 					errorMsg = "Not authorized to author or facilitate simulations.";
 				}
-				
+
 				user_name = bu.getUsername();
 
 			} else if (bu.getAuthorizedSchemas().size() > 1) {
 				// Send them on to the page where they can select schema.
 				loggedin = true;
 				sendToPage = "pick_schema.jsp";
-				
+
 				user_name = bu.getUsername();
 			}
 
