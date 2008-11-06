@@ -7,8 +7,8 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-import org.usip.osp.sharing.ObjectPackager;
 
 /**
  * @author Ronald "Skip" Cole
