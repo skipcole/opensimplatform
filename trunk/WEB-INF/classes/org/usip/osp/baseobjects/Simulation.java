@@ -12,15 +12,15 @@ import org.usip.osp.specialfeatures.*;
 /**
  * @author Ronald "Skip" Cole
  * 
- * This file is part of the USIP Online Simulation Platform.<br>
+ *         This file is part of the USIP Online Simulation Platform.<br>
  * 
- * The USIP Online Simulation Platform is free software; you can
- * redistribute it and/or modify it under the terms of the new BSD Style license
- * associated with this distribution.<br>
+ *         The USIP Online Simulation Platform is free software; you can
+ *         redistribute it and/or modify it under the terms of the new BSD Style
+ *         license associated with this distribution.<br>
  * 
- * The USIP Online Simulation Platform is distributed WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. <BR>
+ *         The USIP Online Simulation Platform is distributed WITHOUT ANY
+ *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
 @Entity
@@ -29,9 +29,9 @@ import org.usip.osp.specialfeatures.*;
 public class Simulation {
 
 	public static void main(String args[]) {
-        
-        String schema = "usiposcw";
-        
+
+		String schema = "usiposcw";
+
 		System.out.println("begin");
 
 		Simulation s1 = new Simulation();
@@ -59,19 +59,17 @@ public class Simulation {
 		s1.getRunning_sims().add(rs);
 
 		/*
-		User u = new User();
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(u);
-
-		UserAssignment ua = new UserAssignment();
-
-		ua.setActor_id(a1.getId());
-		ua.setRunning_sim_id(rs.getId());
-		ua.setSim_id(s1.getId());
-		ua.setUser_id(u.getId());
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(ua);
-		*/
+		 * User u = new User();
+		 * 
+		 * MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(u);
+		 * 
+		 * UserAssignment ua = new UserAssignment();
+		 * 
+		 * ua.setActor_id(a1.getId()); ua.setRunning_sim_id(rs.getId());
+		 * ua.setSim_id(s1.getId()); ua.setUser_id(u.getId());
+		 * 
+		 * MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(ua);
+		 */
 		List lua = new ArrayList();
 
 		// new UserAssignment().getAllForUser(u.getId());
@@ -83,7 +81,8 @@ public class Simulation {
 			System.out.println("r_sim_id is " + this_ua.getRunning_sim_id());
 			System.out.println("a_id is " + this_ua.getActor_id());
 
-			User uu = UserAssignment.getUserAssigned(schema, new Long(1), new Long(1));
+			User uu = UserAssignment.getUserAssigned(schema, new Long(1),
+					new Long(1));
 
 		}
 
@@ -102,7 +101,6 @@ public class Simulation {
 		 * for (ListIterator sActors = s.actors.listIterator();
 		 * sActors.hasNext();){ Actor act = (Actor) sActors.next();
 		 * System.out.println(" actor name is " + act.getName()); } }
-		 * 
 		 */
 		// List p = new SimulationPhase().getAllForSim(s1.getId());
 	}
@@ -131,7 +129,7 @@ public class Simulation {
 	@OneToMany
 	@JoinColumn(name = "SIM_ID")
 	private List<Conversation> conversations = new ArrayList<Conversation>();
-	
+
 	/** Database id of this Simulation. */
 	@Id
 	@GeneratedValue
@@ -165,7 +163,7 @@ public class Simulation {
 	@Column(name = "SIM_PLAY_IDEAS")
 	@Lob
 	private String planned_play_ideas = "";
-	
+
 	public String getPlanned_play_ideas() {
 		return planned_play_ideas;
 	}
@@ -186,18 +184,18 @@ public class Simulation {
 	/** Author of this Simulation. */
 	@Column(name = "SIM_CREATOR")
 	private String creator = "";
-    
-    /** Copyright information to be shown on every page footer. */
-    @Column(name = "COPYRIGHTSTRING")
-    private String copyright_string = "";
-    
-    /** Flag to let instructors know it can be used. */
-    @Column(name = "READYFORLISTING")
-    private boolean isReadyForPublicListing = false;
-    
-    @Column(name = "LISTINGKEYWORDS")
-    private String listingKeyWords = "";
-    
+
+	/** Copyright information to be shown on every page footer. */
+	@Column(name = "COPYRIGHTSTRING")
+	private String copyright_string = "";
+
+	/** Flag to let instructors know it can be used. */
+	@Column(name = "READYFORLISTING")
+	private boolean isReadyForPublicListing = false;
+
+	@Column(name = "LISTINGKEYWORDS")
+	private String listingKeyWords = "";
+
 	public String getLearning_objvs() {
 		return learning_objvs;
 	}
@@ -234,29 +232,54 @@ public class Simulation {
 
 	}
 
+	/**
+	 * 
+	 * And makes sure that the control character has been added to all phases of a
+	 * simulation.
+	 * @param schema
+	 */
+	public Simulation(String schema) {
+
+		// //////////////////////////////////////////////
+		// All new sims start with 2 phases.
+		SimulationPhase sp_first = SimulationPhase.getNewFirstPhase(schema);
+		SimulationPhase sp_last = SimulationPhase.getNewLastPhase(schema);
+
+		getPhases().add(sp_first);
+		getPhases().add(sp_last);
+		// /////////////////////////////////////////////////
+
+		Actor ctrl_act = Actor.getControlActor(schema);
+		getActors().add(ctrl_act);
+		
+		addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
+
+	}
+
 	public static List getAll(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Simulation").list();
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery("from Simulation").list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
-    
-    public static List getAllPublished(String schema) {
 
-        MultiSchemaHibernateUtil.beginTransaction(schema);
+	public static List getAllPublished(String schema) {
 
-        List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-                "from Simulation where READYFORLISTING = '1'").list();
+		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-        MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery("from Simulation where READYFORLISTING = '1'")
+				.list();
 
-        return returnList;
-    }
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
 
 	/** Saves a simulation. */
 	public void saveMe(String schema) {
@@ -264,23 +287,54 @@ public class Simulation {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		/*
-		Simulation myShadow = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(
-				Simulation.class, this.id);
-
-		myShadow.setLearning_objvs(this.getLearning_objvs());
-		myShadow.setAudience(this.getAudience());
-		myShadow.setIntroduction(this.getIntroduction());
-		myShadow.setAar_starter_text(this.getAar_starter_text());
-		myShadow.setPlanned_play_ideas(this.getPlanned_play_ideas());
-		*/
+		 * Simulation myShadow = (Simulation)
+		 * MultiSchemaHibernateUtil.getSession(schema).get( Simulation.class,
+		 * this.id);
+		 * 
+		 * myShadow.setLearning_objvs(this.getLearning_objvs());
+		 * myShadow.setAudience(this.getAudience());
+		 * myShadow.setIntroduction(this.getIntroduction());
+		 * myShadow.setAar_starter_text(this.getAar_starter_text());
+		 * myShadow.setPlanned_play_ideas(this.getPlanned_play_ideas());
+		 */
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
 
+	public static Simulation getMe(String schema, Long sim_id) {
 
-	public void addControlSectionsToAllPhasesOfControl(String schema, Actor controlActor) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
+				.getSession(schema).get(Simulation.class, sim_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return simulation;
+
+	}
+	
+	public static Simulation getMeFullyLoaded(String schema, Long sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
+				.getSession(schema).get(Simulation.class, sim_id);
+
+		for (ListIterator<SimulationPhase> li = simulation.getPhases().listIterator(); li.hasNext();) {
+			SimulationPhase this_sp = (SimulationPhase) li.next();
+			
+			System.out.println(this_sp.getName());
+		}
+	
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return simulation;
+
+	}
+
+	public void addControlSectionsToAllPhasesOfControl(String schema,
+			Actor controlActor) {
 
 		// Loop over phases
 		for (ListIterator<SimulationPhase> li = this.phases.listIterator(); li
@@ -290,17 +344,20 @@ public class Simulation {
 			// Loop over control base sim sections
 			List controlBaseSimSecs = BaseSimSection.getAllControl(schema);
 
-			List<SimulationSection> simSecs = SimulationSection.getBySimAndActorAndPhase(schema, this.id,
-					Actor.getControlActor(schema).getId(), this_sp.getId());
-			
-			for (ListIterator<BaseSimSection> bs = controlBaseSimSecs.listIterator(); bs.hasNext();) {
+			List<SimulationSection> simSecs = SimulationSection
+					.getBySimAndActorAndPhase(schema, this.id, Actor
+							.getControlActor(schema).getId(), this_sp.getId());
+
+			for (ListIterator<BaseSimSection> bs = controlBaseSimSecs
+					.listIterator(); bs.hasNext();) {
 				BaseSimSection bss = (BaseSimSection) bs.next();
 
 				int sizeOfSimSecs = simSecs.size();
 				boolean foundThisControl = false;
 
 				// Loop over sim sections that control has in this phase.
-				for (ListIterator<SimulationSection> ls = simSecs.listIterator(); ls.hasNext();) {
+				for (ListIterator<SimulationSection> ls = simSecs
+						.listIterator(); ls.hasNext();) {
 					SimulationSection ss = (SimulationSection) ls.next();
 
 					if (ss.getBase_section_id().compareTo(bss.getId()) == 0) {
@@ -308,22 +365,23 @@ public class Simulation {
 					}
 				}
 
-				// If control does not have this control section in this phase, then add it.
+				// If control does not have this control section in this phase,
+				// then add it.
 				if (!foundThisControl) {
 
-					SimulationSection ss0 = new SimulationSection(schema, this.getId(), 
-							controlActor.getId(), this_sp.getId(), bss.getId(),
-							bss.getRec_tab_heading(), sizeOfSimSecs + 1);
-					
+					SimulationSection ss0 = new SimulationSection(schema, this
+							.getId(), controlActor.getId(), this_sp.getId(),
+							bss.getId(), bss.getRec_tab_heading(),
+							sizeOfSimSecs + 1);
+
 					simSecs.add(ss0);
-					
-					System.out.println("adding " + bss.getRec_tab_heading() + " at " + (sizeOfSimSecs + 1));
+
+					System.out.println("adding " + bss.getRec_tab_heading()
+							+ " at " + (sizeOfSimSecs + 1));
 
 				}
 
 			}
-
-
 
 		}
 
@@ -343,7 +401,7 @@ public class Simulation {
 
 		return null;
 	}
-	
+
 	/** Returns the id of the last phase in a simulation. */
 	public Long getLastPhaseId() {
 
@@ -510,7 +568,7 @@ public class Simulation {
 	}
 
 	public List<Conversation> getConversations() {
-		if (conversations == null){
+		if (conversations == null) {
 			conversations = new ArrayList<Conversation>();
 		}
 		return conversations;
@@ -519,39 +577,41 @@ public class Simulation {
 	public void setConversations(List<Conversation> conversations) {
 		this.conversations = conversations;
 	}
-	
+
 	/**
-	 * Only adds conversation to a simulation if that conversation has not already been added.
+	 * Only adds conversation to a simulation if that conversation has not
+	 * already been added.
+	 * 
 	 * @param conv
 	 */
-	public void addConversation(Conversation conv){
-		if ((!conversations.contains(conv))){
+	public void addConversation(Conversation conv) {
+		if ((!conversations.contains(conv))) {
 			conversations.add(conv);
 		}
 	}
 
-    public String getCopyright_string() {
-        return copyright_string;
-    }
+	public String getCopyright_string() {
+		return copyright_string;
+	}
 
-    public void setCopyright_string(String copyright_string) {
-        this.copyright_string = copyright_string;
-    }
+	public void setCopyright_string(String copyright_string) {
+		this.copyright_string = copyright_string;
+	}
 
-    public boolean isReadyForPublicListing() {
-        return isReadyForPublicListing;
-    }
+	public boolean isReadyForPublicListing() {
+		return isReadyForPublicListing;
+	}
 
-    public void setReadyForPublicListing(boolean isReadyForPublicListing) {
-        this.isReadyForPublicListing = isReadyForPublicListing;
-    }
+	public void setReadyForPublicListing(boolean isReadyForPublicListing) {
+		this.isReadyForPublicListing = isReadyForPublicListing;
+	}
 
-    public String getListingKeyWords() {
-        return listingKeyWords;
-    }
+	public String getListingKeyWords() {
+		return listingKeyWords;
+	}
 
-    public void setListingKeyWords(String listingKeyWords) {
-        this.listingKeyWords = listingKeyWords;
-    }
+	public void setListingKeyWords(String listingKeyWords) {
+		this.listingKeyWords = listingKeyWords;
+	}
 
 } // End of Simulation

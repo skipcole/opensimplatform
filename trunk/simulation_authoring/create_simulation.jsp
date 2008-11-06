@@ -13,56 +13,8 @@
 		return;
 	}
 	
-	Simulation simulation = new Simulation();
-	simulation.setCreator(pso.user_Display_Name);
+    Simulation simulation = pso.handleCreateOrUpdateNewSim(request);  
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
-	} else {
-		pso.simulationSelected = false;
-	}
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String addsimulation = (String) request.getParameter("addsimulation");
-	
-	///////////////////////////////////
-	
-	boolean justAdded = false;
-	
-	String debug_string = "";
-	
-	if ( (sending_page != null) && (addsimulation != null) && (sending_page.equalsIgnoreCase("create_simulation"))){
-          pso.handleCreateNewSim(request);  
-	} // End of if coming from this page and have added simulation.
-
-	//////////////////////////////////
-	// Put sim on scratch pad
-	String edit_simulation = (String) request.getParameter("edit_simulation");
-	
-	
-	if ((edit_simulation != null) && (edit_simulation.equalsIgnoreCase("true"))){
-		
-		pso.sim_id = new Long(   (String) request.getParameter("sim_id")   );
-		simulation = pso.giveMeSim();
-		
-		pso.simulationSelected = true;
-			
-	}
-	
-	
-	//////////////////////////////////
-	// Clear sim from scratch pad
-	String clear_simulation = (String) request.getParameter("clear_button");
-	
-	if ((clear_simulation != null) && (clear_simulation.equalsIgnoreCase("Clear"))){
-		
-		simulation = new Simulation();
-		simulation.setCreator(pso.user_Display_Name);
-		pso.simulationSelected = false;
-			
-	}
-	
-	//////////////////////////////////
 	List simList = Simulation.getAll(pso.schema);
 
 %>
@@ -208,8 +160,21 @@ body {
             <td>&nbsp;</td>
             <td valign="top">&nbsp;</td>
             <td valign="top">
-<input type="submit" name="addsimulation" value="Save" tabindex="5" /> 
-              <input type="submit" name="clear_button" value="Clear" tabindex="6" /></td>
+               <%
+				if (simulation.getId() == null) {
+				%>
+                	<input type="submit" name="command" value="Create" />
+                <%
+				} else {
+				%>
+                	<input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
+                	<input type="submit" name="command" value="Clear" tabindex="6" />
+                	<input type="submit" name="command" value="Update" />
+                <%
+					}
+				%>
+              
+              </td>
           </tr>
         </table>
         <blockquote>
@@ -228,7 +193,7 @@ body {
 			
 		%>
           <tr> 
-            <td><a href="create_simulation.jsp?edit_simulation=true&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
+            <td><a href="create_simulation.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
             <td>&nbsp;</td>
             <td><a href="delete_object.jsp?object_type=simulation&objid=<%= sim.getId().toString() %>&object_info=<%= nameToSend %>"> 
               (Remove) <%= sim.getName() %> : <%= sim.getVersion() %> </a></td>
