@@ -14,7 +14,6 @@ import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
 import org.hibernate.Session;
-import org.usip.osp.sharing.ObjectPackager;
 import org.usip.osp.specialfeatures.*;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -397,7 +396,7 @@ public class ParticipantSessionObject {
 
 		System.out.println("unpacking " + filename);
 
-		FileIO.unpackSim(filename, schema);
+		ObjectPackager.unpackSim(filename, schema);
 
 	}
 

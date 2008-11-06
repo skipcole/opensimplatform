@@ -3,17 +3,11 @@ package org.usip.osp.networking;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
-import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.BaseSimSection;
-import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSCW_Properties;
 import org.usip.osp.baseobjects.UserAssignment;
-import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * @author Ronald "Skip" Cole
@@ -35,8 +29,8 @@ public class FileIO {
 	private static String base_section_web_dir = "";
 	private static String base_web_dir = "";
     private static String custom_section_web_dir = "";
-    private static String packaged_sim_dir = "";
-    private static String sim_image_dir = "";
+    protected static String packaged_sim_dir = "";
+	private static String sim_image_dir = "";
 
 	static {
 		base_web_dir = USIP_OSCW_Properties.getValue("base_web_dir");
@@ -47,6 +41,7 @@ public class FileIO {
         sim_image_dir = USIP_OSCW_Properties.getValue("sim_image_dir");
         
 	}
+	
 	
 	/**
 	 * 
@@ -149,39 +144,6 @@ public class FileIO {
 		
 		return false;
 	}
-	
-	/**
-	 * 
-	 * @param fileloc
-	 * @param schema
-	 */
-	public static void unpackSim(String fileloc, String schema){
-		
-		String fileLocation = packaged_sim_dir + File.separator + fileloc;
-		
-		System.out.println("looking for file to unpack at " + fileLocation);
-		
-		File simToUnpackFile = new File(fileLocation);
-		
-		String xmlString = getFileContents(simToUnpackFile);
-		
-		XStream xstream = new XStream(new DomDriver());
-		xstream.alias("sim", Simulation.class);
-		
-		Simulation simRead = (Simulation) xstream.fromXML(xmlString);
-		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(simRead);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		for (ListIterator<Actor> li = simRead.getActors().listIterator(); li.hasNext();) {
-			Actor this_a = (Actor) li.next();
-			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this_a);
-		}
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-	}
-	
 	
 	/**
 	 * 
