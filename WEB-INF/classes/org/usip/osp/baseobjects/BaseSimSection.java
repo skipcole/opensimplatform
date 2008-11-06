@@ -215,10 +215,6 @@ public class BaseSimSection implements Comparable {
 		return (BaseSimSection) xstream.fromXML(xmlString);
 	}
 
-	public static void writeBaseSimSectionToXMLFile(BaseSimSection bss) {
-
-		System.out.println(ObjectPackager.packageObject(bss));
-	}
 
 	/** The primary key of this section. */
 	@Id

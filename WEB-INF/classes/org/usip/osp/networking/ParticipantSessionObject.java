@@ -645,20 +645,6 @@ public class ParticipantSessionObject {
 
 	}
 
-	/**
-	 * Makes sure that the control character has been added to all phases of a
-	 * simulation.
-	 * 
-	 * @param simulation
-	 */
-	public void addControlSectionsToAllPhasesOfControl(Simulation simulation) {
-
-		System.out.println("adding all sections to control");
-
-		Actor controlActor = Actor.getControlActor(schema);
-
-		simulation.addControlSectionsToAllPhasesOfControl(schema, controlActor);
-	}
 
 	/** Flag to indicate if user is to be admin user. */
 	private String _admin = "";
@@ -1779,49 +1765,53 @@ public class ParticipantSessionObject {
 	 * 
 	 * @param request
 	 */
-	public void handleCreateNewSim(HttpServletRequest request) {
+	public Simulation handleCreateOrUpdateNewSim(HttpServletRequest request) {
 
-		Simulation simulation = new Simulation();
+		Simulation simulation = new Simulation(schema);
 
-		simulation.setName((String) request.getParameter("simulation_name"));
-		simulation.setVersion((String) request
-				.getParameter("simulation_version"));
-		simulation.setCreation_org((String) request
-				.getParameter("creation_org"));
-		simulation.setCreator((String) request.getParameter("simcreator"));
-		simulation.setCopyright_string((String) request
-				.getParameter("simcopyright"));
-
-		simulationSelected = true;
-		// pso.simulation.layout.bannertitle = (String)
-		// request.getParameter("bannertitle");
-		// set creator name
-
-		// //////////////////////////////////////////////
-		// All new sims start with 2 phases.
-		SimulationPhase sp_first = SimulationPhase.getNewFirstPhase(schema);
-		SimulationPhase sp_last = SimulationPhase.getNewLastPhase(schema);
-
-		simulation.getPhases().add(sp_first);
-		simulation.getPhases().add(sp_last);
-		// /////////////////////////////////////////////////
-
-		Actor ctrl_act = Actor.getControlActor(schema);
-		simulation.getActors().add(ctrl_act);
-		// ///////////////////////////////////////////////
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(simulation);
-
-		simulationSelected = true;
-
+		String command = (String) request.getParameter("command");
+		String simulation_name = (String) request.getParameter("simulation_name");
+		String simulation_version = (String) request.getParameter("simulation_version");
+		
+		String creation_org = (String) request.getParameter("creation_org");
+		String simcreator = (String) request.getParameter("simcreator");
+		String simcopyright = (String) request.getParameter("simcopyright");
+		
+		if (command != null) {
+			if (command.equalsIgnoreCase("Create")) {
+				simulation = new Simulation(schema);
+				simulation.setName(simulation_name);
+				simulation.setVersion(simulation_version);
+				simulation.setCreation_org(creation_org);
+				simulation.setCreator(simcreator);
+				simulation.setCopyright_string(simcopyright);
+				
+				simulation.saveMe(schema);
+			} else if (command.equalsIgnoreCase("Update")) { // 
+				String sim_id = (String) request.getParameter("sim_id");
+				simulation = Simulation.getMe(schema, new Long(sim_id));
+				simulation.setName(simulation_name);
+				simulation.setVersion(simulation_version);
+				simulation.setCreation_org(creation_org);
+				//simulation.setCreator(simcreator);
+				simulation.setCopyright_string(simcopyright);
+				
+				simulation.saveMe(schema);
+			}  else if (command.equalsIgnoreCase("Edit")) {
+				String sim_id = (String) request.getParameter("sim_id");
+				simulation = Simulation.getMe(schema, new Long(sim_id));
+			} else if (command.equalsIgnoreCase("Clear")) { // 
+				// returning new simulation  will clear fields.
+			}
+		}
+		
 		this.sim_id = simulation.getId();
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		addControlSectionsToAllPhasesOfControl(simulation);
-
-	}
+		simulationSelected = true;
+		
+		return simulation;
+	}	
+	
 
 	/**
 	 * Gets all game variables that change from round to round, and based on
@@ -3191,20 +3181,10 @@ public class ParticipantSessionObject {
 		return returnString;
 
 	}
-
-	/**
-	 * Turns the simulation into an xml representation.
-	 * 
-	 * @return
-	 */
-	public String handlePackageSim() {
-
-		Simulation simulation = new Simulation();
-
-		if (sim_id != null) {
-			simulation = giveMeSim();
-		}
-
+	
+	
+	public String getDefaultSimXMLFileName(Simulation simulation){
+		
 		Date saveDate = new java.util.Date();
 
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMMyyyy");
@@ -3215,11 +3195,24 @@ public class ParticipantSessionObject {
 		fileName = cleanName(fileName);
 
 		fileName += ".xml";
+		
+		return fileName;
+		
+	}
 
-		FileIO.saveSimulationXMLFile(ObjectPackager.packageObject(simulation),
+	/**
+	 * Turns the simulation into an xml representation.
+	 * 
+	 * @return
+	 */
+	public String handlePackageSim(String _sim_id, String fileName) {
+
+		//Simulation simulation = Simulation.getMe(schema, new Long(_sim_id));
+
+		FileIO.saveSimulationXMLFile(ObjectPackager.packageSimulation(schema, new Long(_sim_id)),
 				fileName);
 
-		return "get it";
+		return fileName;
 	}
 
 	public static String cleanName(String name) {

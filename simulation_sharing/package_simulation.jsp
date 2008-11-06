@@ -1,7 +1,11 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.sharing.*" 
+	import="java.sql.*,java.util.*,
+		org.usip.osp.networking.*,
+		org.usip.osp.persistence.*,
+		org.usip.osp.baseobjects.*,
+		org.usip.osp.networking.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
@@ -13,24 +17,15 @@
 	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
 	
-	String simXML = "";
-	
-	String savedFileName = "";
+	String saveMsg = "";
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("package"))){
 	
 		String sim_id = (String) request.getParameter("sim_id");
+		String filename = (String) request.getParameter("filename");
 		
-		Simulation simulation = new Simulation();
-	
-		if (sim_id != null){
-			pso.sim_id = new Long(sim_id);
-			simulation = pso.giveMeSim();
-		}
-		
-		savedFileName = "File saved to " + pso.handlePackageSim();
-		
-		simXML =  ObjectPackager.packageObject(simulation);	
+		saveMsg = "File saved to " + 
+		pso.handlePackageSim(sim_id, filename);
 	}
 	
 %>
@@ -138,8 +133,9 @@ body {
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <blockquote>
-        <p>Select the simulation you will be packaging (and wait).</p>
-        <table>
+        <p><%= saveMsg %></p>
+        <table width="100%" border="1">
+        <tr><td>Simulation</td><td>File Name</td><td>Submit</td></tr>
           <%
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
@@ -148,31 +144,35 @@ body {
 			
 		%>
           <tr> 
-            <td><a href="package_simulation.jsp?sending_page=package&amp;sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
+          	<form id="form2" name="form2" method="post" action="package_simulation.jsp">
+            <td>
+            		<input type="hidden" name="sending_page" value="package" />
+            		<input type="hidden" name="sim_id" value="<%= sim.getId().toString() %>" />
+                    <%= sim.getName() %> : <%= sim.getVersion() %>
+ 			</td>
+            <td>
+              <input name="filename" type="text" id="textfield" value="<%= pso.getDefaultSimXMLFileName(sim) %>" size="60" />
+			</td>
+            <td><label>
+              <input type="submit" name="button" id="button" value="Package It" />
+            </label>            </td>
+			</form>
           </tr>
           <%
 	}
 %>
-
         </table>
-        <p><%= savedFileName %></p>
       </blockquote>
-      <form action="package_simulation.jsp" method="post" name="form1" id="form1">
-        <blockquote>
-          <p> 
-            
-            <input type="hidden" name="sending_page" value="create_game_details" />
-            <!-- input name="game_to_edit" type="submit" value="Select Game" / -->
-          </p>
-          <p align="center">
-            <label>
-            <textarea name="textarea" cols="80" rows="50"><%= simXML %></textarea>
-            </label>
-          </p>
-          <p align="center">          </p>
-        </blockquote>
-      </form>
-      <p>&nbsp;</p>
+      <hr />
+      <p>Your currently exported simulations:</p>
+        <p> 
+        <ul>
+	<% for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
+			String sim = (String) li.next(); %>
+    		 <li><%= sim %></li>
+	<% } %>
+    </ul>
+  </p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable -->

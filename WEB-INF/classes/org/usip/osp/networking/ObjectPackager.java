@@ -32,17 +32,17 @@ public class ObjectPackager {
     public static void main(String[] args) {
 
 
-        Simulation sim1 = new Simulation();
+        Simulation sim1 = new Simulation("test");
         
         sim1.saveMe("test");
         
-        XStream xstream = new XStream();
+        //XStream xstream = new XStream();
         
-        xstream.alias("sim", Simulation.class);
+        //xstream.alias("sim", Simulation.class);
         
-        String s = xstream.toXML(sim1);
+        //String s = xstream.toXML(sim1);
         
-        System.out.println(s);
+        System.out.println(packageSimulation("test", sim1.getId()));
     	
         
         
@@ -75,25 +75,14 @@ public class ObjectPackager {
      * @param simulation
      * @return
      */
-    public static String packageObject(Object obj){
+    public static String packageSimulation(String schema, Long sim_id){
          
+    	Simulation sim = Simulation.getMeFullyLoaded(schema, sim_id);
         XStream xstream = new XStream();
         
-        return xstream.toXML(obj);
-        
-    }
-    
-    /**
-     * This prepares a simulation for transmittal and sharing.
-     * 
-     * @param simulation
-     * @return
-     */
-    public static String packageSimulation(Simulation simulation){
-         
-        XStream xstream = new XStream();
-        
-        return xstream.toXML(simulation);
+        //xstream.alias("Simulation", Simulation.class);
+
+        return xstream.toXML(sim);
         
     }
 
@@ -115,17 +104,23 @@ public class ObjectPackager {
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("sim", Simulation.class);
 		
-		Simulation simRead = (Simulation) xstream.fromXML(xmlString);
+		Simulation simRead = new Simulation();
+		
+		simRead.saveMe(schema);
+		
+		simRead = (Simulation) xstream.fromXML(xmlString);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(simRead);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
+		/*
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		for (ListIterator<Actor> li = simRead.getActors().listIterator(); li.hasNext();) {
 			Actor this_a = (Actor) li.next();
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this_a);
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		*/
 	}
 }
