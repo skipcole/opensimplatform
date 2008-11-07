@@ -7,7 +7,7 @@
 
 <body>
 <p>&nbsp;</p>
-<p> * The USIP Online Simulation Platform is free software; you can redistribute it and/or<br>
+<p> * The USIP Open Simulation Platform is free software; you can redistribute it and/or<br>
   * modify it under the terms of the BSD Style license included with this<br>
   * distribution.<br>
   * <br>

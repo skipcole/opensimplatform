@@ -28,7 +28,7 @@ errorPage=""
   </tr>
 </table>
 <p>&nbsp;</p>
-<p>Follow the instructions below to install the USIP Online Simulation Platform <br>
+<p>Follow the instructions below to install the USIP Open Simulation Platform <br>
 </p>
 <table width="100%" border="1" cellspacing="0" cellpadding="2">
   <tr align="left" valign="top"> 

@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- TemplateBeginEditable name="doctitle" -->
-<title>USIP Online Simulation Platform</title>
+<title>USIP Open Simulation Platform</title>
 <!-- TemplateEndEditable -->
 <!-- TemplateBeginEditable name="head" -->
 <!-- TemplateEndEditable -->
@@ -21,7 +21,7 @@ body {
 <table width="720" border="0" align="center" cellspacing="2" cellpadding="2">
   <tr>
     <td valign="top"><div align="center">
-      <h1>USIP Online Simulation Platform Tutorial</h1>
+      <h1>USIP Open Simulation Platform Tutorial</h1>
     </div></td>
   </tr>
 </table>
