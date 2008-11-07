@@ -1767,7 +1767,7 @@ public class ParticipantSessionObject {
 	 */
 	public Simulation handleCreateOrUpdateNewSim(HttpServletRequest request) {
 
-		Simulation simulation = new Simulation(schema);
+		Simulation simulation = new Simulation();
 
 		String command = (String) request.getParameter("command");
 		String simulation_name = (String) request.getParameter("simulation_name");
@@ -1779,12 +1779,14 @@ public class ParticipantSessionObject {
 		
 		if (command != null) {
 			if (command.equalsIgnoreCase("Create")) {
-				simulation = new Simulation(schema);
+				
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation.setCreation_org(creation_org);
 				simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
+				
+				simulation.createDefaultObjects(schema);
 				
 				simulation.saveMe(schema);
 			} else if (command.equalsIgnoreCase("Update")) { // 

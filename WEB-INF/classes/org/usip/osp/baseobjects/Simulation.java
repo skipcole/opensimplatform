@@ -231,15 +231,14 @@ public class Simulation {
 	public Simulation() {
 
 	}
-
-	/**
-	 * 
-	 * And makes sure that the control character has been added to all phases of a
-	 * simulation.
-	 * @param schema
-	 */
-	public Simulation(String schema) {
-
+	
+	public void createDefaultObjects(String schema){
+		
+		// Save simulation to give it an id that will be used by some of the objects 
+		// inside of it to refer to it.
+		if (this.getId() == null){
+			this.saveMe(schema);
+		}
 		// //////////////////////////////////////////////
 		// All new sims start with 2 phases.
 		SimulationPhase sp_first = SimulationPhase.getNewFirstPhase(schema);
@@ -253,7 +252,8 @@ public class Simulation {
 		getActors().add(ctrl_act);
 		
 		addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
-
+		
+		this.saveMe(schema);
 	}
 
 	public static List getAll(String schema) {

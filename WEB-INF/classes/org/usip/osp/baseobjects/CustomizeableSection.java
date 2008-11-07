@@ -100,8 +100,6 @@ public class CustomizeableSection extends BaseSimSection {
         <control__section>false</control__section>
       </org.usip.osp.baseobjects.CustomizeableSection>
         */
-
-		System.out.println(ObjectPackager.packageObject(cs));
 		
 	}
 	
