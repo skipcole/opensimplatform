@@ -140,7 +140,7 @@ body {
       <blockquote> 
 	  <form action="make_private_chat_page.jsp" method="post" name="form2" id="form2">
         <blockquote><strong>Tab Heading</strong>: 
-          <input type="text" name="tab_heading" value="<%= pso.tab_heading %>"/>
+          <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/>
         <p>Fill out the top right part of the grid below to determine the sets of characters that will have a private chat window. </p>
         <table border="1"><tr><td>&nbsp;</td>
 		<%

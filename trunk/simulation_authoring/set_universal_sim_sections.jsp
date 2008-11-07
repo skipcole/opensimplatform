@@ -67,7 +67,6 @@ function MM_swapImage() { //v3.0
 <!--
 	var tab_headings = new Array();
 	var sec_descs = new Array();
-	var the_ids = new Array();
 	var the_sample_images = new Array();
 	var sample_image_directory = new Array();
 	
@@ -76,7 +75,6 @@ function MM_swapImage() { //v3.0
 			BaseSimSection bss = (BaseSimSection) li.next(); %>
 	tab_headings["<%= bss.getId() %>"] = "<%= bss.getRec_tab_heading() %>";
 	sec_descs["<%= bss.getId() %>"] = "<%= bss.getDescription() %>";
-	the_ids["<%= bss.getId() %>"] = "<%= bss.getId() %>";
 	the_sample_images["<%= bss.getId() %>"] = "<%= bss.getSample_image() %>";
 	<% 
 	   } 
@@ -84,14 +82,12 @@ function MM_swapImage() { //v3.0
 	
 	tab_headings["new_section"] = "New Section";
 	sec_descs["new_section"] = "This can be any thing you want: any web page anywhere.";
-	the_ids["new_section"] = "my_id";
 	the_sample_images["new_section"] = "new_section.png";
 	
 function loadFirstInfo(){
 
 	window.document.section_form.tab_heading.value = tab_headings["1"];
 	window.document.section_form.sec_desc.value = sec_descs["1"];
-	window.document.section_form.the_id.value = the_ids["1"];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images["1"];
 	
 }
@@ -104,24 +100,12 @@ function loadInfo(dropdownlist){
 	
 	window.document.section_form.tab_heading.value = tab_headings[passedvalue];
 	window.document.section_form.sec_desc.value = sec_descs[passedvalue];
-	window.document.section_form.the_id.value = the_ids[passedvalue];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images[passedvalue];
 	
 	return true;
 
 }
 
-function our_goToURL() { //v3.0
-  var i, args=our_goToURL.arguments; 
-  
-  document.MM_returnValue = false;
-  
-  // The page_id has 2 parts: the type of page and the id of the section
-  
-  var page_id = window.document.section_form.create_custom_page.value;
-  
-  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"?page_id="+page_id+"'");
-}
 //-->
 </script>
 <!-- TemplateParam name="theBodyInfo" type="text" value="" --><!-- InstanceEndEditable -->
@@ -251,21 +235,14 @@ body {
 							
 							if (sp.getId().intValue() == pso.phase_id.intValue()) {
 								selected_p = "selected";
-							}
-							
-							
+							}	
 				%>
                         <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getName() %></option>
                         <% } 
-						
 						MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-						
-						
 						%>
                       </select>
                       <label>
-					  <input type="hidden" name="actor_index" value="<%= pso.currentActorIndex  %>">
-					  <input type="hidden" name="actor_id" value="<%= actor.getId() %>">
                       <input type="submit" name="command" value="Change Phase" />
                       </label>
                   </form>
@@ -380,13 +357,10 @@ body {
                         </td>
                         <td valign="top"> <label> Tab Heading: 
                           <input type="text" name="tab_heading" />      
-                          <input name="the_id" type="text" disabled="disabled" id="the_id" style="visibility:hidden" value="" size="0"  />
                           </label> 
                           <p> 
                             <label> 
                             <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
-                            <input type="hidden" name="actor_index" value="<%= pso.currentActorIndex  %>">
-                            <input type="hidden" name="actor_id" value="<%= actor.getId() %>">
                             <input type="hidden" name="phase_id" value="<%= pso.phase_id.toString() %>">
 							<input type="hidden" name="universal" value="true">
                             <br />

@@ -6,14 +6,7 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 
-	String tab_heading = (String) session.getAttribute("tab_heading");
     String tab_pos = (String) session.getAttribute("tab_pos");
-	String universal = (String) session.getAttribute("universal");
-	
-	String new_tab_heading = request.getParameter("tab_heading");
-	if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-		tab_heading = new_tab_heading;
-	}
 	
 	String custom_page = request.getParameter("custom_page");
 	
@@ -59,15 +52,15 @@
 					}
 					
 					///////////////////////
-					new_tab_heading = mpr.getParameter("tab_heading");
+					String new_tab_heading = mpr.getParameter("tab_heading");
 					if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-							tab_heading = new_tab_heading;
+							pso._tab_heading = new_tab_heading;
 					}
 					///////////////////////
 					
 					page_title = (String) mpr.getParameter("page_title");
 					
-					cs.setRec_tab_heading(tab_heading);
+					cs.setRec_tab_heading(pso._tab_heading);
 					cs.getContents().put("page_title", page_title);
 					
 					String page_description = (String) mpr.getParameter("page_description");
@@ -96,7 +89,7 @@
 					cs.save(pso.schema);
 					
 					// add section
-					pso.addSectionFromProcessCustomPage(cs.getId(), tab_pos, tab_heading, request, universal);
+					pso.addSectionFromProcessCustomPage(cs.getId(), tab_pos, pso._tab_heading, request, pso._universal);
 					// send them back
 					response.sendRedirect(pso.backPage);
 					
@@ -225,7 +218,7 @@ body {
           <tr> 
             <td>&nbsp;</td>
             <td valign="top">Page Tab Heading:</td>
-            <td valign="top"> <input type="text" name="tab_heading" value="<%= tab_heading %>"/></td>
+            <td valign="top"> <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/></td>
           </tr>
           <tr> 
             <td>&nbsp;</td>

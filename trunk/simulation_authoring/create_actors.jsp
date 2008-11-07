@@ -226,11 +226,22 @@ body {
             <td valign="top">&nbsp;</td>
             <td valign="top">
 <input type="hidden" name="actorid" value="<%= pso.actor_id %>" /> 
-              <input type="submit"  name="update_actor" value="Update Actor" /> 
 
-              <input type="submit" name="create_actor" value="Create Actor" /> 
-
-              <input type="submit" name="clear_button" value="Clear" /></td>
+               <%
+				if (pso.actor_id == null) {
+				%>
+                	<input type="submit" name="create_actor" value="Create Actor" />
+                <%
+				} else {
+				%>
+                	<input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
+                	<input type="submit" name="clear_button" value="Clear" />
+                	<input type="submit"  name="update_actor" value="Update Actor" /> 
+                <%
+					}
+				%>
+      
+              </td>
           </tr>
         </table>
   <p> 

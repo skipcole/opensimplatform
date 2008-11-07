@@ -55,7 +55,6 @@
 <!--
 var tab_headings = new Array();
 	var sec_descs = new Array();
-	var the_ids = new Array();
 	var the_sample_images = new Array();
 	
 	<%	
@@ -64,7 +63,6 @@ var tab_headings = new Array();
 			BaseSimSection bss = (BaseSimSection) li.next(); %>
 	tab_headings["<%= bss.getId() %>"] = "<%= bss.getRec_tab_heading() %>";
 	sec_descs["<%= bss.getId() %>"] = "<%= bss.getDescription() %>";
-	the_ids["<%= bss.getId() %>"] = "<%= bss.getId() %>";
 	the_sample_images["<%= bss.getId() %>"] = "<%= bss.getSample_image() %>";
 	<% 
 
@@ -75,7 +73,6 @@ function loadFirstInfo(){
 
 	window.document.section_form.tab_heading.value = tab_headings["1"];
 	window.document.section_form.sec_desc.value = sec_descs["1"];
-	window.document.section_form.the_id.value = the_ids["1"];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images["1"];
 	
 }
@@ -88,24 +85,12 @@ function loadInfo(dropdownlist){
 	
 	window.document.section_form.tab_heading.value = tab_headings[passedvalue];
 	window.document.section_form.sec_desc.value = sec_descs[passedvalue];
-	window.document.section_form.the_id.value = the_ids[passedvalue];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images[passedvalue];
 	
 	return true;
 
 }
 
-function our_goToURL() { //v3.0
-  var i, args=our_goToURL.arguments; 
-  
-  document.MM_returnValue = false;
-  
-  // The page_id has 2 parts: the type of page and the id of the section
-  
-  var page_id = window.document.section_form.create_custom_page.value;
-  
-  for (i=0; i<(args.length-1); i+=2) eval(args[i]+".location='"+args[i+1]+"?page_id="+page_id+"'");
-}
 //-->
 </script>
 <!-- TemplateParam name="theBodyInfo" type="text" value="" --><!-- InstanceEndEditable -->
@@ -389,15 +374,12 @@ body {
                             <input type="hidden" name="actor_index" value="<%= pso.currentActorIndex  %>">
                             <input type="hidden" name="actor_id" value="<%= actor.getId() %>">
                             <input type="hidden" name="phase_id" value="<%= pso.phase_id.toString() %>">
-                            <input type="text" name="the_id" id="the_id" value="" disabled="disabled" style="width:0" />
                             <br />
                             <input type="submit" name="command" value="Add Section">
                             </label>
                           </p></td>
                       </tr>
 					  </form>
-					  <form id="section_form" name="cust_lib_section_form" method="post" action="">
-                    </form>
                   </table></td>
                 </tr>
               </table>
