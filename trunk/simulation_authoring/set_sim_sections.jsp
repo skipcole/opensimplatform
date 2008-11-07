@@ -336,8 +336,8 @@ body {
 				  <table border="1" width="100%">
                     <form id="section_form" name="section_form" method="post" action="set_sim_sections_router.jsp">
                       <tr> 
-                        <td width="50%" valign="top"><p>Select a Standard Section 
-                            Below 
+                        <td width="50%" valign="top"><p>Select a section 
+                            below to add to this actor at this phase in the simulation.
                           <blockquote> 
                             <select name="bss_id"  onChange="loadInfo(window.document.section_form.bss_id);">
                               <%
@@ -360,10 +360,20 @@ body {
 			%>
                               <option value="<%= cs.getId().toString() %>"><%= cs.getRec_tab_heading() %></option>
                               <% } %>
-                              <% } %>
+                              <% } // End of loop over customizable sections	
+							  
+							  List cust_lib = CustomLibrarySection.getAll(pso.schema);
+							  
+							  if (cust_lib != null) {  
+							  for (ListIterator li = cust_lib.listIterator(); li.hasNext();) {
+										CustomLibrarySection cls = (CustomLibrarySection) li.next();
+									%>
+                              <option value="<%= cls.getId().toString() %>"><%= cls.getRec_tab_heading() %></option>
+                              <% } // End of loop over custom library sections
+							  	} // End of if cust_lib != null
+							  %>
                             </select>
-                          </blockquote>
-                          </td>
+                          </blockquote>                          </td>
                         <td valign="top"> <label> Tab Heading: 
                           <input type="text" name="tab_heading" />
                           <br />
@@ -387,51 +397,6 @@ body {
                       </tr>
 					  </form>
 					  <form id="section_form" name="cust_lib_section_form" method="post" action="">
-                      <tr>
-                        <td valign="top"><p>or Pull from custom library</p>
-                          <blockquote> 
-                            <% 
-								List cust_lib = CustomLibrarySection.getAll(pso.schema);
-								
-								if (cust_lib != null) {
-							%>
-                            <select name="select_cust_lib_page" onChange="loadInfo(window.document.section_form.select_cust_lib_page);">
-                              <option value="0" selected="selected">Select from 
-                              List</option>
-                              <%
-								//} else {
-								
-									for (ListIterator li = cust_lib.listIterator(); li.hasNext();) {
-										CustomLibrarySection cls = (CustomLibrarySection) li.next();
-									%>
-                              <option value="<%= cls.getId().toString() %>"><%= cls.getRec_tab_heading() %></option>
-                              <% } %>
-                            </select>
-                            <% } else { %>
-                            <p>none</p>
-                            <% } %>
-                          </blockquote></td>
-                        <td valign="top"><label> Tab Heading: 
-                          <input type="text" name="tab_heading" />
-                          <br />
-                          Tab Position: 
-                          <select name="tab_pos">
-                            <% for (int tp = 1; tp <= pso.tempSimSecList.size() + 1; ++tp) { %>
-                            <option value="<%= tp %>"><%= tp %></option>
-                            <% } %>
-                          </select>
-                          </label> <p> 
-                            <label> 
-                            <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
-                            <input type="hidden" name="actor_index" value="<%= pso.currentActorIndex  %>">
-                            <input type="hidden" name="actor_id" value="<%= actor.getId() %>">
-                            <input type="hidden" name="phase_id" value="<%= pso.phase_id.toString() %>">
-                            <input type="text" name="the_id" id="the_id" value="" disabled="disabled" style="width:0" />
-                            <br />
-                            <input type="submit" name="command" value="Add Section">
-                            </label>
-                          </p></td>
-                      </tr>
                     </form>
                   </table></td>
                 </tr>

@@ -31,22 +31,6 @@ public class ObjectPackager {
     
     public static void main(String[] args) {
 
-
-        Simulation sim1 = new Simulation("test");
-        
-        sim1.saveMe("test");
-        
-        //XStream xstream = new XStream();
-        
-        //xstream.alias("sim", Simulation.class);
-        
-        //String s = xstream.toXML(sim1);
-        
-        System.out.println(packageSimulation("test", sim1.getId()));
-    	
-        
-        
-    	//play();
     }
     
     public static void play() {
@@ -104,6 +88,8 @@ public class ObjectPackager {
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("sim", Simulation.class);
 		
+		// Saving this is necessary when there is no sims at all in the database
+		// Otherwise, when try to save the first sim, one gets an error.
 		Simulation simRead = new Simulation();
 		
 		simRead.saveMe(schema);

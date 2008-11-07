@@ -107,8 +107,7 @@ public class RunningSimulation {
 		doFinalChecksOnSim(sim, MultiSchemaHibernateUtil.getSession(schema));
 
 		// Email if desired
-		//if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) {
-		if (true){
+		if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) {
 			System.out.println("sending welcome emails");
 
 			System.out.println("sending from " + from);

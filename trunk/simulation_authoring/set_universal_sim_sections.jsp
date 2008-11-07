@@ -380,7 +380,7 @@ body {
                         </td>
                         <td valign="top"> <label> Tab Heading: 
                           <input type="text" name="tab_heading" />      
-                          <input name="the_id" type="text" disabled="disabled" id="the_id" style="width:0" value="" size="0" />
+                          <input name="the_id" type="text" disabled="disabled" id="the_id" style="visibility:hidden" value="" size="0"  />
                           </label> 
                           <p> 
                             <label> 
