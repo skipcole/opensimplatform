@@ -48,7 +48,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Online Simulation Platform Control Page</title>
+<title>Open Simulation Platform Control Page</title>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <script language="JavaScript" type="text/JavaScript">
@@ -60,7 +60,7 @@ var tab_headings = new Array();
 	
 	<%	
 
-	for (ListIterator li = new BaseSimSection().getAll(pso.schema).listIterator(); li.hasNext();) {
+	for (ListIterator li = new BaseSimSection().getAllAndChildren(pso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next(); %>
 	tab_headings["<%= bss.getId() %>"] = "<%= bss.getRec_tab_heading() %>";
 	sec_descs["<%= bss.getId() %>"] = "<%= bss.getDescription() %>";
@@ -450,7 +450,7 @@ body {
   </tr>
   <tr> 
     <td>
-    <p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
+    <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
   </tr>
 </table>
 </td></tr></table>

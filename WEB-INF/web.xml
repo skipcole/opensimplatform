@@ -6,7 +6,7 @@
 
 <web-app>
 
-   <description>Online Simulation Platform Server Application</description>
+   <description>Open Simulation Platform Server Application</description>
 
    <listener>
       <listener-class>

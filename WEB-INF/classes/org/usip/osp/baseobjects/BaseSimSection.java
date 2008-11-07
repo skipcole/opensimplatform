@@ -9,7 +9,6 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.networking.FileIO;
 import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.*;
-import org.usip.osp.sharing.*;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;

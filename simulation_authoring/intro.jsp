@@ -11,7 +11,7 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Online Simulation Platform Introduction</title>
+<title>Open Simulation Platform Introduction</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../ver1/simulation_authoring/help_oscw.css" rel="stylesheet" type="text/css">
 </head>

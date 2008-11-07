@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Online Simulation Platform Tutorial</title>
+<title>Open Simulation Platform Tutorial</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../../ver1/simulation_tutorial/oswc.css" rel="stylesheet" type="text/css">
 </head>

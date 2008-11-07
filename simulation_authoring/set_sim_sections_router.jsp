@@ -12,6 +12,7 @@
 		return;
 	}
 	
+	pso.setSectionRouterPassThroughParameters(request);
 	///////////////////////////////////////////////////////////////////////////////////////
 	String page_id = request.getParameter("page_id");
 	String bss_id = request.getParameter("bss_id");
@@ -19,14 +20,15 @@
 	pso.tab_heading = (String) request.getParameter("tab_heading");
     String tab_pos = (String) request.getParameter("tab_pos");
     String universal = (String) request.getParameter("universal");
-	System.out.println("universal was : " + universal);
 	///////////////////////////////////////////////////////////////////////////////////////
 	
+	// bss_id is either an integeer, or the string 'create_simulation_section.jsp'
 	if (bss_id.equalsIgnoreCase("new_section")){
 		response.sendRedirect("create_simulation_section.jsp");
 		return;
 	}
 	
+	// Base sim section is retrieved by ID
 	BaseSimSection bss = BaseSimSection.getMe(pso.schema, bss_id);
 	
 	if(command.equalsIgnoreCase("Add Section")){
@@ -64,7 +66,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Online Simulation Platform Control Page</title>
+<title>Open Simulation Platform Control Page</title>
 <!-- TemplateParam name="theBodyInfo" type="text" value="" --> 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -95,7 +97,7 @@ body {
   </tr>
 </table>
 <p>&nbsp;</p>
-<p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP 
+<p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP 
   Open Source Software Project</a>. </p>
 </body>
 </html>
