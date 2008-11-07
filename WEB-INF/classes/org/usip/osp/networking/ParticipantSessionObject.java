@@ -199,7 +199,7 @@ public class ParticipantSessionObject {
 	private String _phase_id = "";
 
 	/** Tab heading of the simulation section being added. */
-	public String tab_heading = "";
+	public String _tab_heading = "";
 
 	/** Tab position of the simulation section being added. */
 	private String _tab_pos = "";
@@ -208,12 +208,8 @@ public class ParticipantSessionObject {
 	 * Whether or not this is a 'universal' section, that is one applied to all
 	 * users.
 	 */
-	private String _universal = "";
+	public String _universal = "";
 
-	public void setSectionRouterPassThroughParameters(HttpServletRequest request) {
-		
-	}
-	
 	/**
 	 * 
 	 * @param request
@@ -225,7 +221,7 @@ public class ParticipantSessionObject {
 		_command = (String) request.getParameter("command");
 		_page_id = (String) request.getParameter("page_id");
 		_phase_id = (String) request.getParameter("phase_id");
-		tab_heading = (String) request.getParameter("tab_heading");
+		_tab_heading = (String) request.getParameter("tab_heading");
 		_tab_pos = (String) request.getParameter("tab_pos");
 		_universal = (String) request.getParameter("universal");
 
@@ -245,17 +241,13 @@ public class ParticipantSessionObject {
 		if ((_phase_id != null) && (_phase_id.length() > 0)) {
 			phase_id = new Long(_phase_id);
 		} else {
-
 			if (phase_id == null) {
 				phase_id = simulation.getFirstPhaseId();
-
-				System.out.println("selecting first phase id, which is "
-						+ phase_id.toString());
-
-				phaseSelected = true;
 			}
 		}
-		// //////////////////////////////////////////////////////
+		
+		phaseSelected = true;
+	
 	}
 
 	/**
@@ -324,32 +316,17 @@ public class ParticipantSessionObject {
 
 		actor_id = new Long(0);
 
-		// Handle submit ('command') buttons
-		if (_command != null) {
-			if (_command.equalsIgnoreCase("Add Section")) {
-
-				System.out.println("making for s/a/p/t: " + sim_id + "/"
-						+ actor_id + "/" + phase_id + "/" + _tab_pos);
-
-				SimulationSection ss0 = new SimulationSection(schema, sim_id,
-						new Long(actor_id), new Long(phase_id), new Long(
-								_bss_id), tab_heading, new Long(_tab_pos)
-								.intValue());
-
-				SimulationSection.applyUniversalSectionsToAllActors(schema,
-						simulation, phase_id);
-
-			}
-		}
-
-		System.out.println("getting simSecList for s/a/p" + sim_id + "/"
-				+ actor_id + "/" + phase_id);
 		tempSimSecList = SimulationSection.getBySimAndActorAndPhase(schema,
 				sim_id, actor_id, phase_id);
 
 		return simulation;
 	}
 
+	/**
+	 * Unpacks a simulation from an XML file.
+	 * 
+	 * @param request
+	 */
 	public void handleUnpackSimulation(HttpServletRequest request) {
 
 		String filename = (String) request.getParameter("filename");
@@ -455,28 +432,11 @@ public class ParticipantSessionObject {
 		// Determine what phase we are working on.
 		determinePhase(simulation);
 
-		// ///////////////////////////////////////////////////////
-		// Handle submit ('command') buttons
-
-		if (_command == null) {
-			_command = (String) request.getAttribute("command");
-		}
-
 		System.out.println("command is = " + _command);
 
 		if (_command != null) {
 			if (_command.equalsIgnoreCase("Change Phase")) {
 				// This has been handled in the phase id section above.
-			} else if (_command.equalsIgnoreCase("Add Section")) {
-
-				System.out.println("making for s/a/p/t: " + sim_id + "/"
-						+ actor_id + "/" + phase_id + "/" + _tab_pos);
-
-				SimulationSection ss0 = new SimulationSection(schema, sim_id,
-						new Long(actor_id), new Long(phase_id), new Long(
-								_bss_id), tab_heading, new Long(_tab_pos)
-								.intValue());
-
 			} else if (_command.equalsIgnoreCase("move_right")) {
 				String m_index = (String) request.getParameter("m_index");
 				System.out.println("doing something on index = " + m_index);
@@ -484,7 +444,8 @@ public class ParticipantSessionObject {
 				int int_tab_pos = new Long(m_index).intValue() + 1;
 				SimulationSection ss0 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
-								new Long(actor_id), new Long(phase_id), int_tab_pos);
+								new Long(actor_id), new Long(phase_id),
+								int_tab_pos);
 
 				SimulationSection ss1 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
@@ -511,7 +472,8 @@ public class ParticipantSessionObject {
 				int int_tab_pos = new Long(m_index).intValue() + 1;
 				SimulationSection ss0 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
-								new Long(actor_id), new Long(phase_id), int_tab_pos);
+								new Long(actor_id), new Long(phase_id),
+								int_tab_pos);
 
 				SimulationSection ss1 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
@@ -541,8 +503,64 @@ public class ParticipantSessionObject {
 		return simulation;
 	}
 
-	public void addSectionFromRouter(HttpServletRequest request,
-			String _universal) {
+	/**
+	 * The router page is called from either the set universal sections or set simulation sections jsp.
+	 * It directs the output to where it need to go.
+	 * @param request
+	 * @return
+	 */
+	public String handleSimSectionsRouter(HttpServletRequest request) {
+
+		setSimSectionsInternalVariables(request);
+
+		// bss_id is either an integeer, or the string 'new_section'
+		if (_bss_id.equalsIgnoreCase("new_section")) {
+			return "create_simulation_section.jsp";
+		}
+
+		// Base sim section is retrieved by ID
+		BaseSimSection bss = BaseSimSection.getMe(schema, _bss_id);
+
+		if (_command.equalsIgnoreCase("Add Section")) {
+
+			if (bss.getClass().getName().equalsIgnoreCase(
+					"org.usip.osp.baseobjects.BaseSimSection")) {
+				// Here we add the class straight away.
+				addSectionFromRouter(request);
+
+				return backPage;
+
+			} else if (bss.getClass().getName().equalsIgnoreCase(
+					"org.usip.osp.baseobjects.CustomizeableSection")) {
+
+				custom_page = _bss_id;
+
+				bss = null;
+
+				CustomizeableSection cbss = CustomizeableSection.getMe(schema,
+						_bss_id);
+
+				if (!cbss.isHasASpecificMakePage()) {
+					return ("customize_page.jsp?custom_page=" + new Long(_bss_id));
+				} else {
+					return (cbss.getSpecificMakePage() + "?custom_page=" + new Long(
+							_bss_id));
+				}
+
+			}
+		}
+		
+		System.out.println("Router Accidentally called");
+		return backPage;
+
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param _universal
+	 */
+	public void addSectionFromRouter(HttpServletRequest request) {
 
 		boolean universal = false;
 
@@ -554,7 +572,7 @@ public class ParticipantSessionObject {
 
 		System.out.println("schema: " + schema + ", sim_id: " + sim_id
 				+ ", a_id: " + actor_id + ", phase_id:" + phase_id
-				+ ", bss_id: " + _bss_id + ", tab heading: " + tab_heading
+				+ ", bss_id: " + _bss_id + ", tab heading: " + _tab_heading
 				+ ", tab pos: " + _tab_pos);
 
 		System.out.flush();
@@ -562,9 +580,9 @@ public class ParticipantSessionObject {
 		Long this_tab_pos = getTabPos();
 
 		SimulationSection ss0 = new SimulationSection(schema, sim_id, new Long(
-				actor_id), new Long(phase_id), new Long(_bss_id), tab_heading,
+				actor_id), new Long(phase_id), new Long(_bss_id), _tab_heading,
 				this_tab_pos.intValue());
-
+		
 		if (universal) {
 			Simulation simulation = giveMeSim();
 			SimulationSection.applyUniversalSectionsToAllActors(schema,
@@ -586,8 +604,9 @@ public class ParticipantSessionObject {
 		return this_tab_pos;
 	}
 
-	public void addSectionFromProcessCustomPage(Long bss_id, String string_tab_pos,
-			String tab_heading, HttpServletRequest request, String universal) {
+	public void addSectionFromProcessCustomPage(Long bss_id,
+			String string_tab_pos, String tab_heading,
+			HttpServletRequest request, String universal) {
 
 		System.out.println("bss_id " + bss_id);
 		System.out.println("tabhead " + tab_heading);
@@ -604,7 +623,6 @@ public class ParticipantSessionObject {
 		}
 
 	}
-
 
 	/** Flag to indicate if user is to be admin user. */
 	private String _admin = "";
@@ -730,10 +748,12 @@ public class ParticipantSessionObject {
 
 	/**
 	 * This responds to one of threee commands:
-	 * <ol>	<li>Create a new phase.</li>
-	 * 		<li>Queue up a phase for editing.</li>
-	 * 		<li>Update a phase.</li>
+	 * <ol>
+	 * <li>Create a new phase.</li>
+	 * <li>Queue up a phase for editing.</li>
+	 * <li>Update a phase.</li>
 	 * </ol>
+	 * 
 	 * @param sim
 	 * @param request
 	 * @return
@@ -1730,24 +1750,26 @@ public class ParticipantSessionObject {
 		Simulation simulation = new Simulation();
 
 		String command = (String) request.getParameter("command");
-		String simulation_name = (String) request.getParameter("simulation_name");
-		String simulation_version = (String) request.getParameter("simulation_version");
-		
+		String simulation_name = (String) request
+				.getParameter("simulation_name");
+		String simulation_version = (String) request
+				.getParameter("simulation_version");
+
 		String creation_org = (String) request.getParameter("creation_org");
 		String simcreator = (String) request.getParameter("simcreator");
 		String simcopyright = (String) request.getParameter("simcopyright");
-		
+
 		if (command != null) {
 			if (command.equalsIgnoreCase("Create")) {
-				
+
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation.setCreation_org(creation_org);
 				simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
-				
+
 				simulation.createDefaultObjects(schema);
-				
+
 				simulation.saveMe(schema);
 			} else if (command.equalsIgnoreCase("Update")) { // 
 				String sim_id = (String) request.getParameter("sim_id");
@@ -1755,25 +1777,24 @@ public class ParticipantSessionObject {
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation.setCreation_org(creation_org);
-				//simulation.setCreator(simcreator);
+				// simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
-				
+
 				simulation.saveMe(schema);
-			}  else if (command.equalsIgnoreCase("Edit")) {
+			} else if (command.equalsIgnoreCase("Edit")) {
 				String sim_id = (String) request.getParameter("sim_id");
 				simulation = Simulation.getMe(schema, new Long(sim_id));
 			} else if (command.equalsIgnoreCase("Clear")) { // 
-				// returning new simulation  will clear fields.
+				// returning new simulation will clear fields.
 			}
 		}
-		
+
 		this.sim_id = simulation.getId();
 
 		simulationSelected = true;
-		
+
 		return simulation;
-	}	
-	
+	}
 
 	/**
 	 * Gets all game variables that change from round to round, and based on
@@ -2602,7 +2623,7 @@ public class ParticipantSessionObject {
 		// /////////////////////////////////////////////////
 		String new_tab_heading = request.getParameter("tab_heading");
 		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			tab_heading = new_tab_heading;
+			_tab_heading = new_tab_heading;
 		}
 		// //////////////////////////////////////////////////
 		String t_custom_page = request.getParameter("custom_page");
@@ -2666,13 +2687,13 @@ public class ParticipantSessionObject {
 					.getParameter("make_write_document_page_text");
 			customizableSectionOnScratchPad
 					.setBigString(make_write_document_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(tab_heading);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(schema);
 
 			if (save_and_add != null) {
 				// add section
 				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), tab_pos, tab_heading, request, universal);
+						.getId(), tab_pos, _tab_heading, request, universal);
 				// send them back
 				forward_on = true;
 				return customizableSectionOnScratchPad;
@@ -2758,7 +2779,7 @@ public class ParticipantSessionObject {
 			String new_tab_heading = request.getParameter("tab_heading");
 
 			if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-				tab_heading = new_tab_heading;
+				_tab_heading = new_tab_heading;
 			}
 			// /////////////////////////////////////////////////////
 
@@ -2811,9 +2832,12 @@ public class ParticipantSessionObject {
 
 						ConvActorAssignment caa = new ConvActorAssignment();
 						caa.setActor_id(actorWithChat);
+						caa.save(schema);
+						
 						ConvActorAssignment caa2 = new ConvActorAssignment();
 						caa2.setActor_id(actorWithChat2);
-
+						caa2.save(schema);
+						
 						ArrayList al = new ArrayList();
 						al.add(caa);
 						al.add(caa2);
@@ -2821,10 +2845,6 @@ public class ParticipantSessionObject {
 						conv.setConv_actor_assigns(al);
 
 						MultiSchemaHibernateUtil.beginTransaction(schema);
-						MultiSchemaHibernateUtil.getSession(schema)
-								.saveOrUpdate(caa);
-						MultiSchemaHibernateUtil.getSession(schema)
-								.saveOrUpdate(caa2);
 						MultiSchemaHibernateUtil.getSession(schema)
 								.saveOrUpdate(conv);
 						MultiSchemaHibernateUtil
@@ -2847,7 +2867,7 @@ public class ParticipantSessionObject {
 
 				SimulationSection.applySectionToSpecificActors(schema, sim,
 						this.phase_id, customizableSectionOnScratchPad.getId(),
-						tab_heading, playersWithChat);
+						_tab_heading, playersWithChat);
 				// send them back
 				forward_on = true;
 			}
@@ -2867,7 +2887,7 @@ public class ParticipantSessionObject {
 		// /////////////////////////////////////////////////
 		String new_tab_heading = request.getParameter("tab_heading");
 		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			tab_heading = new_tab_heading;
+			_tab_heading = new_tab_heading;
 		}
 		// //////////////////////////////////////////////////
 		String t_custom_page = request.getParameter("custom_page");
@@ -2927,13 +2947,13 @@ public class ParticipantSessionObject {
 					.getParameter("make_read_document_page_text");
 			customizableSectionOnScratchPad
 					.setBigString(make_read_document_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(tab_heading);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(schema);
 
 			if (save_and_add != null) {
 				// add section
 				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), tab_pos, tab_heading, request, universal);
+						.getId(), tab_pos, _tab_heading, request, universal);
 				// send them back
 				forward_on = true;
 			}
@@ -2964,7 +2984,7 @@ public class ParticipantSessionObject {
 		String new_tab_heading = request.getParameter("tab_heading");
 
 		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			tab_heading = new_tab_heading;
+			_tab_heading = new_tab_heading;
 		}
 		// /////////////////////////////////////////////////////
 
@@ -2996,7 +3016,7 @@ public class ParticipantSessionObject {
 
 				Conversation conv = new Conversation();
 				conv.setSim_id(sim_id);
-				conv.setConversation_name(tab_heading);
+				conv.setConversation_name(_tab_heading);
 				conv.save(schema, sim_id);
 				customizableSectionOnScratchPad.getContents().put(
 						"sim_conv_id", conv.getId());
@@ -3035,7 +3055,7 @@ public class ParticipantSessionObject {
 								+ "";
 					}
 
-					conv.setConversation_name(tab_heading);
+					conv.setConversation_name(_tab_heading);
 					conv.save(schema, sim_id);
 					sim_conv_id = conv.getId();
 
@@ -3051,7 +3071,7 @@ public class ParticipantSessionObject {
 			String text_page_text = (String) request
 					.getParameter("text_page_text");
 			customizableSectionOnScratchPad.setBigString(text_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(tab_heading);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 
 			sim_conv_id = (Long) customizableSectionOnScratchPad.getContents()
 					.get("sim_conv_id");
@@ -3090,7 +3110,7 @@ public class ParticipantSessionObject {
 				// add section to the applicable actors
 				SimulationSection.applySectionsToSomeActors(schema, sim,
 						this.phase_id, customizableSectionOnScratchPad.getId(),
-						tab_heading, conv.getConv_actor_assigns());
+						_tab_heading, conv.getConv_actor_assigns());
 				// send them back
 				forward_on = true;
 				return null;
@@ -3143,10 +3163,9 @@ public class ParticipantSessionObject {
 		return returnString;
 
 	}
-	
-	
-	public String getDefaultSimXMLFileName(Simulation simulation){
-		
+
+	public String getDefaultSimXMLFileName(Simulation simulation) {
+
 		Date saveDate = new java.util.Date();
 
 		SimpleDateFormat sdf = new SimpleDateFormat("ddMMMyyyy");
@@ -3157,9 +3176,9 @@ public class ParticipantSessionObject {
 		fileName = cleanName(fileName);
 
 		fileName += ".xml";
-		
+
 		return fileName;
-		
+
 	}
 
 	/**
@@ -3169,10 +3188,10 @@ public class ParticipantSessionObject {
 	 */
 	public String handlePackageSim(String _sim_id, String fileName) {
 
-		//Simulation simulation = Simulation.getMe(schema, new Long(_sim_id));
+		// Simulation simulation = Simulation.getMe(schema, new Long(_sim_id));
 
-		FileIO.saveSimulationXMLFile(ObjectPackager.packageSimulation(schema, new Long(_sim_id)),
-				fileName);
+		FileIO.saveSimulationXMLFile(ObjectPackager.packageSimulation(schema,
+				new Long(_sim_id)), fileName);
 
 		return fileName;
 	}
