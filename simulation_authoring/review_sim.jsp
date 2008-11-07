@@ -31,7 +31,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>USIP Online Simulation Platform</title>
+<title>USIP Open Simulation Platform</title>
 <SCRIPT language=JavaScript1.2>
 <!--
 function showHide(name){

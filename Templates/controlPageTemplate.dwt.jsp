@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- TemplateBeginEditable name="doctitle" -->
-<title>USIP Online Simulation Platform</title>
+<title>USIP Open Simulation Platform</title>
 <!-- TemplateEndEditable -->
 <!-- TemplateBeginEditable name="head" -->
 <!-- TemplateEndEditable -->
