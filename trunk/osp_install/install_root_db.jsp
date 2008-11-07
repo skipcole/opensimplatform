@@ -31,7 +31,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Online Simulation Platform Control Page</title>
+<title>Open Simulation Platform Control Page</title>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -82,7 +82,7 @@ body {
 </table>
 <p>&nbsp;</p>
 
-<p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP 
+<p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP 
   Open Source Software Project</a>. </p>
 </body>
 </html>

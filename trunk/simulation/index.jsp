@@ -16,7 +16,7 @@
 %>
 <html>
 <head>
-<title>Online Simulation Platform Login</title>
+<title>Open Simulation Platform Login</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
 <!--

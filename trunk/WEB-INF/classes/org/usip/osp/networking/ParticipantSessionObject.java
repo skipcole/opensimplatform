@@ -210,6 +210,10 @@ public class ParticipantSessionObject {
 	 */
 	private String _universal = "";
 
+	public void setSectionRouterPassThroughParameters(HttpServletRequest request) {
+		
+	}
+	
 	/**
 	 * 
 	 * @param request
@@ -346,50 +350,6 @@ public class ParticipantSessionObject {
 		return simulation;
 	}
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String handleSetUniversalSimSectionsRouterPage(
-			HttpServletRequest request) {
-
-		setSimSectionsInternalVariables(request);
-
-		if (_bss_id.equalsIgnoreCase("new_section")) {
-			return "create_simulation_section.jsp";
-		}
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil
-				.getSession(schema)
-				.get(BaseSimSection.class, new Long(_bss_id));
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		if (_command.equalsIgnoreCase("Add Section")) {
-
-			System.out.println("adding section command activated.");
-
-			if (bss.getClass().getName().equalsIgnoreCase(
-					"org.usip.osp.baseobjects.BaseSimSection")) {
-				// Here we add the class straight away.
-				addSectionFromRouter(request, _universal);
-				return backPage + "?phase_id=" + _phase_id;
-			} else if (bss.getClass().getName().equalsIgnoreCase(
-					"org.usip.osp.baseobjects.CustomizeableSection")) {
-				session.setAttribute("tab_heading", tab_heading);
-				session.setAttribute("tab_pos", _tab_pos);
-				session.setAttribute("universal", _universal);
-
-				return "customize_page.jsp?custom_page=" + bss.getId();
-			}
-		}
-
-		return backPage + "?phase_id=" + _phase_id;
-	}
-
 	public void handleUnpackSimulation(HttpServletRequest request) {
 
 		String filename = (String) request.getParameter("filename");
@@ -521,18 +481,18 @@ public class ParticipantSessionObject {
 				String m_index = (String) request.getParameter("m_index");
 				System.out.println("doing something on index = " + m_index);
 
-				int tab_pos = new Long(m_index).intValue() + 1;
+				int int_tab_pos = new Long(m_index).intValue() + 1;
 				SimulationSection ss0 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
-								new Long(actor_id), new Long(phase_id), tab_pos);
+								new Long(actor_id), new Long(phase_id), int_tab_pos);
 
 				SimulationSection ss1 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
 								new Long(actor_id), new Long(phase_id),
-								tab_pos + 1);
+								int_tab_pos + 1);
 
-				ss0.setTab_position(tab_pos + 1);
-				ss1.setTab_position(tab_pos);
+				ss0.setTab_position(int_tab_pos + 1);
+				ss1.setTab_position(int_tab_pos);
 
 				ss0.save(schema);
 				ss1.save(schema);
@@ -548,18 +508,18 @@ public class ParticipantSessionObject {
 				String m_index = (String) request.getParameter("m_index");
 				System.out.println("doing something on index = " + m_index);
 
-				int tab_pos = new Long(m_index).intValue() + 1;
+				int int_tab_pos = new Long(m_index).intValue() + 1;
 				SimulationSection ss0 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
-								new Long(actor_id), new Long(phase_id), tab_pos);
+								new Long(actor_id), new Long(phase_id), int_tab_pos);
 
 				SimulationSection ss1 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
 								new Long(actor_id), new Long(phase_id),
-								tab_pos - 1);
+								int_tab_pos - 1);
 
-				ss0.setTab_position(tab_pos - 1);
-				ss1.setTab_position(tab_pos);
+				ss0.setTab_position(int_tab_pos - 1);
+				ss1.setTab_position(int_tab_pos);
 
 				ss0.save(schema);
 				ss1.save(schema);
@@ -626,7 +586,7 @@ public class ParticipantSessionObject {
 		return this_tab_pos;
 	}
 
-	public void addSectionFromProcessCustomPage(Long bss_id, String tab_pos,
+	public void addSectionFromProcessCustomPage(Long bss_id, String string_tab_pos,
 			String tab_heading, HttpServletRequest request, String universal) {
 
 		System.out.println("bss_id " + bss_id);

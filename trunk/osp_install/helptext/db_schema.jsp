@@ -22,7 +22,7 @@ body {
 <p>A 'schema' can be thought of as a set of tables inside of a database that a 
   user can access. Access permissions can be given on a user by user basis to 
   any particular schema using the database's administrations tools.</p>
-<p>For the Online Simulation Platform to function, it must have access 
+<p>For the Open Simulation Platform to function, it must have access 
   to a database schema to store information.</p>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable --> 

@@ -19,7 +19,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Online Simulation Platform Control Page</title>
+<title>Open Simulation Platform Control Page</title>
 <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
 <!-- InstanceEndEditable -->

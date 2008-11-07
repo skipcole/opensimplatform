@@ -10,10 +10,10 @@
  * @author Ronald Skip Cole
  *
 
- * This file is part of the Online Simulation Platform.<br>    The Online Simulation Platform is free software; you can redistribute it and/or modify
+ * This file is part of the Open Simulation Platform.<br>    The Open Simulation Platform is free software; you can redistribute it and/or modify
     it under the terms of the BSD Style license included with this distribution.<br>
 
-    The Online Simulation Platform is distributed WITHOUT ANY WARRANTY; 
+    The Open Simulation Platform is distributed WITHOUT ANY WARRANTY; 
     without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  <BR>
 
