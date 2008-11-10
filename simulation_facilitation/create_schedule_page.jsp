@@ -5,12 +5,8 @@
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "create_simulation_introduction.jsp";
 	
-	if (!(pso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
-		return;
-	}
+	pso.backPage = "psp.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
@@ -21,12 +17,11 @@
 	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
 	
-	String sim_intro = (String) request.getParameter("sim_intro");
-	String enter_intro = (String) request.getParameter("enter_intro");
+	String sim_planned_play_ideas = (String) request.getParameter("sim_planned_play_ideas");
 	
-	if ( (sending_page != null) && (enter_intro != null) && (sending_page.equalsIgnoreCase("create_sim_intro"))){
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("enter_sim_planned_play_ideas"))){
 		
-		simulation.setIntroduction(sim_intro);
+		simulation.setPlanned_play_ideas(sim_planned_play_ideas);
 		simulation.saveMe(pso.schema);
 
 	}
@@ -40,8 +35,7 @@
 <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -66,18 +60,18 @@ body {
 	    <table border="0" cellspacing="1" cellpadding="0">
 	<%  if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
         <tr>
-          <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_authoring/intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
           <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
-          <td><div align="center"><a href="logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_authoring/logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
       </table>	  
 	  </div>	  </td>
@@ -109,9 +103,9 @@ body {
 		   <tr>
 		<td bgcolor="<%= bgColor_think %>"><a href="../simulation_planning/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;THINK&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-	    <td bgcolor="<%= bgColor_create %>"><a href="creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+	    <td bgcolor="<%= bgColor_create %>"><a href="../simulation_authoring/creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-		<td bgcolor="<%= bgColor_play %>"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		<td bgcolor="<%= bgColor_play %>"><a href="facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
         <td bgcolor="<%= bgColor_share %>"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		   </tr>
@@ -134,42 +128,44 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Enter Simulation Introduction</h1>
+      <h1>Create Schedule Page</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-<% 
-			if (pso.simulationSelected) {
-		%>
-	  <p>Enter the introduction for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
-          (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-          here</a>.)</p>
-      <form action="create_simulation_introduction.jsp" method="post" name="form2" id="form2">
+	<p> Below are notes from the simulation author on how he or she felt this simulation would be conducted (how many players, online at the same time or not, etc.) </p>
+	<p>Below that is a place where you can enter the specific schedule page for your students. This page will give them important information on when they can and should login and any other details. You will be able to give the players announcements during the simulation, but this page will set the initial expectations.</p>
+    <div align="center">
+	<table width="80%" border="1">
+      <caption>
+        Notes from the Simulation Author
+        </caption>
+	  <tr>
+        <td><%= simulation.getPlanned_play_ideas() %></td>
+	    </tr>
+    </table>
+	</div>
+	<p>&nbsp;</p>
+	<form action="../simulation_authoring/create_simulation_planned_play_ideas.jsp" method="post" name="form2" id="form2">
         <blockquote>
-		  <p>
-		  <textarea id="sim_intro" name="sim_intro" style="height: 710px; width: 710px;"><%= simulation.getIntroduction() %></textarea>
+          <p>
+            <textarea id="sim_planned_play_ideas" name="sim_planned_play_ideas" style="height: 710px; width: 710px;"></textarea>
+
 		<script language="javascript1.2">
-  			generate_wysiwyg('sim_intro');
+  			generate_wysiwyg('sim_planned_play_ideas');
 		</script>
-		  </p>
+          </p>
           <p> 
-            <input type="hidden" name="sending_page" value="create_sim_intro" />
-            <input type="submit" name="enter_intro" value="Submit" />
+            <input type="hidden" name="sending_page" value="enter_sim_planned_play_ideas" />
+            <input type="submit" name="enter_ppi" value="Save" />
           </p>
         </blockquote>
       </form>
+
       <blockquote>
         <p>&nbsp;</p>
       </blockquote>
-      <p align="center"><a href="create_simulation_planned_play_ideas.jsp">Next Step: Enter Planned Play Ideas </a></p>
-	  <% } else { // End of if have set simulation id. %>
-      <blockquote>
-        <p>
-		<%@ include file="select_message.jsp" %></p>
-      </blockquote>
-      <% } // End of if have not set simulation for edits. %>
+      <p align="center"><a href="bulk_invite.jsp">Next Step: Bulk Invite Users</a><a href="../simulation_authoring/create_simulation_phases.jsp"></a></p>
 	  
-      <a href="create_simulation_audience.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
-			</td>
+      <a href="create_running_sim.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->			</td>
 		</tr>
 		</table>
 	</td>

@@ -164,7 +164,7 @@ body {
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
 	  
-      <a href="set_sim_sections.jsp"> &lt;-Back</a><!-- InstanceEndEditable -->
+      <a href="set_specific_sim_sections.jsp"> <img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

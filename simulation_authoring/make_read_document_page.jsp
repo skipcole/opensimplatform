@@ -124,14 +124,22 @@ body {
       <form action="make_read_document_page.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>Tab Heading: 
-            <input type="text" name="tab_heading" value="<%= pso.tab_heading %>"/>
+            <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/>
           </p>
-          <p>Select Document 
+          <p>
+          <%
+		  	List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id);
+			
+			System.out.println("there are " + docsAvailable.size() + " available");
+		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
+
+		  %>
             <label>Select Document
 			
             <select name="doc_id">
 				<%
-					for (ListIterator li = SharedDocument.getAllForSim(pso.schema, pso.sim_id).listIterator(); li.hasNext();) {
+					for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
+					
 						SharedDocument sd = (SharedDocument) li.next();
 				%>
               		<option value="<%= sd.getId() %>"><%= sd.getUniqueDocTitle() %></option>
@@ -140,6 +148,9 @@ body {
 				%>
 			</select>
             </label>
+            <% } else { %>
+            To allow access to a player to read a document, you must first have created it. To create a document associated with this simulation <a href="make_create_document_page.jsp">click here</a>.
+            <% } // end of if no documents have been created. %>
           </p>
           <p>Enter the introductory text that will appear on this page. 
             <textarea id="make_read_document_page_text" name="make_read_document_page_text" style="height: 710px; width: 710px;"><%= pso.customizableSectionOnScratchPad.getBigString() %></textarea>
@@ -149,15 +160,15 @@ body {
 		</script>
           </p>
           <p> 
-            <input type="hidden" name="custom_page" value="<%= pso.custom_page %>" />
+            <input type="hidden" name="custom_page" value="<%= pso._custom_section_id %>" />
             <input type="hidden" name="sending_page" value="make_read_document_page" />
             <input type="submit" name="save_page" value="Save" />
             <input type="submit" name="save_and_add" value="Save and Add Section" />
           </p>
-          <p><input type="submit" name="create_duplicate" value="Create Duplicate" disabled /></p>
+          <p>&nbsp;</p>
         </blockquote>
       </form>
-	  <a href="<%= pso.backPage %>">&lt;-- Back</a><!-- InstanceEndEditable -->
+	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

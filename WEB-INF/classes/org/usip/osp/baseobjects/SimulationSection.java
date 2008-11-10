@@ -535,7 +535,8 @@ public class SimulationSection {
 				}
 
 			}
-		}
+		} // End of loop over actors
+		
 
 	}
 

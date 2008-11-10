@@ -207,7 +207,7 @@ Send User Information</td>
 	}
 %>
 </table>
-      <p><a href="<%= pso.backPage %>">&lt;-- Back</a></p>
+      <p><a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
 <!-- InstanceEndEditable -->
 			</td>
 		</tr>

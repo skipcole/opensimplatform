@@ -12,25 +12,17 @@
 		return;
 	}
 	
-	String bodyText = "";
-	
 	String cs_id = (String) request.getParameter("cs_id");
-	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-	CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(cs_id));
-    
-	bodyText = (String) cs.getBigString();
+	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
 	Long base_doc_id = (Long) cs.getContents().get("doc_id");
 	
-	MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-	
 	RunningSimulation rs = pso.giveMeRunningSim();
+	
 	
 	System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
 	
-	SharedDocument sd = SharedDocument.getDocument(pso.schema, cs.getId(), rs.getId());
+	SharedDocument sd = SharedDocument.getDocumentByBaseId(pso.schema, cs.getId(), rs.getId());
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	String update_text = (String) request.getParameter("update_text");
@@ -57,7 +49,7 @@
 </head>
 
 <body>
-<p><%= bodyText %></p>
+<p><%= cs.getBigString() %></p>
 
 <form name="form1" method="post" action="write_document.jsp">
 

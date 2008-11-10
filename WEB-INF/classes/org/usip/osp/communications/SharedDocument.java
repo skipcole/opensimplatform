@@ -57,6 +57,9 @@ public class SharedDocument {
 	/** Title of this document. */
 	private String uniqueDocTitle = "";
 
+	/** Title of this document to be displayed to the players. */
+	private String displayTitle = "";
+	
 	/** Short description of this document. */
 	private String docDesc = "";
 
@@ -127,25 +130,45 @@ public class SharedDocument {
 		this.uniqueDocTitle = uniqueDocTitle;
 	}
 
+	public String getDisplayTitle() {
+		return displayTitle;
+	}
+
+	public void setDisplayTitle(String displayTitle) {
+		this.displayTitle = displayTitle;
+	}
+	
+	public SharedDocument(){
+		
+	}
+	
+	public SharedDocument(String uniq_tit, String doc_tit_display, Long _sim_id){
+		this.uniqueDocTitle = uniq_tit;
+		this.displayTitle = doc_tit_display;
+		this.sim_id = _sim_id;
+		
+	}
+
 	public void save(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
-	public static List getAllForSim(String schema, Long the_sim_id) {
+	public static List getAllBaseDocumentsForSim(String schema, Long the_sim_id) {
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		List returnList = getAllForSim(MultiSchemaHibernateUtil.getSession(schema), the_sim_id);
+		List returnList = getAllBaseDocumentsForSim(MultiSchemaHibernateUtil.getSession(schema), the_sim_id);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 
 	}
 	
-	public static List getAllForSim(  org.hibernate.Session hibernate_session, Long the_sim_id) {
+	public static List getAllBaseDocumentsForSim(  org.hibernate.Session hibernate_session, Long the_sim_id) {
 		
-		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString();
+		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() 
+			+ " AND BASE_ID is null";
 		List returnList = hibernate_session.createQuery(hql_string).list();
 		
 
@@ -214,8 +237,11 @@ public class SharedDocument {
 			// original should have been copied in the 'enable' sim phase.
 			// We do it there to keep from two people doing it at the same time.
 			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			System.out.println("No shared document found.");
+			System.out.println("No shared document found. It should have be created at the enable step.");
 			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			SharedDocument baseDoc = (SharedDocument) MultiSchemaHibernateUtil.getSession(schema).get(SharedDocument.class,base_id);
+				
+			sd = baseDoc.createCopy(rs_id, MultiSchemaHibernateUtil.getSession(schema));
 			
 		} else {
 			sd = (SharedDocument) returnList.get(0);

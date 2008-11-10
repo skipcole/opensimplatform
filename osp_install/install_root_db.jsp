@@ -69,7 +69,7 @@ body {
             <td><input type="submit" name="installrootdb" value="Submit" /></td>
           </tr>
         </table>
-        <p><a href="steps.jsp">&lt;-- Back</a></p>
+        <p><a href="steps.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       </form>
       <p>&nbsp;</p>
       <p>&nbsp;</p></td>

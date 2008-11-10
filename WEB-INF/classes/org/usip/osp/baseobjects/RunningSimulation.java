@@ -193,7 +193,7 @@ public class RunningSimulation {
 		}
 		// /////////////////////////////////////////////////////////////////////////
 
-		for (ListIterator<SharedDocument> li = SharedDocument.getAllForSim(
+		for (ListIterator<SharedDocument> li = SharedDocument.getAllBaseDocumentsForSim(
 				hibernate_session, sim.getId()).listIterator(); li.hasNext();) {
 			SharedDocument sd = (SharedDocument) li.next();
 

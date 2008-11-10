@@ -202,7 +202,7 @@ body {
           <p>&nbsp;</p>
         </blockquote>
       </form>
-	  <a href="<%= pso.backPage %>">&lt;-- Back</a><!-- InstanceEndEditable -->
+	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

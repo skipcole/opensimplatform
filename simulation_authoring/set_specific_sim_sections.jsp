@@ -6,19 +6,12 @@
 
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "set_sim_sections.jsp";
+	pso.backPage = "set_specific_sim_sections.jsp";
 	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
-	
-	
-	String _command = (String) request.getAttribute("command");
-	String m_index = (String) request.getParameter("m_index");
-	
-	System.out.println("jsp command is = " + _command);
-	System.out.println("m command is = " + m_index);
 	
 	Simulation simulation = new Simulation();
 	Actor actor = new Actor();
@@ -29,12 +22,6 @@
 	
 		if ((pso.actor_id != null) && (pso.actor_id.intValue() != 0 )){
 			actor = pso.giveMeActor();
-		}
-	
-		if (pso.currentActorIndex == 0){
-			actor = new Actor();
-			actor.setId(new Long(0));
-			actor.setName("Typical");
 		}
 	
 		if (pso.phase_id != null) {
@@ -186,7 +173,7 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Set Simulation Sections</h1>
+      <h1>Set Specific Simulation Sections</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
       <blockquote> 
@@ -203,14 +190,10 @@ body {
             <td> <table width="100%" border="0">
                 <tr> 
                   <td width="71%"> <h2> 
-                      <% if (pso.currentActorIndex == 0) { %>
-                    Every Actor 
-                    <% } else { %>
                       Actor <strong>'<%= actor.getName() %>'</strong> 
-                    <% } %>
 					  in Phase <strong>'<%= spp.getName() %>' </strong> </h2></td>
                   <td width="29%">
-				  <form id="form2" name="form2" method="post" action="set_sim_sections.jsp">
+				  <form id="form2" name="form2" method="post" action="set_specific_sim_sections.jsp">
                       <select name="phase_id">
                         <% 
 						
@@ -277,11 +260,11 @@ body {
 		  %>
                   <% if (ii > 0) { %>
                   
-                <td><!-- a href="set_sim_sections.jsp?exchange=true&first_sec=< % = first_ss %>&sec_sec=< % = sec_ss %>" --><a href="set_sim_sections.jsp?command=move_left&m_index=<%= ii %>">&lt;-</a><!-- /a--></td>
+                <td><!-- a href="set_specific_sim_sections.jsp?exchange=true&first_sec=< % = first_ss %>&sec_sec=< % = sec_ss %>" --><a href="set_specific_sim_sections.jsp?command=move_left&amp;m_index=<%= ii %>">&lt;-</a><!-- /a--></td>
                   <% } %>
                   <td><a href="#"><%= ss.getTab_heading() %></a></td>
                   <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
-                  <td><a href="set_sim_sections.jsp?command=move_right&m_index=<%= ii %>">-&gt;</a></td>
+                  <td><a href="set_specific_sim_sections.jsp?command=move_right&amp;m_index=<%= ii %>">-&gt;</a></td>
                   <% } %>
                   <%
 				++ii;
@@ -299,7 +282,7 @@ body {
                   <% if (ii > 0) { %>
                   <td>&nbsp;</td>
                   <% } %>
-                  <td><a href="delete_object.jsp?object_type=sim_section&amp;objid=<%= ss.getId().toString() %>&amp;backpage=set_sim_sections.jsp&amp;object_info=<%= ss.getTab_heading() %>">Remove </a></td>
+                  <td><a href="delete_object.jsp?object_type=sim_section&amp;objid=<%= ss.getId().toString() %>&backpage=set_specific_sim_sections.jsp&object_info=<%= ss.getTab_heading() %>">Remove </a></td>
                   <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
                   <td>&nbsp;</td>
                   <% } %>
@@ -393,7 +376,7 @@ body {
 							Actor daActor = (Actor) li.next();
 			
 			%>
-			- <a href="set_sim_sections.jsp?actor_index=<%= aIndex + "" %>&amp;phase_id=<%= spp.getId().toString() %>"><%= daActor.getName() %></a>
+			- <a href="set_specific_sim_sections.jsp?actor_index=<%= aIndex + "" %>&amp;phase_id=<%= spp.getId().toString() %>"><%= daActor.getName() %></a>
 			<% 
 				aIndex += 1;
 			} %>
@@ -411,7 +394,7 @@ body {
 	Actor nextActor = (Actor) simulation.getActors().get(nextIndex - 1);
 	
 %>
-        <a href="set_sim_sections.jsp?actor_index=<%= nextIndex %>&amp;phase_id=<%= spp.getId().toString() %>"> 
+        <a href="set_specific_sim_sections.jsp?actor_index=<%= nextIndex %>&amp;phase_id=<%= spp.getId().toString() %>"> 
         Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a> 
         <% } else { %>
         <a href="create_aar_starter_text.jsp"> Next Step: Enter 'After Action Report' Starter Text </a> 

@@ -1,34 +1,17 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "create_simulation_introduction.jsp";
 	
-	if (!(pso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+	pso.handleMakeReadDocumentPage(request);
+	
+	if (pso.forward_on){
+		pso.forward_on = false;
+		response.sendRedirect(pso.backPage);
 		return;
-	}
-	
-	Simulation simulation = new Simulation();	
-	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
-	}
-	
-	// Determine if setting sim to edit.
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	String sim_intro = (String) request.getParameter("sim_intro");
-	String enter_intro = (String) request.getParameter("enter_intro");
-	
-	if ( (sending_page != null) && (enter_intro != null) && (sending_page.equalsIgnoreCase("create_sim_intro"))){
-		
-		simulation.setIntroduction(sim_intro);
-		simulation.saveMe(pso.schema);
-
 	}
 	
 %>
@@ -134,41 +117,47 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Enter Simulation Introduction</h1>
+      <h1>Read Multiple Documents Page</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-<% 
-			if (pso.simulationSelected) {
-		%>
-	  <p>Enter the introduction for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
-          (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-          here</a>.)</p>
-      <form action="create_simulation_introduction.jsp" method="post" name="form2" id="form2">
+
+      <form action="make_read_document_page.jsp" method="post" name="form2" id="form2">
         <blockquote>
-		  <p>
-		  <textarea id="sim_intro" name="sim_intro" style="height: 710px; width: 710px;"><%= simulation.getIntroduction() %></textarea>
-		<script language="javascript1.2">
-  			generate_wysiwyg('sim_intro');
-		</script>
-		  </p>
-          <p> 
-            <input type="hidden" name="sending_page" value="create_sim_intro" />
-            <input type="submit" name="enter_intro" value="Submit" />
+          <p>Tab Heading: 
+            <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/>
           </p>
+          <p><label>Select Document
+			
+            <select name="doc_id">
+				<%
+					for (ListIterator li = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id).listIterator(); li.hasNext();) {
+						SharedDocument sd = (SharedDocument) li.next();
+				%>
+              		<option value="<%= sd.getId() %>"><%= sd.getUniqueDocTitle() %></option>
+            	<%
+					}
+				%>
+			</select>
+            </label>
+          </p>
+          <p>Enter the introductory text that will appear on this page. 
+            <textarea id="make_read_document_page_text" name="make_read_document_page_text" style="height: 710px; width: 710px;"><%= pso.customizableSectionOnScratchPad.getBigString() %></textarea>
+
+		<script language="javascript1.2">
+  			generate_wysiwyg('make_read_document_page_text');
+		</script>
+          </p>
+          <p>&nbsp;</p>
+          <p> 
+            <input type="hidden" name="custom_page" value="<%= pso._custom_section_id %>" />
+            <input type="hidden" name="sending_page" value="make_read_document_page" />
+            <input type="submit" name="save_page" value="Save" />
+            <input type="submit" name="save_and_add" value="Save and Add Section" />
+          </p>
+          <p><input type="submit" name="create_duplicate" value="Create Duplicate" disabled /></p>
         </blockquote>
       </form>
-      <blockquote>
-        <p>&nbsp;</p>
-      </blockquote>
-      <p align="center"><a href="create_simulation_planned_play_ideas.jsp">Next Step: Enter Planned Play Ideas </a></p>
-	  <% } else { // End of if have set simulation id. %>
-      <blockquote>
-        <p>
-		<%@ include file="select_message.jsp" %></p>
-      </blockquote>
-      <% } // End of if have not set simulation for edits. %>
-	  
-      <a href="create_simulation_audience.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
+	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>
