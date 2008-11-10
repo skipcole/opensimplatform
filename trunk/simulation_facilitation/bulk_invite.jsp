@@ -172,7 +172,7 @@ body {
       <div align="center">
         <p><a href="administrate_users.jsp" target="_top">Next 
           Step: Administrate Users </a></p>
-        <p align="left"><a href="create_schedule_page.jsp">&lt;--</a></p>
+        <p align="left"><a href="create_schedule_page.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       </div>
 </blockquote>
       <!-- InstanceEndEditable -->

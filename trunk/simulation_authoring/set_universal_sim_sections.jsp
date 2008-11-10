@@ -347,7 +347,7 @@ body {
 			for (ListIterator li = uc.listIterator(); li.hasNext();) {
 				CustomizeableSection cs = (CustomizeableSection) li.next();
 			%>
-                                <option value="<%= cs.getId().toString() %>"><%= cs.getRec_tab_heading() %></option>
+                                <option value="<%= cs.getId().toString() %>">** <%= cs.getRec_tab_heading() %></option>
                                 <% } %>
                                 <% } %>
                               </select>
@@ -381,7 +381,7 @@ body {
         <%
 	Actor nextActor = (Actor) simulation.getActors().get(0);
 %>
-        <a href="set_sim_sections.jsp?actor_index=1&amp;phase_id=<%= spp.getId().toString() %>"> 
+        <a href="set_specific_sim_sections.jsp?actor_index=1&amp;phase_id=<%= spp.getId().toString() %>"> 
         Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a> 
         
       </p>
@@ -391,7 +391,7 @@ body {
           <%@ include file="select_message.jsp" %></p>
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
-      <p><a href="add_special_features.jsp">&lt;-- Back</a></p>
+      <p><a href="add_special_features.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
 <!-- InstanceEndEditable -->
 			</td>
 		</tr>

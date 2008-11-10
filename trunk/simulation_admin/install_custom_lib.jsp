@@ -67,7 +67,7 @@ body {
 
         </blockquote>
         <p><font color="#FF0000"><%= error_msg %></font></p>
-        <p><a href="simulation_admin.jsp">&lt;-- Back</a></p>
+        <p><a href="simulation_admin.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       </form>
       <p>&nbsp;</p>
       <p>&nbsp;</p></td>

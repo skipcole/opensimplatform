@@ -167,7 +167,7 @@ body {
 		<%@ include file="select_message.jsp" %></p>
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
-<p><a href="create_simulation_objectives.jsp">&lt;- Back</a> </p>
+<p><a href="create_simulation_objectives.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a> </p>
 <!-- InstanceEndEditable -->
 			</td>
 		</tr>

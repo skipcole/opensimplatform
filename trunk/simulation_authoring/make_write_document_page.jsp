@@ -124,13 +124,15 @@ body {
       <form action="make_write_document_page.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>Tab Heading: 
-            <input type="text" name="tab_heading" value="<%= pso.tab_heading %>"/>
+            <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/>
           </p>
-          <p>Unique Document Title (?) 
+          <p>Unique Internal Document Title (?) 
             <label>
             <input type="text" name="doc_title"  value="<%= pso.sd.getUniqueDocTitle() %>"/>
             </label>
-          </p>
+          (see details on this document)</p>
+          <p>[put in a pull down of current documents created for this simulaton]</p>
+          <p>put in a link to go to the 'create document' page.</p>
           <p>Enter the introductory text that will appear on this page. 
             <textarea id="make_write_document_page_text" name="make_write_document_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
 
@@ -139,7 +141,7 @@ body {
 		</script>
           </p>
           <p> 
-            <input type="hidden" name="custom_page" value="<%= pso.custom_page %>" />
+            <input type="hidden" name="custom_page" value="<%= pso._custom_section_id %>" />
             <input type="hidden" name="sending_page" value="make_write_document_page" />
             <input type="submit" name="save_page" value="Save" />
             <input type="submit" name="save_and_add" value="Save and Add Section" />
@@ -147,7 +149,7 @@ body {
           <p><input type="submit" name="create_duplicate" value="Create Duplicate" disabled /></p>
         </blockquote>
       </form>
-	  <a href="<%= pso.backPage %>">&lt;-- Back</a><!-- InstanceEndEditable -->
+	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

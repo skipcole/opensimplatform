@@ -281,7 +281,7 @@ if ((actorOnScratchPad.getImageFilename() != null) && (actorOnScratchPad.getImag
 <p>&nbsp;</p>
       <p align="center"><a href="assign_actor_to_simulation.jsp">Next Step: Assign Actor 
         to Simulation</a></p>
-      <a href="create_simulation_phases.jsp">&lt;- Back</a><!-- InstanceEndEditable -->
+      <a href="create_simulation_phases.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

@@ -171,7 +171,7 @@ body {
           </tr>
         <tr valign="top"> 
           <td>12.</td>
-          <td><a href="set_sim_sections.jsp">Assign Specific Sections </a><a href="helptext/create_individual_sections_help.jsp" target="helpinright">(?)</a></td>
+          <td><a href="set_specific_sim_sections.jsp">Assign Specific Sections </a><a href="helptext/create_individual_sections_help.jsp" target="helpinright">(?)</a></td>
           </tr>
         <tr valign="top"> 
           <td>13</td>

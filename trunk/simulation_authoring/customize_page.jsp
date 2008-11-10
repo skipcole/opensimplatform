@@ -184,7 +184,7 @@ body {
 </form>
 <blockquote>
   <p>&nbsp;</p>
-  <p><a href="set_sim_sections.jsp"></a></p>
+  <p><a href="set_specific_sim_sections.jsp"></a></p>
 </blockquote>
 <!-- InstanceEndEditable -->
 			</td>

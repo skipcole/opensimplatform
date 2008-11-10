@@ -153,6 +153,10 @@ public class CustomizeableSection extends BaseSimSection {
 			getSession(schema).get(CustomizeableSection.class, new Long(the_id));
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
+		if (cs == null){
+			System.out.println("Warning. Null cs returned.");
+		}
+		
 		return cs;
 		
 	}

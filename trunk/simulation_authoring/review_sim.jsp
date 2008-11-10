@@ -290,7 +290,7 @@ body {
 			<% } %>
 		</table>
 		
-		      <p><% if (showEdit) { %>(<a href="set_sim_sections.jsp?actor_index=0">edit</a>)<% } %></p>
+		      <p><% if (showEdit) { %>(<a href="set_specific_sim_sections.jsp?actor_index=0">edit</a>)<% } %></p>
 		      <hr />
           </blockquote>
 		    <h2>11. Simulation Specific Sections </h2>
@@ -337,8 +337,8 @@ body {
 		<%@ include file="select_message.jsp" %></p>
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
-      <% if (showEdit) { %><a href="create_aar_starter_text.jsp">&lt;-- Back</a><% } else { %>
-	  	<a href="../simulation_facilitation/instructor_home.jsp">&lt;-- Back</a>
+      <% if (showEdit) { %><a href="create_aar_starter_text.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><% } else { %>
+	  	<a href="../simulation_facilitation/instructor_home.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
 		<% } %>
 	  
 	  <!-- InstanceEndEditable -->

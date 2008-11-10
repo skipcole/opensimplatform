@@ -218,7 +218,7 @@ body {
 	</blockquote>
 
       
-      <a href="review_sim.jsp">&lt;-- Back</a><!-- InstanceEndEditable -->
+      <a href="review_sim.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

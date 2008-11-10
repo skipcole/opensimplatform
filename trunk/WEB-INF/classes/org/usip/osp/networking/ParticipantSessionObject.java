@@ -245,9 +245,9 @@ public class ParticipantSessionObject {
 				phase_id = simulation.getFirstPhaseId();
 			}
 		}
-		
+
 		phaseSelected = true;
-	
+
 	}
 
 	/**
@@ -407,6 +407,8 @@ public class ParticipantSessionObject {
 		// Determine the actor we are working on.
 		if (_actor_index != null) {
 			currentActorIndex = new Integer(_actor_index).intValue();
+		} else {
+			currentActorIndex = 1;
 		}
 
 		System.out.println("Current actor index = " + currentActorIndex);
@@ -415,14 +417,13 @@ public class ParticipantSessionObject {
 
 		Actor this_actor;
 
-		if ((simulation.getActors().size() > 0) && (currentActorIndex >= 1)) {
+		if (simulation.getActors().size() > 0) {
 			this_actor = (Actor) simulation.getActors().get(
 					currentActorIndex - 1);
 			actor_id = this_actor.getId();
 		} else {
-			// It makes no sense to be in here if we are not working on an
-			// actual actor
-			System.out.println("Warning! this_actor has not been set!");
+			System.out
+					.println("Warning! This simulation appears to have no actors.");
 		}
 
 		System.out.println("actor id is " + actor_id);
@@ -495,7 +496,7 @@ public class ParticipantSessionObject {
 			}
 		}
 
-		System.out.println("getting simSecList for s/a/p" + sim_id + "/"
+		System.out.println("getting simSecList for s/a/p:   " + sim_id + "/"
 				+ actor_id + "/" + phase_id);
 		tempSimSecList = SimulationSection.getBySimAndActorAndPhase(schema,
 				sim_id, actor_id, phase_id);
@@ -504,8 +505,9 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * The router page is called from either the set universal sections or set simulation sections jsp.
-	 * It directs the output to where it need to go.
+	 * The router page is called from either the set universal sections or set
+	 * simulation sections jsp. It directs the output to where it need to go.
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -533,7 +535,7 @@ public class ParticipantSessionObject {
 			} else if (bss.getClass().getName().equalsIgnoreCase(
 					"org.usip.osp.baseobjects.CustomizeableSection")) {
 
-				custom_page = _bss_id;
+				_custom_section_id = _bss_id;
 
 				bss = null;
 
@@ -541,7 +543,8 @@ public class ParticipantSessionObject {
 						_bss_id);
 
 				if (!cbss.isHasASpecificMakePage()) {
-					return ("customize_page.jsp?custom_page=" + new Long(_bss_id));
+					return ("customize_page.jsp?custom_page=" + new Long(
+							_bss_id));
 				} else {
 					return (cbss.getSpecificMakePage() + "?custom_page=" + new Long(
 							_bss_id));
@@ -549,7 +552,7 @@ public class ParticipantSessionObject {
 
 			}
 		}
-		
+
 		System.out.println("Router Accidentally called");
 		return backPage;
 
@@ -582,7 +585,7 @@ public class ParticipantSessionObject {
 		SimulationSection ss0 = new SimulationSection(schema, sim_id, new Long(
 				actor_id), new Long(phase_id), new Long(_bss_id), _tab_heading,
 				this_tab_pos.intValue());
-		
+
 		if (universal) {
 			Simulation simulation = giveMeSim();
 			SimulationSection.applyUniversalSectionsToAllActors(schema,
@@ -599,6 +602,8 @@ public class ParticipantSessionObject {
 		} catch (NumberFormatException nfe) {
 			this_tab_pos = SimulationSection.getHighestBySimAndActorAndPhase(
 					schema, sim_id, new Long(actor_id), new Long(phase_id));
+			System.out.println("problem converting tab position: "
+					+ nfe.getMessage());
 		}
 
 		return this_tab_pos;
@@ -2477,7 +2482,7 @@ public class ParticipantSessionObject {
 
 	public CustomizeableSection customizableSectionOnScratchPad;
 	public boolean forward_on = false;
-	public String custom_page = "";
+	public String _custom_section_id = "";
 	public Long sim_conv_id;
 
 	/**
@@ -2563,7 +2568,7 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
 				.getSession(schema).get(CustomizeableSection.class,
-						new Long(custom_page));
+						new Long(_custom_section_id));
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Determine if setting sim to edit.
@@ -2582,7 +2587,8 @@ public class ParticipantSessionObject {
 				System.out.println("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad
 						.makeCopy(schema);
-				custom_page = customizableSectionOnScratchPad.getId() + "";
+				_custom_section_id = customizableSectionOnScratchPad.getId()
+						+ "";
 			}
 
 			// Update page values
@@ -2604,103 +2610,6 @@ public class ParticipantSessionObject {
 			}
 
 		} // End of if this is the make_write_news_page
-
-		return customizableSectionOnScratchPad;
-	}
-
-	public SharedDocument sd = new SharedDocument();
-
-	/**
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeWriteDocumentPage(
-			HttpServletRequest request) {
-
-		String tab_pos = (String) session.getAttribute("tab_pos");
-		String universal = (String) session.getAttribute("universal");
-
-		// /////////////////////////////////////////////////
-		String new_tab_heading = request.getParameter("tab_heading");
-		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			_tab_heading = new_tab_heading;
-		}
-		// //////////////////////////////////////////////////
-		String t_custom_page = request.getParameter("custom_page");
-		if ((t_custom_page != null) && (t_custom_page.length() > 0)) {
-			custom_page = t_custom_page;
-		}
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(CustomizeableSection.class,
-						new Long(custom_page));
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		// Determine if setting sim to edit.
-		String sending_page = (String) request.getParameter("sending_page");
-
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
-
-				&& (sending_page.equalsIgnoreCase("make_write_document_page"))) {
-			// If this is the original custom page, make a new page
-
-			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(schema);
-				custom_page = customizableSectionOnScratchPad.getId() + "";
-				sd = new SharedDocument();
-			}
-
-			String doc_title = (String) request.getParameter("doc_title");
-
-			// Get the document associated with this customized section
-			try {
-				Long doc_id = (Long) customizableSectionOnScratchPad
-						.getContents().get("doc_id");
-
-				if (doc_id == null) {
-					sd = new SharedDocument();
-				}
-
-				sd.setSim_id(sim_id);
-				sd.setUniqueDocTitle(doc_title);
-
-				sd.setCs_id(customizableSectionOnScratchPad.getId());
-
-				sd.save(schema);
-
-				customizableSectionOnScratchPad.getContents().put("doc_id",
-						sd.getId());
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			// Update page values
-			String make_write_document_page_text = (String) request
-					.getParameter("make_write_document_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_write_document_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(schema);
-
-			if (save_and_add != null) {
-				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), tab_pos, _tab_heading, request, universal);
-				// send them back
-				forward_on = true;
-				return customizableSectionOnScratchPad;
-
-			}
-
-		} // End of if this is the make_write_document_page
 
 		return customizableSectionOnScratchPad;
 	}
@@ -2785,11 +2694,11 @@ public class ParticipantSessionObject {
 
 			// /////////////////////////////////////////////////////////
 			// Pull this custom page out of the database based on its id.
-			custom_page = request.getParameter("custom_page");
+			_custom_section_id = request.getParameter("custom_page");
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 			customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
 					.getSession(schema).get(CustomizeableSection.class,
-							new Long(custom_page));
+							new Long(_custom_section_id));
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 			// Delete all private conversations for this simulation since we
@@ -2833,11 +2742,11 @@ public class ParticipantSessionObject {
 						ConvActorAssignment caa = new ConvActorAssignment();
 						caa.setActor_id(actorWithChat);
 						caa.save(schema);
-						
+
 						ConvActorAssignment caa2 = new ConvActorAssignment();
 						caa2.setActor_id(actorWithChat2);
 						caa2.save(schema);
-						
+
 						ArrayList al = new ArrayList();
 						al.add(caa);
 						al.add(caa2);
@@ -2875,39 +2784,131 @@ public class ParticipantSessionObject {
 
 	}
 
+	public SharedDocument sd = new SharedDocument();
+
+	/**
+	 * This method is called at the top of the make_write_document_page jsp.
+	 * This jsp can be reached from 2 places: the sim_section_router and by
+	 * calling itself.
+	 * 
+	 * When the router is called the parameter _custom_section_id will be set.
+	 * 
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakeWriteDocumentPage(
+			HttpServletRequest request) {
+
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(schema,
+				_custom_section_id);
+
+		// Determine if setting sim to edit.
+		String sending_page = (String) request.getParameter("sending_page");
+		String save_page = (String) request.getParameter("save_page");
+		String save_and_add = (String) request.getParameter("save_and_add");
+
+		if ((sending_page != null)
+				&& ((save_page != null) || (save_and_add != null))
+				&& (sending_page.equalsIgnoreCase("make_write_document_page"))) {
+
+			_tab_heading = request.getParameter("tab_heading");
+			_custom_section_id = request.getParameter("custom_page");
+
+			// If this is the original custom page, make a new page
+			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
+				System.out.println("making copy");
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad
+						.makeCopy(schema);
+				_custom_section_id = customizableSectionOnScratchPad.getId()
+						+ "";
+				sd = new SharedDocument();
+			}
+
+			// Update values based on those passed in
+			String make_write_document_page_text = (String) request
+					.getParameter("make_write_document_page_text");
+			customizableSectionOnScratchPad
+					.setBigString(make_write_document_page_text);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.save(schema);
+
+			String doc_title = (String) request.getParameter("doc_title");
+
+			// Get the document associated with this customized section
+			try {
+				Long doc_id = (Long) customizableSectionOnScratchPad
+						.getContents().get("doc_id");
+
+				if (doc_id == null) {
+					sd = new SharedDocument();
+				}
+
+				sd.setSim_id(sim_id);
+				sd.setUniqueDocTitle(doc_title);
+
+				sd.setCs_id(customizableSectionOnScratchPad.getId());
+
+				sd.save(schema);
+
+				customizableSectionOnScratchPad.getContents().put("doc_id",
+						sd.getId());
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if (save_and_add != null) {
+				// add section
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
+						.getId(), _tab_pos, _tab_heading, request, _universal);
+				// send them back
+				forward_on = true;
+				return customizableSectionOnScratchPad;
+
+			}
+
+		} // End of if we are coming from the make_write_document_page
+
+		return customizableSectionOnScratchPad;
+	}
+
+	public Hashtable ActorsWithReadAccess = new Hashtable();
+	public Hashtable ActorsWithWriteAccess = new Hashtable();
+
+	public void fillReadWriteLists() {
+
+		Simulation sim = this.giveMeSim();
+
+		// Get the list of actors
+		List actorList = sim.getActors();
+
+		List phaseList = sim.getPhases();
+
+		// Loop over phases
+		for (ListIterator plist = phaseList.listIterator(); plist.hasNext();) {
+			SimulationPhase sp = (SimulationPhase) plist.next();
+			// Loop over actors
+			for (ListIterator lia = actorList.listIterator(); lia.hasNext();) {
+				Actor act = (Actor) lia.next();
+
+				System.out.println("checking read write on " + act.getName());
+
+			} // End of loop over actors
+		}
+
+	}
+
 	/**
 	 * 
 	 * @param request
 	 */
 	public void handleMakeReadDocumentPage(HttpServletRequest request) {
 
-		String tab_pos = (String) session.getAttribute("tab_pos");
-		String universal = (String) session.getAttribute("universal");
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(schema,
+				_custom_section_id);
 
-		// /////////////////////////////////////////////////
-		String new_tab_heading = request.getParameter("tab_heading");
-		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			_tab_heading = new_tab_heading;
-		}
-		// //////////////////////////////////////////////////
-		String t_custom_page = request.getParameter("custom_page");
-		if ((t_custom_page != null) && (t_custom_page.length() > 0)) {
-			custom_page = t_custom_page;
-		}
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(CustomizeableSection.class,
-						new Long(custom_page));
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		if (customizableSectionOnScratchPad == null) {
-			customizableSectionOnScratchPad = new CustomizeableSection();
-		}
-
-		// Determine if setting sim to edit.
+		// Determine if setting cs to edit.
 		String sending_page = (String) request.getParameter("sending_page");
-
 		String save_page = (String) request.getParameter("save_page");
 		String save_and_add = (String) request.getParameter("save_and_add");
 
@@ -2915,13 +2916,18 @@ public class ParticipantSessionObject {
 				&& ((save_page != null) || (save_and_add != null))
 
 				&& (sending_page.equalsIgnoreCase("make_read_document_page"))) {
+
+			_tab_heading = request.getParameter("tab_heading");
+			_custom_section_id = request.getParameter("custom_page");
+
 			// If this is the original custom page, make a new page
 
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				System.out.println("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad
 						.makeCopy(schema);
-				custom_page = customizableSectionOnScratchPad.getId() + "";
+				_custom_section_id = customizableSectionOnScratchPad.getId()
+						+ "";
 				sd = new SharedDocument();
 			}
 
@@ -2953,7 +2959,7 @@ public class ParticipantSessionObject {
 			if (save_and_add != null) {
 				// add section
 				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), tab_pos, _tab_heading, request, universal);
+						.getId(), _tab_pos, _tab_heading, request, _universal);
 				// send them back
 				forward_on = true;
 			}
@@ -2990,11 +2996,11 @@ public class ParticipantSessionObject {
 
 		// /////////////////////////////////////////////////////////
 		// Pull this custom page out of the database based on its id.
-		custom_page = request.getParameter("custom_page");
+		_custom_section_id = request.getParameter("custom_page");
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
 				.getSession(schema).get(CustomizeableSection.class,
-						new Long(custom_page));
+						new Long(_custom_section_id));
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Determine if saving.
@@ -3023,7 +3029,8 @@ public class ParticipantSessionObject {
 
 				sim_conv_id = conv.getId();
 
-				custom_page = customizableSectionOnScratchPad.getId() + "";
+				_custom_section_id = customizableSectionOnScratchPad.getId()
+						+ "";
 
 			} else { // This must not be the original template sim section.
 
@@ -3051,7 +3058,8 @@ public class ParticipantSessionObject {
 						customizableSectionOnScratchPad.getContents().put(
 								"sim_conv_id", conv.getId());
 
-						custom_page = customizableSectionOnScratchPad.getId()
+						_custom_section_id = customizableSectionOnScratchPad
+								.getId()
 								+ "";
 					}
 

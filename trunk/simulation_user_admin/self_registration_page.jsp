@@ -191,7 +191,7 @@ body {
 <blockquote>
   <p align="center"><a href="../simulation_facilitation/assign_user_to_simulation.jsp">Next 
           Step: Assign User</a></p>
-        <p align="left"><a href="../simulation_facilitation/create_running_sim.jsp">&lt;- Back</a></p>
+        <p align="left"><a href="../simulation_facilitation/create_running_sim.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
 </blockquote>
 <!-- InstanceEndEditable -->
 			</td>

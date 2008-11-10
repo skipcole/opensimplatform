@@ -1,34 +1,30 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "create_simulation_introduction.jsp";
 	
-	if (!(pso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
-		return;
-	}
+	//pso.handleMakeReadDocumentPage(request);
 	
-	Simulation simulation = new Simulation();	
-	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
-	}
-	
-	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
-	
-	String sim_intro = (String) request.getParameter("sim_intro");
-	String enter_intro = (String) request.getParameter("enter_intro");
-	
-	if ( (sending_page != null) && (enter_intro != null) && (sending_page.equalsIgnoreCase("create_sim_intro"))){
-		
-		simulation.setIntroduction(sim_intro);
-		simulation.saveMe(pso.schema);
+	String save_page = (String) request.getParameter("save_page");
 
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_create_document_page"))){
+		String uniq_doc_title = (String) request.getParameter("uniq_doc_title");
+		String doc_display_title = (String) request.getParameter("doc_display_title");
+		
+		System.out.println("creating doc of uniq title: " + uniq_doc_title);
+		SharedDocument sd = new SharedDocument(uniq_doc_title, doc_display_title, pso.sim_id);
+		sd.save(pso.schema);
+		
+	}
+	
+	if (pso.forward_on){
+		pso.forward_on = false;
+		response.sendRedirect(pso.backPage);
+		return;
 	}
 	
 %>
@@ -40,8 +36,7 @@
 <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -134,42 +129,57 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Enter Simulation Introduction</h1>
+      <h1>Create/Edit Documents Page</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-<% 
-			if (pso.simulationSelected) {
-		%>
-	  <p>Enter the introduction for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
-          (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-          here</a>.)</p>
-      <form action="create_simulation_introduction.jsp" method="post" name="form2" id="form2">
-        <blockquote>
-		  <p>
-		  <textarea id="sim_intro" name="sim_intro" style="height: 710px; width: 710px;"><%= simulation.getIntroduction() %></textarea>
-		<script language="javascript1.2">
-  			generate_wysiwyg('sim_intro');
-		</script>
-		  </p>
-          <p> 
-            <input type="hidden" name="sending_page" value="create_sim_intro" />
-            <input type="submit" name="enter_intro" value="Submit" />
+<p>Documents associated with a simulation can be read and written to by the players. One must first create a document here, and then add it to specific 'Read' or 'Write' sections to give the players this functionality.
+      <form action="make_create_document_page.jsp" method="post" name="form2" id="form2">
+
+          <h2>Create New Document</h2>
+          <table>
+          <tr>
+            <td>Unique Internal Document Title  <a href="helptext/uniq_doc_identifer_help.jsp" target="helpinright">(?)</a>:</td>
+            <td><input type="text" name="uniq_doc_title" /></td></tr>
+          <tr><td>Document Display Title <a href="helptext/document_display_title_help.jsp" target="helpinright">(?)</a>:</td>
+          <td><input name="doc_display_title" type="text" size="60" /></td></tr>
+		  <tr><td>&nbsp;</td><td><input type="submit" name="create_doc" value="Create" /></td></tr>
+          </table>
+            <input type="hidden" name="sending_page" value="make_create_document_page" />
           </p>
-        </blockquote>
       </form>
-      <blockquote>
-        <p>&nbsp;</p>
-      </blockquote>
-      <p align="center"><a href="create_simulation_planned_play_ideas.jsp">Next Step: Enter Planned Play Ideas </a></p>
-	  <% } else { // End of if have set simulation id. %>
-      <blockquote>
-        <p>
-		<%@ include file="select_message.jsp" %></p>
-      </blockquote>
-      <% } // End of if have not set simulation for edits. %>
-	  
-      <a href="create_simulation_audience.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
-			</td>
+      <p>&nbsp;</p>
+      <p>Below are listed all of the documents currently associated with this simulation. </p>
+ 
+      <table border="1">
+<tr><td><strong>Uniq Identifier</strong></td>
+<td><strong>Display Title Seen to Players</strong></td>
+<td><strong>Update</strong></td>
+<td><strong>Delete</strong></td>
+<td><strong>Read*</strong></td>
+<td><strong>Write*</strong></td>
+</tr>
+              <%
+			  		int ii = 0;
+					for (ListIterator li = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id).listIterator(); li.hasNext();) {
+						SharedDocument sd = (SharedDocument) li.next();
+				%>
+                <form action="make_create_document_page.jsp" method="post" name="form_edit_<%= ii + "" %>">
+              <tr><td><%= sd.getUniqueDocTitle() %></td>
+              <td><%= sd.getDisplayTitle() %></td>
+              <td><input name="Update" type="button" value="Update" /></td>
+              <td>delete</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              </tr>
+              </form>
+              <%
+					}
+				%>
+</table>
+
+	  <p>* Read/Write access simply means that at some point in the simulation (at some phase) this actor has access to read or write to this document.</p>
+	  <p><a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
+			<!-- InstanceEndEditable -->			</td>
 		</tr>
 		</table>
 	</td>

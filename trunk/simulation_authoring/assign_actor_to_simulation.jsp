@@ -179,7 +179,7 @@ body {
       <p>&nbsp;</p>
       <div align="center"><a href="create_injects.jsp">Next Step: Create Injects</a></div>
 		
-	  <a href="create_actors.jsp">&lt;- Back</a>      <!-- InstanceEndEditable -->
+	  <a href="create_actors.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>      <!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

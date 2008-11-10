@@ -260,6 +260,10 @@ public class BaseSimSection implements Comparable {
 
 	@Column(name = "CUSTOM_LIB_NAME")
 	protected String cust_lib_name = "";
+	
+	protected boolean confers_read_ability = false;
+	
+	protected boolean confers_write_ability = false;
 
 	/**
 	 * Zero argument constructor needed by Hibernate.
@@ -511,6 +515,22 @@ public class BaseSimSection implements Comparable {
 
 	public void setCust_lib_name(String cust_lib_name) {
 		this.cust_lib_name = cust_lib_name;
+	}
+
+	public boolean isConfers_read_ability() {
+		return confers_read_ability;
+	}
+
+	public void setConfers_read_ability(boolean confers_read_ability) {
+		this.confers_read_ability = confers_read_ability;
+	}
+
+	public boolean isConfers_write_ability() {
+		return confers_write_ability;
+	}
+
+	public void setConfers_write_ability(boolean confers_write_ability) {
+		this.confers_write_ability = confers_write_ability;
 	}
 
 	@Override
