@@ -12,6 +12,7 @@
 		return;
 	}
 	response.sendRedirect(pso.handleSimSectionsRouter(request));
+	
 	if (true){
 		return;
 	}

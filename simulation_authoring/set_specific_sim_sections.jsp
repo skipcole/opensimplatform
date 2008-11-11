@@ -19,6 +19,10 @@
 	
 	if (pso.simulationSelected) {
 		simulation = pso.handleSetSimSectionsPage(request);	
+		
+		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
+		System.out.println("actor id is " + pso.actor_id);
+		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
 	
 		if ((pso.actor_id != null) && (pso.actor_id.intValue() != 0 )){
 			actor = pso.giveMeActor();
@@ -376,7 +380,7 @@ body {
 							Actor daActor = (Actor) li.next();
 			
 			%>
-			- <a href="set_specific_sim_sections.jsp?actor_index=<%= aIndex + "" %>&amp;phase_id=<%= spp.getId().toString() %>"><%= daActor.getName() %></a>
+			- <a href="set_specific_sim_sections.jsp?actor_index=<%= aIndex + "" %>&phase_id=<%= spp.getId().toString() %>"><%= daActor.getName() %></a>
 			<% 
 				aIndex += 1;
 			} %>
@@ -394,7 +398,7 @@ body {
 	Actor nextActor = (Actor) simulation.getActors().get(nextIndex - 1);
 	
 %>
-        <a href="set_specific_sim_sections.jsp?actor_index=<%= nextIndex %>&amp;phase_id=<%= spp.getId().toString() %>"> 
+        <a href="set_specific_sim_sections.jsp?actor_index=<%= nextIndex %>&phase_id=<%= spp.getId().toString() %>"> 
         Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a> 
         <% } else { %>
         <a href="create_aar_starter_text.jsp"> Next Step: Enter 'After Action Report' Starter Text </a> 

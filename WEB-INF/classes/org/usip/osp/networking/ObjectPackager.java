@@ -69,6 +69,15 @@ public class ObjectPackager {
         return xstream.toXML(sim);
         
     }
+    
+    public static String packageObject(Object obj){
+        
+
+        XStream xstream = new XStream();
+        
+        return xstream.toXML(obj);
+        
+    }
 
 	/**
 	 * 
