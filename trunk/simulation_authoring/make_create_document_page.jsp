@@ -27,6 +27,8 @@
 		return;
 	}
 	
+	pso.fillReadWriteLists();
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -168,7 +170,7 @@ body {
               <td><%= sd.getDisplayTitle() %></td>
               <td><input name="Update" type="button" value="Update" /></td>
               <td>delete</td>
-              <td>&nbsp;</td>
+              <td><%= pso.ActorsWithReadAccess.get(sd.getId().toString()) %></td>
               <td>&nbsp;</td>
               </tr>
               </form>

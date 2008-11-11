@@ -124,6 +124,9 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setSample_image(this.getSample_image());
         cs.setSpecificMakePage(this.getSpecificMakePage());
 		cs.setUrl(this.getUrl());
+		
+		cs.setConfers_read_ability(this.isConfers_read_ability());
+		cs.setConfers_write_ability(this.isConfers_write_ability());
         
         // Copies are made when a section is customized. 
         cs.thisIsACustomizedSection = true;
@@ -154,7 +157,7 @@ public class CustomizeableSection extends BaseSimSection {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		if (cs == null){
-			System.out.println("Warning. Null cs returned.");
+			System.out.println("Warning. Null cs returned using id " + the_id);
 		}
 		
 		return cs;

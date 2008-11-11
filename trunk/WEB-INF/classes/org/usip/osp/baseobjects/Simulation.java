@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.Conversation;
+import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.*;
 import org.usip.osp.specialfeatures.*;
 
@@ -248,6 +249,10 @@ public class Simulation {
 		getPhases().add(sp_last);
 		// /////////////////////////////////////////////////
 
+		// Add the schedule page
+		SharedDocument sd = new SharedDocument("schedule", "Play Schedule", this.getId());
+		
+		// Add the control character
 		Actor ctrl_act = Actor.getControlActor(schema);
 		getActors().add(ctrl_act);
 		

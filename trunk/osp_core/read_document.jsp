@@ -15,7 +15,7 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
-	Long base_doc_id = (Long) cs.getContents().get("doc_id");
+	Long base_doc_id = (Long) cs.getContents().get("doc_ids");
 	
 	RunningSimulation rs = pso.giveMeRunningSim();
 	

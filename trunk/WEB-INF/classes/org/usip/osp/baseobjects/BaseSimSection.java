@@ -38,18 +38,25 @@ public class BaseSimSection implements Comparable {
 		// BaseSimSection.readBaseSimSectionsFromXMLFiles();
 
 		// HibernateUtil.recreateDatabase();
-		readCustomLibSimSectionsFromXMLFiles("usiposcw");
+		//readCustomLibSimSectionsFromXMLFiles("usiposcw");
 		// HibernateUtil.commitAndCloseTransaction();
 		/*
 		 * List<BaseSimSection> bList = BaseSimSection.getAllControl();
 		 * 
 		 * for (ListIterator la = bList.listIterator(); la.hasNext();) {
 		 * BaseSimSection bss = (BaseSimSection) la.next();
-		 * 
-		 * System.out.println("--------------------");
-		 * System.out.println(ObjectPackager.packageObject(bss));
-		 * System.out.println("--------------------"); }
 		 */
+		BaseSimSection bss = BaseSimSection.getMe("test", "16");
+		//bss.setConfers_read_ability(true);
+		
+		System.out.println("can read " + bss.isConfers_read_ability());
+		//bss.saveMe("test");
+		
+		 System.out.println("--------------------");
+		 System.out.println(ObjectPackager.packageObject(bss));
+		 System.out.println("--------------------");
+		
+		 
 	}
 
 	/**
@@ -172,6 +179,12 @@ public class BaseSimSection implements Comparable {
 			return "Read in Base Simulation Section Information.";
 		}
 	}
+	
+	public void saveMe(String schema){
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
 
 	public static void readInXMLFile(String schema, File thisFile,
 			String customLibName) {
@@ -193,9 +206,8 @@ public class BaseSimSection implements Comparable {
 					brc.setCust_lib_name(customLibName);
 				}
 
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(brc);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				brc.saveMe(schema);
+				
 
 			} else {
 
@@ -323,6 +335,8 @@ public class BaseSimSection implements Comparable {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.
 			getSession(schema).get(BaseSimSection.class, new Long(the_id));
+		
+		System.out.println("this bss can read: " + bss.isConfers_read_ability());
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return bss;

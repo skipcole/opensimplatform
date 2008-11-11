@@ -216,7 +216,12 @@ public class ParticipantSessionObject {
 	 */
 	public void setSimSectionsInternalVariables(HttpServletRequest request) {
 
-		_actor_index = (String) request.getParameter("actor_index");
+		String _ai = (String) request.getParameter("actor_index");
+
+		if ((_ai != null) && (_ai.length() > 0)
+				&& (!(_ai.equalsIgnoreCase("null"))))
+			_actor_index = (String) request.getParameter("actor_index");
+
 		_bss_id = (String) request.getParameter("bss_id");
 		_command = (String) request.getParameter("command");
 		_page_id = (String) request.getParameter("page_id");
@@ -587,6 +592,7 @@ public class ParticipantSessionObject {
 				this_tab_pos.intValue());
 
 		if (universal) {
+			System.out.println("applying universal page");
 			Simulation simulation = giveMeSim();
 			SimulationSection.applyUniversalSectionsToAllActors(schema,
 					simulation, phase_id);
@@ -2489,71 +2495,6 @@ public class ParticipantSessionObject {
 	 * 
 	 * @param request
 	 */
-	public CustomizeableSection handleMakeWriteNewsPage(
-			HttpServletRequest request) {
-		String tab_heading = (String) session.getAttribute("tab_heading");
-		String tab_pos = (String) session.getAttribute("tab_pos");
-		String universal = (String) session.getAttribute("universal");
-
-		String new_tab_heading = request.getParameter("tab_heading");
-		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			tab_heading = new_tab_heading;
-		}
-
-		String custom_page = request.getParameter("custom_page");
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(CustomizeableSection.class,
-						new Long(custom_page));
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		// Determine if setting sim to edit.
-		String sending_page = (String) request.getParameter("sending_page");
-
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
-
-				&& (sending_page.equalsIgnoreCase("make_write_news_page"))) {
-			// If this is the original custom page, make a new page
-
-			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(schema);
-				custom_page = customizableSectionOnScratchPad.getId() + "";
-			}
-
-			// Update page values
-			String make_write_news_page_text = (String) request
-					.getParameter("make_write_news_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_write_news_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(tab_heading);
-			customizableSectionOnScratchPad.save(schema);
-
-			if (save_and_add != null) {
-				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), tab_pos, tab_heading, request, universal);
-				// send them back
-				forward_on = true;
-				return customizableSectionOnScratchPad;
-
-			}
-
-		} // End of if this is the make_write_news_page
-
-		return customizableSectionOnScratchPad;
-	}
-
-	/**
-	 * 
-	 * @param request
-	 */
 	public CustomizeableSection handleMakeReflectionPage(
 			HttpServletRequest request) {
 		String tab_heading = (String) session.getAttribute("tab_heading");
@@ -2837,7 +2778,8 @@ public class ParticipantSessionObject {
 			// Get the document associated with this customized section
 			try {
 				Long doc_id = (Long) customizableSectionOnScratchPad
-						.getContents().get("doc_id");
+						.getContents()
+						.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 
 				if (doc_id == null) {
 					sd = new SharedDocument();
@@ -2850,8 +2792,8 @@ public class ParticipantSessionObject {
 
 				sd.save(schema);
 
-				customizableSectionOnScratchPad.getContents().put("doc_id",
-						sd.getId());
+				customizableSectionOnScratchPad.getContents().put(
+						SharedDocument.DOCS_IN_HASHTABLE_KEY, sd.getId().toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -2888,10 +2830,59 @@ public class ParticipantSessionObject {
 		for (ListIterator plist = phaseList.listIterator(); plist.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) plist.next();
 			// Loop over actors
-			for (ListIterator lia = actorList.listIterator(); lia.hasNext();) {
-				Actor act = (Actor) lia.next();
+			for (ListIterator alist = actorList.listIterator(); alist.hasNext();) {
+				Actor act = (Actor) alist.next();
 
 				System.out.println("checking read write on " + act.getName());
+				List setOfSections = SimulationSection
+						.getBySimAndActorAndPhase(schema, this.sim_id, act
+								.getId(), sp.getId());
+
+				for (ListIterator slist = setOfSections.listIterator(); slist
+						.hasNext();) {
+					SimulationSection ss = (SimulationSection) slist.next();
+
+					CustomizeableSection custSec = CustomizeableSection.getMe(
+							schema, ss.getBase_section_id() + "");
+
+					if (custSec != null) {
+						System.out.println("cs id: "
+								+ ss.getBase_section_id());
+						System.out.println("bss rec tab: "
+								+ custSec.getRec_tab_heading());
+						System.out.println("can read "
+								+ custSec.isConfers_read_ability());
+
+						if (custSec.isConfers_read_ability() == true) {
+							Hashtable storedGoodies = custSec.getContents();
+							String docs = (String) storedGoodies
+									.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
+							
+							String currentActors = (String) ActorsWithReadAccess.get(docs);
+							
+							if (currentActors == null){
+								currentActors = act.getId().toString();
+							} else {
+								currentActors += "," + act.getId();
+							}
+							
+							ActorsWithReadAccess.put(docs, currentActors);
+							
+							System.out.println("docs were : " + currentActors);
+						}
+
+						if (custSec.isConfers_write_ability() == true) {
+							System.out.println("confers read and write");
+							Hashtable storedGoodies = custSec.getContents();
+							String docs = (String) storedGoodies
+									.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
+							System.out.println("docs were : " + docs);
+						}
+					}
+					System.out
+							.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+				}
 
 			} // End of loop over actors
 		}
@@ -2931,7 +2922,8 @@ public class ParticipantSessionObject {
 				sd = new SharedDocument();
 			}
 
-			String _doc_id = (String) request.getParameter("doc_id");
+			String _doc_id = (String) request
+					.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 
 			System.out.println("Got Doc id!!!!!: " + _doc_id);
 
@@ -2941,8 +2933,8 @@ public class ParticipantSessionObject {
 
 				sd.setId(doc_id);
 
-				customizableSectionOnScratchPad.getContents().put("doc_id",
-						sd.getId());
+				customizableSectionOnScratchPad.getContents().put(
+						SharedDocument.DOCS_IN_HASHTABLE_KEY, sd.getId().toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -136,7 +136,7 @@ body {
 		  %>
             <label>Select Document
 			
-            <select name="doc_id">
+            <select name="<%= SharedDocument.DOCS_IN_HASHTABLE_KEY %>">
 				<%
 					for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 					
