@@ -102,7 +102,7 @@ errorPage=""
     <td>Create Root Schema</td>
     <td>You must create a schema to contain all of the username and password information 
       that your database will hold. The recommended schema name for the first 
-      schema is 'usiposcw'.. </td>
+      schema is 'usiposp'.. </td>
   </tr>
   <tr align="left" valign="top"> 
     <td>&nbsp;</td>

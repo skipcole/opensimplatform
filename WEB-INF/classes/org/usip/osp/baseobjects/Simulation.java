@@ -250,7 +250,8 @@ public class Simulation {
 		// /////////////////////////////////////////////////
 
 		// Add the schedule page
-		SharedDocument sd = new SharedDocument("schedule", "Play Schedule", this.getId());
+		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId());
+		sd.save(schema);
 		
 		// Add the control character
 		Actor ctrl_act = Actor.getControlActor(schema);

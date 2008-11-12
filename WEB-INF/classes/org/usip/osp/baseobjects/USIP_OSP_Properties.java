@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  */
 public class USIP_OSP_Properties {
     
-    private static String schema = "usiposcw";
+    private static String schema = "usiposp";
 
     private static ResourceBundle resourceBundle;
     
@@ -40,7 +40,7 @@ public class USIP_OSP_Properties {
     	System.out.println("user.home is" + file_loc);
     	
         try {
-            resourceBundle = ResourceBundle.getBundle("USIP_OSCW_Properties", new Locale("en", "US"));
+            resourceBundle = ResourceBundle.getBundle("USIP_OSP_Properties", new Locale("en", "US"));
 
             if ((os_name == null) || (!(os_name.equalsIgnoreCase("SunOS")))){
             	environment_name = "_local";
@@ -49,7 +49,7 @@ public class USIP_OSP_Properties {
             }
             
         } catch (Exception e) {
-            System.out.println("Properties file USIP_OSCW_Properties_en_US.properties not found. Need it. Its a Big Deal.");
+            System.out.println("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal.");
         }
     }
     

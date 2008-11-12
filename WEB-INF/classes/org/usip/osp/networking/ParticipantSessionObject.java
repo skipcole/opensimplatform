@@ -3333,6 +3333,10 @@ public class ParticipantSessionObject {
 	 */
 	public String stringListToNames(HttpServletRequest request, String id_list, String separator) {
 
+		if (id_list == null){
+			return "";
+		}
+		
 		StringTokenizer str = new StringTokenizer(id_list, ",");
 
 		String returnList = "";
