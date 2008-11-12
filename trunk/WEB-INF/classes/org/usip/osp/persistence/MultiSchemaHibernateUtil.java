@@ -12,7 +12,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.usip.osp.baseobjects.USIP_OSCW_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.UserAssignment;
 
 /**
@@ -59,15 +59,15 @@ public class MultiSchemaHibernateUtil {
 
 	static {
         
-        principalschema = USIP_OSCW_Properties.getValue("principalschema");
+        principalschema = USIP_OSP_Properties.getValue("principalschema");
         
-		dialect = USIP_OSCW_Properties.getValue("dialect");
-		driver_class = USIP_OSCW_Properties.getValue("driver_class");
+		dialect = USIP_OSP_Properties.getValue("dialect");
+		driver_class = USIP_OSP_Properties.getValue("driver_class");
         
-        String username = USIP_OSCW_Properties.getValue("username");
-        String password = USIP_OSCW_Properties.getValue("password");
-        String loc = USIP_OSCW_Properties.getValue("loc");
-        String port = USIP_OSCW_Properties.getValue("port");
+        String username = USIP_OSP_Properties.getValue("username");
+        String password = USIP_OSP_Properties.getValue("password");
+        String loc = USIP_OSP_Properties.getValue("loc");
+        String port = USIP_OSP_Properties.getValue("port");
         String url = loc + port + "/" + principalschema + "?autoReconnect=true";
         
         setOfUsernames.put(principalschema, username);

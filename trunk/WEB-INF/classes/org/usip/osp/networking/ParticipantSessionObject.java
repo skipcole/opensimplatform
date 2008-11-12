@@ -1367,12 +1367,12 @@ public class ParticipantSessionObject {
 
 		try {
 
-			String username = USIP_OSCW_Properties.getValue("username");
-			String password = USIP_OSCW_Properties.getValue("password");
-			String loc = USIP_OSCW_Properties.getValue("loc");
-			String port = USIP_OSCW_Properties.getValue("port");
+			String username = USIP_OSP_Properties.getValue("username");
+			String password = USIP_OSP_Properties.getValue("password");
+			String loc = USIP_OSP_Properties.getValue("loc");
+			String port = USIP_OSP_Properties.getValue("port");
 			String url = loc + port + "/"
-					+ USIP_OSCW_Properties.getValue("principalschema")
+					+ USIP_OSP_Properties.getValue("principalschema")
 					+ "?autoReconnect=true";
 
 			String conn_string = MysqlDatabase.makeConnString(url, username,
@@ -1865,7 +1865,7 @@ public class ParticipantSessionObject {
 
 		try {
 			MultipartRequest mpr = new MultipartRequest(request,
-					USIP_OSCW_Properties.getValue("uploads"));
+					USIP_OSP_Properties.getValue("uploads"));
 
 			String update_actor = (String) mpr.getParameter("update_actor");
 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.usip.osp.baseobjects.BaseSimSection;
-import org.usip.osp.baseobjects.USIP_OSCW_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.UserAssignment;
 
 
@@ -33,12 +33,12 @@ public class FileIO {
 	private static String sim_image_dir = "";
 
 	static {
-		base_web_dir = USIP_OSCW_Properties.getValue("base_web_dir");
-		base_section_web_dir = USIP_OSCW_Properties.getValue("base_section_web_dir");
-        custom_section_web_dir = USIP_OSCW_Properties.getValue("custom_section_web_dir");
-        actor_image_dir = USIP_OSCW_Properties.getValue("actor_image_dir");
-        packaged_sim_dir = USIP_OSCW_Properties.getValue("packaged_sim_dir");
-        sim_image_dir = USIP_OSCW_Properties.getValue("sim_image_dir");
+		base_web_dir = USIP_OSP_Properties.getValue("base_web_dir");
+		base_section_web_dir = USIP_OSP_Properties.getValue("base_section_web_dir");
+        custom_section_web_dir = USIP_OSP_Properties.getValue("custom_section_web_dir");
+        actor_image_dir = USIP_OSP_Properties.getValue("actor_image_dir");
+        packaged_sim_dir = USIP_OSP_Properties.getValue("packaged_sim_dir");
+        sim_image_dir = USIP_OSP_Properties.getValue("sim_image_dir");
         
 	}
 	

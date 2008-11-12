@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.sql.*;
 import java.util.*;
 
-import org.usip.osp.baseobjects.USIP_OSCW_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
 
 /**
  * @author Ronald "Skip" Cole
@@ -25,7 +25,7 @@ public class MysqlDatabase {
     private static String conn_string = "";
 
     static {
-            conn_string = USIP_OSCW_Properties.getValue("conn_string");
+            conn_string = USIP_OSP_Properties.getValue("conn_string");
     }
     
     public static String makeConnString(String base_url, String user, String pass){

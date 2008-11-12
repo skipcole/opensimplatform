@@ -3,7 +3,7 @@ package org.usip.osp.communications;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-import org.usip.osp.baseobjects.USIP_OSCW_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.SchemaInformationObject;
 
@@ -30,7 +30,7 @@ public class Emailer {
 	static {
 		try {
 
-			simulation_url = USIP_OSCW_Properties.getValue("simulation_url");
+			simulation_url = USIP_OSP_Properties.getValue("simulation_url");
 
 		} catch (Exception e) {
 			System.out
