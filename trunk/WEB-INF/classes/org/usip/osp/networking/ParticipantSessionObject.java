@@ -3325,18 +3325,25 @@ public class ParticipantSessionObject {
 		return sendToPage;
 	}
 
-	public String stringListToNames(HttpServletRequest request, String id_list) {
+	/**
+	 * Takes a comma separated list of actor ids and turns it into a list of names.
+	 * @param request
+	 * @param id_list
+	 * @return
+	 */
+	public String stringListToNames(HttpServletRequest request, String id_list, String separator) {
 
 		StringTokenizer str = new StringTokenizer(id_list, ",");
 
 		String returnList = "";
 
 		while (str.hasMoreTokens()) {
-			returnList += (getActorName(request, str.nextToken().trim()) + ", ");
+			returnList += (getActorName(request, str.nextToken().trim()) + separator);
 
 		}
 
-		if (returnList.endsWith(", ")) {
+		// chop the final comma off
+		if (returnList.endsWith(separator)) {
 			returnList = returnList.substring(0, returnList.length() - 2);
 		}
 

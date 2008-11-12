@@ -90,7 +90,7 @@ To All Players </label>
 %>
   <tr>
   	<td valign="top"><% if ((!al.isSpecific_targets())) { %>All<% } else { %>
-  	  <%= pso.stringListToNames(request, al.getThe_specific_targets())%>
+  	  <%= pso.stringListToNames(request, al.getThe_specific_targets(), ", ")%>
     <% } %>	</td>
     <td valign="top"><%= al.getTimeOfAlert() %></td>
     <td valign="top"><%= al.getAlertMessage() %></td>

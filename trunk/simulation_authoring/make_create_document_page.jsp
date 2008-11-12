@@ -170,7 +170,7 @@ body {
               <td><%= sd.getDisplayTitle() %></td>
               <td><input name="Update" type="button" value="Update" /></td>
               <td>delete</td>
-              <td><%= pso.ActorsWithReadAccess.get(sd.getId().toString()) %></td>
+              <td><%= pso.stringListToNames(request, (String) pso.ActorsWithReadAccess.get(sd.getId().toString()), "<br />") %></td>
               <td>&nbsp;</td>
               </tr>
               </form>
