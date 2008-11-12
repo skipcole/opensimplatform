@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
  * PURPOSE. <BR>
  * 
  */
-public class USIP_OSCW_Properties {
+public class USIP_OSP_Properties {
     
     private static String schema = "usiposcw";
 
@@ -84,7 +84,7 @@ public class USIP_OSCW_Properties {
     }
 
     public static void setSchema(String schema) {
-        USIP_OSCW_Properties.schema = schema;
+        USIP_OSP_Properties.schema = schema;
     }
     
 }
