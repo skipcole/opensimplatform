@@ -229,6 +229,22 @@ public class User {
 		return returnList;
 
 	}
+	
+	public static User getUser(String schema, Long user_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		User user = (User) MultiSchemaHibernateUtil
+				.getSession(schema).get(User.class, user_id);
+
+		user.loadMyDetails();
+		
+		MultiSchemaHibernateUtil.getSession(schema).evict(user);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return user;
+		
+	}
 
 	private User getUser(String username,
 			org.hibernate.Session hibernate_session) {

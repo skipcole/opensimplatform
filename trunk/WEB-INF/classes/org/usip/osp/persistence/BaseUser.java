@@ -68,11 +68,25 @@ public class BaseUser {
         
         this.setUsername(the_username);
         this.setPassword(the_password);
+
+        saveMe();
+        
+    }
+    
+    public void updateMe(String fi, String fu, String la, String mi){
+    	this.first_name = fi;
+    	this.full_name = fu;
+    	this.last_name = la;
+    	this.middle_name = mi;
+    	
+    	saveMe();
+    	
+    }
+
+    public void saveMe(){
         MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
         MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(this);                        
         MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-
-        
     }
     
     /**
