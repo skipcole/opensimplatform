@@ -12,6 +12,29 @@
 		return;
 	}
 	
+	
+	
+	String sending_page = (String) request.getParameter("sending_page");
+	String update = (String) request.getParameter("update");
+
+		// /////////////////////////////////
+	if ((sending_page != null) && (update != null)
+			&& (sending_page.equalsIgnoreCase("my_profile"))) {
+		
+		System.out.println("update");
+		String full_name = (String) request.getParameter("full_name");
+		String first_name = (String) request.getParameter("first_name");
+		String last_name = (String) request.getParameter("last_name");
+		String middle_name = (String) request.getParameter("middle_name");
+		
+		BaseUser bu = BaseUser.getByUserId(pso.user_id);
+		
+		bu.updateMe(first_name, full_name, last_name, middle_name);
+		
+	}
+	
+	User user = pso.giveMeUser();
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -117,22 +140,34 @@ body {
       <h1>My Profile </h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
+<form id="form1" name="form1" method="post" action="my_profile.jsp">
 <table width="80%" border="0" cellspacing="2" cellpadding="1">
   <tr>
     <td>Full Name:</td>
-    <td><%= pso.user_Display_Name %></td>
+    <td>
+          <input type="text" name="full_name" id="full_name" value="<%= user.getBu_full_name() %>" />
+      </td>
   </tr>
     <tr>
     <td>First Name:</td>
-    <td><%= pso.user_Display_Name %></td>
+    <td>
+      <label>
+      <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
+      </label></td>
   </tr>
     <tr>
     <td>Middle Name:</td>
-    <td><%= pso.user_Display_Name %></td>
+    <td>
+      <label>
+      <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
+      </label></td>
   </tr>
     <tr>
     <td>Last Name:</td>
-    <td><%= pso.user_Display_Name %></td>
+    <td>
+      <label>
+      <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
+      </label></td>
   </tr>
   <tr>
     <td>Authorization Level:</td>
@@ -142,7 +177,15 @@ body {
     <td>Email Address:</td>
     <td><%= pso.user_email %></td>
   </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><label>
+      <input type="hidden" name="sending_page" value="my_profile" /> 
+      <input type="submit" name="update" id="update" value="Update" />
+    </label></td>
+  </tr>
 </table>
+</form>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable -->
 			</td>

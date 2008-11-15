@@ -667,46 +667,62 @@ public class ParticipantSessionObject {
 	 * 
 	 * @param request
 	 */
-	public void handleCreateAdminUser(HttpServletRequest request) {
+	public User handleCreateAdminUser(HttpServletRequest request) {
 
+		User user = new User();
+				
 		if ((!this.isAdmin) || (!this.isSimCreator)) {
 			errorMsg = "Not authorized to create administrative users.";
-			return;
+			return user;
 		}
 
-		getAddUserParamters(request);
+		String sending_page = (String) request.getParameter("sending_page");
+		String adduser = (String) request.getParameter("adduser");
 
-		if (!hasEnoughInfoToCreateUser()) {
-			return;
-		} else {
+		// /////////////////////////////////
+		if ((sending_page != null) && (adduser != null)
+				&& (sending_page.equalsIgnoreCase("create_users"))) {
 
-			boolean makeAdmin = false;
-			boolean makeAuthor = false;
-			boolean makeInstructor = false;
+			System.out.println("creating user");
 
-			if ((_admin != null) && (_admin.equalsIgnoreCase("true"))) {
-				makeAdmin = true;
-				makeAuthor = true;
-				makeInstructor = true;
-			} else if ((_author != null) && (_author.equalsIgnoreCase("true"))) {
-				makeAuthor = true;
-				makeInstructor = true;
-			} else if ((_instructor != null)
-					&& (_instructor.equalsIgnoreCase("true"))) {
-				makeInstructor = true;
+			getAddUserParamters(request);
+
+			if (!hasEnoughInfoToCreateUser()) {
+				return user;
+			} else {
+
+				boolean makeAdmin = false;
+				boolean makeAuthor = false;
+				boolean makeInstructor = false;
+
+				if ((_admin != null) && (_admin.equalsIgnoreCase("true"))) {
+					makeAdmin = true;
+					makeAuthor = true;
+					makeInstructor = true;
+				} else if ((_author != null)
+						&& (_author.equalsIgnoreCase("true"))) {
+					makeAuthor = true;
+					makeInstructor = true;
+				} else if ((_instructor != null)
+						&& (_instructor.equalsIgnoreCase("true"))) {
+					makeInstructor = true;
+				}
+
+				try {
+					user = new User(schema, _email, _password, "", "", "",
+							_realname, _email, makeAuthor, makeInstructor,
+							makeAdmin);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					this.errorMsg = e.getMessage();
+				}
 			}
 
-			try {
-				User user = new User(schema, _email, _password, "", "", "",
-						_realname, _email, makeAuthor, makeInstructor,
-						makeAdmin);
+		} // End of if coming from this page and have added user.
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.errorMsg = e.getMessage();
-			}
-		}
-
+		return user;
+		
 	}
 
 	/**
@@ -2392,6 +2408,16 @@ public class ParticipantSessionObject {
 
 		return phase;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public User giveMeUser() {
+		
+		return User.getUser(schema, this.user_id);
+
+	}
 
 	public void addActorToSim(String sim_id, String actor_id) {
 
@@ -2793,7 +2819,8 @@ public class ParticipantSessionObject {
 				sd.save(schema);
 
 				customizableSectionOnScratchPad.getContents().put(
-						SharedDocument.DOCS_IN_HASHTABLE_KEY, sd.getId().toString());
+						SharedDocument.DOCS_IN_HASHTABLE_KEY,
+						sd.getId().toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -2846,8 +2873,7 @@ public class ParticipantSessionObject {
 							schema, ss.getBase_section_id() + "");
 
 					if (custSec != null) {
-						System.out.println("cs id: "
-								+ ss.getBase_section_id());
+						System.out.println("cs id: " + ss.getBase_section_id());
 						System.out.println("bss rec tab: "
 								+ custSec.getRec_tab_heading());
 						System.out.println("can read "
@@ -2857,17 +2883,18 @@ public class ParticipantSessionObject {
 							Hashtable storedGoodies = custSec.getContents();
 							String docs = (String) storedGoodies
 									.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-							
-							String currentActors = (String) ActorsWithReadAccess.get(docs);
-							
-							if (currentActors == null){
+
+							String currentActors = (String) ActorsWithReadAccess
+									.get(docs);
+
+							if (currentActors == null) {
 								currentActors = act.getId().toString();
 							} else {
 								currentActors += "," + act.getId();
 							}
-							
+
 							ActorsWithReadAccess.put(docs, currentActors);
-							
+
 							System.out.println("docs were : " + currentActors);
 						}
 
@@ -2934,7 +2961,8 @@ public class ParticipantSessionObject {
 				sd.setId(doc_id);
 
 				customizableSectionOnScratchPad.getContents().put(
-						SharedDocument.DOCS_IN_HASHTABLE_KEY, sd.getId().toString());
+						SharedDocument.DOCS_IN_HASHTABLE_KEY,
+						sd.getId().toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -3326,17 +3354,20 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Takes a comma separated list of actor ids and turns it into a list of names.
+	 * Takes a comma separated list of actor ids and turns it into a list of
+	 * names.
+	 * 
 	 * @param request
 	 * @param id_list
 	 * @return
 	 */
-	public String stringListToNames(HttpServletRequest request, String id_list, String separator) {
+	public String stringListToNames(HttpServletRequest request, String id_list,
+			String separator) {
 
-		if (id_list == null){
+		if (id_list == null) {
 			return "";
 		}
-		
+
 		StringTokenizer str = new StringTokenizer(id_list, ",");
 
 		String returnList = "";
