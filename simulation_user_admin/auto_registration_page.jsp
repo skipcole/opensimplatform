@@ -4,32 +4,19 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	String error_msg = "";
 	
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String update = (String) request.getParameter("update");
+	pso.handleCreateUser(request);
 
-		// /////////////////////////////////
-	if ((sending_page != null) && (update != null)
-			&& (sending_page.equalsIgnoreCase("my_profile"))) {
-		
-		pso.handleMyProfile(request);
-		
-	}
-	
-	User user = pso.giveMeUser();
-	
+
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -129,56 +116,74 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>My Profile </h1>
+      <h1>Registration Page</h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
-<form id="form1" name="form1" method="post" action="my_profile.jsp">
-<table width="80%" border="0" cellspacing="2" cellpadding="1">
-  <tr>
-    <td>Full Name:</td>
+
+<p>To participate in online simulations using this sytem, you will need to be registered in the system.</p>
+<p>Pleast Note:</p>
+<ol>
+  <li>Your email address will be your username</li>
+  <li>In case you lose your password, you can have it emailed to you.</li>
+  <li>Do not use a password that you typically use. This is a low security system, so pick a simple new password.</li>
+  <li>Registering on the sytem will not give you immediate access to any simulations. An instructor will need to assign you a role in an ongoing simulation before you can participate in one.</li>
+  <li>After registering you will receive an email at the address you give for your email address. If you do not see this email shortly after registering, please look for it in your junk email box (and then white list the sender if you know how to.)</li>
+</ol>
+<p>Please enter your information below. </p>
+<form action="../simulation_facilitation/create_user.jsp" method="post" name="form1" id="form1">
+        <table width="80%" border="0" cellspacing="0" cellpadding="0">
+		  
+          <tr> 
+            <td>username/email<a href="helptext/user_name.jsp" target="helpinright">(?)</a>:</td>
+            <td> <input type="text" name="email" tabindex="1" /> </td>
+          </tr>
+          <tr> 
+            <td>password<a href="helptext/user_password.jsp" target="helpinright">(?)</a></td>
+            <td><input type="text" name="password" tabindex="2" /></td>
+          </tr>
+            <tr>
+    <td>Full Name<a href="helptext/user_real_name.jsp" target="helpinright">(?)</a>:</td>
     <td>
-          <input type="text" name="full_name" id="full_name" value="<%= user.getBu_full_name() %>" />
-      </td>
+          <input type="text" name="full_name" id="full_name" tabindex="3" />      </td>
   </tr>
     <tr>
     <td>First Name:</td>
     <td>
       <label>
-      <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
+      <input type="text" name="first_name" id="first_name" tabindex="4" />
       </label></td>
   </tr>
     <tr>
     <td>Middle Name:</td>
     <td>
       <label>
-      <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
+      <input type="text" name="middle_name" id="middle_name" tabindex="5" />
       </label></td>
   </tr>
     <tr>
     <td>Last Name:</td>
     <td>
       <label>
-      <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
+      <input type="text" name="last_name" id="last_name" tabindex="6"  />
       </label></td>
   </tr>
-  <tr>
-    <td>Authorization Level:</td>
-    <td>Simulation Creator <% if (pso.isAdmin()) { %>, Administrator <% } %></td>
-  </tr>
-  <tr>
-    <td>Email Address:</td>
-    <td><%= pso.user_email %><input type="hidden" name="email" value="<%= pso.user_email %>" /> </td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td><label>
-      <input type="hidden" name="sending_page" value="my_profile" /> 
-      <input type="submit" name="update" id="update" value="Update" />
-    </label></td>
-  </tr>
-</table>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+				
+			  <input type="hidden" name="sending_page" value="create_users" /> 
+			
+              <input type="submit" name="command" value="Register" tabindex="6" />			</td>
+          </tr>
+        </table>
 </form>
 <p>&nbsp;</p>
+      <p>&nbsp;</p>
+<blockquote>&nbsp;</blockquote>
 <!-- InstanceEndEditable -->
 			</td>
 		</tr>
@@ -198,5 +203,6 @@ body {
 </body>
 <!-- InstanceEnd --></html>
 <%
+	pso.errorMsg = "";
 	
 %>

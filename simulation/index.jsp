@@ -60,7 +60,12 @@
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td><div align="right" class="style1"><a href="../simulation_facilitation/retrieve_password.jsp">Forgot Password?   </a></div></td>
+    <td><div align="right" class="style1"><a href="../simulation_user_admin/retrieve_password.jsp">Forgot Password?   </a></div></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><div align="right" class="style1"><a href="../simulation_user_admin/auto_registration_page.jsp">Register   </a></div></td>
     <td>&nbsp;</td>
   </tr>
 </table>

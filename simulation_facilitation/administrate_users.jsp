@@ -1,42 +1,41 @@
-<%@ page 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
-<%
-	String error_msg = "";
-	
+<% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
+	pso.backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
 	
+	pso.handleAssignUser(request);
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	String update = (String) request.getParameter("update");
-
-		// /////////////////////////////////
-	if ((sending_page != null) && (update != null)
-			&& (sending_page.equalsIgnoreCase("my_profile"))) {
-		
-		pso.handleMyProfile(request);
-		
+	////////////////////////////////////////////////////
+	Simulation simulation = new Simulation();	
+	
+	if (pso.sim_id != null){
+		simulation = pso.giveMeSim();
 	}
-	
-	User user = pso.giveMeUser();
+	/////////////////////////////////////////////////////
+	RunningSimulation running_simulation = new RunningSimulation();
+	if (pso.running_sim_id != null){
+		running_simulation = pso.giveMeRunningSim();
+	}
+	//////////////////////////////////////////////////////
 	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>Open Simulation Platform Control Page</title>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -65,11 +64,11 @@ body {
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
-          <td><div align="center"><a href="my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
           <td><div align="center"><a href="../simulation_authoring/logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
@@ -106,7 +105,7 @@ body {
 		<td>&nbsp;</td>
 	    <td bgcolor="<%= bgColor_create %>"><a href="../simulation_authoring/creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-		<td bgcolor="<%= bgColor_play %>"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		<td bgcolor="<%= bgColor_play %>"><a href="facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
         <td bgcolor="<%= bgColor_share %>"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		   </tr>
@@ -129,57 +128,13 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>My Profile </h1>
+      <h1>Administrate Users </h1>
       <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" -->
-<form id="form1" name="form1" method="post" action="my_profile.jsp">
-<table width="80%" border="0" cellspacing="2" cellpadding="1">
-  <tr>
-    <td>Full Name:</td>
-    <td>
-          <input type="text" name="full_name" id="full_name" value="<%= user.getBu_full_name() %>" />
-      </td>
-  </tr>
-    <tr>
-    <td>First Name:</td>
-    <td>
-      <label>
-      <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
-      </label></td>
-  </tr>
-    <tr>
-    <td>Middle Name:</td>
-    <td>
-      <label>
-      <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
-      </label></td>
-  </tr>
-    <tr>
-    <td>Last Name:</td>
-    <td>
-      <label>
-      <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
-      </label></td>
-  </tr>
-  <tr>
-    <td>Authorization Level:</td>
-    <td>Simulation Creator <% if (pso.isAdmin()) { %>, Administrator <% } %></td>
-  </tr>
-  <tr>
-    <td>Email Address:</td>
-    <td><%= pso.user_email %><input type="hidden" name="email" value="<%= pso.user_email %>" /> </td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td><label>
-      <input type="hidden" name="sending_page" value="my_profile" /> 
-      <input type="submit" name="update" id="update" value="Update" />
-    </label></td>
-  </tr>
-</table>
-</form>
-<p>&nbsp;</p>
-<!-- InstanceEndEditable -->
+			<!-- InstanceBeginEditable name="pageBody" --> 
+      <p>&nbsp;</p>
+      <p align="center"><a href="create_user.jsp">Next Step: Create User</a></p>
+      <p align="left"><a href="bulk_invite.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
+      <!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

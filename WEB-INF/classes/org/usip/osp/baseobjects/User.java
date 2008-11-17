@@ -81,6 +81,9 @@ public class User {
 
 	@Transient
 	private String bu_username = "";
+	
+	@Transient
+	private String bu_password = "";
 
 	public User() {
 
@@ -259,6 +262,76 @@ public class User {
 		}
 
 	}
+	
+	/**
+	 * Gets the user info from the schema indicated, and then gets the base user info
+	 * from the principal schema.
+	 * 
+	 * Users and BaseUsers share the same id.
+	 * 
+	 * @param schema
+	 * @param u_id
+	 * @return
+	 */
+	public static User getMe(String schema, Long u_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, u_id);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		
+		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
+		BaseUser bu = (BaseUser) MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).get(
+				BaseUser.class, u_id);
+		user.loadBUInfo(bu);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+		
+		return user;
+	}
+	
+	/**
+	 * Saves this user to its schema. Copies base user info into the base user object, and saves it in the 
+	 * principal schema.
+	 * 
+	 * @param schema
+	 */
+	public void saveMe(String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		BaseUser bu = BaseUser.getByUserId(this.getId());
+		
+		
+		bu.setUsername(this.getBu_username());
+		bu.setPassword(this.getBu_password());
+		
+		bu.setFirst_name(this.getBu_first_name());
+		bu.setFull_name(this.getBu_full_name());
+		bu.setLast_name(this.getBu_last_name());
+		bu.setMiddle_name(this.getBu_middle_name());
+		
+		bu.saveMe();
+
+	}
+	
+	/**
+	 * Loads info inside the Base user into this user.
+	 * @param bu
+	 */
+	private void loadBUInfo(BaseUser bu){
+		
+		this.setBu_first_name(bu.getFirst_name());
+		this.setBu_full_name(bu.getFull_name());
+		this.setBu_last_name(bu.getLast_name());
+		this.setBu_middle_name(bu.getMiddle_name());
+		
+		this.setBu_username(bu.getUsername());
+		this.setBu_password(bu.getPassword());
+	}
 
 	public Long getTrail_id() {
 		return trail_id;
@@ -393,6 +466,14 @@ public class User {
 
 	public void setBu_username(String bu_username) {
 		this.bu_username = bu_username;
+	}
+
+	public String getBu_password() {
+		return bu_password;
+	}
+
+	public void setBu_password(String bu_password) {
+		this.bu_password = bu_password;
 	}
 
 }

@@ -12,7 +12,21 @@
 	}
 	
 	User userOnScratchPad = pso.handleCreateAdminUser(request);
-
+	
+	String is_admin = "";
+	String is_author = "";
+	String is_instructor = "";
+	
+	if (userOnScratchPad.isAdmin()){
+		is_admin = " \"checked\" ";
+	}
+	if (userOnScratchPad.isSim_author()){
+		is_author = " \"checked\" ";
+	}
+	if (userOnScratchPad.isSim_instructor()){
+		is_instructor = " \"checked\" ";
+	}
+	
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -121,37 +135,73 @@ body {
 
 <p><font color="#FF0000"><%= pso.errorMsg %></font></p>
       <p>On this page you can create simulation authors, instructors and administrative 
-        users.</p>
-<form action="create_admin_user.jsp" method="post" name="form1" id="form1">
+        users. </p>
+      <p>You can also promote normal users to be simulation authors, instructors or administrative 
+        users. </p>
+      <form action="create_admin_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           <tr> 
-            <td>username/email<a href="../simulation_authoring/helptext/user_name.jsp" target="helpinright">(?)</a>:</td>
-            <td> <input type="text" name="email" tabindex="1" /> </td>
+            <td>username/email<a href="helptext/user_name.jsp" target="helpinright">(?)</a>:</td>
+            <td> <input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>" /> </td>
           </tr>
           <tr> 
-            <td>password<a href="../simulation_authoring/helptext/user_password.jsp" target="helpinright">(?)</a></td>
-            <td><input type="text" name="password" tabindex="2" /></td>
+            <td>password<a href="helptext/user_password.jsp" target="helpinright">(?)</a></td>
+            <td><input type="text" name="password" tabindex="2" value="<%= userOnScratchPad.getBu_password() %>" /></td>
           </tr>
-          <tr> 
-            <td>real name<a href="../simulation_authoring/helptext/user_real_name.jsp" target="helpinright">(?)</a></td>
-            <td><input type="text" name="realname" tabindex="3" /></td>
-          </tr>
+            <tr>
+    <td>Full Name<a href="helptext/user_real_name.jsp" target="helpinright">(?)</a>:</td>
+    <td>
+          <input type="text" name="full_name" id="full_name" tabindex="3" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
+  </tr>
+    <tr>
+    <td>First Name:</td>
+    <td>
+      <label>
+      <input type="text" name="first_name" id="first_name" tabindex="4" value="<%= userOnScratchPad.getBu_first_name() %>" />
+      </label></td>
+  </tr>
+    <tr>
+    <td>Middle Name:</td>
+    <td>
+      <label>
+      <input type="text" name="middle_name" id="middle_name" tabindex="5" value="<%= userOnScratchPad.getBu_middle_name() %>" />
+      </label></td>
+  </tr>
+    <tr>
+    <td>Last Name:</td>
+    <td>
+      <label>
+      <input type="text" name="last_name" id="last_name" tabindex="6" value="<%= userOnScratchPad.getBu_last_name() %>"  />
+      </label></td>
+  </tr>
           <tr> 
             <td>administrator</td>
-            <td><input type="checkbox" name="admin" value="true" tabindex="4" /></td>
+            <td><input name="admin" type="checkbox" tabindex="7" value="true" <%= is_admin %> /></td>
           </tr>
           <tr> 
             <td>simulation author</td>
-            <td><input name="author" type="checkbox" value="true" tabindex="5" /></td>
+            <td><input name="author" type="checkbox" value="true" tabindex="8" <%= is_author %> /></td>
           </tr>
           <tr> 
             <td>simulation Instructor</td>
-            <td><input name="instructor" type="checkbox" value="true" tabindex="6" /></td>
+            <td><input name="instructor" type="checkbox" value="true" tabindex="9" <%= is_instructor %> /></td>
           </tr>
           <tr> 
             <td>&nbsp;</td>
-            <td><input type="hidden" name="sending_page" value="create_users" /> 
-              <input type="submit" name="adduser" value="Submit" /></td>
+            <td><input type="hidden" name="sending_page" value="create_admin_user" /> 
+                <%
+				if (userOnScratchPad.getId() == null) {
+				%>
+                	<input type="submit" name="command" tabindex="10" value="Create" />
+                <%
+				} else {
+				%>
+                	<input type="hidden" name="u_id" value="<%= userOnScratchPad.getId() %>" />
+                	<input type="submit" name="command" tabindex="10" value="Clear" />
+                	<input type="submit" name="command" tabindex="11" value="Update" />
+                <%
+					}
+				%>              </td>
           </tr>
         </table>
 </form>
@@ -168,7 +218,7 @@ body {
           <% for (ListIterator li = User.getAllAdminsSCandInstructors(pso.schema).listIterator(); li.hasNext();) {
 			User user = (User) li.next(); %>
           <tr> 
-            <td><%= user.getBu_username() %></td>
+            <td><a href="create_admin_user.jsp?command=Edit&u_id=<%= user.getId().toString() %>"><%= user.getBu_username() %></a></td>
             <td><%= user.isAdmin() %></td>
             <td><%= user.isSim_author() %></td>
             <td><%= user.isSim_instructor() %></td>
@@ -176,11 +226,8 @@ body {
           <% } %>
         </table>
         <p>&nbsp;</p>
-        
-        
       </blockquote>
-<!-- InstanceEndEditable -->
-			</td>
+<!-- InstanceEndEditable -->			</td>
 		</tr>
 		</table>
 	</td>

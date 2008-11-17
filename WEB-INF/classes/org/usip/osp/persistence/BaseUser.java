@@ -324,7 +324,7 @@ public class BaseUser {
      * @param the_username
      * @return
      */
-    private static BaseUser getByUsername(String the_username) {
+    public static BaseUser getByUsername(String the_username) {
 
         MultiSchemaHibernateUtil.beginTransaction(
                 MultiSchemaHibernateUtil.principalschema, true);

@@ -158,7 +158,7 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Online Simulation Library </h1>
+      <h1>Simulation User Administration</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <form action="../simulation_facilitation/instructor_home.jsp" method="post" name="form1" id="form1">
@@ -170,33 +170,8 @@ body {
       </form>
       <blockquote>
         
-        <p>Below are all of the currently published Simulations for your organization.</p>
-        <p>Click on the name of the simulation template to begin preparing a play 
-          session.</p>
-        <table width="100%" border="1" cellspacing="0" cellpadding="2">
-          <tr valign="top"> 
-            <td width="15%"><strong>Name / Version</strong></td>
-            <td width="16%"><strong>Author</strong></td>
-            <td width="16%"><strong>Keywords</strong></td>
-            <td width="16%"><strong>Publish Date</strong></td>
-            <td width="16%"><strong>Review</strong></td>
-            <td width="16%"><strong>User Comments</strong></td>
-          </tr>
-          <% 
-		  for (ListIterator li = Simulation.getAllPublished(pso.schema).listIterator(); li.hasNext();) {
-			Simulation sim = (Simulation) li.next();
-			%>
-          <tr valign="top"> 
-            <td><a href="../simulation_facilitation/facilitateweb.jsp?loadSim=true&amp;sim_id=<%= sim.getId() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
-            <td>ETCD</td>
-            <td><%= sim.getListingKeyWords() %></td>
-            <td>12/2008</td>
-            <td><a href="../simulation_authoring/review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
-            <td>&nbsp;</td>
-          </tr>
-          <% } %>
-        </table>
-<br>
+        <p>&nbsp;</p>
+        <br>
       </blockquote>
       <p align="center"></p>
 
