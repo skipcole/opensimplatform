@@ -649,18 +649,44 @@ public class ParticipantSessionObject {
 
 	/** Password of the user. */
 	private String _password = "";
-
-	/** Real name of the user. */
-	private String _realname = "";
-
-	public void getAddUserParamters(HttpServletRequest request) {
+	
+	private String _full_name = "";
+	private String _first_name = "";
+	private String _last_name = "";
+	private String _middle_name = "";
+	
+	private boolean _makeAdmin = false;
+	private boolean _makeAuthor = false;
+	private boolean _makeInstructor = false;
+	
+	public void getBaseUserParamters(HttpServletRequest request) {
 		_admin = (String) request.getParameter("admin");
 		_author = (String) request.getParameter("author");
 		_email = (String) request.getParameter("email");
 		_instructor = (String) request.getParameter("instructor");
 		_password = (String) request.getParameter("password");
-		_realname = (String) request.getParameter("realname");
+		
 
+		if ((_admin != null) && (_admin.equalsIgnoreCase("true"))) {
+			_makeAdmin = true;
+			_makeAuthor = true;
+			_makeInstructor = true;
+		} else if ((_author != null)
+				&& (_author.equalsIgnoreCase("true"))) {
+			_makeAuthor = true;
+			_makeInstructor = true;
+		} else if ((_instructor != null)
+				&& (_instructor.equalsIgnoreCase("true"))) {
+			_makeInstructor = true;
+		}
+
+	}
+	
+	public void getUserDetails(HttpServletRequest request){
+		_full_name = (String) request.getParameter("full_name");
+		_first_name = (String) request.getParameter("first_name");
+		_last_name = (String) request.getParameter("last_name");
+		_middle_name = (String) request.getParameter("middle_name");
 	}
 
 	/**
@@ -670,59 +696,67 @@ public class ParticipantSessionObject {
 	public User handleCreateAdminUser(HttpServletRequest request) {
 
 		User user = new User();
-				
+
 		if ((!this.isAdmin) || (!this.isSimCreator)) {
 			errorMsg = "Not authorized to create administrative users.";
 			return user;
 		}
 
-		String sending_page = (String) request.getParameter("sending_page");
-		String adduser = (String) request.getParameter("adduser");
+		String command = (String) request.getParameter("command");
 
-		// /////////////////////////////////
-		if ((sending_page != null) && (adduser != null)
-				&& (sending_page.equalsIgnoreCase("create_users"))) {
+		if (command != null) {
+			
+			getBaseUserParamters(request);
+			getUserDetails(request);
+			String u_id = (String) request.getParameter("u_id");
+			
+			if (command.equalsIgnoreCase("Create")) {
 
-			System.out.println("creating user");
+				if (!hasEnoughInfoToCreateUser()) {
+					return user;
+				} else {
 
-			getAddUserParamters(request);
+					try {
+						user = new User(schema, _email, _password, "", "", "",
+								_full_name, _email, _makeAuthor, _makeInstructor,
+								_makeAdmin);
+						
+						user.setBu_first_name(_first_name);
+						user.setBu_full_name(_full_name);
+						user.setBu_last_name(_last_name);
+						user.setBu_middle_name(_middle_name);
+						
+						user.saveMe(schema);
 
-			if (!hasEnoughInfoToCreateUser()) {
-				return user;
-			} else {
-
-				boolean makeAdmin = false;
-				boolean makeAuthor = false;
-				boolean makeInstructor = false;
-
-				if ((_admin != null) && (_admin.equalsIgnoreCase("true"))) {
-					makeAdmin = true;
-					makeAuthor = true;
-					makeInstructor = true;
-				} else if ((_author != null)
-						&& (_author.equalsIgnoreCase("true"))) {
-					makeAuthor = true;
-					makeInstructor = true;
-				} else if ((_instructor != null)
-						&& (_instructor.equalsIgnoreCase("true"))) {
-					makeInstructor = true;
+					} catch (Exception e) {
+						e.printStackTrace();
+						this.errorMsg = e.getMessage();
+					}
 				}
-
-				try {
-					user = new User(schema, _email, _password, "", "", "",
-							_realname, _email, makeAuthor, makeInstructor,
-							makeAdmin);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					this.errorMsg = e.getMessage();
-				}
+			} else if (command.equalsIgnoreCase("Update")) { // 
+				user = User.getMe(schema, new Long(u_id));
+				user.setAdmin(_makeAdmin);
+				user.setBu_first_name(_first_name);
+				user.setBu_full_name(_full_name);
+				user.setBu_last_name(_last_name);
+				user.setBu_middle_name(_middle_name);
+				user.setBu_username(_email);
+				user.setBu_password(_password);
+				user.setSim_author(_makeAuthor);
+				user.setSim_instructor(_makeInstructor);
+				
+				user.saveMe(schema);
+				
+			} else if (command.equalsIgnoreCase("Edit")) {
+				user = User.getMe(schema, new Long(u_id));
+			} else if (command.equalsIgnoreCase("Clear")) { // 
+				// returning new simulation will clear fields.
 			}
 
 		} // End of if coming from this page and have added user.
 
 		return user;
-		
+
 	}
 
 	/**
@@ -735,7 +769,7 @@ public class ParticipantSessionObject {
 
 		if (command != null) {
 
-			getAddUserParamters(request);
+			getBaseUserParamters(request);
 
 			// /////////////////////////////////
 			if (command.equalsIgnoreCase("Save")) {
@@ -747,7 +781,7 @@ public class ParticipantSessionObject {
 					try {
 
 						User u = new User(schema, _email, _password, "", "",
-								"", _realname, _email, false, false, false);
+								"", _full_name, _email, false, false, false);
 
 					} catch (Exception e) {
 						this.errorMsg = e.getMessage();
@@ -762,8 +796,8 @@ public class ParticipantSessionObject {
 		if (_password.trim().equalsIgnoreCase("")) {
 			errorMsg += "Must enter password.<br/>";
 			return false;
-		} else if (_realname.trim().equalsIgnoreCase("")) {
-			errorMsg += "Must enter real name.<br/>";
+		} else if (_full_name.trim().equalsIgnoreCase("")) {
+			errorMsg += "Must enter full name.<br/>";
 			return false;
 		} else if (_email.trim().equalsIgnoreCase("")) {
 			errorMsg += "Must enter email address.<br/>";
@@ -2408,13 +2442,13 @@ public class ParticipantSessionObject {
 
 		return phase;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public User giveMeUser() {
-		
+
 		return User.getUser(schema, this.user_id);
 
 	}
@@ -2839,6 +2873,16 @@ public class ParticipantSessionObject {
 		} // End of if we are coming from the make_write_document_page
 
 		return customizableSectionOnScratchPad;
+	}
+	
+	public void handleMyProfile(HttpServletRequest request){
+		System.out.println("update");
+		
+		getBaseUserParamters(request);
+		
+		BaseUser bu = BaseUser.getByUserId(user_id);
+		
+		bu.updateMe(_first_name, _full_name, _last_name, _middle_name);
 	}
 
 	public Hashtable ActorsWithReadAccess = new Hashtable();

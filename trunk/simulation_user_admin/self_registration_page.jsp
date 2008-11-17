@@ -124,53 +124,52 @@ body {
 <form action="self_registration_page.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
 		  <tr>
-            <td>&nbsp;</td>
-            <td width="50%">username/email<a href="../simulation_authoring/helptext/user_email.jsp" target="helpinright">(?)</a></td>
+            <td width="50%">username/email<a href="helptext/user_email.jsp" target="helpinright">(?)</a></td>
             <td><input type="text" name="email" tabindex="1" /></td>
           </tr>
           <tr>
-            <td>&nbsp;</td>
-            <td>password<a href="../simulation_authoring/helptext/user_password.jsp" target="helpinright"> 
+            <td>password<a href="helptext/user_password.jsp" target="helpinright"> 
               (?)</a></td>
             <td><input type="text" name="password" tabindex="2" /></td>
           </tr>
 		  <tr>
-            <td>&nbsp;</td>
-            <td>confirm password<a href="../simulation_authoring/helptext/user_password.jsp" target="helpinright"> 
+            <td>confirm password<a href="helptext/user_password.jsp" target="helpinright"> 
               (?)</a></td>
             <td><input type="text" name="password" tabindex="2" /></td>
           </tr>
           <tr>
-            <td>&nbsp;</td>
             <td>real 
-              name<a href="../simulation_authoring/helptext/user_real_name.jsp" target="helpinright">(?)</a></td>
+              name<a href="helptext/user_real_name.jsp" target="helpinright">(?)</a></td>
             <td><input type="text" name="realname" tabindex="3" /></td>
           </tr>
-		  <tr><td>&nbsp;</td>
-		  <td>First name:</td>
-                <td> 
-                  <input type="text" name="admin_first" value="<%= admin_first %>" /></td>
-          </tr>
-              <tr> 
-			  	<td>&nbsp;</td>
-                <td>Middle name:</td>
-                <td> 
-                  <input type="text" name="admin_middle" value="<%= admin_middle %>" /></td>
-              </tr>
-              <tr> 
-			  	<td>&nbsp;</td>
-                <td>Last name:</td>
-                <td> 
-                  <input type="text" name="admin_last" value="<%= admin_last %>" /></td>
-		  </tr>
-				               <tr> 
-			  	<td>&nbsp;</td>
-                <td>Full name:</td>
-                <td> 
-                  <input type="text" name="admin_last" value="<%= admin_last %>" /></td>
-				  </tr>
+            <tr>
+    <td>Full Name:</td>
+    <td>
+          <input type="text" name="full_name" id="full_name" value="<%= userOnScratchPad.getBu_full_name() %>" />
+      </td>
+  </tr>
+    <tr>
+    <td>First Name:</td>
+    <td>
+      <label>
+      <input type="text" name="first_name" id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
+      </label></td>
+  </tr>
+    <tr>
+    <td>Middle Name:</td>
+    <td>
+      <label>
+      <input type="text" name="middle_name" id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
+      </label></td>
+  </tr>
+    <tr>
+    <td>Last Name:</td>
+    <td>
+      <label>
+      <input type="text" name="last_name" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
+      </label></td>
+  </tr>
           <tr>
-            <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>
 				

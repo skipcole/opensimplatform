@@ -4,32 +4,19 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	String error_msg = "";
 	
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String update = (String) request.getParameter("update");
+	pso.handleCreateUser(request);
 
-		// /////////////////////////////////
-	if ((sending_page != null) && (update != null)
-			&& (sending_page.equalsIgnoreCase("my_profile"))) {
-		
-		pso.handleMyProfile(request);
-		
-	}
-	
-	User user = pso.giveMeUser();
-	
+
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
@@ -129,56 +116,17 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>My Profile </h1>
+      <h1>Retrieve Password</h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
-<form id="form1" name="form1" method="post" action="my_profile.jsp">
-<table width="80%" border="0" cellspacing="2" cellpadding="1">
-  <tr>
-    <td>Full Name:</td>
-    <td>
-          <input type="text" name="full_name" id="full_name" value="<%= user.getBu_full_name() %>" />
-      </td>
-  </tr>
-    <tr>
-    <td>First Name:</td>
-    <td>
-      <label>
-      <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
-      </label></td>
-  </tr>
-    <tr>
-    <td>Middle Name:</td>
-    <td>
-      <label>
-      <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
-      </label></td>
-  </tr>
-    <tr>
-    <td>Last Name:</td>
-    <td>
-      <label>
-      <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
-      </label></td>
-  </tr>
-  <tr>
-    <td>Authorization Level:</td>
-    <td>Simulation Creator <% if (pso.isAdmin()) { %>, Administrator <% } %></td>
-  </tr>
-  <tr>
-    <td>Email Address:</td>
-    <td><%= pso.user_email %><input type="hidden" name="email" value="<%= pso.user_email %>" /> </td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td><label>
-      <input type="hidden" name="sending_page" value="my_profile" /> 
-      <input type="submit" name="update" id="update" value="Update" />
-    </label></td>
-  </tr>
-</table>
+<p>&nbsp;</p>
+<p>You should receive an email containing your password.. </p>
+<p>Note: If you do not find the  email with your password in it, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' (The details of doing this depend upon your email service provider, so please direct any email related questions to them.)</p>
+<p>&nbsp;</p>
+<form action="../simulation_facilitation/create_user.jsp" method="post" name="form1" id="form1">
 </form>
 <p>&nbsp;</p>
+
 <!-- InstanceEndEditable -->
 			</td>
 		</tr>
@@ -198,5 +146,6 @@ body {
 </body>
 <!-- InstanceEnd --></html>
 <%
+	pso.errorMsg = "";
 	
 %>
