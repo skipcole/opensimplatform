@@ -126,7 +126,7 @@ body {
       <blockquote> 
 	  <form action="make_caucus_page.jsp" method="post" name="form2" id="form2">
         <blockquote><strong>Tab Heading</strong>: 
-          <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/>
+          <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
         <p>Select the Actors to be included in this Caucus. If desired, assign them a designated role (such as participant, visitor, etc.) </p>
         <p><%
 		

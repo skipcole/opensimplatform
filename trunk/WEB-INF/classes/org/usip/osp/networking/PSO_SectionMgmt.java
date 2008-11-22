@@ -49,6 +49,17 @@ public class PSO_SectionMgmt {
 	/** Id of the base simulation section. */
 	private String _bss_id = "";
 
+	/** Id of the custom simulation section. */
+	public String _custom_section_id = "";
+	
+	public String get_custom_section_id() {
+		return _custom_section_id;
+	}
+
+	public void set_custom_section_id(String _custom_section_id) {
+		this._custom_section_id = _custom_section_id;
+	}
+
 	/** If a command button was entered, this was the command. */
 	private String _command = "";
 
@@ -60,6 +71,14 @@ public class PSO_SectionMgmt {
 
 	/** Tab heading of the simulation section being added. */
 	public String _tab_heading = "";
+
+	public String get_tab_heading() {
+		return _tab_heading;
+	}
+
+	public void set_tab_heading(String _tab_heading) {
+		this._tab_heading = _tab_heading;
+	}
 
 	/** Tab position of the simulation section being added. */
 	private String _tab_pos = "";
@@ -466,7 +485,7 @@ public class PSO_SectionMgmt {
 
 	public CustomizeableSection customizableSectionOnScratchPad;
 	
-	public String _custom_section_id = "";
+
 	public Long sim_conv_id;
 
 	/**

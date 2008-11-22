@@ -124,7 +124,7 @@ body {
       <form action="make_read_document_page.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>Tab Heading: 
-            <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/>
+            <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
           </p>
           <p>
           <%
