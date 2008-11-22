@@ -133,38 +133,38 @@ body {
 <form action="../simulation_facilitation/create_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
 		  
-          <tr> 
-            <td>username/email<a href="helptext/user_name.jsp" target="helpinright">(?)</a>:</td>
-            <td> <input type="text" name="email" tabindex="1" /> </td>
+          <tr>
+            <td>username/email<a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?)</a></td>
+            <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"  /></td>
           </tr>
-          <tr> 
-            <td>password<a href="helptext/user_password.jsp" target="helpinright">(?)</a></td>
-            <td><input type="text" name="password" tabindex="2" /></td>
+          <tr>
+            <td>password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?)</a></td>
+            <td><input type="text" name="password" tabindex="2"  value="<%= userOnScratchPad.getBu_password() %>"/></td>
           </tr>
             <tr>
-    <td>Full Name<a href="helptext/user_real_name.jsp" target="helpinright">(?)</a>:</td>
+    <td>Full Name:</td>
     <td>
-          <input type="text" name="full_name" id="full_name" tabindex="3" />      </td>
+          <input type="text" name="full_name" tabindex="3"  id="full_name" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
   </tr>
     <tr>
     <td>First Name:</td>
     <td>
       <label>
-      <input type="text" name="first_name" id="first_name" tabindex="4" />
+      <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
       </label></td>
   </tr>
     <tr>
     <td>Middle Name:</td>
     <td>
       <label>
-      <input type="text" name="middle_name" id="middle_name" tabindex="5" />
+      <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
       </label></td>
   </tr>
     <tr>
     <td>Last Name:</td>
     <td>
       <label>
-      <input type="text" name="last_name" id="last_name" tabindex="6"  />
+      <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
       </label></td>
   </tr>
           <tr>

@@ -6,107 +6,14 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 
-    String tab_pos = (String) session.getAttribute("tab_pos");
+	CustomizeableSection cs = pso.handleMekeImagePage(request);
 	
-	String custom_page = request.getParameter("custom_page");
-	
-	String page_title = "";
-	String image_file_name = "";
-	
-	CustomizeableSection cs = null;
-	
-	if (custom_page != null) {
-		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-		cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(custom_page));
-		page_title = (String) cs.getContents().get("page_title");
-		image_file_name = (String) cs.getContents().get("image_file_name");
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+	if (pso.forward_on){
+		pso.forward_on = false;
+		response.sendRedirect(pso.backPage);
+		return;
 	}
 	
-	try {
-		MultipartRequest mpr = new MultipartRequest(request, USIP_OSCW_Properties.getValue("uploads"));
-		
-		if (mpr != null) {
-					
-			String sending_page = (String) mpr.getParameter("sending_page");
-			String submit_new_image_page = (String) mpr.getParameter("submit_new_image_page");
-	
-			String upload_and_add = (String) mpr.getParameter("upload_and_add");
-			
-			custom_page = mpr.getParameter("custom_page");
-			
-				if (custom_page != null) {
-					MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-					cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(custom_page));
-					System.out.println("from db it was " + cs.getContents().get("page_title"));
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-				
-				}
-				
-				if ( (sending_page != null) && (upload_and_add != null) && (sending_page.equalsIgnoreCase("add_image_page"))){
-					// If this is the original custom page, make a new page
-					if (!(cs.isThisIsACustomizedSection())){
-						System.out.println("making copy");
-						cs = cs.makeCopy(pso.schema);
-						custom_page = cs.getId() + "";
-					}
-					
-					///////////////////////
-					String new_tab_heading = mpr.getParameter("tab_heading");
-					if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-							pso._tab_heading = new_tab_heading;
-					}
-					///////////////////////
-					
-					page_title = (String) mpr.getParameter("page_title");
-					
-					cs.setRec_tab_heading(pso._tab_heading);
-					cs.getContents().put("page_title", page_title);
-					
-					String page_description = (String) mpr.getParameter("page_description");
-					cs.setDescription(page_description);
-					
-					/////////////////////////////////////////
-					// Do file upload piece
-					pso.makeUploadDir();
-					String initFileName = mpr.getOriginalFileName("uploadedfile");
-					
-					System.out.println("init file was: " + initFileName);
-					
-					if ((initFileName != null) && (initFileName.trim().length() > 0)) {
-						cs.getContents().put("image_file_name", initFileName);
-						
-						for (Enumeration e = mpr.getFileNames(); e
-                            .hasMoreElements();) {
-                        	String fn = (String) e.nextElement();
-
-                        	FileIO.saveImageFile("simImage", initFileName, mpr.getFile(fn));
-                    	}
-					}
-					// End of file upload piece
-					///////////////////////////////////
-					
-					cs.save(pso.schema);
-					
-					// add section
-					pso.addSectionFromProcessCustomPage(cs.getId(), tab_pos, pso._tab_heading, request, pso._universal);
-					// send them back
-					response.sendRedirect(pso.backPage);
-					
-				} // End of if user took action
-				
-		} // End of if mpr != null
-	} catch (Exception mpr_e){
-		System.out.println("error : " + mpr_e.getMessage());
-	}
-	
-	/*
-		//Update page values 
-		String text_page_text = (String) request.getParameter("text_page_text");
-		cs.setBigString(text_page_text);
-
-	*/
-
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
