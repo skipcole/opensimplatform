@@ -12,7 +12,7 @@
 		return;
 	}
 	
-	pso.handleCreateUser(request);
+	User userOnScratchPad = pso.handleCreateUser(request);
 
 
 %>
@@ -134,27 +134,27 @@ body {
             <tr>
     <td>Full Name:</td>
     <td>
-          <input type="text" name="full_name" id="full_name" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
+          <input type="text" name="full_name" tabindex="3"  id="full_name" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
   </tr>
     <tr>
     <td>First Name:</td>
     <td>
       <label>
-      <input type="text" name="first_name" id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
+      <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
       </label></td>
   </tr>
     <tr>
     <td>Middle Name:</td>
     <td>
       <label>
-      <input type="text" name="middle_name" id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
+      <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
       </label></td>
   </tr>
     <tr>
     <td>Last Name:</td>
     <td>
       <label>
-      <input type="text" name="last_name" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
+      <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
       </label></td>
   </tr>
           <tr>
@@ -187,7 +187,7 @@ body {
         </p>
         <p align="center"><a href="assign_user_to_simulation.jsp">Next 
           Step: Assign User</a></p>
-        <p align="left"><a href="create_running_sim.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
+        <p align="left"><a href="administrate_users.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
 </blockquote>
 <!-- InstanceEndEditable -->
 			</td>

@@ -49,6 +49,8 @@ public class ParticipantSessionObject {
 	 */
 	public int page_type = PAGETYPE_OTHER;
 
+	public boolean forward_on = false;
+	
 	/** Schema of the database that the user is working in. */
 	public String schema = "";
 
@@ -135,9 +137,6 @@ public class ParticipantSessionObject {
 	/** Round being displayed */
 	private String simulation_round = "0";
 
-	/** Index of actor being worked on in simulation creation wizard */
-	public int currentActorIndex = 0;
-
 	public HttpSession session = null;
 
 	/** Error message to be shown to the user. */
@@ -183,149 +182,6 @@ public class ParticipantSessionObject {
 		}
 	}
 
-	/** Index of the actor, 1 to n, that we are working on. */
-	private String _actor_index = "";
-
-	/** Id of the base simulation section. */
-	private String _bss_id = "";
-
-	/** If a command button was entered, this was the command. */
-	private String _command = "";
-
-	/** id of the page being sought. */
-	private String _page_id = "";
-
-	/** Value for phase id passed in from form. */
-	private String _phase_id = "";
-
-	/** Tab heading of the simulation section being added. */
-	public String _tab_heading = "";
-
-	/** Tab position of the simulation section being added. */
-	private String _tab_pos = "";
-
-	/**
-	 * Whether or not this is a 'universal' section, that is one applied to all
-	 * users.
-	 */
-	public String _universal = "";
-
-	/**
-	 * 
-	 * @param request
-	 */
-	public void setSimSectionsInternalVariables(HttpServletRequest request) {
-
-		String _ai = (String) request.getParameter("actor_index");
-
-		if ((_ai != null) && (_ai.length() > 0)
-				&& (!(_ai.equalsIgnoreCase("null"))))
-			_actor_index = (String) request.getParameter("actor_index");
-
-		_bss_id = (String) request.getParameter("bss_id");
-		_command = (String) request.getParameter("command");
-		_page_id = (String) request.getParameter("page_id");
-		_phase_id = (String) request.getParameter("phase_id");
-		_tab_heading = (String) request.getParameter("tab_heading");
-		_tab_pos = (String) request.getParameter("tab_pos");
-		_universal = (String) request.getParameter("universal");
-
-	}
-
-	/**
-	 * Based on parameters received attempts to determine the simulation phase
-	 * being worked on. If all else fails, it just returns the first phase of
-	 * the simulation in question.
-	 * 
-	 * @param simulation
-	 */
-	public void determinePhase(Simulation simulation) {
-
-		System.out.println("Determining Phase and _phase_id is " + _phase_id);
-
-		if ((_phase_id != null) && (_phase_id.length() > 0)) {
-			phase_id = new Long(_phase_id);
-		} else {
-			if (phase_id == null) {
-				phase_id = simulation.getFirstPhaseId();
-			}
-		}
-
-		phaseSelected = true;
-
-	}
-
-	/**
-	 * Returns the simulation with its details and component objects all loaded.
-	 * 
-	 * @return
-	 */
-	public Simulation getLoadedSimulation() {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(Simulation.class, sim_id);
-
-		// ///////////////
-		// Stupidly, we must do this.
-		List pList = simulation.getPhases();
-		for (ListIterator<SimulationPhase> li = pList.listIterator(); li
-				.hasNext();) {
-			SimulationPhase sp = li.next();
-			System.out.println(sp.getName());
-		}
-		// ///////////////
-
-		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return simulation;
-
-	}
-
-	/**
-	 * The 'set simulation sections' page is a complicated page. The user can do
-	 * the following on this page
-	 * <ul>
-	 * <li>Enter the page to set the sections that every actor in a sim will
-	 * have.</li>
-	 * <li>Enter the page changing the phase.</li>
-	 * <li>Enter the page after having added a simulation section.</li>
-	 * <li>Enter the page after having removed a simulation section.</li>
-	 * <li>Enter the page after having changed the order of the simulation
-	 * sections.</li>
-	 * </ul>
-	 * 
-	 * Processing is done in the following order:
-	 * <ol>
-	 * <li>Read in possible parameters</li>
-	 * <li>Determine what phase we are working on</li>
-	 * <li>Respond to the particular command submitted</li>
-	 * <li>Check to see if this a re-order of sections, and finally</li>
-	 * <li>Set the set of simulation sections for this actor for this phase to
-	 * show.</li>
-	 * </ol>
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public Simulation handleSetUniversalSimSectionsPage(
-			HttpServletRequest request) {
-
-		setSimSectionsInternalVariables(request);
-
-		Simulation simulation = getLoadedSimulation();
-
-		determinePhase(simulation);
-
-		actor_id = new Long(0);
-
-		tempSimSecList = SimulationSection.getBySimAndActorAndPhase(schema,
-				sim_id, actor_id, phase_id);
-
-		return simulation;
-	}
 
 	/**
 	 * Unpacks a simulation from an XML file.
@@ -376,436 +232,7 @@ public class ParticipantSessionObject {
 		RunningSimulation rs = giveMeRunningSim();
 		rs.setAar_text(write_aar_end_sim);
 		rs.saveMe(schema);
-	}
-
-	/**
-	 * This is a complicated page. The user can do the following on this page
-	 * <ul>
-	 * <li>Enter the page for a particular actor for a sim.</li>
-	 * <li>Enter the page changing the phase.</li>
-	 * <li>Enter the page after having added a simulation section.</li>
-	 * <li>Enter the page after having removed a simulation section.</li>
-	 * <li>Enter the page after having changed the order of the simulation
-	 * sections.</li>
-	 * </ul>
-	 * 
-	 * Processing is done in the following order:
-	 * <ol>
-	 * <li>Read in possible parameters</li>
-	 * <li>Determine the actor we are working on</li>
-	 * <li>Determine what phase we are working on</li>
-	 * <li>Respond to the particular command submitted</li>
-	 * <li>Check to see if this a re-order of sections, and finally</li>
-	 * <li>Set the set of simulation sections for this actor for this phase to
-	 * show.</li>
-	 * </ol>
-	 * 
-	 * @param request
-	 */
-	public Simulation handleSetSimSectionsPage(HttpServletRequest request) {
-
-		// ///////////////////////////////////////////////////////////////
-		// Read in possible parameters
-		setSimSectionsInternalVariables(request);
-
-		// //////////////////////////////////////////////////////////////
-		// Determine the actor we are working on.
-		if (_actor_index != null) {
-			currentActorIndex = new Integer(_actor_index).intValue();
-		} else {
-			currentActorIndex = 1;
-		}
-
-		System.out.println("Current actor index = " + currentActorIndex);
-
-		Simulation simulation = getLoadedSimulation();
-
-		Actor this_actor;
-
-		if (simulation.getActors().size() > 0) {
-			this_actor = (Actor) simulation.getActors().get(
-					currentActorIndex - 1);
-			actor_id = this_actor.getId();
-		} else {
-			System.out
-					.println("Warning! This simulation appears to have no actors.");
-		}
-
-		System.out.println("actor id is " + actor_id);
-		// ////////////////////////////////////////////////////////////
-
-		// //////////////////////////////////////////////////////////
-		// Determine what phase we are working on.
-		determinePhase(simulation);
-
-		System.out.println("command is = " + _command);
-
-		if (_command != null) {
-			if (_command.equalsIgnoreCase("Change Phase")) {
-				// This has been handled in the phase id section above.
-			} else if (_command.equalsIgnoreCase("move_right")) {
-				String m_index = (String) request.getParameter("m_index");
-				System.out.println("doing something on index = " + m_index);
-
-				int int_tab_pos = new Long(m_index).intValue() + 1;
-				SimulationSection ss0 = SimulationSection
-						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
-								new Long(actor_id), new Long(phase_id),
-								int_tab_pos);
-
-				SimulationSection ss1 = SimulationSection
-						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
-								new Long(actor_id), new Long(phase_id),
-								int_tab_pos + 1);
-
-				ss0.setTab_position(int_tab_pos + 1);
-				ss1.setTab_position(int_tab_pos);
-
-				ss0.save(schema);
-				ss1.save(schema);
-
-				if (ss0 != null) {
-					System.out.println(ss0.getTab_heading());
-				} else {
-					System.out.println("warning ss0 is null");
-				}
-
-			} else if (_command.equalsIgnoreCase("move_left")) {
-
-				String m_index = (String) request.getParameter("m_index");
-				System.out.println("doing something on index = " + m_index);
-
-				int int_tab_pos = new Long(m_index).intValue() + 1;
-				SimulationSection ss0 = SimulationSection
-						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
-								new Long(actor_id), new Long(phase_id),
-								int_tab_pos);
-
-				SimulationSection ss1 = SimulationSection
-						.getBySimAndActorAndPhaseAndPos(schema, sim_id,
-								new Long(actor_id), new Long(phase_id),
-								int_tab_pos - 1);
-
-				ss0.setTab_position(int_tab_pos - 1);
-				ss1.setTab_position(int_tab_pos);
-
-				ss0.save(schema);
-				ss1.save(schema);
-
-				if (ss0 != null) {
-					System.out.println(ss0.getTab_heading());
-				} else {
-					System.out.println("warning ss0 is null");
-				}
-
-			}
-		}
-
-		System.out.println("getting simSecList for s/a/p:   " + sim_id + "/"
-				+ actor_id + "/" + phase_id);
-		tempSimSecList = SimulationSection.getBySimAndActorAndPhase(schema,
-				sim_id, actor_id, phase_id);
-
-		return simulation;
-	}
-
-	/**
-	 * The router page is called from either the set universal sections or set
-	 * simulation sections jsp. It directs the output to where it need to go.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String handleSimSectionsRouter(HttpServletRequest request) {
-
-		setSimSectionsInternalVariables(request);
-
-		// bss_id is either an integeer, or the string 'new_section'
-		if (_bss_id.equalsIgnoreCase("new_section")) {
-			return "create_simulation_section.jsp";
-		}
-
-		// Base sim section is retrieved by ID
-		BaseSimSection bss = BaseSimSection.getMe(schema, _bss_id);
-
-		if (_command.equalsIgnoreCase("Add Section")) {
-
-			if (bss.getClass().getName().equalsIgnoreCase(
-					"org.usip.osp.baseobjects.BaseSimSection")) {
-				// Here we add the class straight away.
-				addSectionFromRouter(request);
-
-				return backPage;
-
-			} else if (bss.getClass().getName().equalsIgnoreCase(
-					"org.usip.osp.baseobjects.CustomizeableSection")) {
-
-				_custom_section_id = _bss_id;
-
-				bss = null;
-
-				CustomizeableSection cbss = CustomizeableSection.getMe(schema,
-						_bss_id);
-
-				if (!cbss.isHasASpecificMakePage()) {
-					return ("customize_page.jsp?custom_page=" + new Long(
-							_bss_id));
-				} else {
-					return (cbss.getSpecificMakePage() + "?custom_page=" + new Long(
-							_bss_id));
-				}
-
-			}
-		}
-
-		System.out.println("Router Accidentally called");
-		return backPage;
-
-	}
-
-	/**
-	 * 
-	 * @param request
-	 * @param _universal
-	 */
-	public void addSectionFromRouter(HttpServletRequest request) {
-
-		boolean universal = false;
-
-		if ((_universal != null) && (_universal.equalsIgnoreCase("true"))) {
-			universal = true;
-		}
-		// Read in possible parameters
-		setSimSectionsInternalVariables(request);
-
-		System.out.println("schema: " + schema + ", sim_id: " + sim_id
-				+ ", a_id: " + actor_id + ", phase_id:" + phase_id
-				+ ", bss_id: " + _bss_id + ", tab heading: " + _tab_heading
-				+ ", tab pos: " + _tab_pos);
-
-		System.out.flush();
-
-		Long this_tab_pos = getTabPos();
-
-		SimulationSection ss0 = new SimulationSection(schema, sim_id, new Long(
-				actor_id), new Long(phase_id), new Long(_bss_id), _tab_heading,
-				this_tab_pos.intValue());
-
-		if (universal) {
-			System.out.println("applying universal page");
-			Simulation simulation = giveMeSim();
-			SimulationSection.applyUniversalSectionsToAllActors(schema,
-					simulation, phase_id);
-		}
-
-	}
-
-	public Long getTabPos() {
-		Long this_tab_pos = new Long(1);
-
-		try {
-			this_tab_pos = new Long(_tab_pos);
-		} catch (NumberFormatException nfe) {
-			this_tab_pos = SimulationSection.getHighestBySimAndActorAndPhase(
-					schema, sim_id, new Long(actor_id), new Long(phase_id));
-			System.out.println("problem converting tab position: "
-					+ nfe.getMessage());
-		}
-
-		return this_tab_pos;
-	}
-
-	public void addSectionFromProcessCustomPage(Long bss_id,
-			String string_tab_pos, String tab_heading,
-			HttpServletRequest request, String universal) {
-
-		System.out.println("bss_id " + bss_id);
-		System.out.println("tabhead " + tab_heading);
-		System.out.println("universal " + universal);
-
-		SimulationSection ss0 = new SimulationSection(schema, sim_id, new Long(
-				actor_id), new Long(phase_id), new Long(bss_id), tab_heading,
-				getTabPos().intValue());
-
-		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
-			Simulation simulation = giveMeSim();
-			SimulationSection.applyUniversalSectionsToAllActors(schema,
-					simulation, phase_id);
-		}
-
-	}
-
-	/** Flag to indicate if user is to be admin user. */
-	private String _admin = "";
-
-	/** Flag to indicate if user is to be simulation author. */
-	private String _author = "";
-
-	/** Email / username of user. */
-	private String _email = "";
-
-	/** Flag to indicate if user is to be an instructor. */
-	private String _instructor = "";
-
-	/** Password of the user. */
-	private String _password = "";
-	
-	private String _full_name = "";
-	private String _first_name = "";
-	private String _last_name = "";
-	private String _middle_name = "";
-	
-	private boolean _makeAdmin = false;
-	private boolean _makeAuthor = false;
-	private boolean _makeInstructor = false;
-	
-	public void getBaseUserParamters(HttpServletRequest request) {
-		_admin = (String) request.getParameter("admin");
-		_author = (String) request.getParameter("author");
-		_email = (String) request.getParameter("email");
-		_instructor = (String) request.getParameter("instructor");
-		_password = (String) request.getParameter("password");
-		
-
-		if ((_admin != null) && (_admin.equalsIgnoreCase("true"))) {
-			_makeAdmin = true;
-			_makeAuthor = true;
-			_makeInstructor = true;
-		} else if ((_author != null)
-				&& (_author.equalsIgnoreCase("true"))) {
-			_makeAuthor = true;
-			_makeInstructor = true;
-		} else if ((_instructor != null)
-				&& (_instructor.equalsIgnoreCase("true"))) {
-			_makeInstructor = true;
-		}
-
-	}
-	
-	public void getUserDetails(HttpServletRequest request){
-		_full_name = (String) request.getParameter("full_name");
-		_first_name = (String) request.getParameter("first_name");
-		_last_name = (String) request.getParameter("last_name");
-		_middle_name = (String) request.getParameter("middle_name");
-	}
-
-	/**
-	 * 
-	 * @param request
-	 */
-	public User handleCreateAdminUser(HttpServletRequest request) {
-
-		User user = new User();
-
-		if ((!this.isAdmin) || (!this.isSimCreator)) {
-			errorMsg = "Not authorized to create administrative users.";
-			return user;
-		}
-
-		String command = (String) request.getParameter("command");
-
-		if (command != null) {
-			
-			getBaseUserParamters(request);
-			getUserDetails(request);
-			String u_id = (String) request.getParameter("u_id");
-			
-			if (command.equalsIgnoreCase("Create")) {
-
-				if (!hasEnoughInfoToCreateUser()) {
-					return user;
-				} else {
-
-					try {
-						user = new User(schema, _email, _password, "", "", "",
-								_full_name, _email, _makeAuthor, _makeInstructor,
-								_makeAdmin);
-						
-						user.setBu_first_name(_first_name);
-						user.setBu_full_name(_full_name);
-						user.setBu_last_name(_last_name);
-						user.setBu_middle_name(_middle_name);
-						
-						user.saveMe(schema);
-
-					} catch (Exception e) {
-						e.printStackTrace();
-						this.errorMsg = e.getMessage();
-					}
-				}
-			} else if (command.equalsIgnoreCase("Update")) { // 
-				user = User.getMe(schema, new Long(u_id));
-				user.setAdmin(_makeAdmin);
-				user.setBu_first_name(_first_name);
-				user.setBu_full_name(_full_name);
-				user.setBu_last_name(_last_name);
-				user.setBu_middle_name(_middle_name);
-				user.setBu_username(_email);
-				user.setBu_password(_password);
-				user.setSim_author(_makeAuthor);
-				user.setSim_instructor(_makeInstructor);
-				
-				user.saveMe(schema);
-				
-			} else if (command.equalsIgnoreCase("Edit")) {
-				user = User.getMe(schema, new Long(u_id));
-			} else if (command.equalsIgnoreCase("Clear")) { // 
-				// returning new simulation will clear fields.
-			}
-
-		} // End of if coming from this page and have added user.
-
-		return user;
-
-	}
-
-	/**
-	 * 
-	 * @param request
-	 */
-	public void handleCreateUser(HttpServletRequest request) {
-
-		String command = (String) request.getParameter("command");
-
-		if (command != null) {
-
-			getBaseUserParamters(request);
-
-			// /////////////////////////////////
-			if (command.equalsIgnoreCase("Save")) {
-
-				if (!hasEnoughInfoToCreateUser()) {
-					return;
-				} else {
-
-					try {
-
-						User u = new User(schema, _email, _password, "", "",
-								"", _full_name, _email, false, false, false);
-
-					} catch (Exception e) {
-						this.errorMsg = e.getMessage();
-					}
-				}
-			}
-		}
-	}
-
-	public boolean hasEnoughInfoToCreateUser() {
-
-		if (_password.trim().equalsIgnoreCase("")) {
-			errorMsg += "Must enter password.<br/>";
-			return false;
-		} else if (_full_name.trim().equalsIgnoreCase("")) {
-			errorMsg += "Must enter full name.<br/>";
-			return false;
-		} else if (_email.trim().equalsIgnoreCase("")) {
-			errorMsg += "Must enter email address.<br/>";
-			return false;
-		}
-
-		return true;
-	}
+	}	
 
 	/**
 	 * This responds to one of threee commands:
@@ -1218,6 +645,12 @@ public class ParticipantSessionObject {
 		}
 	}
 
+	/**
+	 * Attempts to pull a variable out of the session. If one is not there, then it will return and empty string "".
+	 * @param request
+	 * @param keyname
+	 * @return
+	 */
 	public String getClean(HttpServletRequest request, String keyname) {
 
 		String returnString = "";
@@ -2348,6 +1781,11 @@ public class ParticipantSessionObject {
 		return returnList;
 	}
 
+	/**
+	 * Returns the phase name stored in the web cache.
+	 * 
+	 * @return
+	 */
 	public String getPhaseName() {
 
 		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session
@@ -2384,7 +1822,7 @@ public class ParticipantSessionObject {
 				.getSession(schema).get(Simulation.class, sim_id);
 
 		// ///////////////
-		// Cheat codes here
+		// Stupidly, we must do this. Hiberate requires it odes here
 		List pList = simulation.getPhases();
 
 		for (ListIterator<SimulationPhase> li = pList.listIterator(); li
@@ -2396,11 +1834,11 @@ public class ParticipantSessionObject {
 		// ///////////////
 
 		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
-
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
 		return simulation;
+		
 	}
+	
 
 	public RunningSimulation giveMeRunningSim() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -2546,75 +1984,6 @@ public class ParticipantSessionObject {
 
 	}
 
-	public CustomizeableSection customizableSectionOnScratchPad;
-	public boolean forward_on = false;
-	public String _custom_section_id = "";
-	public Long sim_conv_id;
-
-	/**
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeReflectionPage(
-			HttpServletRequest request) {
-		String tab_heading = (String) session.getAttribute("tab_heading");
-		String tab_pos = (String) session.getAttribute("tab_pos");
-		String universal = (String) session.getAttribute("universal");
-
-		String new_tab_heading = request.getParameter("tab_heading");
-		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			tab_heading = new_tab_heading;
-		}
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(CustomizeableSection.class,
-						new Long(_custom_section_id));
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		// Determine if setting sim to edit.
-		String sending_page = (String) request.getParameter("sending_page");
-
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
-
-				&& (sending_page.equalsIgnoreCase("make_reflection_page"))) {
-			// If this is the original custom page, make a new page
-
-			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(schema);
-				_custom_section_id = customizableSectionOnScratchPad.getId()
-						+ "";
-			}
-
-			// Update page values
-			String make_reflection_page_text = (String) request
-					.getParameter("make_reflection_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_reflection_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(tab_heading);
-			customizableSectionOnScratchPad.save(schema);
-
-			if (save_and_add != null) {
-				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), tab_pos, tab_heading, request, universal);
-				// send them back
-				forward_on = true;
-				return customizableSectionOnScratchPad;
-
-			}
-
-		} // End of if this is the make_write_news_page
-
-		return customizableSectionOnScratchPad;
-	}
-
 	/**
 	 * 
 	 * @return A hashtable with all of the actor one on one coversations set in
@@ -2662,228 +2031,6 @@ public class ParticipantSessionObject {
 		return returnTable;
 	}
 
-	/**
-	 * 
-	 * @param request
-	 */
-	public void handleMakePrivateChatPage(HttpServletRequest request) {
-
-		String sending_page = (String) request.getParameter("sending_page");
-
-		ArrayList<Long> playersWithChat = new ArrayList<Long>();
-
-		if ((sending_page != null)
-				&& (sending_page.equalsIgnoreCase("make_private_chat_page"))) {
-
-			// ////////////////////////////////////////////////////
-			// Get the simulation we are working on
-			Simulation sim = new Simulation();
-			if (sim_id != null) {
-				sim = giveMeSim();
-			}
-
-			// ////////////////////////////////////////////////////
-			// Pull out the standard things passed through.
-			String tab_pos = (String) session.getAttribute("tab_pos");
-
-			String new_tab_heading = request.getParameter("tab_heading");
-
-			if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-				_tab_heading = new_tab_heading;
-			}
-			// /////////////////////////////////////////////////////
-
-			// /////////////////////////////////////////////////////////
-			// Pull this custom page out of the database based on its id.
-			_custom_section_id = request.getParameter("custom_page");
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-			customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-					.getSession(schema).get(CustomizeableSection.class,
-							new Long(_custom_section_id));
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-			// Delete all private conversations for this simulation since we
-			// recreate them below.
-			Conversation.deleteAllPrivateChatForSim(schema, sim_id);
-
-			for (Enumeration<String> e = request.getParameterNames(); e
-					.hasMoreElements();) {
-				String pname = (String) e.nextElement();
-
-				String vname = (String) request.getParameter(pname);
-				System.out.println(pname + " " + vname);
-
-				if (pname.startsWith("act_cb_")) {
-					pname = pname.replaceAll("act_cb_", "");
-
-					StringTokenizer str = new StringTokenizer(pname, "_");
-
-					String f_actor = str.nextToken();
-					String s_actor = str.nextToken();
-					System.out.println("setting up actors " + f_actor + " and "
-							+ s_actor);
-
-					try {
-						Long actorWithChat = new Long(f_actor);
-						Long actorWithChat2 = new Long(s_actor);
-
-						if (!(playersWithChat.contains(actorWithChat))) {
-							playersWithChat.add(actorWithChat);
-						}
-
-						if (!(playersWithChat.contains(actorWithChat2))) {
-							playersWithChat.add(actorWithChat2);
-						}
-
-						Conversation conv = new Conversation();
-						conv.setSim_id(sim_id);
-						conv.setConversation_type(Conversation.TYPE_PRIVATE);
-						conv.setConversation_name("One on One");
-
-						ConvActorAssignment caa = new ConvActorAssignment();
-						caa.setActor_id(actorWithChat);
-						caa.save(schema);
-
-						ConvActorAssignment caa2 = new ConvActorAssignment();
-						caa2.setActor_id(actorWithChat2);
-						caa2.save(schema);
-
-						ArrayList al = new ArrayList();
-						al.add(caa);
-						al.add(caa2);
-
-						conv.setConv_actor_assigns(al);
-
-						MultiSchemaHibernateUtil.beginTransaction(schema);
-						MultiSchemaHibernateUtil.getSession(schema)
-								.saveOrUpdate(conv);
-						MultiSchemaHibernateUtil
-								.commitAndCloseTransaction(schema);
-
-					} catch (Exception er) {
-						er.printStackTrace();
-					}
-				}
-			}
-
-			String save_and_add = (String) request.getParameter("save_and_add");
-
-			if (save_and_add != null) {
-
-				// add section to the applicable actors
-
-				System.out.println("this: " + this);
-				System.out.println("csosp: " + customizableSectionOnScratchPad);
-
-				SimulationSection.applySectionToSpecificActors(schema, sim,
-						this.phase_id, customizableSectionOnScratchPad.getId(),
-						_tab_heading, playersWithChat);
-				// send them back
-				forward_on = true;
-			}
-		}
-
-	}
-
-	public SharedDocument sd = new SharedDocument();
-
-	/**
-	 * This method is called at the top of the make_write_document_page jsp.
-	 * This jsp can be reached from 2 places: the sim_section_router and by
-	 * calling itself.
-	 * 
-	 * When the router is called the parameter _custom_section_id will be set.
-	 * 
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeWriteDocumentPage(
-			HttpServletRequest request) {
-
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(schema,
-				_custom_section_id);
-
-		// Determine if setting sim to edit.
-		String sending_page = (String) request.getParameter("sending_page");
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
-				&& (sending_page.equalsIgnoreCase("make_write_document_page"))) {
-
-			_tab_heading = request.getParameter("tab_heading");
-			_custom_section_id = request.getParameter("custom_page");
-
-			// If this is the original custom page, make a new page
-			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(schema);
-				_custom_section_id = customizableSectionOnScratchPad.getId()
-						+ "";
-				sd = new SharedDocument();
-			}
-
-			// Update values based on those passed in
-			String make_write_document_page_text = (String) request
-					.getParameter("make_write_document_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_write_document_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(schema);
-
-			String doc_title = (String) request.getParameter("doc_title");
-
-			// Get the document associated with this customized section
-			try {
-				Long doc_id = (Long) customizableSectionOnScratchPad
-						.getContents()
-						.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-
-				if (doc_id == null) {
-					sd = new SharedDocument();
-				}
-
-				sd.setSim_id(sim_id);
-				sd.setUniqueDocTitle(doc_title);
-
-				sd.setCs_id(customizableSectionOnScratchPad.getId());
-
-				sd.save(schema);
-
-				customizableSectionOnScratchPad.getContents().put(
-						SharedDocument.DOCS_IN_HASHTABLE_KEY,
-						sd.getId().toString());
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			if (save_and_add != null) {
-				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), _tab_pos, _tab_heading, request, _universal);
-				// send them back
-				forward_on = true;
-				return customizableSectionOnScratchPad;
-
-			}
-
-		} // End of if we are coming from the make_write_document_page
-
-		return customizableSectionOnScratchPad;
-	}
-	
-	public void handleMyProfile(HttpServletRequest request){
-		System.out.println("update");
-		
-		getBaseUserParamters(request);
-		
-		BaseUser bu = BaseUser.getByUserId(user_id);
-		
-		bu.updateMe(_first_name, _full_name, _last_name, _middle_name);
-	}
 
 	public Hashtable ActorsWithReadAccess = new Hashtable();
 	public Hashtable ActorsWithWriteAccess = new Hashtable();
@@ -2960,238 +2107,6 @@ public class ParticipantSessionObject {
 
 	}
 
-	/**
-	 * 
-	 * @param request
-	 */
-	public void handleMakeReadDocumentPage(HttpServletRequest request) {
-
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(schema,
-				_custom_section_id);
-
-		// Determine if setting cs to edit.
-		String sending_page = (String) request.getParameter("sending_page");
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
-
-				&& (sending_page.equalsIgnoreCase("make_read_document_page"))) {
-
-			_tab_heading = request.getParameter("tab_heading");
-			_custom_section_id = request.getParameter("custom_page");
-
-			// If this is the original custom page, make a new page
-
-			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(schema);
-				_custom_section_id = customizableSectionOnScratchPad.getId()
-						+ "";
-				sd = new SharedDocument();
-			}
-
-			String _doc_id = (String) request
-					.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-
-			System.out.println("Got Doc id!!!!!: " + _doc_id);
-
-			// Get the document associated with this customized section
-			try {
-				Long doc_id = new Long(_doc_id);
-
-				sd.setId(doc_id);
-
-				customizableSectionOnScratchPad.getContents().put(
-						SharedDocument.DOCS_IN_HASHTABLE_KEY,
-						sd.getId().toString());
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			// Update page values
-			String make_read_document_page_text = (String) request
-					.getParameter("make_read_document_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_read_document_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(schema);
-
-			if (save_and_add != null) {
-				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), _tab_pos, _tab_heading, request, _universal);
-				// send them back
-				forward_on = true;
-			}
-
-		} // End of if this is the make_read_document_page
-
-		return;
-	}
-
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public Simulation handleMakeCaucusPage(HttpServletRequest request) {
-
-		// ////////////////////////////////////////////////////
-		// Get the simulation we are working on
-		Simulation sim = new Simulation();
-		if (sim_id != null) {
-			sim = giveMeSim();
-		}
-
-		// ////////////////////////////////////////////////////
-		// Pull out the standard things passed through.
-		String tab_pos = (String) session.getAttribute("tab_pos");
-
-		String new_tab_heading = request.getParameter("tab_heading");
-
-		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			_tab_heading = new_tab_heading;
-		}
-		// /////////////////////////////////////////////////////
-
-		// /////////////////////////////////////////////////////////
-		// Pull this custom page out of the database based on its id.
-		_custom_section_id = request.getParameter("custom_page");
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(CustomizeableSection.class,
-						new Long(_custom_section_id));
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		// Determine if saving.
-		String sending_page = (String) request.getParameter("sending_page");
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
-		// ////////////////////////////////////////////////////////////
-		// if we are saving this page
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
-				&& (sending_page.equalsIgnoreCase("make_caucus_page"))) {
-
-			// If this is the original custom page, make a new page
-			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(schema);
-
-				Conversation conv = new Conversation();
-				conv.setSim_id(sim_id);
-				conv.setConversation_name(_tab_heading);
-				conv.save(schema, sim_id);
-				customizableSectionOnScratchPad.getContents().put(
-						"sim_conv_id", conv.getId());
-
-				sim_conv_id = conv.getId();
-
-				_custom_section_id = customizableSectionOnScratchPad.getId()
-						+ "";
-
-			} else { // This must not be the original template sim section.
-
-				sim_conv_id = (Long) customizableSectionOnScratchPad
-						.getContents().get("sim_conv_id");
-
-				// If this is a customized page, but belongs to a different sim,
-				// then make a copy
-				try {
-
-					MultiSchemaHibernateUtil.beginTransaction(schema);
-					Conversation conv = (Conversation) MultiSchemaHibernateUtil
-							.getSession(schema).get(Conversation.class,
-									sim_conv_id);
-
-					if (!(conv.getSim_id().equals(sim_id))) {
-						customizableSectionOnScratchPad = customizableSectionOnScratchPad
-								.makeCopy(schema);
-
-						conv = new Conversation();
-						conv.setSim_id(sim_id);
-
-						conv.save(schema, sim_id);
-
-						customizableSectionOnScratchPad.getContents().put(
-								"sim_conv_id", conv.getId());
-
-						_custom_section_id = customizableSectionOnScratchPad
-								.getId()
-								+ "";
-					}
-
-					conv.setConversation_name(_tab_heading);
-					conv.save(schema, sim_id);
-					sim_conv_id = conv.getId();
-
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-
-			// /////////////////////////////////////////////////////////////////
-			// Update page values
-			String text_page_text = (String) request
-					.getParameter("text_page_text");
-			customizableSectionOnScratchPad.setBigString(text_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-
-			sim_conv_id = (Long) customizableSectionOnScratchPad.getContents()
-					.get("sim_conv_id");
-
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-			Conversation conv = (Conversation) MultiSchemaHibernateUtil
-					.getSession(schema).get(Conversation.class, sim_conv_id);
-			conv.setConv_actor_assigns(new ArrayList());
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-			for (Enumeration e = request.getParameterNames(); e
-					.hasMoreElements();) {
-				String param_name = (String) e.nextElement();
-
-				if (param_name.startsWith("actor_cb_")) {
-					if ((request.getParameter(param_name) != null)
-							&& (request.getParameter(param_name)
-									.equalsIgnoreCase("true"))) {
-						String this_a_id = param_name.replaceFirst("actor_cb_",
-								"");
-						System.out.println("adding " + this_a_id + " in schema"
-								+ schema + " to sim_id " + sim_id);
-						conv.addActor(this_a_id, schema, sim_id);
-					}
-				}
-			}
-
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(conv);
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-			customizableSectionOnScratchPad.save(schema);
-
-			if (save_and_add != null) {
-
-				// add section to the applicable actors
-				SimulationSection.applySectionsToSomeActors(schema, sim,
-						this.phase_id, customizableSectionOnScratchPad.getId(),
-						_tab_heading, conv.getConv_actor_assigns());
-				// send them back
-				forward_on = true;
-				return null;
-			}
-		}
-
-		return sim;
-
-	}
 
 	/**
 	 * returns a list of strings containing the value ( generally assumed to be
@@ -3478,5 +2393,89 @@ public class ParticipantSessionObject {
 
 		}
 	}
+	
+	/** 
+	 * Checks for authorization, and then passes the request to the PSO_UserAdmin object.
+	 * @param request
+	 * @param schema
+	 * @return
+	 */
+	public User handleCreateAdminUser(HttpServletRequest request) {
 
+		User user = new User();
+
+		if ((!this.isAdmin) || (!this.isSimCreator)) {
+			errorMsg = "Not authorized to create administrative users.";
+			return user;
+		} else {
+			PSO_UserAdmin pu = new PSO_UserAdmin(this);
+			return pu.handleCreateAdminUser(request, schema);
+		}
+	}
+	
+	public User handleCreateUser(HttpServletRequest request) {
+		PSO_UserAdmin pu = new PSO_UserAdmin(this);
+		return pu.handleCreateUser(request, schema);
+	}
+	
+	public void handleMyProfile(HttpServletRequest request){
+		PSO_UserAdmin pu = new PSO_UserAdmin(this);
+		pu.handleMyProfile(request, user_id);
+	}
+	
+	///////////////////////////////////////////////////////////////////////////
+	
+	public Long actor_being_worked_on_id;
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Simulation handleSetUniversalSimSectionsPage(
+			HttpServletRequest request) {
+		
+		PSO_SectionMgmt ps = new PSO_SectionMgmt(this);
+		return (ps.handleSetUniversalSimSectionsPage(request));
+	}
+	
+	/**
+	 * A helper object to contain the work done in creating a section.
+	 */
+	private PSO_SectionMgmt pso_sm;
+	
+	private PSO_SectionMgmt getMyPSO_SectionMgmt(){
+		if (pso_sm == null) {
+			pso_sm = new PSO_SectionMgmt(this);
+		}
+		
+		return pso_sm;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public String handleSimSectionsRouter(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleSimSectionsRouter(request));
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Simulation handleSetSimSectionsPage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleSetSimSectionsPage(request));
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public CustomizeableSection handleMekeImagePage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMekeImagePage(request));
+	}
 }

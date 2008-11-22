@@ -305,7 +305,6 @@ public class User {
 		
 		BaseUser bu = BaseUser.getByUserId(this.getId());
 		
-		
 		bu.setUsername(this.getBu_username());
 		bu.setPassword(this.getBu_password());
 		
