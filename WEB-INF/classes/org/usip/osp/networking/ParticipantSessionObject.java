@@ -2444,7 +2444,7 @@ public class ParticipantSessionObject {
 	 */
 	private PSO_SectionMgmt pso_sm;
 	
-	private PSO_SectionMgmt getMyPSO_SectionMgmt(){
+	public PSO_SectionMgmt getMyPSO_SectionMgmt(){
 		if (pso_sm == null) {
 			pso_sm = new PSO_SectionMgmt(this);
 		}

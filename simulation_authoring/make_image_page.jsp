@@ -14,6 +14,8 @@
 		return;
 	}
 	
+	String page_title = (String) cs.getContents().get("page_title");
+	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -125,7 +127,7 @@ body {
           <tr> 
             <td>&nbsp;</td>
             <td valign="top">Page Tab Heading:</td>
-            <td valign="top"> <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/></td>
+            <td valign="top"> <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/></td>
           </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -151,7 +153,7 @@ body {
             <td>&nbsp;</td>
             <td>
 			<input type="hidden" name="sending_page" value="add_image_page" />
-			<input type="hidden" name="custom_page" value="<%= custom_page %>" />
+			<input type="hidden" name="custom_page" value="<%=  pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
 			<input type="submit" name="upload_and_add" value="Upload and Add" /></td>
           </tr>
         </table>
