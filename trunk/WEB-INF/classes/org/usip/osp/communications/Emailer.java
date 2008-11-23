@@ -103,7 +103,7 @@ public class Emailer {
 
 		final SchemaInformationObject sio = getSIO(schema_id);
 
-		Session session = getSession(sio, true);
+		Session session = getJavaxMailSessionForSchema(sio, true);
 
 		Message msg = new MimeMessage(session);
 
@@ -169,7 +169,7 @@ public class Emailer {
 		return "okay";
 	}
 
-	public static Session getSession(final SchemaInformationObject sio,
+	public static Session getJavaxMailSessionForSchema(final SchemaInformationObject sio,
 			boolean debug) {
 		Properties props = new Properties();
 		props.put("mail.transport.protocol", "smtp");
@@ -208,7 +208,7 @@ public class Emailer {
 
 		final SchemaInformationObject sio = getSIO(schema_id);
 
-		Session session = getSession(sio, true);
+		Session session = getJavaxMailSessionForSchema(sio, true);
 
 		Message msg = new MimeMessage(session);
 

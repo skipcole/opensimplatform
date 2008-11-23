@@ -2288,6 +2288,54 @@ public class ParticipantSessionObject {
 
 		return sendToPage;
 	}
+	
+	public boolean handleRetrievePassword(HttpServletRequest request){
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("retrieve_password"))){
+			
+			String email = (String) request.getParameter("email");	
+			
+			BaseUser bu = BaseUser.getByUsername(email);
+			
+			if (bu == null){ 
+				this.errorMsg = "User not found in database";
+				return false;
+			} else {
+				this.errorMsg = "";
+			}
+			
+			System.out.println("emailing " + email);
+			
+			String message = "A request for your password has been received. Your password is " +
+				bu.getPassword();
+			
+			String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
+			
+			Vector ccs = new Vector();
+			Vector bccs = new Vector();
+			bccs.add(admin_email);
+			
+			
+			// Still working on this puzzle.
+			if (true){
+				this.errorMsg = "functionality not implemented";
+				return false;
+			}
+			/*
+			 * Still working on this. Do we need to figure what schema they want access to?
+			bcc.add(ssytem);
+			
+			Emailer.postMail(get schema_id, email, "Access to OSP", message, 
+					String from, ccs, bccs);
+			*/
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 
 	/**
 	 * 
@@ -2466,24 +2514,17 @@ public class ParticipantSessionObject {
 	///////////////////////////////////////////////////////////////////////////
 	
 	public Long actor_being_worked_on_id;
-	
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public Simulation handleSetUniversalSimSectionsPage(
-			HttpServletRequest request) {
-		
-		PSO_SectionMgmt ps = new PSO_SectionMgmt(this);
-		return (ps.handleSetUniversalSimSectionsPage(request));
-	}
+
 	
 	/**
 	 * A helper object to contain the work done in creating a section.
 	 */
 	private PSO_SectionMgmt pso_sm;
 	
+	/**
+	 * Keep just one persistent copy of the PSO_SectionMgmt object.
+	 * @return
+	 */
 	public PSO_SectionMgmt getMyPSO_SectionMgmt(){
 		if (pso_sm == null) {
 			pso_sm = new PSO_SectionMgmt(this);
@@ -2491,9 +2532,20 @@ public class ParticipantSessionObject {
 		
 		return pso_sm;
 	}
+
+	/**
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * @param request
+	 * @return
+	 */
+	public Simulation handleSetUniversalSimSectionsPage(
+			HttpServletRequest request) {
+		
+		return (getMyPSO_SectionMgmt().handleSetUniversalSimSectionsPage(request));
+	}
 	
 	/**
-	 * 
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
 	 * @param request
 	 * @return
 	 */
@@ -2502,7 +2554,7 @@ public class ParticipantSessionObject {
 	}
 	
 	/**
-	 * 
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
 	 * @param request
 	 * @return
 	 */
@@ -2511,7 +2563,7 @@ public class ParticipantSessionObject {
 	}
 	
 	/**
-	 * 
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
 	 * @param request
 	 * @return
 	 */
@@ -2519,10 +2571,19 @@ public class ParticipantSessionObject {
 		return (getMyPSO_SectionMgmt().handleMekeImagePage(request));
 	}
 	
+	/**
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * @param request
+	 */
 	public void handleMakeReadDocumentPage(HttpServletRequest request) {
 		getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request);
 	}
 	
+	/**
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * @param request
+	 * @return
+	 */
 	public CustomizeableSection handleMakeWriteDocumentPage(
 			HttpServletRequest request) {
 	

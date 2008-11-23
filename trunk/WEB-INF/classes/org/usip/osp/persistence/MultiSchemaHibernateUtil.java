@@ -220,6 +220,10 @@ public class MultiSchemaHibernateUtil {
         
     }
     
+    /**
+     * The root schema (which has its own set of tables) is created from values taken
+     * from the properities file.
+     */
     public static void recreateRootDatabase() {
         
         System.out.println("recreatin root");

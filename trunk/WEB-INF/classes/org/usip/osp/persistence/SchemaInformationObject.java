@@ -68,6 +68,12 @@ public class SchemaInformationObject {
     /** Email archive address. */
     private String email_archive_address;
     
+    /**
+     * Your standard zero argument constructor.
+     */
+    public SchemaInformationObject(){
+    	
+    }
     
     public static void main(String args[]){
         

@@ -15,13 +15,25 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
-	Long base_doc_id = (Long) cs.getContents().get("doc_ids");
+	String base_doc_ids = (String) cs.getContents().get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 	
 	RunningSimulation rs = pso.giveMeRunningSim();
 	
 	System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
+
+	Vector setOfDocs = new Vector();
 	
-	SharedDocument sd = SharedDocument.getDocumentByBaseId(pso.schema, base_doc_id, rs.getId());
+	StringTokenizer str = new StringTokenizer(base_doc_ids, ",");
+	
+	while(str.hasMoreTokens()){
+		String nextToken = str.nextToken();
+		nextToken = nextToken.trim();
+		System.out.println("found token for: " + nextToken);
+		
+		SharedDocument sd = SharedDocument.getDocumentByBaseId(pso.schema, new Long(nextToken), rs.getId());
+		setOfDocs.add(sd);
+	}
+
 
 %>
 <html>
@@ -34,10 +46,19 @@
 
 <body>
 <p><%= cs.getBigString() %></p>
-<hr>  
-		  <%= sd.getBigString() %>
 
+<%
+		for (Enumeration e = setOfDocs.elements(); e.hasMoreElements();){
+			SharedDocument sd = (SharedDocument) e.nextElement();
+			
+%>
+<hr>
+	<%= sd.getDisplayTitle() %>
+	<%= sd.getBigString() %>
 <p>&nbsp;</p>
+<%
+	}
+%>
 </body>
 </html>
 <%

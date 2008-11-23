@@ -406,9 +406,11 @@ public class RunningSimulation {
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil
 				.getSession(schema).get(RunningSimulation.class, rs_id);
 
-		for (ListIterator<Alert> la = rs.getAlerts().listIterator(); la
-				.hasNext();) {
-			Alert al = (Alert) la.next();
+		// Get list iterator positioned at the end.
+		ListIterator<Alert> la = rs.getAlerts().listIterator(rs.getAlerts().size());
+		
+		while (la.hasPrevious()){	
+			Alert al = (Alert) la.previous();
 
 			al = (Alert) MultiSchemaHibernateUtil.getSession(schema).get(
 					Alert.class, al.getId());
