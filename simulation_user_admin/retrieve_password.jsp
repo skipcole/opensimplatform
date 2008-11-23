@@ -4,22 +4,11 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	boolean justSentPassword = false;
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("retrieve_password"))){
-	
-		justSentPassword = true;
-		String email = (String) request.getParameter("email");	
-		System.out.println("emailing " + email);
-		
-	}
-	
 	ParticipantSessionObject pso = new ParticipantSessionObject();
 	
 	session.setAttribute("pso", pso);
-
+	
+	boolean justSentPassword = pso.handleRetrievePassword(request);
 
 	
 %>
@@ -30,6 +19,11 @@
 <title>Open Simulation Platform Control Page</title>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
 <!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -139,7 +133,7 @@ body {
     <td valign="top">&nbsp;</td>
     <td valign="top"><label>
     	<input type="hidden" name="sending_page" value="retrieve_password" />
-      <input type="submit" name="button" id="button" value="Email it to me!" />
+      <input type="submit" name="button" id="button" value="Email me my Password" />
     </label></td>
   </tr>
 </table>
@@ -147,9 +141,11 @@ body {
 <p>&nbsp;</p>
 <% if (justSentPassword) { %>
 <p>Thank you for your request.</p>
-<p>You should soon receive an email containing your password.. </p>
+<p>You should soon receive an email containing your password.</p>
 <p>Note: If you do not find the  email with your password in it, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' (The details of doing this depend upon your email service provider, so please direct any email related questions to them.)</p>
-<% } // end of if just requested email %>
+<% } // end of if just requested email %> 
+<span class="style1">
+<%= pso.errorMsg %> </span>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable -->			</td>
 		</tr>

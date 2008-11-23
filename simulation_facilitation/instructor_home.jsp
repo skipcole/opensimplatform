@@ -7,52 +7,13 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 
-	Simulation simulation = new Simulation();
-	simulation.setCreator(pso.user_Display_Name);
-	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (!(pso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
 	}
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	String addsimulation = (String) request.getParameter("addsimulation");
-	
-	///////////////////////////////////
-	
-	boolean justAdded = false;
 	
 	String debug_string = "";
-	
-	if ( (sending_page != null) && (addsimulation != null) && (sending_page.equalsIgnoreCase("create_simulation"))){
-          pso.createNewSim(request);  
-	} // End of if coming from this page and have added simulation.
-
-	//////////////////////////////////
-	// Put sim on scratch pad
-	String edit_simulation = (String) request.getParameter("edit_simulation");
-	
-	
-	if ((edit_simulation != null) && (edit_simulation.equalsIgnoreCase("true"))){
-		
-		pso.sim_id = new Long(   (String) request.getParameter("sim_id")   );
-		simulation = pso.giveMeSim();
-		
-		pso.simulationSelected = true;
-			
-	}
-	
-	
-	//////////////////////////////////
-	// Clear sim from scratch pad
-	String clear_simulation = (String) request.getParameter("clear_button");
-	
-	if ((clear_simulation != null) && (clear_simulation.equalsIgnoreCase("Clear"))){
-		
-		simulation = new Simulation();
-		simulation.setCreator(pso.user_Display_Name);
-		pso.simulationSelected = false;
-			
-	}
 	
 	//////////////////////////////////
 	List simList = Simulation.getAll(pso.schema);

@@ -15,14 +15,14 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
-	Long base_doc_id = (Long) cs.getContents().get("doc_id");
+	String base_doc_id = (String) cs.getContents().get("doc_ids");
 	
 	RunningSimulation rs = pso.giveMeRunningSim();
 	
 	
 	System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
 	
-	SharedDocument sd = SharedDocument.getDocumentByBaseId(pso.schema, cs.getId(), rs.getId());
+	SharedDocument sd = SharedDocument.getDocumentByBaseId(pso.schema, new Long(base_doc_id), rs.getId());
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	String update_text = (String) request.getParameter("update_text");
