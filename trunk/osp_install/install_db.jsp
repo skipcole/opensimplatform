@@ -192,7 +192,7 @@ Check for and load custom simulation sections.</p>
           </tr>
         </table>
         <p><font color="#FF0000"><%= error_msg %></font></p>
-        <p><a href="steps.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
+        <p><a href="steps_2.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       </form>
       <p>&nbsp;</p>
       <p>&nbsp;</p></td>

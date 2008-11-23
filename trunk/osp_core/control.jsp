@@ -37,15 +37,6 @@
 	
 	} // End of if conditions met to advance round
 	
-	////////////
-	String newsalert = (String) request.getParameter("newsalert");
-	if ( (sending_page != null) && (newsalert != null) && (newsalert.equalsIgnoreCase("News Alert"))){
-
-		// This really does not belong here. Specific news feeds should create a news alert.
-		//pso.setNewsAlert(Alert.TYPE_ANNOUNCEMENT, request);
-	
-	} // End of if conditions met to give news alert
-	////////////
 	
 	
 	////////////
@@ -53,11 +44,7 @@
 	if ( (sending_page != null) && (command != null) && (command.equalsIgnoreCase("Change Phase"))){
 
 		String phase_id = (String) request.getParameter("phase_id");
-		
-		System.out.println("changing phase to " + phase_id);
-		
 		pso.changePhase(phase_id, request);
-		
 		
 		return;
 	
@@ -81,57 +68,59 @@
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr>
     <td width="173" valign="top"><form id="form1" name="form1" method="post" action="control.jsp">
-        <input type="submit" name="newsalert" value="News Alert" />
-        <input type="hidden" name="sending_page" value="control" />
-      </form></td>
-    <td width="80%" valign="top"><p>&nbsp;</p>
-      <p>&nbsp;</p></td>
-  </tr>
-  <tr>
-    <td width="173" valign="top"><form id="form1" name="form1" method="post" action="control.jsp">
         <input type="submit" name="advance" value="Advance Round" />
         <input type="hidden" name="sending_page" value="control" />
       </form></td>
     <td width="80%" valign="top"><p>&nbsp;</p>
       <p>&nbsp;</p></td>
   </tr>
-
-  <tr>
-    <td valign="top"><strong>Change Phase </strong></td>
-    <td valign="top">
-	
-	
-<form id="form2" name="form2" method="post" action="control.jsp">
-<input type="hidden" name="sending_page" value="control" />
-                      <select name="phase_id">
-                        <% for (ListIterator li = simulation.getPhases().listIterator(); li.hasNext();) {
-							SimulationPhase sp = (SimulationPhase) li.next();
-							
-							String selected_p = "";
-							
-							if (sp.getId().intValue() == pso.phase_id.intValue()) {
-								selected_p = "selected";
-							}
-							
-							
-				%>
-                        <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getName() %></option>
-                        <% } %>
-                      </select>
-                      <label>
-                      <input type="submit" name="command" value="Change Phase" />
-                      </label>
-                      <label>
-                      <input type="checkbox" name="notify_via_email" id="notify_via_email" value="true"/>
-                      NotifyPlayersViaEmail</label>
-</form>	</td>
-  </tr>
 </table>
-  <p>
-    
-  </p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<p></p>
+<p>Change phase to one of the phases listed below.</p>
+          <table width="100%" border="1" cellspacing="2" cellpadding="2">
+            <tr> 
+              <td width="20%" valign="top"><h2>Phase Name</h2></td>
+              <td width="80%" valign="top"><h2>Phase Notes</h2></td>
+              <td width="40" valign="top"><h2>N.O.</h2></td>
+              <td width="40" valign="top"><h2>Change to this Phase</h2></td>
+              <td width="40" valign="top"><h2>Email Players</h2></td>
+            </tr>
+       <%
+	   
+	   List phaseList = new SimulationPhase().getAllForSim(pso.schema, pso.sim_id);
+	   
+		for (ListIterator li = phaseList.listIterator(); li.hasNext();) {
+			SimulationPhase sp = (SimulationPhase) li.next();
+			
+			String flagNotes = "";
+			if (sp.isFirstPhase()){
+				flagNotes = "<I><small>(First Phase)</small></I>";
+			}
+			if (sp.isLastPhase()){
+				flagNotes = "<I><small>(Last Phase)</small></I>";
+			}
+			
+			
+		%>
+        <form id="form2" name="form2" method="post" action="control.jsp">
+<input type="hidden" name="sending_page" value="control" />
+            <tr>
+              <td valign="top"><%= sp.getName() %>  <%= flagNotes %></td>
+              <td valign="top"><%= sp.getNotes() %></td> 
+              <td valign="top"><%= sp.getOrder() + "" %></td>
+              <td valign="top">
+              	<input type="hidden" name="phase_id" value="<%= sp.getId().toString() %>" />
+                <input type="submit" name="command" value="Change Phase" />
+              </td>
+              <td valign="top"><input type="checkbox" name="notify_via_email" id="notify_via_email" value="true"/></td>
+            </tr>
+            </form>
+            <%
+	}
+%>
+          </table>
+          <p>&nbsp;</p>
+
 <p>&nbsp;</p>
 </body>
 </html>

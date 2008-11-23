@@ -19,8 +19,6 @@ import java.util.ResourceBundle;
  * 
  */
 public class USIP_OSP_Properties {
-    
-    private static String schema = "usiposp";
 
     private static ResourceBundle resourceBundle;
     
@@ -77,14 +75,6 @@ public class USIP_OSP_Properties {
     
     public static String getRawValue(String propertyName){
         return resourceBundle.getString(propertyName);
-    }
-
-    public static String getSchema() {
-        return schema;
-    }
-
-    public static void setSchema(String schema) {
-        USIP_OSP_Properties.schema = schema;
     }
     
 }

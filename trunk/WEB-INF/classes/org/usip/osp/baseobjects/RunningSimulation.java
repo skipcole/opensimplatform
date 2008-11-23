@@ -413,7 +413,7 @@ public class RunningSimulation {
 			al = (Alert) MultiSchemaHibernateUtil.getSession(schema).get(
 					Alert.class, al.getId());
 			if (al.checkActor(act_id)) {
-				returnString += ("<P>" + al.getAlertMessage() + "</P>");
+				returnString += ("<B>" + al.getTimeOfAlert() + "</B><BR>"+ al.getAlertMessage() + "<hr>");
 			}
 		}
 

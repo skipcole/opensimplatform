@@ -1,7 +1,8 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
@@ -126,7 +127,10 @@ body {
           <p>Tab Heading: 
             <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
           </p>
-          <p>
+            <table width="100%" border="0">
+            <tr>
+              <td width="75%" valign="top">
+          
           <%
 		  	List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id);
 			
@@ -148,19 +152,20 @@ body {
 				%>
 			</select>
             </label>
-            <% } else { %>
-            To allow access to a player to read a document, you must first have created it. To create a document associated with this simulation <a href="make_create_document_page.jsp">click here</a>.
-            <% } // end of if no documents have been created. %>
-          </p>
+            <% } // end of if no documents have been created. %></td>
+            <td>
+            To allow access to a player to read a document, you must first have created it. To create a new document associated with this simulation <a href="make_create_document_page.jsp">click here</a>.
+          </td></tr></table>
+
           <p>Enter the introductory text that will appear on this page. 
-            <textarea id="make_read_document_page_text" name="make_read_document_page_text" style="height: 710px; width: 710px;"><%= pso.customizableSectionOnScratchPad.getBigString() %></textarea>
+            <textarea id="make_read_document_page_text" name="make_read_document_page_text" style="height: 710px; width: 710px;"><%= pso.getMyPSO_SectionMgmt().getCustomizableSectionOnScratchPad().getBigString() %></textarea>
 
 		<script language="javascript1.2">
   			generate_wysiwyg('make_read_document_page_text');
 		</script>
           </p>
           <p> 
-            <input type="hidden" name="custom_page" value="<%= pso._custom_section_id %>" />
+            <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
             <input type="hidden" name="sending_page" value="make_read_document_page" />
             <input type="submit" name="save_page" value="Save" />
             <input type="submit" name="save_and_add" value="Save and Add Section" />

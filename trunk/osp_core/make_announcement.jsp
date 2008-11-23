@@ -15,31 +15,15 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-		
-	RunningSimulation rs = pso.giveMeRunningSim();
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	String add_news = (String) request.getParameter("add_news");
+	pso.handleMakeAnnouncement(request);
 	
-	if ( (sending_page != null) && (add_news != null) && (sending_page.equalsIgnoreCase("add_news"))){
-          
-		String announcement_text = (String) request.getParameter("announcement_text");
-		
-		String player_target = (String) request.getParameter("player_target");
-		
-		if ((player_target != null) && (player_target.equalsIgnoreCase("some"))){
-			pso.alertInQueueText = announcement_text;
-			pso.alertInQueueType = Alert.TYPE_ANNOUNCEMENT;
-			pso.backPage = "make_announcement.jsp";
-			response.sendRedirect("select_actors.jsp");
-			return;
-		} else {
-			rs = pso.makeGeneralAnnouncement(announcement_text, request);
-		}
-		
-		   
-	} // End of if coming from this page and have added announcement.
-	
+	// Forward on in this case is used to forward to the select players
+	if (pso.forward_on){
+		pso.forward_on = false;
+		response.sendRedirect("select_actors.jsp");
+		return;
+	}
 
 %>
 <html>

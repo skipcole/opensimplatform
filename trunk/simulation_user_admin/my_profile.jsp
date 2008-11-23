@@ -8,7 +8,7 @@
 	
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	if (!(pso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../simulation_authoring/index.jsp");
 		return;
 	}
 	
