@@ -19,6 +19,14 @@ errorPage=""
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Open Simulation Platform Control Page</title>
+<style type="text/css">
+<!--
+.style1 {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style>
 </head>
 <body>
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -70,9 +78,23 @@ errorPage=""
   <tr align="left" valign="top"> 
     <td>3.</td>
     <td>&nbsp;</td>
-    <td colspan="2">Restart Tomcat</td>
+    <td colspan="2">Prepare Properties Files</td>
     <td>&nbsp;</td>
   </tr>
+    <tr align="left" valign="top">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Update Properties File</td>
+    <td> The properties file <span class="style1">USIP_OSP_Properties_en_US.properties</span> needs to be edited to configure it to your system.<br /></td>
+  </tr>
+    <tr align="left" valign="top">
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>NB:</td>
+      <td>The principal schema (a mysql schema) MUST exist. By default it is usiposp.</td>
+    </tr>
   <tr align="left" valign="top"> 
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -85,116 +107,24 @@ errorPage=""
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>Locate this install page</td>
-    <td>Find this page, the file 'oscw_install/index.jsp,' on the machine you 
-      are installing on. The links below will only function correctly if you are 
+    <td>Find this page, the file 'osp_install/index.jsp,' on the machine you 
+      are installing on. The link below will only function correctly if you are 
       looking at this page on the Tomcat server on which you are installing. </td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>4.</td>
-    <td>&nbsp;</td>
-    <td colspan="2">Prepare Database</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>4a</td>
-    <td>&nbsp;</td>
-    <td>Create Root Schema</td>
-    <td>You must create a schema to contain all of the username and password information 
-      that your database will hold. The recommended schema name for the first 
-      schema is 'usiposp'.. </td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>4b</td>
-    <td>&nbsp;</td>
-    <td>Update Properties File</td>
-    <td> The properties file USIP_OSCW_Properties_en_US.properties needs to be 
-      updated to include the connection information for your first schema.<br /></td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>4c</td>
-    <td>&nbsp;</td>
-    <td>Create the root database</td>
-    <td><a href="install_root_db.jsp">Click here</a> to create the root database.</td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>4d</td>
-    <td>&nbsp;</td>
-    <td>Enter user schema info</td>
-    <td><a href="install_db.jsp">Click Here</a> to install an organization schema 
-      Database.</td>
   </tr>
 
   <tr align="left" valign="top"> 
-    <td>5</td>
-    <td>&nbsp;</td>
-    <td colspan="2">Verify Installation</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr align="left" valign="top">
-    <td>&nbsp;</td>
-    <td>5a</td>
-    <td>&nbsp;</td>
-    <td>schema</td>
-    <td>Click here</td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>6a</td>
-    <td>&nbsp;</td>
-    <td>diagnostics</td>
-    <td>Click here to run diagnostics</td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>6b</td>
-    <td>&nbsp;</td>
-    <td>sections</td>
-    <td>
-      <form name="form1" id="form1" method="post" action="../simulation_authoring/catalog_of_installed_sections.jsp">
-	  
-        <select name="db_schema">
-		<% 
-		List sioList = new ArrayList();
-		
-		try {
-			sioList = SchemaInformationObject.getAll();
-		} catch (Exception ee){
-			System.out.println("SchemaInformationObject doesn't seem to exist.");
-		}
-		
-		for (ListIterator li = sioList.listIterator(); li.hasNext();) {
-			SchemaInformationObject sio = (SchemaInformationObject) li.next();
-		
-		%>
-          <option value="<%= sio.getSchema_name() %>"><%= sio.getSchema_name() %></option>
-		  <% 
-		  }
-		%>
-        </select>
-        <input type="submit" name="Submit" value="Submit" />
-        to see the sections now available 
-      </form></td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>6c</td>
-    <td>&nbsp;</td>
-    <td>email</td>
-    <td>Click here to send test email from the system</td>
-  </tr>
-  <tr align="left" valign="top">
-    <td>7</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td><a href="../simulation_authoring/index.jsp">Login to Tool</a></td>
+    <td>Check DB</td>
+    <td>Verify that the following schema exists:<span class="style1"> <%= USIP_OSP_Properties.getValue("principalschema") %></span></td>
   </tr>
 </table>
-<p>Any questions? Send an email to <a href="mailto:scole@usip.org">scole@usip.org</a></p>
+<p>After you have edited your properties file, click on the link below to go to the next step.</p>
+<p>Do Not Click to move foward unless you have a mysql schema named as it is done in the properties file mentioned in Step 3!</p>
+<p>ON to the last set of <a href="steps_2.jsp">steps</a>.</p>
+<hr />
+<p>Any questions? Contact our community at <a href="http://www.opensimplatform.org">opensimplatform.org</a></p>
 <p>&nbsp;</p>
 
 </body>

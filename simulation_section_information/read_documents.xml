@@ -10,4 +10,6 @@
   <rec__tab__heading>Read Document(s)</rec__tab__heading>
   <sample__image>read_document.png</sample__image>
   <control__section>false</control__section>
+  <confers__read__ability>true</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>  
 </org.usip.osp.baseobjects.CustomizeableSection>

@@ -20,7 +20,7 @@
 		
 	SimulationPhase spp = new SimulationPhase();
 	
-	if (pso.simulationSelected) {
+	if ((pso.simulationSelected) && (pso.sim_id != null)){
 		simulation = pso.handleSetUniversalSimSectionsPage(request);	
 	
 		if (pso.phase_id != null) {
@@ -108,7 +108,13 @@ function loadInfo(dropdownlist){
 
 //-->
 </script>
-<!-- TemplateParam name="theBodyInfo" type="text" value="" --><!-- InstanceEndEditable -->
+<!-- TemplateParam name="theBodyInfo" type="text" value="" -->
+<style type="text/css">
+<!--
+.style_cs {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -206,7 +212,7 @@ body {
 			<!-- InstanceBeginEditable name="pageBody" -->
       <blockquote> 
         <% 
-			if (pso.simulationSelected) {
+			if ((pso.simulationSelected) && (pso.sim_id != null)) {
 		%>
         <p>Set the sections available to all of the actors in the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
@@ -346,8 +352,15 @@ body {
                                 <% 
 			for (ListIterator li = uc.listIterator(); li.hasNext();) {
 				CustomizeableSection cs = (CustomizeableSection) li.next();
+				
+				String preFont = "";
+				String postFont = "";
+				if (cs.isThisIsACustomizedSection()){
+					preFont = "Customized: ";
+					postFont= "";
+				}
 			%>
-                                <option value="<%= cs.getId().toString() %>">** <%= cs.getRec_tab_heading() %></option>
+                                <option value="<%= cs.getId().toString() %>"><%= preFont %><%= cs.getRec_tab_heading() %><%= postFont %></option>
                                 <% } %>
                                 <% } %>
                               </select>

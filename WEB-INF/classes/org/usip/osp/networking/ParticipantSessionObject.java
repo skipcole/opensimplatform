@@ -263,6 +263,10 @@ public class ParticipantSessionObject {
 				returnSP.setOrder(string2Int(nominal_order));
 				returnSP.saveMe(schema);
 				sim.getPhases().add(returnSP);
+				
+				Actor ctrl_act = Actor.getControlActor(schema);
+				sim.addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
+				
 				sim.saveMe(schema);
 			} else if (command.equalsIgnoreCase("Edit")) {
 				String sp_id = (String) request.getParameter("sp_id");
@@ -1122,6 +1126,8 @@ public class ParticipantSessionObject {
 		String notify_via_email = (String) request
 				.getParameter("notify_via_email");
 
+		String previousPhase = this.phaseName;
+		
 		try {
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -1164,10 +1170,12 @@ public class ParticipantSessionObject {
 
 			Alert al = new Alert();
 			al.setType(Alert.TYPE_PHASECHANGE);
+			
+			String phaseChangeNotice = "Phase has changed from '" + previousPhase + "' to '" + this.phaseName + "'.";
 
 			// Will need to add email text, etc.
-			al.setAlertMessage("phase change");
-			al.setAlertEmailMessage("Phase has changed.");
+			al.setAlertMessage(phaseChangeNotice);
+			al.setAlertEmailMessage(phaseChangeNotice);
 
 			running_sim.getAlerts().add(al);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
@@ -2343,6 +2351,38 @@ public class ParticipantSessionObject {
 
 		return returnList;
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleMakeAnnouncement(HttpServletRequest request){
+		
+		RunningSimulation rs = giveMeRunningSim();
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String add_news = (String) request.getParameter("add_news");
+		
+		if ( (sending_page != null) && (add_news != null) && (sending_page.equalsIgnoreCase("add_news"))){
+	          
+			String announcement_text = (String) request.getParameter("announcement_text");
+			
+			String player_target = (String) request.getParameter("player_target");
+			
+			if ((player_target != null) && (player_target.equalsIgnoreCase("some"))){
+				alertInQueueText = announcement_text;
+				alertInQueueType = Alert.TYPE_ANNOUNCEMENT;
+				backPage = "make_announcement.jsp";
+				this.forward_on = true;
+				return;
+			} else {
+				rs = makeGeneralAnnouncement(announcement_text, request);
+			}
+			
+			   
+		} // End of if coming from this page and have added announcement.
+		
+	}
 
 	public String getActorName(HttpServletRequest request, String a_id) {
 
@@ -2477,5 +2517,15 @@ public class ParticipantSessionObject {
 	 */
 	public CustomizeableSection handleMekeImagePage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMekeImagePage(request));
+	}
+	
+	public void handleMakeReadDocumentPage(HttpServletRequest request) {
+		getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request);
+	}
+	
+	public CustomizeableSection handleMakeWriteDocumentPage(
+			HttpServletRequest request) {
+	
+		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentPage(request));
 	}
 }

@@ -40,6 +40,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>Open Simulation Platform Create Inject Group Page</title>
+<script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
+</script>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <style type="text/css">
@@ -147,12 +149,13 @@ body {
         <% 
 			if (pso.simulationSelected) {
 		%>
-        <p>Create Inject</p>
+        <p>
+          <input type="hidden" name="inj_id" value="<%= inj_id %>" />
+          <input type="hidden" name="edit" value="<%= edit %>"  />
+          <input type="hidden" name="sending_page" value="create_ind_inject" />
+        </p>
         <form id="form2" name="form2" method="post" action="">
-        <input type="hidden" name="inj_id" value="<%= inj_id %>" />
-        <input type="hidden" name="edit" value="<%= edit %>"  />
-        <input type="hidden" name="sending_page" value="create_ind_inject" />
-        <table width="100%" border="0" cellspacing="0" cellpadding="4">
+          <table width="100%" border="1" cellspacing="0" cellpadding="4">
           <tr>
             <td valign="top">Inject Name:</td>
             <td valign="top">
@@ -162,9 +165,13 @@ body {
           </tr>
           <tr>
             <td valign="top">Inject Text:</td>
-            <td valign="top"><label>
-              <textarea name="inject_text" id="inject_text" cols="45" rows="5"><%= inj.getInject_text() %></textarea>
-            </label></td>
+            <td valign="top">
+            <textarea id="inject_text" name="inject_text" cols="45" rows="5"><%= inj.getInject_text() %></textarea>
+            <script language="javascript1.2">
+  			generate_wysiwyg('inject_text');
+		</script>  
+              
+            </td>
           </tr>
 
           <tr>

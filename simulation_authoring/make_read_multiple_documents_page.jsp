@@ -124,7 +124,7 @@ body {
       <form action="make_read_document_page.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>Tab Heading: 
-            <input type="text" name="tab_heading" value="<%= pso._tab_heading %>"/>
+            <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
           </p>
           <p><label>Select Document
 			
@@ -149,7 +149,7 @@ body {
           </p>
           <p>&nbsp;</p>
           <p> 
-            <input type="hidden" name="custom_page" value="<%= pso._custom_section_id %>" />
+            <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
             <input type="hidden" name="sending_page" value="make_read_document_page" />
             <input type="submit" name="save_page" value="Save" />
             <input type="submit" name="save_and_add" value="Save and Add Section" />

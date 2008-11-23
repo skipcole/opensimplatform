@@ -225,7 +225,7 @@ body {
 						%>
                       </select>
                       <label>
-					  <input type="hidden" name="actor_index" value="<%= pso.currentActorIndex  %>">
+					  <input type="hidden" name="actor_index" value="<%= pso.getMyPSO_SectionMgmt().getCurrentActorIndex()  %>">
 					  <input type="hidden" name="actor_id" value="<%= actor.getId() %>">
                       <input type="submit" name="command" value="Change Phase" />
                       </label>
@@ -358,7 +358,7 @@ body {
                           </label> <p> 
                             <label> 
                             <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
-                            <input type="hidden" name="actor_index" value="<%= pso.currentActorIndex  %>">
+                            <input type="hidden" name="actor_index" value="<%= pso.getMyPSO_SectionMgmt().getCurrentActorIndex() %>">
                             <input type="hidden" name="actor_id" value="<%= actor.getId() %>">
                             <input type="hidden" name="phase_id" value="<%= pso.phase_id.toString() %>">
                             <br />
@@ -389,9 +389,9 @@ body {
         </table>
       </blockquote>
       <p align="center"> 
-        <% if (pso.currentActorIndex < simulation.getActors().size()) {
+        <% if (pso.getMyPSO_SectionMgmt().getCurrentActorIndex()< simulation.getActors().size()) {
 
-	int nextIndex = pso.currentActorIndex + 1;
+	int nextIndex = pso.getMyPSO_SectionMgmt().getCurrentActorIndex()+ 1;
 	
 	String nextActorName = "to be determined";
 	

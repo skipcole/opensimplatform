@@ -4,17 +4,24 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 
-	if (!(pso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
-		return;
+	String sending_page = (String) request.getParameter("sending_page");
+	
+	boolean justSentPassword = false;
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("retrieve_password"))){
+	
+		justSentPassword = true;
+		String email = (String) request.getParameter("email");	
+		System.out.println("emailing " + email);
+		
 	}
 	
-	pso.handleCreateUser(request);
+	ParticipantSessionObject pso = new ParticipantSessionObject();
+	
+	session.setAttribute("pso", pso);
 
 
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -119,16 +126,32 @@ body {
       <h1>Retrieve Password</h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
-<p>&nbsp;</p>
-<p>You should receive an email containing your password.. </p>
-<p>Note: If you do not find the  email with your password in it, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' (The details of doing this depend upon your email service provider, so please direct any email related questions to them.)</p>
-<p>&nbsp;</p>
-<form action="../simulation_facilitation/create_user.jsp" method="post" name="form1" id="form1">
+<form id="form1" name="form1" method="post" action="retrieve_password.jsp">
+<table width="80%" border="1">
+  <tr>
+    <td width="38%" valign="top">Email Address <br />
+      (which is also your username)</td>
+    <td width="62%" valign="top">
+        <input type="text" name="email" id="textfield" />
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><label>
+    	<input type="hidden" name="sending_page" value="retrieve_password" />
+      <input type="submit" name="button" id="button" value="Email it to me!" />
+    </label></td>
+  </tr>
+</table>
 </form>
 <p>&nbsp;</p>
-
-<!-- InstanceEndEditable -->
-			</td>
+<% if (justSentPassword) { %>
+<p>Thank you for your request.</p>
+<p>You should soon receive an email containing your password.. </p>
+<p>Note: If you do not find the  email with your password in it, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' (The details of doing this depend upon your email service provider, so please direct any email related questions to them.)</p>
+<% } // end of if just requested email %>
+<p>&nbsp;</p>
+<!-- InstanceEndEditable -->			</td>
 		</tr>
 		</table>
 	</td>

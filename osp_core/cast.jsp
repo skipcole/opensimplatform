@@ -36,8 +36,8 @@
 <blockquote>
 
 <table width="80%" border="1">
-<tr><td width=50><strong>Picture</strong></td>
-<td width="25%"><strong>Name</strong></td>
+<tr>
+<td width=50><strong>Picture/Name</strong></td>
 <td><strong>Description</strong></td>
 </tr>
   <%
@@ -46,8 +46,8 @@
 			
 		%>
   <tr>
-    <td valign="top" width="200"><img src="images/actors/<%= aa.getImageFilename() %>" width="200"  ></td>
-    <td valign="top"><%= aa.getName() %></td><td valign="top"><p><%= aa.getPublic_description() %>
+    <td valign="top" width="200"><img src="images/actors/<%= aa.getImageFilename() %>" width="200"  ><br><%= aa.getName() %></td>
+    <td valign="top"><p><%= aa.getPublic_description() %>
     <% if (this_actor.isControl_actor()) { %>
     <BR><strong>Semi-public Description</strong><br>
 <%= aa.getSemi_public_description() %>

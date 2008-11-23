@@ -29,20 +29,27 @@ import com.oreilly.servlet.MultipartRequest;
  * 
  */
 public class PSO_SectionMgmt {
-	
-	
+
 	private Long phase_being_worked_on_id;
-	
+
 	/** Index of actor being worked on in simulation creation wizard */
-	public int currentActorIndex = 0;
-	
+	private int currentActorIndex = 0;
+
+	public int getCurrentActorIndex() {
+		return currentActorIndex;
+	}
+
+	public void setCurrentActorIndex(int currentActorIndex) {
+		this.currentActorIndex = currentActorIndex;
+	}
+
 	ParticipantSessionObject pso;
 
-	PSO_SectionMgmt(ParticipantSessionObject pso){
+	PSO_SectionMgmt(ParticipantSessionObject pso) {
 		this.pso = pso;
 		this.phase_being_worked_on_id = pso.phase_id;
 	}
-	
+
 	/** Index of the actor, 1 to n, that we are working on. */
 	private String _actor_index = "";
 
@@ -50,8 +57,8 @@ public class PSO_SectionMgmt {
 	private String _bss_id = "";
 
 	/** Id of the custom simulation section. */
-	public String _custom_section_id = "";
-	
+	private String _custom_section_id = "";
+
 	public String get_custom_section_id() {
 		return _custom_section_id;
 	}
@@ -87,7 +94,7 @@ public class PSO_SectionMgmt {
 	 * Whether or not this is a 'universal' section, that is one applied to all
 	 * users.
 	 */
-	public String _universal = "";
+	private String _universal = "";
 
 	/**
 	 * 
@@ -95,42 +102,19 @@ public class PSO_SectionMgmt {
 	 */
 	public void getSimSectionsInternalVariables(HttpServletRequest request) {
 
-		String _ai = (String) request.getParameter("actor_index");
-		if ((_ai != null) && (_ai.length() > 0)
-				&& (!(_ai.equalsIgnoreCase("null"))))
-			_actor_index = _ai;
-		
-		String _csi = (String) request.getParameter("custom_page");
-		if ((_csi != null) && (_csi.length() > 0)
-				&& (!(_csi.equalsIgnoreCase("null"))))
-		_custom_section_id = _csi;
-
-		String _bi = (String) request.getParameter("bss_id");
-		if ((_bi != null) && (_bi.length() > 0)
-				&& (!(_bi.equalsIgnoreCase("null"))))
-		_bss_id = _bi;
-		
-		String _c = (String) request.getParameter("command");
-		if ((_c != null) && (_c.length() > 0)
-				&& (!(_c.equalsIgnoreCase("null"))))
-		_command = _c;
-		
-		String _pi = (String) request.getParameter("page_id");
-		if ((_pi != null) && (_pi.length() > 0)
-				&& (!(_pi.equalsIgnoreCase("null"))))
-		_page_id = _pi;
-		
-		String _phi = (String) request.getParameter("phase_id");
-		if ((_phi != null) && (_phi.length() > 0)
-				&& (!(_phi.equalsIgnoreCase("null"))))
-		_phase_id = _phi;
-
+		_actor_index = setIfPassedIn(_actor_index, request, "actor_index");
+		_bss_id = setIfPassedIn(_bss_id, request, "bss_id");
+		_custom_section_id = setIfPassedIn(_custom_section_id, request,
+				"custom_page");
+		_command = setIfPassedIn(_command, request, "command");
+		_page_id = setIfPassedIn(_page_id, request, "page_id");
+		_phase_id = setIfPassedIn(_phase_id, request, "phase_id");
 		_tab_heading = setIfPassedIn(_tab_heading, request, "tab_heading");
 		_tab_pos = setIfPassedIn(_tab_pos, request, "tab_pos");
 		_universal = setIfPassedIn(_universal, request, "universal");
 
 	}
-	
+
 	/**
 	 * 
 	 * @param original
@@ -138,19 +122,20 @@ public class PSO_SectionMgmt {
 	 * @param parameter_name
 	 * @return
 	 */
-	public String setIfPassedIn(String original, HttpServletRequest request, String parameter_name){
-		
+	public String setIfPassedIn(String original, HttpServletRequest request,
+			String parameter_name) {
+
 		String new_string = (String) request.getParameter(parameter_name);
-		
+
 		if ((new_string != null) && (new_string.length() > 0)
-				&& (!(new_string.equalsIgnoreCase("null")))){
+				&& (!(new_string.equalsIgnoreCase("null")))) {
 			return new_string;
 		} else {
 			return original;
 		}
-		
+
 	}
-	
+
 	/**
 	 * Based on parameters received attempts to determine the simulation phase
 	 * being worked on. If all else fails, it just returns the first phase of
@@ -174,7 +159,7 @@ public class PSO_SectionMgmt {
 		pso.phaseSelected = true;
 
 	}
-	
+
 	/**
 	 * The 'set simulation sections' page is a complicated page. The user can do
 	 * the following on this page
@@ -212,12 +197,12 @@ public class PSO_SectionMgmt {
 
 		pso.actor_being_worked_on_id = new Long(0);
 
-		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(pso.schema,
-				pso.sim_id, pso.actor_being_worked_on_id, phase_being_worked_on_id);
+		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(
+				pso.schema, pso.sim_id, pso.actor_being_worked_on_id,
+				phase_being_worked_on_id);
 
 		return simulation;
 	}
-	
 
 	/**
 	 * This is a complicated page. The user can do the following on this page
@@ -291,12 +276,13 @@ public class PSO_SectionMgmt {
 				int int_tab_pos = new Long(m_index).intValue() + 1;
 				SimulationSection ss0 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
-								new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id),
-								int_tab_pos);
+								new Long(pso.actor_being_worked_on_id),
+								new Long(phase_being_worked_on_id), int_tab_pos);
 
 				SimulationSection ss1 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
-								new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id),
+								new Long(pso.actor_being_worked_on_id),
+								new Long(phase_being_worked_on_id),
 								int_tab_pos + 1);
 
 				ss0.setTab_position(int_tab_pos + 1);
@@ -319,12 +305,13 @@ public class PSO_SectionMgmt {
 				int int_tab_pos = new Long(m_index).intValue() + 1;
 				SimulationSection ss0 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
-								new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id),
-								int_tab_pos);
+								new Long(pso.actor_being_worked_on_id),
+								new Long(phase_being_worked_on_id), int_tab_pos);
 
 				SimulationSection ss1 = SimulationSection
 						.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
-								new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id),
+								new Long(pso.actor_being_worked_on_id),
+								new Long(phase_being_worked_on_id),
 								int_tab_pos - 1);
 
 				ss0.setTab_position(int_tab_pos - 1);
@@ -342,10 +329,12 @@ public class PSO_SectionMgmt {
 			}
 		}
 
-		System.out.println("getting simSecList for s/a/p:   " + pso.sim_id + "/"
-				+ pso.actor_being_worked_on_id + "/" + phase_being_worked_on_id);
-		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(pso.schema,
-				pso.sim_id, pso.actor_being_worked_on_id, phase_being_worked_on_id);
+		System.out.println("getting simSecList for s/a/p:   " + pso.sim_id
+				+ "/" + pso.actor_being_worked_on_id + "/"
+				+ phase_being_worked_on_id);
+		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(
+				pso.schema, pso.sim_id, pso.actor_being_worked_on_id,
+				phase_being_worked_on_id);
 
 		return simulation;
 	}
@@ -385,8 +374,8 @@ public class PSO_SectionMgmt {
 
 				bss = null;
 
-				CustomizeableSection cbss = CustomizeableSection.getMe(pso.schema,
-						_bss_id);
+				CustomizeableSection cbss = CustomizeableSection.getMe(
+						pso.schema, _bss_id);
 
 				if (!cbss.isHasASpecificMakePage()) {
 					return ("customize_page.jsp?custom_page=" + new Long(
@@ -420,17 +409,18 @@ public class PSO_SectionMgmt {
 		getSimSectionsInternalVariables(request);
 
 		System.out.println("schema: " + pso.schema + ", sim_id: " + pso.sim_id
-				+ ", a_id: " + pso.actor_being_worked_on_id + ", phase_id:" + phase_being_worked_on_id
-				+ ", bss_id: " + _bss_id + ", tab heading: " + _tab_heading
-				+ ", tab pos: " + _tab_pos);
+				+ ", a_id: " + pso.actor_being_worked_on_id + ", phase_id:"
+				+ phase_being_worked_on_id + ", bss_id: " + _bss_id
+				+ ", tab heading: " + _tab_heading + ", tab pos: " + _tab_pos);
 
 		System.out.flush();
 
 		Long this_tab_pos = getTabPos();
 
-		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(
-				pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), new Long(_bss_id), _tab_heading,
-				this_tab_pos.intValue());
+		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id,
+				new Long(pso.actor_being_worked_on_id), new Long(
+						phase_being_worked_on_id), new Long(_bss_id),
+				_tab_heading, this_tab_pos.intValue());
 
 		if (universal) {
 			System.out.println("applying universal page");
@@ -440,7 +430,7 @@ public class PSO_SectionMgmt {
 		}
 
 	}
-	
+
 	/**
 	 * Gets the tab position to add this at.
 	 * 
@@ -452,9 +442,11 @@ public class PSO_SectionMgmt {
 		try {
 			this_tab_pos = new Long(_tab_pos);
 		} catch (NumberFormatException nfe) {
-			
+
 			this_tab_pos = SimulationSection.getHighestBySimAndActorAndPhase(
-					pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id));
+					pso.schema, pso.sim_id, new Long(
+							pso.actor_being_worked_on_id), new Long(
+							phase_being_worked_on_id));
 			System.out.println("problem converting tab position: "
 					+ nfe.getMessage());
 		}
@@ -470,9 +462,10 @@ public class PSO_SectionMgmt {
 		System.out.println("tabhead " + tab_heading);
 		System.out.println("universal " + universal);
 
-		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(
-				pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), new Long(bss_id), tab_heading,
-				getTabPos().intValue());
+		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id,
+				new Long(pso.actor_being_worked_on_id), new Long(
+						phase_being_worked_on_id), new Long(bss_id),
+				tab_heading, getTabPos().intValue());
 
 		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
 			Simulation simulation = pso.giveMeSim();
@@ -482,9 +475,16 @@ public class PSO_SectionMgmt {
 
 	}
 
+	private CustomizeableSection customizableSectionOnScratchPad;
 
-	public CustomizeableSection customizableSectionOnScratchPad;
-	
+	public CustomizeableSection getCustomizableSectionOnScratchPad() {
+		return customizableSectionOnScratchPad;
+	}
+
+	public void setCustomizableSectionOnScratchPad(
+			CustomizeableSection customizableSectionOnScratchPad) {
+		this.customizableSectionOnScratchPad = customizableSectionOnScratchPad;
+	}
 
 	public Long sim_conv_id;
 
@@ -494,7 +494,7 @@ public class PSO_SectionMgmt {
 	 */
 	public CustomizeableSection handleMakeReflectionPage(
 			HttpServletRequest request) {
-		
+
 		getSimSectionsInternalVariables(request);
 
 		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
@@ -546,9 +546,16 @@ public class PSO_SectionMgmt {
 		return customizableSectionOnScratchPad;
 	}
 
-	public SharedDocument sd = new SharedDocument();
+	private SharedDocument sharedDocument = new SharedDocument();
 
-	
+	public SharedDocument getSharedDocument() {
+		return sharedDocument;
+	}
+
+	public void setSharedDocument(SharedDocument sharedDocument) {
+		this.sharedDocument = sharedDocument;
+	}
+
 	/**
 	 * This method is called at the top of the make_write_document_page jsp.
 	 * This jsp can be reached from 2 places: the sim_section_router and by
@@ -562,8 +569,8 @@ public class PSO_SectionMgmt {
 	public CustomizeableSection handleMakeWriteDocumentPage(
 			HttpServletRequest request) {
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema,
-				_custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(
+				pso.schema, _custom_section_id);
 
 		// Determine if setting sim to edit.
 		String sending_page = (String) request.getParameter("sending_page");
@@ -574,9 +581,6 @@ public class PSO_SectionMgmt {
 				&& ((save_page != null) || (save_and_add != null))
 				&& (sending_page.equalsIgnoreCase("make_write_document_page"))) {
 
-			_tab_heading = request.getParameter("tab_heading");
-			_custom_section_id = request.getParameter("custom_page");
-
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				System.out.println("making copy");
@@ -584,7 +588,7 @@ public class PSO_SectionMgmt {
 						.makeCopy(pso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId()
 						+ "";
-				sd = new SharedDocument();
+				sharedDocument = new SharedDocument();
 			}
 
 			// Update values based on those passed in
@@ -604,19 +608,19 @@ public class PSO_SectionMgmt {
 						.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 
 				if (doc_id == null) {
-					sd = new SharedDocument();
+					sharedDocument = new SharedDocument();
 				}
 
-				sd.setSim_id(pso.sim_id);
-				sd.setUniqueDocTitle(doc_title);
+				sharedDocument.setSim_id(pso.sim_id);
+				sharedDocument.setUniqueDocTitle(doc_title);
 
-				sd.setCs_id(customizableSectionOnScratchPad.getId());
+				sharedDocument.setCs_id(customizableSectionOnScratchPad.getId());
 
-				sd.save(pso.schema);
+				sharedDocument.save(pso.schema);
 
 				customizableSectionOnScratchPad.getContents().put(
 						SharedDocument.DOCS_IN_HASHTABLE_KEY,
-						sd.getId().toString());
+						sharedDocument.getId().toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -636,7 +640,7 @@ public class PSO_SectionMgmt {
 
 		return customizableSectionOnScratchPad;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -740,8 +744,9 @@ public class PSO_SectionMgmt {
 				System.out.println("csosp: " + customizableSectionOnScratchPad);
 
 				SimulationSection.applySectionToSpecificActors(pso.schema, sim,
-						this.phase_being_worked_on_id, customizableSectionOnScratchPad.getId(),
-						_tab_heading, playersWithChat);
+						this.phase_being_worked_on_id,
+						customizableSectionOnScratchPad.getId(), _tab_heading,
+						playersWithChat);
 				// send them back
 				pso.forward_on = true;
 			}
@@ -755,10 +760,11 @@ public class PSO_SectionMgmt {
 	 */
 	public void handleMakeReadDocumentPage(HttpServletRequest request) {
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema,
-				_custom_section_id);
+		this.getSimSectionsInternalVariables(request);
 
-		// Determine if setting cs to edit.
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(
+				pso.schema, _custom_section_id);
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String save_page = (String) request.getParameter("save_page");
 		String save_and_add = (String) request.getParameter("save_and_add");
@@ -768,9 +774,6 @@ public class PSO_SectionMgmt {
 
 				&& (sending_page.equalsIgnoreCase("make_read_document_page"))) {
 
-			_tab_heading = request.getParameter("tab_heading");
-			_custom_section_id = request.getParameter("custom_page");
-
 			// If this is the original custom page, make a new page
 
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
@@ -779,7 +782,7 @@ public class PSO_SectionMgmt {
 						.makeCopy(pso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId()
 						+ "";
-				sd = new SharedDocument();
+				sharedDocument = new SharedDocument();
 			}
 
 			String _doc_id = (String) request
@@ -791,11 +794,11 @@ public class PSO_SectionMgmt {
 			try {
 				Long doc_id = new Long(_doc_id);
 
-				sd.setId(doc_id);
+				sharedDocument.setId(doc_id);
 
 				customizableSectionOnScratchPad.getContents().put(
 						SharedDocument.DOCS_IN_HASHTABLE_KEY,
-						sd.getId().toString());
+						sharedDocument.getId().toString());
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -832,7 +835,7 @@ public class PSO_SectionMgmt {
 		// ///////////////////////////////////////////////////////////////
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
-		
+
 		// ////////////////////////////////////////////////////
 		// Get the simulation we are working on
 		Simulation sim = new Simulation();
@@ -913,7 +916,8 @@ public class PSO_SectionMgmt {
 					conv.save(pso.schema, pso.sim_id);
 					sim_conv_id = conv.getId();
 
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+					MultiSchemaHibernateUtil
+							.commitAndCloseTransaction(pso.schema);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -932,7 +936,8 @@ public class PSO_SectionMgmt {
 
 			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 			Conversation conv = (Conversation) MultiSchemaHibernateUtil
-					.getSession(pso.schema).get(Conversation.class, sim_conv_id);
+					.getSession(pso.schema)
+					.get(Conversation.class, sim_conv_id);
 			conv.setConv_actor_assigns(new ArrayList());
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
@@ -963,8 +968,9 @@ public class PSO_SectionMgmt {
 
 				// add section to the applicable actors
 				SimulationSection.applySectionsToSomeActors(pso.schema, sim,
-						this.phase_being_worked_on_id, customizableSectionOnScratchPad.getId(),
-						_tab_heading, conv.getConv_actor_assigns());
+						this.phase_being_worked_on_id,
+						customizableSectionOnScratchPad.getId(), _tab_heading,
+						conv.getConv_actor_assigns());
 				// send them back
 				pso.forward_on = true;
 				return null;
@@ -974,103 +980,117 @@ public class PSO_SectionMgmt {
 		return sim;
 
 	}
-	
-	public CustomizeableSection handleMekeImagePage(HttpServletRequest request){
+
+	public CustomizeableSection handleMekeImagePage(HttpServletRequest request) {
 
 		getSimSectionsInternalVariables(request);
-		
+
 		String page_title = "";
 		String image_file_name = "";
-		
+
 		CustomizeableSection cs = null;
-		
+
 		if (_custom_section_id != null) {
 			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(_custom_section_id));
+			cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(
+					pso.schema).get(CustomizeableSection.class,
+					new Long(_custom_section_id));
 			page_title = (String) cs.getContents().get("page_title");
 			image_file_name = (String) cs.getContents().get("image_file_name");
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 		}
-		
-		try {
-			MultipartRequest mpr = new MultipartRequest(request, USIP_OSP_Properties.getValue("uploads"));
-			
-			if (mpr != null) {
-						
-				String sending_page = (String) mpr.getParameter("sending_page");
-				String submit_new_image_page = (String) mpr.getParameter("submit_new_image_page");
-		
-				String upload_and_add = (String) mpr.getParameter("upload_and_add");
-				
-				_custom_section_id = mpr.getParameter("custom_page");
-				
-					if (_custom_section_id != null) {
-						MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-						cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(_custom_section_id));
-						System.out.println("from db it was " + cs.getContents().get("page_title"));
-						MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-					
-					}
-					
-					if ( (sending_page != null) && (upload_and_add != null) && (sending_page.equalsIgnoreCase("add_image_page"))){
-						// If this is the original custom page, make a new page
-						if (!(cs.isThisIsACustomizedSection())){
-							System.out.println("making copy");
-							cs = cs.makeCopy(pso.schema);
-							_custom_section_id = cs.getId() + "";
-						}
-						
-						
-						page_title = (String) mpr.getParameter("page_title");
-						
-						cs.setRec_tab_heading(_tab_heading);
-						cs.getContents().put("page_title", page_title);
-						
-						String page_description = (String) mpr.getParameter("page_description");
-						cs.setDescription(page_description);
-						
-						/////////////////////////////////////////
-						// Do file upload piece
-						pso.makeUploadDir();
-						String initFileName = mpr.getOriginalFileName("uploadedfile");
-						
-						System.out.println("init file was: " + initFileName);
-						
-						if ((initFileName != null) && (initFileName.trim().length() > 0)) {
-							cs.getContents().put("image_file_name", initFileName);
-							
-							for (Enumeration e = mpr.getFileNames(); e
-	                            .hasMoreElements();) {
-	                        	String fn = (String) e.nextElement();
 
-	                        	FileIO.saveImageFile("simImage", initFileName, mpr.getFile(fn));
-	                    	}
+		try {
+			MultipartRequest mpr = new MultipartRequest(request,
+					USIP_OSP_Properties.getValue("uploads"));
+
+			if (mpr != null) {
+
+				String sending_page = (String) mpr.getParameter("sending_page");
+				String submit_new_image_page = (String) mpr
+						.getParameter("submit_new_image_page");
+
+				String upload_and_add = (String) mpr
+						.getParameter("upload_and_add");
+
+				_custom_section_id = mpr.getParameter("custom_page");
+
+				if (_custom_section_id != null) {
+					MultiSchemaHibernateUtil.beginTransaction(pso.schema);
+					cs = (CustomizeableSection) MultiSchemaHibernateUtil
+							.getSession(pso.schema).get(
+									CustomizeableSection.class,
+									new Long(_custom_section_id));
+					System.out.println("from db it was "
+							+ cs.getContents().get("page_title"));
+					MultiSchemaHibernateUtil
+							.commitAndCloseTransaction(pso.schema);
+
+				}
+
+				if ((sending_page != null) && (upload_and_add != null)
+						&& (sending_page.equalsIgnoreCase("add_image_page"))) {
+					// If this is the original custom page, make a new page
+					if (!(cs.isThisIsACustomizedSection())) {
+						System.out.println("making copy");
+						cs = cs.makeCopy(pso.schema);
+						_custom_section_id = cs.getId() + "";
+					}
+
+					page_title = (String) mpr.getParameter("page_title");
+
+					cs.setRec_tab_heading(_tab_heading);
+					cs.getContents().put("page_title", page_title);
+
+					String page_description = (String) mpr
+							.getParameter("page_description");
+					cs.setDescription(page_description);
+
+					// ///////////////////////////////////////
+					// Do file upload piece
+					pso.makeUploadDir();
+					String initFileName = mpr
+							.getOriginalFileName("uploadedfile");
+
+					System.out.println("init file was: " + initFileName);
+
+					if ((initFileName != null)
+							&& (initFileName.trim().length() > 0)) {
+						cs.getContents().put("image_file_name", initFileName);
+
+						for (Enumeration e = mpr.getFileNames(); e
+								.hasMoreElements();) {
+							String fn = (String) e.nextElement();
+
+							FileIO.saveImageFile("simImage", initFileName, mpr
+									.getFile(fn));
 						}
-						// End of file upload piece
-						///////////////////////////////////
-						
-						cs.save(pso.schema);
-						
-						// add section
-						addSectionFromProcessCustomPage(cs.getId(), _tab_pos, _tab_heading, request, _universal);
-						// send them back
-						pso.forward_on = true;
-						
-					} // End of if user took action
-					
+					}
+					// End of file upload piece
+					// /////////////////////////////////
+
+					cs.save(pso.schema);
+
+					// add section
+					addSectionFromProcessCustomPage(cs.getId(), _tab_pos,
+							_tab_heading, request, _universal);
+					// send them back
+					pso.forward_on = true;
+
+				} // End of if user took action
+
 			} // End of if mpr != null
-		} catch (Exception mpr_e){
+		} catch (Exception mpr_e) {
 			System.out.println("error : " + mpr_e.getMessage());
 		}
-		
-		return cs;
-		
-		/*
-			//Update page values 
-			String text_page_text = (String) request.getParameter("text_page_text");
-			cs.setBigString(text_page_text);
 
-		*/
+		return cs;
+
+		/*
+		 * //Update page values String text_page_text = (String)
+		 * request.getParameter("text_page_text");
+		 * cs.setBigString(text_page_text);
+		 */
 
 	}
 
