@@ -195,7 +195,7 @@ body {
 		</script>
           </p>
           <p> 
-            <input type="hidden" name="custom_page" value="<%= pso.custom_page %>" />
+            <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
             <input type="hidden" name="sending_page" value="make_private_chat_page" />
             <input type="submit" name="save_and_add" value="Save and Add Sections" />
           </p>

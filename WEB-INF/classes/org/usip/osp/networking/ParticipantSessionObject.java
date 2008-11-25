@@ -2589,4 +2589,33 @@ public class ParticipantSessionObject {
 	
 		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentPage(request));
 	}
+	
+	/**
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * @param request
+	 * @return
+	 */
+	public Simulation handleMakeCaucusPage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMakeCaucusPage(request));
+	}
+	
+	/**
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * @param request
+	 */
+	public void handleMakePrivateChatPage(HttpServletRequest request) {
+		getMyPSO_SectionMgmt().handleMakePrivateChatPage(request);
+	}
+	
+	/**
+	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * @param request
+	 * @return
+	 */
+	public CustomizeableSection handleMakeReflectionPage(
+			HttpServletRequest request) {
+		
+		return (getMyPSO_SectionMgmt().handleMakeReflectionPage(request));
+	}
+	
 }
