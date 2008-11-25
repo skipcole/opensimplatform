@@ -87,7 +87,7 @@ public class ChatLine {
      * Packages a line with information (index, from id, and message payload) with
      * expected delimiters.
      * 
-     * @return
+     * @return	Returns the chatline packaged in xml.
      */
     public String packageIntoXML(ParticipantSessionObject pso, HttpServletRequest request){
     	
@@ -130,11 +130,14 @@ public class ChatLine {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
     }
+
     /**
      * 
-     * @param rid
-     * @param a
-     * @param t
+     * @param uid	User id of this chatline
+     * @param rid	Running Session id of this chatline
+     * @param aid	Actor id of this chatline
+     * @param cid	Conversation id of this chatline
+     * @param text	Text of this chatline.
      */
     public ChatLine(String uid, String rid, String aid, String cid, String text){
         
