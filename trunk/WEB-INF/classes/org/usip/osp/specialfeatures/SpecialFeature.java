@@ -13,7 +13,7 @@ import org.usip.osp.persistence.MysqlDatabase;
  * Essentially, it makes sure that the mechanics of storing and loading the object into
  * the archetypal, and also runs specific, tables gets taken care of.
  * 
- * @author Ronald "Skip" Cole
+ * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

@@ -5,7 +5,7 @@ package org.usip.osp.persistence;
  * necessary to present to a user to allow them the select one: schema name and 
  * schema org.
  * 
- * @author Ronald "Skip" Cole
+ * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

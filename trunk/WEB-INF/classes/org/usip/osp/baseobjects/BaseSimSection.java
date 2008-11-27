@@ -14,7 +14,9 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
- * @author Ronald "Skip" Cole
+ * This class represents sections that can be given to an actor at any given phase of the game.
+ * 
+ * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -579,6 +581,28 @@ public class BaseSimSection implements Comparable {
 		BaseSimSection bss = (BaseSimSection) bss_compared;
 
 		return -(bss.getRec_tab_heading().compareTo(this.getRec_tab_heading()));
+
+	}
+
+	public static BaseSimSection getByRecommendedTagHeading(String schema,
+			String rec_tab_name) {
+
+		BaseSimSection bss = null;
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
+				schema).createQuery(
+				"from BaseSimSection where BASE_TAB_HEADING = '" + rec_tab_name
+						+ "'").list();
+
+		if (returnList != null) {
+			bss = (BaseSimSection) returnList.get(0);
+			return bss;
+		}
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		return bss;
 
 	}
 }

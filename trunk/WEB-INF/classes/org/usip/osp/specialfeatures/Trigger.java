@@ -12,7 +12,7 @@ import org.usip.osp.baseobjects.Simulation;
  * This will probably later have to be subclassed, and as the incorporation of more 
  * advanced formulas comes, this will probably change a lot.
  * 
- * @author Ronald "Skip" Cole
+ * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
