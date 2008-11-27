@@ -568,7 +568,7 @@ public class PSO_SectionMgmt {
 	 */
 	public CustomizeableSection handleMakeWriteDocumentPage(
 			HttpServletRequest request) {
-		
+
 		this.getSimSectionsInternalVariables(request);
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(
@@ -602,22 +602,24 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.save(pso.schema);
 
 			String doc_title = (String) request.getParameter("doc_title");
-			String _doc_string = (String) request.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-			
-			System.out.println("************* I'm adding a document to edit with id of " + _doc_string);
-			
+			String _doc_string = (String) request
+					.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
+
+			System.out
+					.println("************* I'm adding a document to edit with id of "
+							+ _doc_string);
+
 			// Get the document associated with this customized section
 			try {
 				Long doc_id = new Long(_doc_string);
 
 				customizableSectionOnScratchPad.getContents().put(
-						SharedDocument.DOCS_IN_HASHTABLE_KEY,
-						_doc_string);
+						SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_string);
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			customizableSectionOnScratchPad.save(pso.schema);
 
 			if (save_and_add != null) {
@@ -749,8 +751,9 @@ public class PSO_SectionMgmt {
 	}
 
 	/**
-	 * This method handles the creation of the page to allow player access to read a document or
-	 * documents. 
+	 * This method handles the creation of the page to allow player access to
+	 * read a document or documents.
+	 * 
 	 * @param request
 	 */
 	public void handleMakeReadDocumentPage(HttpServletRequest request) {
@@ -784,18 +787,17 @@ public class PSO_SectionMgmt {
 					.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 
 			System.out.println("Got Document ids!!!!!: " + _doc_ids);
-			
+
 			StringTokenizer str = new StringTokenizer(_doc_ids, ",");
-			
-			while(str.hasMoreTokens()){
+
+			while (str.hasMoreTokens()) {
 				String nextToken = str.nextToken();
 				nextToken = nextToken.trim();
 				System.out.println("found token for: " + nextToken);
 			}
 
 			customizableSectionOnScratchPad.getContents().put(
-						SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_ids);
-
+					SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_ids);
 
 			// Update page values
 			String make_read_document_page_text = (String) request
@@ -1084,6 +1086,44 @@ public class PSO_SectionMgmt {
 		 * request.getParameter("text_page_text");
 		 * cs.setBigString(text_page_text);
 		 */
+
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Simulation handleCreateSchedulePage(HttpServletRequest request) {
+
+		Simulation simulation = pso.giveMeSim();
+
+		// Determine if setting sim to edit.
+		String sending_page = (String) request.getParameter("sending_page");
+
+		String command = (String) request.getParameter("command");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("create_schedule"))) {
+			System.out.println("good to here.");
+
+			if ((command != null) && (command.equalsIgnoreCase("Save"))) {
+				System.out.println("good to here now.");
+				RunningSimulation rs = pso.giveMeRunningSim();
+
+				SharedDocument sd = SharedDocument.getScheduleDocument(
+						pso.schema, simulation.getId(), rs.getId());
+				
+				System.out.println("shared doc id is : " + sd.getId() + "");
+				String sim_schedule = (String) request
+						.getParameter("sim_schedule");
+				sd.setBigString(sim_schedule);
+				sd.save(pso.schema);
+
+			}
+		}
+
+		return simulation;
 
 	}
 

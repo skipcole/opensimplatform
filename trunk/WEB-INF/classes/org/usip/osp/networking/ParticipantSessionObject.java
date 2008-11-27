@@ -2599,6 +2599,9 @@ public class ParticipantSessionObject {
 		return (getMyPSO_SectionMgmt().handleMakeCaucusPage(request));
 	}
 	
+	public Simulation handleCreateSchedulePage(HttpServletRequest request){
+		return (getMyPSO_SectionMgmt().handleCreateSchedulePage(request));
+	}
 	/**
 	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
 	 * @param request

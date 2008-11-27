@@ -1,30 +1,22 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.communications.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	pso.backPage = "psp.jsp";
+	pso.backPage = "create_schedule_page.jsp";
 	
-	Simulation simulation = new Simulation();	
+	Simulation simulation = pso.handleCreateSchedulePage(request);
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
-	}
+	RunningSimulation rs = pso.giveMeRunningSim();
 	
-	// Determine if setting sim to edit.
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	String sim_planned_play_ideas = (String) request.getParameter("sim_planned_play_ideas");
-	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("enter_sim_planned_play_ideas"))){
-		
-		simulation.setPlanned_play_ideas(sim_planned_play_ideas);
-		simulation.saveMe(pso.schema);
-
-	}
+	SharedDocument sd = SharedDocument.getScheduleDocument(pso.schema, simulation.getId(), rs.getId());
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -144,18 +136,18 @@ body {
     </table>
 	</div>
 	<p>&nbsp;</p>
-	<form action="../simulation_authoring/create_simulation_planned_play_ideas.jsp" method="post" name="form2" id="form2">
+	<form action="create_schedule_page.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>
-            <textarea id="sim_planned_play_ideas" name="sim_planned_play_ideas" style="height: 710px; width: 710px;"></textarea>
+            <textarea id="sim_schedule" name="sim_schedule" style="height: 710px; width: 710px;"><%= sd.getBigString() %></textarea>
 
 		<script language="javascript1.2">
   			generate_wysiwyg('sim_planned_play_ideas');
 		</script>
           </p>
           <p> 
-            <input type="hidden" name="sending_page" value="enter_sim_planned_play_ideas" />
-            <input type="submit" name="enter_ppi" value="Save" />
+            <input type="hidden" name="sending_page" value="create_schedule" />
+            <input type="submit" name="command" value="Save" />
           </p>
         </blockquote>
       </form>

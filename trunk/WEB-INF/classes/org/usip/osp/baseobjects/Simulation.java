@@ -276,6 +276,7 @@ public class Simulation {
 		
 		// need to associate with it the schedule document 
 		scheduleSection.getContents().put(SharedDocument.DOCS_IN_HASHTABLE_KEY, sd.getId() + ",");
+		scheduleSection.save(schema);
 		
 		// Add the schedule as the second tab to all players.
 		SimulationSection ss1 = new SimulationSection(schema, this.getId(),
@@ -456,18 +457,18 @@ public class Simulation {
 	 * @param rs_name
 	 */
 	public RunningSimulation addNewRunningSimulation(String rs_name,
-			org.hibernate.Session hibernate_session) {
+			String schema) {
 
-		RunningSimulation rs = new RunningSimulation();
-		rs.setName(rs_name);
+		RunningSimulation rs = new RunningSimulation(rs_name, this.getFirstPhaseId(), this, schema);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		rs.setPhase_id(this.getFirstPhaseId());
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 
-		hibernate_session.saveOrUpdate(rs);
-
-		getRunning_sims().add(rs);
-
-		hibernate_session.saveOrUpdate(this);
+		this.getRunning_sims().add(rs);
+		
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return rs;
 
