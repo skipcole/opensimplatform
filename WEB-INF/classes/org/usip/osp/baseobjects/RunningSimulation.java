@@ -83,6 +83,19 @@ public class RunningSimulation {
 	@Column(name = "RS_AAR")
 	@Lob
 	private String aar_text = "";
+	
+	public RunningSimulation(){
+		
+	}
+	
+	public RunningSimulation(String name, Long phase_id, Simulation sim, String schema){
+		
+		this.name = name;
+		this.phase_id = phase_id;
+		this.saveMe(schema);
+		this.createMyDocuments(schema, sim);
+		
+	}
 
 	/**
 	 * 
@@ -193,15 +206,26 @@ public class RunningSimulation {
 		}
 		// /////////////////////////////////////////////////////////////////////////
 
-		for (ListIterator<SharedDocument> li = SharedDocument.getAllBaseDocumentsForSim(
-				hibernate_session, sim.getId()).listIterator(); li.hasNext();) {
-			SharedDocument sd = (SharedDocument) li.next();
-
-			sd.createCopy(this.id, hibernate_session);
-
-		}
 
 		hibernate_session.saveOrUpdate(this);
+	}
+	
+	private void createMyDocuments(String schema, Simulation sim){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		for (ListIterator<SharedDocument> li = SharedDocument.getAllBaseDocumentsForSim(
+				MultiSchemaHibernateUtil.getSession(schema), sim.getId()).listIterator(); li.hasNext();) {
+			SharedDocument sd = (SharedDocument) li.next();
+
+			sd.createCopy(this.id, MultiSchemaHibernateUtil.getSession(schema));
+
+		}
+		
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
 	}
 
 	/**
@@ -279,6 +303,19 @@ public class RunningSimulation {
 
 		return returnList;
 	}
+	
+	public List<RunningSimulation> getAllForSim(String simid, String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List<RunningSimulation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from RunningSimulation where sim_id = " + simid).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
 
 	public Long getId() {
 		return id;

@@ -18,23 +18,17 @@
 	if (pso.sim_id != null){
 		simulation = pso.giveMeSim();
 	}
-	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-	
+		
 	String sending_page = (String) request.getParameter("sending_page");
 	String addRunningSimulation = (String) request.getParameter("addRunningSimulation");
 	
 	if ( (sending_page != null) && (addRunningSimulation != null) && (sending_page.equalsIgnoreCase("create_running_sim"))){
 
 		String rsn = (String) request.getParameter("running_sim_name");
-		simulation = (Simulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Simulation.class, simulation.getId());
-		RunningSimulation rs = simulation.addNewRunningSimulation(rsn, MultiSchemaHibernateUtil.getSession(pso.schema));
+		RunningSimulation rs = simulation.addNewRunningSimulation(rsn, pso.schema);
 		
 		pso.running_sim_id = rs.getId();
 		pso.runningSimSelected = true;
-		
-		// Connnection has been closed, so re-open it
-		//MultiSchemaHibernateUtil.beginTransaction(pso.schema);
             
 	} // End of if coming from this page and have added sim.
 
@@ -156,11 +150,12 @@ body {
             <td><h2>Phase</h2></td>
           </tr>
           <%
-		  	List rsList = new RunningSimulation().getAllForSim(pso.sim_id.toString(), MultiSchemaHibernateUtil.getSession(pso.schema));
+		  	List rsList = new RunningSimulation().getAllForSim(pso.sim_id.toString(), pso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();
-				SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(pso.schema).get(SimulationPhase.class, new Long(rs.getPhase_id()));
+				
+				SimulationPhase sp = SimulationPhase.getMe(pso.schema, rs.getPhase_id().toString());
 		%>
           <tr> 
             <td><%= rs.getName() %></td>
@@ -220,5 +215,4 @@ body {
 </body>
 <!-- InstanceEnd --></html>
 <%
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 %>

@@ -256,6 +256,37 @@ public class SharedDocument {
 		
 		return sd;
 	}
+	
+	public static SharedDocument getScheduleDocument(String schema, Long sim_id, Long rs_id){
+
+		SharedDocument sd = new SharedDocument();
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		String hql_string = "from SharedDocument where SIM_ID = " + sim_id + " AND RS_ID = " + rs_id +
+			" AND uniqueDocTitle = 'schedule'";
+		
+		System.out.println("hql_string is " + hql_string);
+		
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		
+		if ((returnList == null) || (returnList.size() == 0)){
+			// original should have been copied in the 'enable' sim phase.
+			// We do it there to keep from two people doing it at the same time.
+			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			System.out.println("No shared document found. It should have be created at the enable step.");
+			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
+		} else {
+			sd = (SharedDocument) returnList.get(0);
+		}
+		
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		
+		return sd;
+	}	
 
 	
 	public SharedDocument createCopy(Long rsid,  org.hibernate.Session hibernate_session){
