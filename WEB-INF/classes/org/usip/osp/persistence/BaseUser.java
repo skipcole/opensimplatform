@@ -12,7 +12,7 @@ import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.networking.LoggedInTicket;
 
 /**
- * @author Ronald "Skip" Cole
+ * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

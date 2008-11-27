@@ -7,7 +7,7 @@ import java.util.*;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 
 /**
- * @author Ronald "Skip" Cole
+ * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

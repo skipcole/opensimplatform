@@ -17,7 +17,7 @@ import org.usip.osp.persistence.SchemaInformationObject;
 import org.usip.osp.specialfeatures.*;
 
 /**
- * @author Ronald "Skip" Cole
+ * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

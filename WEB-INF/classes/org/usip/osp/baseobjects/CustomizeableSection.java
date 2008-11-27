@@ -11,7 +11,9 @@ import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
- * @author Ronald "Skip" Cole
+ * This class represents a simulation section that has been customized.
+ * 
+ * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -104,7 +106,8 @@ public class CustomizeableSection extends BaseSimSection {
 	}
 	
     /**
-     * 
+     * Copies the template customized section into a new version, and even gives it a pointer to 
+     * itself in the form of a url link (cs_id=id).
      * @param schema
      * @return
      */

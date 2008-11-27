@@ -11,7 +11,7 @@ import org.usip.osp.persistence.*;
 import org.usip.osp.specialfeatures.*;
 
 /**
- * @author Ronald "Skip" Cole
+ * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -248,16 +248,42 @@ public class Simulation {
 		getPhases().add(sp_first);
 		getPhases().add(sp_last);
 		// /////////////////////////////////////////////////
-
-		// Add the schedule page
-		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId());
-		sd.save(schema);
 		
 		// Add the control character
 		Actor ctrl_act = Actor.getControlActor(schema);
 		getActors().add(ctrl_act);
 		
+		// Give controller all default sections
 		addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
+		
+		// Maybe should look this up in some other way, but I'll save that for another day.
+		BaseSimSection introSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction");
+		
+		// Add the introduction as the first tab to all players.
+		SimulationSection ss0 = new SimulationSection(schema, this.getId(),
+				new Long(0), sp_first.getId(), introSection.getId(),
+				"Introduction", 1);
+		
+		// Create a schedule page and add it as the second section for all players in the first phase
+		CustomizeableSection scheduleSectionBase = (CustomizeableSection) BaseSimSection.getByRecommendedTagHeading(schema, "Read Document");
+		// need to get the schedule customized section
+		
+		CustomizeableSection scheduleSection = scheduleSectionBase.makeCopy(schema);
+		
+		// Add the schedule page
+		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId());
+		sd.save(schema);
+		
+		// need to associate with it the schedule document 
+		scheduleSection.getContents().put(SharedDocument.DOCS_IN_HASHTABLE_KEY, sd.getId() + ",");
+		
+		// Add the schedule as the second tab to all players.
+		SimulationSection ss1 = new SimulationSection(schema, this.getId(),
+				new Long(0), sp_first.getId(), scheduleSection.getId(),
+				"Schedule", 2);
+
+		SimulationSection.applyUniversalSectionsToAllActors(schema, this, sp_first.getId());
+		///////////
 		
 		this.saveMe(schema);
 	}

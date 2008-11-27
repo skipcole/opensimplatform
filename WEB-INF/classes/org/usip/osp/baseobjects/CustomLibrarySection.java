@@ -9,7 +9,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
- * @author Ronald "Skip" Cole
+ * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
