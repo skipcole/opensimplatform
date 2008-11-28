@@ -23,6 +23,10 @@ public class SchemaGhost {
     private Long id;
     private String schema_name;
     private String schema_organization;
+    
+    public SchemaGhost(){
+    	
+    }
     public Long getId() {
         return id;
     }
