@@ -26,7 +26,7 @@
 %>
 <html>
 <head>
-<title>USIP OSCW Text Page</title>
+<title>USIP OSP Text Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 

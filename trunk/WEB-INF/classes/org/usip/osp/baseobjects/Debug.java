@@ -2,6 +2,9 @@ package org.usip.osp.baseobjects;
 
 import java.util.ResourceBundle;
 /**
+ * This class provides a debug object that has been found useful in developing web applications. 
+ * When we move to using log4j and a more standard web framework, this class will go away.
+ * 
  * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>

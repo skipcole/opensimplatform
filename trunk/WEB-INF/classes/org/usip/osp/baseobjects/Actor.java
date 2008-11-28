@@ -83,16 +83,12 @@ public class Actor {
 		return returnList;
     }
     
+    /**
+     * Just used for occasional debugging.
+     * 
+     * @param args
+     */
     public static void main(String args[]){
-        
-        String schema = "usiposcw";
-        
-        MultiSchemaHibernateUtil.beginTransaction(schema);
-        
-        Actor c = getControlActor(MultiSchemaHibernateUtil.getSession(schema));
-        System.out.println("cs name is " + c.getName());
-        
-        MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
         
         
     }
