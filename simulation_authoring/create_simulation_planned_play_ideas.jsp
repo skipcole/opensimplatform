@@ -6,7 +6,7 @@
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	pso.backPage = "psp.jsp";
+	pso.backPage = "create_simulation_planned_play_ideas.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
