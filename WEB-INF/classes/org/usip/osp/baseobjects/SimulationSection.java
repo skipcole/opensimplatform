@@ -16,6 +16,8 @@ import org.usip.osp.communications.Conversation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
+ * This class represents a section that can be assigned to a player at a particular phase.
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>

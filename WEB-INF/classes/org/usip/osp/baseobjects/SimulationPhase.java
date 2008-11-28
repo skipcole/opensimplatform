@@ -8,6 +8,8 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.*;
 
 /**
+ * This class represents a phase of a simulation.
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
