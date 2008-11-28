@@ -12,6 +12,8 @@ import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.networking.LoggedInTicket;
 
 /**
+ * This class holds all of the personal information (name, email address, etc.) on players.
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>

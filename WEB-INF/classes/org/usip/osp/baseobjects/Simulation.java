@@ -29,81 +29,12 @@ import org.usip.osp.specialfeatures.*;
 @Proxy(lazy = false)
 public class Simulation {
 
+	/**
+	 * Just used for occasional debugging.
+	 * @param args
+	 */
 	public static void main(String args[]) {
 
-		String schema = "usiposcw";
-
-		System.out.println("begin");
-
-		Simulation s1 = new Simulation();
-		s1.setName("sim_one");
-
-		Actor a1 = new Actor();
-		a1.setName("billi bob");
-
-		s1.getActors().add(a1);
-
-		SimulationPhase sp = new SimulationPhase();
-		sp.setName("in progress");
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sp);
-
-		s1.getPhases().add(sp);
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(a1);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(s1);
-
-		RunningSimulation rs = new RunningSimulation();
-		rs.setName("a running sim name");
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(rs);
-
-		s1.getRunning_sims().add(rs);
-
-		/*
-		 * User u = new User();
-		 * 
-		 * MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(u);
-		 * 
-		 * UserAssignment ua = new UserAssignment();
-		 * 
-		 * ua.setActor_id(a1.getId()); ua.setRunning_sim_id(rs.getId());
-		 * ua.setSim_id(s1.getId()); ua.setUser_id(u.getId());
-		 * 
-		 * MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(ua);
-		 */
-		List lua = new ArrayList();
-
-		// new UserAssignment().getAllForUser(u.getId());
-
-		for (ListIterator<UserAssignment> li = lua.listIterator(); li.hasNext();) {
-			UserAssignment this_ua = (UserAssignment) li.next();
-
-			System.out.println("sim_id is " + this_ua.getSim_id());
-			System.out.println("r_sim_id is " + this_ua.getRunning_sim_id());
-			System.out.println("a_id is " + this_ua.getActor_id());
-
-			User uu = UserAssignment.getUserAssigned(schema, new Long(1),
-					new Long(1));
-
-		}
-
-		/*
-		 * List l = new Simulation().getAll(String schema);
-		 * 
-		 * for (ListIterator li = l.listIterator(); li.hasNext();) { Simulation
-		 * s = (Simulation) li.next(); System.out.println("s name is " +
-		 * s.getName());
-		 * 
-		 * Simulation y = (Simulation) TheHibernator.getMe(Simulation.class,
-		 * s.getId());
-		 * 
-		 * System.out.println("s name now is: " + y.getName());
-		 * 
-		 * for (ListIterator sActors = s.actors.listIterator();
-		 * sActors.hasNext();){ Actor act = (Actor) sActors.next();
-		 * System.out.println(" actor name is " + act.getName()); } }
-		 */
-		// List p = new SimulationPhase().getAllForSim(s1.getId());
 	}
 
 	/** A simulation will have actors. */

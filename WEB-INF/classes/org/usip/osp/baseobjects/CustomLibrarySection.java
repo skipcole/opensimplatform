@@ -9,6 +9,9 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
+ * This class is used to represent custom simulation sections added to an installation. These sections are hand
+ * coded.
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>

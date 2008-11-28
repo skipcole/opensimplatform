@@ -16,7 +16,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>USIP OSCW Hidden Page</title>
+<title>USIP OSP Hidden Page</title>
 <script type="text/javascript">
 
 var sendThemRedirect;

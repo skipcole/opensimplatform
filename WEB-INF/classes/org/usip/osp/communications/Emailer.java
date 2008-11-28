@@ -10,6 +10,8 @@ import org.usip.osp.persistence.SchemaInformationObject;
 import java.util.*;
 
 /**
+ * This utility class provides the methods necessary to send information via email to the players.
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>

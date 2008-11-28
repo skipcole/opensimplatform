@@ -20,7 +20,7 @@ import javax.servlet.ServletContextListener;
  * PURPOSE. <BR>
  * 
  */
-public class USIP_OSCW_ContextListener implements ServletContextListener{
+public class USIP_OSP_ContextListener implements ServletContextListener{
 
     public void contextInitialized(ServletContextEvent sce) {
         

@@ -33,7 +33,7 @@
 %>
 <html>
 <head>
-<title>USIP OSCW Image Page</title>
+<title>USIP OSP Image Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 

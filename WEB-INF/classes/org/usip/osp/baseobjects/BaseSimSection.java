@@ -35,13 +35,15 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class BaseSimSection implements Comparable {
 
+	/**
+	 * Just used for occasional debugging.
+	 * 
+	 * @param args
+	 */
 	public static void main(String args[]) {
 
 		// BaseSimSection.readBaseSimSectionsFromXMLFiles();
 
-		// HibernateUtil.recreateDatabase();
-		// readCustomLibSimSectionsFromXMLFiles("usiposcw");
-		// HibernateUtil.commitAndCloseTransaction();
 		/*
 		 * List<BaseSimSection> bList = BaseSimSection.getAllControl();
 		 * 
