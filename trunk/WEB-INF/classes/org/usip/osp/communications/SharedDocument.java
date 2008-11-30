@@ -8,6 +8,8 @@ import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
+ * This class represents a document that is shared amongst the players.
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>

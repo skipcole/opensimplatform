@@ -3,11 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
+<!-- TemplateBeginEditable name="doctitle" -->
 <title>USIP Open Simulation Platform</title>
-
-
-
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -18,33 +18,34 @@ body {
 }
 -->
 </style>
+<!-- TemplateParam name="onloadAttribute" type="text" value="" -->
 </head>
-<body onLoad="">
+<body onLoad="@@(onloadAttribute)@@">
 <% String canEdit = (String) session.getAttribute("author"); %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
-    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
+    <td width="120" valign="top"><img src="images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"  background="images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td align="right" background="images/top_fade.png" width="20%"> 
 
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
 
 		<tr>
-          <td><div align="center"><a href="simwebui.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation/simwebui.jsp" target="_top" class="menu_item"><img src="images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 
         <tr>
-          <td><div align="center"><a href="../simulation_user_admin/my_player_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_user_admin/my_player_profile.jsp" class="menu_item"><img src="images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
-          <td><div align="center"><a href="logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_authoring/logout.jsp" target="_top" class="menu_item"><img src="images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
       </table>	  
 	  </div>	  </td>
   </tr>
   <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td width="120" valign="top"><img src="images/logo_bot.png" width="120" height="20" /></td>
     <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
   </tr>
   <tr>
@@ -60,17 +61,14 @@ body {
     <td>
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
-			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
+			<td width="120"><img src="images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  * The USIP Open Simulation Platform is free software; you can redistribute it and/or<br />
-* modify it under the terms of the BSD Style license included with this<br />
-* distribution.<br />
-* <br />
-* The Open Simulation Platform is distributed WITHOUT ANY WARRANTY; without<br />
-* even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR<br />
-* PURPOSE.</td>
+			<!-- TemplateBeginEditable name="pageTitle" -->Title<!-- TemplateEndEditable --><br />
+			<!-- TemplateBeginEditable name="pageBody" -->pageBody<!-- TemplateEndEditable -->
+			</td>
 		</tr>
-		</table>	</td>
+		</table>
+	</td>
   </tr>
   <tr> 
     <td>
