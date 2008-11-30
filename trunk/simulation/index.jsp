@@ -98,7 +98,7 @@ body {
                 <td><div align="right" class="style1"><a href="../simulation_user_admin/retrieve_password.jsp">Forgot Password?   </a></div></td>
       </tr>
               <tr>
-                <td><div align="right" class="style1"><a href="../simulation_user_admin/a_reg_frameset.jsp">Register   </a></div></td>
+                <td><div align="right" class="style1"><a href="../simulation_user_admin/auto_registration_form.jsp">Register   </a></div></td>
       </tr>
             </table>
             <p>&nbsp;</p>			</td>
