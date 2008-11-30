@@ -93,6 +93,20 @@ public class User {
 
 	}
 
+	/**
+	 * Creates a base user and user object in the schema passed in.
+	 * @param schema
+	 * @param username
+	 * @param password
+	 * @param first_name
+	 * @param last_name
+	 * @param middle_name
+	 * @param full_name
+	 * @param email
+	 * @param sim_creator
+	 * @param sim_instructor
+	 * @param admin
+	 */
 	public User(String schema, String username, String password,
 			String first_name, String last_name, String middle_name,
 			String full_name, String email, boolean sim_creator,

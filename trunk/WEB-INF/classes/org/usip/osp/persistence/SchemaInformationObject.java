@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
 
 /**
  * @author Ronald "Skip" Cole<br />
@@ -230,6 +231,7 @@ public class SchemaInformationObject {
         
         return returnId;
     }
+    
     public String getEmail_archive_address() {
         return email_archive_address;
     }
@@ -254,5 +256,55 @@ public class SchemaInformationObject {
     public void setSmtp_auth_user(String smtp_auth_user) {
         this.smtp_auth_user = smtp_auth_user;
     }
+
+    /** Looks up a schema by its name and returns it.
+     * 
+     * @param schemaName
+     * @return
+     */
+    public static SchemaInformationObject lookUpSIOByName(String schemaName){
+        
+    	SchemaInformationObject returnSIO = null;
+        
+        MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
+        
+        List sList = MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema, true).createQuery(
+        "from SchemaInformationObject where SCHEMANAME = '" + schemaName + "'").list();
+        
+        if ((sList != null) && (sList.size() == 1)){
+            SchemaInformationObject sio = (SchemaInformationObject) sList.get(0);
+            returnSIO = sio;
+        }
+        
+        MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema, true).getTransaction().commit();
+        MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema, true).close();
+        
+        return returnSIO;
+    }
+    
+    /** This loads information out of the properties file into a schema information object.
+     * Note: This SchemaInformationObject (SIO) is not saved in the SIO table, since having it there would
+     * be redundant.
+     * 
+     * @return
+     */
+	public static SchemaInformationObject loadPrincipalSchemaObjectFromPropertiesFile() {
+		
+		SchemaInformationObject sio1 = new SchemaInformationObject();
+		
+		sio1.setEmail_archive_address(USIP_OSP_Properties.getValue("email_archive_address"));
+		sio1.setEmail_smtp(USIP_OSP_Properties.getValue("email_smtp"));
+		sio1.setLocation(USIP_OSP_Properties.getValue("loc"));
+		sio1.setPort(USIP_OSP_Properties.getValue("port"));
+		sio1.setSchema_name(USIP_OSP_Properties.getValue("principalschema"));
+		sio1.setSchema_organization(USIP_OSP_Properties.getValue("schema_organization"));
+		sio1.setSmtp_auth_password(USIP_OSP_Properties.getValue("smtp_auth_password"));
+		sio1.setSmtp_auth_user(USIP_OSP_Properties.getValue("smtp_auth_user"));
+		sio1.setUsername(USIP_OSP_Properties.getValue("username"));
+		sio1.setUserpass(USIP_OSP_Properties.getValue("password"));
+	
+		return sio1;
+		
+	}
     
 }

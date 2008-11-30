@@ -19,6 +19,9 @@ import org.usip.osp.specialfeatures.*;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
+ * This object contains all of the session information for the participant and is the main interface to all of the
+ * java objects that the participant will interact with.
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
@@ -50,7 +53,7 @@ public class ParticipantSessionObject {
 	public int page_type = PAGETYPE_OTHER;
 
 	public boolean forward_on = false;
-	
+
 	/** Schema of the database that the user is working in. */
 	public String schema = "";
 
@@ -182,7 +185,6 @@ public class ParticipantSessionObject {
 		}
 	}
 
-
 	/**
 	 * Unpacks a simulation from an XML file.
 	 * 
@@ -232,7 +234,7 @@ public class ParticipantSessionObject {
 		RunningSimulation rs = giveMeRunningSim();
 		rs.setAar_text(write_aar_end_sim);
 		rs.saveMe(schema);
-	}	
+	}
 
 	/**
 	 * This responds to one of threee commands:
@@ -263,10 +265,10 @@ public class ParticipantSessionObject {
 				returnSP.setOrder(string2Int(nominal_order));
 				returnSP.saveMe(schema);
 				sim.getPhases().add(returnSP);
-				
+
 				Actor ctrl_act = Actor.getControlActor(schema);
 				sim.addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
-				
+
 				sim.saveMe(schema);
 			} else if (command.equalsIgnoreCase("Edit")) {
 				String sp_id = (String) request.getParameter("sp_id");
@@ -364,22 +366,32 @@ public class ParticipantSessionObject {
 				// Send them email directing them to the page to register
 
 				String subject = "Invitation to register on an OSP System";
-				sendBulkInvitationEmail(schema_id, this_email, subject,
+				sendBulkInvitationEmail(this_email, subject,
 						defaultInviteEmailMsg);
 
 			}
 		}
 	}
 
-	public void sendBulkInvitationEmail(Long schema_id, String the_email,
-			String subject, String message) {
+	/**
+	 * 
+	 * @param schema_id
+	 * @param the_email
+	 * @param subject
+	 * @param message
+	 */
+	public void sendBulkInvitationEmail(String the_email, String subject,
+			String message) {
 
 		Vector cced = null;
 		Vector bcced = new Vector();
 		bcced.add(user_name);
 
-		Emailer.postMail(schema_id, the_email, subject, message, user_name,
-				cced, bcced);
+		SchemaInformationObject sio = SchemaInformationObject
+				.lookUpSIOByName(schema);
+
+		Emailer.postMail(sio, the_email, subject, message, user_name, cced,
+				bcced);
 	}
 
 	public List getSetOfEmails(String inputSet) {
@@ -650,7 +662,9 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Attempts to pull a variable out of the session. If one is not there, then it will return and empty string "".
+	 * Attempts to pull a variable out of the session. If one is not there, then
+	 * it will return and empty string "".
+	 * 
 	 * @param request
 	 * @param keyname
 	 * @return
@@ -789,10 +803,17 @@ public class ParticipantSessionObject {
 
 	}
 
+	/**
+	 * Recreates the root database that will hold information on the other
+	 * schemas and user information.
+	 * 
+	 * @param request
+	 */
 	public void handleCreateRootDB(HttpServletRequest request) {
 
 		System.out.println("creating root db");
 		MultiSchemaHibernateUtil.recreateRootDatabase();
+
 	}
 
 	/**
@@ -1127,7 +1148,7 @@ public class ParticipantSessionObject {
 				.getParameter("notify_via_email");
 
 		String previousPhase = this.phaseName;
-		
+
 		try {
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -1170,8 +1191,9 @@ public class ParticipantSessionObject {
 
 			Alert al = new Alert();
 			al.setType(Alert.TYPE_PHASECHANGE);
-			
-			String phaseChangeNotice = "Phase has changed from '" + previousPhase + "' to '" + this.phaseName + "'.";
+
+			String phaseChangeNotice = "Phase has changed from '"
+					+ previousPhase + "' to '" + this.phaseName + "'.";
 
 			// Will need to add email text, etc.
 			al.setAlertMessage(phaseChangeNotice);
@@ -1196,7 +1218,8 @@ public class ParticipantSessionObject {
 					uniqList.put(ua.getUser_id(), "set");
 				}
 
-				Long schema_id = SchemaInformationObject.lookUpId(schema);
+				SchemaInformationObject sio = SchemaInformationObject
+						.lookUpSIOByName(schema);
 
 				for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
 					Long key = (Long) e.nextElement();
@@ -1215,8 +1238,8 @@ public class ParticipantSessionObject {
 					Vector bcced = new Vector();
 					bcced.add(user_name);
 
-					Emailer.postMail(schema_id, bu.getUsername(), subject,
-							message, user_name, cced, bcced);
+					Emailer.postMail(sio, bu.getUsername(), subject, message,
+							user_name, cced, bcced);
 
 				}
 			}
@@ -1844,9 +1867,8 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		return simulation;
-		
+
 	}
-	
 
 	public RunningSimulation giveMeRunningSim() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -2039,7 +2061,6 @@ public class ParticipantSessionObject {
 		return returnTable;
 	}
 
-
 	public Hashtable ActorsWithReadAccess = new Hashtable();
 	public Hashtable ActorsWithWriteAccess = new Hashtable();
 
@@ -2114,7 +2135,6 @@ public class ParticipantSessionObject {
 		}
 
 	}
-
 
 	/**
 	 * returns a list of strings containing the value ( generally assumed to be
@@ -2288,48 +2308,54 @@ public class ParticipantSessionObject {
 
 		return sendToPage;
 	}
-	
-	public boolean handleRetrievePassword(HttpServletRequest request){
-		
+
+	/**
+	 * Sends password to user via email upon request.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public boolean handleRetrievePassword(HttpServletRequest request) {
+
 		String sending_page = (String) request.getParameter("sending_page");
-		
-		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("retrieve_password"))){
-			
-			String email = (String) request.getParameter("email");	
-			
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("retrieve_password"))) {
+
+			String email = (String) request.getParameter("email");
+
 			BaseUser bu = BaseUser.getByUsername(email);
-			
-			if (bu == null){ 
+
+			if (bu == null) {
 				this.errorMsg = "User not found in database";
 				return false;
 			} else {
 				this.errorMsg = "";
 			}
-			
+
 			System.out.println("emailing " + email);
-			
-			String message = "A request for your password has been received. Your password is " +
-				bu.getPassword();
-			
-			String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
-			
+
+			String message = "A request for your password has been received. Your password is "
+					+ bu.getPassword();
+
+			String admin_email = USIP_OSP_Properties
+					.getValue("osp_admin_email");
+			System.out.println("System.out.println(admin_email); "
+					+ admin_email);
+
 			Vector ccs = new Vector();
 			Vector bccs = new Vector();
 			bccs.add(admin_email);
-			
-			
-			// Still working on this puzzle.
-			if (true){
-				this.errorMsg = "functionality not implemented";
-				return false;
+
+			try {
+				SchemaInformationObject sio = SchemaInformationObject
+						.loadPrincipalSchemaObjectFromPropertiesFile();
+
+				Emailer.postMail(sio, email, "Access to OSP", message,
+						admin_email, ccs, bccs);
+			} catch (Exception e) {
+				this.errorMsg = "error was: " + e.getMessage();
 			}
-			/*
-			 * Still working on this. Do we need to figure what schema they want access to?
-			bcc.add(ssytem);
-			
-			Emailer.postMail(get schema_id, email, "Access to OSP", message, 
-					String from, ccs, bccs);
-			*/
 			return true;
 		} else {
 			return false;
@@ -2399,25 +2425,29 @@ public class ParticipantSessionObject {
 
 		return returnList;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
-	public void handleMakeAnnouncement(HttpServletRequest request){
-		
+	public void handleMakeAnnouncement(HttpServletRequest request) {
+
 		RunningSimulation rs = giveMeRunningSim();
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String add_news = (String) request.getParameter("add_news");
-		
-		if ( (sending_page != null) && (add_news != null) && (sending_page.equalsIgnoreCase("add_news"))){
-	          
-			String announcement_text = (String) request.getParameter("announcement_text");
-			
-			String player_target = (String) request.getParameter("player_target");
-			
-			if ((player_target != null) && (player_target.equalsIgnoreCase("some"))){
+
+		if ((sending_page != null) && (add_news != null)
+				&& (sending_page.equalsIgnoreCase("add_news"))) {
+
+			String announcement_text = (String) request
+					.getParameter("announcement_text");
+
+			String player_target = (String) request
+					.getParameter("player_target");
+
+			if ((player_target != null)
+					&& (player_target.equalsIgnoreCase("some"))) {
 				alertInQueueText = announcement_text;
 				alertInQueueType = Alert.TYPE_ANNOUNCEMENT;
 				backPage = "make_announcement.jsp";
@@ -2426,10 +2456,9 @@ public class ParticipantSessionObject {
 			} else {
 				rs = makeGeneralAnnouncement(announcement_text, request);
 			}
-			
-			   
+
 		} // End of if coming from this page and have added announcement.
-		
+
 	}
 
 	public String getActorName(HttpServletRequest request, String a_id) {
@@ -2481,9 +2510,11 @@ public class ParticipantSessionObject {
 
 		}
 	}
-	
-	/** 
-	 * Checks for authorization, and then passes the request to the PSO_UserAdmin object.
+
+	/**
+	 * Checks for authorization, and then passes the request to the
+	 * PSO_UserAdmin object.
+	 * 
 	 * @param request
 	 * @param schema
 	 * @return
@@ -2501,124 +2532,149 @@ public class ParticipantSessionObject {
 		}
 	}
 	
+	public User handleAutoRegistration(HttpServletRequest request) {
+		PSO_UserAdmin pu = new PSO_UserAdmin(this);
+		return pu.handleAutoRegistration(request);
+	}
+
 	public User handleCreateUser(HttpServletRequest request) {
 		PSO_UserAdmin pu = new PSO_UserAdmin(this);
 		return pu.handleCreateUser(request, schema);
 	}
-	
-	public void handleMyProfile(HttpServletRequest request){
+
+	public void handleMyProfile(HttpServletRequest request) {
 		PSO_UserAdmin pu = new PSO_UserAdmin(this);
 		pu.handleMyProfile(request, user_id);
 	}
-	
-	///////////////////////////////////////////////////////////////////////////
-	
+
+	// /////////////////////////////////////////////////////////////////////////
+
 	public Long actor_being_worked_on_id;
 
-	
 	/**
 	 * A helper object to contain the work done in creating a section.
 	 */
 	private PSO_SectionMgmt pso_sm;
-	
+
 	/**
 	 * Keep just one persistent copy of the PSO_SectionMgmt object.
+	 * 
 	 * @return
 	 */
-	public PSO_SectionMgmt getMyPSO_SectionMgmt(){
+	public PSO_SectionMgmt getMyPSO_SectionMgmt() {
 		if (pso_sm == null) {
 			pso_sm = new PSO_SectionMgmt(this);
 		}
-		
+
 		return pso_sm;
 	}
 
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public Simulation handleSetUniversalSimSectionsPage(
 			HttpServletRequest request) {
-		
-		return (getMyPSO_SectionMgmt().handleSetUniversalSimSectionsPage(request));
+
+		return (getMyPSO_SectionMgmt()
+				.handleSetUniversalSimSectionsPage(request));
 	}
-	
+
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public String handleSimSectionsRouter(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleSimSectionsRouter(request));
 	}
-	
+
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public Simulation handleSetSimSectionsPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleSetSimSectionsPage(request));
 	}
-	
+
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public CustomizeableSection handleMekeImagePage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMekeImagePage(request));
 	}
-	
+
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 */
 	public void handleMakeReadDocumentPage(HttpServletRequest request) {
 		getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request);
 	}
-	
+
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public CustomizeableSection handleMakeWriteDocumentPage(
 			HttpServletRequest request) {
-	
+
 		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentPage(request));
 	}
-	
+
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public Simulation handleMakeCaucusPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakeCaucusPage(request));
 	}
-	
-	public Simulation handleCreateSchedulePage(HttpServletRequest request){
+
+	public Simulation handleCreateSchedulePage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleCreateSchedulePage(request));
 	}
+
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 */
 	public void handleMakePrivateChatPage(HttpServletRequest request) {
 		getMyPSO_SectionMgmt().handleMakePrivateChatPage(request);
 	}
-	
+
 	/**
-	 * A wrapper that passes the request through to the associated PSO_SectionMgmt object.
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public CustomizeableSection handleMakeReflectionPage(
 			HttpServletRequest request) {
-		
+
 		return (getMyPSO_SectionMgmt().handleMakeReflectionPage(request));
 	}
-	
+
 }

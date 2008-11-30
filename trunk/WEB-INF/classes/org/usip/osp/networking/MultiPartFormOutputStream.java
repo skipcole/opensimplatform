@@ -4,7 +4,19 @@ import java.io.*;
 import java.net.*;
  
 /**
- * @author Ronald "Skip" Cole<br />
+ * 
+ * <code>MultiPartFormOutputStream</code> is used to write 
+ * "multipart/form-data" to a <code>java.net.URLConnection</code> for 
+ * POSTing.  This is primarily for file uploading to HTTP servers.  
+ * 
+ * 
+ * Some code in this class taken from http://forum.java.sun.com/thread.jspa?threadID=451245&forumID=31
+ * 
+ * Which stated: 
+ * "Useful Code of the Day" is supplied by the person who posted this message. 
+ * This code is not guaranteed by any warranty whatsoever. The code is free to use and modify as you see fit. 
+ * The code was tested and worked for the author. 
+ * If anyone else has some useful code, feel free to post it under this heading."
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -16,20 +28,6 @@ import java.net.*;
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
  * PURPOSE. <BR>
  * 
- * 
- * Some code in this class taken from http://forum.java.sun.com/thread.jspa?threadID=451245&forumID=31
- * 
- * Which stated: 
- * "Useful Code of the Day" is supplied by the person who posted this message. 
- * This code is not guaranteed by any warranty whatsoever. The code is free to use and modify as you see fit. 
- * The code was tested and worked for the author. 
- * If anyone else has some useful code, feel free to post it under this heading."
- * 
- * <code>MultiPartFormOutputStream</code> is used to write 
- * "multipart/form-data" to a <code>java.net.URLConnection</code> for 
- * POSTing.  This is primarily for file uploading to HTTP servers.  
- * 
- * @since  JDK1.3
  */
 public class MultiPartFormOutputStream {
 	

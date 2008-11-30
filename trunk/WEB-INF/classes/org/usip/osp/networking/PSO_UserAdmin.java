@@ -6,6 +6,8 @@ import org.usip.osp.baseobjects.User;
 import org.usip.osp.persistence.BaseUser;
 
 /**
+ * Utility class with methods to handle user administration; creation, editing, etc..
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
@@ -186,6 +188,46 @@ public class PSO_UserAdmin {
 						user = new User(schema, _email, _password, "", "",
 								"", _full_name, _email, false, false, false);
 
+					} catch (Exception e) {
+						pso.errorMsg = e.getMessage();
+					}
+				}
+			}
+		}
+		
+		return user;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public User handleAutoRegistration(HttpServletRequest request) {
+
+		User user = new User();
+		
+		String command = (String) request.getParameter("command");
+
+		if (command != null) {
+
+			getBaseUserParamters(request);
+			
+			String schema = (String) request.getParameter("schema");
+
+			// /////////////////////////////////
+			if (command.equalsIgnoreCase("Save")) {
+
+				if (!hasEnoughInfoToCreateUser()) {
+					return user;
+				} else {
+
+					try {
+
+						user = new User(schema, _email, _password, "", "",
+								"", _full_name, _email, false, false, false);
+						
+						pso.forward_on = true;
+						
 					} catch (Exception e) {
 						pso.errorMsg = e.getMessage();
 					}
