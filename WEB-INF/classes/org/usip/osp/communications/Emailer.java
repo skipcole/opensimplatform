@@ -99,11 +99,9 @@ public class Emailer {
 	 * @param cced
 	 * @param bcced
 	 */
-	public static void postMail(Long schema_id, String to, String subject,
+	public static void postMail(final SchemaInformationObject sio, String to, String subject,
 			String message, String from, Vector<String> cced,
 			Vector<String> bcced) {
-
-		final SchemaInformationObject sio = getSIO(schema_id);
 
 		Session session = getJavaxMailSessionForSchema(sio, true);
 
@@ -153,7 +151,7 @@ public class Emailer {
 		}
 	}
 
-	public static String postSimReadyMail(Long schema_id, String to,
+	public static String postSimReadyMail(String schema, String to,
 			String from, String cc, String bcc, String subject, String message) {
 
 		Vector cced = new Vector<String>();
@@ -165,8 +163,10 @@ public class Emailer {
 		if (bcc != null) {
 			bcced.add(bcc);
 		}
+		
+		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
 
-		postMail(schema_id, to, subject, message, from, cced, bcced);
+		postMail(sio, to, subject, message, from, cced, bcced);
 
 		return "okay";
 	}

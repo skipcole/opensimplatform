@@ -109,8 +109,6 @@ public class RunningSimulation {
 	public void enableAndPrep(String schema, String sid, String from,
 			String email_users, String emailText) {
 
-		Long schema_id = SchemaInformationObject.lookUpId(schema);
-
 		System.out.println("Enabling Sim.");
 
 		// Create objects to hold the data
@@ -126,7 +124,7 @@ public class RunningSimulation {
 			System.out.println("sending welcome emails");
 
 			System.out.println("sending from " + from);
-			sendWelcomeEmail(schema_id, from, emailText,
+			sendWelcomeEmail(schema, from, emailText,
 					MultiSchemaHibernateUtil.getSession(schema));
 
 		}
@@ -239,7 +237,7 @@ public class RunningSimulation {
 	 * @param to
 	 * @param emailText
 	 */
-	public void sendWelcomeEmail(Long schema_id, String from, String emailText,
+	public void sendWelcomeEmail(String schema, String from, String emailText,
 			org.hibernate.Session hibernate_session) {
 
 		emailText = emailText.replace("[web_site_location]",
@@ -284,7 +282,7 @@ public class RunningSimulation {
 			String cc = null;
 			String bcc = from;
 			
-			Emailer.postSimReadyMail(schema_id, bu.getUsername(), from, cc,
+			Emailer.postSimReadyMail(schema, bu.getUsername(), from, cc,
 					bcc, "Simulation Starting", fullEmail);
 
 		}

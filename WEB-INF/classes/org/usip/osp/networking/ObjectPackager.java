@@ -13,6 +13,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
+ * Packages and unpackages objects to XML using the opensource software library XStream.
+ * 
  * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
