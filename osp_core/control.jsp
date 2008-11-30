@@ -63,19 +63,8 @@
 <body>
 <h1>Greetings Controller </h1>
 
-<p><%= debug %>Below are the following actions available to you. </p>
-  
-<table width="100%" border="0" cellspacing="2" cellpadding="2">
-  <tr>
-    <td width="173" valign="top"><form id="form1" name="form1" method="post" action="control.jsp">
-        <input type="submit" name="advance" value="Advance Round" />
-        <input type="hidden" name="sending_page" value="control" />
-      </form></td>
-    <td width="80%" valign="top"><p>&nbsp;</p>
-      <p>&nbsp;</p></td>
-  </tr>
-</table>
-<p></p>
+<p><%= debug %> </p>
+
 <p>Change phase to one of the phases listed below.</p>
           <table width="100%" border="1" cellspacing="2" cellpadding="2">
             <tr> 
@@ -110,7 +99,7 @@
               <td valign="top"><%= sp.getOrder() + "" %></td>
               <td valign="top">
               	<input type="hidden" name="phase_id" value="<%= sp.getId().toString() %>" />
-                <input type="submit" name="command" value="Change Phase" />
+                <input type="submit" name="command" value="Change Phase"  onClick="return confirm('Are you sure you want to change phase?');" />
               </td>
               <td valign="top"><input type="checkbox" name="notify_via_email" id="notify_via_email" value="true"/></td>
             </tr>
@@ -121,7 +110,6 @@
           </table>
           <p>&nbsp;</p>
 
-<p>&nbsp;</p>
 </body>
 </html>
 <%

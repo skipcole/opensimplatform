@@ -4,6 +4,8 @@ import javax.persistence.Embeddable;
 
 
 /**
+ * Used to ensure that users have only been assigned to a schema once.
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
