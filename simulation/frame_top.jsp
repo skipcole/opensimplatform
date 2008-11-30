@@ -93,12 +93,15 @@ function timedCount()
 	setTimeout("timedCount()",1000)
 }
 </script>
+<link href="../usip_osp.css" rel="stylesheet" type="text/css">
 </head>
-<body bgcolor="#99CCFF" onLoad="timedCount();">
-<table border=0 width="100%">
-  <tr valign="top"> 
-    <td align="left"><h3><%= pso.simulation_org %></h3>
-      <table width="80%" border="0" cellspacing="2" cellpadding="2">
+<body bgcolor="#FFFFFF" onLoad="timedCount();">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="120" valign="top"><a href="about.jsp" target="_top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header"><%= pso.simulation_org %> </h1>
+    
+    <table width="80%" border="0" cellspacing="2" cellpadding="2">
         <tr> 
           <td>Scenario</td>
           <td>Session</td>
@@ -113,11 +116,41 @@ function timedCount()
           <td><strong><div id="sim_event_div">Loading...</div></strong></td>
           <!-- td><strong><div id="sim_round_div">Loading...</div></strong></td -->
         </tr>
-      </table>
+      </table> 
+    
     </td>
-	<td align="right"><a href="about.jsp" target="_blank">about</a></td>
-    <td align="right"><a href="logout.jsp" target="_parent">logout</a></td>
-</tr>
+    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
+
+	  <div align="center">
+	    <table border="0" cellspacing="1" cellpadding="0">
+
+        <tr>
+          <td><div align="center"><a href="../simulation_user_admin/my_player_profile.jsp" class="menu_item" target="_top"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+        </tr>
+        <tr>
+          <td><div align="center"><a href="logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+        </tr>
+      </table>	  
+	  </div>
+    </td>
+  </tr>
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
+  </tr>
+</table>
+
+         </td>
+	<td align="right">
+    	      
+    
+    
+    
+    
+    
+    
+    </td>
+  </tr>
 </table>
 <table cellpadding="4" border="1">
 	  <tr> 
@@ -145,7 +178,6 @@ function timedCount()
 		%>
   	</tr>
 	</table>
-<BR>
 </body>
 </html>
 <%

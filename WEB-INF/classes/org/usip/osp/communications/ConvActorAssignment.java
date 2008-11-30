@@ -14,6 +14,8 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 
 /**
+ * This class represents the assignment of an actor to a particular conversation. 
+ * 
  * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
