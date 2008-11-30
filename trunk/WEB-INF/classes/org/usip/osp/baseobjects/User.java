@@ -115,6 +115,12 @@ public class User {
 		System.out.println("creating user " + username);
 
 		BaseUser bu = BaseUser.getUniqueUser(username, password, schema);
+		
+		bu.setFirst_name(first_name);
+		bu.setFull_name(full_name);
+		bu.setLast_name(last_name);
+		bu.setMiddle_name(middle_name);
+		bu.saveMe();
 
 		System.out.println("-----------------");
 		System.out.println("bu id " + bu.getId());

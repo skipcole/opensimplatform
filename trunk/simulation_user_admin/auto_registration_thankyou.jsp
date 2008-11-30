@@ -7,14 +7,6 @@
 	
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 
-	if (!(pso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
-		return;
-	}
-	
-	pso.handleCreateUser(request);
-
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -121,8 +113,6 @@ body {
 			<!-- InstanceBeginEditable name="pageBody" -->
 <p>You should receive an email indicating that you have been registered. </p>
 <p>Note: If you do not find the acknowledgement email, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' </p>
-<p>&nbsp;</p>
-<p>The details of doing this depend upon your email service provider, so please addr</p>
 <p>&nbsp;</p>
 <form action="../simulation_facilitation/create_user.jsp" method="post" name="form1" id="form1">
 </form>

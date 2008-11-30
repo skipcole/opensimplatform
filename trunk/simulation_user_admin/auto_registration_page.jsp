@@ -67,7 +67,7 @@ body {
               <br />
 			
       <p>To participate in online simulations using this sytem, you will need to be registered in the system.</p>
-      <p>Pleast Note:</p>
+      <p>Please Note:</p>
       <ol>
         <li>Your email address will be your username</li>
     <li>In case you lose your password, you can have it emailed to you.</li>
@@ -115,7 +115,20 @@ body {
     </tr>
           <tr>
             <td>Organization(s):</td>
-              <td><input type="hidden" name="schema" value="schema" /></td>
+              <td>
+              <select name="selected_schema">
+			  <%
+			  	
+				List ghostList = SchemaInformationObject.getAll();
+			  
+			  	for (ListIterator<SchemaInformationObject> li = ghostList.listIterator(); li.hasNext();) {
+            		SchemaInformationObject this_sg = (SchemaInformationObject) li.next();
+				%>
+				<option value="<%= this_sg.getSchema_name() %>"><%= this_sg.getSchema_organization() %></option>
+			<% } %>
+              </select>
+              
+              </td>
             </tr>
           <tr>
             <td>&nbsp;</td>

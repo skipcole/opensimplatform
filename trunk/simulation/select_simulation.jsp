@@ -21,6 +21,9 @@
 	} else {
 		System.out.println("user has not selected sim");
 	}
+	
+	// Don't know schema yet for sure, so get the base user for the name
+	BaseUser bu = BaseUser.getByUserId(pso.user_id);
 				
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -71,7 +74,7 @@ body {
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%">
-            <h1>Welcome <%= pso.user_Display_Name %>!</h1>
+            <h1>Welcome <%= bu.getFull_name() %>!</h1>
             <p>Please select your simulation below:</p>
             <table width="80%" border="2" cellspacing="2" cellpadding="2">
               <tr valign="top">

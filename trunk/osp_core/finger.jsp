@@ -28,33 +28,29 @@
 <body>
 
 <h1>Users Logged in to this Simulation Run</h1>
-<p>Simulation: </p>
-<p>Running Simulation</p>
-
 <p>&nbsp;</p>
+
 <blockquote>
 
 <table width="80%" border="1">
 <tr>
-      <td width=50><strong>User </strong></td>
-<td width="25%"><strong>Name</strong></td>
-<td><strong>Description</strong></td>
+      <td width="25%"><strong>User </strong></td>
+<td width="25%"><strong>Actor Name</strong></td>
+<td><strong>Logged in</strong></td>
 </tr>
   <%
   		for (ListIterator li = simulation.getActors().listIterator(); li.hasNext();) {
 			Actor aa = (Actor) li.next();
 			
-			if (aa.isShown() {
-			
+			User user = UserAssignment.getUserAssigned(pso.schema, pso.running_sim_id, pso.actor_id);
 		%>
   <tr>
-    <td valign="top"><img src="images/actors/<%= aa.getImageFilename() %>"  ></td>
-    <td valign="top"><%= aa.getName() %></td><td valign="top"><%= aa.getPublic_description() %></td>
+    <td valign="top"><%= user.getBu_full_name() %></td>
+    <td valign="top"><%= aa.getName() %></td><td valign="top">&nbsp;</td>
   </tr>
 
   <%
-  		} // of if this character isShown.
-	}
+	} // end of loop over actors.
 %>
 </table>
 </blockquote>

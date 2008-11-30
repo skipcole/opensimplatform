@@ -212,10 +212,10 @@ public class PSO_UserAdmin {
 
 			getBaseUserParamters(request);
 			
-			String schema = (String) request.getParameter("schema");
+			String schema = (String) request.getParameter("selected_schema");
 
 			// /////////////////////////////////
-			if (command.equalsIgnoreCase("Save")) {
+			if (command.equalsIgnoreCase("Register")) {
 
 				if (!hasEnoughInfoToCreateUser()) {
 					return user;
