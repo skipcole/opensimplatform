@@ -1,14 +1,16 @@
-<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" errorPage="" %>
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,
+java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,
+org.usip.osp.baseobjects.*,org.apache.log4j.*" errorPage="" %>
 <%
 	String attempting_login = (String) request.getParameter("attempting_login");
 	
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	System.out.println("in validate jsp");
+	Logger.getRootLogger().debug("in validate jsp");
 	
 	if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))){
 		
-		System.out.println("attemptin validatin");
+		Logger.getRootLogger().debug("attemptin validatin");
 		
 		BaseUser bu = pso.validate(request);
 		

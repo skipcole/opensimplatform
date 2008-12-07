@@ -210,6 +210,12 @@ public class User {
 		this.sim_author = sim_creator;
 	}
 
+	/**
+	 * Returns a list of all of the users in a particular schema.
+	 * 
+	 * @param schema The schema in which to search.
+	 * @return A list of all User objects found in the schema.
+	 */
 	public static List getAll(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);

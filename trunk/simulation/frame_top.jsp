@@ -164,7 +164,7 @@ function timedCount()
 			for (ListIterator li = simSecList.listIterator(); li.hasNext();) {
 				SimulationSectionGhost ssg = (SimulationSectionGhost) li.next();
 				
-				String divId = "normal";
+				String divId = "plaintop";
 			
 				if (tabposition.equalsIgnoreCase(ii + "")) {
 					divId = "highlighted";

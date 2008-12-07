@@ -5,8 +5,12 @@
 	errorPage="" %>
 <%
 		ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-		
 		pso.backPage = "../simulation_authoring/create_actors.jsp";
+		
+		if (!(pso.isLoggedin())) {
+			response.sendRedirect("index.jsp");
+			return;
+		}
 		
 		///////////////////////////////////////////////////////////////////
 		Simulation simulation = new Simulation();
@@ -42,6 +46,14 @@
 </script>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style>
 <!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -141,6 +153,8 @@ body {
 <form enctype="multipart/form-data" action="create_actors.jsp" method="post">
   <p>
     <input type="hidden" name="sending_page" value="create_actors" />
+    <span class="style1"><%= pso.errorMsg %></span>
+  <% pso.errorMsg = ""; %>
   </p>
         <table width="50%" border="0" cellspacing="2" cellpadding="2">
           <tr>

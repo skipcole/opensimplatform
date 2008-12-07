@@ -10,6 +10,8 @@ import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.*;
 import org.usip.osp.specialfeatures.*;
 
+import org.apache.log4j.*;
+
 /**
  * This class represents a simulation.
  * 
@@ -30,13 +32,15 @@ import org.usip.osp.specialfeatures.*;
 @Table(name = "SIMULATIONS")
 @Proxy(lazy = false)
 public class Simulation {
-
+	
 	/**
 	 * Just used for occasional debugging.
 	 * @param args
 	 */
 	public static void main(String args[]) {
 
+		Logger.getRootLogger().debug("hello world");	
+		
 	}
 
 	/** A simulation will have actors. */
@@ -166,6 +170,11 @@ public class Simulation {
 
 	}
 	
+	/**
+	 * Creates the initial phases and standard universal sections of a simulation.
+	 * 
+	 * @param schema The name of the schema to create objects in.
+	 */
 	public void createDefaultObjects(String schema){
 		
 		// Save simulation to give it an id that will be used by some of the objects 
