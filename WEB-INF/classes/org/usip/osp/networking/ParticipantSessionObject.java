@@ -13,6 +13,7 @@ import javax.servlet.http.*;
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.usip.osp.specialfeatures.*;
 
@@ -1372,6 +1373,10 @@ public class ParticipantSessionObject {
 		return loggedin;
 	}
 
+	/**
+	 * Handles the work of creating or updating an actor and is called directly from the JSP.
+	 * @param request
+	 */
 	public void handleCreateActor(HttpServletRequest request) {
 
 		String actorid = "";
@@ -1430,6 +1435,10 @@ public class ParticipantSessionObject {
 			boolean saveActor = false;
 			String create_actor = (String) mpr.getParameter("create_actor");
 			String update_actor = (String) mpr.getParameter("update_actor");
+			
+			String MAX_FILE_SIZE = (String) mpr.getParameter("MAX_FILE_SIZE");
+			
+			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
 
 			System.out.println("create_actor is " + create_actor);
 			System.out.println("update_actor is " + update_actor);
@@ -1470,18 +1479,23 @@ public class ParticipantSessionObject {
 				// Image portion of save
 				String initFileName = mpr.getOriginalFileName("uploadedfile");
 
-				if ((initFileName != null)
-						&& (initFileName.trim().length() > 0)) {
-					actorOnScratchPad.setImageFilename(mpr
-							.getOriginalFileName("uploadedfile"));
+				if ((initFileName != null) && (initFileName.trim().length() > 0)) {
+					
+					actorOnScratchPad.setImageFilename(mpr.getOriginalFileName("uploadedfile"));
 
-					for (Enumeration e = mpr.getFileNames(); e
-							.hasMoreElements();) {
+					for (Enumeration e = mpr.getFileNames(); e.hasMoreElements();) {
 						String fn = (String) e.nextElement();
-
-						FileIO.saveImageFile("actorImage", actorOnScratchPad
-								.getImageFilename(), mpr.getFile(fn));
-
+						
+						File fileData =  mpr.getFile(fn);
+						
+						System.out.println("File is " + fileData.length());
+						
+						if (fileData.length() <= max_file_longvalue){
+							FileIO.saveImageFile("actorImage", actorOnScratchPad.getImageFilename(), mpr.getFile(fn));
+						} else {
+							this.errorMsg = "Selected image file too large.";
+							actorOnScratchPad.setImageFilename("no_image_default.jpg");
+						}
 					}
 
 				} else {
@@ -1526,8 +1540,13 @@ public class ParticipantSessionObject {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("problem in create actor: " + e.getMessage());
-		} finally {
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			
+			try {
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			} catch (Exception e_ignored){
+				Logger.getRootLogger().warn("Difficulty in closing connection.");
+				Logger.getRootLogger().warn(e_ignored.getMessage());
+			}
 		}
 
 	}

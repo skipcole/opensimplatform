@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -147,6 +148,13 @@ public class SharedDocument {
 		
 	}
 	
+	/**
+	 * This constructor allows for the immediate passing in of information generally known the instant a shared
+	 * document is created. These parameters are described below.
+	 * @param uniq_tit	The Unique title of this document.
+	 * @param doc_tit_display	The document display title.
+	 * @param _sim_id	The id of the simulation that this document is associated with.
+	 */
 	public SharedDocument(String uniq_tit, String doc_tit_display, Long _sim_id){
 		this.uniqueDocTitle = uniq_tit;
 		this.displayTitle = doc_tit_display;
@@ -160,6 +168,12 @@ public class SharedDocument {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
+	/**
+	 * 
+	 * @param schema Schema in which to search.
+	 * @param the_sim_id The id of the simulation that we are interested in.
+	 * @return Returns a list of all of the base documents found for a particular simulation.
+	 */
 	public static List getAllBaseDocumentsForSim(String schema, Long the_sim_id) {
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -181,50 +195,17 @@ public class SharedDocument {
 
 	}
 	
-	/**
-	 * 
-	 * @param schema
-	 * @param doc_id
-	 * @param cs_id
-	 * @param rs_id
-	 * @return
-	 */
-	public static SharedDocument getDocument(String schema, Long cs_id, Long rs_id){
-		
-		SharedDocument sd = new SharedDocument();
-		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
-		String hql_string = "from SharedDocument where CS_ID = " + cs_id + " AND RS_ID = " + rs_id;
-		
-		System.out.println("hql_string is " + hql_string);
-		
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
-		
-		if ((returnList == null) || (returnList.size() == 0)){
-			// original should have been copied in the 'enable' sim phase.
-			// We do it there to keep from two people doing it at the same time.
-			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			System.out.println("No shared document found.");
-			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			
-		} else {
-			sd = (SharedDocument) returnList.get(0);
-		}
-		
-		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
-		
-		return sd;
-	}
 	
 	/**
+	 * This method looks up a document in a particular schema for a particular running simulation. If it does not find
+	 * one, it attempts to create one by making a copy of the archetype document. This copy should have already been made
+	 * during the 'enable sim' step, since allowing for the document to be created the first time anyone goes to access
+	 * it, runs the risk of two people doing that at the same time and running into a clash.
 	 * 
-	 * @param schema
-	 * @param base_id
-	 * @param rs_id
-	 * @return
+	 * @param schema Schema in which to search for the document.
+	 * @param base_id Base id of the document being looked for.
+	 * @param rs_id Running Simulation id of the document being looked for.
+	 * @return Returns the document located in this schema with the base id and running sim id passed in.
 	 */
 	public static SharedDocument getDocumentByBaseId(String schema, Long base_id, Long rs_id){
 		
@@ -233,17 +214,15 @@ public class SharedDocument {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		String hql_string = "from SharedDocument where BASE_ID = " + base_id + " AND RS_ID = " + rs_id;
-		
-		System.out.println("hql_string is " + hql_string);
-		
+				
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		
 		if ((returnList == null) || (returnList.size() == 0)){
 			// original should have been copied in the 'enable' sim phase.
 			// We do it there to keep from two people doing it at the same time.
-			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			System.out.println("No shared document found. It should have be created at the enable step.");
-			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			Logger.getRootLogger().warn("No shared document found. It should have be created at the enable step.");
+			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			SharedDocument baseDoc = (SharedDocument) MultiSchemaHibernateUtil.getSession(schema).get(SharedDocument.class,base_id);
 				
 			sd = baseDoc.createCopy(rs_id, MultiSchemaHibernateUtil.getSession(schema));
@@ -259,6 +238,13 @@ public class SharedDocument {
 		return sd;
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param rs_id
+	 * @return Returns the 'schedule' document for this simulation.
+	 */
 	public static SharedDocument getScheduleDocument(String schema, Long sim_id, Long rs_id){
 
 		SharedDocument sd = new SharedDocument();
@@ -267,17 +253,15 @@ public class SharedDocument {
 		
 		String hql_string = "from SharedDocument where SIM_ID = " + sim_id + " AND RS_ID = " + rs_id +
 			" AND uniqueDocTitle = 'schedule'";
-		
-		System.out.println("hql_string is " + hql_string);
-		
+				
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		
 		if ((returnList == null) || (returnList.size() == 0)){
 			// original should have been copied in the 'enable' sim phase.
 			// We do it there to keep from two people doing it at the same time.
-			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			System.out.println("No shared document found. It should have be created at the enable step.");
-			System.out.println("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			Logger.getRootLogger().warn("No shared document found. It should have be created at the enable step.");
+			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		
 		} else {
 			sd = (SharedDocument) returnList.get(0);
@@ -290,7 +274,15 @@ public class SharedDocument {
 		return sd;
 	}	
 
-	
+	/**
+	 * Creates, and saves to the database, a copy of this shared document. This is used to create a version of a 
+	 * document for a particular running simulation session of the archetype document.
+	 * 
+	 * @param rsid Running simulation id.
+	 * @param hibernate_session Hibernate session created targetting the appropriate schema for saving into.
+	 * @return The shared document object created.
+	 * 
+	 */
 	public SharedDocument createCopy(Long rsid,  org.hibernate.Session hibernate_session){
 		SharedDocument sd = new SharedDocument();
 		

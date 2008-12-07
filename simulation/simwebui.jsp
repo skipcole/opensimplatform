@@ -43,11 +43,11 @@
 %>
 <html>
 <head>
-<title>Simulation <%= pso.simulation_name %>, Session <%= pso.run_sim_name %></title>
+<title>OSP Simulation <%= pso.simulation_name %>, Session <%= pso.run_sim_name %></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<frameset rows="1,25%,*,50" frameborder="yes" border="1" framespacing="0">
+<frameset rows="0,164,*,40" frameborder="yes" border="0" framespacing="0">
   <frame src="hiddenframe.jsp" name="hiddenframe" noresize="noresize" >
   <frame src="frame_top.jsp?tabposition=<%= tabposition %>" name="topFrame" noresize="resize" >
   <frame src="<%= bottomFrame %>" name="mainFrame"  noresize="resize">
