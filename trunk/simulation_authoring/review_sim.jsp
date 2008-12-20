@@ -214,21 +214,41 @@ body {
 		
 		<h2>7. &amp; 8. Simulation Actors </h2>
 		<blockquote>
+        
 			  <% for (ListIterator la = simulation.getActors().listIterator(); la.hasNext();) {
 					Actor act = (Actor) la.next();
-			  %><a href="javascript://" onClick="showHide('actor_desc_<%= act.getId() %>');"><%= act.getName() %> </a>
-            <div id="actor_desc_<%= act.getId() %>"  style="display:none; padding:5px;">
+					
+					
+					//String pub_desc = act.getPublic_description();
+					//String semi_desc = act.getSemi_public_description();
+					//String priv_desc = act.getPrivate_description();
+					
+					String pub_desc = "";
+					String semi_desc = "";
+					String priv_desc = "";
+					
+			  %>
+              
+              
+              <a href="javascript://" onClick="showHide('actor_desc_<%= act.getId() %>');"><%= act.getName() %> </a><br />
+          
+          <div id="actor_desc_<%= act.getId() %>"  style="display:none; padding:5px;">
+          <!--
           <blockquote>
             <strong>Public:</strong><br />
-			<%= act.getPublic_description() %><hr />
+			<%=  pub_desc %><hr />
 			<strong>Semi-Public:</strong><br />
-			<%= act.getSemi_public_description() %><hr />
+			<%=  semi_desc %><hr />
 			<strong>Private:</strong><br />
-			<%= act.getPrivate_description() %>
+			<%= priv_desc %>
           </blockquote>
+          -->
           </div>
+          
           <br />
+          
 		<% } // End of loop over Actors %>
+        
         <br />
 		  <% if (showEdit) { %>(<a href="create_actors.jsp">create another actor </a>)(<a href="assign_actor_to_simulation.jsp">assign another actor </a>)<% } %>
 			  <hr />

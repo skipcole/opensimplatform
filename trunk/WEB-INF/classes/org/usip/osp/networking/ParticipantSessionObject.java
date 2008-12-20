@@ -816,6 +816,29 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.recreateRootDatabase();
 
 	}
+	
+	public void handleCreateSimulatinoSection(HttpServletRequest request) {
+		String sending_page = (String) request.getParameter("sending_page");
+		String createsection = (String) request.getParameter("createsection");
+		
+		
+		if ( (sending_page != null) && (createsection != null) && (sending_page.equalsIgnoreCase("create_section"))){
+			
+			BaseSimSection bss = new BaseSimSection(schema, request.getParameter("url"), request.getParameter("directory"), 
+				request.getParameter("filename"), request.getParameter("rec_tab_heading"), 
+				request.getParameter("description"));
+			
+			String send_actor_info = (String) request.getParameter("send_actor_info");
+			String send_user_info = (String) request.getParameter("send_user_info");
+				
+	            
+		} // End of if coming from this page and have added simulation section.
+		
+		String create_defaults = (String) request.getParameter("create_defaults");
+		if ((create_defaults != null) && (create_defaults.equalsIgnoreCase("Create Defaults"))){
+			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
+		}
+	}
 
 	/**
 	 * Handles the creation of an inject group.
@@ -2694,6 +2717,15 @@ public class ParticipantSessionObject {
 			HttpServletRequest request) {
 
 		return (getMyPSO_SectionMgmt().handleMakeReflectionPage(request));
+	}
+	
+
+	public void addSectionFromProcessCustomPage(Long bss_id,
+			String string_tab_pos, String tab_heading,
+			HttpServletRequest request, String universal) {
+		
+		getMyPSO_SectionMgmt().
+		addSectionFromProcessCustomPage(bss_id, string_tab_pos, tab_heading, request, universal);
 	}
 
 }
