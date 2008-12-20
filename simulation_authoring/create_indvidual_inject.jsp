@@ -18,6 +18,7 @@
 	String inj_id = (String) request.getParameter("inj_id");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_ind_inject"))){
+		System.out.println("doing inject creation");
 		pso.handleCreateInject(request);
 		response.sendRedirect("create_injects.jsp");
 		return;
@@ -150,11 +151,12 @@ body {
 			if (pso.simulationSelected) {
 		%>
         <p>
-          <input type="hidden" name="inj_id" value="<%= inj_id %>" />
+          
+        </p>
+        <form id="form2" name="form2" method="post" action="create_indvidual_inject.jsp">
+        <input type="hidden" name="inj_id" value="<%= inj_id %>" />
           <input type="hidden" name="edit" value="<%= edit %>"  />
           <input type="hidden" name="sending_page" value="create_ind_inject" />
-        </p>
-        <form id="form2" name="form2" method="post" action="">
           <table width="100%" border="1" cellspacing="0" cellpadding="4">
           <tr>
             <td valign="top">Inject Name:</td>

@@ -1,12 +1,16 @@
 package org.usip.osp.networking;
 
 import java.io.File;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.BaseSimSection;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.SimulationPhase;
+import org.usip.osp.communications.Inject;
+import org.usip.osp.communications.InjectGroup;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 import com.thoughtworks.xstream.XStream;
@@ -30,6 +34,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 public class ObjectPackager {
 	
+	public static final String ObjectDelimiter = "<------------------------------------------>";
     
     public static void main(String[] args) {
 
@@ -65,10 +70,34 @@ public class ObjectPackager {
          
     	Simulation sim = Simulation.getMeFullyLoaded(schema, sim_id);
         XStream xstream = new XStream();
+                
+        String returnString = xstream.toXML(sim);
         
-        //xstream.alias("Simulation", Simulation.class);
+        returnString += "<------------------------------------------------------->";
 
-        return xstream.toXML(sim);
+        List <InjectGroup> allInjectGroups = InjectGroup.getAllForSim(schema, sim_id);
+        
+		for (ListIterator<InjectGroup> li = allInjectGroups.listIterator(); li.hasNext();) {
+			InjectGroup thisInjectGroup = li.next();
+			
+			returnString += xstream.toXML(thisInjectGroup);
+			
+			List <Inject> allInjects = Inject.getAllForSimAndGroup(schema, sim_id, thisInjectGroup.getId());
+		
+	        
+			for (ListIterator<Inject> li_i = allInjects.listIterator(); li_i.hasNext();) {
+				Inject thisInject = li_i.next();
+				
+				returnString += xstream.toXML(thisInject);
+				
+			}
+		}
+		
+		returnString += "<------------------------------------------------------->";
+		
+
+        
+        return returnString;
         
     }
     

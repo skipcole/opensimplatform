@@ -109,7 +109,7 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Simulation Facilitation Panel</h1>
+      <h1 align="center">Simulation Facilitation Panel</h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <table width="100%" border="0" cellspacing="2" cellpadding="1">
@@ -149,9 +149,10 @@ body {
           <td><a href="../simulation/index.jsp?schema=<%= pso.schema %>">Enter Simulation</a> <a href="helptext/enter_sim_help.jsp" target="helpinright">(?)</a> </td>
           </tr>
       </table>
-<p>
-</p>
-<!-- InstanceEndEditable -->
+<p></p>
+<p align="center"><a href="library.jsp">Go to the Library</a> </p>
+<p align="center"></p>
+			<!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

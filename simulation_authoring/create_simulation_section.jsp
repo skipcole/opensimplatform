@@ -11,25 +11,7 @@
 		return;
 	}
 	
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String createsection = (String) request.getParameter("createsection");
-	
-	
-	if ( (sending_page != null) && (createsection != null) && (sending_page.equalsIgnoreCase("create_section"))){
-		
-		BaseSimSection bss = new BaseSimSection(pso.schema, request.getParameter("url"), request.getParameter("directory"), 
-			request.getParameter("filename"), request.getParameter("rec_tab_heading"), 
-			request.getParameter("description"));
-			
-            
-	} // End of if coming from this page and have added simulation section.
-	
-	String create_defaults = (String) request.getParameter("create_defaults");
-	if ((create_defaults != null) && (create_defaults.equalsIgnoreCase("Create Defaults"))){
-		BaseSimSection.readBaseSimSectionsFromXMLFiles(pso.schema);
-	}
-		
+	pso.handleCreateSimulatinoSection(request);
 
 	List baseList = BaseSimSection.getAll(pso.schema);
 	
@@ -166,12 +148,12 @@ body {
 		  <tr> 
             <td>&nbsp;</td>
             <td><label>
-              <input name="checkbox" type="checkbox" value="checkbox" checked="checked" disabled />
+              <input name="send_actor_info" type="checkbox" value="true" checked="checked" disabled />
             Send Actor Information</label></td>
           </tr>
 		      <tr>
             <td>&nbsp;</td>
-            <td><input name="checkbox2" type="checkbox" value="checkbox" disabled />
+            <td><input name="send_user_info" type="checkbox" value="true" disabled />
 Send User Information</td>
           </tr>
           <tr> 
