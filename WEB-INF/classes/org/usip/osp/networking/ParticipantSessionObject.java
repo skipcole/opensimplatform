@@ -817,7 +817,7 @@ public class ParticipantSessionObject {
 
 	}
 	
-	public void handleCreateSimulatinoSection(HttpServletRequest request) {
+	public void handleCreateSimulationSection(HttpServletRequest request) {
 		String sending_page = (String) request.getParameter("sending_page");
 		String createsection = (String) request.getParameter("createsection");
 		
@@ -828,9 +828,36 @@ public class ParticipantSessionObject {
 				request.getParameter("filename"), request.getParameter("rec_tab_heading"), 
 				request.getParameter("description"));
 			
+			String send_rsid_info = (String) request.getParameter("send_rsid_info");
 			String send_actor_info = (String) request.getParameter("send_actor_info");
 			String send_user_info = (String) request.getParameter("send_user_info");
-				
+			
+			System.out.println("rsid / actor /user: " + send_rsid_info + send_actor_info + send_user_info);
+			
+			String sendStringWork = "";
+			
+			if ((send_rsid_info != null) && (send_rsid_info.equalsIgnoreCase("true"))){
+				sendStringWork = "1";
+			} else {
+				sendStringWork = "0";
+			}
+			
+			if ((send_actor_info != null) && (send_actor_info.equalsIgnoreCase("true"))){
+				sendStringWork += "1";
+			} else {
+				sendStringWork += "0";
+			}
+			
+			if ((send_user_info != null) && (send_user_info.equalsIgnoreCase("true"))){
+				sendStringWork += "1";
+			} else {
+				sendStringWork += "0";
+			}
+			
+			System.out.println("send string was: " + sendStringWork);
+			bss.setSendString(sendStringWork);
+			
+			bss.saveMe(schema);
 	            
 		} // End of if coming from this page and have added simulation section.
 		

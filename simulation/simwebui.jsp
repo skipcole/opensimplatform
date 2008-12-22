@@ -30,7 +30,7 @@
 	
 	if (tabpos <= simSecList.size()) {
 		SimulationSection ss = (SimulationSection) simSecList.get(tabpos - 1);
-		bottomFrame = ss.generateURLforBottomFrame();
+		bottomFrame = ss.generateURLforBottomFrame(pso.actor_id);
 	}
 	
 		} catch (Exception e){
