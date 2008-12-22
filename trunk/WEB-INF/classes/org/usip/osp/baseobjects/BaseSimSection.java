@@ -168,6 +168,13 @@ public class BaseSimSection implements Comparable {
 		}
 	}
 
+	/**
+	 * Reads the simulation sections from xml files.
+	 * 
+	 * @param schema
+	 * @return Returns a string indicating success, or not.
+	 * 
+	 */
 	public static String readBaseSimSectionsFromXMLFiles(String schema) {
 
 		// The set of base simulation sections are read out of
@@ -301,9 +308,16 @@ public class BaseSimSection implements Comparable {
 	@Column(name = "CUSTOM_LIB_NAME")
 	protected String cust_lib_name = "";
 
+	/** Indicates if having this section allows a player to read a document associated with this section. */
 	protected boolean confers_read_ability = false;
 
+	/** Indicates if having this section allows a player to write to a document associated with this section. */
 	protected boolean confers_write_ability = false;
+	
+	/** A string indicating which fields should be sent as part of the URL to a remote web site section. 
+	 * Right now this is planned as a binary string. The string, for example, of '110' indicates:
+	 * send the running sim id, send the actor id, don't send the user id. */
+	protected String sendString = "";
 
 	/**
 	 * Zero argument constructor needed by Hibernate.
@@ -543,6 +557,14 @@ public class BaseSimSection implements Comparable {
 
 	public void setSample_image(String sample_image) {
 		this.sample_image = sample_image;
+	}
+
+	public String getSendString() {
+		return sendString;
+	}
+
+	public void setSendString(String sendString) {
+		this.sendString = sendString;
 	}
 
 	public boolean isControl_section() {

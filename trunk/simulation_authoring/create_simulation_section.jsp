@@ -11,7 +11,7 @@
 		return;
 	}
 	
-	pso.handleCreateSimulatinoSection(request);
+	pso.handleCreateSimulationSection(request);
 
 	List baseList = BaseSimSection.getAll(pso.schema);
 	
@@ -145,15 +145,21 @@ body {
             <td>Description:</td>
             <td><textarea name="description"></textarea></td>
           </tr>
+          <tr> 
+            <td>&nbsp;</td>
+            <td><label>
+            <input name="send_rsid_info" type="checkbox" value="true" />
+            Send Running Simulation Information</label></td>
+          </tr>
 		  <tr> 
             <td>&nbsp;</td>
             <td><label>
-              <input name="send_actor_info" type="checkbox" value="true" checked="checked" disabled />
+              <input name="send_actor_info" type="checkbox" value="true" />
             Send Actor Information</label></td>
           </tr>
 		      <tr>
             <td>&nbsp;</td>
-            <td><input name="send_user_info" type="checkbox" value="true" disabled />
+            <td><input name="send_user_info" type="checkbox" value="true" />
 Send User Information</td>
           </tr>
           <tr> 
@@ -163,8 +169,6 @@ Send User Information</td>
               <input type="submit" name="clear_button" value="Clear" tabindex="8" />
               </label></td>
           </tr>
-
- 
         </table>
   <p>&nbsp;</p>
   <p></p>
