@@ -40,16 +40,16 @@ body {
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
-<% String canEdit = (String) session.getAttribute("author"); %>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform</h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
-	<%  if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+	<%  if (pso.isAuthor()) { %>
         <tr>
           <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
@@ -88,7 +88,7 @@ body {
 			bgColor_share = "#9AABE1";
 		}
 		
-		if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+		if (pso.isAuthor()) { %>
 		
 		<table border="0" cellpadding="0" cellspacing="0" >
 		   <tr>
@@ -104,9 +104,9 @@ body {
 	<% } %></td>
   </tr>
   <tr>
-  	<td width="120" align="right" valign="top">&nbsp;</td>
-    <td colspan="1" valign="top"><br /></td>
-    <td width="194" align="right" valign="top">		</td>
+  	<td width="120" align="right" valign="top"></td>
+    <td colspan="1" valign="top"></td>
+    <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
 <BR />
@@ -146,10 +146,7 @@ body {
               <td width="11%" valign="top"><label>
                 <input type="radio" name="radio" id="radio" value="radio" />
               </label></td>
-              <td width="25%" valign="top"><label>
-                <textarea name="textarea" id="textarea" cols="45" rows="5"></textarea>
-              </label></td>
-            </tr>
+              </tr>
             <tr>
               <td valign="top">2</td>
               <td valign="top"><label>
@@ -158,11 +155,27 @@ body {
               <td valign="top"><label>
                 <input type="radio" name="radio2" id="radio2" value="radio2" />
               </label></td>
+              </tr>
+          </table>
+          <p>If a particular answer is going to lead to some particular text appearing in the </p>
+          <p>&nbsp;</p>
+          <table width="100%" border="0">
+            <tr>
+              <td width="6%" valign="top">1</td>
+              <td width="94%" valign="top"><label>
+                <textarea name="textarea3" id="textarea3" cols="45" rows="5"></textarea>
+              </label></td>
+            </tr>
+            <tr>
+              <td valign="top">2</td>
               <td valign="top"><label>
-                <textarea name="textarea2" id="textarea2" cols="45" rows="5"></textarea>
+                <textarea name="textarea3" id="textarea4" cols="45" rows="5"></textarea>
               </label></td>
             </tr>
           </table>
+          <p></p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p> 
             <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
@@ -173,14 +186,15 @@ body {
           <p>&nbsp;</p>
         </blockquote>
       </form>
-	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->			</td>
+	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
+			</td>
 		</tr>
 		</table>
 	</td>
   </tr>
   <tr> 
     <td>
-    <p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
+    <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
   </tr>
 </table>
 </td></tr></table>

@@ -59,16 +59,16 @@ body {
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
-<% String canEdit = (String) session.getAttribute("author"); %>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform</h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
-	<%  if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+	<%  if (pso.isAuthor()) { %>
         <tr>
           <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
@@ -107,7 +107,7 @@ body {
 			bgColor_share = "#9AABE1";
 		}
 		
-		if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+		if (pso.isAuthor()) { %>
 		
 		<table border="0" cellpadding="0" cellspacing="0" >
 		   <tr>
@@ -123,9 +123,9 @@ body {
 	<% } %></td>
   </tr>
   <tr>
-  	<td width="120" align="right" valign="top">&nbsp;</td>
-    <td colspan="1" valign="top"><br /></td>
-    <td width="194" align="right" valign="top">		</td>
+  	<td width="120" align="right" valign="top"></td>
+    <td colspan="1" valign="top"></td>
+    <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
 <BR />
@@ -139,14 +139,6 @@ body {
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" --><h1>Review Simulation</h1><!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
-	  <% 
-	  			
-	boolean showEdit = false;
-	
-	if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) {
-		showEdit = true;
-	}
-	  %>
 	  
 	  <blockquote>
         <% 
@@ -161,33 +153,33 @@ body {
 		<h2>1. Simulation Name: </h2>
 			<blockquote>
 			  <p><%= simulation.getDisplayName() %></p>
-			  <p><% if (showEdit) { %>(<a href="create_simulation.jsp">edit</a>)<% } %></p>
+			  <p><% if (pso.isAuthor()) { %>(<a href="create_simulation.jsp">edit</a>)<% } %></p>
 			</blockquote>
 			<blockquote><hr /></blockquote>
 		<h2>2. Simulation Learning Objectives</h2>
 			<blockquote>
 			  <p><%= simulation.getLearning_objvs() %></p>
-			  <p><% if (showEdit) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
+			  <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
 			</blockquote>
 			<blockquote><hr /></blockquote>
 		<h2>3. Simulation Audience</h2>
 			<blockquote>
 			  <p><%= simulation.getAudience() %></p>
-			  <p><% if (showEdit) { %>(<a href="create_simulation_audience.jsp">edit</a>)<% } %></p>
+			  <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_audience.jsp">edit</a>)<% } %></p>
 			</blockquote>
 			<blockquote><hr /></blockquote>
 		
 		<h2>4. Simulation Introduction</h2>
 			<blockquote>
 			  <p><%= simulation.getIntroduction() %></p>
-			  <p><% if (showEdit) { %>(<a href="create_simulation_introduction.jsp">edit</a>)<% } %></p>
+			  <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_introduction.jsp">edit</a>)<% } %></p>
 			</blockquote>
 			<blockquote><hr /></blockquote>
 			
 		<h2>5. Simulation Planned Play Ideas </h2>
 			<blockquote>
 			  <p><%= simulation.getPlanned_play_ideas() %></p>
-			  <p><% if (showEdit) { %>(<a href="create_simulation_planned_play_ideas.jsp">edit</a>)<% } %></p>
+			  <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_planned_play_ideas.jsp">edit</a>)<% } %></p>
 			</blockquote>
 			<blockquote><hr /></blockquote>
 		
@@ -207,7 +199,7 @@ body {
 %>
 			  
 			  </p>
-			  <p><% if (showEdit) { %>(<a href="create_simulation_phases.jsp">edit</a>)<% } %></p>
+			  <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_phases.jsp">edit</a>)<% } %></p>
 			</blockquote>
 			<blockquote><hr /></blockquote>
 		
@@ -250,13 +242,13 @@ body {
 		<% } // End of loop over Actors %>
         
         <br />
-		  <% if (showEdit) { %>(<a href="create_actors.jsp">create another actor </a>)(<a href="assign_actor_to_simulation.jsp">assign another actor </a>)<% } %>
+		  <% if (pso.isAuthor()) { %>(<a href="create_actors.jsp">create another actor </a>)(<a href="assign_actor_to_simulation.jsp">assign another actor </a>)<% } %>
 			  <hr />
         </blockquote>
         <h2>9. Simulation Special Features </h2>
 		    <blockquote>
 		      <p>&nbsp;</p>
-		      <p><% if (showEdit) { %>(<a href="add_special_features.jsp">edit</a>)<% } %></p>
+		      <p><% if (pso.isAuthor()) { %>(<a href="add_special_features.jsp">edit</a>)<% } %></p>
 		      <hr />
         </blockquote>
 		    <h2>10. Simulation Default Sections (for each phase) </h2>
@@ -310,7 +302,7 @@ body {
 			<% } %>
 		</table>
 		
-		      <p><% if (showEdit) { %>(<a href="set_specific_sim_sections.jsp?actor_index=0">edit</a>)<% } %></p>
+		      <p><% if (pso.isAuthor()) { %>(<a href="set_specific_sim_sections.jsp?actor_index=0">edit</a>)<% } %></p>
 		      <hr />
           </blockquote>
 		    <h2>11. Simulation Specific Sections </h2>
@@ -334,18 +326,18 @@ body {
 			  	} // End of loop over sim sections.
 				%>
               </p>
-		      <p><% if (showEdit) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
+		      <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
 		      <hr />
           </blockquote>
 		    <h2>12. Simulation 'After Action Report' Starter Text </h2>
 		    <blockquote>
 		      <p><%= simulation.getAar_starter_text() %></p>
-		      <p><% if (showEdit) { %>(<a href="create_aar_starter_text.jsp">edit</a>)<% } %></p>
+		      <p><% if (pso.isAuthor()) { %>(<a href="create_aar_starter_text.jsp">edit</a>)<% } %></p>
 		      <hr />
 	      </blockquote>
 		    <p>&nbsp;</p>
 		    <blockquote>
-			<% if (showEdit) { %>
+			<% if (pso.isAuthor()) { %>
 		  <p align="center"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top">On 
             To Play Test the Simulation</a></p>
           <p align="center"><a href="publish_sim.jsp">On To Publish the Simulation</a></p>
@@ -357,7 +349,7 @@ body {
 		<%@ include file="select_message.jsp" %></p>
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
-      <% if (showEdit) { %><a href="create_aar_starter_text.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><% } else { %>
+      <% if (pso.isAuthor()) { %><a href="create_aar_starter_text.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><% } else { %>
 	  	<a href="../simulation_facilitation/instructor_home.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
 		<% } %>
 	  

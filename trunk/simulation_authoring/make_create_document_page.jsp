@@ -52,16 +52,16 @@ body {
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
-<% String canEdit = (String) session.getAttribute("author"); %>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform</h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
-	<%  if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+	<%  if (pso.isAuthor()) { %>
         <tr>
           <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
@@ -100,7 +100,7 @@ body {
 			bgColor_share = "#9AABE1";
 		}
 		
-		if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+		if (pso.isAuthor()) { %>
 		
 		<table border="0" cellpadding="0" cellspacing="0" >
 		   <tr>
@@ -116,9 +116,9 @@ body {
 	<% } %></td>
   </tr>
   <tr>
-  	<td width="120" align="right" valign="top">&nbsp;</td>
-    <td colspan="1" valign="top"><br /></td>
-    <td width="194" align="right" valign="top">		</td>
+  	<td width="120" align="right" valign="top"></td>
+    <td colspan="1" valign="top"></td>
+    <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
 <BR />
@@ -181,7 +181,8 @@ body {
 
 	  <p>* Read/Write access simply means that at some point in the simulation (at some phase) this actor has access to read or write to this document.</p>
 	  <p><a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
-			<!-- InstanceEndEditable -->			</td>
+			<!-- InstanceEndEditable -->
+			</td>
 		</tr>
 		</table>
 	</td>

@@ -127,35 +127,15 @@ public class BaseUser {
         
         System.out.println(bu.getUsername());
         
-        if (s != null){
-            assignUserToSchema(this.getId(), s);
-            
-        }
-    }
-    
-    public void assignUserToSchema(Long _bu_id, String _schema){
-        
-        Long schema_id = SchemaInformationObject.lookUpId(_schema);
-        
-        // Add the user schema assignement
-        UserSchemaAssignment usa = new UserSchemaAssignment(_bu_id, schema_id);
-        
-        MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
-        MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(usa);                        
-        MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-
     }
     
 
-    @Transient
-    private ArrayList authorizedSchemas = new ArrayList();
-
+    /**
+     * Returns the list of authorized schemas.
+     * @return
+     */
     public ArrayList getAuthorizedSchemas() {
-        return authorizedSchemas;
-    }
-
-    public void setAuthorizedSchemas(ArrayList authorizedSchemas) {
-        this.authorizedSchemas = authorizedSchemas;
+        return getAuthorizedSchemas(this.id);
     }
 
     public static BaseUser validateUser(String username, String password) {
@@ -184,11 +164,6 @@ public class BaseUser {
             return null;
         } else {
             BaseUser bu = (BaseUser) sList.get(0);
-
-            bu.setAuthorizedSchemas(bu.getAuthorizedSchemas(
-                    MultiSchemaHibernateUtil.getSession(
-                            MultiSchemaHibernateUtil.principalschema, true), bu
-                            .getId()));
 
             MultiSchemaHibernateUtil.getSession(
                     MultiSchemaHibernateUtil.principalschema, true).evict(bu);
@@ -250,71 +225,24 @@ public class BaseUser {
      */
     public static ArrayList getAuthorizedSchemas(Long user_id) {
 
-        ArrayList returnList = new ArrayList();
+        ArrayList<SchemaGhost> returnList = new ArrayList<SchemaGhost>();
+        
+        // Loop over known schemas and see if this user exists in them.
+        for (ListIterator<SchemaInformationObject> sio_l = SchemaInformationObject.getAll().listIterator(); sio_l.hasNext();) {
+        	SchemaInformationObject sio = (SchemaInformationObject) sio_l.next();
+        	
+        	if (User.doesUserExistInSchema(user_id,sio.getSchema_name())){
+                SchemaGhost sg = new SchemaGhost();
 
-        Session root_session = startMeUp();
+                sg.setId(sio.getId());
+                sg.setSchema_name(sio.getSchema_name());
+                sg.setSchema_organization(sio.getSchema_organization());
 
-        List sList = root_session.createQuery(
-                "from UserSchemaAssignment where BU_ID = " + user_id).list();
+                System.out.println("user authorized for " + sio.getSchema_name());
 
-        for (ListIterator<UserSchemaAssignment> li = sList.listIterator(); li
-                .hasNext();) {
-            UserSchemaAssignment this_usa = (UserSchemaAssignment) li.next();
-
-            SchemaInformationObject sio = (SchemaInformationObject) root_session
-                    .get(SchemaInformationObject.class, this_usa.getId().getSchema_id());
-
-            SchemaGhost sg = new SchemaGhost();
-
-            sg.setId(sio.getId());
-            sg.setSchema_name(sio.getSchema_name());
-            sg.setSchema_organization(sio.getSchema_organization());
-
-            System.out.println("user authorized for " + sio.getSchema_name());
-
-            returnList.add(sg);
-        }
-
-        MultiSchemaHibernateUtil.commitAndCloseTransaction(root_session);
-
-        return returnList;
-
-    }
-
-    /**
-     * Given a user_id return all of the schemas to which this user has been
-     * authorized to access.
-     * 
-     * assigned
-     * 
-     * @param user_id
-     * @return
-     */
-    public static ArrayList getAuthorizedSchemas(Session root_session, Long user_id) {
-
-        System.out.println("getting schemas");
-
-        ArrayList returnList = new ArrayList();
-
-        List sList = root_session.createQuery(
-                "from UserSchemaAssignment where BU_ID = " + user_id).list();
-
-        for (ListIterator<UserSchemaAssignment> li = sList.listIterator(); li
-                .hasNext();) {
-            UserSchemaAssignment this_usa = (UserSchemaAssignment) li.next();
-
-            SchemaInformationObject sio = (SchemaInformationObject) root_session
-                    .get(SchemaInformationObject.class, this_usa.getId().getSchema_id());
-
-            SchemaGhost sg = new SchemaGhost();
-
-            sg.setId(sio.getId());
-            sg.setSchema_name(sio.getSchema_name());
-            sg.setSchema_organization(sio.getSchema_organization());
-
-            System.out.println("user authorized for " + sio.getSchema_name());
-
-            returnList.add(sg);
+                returnList.add(sg);
+        	}
+        	
         }
 
         return returnList;
@@ -375,34 +303,16 @@ public class BaseUser {
         
         System.out.println("getting user by name: " + the_username);
         BaseUser bu = getByUsername(the_username);
-        
-        UserSchemaAssignment usa = null;
-        
+              
         if (bu!= null) {
-        	
-        	// need to check to see if has user schema assignment, if not, then create it.
-        	if (!(UserSchemaAssignment.isAlreadyAssigned(bu.getId(), SchemaInformationObject.lookUpId(schema)))){
-        		usa = 
-                    new UserSchemaAssignment(bu.getId(), SchemaInformationObject.lookUpId(schema));
-        	}
-        	
             return bu;
         } else {
             bu = new BaseUser(the_username, the_password);
-            
-            // Assign the newly created user to schema indicated
-            if (schema != null){
-                usa = 
-                    new UserSchemaAssignment(bu.getId(), SchemaInformationObject.lookUpId(schema));
-            }
             
             MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
 
             MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).saveOrUpdate(bu);
             
-            if (usa != null){
-            	MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).saveOrUpdate(usa);
-            }
             MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
             
             return bu;

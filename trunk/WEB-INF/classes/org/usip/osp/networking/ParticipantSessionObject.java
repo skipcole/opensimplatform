@@ -20,8 +20,9 @@ import org.usip.osp.specialfeatures.*;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
- * This object contains all of the session information for the participant and is the main interface to all of the
- * java objects that the participant will interact with.
+ * This object contains all of the session information for the participant and
+ * is the main interface to all of the java objects that the participant will
+ * interact with.
  * 
  * @author Ronald "Skip" Cole<br />
  * 
@@ -816,53 +817,64 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.recreateRootDatabase();
 
 	}
-	
+
 	public void handleCreateSimulationSection(HttpServletRequest request) {
 		String sending_page = (String) request.getParameter("sending_page");
 		String createsection = (String) request.getParameter("createsection");
-		
-		
-		if ( (sending_page != null) && (createsection != null) && (sending_page.equalsIgnoreCase("create_section"))){
-			
-			BaseSimSection bss = new BaseSimSection(schema, request.getParameter("url"), request.getParameter("directory"), 
-				request.getParameter("filename"), request.getParameter("rec_tab_heading"), 
-				request.getParameter("description"));
-			
-			String send_rsid_info = (String) request.getParameter("send_rsid_info");
-			String send_actor_info = (String) request.getParameter("send_actor_info");
-			String send_user_info = (String) request.getParameter("send_user_info");
-			
-			System.out.println("rsid / actor /user: " + send_rsid_info + send_actor_info + send_user_info);
-			
+
+		if ((sending_page != null) && (createsection != null)
+				&& (sending_page.equalsIgnoreCase("create_section"))) {
+
+			BaseSimSection bss = new BaseSimSection(schema, request
+					.getParameter("url"), request.getParameter("directory"),
+					request.getParameter("filename"), request
+							.getParameter("rec_tab_heading"), request
+							.getParameter("description"));
+
+			String send_rsid_info = (String) request
+					.getParameter("send_rsid_info");
+			String send_actor_info = (String) request
+					.getParameter("send_actor_info");
+			String send_user_info = (String) request
+					.getParameter("send_user_info");
+
+			System.out.println("rsid / actor /user: " + send_rsid_info
+					+ send_actor_info + send_user_info);
+
 			String sendStringWork = "";
-			
-			if ((send_rsid_info != null) && (send_rsid_info.equalsIgnoreCase("true"))){
+
+			if ((send_rsid_info != null)
+					&& (send_rsid_info.equalsIgnoreCase("true"))) {
 				sendStringWork = "1";
 			} else {
 				sendStringWork = "0";
 			}
-			
-			if ((send_actor_info != null) && (send_actor_info.equalsIgnoreCase("true"))){
+
+			if ((send_actor_info != null)
+					&& (send_actor_info.equalsIgnoreCase("true"))) {
 				sendStringWork += "1";
 			} else {
 				sendStringWork += "0";
 			}
-			
-			if ((send_user_info != null) && (send_user_info.equalsIgnoreCase("true"))){
+
+			if ((send_user_info != null)
+					&& (send_user_info.equalsIgnoreCase("true"))) {
 				sendStringWork += "1";
 			} else {
 				sendStringWork += "0";
 			}
-			
+
 			System.out.println("send string was: " + sendStringWork);
 			bss.setSendString(sendStringWork);
-			
+
 			bss.saveMe(schema);
-	            
+
 		} // End of if coming from this page and have added simulation section.
-		
-		String create_defaults = (String) request.getParameter("create_defaults");
-		if ((create_defaults != null) && (create_defaults.equalsIgnoreCase("Create Defaults"))){
+
+		String create_defaults = (String) request
+				.getParameter("create_defaults");
+		if ((create_defaults != null)
+				&& (create_defaults.equalsIgnoreCase("Create Defaults"))) {
 			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
 		}
 	}
@@ -1424,7 +1436,9 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Handles the work of creating or updating an actor and is called directly from the JSP.
+	 * Handles the work of creating or updating an actor and is called directly
+	 * from the JSP.
+	 * 
 	 * @param request
 	 */
 	public void handleCreateActor(HttpServletRequest request) {
@@ -1485,9 +1499,9 @@ public class ParticipantSessionObject {
 			boolean saveActor = false;
 			String create_actor = (String) mpr.getParameter("create_actor");
 			String update_actor = (String) mpr.getParameter("update_actor");
-			
+
 			String MAX_FILE_SIZE = (String) mpr.getParameter("MAX_FILE_SIZE");
-			
+
 			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
 
 			System.out.println("create_actor is " + create_actor);
@@ -1529,22 +1543,28 @@ public class ParticipantSessionObject {
 				// Image portion of save
 				String initFileName = mpr.getOriginalFileName("uploadedfile");
 
-				if ((initFileName != null) && (initFileName.trim().length() > 0)) {
-					
-					actorOnScratchPad.setImageFilename(mpr.getOriginalFileName("uploadedfile"));
+				if ((initFileName != null)
+						&& (initFileName.trim().length() > 0)) {
 
-					for (Enumeration e = mpr.getFileNames(); e.hasMoreElements();) {
+					actorOnScratchPad.setImageFilename(mpr
+							.getOriginalFileName("uploadedfile"));
+
+					for (Enumeration e = mpr.getFileNames(); e
+							.hasMoreElements();) {
 						String fn = (String) e.nextElement();
-						
-						File fileData =  mpr.getFile(fn);
-						
+
+						File fileData = mpr.getFile(fn);
+
 						System.out.println("File is " + fileData.length());
-						
-						if (fileData.length() <= max_file_longvalue){
-							FileIO.saveImageFile("actorImage", actorOnScratchPad.getImageFilename(), mpr.getFile(fn));
+
+						if (fileData.length() <= max_file_longvalue) {
+							FileIO.saveImageFile("actorImage",
+									actorOnScratchPad.getImageFilename(), mpr
+											.getFile(fn));
 						} else {
 							this.errorMsg = "Selected image file too large.";
-							actorOnScratchPad.setImageFilename("no_image_default.jpg");
+							actorOnScratchPad
+									.setImageFilename("no_image_default.jpg");
 						}
 					}
 
@@ -1590,11 +1610,12 @@ public class ParticipantSessionObject {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("problem in create actor: " + e.getMessage());
-			
+
 			try {
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			} catch (Exception e_ignored){
-				Logger.getRootLogger().warn("Difficulty in closing connection.");
+			} catch (Exception e_ignored) {
+				Logger.getRootLogger()
+						.warn("Difficulty in closing connection.");
 				Logger.getRootLogger().warn(e_ignored.getMessage());
 			}
 		}
@@ -1923,13 +1944,15 @@ public class ParticipantSessionObject {
 
 		// ///////////////
 		// Stupidly, we must do this. Hiberate requires it odes here
-		List pList = simulation.getPhases();
+		if (simulation != null) {
+			List pList = simulation.getPhases();
 
-		for (ListIterator<SimulationPhase> li = pList.listIterator(); li
-				.hasNext();) {
-			SimulationPhase sp = li.next();
+			for (ListIterator<SimulationPhase> li = pList.listIterator(); li
+					.hasNext();) {
+				SimulationPhase sp = li.next();
 
-			System.out.println(sp.getName());
+				System.out.println(sp.getName());
+			}
 		}
 		// ///////////////
 
@@ -2036,6 +2059,14 @@ public class ParticipantSessionObject {
 	public boolean isSimCreator() {
 		return isSimCreator;
 	}
+	
+	public boolean isAuthor() {
+		return isSimCreator;
+	}
+	
+	public boolean isInstructor(){
+		return this.isInstructor();
+	}
 
 	/**
 	 * 
@@ -2082,16 +2113,17 @@ public class ParticipantSessionObject {
 		return cs;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleMakePlayerDiscreteChoice(HttpServletRequest request){
-		
+	public CustomizeableSection handleMakePlayerDiscreteChoice(
+			HttpServletRequest request) {
+
 		return (getMyPSO_SectionMgmt().handleMakePlayerDiscreteChoice(request));
-		
+
 	}
 
 	/**
@@ -2611,7 +2643,7 @@ public class ParticipantSessionObject {
 			return pu.handleCreateAdminUser(request, schema);
 		}
 	}
-	
+
 	public User handleAutoRegistration(HttpServletRequest request) {
 		PSO_UserAdmin pu = new PSO_UserAdmin(this);
 		return pu.handleAutoRegistration(request);
@@ -2756,14 +2788,13 @@ public class ParticipantSessionObject {
 
 		return (getMyPSO_SectionMgmt().handleMakeReflectionPage(request));
 	}
-	
 
 	public void addSectionFromProcessCustomPage(Long bss_id,
 			String string_tab_pos, String tab_heading,
 			HttpServletRequest request, String universal) {
-		
-		getMyPSO_SectionMgmt().
-		addSectionFromProcessCustomPage(bss_id, string_tab_pos, tab_heading, request, universal);
+
+		getMyPSO_SectionMgmt().addSectionFromProcessCustomPage(bss_id,
+				string_tab_pos, tab_heading, request, universal);
 	}
 
 }

@@ -362,8 +362,6 @@ public class MultiSchemaHibernateUtil {
         ac.addAnnotatedClass(org.usip.osp.persistence.BaseUser.class);
         ac.addAnnotatedClass(org.usip.osp.persistence.SchemaInformationObject.class);
         ac.addAnnotatedClass(org.usip.osp.persistence.UserRegistrationInvite.class);
-        ac.addAnnotatedClass(org.usip.osp.persistence.UserSchemaAssignment.class);
-        ac.addAnnotatedClass(org.usip.osp.persistence.USA_CompoundKey.class);
     }
 
     /**
