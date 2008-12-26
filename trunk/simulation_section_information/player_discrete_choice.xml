@@ -1,0 +1,15 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>make_player_discrete_choice.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A section to allow a player to select an answer from a group of answers.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>make_player_discrete_choice.jsp</page__file__name>
+  <rec__tab__heading>Make Decision</rec__tab__heading>
+  <sample__image>make_player_discrete_choice.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>true</confers__read__ability>
+  <confers__write__ability>true</confers__write__ability>
+</org.usip.osp.baseobjects.CustomizeableSection>

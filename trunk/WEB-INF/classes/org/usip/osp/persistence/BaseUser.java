@@ -376,16 +376,22 @@ public class BaseUser {
         System.out.println("getting user by name: " + the_username);
         BaseUser bu = getByUsername(the_username);
         
+        UserSchemaAssignment usa = null;
+        
         if (bu!= null) {
+        	
+        	// need to check to see if has user schema assignment, if not, then create it.
+        	if (!(UserSchemaAssignment.isAlreadyAssigned(bu.getId(), SchemaInformationObject.lookUpId(schema)))){
+        		usa = 
+                    new UserSchemaAssignment(bu.getId(), SchemaInformationObject.lookUpId(schema));
+        	}
+        	
             return bu;
         } else {
             bu = new BaseUser(the_username, the_password);
             
-            UserSchemaAssignment usa = null;
-            
-            // Assign user to schema indicated
+            // Assign the newly created user to schema indicated
             if (schema != null){
-                SchemaInformationObject.lookUpId(schema);
                 usa = 
                     new UserSchemaAssignment(bu.getId(), SchemaInformationObject.lookUpId(schema));
             }

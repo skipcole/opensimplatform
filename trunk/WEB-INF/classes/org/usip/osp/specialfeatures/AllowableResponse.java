@@ -1,13 +1,14 @@
 package org.usip.osp.specialfeatures;
 
-import java.sql.*;
-import java.util.*;
+import javax.persistence.*;
 
+import org.hibernate.annotations.Proxy;
 
-import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.persistence.MysqlDatabase;
 
 /**
+ * This class represents one specific choice in a set of answers that a player may select. For example,
+ * the question might be "Do you want steak, or fish?" There would be one 
+ * 
  * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -21,140 +22,57 @@ import org.usip.osp.persistence.MysqlDatabase;
  * PURPOSE. <BR>
  * 
  */
-public class AllowableResponse extends SpecialFeature{
-
-    public String player_control_id = "";
+@Entity
+@Table(name = "ALLOWABLE_RESPONSES")
+@Proxy(lazy = false)
+public class AllowableResponse{
+	
+	/** Database id of this Simulation. */
+	@Id
+	@GeneratedValue
+	private Long id;
     
-    public String controlText = "Insert words";
-    
-    public static final String RT_SET = "freely_set";
-    
-    public static final String RT_SPECIFIC_VALUE = "set_value";
-    
-    public static final String SPECIALFIELDLABEL = "sim_allowable_response";
-    
-    public String response_type = "";
-    
-    public String set_value = "";
-    
-    
-    public void execute(String dbtable, String sim_id, String game_round, String newValue){
-        
-        String updateSQL = "update " + dbtable + " set value = " + newValue + 
-            " where sim_id = " + sim_id + " and game_round = " + game_round;
-        
-        
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
+	/** Words that introduce this choice. */
+	@Lob
+    private String responseText = "";
+	
+	/** If this response has a value associated with it, it is store here. */
+	private String specificValue = "";
 
-            PreparedStatement ps = connection.prepareStatement(updateSQL);
+	@Lob
+    private String specificWordsForAAR = "";
 
-            ps.execute();
+	public Long getId() {
+		return id;
+	}
 
-            connection.close();
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.name += e.getMessage();
-        }
-    }
-    
-    @Override
-    public String getSpecialFieldLabel() {
-        return SPECIALFIELDLABEL;
-    }
+	public String getResponseText() {
+		return responseText;
+	}
 
-    @Override
-    public String getShortNameBase() {
-        return "sim_ar_";
-    }
+	public void setResponseText(String responseText) {
+		this.responseText = responseText;
+	}
 
-    @Override
-    public String store() {
-        String debug = "start: ";
+	public String getSpecificValue() {
+		return specificValue;
+	}
 
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
+	public void setSpecificValue(String specificValue) {
+		this.specificValue = specificValue;
+	}
 
-            String insertSQL = "INSERT INTO `special_features` ( sf_id, "
-                    + "game_id, `sf_label` , `value_label1`, `value_label2`, `value_label3`, `value_text1` "
-                    + " ) VALUES ( NULL , ?, '" + getSpecialFieldLabel() + "', ?, ?, ?, ?)";
+	public String getSpecificWordsForAAR() {
+		return specificWordsForAAR;
+	}
 
-            debug += insertSQL;
-
-            PreparedStatement ps = connection.prepareStatement(insertSQL);
-
-            ps.setString(1, this.game_id);
-
-            ps.setString(2, this.name);
-            
-            ps.setString(3, this.player_control_id);
-            
-            ps.setString(4, this.response_type);
-            
-            ps.setString(5, this.controlText);
-
-            ps.execute();
-
-            String queryId = "select LAST_INSERT_ID()";
-
-            ResultSet rs = stmt.executeQuery(queryId);
-
-            if (rs.next()) {
-                this.set_sf_id(rs.getLong(1));
-            }
-            connection.close();
-
-        } catch (Exception e) {
-            debug += e.getMessage();
-            e.printStackTrace();
-        }   
-        
-        return debug;
-    }
-
-    public void loadMeFromResultSet(ResultSet rst) throws SQLException {
-
-        this.set_sf_id(rst.getLong("sf_id"));
-        this.sim_id = this.get_sf_id();
-        this.game_id = rst.getString("game_id");
-        this.name = rst.getString("value_label1");
-        this.player_control_id = rst.getString("value_label2");
-        this.response_type = rst.getString("value_label3");
-        this.controlText = rst.getString("value_text1");
-
-    }
-    @Override
-    public String load() {
-        // TODO Auto-generated method stub
-        
-        return "";
-    }
-
-    @Override
-    public Vector getSetForASimulation(String game_id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String prep(String running_game_id, Simulation game) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String storeInRunningGameTable(String running_game_id, String tableName) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String removeFromDB() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public void setSpecificWordsForAAR(String specificWordsForAAR) {
+		this.specificWordsForAAR = specificWordsForAAR;
+	}
+ 
 
 }

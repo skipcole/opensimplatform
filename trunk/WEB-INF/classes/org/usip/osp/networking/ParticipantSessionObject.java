@@ -2082,6 +2082,17 @@ public class ParticipantSessionObject {
 		return cs;
 
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public CustomizeableSection handleMakePlayerDiscreteChoice(HttpServletRequest request){
+		
+		return (getMyPSO_SectionMgmt().handleMakePlayerDiscreteChoice(request));
+		
+	}
 
 	/**
 	 * 

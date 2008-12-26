@@ -100,10 +100,10 @@ public class PlayerControl extends SpecialFeature {
         for (Enumeration e = allowableResponses.elements(); e.hasMoreElements();) {
             AllowableResponse ar = (AllowableResponse) e.nextElement();
 
-            ar.player_control_id = this.get_sf_id();
-            ar.game_id = this.game_id;
+            //ar.player_control_id = this.get_sf_id();
+            //ar.game_id = this.game_id;
 
-            debug += ar.store();
+            //debug += ar.store();
         }
 
         // Make an entry so this player control can be assigned to players.
@@ -197,7 +197,7 @@ public class PlayerControl extends SpecialFeature {
             
             while (rst.next()) {
                 AllowableResponse ar = new AllowableResponse();
-                ar.loadMeFromResultSet(rst);
+                //ar.loadMeFromResultSet(rst);
                 
                 this.allowableResponses.add(ar);
             }

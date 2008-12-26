@@ -212,6 +212,12 @@ public class SchemaInformationObject {
         this.schema_organization = schema_organization;
     }
     
+    /**
+     * Returns the id of a schema based on its name.
+     * 
+     * @param schemaName
+     * @return
+     */
     public static Long lookUpId(String schemaName){
         
         Long returnId = null;
