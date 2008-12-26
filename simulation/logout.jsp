@@ -8,13 +8,8 @@
 	errorPage="" %>
 <%
 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	
-	
-	ParticipantSessionObject empty_pso = new ParticipantSessionObject();
-	
 	//HttpSession session = request.getSession(true);
-	session.setAttribute("pso", empty_pso);
+	session.setAttribute("pso", null);
 	
 	response.sendRedirect("index.jsp");
 	return;

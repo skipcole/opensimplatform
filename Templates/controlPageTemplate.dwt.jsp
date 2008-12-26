@@ -13,7 +13,7 @@
 <!--
 body {
 	background-color: #FFFFFF;
-	background-image: url(images/page_bg.png);
+	background-image: url(../Templates/images/page_bg.png);
 	background-repeat: repeat-x;
 }
 -->
@@ -21,35 +21,35 @@ body {
 <!-- TemplateParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="@@(onloadAttribute)@@">
-<% String canEdit = (String) session.getAttribute("author"); %>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="120" valign="top"><img src="images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
-    <td align="right" background="images/top_fade.png" width="20%"> 
+    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform</h1></td>
+    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
-	<%  if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+	<%  if (pso.isAuthor()) { %>
         <tr>
-          <td><div align="center"><a href="../simulation_authoring/intro.jsp" target="_top" class="menu_item"><img src="images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_authoring/intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } else { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
-          <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
-          <td><div align="center"><a href="../simulation_authoring/logout.jsp" target="_top" class="menu_item"><img src="images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_authoring/logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
       </table>	  
 	  </div>	  </td>
   </tr>
   <tr>
-    <td width="120" valign="top"><img src="images/logo_bot.png" width="120" height="20" /></td>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
     <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"><% 
 		
 		String bgColor_think = "#475DB0";
@@ -69,7 +69,7 @@ body {
 			bgColor_share = "#9AABE1";
 		}
 		
-		if ((canEdit != null) && (canEdit.equalsIgnoreCase("true"))) { %>
+		if (pso.isAuthor()) { %>
 		
 		<table border="0" cellpadding="0" cellspacing="0" >
 		   <tr>
@@ -85,9 +85,9 @@ body {
 	<% } %></td>
   </tr>
   <tr>
-  	<td width="120" align="right" valign="top">&nbsp;</td>
-    <td colspan="1" valign="top"><br /></td>
-    <td width="194" align="right" valign="top">		</td>
+  	<td width="120" align="right" valign="top"></td>
+    <td colspan="1" valign="top"></td>
+    <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
 <BR />
@@ -97,7 +97,7 @@ body {
     <td>
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
-			<td width="120"><img src="images/white_block_120.png" /></td>
+			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- TemplateBeginEditable name="pageTitle" -->Title<!-- TemplateEndEditable --><br />
 			<!-- TemplateBeginEditable name="pageBody" -->pageBody<!-- TemplateEndEditable -->

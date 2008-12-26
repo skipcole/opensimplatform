@@ -171,6 +171,32 @@ public class User {
 
 		return user;
 	}
+	
+	/** 
+	 * 
+	 * @param u_id
+	 * @param schema
+	 * @return Returns true if user found in schema.
+	 */
+	public static boolean doesUserExistInSchema(Long u_id, String schema){
+		
+		boolean returnValue = false;
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		User user = (User) MultiSchemaHibernateUtil
+				.getSession(schema).get(User.class, u_id);
+		
+		if (user != null){
+			returnValue = true;
+		}
+
+		MultiSchemaHibernateUtil.getSession(schema).evict(user);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnValue;
+		
+	}
 
 	public Long getId() {
 		return id;

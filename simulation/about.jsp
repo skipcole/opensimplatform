@@ -20,7 +20,7 @@ body {
 </style>
 </head>
 <body onLoad="">
-<% String canEdit = (String) session.getAttribute("author"); %>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>

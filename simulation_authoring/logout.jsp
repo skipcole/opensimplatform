@@ -7,10 +7,8 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" 
 	errorPage="" %>
 <%
-	ParticipantSessionObject pso = new ParticipantSessionObject();
-	
-	session.setAttribute("pso", pso);
-	session.setAttribute("author", "false");
+
+	session.setAttribute("pso", null);
 	
 	response.sendRedirect("../simulation_authoring/index.jsp?");
 	return;
