@@ -31,6 +31,9 @@ public class UserSchemaAssignment {
     
     private USA_CompoundKey id;
 
+    /**
+     * Zero argument constructor necessary for hibernate.
+     */
     public UserSchemaAssignment() {
 
     }
@@ -62,5 +65,35 @@ public class UserSchemaAssignment {
                 .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
     }
+    
+    /**
+     * 
+     * @param _bu_id
+     * @param _sio_id
+     * @param schema
+     * @return
+     */
+    public static boolean isAlreadyAssigned(Long _bu_id, Long _sio_id) {
+    	
+    	boolean returnValue = false;
+    	
+		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema)
+				.createQuery("from UserSchemaAssignment where bu_id = '" 
+				+ _bu_id + "' and schema_id = '" + _sio_id + "'").list();
+		
+		if (returnList.size() > 0){
+			returnValue = true;
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+		
+		return returnValue;
+		
+		
+    }
+    
+    
 
 }

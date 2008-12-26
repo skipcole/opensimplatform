@@ -396,6 +396,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocument.class);
 		
 		// Special Features
+		ac.addAnnotatedClass(org.usip.osp.specialfeatures.AllowableResponse.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.PlayerReflection.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.SimVariable.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.IntVariable.class);

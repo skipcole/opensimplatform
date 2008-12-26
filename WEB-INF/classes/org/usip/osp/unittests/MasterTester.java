@@ -429,9 +429,6 @@ public class MasterTester extends BaseTester{
         //gs.page_file_name = pc1.jsp_page;
         
         AllowableResponse ar1 = new AllowableResponse();
-        ar1.name = "Control 1";
-        ar1.response_type = AllowableResponse.RT_SET;
-        ar1.controlText = "Set value to: ";
         pc1.allowableResponses = new Vector();
         pc1.allowableResponses.add(ar1);
             

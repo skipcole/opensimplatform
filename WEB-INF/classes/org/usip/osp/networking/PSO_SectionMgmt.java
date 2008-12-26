@@ -96,6 +96,10 @@ public class PSO_SectionMgmt {
 	 */
 	private String _universal = "";
 
+	private String sending_page = "";
+	private String save_page = "";
+	private String save_and_add = "";
+	
 	/**
 	 * 
 	 * @param request
@@ -112,6 +116,11 @@ public class PSO_SectionMgmt {
 		_tab_heading = setIfPassedIn(_tab_heading, request, "tab_heading");
 		_tab_pos = setIfPassedIn(_tab_pos, request, "tab_pos");
 		_universal = setIfPassedIn(_universal, request, "universal");
+		
+		// Don't store these, just get them if passed in.
+		sending_page = (String) request.getParameter("sending_page");
+		save_page = (String) request.getParameter("save_page");
+		save_and_add = (String) request.getParameter("save_and_add");
 
 	}
 
@@ -405,6 +414,7 @@ public class PSO_SectionMgmt {
 		if ((_universal != null) && (_universal.equalsIgnoreCase("true"))) {
 			universal = true;
 		}
+		
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
 
@@ -503,12 +513,6 @@ public class PSO_SectionMgmt {
 						new Long(_custom_section_id));
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
-		// Determine if setting sim to edit.
-		String sending_page = (String) request.getParameter("sending_page");
-
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
 		if ((sending_page != null)
 				&& ((save_page != null) || (save_and_add != null))
 
@@ -573,11 +577,6 @@ public class PSO_SectionMgmt {
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(
 				pso.schema, _custom_section_id);
-
-		// Determine if setting sim to edit.
-		String sending_page = (String) request.getParameter("sending_page");
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
 
 		if ((sending_page != null)
 				&& ((save_page != null) || (save_and_add != null))
@@ -763,10 +762,6 @@ public class PSO_SectionMgmt {
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(
 				pso.schema, _custom_section_id);
 
-		String sending_page = (String) request.getParameter("sending_page");
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
 		if ((sending_page != null)
 				&& ((save_page != null) || (save_and_add != null))
 
@@ -846,11 +841,6 @@ public class PSO_SectionMgmt {
 				.getSession(pso.schema).get(CustomizeableSection.class,
 						new Long(_custom_section_id));
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-
-		// Determine if saving.
-		String sending_page = (String) request.getParameter("sending_page");
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
 
 		// ////////////////////////////////////////////////////////////
 		// if we are saving this page
@@ -1125,6 +1115,17 @@ public class PSO_SectionMgmt {
 
 		return simulation;
 
+	}
+
+	public CustomizeableSection handleMakePlayerDiscreteChoice(
+			HttpServletRequest request) {
+		
+		// Read in possible parameters
+		getSimSectionsInternalVariables(request);
+		
+		// TODO Auto-generated method stub
+		//asdf
+		return null;
 	}
 
 }
