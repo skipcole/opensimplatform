@@ -519,13 +519,7 @@ public class PSO_SectionMgmt {
 				&& (sending_page.equalsIgnoreCase("make_reflection_page"))) {
 			// If this is the original custom page, make a new page
 
-			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(pso.schema);
-				_custom_section_id = customizableSectionOnScratchPad.getId()
-						+ "";
-			}
+			makeCopyOfCustomizedSectionIfNeeded();
 
 			// Update page values
 			String make_reflection_page_text = (String) request
@@ -600,13 +594,10 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
-			String doc_title = (String) request.getParameter("doc_title");
+			
+			//String doc_title = (String) request.getParameter("doc_title");
 			String _doc_string = (String) request
 					.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-
-			System.out
-					.println("************* I'm adding a document to edit with id of "
-							+ _doc_string);
 
 			// Get the document associated with this customized section
 			try {
@@ -623,12 +614,9 @@ public class PSO_SectionMgmt {
 
 			if (save_and_add != null) {
 				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), _tab_pos, _tab_heading, request, _universal);
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request, _universal);
 				// send them back
 				pso.forward_on = true;
-				return customizableSectionOnScratchPad;
-
 			}
 
 		} // End of if we are coming from the make_write_document_page
@@ -1117,15 +1105,66 @@ public class PSO_SectionMgmt {
 
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public CustomizeableSection handleMakePlayerDiscreteChoice(
 			HttpServletRequest request) {
 		
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
+
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(
+				pso.schema, _custom_section_id);
+
+		// If making changes, do the following.
+		if ((sending_page != null)
+				&& ((save_page != null) || (save_and_add != null))
+				&& (sending_page.equalsIgnoreCase("make_player_discrete_choice"))) {
+
+			// If this is the original custom page, make a new page
+			makeCopyOfCustomizedSectionIfNeeded();
+			
+			// Update values based on those passed in
+			customizableSectionOnScratchPad.setBigString((String) request.getParameter("make_player_discrete_choice_text"));
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.save(pso.schema);
+			
+			handleCreationOrUpdateOfAllowableResponse(request);
+			// Need to get allowable responses
+			// get set of ar's sent in
+			// check to see if they have ids
+			
+			// if no ids, create new ones
+			
+			// update values of ars
+			
+			
+
+		}
 		
-		// TODO Auto-generated method stub
-		//asdf
-		return null;
+		// If adding page, then add it and forward them on.
+		if (save_and_add != null) {
+			addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request, _universal);
+			pso.forward_on = true;
+		}
+		
+		return customizableSectionOnScratchPad;
+	}
+	
+	public void handleCreationOrUpdateOfAllowableResponse(HttpServletRequest request){
+		
+	}
+	
+	public void makeCopyOfCustomizedSectionIfNeeded(){
+		
+		if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
+			customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
+			_custom_section_id = customizableSectionOnScratchPad.getId() + "";
+
+		}
 	}
 
 }
