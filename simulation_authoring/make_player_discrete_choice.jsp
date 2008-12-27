@@ -4,12 +4,16 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
-	org.usip.osp.communications.*" 
+	org.usip.osp.communications.*,
+	org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
 	CustomizeableSection cs = pso.handleMakePlayerDiscreteChoice(request);
+	
+	// Get list of allowable responses
+	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);
 	
 	if (pso.forward_on){
 		pso.forward_on = false;
@@ -119,11 +123,11 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Make Discrete Choice</h1>
+      <h1>Player Make Decision</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
 
-      <form action="make_write_document_page.jsp" method="post" name="form2" id="form2">
+      <form action="make_player_discrete_choice.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>Tab Heading: 
             <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
@@ -131,34 +135,72 @@ body {
           </p>
           <p><strong>Enter the introductory text that will appear on this page.            </strong></p>
           <p>
-            <textarea id="make_write_document_page_text" name="make_write_document_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
+            <textarea id="make_player_discrete_choice_text" name="make_write_document_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
             
             <script language="javascript1.2">
   			generate_wysiwyg('make_write_document_page_text');
 		</script>
           </p>
+          <p>Enter in the answers that the player may select:</p>
           <table width="100%" border="0">
             <tr>
-              <td width="5%" valign="top">1</td>
-              <td width="59%" valign="top"><label>
-                <input type="text" name="textfield" id="textfield" />
+              <td valign="top">&nbsp;</td>
+              <td valign="top">Choice:</td>
+              <td valign="top">Initially Selected?</td>
+            </tr>
+        <%
+		
+		for (ListIterator li = allowableResponses.listIterator(); li.hasNext();) {
+			AllowableResponse ar = (AllowableResponse) li.next();
+			%>
+            <tr>
+              <td width="4%" valign="top"><%= ar.getIndex() %></td>
+              <td width="77%" valign="top"><label>
+                <input name="ar_1" type="text" id="textfield" size="60" value="<%= ar.getResponseText() %>" />
+                <input type="hidden" name="ar_id_1" value="" />
               </label></td>
-              <td width="11%" valign="top"><label>
-                <input type="radio" name="radio" id="radio" value="radio" />
+              <td width="19%" valign="top"><label>
+                <input type="radio" name="ar_selected_1" id="radio" value="radio" />
+              </label></td>
+              </tr>
+            <tr>
+            <% } // End of loop over allowable responses %>
+            
+            <tr>
+              <td width="4%" valign="top">1</td>
+              <td width="77%" valign="top"><label>
+                <input name="ar_1" type="text" id="textfield" size="60" />
+                <input type="hidden" name="ar_id_1" value="" />
+              </label></td>
+              <td width="19%" valign="top"><label>
+                <input type="radio" name="ar_selected_1" id="radio" value="radio" />
               </label></td>
               </tr>
             <tr>
               <td valign="top">2</td>
               <td valign="top"><label>
-                <input type="text" name="textfield2" id="textfield2" />
+                <input name="ar_2" type="text" id="textfield2" size="60" />
+                <input type="hidden" name="ar_id_1" value="" />
               </label></td>
               <td valign="top"><label>
-                <input type="radio" name="radio2" id="radio2" value="radio2" />
+                <input type="radio" name="ar_selected_2" id="radio2" value="radio2" />
+                
               </label></td>
               </tr>
           </table>
+          <p>
+            <label></label>
+            Put chances made here into the After Action Report? 
+            <label>
+            <input type="radio" name="radio3" id="radio3" value="radio3" />
+            </label> 
+            No / 
+            <label>
+            <input type="radio" name="radio4" id="radio4" value="radio4" />
+            </label> 
+            Yes
+</p>
           <p>If a particular answer is going to lead to some particular text appearing in the </p>
-          <p>&nbsp;</p>
           <table width="100%" border="0">
             <tr>
               <td width="6%" valign="top">1</td>
@@ -173,21 +215,18 @@ body {
               </label></td>
             </tr>
           </table>
-          <p></p>
-          <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p> 
             <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
-            <input type="hidden" name="sending_page" value="make_write_document_page" />
+            <input type="hidden" name="sending_page" value="make_player_discrete_choice" />
             <input type="submit" name="save_page" value="Save" />
             <input type="submit" name="save_and_add" value="Save and Add Section" />
           </p>
           <p>&nbsp;</p>
         </blockquote>
       </form>
-	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
-			</td>
+	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->			</td>
 		</tr>
 		</table>
 	</td>
