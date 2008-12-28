@@ -11,6 +11,8 @@ import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.specialfeatures.AllowableResponse;
+import org.usip.osp.specialfeatures.GenericVariable;
 
 import com.oreilly.servlet.MultipartRequest;
 
@@ -30,6 +32,8 @@ import com.oreilly.servlet.MultipartRequest;
  */
 public class PSO_SectionMgmt {
 
+	public static final String GEN_VAR_KEY = "gen_var_key";
+	
 	private Long phase_being_worked_on_id;
 
 	/** Index of actor being worked on in simulation creation wizard */
@@ -1127,20 +1131,14 @@ public class PSO_SectionMgmt {
 			// If this is the original custom page, make a new page
 			makeCopyOfCustomizedSectionIfNeeded();
 			
+			addGenericVariableIfNeeded();
+			
 			// Update values based on those passed in
 			customizableSectionOnScratchPad.setBigString((String) request.getParameter("make_player_discrete_choice_text"));
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 			
-			handleCreationOrUpdateOfAllowableResponse(request);
-			// Need to get allowable responses
-			// get set of ar's sent in
-			// check to see if they have ids
-			
-			// if no ids, create new ones
-			
-			// update values of ars
-			
+			handleCreationOrUpdateOfAllowableResponse(customizableSectionOnScratchPad.getId(), request, pso.schema);
 			
 
 		}
@@ -1154,10 +1152,53 @@ public class PSO_SectionMgmt {
 		return customizableSectionOnScratchPad;
 	}
 	
-	public void handleCreationOrUpdateOfAllowableResponse(HttpServletRequest request){
+	/**
+	 * Need to get allowable responses passed in from form.
+	 * Check to see if they have ids
+	 * 		If ids found, pull out the allowable responses to update them.
+	 * 		If no ids, create new responses
+	 * Update values of the allowable responses
+	 * Store the values of the allowable response ids in the contents hashtable.
+	 */	
+	public void handleCreationOrUpdateOfAllowableResponse(Long cust_id, HttpServletRequest request, String schema){
+		
+		String num_ars = (String) request.getParameter("num_ars");
+		
+		int numb_ars = new Integer(num_ars).intValue();
+		
+		for (int ii = 1; ii <= numb_ars; ++ii){
+			String ar_text = (String) request.getParameter("ar_text_" + ii);
+			String ar_id = (String) request.getParameter("ar_id_" + ii);
+			
+			AllowableResponse thisResponse = new AllowableResponse();
+			
+			if ((ar_id != null) && (!(ar_id.equalsIgnoreCase("null"))) && (ar_id.length() > 0)){
+				try {
+					Long thisResponseID = new Long(ar_id);
+					thisResponse = AllowableResponse.getMe(schema, thisResponseID);
+					
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+			
+			thisResponse.setCust_id(cust_id);
+			thisResponse.setResponseText(ar_text);
+			thisResponse.setIndex(ii);
+			thisResponse.saveMe(schema);
+			
+		}
+		/**
+
+			// ar_selected_1	indicates if response 1 starts out selected.
+		*/
 		
 	}
 	
+
+	/**
+	 * If this is the original template, then make a copy of it for customization.
+	 */
 	public void makeCopyOfCustomizedSectionIfNeeded(){
 		
 		if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
@@ -1165,6 +1206,23 @@ public class PSO_SectionMgmt {
 			_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 
 		}
+	}
+	
+	/** Adds a generic variable to this custom section if it does not already have one created. */
+	public void addGenericVariableIfNeeded(){
+		
+		String currentVarId = (String) customizableSectionOnScratchPad.getContents().get(GEN_VAR_KEY);
+		
+		if (currentVarId == null){
+			GenericVariable gv = new GenericVariable();
+			gv.setSim_id(pso.sim_id);
+			gv.saveMe(pso.schema);
+			
+			customizableSectionOnScratchPad.getContents().put(GEN_VAR_KEY, gv.getId());
+			
+		}
+		
+		
 	}
 
 }

@@ -200,19 +200,19 @@ public class PlayerControlBudgetTransfer extends SpecialFeature {
 
             // Get the sim id of each of the from budgets 
             BudgetVariable fromBudgetVar = new BudgetVariable();
-            fromBudgetVar.set_sf_id(new Long(pcbt.fromAcctString));
-            fromBudgetVar.load();
+            //fromBudgetVar.set_sf_id(new Long(pcbt.fromAcctString));
+            //fromBudgetVar.load();
             // TODO
             //fromBudgetVar.sim_id = fromBudgetVar.lookUpMySimID(game.db_tablename_var_bud, running_game_id);
-            pcbt.fromSimAcctString = fromBudgetVar.sim_id;
+            //pcbt.fromSimAcctString = fromBudgetVar.sim_id;
                 
             // Get the sim id of each of the to accounts
             BudgetVariable toBudgetVar = new BudgetVariable();
-            toBudgetVar.set_sf_id(new Long(pcbt.toAcctString));
-            toBudgetVar.load();
+            //toBudgetVar.set_sf_id(new Long(pcbt.toAcctString));
+            //toBudgetVar.load();
             //TODO
             //toBudgetVar.sim_id = toBudgetVar.lookUpMySimID(game.db_tablename_var_bud, running_game_id);
-            pcbt.toSimAcctString = toBudgetVar.sim_id;
+            //pcbt.toSimAcctString = toBudgetVar.sim_id;
             
             
             // This stores it, and gets its sim_id

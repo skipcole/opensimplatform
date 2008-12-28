@@ -86,16 +86,24 @@ public class RunningSimulation {
 	@Lob
 	private String aar_text = "";
 	
+	/** Zero argument constructor required by hibernate. */
 	public RunningSimulation(){
 		
 	}
-	
+	/**
+	 * 
+	 * @param name
+	 * @param phase_id
+	 * @param sim
+	 * @param schema
+	 */
 	public RunningSimulation(String name, Long phase_id, Simulation sim, String schema){
 		
 		this.name = name;
 		this.phase_id = phase_id;
 		this.saveMe(schema);
 		this.createMyDocuments(schema, sim);
+		this.createMyVariables(schema, sim);
 		
 	}
 
@@ -210,6 +218,13 @@ public class RunningSimulation {
 		hibernate_session.saveOrUpdate(this);
 	}
 	
+	/**
+	 * Creates copies of all of the shared documents held in the sim, so one is available
+	 * for this running sim.
+	 * 
+	 * @param schema
+	 * @param sim
+	 */
 	private void createMyDocuments(String schema, Simulation sim){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -219,6 +234,31 @@ public class RunningSimulation {
 			SharedDocument sd = (SharedDocument) li.next();
 
 			sd.createCopy(this.id, MultiSchemaHibernateUtil.getSession(schema));
+
+		}
+		
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+	}
+	
+	/**
+	 * Creates copies of all of the variables held by the sim, so one is available
+	 * for this running sim.
+	 * 
+	 * @param schema
+	 * @param sim
+	 */
+	private void createMyVariables(String schema, Simulation sim){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		for (ListIterator<GenericVariable> li = GenericVariable.getAllBaseGenericVariablesForSim(
+				MultiSchemaHibernateUtil.getSession(schema), sim.getId()).listIterator(); li.hasNext();) {
+			GenericVariable gv = (GenericVariable) li.next();
+
+			gv.createCopy(this.id, MultiSchemaHibernateUtil.getSession(schema));
 
 		}
 		
@@ -294,17 +334,14 @@ public class RunningSimulation {
 
 		return (hibernate_session.createQuery("from RunningSimulation").list());
 	}
-
-	public List<RunningSimulation> getAllForSim(String simid,
-			org.hibernate.Session hibernate_session) {
-
-		List<RunningSimulation> returnList = hibernate_session.createQuery(
-				"from RunningSimulation where sim_id = " + simid).list();
-
-		return returnList;
-	}
 	
-	public List<RunningSimulation> getAllForSim(String simid, String schema) {
+	/**
+	 * Returns a list of all running sims created for a simulation. 
+	 * @param simid
+	 * @param schema
+	 * @return
+	 */
+	public static List<RunningSimulation> getAllForSim(String simid, String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		

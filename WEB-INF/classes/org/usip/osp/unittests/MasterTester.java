@@ -26,20 +26,10 @@ public class MasterTester extends BaseTester{
     public static Actor act_r = new Actor();
     public static Actor act_g = new Actor();
     public static Actor act_b = new Actor();
-    
-    public static RunningSimulation rg = new RunningSimulation();
-
-    
+      
     
     public static IntegerVariable iv1 = new IntegerVariable();
     public static IntegerVariable iv2 = new IntegerVariable();
-    
-    //public static Chart chart1 = new Chart();
-    
-    public static PlayerControl pc1 = new PlayerControl();
-    
-    public static BooleanVariable b_v1 = new BooleanVariable();
-    public static BooleanVariable b_v2 = new BooleanVariable();
     
     public static BudgetVariable bd_v1 = new BudgetVariable();
     public static BudgetVariable bd_v2 = new BudgetVariable();
@@ -62,8 +52,6 @@ public class MasterTester extends BaseTester{
         runOut += testCreateIntegerVariable();
         
         runOut += testCreateChart();
-        
-        runOut += testCreateBooleanVariable();
         
         runOut += testCreateBudgetVariable();
         
@@ -139,7 +127,7 @@ public class MasterTester extends BaseTester{
         String returnString = makeHeader("Creating Simulation Integer Variable");
         
         //iv1.game_id  = testGame1.getId();
-        iv1.name = "Int Variable Name";
+
         iv1.propagation_type = "fibonacci";
         iv1.initialValue = "1";
         
@@ -148,7 +136,7 @@ public class MasterTester extends BaseTester{
         returnString += b + "First (Fibonacci) Integer Variable Created";
         
         //iv2.game_id  = testGame1.id;
-        iv2.name = "Int Variable Name";
+
         iv2.propagation_type = "constant";
         iv2.initialValue = "1";
         
@@ -183,53 +171,27 @@ public class MasterTester extends BaseTester{
         */
         return returnString;
     }
-    
-    public static String testCreateBooleanVariable(){
-        String returnString = makeHeader("Creating Boolean Variables");
-        
-        //b_v1.game_id  = testGame1.id;
-        b_v1.name = "Boolean Variable Name";
-        b_v1.description = "Description of First Boolean Variable.";
-        b_v1.initialValue = "false";
-        b_v1.tracked = "true";
-        
-        b_v1.store();
 
-        returnString += b + "First Boolean Variable Created";
-        
-
-        //b_v2.game_id  = testGame1.id;
-        b_v2.name = "Boolean Variable 2 Name";
-        b_v2.description = "Description of Second Boolean Variable.";
-        b_v2.initialValue = "true";
-        b_v2.tracked = "false";
-
-        b_v2.store();
-
-        returnString += b + "Second Boolean Variable Created";
-        
-        return returnString;
-    }
     
     public static String testCreateBudgetVariable(){
         String returnString = makeHeader("Creating Budget Variable");
         
         //bd_v1.game_id  = testGame1.id;
-        bd_v1.name = "Budget Name";
-        bd_v1.description = "Description of First Budget Variable.";
+        //bd_v1.name = "Budget Name";
+        //bd_v1.description = "Description of First Budget Variable.";
         bd_v1.value = "10000";
         bd_v1.accumulates = true;
-        bd_v1.store();
+
 
         returnString += b + "First Budget Variable Created";
         
 
         //bd_v2.game_id  = testGame1.id;
-        bd_v2.name = "Budget Variable 2 Name";
-        bd_v2.description = "Description of Second Budget Variable.";
+        //bd_v2.name = "Budget Variable 2 Name";
+        //bd_v2.description = "Description of Second Budget Variable.";
         bd_v1.value = "0";
         bd_v2.accumulates = false;
-        bd_v2.store();
+        //bd_v2.store();
 
         returnString += b + "Second Budget Variable Created";
         
@@ -243,8 +205,8 @@ public class MasterTester extends BaseTester{
         pcbt1.name = "Player Control";
         pcbt1.description = "Text describing this player control.";
         
-        pcbt1.fromAcctString = bd_v1.get_sf_id();
-        pcbt1.toAcctString = bd_v2.get_sf_id();
+        //pcbt1.fromAcctString = bd_v1.get_sf_id();
+        //pcbt1.toAcctString = bd_v2.get_sf_id();
         
         returnString += pcbt1.store();
         returnString += b + "Player Budget Transfer Control Created";
@@ -252,20 +214,7 @@ public class MasterTester extends BaseTester{
         return returnString;
     }
     
-    public static String testCreatePlayerControl(){
-        String returnString = makeHeader("Creating Player Control");
-        
-        //pc1.game_id = testGame1.id;
-        pc1.name = "Player Control";
-        pc1.description = "Text describing this player control.";
-        
-        //pc1.intVar.set_sf_id(iv1.get_sf_id());
-        
-        returnString += pc1.store();
-        returnString += b + "Player Control Created";
-        
-        return returnString;
-    }
+
     
     public static String testSelectDefaultSections(){
         String returnString = makeHeader("Setting Default Sections");
@@ -376,7 +325,7 @@ public class MasterTester extends BaseTester{
         //gs.actor_id = act_r.id;
         //gs.game_status = "in progress";
         //gs.section_short_name = iv1.name;
-        gs.setTab_heading(iv1.name);
+        //gs.setTab_heading(iv1.name);
         //gs.tab_position = "6";
         //gs.directory = "/osp_core/";
         //gs.page_file_name = "show_variable.jsp";
@@ -419,18 +368,6 @@ public class MasterTester extends BaseTester{
         
         SimulationSection gs = new SimulationSection();
         
-        //gs.game_id = testGame1.id;
-        //gs.actor_id = act_r.id;
-        //gs.game_status = "in progress";
-        //gs.section_short_name = pc1.gs.section_short_name;
-        gs.setTab_heading(pc1.gs.getTab_heading());
-        //gs.tab_position = "6"; //pc1.gs.tab_position;
-        //gs.directory = "/osp_core/";
-        //gs.page_file_name = pc1.jsp_page;
-        
-        AllowableResponse ar1 = new AllowableResponse();
-        pc1.allowableResponses = new Vector();
-        pc1.allowableResponses.add(ar1);
             
         //returnString += " : " + gs.store();
         
@@ -500,11 +437,7 @@ public class MasterTester extends BaseTester{
     public static String testCreateRunningSim(){
         String returnString = makeHeader("Creating Running Simulation");
         
-        rg = new RunningSimulation();
-        
-        rg.setName("Session1");
-        
-        
+ 
         //returnString += b + "Error out: " + rg.store();
         
         returnString += b + "created running simulation rg";

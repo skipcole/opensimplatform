@@ -128,14 +128,15 @@ body {
 			<!-- InstanceBeginEditable name="pageBody" --> 
 
       <form action="make_player_discrete_choice.jsp" method="post" name="form2" id="form2">
+      <input type="hidden" name="num_ars" value="<%= allowableResponses.size() %>" />
         <blockquote>
           <p>Tab Heading: 
             <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             <br />
           </p>
-          <p><strong>Enter the introductory text that will appear on this page.            </strong></p>
+          <p><strong>Enter the choice that the player will need to make on this page.            </strong></p>
           <p>
-            <textarea id="make_player_discrete_choice_text" name="make_write_document_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
+            <textarea id="make_player_discrete_choice_text" name="make_player_discrete_choice_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
             
             <script language="javascript1.2">
   			generate_wysiwyg('make_write_document_page_text');
@@ -147,6 +148,7 @@ body {
               <td valign="top">&nbsp;</td>
               <td valign="top">Choice:</td>
               <td valign="top">Initially Selected?</td>
+              <td valign="top">Remove</td>
             </tr>
         <%
 		
@@ -154,39 +156,23 @@ body {
 			AllowableResponse ar = (AllowableResponse) li.next();
 			%>
             <tr>
-              <td width="4%" valign="top"><%= ar.getIndex() %></td>
-              <td width="77%" valign="top"><label>
-                <input name="ar_1" type="text" id="textfield" size="60" value="<%= ar.getResponseText() %>" />
-                <input type="hidden" name="ar_id_1" value="" />
+              <td width="16%" valign="top"><%= ar.getIndex() %></td>
+              <td width="67%" valign="top"><label>
+                <input name="ar_text_<%= ar.getIndex() %>" type="text" id="textfield" size="60" value="<%= ar.getResponseText() %>" />
+                <input type="hidden" name="ar_id_<%= ar.getIndex() %>" value="<%= ar.getId() %>" />
               </label></td>
-              <td width="19%" valign="top"><label>
-                <input type="radio" name="ar_selected_1" id="radio" value="radio" />
+              <td width="12%" valign="top"><label>
+                <input type="radio" name="ar_selected_<%= ar.getIndex() %>" id="radio" value="radio" />
               </label></td>
-              </tr>
+              <td width="5%" valign="top"><a href="delete_object.jsp?object_type=allowable_response&objid=<%= ar.getId() %>&object_info="Answer <%= ar.getIndex() %>"><img src="../simulation_authoring/images/delete.png" alt="Delete Answer" width="26" height="22" border="0" /></a></td>
+            </tr>
+            <% } // end of loop over allowable responses %>
             <tr>
-            <% } // End of loop over allowable responses %>
-            
-            <tr>
-              <td width="4%" valign="top">1</td>
-              <td width="77%" valign="top"><label>
-                <input name="ar_1" type="text" id="textfield" size="60" />
-                <input type="hidden" name="ar_id_1" value="" />
-              </label></td>
-              <td width="19%" valign="top"><label>
-                <input type="radio" name="ar_selected_1" id="radio" value="radio" />
-              </label></td>
-              </tr>
-            <tr>
-              <td valign="top">2</td>
-              <td valign="top"><label>
-                <input name="ar_2" type="text" id="textfield2" size="60" />
-                <input type="hidden" name="ar_id_1" value="" />
-              </label></td>
-              <td valign="top"><label>
-                <input type="radio" name="ar_selected_2" id="radio2" value="radio2" />
-                
-              </label></td>
-              </tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">Add New Choice</td>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">&nbsp;</td>
+            </tr>
           </table>
           <p>
             <label></label>
@@ -200,20 +186,20 @@ body {
             </label> 
             Yes
 </p>
-          <p>If a particular answer is going to lead to some particular text appearing in the </p>
+          <p>If a particular answer is going to lead to some particular text appearing in the after action report, place it below.</p>
           <table width="100%" border="0">
+                  <%
+		
+		for (ListIterator li = allowableResponses.listIterator(); li.hasNext();) {
+			AllowableResponse ar = (AllowableResponse) li.next();
+			%>
             <tr>
-              <td width="6%" valign="top">1</td>
+              <td width="6%" valign="top"><%= ar.getIndex() %></td>
               <td width="94%" valign="top"><label>
-                <textarea name="textarea3" id="textarea3" cols="45" rows="5"></textarea>
+                <textarea name="ar_aar_text_<%= ar.getId() %>" id="textarea3" cols="45" rows="5"></textarea>
               </label></td>
             </tr>
-            <tr>
-              <td valign="top">2</td>
-              <td valign="top"><label>
-                <textarea name="textarea3" id="textarea4" cols="45" rows="5"></textarea>
-              </label></td>
-            </tr>
+            <% } // end of loop over allowable responses %>
           </table>
           <p>&nbsp;</p>
           <p>&nbsp;</p>

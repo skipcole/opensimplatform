@@ -278,6 +278,12 @@ public class Simulation {
 
 	}
 
+	/**
+	 * Pulls the simulation out of the database base on its id and schema.
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
 	public static Simulation getMe(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);

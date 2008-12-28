@@ -6,12 +6,14 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.CustomizeableSection;
+import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 
 /**
  * This class represents one specific choice in a set of answers that a player may select. For example,
- * the question might be "Do you want steak, or fish?" There would be one 
+ * the question might be "Do you want steak, or fish?" There would be one allowable response for steak and
+ * another for fish.
  * 
  * @author Ronald "Skip" Cole<br />
  *
@@ -29,7 +31,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "ALLOWABLERESPONSES")
 @Proxy(lazy = false)
-public class AllowableResponse{
+public class AllowableResponse implements Comparable{
 	
 	/** Database id of this Simulation. */
 	@Id
@@ -39,6 +41,10 @@ public class AllowableResponse{
 	private Long cust_id;
 	
 	private int ar_index = 0;
+	
+	private boolean initiallySelected = false;
+	
+	private boolean writeChangesToAAR = false;
     
 	/** Words that introduce this choice. */
 	@Lob
@@ -98,23 +104,65 @@ public class AllowableResponse{
 		this.ar_index = ar_index;
 	}
 
+	public int getAr_index() {
+		return ar_index;
+	}
+
+	public void setAr_index(int ar_index) {
+		this.ar_index = ar_index;
+	}
+
+	public boolean isInitiallySelected() {
+		return initiallySelected;
+	}
+
+	public void setInitiallySelected(boolean initiallySelected) {
+		this.initiallySelected = initiallySelected;
+	}
+
+	public boolean isWriteChangesToAAR() {
+		return writeChangesToAAR;
+	}
+
+	public void setWriteChangesToAAR(boolean writeChangesToAAR) {
+		this.writeChangesToAAR = writeChangesToAAR;
+	}
+
 	/**
-	 * Information about this list 
+	 * Information about this set of allowable responses is pulled out of the database for viewing.
 	 * 
 	 * @param cust
 	 * @return
 	 */
 	public static List pullOutArs(CustomizeableSection cust, String schema){
 		
-		List returnList = new ArrayList();
-		// Get ids out of the custom sections grab bag, and pull ARs from database
+		List returnList = getARsForACustomSection(cust.getId(), schema);
 		
-		// If no ids found, just return list of 2 new default style ARs
+		if ((returnList == null) || (returnList.size() == 0)){
+			// If no ids found, just return list of 2 new default style ARs
+			returnList = getStarterAllowableResponses(cust, schema);
+		}
 		
-		returnList = getStarterAllowableResponses(cust, schema);
+		return returnList;
 		
-		// store information in this custom sections grab bag.
+	}
+	
+	/** Pulls the allowable responses for a custom section out of the database, ordered by ar_index.
+	 * 
+	 * @param cust_id
+	 * @param schema
+	 * @return
+	 */
+	public static List getARsForACustomSection(Long cust_id, String schema){
 		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery("from AllowableResponse where cust_id = '" + cust_id + "' order by ar_index")
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
 		return returnList;
 		
 	}
@@ -129,13 +177,13 @@ public class AllowableResponse{
 		AllowableResponse ar1 = new AllowableResponse();
 		ar1.setIndex(1);
 		ar1.setResponseText("Choice 1");
-		ar1.saveMe(schema);
+		//ar1.saveMe(schema);
 		
 		
 		AllowableResponse ar2 = new AllowableResponse();
 		ar2.setIndex(2);
 		ar2.setResponseText("Choice 2");
-		ar2.saveMe(schema);
+		//ar2.saveMe(schema);
 		
 		List returnList = new ArrayList<AllowableResponse>();
 		returnList.add(ar1);
@@ -156,8 +204,51 @@ public class AllowableResponse{
 
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static AllowableResponse getMe(String schema, Long ar_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		AllowableResponse this_ar = (AllowableResponse) MultiSchemaHibernateUtil
+				.getSession(schema).get(AllowableResponse.class, ar_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return this_ar;
+
+	}
+	
 	public static String convertListOfARsToInfoString(List theARs){
 		return "";
+	}
+	
+	/**
+	 * Takes a list of allowable responses that has been modified (one of the entries removed
+	 * for example) and verifies that the index of each response is in order 1, 2, 3, ...
+	 * 
+	 * @param theARs
+	 */
+	public static void reOrderAllowableResponses(List theARs){
+		
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		
+		try {
+			AllowableResponse ar = (AllowableResponse) arg0;
+			return this.ar_index - ar.ar_index;
+			
+		} catch (Exception e){
+			System.out.println("Non Allowable Response Object passed into CompareTo");
+		}
+		
+		return 0;
+		
 	}
  
 
