@@ -184,15 +184,22 @@ public class SharedDocument {
 
 	}
 	
+	/**
+	 * This returns the 'base' documents for a simulation. A 'base' document is the archtypal document
+	 * that is copied into a version to be edited in a particular running simulation. When the base
+	 * document is copied into a copy document, its id is copied into the base_id of the copy. So 
+	 * the original 'base' documents have their BASE_ID null, and copies have in values in that field.
+	 * @param hibernate_session
+	 * @param the_sim_id
+	 * @return
+	 */
 	public static List getAllBaseDocumentsForSim(  org.hibernate.Session hibernate_session, Long the_sim_id) {
 		
 		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() 
 			+ " AND BASE_ID is null";
 		List returnList = hibernate_session.createQuery(hql_string).list();
 		
-
 		return returnList;
-
 	}
 	
 	
@@ -276,7 +283,8 @@ public class SharedDocument {
 
 	/**
 	 * Creates, and saves to the database, a copy of this shared document. This is used to create a version of a 
-	 * document for a particular running simulation session of the archetype document.
+	 * document for a particular running simulation session of the archetype document. The copied document
+	 * will have the base_id field filled in with the id of the original.
 	 * 
 	 * @param rsid Running simulation id.
 	 * @param hibernate_session Hibernate session created targetting the appropriate schema for saving into.

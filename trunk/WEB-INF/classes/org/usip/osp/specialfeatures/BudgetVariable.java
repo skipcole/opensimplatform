@@ -22,7 +22,7 @@ import org.usip.osp.persistence.MysqlDatabase;
  * PURPOSE. <BR>
  * 
  */
-public class BudgetVariable extends SimulationVariable {
+public class BudgetVariable {
 
     public boolean accumulates = true;
     
@@ -33,21 +33,23 @@ public class BudgetVariable extends SimulationVariable {
     public static final String TRANSTYPE_FINAL = "final";
     
     public static final String SPECIALFIELDLABEL = "sim_player_budget_transfer";
+    
+    String var_type = "";
+
+    public float maxValue = Float.MAX_VALUE;
+
+    public float minValue = Float.MIN_VALUE;
+
+    public String initialValue = "";
+    
+    public String value = "";
+    
+    public String tracked = "false";
 
     public BudgetVariable(){
         value = "0";
     }
     
-    @Override
-    public String getSpecialFieldLabel() {
-        return SPECIALFIELDLABEL;
-    }
-
-
-    @Override
-    public String getShortNameBase() {
-        return "sim_player_budg_xfer";
-    }
     
     public static void createGameBudgetTable(String tableName){
         
@@ -63,7 +65,6 @@ public class BudgetVariable extends SimulationVariable {
             "`description` longtext, " +
             "PRIMARY KEY  (`sim_id`)) ";
               
-            createTable(createTableSQL);
     }
     
     public static void createGameBudgetTableValues(String tableName){
@@ -80,7 +81,6 @@ public class BudgetVariable extends SimulationVariable {
             "`description` varchar(100) default NULL " +
             ") ";
               
-            createTable(createTableSQL);
     }
     
     public static String removeTransaction(String tablename, String game_id, String running_game_id, 
@@ -269,8 +269,8 @@ public class BudgetVariable extends SimulationVariable {
                 stmt.execute(deletePrevFinal);
                 
                 //String insertFinalAmount 
-                insertLine(tableName, game_id, acct_id,
-                        running_game_id, game_round, "final", final_amount + "");
+                //insertLine(tableName, game_id, acct_id,
+               //         running_game_id, game_round, "final", final_amount + "");
                 
             }
 
@@ -314,267 +314,7 @@ public class BudgetVariable extends SimulationVariable {
         return returnString;
     }
 
-    @Override
-    public Vector getSetForASimulation(String game_id) {
-        Vector rv = new Vector();
-
-        String selectSDs = "SELECT * FROM `sf_var_budget` "
-                + "WHERE game_id = " + game_id;
-
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-            ResultSet rst = stmt.executeQuery(selectSDs);
-
-            while (rst.next()) {
-                BudgetVariable bv = new BudgetVariable();
-
-                bv.set_sf_id(rst.getLong("sf_id"));
-                bv.game_id = rst.getString("game_id");
-                bv.name = rst.getString("var_name");
-                bv.description = rst.getString("description");
-                
-                bv.initialValue = rst.getString("initial_value");
-
-                rv.add(bv);
-            } // End of loop over results set
-
-            connection.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return rv;
-
-    }
-
-    @Override
-    public Vector getSimVariablesForARunningSimulation(Simulation simulation, String rgid) {
-
-    	// TODO
-        Vector returnVector = null;
-        
-        /*this.getSetForASimulation(game.id);
-        
-        for(Enumeration e = returnVector.elements(); e.hasMoreElements();){
-            BudgetVariable bv = (BudgetVariable) e.nextElement();
-            
-            bv.game_id = game.id;
-            bv.sim_id = bv.lookUpMySimID(game.db_tablename_var_bud, rgid);   
-            
-        }
-        */
-
-        return returnVector;
-
-    }
-
-    @Override
-    /**
-     * Inserts into special_features table
-     * 
-     */
-    public String store() {
-
-        String debug = "start: ";         
-        
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-
-            String insertSQL = "INSERT INTO `sf_var_budget` ( sf_id, "
-                    + "game_id , `var_name` ,`initial_value`, `description`  "
-                    + " ) VALUES ( NULL, ?, ?, ?, ?)";
-
-            debug += insertSQL;
-            
-            PreparedStatement ps = connection.prepareStatement(insertSQL);
-
-            ps.setString(1, this.game_id);
-            ps.setString(2, this.name);       
-            ps.setString(3, this.value);
-            ps.setString(4, this.description);
-
-            ps.execute();
-
-            String queryId = "select LAST_INSERT_ID()";
-
-            ResultSet rs = stmt.executeQuery(queryId);
-
-            if (rs.next()) {
-                this.set_sf_id(rs.getLong(1));
-            }
-            connection.close();
-
-        } catch (Exception e) {
-            debug += e.getMessage();
-            e.printStackTrace();
-        }
-
-        return debug;
-
-    }
-
-
-    @Override
-    public String prep(String running_game_id, Simulation game) {
-        String returnString = "<br>BudgetVariable.prep<br>";
-        
-        // TODO
-        //returnString += "table is: " + game.db_tablename_var_bud;
-
-        // Find out if the game has simulation variables
-        Vector simBudVars = new BudgetVariable().getSetForASimulation(game.getId().toString());
-
-        for (Enumeration e = simBudVars.elements(); e.hasMoreElements();) {
-            BudgetVariable bv = (BudgetVariable) e.nextElement();
-
-            // This stores it, and gets its sim_id
-            // TODO
-            //bv.storeInRunningGameTable(running_game_id,
-            //        game.db_tablename_var_bud);
-
-            // Creates an initial value for it in the initial value table
-            //TODO
-            //returnString += 
-            //    bv.createInitialValueEntry(game.db_tablename_var_bud_v, running_game_id);
-        }
-
-        return returnString;
-
-    }
-    
-    /**
-     * Inserts into special_features table
-     * 
-     */
-    public String storeInRunningGameTable(String running_game_id,
-            String tableName) {
-
-        String debug = "<br>BudgetVariable.storeInRunningGameTable start: <br>";
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-
-            String insertSQL = "INSERT INTO `"
-                    + tableName
-                    + "` ( sim_id, sf_id, "
-                    + "game_id, running_game_id, `var_name` , "
-                    + "`initial_value`,`tracked`, "
-                    + " prop_type, description ) VALUES ( NULL, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            debug += insertSQL;
-
-            PreparedStatement ps = connection.prepareStatement(insertSQL);
-
-            ps.setString(1, this.get_sf_id());
-            ps.setString(2, this.game_id);
-            ps.setString(3, running_game_id);
-            ps.setString(4, this.name);
-            ps.setString(5, this.initialValue);
-            ps.setString(6, this.tracked);
-            ps.setString(7, this.propagation_type);
-            ps.setString(8, this.description);
-
-            ps.execute();
-
-            String queryId = "select LAST_INSERT_ID()";
-
-            ResultSet rs = stmt.executeQuery(queryId);
-
-            if (rs.next()) {
-                this.sim_id = rs.getInt(1) + "";
-            }
-            connection.close();
-
-        } catch (Exception e) {
-            debug += "<font color=red>" + e.getMessage() + ":" + e.toString()
-                    + "</font>";
-            e.printStackTrace();
-        }
-
-        return debug;
-
-    }
-
-    @Override
-    public String addNewValue(
-            String tableName, String running_game_id, String game_round, String newValue) {
-        return "addNewValue for a budget item is unused, since budget items imply double entry.";
-    }
-
-    @Override
-    public String load() {
-        try {
-            
-            String selectSQL = "Select * from sf_var_budget where sf_id = " + this.get_sf_id();
-            
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-            ResultSet rst = stmt.executeQuery(selectSQL);
-
-            this.name = selectSQL;
-            
-            if (rst.next()) {
-
-                this.set_sf_id(rst.getLong("sf_id"));
-                this.game_id = rst.getString("game_id");
-                this.name = rst.getString("var_name");
-                
-                this.value = rst.getString("initial_value");
-                this.description = rst.getString("description");
-
-            } // End of loop over results set
-
-            connection.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return e.getMessage();
-        }
-        
-        return "";
-    }
-    
-    public static String insertLine(String tableName, String game_id, String sim_id,
-            String running_game_id, String game_round, String ttype, String tvalue){
-        
-        String debug = "BudgetVariable.insertLine <br>";
-        
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-
-            String insertSQL = "INSERT INTO `" + tableName + "` ( sim_id, "
-                    + "game_id, running_game_id, game_round, "
-                    + " trans_type, trans_value ) VALUES "
-                    + "( ?, ?, ?, ?, '" + ttype + "', ? )";
-
-            debug += insertSQL;
-            
-            PreparedStatement ps = connection.prepareStatement(insertSQL);
-
-            ps.setString(1, sim_id);
-            ps.setString(2, game_id);
-            ps.setString(3, running_game_id);
-            ps.setString(4, game_round);
-            ps.setString(5, tvalue);
-
-            ps.execute();
-
-            connection.close();
-
-        } catch (Exception e) {
-            debug += e.getMessage();
-            e.printStackTrace();
-        }
-        
-        return debug;
-    }
-
-    @Override
-    public String createInitialValueEntry(String tableName, String running_game_id) {
+     public String createInitialValueEntry(String tableName, String running_game_id) {
         String debug = "start: ";
         
         Float f = new Float(0);
@@ -587,6 +327,7 @@ public class BudgetVariable extends SimulationVariable {
         }
         
         // Create the initial and final lines for this account for 0 time
+        /*
         debug += 
             insertLine(tableName, this.game_id, this.sim_id, running_game_id, "0", "initial", f.floatValue() + "");
 
@@ -599,12 +340,11 @@ public class BudgetVariable extends SimulationVariable {
 
         debug += 
             insertLine(tableName, this.game_id, this.sim_id, running_game_id, "1", "final", f.floatValue() + "");
-
+*/
         return debug;
 
     }
 
-    @Override
     public String getCurrentValue(String tableName, String simId, String gameround) {
         // TODO 
         // Maybe add a dirty flag to allow transactions that don't sum the whol round,
@@ -638,13 +378,13 @@ public class BudgetVariable extends SimulationVariable {
         return returnString;
     }
 
-    @Override
+
     public String removeFromDB() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
+
     public Vector getPastValues(String tableName, String simId) {
         // TODO Auto-generated method stub
         return null;

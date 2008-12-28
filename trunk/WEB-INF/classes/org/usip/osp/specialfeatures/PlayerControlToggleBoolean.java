@@ -194,45 +194,6 @@ public class PlayerControlToggleBoolean extends SpecialFeature {
         
         String returnString = "";
         
-        // Find out if the game has simulation variables
-        Vector simPCs = new PlayerControlToggleBoolean().getSetForASimulation(game.getId().toString());
-
-        for (Enumeration e = simPCs.elements(); e.hasMoreElements();) {
-            PlayerControlToggleBoolean pcbt = (PlayerControlToggleBoolean) e.nextElement();
-
-            // Get the sim id of each of the from budgets 
-            BooleanVariable boolVar = new BooleanVariable();
-            boolVar.set_sf_id(new Long(pcbt.booleanVarSFid));
-            boolVar.load();
-            // TODO
-            //boolVar.sim_id = boolVar.lookUpMySimID(game.db_tablename_var_bool, running_game_id);
-            pcbt.booleanVarSimID = boolVar.sim_id;
-
-            // Take the record id of the entry created above, and use that in
-            // the game sections
-            String updateSQL = "UPDATE `game_sections` SET page_file_name = '"
-                    + this.jsp_page + "?sf_id=" + pcbt.get_sf_id()
-                    + "&sim_id=" + boolVar.sim_id
-                    + "' WHERE `section_short_name` = '" + getShortNameBase()
-                    + pcbt.get_sf_id() + "' " + "AND running_game_id = "
-                    + running_game_id;
-
-            returnString += "<P>" + updateSQL + "</P>";
-
-            try {
-                Connection connection = MysqlDatabase.getConnection();
-                Statement stmt = connection.createStatement();
-
-                stmt.execute(updateSQL);
-
-                connection.close();
-
-            } catch (Exception er) {
-                returnString += er.getMessage();
-                er.printStackTrace();
-            }
-
-        }
 
         return returnString;
     }

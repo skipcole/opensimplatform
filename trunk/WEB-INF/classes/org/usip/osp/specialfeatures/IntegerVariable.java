@@ -23,8 +23,20 @@ import org.usip.osp.persistence.MysqlDatabase;
  * PURPOSE. <BR>
  * 
  */
-public class IntegerVariable extends SimulationVariable {
+public class IntegerVariable {
 
+    String var_type = "";
+
+    public float maxValue = Float.MAX_VALUE;
+
+    public float minValue = Float.MIN_VALUE;
+
+    public String initialValue = "";
+    
+    public String value = "";
+    
+    public String tracked = "false";
+    
     public String has_max = "false";
 
     public String max_value = "0";
@@ -32,18 +44,16 @@ public class IntegerVariable extends SimulationVariable {
     public String has_min = "false";
 
     public String min_value = "0";
+    
+    public String sim_id = "";
 
     public static final String SPECIALFIELDLABEL = "sim_int_var";
 
-    @Override
-    public String getSpecialFieldLabel() {
-        return SPECIALFIELDLABEL;
-    }
-
-    @Override
-    public String getShortNameBase() {
-        return "sim_int_var_";
-    }
+    /**
+     * This describes how the variable propagates (changes in value) from round
+     * to round.
+     */
+    public String propagation_type = "";
 
 
     /**
@@ -81,20 +91,7 @@ public class IntegerVariable extends SimulationVariable {
         return rv;
     }
 
-    public void setInitialValue(String inputString) {
 
-        if (inputString == null) {
-            this.initialValue = "";
-            return;
-        }
-
-        initialValue = inputString;
-    }
-
-    public String getInitialValue() {
-
-        return initialValue;
-    }
 
     public String addNewValue(String tableName, String running_game_id,
             String game_round, String newValue) {
@@ -113,13 +110,6 @@ public class IntegerVariable extends SimulationVariable {
             debug += insertSQL;
 
             PreparedStatement ps = connection.prepareStatement(insertSQL);
-
-            ps.setString(1, this.sim_id);
-            ps.setString(2, this.game_id);
-            ps.setString(3, running_game_id);
-            ps.setString(4, game_round);
-            ps.setString(5, this.name);
-            ps.setString(6, newValue);
 
             ps.execute();
 
@@ -160,7 +150,7 @@ public class IntegerVariable extends SimulationVariable {
         return returnString;
     }
 
-    @Override
+
     public String createInitialValueEntry(String tableName,
             String running_game_id) {
 
@@ -215,11 +205,7 @@ public class IntegerVariable extends SimulationVariable {
 
             PreparedStatement ps = connection.prepareStatement(insertSQL);
 
-            ps.setString(1, this.game_id);
-            ps.setString(2, this.name);
-            ps.setString(3, this.description);
-            ps.setString(4, this.propagation_type);
-            ps.setString(5, this.initialValue);
+
 
             ps.execute();
 
@@ -228,7 +214,7 @@ public class IntegerVariable extends SimulationVariable {
             ResultSet rs = stmt.executeQuery(queryId);
 
             if (rs.next()) {
-                this.set_sf_id(rs.getLong(1));
+                //this.set_sf_id(rs.getLong(1));
             }
             connection.close();
 
@@ -248,15 +234,13 @@ public class IntegerVariable extends SimulationVariable {
      */
     public String load() {
 
-        String selectSQL = "SELECT * FROM `sf_var_integer` WHERE sf_id = "
-                + this.get_sf_id();
+        String selectSQL = "SELECT * FROM `sf_var_integer` WHERE sf_id = ";
 
         try {
             Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rst = stmt.executeQuery(selectSQL);
 
-            this.name = selectSQL;
 
             if (rst.next()) {
                 loadMeFromResultSet(rst);
@@ -267,7 +251,6 @@ public class IntegerVariable extends SimulationVariable {
 
         } catch (Exception e) {
             e.printStackTrace();
-            this.name += e.getMessage();
             return e.getMessage();
         }
         return "";
@@ -275,12 +258,7 @@ public class IntegerVariable extends SimulationVariable {
 
     public void loadMeFromResultSet(ResultSet rst) throws SQLException {
 
-        this.set_sf_id(rst.getLong("sf_id"));
-        this.game_id = rst.getString("game_id");
-        this.name = rst.getString("var_name");
-        this.description = rst.getString("description");
-        this.propagation_type = rst.getString("prop_type");
-        this.initialValue = rst.getString("initial_value");
+
 
         this.maxValue = rst.getFloat("max_value");
         this.minValue = rst.getFloat("min_value");
@@ -365,17 +343,7 @@ public class IntegerVariable extends SimulationVariable {
 
             PreparedStatement ps = connection.prepareStatement(insertSQL);
 
-            ps.setString(1, this.get_sf_id());
-            ps.setString(2, this.game_id);
-            ps.setString(3, running_game_id);
-            ps.setString(4, this.name);
-            ps.setString(5, this.initialValue);
-            ps.setString(6, this.has_min);
-            ps.setString(7, this.has_max);
-            ps.setString(8, this.min_value);
-            ps.setString(9, this.max_value);
-            ps.setString(10, this.propagation_type);
-            ps.setString(11, this.description);
+
 
             ps.execute();
 
@@ -384,7 +352,7 @@ public class IntegerVariable extends SimulationVariable {
             ResultSet rs = stmt.executeQuery(queryId);
 
             if (rs.next()) {
-                this.sim_id = rs.getInt(1) + "";
+               // this.sim_id = rs.getInt(1) + "";
             }
             connection.close();
 
@@ -398,7 +366,7 @@ public class IntegerVariable extends SimulationVariable {
 
     }
 
-    @Override
+
     public String getCurrentValue(String tableName, String simId,
             String gameround) {
         String returnString = "";
@@ -428,7 +396,6 @@ public class IntegerVariable extends SimulationVariable {
         return returnString;
     }
 
-    @Override
     public String removeFromDB() {
         String debug = "start: ";
 
@@ -436,8 +403,7 @@ public class IntegerVariable extends SimulationVariable {
             Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
 
-            String removeSQL = "delete from `sf_var_integer` where sf_id = "
-                    + this.get_sf_id();
+            String removeSQL = "delete from `sf_var_integer` where sf_id = ";
 
             debug += removeSQL;
             stmt.execute(removeSQL);
@@ -453,7 +419,6 @@ public class IntegerVariable extends SimulationVariable {
 
     }
 
-    @Override
     public Vector getPastValues(String tableName, String simId) {
 
         Vector returnVector = new Vector();

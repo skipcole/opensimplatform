@@ -150,7 +150,7 @@ body {
             <td><h2>Phase</h2></td>
           </tr>
           <%
-		  	List rsList = new RunningSimulation().getAllForSim(pso.sim_id.toString(), pso.schema);
+		  	List rsList = RunningSimulation.getAllForSim(pso.sim_id.toString(), pso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();

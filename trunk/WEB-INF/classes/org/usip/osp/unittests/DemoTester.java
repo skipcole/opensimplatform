@@ -24,9 +24,7 @@ public class DemoTester extends BaseTester{
     public static Actor act_legistator = new Actor();
     public static Actor act_business_owner = new Actor();
     public static Actor act_control = new Actor();
-    
-    public static RunningSimulation rg = new RunningSimulation();
-    
+     
     
     public static String runTests(){
         String runOut = "Run Started: <BR>";

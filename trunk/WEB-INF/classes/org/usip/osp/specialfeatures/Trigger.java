@@ -35,12 +35,10 @@ public class Trigger extends SpecialFeature{
     
     public String triggerType = BUDGET_TYPE;
     public String targetType = INTEGER_TYPE;
-    
-    public BooleanVariable triggerBoolVar = new BooleanVariable();    
+     
     public BudgetVariable triggerBudVar = new BudgetVariable();
     public IntegerVariable triggerIntVar = new IntegerVariable();
-    
-    public BooleanVariable targetBoolVar = new BooleanVariable();    
+      
     public BudgetVariable targetBudVar = new BudgetVariable();
     public IntegerVariable targetIntVar = new IntegerVariable();
 

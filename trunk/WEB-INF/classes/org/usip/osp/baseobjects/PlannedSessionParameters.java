@@ -24,6 +24,12 @@ import javax.persistence.Table;
 @Table(name = "PSP")
 public class PlannedSessionParameters {
 
+	/** Zero argument constructor. Useful for hibernate, and useful to see if anything is creating this 
+	 * object (by doing a 'open call hierarchy' in eclipse).  */
+	public PlannedSessionParameters(){
+		
+	}
+	
 	/** Synchronous or Asynchronous */
 	private String play_type = "";
 	
