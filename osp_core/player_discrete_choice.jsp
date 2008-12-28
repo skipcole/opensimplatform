@@ -13,8 +13,18 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
+	pso.takePlayerChoice(request, cs);
+	
+	// Get the generic variable associated with this decision
+	Long currentVarId = (Long) cs.getContents().get(PSO_SectionMgmt.GEN_VAR_KEY);
+
 	// Get list of allowable responses
 	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);
+	
+	////////////////////////////////////////
+	Vector answersSelected = pso.selectedChoices(currentVarId, allowableResponses);
+	
+	///////////////////////////////////////
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -48,17 +58,22 @@ body {
               <br />
 			 
       <form action="player_discrete_choice.jsp" method="post" name="form2" id="form2">
+      	<input type="hidden" name="cs_id" value="<%= cs_id %>" />
         <input type="hidden" name="num_ars" value="<%= allowableResponses.size() %>" />
         <blockquote>
           <p><%= cs.getBigString() %></p>
             <table width="100%" border="0">
               <%
 		
+		int ii = 0;
 		for (ListIterator li = allowableResponses.listIterator(); li.hasNext();) {
-			AllowableResponse ar = (AllowableResponse) li.next();
+			AllowableResponse ar = (AllowableResponse) li.next();	
 			%>
               <tr>
-                <td width="16%" valign="top"><input type="radio" name="players_choice" id="radio" value="<%= ar.getId() %>" /></td>
+                <td width="16%" valign="top">
+                <input type="radio" name="players_choice" id="players_choice" value="<%= ar.getId() %>" <%= (String) answersSelected.get(ii) %> />
+                <% ii += 1; %>
+                </td>
                 <td width="16%" valign="top"><%= ar.getIndex() %></td>
                 <td width="67%" valign="top">
                   <%= ar.getResponseText() %>
@@ -68,13 +83,9 @@ body {
               <% } // end of loop over allowable responses %>
               </table>
             <p>
-              <label></label>
-              </p>
-            <p>&nbsp;</p>
-            <p> 
               <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
-              <input type="hidden" name="sending_page" value="make_player_discrete_choice" />
-              <input type="submit" name="save_page" value="Save" />
+              <input type="hidden" name="sending_page" value="player_discrete_choice" />
+              <input type="submit" name="save_page" value="Submit" />
               </p>
             <p>&nbsp;</p>
           </blockquote>
