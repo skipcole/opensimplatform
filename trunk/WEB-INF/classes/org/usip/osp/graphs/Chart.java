@@ -104,7 +104,7 @@ public class Chart extends SpecialFeature {
 
             if (rs.next()) {
             	
-                this.set_sf_id(rs.getLong(1));
+                //this.set_sf_id(rs.getLong(1));
             }
 
             connection.close();
@@ -115,7 +115,7 @@ public class Chart extends SpecialFeature {
         }
         
         gs.setTab_heading(this.name);
-        saveGameSectionEntry();
+        //saveGameSectionEntry();
 
         return debug;
     }
@@ -194,7 +194,7 @@ public class Chart extends SpecialFeature {
 
     public void loadMeFromResultSet(ResultSet rst) throws SQLException {
 
-        this.set_sf_id(rst.getLong("sf_id"));
+        //this.set_sf_id(rst.getLong("sf_id"));
         this.game_id = rst.getString("game_id");
         
         this.variableSFID = rst.getString("var_sf_id");
