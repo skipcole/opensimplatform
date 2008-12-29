@@ -24,6 +24,7 @@
 	if (pso.sim_id != null){
 		simulation = pso.giveMeSim();
 	}
+	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -295,10 +296,10 @@ body {
 			%>
 		    <% } // End of loop over phases %>
 			<% if (iIndex != 0) { 
-				PrintWriter mywriter = response.getWriter();
-				mywriter.println("</TR>");
-			%>
-				
+					//PrintWriter mywriter = response.getWriter();
+					//mywriter.println("</TR>");
+				%> 
+                </tr>
 			<% } %>
 		</table>
 		

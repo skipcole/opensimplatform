@@ -61,36 +61,6 @@ public class PlayerControlToggleBoolean extends SpecialFeature {
         return "sim_pc_toggle_boolean_";
     }
 
-
-    @Override
-    public Vector getSetForASimulation(String game_id) {
-        Vector rv = new Vector();
-
-        String selectSDs = "SELECT * FROM `special_features` "
-                + "WHERE sf_label = '" + this.getSpecialFieldLabel()
-                + "' AND game_id = " + game_id;
-
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-            ResultSet rst = stmt.executeQuery(selectSDs);
-
-            while (rst.next()) {
-                PlayerControlToggleBoolean pc = new PlayerControlToggleBoolean();
-
-                pc.loadMeFromResultSet(rst);
-
-                rv.add(pc);
-            } // End of loop over results set
-
-            connection.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return rv;
-    }
     
     public void loadMeFromResultSet(ResultSet rst) throws SQLException {
 

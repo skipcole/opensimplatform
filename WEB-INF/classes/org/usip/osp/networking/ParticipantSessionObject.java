@@ -2649,7 +2649,9 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Accepts players choice and saves it to the database.
+	 * Accepts players choice and saves it to the database in two places: in the custom section itself,
+	 * and in the generic variable. This redundancy makes it easier to display the value and to act on the 
+	 * value in case any triggers have been placed on that variable.
 	 * 
 	 * @param request
 	 * @param cs
@@ -2661,8 +2663,12 @@ public class ParticipantSessionObject {
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("player_discrete_choice"))) {
 			String players_choice = (String) request.getParameter("players_choice");
 			Long answer_chosen = new Long(players_choice);
-			cs.getContents().put(PSO_SectionMgmt.GEN_VAR_KEY, answer_chosen);
+			cs.getContents().put(GenericVariable.GEN_VAR_KEY, answer_chosen);
 			cs.save(schema);
+			
+			// Save the answer currently selected in the generic variable itself.
+			GenericVariable gv = GenericVariable.pullMeOut(schema,cs);
+			gv.setCurrentlySelectedResponse(answer_chosen);
 		}
 	}
 

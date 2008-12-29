@@ -73,13 +73,6 @@ public abstract class SpecialFeature{
         return this.sf_id.toString();
     }
     
-    /**
-     * Returns a vector full of these objects.
-     * 
-     * @param game_id
-     * @return
-     */
-    public abstract Vector getSetForASimulation(String game_id);
     
     /**
      * In general this gets a list of all of the special features of this particular

@@ -16,7 +16,7 @@
 	pso.takePlayerChoice(request, cs);
 	
 	// Get the generic variable associated with this decision
-	Long currentVarId = (Long) cs.getContents().get(PSO_SectionMgmt.GEN_VAR_KEY);
+	Long currentVarId = (Long) cs.getContents().get(GenericVariable.GEN_VAR_KEY);
 
 	// Get list of allowable responses
 	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);

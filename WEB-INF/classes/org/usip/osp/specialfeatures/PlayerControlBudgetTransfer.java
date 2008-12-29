@@ -63,35 +63,7 @@ public class PlayerControlBudgetTransfer extends SpecialFeature {
         return "sim_pc_fund_xfer_";
     }
 
-    @Override
-    public Vector getSetForASimulation(String game_id) {
-        Vector rv = new Vector();
 
-        String selectSDs = "SELECT * FROM `special_features` "
-                + "WHERE sf_label = '" + this.getSpecialFieldLabel()
-                + "' AND game_id = " + game_id;
-
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-            ResultSet rst = stmt.executeQuery(selectSDs);
-
-            while (rst.next()) {
-                PlayerControlBudgetTransfer pc = new PlayerControlBudgetTransfer();
-
-                pc.loadMeFromResultSet(rst);
-
-                rv.add(pc);
-            } // End of loop over results set
-
-            connection.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return rv;
-    }
     
     public void loadMeFromResultSet(ResultSet rst) throws SQLException {
 
@@ -105,7 +77,7 @@ public class PlayerControlBudgetTransfer extends SpecialFeature {
         String returnString = "";
         
         // Find out if the game has simulation variables
-        Vector simPCs = new PlayerControlBudgetTransfer().getSetForASimulation(game.getId().toString());
+        Vector simPCs = new Vector();
 
         for (Enumeration e = simPCs.elements(); e.hasMoreElements();) {
             PlayerControlBudgetTransfer pcbt = (PlayerControlBudgetTransfer) e.nextElement();
