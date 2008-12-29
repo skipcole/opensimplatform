@@ -162,7 +162,7 @@ body {
                 <input type="hidden" name="ar_id_<%= ar.getIndex() %>" value="<%= ar.getId() %>" />
               </label></td>
               <td width="12%" valign="top"><label>
-                <input type="radio" name="ar_selected_<%= ar.getIndex() %>" id="radio" value="radio" />
+                <input type="radio" name="ar_selected_<%= ar.getIndex() %>" id="radio" value="true" />
               </label></td>
               <td width="5%" valign="top"><a href="delete_object.jsp?object_type=allowable_response&objid=<%= ar.getId() %>&object_info="Answer <%= ar.getIndex() %>"><img src="../simulation_authoring/images/delete.png" alt="Delete Answer" width="26" height="22" border="0" /></a></td>
             </tr>

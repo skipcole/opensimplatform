@@ -164,7 +164,6 @@ public class Chart extends SpecialFeature {
         }
     }
 
-    @Override
     public Vector getSetForASimulation(String game_id) {
         Vector rv = new Vector();
 

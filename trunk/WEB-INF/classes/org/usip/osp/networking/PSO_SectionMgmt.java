@@ -31,8 +31,6 @@ import com.oreilly.servlet.MultipartRequest;
  * 
  */
 public class PSO_SectionMgmt {
-
-	public static final String GEN_VAR_KEY = "gen_var_key";
 	
 	private Long phase_being_worked_on_id;
 
@@ -1138,8 +1136,9 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 			
-			handleCreationOrUpdateOfAllowableResponse(customizableSectionOnScratchPad.getId(), request, pso.schema);
+			handleCreationOrUpdateOfAllowableResponse(customizableSectionOnScratchPad, request, pso.schema);
 			
+			handleCreationOrUpdateOfTriggers(customizableSectionOnScratchPad.getId(), request, pso.schema);
 
 		}
 		
@@ -1160,7 +1159,7 @@ public class PSO_SectionMgmt {
 	 * Update values of the allowable responses
 	 * Store the values of the allowable response ids in the contents hashtable.
 	 */	
-	public void handleCreationOrUpdateOfAllowableResponse(Long cust_id, HttpServletRequest request, String schema){
+	public static void handleCreationOrUpdateOfAllowableResponse(CustomizeableSection cust, HttpServletRequest request, String schema){
 		
 		String num_ars = (String) request.getParameter("num_ars");
 		
@@ -1169,6 +1168,7 @@ public class PSO_SectionMgmt {
 		for (int ii = 1; ii <= numb_ars; ++ii){
 			String ar_text = (String) request.getParameter("ar_text_" + ii);
 			String ar_id = (String) request.getParameter("ar_id_" + ii);
+			String ar_selected = (String) request.getParameter("ar_selected_" + ii);
 			
 			AllowableResponse thisResponse = new AllowableResponse();
 			
@@ -1177,23 +1177,36 @@ public class PSO_SectionMgmt {
 					Long thisResponseID = new Long(ar_id);
 					thisResponse = AllowableResponse.getMe(schema, thisResponseID);
 					
+					if ((ar_selected != null) && (ar_selected.equalsIgnoreCase("true")) ){
+						// Mark it in the custom section
+						cust.getContents().put(GenericVariable.GEN_VAR_KEY, thisResponseID);
+						// Mark it in the generic variable.
+						GenericVariable gv = GenericVariable.pullMeOut(schema, cust);
+						gv.setCurrentlySelectedResponse(thisResponseID);
+					}
+					
 				}catch (Exception e){
 					e.printStackTrace();
 				}
 			}
 			
-			thisResponse.setCust_id(cust_id);
+			thisResponse.setCust_id(cust.getId());
 			thisResponse.setResponseText(ar_text);
 			thisResponse.setIndex(ii);
 			thisResponse.saveMe(schema);
 			
 		}
-		/**
-
-			// ar_selected_1	indicates if response 1 starts out selected.
-		*/
 		
 	}
+	
+	/**
+	 * Creates any triggers on this variable.
+	 */	
+	public void handleCreationOrUpdateOfTriggers(Long cust_id, HttpServletRequest request, String schema){
+		
+		
+	}
+
 	
 
 	/**
@@ -1211,14 +1224,14 @@ public class PSO_SectionMgmt {
 	/** Adds a generic variable to this custom section if it does not already have one created. */
 	public void addGenericVariableIfNeeded(){
 		
-		String currentVarId = (String) customizableSectionOnScratchPad.getContents().get(GEN_VAR_KEY);
+		String currentVarId = (String) customizableSectionOnScratchPad.getContents().get(GenericVariable.GEN_VAR_KEY);
 		
 		if (currentVarId == null){
 			GenericVariable gv = new GenericVariable();
 			gv.setSim_id(pso.sim_id);
 			gv.saveMe(pso.schema);
 			
-			customizableSectionOnScratchPad.getContents().put(GEN_VAR_KEY, gv.getId());
+			customizableSectionOnScratchPad.getContents().put(GenericVariable.GEN_VAR_KEY, gv.getId());
 			
 		}
 		

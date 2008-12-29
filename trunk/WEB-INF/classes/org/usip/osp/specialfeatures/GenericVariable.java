@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -28,6 +29,9 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Table(name = "GENERICVARIABLES")
 @Proxy(lazy = false)
 public class GenericVariable {
+	
+	/** Key to pull id out if stored in Hashtable */
+	public static final String GEN_VAR_KEY = "gen_var_key";
 
 	/** Database id. */
 	@Id
@@ -47,7 +51,18 @@ public class GenericVariable {
     private Long rs_id;
     
     private String value = "";
+    
+    /** If a value has been set for this variable, this indicates the allowable response holding the answer. */
+    private Long currentlySelectedResponse;
 	
+
+	public Long getCurrentlySelectedResponse() {
+		return currentlySelectedResponse;
+	}
+
+	public void setCurrentlySelectedResponse(Long currentlySelectedResponse) {
+		this.currentlySelectedResponse = currentlySelectedResponse;
+	}
 
 	public Long getId() {
 		return id;
@@ -160,6 +175,15 @@ public class GenericVariable {
 		hibernate_session.saveOrUpdate(gv);
 		
 		return gv;
+	}
+	
+	/** Gets the GenericVariable referred to in a custom sections hashtable. */
+	public static GenericVariable pullMeOut(String schema, CustomizeableSection cust){
+		
+		Long gv_id = (Long) cust.getContents().get(GEN_VAR_KEY);
+		
+		return getMe(schema, cust.getId());
+		
 	}
 
 	
