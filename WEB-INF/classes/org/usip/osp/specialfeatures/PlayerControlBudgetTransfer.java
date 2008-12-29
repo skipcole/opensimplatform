@@ -64,85 +64,6 @@ public class PlayerControlBudgetTransfer extends SpecialFeature {
     }
 
     @Override
-    public String store() {
-        String debug = "start: ";
-
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-
-            String insertSQL = "INSERT INTO `special_features` ( sf_id, "
-                    + "game_id, `sf_label` , `value_label1`, `value_text1`, `value_text2`, `value_text3` "
-                    + " ) VALUES ( NULL , ?, '" + getSpecialFieldLabel()
-                    + "', ?, ?, ?, ?)";
-
-            debug += insertSQL;
-
-            PreparedStatement ps = connection.prepareStatement(insertSQL);
-
-            ps.setString(1, this.game_id);
-
-            ps.setString(2, this.name);
-
-            ps.setString(3, this.description);
-            
-            ps.setString(4, this.fromAcctString);
-            
-            ps.setString(5, this.toAcctString);
-
-            ps.execute();
-
-            String queryId = "select LAST_INSERT_ID()";
-
-            ResultSet rs = stmt.executeQuery(queryId);
-
-            if (rs.next()) {
-                this.set_sf_id(rs.getLong(1));
-            }
-            connection.close();
-
-        } catch (Exception e) {
-            debug += e.getMessage();
-            e.printStackTrace();
-        }
-
-        // Make an entry so this player control can be assigned to players.
-        gs.setTab_heading("SF: " + this.name);
-        saveGameSectionEntry();
-
-        return debug;
-
-    }
-
-    @Override
-    public String load() {
-        
-        String selectSQL = "SELECT * FROM `special_features` WHERE sf_id = " + this.get_sf_id();
-        
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-            ResultSet rst = stmt.executeQuery(selectSQL);
-
-            this.name = selectSQL;
-
-            if (rst.next()) {
-                this.loadMeFromResultSet(rst);
-            } // End of loop over results set
-
-            connection.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.name += e.getMessage();
-            return e.getMessage();
-        }
-        
-        return "";
-    
-    }
-
-    @Override
     public Vector getSetForASimulation(String game_id) {
         Vector rv = new Vector();
 
@@ -174,15 +95,6 @@ public class PlayerControlBudgetTransfer extends SpecialFeature {
     
     public void loadMeFromResultSet(ResultSet rst) throws SQLException {
 
-        this.set_sf_id(rst.getLong("sf_id"));
-        this.sim_id = this.get_sf_id();
-        this.game_id = rst.getString("game_id");
-        this.name = rst.getString("value_label1");
-        this.fromSimAcctString = rst.getString("value_label2");
-        this.toSimAcctString = rst.getString("value_label3");
-        this.description = rst.getString("value_text1");
-        this.fromAcctString = rst.getString("value_text2");
-        this.toAcctString = rst.getString("value_text3");
 
     }
     

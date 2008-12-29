@@ -64,33 +64,6 @@ public abstract class SpecialFeature{
     
     public abstract String getShortNameBase();
     
-    public void saveGameSectionEntry(){
-        
-        //gs.section_short_name = getShortNameBase() + this.sf_id;
-        
-        //gs.page_file_name = this.jsp_page;
-        //gs.section_type = SimulationSection.CORE;
-        
-        //TODO
-        //gs.storeBaseSection();
-        
-    }
-    
-    /**
-     * Stores this object in the base table that stores the archetypal information.
-     * @return
-     */
-    public abstract String store();
-    
-    /**
-     * Loads this object out of the base table that stores the archetypal information.
-     *
-     */
-    public abstract String load();   
-    
-    public void set_sf_id(Long id){
-        this.sf_id = id;
-    }
     
     /**
      * Returns the special feature id of this special feature.

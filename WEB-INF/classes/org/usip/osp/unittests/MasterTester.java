@@ -208,7 +208,6 @@ public class MasterTester extends BaseTester{
         //pcbt1.fromAcctString = bd_v1.get_sf_id();
         //pcbt1.toAcctString = bd_v2.get_sf_id();
         
-        returnString += pcbt1.store();
         returnString += b + "Player Budget Transfer Control Created";
         
         return returnString;
