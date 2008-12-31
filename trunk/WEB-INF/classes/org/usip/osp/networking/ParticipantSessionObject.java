@@ -2630,28 +2630,33 @@ public class ParticipantSessionObject {
 	 * @param allowableResponses
 	 * @return
 	 */
-	public Vector selectedChoices(Long currentVarId, List allowableResponses) {
+	public Vector selectedChoices(CustomizeableSection cs) {
 
 		Vector answersSelected = new Vector();
+		
+		// Get the generic variable associated with this decision
+		Long varId = (Long) cs.getContents().get(GenericVariable.GEN_VAR_KEY);
+		GenericVariable gv = GenericVariable.getMe(schema, varId);
+		
+		// Get list of allowable responses
+		List allowableResponses = AllowableResponse.pullOutArs(cs, schema);
 
 		for (ListIterator li = allowableResponses.listIterator(); li.hasNext();) {
 			AllowableResponse ar = (AllowableResponse) li.next();
 
-			if ((currentVarId != null) && (currentVarId.equals(ar.getId()))) {
+			if ((gv != null) && (gv.getCurrentlySelectedResponse().equals(ar.getId()))) {
 				answersSelected.add(" checked ");
 			} else {
 				answersSelected.add("");
 			}
-
 		}
 
 		return answersSelected;
 	}
 
 	/**
-	 * Accepts players choice and saves it to the database in two places: in the custom section itself,
-	 * and in the generic variable. This redundancy makes it easier to display the value and to act on the 
-	 * value in case any triggers have been placed on that variable.
+	 * Accepts players choice and saves it to the database in the generic variable associated with this
+	 * custom page.
 	 * 
 	 * @param request
 	 * @param cs
@@ -2663,12 +2668,11 @@ public class ParticipantSessionObject {
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("player_discrete_choice"))) {
 			String players_choice = (String) request.getParameter("players_choice");
 			Long answer_chosen = new Long(players_choice);
-			cs.getContents().put(GenericVariable.GEN_VAR_KEY, answer_chosen);
-			cs.save(schema);
 			
 			// Save the answer currently selected in the generic variable itself.
 			GenericVariable gv = GenericVariable.pullMeOut(schema,cs);
 			gv.setCurrentlySelectedResponse(answer_chosen);
+			gv.saveMe(schema);
 		}
 	}
 

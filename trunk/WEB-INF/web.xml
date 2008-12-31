@@ -13,6 +13,20 @@
         org.usip.osp.networking.USIP_OSP_ContextListener
       </listener-class>
     </listener>
+	
+	<jsp-config>
+	    <taglib>
+          <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+          <taglib-location>/WEB-INF/c-1_0.tld</taglib-location>
+        </taglib>
+
+        <taglib>
+          <taglib-uri>http://java.sun.com/jsp/jstl/core-rt</taglib-uri>
+          <taglib-location>/WEB-INF/c-1_0-rt.tld</taglib-location>
+        </taglib>
+
+</jsp-config>
+
 <!--
 <welcome-file-list>
 			<welcome-file>
