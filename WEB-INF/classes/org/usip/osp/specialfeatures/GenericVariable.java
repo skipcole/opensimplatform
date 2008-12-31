@@ -182,7 +182,7 @@ public class GenericVariable {
 		
 		Long gv_id = (Long) cust.getContents().get(GEN_VAR_KEY);
 		
-		return getMe(schema, cust.getId());
+		return getMe(schema, gv_id);
 		
 	}
 

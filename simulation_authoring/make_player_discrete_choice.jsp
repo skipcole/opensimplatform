@@ -178,13 +178,13 @@ body {
             <label></label>
             Put chances made here into the After Action Report? 
             <label>
-            <input type="radio" name="radio3" id="radio3" value="radio3" />
+            <input type="radio" name="add_final_value_text_to_aar" id="add_final_value_text_to_aar_false" value="false" /> No
             </label> 
-            No / 
+            / 
             <label>
-            <input type="radio" name="radio4" id="radio4" value="radio4" />
+            <input type="radio" name="add_final_value_text_to_aar" id="add_final_value_text_to_aar" value="true" /> Yes
             </label> 
-            Yes
+     
 </p>
           <p>If a particular answer is going to lead to some particular text appearing in the after action report, place it below.</p>
           <table width="100%" border="0">
@@ -212,14 +212,15 @@ body {
           <p>&nbsp;</p>
         </blockquote>
       </form>
-	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->			</td>
+	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
+			</td>
 		</tr>
 		</table>
 	</td>
   </tr>
   <tr> 
     <td>
-    <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
+    <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>.</p></td>
   </tr>
 </table>
 </td></tr></table>

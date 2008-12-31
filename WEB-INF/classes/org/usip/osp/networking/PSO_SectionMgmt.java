@@ -13,6 +13,7 @@ import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.specialfeatures.AllowableResponse;
 import org.usip.osp.specialfeatures.GenericVariable;
+import org.usip.osp.specialfeatures.Trigger;
 
 import com.oreilly.servlet.MultipartRequest;
 
@@ -1138,7 +1139,7 @@ public class PSO_SectionMgmt {
 			
 			handleCreationOrUpdateOfAllowableResponse(customizableSectionOnScratchPad, request, pso.schema);
 			
-			handleCreationOrUpdateOfTriggers(customizableSectionOnScratchPad.getId(), request, pso.schema);
+			handleCreationOrUpdateOfTriggers(customizableSectionOnScratchPad, request, pso.schema);
 
 		}
 		
@@ -1178,8 +1179,6 @@ public class PSO_SectionMgmt {
 					thisResponse = AllowableResponse.getMe(schema, thisResponseID);
 					
 					if ((ar_selected != null) && (ar_selected.equalsIgnoreCase("true")) ){
-						// Mark it in the custom section
-						cust.getContents().put(GenericVariable.GEN_VAR_KEY, thisResponseID);
 						// Mark it in the generic variable.
 						GenericVariable gv = GenericVariable.pullMeOut(schema, cust);
 						gv.setCurrentlySelectedResponse(thisResponseID);
@@ -1202,8 +1201,21 @@ public class PSO_SectionMgmt {
 	/**
 	 * Creates any triggers on this variable.
 	 */	
-	public void handleCreationOrUpdateOfTriggers(Long cust_id, HttpServletRequest request, String schema){
+	public void handleCreationOrUpdateOfTriggers( CustomizeableSection cs, HttpServletRequest request, String schema){
 		
+		String add_final_value_text_to_aar = (String) request.getParameter("add_final_value_text_to_aar");
+		if ((add_final_value_text_to_aar != null) && (add_final_value_text_to_aar.equalsIgnoreCase("true"))){
+			Trigger trig = Trigger.pullMeOut(schema, cs);
+			if (trig == null ){
+				trig = new Trigger();
+			}
+			
+			trig.setSim_id(pso.sim_id);
+			trig.setVar_type(Trigger.VAR_TYPE_GENERIC);
+			trig.setCheck_fire(Trigger.CHECK_FIRE_ON_END);
+			trig.setAction_type(Trigger.ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR);
+			trig.saveMe(schema);
+		}
 		
 	}
 

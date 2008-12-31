@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 
+import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -28,9 +29,14 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class Trigger{
 
+	/** Key to pull id out if stored in Hashtable */
+	public static final String TRIGGER_KEY = "trigger_key";
+	
     public static final int VAR_TYPE_GENERIC = 0;
     
     public static final int ACT_TYPE_FINAL_VALUE_TO_AAR = 0;
+    
+    public static final int ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR = 0;
     
     public static final int CHECK_FIRE_ON_END = 0;
     public static final int CHECK_FIRE_ON_PHASE_CHANGE = 1;
@@ -109,6 +115,11 @@ public class Trigger{
 	 * @return
 	 */
 	public static Trigger getMe(String schema, Long t_id) {
+		
+		if (t_id == null) {
+			return null;
+		}
+		
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Trigger this_t = (Trigger) MultiSchemaHibernateUtil
@@ -120,6 +131,14 @@ public class Trigger{
 
 	}
 
-    
+	
+	/** Gets the GenericVariable referred to in a custom sections hashtable. */
+	public static Trigger pullMeOut(String schema, CustomizeableSection cust){
+		
+		Long t_id = (Long) cust.getContents().get(TRIGGER_KEY);
+		
+		return getMe(schema, t_id);
+		
+	}
 
 }
