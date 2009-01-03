@@ -12,14 +12,16 @@
 	
 	CustomizeableSection cs = pso.handleMakePlayerDiscreteChoice(request);
 	
-	// Get list of allowable responses
-	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);
-	
 	if (pso.forward_on){
 		pso.forward_on = false;
 		response.sendRedirect(pso.backPage);
 		return;
 	}
+	
+	// Get list of allowable responses
+	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);
+	
+	Hashtable answersSelected = pso.selectedChoices(cs);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -158,11 +160,12 @@ body {
             <tr>
               <td width="16%" valign="top"><%= ar.getIndex() %></td>
               <td width="67%" valign="top"><label>
-                <input name="ar_text_<%= ar.getIndex() %>" type="text" id="textfield" size="60" value="<%= ar.getResponseText() %>" />
+                <input name="ar_choice_text_<%= ar.getIndex() %>" type="text" id="textfield" size="60" value="<%= ar.getResponseText() %>" />
                 <input type="hidden" name="ar_id_<%= ar.getIndex() %>" value="<%= ar.getId() %>" />
               </label></td>
               <td width="12%" valign="top"><label>
-                <input type="radio" name="ar_selected_<%= ar.getIndex() %>" id="radio" value="true" />
+              
+                <input type="radio" name="ar_selected_<%= ar.getIndex() %>" id="radio" value="true" <%= (String) answersSelected.get(ar.getId()) %>  /><%= ar.getId() %>
               </label></td>
               <td width="5%" valign="top"><a href="delete_object.jsp?object_type=allowable_response&objid=<%= ar.getId() %>&object_info="Answer <%= ar.getIndex() %>"><img src="../simulation_authoring/images/delete.png" alt="Delete Answer" width="26" height="22" border="0" /></a></td>
             </tr>
@@ -196,7 +199,7 @@ body {
             <tr>
               <td width="6%" valign="top"><%= ar.getIndex() %></td>
               <td width="94%" valign="top"><label>
-                <textarea name="ar_aar_text_<%= ar.getId() %>" id="textarea3" cols="45" rows="5"></textarea>
+                <textarea name="ar_aar_text_<%= ar.getId() %>" id="textarea3" cols="45" rows="5"><%= ar.getSpecificWordsForAAR() %></textarea>
               </label></td>
             </tr>
             <% } // end of loop over allowable responses %>

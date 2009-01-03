@@ -4,7 +4,8 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 
-import org.usip.osp.baseobjects.CustomizeableSection;
+import org.usip.osp.baseobjects.*;
+import org.usip.osp.networking.ParticipantSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -27,34 +28,38 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "TRIGGERS")
 @Proxy(lazy = false)
-public class Trigger{
+public class Trigger {
 
 	/** Key to pull id out if stored in Hashtable */
 	public static final String TRIGGER_KEY = "trigger_key";
-	
-    public static final int VAR_TYPE_GENERIC = 0;
-    
-    public static final int ACT_TYPE_FINAL_VALUE_TO_AAR = 0;
-    
-    public static final int ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR = 0;
-    
-    public static final int CHECK_FIRE_ON_END = 0;
-    public static final int CHECK_FIRE_ON_PHASE_CHANGE = 1;
-    
+
+	public static final int VAR_TYPE_GENERIC = 0;
+
+	public static final int ACT_TYPE_FINAL_VALUE_TO_AAR = 0;
+
+	public static final int ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR = 0;
+
+	public static final int CHECK_FIRE_ON_END = 0;
+	public static final int CHECK_FIRE_ON_WHEN_CALLED = 1;
+	public static final int CHECK_FIRE_ON_PHASE_CHANGE = 2;
+	public static final int CHECK_FIRE_ON_ROUND_CHANGE = 3;
+
 	/** Database id of this Trigger. */
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	/** Simulation id. */
-    @Column(name = "SIM_ID")
-    private Long sim_id;
-    
-    private int var_type;
-    
-    private int action_type;
-    
-    private int check_fire;
+	@Column(name = "SIM_ID")
+	private Long sim_id;
+
+	private Long var_id;
+	
+	private int var_type;
+
+	private int action_type;
+
+	private int check_fire;
 
 	public Long getId() {
 		return id;
@@ -70,6 +75,14 @@ public class Trigger{
 
 	public void setSim_id(Long sim_id) {
 		this.sim_id = sim_id;
+	}
+
+	public Long getVar_id() {
+		return var_id;
+	}
+
+	public void setVar_id(Long var_id) {
+		this.var_id = var_id;
 	}
 
 	public int getVar_type() {
@@ -95,9 +108,10 @@ public class Trigger{
 	public void setCheck_fire(int check_fire) {
 		this.check_fire = check_fire;
 	}
-    
+
 	/**
 	 * Saves this Trigger to the database.
+	 * 
 	 * @param schema
 	 */
 	public void saveMe(String schema) {
@@ -107,7 +121,7 @@ public class Trigger{
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
@@ -115,15 +129,13 @@ public class Trigger{
 	 * @return
 	 */
 	public static Trigger getMe(String schema, Long t_id) {
-		
+
 		if (t_id == null) {
 			return null;
 		}
-		
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Trigger this_t = (Trigger) MultiSchemaHibernateUtil
-				.getSession(schema).get(Trigger.class, t_id);
+		Trigger this_t = (Trigger) MultiSchemaHibernateUtil.getSession(schema).get(Trigger.class, t_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -131,14 +143,30 @@ public class Trigger{
 
 	}
 
-	
 	/** Gets the GenericVariable referred to in a custom sections hashtable. */
-	public static Trigger pullMeOut(String schema, CustomizeableSection cust){
-		
+	public static Trigger pullMeOut(String schema, CustomizeableSection cust) {
+
 		Long t_id = (Long) cust.getContents().get(TRIGGER_KEY);
-		
+
 		return getMe(schema, t_id);
+
+	}
+
+	public void execute(ParticipantSessionObject pso) {
+
+		switch (action_type) {
 		
+		case ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR: {
+			GenericVariable gv = GenericVariable.getMe(pso.schema, var_id);
+			RunningSimulation rs = RunningSimulation.getMe(pso.schema, pso.running_sim_id);
+			
+			rs.setAar_text(rs.getAar_text() + gv.getValue());
+			
+		}
+		default: {
+
+		}
+		}
 	}
 
 }

@@ -1166,10 +1166,17 @@ public class PSO_SectionMgmt {
 		
 		int numb_ars = new Integer(num_ars).intValue();
 		
+		GenericVariable gv = GenericVariable.pullMeOut(schema, cust);
+		
+		// Unset any previously selected answers.
+		gv.setCurrentlySelectedResponse(null);
+		
 		for (int ii = 1; ii <= numb_ars; ++ii){
-			String ar_text = (String) request.getParameter("ar_text_" + ii);
+			String ar_choice_text = (String) request.getParameter("ar_choice_text_" + ii);
 			String ar_id = (String) request.getParameter("ar_id_" + ii);
 			String ar_selected = (String) request.getParameter("ar_selected_" + ii);
+			
+			System.out.println("ii was " + ii + " and ar_id was " + ar_id + " and ar_selected was " + ar_selected);
 			
 			AllowableResponse thisResponse = new AllowableResponse();
 			
@@ -1179,9 +1186,10 @@ public class PSO_SectionMgmt {
 					thisResponse = AllowableResponse.getMe(schema, thisResponseID);
 					
 					if ((ar_selected != null) && (ar_selected.equalsIgnoreCase("true")) ){
-						// Mark it in the generic variable.
-						GenericVariable gv = GenericVariable.pullMeOut(schema, cust);
+						// Mark it in the generic variable
 						gv.setCurrentlySelectedResponse(thisResponseID);
+						System.out.println("set gv current response: " + thisResponseID);
+						gv.saveMe(schema);
 					}
 					
 				}catch (Exception e){
@@ -1189,8 +1197,11 @@ public class PSO_SectionMgmt {
 				}
 			}
 			
+			String ar_aar_text = (String) request.getParameter("ar_aar_text_" + thisResponse.getId());
+			
 			thisResponse.setCust_id(cust.getId());
-			thisResponse.setResponseText(ar_text);
+			thisResponse.setResponseText(ar_choice_text);
+			thisResponse.setSpecificWordsForAAR(ar_aar_text);
 			thisResponse.setIndex(ii);
 			thisResponse.saveMe(schema);
 			
@@ -1212,7 +1223,7 @@ public class PSO_SectionMgmt {
 			
 			trig.setSim_id(pso.sim_id);
 			trig.setVar_type(Trigger.VAR_TYPE_GENERIC);
-			trig.setCheck_fire(Trigger.CHECK_FIRE_ON_END);
+			trig.setCheck_fire(Trigger.CHECK_FIRE_ON_WHEN_CALLED);
 			trig.setAction_type(Trigger.ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR);
 			trig.saveMe(schema);
 		}
@@ -1236,7 +1247,7 @@ public class PSO_SectionMgmt {
 	/** Adds a generic variable to this custom section if it does not already have one created. */
 	public void addGenericVariableIfNeeded(){
 		
-		String currentVarId = (String) customizableSectionOnScratchPad.getContents().get(GenericVariable.GEN_VAR_KEY);
+		Long currentVarId = (Long) customizableSectionOnScratchPad.getContents().get(GenericVariable.GEN_VAR_KEY);
 		
 		if (currentVarId == null){
 			GenericVariable gv = new GenericVariable();
