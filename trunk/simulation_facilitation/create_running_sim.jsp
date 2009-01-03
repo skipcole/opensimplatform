@@ -18,19 +18,8 @@
 	if (pso.sim_id != null){
 		simulation = pso.giveMeSim();
 	}
-		
-	String sending_page = (String) request.getParameter("sending_page");
-	String addRunningSimulation = (String) request.getParameter("addRunningSimulation");
 	
-	if ( (sending_page != null) && (addRunningSimulation != null) && (sending_page.equalsIgnoreCase("create_running_sim"))){
-
-		String rsn = (String) request.getParameter("running_sim_name");
-		RunningSimulation rs = simulation.addNewRunningSimulation(rsn, pso.schema);
-		
-		pso.running_sim_id = rs.getId();
-		pso.runningSimSelected = true;
-            
-	} // End of if coming from this page and have added sim.
+	pso.handleAddRunningSimulation(request, simulation);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

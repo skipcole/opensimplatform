@@ -13,9 +13,7 @@
 	}
 			
 	String sending_page = (String) request.getParameter("sending_page");
-	
-	System.out.println("sending page was: " + sending_page);
-	
+		
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("end_sim"))){
 		
 		pso.handleWriteAARandEndSim(request);

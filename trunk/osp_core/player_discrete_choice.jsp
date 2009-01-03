@@ -15,10 +15,10 @@
 	
 	pso.takePlayerChoice(request, cs);
 	
-	////////////////////////////////////////
-	Vector answersSelected = pso.selectedChoices(cs);
+	Hashtable answersSelected = pso.selectedChoices(cs);
 	
-	///////////////////////////////////////
+	// Get list of allowable responses
+	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -65,7 +65,7 @@ body {
 			%>
               <tr>
                 <td width="16%" valign="top">
-                <input type="radio" name="players_choice" id="players_choice" value="<%= ar.getId() %>" <%= (String) answersSelected.get(ii) %> />
+                <input type="radio" name="players_choice" id="players_choice" value="<%= ar.getId() %>" <%= (String) answersSelected.get(ar.getId()) %> />
                 <% ii += 1; %>
                 </td>
                 <td width="16%" valign="top"><%= ar.getIndex() %></td>

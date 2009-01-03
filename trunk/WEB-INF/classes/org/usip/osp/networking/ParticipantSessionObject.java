@@ -2591,6 +2591,28 @@ public class ParticipantSessionObject {
 		return (getMyPSO_SectionMgmt().handleMakeCaucusPage(request));
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @param simulation
+	 */
+	public void handleAddRunningSimulation(HttpServletRequest request, Simulation simulation) {
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String addRunningSimulation = (String) request.getParameter("addRunningSimulation");
+
+		if ((sending_page != null) && (addRunningSimulation != null)
+				&& (sending_page.equalsIgnoreCase("create_running_sim"))) {
+
+			String rsn = (String) request.getParameter("running_sim_name");
+			RunningSimulation rs = simulation.addNewRunningSimulation(rsn, schema);
+
+			running_sim_id = rs.getId();
+			runningSimSelected = true;
+
+		} // End of if coming from this page and have added running simulation
+	}
+
 	public Simulation handleCreateSchedulePage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleCreateSchedulePage(request));
 	}
@@ -2630,24 +2652,32 @@ public class ParticipantSessionObject {
 	 * @param allowableResponses
 	 * @return
 	 */
-	public Vector selectedChoices(CustomizeableSection cs) {
+	public Hashtable selectedChoices(CustomizeableSection cs) {
 
-		Vector answersSelected = new Vector();
-		
+		Hashtable answersSelected = new Hashtable();
+
 		// Get the generic variable associated with this decision
 		Long varId = (Long) cs.getContents().get(GenericVariable.GEN_VAR_KEY);
-		GenericVariable gv = GenericVariable.getMe(schema, varId);
 		
+		if (varId == null){
+			return answersSelected;
+		}
+		
+		GenericVariable gv = GenericVariable.getMe(schema, varId);
+
 		// Get list of allowable responses
 		List allowableResponses = AllowableResponse.pullOutArs(cs, schema);
 
 		for (ListIterator li = allowableResponses.listIterator(); li.hasNext();) {
 			AllowableResponse ar = (AllowableResponse) li.next();
 
-			if ((gv != null) && (gv.getCurrentlySelectedResponse().equals(ar.getId()))) {
-				answersSelected.add(" checked ");
+			System.out.println("!!!!!!!!!!!!!!!!!!checking " + ar.getId());
+	
+			if ((gv != null) && (gv.getCurrentlySelectedResponse() != null) && (gv.getCurrentlySelectedResponse().equals(ar.getId()))) {
+				answersSelected.put(ar.getId(), " checked ");
+				System.out.println("put in checked for " + ar.getId());
 			} else {
-				answersSelected.add("");
+				answersSelected.put(ar.getId(), "");
 			}
 		}
 
@@ -2655,8 +2685,8 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Accepts players choice and saves it to the database in the generic variable associated with this
-	 * custom page.
+	 * Accepts players choice and saves it to the database in the generic
+	 * variable associated with this custom page.
 	 * 
 	 * @param request
 	 * @param cs
@@ -2668,9 +2698,9 @@ public class ParticipantSessionObject {
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("player_discrete_choice"))) {
 			String players_choice = (String) request.getParameter("players_choice");
 			Long answer_chosen = new Long(players_choice);
-			
+
 			// Save the answer currently selected in the generic variable itself.
-			GenericVariable gv = GenericVariable.pullMeOut(schema,cs);
+			GenericVariable gv = GenericVariable.pullMeOut(schema, cs);
 			gv.setCurrentlySelectedResponse(answer_chosen);
 			gv.saveMe(schema);
 		}

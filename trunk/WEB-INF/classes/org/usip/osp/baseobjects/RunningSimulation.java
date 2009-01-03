@@ -106,6 +106,24 @@ public class RunningSimulation {
 		this.createMyVariables(schema, sim);
 		
 	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static RunningSimulation getMe(String schema, Long rs_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		RunningSimulation this_rs  = (RunningSimulation) MultiSchemaHibernateUtil
+				.getSession(schema).get(RunningSimulation.class, rs_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return this_rs;
+
+	}
 
 	/**
 	 * 

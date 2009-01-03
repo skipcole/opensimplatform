@@ -177,13 +177,13 @@ public class AllowableResponse implements Comparable{
 		AllowableResponse ar1 = new AllowableResponse();
 		ar1.setIndex(1);
 		ar1.setResponseText("Choice 1");
-		//ar1.saveMe(schema);
+		ar1.saveMe(schema);
 		
 		
 		AllowableResponse ar2 = new AllowableResponse();
 		ar2.setIndex(2);
 		ar2.setResponseText("Choice 2");
-		//ar2.saveMe(schema);
+		ar2.saveMe(schema);
 		
 		List returnList = new ArrayList<AllowableResponse>();
 		returnList.add(ar1);

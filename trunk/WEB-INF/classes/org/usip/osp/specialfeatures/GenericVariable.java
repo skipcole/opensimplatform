@@ -50,9 +50,10 @@ public class GenericVariable {
     @Column(name = "RS_ID")
     private Long rs_id;
     
+    @Lob
     private String value = "";
     
-    /** If a value has been set for this variable, this indicates the allowable response holding the answer. */
+    /** If a value has been set for this variable, this is the id allowable response holding the answer. */
     private Long currentlySelectedResponse;
 	
 
