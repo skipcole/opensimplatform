@@ -21,7 +21,7 @@
 	// Get list of allowable responses
 	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);
 	
-	Hashtable answersSelected = pso.selectedChoices(cs);
+	Hashtable answersSelected = pso.selectedChoices(cs, true);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->

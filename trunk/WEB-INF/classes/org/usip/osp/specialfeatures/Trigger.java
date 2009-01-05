@@ -1,7 +1,10 @@
 package org.usip.osp.specialfeatures;
 
+import java.util.*;
+
 import javax.persistence.*;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 
 import org.usip.osp.baseobjects.*;
@@ -39,10 +42,10 @@ public class Trigger {
 
 	public static final int ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR = 0;
 
-	public static final int CHECK_FIRE_ON_END = 0;
-	public static final int CHECK_FIRE_ON_WHEN_CALLED = 1;
-	public static final int CHECK_FIRE_ON_PHASE_CHANGE = 2;
-	public static final int CHECK_FIRE_ON_ROUND_CHANGE = 3;
+	public static final int FIRE_ON_END = 0;
+	public static final int FIRE_ON_WHEN_CALLED = 1;
+	public static final int FIRE_ON_PHASE_CHANGE = 2;
+	public static final int FIRE_ON_ROUND_CHANGE = 3;
 
 	/** Database id of this Trigger. */
 	@Id
@@ -59,7 +62,7 @@ public class Trigger {
 
 	private int action_type;
 
-	private int check_fire;
+	private int fire_on;
 
 	public Long getId() {
 		return id;
@@ -101,12 +104,12 @@ public class Trigger {
 		this.action_type = action_type;
 	}
 
-	public int getCheck_fire() {
-		return check_fire;
+	public int getFire_on() {
+		return fire_on;
 	}
 
-	public void setCheck_fire(int check_fire) {
-		this.check_fire = check_fire;
+	public void setFire_on(int fire_on) {
+		this.fire_on = fire_on;
 	}
 
 	/**
@@ -154,19 +157,56 @@ public class Trigger {
 
 	public void execute(ParticipantSessionObject pso) {
 
+		Logger.getRootLogger().warn("Trigger.execute");
 		switch (action_type) {
 		
 		case ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR: {
-			GenericVariable gv = GenericVariable.getMe(pso.schema, var_id);
-			RunningSimulation rs = RunningSimulation.getMe(pso.schema, pso.running_sim_id);
+			Logger.getRootLogger().warn("ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR");
 			
-			rs.setAar_text(rs.getAar_text() + gv.getValue());
+			GenericVariable gv = GenericVariable.getGVForRunningSim(pso.schema, var_id, pso.running_sim_id);
+			Logger.getRootLogger().warn("gv id: " +gv.getId());
+			
+			RunningSimulation rs = RunningSimulation.getMe(pso.schema, pso.running_sim_id);
+			Logger.getRootLogger().warn("rs id: " +rs.getId());
+			
+			AllowableResponse ar = AllowableResponse.getMe(pso.schema, gv.getCurrentlySelectedResponse());
+			Logger.getRootLogger().warn("ar id: " +ar.getId());
+			
+			rs.setAar_text(rs.getAar_text() + ar.getSpecificWordsForAAR());
+			rs.saveMe(pso.schema);
 			
 		}
 		default: {
 
 		}
 		}
+	}
+	
+	/**
+	 * Pulls the triggers out for a particular variable. 
+	 * 
+	 * @param schema
+	 * @param baseVarId	The id of the base variable this one was copied from.
+	 * @return
+	 */
+	public static List getTriggersForVariable(String schema, int var_type, Long baseVarId){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List returnList = new ArrayList();
+		
+		if (var_type == VAR_TYPE_GENERIC){
+			
+			System.out.println("from Trigger where var_id = '" + baseVarId + "'");
+
+				returnList = MultiSchemaHibernateUtil.getSession(schema)
+						.createQuery("from Trigger where var_id = '" + baseVarId + "'")
+						.list();
+
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		}
+
+		return returnList;
 	}
 
 }

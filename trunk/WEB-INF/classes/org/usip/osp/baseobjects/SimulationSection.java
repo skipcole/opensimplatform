@@ -578,61 +578,6 @@ public class SimulationSection {
 	}
 
 	/**
-	 * Applies the default sections (those with actor id = 0) to all of the
-	 * actors in a particular simulation during a particular phase.
-	 * 
-	 * For example, if when the game is in the 'in progress' phase, an actor
-	 * normally gets an introduction page, a role page and a chat page, then
-	 * that is what each actor will get.
-	 * 
-	 * @param sid
-	 * @param pid
-	 */
-	public static void _defunctApplyDefaultSectionsToAllActors(String schema,
-			Simulation sim, Long pid) {
-
-		// Get list of default sections (actor id = 0)
-		List defaultList = getBySimAndActorAndPhase(schema, sim.getId(),
-				new Long(0), pid);
-
-		// Get the list of actors
-		List actorList = sim.getActors();
-
-		// Assign the defaults to each actor
-		for (ListIterator lia = actorList.listIterator(); lia.hasNext();) {
-			Actor act = (Actor) lia.next();
-
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-
-			// Remove simulation sections assigned to this simulation and phase
-			List removeList = getBySimAndActorAndPhase(schema, sim.getId(), act
-					.getId(), pid);
-			for (ListIterator lis = removeList.listIterator(); lis.hasNext();) {
-				SimulationSection ss = (SimulationSection) lis.next();
-
-				MultiSchemaHibernateUtil.getSession(schema).delete(ss);
-
-			}
-
-			for (ListIterator lis = defaultList.listIterator(); lis.hasNext();) {
-				SimulationSection ss = (SimulationSection) lis.next();
-
-				SimulationSection ss_new = ss.createCopy();
-
-				ss_new.setActor_id(act.getId());
-
-				MultiSchemaHibernateUtil.getSession(schema)
-						.saveOrUpdate(ss_new);
-
-			}
-
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		}
-
-	}
-
-	/**
 	 * Changes positions of two simulation sections.
 	 * 
 	 * @param sec_id
