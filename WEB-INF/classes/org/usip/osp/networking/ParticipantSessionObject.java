@@ -2652,7 +2652,7 @@ public class ParticipantSessionObject {
 	 * @param allowableResponses
 	 * @return
 	 */
-	public Hashtable selectedChoices(CustomizeableSection cs) {
+	public Hashtable selectedChoices(CustomizeableSection cs, boolean baseVar) {
 
 		Hashtable answersSelected = new Hashtable();
 
@@ -2663,7 +2663,14 @@ public class ParticipantSessionObject {
 			return answersSelected;
 		}
 		
-		GenericVariable gv = GenericVariable.getMe(schema, varId);
+		GenericVariable gv = null;
+		
+		if (baseVar){
+			gv = GenericVariable.pullOutBaseGV(schema, cs);
+		} else {
+			gv = GenericVariable.getGVForRunningSim(schema, varId, this.running_sim_id);
+		}
+		
 
 		// Get list of allowable responses
 		List allowableResponses = AllowableResponse.pullOutArs(cs, schema);
@@ -2700,8 +2707,11 @@ public class ParticipantSessionObject {
 			Long answer_chosen = new Long(players_choice);
 
 			// Save the answer currently selected in the generic variable itself.
-			GenericVariable gv = GenericVariable.pullMeOut(schema, cs);
+			GenericVariable gv = GenericVariable.pullMeOut(schema, cs, this.running_sim_id);
 			gv.setCurrentlySelectedResponse(answer_chosen);
+			
+			gv.checkMyTriggers(this, Trigger.FIRE_ON_WHEN_CALLED);
+			
 			gv.saveMe(schema);
 		}
 	}

@@ -270,19 +270,15 @@ public class RunningSimulation {
 	 */
 	private void createMyVariables(String schema, Simulation sim){
 		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
 		for (ListIterator<GenericVariable> li = GenericVariable.getAllBaseGenericVariablesForSim(
-				MultiSchemaHibernateUtil.getSession(schema), sim.getId()).listIterator(); li.hasNext();) {
+				schema, sim.getId()).listIterator(); li.hasNext();) {
 			GenericVariable gv = (GenericVariable) li.next();
 
-			gv.createCopy(this.id, MultiSchemaHibernateUtil.getSession(schema));
-
+			GenericVariable gv_copy = gv.createCopy(this.id, schema);
+			
 		}
 		
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
 		
 	}
 

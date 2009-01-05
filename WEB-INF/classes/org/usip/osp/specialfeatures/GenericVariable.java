@@ -1,12 +1,16 @@
 package org.usip.osp.specialfeatures;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.*;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.CustomizeableSection;
+import org.usip.osp.baseobjects.SimulationPhase;
 import org.usip.osp.communications.SharedDocument;
+import org.usip.osp.networking.ParticipantSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -123,9 +127,42 @@ public class GenericVariable {
 	 * @param sim_id
 	 * @return
 	 */
-	public static GenericVariable getMe(String schema, Long gv_id) {
+	public static GenericVariable getGVForRunningSim(String schema, Long gv_id, Long rs_id) {
 
+		GenericVariable this_gv = null;
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		String hql_string = "from GenericVariable where RS_ID = " + rs_id 
+		+ " AND BASE_ID = '" + gv_id + "'";
+		
+		List varFound = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		
+		if (varFound == null){
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			return this_gv;
+		}
+		
+		if (varFound.size() > 1){
+			Logger.getRootLogger().warn("More than one generic variable copy found");
+		}
+		
+		
+		for (ListIterator<GenericVariable> li = varFound.listIterator(); li.hasNext();) {
+			this_gv = (GenericVariable) li.next();
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return this_gv;
+
+	}
+	
+	public static GenericVariable getmE(String schema, Long gv_id) {
+
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
 		GenericVariable this_gv  = (GenericVariable) MultiSchemaHibernateUtil
 				.getSession(schema).get(GenericVariable.class, gv_id);
 
@@ -134,6 +171,8 @@ public class GenericVariable {
 		return this_gv;
 
 	}
+		
+		
 	
 	/**
 	 * This returns the 'base' generic variables for a simulation. A 'base' generic variable is the archetypal 
@@ -145,11 +184,14 @@ public class GenericVariable {
 	 * @param the_sim_id
 	 * @return
 	 */
-	public static List getAllBaseGenericVariablesForSim(  org.hibernate.Session hibernate_session, Long the_sim_id) {
+	public static List getAllBaseGenericVariablesForSim(String schema, Long the_sim_id) {
 		
 		String hql_string = "from GenericVariable where SIM_ID = " + the_sim_id.toString() 
 			+ " AND BASE_ID is null";
-		List returnList = hibernate_session.createQuery(hql_string).list();
+	
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return returnList;
 	}
@@ -165,7 +207,10 @@ public class GenericVariable {
 	 * @return The generic variable object created.
 	 * 
 	 */
-	public GenericVariable createCopy(Long rsid,  org.hibernate.Session hibernate_session){
+	public GenericVariable createCopy(Long rsid,  String schema){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
 		GenericVariable gv = new GenericVariable();
 		
 		gv.setBase_id(this.getId());
@@ -173,18 +218,58 @@ public class GenericVariable {
 		gv.setSim_id(this.getSim_id());
 		gv.setValue(this.getValue());
 		
-		hibernate_session.saveOrUpdate(gv);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(gv);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return gv;
 	}
 	
 	/** Gets the GenericVariable referred to in a custom sections hashtable. */
-	public static GenericVariable pullMeOut(String schema, CustomizeableSection cust){
+	public static GenericVariable pullMeOut(String schema, CustomizeableSection cust, Long rs_id){
 		
 		Long gv_id = (Long) cust.getContents().get(GEN_VAR_KEY);
 		
-		return getMe(schema, gv_id);
+		System.out.println("The gv_id found inside of this custom section is " + gv_id);
 		
+		return getGVForRunningSim(schema, gv_id, rs_id);
+		
+	}
+	
+	/** Gets the GenericVariable referred to in a custom sections hashtable. */
+	public static GenericVariable pullOutBaseGV(String schema, CustomizeableSection cust){
+		
+		Long gv_id = (Long) cust.getContents().get(GEN_VAR_KEY);
+		
+		System.out.println("The gv_id found inside of this custom section is " + gv_id);
+		
+		return getmE(schema, gv_id);
+		
+	}
+	
+	/**
+	 * Checks triggers that are on this generic variable. 
+	 * 
+	 * @param pso
+	 * @param condition
+	 */
+	public void checkMyTriggers(ParticipantSessionObject pso, int condition){
+		
+		Logger.getRootLogger().warn("GenericVariable.checkMyTriggers");
+		
+		List setOfPossibleTriggers = Trigger.
+			getTriggersForVariable(pso.schema, Trigger.VAR_TYPE_GENERIC, this.getBase_id());
+		
+		for (ListIterator<Trigger> li = setOfPossibleTriggers.listIterator(); li.hasNext();) {
+			Trigger this_trig = (Trigger) li.next();
+			
+			Logger.getRootLogger().warn("Found Trigger " + this_trig.getId());
+			
+			if (this_trig.getFire_on() == condition){
+				Logger.getRootLogger().warn("executing on  " + this_trig.getId());
+				this_trig.execute(pso);
+			}
+			
+		}
 	}
 
 	

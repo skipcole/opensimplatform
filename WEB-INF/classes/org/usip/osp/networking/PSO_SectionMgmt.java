@@ -1166,7 +1166,7 @@ public class PSO_SectionMgmt {
 		
 		int numb_ars = new Integer(num_ars).intValue();
 		
-		GenericVariable gv = GenericVariable.pullMeOut(schema, cust);
+		GenericVariable gv = GenericVariable.pullOutBaseGV(schema, cust);
 		
 		// Unset any previously selected answers.
 		gv.setCurrentlySelectedResponse(null);
@@ -1212,7 +1212,14 @@ public class PSO_SectionMgmt {
 	/**
 	 * Creates any triggers on this variable.
 	 */	
-	public void handleCreationOrUpdateOfTriggers( CustomizeableSection cs, HttpServletRequest request, String schema){
+	public void handleCreationOrUpdateOfTriggers(CustomizeableSection cs, HttpServletRequest request, String schema){
+		
+		
+		Long var_id = (Long) cs.getContents().get(GenericVariable.GEN_VAR_KEY);
+		
+		if (var_id == null){
+			return;
+		}
 		
 		String add_final_value_text_to_aar = (String) request.getParameter("add_final_value_text_to_aar");
 		if ((add_final_value_text_to_aar != null) && (add_final_value_text_to_aar.equalsIgnoreCase("true"))){
@@ -1223,7 +1230,8 @@ public class PSO_SectionMgmt {
 			
 			trig.setSim_id(pso.sim_id);
 			trig.setVar_type(Trigger.VAR_TYPE_GENERIC);
-			trig.setCheck_fire(Trigger.CHECK_FIRE_ON_WHEN_CALLED);
+			trig.setVar_id(var_id);
+			trig.setFire_on(Trigger.FIRE_ON_WHEN_CALLED);
 			trig.setAction_type(Trigger.ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR);
 			trig.saveMe(schema);
 		}

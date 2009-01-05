@@ -15,7 +15,7 @@
 	
 	pso.takePlayerChoice(request, cs);
 	
-	Hashtable answersSelected = pso.selectedChoices(cs);
+	Hashtable answersSelected = pso.selectedChoices(cs, false);
 	
 	// Get list of allowable responses
 	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);
