@@ -161,7 +161,15 @@ body {
             <td valign="top"><input type="submit" name="button3" id="button3" value="Go!" /></td>
           </tr>
         </table>
+        <p>-------------------------------------------</p>
+        <p>Simulation has</p>
+        <p>Rounds (Y/N) (Rounds apply only to particular phases?)</p>
+        <p>Game Time (Passage of time starts at a fictional starting point)</p>
         <p>&nbsp;</p>
+        <p>Chart by (phase, round, time or game time)</p>
+        <p>---------------------------------------</p>
+        <p>Add model equations x = f(a, b, c)</p>
+        <p>----------------------------------------</p>
         <p> 
           <!-- jsp:include page="snippet.jsp" flush="true" -->
         </p>
