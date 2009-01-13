@@ -157,6 +157,20 @@ body {
                   <input type="text" name="nominal_order" id="textfield" value="<%= spOnScratchPad.getOrder() + "" %>" />
                 </label></td>
               </tr>
+              <tr>
+                <td valign="top">Time Advances
+                  During Phase?:(?)</td>
+                <td valign="top"><label>
+                  <input type="radio" name="time_advance" id="time_advance_yes" value="yes" />
+                  Yes </label> / <label>
+                  <input type="radio" name="time_advance" id="time_advance_no" value="no" />
+                  No
+                  </label></td>
+              </tr>
+              <tr>
+                <td valign="top">&nbsp;</td>
+                <td valign="top">&nbsp;</td>
+              </tr>
               <tr> 
                 <td valign="top">&nbsp;</td>
                 <td valign="top">
@@ -172,9 +186,7 @@ body {
                 	<input type="submit" name="command" value="Update" />
                 <%
 					}
-				%>
-                
-                </td>
+				%>                </td>
               </tr>
             </table>
             <p>&nbsp;</p>

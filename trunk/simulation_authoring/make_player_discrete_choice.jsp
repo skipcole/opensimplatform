@@ -170,16 +170,10 @@ body {
               <td width="5%" valign="top"><a href="delete_object.jsp?object_type=allowable_response&objid=<%= ar.getId() %>&object_info="Answer <%= ar.getIndex() %>"><img src="../simulation_authoring/images/delete.png" alt="Delete Answer" width="26" height="22" border="0" /></a></td>
             </tr>
             <% } // end of loop over allowable responses %>
-            <tr>
-              <td valign="top">&nbsp;</td>
-              <td valign="top">Add New Choice</td>
-              <td valign="top">&nbsp;</td>
-              <td valign="top">&nbsp;</td>
-            </tr>
           </table>
           <p>
             <label></label>
-            Put chances made here into the After Action Report? 
+            Put changes made here into the After Action Report? 
             <label>
             <input type="radio" name="add_final_value_text_to_aar" id="add_final_value_text_to_aar_false" value="false" /> No
             </label> 
@@ -215,6 +209,13 @@ body {
           <p>&nbsp;</p>
         </blockquote>
       </form>
+      <form action="make_player_discrete_choice.jsp" method="post" name="add_choice_form" id="add_choice_form">
+      <label>
+                <input type="submit" name="add_choice" id="add_choice" value="Add New Choice" />
+      </label>
+      <input type="hidden" name="author_adds_choice" value="true" />
+      </form>
+                
 	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>

@@ -27,6 +27,14 @@ import org.usip.osp.persistence.*;
 @Table(name = "PHASES")
 @Proxy(lazy=false)
 public class SimulationPhase{
+	
+	
+	public static final int ROUND_BASED = 1;
+	
+	public static final int REALTIME_BASED = 2;
+	
+	public static final int PSEUDOTIME_BASED = 3;
+	
 
 	/** Database id of this Phase. */
 	@Id
@@ -46,6 +54,15 @@ public class SimulationPhase{
 	private boolean firstPhase = false;
 	
 	private boolean lastPhase = false;
+	
+	/** Indicates if time (in the form of round or calendar) is tracked during this phase. */
+	private boolean timePasses = false;
+	
+	/** Indicates the method by which time will pass during this simulation. */
+	private int time_passage_mechanism = 0;
+	
+	/** Indicates if the computer will move time along independent of the players and control. */
+	private boolean time_advances_automatically = false;
 
 	/** Possible order of this Phase in relation to the others.. */
 	@Column(name = "PHASE_ORDER")
@@ -101,6 +118,30 @@ public class SimulationPhase{
 	}
 
 	
+	public boolean isTimePasses() {
+		return timePasses;
+	}
+
+	public void setTimePasses(boolean timePasses) {
+		this.timePasses = timePasses;
+	}
+
+	public int getTime_passage_mechanism() {
+		return time_passage_mechanism;
+	}
+
+	public void setTime_passage_mechanism(int time_passage_mechanism) {
+		this.time_passage_mechanism = time_passage_mechanism;
+	}
+
+	public boolean isTime_advances_automatically() {
+		return time_advances_automatically;
+	}
+
+	public void setTime_advances_automatically(boolean time_advances_automatically) {
+		this.time_advances_automatically = time_advances_automatically;
+	}
+
 	public List getAllForSim(String schema, Long the_sim_id) {
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);

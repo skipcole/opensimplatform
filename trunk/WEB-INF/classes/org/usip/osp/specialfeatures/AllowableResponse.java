@@ -192,6 +192,24 @@ public class AllowableResponse implements Comparable{
 		return returnList;
 	}
 	
+	/** */
+	public static AllowableResponse getAdditionalAR(CustomizeableSection cust, String schema){
+		GenericVariable gv = GenericVariable.pullOutBaseGV(schema, cust);
+		
+		AllowableResponse ar = new AllowableResponse();
+		
+		ar.setCust_id(cust.getId());
+		
+		List currentList = getARsForACustomSection(cust.getId(),schema);
+		
+		ar.setIndex(currentList.size() + 1);
+		
+		ar.saveMe(schema);
+		return ar;
+	
+		
+	}
+	
 	/**
 	 * Saves this Allowable Response to the database.
 	 * @param schema
