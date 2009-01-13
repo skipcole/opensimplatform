@@ -132,35 +132,6 @@ body {
         <p>[This page is reserved for where we will add new plugin modules such 
           as an underlying economic model for a simulation. Currently there is 
           nothing to do here.]</p>
-        <p>Create New:</p>
-        <table width="80%" border="0">
-          <tr>
-            <td width="9%" valign="top"><label>
-              <input type="radio" name="radio" id="radio" value="radio" />
-            </label></td>
-            <td width="27%" valign="top">Tracked Variable</td>
-            <td width="55%" valign="top">A quantity that can change, and be graphed during simulation exectution</td>
-            <td width="9%" valign="top"><label>
-              <input type="submit" name="button" id="button" value="Go!" />
-            </label></td>
-          </tr>
-          <tr>
-            <td valign="top"><label>
-            <input type="radio" name="radio" id="radio2" value="radio" />
-            </label></td>
-            <td valign="top">Player Control</td>
-            <td valign="top">A way for players to do things, such as set tarrif levels, that will then in turn affect parameters to the tracked variables.</td>
-            <td valign="top"><input type="submit" name="button2" id="button2" value="Go!" /></td>
-          </tr>
-          <tr>
-            <td valign="top"><label>
-            <input type="radio" name="radio" id="radio3" value="radio" />
-            </label></td>
-            <td valign="top">Trigger</td>
-            <td valign="top">A set point on a tracked variable that will cause a particular event to occur.</td>
-            <td valign="top"><input type="submit" name="button3" id="button3" value="Go!" /></td>
-          </tr>
-        </table>
         <p>-------------------------------------------</p>
         <p>Simulation has</p>
         <p>Rounds (Y/N) (Rounds apply only to particular phases?)</p>

@@ -10,7 +10,7 @@
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	pso.backPage = "create_schedule_page.jsp";
+	pso.backPage = "../simulation_facilitation/create_schedule_page.jsp";
 	
 	Simulation simulation = pso.handleCreateSchedulePage(request);
 	
@@ -123,7 +123,29 @@ body {
       <h1>Create Schedule Page</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-	<p> Below are notes from the simulation author on how he or she felt this simulation would be conducted (how many players, online at the same time or not, etc.) </p>
+                    <% 
+			if (!(pso.simulationSelected)) {
+		%>
+        <p>You must first select the simulation which you will be enabling.<br />
+
+		Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring/create_simulation.jsp">create a new one</a>.</p>
+		
+		<% } else { 
+		
+			if ((pso.running_sim_id == null)) {
+		%>
+        <p>You must select the running simulation for which you will be creating a schedule.<br />
+
+		Please <a href="../simulation_authoring/select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
+		
+		<p>
+		  <% } else { %>
+		  </p>
+          <blockquote>
+        <p><strong>Simulation</strong>: <%= simulation.getDisplayName() %> (To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
+		<p><strong>Running Simulation</strong>: <%= rs.getName() %> (To select a different running simulation, <a href="../simulation_authoring/create_running_sim.jsp">click here</a>.)</p>
+        </blockquote>
+		<p> Below are notes from the simulation author on how he or she felt this simulation would be conducted.</p>
 	<p>Below that is a place where you can enter the specific schedule page for your students. This page will give them important information on when they can and should login and any other details. You will be able to give the players announcements during the simulation, but this page will set the initial expectations.</p>
     <div align="center">
 	<table width="80%" border="1">
@@ -152,6 +174,12 @@ body {
         </blockquote>
       </form>
 
+	         <% } // end of if running_sim.id has been set. %>
+        <%
+		
+	}// end of if pso.simulation.id has been set.
+
+%>
       <blockquote>
         <p>&nbsp;</p>
       </blockquote>

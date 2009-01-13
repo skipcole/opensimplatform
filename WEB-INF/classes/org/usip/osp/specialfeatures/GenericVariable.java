@@ -136,6 +136,10 @@ public class GenericVariable {
 		String hql_string = "from GenericVariable where RS_ID = " + rs_id 
 		+ " AND BASE_ID = '" + gv_id + "'";
 		
+		System.out.println("----------------------------------");
+		System.out.println(hql_string);
+		System.out.println("----------------------------------");
+		
 		List varFound = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		
 		if (varFound == null){

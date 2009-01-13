@@ -1107,6 +1107,7 @@ public class PSO_SectionMgmt {
 		return simulation;
 
 	}
+	
 
 	/**
 	 * 
@@ -1121,6 +1122,15 @@ public class PSO_SectionMgmt {
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(
 				pso.schema, _custom_section_id);
+		
+		// If adding an allowable response, do that.
+		String author_adds_choice = (String) request.getParameter("author_adds_choice");
+		
+		if ((author_adds_choice != null) && (author_adds_choice.equalsIgnoreCase("true"))){
+			addGenericVariableIfNeeded();
+			AllowableResponse.getAdditionalAR(customizableSectionOnScratchPad, pso.schema);
+			return customizableSectionOnScratchPad;
+		}
 
 		// If making changes, do the following.
 		if ((sending_page != null)
