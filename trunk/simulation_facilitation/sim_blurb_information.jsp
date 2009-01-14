@@ -11,19 +11,28 @@
 		return;
 	}
 	
-	String sim_id = (String) request.getParameter("sim_id");
+	String sending_page = (String) request.getParameter("sending_page");
 	
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("sim_blurb_information"))) {
+		
+		pso.handleLoadPlayerAutoAssignedScenario(request);
+		response.sendRedirect("../simulation/simwebui.jsp?tabposition=1");
+		return;
+		
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	String sim_id = (String) request.getParameter("sim_id");
 	if (sim_id != null) {
 		pso.sim_id = new Long(sim_id);
 	}
-	
-	////////////////////////////////////////////////////
 	Simulation sim = new Simulation();	
-	
 	if (pso.sim_id != null){
 		sim = pso.giveMeSim();
 	}
+	
 
+	//////////////////////////////////////////////////////////////////////////
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -46,7 +55,12 @@ body {
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
-
+<%
+	String myLogoutPage = "../simulation/logout.jsp";
+	if ( (pso.isAuthor())  || (pso.isFacilitator())) {
+		myLogoutPage = "../simulation_authoring/logout.jsp";
+	}
+%>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
@@ -68,7 +82,7 @@ body {
           <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
-          <td><div align="center"><a href="../simulation_authoring/logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="<%= myLogoutPage %>" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
       </table>	  
 	  </div>	  </td>
@@ -128,14 +142,34 @@ body {
       <h1>Simulation: <%= sim.getName() %> : <%= sim.getVersion() %>  </h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-      <p>&nbsp;</p>
-      <p align="center"><%= sim.getBlurb() %></p>
-      <form id="form1" name="form1" method="post" action="">
-        <label>
-          <input type="submit" name="button" id="button" value="Submit" />
+      <blockquote>
+      <p><%= sim.getBlurb() %></p>
+      
+      <table>
+              <%
+			for (ListIterator lia = sim.getActors().listIterator(); lia.hasNext();) {
+				Actor act = (Actor) lia.next();
+			
+		%>
+        
+          <tr> 
+            <td>Enter Simulation as: </td>
+            <td><%= act.getName() %></td>
+            <td>
+            <form id="form_<%= sim.getId() %><%= act.getId() %>" name="form_<%= sim.getId() %><%= act.getId() %>" method="post" action="sim_blurb_information.jsp">
+            <input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
+            <input type="hidden" name="actor_id" value="<%= act.getId() %>" />
+            <input type="hidden" name="sending_page" value="sim_blurb_information" /> 
+            <label>
+          <input type="submit" name="button" id="button" value="Enter Sim" />
           </label>
       </form>
-      <p align="center">&nbsp;</p>
+            </td>
+          </tr>
+          
+   <%	} // End of loop over actors    %> 
+        </table>
+        </blockquote>
       <p align="left">&nbsp;</p>
       <!-- InstanceEndEditable -->
 			</td>
