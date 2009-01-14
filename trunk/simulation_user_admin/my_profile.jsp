@@ -63,7 +63,7 @@ body {
         <tr>
           <td><div align="center"><a href="../simulation_authoring/intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
-	<% } else { %>
+	<% } else if (pso.isFacilitator()) { %>
 		<tr>
           <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
@@ -163,7 +163,7 @@ body {
   </tr>
   <tr>
     <td>Authorization Level:</td>
-    <td>Simulation Creator <% if (pso.isAdmin()) { %>, Administrator <% } %></td>
+    <td><% if (pso.isAuthor()) { %>Simulation Creator, <% } %> <% if (pso.isAdmin()) { %>, Administrator <% } %></td>
   </tr>
   <tr>
     <td>Email Address:</td>

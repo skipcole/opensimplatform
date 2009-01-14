@@ -1,4 +1,4 @@
-<%@ page 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
@@ -6,7 +6,24 @@
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleMakeWriteNewsPage(request);
+	if (!(pso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
+	
+	String sim_id = (String) request.getParameter("sim_id");
+	
+	if (sim_id != null) {
+		pso.sim_id = new Long(sim_id);
+	}
+	
+	////////////////////////////////////////////////////
+	Simulation sim = new Simulation();	
+	
+	if (pso.sim_id != null){
+		sim = pso.giveMeSim();
+	}
+
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -14,11 +31,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>Open Simulation Platform Control Page</title>
-<script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
-</script>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -43,18 +57,18 @@ body {
 	    <table border="0" cellspacing="1" cellpadding="0">
 	<%  if (pso.isAuthor()) { %>
         <tr>
-          <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_authoring/intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } else if (pso.isFacilitator()) { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
           <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
-          <td><div align="center"><a href="logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_authoring/logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
       </table>	  
 	  </div>	  </td>
@@ -86,9 +100,9 @@ body {
 		   <tr>
 		<td bgcolor="<%= bgColor_think %>"><a href="../simulation_planning/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;THINK&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-	    <td bgcolor="<%= bgColor_create %>"><a href="creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+	    <td bgcolor="<%= bgColor_create %>"><a href="../simulation_authoring/creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-		<td bgcolor="<%= bgColor_play %>"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		<td bgcolor="<%= bgColor_play %>"><a href="facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
         <td bgcolor="<%= bgColor_share %>"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		   </tr>
@@ -111,35 +125,19 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Read News Page</h1>
-    <!-- InstanceEndEditable --><br />
+      <h1>Simulation: <%= sim.getName() %> : <%= sim.getVersion() %>  </h1>
+      <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-      <blockquote> 
-        <p>Enter the introductory text that will appear on this news source page (such as 'your  national news paper' or whatever.). <br>
-        </p>
-      </blockquote>
-      <form action="make_write_news_page.jsp" method="post" name="form2" id="form2">
-        <blockquote>Tab Heading: 
-          <input type="text" name="tab_heading" value="<%= tab_heading %>"/>
-          <p>
-            <textarea id="make_write_news_page_text" name="make_write_news_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
-
-		<script language="javascript1.2">
-  			generate_wysiwyg('make_write_news_page_text');
-		</script>
-          </p>
-          <p>Do select over all potential news sources (shared documents.)</p>
-          <p>&nbsp; </p>
-          <p> 
-            <input type="hidden" name="custom_page" value="<%= custom_page %>" />
-            <input type="hidden" name="sending_page" value="make_write_news_page" />
-            <input type="submit" name="save_page" value="Save" />
-            <input type="submit" name="save_and_add" value="Save and Add Section" />
-          </p>
-          <p><input type="submit" name="create_duplicate" value="Create Duplicate" disabled /></p>
-        </blockquote>
+      <p>&nbsp;</p>
+      <p align="center"><%= sim.getBlurb() %></p>
+      <form id="form1" name="form1" method="post" action="">
+        <label>
+          <input type="submit" name="button" id="button" value="Submit" />
+          </label>
       </form>
-	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
+      <p align="center">&nbsp;</p>
+      <p align="left">&nbsp;</p>
+      <!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

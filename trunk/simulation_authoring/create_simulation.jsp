@@ -52,7 +52,7 @@ body {
         <tr>
           <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
-	<% } else { %>
+	<% } else if (pso.isFacilitator()) { %>
 		<tr>
           <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
@@ -153,8 +153,13 @@ body {
           </tr>
           <tr>
             <td>&nbsp;</td>
-            <td valign="top">Simulation Copyright String</td>
+            <td valign="top">Simulation Copyright String (?):</td>
             <td valign="top"> <textarea name="simcopyright" tabindex="4"><%= simulation.getCopyright_string() %></textarea></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td valign="top">Simulation Blurb (?):</td>
+            <td valign="top"><textarea name="simblurb" tabindex="4"><%= simulation.getBlurb() %></textarea></td>
           </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -172,9 +177,7 @@ body {
                 	<input type="submit" name="command" value="Update" />
                 <%
 					}
-				%>
-              
-              </td>
+				%>              </td>
           </tr>
         </table>
         <blockquote>
