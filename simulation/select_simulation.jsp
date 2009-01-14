@@ -145,13 +145,12 @@ body {
 			String nameToSend = java.net.URLEncoder.encode(sim.getName());
 			
 		%>
+        
           <tr> 
             <td><a href="../simulation_facilitation/sim_blurb_information.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %></a><a href="create_simulation.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"> : <%= sim.getVersion() %></a></td>
-            <td>&nbsp;</td>
           </tr>
-          <%
-	}
-%>
+           
+<%	} // End of loop over auto-reg sims    %>
         </table>
       </blockquote>
             <p>&nbsp;</p>			</td>

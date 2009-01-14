@@ -501,6 +501,69 @@ public class ParticipantSessionObject {
 		}
 
 	}
+	
+	
+	public void handleLoadPlayerAutoAssignedScenario(HttpServletRequest request){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		this.sim_id = new Long((String) request.getParameter("sim_id"));
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
+		
+		this.actor_id = new Long((String) request.getParameter("actor_id"));
+		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_id);
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		RunningSimulation rs = new RunningSimulation("My Session", this.giveMeSim(), schema);
+		this.running_sim_id = rs.getId();
+		rs.setReady_to_begin(true);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class,
+				rs.getPhase_id());
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		this.loadSimInfoForDisplay(request, simulation, rs, actor, sp);
+		
+		
+		
+	}
+	
+	public void loadSimInfoForDisplay(HttpServletRequest request, Simulation simulation, RunningSimulation running_sim, 
+			Actor actor, SimulationPhase sp){
+		this.simulation_name = simulation.getName();
+		this.sim_copyright_info = simulation.getCopyright_string();
+		this.simulation_version = simulation.getVersion();
+		this.simulation_org = simulation.getCreation_org();
+	
+		this.run_sim_name = running_sim.getName();
+		this.simulation_round = running_sim.getRound() + "";
+		this.phase_id = running_sim.getPhase_id();
+		
+		this.actor_name = actor.getName();
+		
+		this.phaseName = sp.getName();
+		
+		loadPhaseNameInWebCache(request, sp);
+		
+	}
+	
+	public void loadPhaseNameInWebCache(HttpServletRequest request, SimulationPhase sp){
+		// //////////////////////////////////////////////////////////////////////
+		// Store it in the web cache, if this has not been done already
+		// by another user.
+		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
+				"phaseNames");
+
+		String cachedPhaseName = phaseNames.get(running_sim_id);
+		if (cachedPhaseName == null) {
+			phaseNames.put(running_sim_id, sp.getName());
+			request.getSession().getServletContext().setAttribute("phaseNames", phaseNames);
+
+		}
+	}
+	
 
 	/**
 	 * 
@@ -522,65 +585,39 @@ public class ParticipantSessionObject {
 
 		sim_id = ua.getSim_id();
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
-
-		this.simulation_name = simulation.getName();
-		this.sim_copyright_info = simulation.getCopyright_string();
-		this.simulation_version = simulation.getVersion();
-		this.simulation_org = simulation.getCreation_org();
-
+		
 		running_sim_id = ua.getRunning_sim_id();
 		RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 				RunningSimulation.class, running_sim_id);
 
-		this.run_sim_name = running_sim.getName();
+		actor_id = ua.getActor_id();
+		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_id);
 
-		// ///////////////////////////////////////////////////////////
-		this.simulation_round = running_sim.getRound() + "";
-
+		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class,
+				running_sim.getPhase_id());
+		
+		// Load information from the pertinent objects to be displayed.
+		loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
+		
+		//////////////////////////////////////////////////////////////////////////
 		Hashtable<Long, String> roundNames = new Hashtable();
-
 		try {
 			roundNames = (Hashtable<Long, String>) session.getServletContext().getAttribute("roundNames");
 		} catch (Exception e) {
 			e.printStackTrace();
 			roundNames = new Hashtable<Long, String>();
-
 			session.getServletContext().setAttribute("roundNames", new Hashtable<Long, String>());
 		}
 		String cachedRoundName = roundNames.get(running_sim_id);
 		if (cachedRoundName == null) {
 			roundNames.put(running_sim_id, simulation_round);
-
 			request.getSession().getServletContext().setAttribute("roundNames", roundNames);
-
 		}
 		// ///////////////////////////////////////////////////////////
 
-		actor_id = ua.getActor_id();
 
-		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_id);
-
-		this.actor_name = actor.getName();
-
-		this.phase_id = running_sim.getPhase_id();
-
-		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class,
-				this.phase_id);
-
-		this.phaseName = sp.getName();
-
-		// //////////////////////////////////////////////////////////////////////
-		// Store it in the web cache, if this has not been done already
-		// by another user.
-		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
-				"phaseNames");
-
-		String cachedPhaseName = phaseNames.get(running_sim_id);
-		if (cachedPhaseName == null) {
-			phaseNames.put(running_sim_id, sp.getName());
-			request.getSession().getServletContext().setAttribute("phaseNames", phaseNames);
-
-		}
+		loadPhaseNameInWebCache(request, sp);
+		
 		// //////////////////////////////////////////////////////////////////////
 		// ///
 
