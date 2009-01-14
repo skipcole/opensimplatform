@@ -16,9 +16,11 @@
 	String sending_page = (String) request.getParameter("sending_page");
 	String command = (String) request.getParameter("command");
 	String sim_key_words = (String) request.getParameter("sim_key_words");
+	String auto_registration = (String) request.getParameter("auto_registration");
+	
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("publish_sim"))){
-		pso.handlePublishing(command, sim_key_words);
+		pso.handlePublishing(command, sim_key_words, auto_registration);
 	}
 	
 	Simulation simulation = new Simulation();	
@@ -62,7 +64,7 @@ body {
         <tr>
           <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
-	<% } else { %>
+	<% } else if (pso.isFacilitator()) { %>
 		<tr>
           <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
@@ -156,6 +158,12 @@ body {
               <td> 
                 <textarea name="sim_key_words"><%= simulation.getListingKeyWords() %></textarea></td>
               </tr>
+              <tr>
+                <td>Allow Player Auto-Registration</td>
+                <td><label>
+                  <input type="checkbox" name="auto_registration" id="auto_registration"  value="true"/>
+                </label></td>
+              </tr>
               <tr> 
                 <td>&nbsp;</td>
                 <td>
@@ -164,8 +172,7 @@ body {
 				<input name="command" type="submit" id="submit_u" value="Un - Publish It!" /> 
 				<% } else { %>
 				<input name="command" type="submit" id="submit_p" value="Publish It!" />
-                <% } %>
-              </td>
+                <% } %>              </td>
               </tr>
             </table>
 		  </form>

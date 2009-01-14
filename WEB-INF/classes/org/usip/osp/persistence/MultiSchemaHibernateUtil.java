@@ -370,6 +370,7 @@ public class MultiSchemaHibernateUtil {
      * @param ac
      */
 	public static void addSchemaClasses(AnnotationConfiguration ac) {
+		
 		// BaseObjects
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.Actor.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSection.class);
@@ -392,6 +393,11 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.communications.Inject.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.InjectGroup.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocument.class);
+		
+		// Models
+		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelDefinitionObject.class);
+		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelVariableDependencies.class);
+		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelVariables.class);
 		
 		// Special Features
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.AllowableResponse.class);

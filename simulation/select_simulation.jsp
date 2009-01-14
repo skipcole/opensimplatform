@@ -75,7 +75,7 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%">
             <h1>Welcome <%= bu.getFull_name() %>!</h1>
-            <p>Please select your simulation below:</p>
+            <p>Below are simulations are assigned to you by an instructor: </p>
             <table width="80%" border="2" cellspacing="2" cellpadding="2">
               <tr valign="top">
                 <td width="30%"><h2>Organization</h2></td>
@@ -133,6 +133,27 @@ body {
   %>
             </table>
             <p>If you think that you should have more simulation assignments than shown above, please contact your instructor.</p>
+            <p><hr /></p>
+            <p>Below are publically accessible simulations. You may select one of these and commence play immediately. </p>
+            <blockquote>
+        <table>
+          <%
+		List simList = Simulation.getAllPublishedAutoRegisterable(pso.schema);
+		
+		for (ListIterator li = simList.listIterator(); li.hasNext();) {
+			Simulation sim = (Simulation) li.next();
+			String nameToSend = java.net.URLEncoder.encode(sim.getName());
+			
+		%>
+          <tr> 
+            <td><a href="../simulation_facilitation/sim_blurb_information.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %></a><a href="create_simulation.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"> : <%= sim.getVersion() %></a></td>
+            <td>&nbsp;</td>
+          </tr>
+          <%
+	}
+%>
+        </table>
+      </blockquote>
             <p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>

@@ -97,10 +97,12 @@ public class RunningSimulation {
 	 * @param sim
 	 * @param schema
 	 */
-	public RunningSimulation(String name, Long phase_id, Simulation sim, String schema){
+	public RunningSimulation(String name, Simulation sim, String schema){
 		
 		this.name = name;
-		this.phase_id = phase_id;
+		this.aar_text = sim.getAar_starter_text();
+		this.phase_id = sim.getFirstPhaseId();
+		
 		this.saveMe(schema);
 		this.createMyDocuments(schema, sim);
 		this.createMyVariables(schema, sim);
@@ -140,8 +142,6 @@ public class RunningSimulation {
 		// Create objects to hold the data
 		Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
 				schema).get(Simulation.class, new Long(sid));
-
-		copyInData(sim, MultiSchemaHibernateUtil.getSession(schema));
 
 		doFinalChecksOnSim(sim, MultiSchemaHibernateUtil.getSession(schema));
 
@@ -197,44 +197,6 @@ public class RunningSimulation {
 
 	}
 
-	public void copyInData(Simulation sim,
-			org.hibernate.Session hibernate_session) {
-
-		// Load the starter text.
-		this.aar_text = sim.getAar_starter_text();
-
-		this.phase_id = sim.getFirstPhaseId();
-
-		// //////////////////////////////////////////////////////////////////////
-		// Copy over conversations
-		/*
-		 * this.setConversations(new ArrayList<Conversation>()); for
-		 * (ListIterator<Conversation> lc =
-		 * sim.getConversations().listIterator(); lc.hasNext();){ Conversation
-		 * sim_conv = (Conversation) lc.next();
-		 * 
-		 * Conversation rs_conv = sim_conv.createCopy(this.getId(),
-		 * hibernate_session);
-		 * 
-		 * this.getConversations().add(rs_conv); }
-		 */
-		// //////////////////////////////////////////////////////////////////////
-		// //////////////////////////////////////////////////////////////////////
-		// Copy over variables
-		this.setVar_int(new ArrayList<IntVariable>());
-		for (ListIterator<IntVariable> li = sim.getVar_int().listIterator(); li
-				.hasNext();) {
-			IntVariable iv = (IntVariable) li.next();
-
-			IntVariable iv_rs = iv.createCopy(this.getId(), hibernate_session);
-
-			this.getVar_int().add(iv_rs);
-		}
-		// /////////////////////////////////////////////////////////////////////////
-
-
-		hibernate_session.saveOrUpdate(this);
-	}
 	
 	/**
 	 * Creates copies of all of the shared documents held in the sim, so one is available

@@ -755,6 +755,7 @@ public class ParticipantSessionObject {
 		if ((load_cs != null) && (load_cs.equalsIgnoreCase("true"))) {
 			BaseSimSection.readCustomLibSimSectionsFromXMLFiles(schema);
 		}
+		
 
 		error_msg = "You may now login as the root user with the password that you provided.";
 
@@ -1257,6 +1258,8 @@ public class ParticipantSessionObject {
 		String creation_org = (String) request.getParameter("creation_org");
 		String simcreator = (String) request.getParameter("simcreator");
 		String simcopyright = (String) request.getParameter("simcopyright");
+		
+		String simblurb = (String) request.getParameter("simblurb");
 
 		if (command != null) {
 			if (command.equalsIgnoreCase("Create")) {
@@ -1266,6 +1269,7 @@ public class ParticipantSessionObject {
 				simulation.setCreation_org(creation_org);
 				simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
+				simulation.setBlurb(simblurb);
 
 				simulation.createDefaultObjects(schema);
 
@@ -1278,6 +1282,7 @@ public class ParticipantSessionObject {
 				simulation.setCreation_org(creation_org);
 				// simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
+				simulation.setBlurb(simblurb);
 
 				simulation.saveMe(schema);
 			} else if (command.equalsIgnoreCase("Edit")) {
@@ -1931,8 +1936,8 @@ public class ParticipantSessionObject {
 		return isSimCreator;
 	}
 
-	public boolean isInstructor() {
-		return this.isInstructor();
+	public boolean isFacilitator(){
+		return isFacilitator;
 	}
 
 	/**
@@ -2187,7 +2192,7 @@ public class ParticipantSessionObject {
 	 * @param command
 	 * @param sim_key_words
 	 */
-	public void handlePublishing(String command, String sim_key_words) {
+	public void handlePublishing(String command, String sim_key_words, String auto_registration) {
 
 		if (command == null) {
 			return;
@@ -2204,6 +2209,12 @@ public class ParticipantSessionObject {
 		else if (command.equalsIgnoreCase("Un - Publish It!")) {
 			sim.setReadyForPublicListing(false);
 			sim.setListingKeyWords(sim_key_words);
+		}
+		
+		if ((auto_registration != null) && (auto_registration.equalsIgnoreCase("true"))){
+			sim.setAllow_player_autoreg(true);
+		} else {
+			sim.setAllow_player_autoreg(false);
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

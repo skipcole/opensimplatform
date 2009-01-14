@@ -84,97 +84,97 @@ body {
                 <td>&nbsp;</td>
               </tr>
               <tr> 
-                <td>DB Schema <a href="helptext/db_schema.jsp" target="helpinright">(?)</a></td>
-                <td><input type="text" name="db_schema" value="<%= db_schema %>" /></td>
+                <td valign="top">DB Schema <a href="helptext/db_schema.jsp" target="helpinright">(?)</a></td>
+                <td valign="top"><input type="text" name="db_schema" value="<%= db_schema %>" /></td>
               </tr>
               <tr> 
-                <td>Organization</td>
-                <td><input type="text" name="db_org" value="<%= db_org %>" /></td>
+                <td valign="top">Organization</td>
+                <td valign="top"><input type="text" name="db_org" value="<%= db_org %>" /></td>
               </tr>
               <tr> 
-                <td>DB User</td>
-                <td><input type="text" name="db_user" value="<%= db_user %>" /></td>
+                <td valign="top">DB User</td>
+                <td valign="top"><input type="text" name="db_user" value="<%= db_user %>" /></td>
               </tr>
               <tr> 
-                <td>DB Password</td>
-                <td><input type="text" name="db_pass" value="<%= db_pass %>" /></td>
+                <td valign="top">DB Password</td>
+                <td valign="top"><input type="text" name="db_pass" value="<%= db_pass %>" /></td>
               </tr>
               <tr> 
-                <td>DB Location</td>
-                <td><input type="text" name="db_loc" value="<%= db_loc %>" /></td>
+                <td valign="top">DB Location</td>
+                <td valign="top"><input type="text" name="db_loc" value="<%= db_loc %>" /></td>
               </tr>
               <tr> 
-                <td>DB Port</td>
-                <td><input type="text" name="db_port" value="<%= db_port %>" /></td>
+                <td valign="top">DB Port</td>
+                <td valign="top"><input type="text" name="db_port" value="<%= db_port %>" /></td>
               </tr>
               <tr> 
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td valign="top">&nbsp;</td>
+                <td valign="top">&nbsp;</td>
               </tr>
               <tr> 
-                <td><strong>Admin login</strong></td>
-                <td>&nbsp;</td>
+                <td valign="top"><strong>Admin login</strong></td>
+                <td valign="top">&nbsp;</td>
               </tr>
               <tr> 
-                <td>admin first name:</td>
-                <td> 
+                <td valign="top">admin first name:</td>
+                <td valign="top"> 
                   <input type="text" name="admin_first" value="<%= admin_first %>" /></td>
               </tr>
               <tr> 
-                <td>admin middle name:</td>
-                <td> 
+                <td valign="top">admin middle name:</td>
+                <td valign="top"> 
                   <input type="text" name="admin_middle" value="<%= admin_middle %>" /></td>
               </tr>
               <tr> 
-                <td>admin last name:</td>
-                <td> 
+                <td valign="top">admin last name:</td>
+                <td valign="top"> 
                   <input type="text" name="admin_last" value="<%= admin_last %>" /></td>
               </tr>
               <tr> 
-                <td>admin user full name:</td>
-                <td> 
+                <td valign="top">admin user full name:</td>
+                <td valign="top"> 
                   <input type="text" name="admin_full" value="<%= admin_full %>" /></td>
               </tr>
               <tr> 
-                <td>admin username/email:</td>
-                <td> 
+                <td valign="top">admin username/email:</td>
+                <td valign="top"> 
                   <input type="text" name="admin_email" value="<%= admin_email %>"/></td>
               </tr>
               <tr> 
-                <td><input type="checkbox" name="new_admin_user_cbox" value="new" />
+                <td valign="top"><input type="checkbox" name="new_admin_user_cbox" value="new" />
                   New Admin User</td>
-                <td>Fill out field in blue below</td>
+                <td valign="top">Fill out field in blue below</td>
               </tr>
               <tr> 
-                <td bgcolor="#0099FF">admin password:</td>
-                <td bgcolor="#0099FF"> 
+                <td valign="top">admin password:</td>
+                <td valign="top"> 
                   <input type="text" name="admin_pass" value="<%= admin_pass %>"/></td>
               </tr>
+               <tr>
+                 <td valign="top">&nbsp;</td>
+                 <td valign="top">&nbsp;</td>
+               </tr>
               <tr> 
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td valign="top"><strong>Email Settings</strong></td>
+                <td valign="top">&nbsp;</td>
               </tr>
               <tr> 
-                <td><strong>Email Settings</strong></td>
-                <td>&nbsp;</td>
-              </tr>
-              <tr> 
-                <td>email SMTP </td>
-                <td><label> 
+                <td valign="top">email SMTP </td>
+                <td valign="top"><label> 
                   <input type="text" name="email_smtp" value="<%= email_smtp %>" />
                   </label></td>
               </tr>
               <tr> 
-                <td>email user </td>
-                <td><input type="text" name="email_user" value="<%= email_user %>" /></td>
+                <td valign="top">email user </td>
+                <td valign="top"><input type="text" name="email_user" value="<%= email_user %>" /></td>
               </tr>
               <tr> 
-                <td>email password </td>
-                <td><input type="text" name="email_pass" value="<%= email_pass %>" /></td>
+                <td valign="top">email password </td>
+                <td valign="top"><input type="text" name="email_pass" value="<%= email_pass %>" /></td>
               </tr>
               <tr> 
-                <td>email user address </td>
-                <td><input type="text" name="email_user_address"  value="<%= email_user_address %>" /></td>
+                <td valign="top">email user address </td>
+                <td valign="top"><input type="text" name="email_user_address"  value="<%= email_user_address %>" /></td>
               </tr>
             </table>
           </blockquote>

@@ -81,6 +81,29 @@ public class Simulation {
 	/** Version of this Simulation. */
 	@Column(name = "SIM_VERSION")
 	private String version = "";
+	
+	/** A paragraph introducing what this simulation is all about. */
+	@Lob
+	private String blurb = "";
+	
+	public String getBlurb() {
+		return blurb;
+	}
+
+	public void setBlurb(String blurb) {
+		this.blurb = blurb;
+	}
+
+	/** Indicates if Players can register themselves to play in the simulation. */
+	private boolean allow_player_autoreg = false;
+
+	public boolean isAllow_player_autoreg() {
+		return allow_player_autoreg;
+	}
+
+	public void setAllow_player_autoreg(boolean allow_player_autoreg) {
+		this.allow_player_autoreg = allow_player_autoreg;
+	}
 
 	/** Introduction to this Simulation. */
 	@Column(name = "SIM_INTRO")
@@ -243,6 +266,7 @@ public class Simulation {
 		return returnList;
 	}
 
+	
 	public static List getAllPublished(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -252,6 +276,29 @@ public class Simulation {
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	/** 
+	 * Returns a set of simulations that a player can register for.
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public static List getAllPublishedAutoRegisterable(String schema) {
+
+		List returnList = new ArrayList();
+		List firstList =  getAllPublished(schema);
+
+		for (ListIterator<Simulation> li = firstList.listIterator(); li.hasNext();) {
+			Simulation this_sim = (Simulation) li.next();
+			
+			if (this_sim.isAllow_player_autoreg()){
+				returnList.add(this_sim);
+			}
+			
+		}
 
 		return returnList;
 	}
@@ -407,7 +454,7 @@ public class Simulation {
 	public RunningSimulation addNewRunningSimulation(String rs_name,
 			String schema) {
 
-		RunningSimulation rs = new RunningSimulation(rs_name, this.getFirstPhaseId(), this, schema);
+		RunningSimulation rs = new RunningSimulation(rs_name, this, schema);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
