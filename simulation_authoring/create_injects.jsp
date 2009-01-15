@@ -203,7 +203,7 @@ body {
         </p>
         <p>&nbsp;</p>
       </blockquote>
-      <p align="center"><a href="add_special_features.jsp">Next Step: Add Special 
+      <p align="center"><a href="incorporate_underlying_model.jsp">Next Step: Add Special 
       Feature</a><a href="set_universal_sim_sections.jsp?actor_index=0"></a></p>
 		
 	  <% } else { // End of if have set simulation id. %>

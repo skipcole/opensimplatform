@@ -20,6 +20,16 @@ import java.util.List;
  */
 public abstract class ModelController {
 
-	public abstract List doEquation(String equationName, List inputData, List outputData);
+	/**
+	 * 
+	 * @param equationName Name of this equation, for example 'Calculate GDP.'
+	 * @param equationFlags
+	 * @param inputMetaData Classes 
+	 * @param inputData
+	 * @param outputMetaData
+	 * @param outputData
+	 * @return
+	 */
+	public abstract List doEquation(String equationName, List equationFlags, List inputMetaData, List inputData, List outputMetaData, List outputData);
 	
 }
