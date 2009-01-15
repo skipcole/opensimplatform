@@ -40,6 +40,8 @@ public class ModelDefinitionObject {
 	private int runningLocation = 0;
 	
 	private String controllerClassName;
+	
+	private String controllerPackageName;
 
 	public Long getId() {
 		return id;
@@ -79,6 +81,14 @@ public class ModelDefinitionObject {
 
 	public void setControllerClassName(String controllerClassName) {
 		this.controllerClassName = controllerClassName;
+	}
+
+	public String getControllerPackageName() {
+		return controllerPackageName;
+	}
+
+	public void setControllerPackageName(String controllerPackageName) {
+		this.controllerPackageName = controllerPackageName;
 	}
 	
 	

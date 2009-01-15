@@ -254,7 +254,7 @@ body {
         <h2>9. Simulation Special Features </h2>
 		    <blockquote>
 		      <p>&nbsp;</p>
-		      <p><% if (pso.isAuthor()) { %>(<a href="add_special_features.jsp">edit</a>)<% } %></p>
+		      <p><% if (pso.isAuthor()) { %>(<a href="incorporate_underlying_model.jsp">edit</a>)<% } %></p>
 		      <hr />
         </blockquote>
 		    <h2>10. Simulation Default Sections (for each phase) </h2>

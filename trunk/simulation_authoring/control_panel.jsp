@@ -168,7 +168,7 @@ body {
           <td><a href="create_injects.jsp">Create Injects </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_injects_help.jsp" target="helpinright">(?)</a></td>
           <tr valign="top"> 
           <td>10.</td>
-          <td><a href="add_special_features.jsp">Add Special Features</a><a href="create_aar_starter_text.jsp"> </a><a href="create_injects.jsp"> </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_special_features_help.jsp" target="helpinright">(?)</a></td>
+          <td><a href="incorporate_underlying_model.jsp">Add Special Features</a><a href="create_aar_starter_text.jsp"> </a><a href="create_injects.jsp"> </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_special_features_help.jsp" target="helpinright">(?)</a></td>
           <tr valign="top"> 
           <td>11.</td>
           <td><a href="set_universal_sim_sections.jsp?actor_index=0">Set Universal 
