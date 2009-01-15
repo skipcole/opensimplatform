@@ -153,4 +153,40 @@ public class SimulationRatings {
 
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param user_id
+	 * @return
+	 */
+	public static SimulationRatings getBySimAndUser(String schema, Long sim_id, Long user_id){
+
+		SimulationRatings sr = new SimulationRatings();
+		
+		if ((sim_id == null) || (user_id == null)){
+
+			System.out.println("sid/uid: " + sim_id + "/" + user_id);
+			return sr;
+		} else {
+
+			String getHQL = "from SimulationRatings where SIM_ID = "
+					+ sim_id + " AND USER_ID = " + user_id;
+
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+
+			List returnList = MultiSchemaHibernateUtil.getSession(schema)
+					.createQuery(getHQL).list();
+
+			
+			if ((returnList != null) && (returnList.size() > 0)){
+				sr = (SimulationRatings) returnList.get(0);
+			}
+
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			return sr;
+		}
+	}
+	
 }

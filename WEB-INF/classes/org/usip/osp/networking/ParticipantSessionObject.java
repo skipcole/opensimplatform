@@ -1527,6 +1527,8 @@ public class ParticipantSessionObject {
 					}
 
 					MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(simulation);
+					
+					SimulationSection.applyAllUniversalSections(schema, simulation);
 
 				}
 
@@ -1926,6 +1928,11 @@ public class ParticipantSessionObject {
 
 	}
 
+	/**
+	 * 
+	 * @param sim_id
+	 * @param actor_id
+	 */
 	public void addActorToSim(String sim_id, String actor_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -1941,6 +1948,9 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sim);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		SimulationSection.applyAllUniversalSections(schema, sim);
+		
 
 	}
 

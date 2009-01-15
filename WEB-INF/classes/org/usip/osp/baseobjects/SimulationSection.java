@@ -501,6 +501,15 @@ public class SimulationSection {
 		return returnList;
 
 	}
+	
+	public static void applyAllUniversalSections(String schema, Simulation sim){
+		
+		for (ListIterator lia = sim.getPhases().listIterator(); lia.hasNext();) {
+			SimulationPhase sp = (SimulationPhase) lia.next();
+			
+			applyUniversalSectionsToAllActorsForPhase(schema, sim, sp.getId());
+		}
+	}
 
 	/**
 	 * Applies the default sections (those with actor id = 0) to all of the
@@ -513,11 +522,11 @@ public class SimulationSection {
 	 * @param sid
 	 * @param pid
 	 */
-	public static void applyUniversalSectionsToAllActors(String schema,
+	public static void applyUniversalSectionsToAllActorsForPhase(String schema,
 			Simulation sim, Long pid) {
 
 		// Get list of universal sections (actor id = 0)
-		List universalList = getBySimAndActorAndPhase(schema, sim.getId(),
+		List<SimulationSection> universalList = getBySimAndActorAndPhase(schema, sim.getId(),
 				new Long(0), pid);
 
 		// Get the list of actors
@@ -528,53 +537,58 @@ public class SimulationSection {
 			Actor act = (Actor) lia.next();
 
 			System.out.println("checking universals on " + act.getName());
+			
+			applyUniversalsToActor(schema, sim, universalList, act, pid);
 
-			// Check to see if this section already exists in this actor's set.
-			// If not, then add it.
-			for (ListIterator lis = universalList.listIterator(); lis.hasNext();) {
-				SimulationSection ss = (SimulationSection) lis.next();
+		} // End of loop over actors
 
-				System.out.println("     checking universalList on "
-						+ ss.getTab_heading());
+	}
+	
+	public static void applyUniversalsToActor(String schema, Simulation sim, List universalList, Actor act, Long pid){
+		// Check to see if this section already exists in this actor's set.
+		// If not, then add it.
+		for (ListIterator lis = universalList.listIterator(); lis.hasNext();) {
+			SimulationSection ss = (SimulationSection) lis.next();
 
-				boolean foundThisSection = false;
+			System.out.println("     checking universalList on "
+					+ ss.getTab_heading());
 
-				List currentActorsList = getBySimAndActorAndPhase(schema, sim
-						.getId(), act.getId(), pid);
+			boolean foundThisSection = false;
 
-				for (ListIterator listOld = currentActorsList.listIterator(); listOld
-						.hasNext();) {
-					SimulationSection ss_old = (SimulationSection) listOld
-							.next();
+			List currentActorsList = getBySimAndActorAndPhase(schema, sim
+					.getId(), act.getId(), pid);
 
-					System.out.println("             comparing "
-							+ ss_old.getBase_section_id() + " and "
-							+ ss.getBase_section_id());
-					if (ss_old.getBase_section_id().equals(
-							ss.getBase_section_id())) {
-						System.out.println("             found match!");
-						foundThisSection = true;
-					}
+			for (ListIterator listOld = currentActorsList.listIterator(); listOld
+					.hasNext();) {
+				SimulationSection ss_old = (SimulationSection) listOld
+						.next();
 
-				}
-				if (!foundThisSection) {
-					MultiSchemaHibernateUtil.beginTransaction(schema);
-
-					SimulationSection ss_new = ss.createCopy();
-
-					ss_new.setActor_id(act.getId());
-					ss_new.setAddedAsUniversalSection(true);
-
-					ss_new.setTab_position(currentActorsList.size() + 1);
-
-					MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(
-							ss_new);
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				System.out.println("             comparing "
+						+ ss_old.getBase_section_id() + " and "
+						+ ss.getBase_section_id());
+				if (ss_old.getBase_section_id().equals(
+						ss.getBase_section_id())) {
+					System.out.println("             found match!");
+					foundThisSection = true;
 				}
 
 			}
-		} // End of loop over actors
+			if (!foundThisSection) {
+				MultiSchemaHibernateUtil.beginTransaction(schema);
 
+				SimulationSection ss_new = ss.createCopy();
+
+				ss_new.setActor_id(act.getId());
+				ss_new.setAddedAsUniversalSection(true);
+
+				ss_new.setTab_position(currentActorsList.size() + 1);
+
+				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(
+						ss_new);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			}
+
+		}
 	}
 
 	/**

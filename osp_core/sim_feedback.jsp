@@ -17,26 +17,6 @@
 		return;
 	}
 	
-	String bodyText = "";
-	
-	String cs_id = (String) request.getParameter("cs_id");
-	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-	CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(cs_id));
-    
-	bodyText = (String) cs.getBigString();
-	
-	Long base_doc_id = (Long) cs.getContents().get("doc_id");
-	
-	MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-	
-	RunningSimulation rs = pso.giveMeRunningSim();
-	
-	System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
-	
-	PlayerReflection playerReflection = PlayerReflection.getPlayerReflection(pso.schema, cs.getId(), rs.getId(), pso.actor_id);
-	
 	String sending_page = (String) request.getParameter("sending_page");
 	String update_text = (String) request.getParameter("update_text");
 	
@@ -71,7 +51,7 @@
 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
   
   		  <p>
-		  <textarea id="player_reflection_text" name="player_reflection_text" style="height: 310px; width: 710px;">
+		  <textarea id="player_reflection_text" name="player_ratings_text" style="height: 310px; width: 710px;">
 		  <%= playerReflection.getBigString() %>
 		  </textarea>
 		<script language="javascript1.2">
