@@ -248,7 +248,7 @@ public class Simulation {
 				new Long(0), sp_first.getId(), scheduleSection.getId(),
 				"Schedule", 2);
 
-		SimulationSection.applyUniversalSectionsToAllActors(schema, this, sp_first.getId());
+		SimulationSection.applyUniversalSectionsToAllActorsForPhase(schema, this, sp_first.getId());
 		///////////
 		
 		this.saveMe(schema);

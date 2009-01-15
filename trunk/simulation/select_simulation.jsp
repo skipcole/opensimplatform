@@ -147,7 +147,7 @@ body {
 		%>
         
           <tr> 
-            <td><a href="../simulation_facilitation/sim_blurb_information.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %></a><a href="create_simulation.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"> : <%= sim.getVersion() %></a></td>
+            <td><a href="../simulation_facilitation/sim_blurb_information.jsp?sim_id=<%= sim.getId().toString() %>" target="_top"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
           </tr>
            
 <%	} // End of loop over auto-reg sims    %>

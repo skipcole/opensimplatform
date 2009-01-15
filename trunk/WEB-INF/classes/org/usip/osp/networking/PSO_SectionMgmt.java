@@ -438,7 +438,7 @@ public class PSO_SectionMgmt {
 		if (universal) {
 			System.out.println("applying universal page");
 			Simulation simulation = pso.giveMeSim();
-			SimulationSection.applyUniversalSectionsToAllActors(pso.schema,
+			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema,
 					simulation, phase_being_worked_on_id);
 		}
 
@@ -482,7 +482,7 @@ public class PSO_SectionMgmt {
 
 		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
 			Simulation simulation = pso.giveMeSim();
-			SimulationSection.applyUniversalSectionsToAllActors(pso.schema,
+			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema,
 					simulation, phase_being_worked_on_id);
 		}
 
