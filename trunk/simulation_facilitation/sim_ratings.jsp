@@ -1,26 +1,47 @@
-<%@ page 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "add_underlying_model.jsp";
+	
+	if (!(pso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
+	
+	String sending_page = (String) request.getParameter("sending_page");
+	
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("sim_blurb_information"))) {
+		
+		pso.handleLoadPlayerAutoAssignedScenario(request);
+		response.sendRedirect("../simulation/simwebui.jsp?tabposition=1");
+		return;
+		
+	}
+	
+	///////////////////////////////////////////////////////////////////////
+	String sim_id = (String) request.getParameter("sim_id");
+	if (sim_id != null) {
+		pso.sim_id = new Long(sim_id);
+	}
+	Simulation sim = new Simulation();	
+	if (pso.sim_id != null){
+		sim = pso.giveMeSim();
+	}
+	
+
+	//////////////////////////////////////////////////////////////////////////
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Open Simulation Platform Add Special Features Page</title>
+<title>Open Simulation Platform Control Page</title>
 <!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<style type="text/css">
-<!--
-.style1 {color: #FF0000}
--->
-</style>
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -50,11 +71,11 @@ body {
 	    <table border="0" cellspacing="1" cellpadding="0">
 	<%  if (pso.isAuthor()) { %>
         <tr>
-          <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_authoring/intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } else if (pso.isFacilitator()) { %>
 		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
 	<% } %>	
         <tr>
@@ -93,9 +114,9 @@ body {
 		   <tr>
 		<td bgcolor="<%= bgColor_think %>"><a href="../simulation_planning/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;THINK&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-	    <td bgcolor="<%= bgColor_create %>"><a href="creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+	    <td bgcolor="<%= bgColor_create %>"><a href="../simulation_authoring/creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-		<td bgcolor="<%= bgColor_play %>"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		<td bgcolor="<%= bgColor_play %>"><a href="facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
         <td bgcolor="<%= bgColor_share %>"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		   </tr>
@@ -118,34 +139,27 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Programming Instructions to Create  Underlying Model</h1>
-    <!-- InstanceEndEditable --><br />
+      <h1>Ratings for Simulation: <%= sim.getName() %> : <%= sim.getVersion() %>  </h1>
+      <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-      <blockquote> 
-      
-      <p>The OSP allows people to plug-in different underlying models. These models need to minimal set of constraints. Essentially, they only need to be able to provide the simulation author a set of functions that can be used in their simulations.</p>
-      <p>Models can be run remotely, or locally on the same machine that is running the simulation. Click here to see the programming instructions on how to create models to be run locally.</p>
-      
-        <table width="90%" border="1">
-          <tr>
-            <td width="13%" valign="top">Step 1.</td>
-            <td width="87%" valign="top"><p>Subclass the class org.usip.osp.modelinterface.ModelController</p>
-              </td>
-          </tr>
-          <tr>
-            <td valign="top">Step 2.</td>
-            <td valign="top">&nbsp;</td>
-          </tr>
-          <tr>
-            <td valign="top">Step 3.</td>
-            <td valign="top">&nbsp;</td>
-          </tr>
-        </table>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        </blockquote>
+      <blockquote>
+      <p>Simulation Blurb</p>
+      <p><%= sim.getBlurb() %></p>
+      <hr />
+      <P>Simulation Ratings</P>
+      <table border="1" cellpadding="1" cellspacing="0">
+      <tr><td>Stars</td><td>Commentor</td><td>Comments</td></tr>
+	  <%
+	  	for (ListIterator li = SimulationRatings.getRatingsBySim(pso.schema, pso.sim_id).listIterator(); li.hasNext();) {
+			SimulationRatings sr = (SimulationRatings) li.next();
+	  %>
+      <tr><td><%= sr.getNumberOfStars() %></td><td><%= sr.getCommentoryType() %></td><td><%= sr.getUser_comments() %></td></tr>
+      <%
+	  } // end of loop over Sim ratings.
+	  %>
+      </table>
+      </blockquote>
+      <p align="left">&nbsp;</p>
       <!-- InstanceEndEditable -->
 			</td>
 		</tr>
