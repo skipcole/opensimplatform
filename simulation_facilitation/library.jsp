@@ -174,9 +174,16 @@ body {
             <td><a href="facilitateweb.jsp?loadSim=true&sim_id=<%= sim.getId() %>" target="_top"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
             <td>ETCD</td>
             <td><%= sim.getListingKeyWords() %></td>
-            <td>12/2008</td>
+            <td>1/2009</td>
             <td><a href="../simulation_authoring/review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
-            <td>&nbsp;</td>
+            <td><a href="sim_ratings.jsp">
+			<% if (true) { %>
+            None
+            <% } else { %>
+            *****
+            <% } %>
+            </a>
+            </td>
           </tr>
           <% } %>
         </table>

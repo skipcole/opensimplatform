@@ -14,7 +14,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
- * This class represents sections that can be given to an actor at any given phase of the game.
+ * This class represents sections that can be given to an actor at any given
+ * phase of the game.
  * 
  * @author Ronald "Skip" Cole<br />
  * 
@@ -42,6 +43,7 @@ public class BaseSimSection implements Comparable {
 	 */
 	public static void main(String args[]) {
 
+		BaseSimSection.readNewBaseSimSectionsFromXMLFiles("test");
 		// BaseSimSection.readBaseSimSectionsFromXMLFiles();
 
 		/*
@@ -54,6 +56,10 @@ public class BaseSimSection implements Comparable {
 		// bss.setConfers_read_ability(true);
 		// System.out.println("can read " + bss.isConfers_read_ability());
 		// bss.saveMe("test");
+		
+		
+		
+		/*
 		System.out.println("--------------------");
 		// System.out.println(ObjectPackager.packageObject(bss));
 		System.out.println("--------------------");
@@ -80,6 +86,7 @@ public class BaseSimSection implements Comparable {
 				numPrinted += aliquot;
 			}
 		}
+		*/
 
 	}
 
@@ -89,11 +96,9 @@ public class BaseSimSection implements Comparable {
 	 * @param dirName
 	 * @return
 	 */
-	public static String readASpecificCustomLibSection(String schema,
-			String dirName) {
+	public static String readASpecificCustomLibSection(String schema, String dirName) {
 
-		String fileLocation = FileIO.getCustom_section_web_dir()
-				+ File.separator + dirName;
+		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
 
 		return readCustomSectionsFromADir(schema, fileLocation);
 
@@ -118,13 +123,11 @@ public class BaseSimSection implements Comparable {
 	 * @param fileLocation
 	 * @return
 	 */
-	public static String readCustomSectionsFromADir(String schema,
-			String dirName) {
+	public static String readCustomSectionsFromADir(String schema, String dirName) {
 
 		System.out.println("readCustomSectionsFromADir");
 
-		String fileLocation = FileIO.getCustom_section_web_dir()
-				+ File.separator + dirName;
+		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
 
 		System.out.println("files located at " + fileLocation);
 
@@ -204,8 +207,55 @@ public class BaseSimSection implements Comparable {
 						try {
 							readInXMLFile(schema, files[ii], null);
 						} catch (Exception e) {
-							System.out.println("problem reading in file "
-									+ fName);
+							System.out.println("problem reading in file " + fName);
+							System.out.println(e.getMessage());
+						}
+					}
+
+				}
+			}
+
+			return "Read in Base Simulation Section Information.";
+		}
+	}
+	
+	/**
+	 * Reads the simulation sections from xml files.
+	 * 
+	 * @param schema
+	 * @return Returns a string indicating success, or not.
+	 * 
+	 */
+	public static String readNewBaseSimSectionsFromXMLFiles(String schema) {
+
+		// The set of base simulation sections are read out of
+		// XML files stored in the simulation_section_information directory.
+
+		String fileLocation = FileIO.getBase_section_web_dir();
+
+		System.out.println("Looking for files at: " + fileLocation);
+
+		File locDir = new File(fileLocation);
+
+		if (locDir == null) {
+			return ("Problem finding files at " + fileLocation);
+		} else {
+
+			File files[] = locDir.listFiles();
+
+			if (files == null) {
+				return ("Problem finding files at " + fileLocation);
+			} else {
+				for (int ii = 0; ii < files.length; ii++) {
+
+					String fName = files[ii].getName();
+
+					if (fName.endsWith(".xml")) {
+
+						try {
+							readInNewXMLFile(schema, files[ii], null);
+						} catch (Exception e) {
+							System.out.println("problem reading in file " + fName);
 							System.out.println(e.getMessage());
 						}
 					}
@@ -217,14 +267,14 @@ public class BaseSimSection implements Comparable {
 		}
 	}
 
+
 	public void saveMe(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 
-	public static void readInXMLFile(String schema, File thisFile,
-			String customLibName) {
+	public static void readInXMLFile(String schema, File thisFile, String customLibName) {
 
 		String fullBSS = FileIO.getFileContents(thisFile);
 
@@ -252,6 +302,54 @@ public class BaseSimSection implements Comparable {
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 			}
 		}
+	}
+
+	public static void readInNewXMLFile(String schema, File thisFile, String customLibName) {
+
+		String fullBSS = FileIO.getFileContents(thisFile);
+
+		// BaseSimSection bRead = unpackageXML(fullBSS);
+		Object bRead = unpackageXML(fullBSS);
+
+		if (bRead != null) {
+			/*
+			 * if (bRead.getClass().equals(BaseSimSection.class)){
+			 * System.out.println("rec tab: " + bRead.getRec_tab_heading()); }
+			 */
+
+			if (bRead.getClass().equals(CustomLibrarySection.class)) {
+				CustomLibrarySection brc = (CustomLibrarySection) bRead;
+				if (customLibName != null) {
+					brc.setCust_lib_name(customLibName);
+				}
+
+				if (!(tabHeadingExists(schema, brc.getRec_tab_heading()))) {
+					brc.saveMe(schema);
+				}
+			} else {
+				BaseSimSection bss = (BaseSimSection) bRead;
+				if (!(tabHeadingExists(schema, bss.getRec_tab_heading()))) {
+					MultiSchemaHibernateUtil.beginTransaction(schema);
+					MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(bss);
+					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				}
+			}
+		}
+	}
+
+	public static boolean tabHeadingExists(String schema, String tabHeading) {
+
+		List allBase = getAll(schema);
+
+		for (ListIterator<BaseSimSection> li = allBase.listIterator(); li.hasNext();) {
+			BaseSimSection this_base = (BaseSimSection) li.next();
+
+			if (this_base.getRec_tab_heading().equalsIgnoreCase(tabHeading)) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	public static BaseSimSection unpackageXML(String xmlString) {
@@ -308,15 +406,24 @@ public class BaseSimSection implements Comparable {
 	@Column(name = "CUSTOM_LIB_NAME")
 	protected String cust_lib_name = "";
 
-	/** Indicates if having this section allows a player to read a document associated with this section. */
+	/**
+	 * Indicates if having this section allows a player to read a document
+	 * associated with this section.
+	 */
 	protected boolean confers_read_ability = false;
 
-	/** Indicates if having this section allows a player to write to a document associated with this section. */
+	/**
+	 * Indicates if having this section allows a player to write to a document
+	 * associated with this section.
+	 */
 	protected boolean confers_write_ability = false;
-	
-	/** A string indicating which fields should be sent as part of the URL to a remote web site section. 
-	 * Right now this is planned as a binary string. The string, for example, of '110' indicates:
-	 * send the running sim id, send the actor id, don't send the user id. */
+
+	/**
+	 * A string indicating which fields should be sent as part of the URL to a
+	 * remote web site section. Right now this is planned as a binary string.
+	 * The string, for example, of '110' indicates: send the running sim id,
+	 * send the actor id, don't send the user id.
+	 */
 	protected String sendString = "";
 
 	/**
@@ -333,8 +440,8 @@ public class BaseSimSection implements Comparable {
 	 * @param rec_tab_heading
 	 * @param description
 	 */
-	public BaseSimSection(String schema, String url, String directory,
-			String page_file_name, String rec_tab_heading, String description) {
+	public BaseSimSection(String schema, String url, String directory, String page_file_name, String rec_tab_heading,
+			String description) {
 
 		this.url = url;
 		this.directory = directory;
@@ -358,8 +465,7 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
-				schema).createQuery(
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from BaseSimSection where DTYPE='BaseSimSection'").list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -376,11 +482,10 @@ public class BaseSimSection implements Comparable {
 	public static BaseSimSection getMe(String schema, String the_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(BaseSimSection.class, new Long(the_id));
+		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(schema).get(BaseSimSection.class,
+				new Long(the_id));
 
-		System.out
-				.println("this bss can read: " + bss.isConfers_read_ability());
+		System.out.println("this bss can read: " + bss.isConfers_read_ability());
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return bss;
@@ -391,10 +496,8 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String queryString = "from BaseSimSection where "
-				+ "DTYPE='BaseSimSection' OR DTYPE='CustomizeableSection'";
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
-				schema).createQuery(queryString).list();
+		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection' OR DTYPE='CustomizeableSection'";
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -411,10 +514,8 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String queryString = "from BaseSimSection where "
-				+ "DTYPE='BaseSimSection'";
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
-				schema).createQuery(queryString).list();
+		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection'";
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -431,11 +532,10 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String queryString = "from BaseSimSection where "
-				+ " DTYPE='CustomizeableSection'";
+		String queryString = "from BaseSimSection where " + " DTYPE='CustomizeableSection'";
 
-		List<CustomizeableSection> returnList = MultiSchemaHibernateUtil
-				.getSession(schema).createQuery(queryString).list();
+		List<CustomizeableSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString)
+				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -452,8 +552,8 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
-				schema).createQuery("from BaseSimSection").list();
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery("from BaseSimSection").list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -474,11 +574,8 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil
-				.getSession(schema)
-				.createQuery(
-						"from BaseSimSection where control_section = '1' order by BASE_SIMSEC_ID")
-				.list();
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from BaseSimSection where control_section = '1' order by BASE_SIMSEC_ID").list();
 
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
@@ -608,23 +705,20 @@ public class BaseSimSection implements Comparable {
 
 	}
 
-	public static BaseSimSection getByRecommendedTagHeading(String schema,
-			String rec_tab_name) {
+	public static BaseSimSection getByRecommendedTagHeading(String schema, String rec_tab_name) {
 
 		BaseSimSection bss = null;
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
-				schema).createQuery(
-				"from BaseSimSection where BASE_TAB_HEADING = '" + rec_tab_name
-						+ "'").list();
+
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from BaseSimSection where BASE_TAB_HEADING = '" + rec_tab_name + "'").list();
 
 		if (returnList != null) {
 			bss = (BaseSimSection) returnList.get(0);
 			return bss;
 		}
-		
+
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		return bss;
 
