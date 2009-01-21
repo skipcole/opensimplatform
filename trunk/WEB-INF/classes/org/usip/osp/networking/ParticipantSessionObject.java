@@ -316,12 +316,20 @@ public class ParticipantSessionObject {
 	}
 
 	public String setOfUsers = "";
-	public String defaultInviteEmailMsg = "";
 	public String invitationCode = "";
 
+	
+	public String getDefaultInviteMessage()
 	{
-		defaultInviteEmailMsg = "Dear Student,<br />\r\n";
-
+		String defaultInviteEmailMsg = "Dear Student,\r\n";
+		defaultInviteEmailMsg += "Please go to the web site ";
+		defaultInviteEmailMsg += USIP_OSP_Properties.getValue("simulation_url") 
+			+ "/simulation_user_admin/auto_registration_form.jsp and register yourself.\r\n\r\n";
+		defaultInviteEmailMsg += "Thank you,\r\n";
+		defaultInviteEmailMsg += this.user_Display_Name;
+		
+		return defaultInviteEmailMsg;
+		
 	}
 
 	/**
@@ -330,7 +338,7 @@ public class ParticipantSessionObject {
 	 */
 	public void handleBulkInvite(HttpServletRequest request) {
 		setOfUsers = (String) request.getParameter("setOfUsers");
-		defaultInviteEmailMsg = (String) request.getParameter("defaultInviteEmailMsg");
+		String thisInviteEmailMsg = (String) request.getParameter("defaultInviteEmailMsg");
 		invitationCode = (String) request.getParameter("invitationCode");
 
 		Long schema_id = SchemaInformationObject.lookUpId(schema);
@@ -354,7 +362,7 @@ public class ParticipantSessionObject {
 				// Send them email directing them to the page to register
 
 				String subject = "Invitation to register on an OSP System";
-				sendBulkInvitationEmail(this_email, subject, defaultInviteEmailMsg);
+				sendBulkInvitationEmail(this_email, subject, thisInviteEmailMsg);
 
 			}
 		}
@@ -378,6 +386,11 @@ public class ParticipantSessionObject {
 		Emailer.postMail(sio, the_email, subject, message, user_name, cced, bcced);
 	}
 
+	/**
+	 * 
+	 * @param inputSet
+	 * @return
+	 */
 	public List getSetOfEmails(String inputSet) {
 		StringTokenizer str = new StringTokenizer(inputSet, ", \r\n");
 
@@ -500,6 +513,29 @@ public class ParticipantSessionObject {
 			// ////////////////////////////
 		}
 
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleEnterInstructorRatings(HttpServletRequest request){
+		
+		String num_stars = (String) request.getParameter("num_stars");
+		String user_comments = (String) request.getParameter("user_comments");
+		String user_stated_name = (String) request.getParameter("user_stated_name");
+		
+		SimulationRatings sr = SimulationRatings.getInstructorRatingsBySimAndUser(schema, sim_id, user_id);
+		
+		sr.setNumberOfStars(new Long(num_stars).intValue());
+		sr.setSim_id(sim_id);
+		sr.setUser_id(user_id);
+		sr.setUsers_stated_name(user_stated_name);
+		sr.setUser_comments(user_comments);
+		sr.setComment_type(SimulationRatings.INSTRUCTOR_COMMENT);
+		
+		sr.saveMe(schema);
+		
 	}
 	
 	
@@ -2581,6 +2617,37 @@ public class ParticipantSessionObject {
 	public Simulation handleSetUniversalSimSectionsPage(HttpServletRequest request) {
 
 		return (getMyPSO_SectionMgmt().handleSetUniversalSimSectionsPage(request));
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public SimulationRatings handleSimFeedback(HttpServletRequest request){
+		
+		System.out.println("handling sim feedback");
+		
+		SimulationRatings sr = SimulationRatings.getBySimAndActorAndUser(schema, sim_id, actor_id, user_id);
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String sim_feedback_text = (String) request.getParameter("sim_feedback_text");
+		String users_stated_name = (String) request.getParameter("users_stated_name");
+		
+		if ( (sending_page != null) && (sim_feedback_text != null) && (sending_page.equalsIgnoreCase("sim_feedback"))){
+			
+			sr.setActor_id(actor_id);
+			sr.setActor_name(actor_name);
+			sr.setSim_id(sim_id);
+			sr.setUser_id(user_id);
+			sr.setUser_comments(sim_feedback_text);
+			sr.setComment_type(SimulationRatings.PLAYER_COMMENT);
+			sr.setUsers_stated_name(users_stated_name);
+			sr.saveMe(schema);
+			
+		} // End of if coming from this page and have added text
+		
+		return sr;
 	}
 
 	/**

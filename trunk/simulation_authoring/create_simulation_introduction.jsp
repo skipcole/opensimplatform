@@ -41,6 +41,11 @@
 </script>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
 <!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -165,16 +170,16 @@ body {
       <blockquote>
         <p>&nbsp;</p>
       </blockquote>
+      <p align="center"><span class="style1">Please remember to save changes before leaving this page.</span></p>
       <p align="center"><a href="create_simulation_planned_play_ideas.jsp">Next Step: Enter Planned Play Ideas </a></p>
-	  <% } else { // End of if have set simulation id. %>
+      <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>
 		<%@ include file="select_message.jsp" %></p>
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
 	  
-      <a href="create_simulation_audience.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
-			</td>
+      <a href="create_simulation_audience.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->			</td>
 		</tr>
 		</table>
 	</td>
