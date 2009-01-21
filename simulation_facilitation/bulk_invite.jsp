@@ -18,9 +18,7 @@
 	String sending_page = (String) request.getParameter("sending_page");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("bulk_invite"))){
-		
 		pso.handleBulkInvite(request);
-		System.out.println("okay im here.");
 	}
 	
 
@@ -156,13 +154,7 @@ body {
             </tr>
             <tr valign="top">
               <td>Message Text: </td>
-              <td><textarea name="defaultInviteEmailMsg" cols="60" rows="5"><%= pso.defaultInviteEmailMsg %></textarea></td>
-            </tr>
-            <tr valign="top">
-              <td>Invitation Identifier </td>
-              <td><label>
-                <input type="text" name="invitationCode" value="<%= pso.invitationCode %>" />
-              </label></td>
+              <td><textarea name="defaultInviteEmailMsg" cols="60" rows="5"><%= pso.getDefaultInviteMessage() %></textarea></td>
             </tr>
             <tr valign="top"> 
               <td>&nbsp;</td>

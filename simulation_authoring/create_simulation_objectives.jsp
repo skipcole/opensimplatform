@@ -39,6 +39,11 @@
 </script>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
 <!-- InstanceEndEditable -->
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -163,6 +168,7 @@ body {
           </p>
         </blockquote>
       </form>
+	  <p align="center"><span class="style1">Please remember to save changes before leaving this page.</span></p>
 	  <p align="center"><a href="create_simulation_audience.jsp">Next Step: Enter Audience </a></p>
 	  <% } else { // End of if have set simulation id. %>
       <blockquote>
@@ -171,8 +177,7 @@ body {
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
 <p><a href="create_simulation.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a> </p>
-<!-- InstanceEndEditable -->
-			</td>
+<!-- InstanceEndEditable -->			</td>
 		</tr>
 		</table>
 	</td>

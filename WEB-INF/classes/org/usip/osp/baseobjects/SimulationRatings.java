@@ -27,6 +27,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class SimulationRatings {
 	
+	public static final int ALL_COMMENTS = 0;
 	public static final int PLAYER_COMMENT = 1;
 	public static final int INSTRUCTOR_COMMENT = 2;
 	
@@ -37,7 +38,13 @@ public class SimulationRatings {
 	
 	private Long sim_id;
 	
+	private Long actor_id;
+	
+	private String actor_name;
+	
 	private Long user_id;
+	
+	private String users_stated_name = "Anonymous";
 	
 	private Long rs_id;
 	
@@ -64,12 +71,36 @@ public class SimulationRatings {
 		this.sim_id = sim_id;
 	}
 
+	public Long getActor_id() {
+		return actor_id;
+	}
+
+	public void setActor_id(Long actor_id) {
+		this.actor_id = actor_id;
+	}
+
+	public String getActor_name() {
+		return actor_name;
+	}
+
+	public void setActor_name(String actor_name) {
+		this.actor_name = actor_name;
+	}
+
 	public Long getUser_id() {
 		return user_id;
 	}
 
 	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
+	}
+
+	public String getUsers_stated_name() {
+		return users_stated_name;
+	}
+
+	public void setUsers_stated_name(String users_stated_name) {
+		this.users_stated_name = users_stated_name;
 	}
 
 	public Long getRs_id() {
@@ -125,8 +156,15 @@ public class SimulationRatings {
 
 	}
 	
+	/**
+	 * Gets all ratings for a particular sim.
+	 * 
+	 * @param schema
+	 * @param sid
+	 * @return
+	 */
 	public static List<SimulationRatings> getRatingsBySim(
-			String schema, Long sid) {
+			String schema, Long sid, int getType) {
 
 		if (sid == null) {
 
@@ -135,7 +173,15 @@ public class SimulationRatings {
 		} else {
 
 			String getHQL = "from SimulationRatings where SIM_ID = "
-					+ sid.toString() + " ";
+				+ sid.toString() + " ";
+			
+			if (getType == SimulationRatings.ALL_COMMENTS){
+				getHQL += "";
+			} else if (getType == SimulationRatings.INSTRUCTOR_COMMENT){
+				getHQL += " AND COMMENT_TYPE = " + SimulationRatings.INSTRUCTOR_COMMENT + " ";
+			} else if (getType == SimulationRatings.PLAYER_COMMENT){
+				getHQL += " AND COMMENT_TYPE = " + SimulationRatings.PLAYER_COMMENT + " ";
+			}
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -160,7 +206,7 @@ public class SimulationRatings {
 	 * @param user_id
 	 * @return
 	 */
-	public static SimulationRatings getBySimAndUser(String schema, Long sim_id, Long user_id){
+	public static SimulationRatings getBySimAndActorAndUser(String schema, Long sim_id, Long actor_id, Long user_id){
 
 		SimulationRatings sr = new SimulationRatings();
 		
@@ -171,7 +217,42 @@ public class SimulationRatings {
 		} else {
 
 			String getHQL = "from SimulationRatings where SIM_ID = "
-					+ sim_id + " AND USER_ID = " + user_id;
+				+ sim_id + " AND ACTOR_ID = " + actor_id + " AND USER_ID = " + user_id;
+
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+
+			List returnList = MultiSchemaHibernateUtil.getSession(schema)
+					.createQuery(getHQL).list();
+
+			
+			if ((returnList != null) && (returnList.size() > 0)){
+				sr = (SimulationRatings) returnList.get(0);
+			}
+
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			return sr;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param user_id
+	 * @return
+	 */
+	public static SimulationRatings getInstructorRatingsBySimAndUser(String schema, Long sim_id, Long user_id){
+		SimulationRatings sr = new SimulationRatings();
+		
+		if ((sim_id == null) || (user_id == null)){
+
+			System.out.println("sid/uid: " + sim_id + "/" + user_id);
+			return sr;
+		} else {
+
+			String getHQL = "from SimulationRatings where SIM_ID = "
+				+ sim_id + " AND USER_ID = " + user_id + " AND COMMENT_TYPE = " + SimulationRatings.INSTRUCTOR_COMMENT;
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 

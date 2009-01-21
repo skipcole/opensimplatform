@@ -482,6 +482,7 @@ public class PSO_SectionMgmt {
 
 		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
 			Simulation simulation = pso.giveMeSim();
+			System.out.println("applying sim sections on phase: " + phase_being_worked_on_id);
 			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema,
 					simulation, phase_being_worked_on_id);
 		}
@@ -1155,6 +1156,7 @@ public class PSO_SectionMgmt {
 		
 		// If adding page, then add it and forward them on.
 		if (save_and_add != null) {
+			System.out.println("_universal was: " + _universal);
 			addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request, _universal);
 			pso.forward_on = true;
 		}

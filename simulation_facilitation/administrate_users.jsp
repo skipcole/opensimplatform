@@ -136,7 +136,8 @@ body {
       <h1>Administrate Users </h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-      <p>&nbsp;</p>
+      <p>Functionality to come.</p>
+      <p>Instructors will probably want to look up users associated with their classes, and other such things.</p>
       <p align="center"><a href="create_user.jsp">Next Step: Create User</a></p>
       <p align="left"><a href="bulk_invite.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       <!-- InstanceEndEditable -->

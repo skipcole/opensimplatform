@@ -1,5 +1,6 @@
 package org.usip.osp.baseobjects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -144,6 +145,9 @@ public class SimulationPhase{
 
 	public List getAllForSim(String schema, Long the_sim_id) {
 		
+		if (the_sim_id == null){
+			return new ArrayList();
+		}
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		String hql_string = "from SimulationPhase where SIM_ID = " + the_sim_id.toString();
