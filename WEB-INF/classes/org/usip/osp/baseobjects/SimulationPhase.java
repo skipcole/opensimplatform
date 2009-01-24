@@ -143,20 +143,9 @@ public class SimulationPhase{
 		this.time_advances_automatically = time_advances_automatically;
 	}
 
-	public List getAllForSim(String schema, Long the_sim_id) {
+	public List getAllForSim(String schema, Long sim_id) {
 		
-		if (the_sim_id == null){
-			return new ArrayList();
-		}
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
-		String hql_string = "from SimulationPhase where SIM_ID = " + the_sim_id.toString();
-		
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
-		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return returnList;
+		return SimPhaseAssignment.getPhasesForSim(schema, sim_id);
 
 	}
 	

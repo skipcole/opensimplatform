@@ -213,8 +213,8 @@ public class ParticipantSessionObject {
 
 				// Mark Completed, change phase
 				Simulation sim = this.giveMeSim();
-				System.out.println("forwarin on to : " + sim.getLastPhaseId().toString());
-				this.changePhase(sim.getLastPhaseId().toString(), request);
+				System.out.println("forwarin on to : " + sim.getLastPhaseId(schema).toString());
+				this.changePhase(sim.getLastPhaseId(schema).toString(), request);
 				// this.changePhase("Completed", request);
 
 				// Forward them back
@@ -260,7 +260,7 @@ public class ParticipantSessionObject {
 				returnSP.setNotes(phase_notes);
 				returnSP.setOrder(string2Int(nominal_order));
 				returnSP.saveMe(schema);
-				sim.getPhases().add(returnSP);
+				SimPhaseAssignment spa = new SimPhaseAssignment(schema, sim.getId(), returnSP.getId());
 
 				Actor ctrl_act = Actor.getControlActor(schema);
 				sim.addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
@@ -505,9 +505,11 @@ public class ParticipantSessionObject {
 				RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 						RunningSimulation.class, running_sim_id);
 
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				
 				running_sim.enableAndPrep(schema, sim_id.toString(), bu.getUsername(), email_users, email_text);
 
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				
 
 			} // End of if coming from this page and have enabled the sim
 			// ////////////////////////////
@@ -1558,13 +1560,14 @@ public class ParticipantSessionObject {
 					Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(
 							Simulation.class, sim_id);
 
-					if (!(simulation.getActors().contains(actorOnScratchPad))) {
-						simulation.getActors().add(actorOnScratchPad);
+					if (!(simulation.getActors(schema).contains(actorOnScratchPad))) {
+						
+						SimActorAssignment saa = new SimActorAssignment(schema, simulation.getId(), actorOnScratchPad.getId());
 					}
 
 					MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(simulation);
 					
-					SimulationSection.applyAllUniversalSections(schema, simulation);
+					SimulationSection.applyAllUniversalSections(schema, sim_id);
 
 				}
 
@@ -1896,10 +1899,11 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
 
+		/*
 		// ///////////////
 		// Stupidly, we must do this. Hiberate requires it odes here
 		if (simulation != null) {
-			List pList = simulation.getPhases();
+			List pList = simulation.getPhases(schema);
 
 			for (ListIterator<SimulationPhase> li = pList.listIterator(); li.hasNext();) {
 				SimulationPhase sp = li.next();
@@ -1908,6 +1912,7 @@ public class ParticipantSessionObject {
 			}
 		}
 		// ///////////////
+		*/
 
 		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -1971,40 +1976,28 @@ public class ParticipantSessionObject {
 	 */
 	public void addActorToSim(String sim_id, String actor_id) {
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
 		Long s_id = new Long(sim_id);
-		Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, s_id);
-
 		Long a_id = new Long(actor_id);
-		Actor act = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, a_id);
 
-		sim.getActors().add(act);
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sim);
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		SimActorAssignment saa = new SimActorAssignment(schema, s_id, a_id);
 		
-		SimulationSection.applyAllUniversalSections(schema, sim);
+		
+		SimulationSection.applyAllUniversalSections(schema, s_id);
 		
 
 	}
 
+	/**
+	 * 
+	 * @param sim_id
+	 * @param actor_id
+	 */
 	public void removeActorFromSim(String sim_id, String actor_id) {
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
 		Long s_id = new Long(sim_id);
-		Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, s_id);
-
 		Long a_id = new Long(actor_id);
-		Actor act = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, a_id);
 
-		sim.getActors().remove(act);
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sim);
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		SimActorAssignment.removeMe(schema, s_id, a_id);
 	}
 
 	public boolean isAdmin() {
@@ -2130,9 +2123,9 @@ public class ParticipantSessionObject {
 		Simulation sim = this.giveMeSim();
 
 		// Get the list of actors
-		List actorList = sim.getActors();
+		List actorList = sim.getActors(schema);
 
-		List phaseList = sim.getPhases();
+		List phaseList = sim.getPhases(schema);
 
 		// Loop over phases
 		for (ListIterator plist = phaseList.listIterator(); plist.hasNext();) {
@@ -2541,7 +2534,7 @@ public class ParticipantSessionObject {
 		System.out.println("storing names in hashtable. ");
 		Simulation sim = this.giveMeSim();
 
-		for (ListIterator<Actor> li = sim.getActors().listIterator(); li.hasNext();) {
+		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
 			Actor act = li.next();
 
 			actor_names.put(schema + "_" + running_sim_id + " " + act.getId(), act.getName());

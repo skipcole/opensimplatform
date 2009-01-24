@@ -155,7 +155,7 @@ body {
             <td><%= sim.getName() %></td>
             <td><%
 			
-			for (ListIterator la = sim.getActors().listIterator(); la.hasNext();) {
+			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 
 			%> 

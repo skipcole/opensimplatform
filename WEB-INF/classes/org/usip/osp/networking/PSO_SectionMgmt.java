@@ -163,7 +163,7 @@ public class PSO_SectionMgmt {
 			phase_being_worked_on_id = new Long(_phase_id);
 		} else {
 			if (phase_being_worked_on_id == null) {
-				phase_being_worked_on_id = simulation.getFirstPhaseId();
+				phase_being_worked_on_id = simulation.getFirstPhaseId(pso.schema);
 			}
 		}
 
@@ -260,8 +260,8 @@ public class PSO_SectionMgmt {
 
 		Actor this_actor;
 
-		if (simulation.getActors().size() > 0) {
-			this_actor = (Actor) simulation.getActors().get(
+		if (simulation.getActors(pso.schema).size() > 0) {
+			this_actor = (Actor) simulation.getActors(pso.schema).get(
 					currentActorIndex - 1);
 			pso.actor_being_worked_on_id = this_actor.getId();
 		} else {
@@ -439,7 +439,7 @@ public class PSO_SectionMgmt {
 			System.out.println("applying universal page");
 			Simulation simulation = pso.giveMeSim();
 			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema,
-					simulation, phase_being_worked_on_id);
+					simulation.getId(), phase_being_worked_on_id);
 		}
 
 	}
@@ -484,7 +484,7 @@ public class PSO_SectionMgmt {
 			Simulation simulation = pso.giveMeSim();
 			System.out.println("applying sim sections on phase: " + phase_being_worked_on_id);
 			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema,
-					simulation, phase_being_worked_on_id);
+					simulation.getId(), phase_being_worked_on_id);
 		}
 
 	}

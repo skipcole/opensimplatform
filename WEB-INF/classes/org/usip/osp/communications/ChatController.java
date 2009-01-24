@@ -363,7 +363,7 @@ public class ChatController {
 			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
 					pso.schema).get(Simulation.class, pso.sim_id);
 
-			List daActors = sim.getActors();
+			List daActors = sim.getActors(pso.schema);
 
 			for (ListIterator li = daActors.listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
