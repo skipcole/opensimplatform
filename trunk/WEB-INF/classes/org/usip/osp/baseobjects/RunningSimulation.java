@@ -101,7 +101,7 @@ public class RunningSimulation {
 		
 		this.name = name;
 		this.aar_text = sim.getAar_starter_text();
-		this.phase_id = sim.getFirstPhaseId();
+		this.phase_id = sim.getFirstPhaseId(schema);
 		
 		this.saveMe(schema);
 		this.createMyDocuments(schema, sim);
@@ -139,31 +139,35 @@ public class RunningSimulation {
 
 		System.out.println("Enabling Sim.");
 
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
 		// Create objects to hold the data
 		Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
 				schema).get(Simulation.class, new Long(sid));
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-		doFinalChecksOnSim(sim, MultiSchemaHibernateUtil.getSession(schema));
+		doFinalChecksOnSim(sim, schema);
 
 		// Email if desired
 		if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) {
 			System.out.println("sending welcome emails");
 
 			System.out.println("sending from " + from);
-			sendWelcomeEmail(schema, from, emailText,
-					MultiSchemaHibernateUtil.getSession(schema));
+			sendWelcomeEmail(schema, from, emailText);
 
 		}
 
 		// Mark it ready to go
 		this.ready_to_begin = true;
 
+		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
 
-	public void doFinalChecksOnSim(Simulation sim,
-			org.hibernate.Session hibernate_session) {
+	public void doFinalChecksOnSim(Simulation sim, String schema) {
 
 		// Making sure all actors added to broadcast chat
 		for (ListIterator<Conversation> lc = sim.getConversations()
@@ -173,12 +177,14 @@ public class RunningSimulation {
 			if ((conv.getConversation_name() != null)
 					&& (conv.getConversation_name()
 							.equalsIgnoreCase("broadcast"))) {
+				
+				MultiSchemaHibernateUtil.beginTransaction(schema);
+				
 
-				conv
-						.setConv_actor_assigns(new ArrayList<ConvActorAssignment>());
+				conv.setConv_actor_assigns(new ArrayList<ConvActorAssignment>());
 
 				// loop over simulation actors
-				for (ListIterator<Actor> la = sim.getActors().listIterator(); la
+				for (ListIterator<Actor> la = sim.getActors(schema).listIterator(); la
 						.hasNext();) {
 					Actor act = (Actor) la.next();
 
@@ -186,11 +192,13 @@ public class RunningSimulation {
 					caa.setActor_id(act.getId());
 					caa.setConv_id(conv.getId());
 
-					hibernate_session.save(caa);
+					MultiSchemaHibernateUtil.getSession(schema).save(caa);
 					conv.getConv_actor_assigns().add(caa);
 				}
 
-				hibernate_session.save(conv);
+				MultiSchemaHibernateUtil.getSession(schema).save(conv);
+				
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 			}
 
 		}
@@ -253,8 +261,7 @@ public class RunningSimulation {
 	 * @param to
 	 * @param emailText
 	 */
-	public void sendWelcomeEmail(String schema, String from, String emailText,
-			org.hibernate.Session hibernate_session) {
+	public void sendWelcomeEmail(String schema, String from, String emailText) {
 
 		emailText = emailText.replace("[web_site_location]",
 				Emailer.simulation_url);
@@ -265,9 +272,12 @@ public class RunningSimulation {
 
 			String this_guys_emailText = emailText;
 
-			User user = (User) hibernate_session.get(User.class, ua
+			///////////////////////////////////////
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, ua
 					.getUser_id());
-
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			///////////////////////////////////////
 			MultiSchemaHibernateUtil.beginTransaction(
 					MultiSchemaHibernateUtil.principalschema, true);
 			BaseUser bu = (BaseUser) MultiSchemaHibernateUtil.getSession(
@@ -275,7 +285,8 @@ public class RunningSimulation {
 					BaseUser.class, ua.getUser_id());
 			MultiSchemaHibernateUtil
 					.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-
+			/////////////////////////////////////////
+			
 			this_guys_emailText = this_guys_emailText.replace("[username]", bu
 					.getUsername());
 

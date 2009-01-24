@@ -502,12 +502,42 @@ public class SimulationSection {
 
 	}
 	
-	public static void applyAllUniversalSections(String schema, Simulation sim){
+	/**
+	 * 
+	 * @param schema
+	 * @param sim
+	 */
+	public static void applyAllUniversalSections(String schema, Long s_id){
 		
-		for (ListIterator lia = sim.getPhases().listIterator(); lia.hasNext();) {
+		List phases = SimPhaseAssignment.getPhasesForSim(schema, s_id);
+		
+		for (ListIterator lia = phases.listIterator(); lia.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) lia.next();
 			
-			applyUniversalSectionsToAllActorsForPhase(schema, sim, sp.getId());
+			applyUniversalSectionsToAllActorsForPhase(schema, s_id, sp.getId());
+		}
+	}
+	
+	/**
+	 * Applies the universal sections (those with actor_id = 0) to all of the phases for an actor.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param actor_id
+	 */
+	public static void applyAllUniversalSectionsToAnActor(String schema, Long sim_id, Long actor_id){
+		
+		List phases = SimPhaseAssignment.getPhasesForSim(schema, sim_id);
+		
+		for (ListIterator lia = phases.listIterator(); lia.hasNext();) {
+			SimulationPhase sp = (SimulationPhase) lia.next();
+			
+			// Get list of universal sections (actor id = 0)
+			List<SimulationSection> universalList = getBySimAndActorAndPhase(schema, sim_id,
+					new Long(0), sp.getId());
+			
+			applyUniversalsToActor(schema, sim_id, universalList, actor_id, sp.getId());
+			
 		}
 	}
 
@@ -523,14 +553,14 @@ public class SimulationSection {
 	 * @param pid
 	 */
 	public static void applyUniversalSectionsToAllActorsForPhase(String schema,
-			Simulation sim, Long pid) {
+			Long sid, Long pid) {
 
 		// Get list of universal sections (actor id = 0)
-		List<SimulationSection> universalList = getBySimAndActorAndPhase(schema, sim.getId(),
+		List<SimulationSection> universalList = getBySimAndActorAndPhase(schema, sid,
 				new Long(0), pid);
 
 		// Get the list of actors
-		List actorList = sim.getActors();
+		List actorList = SimActorAssignment.getActorsForSim(schema, sid);
 
 		// Assign the defaults to each actor
 		for (ListIterator lia = actorList.listIterator(); lia.hasNext();) {
@@ -538,13 +568,21 @@ public class SimulationSection {
 
 			System.out.println("checking universals on " + act.getName());
 			
-			applyUniversalsToActor(schema, sim, universalList, act, pid);
+			applyUniversalsToActor(schema, sid, universalList, act.getId(), pid);
 
 		} // End of loop over actors
 
 	}
 	
-	public static void applyUniversalsToActor(String schema, Simulation sim, List universalList, Actor act, Long pid){
+	/**
+	 * 
+	 * @param schema
+	 * @param s_id
+	 * @param universalList
+	 * @param act
+	 * @param pid
+	 */
+	public static void applyUniversalsToActor(String schema, Long s_id, List universalList, Long act, Long pid){
 		// Check to see if this section already exists in this actor's set.
 		// If not, then add it.
 		for (ListIterator lis = universalList.listIterator(); lis.hasNext();) {
@@ -555,8 +593,7 @@ public class SimulationSection {
 
 			boolean foundThisSection = false;
 
-			List currentActorsList = getBySimAndActorAndPhase(schema, sim
-					.getId(), act.getId(), pid);
+			List currentActorsList = getBySimAndActorAndPhase(schema, s_id, act, pid);
 
 			for (ListIterator listOld = currentActorsList.listIterator(); listOld
 					.hasNext();) {
@@ -578,7 +615,7 @@ public class SimulationSection {
 
 				SimulationSection ss_new = ss.createCopy();
 
-				ss_new.setActor_id(act.getId());
+				ss_new.setActor_id(act);
 				ss_new.setAddedAsUniversalSection(true);
 
 				ss_new.setTab_position(currentActorsList.size() + 1);

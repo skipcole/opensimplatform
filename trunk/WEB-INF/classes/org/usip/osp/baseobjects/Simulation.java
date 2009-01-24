@@ -43,26 +43,20 @@ public class Simulation {
 		
 	}
 
-	/** A simulation will have actors. */
+	/** A simulation will have actors.
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "SIMULATION_ACTOR", joinColumns = { @JoinColumn(name = "SIM_ID") }, inverseJoinColumns = { @JoinColumn(name = "ACTOR_ID") })
 	private List<Actor> actors = new ArrayList<Actor>();
+	
 
 	@OneToMany
 	@JoinColumn(name = "SIM_ID")
 	private List<SimulationPhase> phases = new ArrayList<SimulationPhase>();
+	*/
 
 	@OneToMany
 	@JoinColumn(name = "SIM_ID")
 	private List<RunningSimulation> running_sims = new ArrayList<RunningSimulation>();
-
-	@OneToMany
-	@JoinColumn(name = "SIM_ID")
-	private List<IntVariable> var_int = new ArrayList<IntVariable>();
-
-	@OneToMany
-	@JoinColumn(name = "SIM_ID")
-	private List<CustomizeableSection> customized_sections = new ArrayList<CustomizeableSection>();
 
 	@OneToMany
 	@JoinColumn(name = "SIM_ID")
@@ -210,13 +204,16 @@ public class Simulation {
 		SimulationPhase sp_first = SimulationPhase.getNewFirstPhase(schema);
 		SimulationPhase sp_last = SimulationPhase.getNewLastPhase(schema);
 
-		getPhases().add(sp_first);
-		getPhases().add(sp_last);
+		getPhases(schema).add(sp_first);
+		getPhases(schema).add(sp_last);
+		
+		SimPhaseAssignment spf = new SimPhaseAssignment(schema, this.getId(), sp_first.getId());
+		SimPhaseAssignment spl = new SimPhaseAssignment(schema, this.getId(), sp_last.getId());
 		// /////////////////////////////////////////////////
 		
 		// Add the control character
 		Actor ctrl_act = Actor.getControlActor(schema);
-		getActors().add(ctrl_act);
+		SimActorAssignment saa = new SimActorAssignment(schema, this.getId(), ctrl_act.getId());
 		
 		// Give controller all default sections
 		addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
@@ -248,7 +245,7 @@ public class Simulation {
 				new Long(0), sp_first.getId(), scheduleSection.getId(),
 				"Schedule", 2);
 
-		SimulationSection.applyUniversalSectionsToAllActorsForPhase(schema, this, sp_first.getId());
+		SimulationSection.applyUniversalSectionsToAllActorsForPhase(schema, this.getId(), sp_first.getId());
 		///////////
 		
 		this.saveMe(schema);
@@ -349,7 +346,7 @@ public class Simulation {
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
 				.getSession(schema).get(Simulation.class, sim_id);
 
-		for (ListIterator<SimulationPhase> li = simulation.getPhases().listIterator(); li.hasNext();) {
+		for (ListIterator<SimulationPhase> li = simulation.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase this_sp = (SimulationPhase) li.next();
 			
 			System.out.println(this_sp.getName());
@@ -365,7 +362,7 @@ public class Simulation {
 			Actor controlActor) {
 
 		// Loop over phases
-		for (ListIterator<SimulationPhase> li = this.phases.listIterator(); li
+		for (ListIterator<SimulationPhase> li = this.getPhases(schema).listIterator(); li
 				.hasNext();) {
 			SimulationPhase this_sp = (SimulationPhase) li.next();
 
@@ -416,9 +413,9 @@ public class Simulation {
 	}
 
 	/** Returns the id of the first phase in a simulation. */
-	public Long getFirstPhaseId() {
+	public Long getFirstPhaseId(String schema) {
 
-		for (ListIterator li = phases.listIterator(); li.hasNext();) {
+		for (ListIterator li = this.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 
 			if (sp.isFirstPhase()) {
@@ -431,9 +428,9 @@ public class Simulation {
 	}
 
 	/** Returns the id of the last phase in a simulation. */
-	public Long getLastPhaseId() {
+	public Long getLastPhaseId(String schema) {
 
-		for (ListIterator li = phases.listIterator(); li.hasNext();) {
+		for (ListIterator li = this.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 
 			if (sp.getName().equalsIgnoreCase("Completed")) {
@@ -474,15 +471,9 @@ public class Simulation {
 	 * 
 	 * @param actor_id
 	 */
-	public void removeActor(String actor_id,
-			org.hibernate.Session hibernate_session) {
+	public void removeActor(String schema, Long actor_id) {
 
-		Actor act = (Actor) hibernate_session.get(Actor.class, new Long(
-				actor_id));
-
-		this.actors.remove(act);
-
-		hibernate_session.saveOrUpdate(this);
+		SimActorAssignment.removeMe(schema, id, actor_id);
 
 	}
 
@@ -493,21 +484,13 @@ public class Simulation {
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
-
-	public List<Actor> getActors() {
-		return actors;
+	
+	public List<Actor> getActors(String schema) {
+		return SimActorAssignment.getActorsForSim(schema, id);
 	}
-
-	public void setActors(List<Actor> actors) {
-		this.actors = actors;
-	}
-
-	public List<SimulationPhase> getPhases() {
-		return phases;
-	}
-
-	public void setPhases(List<SimulationPhase> phases) {
-		this.phases = phases;
+	
+	public List<SimulationPhase> getPhases(String schema) {
+		return SimPhaseAssignment.getPhasesForSim(schema, id);
 	}
 
 	public String getAudience() {
@@ -523,7 +506,7 @@ public class Simulation {
 
 		List fullList = new Actor().getAll(schema);
 
-		for (ListIterator la = actors.listIterator(); la.hasNext();) {
+		for (ListIterator la = this.getActors(schema).listIterator(); la.hasNext();) {
 			Actor act = (Actor) la.next();
 
 			for (int ii = 0; ii < fullList.size(); ++ii) {
@@ -570,29 +553,12 @@ public class Simulation {
 		this.creator = creator;
 	}
 
-	public List<IntVariable> getVar_int() {
-		return var_int;
-	}
-
-	public void setVar_int(List<IntVariable> var_int) {
-		this.var_int = var_int;
-	}
-
 	public String getAar_starter_text() {
 		return aar_starter_text;
 	}
 
 	public void setAar_starter_text(String aar_starter_text) {
 		this.aar_starter_text = aar_starter_text;
-	}
-
-	public List<CustomizeableSection> getCustomized_sections() {
-		return customized_sections;
-	}
-
-	public void setCustomized_sections(
-			List<CustomizeableSection> customized_sections) {
-		this.customized_sections = customized_sections;
 	}
 
 	public List<Conversation> getConversations() {
