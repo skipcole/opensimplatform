@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Introduction</uniqueName>
+  <version>1</version>
   <description>The introductory text will be shown here.</description>
   <url></url>
   <directory>../osp_core/</directory>

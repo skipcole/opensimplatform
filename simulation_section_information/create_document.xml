@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.CustomizeableSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Create Document</uniqueName>
+  <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>make_create_document_page.jsp</specificMakePage>

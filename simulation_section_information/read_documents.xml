@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.CustomizeableSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Read Documents</uniqueName>
+  <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>make_read_multiple_documents_page.jsp</specificMakePage>

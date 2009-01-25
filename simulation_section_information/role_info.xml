@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Role Information</uniqueName>
+  <version>1</version>
   <description>A section to allow the player to see basic information about their character.</description>
   <url></url>
   <directory>../osp_core/</directory>
