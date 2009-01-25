@@ -39,6 +39,17 @@ public class Inject {
 	@Column(name = "INJECT_ID")
     private Long id;
 	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
+	
 	/** Simulation id. */
     @Column(name = "SIM_ID")
     private Long sim_id;

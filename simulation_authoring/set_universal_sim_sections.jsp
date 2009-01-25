@@ -235,11 +235,7 @@ body {
                       <select name="phase_id">
                         <% 
 						
-						MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-						
-						Simulation da_sim = (Simulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Simulation.class, simulation.getId());
-						
-						for (ListIterator li = da_sim.getPhases().listIterator(); li.hasNext();) {
+						for (ListIterator li = SimPhaseAssignment.getPhasesForSim(pso.schema, simulation.getId()).listIterator(); li.hasNext();) {
 							SimulationPhase sp = (SimulationPhase) li.next();
 							
 							String selected_p = "";
@@ -249,9 +245,7 @@ body {
 							}	
 				%>
                         <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getName() %></option>
-                        <% } 
-						MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-						%>
+                        <% } %>
                       </select>
                       <label>
                       <input type="submit" name="command" value="Change Phase" />
@@ -397,7 +391,7 @@ body {
       </blockquote>
       <p align="center"> 
         <%
-	Actor nextActor = (Actor) simulation.getActors().get(0);
+	Actor nextActor = (Actor) simulation.getActors(pso.schema).get(0);
 %>
         <a href="set_specific_sim_sections.jsp?actor_index=1&amp;phase_id=<%= spp.getId().toString() %>"> 
         Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a> 

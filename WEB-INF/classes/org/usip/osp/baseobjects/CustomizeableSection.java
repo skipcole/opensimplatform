@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.hibernate.Query;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -72,7 +73,13 @@ public class CustomizeableSection extends BaseSimSection {
 
 	public static void main(String args[]) {
 
-		
+		List x = getAllUncustomized("test");
+		for (ListIterator<CustomizeableSection> bi = x.listIterator(); bi.hasNext();) {
+			CustomizeableSection bid = (CustomizeableSection) bi.next();
+			System.out.println(bid.getRec_tab_heading());
+			
+		}
+		/*
 		CustomizeableSection cs = new CustomizeableSection();
 		cs.thisIsACustomizedSection = false;
 		cs.hasASpecificMakePage = true;
@@ -173,6 +180,11 @@ public class CustomizeableSection extends BaseSimSection {
         MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
     }
 
+    /**
+     * Returns all customizeable sections <code>DTYPE='CustomizeableSection</code>
+     * @param schema
+     * @return
+     */
 	public static List<BaseSimSection> getAll(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -187,29 +199,33 @@ public class CustomizeableSection extends BaseSimSection {
 		return returnList;
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @return
+	 */
 	public static List<BaseSimSection> getAllUncustomized(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery(
-						"from BaseSimSection where DTYPE='CustomizeableSection' and sim_id is null")
-				.list();
+		// TODO there is a better hibernate way to do this, i just don't know it.
+		String query = "from BaseSimSection where DTYPE = 'CustomizeableSection'";
+		
+		Query theQuery = MultiSchemaHibernateUtil.getSession(schema).createQuery(query);
+		
+		List<CustomizeableSection> firstList = theQuery.list();
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return returnList;
-	}
-
-	public static List<BaseSimSection> getAllForSim(String schema, Long sim_id) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery(
-						"from BaseSimSection where DTYPE='CustomizeableSection' AND sim_id = '"
-								+ sim_id + "'").list();
-
+		ArrayList returnList = new ArrayList();
+		
+		for (ListIterator<CustomizeableSection> bi = firstList.listIterator(); bi.hasNext();) {
+			CustomizeableSection bid = (CustomizeableSection) bi.next();
+			
+			if (!(bid.isThisIsACustomizedSection())){
+				returnList.add(bid);
+			}
+			
+		}
+		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;

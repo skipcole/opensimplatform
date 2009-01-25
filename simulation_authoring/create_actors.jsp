@@ -33,7 +33,7 @@
 		boolean inEditMode = false;
 		
 		// ////////////////////////////////////////////////////////////////////////////
-		List actorL = new Actor().getAll(pso.schema);
+		List actorL = Actor.getAll(pso.schema);
 		// ///////////////////////////////////////////////////////////////////////
 
 %>
@@ -166,7 +166,11 @@ body {
             <td valign="top">&nbsp;</td>
             <td valign="top">Actor 
               Name</font><a href="helptext/actor_name.jsp" target="helpinright">(?)</a>: </td>
-            <td valign="top"><input type="text" name="actor_name" value="<%= actorOnScratchPad.getName() %>" tabindex="1" /></td>
+            <td valign="top"><input type="text" name="actor_name" value="<%= actorOnScratchPad.getName() %>" tabindex="1" />
+            <% if (actorOnScratchPad.getId() != null) { %>
+            Actor Id: <%= actorOnScratchPad.getId() %>
+            <% } %>
+            </td>
           </tr>
           <!-- tr>
       <td valign="top">Non-Player Character</td>

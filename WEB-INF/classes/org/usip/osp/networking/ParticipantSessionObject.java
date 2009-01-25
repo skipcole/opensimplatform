@@ -1553,19 +1553,15 @@ public class ParticipantSessionObject {
 				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(actorOnScratchPad);
 				MultiSchemaHibernateUtil.getSession(schema).flush();
 
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 				String add_to_sim = (String) mpr.getParameter("add_to_sim");
 
 				if ((add_to_sim != null) && (add_to_sim.equalsIgnoreCase("true"))) {
 
-					Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(
-							Simulation.class, sim_id);
-
-					if (!(simulation.getActors(schema).contains(actorOnScratchPad))) {
+					if (!(SimActorAssignment.getActorsForSim(schema, sim_id).contains(actorOnScratchPad))) {
 						
-						SimActorAssignment saa = new SimActorAssignment(schema, simulation.getId(), actorOnScratchPad.getId());
+						SimActorAssignment saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad.getId());
 					}
-
-					MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(simulation);
 					
 					SimulationSection.applyAllUniversalSections(schema, sim_id);
 
@@ -1574,9 +1570,7 @@ public class ParticipantSessionObject {
 				this.actor_name = actorOnScratchPad.getName();
 				this.actor_id = actorOnScratchPad.getId();
 
-				MultiSchemaHibernateUtil.getSession(schema).evict(actorOnScratchPad);
-
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				//MultiSchemaHibernateUtil.getSession(schema).evict(actorOnScratchPad);	
 
 			}
 		} catch (Exception e) {

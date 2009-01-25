@@ -42,6 +42,17 @@ public class SimulationPhase{
 	@GeneratedValue
 	@Column(name = "PHASE_ID")
 	private Long id;
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
 
 	/** Name of this Phase. */
 	@Column(name = "PHASE_NAME")

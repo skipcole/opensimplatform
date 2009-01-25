@@ -35,6 +35,17 @@ public class Actor {
 	@Id @GeneratedValue
     @Column(name = "ACTOR_ID")
     private Long id;
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
 
     /** The display name of this actor. */
 	@Column(name = "ACTOR_NAME", unique = true)
@@ -70,8 +81,12 @@ public class Actor {
      */
     private boolean isShown = true;
     
-    
-    public List getAll(String schema){
+    /**
+     * 
+     * @param schema
+     * @return
+     */
+    public static List getAll(String schema){
         
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -81,6 +96,20 @@ public class Actor {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
+    }
+    
+    public static ArrayList<String> getAllActorNames(String schema){
+    	
+    	ArrayList returnList = new ArrayList<String>();
+    	
+    	for (ListIterator<Actor> li = getAll(schema).listIterator(); li.hasNext();) {
+    		Actor act = (Actor) li.next();
+    		
+    		returnList.add(act.getName());		
+    	}
+    
+    	return returnList;
+    	
     }
     
     /**
@@ -311,6 +340,12 @@ public class Actor {
 
 	public void setControl_actor(boolean control_actor) {
 		this.control_actor = control_actor;
+	}
+	
+	public void saveMe(String schema) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
     
     

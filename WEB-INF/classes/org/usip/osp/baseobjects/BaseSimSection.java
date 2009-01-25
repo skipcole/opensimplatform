@@ -365,7 +365,48 @@ public class BaseSimSection implements Comparable {
 	@GeneratedValue
 	@Column(name = "BASE_SIMSEC_ID")
 	protected Long id;
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	protected Long transit_id;
 
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////
+	protected String creatingOrganization = "";
+	protected String uniqueName = "";
+	protected String version = "";
+	
+	public String getCreatingOrganization() {
+		return creatingOrganization;
+	}
+
+	public void setCreatingOrganization(String creatingOrganization) {
+		this.creatingOrganization = creatingOrganization;
+	}
+
+	public String getUniqueName() {
+		return uniqueName;
+	}
+
+	public void setUniqueName(String uniqueName) {
+		this.uniqueName = uniqueName;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	/////////////////////////////////////////////////////////////
+	
 	/** Description of this standard section. */
 	@Column(name = "BASE_SIMSEC_DESC")
 	@Lob
