@@ -43,21 +43,6 @@ public class Simulation {
 		
 	}
 
-	/** A simulation will have actors.
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "SIMULATION_ACTOR", joinColumns = { @JoinColumn(name = "SIM_ID") }, inverseJoinColumns = { @JoinColumn(name = "ACTOR_ID") })
-	private List<Actor> actors = new ArrayList<Actor>();
-	
-
-	@OneToMany
-	@JoinColumn(name = "SIM_ID")
-	private List<SimulationPhase> phases = new ArrayList<SimulationPhase>();
-	*/
-
-	@OneToMany
-	@JoinColumn(name = "SIM_ID")
-	private List<RunningSimulation> running_sims = new ArrayList<RunningSimulation>();
-
 	@OneToMany
 	@JoinColumn(name = "SIM_ID")
 	private List<Conversation> conversations = new ArrayList<Conversation>();
@@ -67,6 +52,17 @@ public class Simulation {
 	@GeneratedValue
 	@Column(name = "SIM_ID")
 	private Long id;
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
 
 	/** Name of this Simulation. */
 	@Column(name = "SIM_NAME")
@@ -340,11 +336,19 @@ public class Simulation {
 
 	}
 	
+	/**
+	 * This method is of dubious value and may go away.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
 	public static Simulation getMeFullyLoaded(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
 				.getSession(schema).get(Simulation.class, sim_id);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		for (ListIterator<SimulationPhase> li = simulation.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase this_sp = (SimulationPhase) li.next();
@@ -352,7 +356,7 @@ public class Simulation {
 			System.out.println(this_sp.getName());
 		}
 	
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
 
 		return simulation;
 
@@ -452,15 +456,8 @@ public class Simulation {
 			String schema) {
 
 		RunningSimulation rs = new RunningSimulation(rs_name, this, schema);
-		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-
-		this.getRunning_sims().add(rs);
-		
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		SimRunningSimAssignment srsa = new SimRunningSimAssignment(schema, id, rs.getId());
 
 		return rs;
 
@@ -528,13 +525,9 @@ public class Simulation {
 
 		return this.name + " version " + this.version;
 	}
-
-	public List<RunningSimulation> getRunning_sims() {
-		return running_sims;
-	}
-
-	public void setRunning_sims(List<RunningSimulation> running_sims) {
-		this.running_sims = running_sims;
+	
+	public List<RunningSimulation> getRunning_sims(String schema) {
+		return SimRunningSimAssignment.getRunningSimulationsForSim(schema, id);
 	}
 
 	public String getCreation_org() {
@@ -607,5 +600,6 @@ public class Simulation {
 	public void setListingKeyWords(String listingKeyWords) {
 		this.listingKeyWords = listingKeyWords;
 	}
+	
 
 } // End of Simulation
