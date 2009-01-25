@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Write AAR</uniqueName>
+  <version>1</version>
   <description>A section to write the after action report.</description>
   <url></url>
   <directory>../osp_core/</directory>

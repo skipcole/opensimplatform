@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Cast</uniqueName>
+  <version>1</version>
   <description>A section to allow players see public information about other actors in this simulation.</description>
   <url></url>
   <directory>../osp_core/</directory>

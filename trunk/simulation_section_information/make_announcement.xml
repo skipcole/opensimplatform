@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Make Announcement</uniqueName>
+  <version>1</version>
   <description>A section to make broadcast announcements.</description>
   <url></url>
   <directory>../osp_core/</directory>

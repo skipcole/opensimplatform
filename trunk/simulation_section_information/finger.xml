@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Finger</uniqueName>
+  <version>1</version>
   <description>A section to display who is logged in, and when their last login was.</description>
   <url></url>
   <directory>../osp_core/</directory>

@@ -258,6 +258,12 @@ public class SimulationSection {
 		return returnString;
 	}
 
+	/**
+	 * Returns a list of the base sim section ids for the simulation whose id was passed in.
+	 * @param schema
+	 * @param sid
+	 * @return
+	 */
 	public static List<Long> getBaseIdsBySim(String schema, Long sid) {
 
 		if (sid == null) {
@@ -309,6 +315,41 @@ public class SimulationSection {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
+
+	}
+	
+	/**
+	 * Returns all of the sections for a particular simulation.
+	 * 
+	 * @param schema
+	 * @param sid
+	 * @return
+	 */
+	public static List<SimulationSection> getBySim(
+			String schema, Long sid) {
+
+		if (sid == null) {
+
+			System.out.println("sid: " + sid);
+			return new ArrayList<SimulationSection>();
+		} else {
+
+			String getHQL = "from SimulationSection where SIM_ID = "
+					+ sid.toString();
+
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+
+			List returnList = MultiSchemaHibernateUtil.getSession(schema)
+					.createQuery(getHQL).list();
+
+			if (returnList == null) {
+				returnList = new ArrayList();
+			}
+
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			return returnList;
+		}
 
 	}
 

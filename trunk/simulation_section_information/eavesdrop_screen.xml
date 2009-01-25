@@ -1,4 +1,7 @@
 <org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Eavesdrop</uniqueName>
+  <version>1</version>
   <description>A section to allow control to see all of the conversations going on.</description>
   <url></url>
   <directory>../osp_core/</directory>
