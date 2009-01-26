@@ -15,6 +15,8 @@
 	
 	if ((unpack != null) && (unpack.equalsIgnoreCase("true"))){
 		pso.handleUnpackSimulation(request);
+		response.sendRedirect("unpackage_results.jsp");
+		return;
 	}
 	
 %>

@@ -102,6 +102,7 @@ public class RunningSimulation {
 		this.name = name;
 		this.aar_text = sim.getAar_starter_text();
 		this.phase_id = sim.getFirstPhaseId(schema);
+		this.sim_id = sim.getId();
 		
 		this.saveMe(schema);
 		this.createMyDocuments(schema, sim);

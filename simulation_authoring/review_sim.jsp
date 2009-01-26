@@ -194,7 +194,7 @@ body {
 			  <p>
 			  
 	<%
-		for (ListIterator li = simulation.getPhases().listIterator(); li.hasNext();) {
+		for (ListIterator li = simulation.getPhases(pso.schema).listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 			
 		%>
@@ -213,7 +213,7 @@ body {
 		<h2>7. &amp; 8. Simulation Actors </h2>
 		<blockquote>
         
-			  <% for (ListIterator la = simulation.getActors().listIterator(); la.hasNext();) {
+			  <% for (ListIterator la = simulation.getActors(pso.schema).listIterator(); la.hasNext();) {
 					Actor act = (Actor) la.next();
 					
 					
@@ -262,7 +262,7 @@ body {
 		<table width="80%" align="center">
        <%  int iIndex = 0;
 	   
-	   		for (ListIterator li = simulation.getPhases().listIterator(); li.hasNext();) {
+	   		for (ListIterator li = simulation.getPhases(pso.schema).listIterator(); li.hasNext();) {
 				SimulationPhase sp = (SimulationPhase) li.next();
 		%>
 			<% if (iIndex == 0) { %>

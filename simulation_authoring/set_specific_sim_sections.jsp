@@ -16,6 +16,7 @@
 	Simulation simulation = new Simulation();
 	Actor actor = new Actor();
 	SimulationPhase spp = new SimulationPhase();
+	List thisSimsActors = new ArrayList();
 	
 	if (pso.simulationSelected) {
 		simulation = pso.handleSetSimSectionsPage(request);	
@@ -31,6 +32,8 @@
 		if (pso.phase_id != null) {
 			spp = pso.giveMePhase();
 		}
+		
+		thisSimsActors = simulation.getActors(pso.schema);
 	
 	} // end of if pso.selected
 	
@@ -210,7 +213,7 @@ body {
 						
 						Simulation da_sim = (Simulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Simulation.class, simulation.getId());
 						
-						for (ListIterator li = da_sim.getPhases().listIterator(); li.hasNext();) {
+						for (ListIterator li = da_sim.getPhases(pso.schema).listIterator(); li.hasNext();) {
 							SimulationPhase sp = (SimulationPhase) li.next();
 							
 							String selected_p = "";
@@ -381,7 +384,7 @@ body {
 			<%
 			
 				int aIndex = 1;
-				for (ListIterator li = simulation.getActors().listIterator(); li.hasNext();) {
+				for (ListIterator li = thisSimsActors.listIterator(); li.hasNext();) {
 							Actor daActor = (Actor) li.next();
 			
 			%>
@@ -394,13 +397,13 @@ body {
         </table>
       </blockquote>
       <p align="center"> 
-        <% if (pso.getMyPSO_SectionMgmt().getCurrentActorIndex()< simulation.getActors().size()) {
+        <% if (pso.getMyPSO_SectionMgmt().getCurrentActorIndex()< thisSimsActors.size()) {
 
 	int nextIndex = pso.getMyPSO_SectionMgmt().getCurrentActorIndex()+ 1;
 	
 	String nextActorName = "to be determined";
 	
-	Actor nextActor = (Actor) simulation.getActors().get(nextIndex - 1);
+	Actor nextActor = (Actor) thisSimsActors.get(nextIndex - 1);
 	
 %>
         <a href="set_specific_sim_sections.jsp?actor_index=<%= nextIndex %>&phase_id=<%= spp.getId().toString() %>"> 

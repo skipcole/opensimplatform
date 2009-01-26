@@ -91,12 +91,11 @@ public class ObjectPackager {
 		returnString += "<------------------------------------------------------->";
 		returnString += packageSimSectionInformation(schema, sim.getTransit_id(), xstream);
 		returnString += "<------------------------------------------------------->";
-		
-		
+
 		return returnString;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
@@ -107,16 +106,17 @@ public class ObjectPackager {
 	public static String packageSimSectionInformation(String schema, long sim_id, XStream xstream) {
 
 		String returnString = "";
-		
-		for (ListIterator<SimulationSection> li = SimulationSection.getBySim(schema, sim_id).listIterator(); li.hasNext();) {
+
+		for (ListIterator<SimulationSection> li = SimulationSection.getBySim(schema, sim_id).listIterator(); li
+				.hasNext();) {
 			SimulationSection thisSection = li.next();
-			
+
 			thisSection.setTransit_id(thisSection.getId());
 			thisSection.setId(null);
-			
+
 			returnString += xstream.toXML(thisSection);
 		}
-		
+
 		return returnString;
 	}
 
@@ -237,6 +237,8 @@ public class ObjectPackager {
 		return returnString;
 	}
 
+	public static String unpackInformationString = "";
+	
 	/**
 	 * 
 	 * @param fileloc
@@ -249,6 +251,7 @@ public class ObjectPackager {
 
 		Hashtable actorIdMappings = new Hashtable();
 		Hashtable phaseIdMappings = new Hashtable();
+		Hashtable bssIdMappings = new Hashtable();
 
 		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileloc;
 
@@ -263,9 +266,54 @@ public class ObjectPackager {
 
 		simRead.saveMe(schema);
 
-		getActors(schema, fullString, simRead.getId(), xstream, actorIdMappings);
-		getPhases(schema, fullString, simRead.getId(), xstream, phaseIdMappings);
-		getInjects(schema, fullString, simRead.getId(), xstream);
+		unpackageActors(schema, fullString, simRead.getId(), xstream, actorIdMappings);
+		unpackInformationString += "Actors Unpacked<br />";
+		unpackInformationString += "--------------------------------------------------------------------<br />";
+		unpackagePhases(schema, fullString, simRead.getId(), xstream, phaseIdMappings);
+		unpackInformationString += "Phases Unpacked<br />";
+		unpackInformationString += "--------------------------------------------------------------------<br />";
+		unpackageInjects(schema, fullString, simRead.getId(), xstream);
+		unpackInformationString += "Injects Unpacked<br />";
+		unpackInformationString += "--------------------------------------------------------------------<br />";
+		unpackageBaseSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
+		unpackInformationString += "Base Sim Sections Unpacked<br />";
+		unpackInformationString += "--------------------------------------------------------------------<br />";
+		
+		//unpackageCustomizeableSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
+		//unpackInformationString += "Customizeable Sections Unpacked<br />";
+		//unpackInformationString += "--------------------------------------------------------------------<br />";
+
+	}
+
+	/**
+	 * Pulls the base sim sections out of the packaged file.
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param sim_id
+	 * @param xstream
+	 */
+	public static void unpackageBaseSimSections(String schema, String fullString, Long sim_id, XStream xstream,
+			Hashtable bssIdMappings) {
+
+		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.BaseSimSection>",
+				"</org.usip.osp.baseobjects.BaseSimSection>");
+		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
+			String act_string = li_i.next();
+
+			BaseSimSection this_bss = (BaseSimSection) xstream.fromXML(act_string);
+
+			BaseSimSection correspondingSimSection = BaseSimSection.getByName(schema, this_bss
+					.getCreatingOrganization(), this_bss.getUniqueName(), this_bss.getVersion());
+
+			if (correspondingSimSection == null) {
+				System.out.println("Warning. Base simulation section " + this_bss.getVersionInformation()
+						+ " not found.");
+			} else {
+				bssIdMappings.put(this_bss.getTransit_id(), correspondingSimSection.getId());
+			}
+
+		}
 
 	}
 
@@ -277,7 +325,7 @@ public class ObjectPackager {
 	 * @param sim_id
 	 * @param xstream
 	 */
-	public static void getActors(String schema, String fullString, Long sim_id, XStream xstream,
+	public static void unpackageActors(String schema, String fullString, Long sim_id, XStream xstream,
 			Hashtable actorIdMappings) {
 		ArrayList actorNames = Actor.getAllActorNames(schema);
 
@@ -307,7 +355,7 @@ public class ObjectPackager {
 	 * @param sim_id
 	 * @param xstream
 	 */
-	public static void getPhases(String schema, String fullString, Long sim_id, XStream xstream,
+	public static void unpackagePhases(String schema, String fullString, Long sim_id, XStream xstream,
 			Hashtable phaseIdMappings) {
 
 		List phases = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.SimulationPhase>",
@@ -334,7 +382,7 @@ public class ObjectPackager {
 	 * @param sim_id
 	 * @param xstream
 	 */
-	public static void getInjects(String schema, String fullString, Long sim_id, XStream xstream) {
+	public static void unpackageInjects(String schema, String fullString, Long sim_id, XStream xstream) {
 
 		Hashtable injectGroupIds = new Hashtable();
 

@@ -41,6 +41,11 @@ public class CustomizeableSection extends BaseSimSection {
     private boolean thisIsACustomizedSection = false;
     
     /**
+     * If this is a customized copy of an original customizable section, this is the id of the template. 
+     */
+    private Long idOfOrigCustSection;
+    
+    /**
      * If this
      */
     private boolean hasASpecificMakePage = false;
@@ -134,6 +139,12 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setSample_image(this.getSample_image());
         cs.setSpecificMakePage(this.getSpecificMakePage());
 		cs.setUrl(this.getUrl());
+		
+		cs.setCreatingOrganization(this.getCreatingOrganization());
+		cs.setUniqueName(this.getUniqueName());
+		cs.setVersion(this.getVersion());
+		
+		cs.setIdOfOrigCustSection(this.getId());
 		
 		cs.setConfers_read_ability(this.isConfers_read_ability());
 		cs.setConfers_write_ability(this.isConfers_write_ability());
@@ -261,7 +272,15 @@ public class CustomizeableSection extends BaseSimSection {
         this.thisIsACustomizedSection = thisIsACustomizedSection;
     }
 
-    public Hashtable getMeta_data_content() {
+    public Long getIdOfOrigCustSection() {
+		return idOfOrigCustSection;
+	}
+
+	public void setIdOfOrigCustSection(Long idOfOrigCustSection) {
+		this.idOfOrigCustSection = idOfOrigCustSection;
+	}
+
+	public Hashtable getMeta_data_content() {
         return meta_data_content;
     }
 

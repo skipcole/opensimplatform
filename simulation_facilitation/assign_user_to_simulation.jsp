@@ -168,7 +168,7 @@ body {
           <td ><strong>Assign User</strong></td>
         </tr>
         <%
-			for (ListIterator li = simulation.getActors().listIterator(); li.hasNext();) {
+			for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
 				User user_assigned = UserAssignment.getUserAssigned(pso.schema, running_simulation.getId(), act.getId());
 				
