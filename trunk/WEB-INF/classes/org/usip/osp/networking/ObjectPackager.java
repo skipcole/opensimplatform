@@ -238,7 +238,7 @@ public class ObjectPackager {
 	}
 
 	public static String unpackInformationString = "";
-	
+
 	/**
 	 * 
 	 * @param fileloc
@@ -278,21 +278,111 @@ public class ObjectPackager {
 		unpackageBaseSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
 		unpackInformationString += "Base Sim Sections Unpacked<br />";
 		unpackInformationString += "--------------------------------------------------------------------<br />";
-		
-		//unpackageCustomizeableSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
-		//unpackInformationString += "Customizeable Sections Unpacked<br />";
-		//unpackInformationString += "--------------------------------------------------------------------<br />";
-		
-		//unpackageCustomizedSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
-		//unpackInformationString += "Customizeable Sections Unpacked<br />";
-		//unpackInformationString += "--------------------------------------------------------------------<br />";
-		
-		//unpackageSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
-		//unpackInformationString += "Customizeable Sections Unpacked<br />";
-		//unpackInformationString += "--------------------------------------------------------------------<br />";
+
+		unpackageCustomizeableSimSections(schema, fullString,simRead.getId(), xstream, bssIdMappings);
+		unpackInformationString += "Customizeable Sections Unpacked<br />";
+		unpackInformationString +="--------------------------------------------------------------------<br />";
+
+		unpackageCustomizedSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
+		unpackInformationString += "Customizeable Sections Unpacked<br />";
+		unpackInformationString += "--------------------------------------------------------------------<br />";
+
+		unpackageSimSections(schema, fullString, simRead.getId(), xstream, actorIdMappings, 
+				phaseIdMappings, bssIdMappings);
+		unpackInformationString += "Customizeable Sections Unpacked<br />";
+		unpackInformationString += "--------------------------------------------------------------------<br />";
 
 		// ? documents, variables, conversations, etc.
-		
+
+	}
+
+	/**
+	 * Pulls the base sim sections out of the packaged file.
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param sim_id
+	 * @param xstream
+	 */
+	public static void unpackageSimSections(String schema, String fullString, Long sim_id,
+			XStream xstream, Hashtable actorIdMappings, Hashtable phaseIdMappings, Hashtable bssIdMappings) {
+
+		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.SimulationSection>",
+				"</org.usip.osp.baseobjects.SimulationSection>");
+		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
+			String act_string = li_i.next();
+
+			SimulationSection this_ss = (SimulationSection) xstream.fromXML(act_string);
+			
+			this_ss.setActor_id((Long) actorIdMappings.get(this_ss.getActor_id()));
+			this_ss.setPhase_id((Long) phaseIdMappings.get(this_ss.getTransit_id()));
+			this_ss.setBase_section_id((Long) bssIdMappings.get(this_ss.getBase_section_id()));
+				
+			this_ss.save(schema);
+
+		}
+
+	}
+	
+	/**
+	 * Pulls the base sim sections out of the packaged file.
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param sim_id
+	 * @param xstream
+	 */
+	public static void unpackageCustomizeableSimSections(String schema, String fullString, Long sim_id,
+			XStream xstream, Hashtable bssIdMappings) {
+
+		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.CustomizeableSection>",
+				"</org.usip.osp.baseobjects.CustomizeableSection>");
+		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
+			String act_string = li_i.next();
+
+			CustomizeableSection this_bss = (CustomizeableSection) xstream.fromXML(act_string);
+
+			if (!(this_bss.isThisIsACustomizedSection())) {
+				CustomizeableSection correspondingSimSection = (CustomizeableSection) CustomizeableSection.getByName(
+						schema, this_bss.getCreatingOrganization(), this_bss.getUniqueName(), this_bss.getVersion());
+
+				if (correspondingSimSection == null) {
+					System.out.println("Warning. CustomizeableSection simulation section " + this_bss.getVersionInformation()
+							+ " not found.");
+				} else {
+					bssIdMappings.put(this_bss.getTransit_id(), correspondingSimSection.getId());
+				}
+			}
+		}
+
+	}
+	
+	/**
+	 * Pulls the base sim sections out of the packaged file.
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param sim_id
+	 * @param xstream
+	 */
+	public static void unpackageCustomizedSimSections(String schema, String fullString, Long sim_id,
+			XStream xstream, Hashtable bssIdMappings) {
+
+		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.CustomizeableSection>",
+				"</org.usip.osp.baseobjects.CustomizeableSection>");
+		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
+			String act_string = li_i.next();
+
+			CustomizeableSection this_bss = (CustomizeableSection) xstream.fromXML(act_string);
+
+			if (!(this_bss.isThisIsACustomizedSection())) {
+				
+				this_bss.saveMe(schema);
+				bssIdMappings.put(this_bss.getTransit_id(), this_bss.getId());
+				
+			}
+		}
+
 	}
 
 	/**
