@@ -764,4 +764,31 @@ public class BaseSimSection implements Comparable {
 		return bss;
 
 	}
+
+	public static BaseSimSection getByName(String schema, String creatingOrganization, String uniqueName, String version) {
+		BaseSimSection bss = null;
+
+		String queryString = 
+			"from BaseSimSection where creatingOrganization = '" + creatingOrganization + "' " +
+			"AND uniqueName = '" + uniqueName + "' AND version = '" + version + "'";
+		System.out.println(queryString);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
+
+		if (returnList != null) {
+			bss = (BaseSimSection) returnList.get(0);
+			System.out.println("found " + bss.getVersionInformation());
+			return bss;
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		return bss;
+	}
+	
+	public String getVersionInformation(){
+		return creatingOrganization + uniqueName + " version: " + version;
+	}
+	
 }
