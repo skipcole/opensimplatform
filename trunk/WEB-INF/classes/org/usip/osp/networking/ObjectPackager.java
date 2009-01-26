@@ -282,7 +282,17 @@ public class ObjectPackager {
 		//unpackageCustomizeableSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
 		//unpackInformationString += "Customizeable Sections Unpacked<br />";
 		//unpackInformationString += "--------------------------------------------------------------------<br />";
+		
+		//unpackageCustomizedSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
+		//unpackInformationString += "Customizeable Sections Unpacked<br />";
+		//unpackInformationString += "--------------------------------------------------------------------<br />";
+		
+		//unpackageSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
+		//unpackInformationString += "Customizeable Sections Unpacked<br />";
+		//unpackInformationString += "--------------------------------------------------------------------<br />";
 
+		// ? documents, variables, conversations, etc.
+		
 	}
 
 	/**

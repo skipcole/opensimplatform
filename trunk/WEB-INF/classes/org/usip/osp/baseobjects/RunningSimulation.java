@@ -171,7 +171,7 @@ public class RunningSimulation {
 	public void doFinalChecksOnSim(Simulation sim, String schema) {
 
 		// Making sure all actors added to broadcast chat
-		for (ListIterator<Conversation> lc = sim.getConversations()
+		for (ListIterator<Conversation> lc = sim.getConversations(schema)
 				.listIterator(); lc.hasNext();) {
 			Conversation conv = (Conversation) lc.next();
 
