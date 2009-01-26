@@ -408,7 +408,10 @@ public class ChatController {
 
 			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
 					schema).get(Simulation.class, sid);
-			sim.getConversations().add(conv);
+			
+			
+			SimConversationAssignment sca = new SimConversationAssignment(schema, sid, conv.getId());
+			
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sim);
 		} else {
 			conv = (Conversation) conv_list.get(0);

@@ -43,10 +43,6 @@ public class Simulation {
 		
 	}
 
-	@OneToMany
-	@JoinColumn(name = "SIM_ID")
-	private List<Conversation> conversations = new ArrayList<Conversation>();
-
 	/** Database id of this Simulation. */
 	@Id
 	@GeneratedValue
@@ -554,27 +550,18 @@ public class Simulation {
 		this.aar_starter_text = aar_starter_text;
 	}
 
-	public List<Conversation> getConversations() {
-		if (conversations == null) {
-			conversations = new ArrayList<Conversation>();
-		}
-		return conversations;
+	public List<Conversation> getConversations(String schema) {
+		return SimConversationAssignment.getConversationsForSim(schema, id);
 	}
-
-	public void setConversations(List<Conversation> conversations) {
-		this.conversations = conversations;
-	}
-
 	/**
 	 * Only adds conversation to a simulation if that conversation has not
 	 * already been added.
 	 * 
 	 * @param conv
 	 */
-	public void addConversation(Conversation conv) {
-		if ((!conversations.contains(conv))) {
-			conversations.add(conv);
-		}
+	public void addConversation(String schema, Conversation conv) {
+
+		SimConversationAssignment sca = new SimConversationAssignment(schema, id, conv.getId());
 	}
 
 	public String getCopyright_string() {

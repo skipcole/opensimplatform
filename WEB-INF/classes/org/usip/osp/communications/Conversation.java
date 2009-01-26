@@ -58,7 +58,7 @@ public class Conversation {
         MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
         
         Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
-        sim.addConversation(this);
+        sim.addConversation(schema, this);
         MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sim);
         
         MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
