@@ -131,9 +131,9 @@ body {
   </tr>
   <tr valign="top"> 
     <td>&nbsp;</td>
-          <td><a href="install_custom_lib.jsp">Install Custom Library</a></td>
+          <td><a href="install_simulation_sections.jsp">Install Simulation Sections</a></td>
     <td>&nbsp;</td>
-    <td>Installs a library of custom made sections that authors can add to their simulations..</td>
+    <td>Install sections that can be added to simulations.</td>
   </tr>
   <tr valign="top"> 
     <td>&nbsp;</td>

@@ -180,10 +180,7 @@ body {
           </blockquote>
           <p>
             <input name="loadss" type="checkbox" value="true" checked="checked" />
-            Load standard sections</p>
-          <p> 
-<input name="load_cs" type="checkbox" value="true"  />            
-Check for and load custom simulation sections.</p>
+            Load all section descriptor files found in sections directory</p>
         </blockquote>
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
           <tr> 

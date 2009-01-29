@@ -1,10 +1,10 @@
-<org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
   <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
   <uniqueName>Customized Cast</uniqueName>
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>customized_section_pages/core/make_cast_page.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
   <bigString></bigString>
   <description>A section to allow players see public information about other actors in this simulation.</description>
   <url></url>
@@ -13,4 +13,4 @@
   <rec__tab__heading>Cast</rec__tab__heading>
   <sample__image>cast.png</sample__image>
   <control__section>false</control__section>
-</org.usip.osp.baseobjects.BaseSimSection>
+</org.usip.osp.baseobjects.CustomizeableSection>

@@ -887,11 +887,6 @@ public class ParticipantSessionObject {
 			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
 		}
 
-		if ((load_cs != null) && (load_cs.equalsIgnoreCase("true"))) {
-			BaseSimSection.readCustomLibSimSectionsFromXMLFiles(schema);
-		}
-		
-
 		error_msg = "You may now login as the root user with the password that you provided.";
 
 		return error_msg;
