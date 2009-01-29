@@ -168,6 +168,7 @@ public class SimulationSection {
 		// Give this simulation this conversation, which will then be copied
 		// into the running sims
 		// This needs to be generalized.
+		/*
 		if ((bss.getPage_file_name() != null)
 				&& (bss.getPage_file_name()
 						.equalsIgnoreCase("broadcast_screen.jsp"))) {
@@ -177,6 +178,7 @@ public class SimulationSection {
 					+ conv.getId());
 			this.setObject_tag("broadcast");
 		}
+		*/
 
 		// Inside a phase, the section can have different tab headings and
 		// positions.

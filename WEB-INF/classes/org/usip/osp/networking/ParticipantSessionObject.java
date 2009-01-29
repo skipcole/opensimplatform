@@ -183,6 +183,22 @@ public class ParticipantSessionObject {
 			lit.hearHeartBeat();
 		}
 	}
+	
+	
+	/**
+	 * Unpacks a simulation from an XML file.
+	 * 
+	 * @param request
+	 */
+	public Simulation handleUnpackDetails(HttpServletRequest request) {
+
+		String filename = (String) request.getParameter("filename");
+
+		System.out.println("unpacking " + filename);
+
+		return ObjectPackager.unpackSimDetails(filename, schema);
+
+	}
 
 	/**
 	 * Unpacks a simulation from an XML file.
@@ -192,10 +208,12 @@ public class ParticipantSessionObject {
 	public void handleUnpackSimulation(HttpServletRequest request) {
 
 		String filename = (String) request.getParameter("filename");
+		String sim_name = (String) request.getParameter("sim_name");
+		String sim_version = (String) request.getParameter("sim_version");
 
 		System.out.println("unpacking " + filename);
 
-		ObjectPackager.unpackSim(filename, schema);
+		ObjectPackager.unpackSim(filename, schema, sim_name, sim_version);
 
 	}
 
@@ -722,6 +740,48 @@ public class ParticipantSessionObject {
 
 		return returnString;
 	}
+	
+	private Hashtable setOfObjectCalls = new Hashtable();
+	
+	// loading this for now to get this part tested.
+	{
+		setOfObjectCalls.put("org.usip.osp.cast.1", "org.usip.osp.baseobjects.core.CastCustomizeableSection");
+	}
+	
+	/**
+	 * 
+	 * @param section_tag
+	 * @param request
+	 * @return
+	 */
+	public CustomizeableSection handleCustomizeSection(String section_tag, HttpServletRequest request){
+		
+		// loop through known make pages
+		for (Enumeration e = setOfObjectCalls.keys(); e.hasMoreElements();) {
+			String key = (String) e.nextElement();
+			
+			if (section_tag.equalsIgnoreCase(key)){
+				String className = (String) setOfObjectCalls.get(key);
+				
+				CustomizeableSection cs = new CustomizeableSection();
+			      try {
+			          Class classDefinition = Class.forName(className);
+			          cs = (CustomizeableSection) classDefinition.newInstance();
+			      } catch (InstantiationException er) {
+			          System.out.println(er);
+			      } catch (IllegalAccessException er) {
+			          System.out.println(er);
+			      } catch (ClassNotFoundException er) {
+			          System.out.println(er);
+			      }
+			      
+			      return cs;
+			}
+			
+		}
+		
+		return null;
+	}
 
 	/**
 	 * 
@@ -918,6 +978,11 @@ public class ParticipantSessionObject {
 
 	}
 
+	/**
+	 * Handles the creation of Injects. 
+	 * 
+	 * @param request
+	 */
 	public void handleCreateInject(HttpServletRequest request) {
 
 		String inject_name = (String) request.getParameter("inject_name");
@@ -1940,6 +2005,22 @@ public class ParticipantSessionObject {
 
 		return actor;
 	}
+	
+	public Actor giveMeActor(Long a_id) {
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, a_id);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		if (actor == null) {
+			actor = new Actor();
+		}
+
+		return actor;
+	}
+	
+	
+	
 
 	public SimulationPhase giveMePhase() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);

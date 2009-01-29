@@ -244,7 +244,7 @@ public class FileIO {
 				fullString += daLine;
 
 				daLine = br.readLine();
-				System.out.println(daLine);
+				//System.out.println(daLine);
 			}
 
 			br.close();
