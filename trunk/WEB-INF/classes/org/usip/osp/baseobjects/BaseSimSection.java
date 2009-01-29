@@ -44,6 +44,8 @@ public class BaseSimSection implements Comparable {
 	public static void main(String args[]) {
 
 		BaseSimSection.readNewBaseSimSectionsFromXMLFiles("test");
+		
+		
 		// BaseSimSection.readBaseSimSectionsFromXMLFiles();
 
 		/*
@@ -76,6 +78,17 @@ public class BaseSimSection implements Comparable {
 
 	}
 
+	public static boolean checkInstalled(String schema, BaseSimSection bss){
+		
+		BaseSimSection correspondingBss = getByName(schema, bss.creatingOrganization, bss.uniqueName, bss.version);
+		
+		if (correspondingBss == null){
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param schema
@@ -156,6 +169,60 @@ public class BaseSimSection implements Comparable {
 			return true;
 		}
 	}
+	
+	/**
+	 * Reads the simulation sections from xml files.
+	 * 
+	 * @param schema
+	 * @return Returns a string indicating success, or not.
+	 * 
+	 */
+	public static List screenBaseSimSectionsFromXMLFiles(String schema) {
+
+		ArrayList returnList = new ArrayList();
+		
+		// The set of base simulation sections are read out of
+		// XML files stored in the simulation_section_information directory.
+
+		String fileLocation = FileIO.getBase_section_web_dir();
+
+		System.out.println("Looking for files at: " + fileLocation);
+
+		File locDir = new File(fileLocation);
+
+		if (locDir == null) {
+			System.out.println("Problem finding files at " + fileLocation);
+			return returnList;
+		} else {
+
+			File files[] = locDir.listFiles();
+
+			if (files == null) {
+				System.out.println("Problem finding files at " + fileLocation);
+				return returnList;
+			} else {
+				for (int ii = 0; ii < files.length; ii++) {
+
+					String fName = files[ii].getName();
+
+					if (fName.endsWith(".xml")) {
+
+						try {
+							returnList.add(BaseSimSection.readAheadXML(schema, files[ii]));
+							
+						} catch (Exception e) {
+							System.out.println("problem reading in file " + fName);
+							System.out.println(e.getMessage());
+						}
+					}
+
+				}
+			}
+
+			return returnList;
+		} // end of if found files.
+	} // end of method 
+
 
 	/**
 	 * Reads the simulation sections from xml files.
@@ -257,6 +324,22 @@ public class BaseSimSection implements Comparable {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	/**
+	 * Returns an object from an xml file without saving it.
+	 * @param schema
+	 * @param thisFile
+	 * @param customLibName
+	 * @return
+	 */
+	public static Object readAheadXML(String schema, File thisFile) {
+
+		String fullBSS = FileIO.getFileContents(thisFile);
+
+		Object bRead = unpackageXML(fullBSS);
+
+		return bRead;
 	}
 
 	public static void readInXMLFile(String schema, File thisFile, String customLibName) {
@@ -722,6 +805,14 @@ public class BaseSimSection implements Comparable {
 
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @param creatingOrganization
+	 * @param uniqueName
+	 * @param version
+	 * @return
+	 */
 	public static BaseSimSection getByName(String schema, String creatingOrganization, String uniqueName, String version) {
 		BaseSimSection bss = null;
 
@@ -733,7 +824,7 @@ public class BaseSimSection implements Comparable {
 
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
 
-		if (returnList != null) {
+		if ((returnList != null) && (returnList.size() > 0)){
 			bss = (BaseSimSection) returnList.get(0);
 			System.out.println("found " + bss.getVersionInformation());
 			return bss;

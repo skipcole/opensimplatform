@@ -147,13 +147,6 @@ body {
     are divided into two parts: off of the shelf and custom made. The off the 
     shelf sections are those that just come with the latest version of the tool. 
     The custom made have been created by a programmer and placed in a library.</p>
-  <ul>
-    <li><a href="#offtheshelf">Off the Shelf</a></li>
-    <li><a href="#customlibraries">Custom Libraries</a></li>
-  </ul>
-  <h2>&nbsp;</h2>
-  <h2>Off the Shelf Sections<a name="offtheshelf" id="offtheshelf"></a></h2>
-  <p>Below are all of the sections that come standard with this tool. </p>
   <table border="1"><tr><td>
   <table border="0" cellspacing="1">
     <%
@@ -181,44 +174,11 @@ body {
   </table>
   </td></tr></table>
   <p>&nbsp;</p>
-  <h2>Custom Libraries<a name="customlibraries" id="customlibraries"></a></h2>
-  <p>Below are all of the custom library sections that have been added to your 
-    installation. </p>
-    </blockquote>
+  <h2>&nbsp;</h2>
+  </blockquote>
 
-    <% if (new CustomLibrarySection().getAll(pso.schema).size() == 0){
-	%>  
-<ul>
-  <ul>
-    <li>
-      No custom libraries loaded. 
-    Please see your administrator if you would like specific custom libraries installed.</li>
-  </ul>
-</ul>
-    <% } else { %>
-
-<blockquote>
-  <table border="1" cellspacing="1">
-    <tr align="left" valign="top"> 
-      <td><h1>Name</h1></td>
-          <td><h1>Library</h1></td>
-          <td><h1>Description</h1></td>
-          <td><h1>Image</h1></td>
-        </tr>
-    <%
-
-		for (ListIterator li = new CustomLibrarySection().getAll(pso.schema).listIterator(); li.hasNext();) {
-			BaseSimSection bss = (BaseSimSection) li.next(); %>
-    <tr align="left" valign="top"> 
-      <td><%= bss.getRec_tab_heading() %></td>
-          <td><%= bss.getCust_lib_name() %></td>
-          <td><%= bss.getDescription() %></td>
-          <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
-        </tr>
-    <%  } // end of loop over custom libs.  %>
-  </table>
-  <% } // end of if more than 0 custom libs installed. %>
-  <p>&nbsp;</p>
+    <blockquote>
+      <p>&nbsp;</p>
 </blockquote>
 			<!-- InstanceEndEditable -->
 			</td>
