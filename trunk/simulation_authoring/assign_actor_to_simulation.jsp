@@ -152,7 +152,7 @@ body {
         <form action="assign_actor_to_simulation.jsp" method="post" name="form1" id="form1">
           <tr valign="top">
             <td>&nbsp;</td>
-            <td><%= sim.getName() %></td>
+            <td><%= sim.getName() %>:<%= sim.getVersion() %></td>
             <td><%
 			
 			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {

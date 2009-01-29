@@ -22,11 +22,11 @@
 		simulation = pso.handleSetSimSectionsPage(request);	
 		
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
-		System.out.println("actor id is " + pso.actor_id);
+		System.out.println("actor id is " + pso.actor_being_worked_on_id);
 		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
 	
-		if ((pso.actor_id != null) && (pso.actor_id.intValue() != 0 )){
-			actor = pso.giveMeActor();
+		if ((pso.actor_being_worked_on_id != null) && (pso.actor_being_worked_on_id.intValue() != 0 )){
+			actor = pso.giveMeActor(pso.actor_being_worked_on_id);
 		}
 	
 		if (pso.phase_id != null) {
@@ -209,11 +209,7 @@ body {
                       <select name="phase_id">
                         <% 
 						
-						MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-						
-						Simulation da_sim = (Simulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Simulation.class, simulation.getId());
-						
-						for (ListIterator li = da_sim.getPhases(pso.schema).listIterator(); li.hasNext();) {
+						for (ListIterator li = SimPhaseAssignment.getPhasesForSim(pso.schema, simulation.getId()).listIterator(); li.hasNext();) {
 							SimulationPhase sp = (SimulationPhase) li.next();
 							
 							String selected_p = "";
@@ -225,12 +221,7 @@ body {
 							
 				%>
                         <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getName() %></option>
-                        <% } 
-						
-						MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-						
-						
-						%>
+                        <% } 	%>
                       </select>
                       <label>
 					  <input type="hidden" name="actor_index" value="<%= pso.getMyPSO_SectionMgmt().getCurrentActorIndex()  %>">
