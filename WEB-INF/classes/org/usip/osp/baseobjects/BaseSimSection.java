@@ -56,37 +56,23 @@ public class BaseSimSection implements Comparable {
 		// bss.setConfers_read_ability(true);
 		// System.out.println("can read " + bss.isConfers_read_ability());
 		// bss.saveMe("test");
-		
-		
-		
+
 		/*
-		System.out.println("--------------------");
-		// System.out.println(ObjectPackager.packageObject(bss));
-		System.out.println("--------------------");
-		StringBuffer sss = new StringBuffer("abcd");
-
-		int aliquot = 2;
-		int numPrinted = 0;
-		if (sss.length() > aliquot) {
-			while (numPrinted < sss.length()) {
-				char[] c = new char[aliquot];
-				int numToGet = aliquot;
-				if ((sss.length() - numPrinted) < aliquot) {
-					numToGet = sss.length() - numPrinted;
-				}
-				System.out.println(numPrinted + " " + numToGet);
-				sss.getChars(numPrinted, numPrinted + numToGet, c, 0);
-				System.out.println(c);
-				try {
-					sss.wait(1000);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				numPrinted += aliquot;
-			}
-		}
-		*/
+		 * System.out.println("--------------------"); //
+		 * System.out.println(ObjectPackager.packageObject(bss));
+		 * System.out.println("--------------------"); StringBuffer sss = new
+		 * StringBuffer("abcd");
+		 * 
+		 * int aliquot = 2; int numPrinted = 0; if (sss.length() > aliquot) {
+		 * while (numPrinted < sss.length()) { char[] c = new char[aliquot]; int
+		 * numToGet = aliquot; if ((sss.length() - numPrinted) < aliquot) {
+		 * numToGet = sss.length() - numPrinted; } System.out.println(numPrinted
+		 * + " " + numToGet); sss.getChars(numPrinted, numPrinted + numToGet, c,
+		 * 0); System.out.println(c); try { sss.wait(1000); } catch (Exception
+		 * e) { e.printStackTrace(); }
+		 * 
+		 * numPrinted += aliquot; } }
+		 */
 
 	}
 
@@ -218,7 +204,7 @@ public class BaseSimSection implements Comparable {
 			return "Read in Base Simulation Section Information.";
 		}
 	}
-	
+
 	/**
 	 * Reads the simulation sections from xml files.
 	 * 
@@ -267,7 +253,6 @@ public class BaseSimSection implements Comparable {
 		}
 	}
 
-
 	public void saveMe(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
@@ -282,25 +267,11 @@ public class BaseSimSection implements Comparable {
 		Object bRead = unpackageXML(fullBSS);
 
 		if (bRead != null) {
-			/*
-			 * if (bRead.getClass().equals(BaseSimSection.class)){
-			 * System.out.println("rec tab: " + bRead.getRec_tab_heading()); }
-			 */
 
-			if (bRead.getClass().equals(CustomLibrarySection.class)) {
-				CustomLibrarySection brc = (CustomLibrarySection) bRead;
-				if (customLibName != null) {
-					brc.setCust_lib_name(customLibName);
-				}
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(bRead);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-				brc.saveMe(schema);
-
-			} else {
-
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(bRead);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			}
 		}
 	}
 
@@ -312,27 +283,12 @@ public class BaseSimSection implements Comparable {
 		Object bRead = unpackageXML(fullBSS);
 
 		if (bRead != null) {
-			/*
-			 * if (bRead.getClass().equals(BaseSimSection.class)){
-			 * System.out.println("rec tab: " + bRead.getRec_tab_heading()); }
-			 */
 
-			if (bRead.getClass().equals(CustomLibrarySection.class)) {
-				CustomLibrarySection brc = (CustomLibrarySection) bRead;
-				if (customLibName != null) {
-					brc.setCust_lib_name(customLibName);
-				}
-
-				if (!(tabHeadingExists(schema, brc.getRec_tab_heading()))) {
-					brc.saveMe(schema);
-				}
-			} else {
-				BaseSimSection bss = (BaseSimSection) bRead;
-				if (!(tabHeadingExists(schema, bss.getRec_tab_heading()))) {
-					MultiSchemaHibernateUtil.beginTransaction(schema);
-					MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(bss);
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-				}
+			BaseSimSection bss = (BaseSimSection) bRead;
+			if (!(tabHeadingExists(schema, bss.getRec_tab_heading()))) {
+				MultiSchemaHibernateUtil.beginTransaction(schema);
+				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(bss);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 			}
 		}
 	}
@@ -365,7 +321,7 @@ public class BaseSimSection implements Comparable {
 	@GeneratedValue
 	@Column(name = "BASE_SIMSEC_ID")
 	protected Long id;
-	
+
 	/** Id used when objects are exported and imported moving across databases. */
 	protected Long transit_id;
 
@@ -376,12 +332,12 @@ public class BaseSimSection implements Comparable {
 	public void setTransit_id(Long transit_id) {
 		this.transit_id = transit_id;
 	}
-	
-	//////////////////////////////////////////////////////////////////////////////
+
+	// ////////////////////////////////////////////////////////////////////////////
 	protected String creatingOrganization = "";
 	protected String uniqueName = "";
 	protected String version = "";
-	
+
 	public String getCreatingOrganization() {
 		return creatingOrganization;
 	}
@@ -405,8 +361,9 @@ public class BaseSimSection implements Comparable {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	/////////////////////////////////////////////////////////////
-	
+
+	// ///////////////////////////////////////////////////////////
+
 	/** Description of this standard section. */
 	@Column(name = "BASE_SIMSEC_DESC")
 	@Lob
@@ -768,11 +725,10 @@ public class BaseSimSection implements Comparable {
 	public static BaseSimSection getByName(String schema, String creatingOrganization, String uniqueName, String version) {
 		BaseSimSection bss = null;
 
-		String queryString = 
-			"from BaseSimSection where creatingOrganization = '" + creatingOrganization + "' " +
-			"AND uniqueName = '" + uniqueName + "' AND version = '" + version + "'";
+		String queryString = "from BaseSimSection where creatingOrganization = '" + creatingOrganization + "' "
+				+ "AND uniqueName = '" + uniqueName + "' AND version = '" + version + "'";
 		System.out.println(queryString);
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
@@ -786,9 +742,9 @@ public class BaseSimSection implements Comparable {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		return bss;
 	}
-	
-	public String getVersionInformation(){
+
+	public String getVersionInformation() {
 		return creatingOrganization + uniqueName + " version: " + version;
 	}
-	
+
 }
