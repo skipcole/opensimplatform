@@ -375,7 +375,6 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.Actor.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSection.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.CustomizeableSection.class);
-		ac.addAnnotatedClass(org.usip.osp.baseobjects.CustomLibrarySection.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.Debug.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.Alert.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimulation.class);
