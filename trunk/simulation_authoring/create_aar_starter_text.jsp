@@ -55,9 +55,10 @@ body {
 </head>
 <body onLoad="">
 <%
-	String myLogoutPage = "../simulation/logout.jsp";
+	String myLogoutPage = pso.getBaseSimURL() + "/simulation/logout.jsp";
+	
 	if ( (pso.isAuthor())  || (pso.isFacilitator())) {
-		myLogoutPage = "../simulation_authoring/logout.jsp";
+		myLogoutPage = pso.getBaseSimURL() + "/simulation_authoring/logout.jsp";
 	}
 %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -175,7 +176,8 @@ body {
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
 	  
-      <a href="set_specific_sim_sections.jsp"> <img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->			</td>
+      <a href="set_specific_sim_sections.jsp"> <img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
+			</td>
 		</tr>
 		</table>
 	</td>

@@ -1,4 +1,6 @@
 <org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.CastCustomizer</customizerClassName>
   <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
   <uniqueName>Customized Cast</uniqueName>
   <version>1</version>

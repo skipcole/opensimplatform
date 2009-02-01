@@ -48,6 +48,12 @@ public class RunningSimulation {
 
 	@Column(name = "RS_NAME")
 	private String name;
+	
+	/** Indicates if running sim can be changed by change packets. */
+	private boolean allowExternallySumbittedChanges = false;
+	
+	/** Running simulations that can receive change request packets can be password protected. */
+	private String rs_password;
 
 	@OneToMany
 	@JoinColumn(name = "RUNNING_SIM_ID")
@@ -366,6 +372,18 @@ public class RunningSimulation {
 		this.phase_id = pid;
 	}
 
+	public boolean isAllowExternallySumbittedChanges() {
+		return allowExternallySumbittedChanges;
+	}
+	public void setAllowExternallySumbittedChanges(boolean allowExternallySumbittedChanges) {
+		this.allowExternallySumbittedChanges = allowExternallySumbittedChanges;
+	}
+	public String getRs_password() {
+		return rs_password;
+	}
+	public void setRs_password(String rs_password) {
+		this.rs_password = rs_password;
+	}
 	public List<UserAssignment> getUser_assignments() {
 		return user_assignments;
 	}

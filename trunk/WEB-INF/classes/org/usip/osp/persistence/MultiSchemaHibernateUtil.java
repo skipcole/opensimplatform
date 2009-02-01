@@ -411,7 +411,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.IntVariable.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.IntVariableHistory.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
-
+		
 		System.out.println("classes added");
 	}
 

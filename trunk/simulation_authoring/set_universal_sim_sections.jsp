@@ -6,7 +6,7 @@
 
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "set_universal_sim_sections.jsp";
+	pso.backPage = pso.getBaseSimURL() + "/simulation_authoring/set_universal_sim_sections.jsp";
 	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
@@ -129,9 +129,10 @@ body {
 </head>
 <body onLoad="loadFirstInfo();">
 <%
-	String myLogoutPage = "../simulation/logout.jsp";
+	String myLogoutPage = pso.getBaseSimURL() + "/simulation/logout.jsp";
+	
 	if ( (pso.isAuthor())  || (pso.isFacilitator())) {
-		myLogoutPage = "../simulation_authoring/logout.jsp";
+		myLogoutPage = pso.getBaseSimURL() + "/simulation_authoring/logout.jsp";
 	}
 %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

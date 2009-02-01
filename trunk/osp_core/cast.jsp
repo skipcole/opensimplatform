@@ -1,7 +1,11 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.core.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 
 <%
@@ -20,6 +24,17 @@
 	
 	Actor this_actor = pso.giveMeActor();
 	
+	String cs_id = (String) request.getParameter("cs_id");
+	
+	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+    
+	String stored_value = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_CONTROL);
+	
+	boolean showControl = false;
+	if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
+		showControl = true;
+	}
+	
 %>
 <html>
 <head>
@@ -28,7 +43,6 @@
 </head>
 
 <body>
-
 <h1>Cast</h1>
 
 <p>Below are listed alphabetically all of the current Actors that you can see.</p>
@@ -41,9 +55,10 @@
 <td><strong>Description</strong></td>
 </tr>
   <%
-  		for (ListIterator li = simulation.getActors().listIterator(); li.hasNext();) {
+  		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 			Actor aa = (Actor) li.next();
 			
+			if ((showControl) || (!(aa.isControl_actor()))) {
 		%>
   <tr>
     <td valign="top" width="200"><img src="images/actors/<%= aa.getImageFilename() %>" width="200"  ><br><%= aa.getName() %></td>
@@ -53,7 +68,9 @@
 <%= aa.getSemi_public_description() %>
 <BR><strong>Private Description</strong> <br>
 <%= aa.getPrivate_description() %>  
-    <% } %>
+    <% 
+		} // End of if not control actor
+	} %>
     </td>
   </tr>
 
