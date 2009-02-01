@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.*;
+import org.usip.osp.baseobjects.core.Customizer;
 import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.SharedDocument;
@@ -170,6 +171,60 @@ public class PSO_SectionMgmt {
 		pso.phase_id = phase_being_worked_on_id;
 		pso.phaseSelected = true;
 
+	}
+	
+	/**
+	 * This handles 
+	 * @param section_tag
+	 * @param request
+	 * @return
+	 */
+	public CustomizeableSection handleCustomizeSection(String section_tag, HttpServletRequest request) {
+
+		getSimSectionsInternalVariables(request);
+
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
+		
+		if ((sending_page != null)
+				&& ((save_page != null) || (save_and_add != null))) {
+			// If this is the original custom page, make a new page
+
+			makeCopyOfCustomizedSectionIfNeeded();
+
+			if (customizableSectionOnScratchPad.isHasCustomizer()){
+				try {
+					Class classDefinition = Class.forName(customizableSectionOnScratchPad.getCustomizerClassName());
+					customizableSectionOnScratchPad.setMyCustomizer((Customizer) classDefinition.newInstance());
+				} catch (InstantiationException er) {
+					System.out.println(er);
+				} catch (IllegalAccessException er) {
+					System.out.println(er);
+				} catch (ClassNotFoundException er) {
+					System.out.println(er);
+				}
+				
+				customizableSectionOnScratchPad.getMyCustomizer().handleCustomizeSection(request, pso, customizableSectionOnScratchPad);
+			
+			}
+			
+			// Update page values
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.save(pso.schema);
+
+			if (save_and_add != null) {
+				// add section
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
+						.getId(), _tab_pos, _tab_heading, request, _universal);
+				// send them back
+				pso.forward_on = true;
+				return customizableSectionOnScratchPad;
+
+			}
+
+		} // End of if this is the make_write_news_page
+
+		return customizableSectionOnScratchPad;
+		
 	}
 
 	/**
@@ -467,6 +522,14 @@ public class PSO_SectionMgmt {
 		return this_tab_pos;
 	}
 
+	/**
+	 * Adds a section coming from a 'customize' page.
+	 * @param bss_id
+	 * @param string_tab_pos
+	 * @param tab_heading
+	 * @param request
+	 * @param universal
+	 */
 	public void addSectionFromProcessCustomPage(Long bss_id,
 			String string_tab_pos, String tab_heading,
 			HttpServletRequest request, String universal) {
@@ -481,10 +544,9 @@ public class PSO_SectionMgmt {
 				tab_heading, getTabPos().intValue());
 
 		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
-			Simulation simulation = pso.giveMeSim();
 			System.out.println("applying sim sections on phase: " + phase_being_worked_on_id);
 			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema,
-					simulation.getId(), phase_being_worked_on_id);
+					pso.sim_id, phase_being_worked_on_id);
 		}
 
 	}
@@ -958,7 +1020,7 @@ public class PSO_SectionMgmt {
 
 	}
 
-	public CustomizeableSection handleMekeImagePage(HttpServletRequest request) {
+	public CustomizeableSection handleMakeImagePage(HttpServletRequest request) {
 
 		getSimSectionsInternalVariables(request);
 

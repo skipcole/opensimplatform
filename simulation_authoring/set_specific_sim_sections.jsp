@@ -102,9 +102,10 @@ body {
 </head>
 <body onLoad="loadFirstInfo();">
 <%
-	String myLogoutPage = "../simulation/logout.jsp";
+	String myLogoutPage = pso.getBaseSimURL() + "/simulation/logout.jsp";
+	
 	if ( (pso.isAuthor())  || (pso.isFacilitator())) {
-		myLogoutPage = "../simulation_authoring/logout.jsp";
+		myLogoutPage = pso.getBaseSimURL() + "/simulation_authoring/logout.jsp";
 	}
 %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -332,16 +333,6 @@ body {
                               <option value="<%= cs.getId().toString() %>"><%= cs.getRec_tab_heading() %></option>
                               <% } %>
                               <% } // End of loop over customizable sections	
-							  
-							  List cust_lib = CustomLibrarySection.getAll(pso.schema);
-							  
-							  if (cust_lib != null) {  
-							  for (ListIterator li = cust_lib.listIterator(); li.hasNext();) {
-										CustomLibrarySection cls = (CustomLibrarySection) li.next();
-									%>
-                              <option value="<%= cls.getId().toString() %>"><%= cls.getRec_tab_heading() %></option>
-                              <% } // End of loop over custom library sections
-							  	} // End of if cust_lib != null
 							  %>
                             </select>
                           </blockquote>                          </td>

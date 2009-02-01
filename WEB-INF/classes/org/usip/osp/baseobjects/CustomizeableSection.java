@@ -5,10 +5,13 @@ import java.util.*;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Query;
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.networking.ObjectPackager;
+import org.usip.osp.baseobjects.core.Customizer;
+import org.usip.osp.networking.*;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -75,9 +78,47 @@ public class CustomizeableSection extends BaseSimSection {
     /** This holds information about the data, such as if it is applicable
      * for a text field or a text area field for input. */
     private Hashtable meta_data_content = new Hashtable();
+    
+    private boolean hasCustomizer = false;
+    
+    private String customizerClassName;
+    
+    @Transient
+    private Customizer myCustomizer;
+    
+
+	public Customizer getMyCustomizer() {
+		return myCustomizer;
+	}
+
+	public void setMyCustomizer(Customizer myCustomizer) {
+		this.myCustomizer = myCustomizer;
+	}
+
+	public boolean isHasCustomizer() {
+		return hasCustomizer;
+	}
+
+	public void setHasCustomizer(boolean hasCustomizer) {
+		this.hasCustomizer = hasCustomizer;
+	}
+
+	public String getCustomizerClassName() {
+		return customizerClassName;
+	}
+
+	public void setCustomizerClassName(String customizerClassName) {
+		this.customizerClassName = customizerClassName;
+	}
 
 	public static void main(String args[]) {
 
+		CustomizeableSection cs = new CustomizeableSection();
+		cs.hasCustomizer = true;
+		cs.setCustomizerClassName("max and ruby");
+		
+		System.out.println(ObjectPackager.getObjectXML(cs));
+		/*
 		List x = getAllUncustomized("test");
 		for (ListIterator<CustomizeableSection> bi = x.listIterator(); bi.hasNext();) {
 			CustomizeableSection bid = (CustomizeableSection) bi.next();
@@ -148,6 +189,9 @@ public class CustomizeableSection extends BaseSimSection {
 		
 		cs.setConfers_read_ability(this.isConfers_read_ability());
 		cs.setConfers_write_ability(this.isConfers_write_ability());
+		
+		cs.setHasCustomizer(this.hasCustomizer);
+		cs.setCustomizerClassName(this.getCustomizerClassName());
         
         // Copies are made when a section is customized. 
         cs.thisIsACustomizedSection = true;
@@ -311,5 +355,24 @@ public class CustomizeableSection extends BaseSimSection {
     public void setBigString(String bigString) {
         this.bigString = bigString;
     }
+    
+	/**
+	 * This method is called by the customized 'make' page that fine tunes this section while the simulation
+	 * is being authored.
+	 * 
+	 * @param request
+	 * @param cs
+	 * @return
+	 */
+	public void handleCustomizeSection(HttpServletRequest request, ParticipantSessionObject pso){}
+	
+	/**
+	 * This method is called by the simulation section during play.
+	 * 
+	 * @param request
+	 * @param cs
+	 * @return
+	 */
+	public void loadSimCustomizeSection(HttpServletRequest request, ParticipantSessionObject pso){}
 
 }

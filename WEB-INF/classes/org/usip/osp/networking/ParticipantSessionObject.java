@@ -183,8 +183,7 @@ public class ParticipantSessionObject {
 			lit.hearHeartBeat();
 		}
 	}
-	
-	
+
 	/**
 	 * Unpacks a simulation from an XML file.
 	 * 
@@ -336,18 +335,16 @@ public class ParticipantSessionObject {
 	public String setOfUsers = "";
 	public String invitationCode = "";
 
-	
-	public String getDefaultInviteMessage()
-	{
+	public String getDefaultInviteMessage() {
 		String defaultInviteEmailMsg = "Dear Student,\r\n";
 		defaultInviteEmailMsg += "Please go to the web site ";
-		defaultInviteEmailMsg += USIP_OSP_Properties.getValue("simulation_url") 
-			+ "/simulation_user_admin/auto_registration_form.jsp and register yourself.\r\n\r\n";
+		defaultInviteEmailMsg += USIP_OSP_Properties.getValue("simulation_url")
+				+ "/simulation_user_admin/auto_registration_form.jsp and register yourself.\r\n\r\n";
 		defaultInviteEmailMsg += "Thank you,\r\n";
 		defaultInviteEmailMsg += this.user_Display_Name;
-		
+
 		return defaultInviteEmailMsg;
-		
+
 	}
 
 	/**
@@ -524,88 +521,83 @@ public class ParticipantSessionObject {
 						RunningSimulation.class, running_sim_id);
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-				
-				running_sim.enableAndPrep(schema, sim_id.toString(), bu.getUsername(), email_users, email_text);
 
-				
+				running_sim.enableAndPrep(schema, sim_id.toString(), bu.getUsername(), email_users, email_text);
 
 			} // End of if coming from this page and have enabled the sim
 			// ////////////////////////////
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
-	public void handleEnterInstructorRatings(HttpServletRequest request){
-		
+	public void handleEnterInstructorRatings(HttpServletRequest request) {
+
 		String num_stars = (String) request.getParameter("num_stars");
 		String user_comments = (String) request.getParameter("user_comments");
 		String user_stated_name = (String) request.getParameter("user_stated_name");
-		
+
 		SimulationRatings sr = SimulationRatings.getInstructorRatingsBySimAndUser(schema, sim_id, user_id);
-		
+
 		sr.setNumberOfStars(new Long(num_stars).intValue());
 		sr.setSim_id(sim_id);
 		sr.setUser_id(user_id);
 		sr.setUsers_stated_name(user_stated_name);
 		sr.setUser_comments(user_comments);
 		sr.setComment_type(SimulationRatings.INSTRUCTOR_COMMENT);
-		
+
 		sr.saveMe(schema);
-		
+
 	}
-	
-	
-	public void handleLoadPlayerAutoAssignedScenario(HttpServletRequest request){
-		
+
+	public void handleLoadPlayerAutoAssignedScenario(HttpServletRequest request) {
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
+
 		this.sim_id = new Long((String) request.getParameter("sim_id"));
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
-		
+
 		this.actor_id = new Long((String) request.getParameter("actor_id"));
 		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_id);
-		
+
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 		RunningSimulation rs = new RunningSimulation("My Session", this.giveMeSim(), schema);
 		this.running_sim_id = rs.getId();
 		rs.setReady_to_begin(true);
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class,
 				rs.getPhase_id());
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 		this.loadSimInfoForDisplay(request, simulation, rs, actor, sp);
-		
-		
-		
+
 	}
-	
-	public void loadSimInfoForDisplay(HttpServletRequest request, Simulation simulation, RunningSimulation running_sim, 
-			Actor actor, SimulationPhase sp){
+
+	public void loadSimInfoForDisplay(HttpServletRequest request, Simulation simulation, RunningSimulation running_sim,
+			Actor actor, SimulationPhase sp) {
 		this.simulation_name = simulation.getName();
 		this.sim_copyright_info = simulation.getCopyright_string();
 		this.simulation_version = simulation.getVersion();
 		this.simulation_org = simulation.getCreation_org();
-	
+
 		this.run_sim_name = running_sim.getName();
 		this.simulation_round = running_sim.getRound() + "";
 		this.phase_id = running_sim.getPhase_id();
-		
+
 		this.actor_name = actor.getName();
-		
+
 		this.phaseName = sp.getName();
-		
+
 		loadPhaseNameInWebCache(request, sp);
-		
+
 	}
-	
-	public void loadPhaseNameInWebCache(HttpServletRequest request, SimulationPhase sp){
+
+	public void loadPhaseNameInWebCache(HttpServletRequest request, SimulationPhase sp) {
 		// //////////////////////////////////////////////////////////////////////
 		// Store it in the web cache, if this has not been done already
 		// by another user.
@@ -619,7 +611,6 @@ public class ParticipantSessionObject {
 
 		}
 	}
-	
 
 	/**
 	 * 
@@ -641,7 +632,7 @@ public class ParticipantSessionObject {
 
 		sim_id = ua.getSim_id();
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
-		
+
 		running_sim_id = ua.getRunning_sim_id();
 		RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 				RunningSimulation.class, running_sim_id);
@@ -651,11 +642,11 @@ public class ParticipantSessionObject {
 
 		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class,
 				running_sim.getPhase_id());
-		
+
 		// Load information from the pertinent objects to be displayed.
 		loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
-		
-		//////////////////////////////////////////////////////////////////////////
+
+		// ////////////////////////////////////////////////////////////////////////
 		Hashtable<Long, String> roundNames = new Hashtable();
 		try {
 			roundNames = (Hashtable<Long, String>) session.getServletContext().getAttribute("roundNames");
@@ -671,9 +662,8 @@ public class ParticipantSessionObject {
 		}
 		// ///////////////////////////////////////////////////////////
 
-
 		loadPhaseNameInWebCache(request, sp);
-		
+
 		// //////////////////////////////////////////////////////////////////////
 		// ///
 
@@ -740,47 +730,16 @@ public class ParticipantSessionObject {
 
 		return returnString;
 	}
-	
-	private Hashtable setOfObjectCalls = new Hashtable();
-	
-	// loading this for now to get this part tested.
-	{
-		setOfObjectCalls.put("org.usip.osp.cast.1", "org.usip.osp.baseobjects.core.CastCustomizeableSection");
-	}
-	
+
 	/**
-	 * 
+	 * This handles 
 	 * @param section_tag
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleCustomizeSection(String section_tag, HttpServletRequest request){
-		
-		// loop through known make pages
-		for (Enumeration e = setOfObjectCalls.keys(); e.hasMoreElements();) {
-			String key = (String) e.nextElement();
-			
-			if (section_tag.equalsIgnoreCase(key)){
-				String className = (String) setOfObjectCalls.get(key);
-				
-				CustomizeableSection cs = new CustomizeableSection();
-			      try {
-			          Class classDefinition = Class.forName(className);
-			          cs = (CustomizeableSection) classDefinition.newInstance();
-			      } catch (InstantiationException er) {
-			          System.out.println(er);
-			      } catch (IllegalAccessException er) {
-			          System.out.println(er);
-			      } catch (ClassNotFoundException er) {
-			          System.out.println(er);
-			      }
-			      
-			      return cs;
-			}
-			
-		}
-		
-		return null;
+	public CustomizeableSection handleCustomizeSection(String section_tag, HttpServletRequest request) {
+
+		return (getMyPSO_SectionMgmt().handleCustomizeSection(section_tag, request));
 	}
 
 	/**
@@ -974,7 +933,7 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Handles the creation of Injects. 
+	 * Handles the creation of Injects.
 	 * 
 	 * @param request
 	 */
@@ -1393,7 +1352,7 @@ public class ParticipantSessionObject {
 		String creation_org = (String) request.getParameter("creation_org");
 		String simcreator = (String) request.getParameter("simcreator");
 		String simcopyright = (String) request.getParameter("simcopyright");
-		
+
 		String simblurb = (String) request.getParameter("simblurb");
 
 		if (command != null) {
@@ -1619,10 +1578,10 @@ public class ParticipantSessionObject {
 				if ((add_to_sim != null) && (add_to_sim.equalsIgnoreCase("true"))) {
 
 					if (!(SimActorAssignment.getActorsForSim(schema, sim_id).contains(actorOnScratchPad))) {
-						
+
 						SimActorAssignment saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad.getId());
 					}
-					
+
 					SimulationSection.applyAllUniversalSections(schema, sim_id);
 
 				}
@@ -1630,7 +1589,7 @@ public class ParticipantSessionObject {
 				this.actor_name = actorOnScratchPad.getName();
 				this.actor_id = actorOnScratchPad.getId();
 
-				//MultiSchemaHibernateUtil.getSession(schema).evict(actorOnScratchPad);	
+				// MultiSchemaHibernateUtil.getSession(schema).evict(actorOnScratchPad);
 
 			}
 		} catch (Exception e) {
@@ -1953,20 +1912,6 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
 
-		/*
-		// ///////////////
-		// Stupidly, we must do this. Hiberate requires it odes here
-		if (simulation != null) {
-			List pList = simulation.getPhases(schema);
-
-			for (ListIterator<SimulationPhase> li = pList.listIterator(); li.hasNext();) {
-				SimulationPhase sp = li.next();
-
-				System.out.println(sp.getName());
-			}
-		}
-		// ///////////////
-		*/
 
 		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -2000,9 +1945,9 @@ public class ParticipantSessionObject {
 
 		return actor;
 	}
-	
+
 	public Actor giveMeActor(Long a_id) {
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, a_id);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -2013,9 +1958,6 @@ public class ParticipantSessionObject {
 
 		return actor;
 	}
-	
-	
-	
 
 	public SimulationPhase giveMePhase() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -2050,10 +1992,8 @@ public class ParticipantSessionObject {
 		Long a_id = new Long(actor_id);
 
 		SimActorAssignment saa = new SimActorAssignment(schema, s_id, a_id);
-		
-		
+
 		SimulationSection.applyAllUniversalSections(schema, s_id);
-		
 
 	}
 
@@ -2082,7 +2022,7 @@ public class ParticipantSessionObject {
 		return isSimCreator;
 	}
 
-	public boolean isFacilitator(){
+	public boolean isFacilitator() {
 		return isFacilitator;
 	}
 
@@ -2356,8 +2296,8 @@ public class ParticipantSessionObject {
 			sim.setReadyForPublicListing(false);
 			sim.setListingKeyWords(sim_key_words);
 		}
-		
-		if ((auto_registration != null) && (auto_registration.equalsIgnoreCase("true"))){
+
+		if ((auto_registration != null) && (auto_registration.equalsIgnoreCase("true"))) {
 			sim.setAllow_player_autoreg(true);
 		} else {
 			sim.setAllow_player_autoreg(false);
@@ -2681,24 +2621,24 @@ public class ParticipantSessionObject {
 
 		return (getMyPSO_SectionMgmt().handleSetUniversalSimSectionsPage(request));
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public SimulationRatings handleSimFeedback(HttpServletRequest request){
-		
+	public SimulationRatings handleSimFeedback(HttpServletRequest request) {
+
 		System.out.println("handling sim feedback");
-		
+
 		SimulationRatings sr = SimulationRatings.getBySimAndActorAndUser(schema, sim_id, actor_id, user_id);
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String sim_feedback_text = (String) request.getParameter("sim_feedback_text");
 		String users_stated_name = (String) request.getParameter("users_stated_name");
-		
-		if ( (sending_page != null) && (sim_feedback_text != null) && (sending_page.equalsIgnoreCase("sim_feedback"))){
-			
+
+		if ((sending_page != null) && (sim_feedback_text != null) && (sending_page.equalsIgnoreCase("sim_feedback"))) {
+
 			sr.setActor_id(actor_id);
 			sr.setActor_name(actor_name);
 			sr.setSim_id(sim_id);
@@ -2707,9 +2647,9 @@ public class ParticipantSessionObject {
 			sr.setComment_type(SimulationRatings.PLAYER_COMMENT);
 			sr.setUsers_stated_name(users_stated_name);
 			sr.saveMe(schema);
-			
+
 		} // End of if coming from this page and have added text
-		
+
 		return sr;
 	}
 
@@ -2743,7 +2683,7 @@ public class ParticipantSessionObject {
 	 * @return
 	 */
 	public CustomizeableSection handleMekeImagePage(HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMekeImagePage(request));
+		return (getMyPSO_SectionMgmt().handleMakeImagePage(request));
 	}
 
 	/**
@@ -2846,19 +2786,18 @@ public class ParticipantSessionObject {
 
 		// Get the generic variable associated with this decision
 		Long varId = (Long) cs.getContents().get(GenericVariable.GEN_VAR_KEY);
-		
-		if (varId == null){
+
+		if (varId == null) {
 			return answersSelected;
 		}
-		
+
 		GenericVariable gv = null;
-		
-		if (baseVar){
+
+		if (baseVar) {
 			gv = GenericVariable.pullOutBaseGV(schema, cs);
 		} else {
 			gv = GenericVariable.getGVForRunningSim(schema, varId, this.running_sim_id);
 		}
-		
 
 		// Get list of allowable responses
 		List allowableResponses = AllowableResponse.pullOutArs(cs, schema);
@@ -2867,8 +2806,9 @@ public class ParticipantSessionObject {
 			AllowableResponse ar = (AllowableResponse) li.next();
 
 			System.out.println("!!!!!!!!!!!!!!!!!!checking " + ar.getId());
-	
-			if ((gv != null) && (gv.getCurrentlySelectedResponse() != null) && (gv.getCurrentlySelectedResponse().equals(ar.getId()))) {
+
+			if ((gv != null) && (gv.getCurrentlySelectedResponse() != null)
+					&& (gv.getCurrentlySelectedResponse().equals(ar.getId()))) {
 				answersSelected.put(ar.getId(), " checked ");
 				System.out.println("put in checked for " + ar.getId());
 			} else {
@@ -2894,14 +2834,19 @@ public class ParticipantSessionObject {
 			String players_choice = (String) request.getParameter("players_choice");
 			Long answer_chosen = new Long(players_choice);
 
-			// Save the answer currently selected in the generic variable itself.
+			// Save the answer currently selected in the generic variable
+			// itself.
 			GenericVariable gv = GenericVariable.pullMeOut(schema, cs, this.running_sim_id);
 			gv.setCurrentlySelectedResponse(answer_chosen);
-			
+
 			gv.checkMyTriggers(this, Trigger.FIRE_ON_WHEN_CALLED);
-			
+
 			gv.saveMe(schema);
 		}
+	}
+	
+	public String getBaseSimURL(){
+		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
 
 }

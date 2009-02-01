@@ -63,6 +63,21 @@ public class ObjectPackager {
 
 		return null;
 	}
+	
+	/**
+	 * Returns the xml for an object. This can be used to inspect the xml and see how it is 
+	 * expected to be formatted.
+	 * 
+	 * @param obj
+	 * @return
+	 */
+	public static String getObjectXML(Object obj) {
+		
+		XStream xstream = new XStream();
+		
+		return xstream.toXML(obj);
+		
+	}
 
 	/**
 	 * This prepares a simulation for transmittal and sharing.

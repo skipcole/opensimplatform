@@ -459,6 +459,15 @@ public class SimulationSection {
 
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @param sim
+	 * @param pid
+	 * @param bss_id
+	 * @param tab_head
+	 * @param cids
+	 */
 	public static void applySectionsToSomeActors(String schema, Simulation sim,
 			Long pid, Long bss_id, String tab_head,
 			List<ConvActorAssignment> cids) {
