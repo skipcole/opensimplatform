@@ -114,8 +114,10 @@ public class CustomizeableSection extends BaseSimSection {
 	public static void main(String args[]) {
 
 		CustomizeableSection cs = new CustomizeableSection();
+		
+		cs.setBigString("Set this to a good default value if you inted to use it, else you can leave it blank.");
 		cs.hasCustomizer = true;
-		cs.setCustomizerClassName("max and ruby");
+		cs.setCustomizerClassName("org.yourco.yourproject.ClassName");
 		
 		System.out.println(ObjectPackager.getObjectXML(cs));
 		/*
@@ -275,9 +277,8 @@ public class CustomizeableSection extends BaseSimSection {
 		for (ListIterator<CustomizeableSection> bi = firstList.listIterator(); bi.hasNext();) {
 			CustomizeableSection bid = (CustomizeableSection) bi.next();
 			
-			if (!(bid.isThisIsACustomizedSection())){
 				returnList.add(bid);
-			}
+
 			
 		}
 		

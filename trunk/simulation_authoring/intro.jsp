@@ -182,9 +182,9 @@ body {
         <% if (pso.isAdmin()) { %>
         <a href="../simulation_admin/adminwebui.jsp">Administrate</a> 
         <% } %>
+        <br />
         </font></p>
-      <p align="center"><br />
-        </font></p></td>
+      </td>
   </tr>
 </table>
 
