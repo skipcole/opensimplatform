@@ -1,13 +1,10 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,
-	org.usip.osp.networking.*,
-	org.usip.osp.persistence.*,
-	org.usip.osp.baseobjects.core.*,
-	org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
+
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
 	CustomizeableSection cs = pso.handleCustomizeSection(request);
@@ -17,18 +14,6 @@
 		response.sendRedirect(pso.backPage);
 		return;
 	}
-	
-	String selected_display_control_yes = "";
-	String selected_display_control_no = "";
-	
-	String stored_value = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_CONTROL);
-	
-	if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
-		selected_display_control_yes = "checked";
-	} else {
-		selected_display_control_no = "checked";
-	}
-	
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -139,44 +124,33 @@ body {
 			<td width="120"><img src="../../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Customize Cast Page</h1>
+      <h1>Custom Text Page</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-      <form action="make_cast_page.jsp" method="post" name="form2" id="form2">
+      <blockquote> 
+        <p>Enter the text that will appear on this page. <br>
+        </p>
+      </blockquote>
+      <form action="make_text_page.jsp" method="post" name="form2" id="form2">
       <% if (cs.getId() != null) {
 	  	System.out.println("cs id was :" + cs.getId());
 	   %>
       <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
       <% } %>
-      <blockquote> 
-        <p>Cast page will display control characters 
-          <label>
-          <input type="radio" name="display_control" id="display_control_yes" value="true" <%= selected_display_control_yes %> />
-          Yes</label>
-          / 
-          <input type="radio" name="display_control" id="display_control_no" value="false" <%= selected_display_control_no %> />
-          No          </p>
-        <p>If shown, Control character will be at bottom of page  
-          <label>
-          <input name="radio" type="radio" id="display_control_on_bottom_yes" value="display_control_yes" checked="checked" />
-Yes</label>
-/
-<input type="radio" name="radio" id="display_control_on_bottom_no" value="display_control_no" />
-No <br>
-        </p>
-      </blockquote>
-      
         <blockquote>Tab Heading: 
           <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
           <p>
-            <script language="javascript1.2">
-  			generate_wysiwyg('make_reflection_page_text');
+            <textarea id="text_page_text" name="text_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
+
+		<script language="javascript1.2">
+  			generate_wysiwyg('text_page_text');
 		</script>
           </p>
           <p> 
             <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+            <input type="hidden" name="universal" value="<%= pso.getMyPSO_SectionMgmt().get_universal() %>">
+            <input type="hidden" name="sending_page" value="make_text_page" />
             <input type="hidden" name="save_results" value="true" />
-            <input type="hidden" name="sending_page" value="make_cast_page" />
             <input type="submit" name="save_page" value="Save" />
             <input type="submit" name="save_and_add" value="Save and Add Section" />
           </p>

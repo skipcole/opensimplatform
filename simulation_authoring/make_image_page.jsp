@@ -6,7 +6,7 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 
-	CustomizeableSection cs = pso.handleMekeImagePage(request);
+	CustomizeableSection cs = pso.handleMakeImagePage(request);
 	
 	if (pso.forward_on){
 		pso.forward_on = false;

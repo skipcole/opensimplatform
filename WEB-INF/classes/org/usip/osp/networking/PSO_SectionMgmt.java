@@ -100,6 +100,14 @@ public class PSO_SectionMgmt {
 	 */
 	private String _universal = "";
 
+	public String get_universal() {
+		return _universal;
+	}
+
+	public void set_universal(String _universal) {
+		this._universal = _universal;
+	}
+
 	private String sending_page = "";
 	private String save_page = "";
 	private String save_and_add = "";
@@ -179,7 +187,7 @@ public class PSO_SectionMgmt {
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleCustomizeSection(String section_tag, HttpServletRequest request) {
+	public CustomizeableSection handleCustomizeSection(HttpServletRequest request) {
 
 		getSimSectionsInternalVariables(request);
 

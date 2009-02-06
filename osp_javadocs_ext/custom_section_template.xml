@@ -1,0 +1,25 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>false</hasASpecificMakePage>
+  <specificMakePage></specificMakePage>
+  <contents/>
+  <bigString>Set this to a good default value if you inted to use it, else you can leave it blank.</bigString>
+  <meta__content/>
+  <meta__data__content/>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.yourco.yourproject.ClassName</customizerClassName>
+  <creatingOrganization></creatingOrganization>
+  <uniqueName></uniqueName>
+  <version></version>
+  <description></description>
+  <url></url>
+  <directory></directory>
+  <page__file__name></page__file__name>
+  <rec__tab__heading></rec__tab__heading>
+  <sample__image></sample__image>
+  <control__section>false</control__section>
+  <cust__lib__name></cust__lib__name>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>

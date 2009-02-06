@@ -737,9 +737,9 @@ public class ParticipantSessionObject {
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleCustomizeSection(String section_tag, HttpServletRequest request) {
+	public CustomizeableSection handleCustomizeSection(HttpServletRequest request) {
 
-		return (getMyPSO_SectionMgmt().handleCustomizeSection(section_tag, request));
+		return (getMyPSO_SectionMgmt().handleCustomizeSection(request));
 	}
 
 	/**
@@ -2682,7 +2682,7 @@ public class ParticipantSessionObject {
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleMekeImagePage(HttpServletRequest request) {
+	public CustomizeableSection handleMakeImagePage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakeImagePage(request));
 	}
 

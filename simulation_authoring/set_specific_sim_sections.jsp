@@ -6,7 +6,7 @@
 
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "set_specific_sim_sections.jsp";
+	pso.backPage = pso.getBaseSimURL() + "/simulation_authoring/set_specific_sim_sections.jsp";
 	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");

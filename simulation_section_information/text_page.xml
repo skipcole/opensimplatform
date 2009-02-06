@@ -1,10 +1,12 @@
 <org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
   <creatingOrganization>org.usip.osp.</creatingOrganization>
   <uniqueName>Text Page</uniqueName>
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>make_text_page.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
   <bigString></bigString>
   <description>A page that will only display text. One of these pages can be a placeholder for pages that require more advanced programming.</description>
   <url></url>
