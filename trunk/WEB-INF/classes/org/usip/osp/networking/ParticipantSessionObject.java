@@ -1577,10 +1577,21 @@ public class ParticipantSessionObject {
 
 				if ((add_to_sim != null) && (add_to_sim.equalsIgnoreCase("true"))) {
 
+					String actors_role = (String) mpr.getParameter("actors_role");
+					String chat_color = (String) mpr.getParameter("chat_color");
+					
+					SimActorAssignment saa;
+					
 					if (!(SimActorAssignment.getActorsForSim(schema, sim_id).contains(actorOnScratchPad))) {
-
-						SimActorAssignment saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad.getId());
+						saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad.getId());
+					} else {
+						saa = SimActorAssignment.getMe(schema, sim_id, actorOnScratchPad.getId());
 					}
+					
+					saa.setActors_role(actors_role);
+					saa.setActors_chat_color(chat_color);
+					
+					saa.saveMe(schema);
 
 					SimulationSection.applyAllUniversalSections(schema, sim_id);
 

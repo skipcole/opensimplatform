@@ -46,7 +46,28 @@ public class SimActorAssignment {
     /** Unique id of this actor. */
     @Column(name = "ACTOR_ID")
     private Long actor_id;
+    
+    private String actors_role = "";
+    
+	public String getActors_role() {
+		return actors_role;
+	}
+
+	public void setActors_role(String actors_role) {
+		this.actors_role = actors_role;
+	}
 	
+	private String actors_chat_color = "";
+	
+
+	public String getActors_chat_color() {
+		return actors_chat_color;
+	}
+
+	public void setActors_chat_color(String actors_chat_color) {
+		this.actors_chat_color = actors_chat_color;
+	}
+
 	public SimActorAssignment(){
 		
 	}

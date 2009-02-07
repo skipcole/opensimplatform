@@ -98,6 +98,8 @@ public class SimulationSection {
 
 	@Column(name = "ADDED_AS_UNIV")
 	private boolean addedAsUniversalSection = false;
+	
+	private boolean removedUniversal = false;
 
 	/** Zero argument constructor needed by Hibernate. */
 	public SimulationSection() {

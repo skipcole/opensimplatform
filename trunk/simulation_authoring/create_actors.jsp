@@ -170,8 +170,7 @@ body {
             <td valign="top"><input type="text" name="actor_name" value="<%= actorOnScratchPad.getName() %>" tabindex="1" />
             <% if (actorOnScratchPad.getId() != null) { %>
             Actor Id: <%= actorOnScratchPad.getId() %>
-            <% } %>
-            </td>
+            <% } %>            </td>
           </tr>
           <!-- tr>
       <td valign="top">Non-Player Character</td>
@@ -234,10 +233,27 @@ body {
           </tr>
           <tr>
 		  	<td valign="top">&nbsp;</td>
-			<td valign="top"><label>
+			<td valign="top" bgcolor="#FFFFCC"><label>
 			  <input name="add_to_sim" type="checkbox" value="true" checked="checked" />
 		    Add</label></td>
-            <td valign="top">Add this actor to the simulation <%= simulation.getDisplayName() %></td>
+            <td valign="top" bgcolor="#FFFFCC">Add this actor to the simulation <%= simulation.getDisplayName() %></td>
+          </tr>
+          <tr>
+            <td valign="top">&nbsp;</td>
+            <td valign="top" bgcolor="#FFFFCC">Actor's Role in Sim(?)</td>
+            <td valign="top" bgcolor="#FFFFCC">
+              <textarea name="actors_role" id="actors_role"  style="height: 120px; width: 480px;" ><% if ((actorOnScratchPad.getId() != null) && (simulation.getId() != null) ) { %><%= actorOnScratchPad.getRole(pso.schema, simulation.getId()) %><% } %>
+              </textarea>            </td>
+          </tr>
+          <tr>
+            <td valign="top">&nbsp;</td>
+            <td valign="top" bgcolor="#FFFFCC">Chat Color(?)</td>
+            <td valign="top" bgcolor="#FFFFCC"><select name="chat_color" >
+      <option value="ffffff">White</option>
+	  <option value="ffdddd">Light Red</option>
+	  <option value="ddffdd">Light Green</option>
+	  <option value="ddddff">Light Blue</option>
+</select> </td>
           </tr>
 		  <% } %>
           <tr> 
@@ -263,9 +279,7 @@ body {
                 	<input type="submit"  name="update_actor" value="Update Actor" /> 
                 <%
 					}
-				%>
-      
-              </td>
+				%>              </td>
           </tr>
         </table>
   <p> 

@@ -348,5 +348,13 @@ public class Actor {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
     
+	public String getRole(String schema, Long sim_id){
+		
+		SimActorAssignment saa = SimActorAssignment.getMe(schema, sim_id, this.id);
+		
+		return saa.getActors_role();
+		
+	}
+	
     
 } // End of actor

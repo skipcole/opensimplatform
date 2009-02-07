@@ -7,7 +7,7 @@
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
-  <bigString></bigString>
+  <bigString>Below are listed alphabetically all of the current Actors that you can see.</bigString>
   <description>A section to allow players see public information about other actors in this simulation.</description>
   <url></url>
   <directory>../osp_core/</directory>

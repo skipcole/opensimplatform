@@ -166,8 +166,23 @@ No <br>
         </p>
       </blockquote>
       
-        <blockquote>Tab Heading: 
-          <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
+        <blockquote>
+          <p>Tab Heading: 
+            <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
+          </p>
+          <table width="100%" border="1" cellspacing="0">
+            <tr>
+              <td valign="top">&nbsp;</td>
+              <td valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td valign="top">Page Introduction</td>
+              <td valign="top"><label>
+                <textarea name="textarea" id="textarea" cols="45" rows="5"><%= cs.getBigString() %></textarea>
+              </label></td>
+            </tr>
+          </table>
+          <p>&nbsp;</p>
           <p>
             <script language="javascript1.2">
   			generate_wysiwyg('make_reflection_page_text');
