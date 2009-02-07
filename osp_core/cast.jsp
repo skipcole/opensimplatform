@@ -40,12 +40,13 @@
 <head>
 <title>Create Actor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <h1>Cast</h1>
 
-<p>Below are listed alphabetically all of the current Actors that you can see.</p>
+<p><%= cs.getBigString() %></p>
 <p>&nbsp;</p>
 <blockquote>
 
@@ -54,28 +55,55 @@
 <td width=50><strong>Picture/Name</strong></td>
 <td><strong>Description</strong></td>
 </tr>
+
+  <tr>
+    <td valign="top" width="200"><img src="images/actors/<%= this_actor.getImageFilename() %>" width="200"  ><br><%= this_actor.getName() %></td>
+    <td valign="top">
+    <p><strong>Public Description</strong>
+    <%= this_actor.getPublic_description() %></p>
+
+    <p><strong>Semi-public Description</strong><br>
+	<%= this_actor.getSemi_public_description() %></p>
+
+	<p><strong>Private Description</strong> <br>
+	<%= this_actor.getPrivate_description() %>  
+    </td>
+  </tr>
+
   <%
   		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 			Actor aa = (Actor) li.next();
+			
+			boolean showSemiPublic = false;
+			boolean showPrivate = false;
+			
+			if (!(aa.getId().equals(pso.actor_id))) {
 			
 			if ((showControl) || (!(aa.isControl_actor()))) {
 		%>
   <tr>
     <td valign="top" width="200"><img src="images/actors/<%= aa.getImageFilename() %>" width="200"  ><br><%= aa.getName() %></td>
-    <td valign="top"><p><%= aa.getPublic_description() %>
-    <% if (this_actor.isControl_actor()) { %>
-    <BR><strong>Semi-public Description</strong><br>
-<%= aa.getSemi_public_description() %>
-<BR><strong>Private Description</strong> <br>
-<%= aa.getPrivate_description() %>  
-    <% 
-		} // End of if not control actor
-	} %>
+    <td valign="top">
+    	<p><strong>Public Description</strong>
+    	<%= aa.getPublic_description() %></p>
+    
+    <% if (showSemiPublic) { %>
+    	<p><strong>Semi-public Description</strong><br>
+		<%= aa.getSemi_public_description() %></p>
+	<% } %>
+    
+    <% if (showPrivate) { %>
+		<p><strong>Private Description</strong> <br>
+		<%= aa.getPrivate_description() %>  
+    <% } %>
     </td>
   </tr>
 
   <%
-	}
+		} // End of don't show control if it is not desired.
+	} // End of don't show the same actor as this player is playing.
+	
+	} // End of loop over actors
 %>
 </table>
 </blockquote>
