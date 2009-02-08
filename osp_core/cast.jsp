@@ -47,10 +47,9 @@
 <h1>Cast</h1>
 
 <p><%= cs.getBigString() %></p>
-<p>&nbsp;</p>
 <blockquote>
-
-<table width="80%" border="1">
+  <h2>You</h2>
+  <table width="80%" border="1">
 <tr>
 <td width=50><strong>Picture/Name</strong></td>
 <td><strong>Description</strong></td>
@@ -59,17 +58,25 @@
   <tr>
     <td valign="top" width="200"><img src="images/actors/<%= this_actor.getImageFilename() %>" width="200"  ><br><%= this_actor.getName() %></td>
     <td valign="top">
-    <p><strong>Public Description</strong>
-    <%= this_actor.getPublic_description() %></p>
-
-    <p><strong>Semi-public Description</strong><br>
+    <p><strong>Your Role</strong><br />
+    	<%= this_actor.getRole(pso.schema, pso.sim_id) %></p>
+    <p><strong>Public Description</strong><br />
+        <%= this_actor.getPublic_description() %></p>
+    <p><strong>Semi-public Description</strong><br />
 	<%= this_actor.getSemi_public_description() %></p>
 
 	<p><strong>Private Description</strong> <br>
-	<%= this_actor.getPrivate_description() %>  
-    </td>
+	<%= this_actor.getPrivate_description() %>  </p>    </td>
   </tr>
-
+  </table>
+  
+<p>&nbsp;</p>
+<h2>Others</h2>
+<table width="90%" border="1">
+<tr>
+<td width=50><strong>Picture/Name</strong></td>
+<td><strong>Description</strong></td>
+</tr>
   <%
   		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 			Actor aa = (Actor) li.next();

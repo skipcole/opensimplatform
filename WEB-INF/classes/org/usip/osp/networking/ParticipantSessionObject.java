@@ -1471,13 +1471,14 @@ public class ParticipantSessionObject {
 
 				actor_id = new Long((String) mpr.getParameter("actorid"));
 
-				Actor actorOnScratchPad = new Actor();
-				actorOnScratchPad.setId(actor_id);
+				Actor actorOnScratchPad = Actor.getMe(schema, actor_id);
 
 				createActor(mpr, actorOnScratchPad);
 
 			} else if ((create_actor != null) && (create_actor.equalsIgnoreCase("Create Actor"))) {
-				createActor(mpr, new Actor());
+				Actor newActor = new Actor();
+				newActor.setImageFilename("no_image_default.jpg");
+				createActor(mpr, newActor);
 
 			} else if ((clear_button != null) && (clear_button.equalsIgnoreCase("Clear"))) {
 				actor_id = null;
@@ -1542,7 +1543,7 @@ public class ParticipantSessionObject {
 				String initFileName = mpr.getOriginalFileName("uploadedfile");
 
 				if ((initFileName != null) && (initFileName.trim().length() > 0)) {
-
+								
 					actorOnScratchPad.setImageFilename(mpr.getOriginalFileName("uploadedfile"));
 
 					for (Enumeration e = mpr.getFileNames(); e.hasMoreElements();) {
@@ -1560,8 +1561,6 @@ public class ParticipantSessionObject {
 						}
 					}
 
-				} else {
-					actorOnScratchPad.setImageFilename("no_image_default.jpg");
 				}
 
 				// ////////////////////////////////////////////
@@ -1600,7 +1599,6 @@ public class ParticipantSessionObject {
 				this.actor_name = actorOnScratchPad.getName();
 				this.actor_id = actorOnScratchPad.getId();
 
-				// MultiSchemaHibernateUtil.getSession(schema).evict(actorOnScratchPad);
 
 			}
 		} catch (Exception e) {

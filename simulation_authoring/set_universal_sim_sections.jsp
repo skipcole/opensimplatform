@@ -288,7 +288,7 @@ body {
                   
                 <td><!-- a href="set_universal_sim_sections.jsp?exchange=true&first_sec=< % = first_ss %>&sec_sec=< % = sec_ss %>" -->-<!-- /a--></td>
                   <% } %>
-                  <td><a href="#"><%= ss.getTab_heading() %></a></td>
+                  <td><a href="show_section_preview.jsp?sec_id=<%= sec_ss %>"><%= ss.getTab_heading() %></a></td>
                   <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
                   <td>-</td>
                   <% } %>

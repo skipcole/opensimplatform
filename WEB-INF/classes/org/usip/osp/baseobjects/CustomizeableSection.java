@@ -230,6 +230,14 @@ public class CustomizeableSection extends BaseSimSection {
 		return cs;
 		
 	}
+	
+	public String simImage(String baseWebDirectory){
+		String imageName = (String) getContents().get("image_file_name");
+		String fullfilename = baseWebDirectory + "/simulation/images/" + imageName;
+	
+		return fullfilename;
+		
+	}
     
     public void save(String schema){
         MultiSchemaHibernateUtil.beginTransaction(schema);
