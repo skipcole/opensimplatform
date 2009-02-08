@@ -1,23 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-
-	String sending_page = (String) request.getParameter("sending_page");
-	String submit_new_image_page = (String) request.getParameter("submit_new_image_page");
 	
-	///////////////////////////////////
+	String sim_id = (String) request.getParameter("sim_id");
+	String actor_id = (String) request.getParameter("actor_id");
 	
-	String debug = "";
+	SimActorAssignment saa = SimActorAssignment.getMe(pso.schema, new Long(sim_id), new Long(actor_id));
 	
-	List simImagePages = pso.simulation.getImage_pages();
-
-	//////////////////////////////////
-	
-
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -126,85 +119,28 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Create Placeholder / Image Page</h1>
-      <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" --> 
-<p><%= Debug.getDebug(debug) %></p>
-      <blockquote>
-        <p>Current images pages for the Simulation <%= pso.simulation.getDisplayName() %>:</p>
-        <blockquote>
-          <p>
-            <% if (simImagePages.size() == 0) { %>
-          </p>
-        </blockquote>
-        <ul>
-          <li>None
-            <p>
-              <% } %>
-              <% for (ListIterator li = simImagePages.listIterator(); li.hasNext();) {
-					IntVariable iv = (IntVariable) li.next();
-	%>
-            </p>
-          </li>
-          <li><a href="sf_image_page.jsp?edit_sv=true&amp;sf_id=<%= iv.getid() %>"><%= iv.getName() %></a>
-		  <a href="delete_object.jsp?object_type=sf_var_int&amp;objid=<%= iv.getid() %>&amp;backpage=sf_image_page.jsp&amp;object_info=&quot;<%= iv.getname() %>&quot;"> 
-              (Remove) <%= iv.getName() %> </a>
-            <p>
-              <% } %>
-            </p>
-          </li>
-        </ul>
-        <p>Add an image page</p>
-      </blockquote>
-	        <form enctype="multipart/form-data" action="jsp_image_page_uploader.jsp" method="post" name="form1" id="form1">
-        <input type="hidden" name="sending_page" value="add_image_page" />
-        <table width="100%" border="0" cellspacing="2" cellpadding="2">
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Internal Name:</td>
-            <td valign="top"> <input type="text" name="section_short_name" /></td>
+      <h1>Actor <%= actor_id %> in  Simulation <%= sim_id %></h1>
+    <!-- InstanceEndEditable --><br />
+			<!-- InstanceBeginEditable name="pageBody" -->
+      <table width="100%" border="0" cellspacing="2" cellpadding="2">
+
+        <form action="assign_actor_to_simulation.jsp" method="post" name="form1" id="form1">
+          <tr valign="top">
+            <td>Role:</td>
+            <td><label>
+              <textarea name="textarea" id="textarea" cols="45" rows="5"><%= saa.getActors_role() %></textarea>
+            </label></td>
           </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Page Tab Heading:</td>
-            <td valign="top"> <input type="text" name="page_tab_heading" /></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Page Title:</td>
-            <td valign="top"> <input type="text" name="page_title" /></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Description Text</td>
-            <td valign="top"> <textarea name="page_description" cols="40" rows="2"></textarea></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">Image File:</td>
-            <td valign="top"> <input type="hidden" name="MAX_FILE_SIZE" value="400000" /> 
-              <input name="uploadedfile" type="file" /></td>
-          </tr>
-          <tr> 
-            <td colspan="3" valign="top"></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td valign="top">&nbsp;</td>
-            <td valign="top">&nbsp;</td>
-          </tr>
-          <tr> 
+          <tr valign="top">
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td><input type="submit" name="submit_new_image_page" value="Submit" /></td>
           </tr>
-        </table>
-        <p>&nbsp;</p>
-      </form>
-      <p align="center"><a href="incorporate_underlying_model.jsp">Back to Add Special 
-        Features</a></p>
+        </form>
+      </table>
+
       <p>&nbsp;</p>
-      <!-- InstanceEndEditable -->
+		
+	  <a href="assign_actor_to_simulation.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>      <!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>
@@ -222,3 +158,6 @@ body {
 <p align="center">&nbsp;</p>
 </body>
 <!-- InstanceEnd --></html>
+<%
+	
+%>

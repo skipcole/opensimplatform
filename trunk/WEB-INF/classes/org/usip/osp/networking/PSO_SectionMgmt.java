@@ -33,7 +33,7 @@ import com.oreilly.servlet.MultipartRequest;
  * 
  */
 public class PSO_SectionMgmt {
-	
+
 	private Long phase_being_worked_on_id;
 
 	/** Index of actor being worked on in simulation creation wizard */
@@ -111,7 +111,7 @@ public class PSO_SectionMgmt {
 	private String sending_page = "";
 	private String save_page = "";
 	private String save_and_add = "";
-	
+
 	/**
 	 * 
 	 * @param request
@@ -120,15 +120,14 @@ public class PSO_SectionMgmt {
 
 		_actor_index = setIfPassedIn(_actor_index, request, "actor_index");
 		_bss_id = setIfPassedIn(_bss_id, request, "bss_id");
-		_custom_section_id = setIfPassedIn(_custom_section_id, request,
-				"custom_page");
+		_custom_section_id = setIfPassedIn(_custom_section_id, request, "custom_page");
 		_command = setIfPassedIn(_command, request, "command");
 		_page_id = setIfPassedIn(_page_id, request, "page_id");
 		_phase_id = setIfPassedIn(_phase_id, request, "phase_id");
 		_tab_heading = setIfPassedIn(_tab_heading, request, "tab_heading");
 		_tab_pos = setIfPassedIn(_tab_pos, request, "tab_pos");
 		_universal = setIfPassedIn(_universal, request, "universal");
-		
+
 		// Don't store these, just get them if passed in.
 		sending_page = (String) request.getParameter("sending_page");
 		save_page = (String) request.getParameter("save_page");
@@ -143,13 +142,11 @@ public class PSO_SectionMgmt {
 	 * @param parameter_name
 	 * @return
 	 */
-	public String setIfPassedIn(String original, HttpServletRequest request,
-			String parameter_name) {
+	public String setIfPassedIn(String original, HttpServletRequest request, String parameter_name) {
 
 		String new_string = (String) request.getParameter(parameter_name);
 
-		if ((new_string != null) && (new_string.length() > 0)
-				&& (!(new_string.equalsIgnoreCase("null")))) {
+		if ((new_string != null) && (new_string.length() > 0) && (!(new_string.equalsIgnoreCase("null")))) {
 			return new_string;
 		} else {
 			return original;
@@ -180,9 +177,10 @@ public class PSO_SectionMgmt {
 		pso.phaseSelected = true;
 
 	}
-	
+
 	/**
-	 * This handles 
+	 * This handles
+	 * 
 	 * @param section_tag
 	 * @param request
 	 * @return
@@ -192,14 +190,13 @@ public class PSO_SectionMgmt {
 		getSimSectionsInternalVariables(request);
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
-		
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))) {
+
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))) {
 			// If this is the original custom page, make a new page
 
 			makeCopyOfCustomizedSectionIfNeeded();
 
-			if (customizableSectionOnScratchPad.isHasCustomizer()){
+			if (customizableSectionOnScratchPad.isHasCustomizer()) {
 				try {
 					Class classDefinition = Class.forName(customizableSectionOnScratchPad.getCustomizerClassName());
 					customizableSectionOnScratchPad.setMyCustomizer((Customizer) classDefinition.newInstance());
@@ -210,19 +207,20 @@ public class PSO_SectionMgmt {
 				} catch (ClassNotFoundException er) {
 					System.out.println(er);
 				}
-				
-				customizableSectionOnScratchPad.getMyCustomizer().handleCustomizeSection(request, pso, customizableSectionOnScratchPad);
-			
+
+				customizableSectionOnScratchPad.getMyCustomizer().handleCustomizeSection(request, pso,
+						customizableSectionOnScratchPad);
+
 			}
-			
+
 			// Update page values
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
 			if (save_and_add != null) {
 				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), _tab_pos, _tab_heading, request, _universal);
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
+						request, _universal);
 				// send them back
 				pso.forward_on = true;
 				return customizableSectionOnScratchPad;
@@ -232,7 +230,7 @@ public class PSO_SectionMgmt {
 		} // End of if this is the make_write_news_page
 
 		return customizableSectionOnScratchPad;
-		
+
 	}
 
 	/**
@@ -261,8 +259,7 @@ public class PSO_SectionMgmt {
 	 * @param request
 	 * @return
 	 */
-	public Simulation handleSetUniversalSimSectionsPage(
-			HttpServletRequest request) {
+	public Simulation handleSetUniversalSimSectionsPage(HttpServletRequest request) {
 
 		getSimSectionsInternalVariables(request);
 
@@ -272,9 +269,8 @@ public class PSO_SectionMgmt {
 
 		pso.actor_being_worked_on_id = new Long(0);
 
-		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(
-				pso.schema, pso.sim_id, pso.actor_being_worked_on_id,
-				phase_being_worked_on_id);
+		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id,
+				pso.actor_being_worked_on_id, phase_being_worked_on_id);
 
 		return simulation;
 	}
@@ -324,12 +320,10 @@ public class PSO_SectionMgmt {
 		Actor this_actor;
 
 		if (simulation.getActors(pso.schema).size() > 0) {
-			this_actor = (Actor) simulation.getActors(pso.schema).get(
-					currentActorIndex - 1);
+			this_actor = (Actor) simulation.getActors(pso.schema).get(currentActorIndex - 1);
 			pso.actor_being_worked_on_id = this_actor.getId();
 		} else {
-			System.out
-					.println("Warning! This simulation appears to have no actors.");
+			System.out.println("Warning! This simulation appears to have no actors.");
 		}
 
 		System.out.println("actor id is " + pso.actor_being_worked_on_id);
@@ -349,16 +343,11 @@ public class PSO_SectionMgmt {
 				System.out.println("doing something on index = " + m_index);
 
 				int int_tab_pos = new Long(m_index).intValue() + 1;
-				SimulationSection ss0 = SimulationSection
-						.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
-								new Long(pso.actor_being_worked_on_id),
-								new Long(phase_being_worked_on_id), int_tab_pos);
+				SimulationSection ss0 = SimulationSection.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
+						new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), int_tab_pos);
 
-				SimulationSection ss1 = SimulationSection
-						.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
-								new Long(pso.actor_being_worked_on_id),
-								new Long(phase_being_worked_on_id),
-								int_tab_pos + 1);
+				SimulationSection ss1 = SimulationSection.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
+						new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), int_tab_pos + 1);
 
 				ss0.setTab_position(int_tab_pos + 1);
 				ss1.setTab_position(int_tab_pos);
@@ -378,16 +367,11 @@ public class PSO_SectionMgmt {
 				System.out.println("doing something on index = " + m_index);
 
 				int int_tab_pos = new Long(m_index).intValue() + 1;
-				SimulationSection ss0 = SimulationSection
-						.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
-								new Long(pso.actor_being_worked_on_id),
-								new Long(phase_being_worked_on_id), int_tab_pos);
+				SimulationSection ss0 = SimulationSection.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
+						new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), int_tab_pos);
 
-				SimulationSection ss1 = SimulationSection
-						.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
-								new Long(pso.actor_being_worked_on_id),
-								new Long(phase_being_worked_on_id),
-								int_tab_pos - 1);
+				SimulationSection ss1 = SimulationSection.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
+						new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), int_tab_pos - 1);
 
 				ss0.setTab_position(int_tab_pos - 1);
 				ss1.setTab_position(int_tab_pos);
@@ -404,12 +388,10 @@ public class PSO_SectionMgmt {
 			}
 		}
 
-		System.out.println("getting simSecList for s/a/p:   " + pso.sim_id
-				+ "/" + pso.actor_being_worked_on_id + "/"
+		System.out.println("getting simSecList for s/a/p:   " + pso.sim_id + "/" + pso.actor_being_worked_on_id + "/"
 				+ phase_being_worked_on_id);
-		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(
-				pso.schema, pso.sim_id, pso.actor_being_worked_on_id,
-				phase_being_worked_on_id);
+		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id,
+				pso.actor_being_worked_on_id, phase_being_worked_on_id);
 
 		return simulation;
 	}
@@ -435,29 +417,24 @@ public class PSO_SectionMgmt {
 
 		if (_command.equalsIgnoreCase("Add Section")) {
 
-			if (bss.getClass().getName().equalsIgnoreCase(
-					"org.usip.osp.baseobjects.BaseSimSection")) {
+			if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.BaseSimSection")) {
 				// Here we add the class straight away.
 				addSectionFromRouter(request);
 
 				return pso.backPage;
 
-			} else if (bss.getClass().getName().equalsIgnoreCase(
-					"org.usip.osp.baseobjects.CustomizeableSection")) {
+			} else if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.CustomizeableSection")) {
 
 				_custom_section_id = _bss_id;
 
 				bss = null;
 
-				CustomizeableSection cbss = CustomizeableSection.getMe(
-						pso.schema, _bss_id);
+				CustomizeableSection cbss = CustomizeableSection.getMe(pso.schema, _bss_id);
 
 				if (!cbss.isHasASpecificMakePage()) {
-					return ("customize_page.jsp?custom_page=" + new Long(
-							_bss_id));
+					return ("customize_page.jsp?custom_page=" + new Long(_bss_id));
 				} else {
-					return (cbss.getSpecificMakePage() + "?custom_page=" + new Long(
-							_bss_id));
+					return (cbss.getSpecificMakePage() + "?custom_page=" + new Long(_bss_id));
 				}
 
 			}
@@ -480,29 +457,26 @@ public class PSO_SectionMgmt {
 		if ((_universal != null) && (_universal.equalsIgnoreCase("true"))) {
 			universal = true;
 		}
-		
+
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
 
-		System.out.println("schema: " + pso.schema + ", sim_id: " + pso.sim_id
-				+ ", a_id: " + pso.actor_being_worked_on_id + ", phase_id:"
-				+ phase_being_worked_on_id + ", bss_id: " + _bss_id
+		System.out.println("schema: " + pso.schema + ", sim_id: " + pso.sim_id + ", a_id: "
+				+ pso.actor_being_worked_on_id + ", phase_id:" + phase_being_worked_on_id + ", bss_id: " + _bss_id
 				+ ", tab heading: " + _tab_heading + ", tab pos: " + _tab_pos);
 
 		System.out.flush();
 
 		Long this_tab_pos = getTabPos();
 
-		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id,
-				new Long(pso.actor_being_worked_on_id), new Long(
-						phase_being_worked_on_id), new Long(_bss_id),
-				_tab_heading, this_tab_pos.intValue());
+		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
+				new Long(phase_being_worked_on_id), new Long(_bss_id), _tab_heading, this_tab_pos.intValue());
 
 		if (universal) {
 			System.out.println("applying universal page");
 			Simulation simulation = pso.giveMeSim();
-			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema,
-					simulation.getId(), phase_being_worked_on_id);
+			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema, simulation.getId(),
+					phase_being_worked_on_id);
 		}
 
 	}
@@ -519,12 +493,9 @@ public class PSO_SectionMgmt {
 			this_tab_pos = new Long(_tab_pos);
 		} catch (NumberFormatException nfe) {
 
-			this_tab_pos = SimulationSection.getHighestBySimAndActorAndPhase(
-					pso.schema, pso.sim_id, new Long(
-							pso.actor_being_worked_on_id), new Long(
-							phase_being_worked_on_id));
-			System.out.println("problem converting tab position: "
-					+ nfe.getMessage());
+			this_tab_pos = SimulationSection.getHighestBySimAndActorAndPhase(pso.schema, pso.sim_id, new Long(
+					pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id));
+			System.out.println("problem converting tab position: " + nfe.getMessage());
 		}
 
 		return this_tab_pos;
@@ -532,29 +503,27 @@ public class PSO_SectionMgmt {
 
 	/**
 	 * Adds a section coming from a 'customize' page.
+	 * 
 	 * @param bss_id
 	 * @param string_tab_pos
 	 * @param tab_heading
 	 * @param request
 	 * @param universal
 	 */
-	public void addSectionFromProcessCustomPage(Long bss_id,
-			String string_tab_pos, String tab_heading,
+	public void addSectionFromProcessCustomPage(Long bss_id, String string_tab_pos, String tab_heading,
 			HttpServletRequest request, String universal) {
 
 		System.out.println("bss_id " + bss_id);
 		System.out.println("tabhead " + tab_heading);
 		System.out.println("universal " + universal);
 
-		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id,
-				new Long(pso.actor_being_worked_on_id), new Long(
-						phase_being_worked_on_id), new Long(bss_id),
-				tab_heading, getTabPos().intValue());
+		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
+				new Long(phase_being_worked_on_id), new Long(bss_id), tab_heading, getTabPos().intValue());
 
 		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
 			System.out.println("applying sim sections on phase: " + phase_being_worked_on_id);
-			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema,
-					pso.sim_id, phase_being_worked_on_id);
+			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema, pso.sim_id,
+					phase_being_worked_on_id);
 		}
 
 	}
@@ -565,8 +534,7 @@ public class PSO_SectionMgmt {
 		return customizableSectionOnScratchPad;
 	}
 
-	public void setCustomizableSectionOnScratchPad(
-			CustomizeableSection customizableSectionOnScratchPad) {
+	public void setCustomizableSectionOnScratchPad(CustomizeableSection customizableSectionOnScratchPad) {
 		this.customizableSectionOnScratchPad = customizableSectionOnScratchPad;
 	}
 
@@ -576,37 +544,32 @@ public class PSO_SectionMgmt {
 	 * 
 	 * @param request
 	 */
-	public CustomizeableSection handleMakeReflectionPage(
-			HttpServletRequest request) {
+	public CustomizeableSection handleMakeReflectionPage(HttpServletRequest request) {
 
 		getSimSectionsInternalVariables(request);
 
 		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(pso.schema).get(CustomizeableSection.class,
-						new Long(_custom_section_id));
+		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(
+				CustomizeableSection.class, new Long(_custom_section_id));
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 
-				&& (sending_page.equalsIgnoreCase("make_reflection_page"))) {
+		&& (sending_page.equalsIgnoreCase("make_reflection_page"))) {
 			// If this is the original custom page, make a new page
 
 			makeCopyOfCustomizedSectionIfNeeded();
 
 			// Update page values
-			String make_reflection_page_text = (String) request
-					.getParameter("make_reflection_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_reflection_page_text);
+			String make_reflection_page_text = (String) request.getParameter("make_reflection_page_text");
+			customizableSectionOnScratchPad.setBigString(make_reflection_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
 			if (save_and_add != null) {
 				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), _tab_pos, _tab_heading, request, _universal);
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
+						request, _universal);
 				// send them back
 				pso.forward_on = true;
 				return customizableSectionOnScratchPad;
@@ -638,47 +601,37 @@ public class PSO_SectionMgmt {
 	 * 
 	 * @param request
 	 */
-	public CustomizeableSection handleMakeWriteDocumentPage(
-			HttpServletRequest request) {
+	public CustomizeableSection handleMakeWriteDocumentPage(HttpServletRequest request) {
 
 		this.getSimSectionsInternalVariables(request);
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(
-				pso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
 
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 				&& (sending_page.equalsIgnoreCase("make_write_document_page"))) {
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(pso.schema);
-				_custom_section_id = customizableSectionOnScratchPad.getId()
-						+ "";
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
+				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
 			}
 
 			// Update values based on those passed in
-			String make_write_document_page_text = (String) request
-					.getParameter("make_write_document_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_write_document_page_text);
+			String make_write_document_page_text = (String) request.getParameter("make_write_document_page_text");
+			customizableSectionOnScratchPad.setBigString(make_write_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
-			
-			//String doc_title = (String) request.getParameter("doc_title");
-			String _doc_string = (String) request
-					.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
+			// String doc_title = (String) request.getParameter("doc_title");
+			String _doc_string = (String) request.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 
 			// Get the document associated with this customized section
 			try {
 				Long doc_id = new Long(_doc_string);
 
-				customizableSectionOnScratchPad.getContents().put(
-						SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_string);
+				customizableSectionOnScratchPad.getContents().put(SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_string);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -688,7 +641,8 @@ public class PSO_SectionMgmt {
 
 			if (save_and_add != null) {
 				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request, _universal);
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
+						request, _universal);
 				// send them back
 				pso.forward_on = true;
 			}
@@ -708,8 +662,7 @@ public class PSO_SectionMgmt {
 
 		ArrayList<Long> playersWithChat = new ArrayList<Long>();
 
-		if ((sending_page != null)
-				&& (sending_page.equalsIgnoreCase("make_private_chat_page"))) {
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))) {
 
 			// ////////////////////////////////////////////////////
 			// Get the simulation we are working on
@@ -722,17 +675,15 @@ public class PSO_SectionMgmt {
 			// Pull this custom page out of the database based on its id.
 			_custom_section_id = request.getParameter("custom_page");
 			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-					.getSession(pso.schema).get(CustomizeableSection.class,
-							new Long(_custom_section_id));
+			customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema)
+					.get(CustomizeableSection.class, new Long(_custom_section_id));
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
 			// Delete all private conversations for this simulation since we
 			// recreate them below.
 			Conversation.deleteAllPrivateChatForSim(pso.schema, pso.sim_id);
 
-			for (Enumeration<String> e = request.getParameterNames(); e
-					.hasMoreElements();) {
+			for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
 				String pname = (String) e.nextElement();
 
 				String vname = (String) request.getParameter(pname);
@@ -745,8 +696,7 @@ public class PSO_SectionMgmt {
 
 					String f_actor = str.nextToken();
 					String s_actor = str.nextToken();
-					System.out.println("setting up actors " + f_actor + " and "
-							+ s_actor);
+					System.out.println("setting up actors " + f_actor + " and " + s_actor);
 
 					try {
 						Long actorWithChat = new Long(f_actor);
@@ -780,10 +730,8 @@ public class PSO_SectionMgmt {
 						conv.setConv_actor_assigns(al);
 
 						MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-						MultiSchemaHibernateUtil.getSession(pso.schema)
-								.saveOrUpdate(conv);
-						MultiSchemaHibernateUtil
-								.commitAndCloseTransaction(pso.schema);
+						MultiSchemaHibernateUtil.getSession(pso.schema).saveOrUpdate(conv);
+						MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
 					} catch (Exception er) {
 						er.printStackTrace();
@@ -800,10 +748,8 @@ public class PSO_SectionMgmt {
 				System.out.println("this: " + this);
 				System.out.println("csosp: " + customizableSectionOnScratchPad);
 
-				SimulationSection.applySectionToSpecificActors(pso.schema, sim,
-						this.phase_being_worked_on_id,
-						customizableSectionOnScratchPad.getId(), _tab_heading,
-						playersWithChat);
+				SimulationSection.applySectionToSpecificActors(pso.schema, sim, this.phase_being_worked_on_id,
+						customizableSectionOnScratchPad.getId(), _tab_heading, playersWithChat);
 				// send them back
 				pso.forward_on = true;
 			}
@@ -821,27 +767,22 @@ public class PSO_SectionMgmt {
 
 		this.getSimSectionsInternalVariables(request);
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(
-				pso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
 
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 
-				&& (sending_page.equalsIgnoreCase("make_read_document_page"))) {
+		&& (sending_page.equalsIgnoreCase("make_read_document_page"))) {
 
 			// If this is the original custom page, make a new page
 
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(pso.schema);
-				_custom_section_id = customizableSectionOnScratchPad.getId()
-						+ "";
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
+				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
 			}
 
-			String _doc_ids = (String) request
-					.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
+			String _doc_ids = (String) request.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 
 			System.out.println("Got Document ids!!!!!: " + _doc_ids);
 
@@ -853,21 +794,18 @@ public class PSO_SectionMgmt {
 				System.out.println("found token for: " + nextToken);
 			}
 
-			customizableSectionOnScratchPad.getContents().put(
-					SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_ids);
+			customizableSectionOnScratchPad.getContents().put(SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_ids);
 
 			// Update page values
-			String make_read_document_page_text = (String) request
-					.getParameter("make_read_document_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_read_document_page_text);
+			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
+			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
 			if (save_and_add != null) {
 				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), _tab_pos, _tab_heading, request, _universal);
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
+						request, _universal);
 				// send them back
 				pso.forward_on = true;
 			}
@@ -899,72 +837,60 @@ public class PSO_SectionMgmt {
 		// Pull this custom page out of the database based on its id.
 		_custom_section_id = request.getParameter("custom_page");
 		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(pso.schema).get(CustomizeableSection.class,
-						new Long(_custom_section_id));
+		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(
+				CustomizeableSection.class, new Long(_custom_section_id));
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
 		// ////////////////////////////////////////////////////////////
 		// if we are saving this page
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 				&& (sending_page.equalsIgnoreCase("make_caucus_page"))) {
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(pso.schema);
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
 
 				Conversation conv = new Conversation();
 				conv.setSim_id(pso.sim_id);
 				conv.setConversation_name(_tab_heading);
 				conv.save(pso.schema, pso.sim_id);
-				customizableSectionOnScratchPad.getContents().put(
-						"sim_conv_id", conv.getId());
+				customizableSectionOnScratchPad.getContents().put("sim_conv_id", conv.getId());
 
 				sim_conv_id = conv.getId();
 
-				_custom_section_id = customizableSectionOnScratchPad.getId()
-						+ "";
+				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 
 			} else { // This must not be the original template sim section.
 
-				sim_conv_id = (Long) customizableSectionOnScratchPad
-						.getContents().get("sim_conv_id");
+				sim_conv_id = (Long) customizableSectionOnScratchPad.getContents().get("sim_conv_id");
 
 				// If this is a customized page, but belongs to a different sim,
 				// then make a copy
 				try {
 
 					MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-					Conversation conv = (Conversation) MultiSchemaHibernateUtil
-							.getSession(pso.schema).get(Conversation.class,
-									sim_conv_id);
+					Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(pso.schema).get(
+							Conversation.class, sim_conv_id);
 
 					if (!(conv.getSim_id().equals(pso.sim_id))) {
-						customizableSectionOnScratchPad = customizableSectionOnScratchPad
-								.makeCopy(pso.schema);
+						customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
 
 						conv = new Conversation();
 						conv.setSim_id(pso.sim_id);
 
 						conv.save(pso.schema, pso.sim_id);
 
-						customizableSectionOnScratchPad.getContents().put(
-								"sim_conv_id", conv.getId());
+						customizableSectionOnScratchPad.getContents().put("sim_conv_id", conv.getId());
 
-						_custom_section_id = customizableSectionOnScratchPad
-								.getId()
-								+ "";
+						_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 					}
 
 					conv.setConversation_name(_tab_heading);
 					conv.save(pso.schema, pso.sim_id);
 					sim_conv_id = conv.getId();
 
-					MultiSchemaHibernateUtil
-							.commitAndCloseTransaction(pso.schema);
+					MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -973,33 +899,27 @@ public class PSO_SectionMgmt {
 
 			// /////////////////////////////////////////////////////////////////
 			// Update page values
-			String text_page_text = (String) request
-					.getParameter("text_page_text");
+			String text_page_text = (String) request.getParameter("text_page_text");
 			customizableSectionOnScratchPad.setBigString(text_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 
-			sim_conv_id = (Long) customizableSectionOnScratchPad.getContents()
-					.get("sim_conv_id");
+			sim_conv_id = (Long) customizableSectionOnScratchPad.getContents().get("sim_conv_id");
 
 			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			Conversation conv = (Conversation) MultiSchemaHibernateUtil
-					.getSession(pso.schema)
-					.get(Conversation.class, sim_conv_id);
+			Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Conversation.class,
+					sim_conv_id);
 			conv.setConv_actor_assigns(new ArrayList());
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
-			for (Enumeration e = request.getParameterNames(); e
-					.hasMoreElements();) {
+			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
 				String param_name = (String) e.nextElement();
 
 				if (param_name.startsWith("actor_cb_")) {
 					if ((request.getParameter(param_name) != null)
-							&& (request.getParameter(param_name)
-									.equalsIgnoreCase("true"))) {
-						String this_a_id = param_name.replaceFirst("actor_cb_",
-								"");
-						System.out.println("adding " + this_a_id + " in schema"
-								+ pso.schema + " to sim_id " + pso.sim_id);
+							&& (request.getParameter(param_name).equalsIgnoreCase("true"))) {
+						String this_a_id = param_name.replaceFirst("actor_cb_", "");
+						System.out.println("adding " + this_a_id + " in schema" + pso.schema + " to sim_id "
+								+ pso.sim_id);
 						conv.addActor(this_a_id, pso.schema, pso.sim_id);
 					}
 				}
@@ -1014,10 +934,8 @@ public class PSO_SectionMgmt {
 			if (save_and_add != null) {
 
 				// add section to the applicable actors
-				SimulationSection.applySectionsToSomeActors(pso.schema, sim,
-						this.phase_being_worked_on_id,
-						customizableSectionOnScratchPad.getId(), _tab_heading,
-						conv.getConv_actor_assigns());
+				SimulationSection.applySectionsToSomeActors(pso.schema, sim, this.phase_being_worked_on_id,
+						customizableSectionOnScratchPad.getId(), _tab_heading, conv.getConv_actor_assigns());
 				// send them back
 				pso.forward_on = true;
 				return null;
@@ -1028,116 +946,79 @@ public class PSO_SectionMgmt {
 
 	}
 
+	/**
+	 * Handles the making of a page to display a simple image.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public CustomizeableSection handleMakeImagePage(HttpServletRequest request) {
-
-		getSimSectionsInternalVariables(request);
-
-		String page_title = "";
-		String image_file_name = "";
-
-		CustomizeableSection cs = null;
-
-		if (_custom_section_id != null) {
-			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(
-					pso.schema).get(CustomizeableSection.class,
-					new Long(_custom_section_id));
-			page_title = (String) cs.getContents().get("page_title");
-			image_file_name = (String) cs.getContents().get("image_file_name");
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-		}
-
+		
+		customizableSectionOnScratchPad = new CustomizeableSection();
+		
 		try {
-			MultipartRequest mpr = new MultipartRequest(request,
-					USIP_OSP_Properties.getValue("uploads"));
+			MultipartRequest mpr = new MultipartRequest(request, USIP_OSP_Properties.getValue("uploads"));
 
 			if (mpr != null) {
-
-				String sending_page = (String) mpr.getParameter("sending_page");
-				String submit_new_image_page = (String) mpr
-						.getParameter("submit_new_image_page");
-
-				String upload_and_add = (String) mpr
-						.getParameter("upload_and_add");
-
-				_custom_section_id = mpr.getParameter("custom_page");
-
-				if (_custom_section_id != null) {
-					MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-					cs = (CustomizeableSection) MultiSchemaHibernateUtil
-							.getSession(pso.schema).get(
-									CustomizeableSection.class,
-									new Long(_custom_section_id));
-					System.out.println("from db it was "
-							+ cs.getContents().get("page_title"));
-					MultiSchemaHibernateUtil
-							.commitAndCloseTransaction(pso.schema);
-
-				}
-
-				if ((sending_page != null) && (upload_and_add != null)
-						&& (sending_page.equalsIgnoreCase("add_image_page"))) {
+				_custom_section_id = (String) mpr.getParameter("custom_page");
+				customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
+				
+				_tab_heading = (String) mpr.getParameter("tab_heading");
+				
+				sending_page = (String) mpr.getParameter("sending_page");
+				save_page = (String) mpr.getParameter("save_page");
+				save_and_add = (String) mpr.getParameter("save_and_add");
+				
+				if ((sending_page != null) && ((save_page != null) || (save_and_add != null))) {
+					
 					// If this is the original custom page, make a new page
-					if (!(cs.isThisIsACustomizedSection())) {
-						System.out.println("making copy");
-						cs = cs.makeCopy(pso.schema);
-						_custom_section_id = cs.getId() + "";
-					}
+					makeCopyOfCustomizedSectionIfNeeded();
+					
+					customizableSectionOnScratchPad.setBigString((String) mpr.getParameter("page_text"));
 
-					page_title = (String) mpr.getParameter("page_title");
+					customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 
-					cs.setRec_tab_heading(_tab_heading);
-					cs.getContents().put("page_title", page_title);
-
-					String page_description = (String) mpr
-							.getParameter("page_description");
-					cs.setDescription(page_description);
+					customizableSectionOnScratchPad.setDescription((String) mpr.getParameter("page_description"));
 
 					// ///////////////////////////////////////
 					// Do file upload piece
 					pso.makeUploadDir();
-					String initFileName = mpr
-							.getOriginalFileName("uploadedfile");
+					String initFileName = mpr.getOriginalFileName("uploadedfile");
 
 					System.out.println("init file was: " + initFileName);
 
-					if ((initFileName != null)
-							&& (initFileName.trim().length() > 0)) {
-						cs.getContents().put("image_file_name", initFileName);
+					if ((initFileName != null) && (initFileName.trim().length() > 0)) {
+						customizableSectionOnScratchPad.getContents().put("image_file_name", initFileName);
 
-						for (Enumeration e = mpr.getFileNames(); e
-								.hasMoreElements();) {
+						for (Enumeration e = mpr.getFileNames(); e.hasMoreElements();) {
 							String fn = (String) e.nextElement();
 
-							FileIO.saveImageFile("simImage", initFileName, mpr
-									.getFile(fn));
+							FileIO.saveImageFile("simImage", initFileName, mpr.getFile(fn));
 						}
 					}
 					// End of file upload piece
 					// /////////////////////////////////
 
-					cs.save(pso.schema);
-
-					// add section
-					addSectionFromProcessCustomPage(cs.getId(), _tab_pos,
-							_tab_heading, request, _universal);
-					// send them back
-					pso.forward_on = true;
+					customizableSectionOnScratchPad.save(pso.schema);
 
 				} // End of if user took action
+				
+				if (save_and_add != null) {
+					// add section
+					addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request, _universal);
+					// send them back
+					pso.forward_on = true;
+				}
 
 			} // End of if mpr != null
 		} catch (Exception mpr_e) {
 			System.out.println("error : " + mpr_e.getMessage());
+			_custom_section_id = (String) request.getParameter("custom_page");
+			customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
+
 		}
 
-		return cs;
-
-		/*
-		 * //Update page values String text_page_text = (String)
-		 * request.getParameter("text_page_text");
-		 * cs.setBigString(text_page_text);
-		 */
+		return customizableSectionOnScratchPad;
 
 	}
 
@@ -1155,20 +1036,17 @@ public class PSO_SectionMgmt {
 
 		String command = (String) request.getParameter("command");
 
-		if ((sending_page != null)
-				&& (sending_page.equalsIgnoreCase("create_schedule"))) {
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("create_schedule"))) {
 			System.out.println("good to here.");
 
 			if ((command != null) && (command.equalsIgnoreCase("Save"))) {
 				System.out.println("good to here now.");
 				RunningSimulation rs = pso.giveMeRunningSim();
 
-				SharedDocument sd = SharedDocument.getScheduleDocument(
-						pso.schema, simulation.getId(), rs.getId());
-				
+				SharedDocument sd = SharedDocument.getScheduleDocument(pso.schema, simulation.getId(), rs.getId());
+
 				System.out.println("shared doc id is : " + sd.getId() + "");
-				String sim_schedule = (String) request
-						.getParameter("sim_schedule");
+				String sim_schedule = (String) request.getParameter("sim_schedule");
 				sd.setBigString(sim_schedule);
 				sd.save(pso.schema);
 
@@ -1178,138 +1056,134 @@ public class PSO_SectionMgmt {
 		return simulation;
 
 	}
-	
 
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleMakePlayerDiscreteChoice(
-			HttpServletRequest request) {
-		
+	public CustomizeableSection handleMakePlayerDiscreteChoice(HttpServletRequest request) {
+
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(
-				pso.schema, _custom_section_id);
-		
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
+
 		// If adding an allowable response, do that.
 		String author_adds_choice = (String) request.getParameter("author_adds_choice");
-		
-		if ((author_adds_choice != null) && (author_adds_choice.equalsIgnoreCase("true"))){
+
+		if ((author_adds_choice != null) && (author_adds_choice.equalsIgnoreCase("true"))) {
 			addGenericVariableIfNeeded();
 			AllowableResponse.getAdditionalAR(customizableSectionOnScratchPad, pso.schema);
 			return customizableSectionOnScratchPad;
 		}
 
 		// If making changes, do the following.
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 				&& (sending_page.equalsIgnoreCase("make_player_discrete_choice"))) {
 
 			// If this is the original custom page, make a new page
 			makeCopyOfCustomizedSectionIfNeeded();
-			
+
 			addGenericVariableIfNeeded();
-			
+
 			// Update values based on those passed in
-			customizableSectionOnScratchPad.setBigString((String) request.getParameter("make_player_discrete_choice_text"));
+			customizableSectionOnScratchPad.setBigString((String) request
+					.getParameter("make_player_discrete_choice_text"));
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
-			
+
 			handleCreationOrUpdateOfAllowableResponse(customizableSectionOnScratchPad, request, pso.schema);
-			
+
 			handleCreationOrUpdateOfTriggers(customizableSectionOnScratchPad, request, pso.schema);
 
 		}
-		
+
 		// If adding page, then add it and forward them on.
 		if (save_and_add != null) {
 			System.out.println("_universal was: " + _universal);
-			addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request, _universal);
+			addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request,
+					_universal);
 			pso.forward_on = true;
 		}
-		
+
 		return customizableSectionOnScratchPad;
 	}
-	
+
 	/**
-	 * Need to get allowable responses passed in from form.
-	 * Check to see if they have ids
-	 * 		If ids found, pull out the allowable responses to update them.
-	 * 		If no ids, create new responses
-	 * Update values of the allowable responses
+	 * Need to get allowable responses passed in from form. Check to see if they
+	 * have ids If ids found, pull out the allowable responses to update them.
+	 * If no ids, create new responses Update values of the allowable responses
 	 * Store the values of the allowable response ids in the contents hashtable.
-	 */	
-	public static void handleCreationOrUpdateOfAllowableResponse(CustomizeableSection cust, HttpServletRequest request, String schema){
-		
+	 */
+	public static void handleCreationOrUpdateOfAllowableResponse(CustomizeableSection cust, HttpServletRequest request,
+			String schema) {
+
 		String num_ars = (String) request.getParameter("num_ars");
-		
+
 		int numb_ars = new Integer(num_ars).intValue();
-		
+
 		GenericVariable gv = GenericVariable.pullOutBaseGV(schema, cust);
-		
+
 		// Unset any previously selected answers.
 		gv.setCurrentlySelectedResponse(null);
-		
-		for (int ii = 1; ii <= numb_ars; ++ii){
+
+		for (int ii = 1; ii <= numb_ars; ++ii) {
 			String ar_choice_text = (String) request.getParameter("ar_choice_text_" + ii);
 			String ar_id = (String) request.getParameter("ar_id_" + ii);
 			String ar_selected = (String) request.getParameter("ar_selected_" + ii);
-			
+
 			System.out.println("ii was " + ii + " and ar_id was " + ar_id + " and ar_selected was " + ar_selected);
-			
+
 			AllowableResponse thisResponse = new AllowableResponse();
-			
-			if ((ar_id != null) && (!(ar_id.equalsIgnoreCase("null"))) && (ar_id.length() > 0)){
+
+			if ((ar_id != null) && (!(ar_id.equalsIgnoreCase("null"))) && (ar_id.length() > 0)) {
 				try {
 					Long thisResponseID = new Long(ar_id);
 					thisResponse = AllowableResponse.getMe(schema, thisResponseID);
-					
-					if ((ar_selected != null) && (ar_selected.equalsIgnoreCase("true")) ){
+
+					if ((ar_selected != null) && (ar_selected.equalsIgnoreCase("true"))) {
 						// Mark it in the generic variable
 						gv.setCurrentlySelectedResponse(thisResponseID);
 						System.out.println("set gv current response: " + thisResponseID);
 						gv.saveMe(schema);
 					}
-					
-				}catch (Exception e){
+
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			
+
 			String ar_aar_text = (String) request.getParameter("ar_aar_text_" + thisResponse.getId());
-			
+
 			thisResponse.setCust_id(cust.getId());
 			thisResponse.setResponseText(ar_choice_text);
 			thisResponse.setSpecificWordsForAAR(ar_aar_text);
 			thisResponse.setIndex(ii);
 			thisResponse.saveMe(schema);
-			
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * Creates any triggers on this variable.
-	 */	
-	public void handleCreationOrUpdateOfTriggers(CustomizeableSection cs, HttpServletRequest request, String schema){
-		
-		
+	 */
+	public void handleCreationOrUpdateOfTriggers(CustomizeableSection cs, HttpServletRequest request, String schema) {
+
 		Long var_id = (Long) cs.getContents().get(GenericVariable.GEN_VAR_KEY);
-		
-		if (var_id == null){
+
+		if (var_id == null) {
 			return;
 		}
-		
+
 		String add_final_value_text_to_aar = (String) request.getParameter("add_final_value_text_to_aar");
-		if ((add_final_value_text_to_aar != null) && (add_final_value_text_to_aar.equalsIgnoreCase("true"))){
+		if ((add_final_value_text_to_aar != null) && (add_final_value_text_to_aar.equalsIgnoreCase("true"))) {
 			Trigger trig = Trigger.pullMeOut(schema, cs);
-			if (trig == null ){
+			if (trig == null) {
 				trig = new Trigger();
 			}
-			
+
 			trig.setSim_id(pso.sim_id);
 			trig.setVar_type(Trigger.VAR_TYPE_GENERIC);
 			trig.setVar_id(var_id);
@@ -1317,38 +1191,39 @@ public class PSO_SectionMgmt {
 			trig.setAction_type(Trigger.ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR);
 			trig.saveMe(schema);
 		}
-		
+
 	}
 
-	
-
 	/**
-	 * If this is the original template, then make a copy of it for customization.
+	 * If this is the original template, then make a copy of it for
+	 * customization.
 	 */
-	public void makeCopyOfCustomizedSectionIfNeeded(){
-		
+	public void makeCopyOfCustomizedSectionIfNeeded() {
+
 		if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 			customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
 			_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 
 		}
 	}
-	
-	/** Adds a generic variable to this custom section if it does not already have one created. */
-	public void addGenericVariableIfNeeded(){
-		
+
+	/**
+	 * Adds a generic variable to this custom section if it does not already
+	 * have one created.
+	 */
+	public void addGenericVariableIfNeeded() {
+
 		Long currentVarId = (Long) customizableSectionOnScratchPad.getContents().get(GenericVariable.GEN_VAR_KEY);
-		
-		if (currentVarId == null){
+
+		if (currentVarId == null) {
 			GenericVariable gv = new GenericVariable();
 			gv.setSim_id(pso.sim_id);
 			gv.saveMe(pso.schema);
-			
+
 			customizableSectionOnScratchPad.getContents().put(GenericVariable.GEN_VAR_KEY, gv.getId());
-			
+
 		}
-		
-		
+
 	}
 
 }

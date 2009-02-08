@@ -11,24 +11,10 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-	
-	String imageName = "";
-	String title = "";
-	String page_description = "";
-	String fullfilename = "";
-	
+		
 	String cs_id = (String) request.getParameter("cs_id");
 	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-	CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(cs_id));
-    
-	imageName = (String) cs.getContents().get("image_file_name");
-	fullfilename = "../simulation/images/" + imageName;
-
-	title = (String) cs.getContents().get("page_title");
-	page_description = cs.getDescription();
-	MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
 %>
 <html>
@@ -38,9 +24,8 @@
 </head>
 
 <body>
-<h1 align="left"><%= title %></h1>
-<p><%= page_description %></p>
-<p align="center"><img src="<%= fullfilename %>"></p>
+<p><%= cs.getBigString() %></p>
+<p align="center"><img src="<%= cs.simImage(pso.getBaseSimURL()) %>"></p>
 
 </body>
 </html>

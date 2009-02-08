@@ -5,7 +5,7 @@
 	errorPage="" %>
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-
+	
 	CustomizeableSection cs = pso.handleMakeImagePage(request);
 	
 	if (pso.forward_on){
@@ -14,8 +14,14 @@
 		return;
 	}
 	
-	String page_title = (String) cs.getContents().get("page_title");
 	
+	String imageName = (String) cs.getContents().get("image_file_name");
+	
+	boolean hasImage = false;
+	
+	if ((imageName != null) && (imageName.trim().length() > 0)) {
+		hasImage = true;
+	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -137,8 +143,8 @@ body {
           </tr>
           <tr> 
             <td>&nbsp;</td>
-            <td valign="top">Title Line of Page</td>
-            <td valign="top"> <input type="text" name="page_title" value="<%= page_title %>" /></td>
+            <td valign="top">Text Introduction (if any)</td>
+            <td valign="top"> <textarea name="page_text" cols="40" rows="2"><%= cs.getBigString() %></textarea></td>
           </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -149,7 +155,7 @@ body {
             <td>&nbsp;</td>
             <td valign="top">Image File:</td>
             <td valign="top"> <input type="hidden" name="MAX_FILE_SIZE" value="400000" /> 
-              <input name="uploadedfile" type="file" /></td>
+              <input name="uploadedfile" type="file" value="<%= cs.simImage(pso.getBaseSimURL()) %>"  /></td>
           </tr>
           <tr> 
             <td colspan="3" valign="top"></td>
@@ -160,11 +166,15 @@ body {
             <td>
 			<input type="hidden" name="sending_page" value="add_image_page" />
 			<input type="hidden" name="custom_page" value="<%=  pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
-			<input type="submit" name="upload_and_add" value="Upload and Add" /></td>
+			<input type="submit" name="save_page" value="Save" />
+            <input type="submit" name="save_and_add" value="Save and Add Section" />
+            </td>
           </tr>
         </table>
-        <p>&nbsp;</p>
       </form>
+      <% if (hasImage) { %>
+      <img src="<%= cs.simImage(pso.getBaseSimURL()) %>" />
+      <% } %>
       <p><a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       <!-- InstanceEndEditable -->
 			</td>

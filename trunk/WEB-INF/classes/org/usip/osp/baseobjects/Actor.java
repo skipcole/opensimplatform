@@ -98,6 +98,18 @@ public class Actor {
 		return returnList;
     }
     
+	public static Actor getMe(String schema, Long actor_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		Actor act = (Actor) MultiSchemaHibernateUtil
+				.getSession(schema).get(Actor.class, actor_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return act;
+
+	}
+    
     public static ArrayList<String> getAllActorNames(String schema){
     	
     	ArrayList returnList = new ArrayList<String>();
@@ -352,7 +364,11 @@ public class Actor {
 		
 		SimActorAssignment saa = SimActorAssignment.getMe(schema, sim_id, this.id);
 		
-		return saa.getActors_role();
+		if ((sim_id == null) || (saa == null)){
+			return "Actor has not been assigned to this simulation.";
+		} else {
+			return saa.getActors_role();
+		}
 		
 	}
 	

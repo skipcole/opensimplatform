@@ -160,7 +160,7 @@ body {
 				Actor act = (Actor) la.next();
 
 			%> 
-			<%= act.getName() %> 
+			<A href="assign_actor_to_sim_see_role.jsp?actor_id=<%= act.getId() %>&sim_id=<%= sim.getId() %>"> <%= act.getName() %> </A>
 			<A href="assign_actor_to_simulation.jsp?remove=true&actor_id=<%= act.getId().toString() %>&sim_id=<%= sim.getId().toString() %>"> (remove) </A><br/>
 		<% } // End of loop over Actors %>
 		</td>
