@@ -6,7 +6,11 @@
 </head>
 
 <frameset rows="*" cols="75%,25%">
-  <frame name="bodyinleft" src="control_panel.jsp">
+  <frameset rows="150,90%" border="0">
+    <frame name="headeruptop" src="author_top.jsp">
+    <frame name="bodyinleft" src="control_panel.jsp">
+  </frameset>
+  
   <frame name="helpinright" src="helptext/control_basichelp.jsp">
 </frameset>
 <noframes><body>
