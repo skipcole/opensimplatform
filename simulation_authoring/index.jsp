@@ -30,7 +30,8 @@
 
   <tr> 
     <td colspan="3" background="../Templates/images/page_bg.png" ><P>&nbsp;</P>
-      <h1 align="center">&nbsp;&nbsp;&nbsp;USIP Open Simulation Platform<br> 
+      <h1 align="center">&nbsp;&nbsp;&nbsp;USIP Open Simulation Platform <br>
+        &nbsp;&nbsp;&nbsp;(Release 0.0.3)<br> 
         <br>
         &nbsp;&nbsp;&nbsp;Authoring / 
         Facilitation Login</h1>
@@ -60,6 +61,10 @@
       </form>
 	  <center>
         <table width="50%" border="0" cellspacing="2" cellpadding="1">
+           <tr>
+            <td>Upcoming Planned Outage: This system will be down the night of March 8th for Release 0.0.4.</td>
+          </tr>
+          <tr> 
           <tr> 
             <td><a href="../acknowledgements/index.htm">Acknowledgements</a></td>
           </tr>
