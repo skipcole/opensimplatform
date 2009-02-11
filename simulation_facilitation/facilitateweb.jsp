@@ -20,8 +20,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<frameset rows="*" cols="75%,25%">
-  <frame name="bodyinleft" src="play_panel.jsp">
+<frameset rows="*" cols="75%,25%" border="1">
+  <frameset rows="150,90%" border="0">
+    <frame src="facilitate_top.jsp">
+    <frame name="bodyinleft" src="play_panel.jsp">
+  </frameset>
+  
   <frame name="helpinright" src="helptext/facilitation_basichelp.jsp">
 </frameset>
 <noframes><body>

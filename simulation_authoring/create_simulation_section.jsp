@@ -16,103 +16,17 @@
 	List baseList = BaseSimSection.getAll(pso.schema);
 	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
-<title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-<!--
-body {
-	background-color: #FFFFFF;
-	background-image: url(../Templates/images/page_bg.png);
-	background-repeat: repeat-x;
-}
--->
-</style>
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
-</head>
-<body onLoad="">
-<%
-	String myLogoutPage = pso.getBaseSimURL() + "/simulation/logout.jsp";
-	
-	if ( (pso.isAuthor())  || (pso.isFacilitator())) {
-		myLogoutPage = pso.getBaseSimURL() + "/simulation_authoring/logout.jsp";
-	}
-%>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform</h1></td>
-    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
-	  <div align="center">
-	    <table border="0" cellspacing="1" cellpadding="0">
-	<%  if (pso.isAuthor()) { %>
-        <tr>
-          <td><div align="center"><a href="intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
-        </tr>
-	<% } else if (pso.isFacilitator()) { %>
-		<tr>
-          <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
-        </tr>
-	<% } %>	
-        <tr>
-          <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
-        </tr>
-        <tr>
-          <td><div align="center"><a href="<%= myLogoutPage %>" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
-        </tr>
-      </table>	  
-	  </div>	  </td>
-  </tr>
-  <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"><% 
-		
-		String bgColor_think = "#475DB0";
-		String bgColor_create = "#475DB0";
-		String bgColor_play = "#475DB0";
-		String bgColor_share = "#475DB0";
-		
-		pso.findPageType(request);
-		
-		if (pso.page_type == 1){
-			bgColor_think = "#9AABE1";
-		} else if (pso.page_type == 2){
-			bgColor_create = "#9AABE1";
-		} else if (pso.page_type == 3){
-			bgColor_play = "#9AABE1";
-		} else if (pso.page_type == 4){
-			bgColor_share = "#9AABE1";
-		}
-		
-		if (pso.isAuthor()) { %>
-		
-		<table border="0" cellpadding="0" cellspacing="0" >
-		   <tr>
-		<td bgcolor="<%= bgColor_think %>"><a href="../simulation_planning/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;THINK&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		<td>&nbsp;</td>
-	    <td bgcolor="<%= bgColor_create %>"><a href="creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		<td>&nbsp;</td>
-		<td bgcolor="<%= bgColor_play %>"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		<td>&nbsp;</td>
-        <td bgcolor="<%= bgColor_share %>"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		   </tr>
-		</table>
-	<% } %></td>
-  </tr>
-  <tr>
-  	<td width="120" align="right" valign="top"></td>
-    <td colspan="1" valign="top"></td>
-    <td width="194" align="right" valign="top"></td>
-  </tr>
-</table>
-<BR />
+<title>Open Simulation Platform Control Page</title>
+
+
+
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -121,90 +35,83 @@ body {
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Create Simulation Section</h1>
-      <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" -->
+              <h1>Create Simulation Section</h1>
+              <br />
+			
 
-
-<form action="create_simulation_section.jsp" method="post" name="form1" id="form1">
-<input type="hidden" name="sending_page" value="create_section" />
-
+      <form action="create_simulation_section.jsp" method="post" name="form1" id="form1">
+  <input type="hidden" name="sending_page" value="create_section" />
+        
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
           <tr> 
             <td>URL:</td>
-            <td><input type="text" name="url" tabindex="1" /></td>
-          </tr>
+              <td><input type="text" name="url" tabindex="1" /></td>
+            </tr>
           <tr> 
             <td>Directory:</td>
-            <td><input type="text" name="directory" tabindex="2" /></td>
-          </tr>
+              <td><input type="text" name="directory" tabindex="2" /></td>
+            </tr>
           <tr> 
             <td>Filename:</td>
-            <td><input type="text" name="filename" tabindex="3" /></td>
-          </tr>
+              <td><input type="text" name="filename" tabindex="3" /></td>
+            </tr>
           <tr> 
             <td>Recommended Tab Heading:</td>
-            <td><input type="text" name="rec_tab_heading" tabindex="4" /></td>
-          </tr>
+              <td><input type="text" name="rec_tab_heading" tabindex="4" /></td>
+            </tr>
           <tr> 
             <td>Description:</td>
-            <td><textarea name="description"></textarea></td>
-          </tr>
+              <td><textarea name="description"></textarea></td>
+            </tr>
           <tr> 
             <td>&nbsp;</td>
-            <td><label>
-            <input name="send_rsid_info" type="checkbox" value="true" />
-            Send Running Simulation Information</label></td>
-          </tr>
-		  <tr> 
-            <td>&nbsp;</td>
-            <td><label>
-              <input name="send_actor_info" type="checkbox" value="true" />
-            Send Actor Information</label></td>
-          </tr>
-		      <tr>
-            <td>&nbsp;</td>
-            <td><input name="send_user_info" type="checkbox" value="true" />
-Send User Information</td>
-          </tr>
+              <td><label>
+                <input name="send_rsid_info" type="checkbox" value="true" />
+                Send Running Simulation Information</label></td>
+            </tr>
           <tr> 
             <td>&nbsp;</td>
-            <td><input type="submit" name="createsection" value="Submit" tabindex="7" /> 
-              <label> 
-              <input type="submit" name="clear_button" value="Clear" tabindex="8" />
-              </label></td>
-          </tr>
-        </table>
-  <p>&nbsp;</p>
-  <p></p>
-</form>
-<p>&nbsp;</p>
-
-<p>Below are listed alphabetically all of the current Base Simulation Sections.</p>
-<table width="80%" border="0" cellspacing="2" cellpadding="2">
-  <tr> 
-    <td><h2>Recommended Tab Heading</h2></td>
-    <td><h2>File Name</h2></td>
-  </tr>
-  <%
+              <td><label>
+                <input name="send_actor_info" type="checkbox" value="true" />
+                Send Actor Information</label></td>
+            </tr>
+          <tr>
+            <td>&nbsp;</td>
+              <td><input name="send_user_info" type="checkbox" value="true" />
+                Send User Information</td>
+            </tr>
+          <tr> 
+            <td>&nbsp;</td>
+              <td><input type="submit" name="createsection" value="Submit" tabindex="7" /> 
+                <label> 
+                  <input type="submit" name="clear_button" value="Clear" tabindex="8" />
+                  </label></td>
+            </tr>
+          </table>
+    <p>&nbsp;</p>
+    <p></p>
+        </form>
+      <p>&nbsp;</p>
+      <p>Below are listed alphabetically all of the current Base Simulation Sections.</p>
+      <table width="80%" border="0" cellspacing="2" cellpadding="2">
+        <tr> 
+          <td><h2>Recommended Tab Heading</h2></td>
+      <td><h2>File Name</h2></td>
+    </tr>
+        <%
 		for (ListIterator li = baseList.listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next();		
 		%>
-  <tr> 
-    <td><%= bss.getRec_tab_heading() %></td>
-    <td><%= bss.getPage_file_name() %></td>
-  </tr>
-  <%
+        <tr> 
+          <td><%= bss.getRec_tab_heading() %></td>
+      <td><%= bss.getPage_file_name() %></td>
+    </tr>
+        <%
 	}
 %>
-</table>
-      <p><a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
-<!-- InstanceEndEditable -->
-			</td>
+      </table>      <p><a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -217,7 +124,7 @@ Send User Information</td>
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
 <%
 	
 %>

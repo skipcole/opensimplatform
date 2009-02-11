@@ -5,8 +5,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
 
-<frameset rows="*" cols="75%,25%">
-  <frame name="bodyinleft" src="general_advice.jsp">
+<frameset rows="*" cols="75%,25%" border="1">
+  <frameset rows="150,90%" border="0">
+    <frame name="headeruptop" src="think_top.jsp">
+    <frame name="bodyinleft" src="general_advice.jsp">
+  </frameset>
+  
   <frame name="helpinright" src="../simulation_authoring/helptext/control_basichelp.jsp">
 </frameset>
 <noframes><body>
