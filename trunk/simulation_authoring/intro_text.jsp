@@ -80,15 +80,15 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
           </blockquote>
         <table width="100%" border="0" cellspacing="2" cellpadding="1">
           <tr align="center"> 
-            <td width="25%"><h2><a href="../simulation_planning/index.jsp">Think</a></h2></td>
-            <td width="25%"><h2><a href="creationwebui.jsp">Create</a></font></h2></td>
-            <td width="25%"><h2><a href="../simulation_facilitation/facilitateweb.jsp">Play</a></h2></td>
-            <td width="25%"><h2><a href="../simulation_sharing/index.jsp">Share</a></h2></td>
+            <td width="25%"><h2><a href="../simulation_planning/index.jsp" target="_top">Think</a></h2></td>
+            <td width="25%"><h2><a href="creationwebui.jsp" target="_top">Create</a></font></h2></td>
+            <td width="25%"><h2><a href="../simulation_facilitation/facilitateweb.jsp" target="_top">Play</a></h2></td>
+            <td width="25%"><h2><a href="../simulation_sharing/index.jsp" target="_top">Share</a></h2></td>
           </tr>
           </table>
         <p align="center">  
           <% if (pso.isAdmin()) { %>
-          <a href="../simulation_admin/adminwebui.jsp">Administrate</a> 
+          <a href="../simulation_admin/adminwebui.jsp" target="_top">Administrate</a> 
           <% } %>
           <br />
           </font></p>        </td>
