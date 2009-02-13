@@ -9,7 +9,6 @@
 		System.out.println("sim id is " + sim_id);
 		
 		pso.sim_id = new Long(sim_id);
-		pso.simulationSelected = true;
 		
 	}
 %>

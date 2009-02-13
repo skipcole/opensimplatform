@@ -39,7 +39,7 @@
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <blockquote> 
         <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
         <h2>&nbsp;</h2>
         <h2><a href="#">Planet Temperature</a>: Pt = Funcition (Number Black Daisies, Number White Daises).</h2>

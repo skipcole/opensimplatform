@@ -56,7 +56,7 @@
 			<!-- InstanceBeginEditable name="pageBody" -->
 	  <blockquote>
         <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
         <p>Publishing simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to look at a different simulation, <a href="select_simulation.jsp">click 

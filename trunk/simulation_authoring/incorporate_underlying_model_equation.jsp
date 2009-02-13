@@ -39,7 +39,7 @@
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <blockquote> 
         <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
         <h2>Instructions</h2>
         <table border="1" width="90%" cellspacing="0"><tr><td>

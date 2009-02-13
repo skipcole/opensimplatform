@@ -117,7 +117,7 @@
 		</script></td>
             </tr>
             <% 
-			if (pso.simulationSelected) {    
+			if (pso.sim_id != null) {    
 		  %>
             <tr>
               <td valign="top">&nbsp;</td>

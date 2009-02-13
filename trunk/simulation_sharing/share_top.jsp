@@ -6,17 +6,12 @@
 
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "../simulation_authoring/create_simulation.jsp";
-	
+
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-    Simulation simulation = pso.handleCreateOrUpdateNewSim(request);  
-	
-	List simList = Simulation.getAll(pso.schema);
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>

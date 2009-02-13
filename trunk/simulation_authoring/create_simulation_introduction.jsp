@@ -61,7 +61,7 @@
               <h1>Enter Simulation Introduction</h1>
               <br />
     <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
 	  <p>Enter the introduction for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
 	    (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 

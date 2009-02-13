@@ -40,7 +40,6 @@
 		
 		simulation = pso.giveMeSim();
 		
-		pso.simulationSelected = true;
 		response.sendRedirect(pso.backPage);
 		return;
 			
