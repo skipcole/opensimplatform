@@ -15,6 +15,8 @@
 	
     Simulation simulation = pso.handleCreateOrUpdateNewSim(request);  
 	
+	System.out.println("sim id is " + pso.sim_id);
+	
 	List simList = Simulation.getAll(pso.schema);
 
 %>

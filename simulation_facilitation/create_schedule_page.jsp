@@ -45,7 +45,7 @@
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
                     <% 
-			if (!(pso.simulationSelected)) {
+			if (pso.sim_id == null) {
 		%>
         <p>You must first select the simulation which you will be enabling.<br />
 

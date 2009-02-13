@@ -42,18 +42,6 @@ public class ParticipantSessionObject {
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
 
-	public static final int PAGETYPE_OTHER = 0;
-	public static final int PAGETYPE_THINK = 1;
-	public static final int PAGETYPE_CREATE = 2;
-	public static final int PAGETYPE_PLAY = 3;
-	public static final int PAGETYPE_SHARE = 4;
-
-	/**
-	 * Used to give visual cue that user is in section 1 (think), 2 (create), 3
-	 * (play) or 4 (share).
-	 */
-	public int page_type = PAGETYPE_OTHER;
-
 	public boolean forward_on = false;
 
 	/** Schema of the database that the user is working in. */
@@ -114,9 +102,6 @@ public class ParticipantSessionObject {
 
 	/** ID of Simulation being conducted or worked on. */
 	public Long sim_id;
-
-	/** Indicates if user has selected a simulation. */
-	public boolean simulationSelected = false;
 
 	/** ID of the Running Simulation being conducted or worked on. */
 	public Long running_sim_id;
@@ -444,7 +429,6 @@ public class ParticipantSessionObject {
 				Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, o_id);
 				MultiSchemaHibernateUtil.getSession(schema).delete(sim);
 				this.sim_id = null;
-				this.simulationSelected = false;
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -1101,26 +1085,6 @@ public class ParticipantSessionObject {
 		return pso;
 	}
 
-	/**
-	 * Sets the page type based on the directory in which these jsps are
-	 * located.
-	 */
-	public void findPageType(HttpServletRequest request) {
-
-		String url = request.getRequestURI();
-
-		if (url.contains("simulation_planning")) {
-			page_type = PAGETYPE_THINK;
-		} else if (url.contains("simulation_authoring")) {
-			page_type = PAGETYPE_CREATE;
-		} else if (url.contains("simulation_facilitation")) {
-			page_type = PAGETYPE_PLAY;
-		} else if (url.contains("simulation_sharing")) {
-			page_type = PAGETYPE_SHARE;
-		} else {
-			page_type = PAGETYPE_OTHER;
-		}
-	}
 
 	public List<SimulationSectionGhost> getSimSecList(HttpServletRequest request) {
 
@@ -1388,8 +1352,6 @@ public class ParticipantSessionObject {
 		}
 
 		this.sim_id = simulation.getId();
-
-		simulationSelected = true;
 
 		return simulation;
 	}

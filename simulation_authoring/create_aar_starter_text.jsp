@@ -55,7 +55,7 @@
               <h1>Enter 'After Action Report' Starter Text </h1>
               <br />
     <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
 	  <p>The 'After Action Report' (AAR) is a highly important part of your simulation. In it you will provide feedback to your participants on how they did. </p>
 	  <p>Whoever runs the simulation will be able to tailor the AAR text to fit what happened, but below you can enter in common text that you may feel may end up in many of the simulations. Click here (?) for some examples. </p>

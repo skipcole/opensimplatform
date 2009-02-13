@@ -16,7 +16,6 @@
 	String loadSim = (String) request.getParameter("loadSim");
 	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))) {
 		pso.sim_id = new Long((String) request.getParameter("sim_id"));
-		pso.simulationSelected = true;
 	}
 	
 	Simulation simulation = new Simulation();	
@@ -64,7 +63,7 @@ function showHide(name){
 	  
 	  <blockquote>
         <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
         <p>Below is the review for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to look at a different simulation, <a href="select_simulation.jsp">click 

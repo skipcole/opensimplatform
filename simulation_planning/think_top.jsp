@@ -64,28 +64,18 @@ body {
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
     <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"><% 
-		
-		String bgColor_think = "#475DB0";
-		String bgColor_create = "#475DB0";
-		String bgColor_play = "#475DB0";
-		String bgColor_share = "#475DB0";
-		
-		pso.findPageType(request);
-		
-		bgColor_think = "#9AABE1";
-
-		
+			
 		if (pso.isAuthor()) { %>
 		
 		<table border="0" cellpadding="0" cellspacing="0" >
 		   <tr>
-		<td bgcolor="<%= bgColor_think %>"><a href="index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;THINK&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		<td bgcolor="#9AABE1"><a href="index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;THINK&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-	    <td bgcolor="<%= bgColor_create %>"><a href="../simulation_authoring/creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+	    <td bgcolor="#475DB0"><a href="../simulation_authoring/creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-		<td bgcolor="<%= bgColor_play %>"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		<td bgcolor="#475DB0"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-        <td bgcolor="<%= bgColor_share %>"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+        <td bgcolor="#475DB0"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		   </tr>
 		</table>
 	<% } %></td>

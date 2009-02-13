@@ -45,7 +45,7 @@
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <blockquote> 
         <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
         <p>Incorporate  underlying model to the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 

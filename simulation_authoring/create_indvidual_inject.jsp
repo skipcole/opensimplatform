@@ -65,7 +65,7 @@
               <br />
       <blockquote> 
         <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
         <p>          </p>
           <form id="form2" name="form2" method="post" action="create_indvidual_inject.jsp">

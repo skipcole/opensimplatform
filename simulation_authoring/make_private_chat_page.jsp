@@ -9,9 +9,7 @@
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	
-	//pso.handleMakePrivateChatPage(request);
-	
+		
 	if (pso.forward_on){
 		pso.forward_on = false;
 		response.sendRedirect(pso.backPage);
@@ -22,8 +20,6 @@
 	
 	if (pso.sim_id != null){
 		sim = pso.giveMeSim();
-	} else {
-		pso.simulationSelected = false;
 	}
 	
 		String sending_page = (String) request.getParameter("sending_page");
@@ -33,17 +29,16 @@
 			
 		}	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
 <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -54,32 +49,30 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Make Private Chat Pages</h1>
-    <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" --> 
+              <h1>Make Private Chat Pages</h1>
+              <br />
       <blockquote> 
 	  <form action="make_private_chat_page.jsp" method="post" name="form2" id="form2">
-        <blockquote><strong>Tab Heading</strong>: 
-          <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
-        <p>Fill out the top right part of the grid below to determine the sets of characters that will have a private chat window. </p>
-        <table border="1"><tr><td>&nbsp;</td>
-		<%
+	    <blockquote><strong>Tab Heading</strong>: 
+	      <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
+	      <p>Fill out the top right part of the grid below to determine the sets of characters that will have a private chat window. </p>
+          <table border="1"><tr><td>&nbsp;</td>
+		  <%
 			for (ListIterator la = sim.getActors().listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 				String checked = "";
 			%>
-          <td><strong><%= act.getName() %></strong></td>
-		<% } // End of loop over Actors %>
-		</tr>
-			<%
+            <td><strong><%= act.getName() %></strong></td>
+		  <% } // End of loop over Actors %>
+            </tr>
+            <%
 			int index_row = 0;
 			for (ListIterator la = sim.getActors().listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 				index_row += 1;
 			%>
-          	<tr><td><strong><%= act.getName() %></strong></td>
-				<%
+            <tr><td><strong><%= act.getName() %></strong></td>
+				  <%
 				// Get this from pso
 				Hashtable setConversations = pso.setOfPrivateConversation();
 				
@@ -98,36 +91,32 @@
 						}
 				
 				%>
-				<td><input type="checkbox" 
+              <td><input type="checkbox" 
 						name="act_cb_<%= act.getId().toString() %>_<%= act2.getId().toString() %>" 
 						value="true" <%= checked %> /></td>
-					<% }  else { // end of if names are not alike. %>
-				<td>&nbsp;</td>
-					<% } %>
-				<% } // End of loop over Actor Columns! %>
-			</tr>
-		<% } // End of loop over Actor Rows! %>
-		
-		</table>
-      
+					  <% }  else { // end of if names are not alike. %>
+              <td>&nbsp;</td>
+					  <% } %>
+              <% } // End of loop over Actor Columns! %>
+              </tr>
+            <% } // End of loop over Actor Rows! %>
+            </table>
+        
           <p>
             <script language="javascript1.2">
   			generate_wysiwyg('text_page_text');
 		</script>
-          </p>
-          <p> 
-            <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
-            <input type="hidden" name="sending_page" value="make_private_chat_page" />
-            <input type="submit" name="save_and_add" value="Save and Add Sections" />
-          </p>
-          <p>&nbsp;</p>
-        </blockquote>
-      </form>
-	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
-			</td>
+            </p>
+            <p> 
+              <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+              <input type="hidden" name="sending_page" value="make_private_chat_page" />
+              <input type="submit" name="save_and_add" value="Save and Add Sections" />
+              </p>
+            <p>&nbsp;</p>
+          </blockquote>
+      </form>	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -140,7 +129,7 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
 <%
 	
 %>

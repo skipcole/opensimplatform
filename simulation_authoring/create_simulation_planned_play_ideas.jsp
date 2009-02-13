@@ -58,7 +58,7 @@
 	<p> Here the simulation creator can enter details on how they think the simulation can be conducted. Anything entered here is not set in stone, but more or less provide guidelines to help one during the creation process.
 	  <p>The details of how one sets up a simulation (the number of actors, including email or list servers vs chat, etc.) will determine many of the things here in practice. But this page is included to help the simulation creator state his or her original concept.
 	    <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
 	    <p>Enter the planned play ideas for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
 	      (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 

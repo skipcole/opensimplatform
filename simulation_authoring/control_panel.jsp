@@ -113,7 +113,7 @@ org.usip.osp.persistence.*" errorPage="" %>
       </table>
       <p align="center">
         <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 			
 				String gameNameDisplay = simulation.getName() + " version " + simulation.getVersion();
 

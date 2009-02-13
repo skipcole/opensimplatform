@@ -53,7 +53,7 @@
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <% 
-			if (!(pso.simulationSelected)) {
+			if (pso.sim_id == null) {
 		%>
       <p>You must first select the simulation for which you will be adding users.<br />
         Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or 

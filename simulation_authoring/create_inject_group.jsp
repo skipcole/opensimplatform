@@ -51,7 +51,7 @@
               <br />
       <blockquote> 
         <% 
-			if (pso.simulationSelected) {
+			if (pso.sim_id != null) {
 		%>
         <p>Creating Inject Group</p>
           <form id="form2" name="form2" method="post" action="">

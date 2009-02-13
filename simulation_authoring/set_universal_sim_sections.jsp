@@ -20,7 +20,7 @@
 		
 	SimulationPhase spp = new SimulationPhase();
 	
-	if ((pso.simulationSelected) && (pso.sim_id != null)){
+	if ((pso.sim_id != null) && (pso.sim_id != null)){
 		simulation = pso.handleSetUniversalSimSectionsPage(request);	
 	
 		if (pso.phase_id != null) {
@@ -133,7 +133,7 @@ function loadInfo(dropdownlist){
 			<!-- InstanceBeginEditable name="pageBody" -->
       <blockquote> 
         <% 
-			if ((pso.simulationSelected) && (pso.sim_id != null)) {
+			if (pso.sim_id != null) {
 		%>
         <p>Set the sections available to all of the actors in the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 

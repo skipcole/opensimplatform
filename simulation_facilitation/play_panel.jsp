@@ -67,7 +67,7 @@
           </tr>
         <tr valign="top"> 
           <td>8.</td>
-          <td><a href="../simulation/index.jsp?schema=<%= pso.schema %>">Enter Simulation</a> <a href="helptext/enter_sim_help.jsp" target="helpinright">(?)</a> </td>
+          <td><a href="../simulation/index.jsp?schema=<%= pso.schema %>" target="_top">Enter Simulation</a> <a href="helptext/enter_sim_help.jsp" target="helpinright">(?)</a> </td>
           </tr>
       </table>
 <p></p>
