@@ -774,13 +774,16 @@ public class PSO_SectionMgmt {
 		&& (sending_page.equalsIgnoreCase("make_read_document_page"))) {
 
 			// If this is the original custom page, make a new page
-
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				System.out.println("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
 			}
+			
+			// Look up doc ids assigned to this section
+			customizableSectionOnScratchPad.getId();
+			a
 
 			String _doc_ids = (String) request.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 

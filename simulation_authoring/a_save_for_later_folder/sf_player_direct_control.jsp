@@ -66,16 +66,15 @@
 	
 	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+
+
+
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -86,91 +85,85 @@
 		<tr>
 			<td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Add / Edit Player Direct Control</h1>
-    <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" --> 
+              <h1>Add / Edit Player Direct Control</h1>
+              <br />
       <%= Debug.getDebug(debug) %>
       <blockquote>
         <p>This control allows a player direct access to change a variable.</p>
-        <p>Current direct player controls for the Simulation <%= pso.simulation.name %>:</p>
-        <blockquote>
-          <p>
-            <% if (simPCs.size() == 0) { %>
-          </p>
-        </blockquote>
-        <ul>
-          <li>None 
-            <p> 
-              <% } %>
-              <% for (Enumeration e = simPCs.elements(); e.hasMoreElements();){ 
+          <p>Current direct player controls for the Simulation <%= pso.simulation.name %>:</p>
+          <blockquote>
+            <p>
+              <% if (simPCs.size() == 0) { %>
+              </p>
+          </blockquote>
+          <ul>
+            <li>None 
+              <p> 
+                <% } %>
+                <% for (Enumeration e = simPCs.elements(); e.hasMoreElements();){ 
 	PlayerControl this_pc = (PlayerControl) e.nextElement();
 	%>
-            </p>
-          </li>
-          <li><a href="sf_player_control.jsp?edit_sv=true&amp;sf_id=<%= this_pc.get_sf_id() %>"><%= this_pc.name %></a> 
-            <p> 
-              <% } %>
-              <br />
-            </p>
-          </li>
-        </ul>
+                </p>
+            </li>
+            <li><a href="sf_player_control.jsp?edit_sv=true&amp;sf_id=<%= this_pc.get_sf_id() %>"><%= this_pc.name %></a> 
+              <p> 
+                <% } %>
+                <br />
+                </p>
+            </li>
+          </ul>
       </blockquote>
       <form name="form2" id="form2" method="post" action="sf_player_direct_control.jsp">
-	  <input type="hidden" name="sending_page" value = "add_player_control">
+        <input type="hidden" name="sending_page" value = "add_player_control">
         <blockquote> Player Control Name: 
           <input type="text" name="pc_name" />
           <p>First select the variable which will be controlled or modified.</p>
-            <select name="select_var">
-		  		<% for (Enumeration e = simVars.elements(); e.hasMoreElements();){ 
+              <select name="select_var">
+                <% for (Enumeration e = simVars.elements(); e.hasMoreElements();){ 
 				SimulationVariable this_sv = (SimulationVariable) e.nextElement();
 				%>
-              <option value="<%= this_sv.get_sf_id() %>" selected="selected"><%= this_sv.name %></option>
-			  <% } %>
-            </select>
+                <option value="<%= this_sv.get_sf_id() %>" selected="selected"><%= this_sv.name %></option>
+                <% } %>
+                </select>
           <p>&nbsp;</p>
-          <table width="100%" border="0" cellspacing="2" cellpadding="1">
-            <tr valign="top"> 
-              <td width="32%"> 
-                <input type="radio" name="dc_type" value="radiobutton" disabled />
-                Specific Values</td>
-              <td width="68%">&nbsp;</td>
-            </tr>
-            <tr valign="top"> 
-              <td> 
-                <input name="dc_type" type="radio" value="set_variable" checked="checked" />
-                Any Value</td>
-              <td>Label seen by user: 
-                <input type="text" name="dc_control_text" /></td>
-            </tr>
-            <tr valign="top"> 
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr valign="top"> 
-              <td>Introduction on Player Control Page</td>
-              <td> 
-                <textarea name="pc_desc" cols="40" rows="5"></textarea></td>
-            </tr>
-          </table>
-          <p> 
-            <input type="submit" name="Submit2" value="Submit" />
-          </p>
-          <p>&nbsp; </p>
-        </blockquote>
+            <table width="100%" border="0" cellspacing="2" cellpadding="1">
+              <tr valign="top"> 
+                <td width="32%"> 
+                  <input type="radio" name="dc_type" value="radiobutton" disabled />
+                  Specific Values</td>
+                <td width="68%">&nbsp;</td>
+              </tr>
+              <tr valign="top"> 
+                <td> 
+                  <input name="dc_type" type="radio" value="set_variable" checked="checked" />
+                  Any Value</td>
+                <td>Label seen by user: 
+                  <input type="text" name="dc_control_text" /></td>
+              </tr>
+              <tr valign="top"> 
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr valign="top"> 
+                <td>Introduction on Player Control Page</td>
+                <td> 
+                  <textarea name="pc_desc" cols="40" rows="5"></textarea></td>
+              </tr>
+              </table>
+            <p> 
+              <input type="submit" name="Submit2" value="Submit" />
+              </p>
+            <p>&nbsp; </p>
+          </blockquote>
       </form>
       <p>&nbsp;</p>
-	  <p align="center"><a href="../incorporate_underlying_model.jsp">Back to Add Special Features</a></p>
-	  <p>&nbsp;</p>
-      <!-- InstanceEndEditable -->
-			</td>
+      <p align="center"><a href="../incorporate_underlying_model.jsp">Back to Add Special Features</a></p>      <p>&nbsp;</p>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
-    <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>.</p></td>
+    <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
   </tr>
 </table>
 </td></tr></table>
@@ -179,4 +172,4 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>

@@ -27,7 +27,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "SHARED_DOCUMENTS")
 public class SharedDocument {
-
+	
 	/** When store document id(s) in the hashtable of a custom section, this is the key to retrieve them. */
 	public static final String DOCS_IN_HASHTABLE_KEY = "doc_ids";
 	
