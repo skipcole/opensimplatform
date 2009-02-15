@@ -297,17 +297,6 @@ public class Simulation {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		/*
-		 * Simulation myShadow = (Simulation)
-		 * MultiSchemaHibernateUtil.getSession(schema).get( Simulation.class,
-		 * this.id);
-		 * 
-		 * myShadow.setLearning_objvs(this.getLearning_objvs());
-		 * myShadow.setAudience(this.getAudience());
-		 * myShadow.setIntroduction(this.getIntroduction());
-		 * myShadow.setAar_starter_text(this.getAar_starter_text());
-		 * myShadow.setPlanned_play_ideas(this.getPlanned_play_ideas());
-		 */
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

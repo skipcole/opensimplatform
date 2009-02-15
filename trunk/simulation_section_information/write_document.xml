@@ -4,7 +4,7 @@
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>make_write_document_page.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_write_document_page.jsp</specificMakePage>
   <bigString></bigString>
   <description>A section to allow a player to write a document. This document can be any time in nature, a report, a memorandum of understanding, etc. After adding a document to be written by a player, it will probably be necessary to add it as a document that can be read.</description>
   <url></url>

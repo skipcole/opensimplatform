@@ -12,60 +12,52 @@
 		return;
 	}
 	
+	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
+		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+		response.sendRedirect("add_special_features.jsp");
+		return;
+	}
+	
 	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
 	String create_new = (String) request.getParameter("create_new");
 		
+	
 	String debug = "";
 	
-	BudgetVariable sbv = new BudgetVariable();
+	SharedDocument sd = new SharedDocument();
 	
-	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_sim_var"))){
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("add_shared_doc"))){
 	
-		sbv.sim_id = pso.simulation.id;
-		sbv.name = (String) request.getParameter("var_name");
-		sbv.value = (String) request.getParameter("initial_value");
-		sbv.description = (String) request.getParameter("var_description");
+		sd.sim_id = pso.simulation.id;
+		sd.tabheading = (String) request.getParameter("tab_title");
+		sd.docTitle = (String) request.getParameter("doc_title");
+		sd.docDesc = (String) request.getParameter("doc_desc");
+		sd.docStarterText = (String) request.getParameter("doc_starter_text");	
 		
-		String bud_accumulates = (String) request.getParameter("bud_accumulates");
-		
-		if ((bud_accumulates != null) && (bud_accumulates.equalsIgnoreCase("yes"))){
-			sbv.accumulates = true;
-		} else {
-			sbv.accumulates = false;
-		}
-		
-		debug = sbv.store();
+		debug = sd.store();
 	} // End of if 
 	
 		//////////////////////////////////
 	// Put shared document on scratch pad
-	String edit_sv = (String) request.getParameter("edit_sv");
+	String edit_sd = (String) request.getParameter("edit_sd");
 	
 	boolean inEditingMode = false;
 	
-	
-	if ((edit_sv != null) && (edit_sv.equalsIgnoreCase("true"))){
+	if ((edit_sd != null) && (edit_sd.equalsIgnoreCase("true"))){
 		
 		inEditingMode = true;
 		
-		sbv = new BudgetVariable();
+		sd = new SharedDocument();
 		
-		sbv.set_sf_id((String) request.getParameter("sf_id"));
+		sd.set_sf_id((String) request.getParameter("sf_id"));
 		
-		sbv.load();
+		sd.load();
+			
 	}
 	///////////////////////////////////////
-
-	Vector simVars = new BudgetVariable().getSetForASimulation(pso.simulation.id);
 	
-	String trueSelected = "";
-	String falseSelected = "selected";
-	
-	if (sbv.value.equalsIgnoreCase("true")){
-		trueSelected = "selected";
-		falseSelected = "";
-	}
+	Vector sharedDocs = new SharedDocument().getSetForASimulation(pso.simulation.id);
 	
 	
 %>
@@ -77,7 +69,7 @@
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
@@ -87,79 +79,77 @@
     <td>
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
-			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
+			<td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Add / Edit Budget Variable</h1>
+      <h1>Add / Edit Shared Document</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
 <p><%= Debug.getDebug(debug) %></p>
-      <p>&nbsp;</p>
       <blockquote>
-        <p>Current budgets for the Simulation <%= pso.simulation.name %>:</p>
+        <p>Current Shared Documents for the Simulation <%= pso.simulation.name %>:</p>
         <blockquote>
           <p>
-            <% if (simVars.size() == 0) { %>
+            <% if (sharedDocs.size() == 0) { %>
           </p>
         </blockquote>
         <ul>
           <li>None
             <p>
               <% } %>
-              <% for (Enumeration e = simVars.elements(); e.hasMoreElements();){ 
-			BudgetVariable this_sv = (BudgetVariable) e.nextElement();
+              <% for (Enumeration e = sharedDocs.elements(); e.hasMoreElements();){ 
+	SharedDocument this_sd = (SharedDocument) e.nextElement();
 	%>
             </p>
           </li>
-          <li><a href="sf_sim_var_budget.jsp?edit_sv=true&amp;sf_id=<%= this_sv.get_sf_id() %>"><%= this_sv.name %></a>
+          <li><a href="sf_shared_document.jsp?edit_sd=true&amp;sf_id=<%= this_sd.get_sf_id() %>"><%= this_sd.docTitle %></a>
             <p>
               <% } %>
             </p>
           </li>
         </ul>
-        <p>Add a budget</p>
+        <p>Add a shared document to the simulation </p>
       </blockquote>
-      <form name="form2" id="form2" method="post" action="sf_sim_var_budget.jsp">
-        <input type="hidden" name="sending_page" value="add_sim_var">
+      <form name="form2" id="form2" method="post" action="sf_shared_document.jsp">
+	<input type="hidden" name="sending_page" value="add_shared_doc">
         <table width="80%" border="0" cellspacing="2" cellpadding="1">
-          <tr valign="top">
-            <td width="1%">&nbsp;</td>
-            <td width="42%">Budget Name</td>
-            <td width="57%"> <input name="var_name" type="text" size="20" value="<%= sbv.name %>" /> 
+          <tr>
+            <td width="32%">&nbsp;</td>
+            <td width="32%">Tab Title</td>
+            <td width="68%"> <input name="tab_title" type="text" size="80" value="<%= sd.tabheading %>" /> 
             </td>
           </tr>
-          <tr valign="top">
-            <td>&nbsp;</td>
-            <td>Budget Description</td>
-            <td><textarea name="var_description" cols="20" rows="2"><%= sbv.description %></textarea></td>
+          <tr>
+            <td width="32%">&nbsp;</td>
+            <td width="32%">Document Title</td>
+            <td width="68%"> <input name="doc_title" type="text" size="80" value="<%= sd.docTitle %>"  /> 
+            </td>
           </tr>
-          <tr valign="top">
+          <tr>
             <td>&nbsp;</td>
-            <td>Starting Value</td>
-            <td> <input type="text" name="initial_value" value="<%= sbv.value %>" /></td>
+            <td>Document Description (seen by players)</td>
+            <td><textarea name="doc_desc" cols="60" rows="5"><%= sd.docDesc %></textarea></td>
           </tr>
-          <tr valign="top">
+          <tr>
             <td>&nbsp;</td>
-            <td>Budget Accumulates</td>
-            <td><input name="bud_accumulates" type="radio" value="yes" <% if (sbv.accumulates) { %> checked <% } %> />
-              Yes / 
-              <input type="radio" name="bud_accumulates" value="no" <% if (!(sbv.accumulates)) { %> checked <% } %> />
-              No</td>
+            <td>Document Starter Text (if any)</td>
+            <td><textarea name="doc_starter_text" cols="60" rows="5"><%= sd.docStarterText %></textarea></td>
           </tr>
-          <tr valign="top">
+          <tr>
             <td>&nbsp;</td>
-            <td> <% if (inEditingMode) { %> <input type="submit" name="edit_sim_var" value="Update" /> 
+            <td> <% if (inEditingMode) { %>
+              update 
               <% } else { %> <input type="submit" name="create_new" value="Submit" /> 
               <% } %></td>
             <td>&nbsp;</td>
           </tr>
         </table>
-      </form>
-      <p>&nbsp;</p>
-      <p align="center"><a href="incorporate_underlying_model.jsp">Back to Add Special 
-        Features</a></p>
-      <p>&nbsp;</p>
-      <!-- InstanceEndEditable -->
+    </form>
+    <p>&nbsp;</p>
+    <p align="center"><a href="../incorporate_underlying_model.jsp">Back to Add Special Features</a></p>
+    <p>&nbsp;</p>
+
+<!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

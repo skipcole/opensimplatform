@@ -58,6 +58,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Simulation Master Control Page</title>
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -91,7 +92,7 @@
 			
 			
 		%>
-        <form id="form2" name="form2" method="post" action="control.jsp">
+        <form id="form2" name="form2" method="post" action="change_phase.jsp">
 <input type="hidden" name="sending_page" value="control" />
             <tr>
               <td valign="top"><%= sp.getName() %>  <%= flagNotes %></td>

@@ -45,7 +45,7 @@
 <h2>Select Actors to Receive this </h2>
 <form name="form1" method="post" action="select_actors.jsp">
 <input type="hidden" name="sending_page" value="select_actors" />
-<% for (ListIterator la = sim.getActors().listIterator(); la.hasNext();) {
+<% for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
 	Actor act = (Actor) la.next(); %>
 
 	<label><input type="checkbox" name="actor_cb_<%= act.getId().toString() %>" value="true" /> <%= act.getName() %></label> <br/>	 

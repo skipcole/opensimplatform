@@ -30,7 +30,7 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>
-
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
 <h1>Simulation Feedback</h1>
 <p>This page is a place for you to enter in your comments on this simulation.</p>

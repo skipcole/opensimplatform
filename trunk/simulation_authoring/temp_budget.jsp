@@ -107,7 +107,7 @@
 <% for (Enumeration e = simVars.elements(); e.hasMoreElements();){ 
 	SimulationVariable this_sv = (SimulationVariable) e.nextElement();
 	%>
-	<li><a href="sf_sim_variable.jsp?edit_sv=true&amp;sf_id=<%= this_sv.get_sf_id() %>"><%= this_sv.name %></a></li>
+	<li><a href="a_save_for_later_folder/sf_sim_variable.jsp?edit_sv=true&amp;sf_id=<%= this_sv.get_sf_id() %>"><%= this_sv.name %></a></li>
 	<% } %>
 </ul>
 

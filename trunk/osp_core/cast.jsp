@@ -81,8 +81,15 @@
   		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 			Actor aa = (Actor) li.next();
 			
+			boolean showRole = false;
 			boolean showSemiPublic = false;
 			boolean showPrivate = false;
+			
+			if (this_actor.isControl_actor()) {
+				showRole = true;
+				showSemiPublic = true;
+				showPrivate = true;
+			}
 			
 			if (!(aa.getId().equals(pso.actor_id))) {
 			
@@ -90,7 +97,10 @@
 		%>
   <tr>
     <td valign="top" width="200"><img src="images/actors/<%= aa.getImageFilename() %>" width="200"  ><br><%= aa.getName() %></td>
-    <td valign="top">
+    <td valign="top"><% if (showRole) { %>
+        <p><strong>Their Role</strong><br />
+    	<%= aa.getRole(pso.schema, pso.sim_id) %></p>   <% } %>
+        
     	<p><strong>Public Description</strong>
     	<%= aa.getPublic_description() %></p>
     

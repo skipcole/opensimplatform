@@ -42,6 +42,7 @@ public class ParticipantSessionObject {
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
 
+	/** */
 	public boolean forward_on = false;
 
 	/** Schema of the database that the user is working in. */
@@ -145,6 +146,45 @@ public class ParticipantSessionObject {
 	/** Login ticket of this user. */
 	public LoggedInTicket myLoggedInTicket = new LoggedInTicket();
 
+	public String tabposition = "1";
+
+	public String bottomFrame = "";
+
+	/**
+	 * This is called from the top of the players frame to determine where they
+	 * should go.
+	 * 
+	 * @param request
+	 */
+	public void handleSimWeb(HttpServletRequest request) {
+
+		tabposition = (String) request.getParameter("tabposition");
+
+		bottomFrame = "frame_bottom.jsp";
+
+		int tabpos = 1;
+
+		try {
+			tabpos = new Integer(tabposition).intValue();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			List simSecList = new SimulationSection().getBySimAndActorAndPhase(schema, sim_id, actor_id, phase_id);
+
+			if (tabpos <= simSecList.size()) {
+				SimulationSection ss = (SimulationSection) simSecList.get(tabpos - 1);
+				bottomFrame = ss.generateURLforBottomFrame(running_sim_id, actor_id, user_id);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			forward_on = true;
+		}
+
+	}
+
 	/** Receives a heartbeat pulse from a user. */
 	public void acceptUserHeartbeatPulses(String from_actor, String from_tab, HttpServletRequest request) {
 
@@ -201,26 +241,44 @@ public class ParticipantSessionObject {
 
 	}
 
-	public void handleWriteAARandEndSim(HttpServletRequest request) {
+	public void handleWriteAAR(HttpServletRequest request) {
 
 		String command = (String) request.getParameter("command");
+		String sending_page = (String) request.getParameter("sending_page");
 
-		if (command != null) {
-			if (command.equalsIgnoreCase("Save Changes")) {
-				System.out.println("Command was save changes! ");
-				saveAarText(request);
-			} else if (command.equalsIgnoreCase("Save and End Simulation")) {
-				// Save text
-				saveAarText(request);
+		if (sending_page != null) {
+			if (command != null) {
+				if (command.equalsIgnoreCase("Save Changes")) {
+					saveAarText(request);
+				}
+			}
+		}
 
-				// Mark Completed, change phase
-				Simulation sim = this.giveMeSim();
-				System.out.println("forwarin on to : " + sim.getLastPhaseId(schema).toString());
-				this.changePhase(sim.getLastPhaseId(schema).toString(), request);
-				// this.changePhase("Completed", request);
+	}
+	
+	/**
+	 * Handles the termination of a simulation.
+	 * 
+	 * @param request
+	 */
+	public void handleEndSim(HttpServletRequest request) {
 
-				// Forward them back
-				forward_on = true;
+		String command = (String) request.getParameter("command");
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if (sending_page != null) {
+			if (command != null) {
+				if (command.equalsIgnoreCase("End Simulation")) {
+
+					// Mark Completed, change phase
+					Simulation sim = this.giveMeSim();
+					System.out.println("forwarin on to : " + sim.getLastPhaseId(schema).toString());
+					this.changePhase(sim.getLastPhaseId(schema).toString(), request);
+
+					// Forward them back
+					forward_on = true;
+					backPage = "../simulation/simwebui.jsp?tabposition=1";
+				}
 			}
 		}
 
@@ -716,7 +774,8 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * This handles 
+	 * This handles
+	 * 
 	 * @param section_tag
 	 * @param request
 	 * @return
@@ -1084,7 +1143,6 @@ public class ParticipantSessionObject {
 
 		return pso;
 	}
-
 
 	public List<SimulationSectionGhost> getSimSecList(HttpServletRequest request) {
 
@@ -1461,6 +1519,12 @@ public class ParticipantSessionObject {
 		}
 	}
 
+	/**
+	 * Creates an actor.
+	 * 
+	 * @param mpr
+	 * @param actorOnScratchPad
+	 */
 	public void createActor(MultipartRequest mpr, Actor actorOnScratchPad) {
 
 		try {
@@ -1505,7 +1569,7 @@ public class ParticipantSessionObject {
 				String initFileName = mpr.getOriginalFileName("uploadedfile");
 
 				if ((initFileName != null) && (initFileName.trim().length() > 0)) {
-								
+
 					actorOnScratchPad.setImageFilename(mpr.getOriginalFileName("uploadedfile"));
 
 					for (Enumeration e = mpr.getFileNames(); e.hasMoreElements();) {
@@ -1540,18 +1604,18 @@ public class ParticipantSessionObject {
 
 					String actors_role = (String) mpr.getParameter("actors_role");
 					String chat_color = (String) mpr.getParameter("chat_color");
-					
+
 					SimActorAssignment saa;
-					
+
 					if (!(SimActorAssignment.getActorsForSim(schema, sim_id).contains(actorOnScratchPad))) {
 						saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad.getId());
 					} else {
 						saa = SimActorAssignment.getMe(schema, sim_id, actorOnScratchPad.getId());
 					}
-					
+
 					saa.setActors_role(actors_role);
 					saa.setActors_chat_color(chat_color);
-					
+
 					saa.saveMe(schema);
 
 					SimulationSection.applyAllUniversalSections(schema, sim_id);
@@ -1560,7 +1624,6 @@ public class ParticipantSessionObject {
 
 				this.actor_name = actorOnScratchPad.getName();
 				this.actor_id = actorOnScratchPad.getId();
-
 
 			}
 		} catch (Exception e) {
@@ -1790,6 +1853,11 @@ public class ParticipantSessionObject {
 
 	}
 
+	/**
+	 * Sends out announcements to only the players selected. 
+	 * 
+	 * @param request
+	 */
 	public void makeTargettedAnnouncement(HttpServletRequest request) {
 
 		String targets = list2String(getIdsOfCheckBoxes("actor_cb_", request));
@@ -1882,7 +1950,6 @@ public class ParticipantSessionObject {
 	public Simulation giveMeSim() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
-
 
 		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -2815,8 +2882,8 @@ public class ParticipantSessionObject {
 			gv.saveMe(schema);
 		}
 	}
-	
-	public String getBaseSimURL(){
+
+	public String getBaseSimURL() {
 		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
 

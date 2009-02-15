@@ -57,7 +57,7 @@ public class Trigger {
 	private Long sim_id;
 
 	private Long var_id;
-	
+
 	private int var_type;
 
 	private int action_type;
@@ -159,51 +159,51 @@ public class Trigger {
 
 		Logger.getRootLogger().warn("Trigger.execute");
 		switch (action_type) {
-		
+
 		case ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR: {
 			Logger.getRootLogger().warn("ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR");
-			
+
 			GenericVariable gv = GenericVariable.getGVForRunningSim(pso.schema, var_id, pso.running_sim_id);
-			Logger.getRootLogger().warn("gv id: " +gv.getId());
-			
+			Logger.getRootLogger().warn("gv id: " + gv.getId());
+
 			RunningSimulation rs = RunningSimulation.getMe(pso.schema, pso.running_sim_id);
-			Logger.getRootLogger().warn("rs id: " +rs.getId());
-			
+			Logger.getRootLogger().warn("rs id: " + rs.getId());
+
 			AllowableResponse ar = AllowableResponse.getMe(pso.schema, gv.getCurrentlySelectedResponse());
-			Logger.getRootLogger().warn("ar id: " +ar.getId());
-			
+			Logger.getRootLogger().warn("ar id: " + ar.getId());
+
 			rs.setAar_text(rs.getAar_text() + ar.getSpecificWordsForAAR());
 			rs.saveMe(pso.schema);
-			
+
 		}
 		default: {
 
 		}
 		}
 	}
-	
+
 	/**
-	 * Pulls the triggers out for a particular variable. 
+	 * Pulls the triggers out for a particular variable.
 	 * 
 	 * @param schema
-	 * @param baseVarId	The id of the base variable this one was copied from.
+	 * @param baseVarId
+	 *            The id of the base variable this one was copied from.
 	 * @return
 	 */
-	public static List getTriggersForVariable(String schema, int var_type, Long baseVarId){
-		
+	public static List getTriggersForVariable(String schema, int var_type, Long baseVarId) {
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
+
 		List returnList = new ArrayList();
-		
-		if (var_type == VAR_TYPE_GENERIC){
-			
+
+		if (var_type == VAR_TYPE_GENERIC) {
+
 			System.out.println("from Trigger where var_id = '" + baseVarId + "'");
 
-				returnList = MultiSchemaHibernateUtil.getSession(schema)
-						.createQuery("from Trigger where var_id = '" + baseVarId + "'")
-						.list();
+			returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+					"from Trigger where var_id = '" + baseVarId + "'").list();
 
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		}
 
 		return returnList;

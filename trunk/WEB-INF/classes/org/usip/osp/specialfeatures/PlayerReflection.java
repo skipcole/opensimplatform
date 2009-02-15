@@ -11,6 +11,8 @@ import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
+ * This class represents the reflections of a player regarding a simulation.
+ * 
  * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -65,77 +67,6 @@ public class PlayerReflection implements Comparable{
 	@Lob
 	private String bigString = "";
 	
-	/**
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeReflectionPage(
-			HttpServletRequest request) {
-		
-		return null;
-		
-		/*
-		String tab_heading = (String) session.getAttribute("tab_heading");
-		String tab_pos = (String) session.getAttribute("tab_pos");
-		String universal = (String) session.getAttribute("universal");
-
-		String new_tab_heading = request.getParameter("tab_heading");
-		if ((new_tab_heading != null) && (new_tab_heading.length() > 0)) {
-			tab_heading = new_tab_heading;
-		}
-
-		String custom_page = request.getParameter("custom_page");
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(CustomizeableSection.class,
-						new Long(custom_page));
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		// Determine if setting sim to edit.
-		String sending_page = (String) request.getParameter("sending_page");
-
-		String save_page = (String) request.getParameter("save_page");
-		String save_and_add = (String) request.getParameter("save_and_add");
-
-		if ((sending_page != null)
-				&& ((save_page != null) || (save_and_add != null))
-
-				&& (sending_page.equalsIgnoreCase("make_reflection_page"))) {
-			// If this is the original custom page, make a new page
-
-			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad
-						.makeCopy(schema);
-				custom_page = customizableSectionOnScratchPad.getId() + "";
-			}
-
-			// Update page values
-			String make_reflection_page_text = (String) request
-					.getParameter("make_reflection_page_text");
-			customizableSectionOnScratchPad
-					.setBigString(make_reflection_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(tab_heading);
-			customizableSectionOnScratchPad.save(schema);
-
-			if (save_and_add != null) {
-				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad
-						.getId(), tab_pos, tab_heading, request, universal);
-				// send them back
-				forward_on = true;
-				return customizableSectionOnScratchPad;
-
-			}
-
-		} // End of if this is the make_write_news_page
-		
-		return customizableSectionOnScratchPad;
-		
-		*/
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -200,6 +131,14 @@ public class PlayerReflection implements Comparable{
 		this.bigString = bigString;
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param cs_id
+	 * @param rs_id
+	 * @param a_id
+	 * @return
+	 */
 	public static PlayerReflection getPlayerReflection(String schema, Long cs_id, Long rs_id, Long a_id){
 		
 		PlayerReflection playerReflection = new PlayerReflection();

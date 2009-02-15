@@ -21,7 +21,9 @@
 <html>
 <head>
 <title>View Player Reflection</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+</head>
 
 <body>
 

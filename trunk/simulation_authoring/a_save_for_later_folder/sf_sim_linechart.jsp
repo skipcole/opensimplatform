@@ -76,7 +76,7 @@
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
@@ -86,7 +86,7 @@
     <td>
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
-			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
+			<td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
       <h1>Add / Edit Line Chart</h1>
@@ -110,7 +110,7 @@
             </p>
           </li>
           <li><a href="sf_sim_linechart.jsp?edit_sv=true&amp;sf_id=<%= this_chart.get_sf_id() %>"><%= this_chart.name %></a>
-		  <a href="delete_object.jsp?object_type=sf_chart&amp;objid=<%= this_chart.get_sf_id() %>&amp;backpage=sf_sim_linechart.jsp&amp;object_info=&quot;<%= this_chart.name %>&quot;"> 
+		  <a href="../delete_object.jsp?object_type=sf_chart&amp;objid=<%= this_chart.get_sf_id() %>&amp;backpage=sf_sim_linechart.jsp&amp;object_info=&quot;<%= this_chart.name %>&quot;"> 
               (Remove) <%= this_chart.name %> </a>
             <p>
               <% } %>
@@ -186,7 +186,7 @@
         </table>
       </form>
       <p>&nbsp;</p>
-      <p align="center"><a href="incorporate_underlying_model.jsp">Back to Add Special 
+      <p align="center"><a href="../incorporate_underlying_model.jsp">Back to Add Special 
         Features</a></p>
       <p>&nbsp;</p>
       <!-- InstanceEndEditable -->

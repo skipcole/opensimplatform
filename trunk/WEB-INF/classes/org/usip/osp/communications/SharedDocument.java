@@ -162,6 +162,11 @@ public class SharedDocument {
 		
 	}
 
+	/**
+	 * Saves the object to the database.
+	 * 
+	 * @param schema
+	 */
 	public void save(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);

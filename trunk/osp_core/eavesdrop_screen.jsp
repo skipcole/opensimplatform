@@ -248,6 +248,7 @@ overflow:scroll;
 }
 </style>
 </head>
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body onLoad="timedCount();"> 
 <table width="50%">
 <TR>
