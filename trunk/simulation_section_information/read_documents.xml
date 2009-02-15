@@ -4,7 +4,7 @@
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>make_read_multiple_documents_page.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_read_documents_page.jsp</specificMakePage>
   <bigString></bigString>
   <description>A section to read a document or documents.</description>
   <url></url>

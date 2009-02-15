@@ -786,6 +786,12 @@ public class BaseSimSection implements Comparable {
 
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @param rec_tab_name
+	 * @return
+	 */
 	public static BaseSimSection getByRecommendedTagHeading(String schema, String rec_tab_name) {
 
 		BaseSimSection bss = null;
