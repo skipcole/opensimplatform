@@ -37,10 +37,13 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class SimulationSection {
 	
+	/** Position in binary string of bit indicating if running simulation id should be sent. */
 	public static final int POS_RS_ID = 0;
 	
+	/** Position in binary string of bit indicating if running actor id should be sent. */
 	public static final int POS_A_ID = 1;
 	
+	/** Position in binary string of bit indicating if running user id should be sent. */
 	public static final int POS_U_ID = 2;
 
 	@Id
@@ -93,9 +96,6 @@ public class SimulationSection {
 	@Column(name = "SIMSEC_FILENAME")
 	private String page_file_name = "";
 
-	@Column(name = "SIMSEC_OBJ_TAG")
-	private String object_tag = "";
-
 	@Column(name = "ADDED_AS_UNIV")
 	private boolean addedAsUniversalSection = false;
 	
@@ -147,13 +147,14 @@ public class SimulationSection {
 	public SimulationSection(String schema, Long sid, Long aid, Long pid,
 			Long bss_id, String tab_heading, int tab_position) {
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(BaseSimSection.class, bss_id);
-
-		MultiSchemaHibernateUtil.getSession(schema).evict(bss);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
+		BaseSimSection bss = null;
+		if (bss_id != null){
+			bss = BaseSimSection.getMe(schema, bss_id.toString());
+		} else {
+			System.out.println("Warning bss_id at simulation section creation was null.");
+			return;
+		}
+		
 		// These three ids locate the section to a simulation, actor and phase.
 		this.setSim_id(sid);
 		this.setActor_id(aid);
@@ -167,29 +168,12 @@ public class SimulationSection {
 
 		this.setPage_file_name(bss.getPage_file_name());
 
-		// Give this simulation this conversation, which will then be copied
-		// into the running sims
-		// This needs to be generalized.
-		/*
-		if ((bss.getPage_file_name() != null)
-				&& (bss.getPage_file_name()
-						.equalsIgnoreCase("broadcast_screen.jsp"))) {
-			Conversation conv = ChatController.createConversation(schema,
-					"broadcast", bss, sid);
-			this.setPage_file_name("broadcast_screen.jsp?conversation_id="
-					+ conv.getId());
-			this.setObject_tag("broadcast");
-		}
-		*/
-
 		// Inside a phase, the section can have different tab headings and
 		// positions.
 		this.setTab_heading(tab_heading);
 		this.setTab_position(tab_position);
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).save(this);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		this.save(schema);
 
 	}
 
@@ -819,14 +803,6 @@ public class SimulationSection {
 
 	public void setPage_file_name(String page_file_name) {
 		this.page_file_name = page_file_name;
-	}
-
-	public String getObject_tag() {
-		return object_tag;
-	}
-
-	public void setObject_tag(String object_tag) {
-		this.object_tag = object_tag;
 	}
 
 	public boolean isAddedAsUniversalSection() {

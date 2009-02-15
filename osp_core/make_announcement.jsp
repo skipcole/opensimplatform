@@ -35,7 +35,7 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>
-
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
 <h2>Make Announcement </h2>
 <form name="form1" method="post" action="make_announcement.jsp">

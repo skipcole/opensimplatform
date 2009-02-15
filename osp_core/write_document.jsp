@@ -47,7 +47,7 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>
-
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
 <p><%= cs.getBigString() %></p>
 

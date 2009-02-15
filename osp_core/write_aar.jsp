@@ -11,21 +11,17 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-			
-	String sending_page = (String) request.getParameter("sending_page");
-		
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("end_sim"))){
-		
-		pso.handleWriteAARandEndSim(request);
-		
-		if (pso.forward_on){
-			pso.forward_on = false;
-			response.sendRedirect("../simulation/simwebui.jsp?tabposition=1");
-			return;
-		}
 
-	} // End of if conditions met to end simulation
+		
+	pso.handleWriteAAR(request);
+
 	
+	if (pso.forward_on){
+		pso.forward_on = false;
+		response.sendRedirect("../simulation/simwebui.jsp?tabposition=1");
+		return;
+	}
+		
 	RunningSimulation rs = pso. giveMeRunningSim();
 	
 %>
@@ -38,11 +34,11 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>
-
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
 <h2>Write After Action Report (AAR) and End Simulation</h2>
 <p> The 'After Action Report' text shown below will be seen </p>
-<form name="form1" method="post" action="write_aar_end_sim.jsp">
+<form name="form1" method="post" action="write_aar.jsp">
  
 <p>
 		  <textarea id="write_aar_end_sim" name="write_aar_end_sim" style="height: 310px; width: 710px;"><%= rs.getAar_text() %></textarea>
@@ -57,7 +53,6 @@
     <input type="submit" name="command" id="savechanges" value="Save Changes">
   </p>
   <p>
-    <input type="submit" name="command" value="Save and End Simulation" />
     <input type="hidden" name="sending_page" value="end_sim" />
   </p>
 </form>

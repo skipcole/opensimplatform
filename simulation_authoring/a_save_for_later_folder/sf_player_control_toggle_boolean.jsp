@@ -18,26 +18,24 @@
 		
 	String debug = "";
 	
-	PlayerControl pc = new PlayerControl();
+	PlayerControlToggleBoolean pctb = new PlayerControlToggleBoolean();
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_player_control"))){
 	
-		pc.sim_id = pso.simulation.id;
-		pc.name = (String) request.getParameter("pc_name");
-		pc.description = (String) request.getParameter("pc_desc");
-		String x = (String) request.getParameter("select_var");
-		pc.intVar.set_sf_id(x);
+		pctb.sim_id = pso.simulation.id;
+		pctb.name = (String) request.getParameter("pc_name_bt");
+		pctb.title = (String) request.getParameter("pc_title");
+		pctb.description = (String) request.getParameter("pc_desc_bt");
 		
-		String dc_type = (String) request.getParameter("dc_type");
-		if ((dc_type != null) && (dc_type.equalsIgnoreCase("set_variable"))){
-			AllowableResponse ar1 = new AllowableResponse();
-			ar1.response_type = AllowableResponse.RT_SET;
-			ar1.controlText = (String) request.getParameter("dc_control_text");
-			pc.allowableResponses = new Vector();
-			pc.allowableResponses.add(ar1);
-		}
+		pctb.booleanVarSFid = (String) request.getParameter("select_boolean_var");
 		
-		debug = pc.store();
+		pctb.setToTrueLabelMessage = (String) request.getParameter("true_state_words");
+		pctb.setToFalseLabelMessage = (String) request.getParameter("false_state_words");
+		
+		pctb.tracked = (String) request.getParameter("mark_aar");
+		
+		debug = pctb.store();
+		
 	} // End of if 
 	
 		//////////////////////////////////
@@ -46,24 +44,22 @@
 	
 	boolean inEditingMode = false;
 	
-	
 	if ((edit_pc != null) && (edit_pc.equalsIgnoreCase("true"))){
 		
 		inEditingMode = true;
 		
-		pc = new PlayerControl();
+		pctb = new PlayerControlToggleBoolean();
 		
-		pc.set_sf_id ((String) request.getParameter("pc_id"));
+		pctb.set_sf_id ((String) request.getParameter("pc_id"));
 		
-		pc.load();
+		pctb.load();
 					
 	}
 	///////////////////////////////////////
 
-	Vector simVars = new IntegerVariable().getSetForASimulation(pso.simulation.id);
+	Vector simVars = new BooleanVariable().getSetForASimulation(pso.simulation.id);
 	
-	Vector simPCs = new PlayerControl().getSetForASimulation(pso.simulation.id);
-	
+	Vector simPCs = new PlayerControlToggleBoolean().getSetForASimulation(pso.simulation.id);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -74,7 +70,7 @@
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
@@ -84,16 +80,15 @@
     <td>
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
-			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
+			<td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Add / Edit Player Direct Control</h1>
+      <h1>Add / Edit Toggle Boolean Player Control</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <%= Debug.getDebug(debug) %>
       <blockquote>
-        <p>This control allows a player direct access to change a variable.</p>
-        <p>Current direct player controls for the Simulation <%= pso.simulation.name %>:</p>
+        <p>Current toggle boolean controls for the Simulation <%= pso.simulation.name %>:</p>
         <blockquote>
           <p>
             <% if (simPCs.size() == 0) { %>
@@ -104,63 +99,67 @@
             <p> 
               <% } %>
               <% for (Enumeration e = simPCs.elements(); e.hasMoreElements();){ 
-	PlayerControl this_pc = (PlayerControl) e.nextElement();
+	PlayerControlToggleBoolean this_pc = (PlayerControlToggleBoolean) e.nextElement();
 	%>
             </p>
           </li>
-          <li><a href="sf_player_control.jsp?edit_sv=true&amp;sf_id=<%= this_pc.get_sf_id() %>"><%= this_pc.name %></a> 
+          <li><a href="sf_player_control_transfer_funds.jsp?edit_sv=true&amp;sf_id=<%= this_pc.get_sf_id() %>"><%= this_pc.name %></a> 
             <p> 
               <% } %>
-              <br />
             </p>
+            
           </li>
         </ul>
       </blockquote>
-      <form name="form2" id="form2" method="post" action="sf_player_direct_control.jsp">
-	  <input type="hidden" name="sending_page" value = "add_player_control">
-        <blockquote> Player Control Name: 
-          <input type="text" name="pc_name" />
-          <p>First select the variable which will be controlled or modified.</p>
-            <select name="select_var">
-		  		<% for (Enumeration e = simVars.elements(); e.hasMoreElements();){ 
-				SimulationVariable this_sv = (SimulationVariable) e.nextElement();
-				%>
-              <option value="<%= this_sv.get_sf_id() %>" selected="selected"><%= this_sv.name %></option>
-			  <% } %>
-            </select>
-          <p>&nbsp;</p>
+      <form name="form2" id="form2" method="post" action="sf_player_control_toggle_boolean.jsp">
+        <input type="hidden" name="sending_page" value = "add_player_control">
+        <blockquote> 
+          <p>Player Control Name: 
+            <input type="text" name="pc_name_bt" />
+          </p>
+
           <table width="100%" border="0" cellspacing="2" cellpadding="1">
             <tr valign="top"> 
-              <td width="32%"> 
-                <input type="radio" name="dc_type" value="radiobutton" disabled />
-                Specific Values</td>
-              <td width="68%">&nbsp;</td>
+              <td>Boolean Variable: </td>
+              <td><select name="select_boolean_var">
+                  <% for (Enumeration e = simVars.elements(); e.hasMoreElements();){ 
+				SimulationVariable this_sv = (SimulationVariable) e.nextElement();
+				%>
+                  <option value="<%= this_sv.get_sf_id() %>" selected="selected"><%= this_sv.name %></option>
+                  <% } %>
+                </select></td>
+            </tr>
+            <tr valign="top">
+              <td>Title on Player Control Page</td>
+              <td><input type="text" name="pc_title" /></td>
             </tr>
             <tr valign="top"> 
-              <td> 
-                <input name="dc_type" type="radio" value="set_variable" checked="checked" />
-                Any Value</td>
-              <td>Label seen by user: 
-                <input type="text" name="dc_control_text" /></td>
+              <td width="32%">Introduction on Player Control Page</td>
+              <td width="68%"> <textarea name="pc_desc_bt" cols="40" rows="5"></textarea></td>
             </tr>
             <tr valign="top"> 
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+              <td>Description of True State</td>
+              <td><textarea name="true_state_words"></textarea></td>
             </tr>
             <tr valign="top"> 
-              <td>Introduction on Player Control Page</td>
-              <td> 
-                <textarea name="pc_desc" cols="40" rows="5"></textarea></td>
+              <td>Description of False State</td>
+              <td><textarea name="false_state_words"></textarea></td>
+            </tr>
+            <tr valign="top"> 
+              <td>Mark Changes in the AAR</td>
+              <td><input type="radio" name="mark_aar" value="true">
+                Yes / 
+                <input type="radio" name="mark_aar" value="false">
+                No</td>
             </tr>
           </table>
-          <p> 
+          <p>
             <input type="submit" name="Submit2" value="Submit" />
           </p>
           <p>&nbsp; </p>
         </blockquote>
       </form>
-      <p>&nbsp;</p>
-	  <p align="center"><a href="incorporate_underlying_model.jsp">Back to Add Special Features</a></p>
+      <p align="center"><a href="../incorporate_underlying_model.jsp">Back to Add Special Features</a></p>
 	  <p>&nbsp;</p>
       <!-- InstanceEndEditable -->
 			</td>

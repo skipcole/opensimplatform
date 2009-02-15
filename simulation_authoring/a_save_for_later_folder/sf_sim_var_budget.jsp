@@ -6,24 +6,36 @@
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
+	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
+		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+		response.sendRedirect("add_special_features.jsp");
+		return;
+	}
+	
 	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
 	String create_new = (String) request.getParameter("create_new");
 		
 	String debug = "";
 	
-	IntVariable sv = new IntVariable();
+	BudgetVariable sbv = new BudgetVariable();
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_sim_var"))){
+	
+		sbv.sim_id = pso.simulation.id;
+		sbv.name = (String) request.getParameter("var_name");
+		sbv.value = (String) request.getParameter("initial_value");
+		sbv.description = (String) request.getParameter("var_description");
 		
-		sv.setName(request.getParameter("var_name"));
-		sv.setDescription(request.getParameter("description"));
-		sv.setPropagation_type(request.getParameter("prop_type"));
-		sv.setInitialValue(request.getParameter("start_value"));
-		pso.hibernate_session.saveOrUpdate(sv);
-		pso.simulation.getVar_int().add(sv);
-		pso.hibernate_session.saveOrUpdate(pso.simulation);
+		String bud_accumulates = (String) request.getParameter("bud_accumulates");
 		
+		if ((bud_accumulates != null) && (bud_accumulates.equalsIgnoreCase("yes"))){
+			sbv.accumulates = true;
+		} else {
+			sbv.accumulates = false;
+		}
+		
+		debug = sbv.store();
 	} // End of if 
 	
 		//////////////////////////////////
@@ -32,26 +44,28 @@
 	
 	boolean inEditingMode = false;
 	
-	String varBoolean = "";
-	String varDecimal = "";
-	String varInteger = "";
-	
 	
 	if ((edit_sv != null) && (edit_sv.equalsIgnoreCase("true"))){
-		/*
+		
 		inEditingMode = true;
 		
-		sv = new IntegerVariable();
+		sbv = new BudgetVariable();
 		
-		sv.set_sf_id((String) request.getParameter("sf_id"));
+		sbv.set_sf_id((String) request.getParameter("sf_id"));
 		
-		sv.load();
-		*/
-					
+		sbv.load();
 	}
 	///////////////////////////////////////
 
-	List simInts = pso.simulation.getVar_int();
+	Vector simVars = new BudgetVariable().getSetForASimulation(pso.simulation.id);
+	
+	String trueSelected = "";
+	String falseSelected = "selected";
+	
+	if (sbv.value.equalsIgnoreCase("true")){
+		trueSelected = "selected";
+		falseSelected = "";
+	}
 	
 	
 %>
@@ -63,7 +77,7 @@
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
@@ -73,68 +87,76 @@
     <td>
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
-			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
+			<td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Add / Edit Integer Variable</h1>
+      <h1>Add / Edit Budget Variable</h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
 <p><%= Debug.getDebug(debug) %></p>
+      <p>&nbsp;</p>
       <blockquote>
-        <p>Current integer variables for the Simulation <%= pso.simulation.getDisplayName() %>:</p>
+        <p>Current budgets for the Simulation <%= pso.simulation.name %>:</p>
         <blockquote>
           <p>
-            <% if (simInts.size() == 0) { %>
+            <% if (simVars.size() == 0) { %>
           </p>
         </blockquote>
         <ul>
           <li>None
             <p>
               <% } %>
-              <% for (ListIterator li = simInts.listIterator(); li.hasNext();) {
-					IntVariable iv = (IntVariable) li.next();
+              <% for (Enumeration e = simVars.elements(); e.hasMoreElements();){ 
+			BudgetVariable this_sv = (BudgetVariable) e.nextElement();
 	%>
             </p>
           </li>
-          <li><a href="sf_sim_var_integer.jsp?edit_sv=true&amp;sf_id=<%= iv.getid() %>"><%= iv.getName() %></a>
-		  <a href="delete_object.jsp?object_type=sf_var_int&amp;objid=<%= iv.getid() %>&amp;backpage=sf_sim_var_integer.jsp&amp;object_info=&quot;<%= iv.getname() %>&quot;"> 
-              (Remove) <%= iv.getName() %> </a>
+          <li><a href="sf_sim_var_budget.jsp?edit_sv=true&amp;sf_id=<%= this_sv.get_sf_id() %>"><%= this_sv.name %></a>
             <p>
               <% } %>
             </p>
           </li>
         </ul>
-        <p>Add a possible inject </p>
+        <p>Add a budget</p>
       </blockquote>
-      <form name="form2" id="form2" method="post" action="sf_sim_var_integer.jsp">
+      <form name="form2" id="form2" method="post" action="sf_sim_var_budget.jsp">
         <input type="hidden" name="sending_page" value="add_sim_var">
         <table width="80%" border="0" cellspacing="2" cellpadding="1">
-          <tr valign="top"> 
-            <td width="32%">&nbsp;</td>
-            <td width="32%">Inject Name</td>
-            <td width="68%" colspan="2"> <input name="var_name" type="text" size="80" value="<%= sv.getName() %>" />            </td>
+          <tr valign="top">
+            <td width="1%">&nbsp;</td>
+            <td width="42%">Budget Name</td>
+            <td width="57%"> <input name="var_name" type="text" size="20" value="<%= sbv.name %>" /> 
+            </td>
           </tr>
           <tr valign="top">
             <td>&nbsp;</td>
-            <td>Inject Description</td>
-            <td colspan="2"><textarea name="description" cols="30" rows="2"><%= sv.getDescription() %></textarea></td>
+            <td>Budget Description</td>
+            <td><textarea name="var_description" cols="20" rows="2"><%= sbv.description %></textarea></td>
           </tr>
-          <tr valign="top"> 
+          <tr valign="top">
             <td>&nbsp;</td>
-            <td>Inject Text </td>
-            <td colspan="2"> <input type="text" name="start_value" value="<%= sv.getInitial_value() %>" />            </td>
+            <td>Starting Value</td>
+            <td> <input type="text" name="initial_value" value="<%= sbv.value %>" /></td>
           </tr>
-          <tr> 
+          <tr valign="top">
+            <td>&nbsp;</td>
+            <td>Budget Accumulates</td>
+            <td><input name="bud_accumulates" type="radio" value="yes" <% if (sbv.accumulates) { %> checked <% } %> />
+              Yes / 
+              <input type="radio" name="bud_accumulates" value="no" <% if (!(sbv.accumulates)) { %> checked <% } %> />
+              No</td>
+          </tr>
+          <tr valign="top">
             <td>&nbsp;</td>
             <td> <% if (inEditingMode) { %> <input type="submit" name="edit_sim_var" value="Update" /> 
               <% } else { %> <input type="submit" name="create_new" value="Submit" /> 
               <% } %></td>
-            <td colspan="2">&nbsp;</td>
+            <td>&nbsp;</td>
           </tr>
         </table>
       </form>
       <p>&nbsp;</p>
-      <p align="center"><a href="incorporate_underlying_model.jsp">Back to Add Special 
+      <p align="center"><a href="../incorporate_underlying_model.jsp">Back to Add Special 
         Features</a></p>
       <p>&nbsp;</p>
       <!-- InstanceEndEditable -->

@@ -63,8 +63,7 @@
             <input type="submit" name="save_page" value="Save" />
             <input type="submit" name="save_and_add" value="Save and Add Section" />
           </p>
-          <p><input type="submit" name="create_duplicate" value="Create Duplicate" disabled /></p>
-        </blockquote>
+          </blockquote>
       </form>
 	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>

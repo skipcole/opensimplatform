@@ -22,7 +22,7 @@
 <title>USIP OSP Image Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
-
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
 <p><%= cs.getBigString() %></p>
 <p align="center"><img src="<%= cs.simImage(pso.getBaseSimURL()) %>"></p>

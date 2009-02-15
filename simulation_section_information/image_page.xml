@@ -4,28 +4,8 @@
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>make_image_page.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_image_page.jsp</specificMakePage>
   <bigString></bigString>
-  <contents>
-   <entry>
-      <string>page_title</string>
-      <string></string>
-    </entry>
-    <entry>
-      <string>image_file_name</string>
-      <string></string>
-    </entry>
-  </contents>
-  <meta__content>
-    <entry>
-      <string>page_title</string>
-      <string>Page Title to be shown on page.</string>
-    </entry>
-    <entry>
-      <string>image_file_name</string>
-      <string>Image to be shown on page.</string>
-    </entry>
-  </meta__content>
   <description>A page that will only display text and/or an image on it. One of these pages can be a placeholder for pages that require more advanced programming.</description>
   <url></url>
   <directory>../osp_core/</directory>

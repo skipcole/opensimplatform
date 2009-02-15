@@ -71,14 +71,6 @@
           / 
           <input type="radio" name="display_control" id="display_control_no" value="false" <%= selected_display_control_no %> />
           No          </p>
-        <p>If shown, Control character will be at bottom of page  
-          <label>
-          <input name="radio" type="radio" id="display_control_on_bottom_yes" value="display_control_yes" checked="checked" />
-Yes</label>
-/
-<input type="radio" name="radio" id="display_control_on_bottom_no" value="display_control_no" />
-No <br>
-        </p>
       </blockquote>
       
         <blockquote>

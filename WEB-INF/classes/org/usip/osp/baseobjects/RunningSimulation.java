@@ -59,15 +59,6 @@ public class RunningSimulation {
 	@JoinColumn(name = "RUNNING_SIM_ID")
 	private List<UserAssignment> user_assignments = new ArrayList<UserAssignment>();
 
-	@OneToMany
-	@JoinColumn(name = "RUNNING_SIM_ID")
-	private List<IntVariable> var_int = new ArrayList<IntVariable>();
-
-	/*
-	 * @OneToMany @JoinColumn(name = "RUNNING_SIM_ID") private List<Conversation>
-	 * conversations = new ArrayList<Conversation>();
-	 */
-
 	/** The id of the current phase. */
 	@Column(name = "RS_PHASEID")
 	private Long phase_id;
@@ -146,13 +137,7 @@ public class RunningSimulation {
 
 		System.out.println("Enabling Sim.");
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
-		// Create objects to hold the data
-		Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
-				schema).get(Simulation.class, new Long(sid));
-		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		Simulation sim = Simulation.getMe(schema, new Long(sid));
 
 		doFinalChecksOnSim(sim, schema);
 
@@ -168,13 +153,16 @@ public class RunningSimulation {
 		// Mark it ready to go
 		this.ready_to_begin = true;
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
+		this.saveMe(schema);
+		
 	}
 
 	public void doFinalChecksOnSim(Simulation sim, String schema) {
+		
+		// Loop over all of the simulation sections, find the ones with dependent objects
+		
+		//Add the objects to a hashtable based on the base template object (so template object
+		//shared by multiple sections only contribute one new object.
 
 		// Making sure all actors added to broadcast chat
 		for (ListIterator<Conversation> lc = sim.getConversations(schema)
@@ -406,14 +394,6 @@ public class RunningSimulation {
 
 	public void setRound(int round) {
 		this.round = round;
-	}
-
-	public List<IntVariable> getVar_int() {
-		return var_int;
-	}
-
-	public void setVar_int(List<IntVariable> var_int) {
-		this.var_int = var_int;
 	}
 
 	public String getAar_text() {

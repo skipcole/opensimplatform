@@ -69,7 +69,7 @@
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
@@ -79,7 +79,7 @@
     <td>
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
-			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
+			<td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
       <h1>Add / Edit Budget Variable</h1>
@@ -174,7 +174,7 @@
 	  </form>
       <p>&nbsp;</p>
       <p>&nbsp;</p>
-      <p align="center"><a href="incorporate_underlying_model.jsp">Back to Add Special 
+      <p align="center"><a href="../incorporate_underlying_model.jsp">Back to Add Special 
         Features</a></p>
       <p>&nbsp;</p>
       <!-- InstanceEndEditable -->

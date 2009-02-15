@@ -24,7 +24,7 @@
 <title>Create Actor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 </head>
-
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
 
 <h1>Users Logged in to this Simulation Run</h1>

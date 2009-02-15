@@ -58,7 +58,7 @@
 	      <p>Fill out the top right part of the grid below to determine the sets of characters that will have a private chat window. </p>
           <table border="1"><tr><td>&nbsp;</td>
 		  <%
-			for (ListIterator la = sim.getActors().listIterator(); la.hasNext();) {
+			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 				String checked = "";
 			%>
@@ -67,7 +67,7 @@
             </tr>
             <%
 			int index_row = 0;
-			for (ListIterator la = sim.getActors().listIterator(); la.hasNext();) {
+			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 				index_row += 1;
 			%>
@@ -77,7 +77,7 @@
 				Hashtable setConversations = pso.setOfPrivateConversation();
 				
 				int index_col = 0;
-				for (ListIterator la2 = sim.getActors().listIterator(); la2.hasNext();) {
+				for (ListIterator la2 = sim.getActors(pso.schema).listIterator(); la2.hasNext();) {
 					Actor act2 = (Actor) la2.next();
 					index_col += 1;
 				

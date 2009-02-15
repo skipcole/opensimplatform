@@ -112,6 +112,7 @@ body {
       <td></td>
     </tr>
   </table>
+      <p><a href="../simulation/simwebui.jsp" target="_top">Back</a></p>
       <p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
