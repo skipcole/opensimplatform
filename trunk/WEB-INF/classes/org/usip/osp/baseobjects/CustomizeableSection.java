@@ -81,11 +81,25 @@ public class CustomizeableSection extends BaseSimSection {
     
     private boolean hasCustomizer = false;
     
+    /** If this has a customizer, what class should be instantiated to serve as it. */
     private String customizerClassName;
     
     @Transient
     private Customizer myCustomizer;
     
+    /** If this object has dependent objects (conversations, shared documents, allowable responses, etc.) then
+     * how many of them are expected to be found.
+     */
+    private int numDependentObjects = 0;
+    
+
+	public int getNumDependentObjects() {
+		return numDependentObjects;
+	}
+
+	public void setNumDependentObjects(int numDependentObjects) {
+		this.numDependentObjects = numDependentObjects;
+	}
 
 	public Customizer getMyCustomizer() {
 		return myCustomizer;

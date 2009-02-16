@@ -21,15 +21,15 @@ import org.usip.osp.specialfeatures.*;
  * 
  * @author Ronald "Skip" Cole<br />
  * 
- * This file is part of the USIP Open Simulation Platform.<br>
+ *         This file is part of the USIP Open Simulation Platform.<br>
  * 
- * The USIP Open Simulation Platform is free software; you can redistribute it
- * and/or modify it under the terms of the new BSD Style license associated with
- * this distribution.<br>
+ *         The USIP Open Simulation Platform is free software; you can
+ *         redistribute it and/or modify it under the terms of the new BSD Style
+ *         license associated with this distribution.<br>
  * 
- * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. <BR>
+ *         The USIP Open Simulation Platform is distributed WITHOUT ANY
+ *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
 @Entity
@@ -48,11 +48,14 @@ public class RunningSimulation {
 
 	@Column(name = "RS_NAME")
 	private String name;
-	
+
 	/** Indicates if running sim can be changed by change packets. */
 	private boolean allowExternallySumbittedChanges = false;
-	
-	/** Running simulations that can receive change request packets can be password protected. */
+
+	/**
+	 * Running simulations that can receive change request packets can be
+	 * password protected.
+	 */
 	private String rs_password;
 
 	@OneToMany
@@ -82,11 +85,12 @@ public class RunningSimulation {
 	@Column(name = "RS_AAR")
 	@Lob
 	private String aar_text = "";
-	
+
 	/** Zero argument constructor required by hibernate. */
-	public RunningSimulation(){
-		
+	public RunningSimulation() {
+
 	}
+
 	/**
 	 * 
 	 * @param name
@@ -94,19 +98,19 @@ public class RunningSimulation {
 	 * @param sim
 	 * @param schema
 	 */
-	public RunningSimulation(String name, Simulation sim, String schema){
-		
+	public RunningSimulation(String name, Simulation sim, String schema) {
+
 		this.name = name;
 		this.aar_text = sim.getAar_starter_text();
 		this.phase_id = sim.getFirstPhaseId(schema);
 		this.sim_id = sim.getId();
-		
+
 		this.saveMe(schema);
 		this.createMyDocuments(schema, sim);
 		this.createMyVariables(schema, sim);
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
@@ -116,8 +120,8 @@ public class RunningSimulation {
 	public static RunningSimulation getMe(String schema, Long rs_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		RunningSimulation this_rs  = (RunningSimulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(RunningSimulation.class, rs_id);
+		RunningSimulation this_rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
+				RunningSimulation.class, rs_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -132,12 +136,13 @@ public class RunningSimulation {
 	 * @param emailText
 	 * @return
 	 */
-	public void enableAndPrep(String schema, String sid, String from,
-			String email_users, String emailText) {
+	public void enableAndPrep(String schema, String sid, String from, String email_users, String emailText) {
 
 		System.out.println("Enabling Sim.");
 
 		Simulation sim = Simulation.getMe(schema, new Long(sid));
+
+		createRunningSimObjects(schema, sim);
 
 		doFinalChecksOnSim(sim, schema);
 
@@ -154,33 +159,84 @@ public class RunningSimulation {
 		this.ready_to_begin = true;
 
 		this.saveMe(schema);
-		
+
+	}
+
+	/**
+	 * Loops over the 
+	 * @param schema
+	 * @param sim
+	 */
+	public void createRunningSimObjects(String schema, Simulation sim) {
+
+		// Get all of the dependent object assignments for this simulation
+		List doAss = BaseSimSectionDepObjectAssignment.getSimDependencies(schema, sim.getId());
+
+		// Create a table to list all of the objects we have created.
+		Hashtable uniqueSimObjects = new Hashtable();
+
+		// Loop over dependent object assignments found for this simulation
+		for (ListIterator<BaseSimSectionDepObjectAssignment> lc = doAss.listIterator(); lc.hasNext();) {
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) lc.next();
+			
+			// The unique key is to prevent us from creating multiple objects for one object.
+			String uniqueKey = bssdoa.getClassName() + "_" + bssdoa.getObjectId();
+			
+			// Try to get a string from the list using the above key. (If found, we have already 
+			// created this object.
+			String checkCreatedString = (String) uniqueSimObjects.get(uniqueKey);
+			
+			if (checkCreatedString == null){
+				
+				try {
+					Class objClass = Class.forName(bssdoa.getClassName());
+					
+					MultiSchemaHibernateUtil.beginTransaction(schema);
+					SimSectionDependentObject template_obj = (SimSectionDependentObject)
+						MultiSchemaHibernateUtil.getSession(schema).get(objClass, bssdoa.getObjectId());
+					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+					
+					// Create object
+					Long thisRSVersionsId = template_obj.createRunningSimVersion(schema, 
+							bssdoa.getObjectId(), this.id, template_obj);
+					
+					
+				} catch (Exception er) {
+					er.printStackTrace();
+				}
+
+				// Add the objects to a hashtable based on the base template object
+				// (so template object shared by multiple sections only contribute one new object).
+				uniqueSimObjects.put(uniqueKey,"set");
+			}
+			
+			SimSectionRSDepOjbectAssignment ssrsdoa = new SimSectionRSDepOjbectAssignment();
+			ssrsdoa.setClassName(bssdoa.getClassName());
+			ssrsdoa.setObjectId(bssdoa.getObjectId());
+			ssrsdoa.setRs_id(this.id);
+			ssrsdoa.setSection_id(bssdoa.getBss_id());
+			ssrsdoa.setSSRSDOA_Index(bssdoa.getDepObjIndex());
+			ssrsdoa.setUniqueTagName(bssdoa.getUniqueTagName());
+			
+			ssrsdoa.saveMe(schema);
+		}
+
 	}
 
 	public void doFinalChecksOnSim(Simulation sim, String schema) {
-		
-		// Loop over all of the simulation sections, find the ones with dependent objects
-		
-		//Add the objects to a hashtable based on the base template object (so template object
-		//shared by multiple sections only contribute one new object.
 
 		// Making sure all actors added to broadcast chat
-		for (ListIterator<Conversation> lc = sim.getConversations(schema)
-				.listIterator(); lc.hasNext();) {
+		for (ListIterator<Conversation> lc = sim.getConversations(schema).listIterator(); lc.hasNext();) {
 			Conversation conv = (Conversation) lc.next();
 
-			if ((conv.getConversation_name() != null)
-					&& (conv.getConversation_name()
-							.equalsIgnoreCase("broadcast"))) {
-				
+			if ((conv.getConversation_name() != null) && (conv.getConversation_name().equalsIgnoreCase("broadcast"))) {
+
 				MultiSchemaHibernateUtil.beginTransaction(schema);
-				
 
 				conv.setConv_actor_assigns(new ArrayList<ConvActorAssignment>());
 
 				// loop over simulation actors
-				for (ListIterator<Actor> la = sim.getActors(schema).listIterator(); la
-						.hasNext();) {
+				for (ListIterator<Actor> la = sim.getActors(schema).listIterator(); la.hasNext();) {
 					Actor act = (Actor) la.next();
 
 					ConvActorAssignment caa = new ConvActorAssignment();
@@ -192,7 +248,7 @@ public class RunningSimulation {
 				}
 
 				MultiSchemaHibernateUtil.getSession(schema).save(conv);
-				
+
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 			}
 
@@ -200,18 +256,17 @@ public class RunningSimulation {
 
 	}
 
-	
 	/**
-	 * Creates copies of all of the shared documents held in the sim, so one is available
-	 * for this running sim.
+	 * Creates copies of all of the shared documents held in the sim, so one is
+	 * available for this running sim.
 	 * 
 	 * @param schema
 	 * @param sim
 	 */
-	private void createMyDocuments(String schema, Simulation sim){
-		
+	private void createMyDocuments(String schema, Simulation sim) {
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
+
 		for (ListIterator<SharedDocument> li = SharedDocument.getAllBaseDocumentsForSim(
 				MultiSchemaHibernateUtil.getSession(schema), sim.getId()).listIterator(); li.hasNext();) {
 			SharedDocument sd = (SharedDocument) li.next();
@@ -219,32 +274,30 @@ public class RunningSimulation {
 			sd.createCopy(this.id, MultiSchemaHibernateUtil.getSession(schema));
 
 		}
-		
+
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-		
+
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 	}
-	
+
 	/**
-	 * Creates copies of all of the variables held by the sim, so one is available
-	 * for this running sim.
+	 * Creates copies of all of the variables held by the sim, so one is
+	 * available for this running sim.
 	 * 
 	 * @param schema
 	 * @param sim
 	 */
-	private void createMyVariables(String schema, Simulation sim){
-		
-		for (ListIterator<GenericVariable> li = GenericVariable.getAllBaseGenericVariablesForSim(
-				schema, sim.getId()).listIterator(); li.hasNext();) {
+	private void createMyVariables(String schema, Simulation sim) {
+
+		for (ListIterator<GenericVariable> li = GenericVariable.getAllBaseGenericVariablesForSim(schema, sim.getId())
+				.listIterator(); li.hasNext();) {
 			GenericVariable gv = (GenericVariable) li.next();
 
 			GenericVariable gv_copy = gv.createCopy(this.id, schema);
-			
-		}
-		
 
-		
+		}
+
 	}
 
 	/**
@@ -258,40 +311,31 @@ public class RunningSimulation {
 	 */
 	public void sendWelcomeEmail(String schema, String from, String emailText) {
 
-		emailText = emailText.replace("[web_site_location]",
-				Emailer.simulation_url);
+		emailText = emailText.replace("[web_site_location]", Emailer.simulation_url);
 
-		for (ListIterator<UserAssignment> li = user_assignments.listIterator(); li
-				.hasNext();) {
+		for (ListIterator<UserAssignment> li = user_assignments.listIterator(); li.hasNext();) {
 			UserAssignment ua = (UserAssignment) li.next();
 
 			String this_guys_emailText = emailText;
 
-			///////////////////////////////////////
+			// /////////////////////////////////////
 			MultiSchemaHibernateUtil.beginTransaction(schema);
-			User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, ua
-					.getUser_id());
+			User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, ua.getUser_id());
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			///////////////////////////////////////
-			MultiSchemaHibernateUtil.beginTransaction(
-					MultiSchemaHibernateUtil.principalschema, true);
-			BaseUser bu = (BaseUser) MultiSchemaHibernateUtil.getSession(
-					MultiSchemaHibernateUtil.principalschema, true).get(
-					BaseUser.class, ua.getUser_id());
-			MultiSchemaHibernateUtil
-					.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-			/////////////////////////////////////////
-			
-			this_guys_emailText = this_guys_emailText.replace("[username]", bu
-					.getUsername());
+			// /////////////////////////////////////
+			MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
+			BaseUser bu = (BaseUser) MultiSchemaHibernateUtil
+					.getSession(MultiSchemaHibernateUtil.principalschema, true).get(BaseUser.class, ua.getUser_id());
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+			// ///////////////////////////////////////
 
-			this_guys_emailText = this_guys_emailText.replace("[password]", bu
-					.getPassword());
+			this_guys_emailText = this_guys_emailText.replace("[username]", bu.getUsername());
+
+			this_guys_emailText = this_guys_emailText.replace("[password]", bu.getPassword());
 
 			String fullEmail;
 
-			if ((bu.getFull_name() != null)
-					&& (bu.getFull_name().trim().length() > 0)) {
+			if ((bu.getFull_name() != null) && (bu.getFull_name().trim().length() > 0)) {
 				fullEmail = "Dear " + bu.getFull_name() + ",\r\n";
 			} else {
 				fullEmail = "Dear Player, " + "\r\n";
@@ -303,22 +347,21 @@ public class RunningSimulation {
 
 			String cc = null;
 			String bcc = from;
-			
-			Emailer.postSimReadyMail(schema, bu.getUsername(), from, cc,
-					bcc, "Simulation Starting", fullEmail);
+
+			Emailer.postSimReadyMail(schema, bu.getUsername(), from, cc, bcc, "Simulation Starting", fullEmail);
 
 		}
 
 	}
 
-	public List<RunningSimulation> getAll(
-			org.hibernate.Session hibernate_session) {
+	public List<RunningSimulation> getAll(org.hibernate.Session hibernate_session) {
 
 		return (hibernate_session.createQuery("from RunningSimulation").list());
 	}
-	
+
 	/**
-	 * Returns a list of all running sims created for a simulation. 
+	 * Returns a list of all running sims created for a simulation.
+	 * 
 	 * @param simid
 	 * @param schema
 	 * @return
@@ -326,15 +369,14 @@ public class RunningSimulation {
 	public static List<RunningSimulation> getAllForSim(String simid, String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
+
 		List<RunningSimulation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from RunningSimulation where sim_id = " + simid).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 		return returnList;
 	}
-	
 
 	public Long getId() {
 		return id;
@@ -363,15 +405,19 @@ public class RunningSimulation {
 	public boolean isAllowExternallySumbittedChanges() {
 		return allowExternallySumbittedChanges;
 	}
+
 	public void setAllowExternallySumbittedChanges(boolean allowExternallySumbittedChanges) {
 		this.allowExternallySumbittedChanges = allowExternallySumbittedChanges;
 	}
+
 	public String getRs_password() {
 		return rs_password;
 	}
+
 	public void setRs_password(String rs_password) {
 		this.rs_password = rs_password;
 	}
+
 	public List<UserAssignment> getUser_assignments() {
 		return user_assignments;
 	}
@@ -456,26 +502,24 @@ public class RunningSimulation {
 	 * Gets the alert text that is applicable for this actor for this running
 	 * sim.
 	 */
-	public static String getActorAlertText(String schema, Long rs_id,
-			Long act_id) {
+	public static String getActorAlertText(String schema, Long rs_id, Long act_id) {
 
 		String returnString = "";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(RunningSimulation.class, rs_id);
+		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
+				RunningSimulation.class, rs_id);
 
 		// Get list iterator positioned at the end.
 		ListIterator<Alert> la = rs.getAlerts().listIterator(rs.getAlerts().size());
-		
-		while (la.hasPrevious()){	
+
+		while (la.hasPrevious()) {
 			Alert al = (Alert) la.previous();
 
-			al = (Alert) MultiSchemaHibernateUtil.getSession(schema).get(
-					Alert.class, al.getId());
+			al = (Alert) MultiSchemaHibernateUtil.getSession(schema).get(Alert.class, al.getId());
 			if (al.checkActor(act_id)) {
-				returnString += ("<B>" + al.getTimeOfAlert() + "</B><BR>"+ al.getAlertMessage() + "<hr>");
+				returnString += ("<B>" + al.getTimeOfAlert() + "</B><BR>" + al.getAlertMessage() + "<hr>");
 			}
 		}
 
