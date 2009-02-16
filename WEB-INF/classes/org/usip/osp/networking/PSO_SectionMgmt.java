@@ -763,7 +763,7 @@ public class PSO_SectionMgmt {
 	 * 
 	 * @param request
 	 */
-	public void handleMakeReadDocumentPage(HttpServletRequest request) {
+	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
 
 		this.getSimSectionsInternalVariables(request);
 
@@ -781,24 +781,31 @@ public class PSO_SectionMgmt {
 				sharedDocument = new SharedDocument();
 			}
 			
-			// Look up doc ids assigned to this section
-			customizableSectionOnScratchPad.getId();
-			a
-
-			String _doc_ids = (String) request.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-
-			System.out.println("Got Document ids!!!!!: " + _doc_ids);
-
-			StringTokenizer str = new StringTokenizer(_doc_ids, ",");
-
-			while (str.hasMoreTokens()) {
-				String nextToken = str.nextToken();
-				nextToken = nextToken.trim();
-				System.out.println("found token for: " + nextToken);
+			// Ever read document page should have at least one document associated with it.
+			if (customizableSectionOnScratchPad.getNumDependentObjects() < 1){
+				customizableSectionOnScratchPad.setNumDependentObjects(1);
 			}
-
-			customizableSectionOnScratchPad.getContents().put(SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_ids);
-
+			
+			// Remove all dependent object assignments currently associated with this page.
+			BaseSimSectionDepObjectAssignment
+				.removeAllForSection(pso.schema, customizableSectionOnScratchPad.getId());
+			
+			// Loop to the number of documents (which are dependent object) expected to be found
+			for (int ii = 1; ii <= customizableSectionOnScratchPad.getNumDependentObjects(); ++ii){
+				String req_key = "doc_" + ii;
+				String doc_id = (String) request.getParameter(req_key);
+				
+				System.out.println("adding doc: " + doc_id);
+				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment();
+				bssdoa.setBss_id(customizableSectionOnScratchPad.getId());
+				bssdoa.setClassName("org.usip.osp.communications.SharedDocument");
+				bssdoa.setDepObjIndex(ii);
+				bssdoa.setObjectId(new Long(doc_id));
+				bssdoa.setSim_id(pso.sim_id);
+				
+				bssdoa.saveMe(pso.schema);
+			}
+			
 			// Update page values
 			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
@@ -815,7 +822,7 @@ public class PSO_SectionMgmt {
 
 		} // End of if this is the make_read_document_page
 
-		return;
+		return customizableSectionOnScratchPad;
 	}
 
 	/**

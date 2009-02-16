@@ -2730,8 +2730,31 @@ public class ParticipantSessionObject {
 	 * 
 	 * @param request
 	 */
-	public void handleMakeReadDocumentPage(HttpServletRequest request) {
-		getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request);
+	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request));
+	}
+	
+	/**
+	 * 
+	 * @param index_hash
+	 * @param ii
+	 * @param id
+	 * @return
+	 */
+	public String checkAgainstHash(Hashtable index_hash, int ii, Long id){
+		
+		if ((index_hash == null) || (id == null)){
+			return "";
+		}
+		
+		Long valueFromHash = (Long) index_hash.get(new Long(ii));
+		
+		if (id.equals(valueFromHash)){
+			return " selected ";
+		} else {
+			return "";
+		}
+		
 	}
 
 	/**

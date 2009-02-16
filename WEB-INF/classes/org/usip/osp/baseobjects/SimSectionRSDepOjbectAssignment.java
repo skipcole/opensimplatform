@@ -54,8 +54,9 @@ public class SimSectionRSDepOjbectAssignment {
 	private Long objectId;
 	
 	/** The index (if needed to sequence objects on the page) of this object */
-	private int index;
+	private int ssrsdoa_index;
 	
+	/** Reserving this field in case there is a need to get an object by a tag name and not an index. */
 	private String uniqueTagName;
 
 	public Long getId() {
@@ -106,12 +107,12 @@ public class SimSectionRSDepOjbectAssignment {
 		this.objectId = objectId;
 	}
 	
-	public int getIndex() {
-		return index;
+	public int getSSRSDOA_Index() {
+		return ssrsdoa_index;
 	}
 
-	public void setIndex(int index) {
-		this.index = index;
+	public void setSSRSDOA_Index(int index) {
+		this.ssrsdoa_index = index;
 	}
 
 	public String getUniqueTagName() {
