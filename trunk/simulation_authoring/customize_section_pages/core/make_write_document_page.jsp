@@ -46,7 +46,8 @@
           <p>Tab Heading: 
             <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
-            <table width="100%" border="0">
+          <p>To allow access to a player to write a document, you must first have created it. To create a new document associated with this simulation <a href="../../make_create_document_page.jsp">click here</a>. </p>
+          <table width="100%" border="0">
               <tr>
                 <td width="75%" valign="top">
                   <%
@@ -57,7 +58,7 @@
 
 		  %>
                   <label>Select Document
-                    <select name="<%= SharedDocument.DOCS_IN_HASHTABLE_KEY %>">
+                    <select name="doc_id">
                       <%
 					for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 					
@@ -70,7 +71,7 @@
                       </select>
                     </label>
                   <% } // end of if no documents have been created. %></td>
-                <td width="25%" valign="top">To allow access to a player to write a document, you must first have created it. To create a new document associated with this simulation <a href="../../make_create_document_page.jsp">click here</a>. </td>
+                <td width="25%" valign="top">&nbsp;</td>
               </tr>
               </table>
             <p><br />

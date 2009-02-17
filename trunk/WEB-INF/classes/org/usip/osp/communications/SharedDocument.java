@@ -91,6 +91,14 @@ public class SharedDocument implements SimSectionDependentObject {
 		this.editable = editable;
 	}
 
+	public Long getBase_id() {
+		return base_id;
+	}
+
+	public void setBase_id(Long base_id) {
+		this.base_id = base_id;
+	}
+
 	public String getBigString() {
 		return bigString;
 	}
@@ -204,10 +212,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	/**
 	 * This returns the 'base' documents for a simulation. A 'base' document is
 	 * the archtypal document that is copied into a version to be edited in a
-	 * particular running simulation. When the base document is copied into a
-	 * copy document, its id is copied into the base_id of the copy. So the
-	 * original 'base' documents have their BASE_ID null, and copies have in
-	 * values in that field.
+	 * particular running simulation.
 	 * 
 	 * @param hibernate_session
 	 * @param the_sim_id
@@ -215,7 +220,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	 */
 	public static List getAllBaseDocumentsForSim(org.hibernate.Session hibernate_session, Long the_sim_id) {
 
-		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() + " AND BASE_ID is null";
+		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() + " AND RS_ID is null";
 		List returnList = hibernate_session.createQuery(hql_string).list();
 
 		return returnList;
@@ -238,7 +243,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	 * @return Returns the document located in this schema with the base id and
 	 *         running sim id passed in.
 	 */
-	public static SharedDocument getDocumentByBaseId(String schema, Long base_id, Long rs_id) {
+	public static SharedDocument DEFUNCTgetDocumentByBaseId(String schema, Long base_id, Long rs_id) {
 
 		SharedDocument sd = new SharedDocument();
 
@@ -319,6 +324,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	public SharedDocument createCopy(Long rsid, org.hibernate.Session hibernate_session) {
 		SharedDocument sd = new SharedDocument();
 
+		sd.setBase_id(this.getBase_id());
 		sd.setBigString(this.getDocStarterText());
 		sd.setDocDesc(this.getDocDesc());
 		sd.setEditable(this.isEditable());
@@ -357,17 +363,22 @@ public class SharedDocument implements SimSectionDependentObject {
 		return null;
 	}
 
-	public static List getSetOfDocsForSection(String schema, Long cs_id, Long rs_id) {
+	public static List getSetOfDocsForSection(String schema, Long section_id, Long rs_id) {
 
 		List returnList = new ArrayList();
 
-		String getString = "from SimSectionRSDepOjbectAssignment where section_id = '" + cs_id + "' " + " and rs_id = "
+		String getString = "from SimSectionRSDepOjbectAssignment where section_id = '" + section_id + "' " + " and rs_id = "
 				+ rs_id + " and className = 'org.usip.osp.communications.SharedDocument' order by ssrsdoa_index";
 
+		System.out.println(getString);
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List docList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
 
+		if (docList != null){
+			System.out.println("got some docs back: " + docList.size());
+		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Go over list and get items.
@@ -382,7 +393,8 @@ public class SharedDocument implements SimSectionDependentObject {
 
 				SharedDocument sd = (SharedDocument) MultiSchemaHibernateUtil.getSession(schema).get(objClass,
 						ssrsdoa.getObjectId());
-
+				
+				System.out.println("strter title:" + sd.getDisplayTitle());
 				returnList.add(sd);
 
 			} catch (Exception e) {

@@ -15,19 +15,25 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
-	String base_doc_id = (String) cs.getContents().get("doc_ids");
-	
 	RunningSimulation rs = pso.giveMeRunningSim();
-	
 	
 	System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
 	
-	SharedDocument sd = SharedDocument.getDocumentByBaseId(pso.schema, new Long(base_doc_id), rs.getId());
+	SharedDocument sd = new SharedDocument();
+	
+	List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), rs.getId());
+	
+	if ((setOfDocs != null) && (setOfDocs.size() > 0) ){
+		System.out.println("im back in here getting 0.");
+		sd = (SharedDocument) setOfDocs.get(0);
+	}
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	String update_text = (String) request.getParameter("update_text");
 	
+	System.out.println("im back in here.");
 	if ( (sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("write_document"))){
+		System.out.println("im back in here saving.");
 		String write_document_text = (String) request.getParameter("write_document_text");
 		
 		sd.setBigString(write_document_text);

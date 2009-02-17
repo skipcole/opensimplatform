@@ -106,7 +106,7 @@ public class RunningSimulation {
 		this.sim_id = sim.getId();
 
 		this.saveMe(schema);
-		this.createMyDocuments(schema, sim);
+		//this.createMyDocuments(schema, sim);
 		this.createMyVariables(schema, sim);
 
 	}
@@ -184,9 +184,11 @@ public class RunningSimulation {
 			
 			// Try to get a string from the list using the above key. (If found, we have already 
 			// created this object.
-			String checkCreatedString = (String) uniqueSimObjects.get(uniqueKey);
+			Long createdObjId = (Long) uniqueSimObjects.get(uniqueKey);
 			
-			if (checkCreatedString == null){
+			Long thisRSVersionsId = null;
+			
+			if (createdObjId == null){
 				
 				try {
 					Class objClass = Class.forName(bssdoa.getClassName());
@@ -197,9 +199,8 @@ public class RunningSimulation {
 					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 					
 					// Create object
-					Long thisRSVersionsId = template_obj.createRunningSimVersion(schema, 
+					thisRSVersionsId = template_obj.createRunningSimVersion(schema, 
 							bssdoa.getObjectId(), this.id, template_obj);
-					
 					
 				} catch (Exception er) {
 					er.printStackTrace();
@@ -207,18 +208,23 @@ public class RunningSimulation {
 
 				// Add the objects to a hashtable based on the base template object
 				// (so template object shared by multiple sections only contribute one new object).
-				uniqueSimObjects.put(uniqueKey,"set");
+				uniqueSimObjects.put(uniqueKey,thisRSVersionsId);
+				
+			} else {
+				thisRSVersionsId = createdObjId;
 			}
 			
 			SimSectionRSDepOjbectAssignment ssrsdoa = new SimSectionRSDepOjbectAssignment();
 			ssrsdoa.setClassName(bssdoa.getClassName());
-			ssrsdoa.setObjectId(bssdoa.getObjectId());
+			ssrsdoa.setObjectId(thisRSVersionsId);
 			ssrsdoa.setRs_id(this.id);
+			ssrsdoa.setSim_id(sim_id);
 			ssrsdoa.setSection_id(bssdoa.getBss_id());
 			ssrsdoa.setSSRSDOA_Index(bssdoa.getDepObjIndex());
 			ssrsdoa.setUniqueTagName(bssdoa.getUniqueTagName());
 			
 			ssrsdoa.saveMe(schema);
+
 		}
 
 	}

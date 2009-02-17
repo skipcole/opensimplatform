@@ -31,6 +31,10 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class SimSectionRSDepOjbectAssignment {
 
+	public SimSectionRSDepOjbectAssignment() {
+		
+	}
+	
 	/** Database id of this SSRSDOA. */
 	@Id
 	@GeneratedValue
