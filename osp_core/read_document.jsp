@@ -42,7 +42,7 @@
 			
 %>
 <hr>
-	<%= sd.getDisplayTitle() %>
+	<h1><%= sd.getDisplayTitle() %></h1>
 	<%= sd.getBigString() %>
 <p>&nbsp;</p>
 <%

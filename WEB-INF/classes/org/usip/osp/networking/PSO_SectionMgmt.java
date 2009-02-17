@@ -624,15 +624,21 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
-			// String doc_title = (String) request.getParameter("doc_title");
-			String _doc_string = (String) request.getParameter(SharedDocument.DOCS_IN_HASHTABLE_KEY);
+			String _doc_string = (String) request.getParameter("doc_id");
 
 			// Get the document associated with this customized section
 			try {
 				Long doc_id = new Long(_doc_string);
 
-				customizableSectionOnScratchPad.getContents().put(SharedDocument.DOCS_IN_HASHTABLE_KEY, _doc_string);
+				BaseSimSectionDepObjectAssignment bssdoa = 
+					BaseSimSectionDepObjectAssignment.getIfExistsElseCreateIt(pso.schema, 
+							customizableSectionOnScratchPad.getId(), 
+							"org.usip.osp.communications.SharedDocument", doc_id, pso.sim_id);
 
+				bssdoa.setDepObjIndex(1);
+				
+				bssdoa.saveMe(pso.schema);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

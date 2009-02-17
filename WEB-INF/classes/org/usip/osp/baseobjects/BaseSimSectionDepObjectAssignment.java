@@ -35,6 +35,42 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class BaseSimSectionDepObjectAssignment {
 
+	/** Zero argument constructor needed by Hibernate */
+	public BaseSimSectionDepObjectAssignment() {
+
+	}
+
+	public static BaseSimSectionDepObjectAssignment getIfExistsElseCreateIt(String schema, Long bss_id,
+			String className, Long objectId, Long sim_id) {
+
+		BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment();
+
+		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' "
+				+ " and objectId = " + objectId
+				+ " and className = '" + className + "'"
+				+ " and sim_id = " + sim_id;
+
+		System.out.println(getString);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List docList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		if ((docList != null) && (docList.size() > 0)){
+			bssdoa = (BaseSimSectionDepObjectAssignment) docList.get(0);
+			return bssdoa;
+		} else {
+			bssdoa.setBss_id(bss_id);
+			bssdoa.setClassName(className);
+			bssdoa.setObjectId(objectId);
+			bssdoa.setSim_id(sim_id);
+			bssdoa.saveMe(schema);
+			return bssdoa;
+		}
+	}
+
 	/**
 	 * Creates the hashtable to allow a lookup of ids based on index.
 	 * 
@@ -42,14 +78,14 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param bss_id
 	 * @return
 	 */
-	public static Hashtable getIndexIdHashtable(String schema, Long bss_id){
-		
+	public static Hashtable getIndexIdHashtable(String schema, Long bss_id) {
+
 		Hashtable returnHash = new Hashtable();
-		
-		if (bss_id == null){
+
+		if (bss_id == null) {
 			return returnHash;
 		}
-		
+
 		List checkList = getObjectsForSection(schema, bss_id);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -61,12 +97,13 @@ public class BaseSimSectionDepObjectAssignment {
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 		return returnHash;
-		
+
 	}
+
 	/**
-	 * Removes all of the dependent objects assigned to a particular section. 
+	 * Removes all of the dependent objects assigned to a particular section.
 	 * 
 	 * @param schema
 	 * @param bss_id
@@ -94,8 +131,8 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param sim_id
 	 * @return
 	 */
-	public static List getSimDependencies(String schema, Long sim_id){
-		
+	public static List getSimDependencies(String schema, Long sim_id) {
+
 		String getString = "from BaseSimSectionDepObjectAssignment where sim_id = '" + sim_id + "'";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -106,6 +143,7 @@ public class BaseSimSectionDepObjectAssignment {
 
 		return returnList;
 	}
+
 	/**
 	 * Gets all of the particular objects associated with a particular base
 	 * section.
@@ -116,7 +154,8 @@ public class BaseSimSectionDepObjectAssignment {
 	 */
 	public static List getObjectsForSection(String schema, Long bss_id) {
 
-		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' order by dep_obj_index";
+		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id
+				+ "' order by dep_obj_index";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
