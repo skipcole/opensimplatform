@@ -45,7 +45,7 @@
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <blockquote> 
-	  <form action="make_caucus_page.jsp" method="post" name="form2" id="form2">
+	  <form action="customize_section_pages/core/make_conference_room.jsp" method="post" name="form2" id="form2">
         <blockquote><strong>Tab Heading</strong>: 
           <input type="text" name="tab_heading" value="<%= pso.tab_heading %>"/>
         <p>Select the Actors to be included in this Chat room. <br />

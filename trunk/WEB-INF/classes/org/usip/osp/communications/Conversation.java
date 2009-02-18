@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.RunningSimulation;
+import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.persistence.SchemaInformationObject;
@@ -31,7 +32,7 @@ import org.usip.osp.specialfeatures.IntVariable;
 @Entity
 @Table(name = "CONVERSATIONS")
 @Proxy(lazy = false)
-public class Conversation {
+public class Conversation  implements SimSectionDependentObject {
 	
 	/** This conversation is of an undefined type.*/
 	public static final int TYPE_UNDEFINED = 0;
@@ -56,12 +57,12 @@ public class Conversation {
     public void save(String schema, Long sim_id){
         MultiSchemaHibernateUtil.beginTransaction(schema);
         MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-        
-        Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
-        sim.addConversation(schema, this);
-        MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(sim);
-        
         MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+        
+        Simulation sim = Simulation.getMe(schema, sim_id);
+        sim.addConversation(schema, this);
+        sim.saveMe(schema);
+        
     }
     
 	/*
@@ -302,6 +303,54 @@ public class Conversation {
 
 	public void setConversation_type(int conversation_type) {
 		this.conversation_type = conversation_type;
+	}
+
+	@Override
+	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
+		
+		Conversation templateSD = (Conversation) templateObject;
+		
+		// Pull it out clean from the database
+		templateSD = Conversation.getMe(schema, templateSD.getId());
+
+		Conversation sd = new Conversation();
+
+		sd.setConversation_name(templateSD.getConversation_name());
+		
+		List<ConvActorAssignment> modifiedAssignments = new ArrayList<ConvActorAssignment>();
+		// Loop over the assignments gotten, and change the conversation id
+		for (ListIterator<ConvActorAssignment> li = templateSD.getConv_actor_assigns().listIterator(); li.hasNext();) {
+			ConvActorAssignment conv_ass = (ConvActorAssignment) li.next();
+			conv_ass.setConv_id(templateSD.getId());	
+			modifiedAssignments.add(conv_ass);
+		}
+		sd.setConv_actor_assigns(modifiedAssignments);
+		
+		sd.setConversation_type(templateSD.getConversation_type());
+
+		sd.setRs_id(rs_id);
+		sd.setSim_id(sim_id);
+
+		sd.save(schema);
+
+		return sd.getId();
+	}
+
+	@Override
+	public String getObjectClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * Saves the object to the database.
+	 * 
+	 * @param schema
+	 */
+	public void save(String schema) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
 }

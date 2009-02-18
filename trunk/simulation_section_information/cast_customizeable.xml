@@ -8,7 +8,7 @@
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
   <bigString>Below are listed alphabetically all of the current Actors that you can see.</bigString>
-  <description>A section to allow players see public information about other actors in this simulation.</description>
+  <description>A section to allow players see information about themselves, and public information about the other actors in this simulation.</description>
   <url></url>
   <directory>../osp_core/</directory>
   <page__file__name>cast.jsp</page__file__name>
