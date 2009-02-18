@@ -2776,8 +2776,8 @@ public class ParticipantSessionObject {
 	 * @param request
 	 * @return
 	 */
-	public Simulation handleMakeCaucusPage(HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMakeCaucusPage(request));
+	public Conversation handleMakeMeetingRoomPage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMakeMeetingRoomPage(request));
 	}
 
 	/**

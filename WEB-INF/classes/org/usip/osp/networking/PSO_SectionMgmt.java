@@ -2,6 +2,7 @@ package org.usip.osp.networking;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -538,8 +539,6 @@ public class PSO_SectionMgmt {
 		this.customizableSectionOnScratchPad = customizableSectionOnScratchPad;
 	}
 
-	public Long sim_conv_id;
-
 	/**
 	 * 
 	 * @param request
@@ -836,8 +835,10 @@ public class PSO_SectionMgmt {
 	 * @param request
 	 * @return
 	 */
-	public Simulation handleMakeCaucusPage(HttpServletRequest request) {
+	public Conversation handleMakeMeetingRoomPage(HttpServletRequest request) {
 
+		Conversation conv = new Conversation();
+		
 		// ///////////////////////////////////////////////////////////////
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
@@ -852,10 +853,7 @@ public class PSO_SectionMgmt {
 		// /////////////////////////////////////////////////////////
 		// Pull this custom page out of the database based on its id.
 		_custom_section_id = request.getParameter("custom_page");
-		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-		customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(
-				CustomizeableSection.class, new Long(_custom_section_id));
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
 
 		// ////////////////////////////////////////////////////////////
 		// if we are saving this page
@@ -867,50 +865,31 @@ public class PSO_SectionMgmt {
 				System.out.println("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
 
-				Conversation conv = new Conversation();
+				conv = new Conversation();
 				conv.setSim_id(pso.sim_id);
 				conv.setConversation_name(_tab_heading);
 				conv.save(pso.schema, pso.sim_id);
-				customizableSectionOnScratchPad.getContents().put("sim_conv_id", conv.getId());
-
-				sim_conv_id = conv.getId();
+				
+				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment();
+				bssdoa.setBss_id(customizableSectionOnScratchPad.getId());
+				bssdoa.setClassName("org.usip.osp.communications.Conversation");
+				bssdoa.setDepObjIndex(1);
+				bssdoa.setObjectId(conv.getId());
+				bssdoa.setSim_id(pso.sim_id);
+				
+				bssdoa.saveMe(pso.schema);
 
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 
 			} else { // This must not be the original template sim section.
 
-				sim_conv_id = (Long) customizableSectionOnScratchPad.getContents().get("sim_conv_id");
-
-				// If this is a customized page, but belongs to a different sim,
-				// then make a copy
-				try {
-
-					MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-					Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(pso.schema).get(
-							Conversation.class, sim_conv_id);
-
-					if (!(conv.getSim_id().equals(pso.sim_id))) {
-						customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
-
-						conv = new Conversation();
-						conv.setSim_id(pso.sim_id);
-
-						conv.save(pso.schema, pso.sim_id);
-
-						customizableSectionOnScratchPad.getContents().put("sim_conv_id", conv.getId());
-
-						_custom_section_id = customizableSectionOnScratchPad.getId() + "";
-					}
-
-					conv.setConversation_name(_tab_heading);
-					conv.save(pso.schema, pso.sim_id);
-					sim_conv_id = conv.getId();
-
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+				List convForThisSection = BaseSimSectionDepObjectAssignment.getObjectsForSection(pso.schema, 
+						customizableSectionOnScratchPad.getId());
+				
+				conv = (Conversation) convForThisSection.get(0);
+				
+				// If this is a customized page, but belongs to a different sim, then make a copy ?
+				
 			}
 
 			// /////////////////////////////////////////////////////////////////
@@ -919,13 +898,7 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setBigString(text_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 
-			sim_conv_id = (Long) customizableSectionOnScratchPad.getContents().get("sim_conv_id");
-
-			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Conversation.class,
-					sim_conv_id);
 			conv.setConv_actor_assigns(new ArrayList());
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
 			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
 				String param_name = (String) e.nextElement();
@@ -940,10 +913,8 @@ public class PSO_SectionMgmt {
 					}
 				}
 			}
-
-			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			MultiSchemaHibernateUtil.getSession(pso.schema).saveOrUpdate(conv);
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+			
+			conv.save(pso.schema);
 
 			customizableSectionOnScratchPad.save(pso.schema);
 
@@ -958,7 +929,7 @@ public class PSO_SectionMgmt {
 			}
 		}
 
-		return sim;
+		return conv;
 
 	}
 
