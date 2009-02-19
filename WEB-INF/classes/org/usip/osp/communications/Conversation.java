@@ -312,6 +312,9 @@ public class Conversation  implements SimSectionDependentObject {
 		
 		// Pull it out clean from the database
 		templateSD = Conversation.getMe(schema, templateSD.getId());
+		
+		//Going to need to pull out its actors?
+		// TODO
 
 		Conversation sd = new Conversation();
 
@@ -334,6 +337,23 @@ public class Conversation  implements SimSectionDependentObject {
 		sd.save(schema);
 
 		return sd.getId();
+	}
+
+	/**
+	 * 
+	 * @param schema
+	 * @param id2
+	 * @return
+	 */
+	private static Conversation getMe(String schema, Long id2) {
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		Conversation conv = (Conversation) MultiSchemaHibernateUtil
+				.getSession(schema).get(Conversation.class, id2);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return conv;
 	}
 
 	@Override
