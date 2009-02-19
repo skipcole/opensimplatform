@@ -250,7 +250,7 @@ public class RunningSimulation {
 					caa.setConv_id(conv.getId());
 
 					MultiSchemaHibernateUtil.getSession(schema).save(caa);
-					conv.getConv_actor_assigns().add(caa);
+					conv.getConv_actor_assigns(schema).add(caa);
 				}
 
 				MultiSchemaHibernateUtil.getSession(schema).save(conv);

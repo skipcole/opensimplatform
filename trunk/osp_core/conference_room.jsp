@@ -14,10 +14,16 @@
 	}
 	
 	// Get the id for this conversation
-	String conv_id = request.getParameter("conversation_id");
+	String cs_id = (String) request.getParameter("cs_id");
 	
-	Vector this_set_of_actors = ChatController.getActorsForConversation(pso, conv_id, request);
+	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
+	SimSectionRSDepOjbectAssignment ssrsdoa = SimSectionRSDepOjbectAssignment.getOneForRunningSimSection
+		(pso.schema, pso.running_sim_id, new Long(cs_id), 0);
+	
+	Vector this_set_of_actors = ChatController.getActorsForConversation(pso, ssrsdoa.getObjectId().toString(), request);
+	
+	System.out.println("id of conv is theoretically: " + ssrsdoa.getObjectId().toString());
 %>
 <html>
 <head>
@@ -149,7 +155,7 @@ function ajaxFunction()
 		
         }
       }
-    xmlHttp.open("GET","broadcast_chat_server.jsp?conv_id=<%= conv_id %>&actor_id=" + <%= pso.actor_id %> + "&start_index=" + start_index,true);
+    xmlHttp.open("GET","broadcast_chat_server.jsp?conv_id=<%= ssrsdoa.getObjectId().toString() %>&actor_id=" + <%= pso.actor_id %> + "&start_index=" + start_index,true);
     xmlHttp.send(null);
   }
   
@@ -197,7 +203,7 @@ function sendText(){
       }
     }
 
-	var dataToSend = "conv_id=<%= conv_id %>&actor_id=" + <%= pso.actor_id %> + "&user_id=" + <%= pso.user_id %> + "&newtext=" + send_text;
+	var dataToSend = "conv_id=<%= ssrsdoa.getObjectId().toString() %>&actor_id=" + <%= pso.actor_id %> + "&user_id=" + <%= pso.user_id %> + "&newtext=" + send_text;
 	
 	xmlHttp.open("POST","broadcast_chat_server.jsp",true);
 	xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -257,7 +263,7 @@ overflow:scroll;
 </form></TD>
   </TR>
 </table>
-Actors visible to you:
+Actors in this conversation:
 <P>
 	<UL>
 	<% 

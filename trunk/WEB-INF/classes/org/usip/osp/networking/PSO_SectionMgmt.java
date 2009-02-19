@@ -922,7 +922,7 @@ public class PSO_SectionMgmt {
 
 				// add section to the applicable actors
 				SimulationSection.applySectionsToSomeActors(pso.schema, sim, this.phase_being_worked_on_id,
-						customizableSectionOnScratchPad.getId(), _tab_heading, conv.getConv_actor_assigns());
+						customizableSectionOnScratchPad.getId(), _tab_heading, conv.getConv_actor_assigns(pso.schema));
 				// send them back
 				pso.forward_on = true;
 				return null;

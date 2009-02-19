@@ -34,6 +34,10 @@ import org.usip.osp.specialfeatures.IntVariable;
 @Proxy(lazy = false)
 public class Conversation  implements SimSectionDependentObject {
 	
+	public Conversation (){
+		
+	}
+	
 	/** This conversation is of an undefined type.*/
 	public static final int TYPE_UNDEFINED = 0;
 	
@@ -65,34 +69,6 @@ public class Conversation  implements SimSectionDependentObject {
         
     }
     
-	/*
-	 * 
-	 * @param rsid
-	 * @return
-	 
-	public Conversation createCopy(Long rsid, org.hibernate.Session hibernate_session) {
-		Conversation conv = new Conversation();
-		
-		ArrayList al = new ArrayList();
-		
-		for (ListIterator<Long> li = this.getActor_ids().listIterator(); li.hasNext();) {
-			Long this_a = (Long) li.next();
-			
-			al.add(this_a);
-		
-		}
-		conv.setActor_ids(al);
-		
-		conv.setConversation_name(this.getConversation_name());
-		conv.setRunning_sim_id(this.getRunning_sim_id());
-		
-		System.out.println("saving conv");
-		hibernate_session.saveOrUpdate(conv);
-		
-		return conv;
-		
-	}
-	*/
 	
 	@Id 
 	@GeneratedValue
@@ -116,8 +92,7 @@ public class Conversation  implements SimSectionDependentObject {
     @Column(name = "CONV_TYPE")
     private int conversation_type = TYPE_UNDEFINED;
 
-	@OneToMany
-	@JoinColumn(name = "CONV_ID")
+    @Transient
 	private List <ConvActorAssignment>  conv_actor_assigns = new ArrayList <ConvActorAssignment>();
 	
 	/** Returns a list of all conversations associated with a particular simulation. */
@@ -153,7 +128,7 @@ public class Conversation  implements SimSectionDependentObject {
 			Conversation conv = (Conversation) 
 				MultiSchemaHibernateUtil.getSession(schema).get(Conversation.class, conv_id.getId());
 			
-			if (conv.hasActor(aid)){
+			if (conv.hasActor(schema, aid)){
 				returnList.add(conv);
 			}
 			
@@ -206,9 +181,9 @@ public class Conversation  implements SimSectionDependentObject {
 	 * @param actor_id
 	 * @return
 	 */
-	public boolean hasActor(Long actor_id){
+	public boolean hasActor(String schema, Long actor_id){
 		
-		for (ListIterator<ConvActorAssignment> li = this.getConv_actor_assigns().listIterator(); li.hasNext();) {
+		for (ListIterator<ConvActorAssignment> li = this.getConv_actor_assigns(schema).listIterator(); li.hasNext();) {
 			ConvActorAssignment caa = (ConvActorAssignment) li.next();
 			
 			if (actor_id.equals(caa.getActor_id())){
@@ -238,12 +213,12 @@ public class Conversation  implements SimSectionDependentObject {
 	 */
 	public void addActor(Long a_id, String schema, Long sim_id){
 		
-		if (!(hasActor(a_id))){
+		if (!(hasActor(schema, a_id))){
 			ConvActorAssignment caa = new ConvActorAssignment();
 			caa.setActor_id(a_id);
 			caa.setConv_id(this.id);
 			caa.save(schema);
-			this.getConv_actor_assigns().add(caa);
+			this.getConv_actor_assigns(schema).add(caa);
 			this.save(schema, sim_id);
 		}
 	}
@@ -289,7 +264,10 @@ public class Conversation  implements SimSectionDependentObject {
     }
 
 
-	public List<ConvActorAssignment> getConv_actor_assigns() {
+	public List<ConvActorAssignment> getConv_actor_assigns(String schema) {
+		if (conv_actor_assigns == null){
+			conv_actor_assigns = ConvActorAssignment.getAllForConversation(schema, this.getId());
+		}
 		return conv_actor_assigns;
 	}
 
@@ -308,35 +286,45 @@ public class Conversation  implements SimSectionDependentObject {
 	@Override
 	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
 		
-		Conversation templateSD = (Conversation) templateObject;
+		Conversation templateConv = (Conversation) templateObject;
 		
 		// Pull it out clean from the database
-		templateSD = Conversation.getMe(schema, templateSD.getId());
+		templateConv = Conversation.getMe(schema, templateConv.getId());
 		
-		//Going to need to pull out its actors?
-		// TODO
-
-		Conversation sd = new Conversation();
-
-		sd.setConversation_name(templateSD.getConversation_name());
+		// Create the new conversation.
+		Conversation new_conv = new Conversation();
+		new_conv.setConversation_name(templateConv.getConversation_name());
+		new_conv.save(schema);
 		
 		List<ConvActorAssignment> modifiedAssignments = new ArrayList<ConvActorAssignment>();
 		// Loop over the assignments gotten, and change the conversation id
-		for (ListIterator<ConvActorAssignment> li = templateSD.getConv_actor_assigns().listIterator(); li.hasNext();) {
+		for (ListIterator<ConvActorAssignment> li = 
+			ConvActorAssignment.getAllForConversation(schema, templateConv.getId()).listIterator(); li.hasNext();) {
 			ConvActorAssignment conv_ass = (ConvActorAssignment) li.next();
-			conv_ass.setConv_id(templateSD.getId());	
-			modifiedAssignments.add(conv_ass);
+			
+			ConvActorAssignment new_conv_ass = new ConvActorAssignment();
+			
+			new_conv_ass.setConv_id(new_conv.getId());
+			new_conv_ass.setActor_id(conv_ass.getActor_id());
+			new_conv_ass.setCan_be_added_removed(conv_ass.isCan_be_added_removed());
+			new_conv_ass.setInitially_present(conv_ass.isInitially_present());
+			new_conv_ass.setRole(conv_ass.getRole());
+			new_conv_ass.setRoom_owner(conv_ass.isRoom_owner());
+			
+			new_conv_ass.save(schema);
+			
+			modifiedAssignments.add(new_conv_ass);
 		}
-		sd.setConv_actor_assigns(modifiedAssignments);
+		new_conv.setConv_actor_assigns(modifiedAssignments);
 		
-		sd.setConversation_type(templateSD.getConversation_type());
+		new_conv.setConversation_type(templateConv.getConversation_type());
 
-		sd.setRs_id(rs_id);
-		sd.setSim_id(sim_id);
+		new_conv.setRs_id(rs_id);
+		new_conv.setSim_id(sim_id);
 
-		sd.save(schema);
+		new_conv.save(schema);
 
-		return sd.getId();
+		return new_conv.getId();
 	}
 
 	/**

@@ -311,7 +311,7 @@ public class ChatController {
 				pso.schema).get(Conversation.class, conv_id);
 
 		for (ListIterator<ConvActorAssignment> ais = conv
-				.getConv_actor_assigns().listIterator(); ais.hasNext();) {
+				.getConv_actor_assigns(pso.schema).listIterator(); ais.hasNext();) {
 
 			ConvActorAssignment caa = (ConvActorAssignment) ais.next();
 
@@ -331,97 +331,6 @@ public class ChatController {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 
 		return returnVector;
-	}
-
-	/**
-	 * Returns the list of actors for the broadcast chat - all of the actors
-	 * currently assigned to a simulation.
-	 * 
-	 * @param pso
-	 * @param conv_key
-	 * @param request
-	 * @return
-	 */
-	public static Vector getActorsForBroadcast(ParticipantSessionObject pso,
-			String conv_key, HttpServletRequest request) {
-
-		// The conversation is pulled out of the context
-		Hashtable conversation_actors = (Hashtable) request.getSession()
-				.getServletContext().getAttribute("conversation_actors");
-
-		Vector<ActorGhost> this_set_of_actors = (Vector<ActorGhost>) conversation_actors
-				.get(pso.running_sim_id + "_" + conv_key);
-
-		if (this_set_of_actors == null) {
-
-			System.out.println("doing database hit");
-
-			this_set_of_actors = new Vector();
-
-			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
-					pso.schema).get(Simulation.class, pso.sim_id);
-
-			List daActors = sim.getActors(pso.schema);
-
-			for (ListIterator li = daActors.listIterator(); li.hasNext();) {
-				Actor act = (Actor) li.next();
-
-				ActorGhost ag = new ActorGhost();
-
-				ag.setName(act.getName());
-				ag.setId(act.getId());
-				ag.setDefaultColorChatBubble(act.getDefaultColorChatBubble());
-
-				this_set_of_actors.add(ag);
-
-			}
-
-			conversation_actors.put(pso.running_sim_id + "_" + conv_key,
-					this_set_of_actors);
-
-		}
-
-		return this_set_of_actors;
-
-	}
-
-	public static Conversation createConversation(String schema,
-			String conversationName, BaseSimSection bss, Long sid) {
-
-		Conversation conv = new Conversation();
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List conv_list = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery(
-						"from Conversation where CONV_NAME = '"
-								+ conversationName + "' and SIM_ID = " + sid)
-				.list();
-
-		if ((conv_list == null) || (conv_list.size() == 0)) {
-
-			conv.setConversation_name(conversationName);
-			conv.setSim_id(sid);
-			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(conv);
-
-			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
-					schema).get(Simulation.class, sid);
-			
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			
-			
-			SimConversationAssignment sca = new SimConversationAssignment(schema, sid, conv.getId());
-			
-			
-		} else {
-			conv = (Conversation) conv_list.get(0);
-			
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		}
-
-		return conv;
 	}
 
 }

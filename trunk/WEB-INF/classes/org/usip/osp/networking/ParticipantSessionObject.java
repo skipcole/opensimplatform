@@ -2141,7 +2141,7 @@ public class ParticipantSessionObject {
 					con_id.getId());
 
 			// Get the 2 (should be 2) actors in this conversation.
-			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns().listIterator(); liiii.hasNext();) {
+			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns(schema).listIterator(); liiii.hasNext();) {
 				ConvActorAssignment caa = liiii.next();
 				actors.add(caa.getActor_id());
 			}
