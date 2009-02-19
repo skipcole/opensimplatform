@@ -115,4 +115,17 @@ public class ConvActorAssignment {
         MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
+	/** Returns a list of all conversations associated with a particular simulation. */
+	public static List getAllForConversation(String schema, Long conv_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List<ConvActorAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from ConvActorAssignment where conv_id = " + conv_id).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
 }

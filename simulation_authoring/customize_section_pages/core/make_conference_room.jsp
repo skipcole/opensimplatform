@@ -57,7 +57,7 @@
 			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 				String checked = "";
-				if (conv.hasActor(act.getId())){
+				if (conv.hasActor(pso.schema, act.getId())){
 					checked = " checked ";
 				}
 			%>

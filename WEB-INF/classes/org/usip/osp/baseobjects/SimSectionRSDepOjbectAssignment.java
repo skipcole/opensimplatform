@@ -1,5 +1,7 @@
 package org.usip.osp.baseobjects;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -154,6 +157,31 @@ public class SimSectionRSDepOjbectAssignment {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
+	}
+	
+	/** Returns a list of all dependent objects associated with a particular section. */
+	public static List getAllForRunningSimSection(String schema, Long rs_id, Long section_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List<SimSectionRSDepOjbectAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from SimSectionRSDepOjbectAssignment where rs_id = " + rs_id + " and section_id = " + section_id).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
+	public static SimSectionRSDepOjbectAssignment getOneForRunningSimSection(String schema, Long rs_id, Long section_id, int index){
+		
+		SimSectionRSDepOjbectAssignment ssrsdoa = new SimSectionRSDepOjbectAssignment();
+		List starterList = getAllForRunningSimSection(schema, rs_id, section_id);
+		
+		if ((starterList != null) && (starterList.size() > 0)){
+			ssrsdoa = (SimSectionRSDepOjbectAssignment) starterList.get(index);
+		}
+		
+		return ssrsdoa;
 	}
 	
 }
