@@ -300,15 +300,14 @@ public class ChatController {
 		Vector returnVector = new Vector();
 
 		if ((conv_id_string == null) || (conv_id_string.equalsIgnoreCase(""))) {
+			System.out.println("waring empty conversation id passe in");
 			return returnVector;
 		}
 
 		Long conv_id = new Long(conv_id_string);
 
-		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-		Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(
-				pso.schema).get(Conversation.class, conv_id);
+		Conversation conv = new Conversation();
+		conv.setId(conv_id);
 
 		for (ListIterator<ConvActorAssignment> ais = conv
 				.getConv_actor_assigns(pso.schema).listIterator(); ais.hasNext();) {
@@ -318,17 +317,18 @@ public class ChatController {
 			Long a_id = caa.getActor_id();
 
 			System.out.println("actors id was " + a_id);
-
+			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(pso.schema)
 					.get(Actor.class, a_id);
 			System.out.println("actor name is " + act.getName());
-
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+			
 			ActorGhost ag = new ActorGhost(act);
 
 			returnVector.add(ag);
 		}
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+		
 
 		return returnVector;
 	}

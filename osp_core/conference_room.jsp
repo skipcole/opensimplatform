@@ -247,12 +247,13 @@ overflow:scroll;
 	background-position: left top;
 }
 </style>
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="timedCount();"> 
 <table width="50%">
 <TR>
     <TD valign="top" width="25%"><h1>Broadcast Messages</h1>
-      <p>Messages sent on this page will go to all players.</p></TD>
+      <p><%= cs.getBigString() %></p></TD>
 <TR>
     <TD width="25%"><form name="form1" method="post" action="">
   <p>Text to send: 
