@@ -93,7 +93,7 @@ public class Conversation  implements SimSectionDependentObject {
     private int conversation_type = TYPE_UNDEFINED;
 
     @Transient
-	private List <ConvActorAssignment>  conv_actor_assigns = new ArrayList <ConvActorAssignment>();
+	private List <ConvActorAssignment>  conv_actor_assigns = null;
 	
 	/** Returns a list of all conversations associated with a particular simulation. */
 	public static List getAllForSim(String schema, Long simid){
