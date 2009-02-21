@@ -63,6 +63,8 @@ public class CustomizeableSection extends BaseSimSection {
      */
 	private Hashtable contents = new Hashtable();
     
+	private String pageTitle = "";
+	
     /**
      * If this custom section has a big string, like a page of text, store it in here.
      */
@@ -132,6 +134,7 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setBigString("Set this to a good default value if you inted to use it, else you can leave it blank.");
 		cs.hasCustomizer = true;
 		cs.setCustomizerClassName("org.yourco.yourproject.ClassName");
+		cs.setPageTitle("Page Title Here");
 		
 		System.out.println(ObjectPackager.getObjectXML(cs));
 		/*
@@ -192,6 +195,7 @@ public class CustomizeableSection extends BaseSimSection {
         cs.setHasASpecificMakePage(this.isHasASpecificMakePage());
 		cs.setMeta_content(this.getMeta_content());
 		cs.setPage_file_name(this.getPage_file_name());
+		cs.setPageTitle(this.getPageTitle());
 		cs.setRec_tab_heading(this.getRec_tab_heading());
 		cs.setSample_image(this.getSample_image());
         cs.setSpecificMakePage(this.getSpecificMakePage());
@@ -379,6 +383,14 @@ public class CustomizeableSection extends BaseSimSection {
         this.bigString = bigString;
     }
     
+	public String getPageTitle() {
+		return pageTitle;
+	}
+
+	public void setPageTitle(String pageTitle) {
+		this.pageTitle = pageTitle;
+	}
+
 	/**
 	 * This method is called by the customized 'make' page that fine tunes this section while the simulation
 	 * is being authored.

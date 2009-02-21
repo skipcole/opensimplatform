@@ -7,6 +7,7 @@
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>customize_section_pages/core/make_conference_room.jsp</specificMakePage>
+  <pageTitle>Conference Room Title</pageTitle>
   <bigString>In this room you may communicate with the actors listed.</bigString>
   <description>A page to allow several actors to communicate privately.</description>
   <url></url>

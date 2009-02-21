@@ -18,6 +18,8 @@
 		return;
 	}
 	
+	CustomizeableSection cs = pso.getMyPSO_SectionMgmt().getCustomizableSectionOnScratchPad();
+	
 	Simulation sim = new Simulation();	
 	
 	if (pso.sim_id != null){
@@ -57,25 +59,32 @@
 			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 				String checked = "";
-				if (conv.hasActor(pso.schema, act.getId())){
+				String role = "";
+				
+				ConvActorAssignment caa = ConvActorAssignment.getSpecificCAA(pso.schema, act.getId(), conv.getId());
+				
+				if (caa != null){
 					checked = " checked ";
-				}
+					role = caa.getRole();
+				} 
+				
 			%>
             <label><input type="checkbox" name="actor_cb_<%= act.getId().toString() %>" value="true" <%= checked %> /> 
               <%= act.getName() %></label> 
             <label>
-              <input type="text" name="role" />
+              <input type="text" name="role_<%= act.getId().toString() %>" value="<%= role %>" />
               </label>
             <br/>	 
             <% } // End of loop over Actors 
 		
 			%></p>
+          <p>Title that will appear for this room.</p>
+          <p><input type="text" name="page_title" id="page_title" value="<%= cs.getPageTitle() %>" />
+          </p>
           <p>Enter any text that will appear on this page. <br>
-            </p>
-  
-      
-            <p>
-              <textarea id="text_page_text" name="text_page_text" style="height: 710px; width: 710px;"><%= pso.getMyPSO_SectionMgmt().getCustomizableSectionOnScratchPad().getBigString() %></textarea>
+          </p>
+          <p>
+              <textarea id="text_page_text" name="text_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
               
               <script language="javascript1.2">
   			generate_wysiwyg('text_page_text');
