@@ -115,6 +115,29 @@ public class ConvActorAssignment {
         MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
+	public static void removeCAA(String schema, ConvActorAssignment caa){
+        MultiSchemaHibernateUtil.beginTransaction(schema);
+        MultiSchemaHibernateUtil.getSession(schema).delete(caa);      
+        MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	/**
+	 * Removes all of the Conversation Actor Assignments associated with a particular conversation.
+	 * @param schema
+	 * @param conv_id
+	 */
+	public static void removeAllForConversation(String schema, Long conv_id){
+		
+		List removeList = getAllForConversation(schema, conv_id);
+		
+		for (ListIterator<ConvActorAssignment> bi = removeList.listIterator(); bi.hasNext();) {
+			ConvActorAssignment caa = (ConvActorAssignment) bi.next();
+			
+			removeCAA(schema, caa);
+			
+		}
+	}
+	
 	/** Returns a list of all conversations associated with a particular simulation. */
 	public static List getAllForConversation(String schema, Long conv_id){
 		
@@ -126,6 +149,25 @@ public class ConvActorAssignment {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return returnList;
+	}
+	
+	/** Returns a list of all conversations associated with a particular simulation. */
+	public static ConvActorAssignment getSpecificCAA(String schema, Long actor_id, Long conv_id){
+		
+		ConvActorAssignment returnCAA = null;
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List<ConvActorAssignment> getList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from ConvActorAssignment where conv_id = " + conv_id + " and actor_id = " + actor_id).list();
+
+		if ((getList != null) && (getList.size() > 0)){
+			returnCAA = (ConvActorAssignment) getList.get(0);
+			System.out.println("returnCAA role was: " + returnCAA.getRole());
+		}
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnCAA;
 	}
 	
 }

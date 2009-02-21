@@ -4,7 +4,7 @@
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>make_private_chat_page.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_private_chat_page.jsp</specificMakePage>
   <bigString></bigString>
   <description>A page to allow actors to communicate with other actors privately.</description>
   <url></url>

@@ -199,9 +199,9 @@ public class Conversation  implements SimSectionDependentObject {
 	 * @param schema
 	 * @param sim_id
 	 */
-	public void addActor(String a_id, String schema, Long sim_id){
+	public void addActor(String a_id, String schema, Long sim_id, String role){
 		if (a_id != null){
-			addActor(new Long(a_id), schema, sim_id);
+			addActor(new Long(a_id), schema, sim_id, role);
 		}
 	}
 	
@@ -211,11 +211,12 @@ public class Conversation  implements SimSectionDependentObject {
 	 * @param schema
 	 * @param sim_id
 	 */
-	public void addActor(Long a_id, String schema, Long sim_id){
+	public void addActor(Long a_id, String schema, Long sim_id, String role){
 		
 		if (!(hasActor(schema, a_id))){
 			ConvActorAssignment caa = new ConvActorAssignment();
 			caa.setActor_id(a_id);
+			caa.setRole(role);
 			caa.setConv_id(this.id);
 			caa.save(schema);
 			this.getConv_actor_assigns(schema).add(caa);
@@ -333,7 +334,7 @@ public class Conversation  implements SimSectionDependentObject {
 	 * @param id2
 	 * @return
 	 */
-	private static Conversation getMe(String schema, Long id2) {
+	public static Conversation getMe(String schema, Long id2) {
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Conversation conv = (Conversation) MultiSchemaHibernateUtil

@@ -2,6 +2,7 @@ package org.usip.osp.networking;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -657,110 +658,6 @@ public class PSO_SectionMgmt {
 		return customizableSectionOnScratchPad;
 	}
 
-	/**
-	 * 
-	 * @param request
-	 */
-	public void handleMakePrivateChatPage(HttpServletRequest request) {
-
-		String sending_page = (String) request.getParameter("sending_page");
-
-		ArrayList<Long> playersWithChat = new ArrayList<Long>();
-
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))) {
-
-			// ////////////////////////////////////////////////////
-			// Get the simulation we are working on
-			Simulation sim = new Simulation();
-			if (pso.sim_id != null) {
-				sim = pso.giveMeSim();
-			}
-
-			// /////////////////////////////////////////////////////////
-			// Pull this custom page out of the database based on its id.
-			_custom_section_id = request.getParameter("custom_page");
-			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-			customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema)
-					.get(CustomizeableSection.class, new Long(_custom_section_id));
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-
-			// Delete all private conversations for this simulation since we
-			// recreate them below.
-			Conversation.deleteAllPrivateChatForSim(pso.schema, pso.sim_id);
-
-			for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
-				String pname = (String) e.nextElement();
-
-				String vname = (String) request.getParameter(pname);
-				System.out.println(pname + " " + vname);
-
-				if (pname.startsWith("act_cb_")) {
-					pname = pname.replaceAll("act_cb_", "");
-
-					StringTokenizer str = new StringTokenizer(pname, "_");
-
-					String f_actor = str.nextToken();
-					String s_actor = str.nextToken();
-					System.out.println("setting up actors " + f_actor + " and " + s_actor);
-
-					try {
-						Long actorWithChat = new Long(f_actor);
-						Long actorWithChat2 = new Long(s_actor);
-
-						if (!(playersWithChat.contains(actorWithChat))) {
-							playersWithChat.add(actorWithChat);
-						}
-
-						if (!(playersWithChat.contains(actorWithChat2))) {
-							playersWithChat.add(actorWithChat2);
-						}
-
-						Conversation conv = new Conversation();
-						conv.setSim_id(pso.sim_id);
-						conv.setConversation_type(Conversation.TYPE_PRIVATE);
-						conv.setConversation_name("One on One");
-
-						ConvActorAssignment caa = new ConvActorAssignment();
-						caa.setActor_id(actorWithChat);
-						caa.save(pso.schema);
-
-						ConvActorAssignment caa2 = new ConvActorAssignment();
-						caa2.setActor_id(actorWithChat2);
-						caa2.save(pso.schema);
-
-						ArrayList al = new ArrayList();
-						al.add(caa);
-						al.add(caa2);
-
-						conv.setConv_actor_assigns(al);
-
-						MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-						MultiSchemaHibernateUtil.getSession(pso.schema).saveOrUpdate(conv);
-						MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-
-					} catch (Exception er) {
-						er.printStackTrace();
-					}
-				}
-			}
-
-			String save_and_add = (String) request.getParameter("save_and_add");
-
-			if (save_and_add != null) {
-
-				// add section to the applicable actors
-
-				System.out.println("this: " + this);
-				System.out.println("csosp: " + customizableSectionOnScratchPad);
-
-				SimulationSection.applySectionToSpecificActors(pso.schema, sim, this.phase_being_worked_on_id,
-						customizableSectionOnScratchPad.getId(), _tab_heading, playersWithChat);
-				// send them back
-				pso.forward_on = true;
-			}
-		}
-
-	}
 
 	/**
 	 * This method handles the creation of the page to allow player access to
@@ -886,8 +783,9 @@ public class PSO_SectionMgmt {
 				List convForThisSection = BaseSimSectionDepObjectAssignment.getObjectsForSection(pso.schema, 
 						customizableSectionOnScratchPad.getId());
 				
-				conv = (Conversation) convForThisSection.get(0);
+				BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) convForThisSection.get(0);
 				
+				conv = Conversation.getMe(pso.schema, bssdoa.getObjectId());
 				// If this is a customized page, but belongs to a different sim, then make a copy ?
 				
 			}
@@ -896,9 +794,27 @@ public class PSO_SectionMgmt {
 			// Update page values
 			String text_page_text = (String) request.getParameter("text_page_text");
 			customizableSectionOnScratchPad.setBigString(text_page_text);
+			
+			String page_title = (String) request.getParameter("page_title");
+			customizableSectionOnScratchPad.setPageTitle(page_title);
+			
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 
-			conv.setConv_actor_assigns(new ArrayList());
+			// Need to clean out current actor assignments for this conversation
+			ConvActorAssignment.removeAllForConversation(pso.schema, conv.getId());
+			
+			Hashtable setOfUserRoles = new Hashtable();
+			
+			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+				String param_name = (String) e.nextElement();
+
+				if (param_name.startsWith("role_")) {
+					String this_a_id = param_name.replaceFirst("role_", "");
+					
+					setOfUserRoles.put(this_a_id, (String) request.getParameter(param_name));
+					
+				}
+			}
 
 			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
 				String param_name = (String) e.nextElement();
@@ -909,9 +825,10 @@ public class PSO_SectionMgmt {
 						String this_a_id = param_name.replaceFirst("actor_cb_", "");
 						System.out.println("adding " + this_a_id + " in schema" + pso.schema + " to sim_id "
 								+ pso.sim_id);
-						conv.addActor(this_a_id, pso.schema, pso.sim_id);
+						conv.addActor(this_a_id, pso.schema, pso.sim_id, (String) setOfUserRoles.get(this_a_id));
 					}
 				}
+				
 			}
 			
 			conv.save(pso.schema);
@@ -927,11 +844,125 @@ public class PSO_SectionMgmt {
 				pso.forward_on = true;
 				return null;
 			}
+		} else {
+			List convForThisSection = BaseSimSectionDepObjectAssignment.getObjectsForSection(pso.schema, 
+					customizableSectionOnScratchPad.getId());
+			
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) convForThisSection.get(0);
+			
+			conv = Conversation.getMe(pso.schema, bssdoa.getObjectId());
+			// If this is a customized page, but belongs to a different sim, then make a copy ?
 		}
 
 		return conv;
 
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleMakePrivateChatPage(HttpServletRequest request) {
+
+		String sending_page = (String) request.getParameter("sending_page");
+
+		ArrayList<Long> playersWithChat = new ArrayList<Long>();
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))) {
+
+			// ////////////////////////////////////////////////////
+			// Get the simulation we are working on
+			Simulation sim = new Simulation();
+			if (pso.sim_id != null) {
+				sim = pso.giveMeSim();
+			}
+
+			// /////////////////////////////////////////////////////////
+			// Pull this custom page out of the database based on its id.
+			_custom_section_id = request.getParameter("custom_page");
+			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
+			customizableSectionOnScratchPad = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema)
+					.get(CustomizeableSection.class, new Long(_custom_section_id));
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+
+			// Delete all private conversations for this simulation since we
+			// recreate them below.
+			Conversation.deleteAllPrivateChatForSim(pso.schema, pso.sim_id);
+
+			for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+				String pname = (String) e.nextElement();
+
+				String vname = (String) request.getParameter(pname);
+				System.out.println(pname + " " + vname);
+
+				if (pname.startsWith("act_cb_")) {
+					pname = pname.replaceAll("act_cb_", "");
+
+					StringTokenizer str = new StringTokenizer(pname, "_");
+
+					String f_actor = str.nextToken();
+					String s_actor = str.nextToken();
+					System.out.println("setting up actors " + f_actor + " and " + s_actor);
+
+					try {
+						Long actorWithChat = new Long(f_actor);
+						Long actorWithChat2 = new Long(s_actor);
+
+						if (!(playersWithChat.contains(actorWithChat))) {
+							playersWithChat.add(actorWithChat);
+						}
+
+						if (!(playersWithChat.contains(actorWithChat2))) {
+							playersWithChat.add(actorWithChat2);
+						}
+
+						Conversation conv = new Conversation();
+						conv.setSim_id(pso.sim_id);
+						conv.setConversation_type(Conversation.TYPE_PRIVATE);
+						conv.setConversation_name("One on One");
+
+						ConvActorAssignment caa = new ConvActorAssignment();
+						caa.setActor_id(actorWithChat);
+						caa.save(pso.schema);
+
+						ConvActorAssignment caa2 = new ConvActorAssignment();
+						caa2.setActor_id(actorWithChat2);
+						caa2.save(pso.schema);
+
+						ArrayList al = new ArrayList();
+						al.add(caa);
+						al.add(caa2);
+
+						conv.setConv_actor_assigns(al);
+
+						MultiSchemaHibernateUtil.beginTransaction(pso.schema);
+						MultiSchemaHibernateUtil.getSession(pso.schema).saveOrUpdate(conv);
+						MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+
+					} catch (Exception er) {
+						er.printStackTrace();
+					}
+				}
+			}
+
+			String save_and_add = (String) request.getParameter("save_and_add");
+
+			if (save_and_add != null) {
+
+				// add section to the applicable actors
+
+				System.out.println("this: " + this);
+				System.out.println("csosp: " + customizableSectionOnScratchPad);
+
+				SimulationSection.applySectionToSpecificActors(pso.schema, sim, this.phase_being_worked_on_id,
+						customizableSectionOnScratchPad.getId(), _tab_heading, playersWithChat);
+				// send them back
+				pso.forward_on = true;
+			}
+		}
+
+	}
+
 
 	/**
 	 * Handles the making of a page to display a simple image.

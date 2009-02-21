@@ -34,11 +34,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
 <title>Open Simulation Platform Control Page</title>
-<script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
+<script language="JavaScript" type="text/javascript" src="../../../wysiwyg_files/wysiwyg.js">
 </script>
 
 
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<link href="../../../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -47,7 +47,7 @@
     <td>
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
-			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
+			<td width="120"><img src="../../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Make Private Chat Pages</h1>
               <br />
@@ -114,7 +114,7 @@
               </p>
             <p>&nbsp;</p>
           </blockquote>
-      </form>	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+      </form>	  <a href="<%= pso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

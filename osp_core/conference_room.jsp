@@ -252,7 +252,7 @@ overflow:scroll;
 <body onLoad="timedCount();"> 
 <table width="50%">
 <TR>
-    <TD valign="top" width="25%"><h1>Broadcast Messages</h1>
+    <TD valign="top" width="25%"><h1><%= cs.getPageTitle() %></h1>
       <p><%= cs.getBigString() %></p></TD>
 <TR>
     <TD width="25%"><form name="form1" method="post" action="">

@@ -43,7 +43,7 @@ public class BaseSimSection implements Comparable {
 	 */
 	public static void main(String args[]) {
 
-		BaseSimSection.readNewBaseSimSectionsFromXMLFiles("test");
+		//BaseSimSection.readNewBaseSimSectionsFromXMLFiles("test");
 		
 		
 		// BaseSimSection.readBaseSimSectionsFromXMLFiles();
@@ -54,17 +54,17 @@ public class BaseSimSection implements Comparable {
 		 * for (ListIterator la = bList.listIterator(); la.hasNext();) {
 		 * BaseSimSection bss = (BaseSimSection) la.next();
 		 */
-		// BaseSimSection bss = BaseSimSection.getMe("test", "16");
-		// bss.setConfers_read_ability(true);
-		// System.out.println("can read " + bss.isConfers_read_ability());
-		// bss.saveMe("test");
+		CustomizeableSection bss = new CustomizeableSection();
+		bss.setConfers_read_ability(true);
+		bss.setBigString("<H1>Broadcast stuff</H1><p>words</p>");
+		
+		System.out.println("can read " + bss.isConfers_read_ability());
 
-		/*
-		 * System.out.println("--------------------"); //
-		 * System.out.println(ObjectPackager.packageObject(bss));
-		 * System.out.println("--------------------"); StringBuffer sss = new
-		 * StringBuffer("abcd");
-		 * 
+		
+		 System.out.println("--------------------"); //
+		 System.out.println(ObjectPackager.getObjectXML(bss));
+
+		 /* 
 		 * int aliquot = 2; int numPrinted = 0; if (sss.length() > aliquot) {
 		 * while (numPrinted < sss.length()) { char[] c = new char[aliquot]; int
 		 * numToGet = aliquot; if ((sss.length() - numPrinted) < aliquot) {
