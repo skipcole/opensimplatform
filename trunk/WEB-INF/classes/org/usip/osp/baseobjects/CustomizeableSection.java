@@ -159,20 +159,6 @@ public class CustomizeableSection extends BaseSimSection {
         
         Hashtable ht = new Hashtable();
         
-        /*
-         * <org.usip.osp.baseobjects.CustomizeableSection>
-        <thisIsACustomizedSection>false</thisIsACustomizedSection>
-        <hasASpecificMakePage>true</hasASpecificMakePage>
-        <specificMakePage>make_caucus_page.jsp</specificMakePage>
-        <bigString></bigString>
-        <description>A page to allow several actors to communicate privately.</description>
-        <url></url>
-        <directory>../osp_core/</directory>
-        <page__file__name>caucus_page.jsp</page__file__name>
-        <rec__tab__heading>Caucus Page</rec__tab__heading>
-        <sample__image>caucus_page.png</sample__image>
-        <control__section>false</control__section>
-      </org.usip.osp.baseobjects.CustomizeableSection>
         */
 		
 	}

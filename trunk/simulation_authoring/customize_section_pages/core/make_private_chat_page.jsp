@@ -9,7 +9,9 @@
 	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-		
+	
+	CustomizeableSection cs = pso.handleMakePrivateChatPage(request);
+	
 	if (pso.forward_on){
 		pso.forward_on = false;
 		response.sendRedirect(pso.backPage);
@@ -21,13 +23,7 @@
 	if (pso.sim_id != null){
 		sim = pso.giveMeSim();
 	}
-	
-		String sending_page = (String) request.getParameter("sending_page");
-		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("make_private_chat_page"))){
-	 		
-			pso.handleMakePrivateChatPage(request);
 			
-		}	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -52,9 +48,9 @@
               <h1>Make Private Chat Pages</h1>
               <br />
       <blockquote> 
-	  <form action="make_private_chat_page.jsp" method="post" name="form2" id="form2">
+	  <form action="make_private_chat_page.jsp" method="post" name="form2" >
 	    <blockquote><strong>Tab Heading</strong>: 
-	      <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
+	      <input type="text" name="tab_heading" value="<%= cs.getRec_tab_heading() %>"/>
 	      <p>Fill out the top right part of the grid below to determine the sets of characters that will have a private chat window. </p>
           <table border="1"><tr><td>&nbsp;</td>
 		  <%
@@ -74,7 +70,7 @@
             <tr><td><strong><%= act.getName() %></strong></td>
 				  <%
 				// Get this from pso
-				Hashtable setConversations = pso.setOfPrivateConversation();
+				Hashtable setConversations = pso.setOfConversationForASection(cs.getId());
 				
 				int index_col = 0;
 				for (ListIterator la2 = sim.getActors(pso.schema).listIterator(); la2.hasNext();) {

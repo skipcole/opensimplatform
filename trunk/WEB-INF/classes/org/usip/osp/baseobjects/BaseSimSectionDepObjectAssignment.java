@@ -39,6 +39,27 @@ public class BaseSimSectionDepObjectAssignment {
 	public BaseSimSectionDepObjectAssignment() {
 
 	}
+	
+	/**
+	 * Creates and saves the object to the database.
+	 * 
+	 * @param cs_id
+	 * @param className
+	 * @param do_index
+	 * @param objId
+	 * @param sim_id
+	 * @param schema
+	 */
+	public BaseSimSectionDepObjectAssignment(Long cs_id, String className, int do_index, Long objId, Long sim_id,
+			String schema){
+		this.setBss_id(cs_id);
+		this.setClassName(className);
+		this.setDepObjIndex(do_index);
+		this.setObjectId(objId);
+		this.setSim_id(sim_id);
+		
+		this.saveMe(schema);
+	}
 
 	public static BaseSimSectionDepObjectAssignment getIfExistsElseCreateIt(String schema, Long bss_id,
 			String className, Long objectId, Long sim_id) {

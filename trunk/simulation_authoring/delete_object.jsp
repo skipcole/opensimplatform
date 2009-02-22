@@ -27,16 +27,15 @@
 	}
 
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>USIP Open Simulation Platform Delete Object Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -47,13 +46,11 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Confirm Deletion</h1>
-      <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" --> 
+              <h1>Confirm Deletion</h1>
+              <br />
       <blockquote>
         <h1>Confirm Deletion</h1>
-        <p>Confirm deletion of <%= objectType %> <%= objectInfo %></p>
+          <p>Confirm deletion of <%= objectType %> <%= objectInfo %></p>
       </blockquote>
       <form action="delete_object.jsp" method="post" name="form1" id="form1">
         <blockquote>
@@ -63,18 +60,16 @@
             <input type="hidden" name="objid" value="<%= objid %>" />
             <input type="submit" name="deletion_confirm" value="Submit" />
             <input type="submit" name="cancel_action" value="Cancel" />
-          </p>
-        </blockquote>
+            </p>
+          </blockquote>
       </form>
       <blockquote> 
         <p>&nbsp;</p>
-        <p><a href="<%= pso.backPage %>">Back</a></p>
+          <p><a href="<%= pso.backPage %>">Back</a></p>
       </blockquote>
-      <%= Debug.getDebug(debug) %> <!-- InstanceEndEditable -->
-			</td>
+      <%= Debug.getDebug(debug) %>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -87,7 +82,7 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
 <%
 	
 %>

@@ -82,6 +82,7 @@ public class Actor {
     private boolean isShown = true;
     
     /**
+     * Returns all of the actors found in a schema.
      * 
      * @param schema
      * @return
@@ -98,6 +99,13 @@ public class Actor {
 		return returnList;
     }
     
+    /**
+     * Returns a particular actor.
+     * 
+     * @param schema
+     * @param actor_id
+     * @return
+     */
 	public static Actor getMe(String schema, Long actor_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -110,6 +118,11 @@ public class Actor {
 
 	}
     
+	/**
+	 * Returns a list of all actors in this schema. (Useful since actor names have to be unique.)
+	 * @param schema
+	 * @return
+	 */
     public static ArrayList<String> getAllActorNames(String schema){
     	
     	ArrayList returnList = new ArrayList<String>();
