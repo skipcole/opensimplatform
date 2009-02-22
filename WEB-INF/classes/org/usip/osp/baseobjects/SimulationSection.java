@@ -488,13 +488,13 @@ public class SimulationSection {
 	}
 
 	public static void applySectionToSpecificActors(String schema,
-			Simulation sim, Long pid, Long sec_id, String tab_head,
+			Long sim_id, Long pid, Long sec_id, String tab_head,
 			List<Long> a_ids) {
 
 		// //////////////////////////////////////////////////////////////
 		// Get, and remove, and occurance of this section for all actors.
 		List removeList = SimulationSection.getBySimAndPhaseAndBSSid(schema,
-				sim.getId(), pid, sec_id);
+				sim_id, pid, sec_id);
 
 		for (ListIterator<SimulationSection> lr = removeList.listIterator(); lr
 				.hasNext();) {
@@ -513,9 +513,9 @@ public class SimulationSection {
 
 			// If this doesn't work, try the getBySimAndActorAndPhase
 			int highestTab = Actor.getHighestTabPosForPhase(schema,
-					sim.getId(), pid, a_id);
+					sim_id, pid, a_id);
 
-			SimulationSection ss0 = new SimulationSection(schema, sim.getId(),
+			SimulationSection ss0 = new SimulationSection(schema, sim_id,
 					a_id, pid, sec_id, tab_head, highestTab);
 		}
 		// ///////////////////////////////////////////////////////////////

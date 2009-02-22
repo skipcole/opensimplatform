@@ -263,31 +263,6 @@ public class RunningSimulation {
 	}
 
 	/**
-	 * Creates copies of all of the shared documents held in the sim, so one is
-	 * available for this running sim.
-	 * 
-	 * @param schema
-	 * @param sim
-	 */
-	private void createMyDocuments(String schema, Simulation sim) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		for (ListIterator<SharedDocument> li = SharedDocument.getAllBaseDocumentsForSim(
-				MultiSchemaHibernateUtil.getSession(schema), sim.getId()).listIterator(); li.hasNext();) {
-			SharedDocument sd = (SharedDocument) li.next();
-
-			sd.createCopy(this.id, MultiSchemaHibernateUtil.getSession(schema));
-
-		}
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-	}
-
-	/**
 	 * Creates copies of all of the variables held by the sim, so one is
 	 * available for this running sim.
 	 * 

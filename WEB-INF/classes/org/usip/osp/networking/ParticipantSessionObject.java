@@ -2124,6 +2124,50 @@ public class ParticipantSessionObject {
 	 * @return A hashtable with all of the actor one on one coversations set in
 	 *         the form of 1_2 and 2_1.
 	 */
+	public Hashtable setOfConversationForASection(Long section_id) {
+
+		Hashtable returnTable = new Hashtable<String, String>();
+
+		List currentChats = Conversation.getAllPrivateChatForASection(schema, sim_id);
+
+		// Loop over all private conversations in this set
+		for (ListIterator<Conversation> li = currentChats.listIterator(); li.hasNext();) {
+			Conversation con_id = li.next();
+
+			Vector actors = new Vector();
+
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(schema).get(Conversation.class,
+					con_id.getId());
+
+			// Get the 2 (should be 2) actors in this conversation.
+			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns(schema).listIterator(); liiii.hasNext();) {
+				ConvActorAssignment caa = liiii.next();
+				actors.add(caa.getActor_id());
+			}
+
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			for (Enumeration e1 = actors.elements(); e1.hasMoreElements();) {
+				Long a_id_1 = (Long) e1.nextElement();
+
+				for (Enumeration e2 = actors.elements(); e2.hasMoreElements();) {
+					Long a_id_2 = (Long) e2.nextElement();
+
+					String key = a_id_1 + "_" + a_id_2;
+					returnTable.put(key, "set");
+				}
+			}
+		}
+
+		return returnTable;
+	}
+
+	/**
+	 * 
+	 * @return A hashtable with all of the actor one on one coversations set in
+	 *         the form of 1_2 and 2_1.
+	 */
 	public Hashtable setOfPrivateConversation() {
 
 		Hashtable returnTable = new Hashtable<String, String>();
@@ -2812,8 +2856,8 @@ public class ParticipantSessionObject {
 	 * 
 	 * @param request
 	 */
-	public void handleMakePrivateChatPage(HttpServletRequest request) {
-		getMyPSO_SectionMgmt().handleMakePrivateChatPage(request);
+	public CustomizeableSection handleMakePrivateChatPage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMakePrivateChatPage(request));
 	}
 
 	/**
@@ -2909,5 +2953,41 @@ public class ParticipantSessionObject {
 	public String getBaseSimURL() {
 		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
-
-}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param setOfActors
+	 * @param section_id
+	 * @return
+	 */
+	public String generatePrivateChatLines(HttpServletRequest request, Hashtable setOfActors, Long section_id){
+		
+		String returnString = "";
+		
+		// Loop over the conversations for this Actor
+		for (ListIterator<Conversation> li = 
+			Conversation.getActorsConversationsForSimSection(schema, actor_id, running_sim_id, section_id).listIterator(); li.hasNext();) {
+				Conversation conv = (Conversation) li.next();
+				
+				returnString += "var start_index" + conv.getId() + " = 0 \r\n";
+				returnString += "var new_start_index" + conv.getId() + " = 0 \r\n";
+				
+			
+				// Take this opportunity to fill up the hashtable with actors
+					// Loop over the conversation actors (should be 2 of them) for this private chat.
+	  				for (ListIterator<ConvActorAssignment> liii = conv.getConv_actor_assigns(schema).listIterator(); liii.hasNext();) {
+						ConvActorAssignment caa = (ConvActorAssignment) liii.next();
+				
+						// Don't do the chat with the actor and his or her self.
+						if (!(caa.getActor_id().equals(actor_id))) {
+							setOfActors.put(caa.getActor_id().toString(), "set");
+						} // end of if this is an applicable actor
+					} // End of loop over conversation actors
+		 } // End of loop over conversations.
+	
+		return returnString;
+		
+	} // End of method
+	
+} // End of class

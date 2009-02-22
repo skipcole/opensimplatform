@@ -8,39 +8,26 @@
 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
+	// Get the id for this conversation
+	String cs_id = (String) request.getParameter("cs_id");
+	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
-	
-	// Keep a set of actors to loop over check on if online.
-	Hashtable setOfActors = new Hashtable();
 	
 %>
 <html>
 <head>
 <script type="text/javascript" src="../jquery-1.2.6.js"></script>
 <script type="text/javascript">
-
-	<%  // Loop over the conversations for this Actor
-	for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
-			Conversation conv = (Conversation) li.next(); %>
-			
-			var start_index<%= conv.getId() %> = 0;
-			var new_start_index<%= conv.getId() %> = 0;
-			
-			<%
-			// Take this opportunity to fill up the hashtable with actors
-				// Loop over the conversation actors (should be 2 of them) for this private chat.
-  				for (ListIterator<ConvActorAssignment> liii = conv.getConv_actor_assigns().listIterator(); liii.hasNext();) {
-					ConvActorAssignment caa = (ConvActorAssignment) liii.next();
-			
-					// Don't do the chat with the actor and his or her self.
-					if (!(caa.getActor_id().equals(pso.actor_id))) {
-						setOfActors.put(caa.getActor_id().toString(), "set");
-					} // end of if this is an applicable actor
-				} // End of loop over conversation actors
-	 } // End of loop over conversations. %>
+	<%
+		// Keep a set of actors to loop over check on if online.
+		Hashtable setOfActors = new Hashtable();
+	
+		// The print out statement below fills in the hashtable and lists important details regarding the actors.
+	%>
+	<%= pso.generatePrivateChatLines(request, setOfActors, new Long(cs_id)) %>
 
 </script>
 	<script type="text/javascript">
@@ -57,7 +44,7 @@
 		%>
 			
 		<%  // Loop over the conversations for this Actor
-		for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id)).listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next(); %>
 		
 			updateMsg<%= conv.getId() %>();
@@ -81,7 +68,7 @@
 		}); // End of loop over if ready
 		
 		<%  // Loop over the conversations for this Actor
-		for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id)).listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next(); %>
 			
 		function addMessages<%= conv.getId() %>(xml) {
@@ -160,7 +147,7 @@ width:100%;
 } 
 <%
 	// Loop over the conversations for this Actor
-	for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
+	for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id)).listIterator(); li.hasNext();) {
 		Conversation conv = (Conversation) li.next();
 %>	
 		#messagewindow<%= conv.getId() %> {
@@ -198,9 +185,15 @@ width:100%;
 <P>
 
 <%
+	List listOfConversations = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id));
+	
+	Actor this_actor = pso.giveMeActor();
+	if (this_actor.isControl_actor()){
+		listOfConversations = Conversation.getAllConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id));
+	}
 	
 	// Loop over the conversations for this Actor
-	for (ListIterator<Conversation> li = Conversation.getActorsPrivateChats(pso.schema, pso.sim_id, pso.actor_id).listIterator(); li.hasNext();) {
+	for (ListIterator<Conversation> li = listOfConversations.listIterator(); li.hasNext();) {
 		Conversation conv = (Conversation) li.next();
 	
 	
@@ -209,7 +202,7 @@ width:100%;
   <% 
   		
 		// Loop over the conversation actors (should be 2 of them) for this private chat.
-  		for (ListIterator<ConvActorAssignment> liii = conv.getConv_actor_assigns().listIterator(); liii.hasNext();) {
+  		for (ListIterator<ConvActorAssignment> liii = conv.getConv_actor_assigns(pso.schema).listIterator(); liii.hasNext();) {
 			ConvActorAssignment caa = (ConvActorAssignment) liii.next();
 			
 			// Don't do the chat with the actor and his or her self.
