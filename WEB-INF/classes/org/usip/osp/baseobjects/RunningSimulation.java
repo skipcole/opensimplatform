@@ -106,7 +106,9 @@ public class RunningSimulation {
 		this.sim_id = sim.getId();
 
 		this.saveMe(schema);
-		//this.createMyDocuments(schema, sim);
+		
+		// Create the dependent object (shared documents, conversations, variables, etc.)
+		createRunningSimObjects(schema, sim);
 		this.createMyVariables(schema, sim);
 
 	}
@@ -142,7 +144,6 @@ public class RunningSimulation {
 
 		Simulation sim = Simulation.getMe(schema, new Long(sid));
 
-		createRunningSimObjects(schema, sim);
 
 		doFinalChecksOnSim(sim, schema);
 

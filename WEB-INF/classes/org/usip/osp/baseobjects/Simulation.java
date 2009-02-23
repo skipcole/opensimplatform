@@ -227,11 +227,12 @@ public class Simulation {
 		// Add the schedule page
 		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId());
 		sd.save(schema);
-		
+			
 		// need to associate with it the schedule document 
-		scheduleSection.getContents().put(SharedDocument.DOCS_IN_HASHTABLE_KEY, sd.getId() + ",");
-		scheduleSection.save(schema);
-		
+		BaseSimSectionDepObjectAssignment bssdoa = 
+			new BaseSimSectionDepObjectAssignment(scheduleSection.getId(), "org.usip.osp.communications.SharedDocument", 1, sd.getId(), this.getId(),
+					schema);
+			
 		// Add the schedule as the second tab to all players.
 		SimulationSection ss1 = new SimulationSection(schema, this.getId(),
 				new Long(0), sp_first.getId(), scheduleSection.getId(),
