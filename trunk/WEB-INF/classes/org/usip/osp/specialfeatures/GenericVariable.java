@@ -8,6 +8,7 @@ import javax.persistence.*;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.CustomizeableSection;
+import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimulationPhase;
 import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.networking.ParticipantSessionObject;
@@ -32,7 +33,14 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "GENERICVARIABLES")
 @Proxy(lazy = false)
-public class GenericVariable {
+public class GenericVariable implements SimSectionDependentObject{
+	
+	/**
+	 * Zero argument constructor required by hibernate.
+	 */
+	public GenericVariable(){
+		
+	}
 	
 	/** Key to pull id out if stored in Hashtable */
 	public static final String GEN_VAR_KEY = "gen_var_key";
@@ -274,6 +282,18 @@ public class GenericVariable {
 			}
 			
 		}
+	}
+
+	@Override
+	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getObjectClass() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

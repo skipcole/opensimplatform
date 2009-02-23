@@ -595,6 +595,11 @@ public class ParticipantSessionObject {
 
 	}
 
+	/**
+	 * Loads a session.
+	 * 
+	 * @param request
+	 */
 	public void handleLoadPlayerAutoAssignedScenario(HttpServletRequest request) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
