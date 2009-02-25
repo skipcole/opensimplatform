@@ -78,6 +78,13 @@ public class BaseSimSection implements Comparable {
 
 	}
 
+	/**
+	 * Checks to see if a simulation section with the same creating organization, name and version 
+	 * has been loaded. If so, it returns true. If not found, then it returns false.
+	 * @param schema
+	 * @param bss
+	 * @return
+	 */
 	public static boolean checkInstalled(String schema, BaseSimSection bss){
 		
 		BaseSimSection correspondingBss = getByName(schema, bss.creatingOrganization, bss.uniqueName, bss.version);
@@ -171,7 +178,7 @@ public class BaseSimSection implements Comparable {
 	}
 	
 	/**
-	 * Reads the simulation sections from xml files.
+	 * Reads the simulation sections from xml files, but does not save them to the database.
 	 * 
 	 * @param schema
 	 * @return Returns a string indicating success, or not.
@@ -208,7 +215,8 @@ public class BaseSimSection implements Comparable {
 					if (fName.endsWith(".xml")) {
 
 						try {
-							returnList.add(BaseSimSection.readAheadXML(schema, files[ii]));
+							String fullFileLoc = fileLocation + fName;
+							returnList.add(BaseSimSection.readAheadXML(schema, files[ii], fullFileLoc));
 							
 						} catch (Exception e) {
 							System.out.println("problem reading in file " + fName);
@@ -333,12 +341,17 @@ public class BaseSimSection implements Comparable {
 	 * @param customLibName
 	 * @return
 	 */
-	public static Object readAheadXML(String schema, File thisFile) {
+	public static Object readAheadXML(String schema, File thisFile, String fullFileLoc) {
 
 		String fullBSS = FileIO.getFileContents(thisFile);
 
 		Object bRead = unpackageXML(fullBSS);
-
+		
+		BaseSimSection bss = (BaseSimSection) bRead;
+		
+		// Using the directory field temporarily just to pass back location on where the file read is.
+		bss.setDirectory(fullFileLoc);
+		
 		return bRead;
 	}
 

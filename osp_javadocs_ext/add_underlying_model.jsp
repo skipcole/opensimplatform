@@ -2,7 +2,7 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	pso.backPage = "add_underlying_model.jsp";
@@ -44,7 +44,7 @@
             <td width="13%" valign="top">Step 1.</td>
               <td width="87%" valign="top"><p>To add an underlying model, you will need to create or upload a model definitions file.</p>
                 <ul>
-                  <li>To create a model definitions file, <a href="create_model_definitions.jsp">click here</a>.</li>
+                  <li>To create a model definitions file, <a href="../simulation_authoring/create_model_definitions.jsp">click here</a>.</li>
                   <li>To upload a model definitions file, click here.</li>
                 </ul></td>
             </tr>
@@ -61,7 +61,7 @@
           <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
-        </blockquote>      <a href="incorporate_underlying_model.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+        </blockquote>      <a href="../simulation_authoring/incorporate_underlying_model.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

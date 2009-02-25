@@ -30,16 +30,15 @@
 	
 	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -50,40 +49,34 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Unpackage Details</h1>
-    <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" -->
-<p>Enter information concerning this import.</p>
-<form id="form1" name="form1" method="post" action="">
-<table>
-<tr><td>Name:</td>
-  <td><label>
-  <input type="text" name="sim_name" id="sim_name" value="<%= sim.getName() %>" />
-  </label></td>
+              <h1>Unpackage Details</h1>
+              <br />
+    <p>Enter information concerning this import.</p>
+    <form id="form1" name="form1" method="post" action="">
+  <table>
+  <tr><td>Name:</td>
+    <td><label>
+      <input type="text" name="sim_name" id="sim_name" value="<%= sim.getName() %>" />
+      </label></td>
+    </tr>
+  <tr>
+    <td>Version:</td>
+    <td><label>
+      <input type="text" name="sim_version" id="sim_version" value="<%= sim.getVersion() %>" />
+      </label></td>
   </tr>
-<tr>
-  <td>Version:</td>
-  <td><label>
-    <input type="text" name="sim_version" id="sim_version" value="<%= sim.getVersion() %>" />
-  </label></td>
-</tr>
-<tr>
-  <td>&nbsp;</td>
-  <td><label>
-  	<input type="hidden" name="unpack" value="true" />
-    <input type="submit" name="button" id="button" value="Submit" />
-  </label></td>
-</tr>
-  </table>
-</form>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-			<!-- InstanceEndEditable -->
-			</td>
+  <tr>
+    <td>&nbsp;</td>
+    <td><label>
+      <input type="hidden" name="unpack" value="true" />
+      <input type="submit" name="button" id="button" value="Submit" />
+      </label></td>
+  </tr>
+    </table>
+      </form>
+    <p>&nbsp;</p>    <p>&nbsp;</p>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -96,4 +89,4 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>

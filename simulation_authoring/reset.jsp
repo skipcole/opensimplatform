@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page contentType="text/html; charset=ISO-8859-1" language="java" import="java.sql.*,java.util.*" errorPage="" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page contentType="text/html; charset=ISO-8859-1" language="java" import="java.sql.*,java.util.*" errorPage="../error.jsp" %>
 <%
 
         // Establish the cache of login tickets
@@ -25,16 +25,15 @@
         getServletContext().setAttribute("charts", charts);
 	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -45,17 +44,11 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Reset of Simulation Caches</h1>
-      <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" -->
-Values stored in cache have been reset.
-
-<!-- InstanceEndEditable -->
-			</td>
+              <h1>Reset of Simulation Caches</h1>
+              <br />
+ Values stored in cache have been reset.			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -68,4 +61,4 @@ Values stored in cache have been reset.
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>

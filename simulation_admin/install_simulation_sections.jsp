@@ -52,23 +52,48 @@ body {
     <td width="24" height="24" >&nbsp;</td>
   </tr>
   <tr> 
-    <td colspan="3"> <form action="../osp_install/install_db.jsp" method="post" name="form1" id="form1">
+    <td colspan="3">
         <h1>
-          Install Custom Library</h1>
+          Install Simulation Sections</h1>
 
         <blockquote>
-          <p>Below are listed the custom libraries found on this system.</p>
-  <p> 
-	<% for (ListIterator li = FileIO.getListOfCustomLibraries().listIterator(); li.hasNext();) {
-			String cust_lib_name = (String) li.next(); %>
-    		Load:<a href="install_custom_lib.jsp?load=true&filename=<%= cust_lib_name %>"> <%= cust_lib_name %></a><br />
+          <p>Below are listed all of the simulation sections descriptor files found on this system.</p>
+  <table width="100%" cellpadding="2" cellspacing="2"><tr><td valign="top"><strong>Organization</strong></td>
+  <td valign="top"><strong>Unique Name</strong></td>
+  <td valign="top"><div align="right"><strong>Version</strong></div></td>
+  <td valign="top"><div align="right"><strong>State</strong></div></td>
+  <td valign="top"><strong>Action</strong></td>
+  </tr>
+	<% for (ListIterator li = BaseSimSection.screenBaseSimSectionsFromXMLFiles(pso.schema).listIterator(); li.hasNext();) {
+			BaseSimSection bss = (BaseSimSection) li.next(); 
+			
+			boolean loaded = BaseSimSection.checkInstalled(pso.schema, bss);
+			%>
+            <tr><td valign="top"><%= bss.getCreatingOrganization() %></td><td valign="top"><%= bss.getUniqueName() %></td><td valign="top"><div align="right"><%= bss.getVersion() %></div></td><td valign="top"><div align="right">
+            <% if (loaded) { %>
+            Loaded
+            <% } else { %>
+            Not Loaded
+            <% } %>
+            </div></td>
+              <td valign="top"><div align="right">
+              <form action="install_simulation_sections.jsp" method="post">
+              <input type="hidden" name="fullfileloc" value="<%= bss.getDirectory() %>" />
+            <% if (loaded) { %>
+            <input type="submit" name="button" id="button" value="Reload" />
+            <% } else { %>
+            <input type="submit" name="button" id="button" value="Load" />
+            <% } %>
+            </form>
+            </div></td>
+            </tr>
 	<% } %>
+    </table>
   </p>
 
         </blockquote>
         <p><font color="#FF0000"><%= error_msg %></font></p>
         <p><a href="simulation_admin.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
-      </form>
       <p>&nbsp;</p>
       <p>&nbsp;</p></td>
   </tr>

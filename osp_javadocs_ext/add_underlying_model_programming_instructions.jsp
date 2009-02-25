@@ -2,7 +2,7 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	pso.backPage = "add_underlying_model.jsp";
@@ -32,36 +32,31 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Add  Underlying Model</h1>
-              <br />
-      <blockquote> 
+              <h1>Programming Instructions to Create  Underlying Model</h1>
+              <br />      <blockquote> 
         
         <p>The OSP allows people to plug-in different underlying models. These models need to minimal set of constraints. Essentially, they only need to be able to provide the simulation author a set of functions that can be used in their simulations.</p>
-        <p>Models can be run remotely, or locally on the same machine that is running the simulation. <a href="add_underlying_model_programming_instructions.jsp">Click here</a> to see the programming instructions on how to create models to be run locally.</p>
+        <p>Models can be run remotely, or locally on the same machine that is running the simulation. Click here to see the programming instructions on how to create models to be run locally.</p>
         
         <table width="90%" border="1">
           <tr>
             <td width="13%" valign="top">Step 1.</td>
-              <td width="87%" valign="top"><p>To add an underlying model, you will need to create or upload a model definitions file.</p>
-                <ul>
-                  <li>To create a model definitions file, <a href="create_model_definitions.jsp">click here</a>.</li>
-                  <li>To upload a model definitions file, click here.</li>
-                </ul></td>
+              <td width="87%" valign="top"><p>Subclass the class org.usip.osp.modelinterface.ModelController</p>                </td>
             </tr>
           <tr>
             <td valign="top">Step 2.</td>
-              <td valign="top">If  the model is to be run locally, the jar file containing it will need to placed directory of libraries on your server. Please have your administrator do this and restart the web server.</td>
+              <td valign="top">&nbsp;</td>
             </tr>
           <tr>
             <td valign="top">Step 3.</td>
-              <td valign="top">Test that your model has been installed.</td>
+              <td valign="top">&nbsp;</td>
             </tr>
           </table>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
-        </blockquote>      <a href="incorporate_underlying_model.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+        </blockquote>			</td>
 		</tr>
 		</table>	</td>
   </tr>

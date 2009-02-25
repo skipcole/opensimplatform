@@ -29,16 +29,15 @@
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -49,62 +48,55 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>My Profile </h1>
-      <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" -->
-<form id="form1" name="form1" method="post" action="my_profile.jsp">
-<table width="80%" border="0" cellspacing="2" cellpadding="1">
-  <tr>
-    <td>Full Name:</td>
-    <td>
-          <input type="text" name="full_name" id="full_name" value="<%= user.getBu_full_name() %>" />
-      </td>
-  </tr>
+              <h1>My Profile </h1>
+              <br />
+      <form id="form1" name="form1" method="post" action="my_profile.jsp">
+  <table width="80%" border="0" cellspacing="2" cellpadding="1">
     <tr>
-    <td>First Name:</td>
-    <td>
-      <label>
-      <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
-      </label></td>
-  </tr>
+      <td>Full Name:</td>
+      <td>
+        <input type="text" name="full_name" id="full_name" value="<%= user.getBu_full_name() %>" />        </td>
+    </tr>
     <tr>
-    <td>Middle Name:</td>
-    <td>
-      <label>
-      <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
-      </label></td>
-  </tr>
+      <td>First Name:</td>
+      <td>
+        <label>
+          <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
+          </label></td>
+    </tr>
     <tr>
-    <td>Last Name:</td>
-    <td>
-      <label>
-      <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
-      </label></td>
-  </tr>
-  <tr>
-    <td>Authorization Level:</td>
-    <td><% if (pso.isAuthor()) { %>Simulation Creator, <% } %> <% if (pso.isAdmin()) { %>, Administrator <% } %></td>
-  </tr>
-  <tr>
-    <td>Email Address:</td>
-    <td><%= pso.user_email %><input type="hidden" name="email" value="<%= pso.user_email %>" /> </td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td><label>
-      <input type="hidden" name="sending_page" value="my_profile" /> 
-      <input type="submit" name="update" id="update" value="Update" />
-    </label></td>
-  </tr>
-</table>
-</form>
-<p>&nbsp;</p>
-<!-- InstanceEndEditable -->
-			</td>
+      <td>Middle Name:</td>
+      <td>
+        <label>
+          <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
+          </label></td>
+    </tr>
+    <tr>
+      <td>Last Name:</td>
+      <td>
+        <label>
+          <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
+          </label></td>
+    </tr>
+    <tr>
+      <td>Authorization Level:</td>
+      <td><% if (pso.isAuthor()) { %>Simulation Creator, <% } %> <% if (pso.isAdmin()) { %>, Administrator <% } %></td>
+    </tr>
+    <tr>
+      <td>Email Address:</td>
+      <td><%= pso.user_email %><input type="hidden" name="email" value="<%= pso.user_email %>" /> </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><label>
+        <input type="hidden" name="sending_page" value="my_profile" /> 
+        <input type="submit" name="update" id="update" value="Update" />
+        </label></td>
+    </tr>
+  </table>
+        </form>      <p>&nbsp;</p>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -117,7 +109,7 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
 <%
 	
 %>

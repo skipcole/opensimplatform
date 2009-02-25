@@ -38,6 +38,42 @@ public class CustomizeableSection extends BaseSimSection {
 		
 	}
 	
+	public static CustomizeableSection generateXML(HttpServletRequest request){
+		
+		CustomizeableSection cs = new CustomizeableSection();
+		
+		cs.setBigString(cleanNulls(request.getParameter("bigString")));
+		cs.setConfers_read_ability(makeTrueIfTrue(request.getParameter("confers_read_ability")));
+		cs.setConfers_write_ability(makeTrueIfTrue(request.getParameter("confers_write_ability")));
+		cs.setControl_section(makeTrueIfTrue(request.getParameter("control_section")));
+		cs.setCreatingOrganization(cleanNulls(request.getParameter("creatingOrganization")));
+		
+		return cs;
+		
+	}
+	
+	public static String cleanNulls(String input){
+		if (input == null){
+			return "";
+		} else {
+			return input;
+		}
+	}
+	
+	
+	public static boolean makeTrueIfTrue (String inputString){
+		
+		if (inputString == null){
+			return false;
+		}
+		
+		if (inputString.equalsIgnoreCase("true")){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
     /**
      * Indicates that this section is copy of the original template or not.
      */
@@ -70,16 +106,6 @@ public class CustomizeableSection extends BaseSimSection {
      */
     @Lob
     private String bigString = "";
-
-    /**
-     * This hashtable holds information about the content - 
-     * explainations for the simulation author to read.
-     */
-	private Hashtable meta_content = new Hashtable();
-    
-    /** This holds information about the data, such as if it is applicable
-     * for a text field or a text area field for input. */
-    private Hashtable meta_data_content = new Hashtable();
     
     private boolean hasCustomizer = false;
     
@@ -137,29 +163,7 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setPageTitle("Page Title Here");
 		
 		System.out.println(ObjectPackager.getObjectXML(cs));
-		/*
-		List x = getAllUncustomized("test");
-		for (ListIterator<CustomizeableSection> bi = x.listIterator(); bi.hasNext();) {
-			CustomizeableSection bid = (CustomizeableSection) bi.next();
-			System.out.println(bid.getRec_tab_heading());
-			
-		}
-		/*
-		CustomizeableSection cs = new CustomizeableSection();
-		cs.thisIsACustomizedSection = false;
-		cs.hasASpecificMakePage = true;
-		cs.specificMakePage = "make_caucus_page.jsp";
-		cs.bigString = "";
-		cs.description = "";
-		cs.getContents().put("text1", "");
-		cs.getMeta_content().put("image1", "Image to be shown on page.");
-        cs.getMeta_data_content().put("image1", "textarea");
-        cs.setHasASpecificMakePage(true);
-        cs.setSpecificMakePage("this_page");
-        
-        Hashtable ht = new Hashtable();
-        
-        */
+
 		
 	}
 	
@@ -179,7 +183,6 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setDescription(this.getDescription());
 		cs.setDirectory(this.getDirectory());
         cs.setHasASpecificMakePage(this.isHasASpecificMakePage());
-		cs.setMeta_content(this.getMeta_content());
 		cs.setPage_file_name(this.getPage_file_name());
 		cs.setPageTitle(this.getPageTitle());
 		cs.setRec_tab_heading(this.getRec_tab_heading());
@@ -310,17 +313,6 @@ public class CustomizeableSection extends BaseSimSection {
 		this.contents = contents;
 	}
 
-	public Hashtable getMeta_content() {
-		if (meta_content == null){
-			meta_content = new Hashtable();
-		}
-		return meta_content;
-	}
-
-	public void setMeta_content(Hashtable meta_content) {
-		this.meta_content = meta_content;
-	}
-
     public boolean isThisIsACustomizedSection() {
         return thisIsACustomizedSection;
     }
@@ -336,14 +328,6 @@ public class CustomizeableSection extends BaseSimSection {
 	public void setIdOfOrigCustSection(Long idOfOrigCustSection) {
 		this.idOfOrigCustSection = idOfOrigCustSection;
 	}
-
-	public Hashtable getMeta_data_content() {
-        return meta_data_content;
-    }
-
-    public void setMeta_data_content(Hashtable meta_data_content) {
-        this.meta_data_content = meta_data_content;
-    }
 
     public boolean isHasASpecificMakePage() {
         return hasASpecificMakePage;
