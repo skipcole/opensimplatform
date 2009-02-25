@@ -5,7 +5,7 @@
 	org.usip.osp.communications.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*" 
-	errorPage="" %>
+	errorPage="../error.jsp" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	pso.backPage = "create_injects.jsp";

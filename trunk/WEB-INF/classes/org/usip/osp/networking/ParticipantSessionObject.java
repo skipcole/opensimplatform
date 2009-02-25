@@ -2095,16 +2095,6 @@ public class ParticipantSessionObject {
 			cs.setContents(new Hashtable());
 		}
 
-		for (Enumeration e = cs.getMeta_content().keys(); e.hasMoreElements();) {
-
-			String key = (String) e.nextElement();
-
-			String this_value = request.getParameter(key);
-
-			cs.getContents().put(key, this_value);
-
-		}
-
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

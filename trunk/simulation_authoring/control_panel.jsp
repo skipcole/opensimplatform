@@ -4,7 +4,7 @@ java.text.*
 ,java.sql.*,
 org.usip.osp.baseobjects.*,
 org.usip.osp.networking.*,
-org.usip.osp.persistence.*" errorPage="" %>
+org.usip.osp.persistence.*" errorPage="../error.jsp" %>
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	pso.backPage = "control_panel.jsp";

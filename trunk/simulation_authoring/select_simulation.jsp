@@ -2,7 +2,7 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.persistence.*,org.hibernate.*" 
-	errorPage="" %>
+	errorPage="../error.jsp" %>
 
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
@@ -48,16 +48,15 @@
 	
 
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -68,40 +67,32 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Create New Simulation </h1>
-    <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" --> 
-
+              <h1>Select Simulation </h1>
+              <br />
+			 
       <blockquote>
         <p>&nbsp;</p>
-        <p>Below are listed alphabetically all of the current Simulations. Please 
-          select one, or <a href="create_simulation.jsp">create a new one</a>, 
-          to continue.</p>
-        <table>
-          <%
+          <p>Below are listed alphabetically all of the current Simulations. Please 
+            select one, or <a href="create_simulation.jsp">create a new one</a>, 
+            to continue.</p>
+          <table>
+            <%
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
 			String nameToSend = java.net.URLEncoder.encode(sim.getName());
 			
 		%>
-          <tr> 
-            <td><a href="select_simulation.jsp?select_sim=true&amp;backpage=<%= pso.backPage %>&amp;sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> version <%= sim.getVersion() %></a></td>
-          </tr>
-          <%
+            <tr> 
+              <td><a href="select_simulation.jsp?select_sim=true&amp;backpage=<%= pso.backPage %>&amp;sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> version <%= sim.getVersion() %></a></td>
+            </tr>
+            <%
 	}
 %>
-
-        </table>
-      </blockquote>
-      <p align="center">&nbsp;</p>
-
-      <!-- InstanceEndEditable -->
-			</td>
+            </table>
+      </blockquote>      <p align="center">&nbsp;</p>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -114,4 +105,4 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>

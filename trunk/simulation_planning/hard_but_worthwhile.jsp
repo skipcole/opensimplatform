@@ -14,15 +14,14 @@
 		return;
 	}
 %>	
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>USIP Open Simulation Platform</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -33,45 +32,39 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-			<h1>Hard, but Worthwhile </h1>
-			<!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" -->
-      <p>Creating an effective online training simulation 
-        is not an easy task. This wizard will help step you through all of the 
-        essential mechanical steps, but this is no assurance that the final 
-        product will perform correctly and teach the lessons you want to convey. 
-        The only way to verify that is to have people try your simulation and 
-        listen closely to their feedback. It is quite possible (really probable) 
-        that you will need to modify your simulation </p>
-      <p>So, expect this to be an iterative process: You 
-        create something. You try it out on some players. You get feedback. 
-        You modify your simulation. You try that out. And so on.</p>
-      <p>This isn't bad. It&#8217;s just the way that 
-        things of this complexity have to grow. You will learn much, and your 
-        players will learn much, in the act of perfecting the simulation. The 
-        more open one's mind is during the process, the more they will be able 
-        to learn.</p>
-      <p>In a sense, you can think of this program as 
-        tool to create an architectural blueprint. The ability to generate a 
-        blueprint, and hence a building, is no assurance at all that the resulting 
-        building will be functional. The art of architecture has been developed 
-        now over centuries, and so there are established patterns to help someone 
-        starting out. There are few established patterns in creating online 
-        simulations. </p>
-      <p>This means that your job will be difficult at 
-        times, but it also means that you get to be one of the founders helping 
-        to find out what works and what doesn't. As you develop new methods, 
-        you will probably reach the limit to what this tool can do, hence this 
-        tool has been created open source, so it can always grow, and modular, 
-        so it can grow easily. If you have a feature you would like installed, 
-        please contact us..</p>
-      <p>&nbsp;</p>
-			<!-- InstanceEndEditable -->
-			</td>
+			  <h1>Hard, but Worthwhile </h1>
+			  <br />
+            <p>Creating an effective online training simulation 
+              is not an easy task. This wizard will help step you through all of the 
+              essential mechanical steps, but this is no assurance that the final 
+              product will perform correctly and teach the lessons you want to convey. 
+              The only way to verify that is to have people try your simulation and 
+              listen closely to their feedback. It is quite possible (really probable) 
+              that you will need to modify your simulation </p>
+            <p>So, expect this to be an iterative process: You 
+              create something. You try it out on some players. You get feedback. 
+              You modify your simulation. You try that out. And so on.</p>
+            <p>This isn't bad. It&#8217;s just the way that 
+              things of this complexity have to grow. You will learn much, and your 
+              players will learn much, in the act of perfecting the simulation. The 
+              more open one's mind is during the process, the more they will be able 
+              to learn.</p>
+            <p>In a sense, you can think of this program as 
+              tool to create an architectural blueprint. The ability to generate a 
+              blueprint, and hence a building, is no assurance at all that the resulting 
+              building will be functional. The art of architecture has been developed 
+              now over centuries, and so there are established patterns to help someone 
+              starting out. There are few established patterns in creating online 
+              simulations. </p>
+            <p>This means that your job will be difficult at 
+              times, but it also means that you get to be one of the founders helping 
+              to find out what works and what doesn't. As you develop new methods, 
+              you will probably reach the limit to what this tool can do, hence this 
+              tool has been created open source, so it can always grow, and modular, 
+              so it can grow easily. If you have a feature you would like installed, 
+              please contact us..</p>            <p>&nbsp;</p>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -84,4 +77,4 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
