@@ -47,6 +47,10 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setConfers_write_ability(makeTrueIfTrue(request.getParameter("confers_write_ability")));
 		cs.setControl_section(makeTrueIfTrue(request.getParameter("control_section")));
 		cs.setCreatingOrganization(cleanNulls(request.getParameter("creatingOrganization")));
+		cs.setCust_lib_name(cleanNulls(request.getParameter("cust_lib_name")));
+		cs.setCustomizerClassName(cleanNulls(request.getParameter("customizerClassName")));
+		cs.setDescription(cleanNulls(request.getParameter("description")));
+		
 		
 		return cs;
 		

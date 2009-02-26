@@ -193,8 +193,6 @@ public class BaseSimSection implements Comparable {
 
 		String fileLocation = FileIO.getBase_section_web_dir();
 
-		System.out.println("Looking for files at: " + fileLocation);
-
 		File locDir = new File(fileLocation);
 
 		if (locDir == null) {
@@ -837,7 +835,6 @@ public class BaseSimSection implements Comparable {
 
 		String queryString = "from BaseSimSection where creatingOrganization = '" + creatingOrganization + "' "
 				+ "AND uniqueName = '" + uniqueName + "' AND version = '" + version + "'";
-		System.out.println(queryString);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -845,7 +842,6 @@ public class BaseSimSection implements Comparable {
 
 		if ((returnList != null) && (returnList.size() > 0)){
 			bss = (BaseSimSection) returnList.get(0);
-			System.out.println("found " + bss.getVersionInformation());
 			return bss;
 		}
 
