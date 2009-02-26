@@ -10,21 +10,13 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	String error_msg = "";
+	String error_msg = pso.handleCreateRootDB(request);
 	
-	if ( false && (pso.checkDatabaseCreated()) &&  (!(pso.isLoggedin()))) {
-		response.sendRedirect("index.jsp");
+	if (pso.forward_on){
+		pso.forward_on = false;
+		response.sendRedirect(pso.backPage);
 		return;
 	}
-	
-	String sending_page = request.getParameter("sending_page");
-	
-	if ((sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))) {
-		pso.handleCreateRootDB(request);
-		error_msg = "Root schema should now contain tables.";
-	}
-	
-
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -64,6 +56,12 @@ body {
         </table>
         <blockquote><%= error_msg %></blockquote>
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td valign="top">Wipe Database Key</td>
+            <td><label>
+              <input type="text" name="wipe_database_key" id="textfield" />
+            </label></td>
+          </tr>
           <tr> 
             <td valign="top">Warning. Hitting submit will purge the root database.</td>
             <td><input type="submit" name="installrootdb" value="Submit" /></td>

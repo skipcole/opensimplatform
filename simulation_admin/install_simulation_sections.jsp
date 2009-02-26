@@ -57,7 +57,8 @@ body {
           Install Simulation Sections</h1>
 
         <blockquote>
-          <p>Below are listed all of the simulation sections descriptor files found on this system.</p>
+          <p>Below are listed all of the simulation sections descriptor files found on this system. On this system,
+          definition files are located in the directory: <%= FileIO.getBase_section_web_dir() %></p>
   <table width="100%" cellpadding="2" cellspacing="2"><tr><td valign="top"><strong>Organization</strong></td>
   <td valign="top"><strong>Unique Name</strong></td>
   <td valign="top"><div align="right"><strong>Version</strong></div></td>
@@ -80,6 +81,7 @@ body {
               <form action="install_simulation_sections.jsp" method="post">
               <input type="hidden" name="fullfileloc" value="<%= bss.getDirectory() %>" />
             <% if (loaded) { %>
+            <input type="submit" name="button" id="button" value="Unload" />
             <input type="submit" name="button" id="button" value="Reload" />
             <% } else { %>
             <input type="submit" name="button" id="button" value="Load" />

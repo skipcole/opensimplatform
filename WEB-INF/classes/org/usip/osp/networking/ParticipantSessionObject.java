@@ -906,10 +906,36 @@ public class ParticipantSessionObject {
 	 * 
 	 * @param request
 	 */
-	public void handleCreateRootDB(HttpServletRequest request) {
+	public String handleCreateRootDB(HttpServletRequest request) {
 
-		System.out.println("creating root db");
-		MultiSchemaHibernateUtil.recreateRootDatabase();
+		String returnMsg = "";
+		
+		if ( false && (checkDatabaseCreated()) &&  (!(isLoggedin()))) {
+			
+			this.forward_on= true;
+			return "";
+		}
+		
+		String sending_page = request.getParameter("sending_page");
+		String wipe_database_key = request.getParameter("wipe_database_key");
+		
+		boolean clearedToWipeDB = false;
+		
+		if ((wipe_database_key != null) && 
+				(wipe_database_key.equals(USIP_OSP_Properties.getValue("wipe_database_key")))){
+			clearedToWipeDB = true;
+		}
+		
+		if (clearedToWipeDB && (sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))) {
+			
+			MultiSchemaHibernateUtil.recreateRootDatabase();
+			returnMsg = "Root schema should now contain empty tables.";
+			
+		} else if ((sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))){
+			returnMsg = "Wrong key entered.";
+		}
+		
+		return returnMsg;
 
 	}
 
