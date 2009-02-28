@@ -842,13 +842,18 @@ public class PSO_SectionMgmt {
 				pso.forward_on = true;
 				return null;
 			}
-		} else {
+		} else {  // We are not saving. Get the conversation for this section, or created it.
 			List convForThisSection = BaseSimSectionDepObjectAssignment.getObjectsForSection(pso.schema, 
 					customizableSectionOnScratchPad.getId());
 			
-			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) convForThisSection.get(0);
+			if ((convForThisSection != null) && (convForThisSection.size() > 0)){
 			
-			conv = Conversation.getMe(pso.schema, bssdoa.getObjectId());
+				BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) convForThisSection.get(0);
+			
+				conv = Conversation.getMe(pso.schema, bssdoa.getObjectId());
+			} else {
+				conv = new Conversation();
+			}
 			// If this is a customized page, but belongs to a different sim, then make a copy ?
 		}
 

@@ -10,22 +10,7 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	if ( (pso.checkDatabaseCreated()) &&  (!(pso.isLoggedin()))) {
-		response.sendRedirect("index.jsp");
-		return;
-	}
-	
-	String error_msg = pso.handleCreateDB(request);
-	
-	String load = request.getParameter("load");
-	
-	if ((load != null) && (load.equalsIgnoreCase("true"))){
-		String filename = request.getParameter("filename");
-		
-		System.out.println("loading filename " + filename);
-		BaseSimSection.readCustomSectionsFromADir(pso.schema, filename);
-	}
-        
+	pso.handleInstallSimulationSections(request);        
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -68,7 +53,14 @@ body {
 	<% for (ListIterator li = BaseSimSection.screenBaseSimSectionsFromXMLFiles(pso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next(); 
 			
-			boolean loaded = BaseSimSection.checkInstalled(pso.schema, bss);
+			Long loaded_id = BaseSimSection.checkInstalled(pso.schema, bss);
+			
+			boolean loaded = false;
+			
+			if (loaded_id != null){
+				loaded = true;
+			}
+			
 			%>
             <tr><td valign="top"><%= bss.getCreatingOrganization() %></td><td valign="top"><%= bss.getUniqueName() %></td><td valign="top"><div align="right"><%= bss.getVersion() %></div></td><td valign="top"><div align="right">
             <% if (loaded) { %>
@@ -80,11 +72,12 @@ body {
               <td valign="top"><div align="right">
               <form action="install_simulation_sections.jsp" method="post">
               <input type="hidden" name="fullfileloc" value="<%= bss.getDirectory() %>" />
+              <input type="hidden" name="loaded_id" value="<%= loaded_id %>" />
             <% if (loaded) { %>
-            <input type="submit" name="button" id="button" value="Unload" />
-            <input type="submit" name="button" id="button" value="Reload" />
+            <input type="submit" name="command" id="unload_button" value="Unload" />
+            <input type="submit" name="command" id="reload_button" value="Reload" />
             <% } else { %>
-            <input type="submit" name="button" id="button" value="Load" />
+            <input type="submit" name="command" id="load_button" value="Load" />
             <% } %>
             </form>
             </div></td>
@@ -94,7 +87,6 @@ body {
   </p>
 
         </blockquote>
-        <p><font color="#FF0000"><%= error_msg %></font></p>
         <p><a href="simulation_admin.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       <p>&nbsp;</p>
       <p>&nbsp;</p></td>

@@ -255,7 +255,7 @@ public class ParticipantSessionObject {
 		}
 
 	}
-	
+
 	/**
 	 * Handles the termination of a simulation.
 	 * 
@@ -596,6 +596,28 @@ public class ParticipantSessionObject {
 	}
 
 	/**
+	 * Handles commands submitted on the install simulation sections page.
+	 * 
+	 * @param request
+	 */
+	public void handleInstallSimulationSections(HttpServletRequest request) {
+
+		String command = request.getParameter("command");
+		String fullfileloc = request.getParameter("fullfileloc");
+		String loaded_id = request.getParameter("loaded_id");
+
+		if (command != null) {
+			if (command.equalsIgnoreCase("Load")) {
+				System.out.println("Will be loading file from: " + fullfileloc);
+			} else if (command.equalsIgnoreCase("Reload")) {
+				System.out.println("Will be reloading file from: " + fullfileloc);
+			} else if (command.equalsIgnoreCase("Unload")) {
+				System.out.println("Will be unloading bss id: " + loaded_id);
+			}
+		}
+	}
+
+	/**
 	 * Loads a session.
 	 * 
 	 * @param request
@@ -909,32 +931,32 @@ public class ParticipantSessionObject {
 	public String handleCreateRootDB(HttpServletRequest request) {
 
 		String returnMsg = "";
-		
-		if ( false && (checkDatabaseCreated()) &&  (!(isLoggedin()))) {
-			
-			this.forward_on= true;
+
+		if (false && (checkDatabaseCreated()) && (!(isLoggedin()))) {
+
+			this.forward_on = true;
 			return "";
 		}
-		
+
 		String sending_page = request.getParameter("sending_page");
 		String wipe_database_key = request.getParameter("wipe_database_key");
-		
+
 		boolean clearedToWipeDB = false;
-		
-		if ((wipe_database_key != null) && 
-				(wipe_database_key.equals(USIP_OSP_Properties.getValue("wipe_database_key")))){
+
+		if ((wipe_database_key != null)
+				&& (wipe_database_key.equals(USIP_OSP_Properties.getValue("wipe_database_key")))) {
 			clearedToWipeDB = true;
 		}
-		
+
 		if (clearedToWipeDB && (sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))) {
-			
+
 			MultiSchemaHibernateUtil.recreateRootDatabase();
 			returnMsg = "Root schema should now contain empty tables.";
-			
-		} else if ((sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))){
+
+		} else if ((sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))) {
 			returnMsg = "Wrong key entered.";
 		}
-		
+
 		return returnMsg;
 
 	}
@@ -1885,7 +1907,7 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Sends out announcements to only the players selected. 
+	 * Sends out announcements to only the players selected.
 	 * 
 	 * @param request
 	 */
@@ -2162,7 +2184,8 @@ public class ParticipantSessionObject {
 					con_id.getId());
 
 			// Get the 2 (should be 2) actors in this conversation.
-			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns(schema).listIterator(); liiii.hasNext();) {
+			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns(schema).listIterator(); liiii
+					.hasNext();) {
 				ConvActorAssignment caa = liiii.next();
 				actors.add(caa.getActor_id());
 			}
@@ -2206,7 +2229,8 @@ public class ParticipantSessionObject {
 					con_id.getId());
 
 			// Get the 2 (should be 2) actors in this conversation.
-			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns(schema).listIterator(); liiii.hasNext();) {
+			for (ListIterator<ConvActorAssignment> liiii = conv.getConv_actor_assigns(schema).listIterator(); liiii
+					.hasNext();) {
 				ConvActorAssignment caa = liiii.next();
 				actors.add(caa.getActor_id());
 			}
@@ -2446,7 +2470,7 @@ public class ParticipantSessionObject {
 					sendToPage = "intro.jsp";
 				} else if (user.isSim_instructor()) {
 					loggedin = true;
-					sendToPage = "../simulation_facilitation/instructor_home.jsp";
+					sendToPage = "../simulation_facilitation/facilitateweb.jsp";
 				} else {
 					errorMsg = "Not authorized to author or facilitate simulations.";
 				}
@@ -2798,7 +2822,7 @@ public class ParticipantSessionObject {
 	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request));
 	}
-	
+
 	/**
 	 * 
 	 * @param index_hash
@@ -2806,20 +2830,20 @@ public class ParticipantSessionObject {
 	 * @param id
 	 * @return
 	 */
-	public String checkAgainstHash(Hashtable index_hash, int ii, Long id){
-		
-		if ((index_hash == null) || (id == null)){
+	public String checkAgainstHash(Hashtable index_hash, int ii, Long id) {
+
+		if ((index_hash == null) || (id == null)) {
 			return "";
 		}
-		
+
 		Long valueFromHash = (Long) index_hash.get(new Long(ii));
-		
-		if (id.equals(valueFromHash)){
+
+		if (id.equals(valueFromHash)) {
 			return " selected ";
 		} else {
 			return "";
 		}
-		
+
 	}
 
 	/**
@@ -2974,7 +2998,7 @@ public class ParticipantSessionObject {
 	public String getBaseSimURL() {
 		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -2982,33 +3006,34 @@ public class ParticipantSessionObject {
 	 * @param section_id
 	 * @return
 	 */
-	public String generatePrivateChatLines(HttpServletRequest request, Hashtable setOfActors, Long section_id){
-		
+	public String generatePrivateChatLines(HttpServletRequest request, Hashtable setOfActors, Long section_id) {
+
 		String returnString = "";
-		
+
 		// Loop over the conversations for this Actor
-		for (ListIterator<Conversation> li = 
-			Conversation.getActorsConversationsForSimSection(schema, actor_id, running_sim_id, section_id).listIterator(); li.hasNext();) {
-				Conversation conv = (Conversation) li.next();
-				
-				returnString += "var start_index" + conv.getId() + " = 0 \r\n";
-				returnString += "var new_start_index" + conv.getId() + " = 0 \r\n";
-				
-			
-				// Take this opportunity to fill up the hashtable with actors
-					// Loop over the conversation actors (should be 2 of them) for this private chat.
-	  				for (ListIterator<ConvActorAssignment> liii = conv.getConv_actor_assigns(schema).listIterator(); liii.hasNext();) {
-						ConvActorAssignment caa = (ConvActorAssignment) liii.next();
-				
-						// Don't do the chat with the actor and his or her self.
-						if (!(caa.getActor_id().equals(actor_id))) {
-							setOfActors.put(caa.getActor_id().toString(), "set");
-						} // end of if this is an applicable actor
-					} // End of loop over conversation actors
-		 } // End of loop over conversations.
-	
+		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(schema, actor_id,
+				running_sim_id, section_id).listIterator(); li.hasNext();) {
+			Conversation conv = (Conversation) li.next();
+
+			returnString += "var start_index" + conv.getId() + " = 0 \r\n";
+			returnString += "var new_start_index" + conv.getId() + " = 0 \r\n";
+
+			// Take this opportunity to fill up the hashtable with actors
+			// Loop over the conversation actors (should be 2 of them) for this
+			// private chat.
+			for (ListIterator<ConvActorAssignment> liii = conv.getConv_actor_assigns(schema).listIterator(); liii
+					.hasNext();) {
+				ConvActorAssignment caa = (ConvActorAssignment) liii.next();
+
+				// Don't do the chat with the actor and his or her self.
+				if (!(caa.getActor_id().equals(actor_id))) {
+					setOfActors.put(caa.getActor_id().toString(), "set");
+				} // end of if this is an applicable actor
+			} // End of loop over conversation actors
+		} // End of loop over conversations.
+
 		return returnString;
-		
+
 	} // End of method
-	
+
 } // End of class
