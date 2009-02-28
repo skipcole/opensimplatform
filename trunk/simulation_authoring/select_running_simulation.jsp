@@ -73,7 +73,7 @@
 		
 		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 		simulation = (Simulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Simulation.class, simulation.getId());
-		for (ListIterator li = simulation.getRunning_sims().listIterator(); li.hasNext();) {
+		for (ListIterator li = simulation.getRunning_sims(pso.schema).listIterator(); li.hasNext();) {
 			RunningSimulation rs = (RunningSimulation) li.next();
 			
 		%>

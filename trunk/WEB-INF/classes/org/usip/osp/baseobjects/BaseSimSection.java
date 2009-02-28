@@ -80,19 +80,19 @@ public class BaseSimSection implements Comparable {
 
 	/**
 	 * Checks to see if a simulation section with the same creating organization, name and version 
-	 * has been loaded. If so, it returns true. If not found, then it returns false.
+	 * has been loaded. If so, it returns the id of the section, else it returns null.
 	 * @param schema
 	 * @param bss
 	 * @return
 	 */
-	public static boolean checkInstalled(String schema, BaseSimSection bss){
+	public static Long checkInstalled(String schema, BaseSimSection bss){
 		
 		BaseSimSection correspondingBss = getByName(schema, bss.creatingOrganization, bss.uniqueName, bss.version);
 		
 		if (correspondingBss == null){
-			return false;
+			return null;
 		} else {
-			return true;
+			return correspondingBss.getId();
 		}
 	}
 	
