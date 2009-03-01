@@ -68,6 +68,9 @@ public class Simulation {
 	@Column(name = "SIM_VERSION")
 	private String version = "";
 	
+	/** Version of the software this simulation was made with. */
+	private String software_version = "";	
+	
 	/** A paragraph introducing what this simulation is all about. */
 	@Lob
 	private String blurb = "";
@@ -173,6 +176,14 @@ public class Simulation {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+
+	public String getSoftware_version() {
+		return software_version;
+	}
+
+	public void setSoftware_version(String software_version) {
+		this.software_version = software_version;
 	}
 
 	public Simulation() {

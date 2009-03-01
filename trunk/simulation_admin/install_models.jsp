@@ -10,7 +10,7 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	pso.handleInstallSimulationSections(request);        
+	pso.handleInstallModels(request);        
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -39,11 +39,11 @@ body {
   <tr> 
     <td colspan="3">
         <h1>
-          Install Simulation Sections</h1>
+          Install Models</h1>
 
         <blockquote>
-          <p>Below are listed all of the simulation sections descriptor files found on this system. On this system,
-          definition files are located in the directory: <%= FileIO.getBase_section_web_dir() %></p>
+          <p>Below are listed all of the model descriptor files found on this system. On this system,
+          model definition files are located in the directory: <%= USIP_OSP_Properties.getValue("model_dir") %></p>
   <table width="100%" cellpadding="2" cellspacing="2" border="1"><tr><td valign="top"><strong>Organization</strong></td>
   <td valign="top"><strong>Unique Name</strong></td>
   <td valign="top"><div align="right"><strong>Version</strong></div></td>

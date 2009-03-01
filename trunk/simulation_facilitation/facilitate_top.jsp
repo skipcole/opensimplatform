@@ -48,15 +48,9 @@ body {
 
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
-	<%  if (pso.isAuthor()) { %>
-        <tr>
-          <td><div align="center"><a href="../simulation_authoring/intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
-        </tr>
-	<% } else if (pso.isFacilitator()) { %>
 		<tr>
           <td><div align="center"><a href="instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
-	<% } %>	
         <tr>
           <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
@@ -68,22 +62,7 @@ body {
   </tr>
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"><% 
-		
-		if (pso.isAuthor()) { %>
-		
-		<table border="0" cellpadding="0" cellspacing="0" >
-		   <tr>
-		<td bgcolor="#475DB0"><a href="../simulation_planning/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;THINK&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		<td>&nbsp;</td>
-	    <td bgcolor="#475DB0"><a href="../simulation_authoring/creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		<td>&nbsp;</td>
-		<td bgcolor="#9AABE1"><a href="facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		<td>&nbsp;</td>
-        <td bgcolor="#475DB0"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		   </tr>
-		</table>
-	<% } %></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
   </tr>
   <tr>
   	<td width="120" align="right" valign="top"></td>

@@ -609,10 +609,42 @@ public class ParticipantSessionObject {
 		if (command != null) {
 			if (command.equalsIgnoreCase("Load")) {
 				System.out.println("Will be loading file from: " + fullfileloc);
+				BaseSimSection.readInXMLFile(schema, new File(fullfileloc));
+				
 			} else if (command.equalsIgnoreCase("Reload")) {
 				System.out.println("Will be reloading file from: " + fullfileloc);
+				BaseSimSection.reloadXMLFile(schema, new File(fullfileloc), new Long(loaded_id));
+				// save
 			} else if (command.equalsIgnoreCase("Unload")) {
 				System.out.println("Will be unloading bss id: " + loaded_id);
+				BaseSimSection.removeBSS(schema, loaded_id);
+			}
+		}
+	}
+	
+	/**
+	 * Handles commands submitted on the install simulation sections page.
+	 * 
+	 * @param request
+	 */
+	public void handleInstallModels(HttpServletRequest request) {
+
+		String command = request.getParameter("command");
+		String fullfileloc = request.getParameter("fullfileloc");
+		String loaded_id = request.getParameter("loaded_id");
+
+		if (command != null) {
+			if (command.equalsIgnoreCase("Load")) {
+				System.out.println("Will be loading file from: " + fullfileloc);
+				BaseSimSection.readInXMLFile(schema, new File(fullfileloc));
+				
+			} else if (command.equalsIgnoreCase("Reload")) {
+				System.out.println("Will be reloading file from: " + fullfileloc);
+				BaseSimSection.reloadXMLFile(schema, new File(fullfileloc), new Long(loaded_id));
+				// save
+			} else if (command.equalsIgnoreCase("Unload")) {
+				System.out.println("Will be unloading bss id: " + loaded_id);
+				BaseSimSection.removeBSS(schema, loaded_id);
 			}
 		}
 	}
@@ -1435,6 +1467,7 @@ public class ParticipantSessionObject {
 
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
+				simulation.setSoftware_version(USIP_OSP_Properties.getRawValue("release"));
 				simulation.setCreation_org(creation_org);
 				simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
@@ -1448,6 +1481,7 @@ public class ParticipantSessionObject {
 				simulation = Simulation.getMe(schema, new Long(sim_id));
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
+				simulation.setSoftware_version(USIP_OSP_Properties.getRawValue("release"));
 				simulation.setCreation_org(creation_org);
 				// simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
@@ -2434,14 +2468,16 @@ public class ParticipantSessionObject {
 
 	}
 
+	public static final int AUTHOR_LOGIN = 1;
+	
+	public static final int FACILITATOR_LOGIN = 2;
+	
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public String validateLoginToSimAuthoringTool(HttpServletRequest request) {
-
-		System.out.println("attemptin validatin");
+	public String validateLoginToOSP(HttpServletRequest request, int login_type) {
 
 		loggedin = false;
 
@@ -2453,7 +2489,6 @@ public class ParticipantSessionObject {
 
 			System.out.println("bu id " + bu.getId());
 			user_id = bu.getId();
-			System.out.println("pso id " + user_id);
 
 			if (bu.getAuthorizedSchemas().size() == 0) {
 				errorMsg = "You are not authorized to enter any databases.";
@@ -2464,15 +2499,16 @@ public class ParticipantSessionObject {
 				schema = sg.getSchema_name();
 				User user = loginToSchema(user_id, sg.getSchema_name(), request);
 
-				if (user.isSim_author()) {
+				if (user.isSim_author() && (login_type == AUTHOR_LOGIN)) {
 					loggedin = true;
-					request.getSession().setAttribute("author", "true");
+					this.isSimCreator = true;
 					sendToPage = "intro.jsp";
-				} else if (user.isSim_instructor()) {
+				} else if (user.isSim_instructor() && (login_type == FACILITATOR_LOGIN)) {
 					loggedin = true;
-					sendToPage = "../simulation_facilitation/facilitateweb.jsp";
+					this.isFacilitator = true;
+					sendToPage = "facilitateweb.jsp";
 				} else {
-					errorMsg = "Not authorized to author or facilitate simulations.";
+					errorMsg = "Not authorized.";
 				}
 
 				user_name = bu.getUsername();
@@ -2492,6 +2528,7 @@ public class ParticipantSessionObject {
 
 		return sendToPage;
 	}
+	
 
 	/**
 	 * Sends password to user via email upon request.

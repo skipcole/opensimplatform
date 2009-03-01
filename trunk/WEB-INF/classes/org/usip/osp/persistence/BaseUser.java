@@ -138,6 +138,7 @@ public class BaseUser {
         return getAuthorizedSchemas(this.id);
     }
 
+    
     public static BaseUser validateUser(String username, String password) {
 
         // byte[] hashedP = MysqlDatabase.getPHash(password);
