@@ -95,72 +95,12 @@ public class BaseSimSection implements Comparable {
 			return correspondingBss.getId();
 		}
 	}
-	
-	/**
-	 * 
-	 * @param schema
-	 * @param dirName
-	 * @return
-	 */
-	public static String readASpecificCustomLibSection(String schema, String dirName) {
-
-		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
-
-		return readCustomSectionsFromADir(schema, fileLocation);
-
-	}
 
 	/**
-	 * 
-	 * @param schema
+	 * Returns true if string passed in starts with a letter.
+	 * @param s
 	 * @return
 	 */
-	public static String readCustomLibSimSectionsFromXMLFiles(String schema) {
-
-		String fileLocation = FileIO.getCustom_section_web_dir();
-
-		return readCustomSectionsFromADir(schema, fileLocation);
-
-	}
-
-	/**
-	 * 
-	 * @param schema
-	 * @param fileLocation
-	 * @return
-	 */
-	public static String readCustomSectionsFromADir(String schema, String dirName) {
-
-		System.out.println("readCustomSectionsFromADir");
-
-		String fileLocation = FileIO.getCustom_section_web_dir() + File.separator + dirName;
-
-		System.out.println("files located at " + fileLocation);
-
-		File locDir = new File(fileLocation);
-
-		File files[] = locDir.listFiles();
-
-		if (files == null) {
-			return ("Problem finding files at " + fileLocation);
-		}
-
-		for (int ii = 0; ii < files.length; ii++) {
-
-			String customLibraryFileName = files[ii].getName();
-
-			System.out.println(customLibraryFileName);
-
-			if (customLibraryFileName.endsWith(".xml")) {
-
-				readInXMLFile(schema, files[ii], customLibraryFileName);
-			}
-		}
-
-		return "done";
-
-	}
-
 	public static boolean startsWithLetter(String s) {
 		if ((s == null) || (s.equalsIgnoreCase(""))) {
 			return false;
@@ -264,7 +204,7 @@ public class BaseSimSection implements Comparable {
 					if (fName.endsWith(".xml")) {
 
 						try {
-							readInXMLFile(schema, files[ii], null);
+							readInXMLFile(schema, files[ii]);
 						} catch (Exception e) {
 							System.out.println("problem reading in file " + fName);
 							System.out.println(e.getMessage());
@@ -279,56 +219,28 @@ public class BaseSimSection implements Comparable {
 	}
 
 	/**
-	 * Reads the simulation sections from xml files.
+	 * Saves this object to the database.
 	 * 
 	 * @param schema
-	 * @return Returns a string indicating success, or not.
-	 * 
 	 */
-	public static String readNewBaseSimSectionsFromXMLFiles(String schema) {
-
-		// The set of base simulation sections are read out of
-		// XML files stored in the simulation_section_information directory.
-
-		String fileLocation = FileIO.getBase_section_web_dir();
-
-		System.out.println("Looking for files at: " + fileLocation);
-
-		File locDir = new File(fileLocation);
-
-		if (locDir == null) {
-			return ("Problem finding files at " + fileLocation);
-		} else {
-
-			File files[] = locDir.listFiles();
-
-			if (files == null) {
-				return ("Problem finding files at " + fileLocation);
-			} else {
-				for (int ii = 0; ii < files.length; ii++) {
-
-					String fName = files[ii].getName();
-
-					if (fName.endsWith(".xml")) {
-
-						try {
-							readInNewXMLFile(schema, files[ii], null);
-						} catch (Exception e) {
-							System.out.println("problem reading in file " + fName);
-							System.out.println(e.getMessage());
-						}
-					}
-
-				}
-			}
-
-			return "Read in Base Simulation Section Information.";
-		}
-	}
-
 	public void saveMe(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	/**
+	 * Removes a base simulation section.
+	 * TODO - should check to see if things are using it ?
+	 * @param schema
+	 * @param the_id
+	 */
+	public static void removeBSS(String schema, String the_id) {
+		
+		BaseSimSection bss = BaseSimSection.getMe(schema, the_id);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).delete(bss);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
@@ -350,10 +262,16 @@ public class BaseSimSection implements Comparable {
 		// Using the directory field temporarily just to pass back location on where the file read is.
 		bss.setDirectory(fullFileLoc);
 		
-		return bRead;
+		return bss;
 	}
 
-	public static void readInXMLFile(String schema, File thisFile, String customLibName) {
+	/**
+	 * Reads an object from an XML file and saves it to the database.
+	 * 
+	 * @param schema
+	 * @param thisFile
+	 */
+	public static void readInXMLFile(String schema, File thisFile) {
 
 		String fullBSS = FileIO.getFileContents(thisFile);
 
@@ -368,40 +286,34 @@ public class BaseSimSection implements Comparable {
 
 		}
 	}
-
-	public static void readInNewXMLFile(String schema, File thisFile, String customLibName) {
+	
+	/**
+	 * Reads an object from an XML file and saves it to the database.
+	 * 
+	 * @param schema
+	 * @param thisFile
+	 */
+	public static void reloadXMLFile(String schema, File thisFile, Long the_id) {
 
 		String fullBSS = FileIO.getFileContents(thisFile);
 
-		// BaseSimSection bRead = unpackageXML(fullBSS);
-		Object bRead = unpackageXML(fullBSS);
-
+		BaseSimSection bRead = unpackageXML(fullBSS);
+		bRead.setId(the_id);
+		
 		if (bRead != null) {
 
-			BaseSimSection bss = (BaseSimSection) bRead;
-			if (!(tabHeadingExists(schema, bss.getRec_tab_heading()))) {
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(bss);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			}
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(bRead);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
 		}
 	}
-
-	public static boolean tabHeadingExists(String schema, String tabHeading) {
-
-		List allBase = getAll(schema);
-
-		for (ListIterator<BaseSimSection> li = allBase.listIterator(); li.hasNext();) {
-			BaseSimSection this_base = (BaseSimSection) li.next();
-
-			if (this_base.getRec_tab_heading().equalsIgnoreCase(tabHeading)) {
-				return true;
-			}
-		}
-		return false;
-
-	}
-
+	
+	/**
+	 * 
+	 * @param xmlString
+	 * @return
+	 */
 	public static BaseSimSection unpackageXML(String xmlString) {
 
 		XStream xstream = new XStream(new DomDriver());
@@ -571,6 +483,13 @@ public class BaseSimSection implements Comparable {
 		return returnList;
 	}
 
+	/**
+	 * Pulls a sim section out of the database schema by its id.
+	 * 
+	 * @param schema
+	 * @param the_id
+	 * @return
+	 */
 	public static BaseSimSection getMe(String schema, String the_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);

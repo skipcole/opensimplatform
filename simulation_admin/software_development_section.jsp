@@ -69,6 +69,12 @@
             <td>&nbsp;</td>
             <td>Turn debugging messages <% if (Debug.debug_on) { %> off <% } else { %> on <% } %>.</td>
           </tr>
+        <tr valign="top">
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
       </table>
       <p>&nbsp;</p>      <p>&nbsp;</p>			</td>
 		</tr>

@@ -30,15 +30,15 @@ public class FileIO {
 
 	private static String actor_image_dir = "";
 	private static String base_section_web_dir = "";
+	private static String model_dir = "";
 	private static String base_web_dir = "";
-	private static String custom_section_web_dir = "";
 	protected static String packaged_sim_dir = "";
 	private static String sim_image_dir = "";
 
 	static {
 		base_web_dir = USIP_OSP_Properties.getValue("base_web_dir");
 		base_section_web_dir = USIP_OSP_Properties.getValue("base_section_web_dir");
-		custom_section_web_dir = USIP_OSP_Properties.getValue("custom_section_web_dir");
+		model_dir = USIP_OSP_Properties.getValue("model_dir");
 		actor_image_dir = USIP_OSP_Properties.getValue("actor_image_dir");
 		packaged_sim_dir = USIP_OSP_Properties.getValue("packaged_sim_dir");
 		sim_image_dir = USIP_OSP_Properties.getValue("sim_image_dir");
@@ -92,12 +92,12 @@ public class FileIO {
 		FileIO.base_web_dir = base_web_dir;
 	}
 
-	public static String getCustom_section_web_dir() {
-		return custom_section_web_dir;
+	public static String getModel_dir() {
+		return model_dir;
 	}
 
-	public static void setCustom_section_web_dir(String custom_section_web_dir) {
-		FileIO.custom_section_web_dir = custom_section_web_dir;
+	public static void setModel_dir(String model_dir) {
+		FileIO.model_dir = model_dir;
 	}
 
 	public static String getActor_image_dir() {
@@ -148,41 +148,6 @@ public class FileIO {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public static List getListOfCustomLibraries() {
-		File locDir = new File(custom_section_web_dir);
-
-		ArrayList returnList = new ArrayList();
-
-		if (locDir == null) {
-			System.out.println("Problem finding files at " + custom_section_web_dir);
-		} else {
-
-			File files[] = locDir.listFiles();
-
-			if (files == null) {
-				System.out.println("Problem finding files at " + custom_section_web_dir);
-			} else {
-				for (int ii = 0; ii < files.length; ii++) {
-
-					String fName = files[ii].getName();
-
-					if (files[ii].isDirectory()) {
-
-						if (!(fName.startsWith("."))) {
-							returnList.add(fName);
-						}
-					}
-				}
-			}
-		}
-
-		return returnList;
-
-	}
 
 	/**
 	 * 

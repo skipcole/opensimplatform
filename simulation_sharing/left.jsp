@@ -25,26 +25,19 @@
                 <td width="100%"><br />
                   <h1>Share Simulations</h1>
                   <br />
-                  <blockquote>
-                    <p>Follow the steps below to create a simulation. </p>
-                  </blockquote>
-                  <table width="100%" border="0" cellspacing="2" cellpadding="1">
+                  <table width="100%" border="1" cellspacing="2" cellpadding="1">
                     <tr valign="top">
-                      <td width="2%">&nbsp;</td>
-                      <td width="36%">Package Your Simulation</td>
+                      <td width="36%">Package A Simulation</td>
                       <td width="1%">&nbsp;</td>
-                      <td width="61%"><p>Creates a file that can be extracted by others to 
-                          put your simulation on their simulation server</p>
+                      <td width="61%"><p>Creates a file that contains all of the information in your simulation.</p>
                         <ul>
                           <li><a href="package_simulation.jsp">Package One</a></li>
                         </ul></td>
                     </tr>
                     <tr valign="top">
-                      <td>&nbsp;</td>
                       <td>Upload / Download</td>
                       <td>&nbsp;</td>
-                      <td><p>Upload your packaged simulation to the server and/or download 
-                          someone else's </p>
+                      <td><p>Upload or download a packaged simulation from an OSP fileserver.</p>
                         <ul>
                           <li>Upload</li>
                           <li>Download<br />
@@ -52,15 +45,14 @@
                         </ul></td>
                     </tr>
                     <tr valign="top">
-                      <td>&nbsp;</td>
                       <td>Unpackage A Simulation</td>
                       <td>&nbsp;</td>
-                      <td><p>Unpackage a simulation that someone else has created</p>
+                      <td><p>Unpackage a file containing a simulation</p>
                         <ul>
                           <li><a href="unpackage_simulation.jsp">Unpackage Simulation File</a></li>
                         </ul></td>
                     </tr>
-                  </table></td>
+                </table></td>
               </tr>
             </table></td>
         </tr>

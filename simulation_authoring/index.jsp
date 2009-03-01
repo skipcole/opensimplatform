@@ -9,7 +9,7 @@
 	if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))){
 		session.setAttribute("pso", null);
 		pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-		response.sendRedirect(pso.validateLoginToSimAuthoringTool(request));
+		response.sendRedirect(pso.validateLoginToOSP(request, pso.AUTHOR_LOGIN));
 		return;
 	} // End of if login in.
 	
@@ -31,10 +31,9 @@
   <tr> 
     <td colspan="3" background="../Templates/images/page_bg.png" ><P>&nbsp;</P>
       <h1 align="center">&nbsp;&nbsp;&nbsp;USIP Open Simulation Platform <br>
-        &nbsp;&nbsp;&nbsp;(Release 0.0.3)<br> 
+        &nbsp;&nbsp;&nbsp;(Release <%= USIP_OSP_Properties.getRawValue("release") %>)<br> 
         <br>
-        &nbsp;&nbsp;&nbsp;Authoring / 
-        Facilitation Login</h1>
+        &nbsp;&nbsp;&nbsp;Simulation Authoring  Login</h1>
       <p>&nbsp;</p>
       <form name="form1" method="post" action="index.jsp" target="_top">
          
@@ -62,7 +61,7 @@
 	  <center>
         <table width="50%" border="0" cellspacing="2" cellpadding="1">
            <tr>
-            <td>Upcoming Planned Outage: This system will be down the night of March 8th for Release 0.0.4.</td>
+            <td>Upcoming Planned Outage: <%= USIP_OSP_Properties.getRawValue("next_planned_outage") %></td>
           </tr>
           <tr> 
           <tr> 

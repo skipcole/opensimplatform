@@ -38,7 +38,12 @@ public class CustomizeableSection extends BaseSimSection {
 		
 	}
 	
-	public static CustomizeableSection generateXML(HttpServletRequest request){
+	/**
+	 * Creates the 
+	 * @param request
+	 * @return
+	 */
+	public static CustomizeableSection generateCSforXML(HttpServletRequest request){
 		
 		CustomizeableSection cs = new CustomizeableSection();
 		
@@ -56,6 +61,11 @@ public class CustomizeableSection extends BaseSimSection {
 		
 	}
 	
+	/**
+	 * Turns nulls into empty strings.
+	 * @param input
+	 * @return
+	 */
 	public static String cleanNulls(String input){
 		if (input == null){
 			return "";

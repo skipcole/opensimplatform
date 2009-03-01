@@ -52,7 +52,7 @@
             <li>Basic Math</li>
             <li><a href="incorporate_underlying_model_equation.jsp">Daisy World</a></li>
           </ul>
-          <p>Or, <a href="../osp_javadocs_ext/add_underlying_model.jsp">install a new underlying model</a>.</p>
+          <p>If you would like to have a different model incorporated, please contact your adminstrator.</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
       </blockquote>

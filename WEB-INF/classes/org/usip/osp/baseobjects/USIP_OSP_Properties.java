@@ -27,6 +27,7 @@ public class USIP_OSP_Properties {
     /** This sets the set of properties we will be looking at */
     private static String environment_name = "_local";
 
+    /** A Hashtable of stored values to avoid re-reading of them. */
     private static Hashtable<String, String> hashedValues = new Hashtable<String, String>();
     
     static {
@@ -53,10 +54,22 @@ public class USIP_OSP_Properties {
         }
     }
     
+    /**
+     * Gets a value for a property based on default environment value.
+     * @param propertyName
+     * @return
+     */
     public static String getValue(String propertyName){
     	return getValue(propertyName, environment_name);
     }
     
+    /**
+     * Gets a value for a property based on the environment name (_local, _remote) passed in.
+     * 
+     * @param propertyName
+     * @param envName
+     * @return
+     */
     public static String getValue(String propertyName, String envName){
     	
     	String fullKey = propertyName + envName;
@@ -75,6 +88,12 @@ public class USIP_OSP_Properties {
     	return cachedAnswer;
     }
     
+    /**
+     * Gets the value for the property directly from the properties file.
+     * 
+     * @param propertyName
+     * @return
+     */
     public static String getRawValue(String propertyName){
         return resourceBundle.getString(propertyName);
     }

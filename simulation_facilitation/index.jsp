@@ -1,63 +1,83 @@
-<%@ page 
-	contentType="text/html; charset=iso-8859-1" 
-	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.persistence.*" 
-	errorPage="" %>
-
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" errorPage="../error.jsp" %>
 <%
+				
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-
+	String prevErrorMsg = pso.errorMsg;
+	
+	String attempting_login = (String) request.getParameter("attempting_login");
+	
+	if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))){
+		session.setAttribute("pso", null);
+		pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+		response.sendRedirect(pso.validateLoginToOSP(request, pso.FACILITATOR_LOGIN));
+		return;
+	} // End of if login in.
+	
+	pso.errorMsg = prevErrorMsg;
+	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-
-<title>Open Simulation Platform Control Page</title>
-
-
-<META http-equiv="refresh" content="0;URL=../simulation_authoring/index.jsp"> 
-
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<title>USIP Open Simulation Platform Login</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../usip_osp.css" rel="stylesheet" type="text/css">
 </head>
-<body onLoad="">
-<table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
-<table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
-<tr> 
-    <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
-		<tr>
-			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
-			<td width="100%"><br />
-              <h1>Redirect to Login </h1>
-              <br />
-      <form action="instructor_home.jsp" method="post" name="form1" id="form1">
-        <input type="hidden" name="sending_page" value="create_simulation" />
-        <blockquote>
-        <blockquote>
-          <p>&nbsp;</p>
-          </blockquote>
-      </form>
-      <blockquote>
-        
-        <p>You should be redirected to the login page.</p>
-          <p>If you are not, please <a href="../simulation_authoring/index.jsp">click here</a>.  <br>
-            </p>
-      </blockquote>      <p align="center"></p>			</td>
-		</tr>
-		</table>	</td>
-  </tr>
-  <tr> 
-    <td>
-    <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
-  </tr>
-</table>
-</td></tr></table>
 
+<body>
 <p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="720" border="0" cellspacing="0" cellpadding="0" align="center" background="../Templates/images/page_bg.png">
 
-<p align="center">&nbsp;</p>
+  <tr> 
+    <td colspan="3" background="../Templates/images/page_bg.png" ><P>&nbsp;</P>
+      <h1 align="center">&nbsp;&nbsp;&nbsp;USIP Open Simulation Platform <br>
+        &nbsp;&nbsp;&nbsp;(Release <%= USIP_OSP_Properties.getRawValue("release") %>)<br> 
+        <br>
+        &nbsp;&nbsp;&nbsp;Simulation Facilitator Login</h1>
+      <p>&nbsp;</p>
+      <form name="form1" method="post" action="index.jsp" target="_top">
+         
+        <input type="hidden" name="attempting_login" value="true">
+        </font> 
+        <table width="58%" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr> 
+            <td>user name</font></td>
+            <td> <input type="text" name="username"></td>
+          </tr>
+          <tr> 
+            <td>password</font></td>
+            <td> <input type="password" name="password"> </td>
+          </tr>
+          
+          <tr> 
+            <td>&nbsp;</td>
+            <td> <input type="submit" name="Submit" value="Submit"> </td>
+          </tr>
+          <tr> 
+            <td colspan="2"><font color="#FF0000"><%= pso.errorMsg %></font></td>
+          </tr>
+        </table>
+      </form>
+	  <center>
+        <table width="50%" border="0" cellspacing="2" cellpadding="1">
+          <tr>
+            <td valign="top">Upcoming Planned Outage: <%= USIP_OSP_Properties.getRawValue("next_planned_outage") %></td>
+          </tr>
+          <tr> 
+          <tr> 
+            <td valign="top"><a href="../acknowledgements/index.htm">Acknowledgements</a></td>
+          </tr>
+        </table>
+	  </center>
+      <p align="center">&nbsp;</p>
+    </td>
+  </tr>
+
+</table>
+
+<p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Creation Software Wizard is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
 </body>
 </html>
 <%
-	
+	pso.errorMsg = "";
 %>

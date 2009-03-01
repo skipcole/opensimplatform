@@ -1,8 +1,0 @@
-<org.usip.osp.baseobjects.CustomLibrarySection>
-  <description>View Players Choices in our Simple Simulation.</description>
-  <url></url>
-  <directory>../oscw_noncore/</directory>
-  <page__file__name>view_player_choices.jsp</page__file__name>
-  <rec__tab__heading>View Choices</rec__tab__heading>
-  <sample__image>ffs_sample.png</sample__image>
-</org.usip.osp.baseobjects.CustomLibrarySection>
