@@ -1159,7 +1159,25 @@ public class ParticipantSessionObject {
 		return bu;
 
 	}
-
+	
+	/**
+	 * Should take this opportunity to mark in the user trail that they have logged out.
+	 * 
+	 * @param request
+	 */
+	public static void logout(HttpServletRequest request){
+		
+		System.out.println("TODO: record the user's logout in their trail.");
+		
+	}
+	
+	/**
+	 * 
+	 * @param bu_id
+	 * @param schema
+	 * @param request
+	 * @return
+	 */
 	public User loginToSchema(Long bu_id, String schema, HttpServletRequest request) {
 
 		User user = User.getInfoOnLogin(bu_id, schema);
