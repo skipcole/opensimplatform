@@ -70,7 +70,7 @@
                     </tr>
                     <tr valign="top">
                       <td>&nbsp;</td>
-                      <td><a href="../simulation_authoring/test_utilities/email_test.jsp">Test Email</a></td>
+                      <td><a href="email_test.jsp">Test Email</a></td>
                       <td>&nbsp;</td>
                       <td>Allows you to test the functionality of the email system.</td>
                     </tr>
