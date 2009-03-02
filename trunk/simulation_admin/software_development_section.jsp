@@ -26,10 +26,9 @@
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
-			<td width="100%"><br />
-              <h1>Simulation Software Admininstration</h1>
-              <br />
-      <table width="100%" border="0" cellspacing="2" cellpadding="1">
+			<td width="100%"><h1>Software Development Tools<br />
+      </h1>
+              <table width="100%" border="0" cellspacing="2" cellpadding="1">
         <!--tr valign="top"> 
     <td>4.</td>
     <td>GC <a href="create_game_phases.jsp">creates Game Phases</a></td>
@@ -37,7 +36,7 @@
   </tr -->
         <tr valign="top"> 
           <td>&nbsp;</td>
-            <td><h2>Step</h2></td>
+            <td><h2>Item</h2></td>
             <td><h2>&nbsp;</h2></td>
             <td><h2>Description</h2></td>
           </tr>
@@ -67,11 +66,18 @@
           <td>&nbsp;</td>
             <td><a href="../simulation_authoring/toggle_debug.jsp">Toggle Debug</a></td>
             <td>&nbsp;</td>
-            <td>Turn debugging messages <% if (Debug.debug_on) { %> off <% } else { %> on <% } %>.</td>
+            <td>Turn debugging flag 
+              <% if (Debug.debug_on) { %> off <% } else { %> on <% } %>.</td>
           </tr>
         <tr valign="top">
           <td>&nbsp;</td>
+          <td><a href="../osp_development/custom_section_xml_generator.jsp">Custom Section XML Generator</a></td>
           <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr valign="top">
+          <td>&nbsp;</td>
+          <td><a href="../osp_development/model_xml_generator.jsp">Model Definition XML Generator</a></td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
         </tr>
