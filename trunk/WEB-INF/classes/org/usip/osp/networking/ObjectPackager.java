@@ -341,26 +341,26 @@ public class ObjectPackager {
 		unpackInformationString += "--------------------------------------------------------------------<br />";
 		unpackInformationString += "<b>Unpacking Base Simulation Sections</b><br />";
 		unpackInformationString += "<blockquote>";
-		unpackInformationString += unpackageBaseSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
+		//unpackInformationString += unpackageBaseSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
 		unpackInformationString += "</blockquote>";
 		unpackInformationString += "<b>Base Sim Sections Unpacked</b><br />";
 		unpackInformationString += "--------------------------------------------------------------------<br />";
 		unpackInformationString += "<b>Unpacking Customizeable Sim Sections</b><br />";
 		unpackInformationString += "<blockquote>";
-		unpackInformationString += unpackageCustomizeableSimSections(schema, fullString,simRead.getId(), xstream, bssIdMappings);
+		//unpackInformationString += unpackageCustomizeableSimSections(schema, fullString,simRead.getId(), xstream, bssIdMappings);
 		unpackInformationString += "</blockquote>";
 		unpackInformationString += "<b>Customizeable Sections Unpacked</b><br />";
 		unpackInformationString +="--------------------------------------------------------------------<br />";
 		unpackInformationString += "<b>Unpacking Customized Sim Sections</b><br />";
 		unpackInformationString += "<blockquote>";
-		unpackInformationString += unpackageCustomizedSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
+		//unpackInformationString += unpackageCustomizedSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
 		unpackInformationString += "</blockquote>";
 		unpackInformationString += "<b>Customizeable Sections Unpacked</b><br />";
 		unpackInformationString += "--------------------------------------------------------------------<br />";
 		unpackInformationString += "<b>Unpacking </b><br />";
 		unpackInformationString += "<blockquote>";
-		unpackInformationString += unpackageSimSections(schema, fullString, simRead.getId(), xstream, actorIdMappings, 
-				phaseIdMappings, bssIdMappings);
+		// unpackInformationString += unpackageSimSections(schema, fullString, simRead.getId(), xstream, actorIdMappings, 
+		//		phaseIdMappings, bssIdMappings);
 		unpackInformationString += "</blockquote>";
 		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />";
 		unpackInformationString += "--------------------------------------------------------------------<br />";

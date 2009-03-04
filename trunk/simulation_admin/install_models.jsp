@@ -3,6 +3,7 @@
 	language="java" 
 	import="java.sql.*,java.util.*,
 		org.usip.osp.baseobjects.*,
+		org.usip.osp.modelinterface.*,
 		org.usip.osp.networking.*,
 		org.usip.osp.persistence.*" 
 	errorPage="" %>
@@ -44,16 +45,15 @@ body {
         <blockquote>
           <p>Below are listed all of the model descriptor files found on this system. On this system,
           model definition files are located in the directory: <%= USIP_OSP_Properties.getValue("model_dir") %></p>
-  <table width="100%" cellpadding="2" cellspacing="2" border="1"><tr><td valign="top"><strong>Organization</strong></td>
-  <td valign="top"><strong>Unique Name</strong></td>
-  <td valign="top"><div align="right"><strong>Version</strong></div></td>
+  <table width="100%" cellpadding="2" cellspacing="2" border="1"><tr>
+  <td valign="top"><strong>Model Name / Version</strong></td>
   <td valign="top"><div align="right"><strong>State</strong></div></td>
   <td valign="top"><strong>Action</strong></td>
   </tr>
-	<% for (ListIterator li = BaseSimSection.screenBaseSimSectionsFromXMLFiles(pso.schema).listIterator(); li.hasNext();) {
-			BaseSimSection bss = (BaseSimSection) li.next(); 
+	<% for (ListIterator li = ModelDefinitionObject.screenModelsFromXMLFiles(pso.schema).listIterator(); li.hasNext();) {
+			ModelDefinitionObject mdo = (ModelDefinitionObject) li.next(); 
 			
-			Long loaded_id = BaseSimSection.checkInstalled(pso.schema, bss);
+			Long loaded_id = ModelDefinitionObject.checkInstalled(pso.schema, mdo);
 			
 			boolean loaded = false;
 			
@@ -62,7 +62,7 @@ body {
 			}
 			
 			%>
-            <tr><td valign="top"><%= bss.getCreatingOrganization() %></td><td valign="top"><%= bss.getUniqueName() %></td><td valign="top"><div align="right"><%= bss.getVersion() %></div></td><td valign="top"><div align="right">
+            <tr><td valign="top"><%= mdo.getCreatingOrganization() %></td><td valign="top"><div align="right">
             <% if (loaded) { %>
             Loaded
             <% } else { %>
@@ -71,7 +71,7 @@ body {
             </div></td>
               <td valign="top"><div align="right">
               <form action="install_simulation_sections.jsp" method="post">
-              <input type="hidden" name="fullfileloc" value="<%= bss.getDirectory() %>" />
+              <input type="hidden" name="fullfileloc" value="<%= mdo.getModelDirectory() %>" />
               <input type="hidden" name="loaded_id" value="<%= loaded_id %>" />
             <% if (loaded) { %>
             <input type="submit" name="command" id="unload_button" value="Unload" />
