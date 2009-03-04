@@ -1,11 +1,13 @@
 <%@ page 
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "add_underlying_model.jsp";
+	pso.backPage = "incorporate_underlying_model.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
@@ -50,7 +52,9 @@
           <p>Select from one of the currently Installed Models to utilize it.</p>
           <ul>
             <li>Basic Math</li>
+            
             <li><a href="incorporate_underlying_model_equation.jsp">Daisy World</a></li>
+            
           </ul>
           <p>If you would like to have a different model incorporated, please contact your adminstrator.</p>
           <p>&nbsp;</p>
