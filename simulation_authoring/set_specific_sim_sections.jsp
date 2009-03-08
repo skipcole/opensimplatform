@@ -2,7 +2,7 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
@@ -179,11 +179,11 @@ function loadInfo(dropdownlist){
 		  %>
                   <% if (ii > 0) { %>
                   
-                <td><!-- a href="set_specific_sim_sections.jsp?exchange=true&first_sec=< % = first_ss %>&sec_sec=< % = sec_ss %>" --><a href="set_specific_sim_sections.jsp?command=move_left&amp;m_index=<%= ii %>">&lt;-</a><!-- /a--></td>
+                <td><a href="set_specific_sim_sections.jsp?command=move_left&m_index=<%= ii %>">&lt;-</a><!-- /a--></td>
                   <% } %>
                   <td><a href="#"><%= ss.getTab_heading() %></a></td>
                   <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
-                  <td><a href="set_specific_sim_sections.jsp?command=move_right&amp;m_index=<%= ii %>">-&gt;</a></td>
+                  <td><a href="set_specific_sim_sections.jsp?command=move_right&m_index=<%= ii %>">-&gt;</a></td>
                   <% } %>
                   <%
 				++ii;
