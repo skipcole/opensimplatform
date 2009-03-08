@@ -27,13 +27,13 @@
 
 </jsp-config>
 
+
  <error-page>
    <exception-type>java.lang.Throwable</exception-type>
    <location>/error.jsp</location>
  </error-page>
 
-
-<!--
+<!-- 
 <welcome-file-list>
 			<welcome-file>
             index.jsp

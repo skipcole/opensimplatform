@@ -74,7 +74,7 @@ public class PSO_SectionMgmt {
 	}
 
 	/** If a command button was entered, this was the command. */
-	private String _command = "";
+	private String command = "";
 
 	/** id of the page being sought. */
 	private String _page_id = "";
@@ -123,7 +123,6 @@ public class PSO_SectionMgmt {
 		_actor_index = setIfPassedIn(_actor_index, request, "actor_index");
 		_bss_id = setIfPassedIn(_bss_id, request, "bss_id");
 		_custom_section_id = setIfPassedIn(_custom_section_id, request, "custom_page");
-		_command = setIfPassedIn(_command, request, "command");
 		_page_id = setIfPassedIn(_page_id, request, "page_id");
 		_phase_id = setIfPassedIn(_phase_id, request, "phase_id");
 		_tab_heading = setIfPassedIn(_tab_heading, request, "tab_heading");
@@ -131,6 +130,7 @@ public class PSO_SectionMgmt {
 		_universal = setIfPassedIn(_universal, request, "universal");
 
 		// Don't store these, just get them if passed in.
+		command = (String) request.getParameter("command");
 		sending_page = (String) request.getParameter("sending_page");
 		save_page = (String) request.getParameter("save_page");
 		save_and_add = (String) request.getParameter("save_and_add");
@@ -307,9 +307,10 @@ public class PSO_SectionMgmt {
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
 
+		System.out.println("_actor_index was: |" + _actor_index + "|");
 		// //////////////////////////////////////////////////////////////
 		// Determine the actor we are working on.
-		if (_actor_index != null) {
+		if ((_actor_index != null) && (_actor_index.trim().length() > 0)) {
 			currentActorIndex = new Integer(_actor_index).intValue();
 		} else {
 			currentActorIndex = 1;
@@ -335,12 +336,12 @@ public class PSO_SectionMgmt {
 		// Determine what phase we are working on.
 		determinePhase(simulation);
 
-		System.out.println("command is = " + _command);
+		System.out.println("command is = " + command);
 
-		if (_command != null) {
-			if (_command.equalsIgnoreCase("Change Phase")) {
+		if (command != null) {
+			if (command.equalsIgnoreCase("Change Phase")) {
 				// This has been handled in the phase id section above.
-			} else if (_command.equalsIgnoreCase("move_right")) {
+			} else if (command.equalsIgnoreCase("move_right")) {
 				String m_index = (String) request.getParameter("m_index");
 				System.out.println("doing something on index = " + m_index);
 
@@ -363,7 +364,7 @@ public class PSO_SectionMgmt {
 					System.out.println("warning ss0 is null");
 				}
 
-			} else if (_command.equalsIgnoreCase("move_left")) {
+			} else if (command.equalsIgnoreCase("move_left")) {
 
 				String m_index = (String) request.getParameter("m_index");
 				System.out.println("doing something on index = " + m_index);
@@ -417,7 +418,7 @@ public class PSO_SectionMgmt {
 		// Base sim section is retrieved by ID
 		BaseSimSection bss = BaseSimSection.getMe(pso.schema, _bss_id);
 
-		if (_command.equalsIgnoreCase("Add Section")) {
+		if (command.equalsIgnoreCase("Add Section")) {
 
 			if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.BaseSimSection")) {
 				// Here we add the class straight away.
