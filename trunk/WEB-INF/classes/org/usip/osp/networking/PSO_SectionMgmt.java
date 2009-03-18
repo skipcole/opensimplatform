@@ -699,12 +699,12 @@ public class PSO_SectionMgmt {
 				String doc_id = (String) request.getParameter(req_key);
 				
 				System.out.println("adding doc: " + doc_id);
-				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment();
-				bssdoa.setBss_id(customizableSectionOnScratchPad.getId());
-				bssdoa.setClassName("org.usip.osp.communications.SharedDocument");
-				bssdoa.setDepObjIndex(ii);
-				bssdoa.setObjectId(new Long(doc_id));
-				bssdoa.setSim_id(pso.sim_id);
+				
+				// Create and save the assignment obect 
+				BaseSimSectionDepObjectAssignment bssdoa = 
+					new BaseSimSectionDepObjectAssignment(customizableSectionOnScratchPad.getId(), 
+							"org.usip.osp.communications.SharedDocument", ii, new Long(doc_id), pso.sim_id,
+							pso.schema);
 				
 				bssdoa.saveMe(pso.schema);
 			}
@@ -712,6 +712,47 @@ public class PSO_SectionMgmt {
 			// Update page values
 			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.save(pso.schema);
+
+			if (save_and_add != null) {
+				// add section
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
+						request, _universal);
+				// send them back
+				pso.forward_on = true;
+			}
+
+		} // End of if this is the make_read_document_page
+
+		return customizableSectionOnScratchPad;
+	}
+	
+	/**
+	 * This method handles the creation of the page to allow player access to
+	 * read a document or documents.
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakeSplitPageVertical(HttpServletRequest request) {
+
+		this.getSimSectionsInternalVariables(request);
+
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
+
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
+
+		&& (sending_page.equalsIgnoreCase("make_split_page"))) {
+
+			// If this is the original custom page, make a new page
+			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
+				System.out.println("making copy");
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
+				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
+			}
+			
+			
+			// Update page values
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
