@@ -2877,6 +2877,16 @@ public class ParticipantSessionObject {
 	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request));
 	}
+	
+	/**
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakeSplitPageVertical(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMakeSplitPageVertical(request));
+	}
 
 	/**
 	 * 
