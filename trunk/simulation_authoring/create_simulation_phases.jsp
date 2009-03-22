@@ -47,7 +47,7 @@
               <% 
 			if (pso.sim_id != null) {
 			
-			List phaseList = new SimulationPhase().getAllForSim(pso.schema, pso.sim_id);
+			List phaseList = SimulationPhase.getAllForSim(pso.schema, pso.sim_id);
 
 		%>
               <blockquote>

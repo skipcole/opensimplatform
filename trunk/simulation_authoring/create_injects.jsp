@@ -34,23 +34,21 @@
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
-			<td width="100%"><br />
+			<td width="100%">
+            <blockquote> 
               <h1>Create Injects</h1>
-              <br />
-      <blockquote> 
         <% 
 			if (pso.sim_id != null) {
 		%>
-        <p>Creating injects for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
-          (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-            here</a>.)</p>
-          <p>Injects are arranged into groups. You must first create an inject group before creating any injects.</p>
-          <form id="form1" name="form1" method="post" action="create_inject_group.jsp">
-            <label>
-              <input type="submit" name="button" id="button" value="Create Inject Group" />
-              </label>
-            </form>
           <table width="100%" border="0" cellspacing="0" cellpadding="4">
+            <tr>
+              <td colspan="4">Creating injects for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br />
+(If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
+            here</a>.)</td>
+            </tr>
+            <tr>
+              <td colspan="4">Injects are arranged into groups. You must first <a href="create_inject_group.jsp">create an inject group</a> before creating any injects. </td>
+            </tr>
             <tr>
               <td colspan="4"><strong><u>Current Inject Groups and Injects</u></strong></td>
               </tr>

@@ -98,17 +98,14 @@ public class ParticipantSessionObject {
 	 */
 	public String sim_copyright_info = "";
 
-	/** Name of the running simulation session. */
-	public String run_sim_name = "";
-
 	/** ID of Simulation being conducted or worked on. */
 	public Long sim_id;
 
 	/** ID of the Running Simulation being conducted or worked on. */
 	public Long running_sim_id;
-
-	/** Indicates if user has selected a running simulation. */
-	public boolean runningSimSelected = false;
+	
+	/** Name of the running simulation session. */
+	public String run_sim_name = "";
 
 	/** ID of Actor being played or worked on. */
 	public Long actor_id;
@@ -2951,7 +2948,6 @@ public class ParticipantSessionObject {
 			RunningSimulation rs = simulation.addNewRunningSimulation(rsn, schema);
 
 			running_sim_id = rs.getId();
-			runningSimSelected = true;
 
 		} // End of if coming from this page and have added running simulation
 	}

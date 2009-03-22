@@ -30,7 +30,7 @@
 		
 		RunningSimulation rs = pso.giveMeRunningSim();
 		
-		pso.runningSimSelected = true;
+		pso.run_sim_name = rs.getName();
 		response.sendRedirect(pso.backPage);
 		return;
 			

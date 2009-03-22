@@ -27,7 +27,7 @@ import org.usip.osp.persistence.*;
 @Entity
 @Table(name = "PHASES")
 @Proxy(lazy=false)
-public class SimulationPhase{
+public class SimulationPhase implements Comparable{
 	
 	
 	public static final int ROUND_BASED = 1;
@@ -154,7 +154,7 @@ public class SimulationPhase{
 		this.time_advances_automatically = time_advances_automatically;
 	}
 
-	public List getAllForSim(String schema, Long sim_id) {
+	public static List getAllForSim(String schema, Long sim_id) {
 		
 		return SimPhaseAssignment.getPhasesForSim(schema, sim_id);
 
@@ -211,6 +211,13 @@ public class SimulationPhase{
 		
 		return sp;
 		
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		
+		SimulationPhase sp = (SimulationPhase) arg0;
+		return  this.getOrder() - sp.getOrder();
 	}
 	
 }

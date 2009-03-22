@@ -50,8 +50,9 @@
               <p>Create running simulations for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
                 (If you would like to create running simulations for a different simulation, 
                 <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
-        
-      Below are the running simulation currently associated with <b> <%= simulation.getName() %> </b>. <br />
+              <p><% if (pso.running_sim_id != null) { %>You are currently working on runnign simulation <%= pso.run_sim_name %>.<% } %>
+              If you would like to select a running simulation already created,  <a href="../simulation_authoring/select_running_simulation.jsp">click here.</a></p>
+              Below are the running simulation currently associated with <b> <%= simulation.getName() %> </b>. <br />
               <table width="80%" border = "1">
                 <tr> 
                   <td><h2>Running Simulation</h2></td>
