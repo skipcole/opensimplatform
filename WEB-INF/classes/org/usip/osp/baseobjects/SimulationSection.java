@@ -36,21 +36,30 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Table(name = "SIMULATION_SECTIONS")
 @Proxy(lazy = false)
 public class SimulationSection {
-	
-	/** Position in binary string of bit indicating if running simulation id should be sent. */
+
+	/**
+	 * Position in binary string of bit indicating if running simulation id
+	 * should be sent.
+	 */
 	public static final int POS_RS_ID = 0;
-	
-	/** Position in binary string of bit indicating if running actor id should be sent. */
+
+	/**
+	 * Position in binary string of bit indicating if running actor id should be
+	 * sent.
+	 */
 	public static final int POS_A_ID = 1;
-	
-	/** Position in binary string of bit indicating if running user id should be sent. */
+
+	/**
+	 * Position in binary string of bit indicating if running user id should be
+	 * sent.
+	 */
 	public static final int POS_U_ID = 2;
 
 	@Id
 	@GeneratedValue
 	@Column(name = "SIMSEC_ID")
 	private Long id;
-	
+
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
@@ -98,8 +107,15 @@ public class SimulationSection {
 
 	@Column(name = "ADDED_AS_UNIV")
 	private boolean addedAsUniversalSection = false;
-	
+
 	private boolean removedUniversal = false;
+
+	/**
+	 * Used to indicate if this section has been added as a subsection.
+	 * Subsections do not have a tab position, but are called for, by id, by the
+	 * page that displays them.
+	 */
+	private boolean simSubSection = false;
 
 	/** Zero argument constructor needed by Hibernate. */
 	public SimulationSection() {
@@ -144,17 +160,17 @@ public class SimulationSection {
 	 * @param tab_heading
 	 * @param tab_position
 	 */
-	public SimulationSection(String schema, Long sid, Long aid, Long pid,
-			Long bss_id, String tab_heading, int tab_position) {
+	public SimulationSection(String schema, Long sid, Long aid, Long pid, Long bss_id, String tab_heading,
+			int tab_position) {
 
 		BaseSimSection bss = null;
-		if (bss_id != null){
+		if (bss_id != null) {
 			bss = BaseSimSection.getMe(schema, bss_id.toString());
 		} else {
 			System.out.println("Warning bss_id at simulation section creation was null.");
 			return;
 		}
-		
+
 		// These three ids locate the section to a simulation, actor and phase.
 		this.setSim_id(sid);
 		this.setActor_id(aid);
@@ -215,11 +231,10 @@ public class SimulationSection {
 	 */
 	public String generateURLforBottomFrame(Long rs_id, Long actor_id, Long user_id) {
 
-		String returnString = this.getUrl() + this.getDirectory()
-				+ this.getPage_file_name();
+		String returnString = this.getUrl() + this.getDirectory() + this.getPage_file_name();
 
 		System.out.println("sendString is " + this.sendString);
-		
+
 		String firstSep = "?";
 		String subsequentSep = "&";
 		String thisSep = firstSep;
@@ -240,14 +255,16 @@ public class SimulationSection {
 				thisSep = subsequentSep;
 			}
 		}
-		
+
 		System.out.println("returnString: " + returnString);
 
 		return returnString;
 	}
 
 	/**
-	 * Returns a list of the base sim section ids for the simulation whose id was passed in.
+	 * Returns a list of the base sim section ids for the simulation whose id
+	 * was passed in.
+	 * 
 	 * @param schema
 	 * @param sid
 	 * @return
@@ -260,16 +277,14 @@ public class SimulationSection {
 			return new ArrayList<Long>();
 		} else {
 
-			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSection ss where SIM_ID = "
-					+ sid.toString(); //
+			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSection ss where SIM_ID = " + sid.toString(); //
 			// + " order by base_sec_id";
 
 			System.out.println(getHQL);
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			List returnList = MultiSchemaHibernateUtil.getSession(schema)
-					.createQuery(getHQL).list();
+			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
 
 			if (returnList == null) {
 				returnList = new ArrayList();
@@ -282,8 +297,7 @@ public class SimulationSection {
 
 	}
 
-	public static List<BaseSimSection> getDistinctSectionsForSim(String schema,
-			Long sid) {
+	public static List<BaseSimSection> getDistinctSectionsForSim(String schema, Long sid) {
 
 		List<Long> baseIds = getBaseIdsBySim(schema, sid);
 
@@ -294,10 +308,13 @@ public class SimulationSection {
 		for (ListIterator<Long> bi = baseIds.listIterator(); bi.hasNext();) {
 			Long bid = (Long) bi.next();
 
-			BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil
-					.getSession(schema).get(BaseSimSection.class, bid);
+			if (bid != null) {
 
-			returnList.add(bss);
+				BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(schema).get(
+						BaseSimSection.class, bid);
+
+				returnList.add(bss);
+			}
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -305,7 +322,7 @@ public class SimulationSection {
 		return returnList;
 
 	}
-	
+
 	/**
 	 * Returns all of the sections for a particular simulation.
 	 * 
@@ -313,8 +330,7 @@ public class SimulationSection {
 	 * @param sid
 	 * @return
 	 */
-	public static List<SimulationSection> getBySim(
-			String schema, Long sid) {
+	public static List<SimulationSection> getBySim(String schema, Long sid) {
 
 		if (sid == null) {
 
@@ -322,13 +338,11 @@ public class SimulationSection {
 			return new ArrayList<SimulationSection>();
 		} else {
 
-			String getHQL = "from SimulationSection where SIM_ID = "
-					+ sid.toString();
+			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString();
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			List returnList = MultiSchemaHibernateUtil.getSession(schema)
-					.createQuery(getHQL).list();
+			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
 
 			if (returnList == null) {
 				returnList = new ArrayList();
@@ -357,8 +371,7 @@ public class SimulationSection {
 	 *            Phase ID
 	 * @return
 	 */
-	public static List<SimulationSection> getBySimAndActorAndPhase(
-			String schema, Long sid, Long aid, Long pid) {
+	public static List<SimulationSection> getBySimAndActorAndPhase(String schema, Long sid, Long aid, Long pid) {
 
 		if ((sid == null) || (aid == null) || (pid == null)) {
 
@@ -366,14 +379,12 @@ public class SimulationSection {
 			return new ArrayList<SimulationSection>();
 		} else {
 
-			String getHQL = "from SimulationSection where SIM_ID = "
-					+ sid.toString() + " AND ACTOR_ID = " + aid.toString()
-					+ " AND PHASE_ID = " + pid.toString() + " order by TAB_POS";
+			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
+					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + " order by TAB_POS";
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			List returnList = MultiSchemaHibernateUtil.getSession(schema)
-					.createQuery(getHQL).list();
+			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
 
 			if (returnList == null) {
 				returnList = new ArrayList();
@@ -396,8 +407,7 @@ public class SimulationSection {
 	 * @param pid
 	 * @return
 	 */
-	public static Long getHighestBySimAndActorAndPhase(String schema, Long sid,
-			Long aid, Long pid) {
+	public static Long getHighestBySimAndActorAndPhase(String schema, Long sid, Long aid, Long pid) {
 
 		List returnList = getBySimAndActorAndPhase(schema, sid, aid, pid);
 
@@ -405,31 +415,26 @@ public class SimulationSection {
 			System.out.println("returning highest tab = 1");
 			return new Long(1);
 		} else {
-			System.out.println("returning highest tab = "
-					+ (returnList.size() + 1));
+			System.out.println("returning highest tab = " + (returnList.size() + 1));
 			return new Long(returnList.size() + 1);
 		}
 	}
 
-	public static SimulationSection getBySimAndActorAndPhaseAndPos(
-			String schema, Long sid, Long aid, Long pid, int tab_pos) {
+	public static SimulationSection getBySimAndActorAndPhaseAndPos(String schema, Long sid, Long aid, Long pid,
+			int tab_pos) {
 
 		if ((sid == null) || (aid == null) || (pid == null)) {
 
-			System.out.println("Error: sid/aid/pid: " + sid + "/" + aid + "/"
-					+ pid);
+			System.out.println("Error: sid/aid/pid: " + sid + "/" + aid + "/" + pid);
 			return null;
 		} else {
 
-			String getHQL = "from SimulationSection where SIM_ID = "
-					+ sid.toString() + " AND ACTOR_ID = " + aid.toString()
-					+ " AND PHASE_ID = " + pid.toString() + " AND TAB_POS = "
-					+ tab_pos;
+			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
+					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + " AND TAB_POS = " + tab_pos;
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			List returnList = MultiSchemaHibernateUtil.getSession(schema)
-					.createQuery(getHQL).list();
+			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
 
 			if ((returnList == null) || (returnList.size() != 1)) {
 				System.out.println("got wrong number of sections");
@@ -454,15 +459,12 @@ public class SimulationSection {
 	 * @param tab_head
 	 * @param cids
 	 */
-	public static void applySectionsToSomeActors(String schema, Simulation sim,
-			Long pid, Long bss_id, String tab_head,
+	public static void applySectionsToSomeActors(String schema, Simulation sim, Long pid, Long bss_id, String tab_head,
 			List<ConvActorAssignment> cids) {
 
 		// Get, and remove, and occurance of this section for all actors.
-		List removeList = SimulationSection.getBySimAndPhaseAndBSSid(schema,
-				sim.getId(), pid, bss_id);
-		for (ListIterator<SimulationSection> lr = removeList.listIterator(); lr
-				.hasNext();) {
+		List removeList = SimulationSection.getBySimAndPhaseAndBSSid(schema, sim.getId(), pid, bss_id);
+		for (ListIterator<SimulationSection> lr = removeList.listIterator(); lr.hasNext();) {
 			SimulationSection s_gone = (SimulationSection) lr.next();
 
 			SimulationSection.remove(schema, s_gone);
@@ -477,27 +479,22 @@ public class SimulationSection {
 			Long a_id = caa.getActor_id();
 
 			// If this doesn't work, try the getBySimAndActorAndPhase
-			int highestTab = Actor.getHighestTabPosForPhase(schema,
-					sim.getId(), pid, a_id);
+			int highestTab = Actor.getHighestTabPosForPhase(schema, sim.getId(), pid, a_id);
 
-			SimulationSection ss0 = new SimulationSection(schema, sim.getId(),
-					a_id, pid, bss_id, tab_head, highestTab);
+			SimulationSection ss0 = new SimulationSection(schema, sim.getId(), a_id, pid, bss_id, tab_head, highestTab);
 
 		}
 
 	}
 
-	public static void applySectionToSpecificActors(String schema,
-			Long sim_id, Long pid, Long sec_id, String tab_head,
+	public static void applySectionToSpecificActors(String schema, Long sim_id, Long pid, Long sec_id, String tab_head,
 			List<Long> a_ids) {
 
 		// //////////////////////////////////////////////////////////////
 		// Get, and remove, and occurance of this section for all actors.
-		List removeList = SimulationSection.getBySimAndPhaseAndBSSid(schema,
-				sim_id, pid, sec_id);
+		List removeList = SimulationSection.getBySimAndPhaseAndBSSid(schema, sim_id, pid, sec_id);
 
-		for (ListIterator<SimulationSection> lr = removeList.listIterator(); lr
-				.hasNext();) {
+		for (ListIterator<SimulationSection> lr = removeList.listIterator(); lr.hasNext();) {
 			SimulationSection s_gone = (SimulationSection) lr.next();
 
 			SimulationSection.remove(schema, s_gone);
@@ -512,11 +509,9 @@ public class SimulationSection {
 			Long a_id = (Long) lia.next();
 
 			// If this doesn't work, try the getBySimAndActorAndPhase
-			int highestTab = Actor.getHighestTabPosForPhase(schema,
-					sim_id, pid, a_id);
+			int highestTab = Actor.getHighestTabPosForPhase(schema, sim_id, pid, a_id);
 
-			SimulationSection ss0 = new SimulationSection(schema, sim_id,
-					a_id, pid, sec_id, tab_head, highestTab);
+			SimulationSection ss0 = new SimulationSection(schema, sim_id, a_id, pid, sec_id, tab_head, highestTab);
 		}
 		// ///////////////////////////////////////////////////////////////
 
@@ -530,17 +525,14 @@ public class SimulationSection {
 	 * @param bss_id
 	 * @return
 	 */
-	private static List<SimulationSection> getBySimAndPhaseAndBSSid(
-			String schema, Long sid, Long pid, Long bss_id) {
+	private static List<SimulationSection> getBySimAndPhaseAndBSSid(String schema, Long sid, Long pid, Long bss_id) {
 
-		String getHQL = "from SimulationSection where SIM_ID = " + sid
-				+ " AND BASE_SEC_ID = " + bss_id + " AND PHASE_ID = "
-				+ pid.toString() + " order by TAB_POS";
+		String getHQL = "from SimulationSection where SIM_ID = " + sid + " AND BASE_SEC_ID = " + bss_id
+				+ " AND PHASE_ID = " + pid.toString() + " order by TAB_POS";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<SimulationSection> returnList = MultiSchemaHibernateUtil
-				.getSession(schema).createQuery(getHQL).list();
+		List<SimulationSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
 
 		if (returnList == null) {
 			returnList = new ArrayList<SimulationSection>();
@@ -550,43 +542,43 @@ public class SimulationSection {
 		return returnList;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
 	 * @param sim
 	 */
-	public static void applyAllUniversalSections(String schema, Long s_id){
-		
+	public static void applyAllUniversalSections(String schema, Long s_id) {
+
 		List phases = SimPhaseAssignment.getPhasesForSim(schema, s_id);
-		
+
 		for (ListIterator lia = phases.listIterator(); lia.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) lia.next();
-			
+
 			applyUniversalSectionsToAllActorsForPhase(schema, s_id, sp.getId());
 		}
 	}
-	
+
 	/**
-	 * Applies the universal sections (those with actor_id = 0) to all of the phases for an actor.
+	 * Applies the universal sections (those with actor_id = 0) to all of the
+	 * phases for an actor.
 	 * 
 	 * @param schema
 	 * @param sim_id
 	 * @param actor_id
 	 */
-	public static void applyAllUniversalSectionsToAnActor(String schema, Long sim_id, Long actor_id){
-		
+	public static void applyAllUniversalSectionsToAnActor(String schema, Long sim_id, Long actor_id) {
+
 		List phases = SimPhaseAssignment.getPhasesForSim(schema, sim_id);
-		
+
 		for (ListIterator lia = phases.listIterator(); lia.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) lia.next();
-			
+
 			// Get list of universal sections (actor id = 0)
-			List<SimulationSection> universalList = getBySimAndActorAndPhase(schema, sim_id,
-					new Long(0), sp.getId());
-			
+			List<SimulationSection> universalList = getBySimAndActorAndPhase(schema, sim_id, new Long(0), sp.getId());
+
 			applyUniversalsToActor(schema, sim_id, universalList, actor_id, sp.getId());
-			
+
 		}
 	}
 
@@ -601,12 +593,10 @@ public class SimulationSection {
 	 * @param sid
 	 * @param pid
 	 */
-	public static void applyUniversalSectionsToAllActorsForPhase(String schema,
-			Long sid, Long pid) {
+	public static void applyUniversalSectionsToAllActorsForPhase(String schema, Long sid, Long pid) {
 
 		// Get list of universal sections (actor id = 0)
-		List<SimulationSection> universalList = getBySimAndActorAndPhase(schema, sid,
-				new Long(0), pid);
+		List<SimulationSection> universalList = getBySimAndActorAndPhase(schema, sid, new Long(0), pid);
 
 		// Get the list of actors
 		List actorList = SimActorAssignment.getActorsForSim(schema, sid);
@@ -616,13 +606,13 @@ public class SimulationSection {
 			Actor act = (Actor) lia.next();
 
 			System.out.println("checking universals on " + act.getName());
-			
+
 			applyUniversalsToActor(schema, sid, universalList, act.getId(), pid);
 
 		} // End of loop over actors
 
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
@@ -631,29 +621,24 @@ public class SimulationSection {
 	 * @param act
 	 * @param pid
 	 */
-	public static void applyUniversalsToActor(String schema, Long s_id, List universalList, Long act, Long pid){
+	public static void applyUniversalsToActor(String schema, Long s_id, List universalList, Long act, Long pid) {
 		// Check to see if this section already exists in this actor's set.
 		// If not, then add it.
 		for (ListIterator lis = universalList.listIterator(); lis.hasNext();) {
 			SimulationSection ss = (SimulationSection) lis.next();
 
-			System.out.println("     checking universalList on "
-					+ ss.getTab_heading());
+			System.out.println("     checking universalList on " + ss.getTab_heading());
 
 			boolean foundThisSection = false;
 
 			List currentActorsList = getBySimAndActorAndPhase(schema, s_id, act, pid);
 
-			for (ListIterator listOld = currentActorsList.listIterator(); listOld
-					.hasNext();) {
-				SimulationSection ss_old = (SimulationSection) listOld
-						.next();
+			for (ListIterator listOld = currentActorsList.listIterator(); listOld.hasNext();) {
+				SimulationSection ss_old = (SimulationSection) listOld.next();
 
-				System.out.println("             comparing "
-						+ ss_old.getBase_section_id() + " and "
+				System.out.println("             comparing " + ss_old.getBase_section_id() + " and "
 						+ ss.getBase_section_id());
-				if (ss_old.getBase_section_id().equals(
-						ss.getBase_section_id())) {
+				if (ss_old.getBase_section_id().equals(ss.getBase_section_id())) {
 					System.out.println("             found match!");
 					foundThisSection = true;
 				}
@@ -669,8 +654,7 @@ public class SimulationSection {
 
 				ss_new.setTab_position(currentActorsList.size() + 1);
 
-				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(
-						ss_new);
+				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(ss_new);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 			}
 
@@ -682,14 +666,13 @@ public class SimulationSection {
 	 * 
 	 * @param sec_id
 	 */
-	public static void exchangePositions(String first_id, String second_id,
-			org.hibernate.Session hibernate_session) {
+	public static void exchangePositions(String first_id, String second_id, org.hibernate.Session hibernate_session) {
 
-		SimulationSection first_ss = (SimulationSection) hibernate_session.get(
-				SimulationSection.class, new Long(first_id));
+		SimulationSection first_ss = (SimulationSection) hibernate_session.get(SimulationSection.class, new Long(
+				first_id));
 
-		SimulationSection sec_ss = (SimulationSection) hibernate_session.get(
-				SimulationSection.class, new Long(second_id));
+		SimulationSection sec_ss = (SimulationSection) hibernate_session.get(SimulationSection.class, new Long(
+				second_id));
 
 		int first_pos = first_ss.getTab_position();
 		int sec_pos = sec_ss.getTab_position();
@@ -708,8 +691,7 @@ public class SimulationSection {
 	 * 
 	 * @param listOfSimSections
 	 */
-	public static void reorderSet(List<SimulationSection> listOfSimSections,
-			org.hibernate.Session hibernate_session) {
+	public static void reorderSet(List<SimulationSection> listOfSimSections, org.hibernate.Session hibernate_session) {
 
 		int ii = 1;
 

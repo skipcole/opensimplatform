@@ -64,7 +64,7 @@
         <p>Enabling <strong>simulation: <%= simulation.getDisplayName() %></strong>. <br />
           To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.</p>
           <%
-			if (!(pso.runningSimSelected)) {
+			if (pso.running_sim_id == null) {
 		%>
         <p>You must select the running simulation for which you will be enabling.<br />
           

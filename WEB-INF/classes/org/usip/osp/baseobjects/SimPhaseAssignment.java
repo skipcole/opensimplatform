@@ -147,6 +147,8 @@ public class SimPhaseAssignment {
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
+		Collections.sort(returnList);
+		
 		return returnList;
 		
 	}
