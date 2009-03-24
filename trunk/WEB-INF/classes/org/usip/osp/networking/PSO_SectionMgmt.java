@@ -521,7 +521,7 @@ public class PSO_SectionMgmt {
 		System.out.println("universal " + universal);
 
 		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
-				new Long(phase_being_worked_on_id), new Long(bss_id), tab_heading, getTabPos().intValue());
+				new Long(phase_being_worked_on_id), bss_id, tab_heading, getTabPos().intValue());
 
 		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
 			System.out.println("applying sim sections on phase: " + phase_being_worked_on_id);
@@ -750,16 +750,40 @@ public class PSO_SectionMgmt {
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 			}
+
+			String select_left = (String) request.getParameter("select_left");
+			String select_right = (String) request.getParameter("select_right");
 			
+			System.out.println("select left is " + select_left);
+			System.out.println("select right is " + select_right);
+			
+			// Need to get the simulation section referenced, mark it as a subsection 
+			
+			SimulationSection leftSect = SimulationSection.getMe(pso.schema, new Long (select_left));
+			SimulationSection rightSect = SimulationSection.getMe(pso.schema, new Long (select_right));
+			
+			// Need to set them as sub sections
+			leftSect.setSimSubSection(true);
+			leftSect.setSimSubSectionIndex(1);
+			leftSect.setDisplaySectionIndex(customizableSectionOnScratchPad.getId());
+			leftSect.save(pso.schema);
+			
+			rightSect.setSimSubSection(true);
+			rightSect.setSimSubSectionIndex(2);
+			rightSect.setDisplaySectionIndex(customizableSectionOnScratchPad.getId());
+			rightSect.save(pso.schema);
+			
+			// Need to reorder the list
+			SimulationSection.reorder(pso.schema, pso.sim_id, pso.actor_being_worked_on_id, pso.phase_id);
 			
 			// Update page values
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
 			if (save_and_add != null) {
-				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
-						request, _universal);
+				SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
+						new Long(phase_being_worked_on_id), customizableSectionOnScratchPad.getId(), _tab_heading, getTabPos().intValue());
+				
 				// send them back
 				pso.forward_on = true;
 			}

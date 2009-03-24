@@ -16,9 +16,25 @@
 	
 	//SimulationSection ss = (SimulationSection) simSecList.get(tabpos - 1);
 	//String leftFrame = ss.generateURLforBottomFrame(running_sim_id, actor_id, user_id);
+	String cs_id = (String) request.getParameter("cs_id");
+	System.out.println("cs id was : " + cs_id);
 	
-	String leftFrame = "introduction.jsp";
-	String rightFrame = "introduction.jsp";	
+	SimulationSection sLeft =  SimulationSection.getSubSection(pso.schema, new Long (cs_id), 1 , pso.sim_id,
+			pso.actor_id, pso.phase_id);
+			
+		
+	SimulationSection sRight =  SimulationSection.getSubSection(pso.schema, new Long (cs_id), 2 , pso.sim_id,
+			pso.actor_id, pso.phase_id);
+	
+	String leftFrame = "../simulation/frame_bottom.jsp";
+	String rightFrame = "../simulation/frame_bottom.jsp";
+	
+	if (sLeft != null){
+		leftFrame = sLeft.generateURLforBottomFrame(pso.running_sim_id, pso.actor_id, pso.user_id);
+	}
+	if (sRight != null) {
+		rightFrame = sRight.generateURLforBottomFrame(pso.running_sim_id, pso.actor_id, pso.user_id);
+	}
     %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">

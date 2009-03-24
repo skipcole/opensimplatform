@@ -16,8 +16,8 @@ import org.usip.osp.communications.Conversation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
- * This class represents a section that can be assigned to a player at a
- * particular phase.
+ * This class represents a section assigned to an actor at a particular phase. A better name for
+ * the class might be 'SimulationSectionAssignment.' 
  * 
  * @author Ronald "Skip" Cole<br />
  * 
@@ -36,6 +36,27 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Table(name = "SIMULATION_SECTIONS")
 @Proxy(lazy = false)
 public class SimulationSection {
+	
+	public static void main(String args[]){
+		
+		System.out.println("hello world");
+		
+		String getHQL = "from SimulationSection where SIM_ID = 1  AND ACTOR_ID = 2 AND PHASE_ID = 6 and simSubSection is true " + 
+			" and displaySectionIndex = 43 and simSubSectionIndex = 1 order by TAB_POS";
+
+		MultiSchemaHibernateUtil.beginTransaction("test");
+
+		List returnList = MultiSchemaHibernateUtil.getSession("test").createQuery(getHQL).list();
+
+		if (returnList == null) {
+			returnList = new ArrayList();
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction("test");
+		
+		System.out.println("length: " + returnList.size());
+		
+	}
 
 	/**
 	 * Position in binary string of bit indicating if running simulation id
@@ -74,6 +95,7 @@ public class SimulationSection {
 	@Column(name = "SIM_ID")
 	private Long sim_id;
 
+	/** Indicates elements of information should be sent in a URL string to an external page. */
 	private String sendString = "";
 
 	@Column(name = "ACTOR_ID")
@@ -107,7 +129,7 @@ public class SimulationSection {
 
 	@Column(name = "ADDED_AS_UNIV")
 	private boolean addedAsUniversalSection = false;
-
+	
 	private boolean removedUniversal = false;
 
 	/**
@@ -116,12 +138,66 @@ public class SimulationSection {
 	 * page that displays them.
 	 */
 	private boolean simSubSection = false;
+	
+	public boolean isSimSubSection() {
+		return simSubSection;
+	}
+
+	public void setSimSubSection(boolean simSubSection) {
+		this.simSubSection = simSubSection;
+	}
+
+	public int getSimSubSectionIndex() {
+		return simSubSectionIndex;
+	}
+
+	public void setSimSubSectionIndex(int simSubSectionIndex) {
+		this.simSubSectionIndex = simSubSectionIndex;
+	}
+
+	public Long getDisplaySectionIndex() {
+		return displaySectionIndex;
+	}
+
+	public void setDisplaySectionIndex(Long displaySectionIndex) {
+		this.displaySectionIndex = displaySectionIndex;
+	}
+
+	/** The order of this section on the sub section display section (1 for left, 2 for right, etc.) */
+	private int simSubSectionIndex = 0;
+	
+	/** The id of the custom section which is displaying this sub-section. */
+	private Long displaySectionIndex;
 
 	/** Zero argument constructor needed by Hibernate. */
 	public SimulationSection() {
 
 	}
+	
+	/**
+	 * Pulls the simulation out of the database base on its id and schema.
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static SimulationSection getMe(String schema, Long sec_id) {
 
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		SimulationSection simsec = (SimulationSection) MultiSchemaHibernateUtil
+				.getSession(schema).get(SimulationSection.class, sec_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return simsec;
+
+	}
+
+	/**
+	 * Removes a section completely, and re-orders all that are left.
+	 * 
+	 * @param schema
+	 * @param s_gone
+	 */
 	public static void removeAndReorder(String schema, SimulationSection s_gone) {
 
 		Long sid = s_gone.getSim_id();
@@ -130,13 +206,34 @@ public class SimulationSection {
 
 		remove(schema, s_gone);
 
+		reorder(schema, sid, aid, pid);
+
+	}
+	
+	/**
+	 * Sets the tab positions of a list of simulation sections to be equivalent
+	 * to their position in the list.
+	 */
+	public static void reorder(String schema, Long sid, Long aid, Long pid){
+		
 		List survivors = getBySimAndActorAndPhase(schema, sid, aid, pid);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		reorderSet(survivors, MultiSchemaHibernateUtil.getSession(schema));
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		int ii = 1;
 
+		for (ListIterator li = survivors.listIterator(); li.hasNext();) {
+			SimulationSection ss = (SimulationSection) li.next();
+
+			ss.setTab_position(ii);
+			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(ss);
+
+			++ii;
+
+		}
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
 	}
+	
 
 	/**
 	 * 
@@ -354,6 +451,45 @@ public class SimulationSection {
 		}
 
 	}
+	
+	/**
+	 * Wrapper method to call method of same name. 
+	 * @param schema
+	 * @param sid
+	 * @param aid
+	 * @param pid
+	 * @return
+	 */
+	public static List<SimulationSection> 
+		getBySimAndActorAndPhase(String schema, Long sid, Long aid, Long pid) {
+
+		return getBySimAndActorAndPhase(schema, sid, aid, pid, false);
+	
+	}
+	
+	
+	public static SimulationSection getSubSection(String schema, Long cs_id, int index, Long sid,
+			Long aid, Long pid){
+		
+
+		String getHQL = "from SimulationSection where SIM_ID = " + sid + " AND ACTOR_ID = " + aid +
+			" AND PHASE_ID = " + pid + " and simSubSection is true " + 
+			" and displaySectionIndex = " + cs_id + " and simSubSectionIndex = " + index + " order by TAB_POS";
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		if ((returnList == null) || (returnList.size() == 0)){
+			return null;
+		} else {
+			SimulationSection ss = (SimulationSection) returnList.get(0);
+			return ss;
+		}
+		
+	}
 
 	/**
 	 * Returns a list of simulation sections for the particular actor at a
@@ -371,7 +507,8 @@ public class SimulationSection {
 	 *            Phase ID
 	 * @return
 	 */
-	public static List<SimulationSection> getBySimAndActorAndPhase(String schema, Long sid, Long aid, Long pid) {
+	public static List<SimulationSection> 
+		getBySimAndActorAndPhase(String schema, Long sid, Long aid, Long pid, boolean getSubSections) {
 
 		if ((sid == null) || (aid == null) || (pid == null)) {
 
@@ -379,8 +516,14 @@ public class SimulationSection {
 			return new ArrayList<SimulationSection>();
 		} else {
 
+			String getSub = " and simSubSection is false ";
+			
+			if (getSubSections){
+				getSub = "";
+			}
+			
 			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
-					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + " order by TAB_POS";
+					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + getSub + " order by TAB_POS";
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -685,27 +828,6 @@ public class SimulationSection {
 
 	}
 
-	/**
-	 * Sets the tab positions of a list of simulation sections to be equivalent
-	 * to their position in the list.
-	 * 
-	 * @param listOfSimSections
-	 */
-	public static void reorderSet(List<SimulationSection> listOfSimSections, org.hibernate.Session hibernate_session) {
-
-		int ii = 1;
-
-		for (ListIterator li = listOfSimSections.listIterator(); li.hasNext();) {
-			SimulationSection ss = (SimulationSection) li.next();
-
-			ss.setTab_position(ii);
-			hibernate_session.saveOrUpdate(ss);
-
-			++ii;
-
-		}
-
-	}
 
 	public Long getId() {
 		return id;
