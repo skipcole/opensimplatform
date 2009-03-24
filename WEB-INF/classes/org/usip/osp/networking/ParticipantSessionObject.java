@@ -168,7 +168,7 @@ public class ParticipantSessionObject {
 		}
 
 		try {
-			List simSecList = new SimulationSection().getBySimAndActorAndPhase(schema, sim_id, actor_id, phase_id);
+			List simSecList = SimulationSection.getBySimAndActorAndPhase(schema, sim_id, actor_id, phase_id);
 
 			if (tabpos <= simSecList.size()) {
 				SimulationSection ss = (SimulationSection) simSecList.get(tabpos - 1);

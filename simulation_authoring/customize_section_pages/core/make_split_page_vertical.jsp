@@ -14,14 +14,6 @@
 		return;
 	}
 	
-	
-	String imageName = (String) cs.getContents().get("image_file_name");
-	
-	boolean hasImage = false;
-	
-	if ((imageName != null) && (imageName.trim().length() > 0)) {
-		hasImage = true;
-	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -29,8 +21,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
 <title>Open Simulation Platform Control Page</title>
-
-
 
 <link href="../../../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
@@ -55,14 +45,38 @@
           <tr> 
             <td>&nbsp;</td>
               <td valign="top">Page on Left</td>
-              <td valign="top"><label>
-                <input type="text" name="csid_left" id="csid_left" />
-              </label></td>
+              <td valign="top">
+              <select name="select_left" id="select">
+              	<%
+					List allList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_being_worked_on_id, pso.phase_id, true);
+					
+				for (ListIterator li = allList.listIterator(); li.hasNext();) {
+					SimulationSection ss = (SimulationSection) li.next();
+				%>
+                <option value="<%= ss.getId() %>"><%= ss.getTab_heading() %></option>
+              	<%
+					}
+				%>
+              </select>
+              </td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
               <td valign="top">Page on Right</td>
-              <td valign="top"><input type="text" name="csid_right" id="csid_right" /></td>
+              <td valign="top">
+                            <select name="select_right" id="select">
+              	<%
+					// List allList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_id, pso.phase_id);
+					
+				for (ListIterator li = allList.listIterator(); li.hasNext();) {
+					SimulationSection ss = (SimulationSection) li.next();
+				%>
+                <option value="<%= ss.getId() %>"><%= ss.getTab_heading() %></option>
+              	<%
+					}
+				%>
+              </select>
+              </td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
