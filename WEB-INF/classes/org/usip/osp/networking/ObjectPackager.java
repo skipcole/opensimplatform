@@ -9,6 +9,7 @@ import java.util.ListIterator;
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.Inject;
 import org.usip.osp.communications.InjectGroup;
+import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 import com.thoughtworks.xstream.XStream;
@@ -106,6 +107,8 @@ public class ObjectPackager {
 		returnString += "<------------------------------------------------------->";
 		returnString += packageSimSectionInformation(schema, sim.getTransit_id(), xstream);
 		returnString += "<------------------------------------------------------->";
+		returnString += packageSimObjectInformation(schema, sim.getTransit_id(), xstream);
+		returnString += "<------------------------------------------------------->";
 
 		return returnString;
 
@@ -130,6 +133,54 @@ public class ObjectPackager {
 			thisSection.setId(null);
 
 			returnString += xstream.toXML(thisSection);
+		}
+
+		return returnString;
+	}
+	
+	/**
+	 * Right now this does documents, but we need to find a way to do it generically for all
+	 * objects that have been declared as simulation object (by implementing the interface
+	 * SimSectionDependentObject )
+	 * @param schema
+	 * @param sim_id
+	 * @param xstream
+	 * @return
+	 */
+	public static String packageSimObjectInformation(String schema, long sim_id, XStream xstream) {
+
+		String returnString = "";
+		
+		// Keeps a list of items stored so we don't store the same item twice.
+		Hashtable previouslyStoredObjects = new Hashtable();
+		
+		//TODO The question is in what order do I do this?
+		// Get dependency (bssdoa), Get object, add object xml, add bssdoa xml ?
+		for (ListIterator<BaseSimSectionDepObjectAssignment> li = 
+			BaseSimSectionDepObjectAssignment.getSimDependencies(schema, sim_id).listIterator(); li.hasNext();) {
+			
+			BaseSimSectionDepObjectAssignment bssdoa = li.next();
+			
+			//TODO Do we need to make sure that an object is not saved multiple times to the xml?
+			
+			SimSectionDependentObject depObj = bssdoa.pullOutObject(schema, bssdoa);
+			
+			bssdoa.setTransit_id(bssdoa.getId());
+			bssdoa.setId(null);
+
+			returnString += xstream.toXML(bssdoa);
+			
+		}
+
+		for (ListIterator<SharedDocument> li = 
+			SharedDocument.getAllBaseDocumentsForSim(schema, sim_id).listIterator(); li.hasNext();) {
+			
+			SharedDocument thisSharedDocument = li.next();
+
+			thisSharedDocument.setTransit_id(thisSharedDocument.getId());
+			thisSharedDocument.setId(null);
+
+			returnString += xstream.toXML(thisSharedDocument);
 		}
 
 		return returnString;
@@ -335,7 +386,7 @@ public class ObjectPackager {
 		unpackInformationString += "--------------------------------------------------------------------<br />";
 		unpackInformationString += "<b>Unpacking Injects</b><br />";
 		unpackInformationString += "<blockquote>";
-		unpackageInjects(schema, fullString, simRead.getId(), xstream);
+		unpackInformationString += unpackageInjects(schema, fullString, simRead.getId(), xstream);
 		unpackInformationString += "</blockquote>";
 		unpackInformationString += "<b>Injects Unpacked</b><br />";
 		unpackInformationString += "--------------------------------------------------------------------<br />";
@@ -357,15 +408,57 @@ public class ObjectPackager {
 		unpackInformationString += "</blockquote>";
 		unpackInformationString += "<b>Customizeable Sections Unpacked</b><br />";
 		unpackInformationString += "--------------------------------------------------------------------<br />";
-		unpackInformationString += "<b>Unpacking </b><br />";
+		unpackInformationString += "<b>Unpacking Simulation Sections</b><br />";
 		unpackInformationString += "<blockquote>";
 		unpackInformationString += unpackageSimSections(schema, fullString, simRead.getId(), xstream, actorIdMappings, 
 				phaseIdMappings, bssIdMappings);
 		unpackInformationString += "</blockquote>";
 		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />";
 		unpackInformationString += "--------------------------------------------------------------------<br />";
+		unpackInformationString += "<b>Unpacking Simulation Objects</b><br />";
+		unpackInformationString += "<blockquote>";
+		unpackInformationString += unpackageSimObjects(schema, fullString, simRead.getId(), xstream);
+		unpackInformationString += "</blockquote>";
+		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />";
+		unpackInformationString += "--------------------------------------------------------------------<br />";
 
 		// ? documents, variables, conversations, etc.
+
+	}
+	
+	/**
+	 * Pulls the simulation object out of the packaged file.
+	 * Right now we are targeting specific types (documents, etc.), but eventually we want
+	 * to be able to pull out any unspecified type that implements the SimSectionDependentObject
+	 * interface.
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param sim_id
+	 * @param xstream
+	 */
+	public static String unpackageSimObjects(String schema, String fullString, Long sim_id,
+			XStream xstream) {
+
+		String returnString = "Getting Documents <BR />";
+		
+		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.communications.SharedDocument>",
+				"</org.usip.osp.communications.SharedDocument>");
+		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
+			String sd_string = li_i.next();
+
+			SharedDocument this_sd = (SharedDocument) xstream.fromXML(sd_string);
+			
+			this_sd.setSim_id(sim_id);
+				
+			this_sd.save(schema);
+			
+			returnString += "Found " + this_sd.getUniqueDocTitle() + " and it had id " 
+			+ this_sd.getId() + "<br />";
+
+		}
+		
+		return returnString;
 
 	}
 
@@ -600,8 +693,9 @@ public class ObjectPackager {
 	 * @param sim_id
 	 * @param xstream
 	 */
-	public static void unpackageInjects(String schema, String fullString, Long sim_id, XStream xstream) {
+	public static String unpackageInjects(String schema, String fullString, Long sim_id, XStream xstream) {
 
+		String returnString = "Unpackaging Inject Groups and Injects.";
 		Hashtable injectGroupIds = new Hashtable();
 
 		List injectGroups = getSetOfObjectFromFile(fullString, "<org.usip.osp.communications.InjectGroup>",
@@ -632,7 +726,8 @@ public class ObjectPackager {
 			ig.saveMe(schema);
 
 		}
-
+		
+		return returnString;
 	}
 
 	/**

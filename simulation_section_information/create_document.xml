@@ -4,7 +4,7 @@
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>make_create_document_page.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_create_document_page.jsp</specificMakePage>
   <bigString></bigString>
   <description>A section to allow a player to create a document. This document can then be read (and possibly written to) by the players. This section does not lead to a specific section for the player, but leads to the control page where the simulation author can create a new document related to a simulation, and see the details of all current documents associated with a simulation. </description>
   <url></url>

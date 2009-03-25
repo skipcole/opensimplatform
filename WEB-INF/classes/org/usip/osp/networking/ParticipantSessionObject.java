@@ -103,7 +103,7 @@ public class ParticipantSessionObject {
 
 	/** ID of the Running Simulation being conducted or worked on. */
 	public Long running_sim_id;
-	
+
 	/** Name of the running simulation session. */
 	public String run_sim_name = "";
 
@@ -607,7 +607,7 @@ public class ParticipantSessionObject {
 			if (command.equalsIgnoreCase("Load")) {
 				System.out.println("Will be loading file from: " + fullfileloc);
 				BaseSimSection.readInXMLFile(schema, new File(fullfileloc));
-				
+
 			} else if (command.equalsIgnoreCase("Reload")) {
 				System.out.println("Will be reloading file from: " + fullfileloc);
 				BaseSimSection.reloadXMLFile(schema, new File(fullfileloc), new Long(loaded_id));
@@ -618,7 +618,7 @@ public class ParticipantSessionObject {
 			}
 		}
 	}
-	
+
 	/**
 	 * Handles commands submitted on the install simulation sections page.
 	 * 
@@ -634,7 +634,7 @@ public class ParticipantSessionObject {
 			if (command.equalsIgnoreCase("Load")) {
 				System.out.println("Will be loading file from: " + fullfileloc);
 				BaseSimSection.readInXMLFile(schema, new File(fullfileloc));
-				
+
 			} else if (command.equalsIgnoreCase("Reload")) {
 				System.out.println("Will be reloading file from: " + fullfileloc);
 				BaseSimSection.reloadXMLFile(schema, new File(fullfileloc), new Long(loaded_id));
@@ -1156,18 +1156,19 @@ public class ParticipantSessionObject {
 		return bu;
 
 	}
-	
+
 	/**
-	 * Should take this opportunity to mark in the user trail that they have logged out.
+	 * Should take this opportunity to mark in the user trail that they have
+	 * logged out.
 	 * 
 	 * @param request
 	 */
-	public static void logout(HttpServletRequest request){
-		
+	public static void logout(HttpServletRequest request) {
+
 		System.out.println("TODO: record the user's logout in their trail.");
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param bu_id
@@ -2304,8 +2305,16 @@ public class ParticipantSessionObject {
 	public Hashtable ActorsWithReadAccess = new Hashtable();
 	public Hashtable ActorsWithWriteAccess = new Hashtable();
 
+	/**
+	 * Fills the hashtables that indicate you can read and write various
+	 * documents.
+	 * 
+	 */
 	public void fillReadWriteLists() {
-
+		// TODO this entire thing needs re-written since when to using dependent object assingments instead
+		// of keys stored in hashtables.
+		
+		/*
 		Simulation sim = this.giveMeSim();
 
 		// Get the list of actors
@@ -2338,17 +2347,20 @@ public class ParticipantSessionObject {
 							Hashtable storedGoodies = custSec.getContents();
 							String docs = (String) storedGoodies.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 
-							String currentActors = (String) ActorsWithReadAccess.get(docs);
+							if (docs != null) {
+								String currentActors = (String) ActorsWithReadAccess.get(docs);
 
-							if (currentActors == null) {
-								currentActors = act.getId().toString();
-							} else {
-								currentActors += "," + act.getId();
+								if (currentActors == null) {
+									currentActors = act.getId().toString();
+								} else {
+									currentActors += "," + act.getId();
+								}
+
+								ActorsWithReadAccess.put(docs, currentActors);
+								
+								System.out.println("docs were : " + currentActors);
 							}
-
-							ActorsWithReadAccess.put(docs, currentActors);
-
-							System.out.println("docs were : " + currentActors);
+							
 						}
 
 						if (custSec.isConfers_write_ability() == true) {
@@ -2364,7 +2376,7 @@ public class ParticipantSessionObject {
 
 			} // End of loop over actors
 		}
-
+		 */
 	}
 
 	/**
@@ -2484,9 +2496,9 @@ public class ParticipantSessionObject {
 	}
 
 	public static final int AUTHOR_LOGIN = 1;
-	
+
 	public static final int FACILITATOR_LOGIN = 2;
-	
+
 	/**
 	 * 
 	 * @param request
@@ -2543,7 +2555,6 @@ public class ParticipantSessionObject {
 
 		return sendToPage;
 	}
-	
 
 	/**
 	 * Sends password to user via email upon request.
@@ -2874,7 +2885,7 @@ public class ParticipantSessionObject {
 	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request));
 	}
-	
+
 	/**
 	 * A wrapper that passes the request through to the associated
 	 * PSO_SectionMgmt object.
