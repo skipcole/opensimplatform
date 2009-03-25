@@ -66,8 +66,11 @@ public class Actor {
 	@Lob
     private String private_description = "";
 
-	/** */
+	/** Image of this actor to be shown.  */
     private String imageFilename = "";
+    
+    /** Image of this actor to be shown.  */
+    private String imageThumbFilename = "";
     
     private String defaultColorChatBubble = "#FFFFFF";
 
@@ -247,6 +250,14 @@ public class Actor {
 	 */
 	public void setImageFilename(String imageFilename) {
 		this.imageFilename = imageFilename;
+	}
+
+	public String getImageThumbFilename() {
+		return imageThumbFilename;
+	}
+
+	public void setImageThumbFilename(String imageThumbFilename) {
+		this.imageThumbFilename = imageThumbFilename;
 	}
 
 	/**
