@@ -1675,19 +1675,38 @@ public class ParticipantSessionObject {
 
 					actorOnScratchPad.setImageFilename(mpr.getOriginalFileName("uploadedfile"));
 
-					for (Enumeration e = mpr.getFileNames(); e.hasMoreElements();) {
-						String fn = (String) e.nextElement();
+					File fileData = mpr.getFile("uploadedfile");
 
-						File fileData = mpr.getFile(fn);
+					System.out.println("File is " + fileData.length());
 
-						System.out.println("File is " + fileData.length());
+					if (fileData.length() <= max_file_longvalue) {
+						FileIO.saveImageFile("actorImage", actorOnScratchPad.getImageFilename(), mpr
+								.getFile("uploadedfile"));
+					} else {
+						this.errorMsg = "Selected image file too large.";
+						actorOnScratchPad.setImageFilename("no_image_default.jpg");
+					}
 
-						if (fileData.length() <= max_file_longvalue) {
-							FileIO.saveImageFile("actorImage", actorOnScratchPad.getImageFilename(), mpr.getFile(fn));
-						} else {
-							this.errorMsg = "Selected image file too large.";
-							actorOnScratchPad.setImageFilename("no_image_default.jpg");
-						}
+				}
+
+				// ////////////////////////////////////////////
+				// Image portion of save
+				String initThumbFileName = mpr.getOriginalFileName("uploaded_thumb_file");
+
+				if ((initThumbFileName != null) && (initThumbFileName.trim().length() > 0)) {
+
+					actorOnScratchPad.setImageThumbFilename(mpr.getOriginalFileName("uploaded_thumb_file"));
+
+					File fileData = mpr.getFile("uploaded_thumb_file");
+
+					System.out.println("File is " + fileData.length());
+
+					if (fileData.length() <= max_file_longvalue) {
+						FileIO.saveImageFile("actorImage", actorOnScratchPad.getImageThumbFilename(), mpr
+								.getFile("uploaded_thumb_file"));
+					} else {
+						this.errorMsg += "Selected thumbnail image file too large.";
+						actorOnScratchPad.setImageThumbFilename("no_image_default.jpg");
 					}
 
 				}
@@ -2311,71 +2330,65 @@ public class ParticipantSessionObject {
 	 * 
 	 */
 	public void fillReadWriteLists() {
-		// TODO this entire thing needs re-written since when to using dependent object assingments instead
+		// TODO this entire thing needs re-written since when to using dependent
+		// object assingments instead
 		// of keys stored in hashtables.
-		
+
 		/*
-		Simulation sim = this.giveMeSim();
-
-		// Get the list of actors
-		List actorList = sim.getActors(schema);
-
-		List phaseList = sim.getPhases(schema);
-
-		// Loop over phases
-		for (ListIterator plist = phaseList.listIterator(); plist.hasNext();) {
-			SimulationPhase sp = (SimulationPhase) plist.next();
-			// Loop over actors
-			for (ListIterator alist = actorList.listIterator(); alist.hasNext();) {
-				Actor act = (Actor) alist.next();
-
-				System.out.println("checking read write on " + act.getName());
-				List setOfSections = SimulationSection.getBySimAndActorAndPhase(schema, this.sim_id, act.getId(), sp
-						.getId());
-
-				for (ListIterator slist = setOfSections.listIterator(); slist.hasNext();) {
-					SimulationSection ss = (SimulationSection) slist.next();
-
-					CustomizeableSection custSec = CustomizeableSection.getMe(schema, ss.getBase_section_id() + "");
-
-					if (custSec != null) {
-						System.out.println("cs id: " + ss.getBase_section_id());
-						System.out.println("bss rec tab: " + custSec.getRec_tab_heading());
-						System.out.println("can read " + custSec.isConfers_read_ability());
-
-						if (custSec.isConfers_read_ability() == true) {
-							Hashtable storedGoodies = custSec.getContents();
-							String docs = (String) storedGoodies.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-
-							if (docs != null) {
-								String currentActors = (String) ActorsWithReadAccess.get(docs);
-
-								if (currentActors == null) {
-									currentActors = act.getId().toString();
-								} else {
-									currentActors += "," + act.getId();
-								}
-
-								ActorsWithReadAccess.put(docs, currentActors);
-								
-								System.out.println("docs were : " + currentActors);
-							}
-							
-						}
-
-						if (custSec.isConfers_write_ability() == true) {
-							System.out.println("confers read and write");
-							Hashtable storedGoodies = custSec.getContents();
-							String docs = (String) storedGoodies.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-							System.out.println("docs were : " + docs);
-						}
-					}
-					System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-
-				}
-
-			} // End of loop over actors
-		}
+		 * Simulation sim = this.giveMeSim();
+		 * 
+		 * // Get the list of actors List actorList = sim.getActors(schema);
+		 * 
+		 * List phaseList = sim.getPhases(schema);
+		 * 
+		 * // Loop over phases for (ListIterator plist =
+		 * phaseList.listIterator(); plist.hasNext();) { SimulationPhase sp =
+		 * (SimulationPhase) plist.next(); // Loop over actors for (ListIterator
+		 * alist = actorList.listIterator(); alist.hasNext();) { Actor act =
+		 * (Actor) alist.next();
+		 * 
+		 * System.out.println("checking read write on " + act.getName()); List
+		 * setOfSections = SimulationSection.getBySimAndActorAndPhase(schema,
+		 * this.sim_id, act.getId(), sp .getId());
+		 * 
+		 * for (ListIterator slist = setOfSections.listIterator();
+		 * slist.hasNext();) { SimulationSection ss = (SimulationSection)
+		 * slist.next();
+		 * 
+		 * CustomizeableSection custSec = CustomizeableSection.getMe(schema,
+		 * ss.getBase_section_id() + "");
+		 * 
+		 * if (custSec != null) { System.out.println("cs id: " +
+		 * ss.getBase_section_id()); System.out.println("bss rec tab: " +
+		 * custSec.getRec_tab_heading()); System.out.println("can read " +
+		 * custSec.isConfers_read_ability());
+		 * 
+		 * if (custSec.isConfers_read_ability() == true) { Hashtable
+		 * storedGoodies = custSec.getContents(); String docs = (String)
+		 * storedGoodies.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
+		 * 
+		 * if (docs != null) { String currentActors = (String)
+		 * ActorsWithReadAccess.get(docs);
+		 * 
+		 * if (currentActors == null) { currentActors = act.getId().toString();
+		 * } else { currentActors += "," + act.getId(); }
+		 * 
+		 * ActorsWithReadAccess.put(docs, currentActors);
+		 * 
+		 * System.out.println("docs were : " + currentActors); }
+		 * 
+		 * }
+		 * 
+		 * if (custSec.isConfers_write_ability() == true) {
+		 * System.out.println("confers read and write"); Hashtable storedGoodies
+		 * = custSec.getContents(); String docs = (String)
+		 * storedGoodies.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
+		 * System.out.println("docs were : " + docs); } }
+		 * System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		 * 
+		 * }
+		 * 
+		 * } // End of loop over actors }
 		 */
 	}
 

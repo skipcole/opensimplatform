@@ -173,6 +173,11 @@
                 Choose an image file to upload: 
                 <input name="uploadedfile" type="file" tabindex="5" /></td>
             </tr>
+            <tr> 
+              <td colspan="3" valign="top">
+                Choose an thumbnail (chat) image file to upload: 
+                <input name="uploaded_thumb_file" type="file" tabindex="5" /></td>
+            </tr>
             <tr>
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>
@@ -199,6 +204,10 @@
     <% 
 if ((actorOnScratchPad.getImageFilename() != null) && (actorOnScratchPad.getImageFilename().trim().length() > 0)){ %>
     <img src="../osp_core/images/actors/<%= actorOnScratchPad.getImageFilename() %>">
+    <% } %>
+        <% 
+if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.getImageThumbFilename().trim().length() > 0)){ %>
+    <img src="../osp_core/images/actors/<%= actorOnScratchPad.getImageThumbFilename() %>">
     <% } %>
 
     <hr />
