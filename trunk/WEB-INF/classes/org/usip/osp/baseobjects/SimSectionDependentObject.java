@@ -41,4 +41,17 @@ public interface SimSectionDependentObject {
 	 * @return
 	 */
 	public Long getId();
+	
+	/**
+	 * Returns the transit id of the object when moving it across databases.
+	 * @return
+	 */
+	public Long getTransit_id();
+
+	/**
+	 * Allows the setting of transit ids when moving object across databases.
+	 * @param transit_id
+	 */
+	public void setTransit_id(Long transit_id);
+	
 }

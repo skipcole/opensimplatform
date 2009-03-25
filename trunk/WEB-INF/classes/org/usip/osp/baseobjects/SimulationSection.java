@@ -130,8 +130,6 @@ public class SimulationSection {
 	@Column(name = "ADDED_AS_UNIV")
 	private boolean addedAsUniversalSection = false;
 	
-	private boolean removedUniversal = false;
-
 	/**
 	 * Used to indicate if this section has been added as a subsection.
 	 * Subsections do not have a tab position, but are called for, by id, by the

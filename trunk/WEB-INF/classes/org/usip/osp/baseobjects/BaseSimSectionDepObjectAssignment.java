@@ -196,7 +196,7 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param bssdoa
 	 * @return
 	 */
-	public static Object pullOutObject(String schema, BaseSimSectionDepObjectAssignment bssdoa) {
+	public static SimSectionDependentObject pullOutObject(String schema, BaseSimSectionDepObjectAssignment bssdoa) {
 
 		Object obj = null;
 
@@ -211,7 +211,7 @@ public class BaseSimSectionDepObjectAssignment {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-		return obj;
+		return (SimSectionDependentObject) obj;
 	}
 
 	/** Database id of this SSRSDOA. */
@@ -242,6 +242,17 @@ public class BaseSimSectionDepObjectAssignment {
 	 * name and not an index.
 	 */
 	private String uniqueTagName;
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
 
 	public Long getId() {
 		return id;

@@ -32,13 +32,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Table(name = "SHARED_DOCUMENTS")
 public class SharedDocument implements SimSectionDependentObject {
 
-	/**
-	 * When store document id(s) in the hashtable of a custom section, this is
-	 * the key to retrieve them.
-	 */
-	public static final String DOCS_IN_HASHTABLE_KEY = "doc_ids";
-
-	/** Database id of this Running Simulation. */
+	/** Database id of this Shared Document. */
 	@Id
 	@GeneratedValue
 	@Column(name = "SD_ID")
@@ -75,6 +69,17 @@ public class SharedDocument implements SimSectionDependentObject {
 	/** Any text that will start in here for the actor to work with. */
 	private String docStarterText = "";
 
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -191,6 +196,9 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	/**
+	 * This returns the 'base' documents for a simulation. A 'base' document is
+	 * the archatypal document that is copied into a version to be edited in a
+	 * particular running simulation.
 	 * 
 	 * @param schema
 	 *            Schema in which to search.
@@ -202,28 +210,13 @@ public class SharedDocument implements SimSectionDependentObject {
 	public static List getAllBaseDocumentsForSim(String schema, Long the_sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		List returnList = getAllBaseDocumentsForSim(MultiSchemaHibernateUtil.getSession(schema), the_sim_id);
+		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() + " AND RS_ID is null";
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 
-	}
-
-	/**
-	 * This returns the 'base' documents for a simulation. A 'base' document is
-	 * the archtypal document that is copied into a version to be edited in a
-	 * particular running simulation.
-	 * 
-	 * @param hibernate_session
-	 * @param the_sim_id
-	 * @return
-	 */
-	public static List getAllBaseDocumentsForSim(org.hibernate.Session hibernate_session, Long the_sim_id) {
-
-		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() + " AND RS_ID is null";
-		List returnList = hibernate_session.createQuery(hql_string).list();
-
-		return returnList;
 	}
 
 	/**
