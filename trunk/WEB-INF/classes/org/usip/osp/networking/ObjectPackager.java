@@ -2,6 +2,7 @@ package org.usip.osp.networking;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -35,7 +36,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 public class ObjectPackager {
 
-	public static final String ObjectDelimiter = "<------------------------------------------>\r\n";
+	public static final String lineTerminator = "\r\n";
 
 	public static void main(String[] args) {
 
@@ -95,22 +96,19 @@ public class ObjectPackager {
 		sim.setTransit_id(sim.getId());
 		sim.setId(null);
 
-		String returnString = xstream.toXML(sim);
+		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>\r\n";
+		
+		returnString += xstream.toXML(sim);
 
-		returnString += "<------------------------------------------------------->";
-		returnString += packageActors(schema, sim.getTransit_id(), xstream);
-		returnString += "<------------------------------------------------------->";
-		returnString += packagePhases(schema, sim.getTransit_id(), xstream);
-		returnString += "<------------------------------------------------------->";
-		returnString += packageInjects(schema, sim.getTransit_id(), xstream);
-		returnString += "<------------------------------------------------------->";
-		returnString += packageBaseSimSectionInformation(schema, sim.getTransit_id(), xstream);
-		returnString += "<------------------------------------------------------->";
-		returnString += packageSimSectionInformation(schema, sim.getTransit_id(), xstream);
-		returnString += "<------------------------------------------------------->";
-		returnString += packageSimObjectInformation(schema, sim.getTransit_id(), xstream);
-		returnString += "<------------------------------------------------------->";
+		returnString += packageActors(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packagePhases(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packageInjects(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packageBaseSimSectionInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packageSimSectionInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packageSimObjectInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 
+		returnString += "/SIM_PACKAGE_OBJECT>";
+		
 		return returnString;
 
 	}
@@ -133,7 +131,7 @@ public class ObjectPackager {
 			thisSection.setTransit_id(thisSection.getId());
 			thisSection.setId(null);
 
-			returnString += xstream.toXML(thisSection);
+			returnString += xstream.toXML(thisSection) + lineTerminator;
 		}
 
 		return returnString;
@@ -166,7 +164,7 @@ public class ObjectPackager {
 			bssdoa.setTransit_id(bssdoa.getId());
 			bssdoa.setId(null);
 
-			returnString += xstream.toXML(bssdoa);
+			returnString += xstream.toXML(bssdoa) + lineTerminator;
 
 			// We need to make sure that an object is not saved multiple times
 			// to the xml
@@ -180,7 +178,7 @@ public class ObjectPackager {
 				depObj.setTransit_id(depObj.getId());
 				depObj.setId(null);
 
-				returnString += xstream.toXML(depObj);
+				returnString += xstream.toXML(depObj) + lineTerminator;
 			}
 
 		}
@@ -209,14 +207,14 @@ public class ObjectPackager {
 			if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.BaseSimSection")) {
 				bss.setTransit_id(bss.getId());
 				bss.setId(null);
-				returnString += xstream.toXML(bss);
+				returnString += xstream.toXML(bss) + lineTerminator;
 			} else if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.CustomizeableSection")) {
 
 				bss = null;
 				CustomizeableSection cbss = CustomizeableSection.getMe(schema, thisBaseId.toString());
 				cbss.setTransit_id(cbss.getId());
 				cbss.setId(null);
-				returnString += xstream.toXML(cbss);
+				returnString += xstream.toXML(cbss) + lineTerminator;
 			} else {
 				System.out.println("Warning in Object Packager. Unknown object.");
 			}
@@ -244,7 +242,7 @@ public class ObjectPackager {
 			thisInjectGroup.setTransit_id(thisInjectGroup.getId());
 			thisInjectGroup.setId(null);
 
-			returnString += xstream.toXML(thisInjectGroup);
+			returnString += xstream.toXML(thisInjectGroup) + lineTerminator;
 
 			List<Inject> allInjects = Inject.getAllForSimAndGroup(schema, sim_id, thisInjectGroup.getTransit_id());
 
@@ -254,7 +252,7 @@ public class ObjectPackager {
 				thisInject.setTransit_id(thisInject.getId());
 				thisInject.setId(null);
 
-				returnString += xstream.toXML(thisInject);
+				returnString += xstream.toXML(thisInject) + lineTerminator;
 
 			}
 		}
@@ -278,7 +276,7 @@ public class ObjectPackager {
 			thisActor.setTransit_id(thisActor.getId());
 			thisActor.setId(null);
 
-			returnString += xstream.toXML(thisActor);
+			returnString += xstream.toXML(thisActor)  + lineTerminator;
 		}
 		return returnString;
 	}
@@ -300,7 +298,7 @@ public class ObjectPackager {
 			thisPhase.setTransit_id(thisPhase.getId());
 			thisPhase.setId(null);
 
-			returnString += xstream.toXML(thisPhase);
+			returnString += xstream.toXML(thisPhase) + lineTerminator;
 		}
 		return returnString;
 	}
@@ -847,6 +845,11 @@ public class ObjectPackager {
 				exitLoop = true;
 			}
 		}
+		
+		// Since the above get things from the end of the file and works backwards, we reverse the order
+		// to make the imported objects come in in the same order in which they were exported.
+		Collections.reverse(returnList);
+		
 		return returnList;
 
 	}

@@ -154,7 +154,7 @@ public class BaseSimSectionDepObjectAssignment {
 	 */
 	public static List getSimDependencies(String schema, Long sim_id) {
 
-		String getString = "from BaseSimSectionDepObjectAssignment where sim_id = '" + sim_id + "'";
+		String getString = "from BaseSimSectionDepObjectAssignment where sim_id = '" + sim_id + "' order by id";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 

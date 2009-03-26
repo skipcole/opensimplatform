@@ -165,7 +165,7 @@ public class SimPhaseAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		List<SimPhaseAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from SimPhaseAssignment where sim_id = " + sim_id).list();
+				"from SimPhaseAssignment where sim_id = " + sim_id + " order by phase_id").list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
