@@ -104,7 +104,7 @@ public class InjectGroup {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from InjectGroup where SIM_ID = " + sim_id).list();
+				"from InjectGroup where SIM_ID = " + sim_id + " order by injectclass_id").list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

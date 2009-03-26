@@ -178,7 +178,7 @@ public class SimActorAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		List<SimActorAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from SimActorAssignment where sim_id = " + sim_id).list();
+				"from SimActorAssignment where sim_id = " + sim_id + " order by id").list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		

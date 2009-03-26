@@ -236,6 +236,7 @@ public class Simulation {
 		CustomizeableSection scheduleSection = scheduleSectionBase.makeCopy(schema);
 		
 		scheduleSection.setUniqueName("Schedule");
+		scheduleSection.setDescription("A place for the players to read the schedule.");
 		
 		// Add the schedule page
 		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId());

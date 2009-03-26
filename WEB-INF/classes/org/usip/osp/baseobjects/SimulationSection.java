@@ -372,8 +372,8 @@ public class SimulationSection {
 			return new ArrayList<Long>();
 		} else {
 
-			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSection ss where SIM_ID = " + sid.toString(); //
-			// + " order by base_sec_id";
+			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSection ss where SIM_ID = " + sid.toString()
+			+ " order by ss.base_sec_id";
 
 			System.out.println(getHQL);
 
@@ -433,7 +433,7 @@ public class SimulationSection {
 			return new ArrayList<SimulationSection>();
 		} else {
 
-			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString();
+			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString() + "order by simsec_id";
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
