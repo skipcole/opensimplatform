@@ -235,9 +235,11 @@ public class Simulation {
 		
 		CustomizeableSection scheduleSection = scheduleSectionBase.makeCopy(schema);
 		
+		scheduleSection.setUniqueName("Schedule");
+		
 		// Add the schedule page
 		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId());
-		sd.save(schema);
+		sd.saveMe(schema);
 			
 		// need to associate with it the schedule document 
 		BaseSimSectionDepObjectAssignment bssdoa = 

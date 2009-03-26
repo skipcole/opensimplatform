@@ -895,7 +895,7 @@ public class PSO_SectionMgmt {
 				
 			}
 			
-			conv.save(pso.schema);
+			conv.saveMe(pso.schema);
 
 			customizableSectionOnScratchPad.save(pso.schema);
 
@@ -993,7 +993,7 @@ public class PSO_SectionMgmt {
 						conv.setSim_id(pso.sim_id);
 						conv.setConversation_type(Conversation.TYPE_PRIVATE);
 						conv.setConversation_name("One on One");
-						conv.save(pso.schema);
+						conv.saveMe(pso.schema);
 
 						ConvActorAssignment caa = new ConvActorAssignment();
 						caa.setActor_id(actorWithChat);
@@ -1136,7 +1136,7 @@ public class PSO_SectionMgmt {
 				System.out.println("shared doc id is : " + sd.getId() + "");
 				String sim_schedule = (String) request.getParameter("sim_schedule");
 				sd.setBigString(sim_schedule);
-				sd.save(pso.schema);
+				sd.saveMe(pso.schema);
 
 			}
 		}

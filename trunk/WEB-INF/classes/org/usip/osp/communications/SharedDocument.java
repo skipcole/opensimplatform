@@ -189,7 +189,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	 * 
 	 * @param schema
 	 */
-	public void save(String schema) {
+	public void saveMe(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -217,53 +217,6 @@ public class SharedDocument implements SimSectionDependentObject {
 
 		return returnList;
 
-	}
-
-	/**
-	 * This method looks up a document in a particular schema for a particular
-	 * running simulation. If it does not find one, it attempts to create one by
-	 * making a copy of the archetype document. This copy should have already
-	 * been made during the 'enable sim' step, since allowing for the document
-	 * to be created the first time anyone goes to access it, runs the risk of
-	 * two people doing that at the same time and running into a clash.
-	 * 
-	 * @param schema
-	 *            Schema in which to search for the document.
-	 * @param base_id
-	 *            Base id of the document being looked for.
-	 * @param rs_id
-	 *            Running Simulation id of the document being looked for.
-	 * @return Returns the document located in this schema with the base id and
-	 *         running sim id passed in.
-	 */
-	public static SharedDocument DEFUNCTgetDocumentByBaseId(String schema, Long base_id, Long rs_id) {
-
-		SharedDocument sd = new SharedDocument();
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		String hql_string = "from SharedDocument where BASE_ID = " + base_id + " AND RS_ID = " + rs_id;
-
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
-
-		if ((returnList == null) || (returnList.size() == 0)) {
-			// original should have been copied in the 'enable' sim phase.
-			// We do it there to keep from two people doing it at the same time.
-			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			Logger.getRootLogger().warn("No shared document found. It should have be created at the enable step.");
-			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			SharedDocument baseDoc = (SharedDocument) MultiSchemaHibernateUtil.getSession(schema).get(
-					SharedDocument.class, base_id);
-
-			sd = baseDoc.createCopy(rs_id, MultiSchemaHibernateUtil.getSession(schema));
-
-		} else {
-			sd = (SharedDocument) returnList.get(0);
-		}
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return sd;
 	}
 
 	/**
@@ -333,6 +286,8 @@ public class SharedDocument implements SimSectionDependentObject {
 	@Override
 	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
 
+		Logger.getRootLogger().warn("Creating shared document for running sim : " + rs_id);
+
 		SharedDocument templateSD = (SharedDocument) templateObject;
 
 		SharedDocument sd = new SharedDocument();
@@ -345,7 +300,7 @@ public class SharedDocument implements SimSectionDependentObject {
 		sd.setSim_id(sim_id);
 		sd.setUniqueDocTitle(templateSD.getUniqueDocTitle());
 
-		sd.save(schema);
+		sd.saveMe(schema);
 
 		return sd.getId();
 	}
