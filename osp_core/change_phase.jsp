@@ -77,7 +77,7 @@
             </tr>
        <%
 	   
-	   List phaseList = new SimulationPhase().getAllForSim(pso.schema, pso.sim_id);
+	   List phaseList = SimulationPhase.getAllForSim(pso.schema, pso.sim_id);
 	   
 		for (ListIterator li = phaseList.listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();

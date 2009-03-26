@@ -400,7 +400,7 @@ public class Conversation implements SimSectionDependentObject {
 		// Create the new conversation.
 		Conversation new_conv = new Conversation();
 		new_conv.setConversation_name(templateConv.getConversation_name());
-		new_conv.save(schema);
+		new_conv.saveMe(schema);
 
 		List<ConvActorAssignment> modifiedAssignments = new ArrayList<ConvActorAssignment>();
 		// Loop over the assignments gotten, and change the conversation id
@@ -428,7 +428,7 @@ public class Conversation implements SimSectionDependentObject {
 		new_conv.setRs_id(rs_id);
 		new_conv.setSim_id(sim_id);
 
-		new_conv.save(schema);
+		new_conv.saveMe(schema);
 
 		return new_conv.getId();
 	}
@@ -460,7 +460,7 @@ public class Conversation implements SimSectionDependentObject {
 	 * 
 	 * @param schema
 	 */
-	public void save(String schema) {
+	public void saveMe(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

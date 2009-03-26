@@ -43,6 +43,11 @@ public interface SimSectionDependentObject {
 	public Long getId();
 	
 	/**
+	 * Allows the setting of the id of the dependent objected. (Needed when packaging into XML.)
+	 */
+	public void setId(Long theId);
+	
+	/**
 	 * Returns the transit id of the object when moving it across databases.
 	 * @return
 	 */
@@ -53,5 +58,8 @@ public interface SimSectionDependentObject {
 	 * @param transit_id
 	 */
 	public void setTransit_id(Long transit_id);
+	
+	
+	public void saveMe(String schema);
 	
 }

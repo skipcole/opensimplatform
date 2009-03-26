@@ -201,7 +201,7 @@ public class RunningSimulation {
 					
 					// Create object
 					thisRSVersionsId = template_obj.createRunningSimVersion(schema, 
-							bssdoa.getObjectId(), this.id, template_obj);
+							sim.getId(), this.id, template_obj);
 					
 				} catch (Exception er) {
 					er.printStackTrace();
