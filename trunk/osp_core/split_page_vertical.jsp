@@ -14,16 +14,16 @@
 		return;
 	}
 	
-	//SimulationSection ss = (SimulationSection) simSecList.get(tabpos - 1);
+	//SimulationSection ss = (SimulationSectionAssignment) simSecList.get(tabpos - 1);
 	//String leftFrame = ss.generateURLforBottomFrame(running_sim_id, actor_id, user_id);
 	String cs_id = (String) request.getParameter("cs_id");
 	System.out.println("cs id was : " + cs_id);
 	
-	SimulationSection sLeft =  SimulationSection.getSubSection(pso.schema, new Long (cs_id), 1 , pso.sim_id,
+	SimulationSection sLeft =  SimulationSectionAssignment.getSubSection(pso.schema, new Long (cs_id), 1 , pso.sim_id,
 			pso.actor_id, pso.phase_id);
 			
 		
-	SimulationSection sRight =  SimulationSection.getSubSection(pso.schema, new Long (cs_id), 2 , pso.sim_id,
+	SimulationSection sRight =  SimulationSectionAssignment.getSubSection(pso.schema, new Long (cs_id), 2 , pso.sim_id,
 			pso.actor_id, pso.phase_id);
 	
 	String leftFrame = "../simulation/frame_bottom.jsp";

@@ -244,7 +244,7 @@ public class MasterTester extends BaseTester{
     public static String testSectionCreation(){
         String returnString = makeHeader("Making Sections");
         
-        SimulationSection gsb = new SimulationSection();
+        SimulationSectionAssignment gsb = new SimulationSectionAssignment();
         
         //gsb.section_short_name = "funding";
         gsb.setTab_heading("Funding");
@@ -316,7 +316,7 @@ public class MasterTester extends BaseTester{
     public static String testAssignSharedDocSection(){
         
         String returnString = makeHeader("Assigning sim variable chart to user.");
-        SimulationSection gs = new SimulationSection();
+        SimulationSectionAssignment gs = new SimulationSectionAssignment();
         
         // TODO
         
@@ -362,10 +362,10 @@ public class MasterTester extends BaseTester{
         
         // TODO
         
-        SimulationSection gs_base = null;
+        SimulationSectionAssignment gs_base = null;
         //GameSection.getBase(pc1.gs.id);
         
-        SimulationSection gs = new SimulationSection();
+        SimulationSectionAssignment gs = new SimulationSectionAssignment();
         
             
         //returnString += " : " + gs.store();
@@ -379,10 +379,10 @@ public class MasterTester extends BaseTester{
         String returnString = makeHeader("Assigning Player Budget Transfer Control to user.");
         
         // TODO
-        SimulationSection gs_base = null;
+        SimulationSectionAssignment gs_base = null;
         //GameSection.getBase(pcbt1.gs.id);
         
-        SimulationSection gs = new SimulationSection();
+        SimulationSectionAssignment gs = new SimulationSectionAssignment();
         
         //gs.game_id = testGame1.id;
         // TODO

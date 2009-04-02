@@ -48,10 +48,10 @@
               <td valign="top">
               <select name="select_left" id="select">
               	<%
-					List allList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_being_worked_on_id, pso.phase_id, true);
+					List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_being_worked_on_id, pso.phase_id, true);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
-					SimulationSection ss = (SimulationSection) li.next();
+					SimulationSection ss = (SimulationSectionAssignment) li.next();
 				%>
                 <option value="<%= ss.getId() %>"><%= ss.getTab_heading() %></option>
               	<%
@@ -66,10 +66,10 @@
               <td valign="top">
                             <select name="select_right" id="select">
               	<%
-					// List allList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_id, pso.phase_id);
+					// List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_id, pso.phase_id);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
-					SimulationSection ss = (SimulationSection) li.next();
+					SimulationSection ss = (SimulationSectionAssignment) li.next();
 				%>
                 <option value="<%= ss.getId() %>"><%= ss.getTab_heading() %></option>
               	<%

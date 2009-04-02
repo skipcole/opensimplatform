@@ -271,7 +271,7 @@ public class PSO_SectionMgmt {
 
 		pso.actor_being_worked_on_id = new Long(0);
 
-		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id,
+		pso.tempSimSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id,
 				pso.actor_being_worked_on_id, phase_being_worked_on_id);
 
 		return simulation;
@@ -346,10 +346,10 @@ public class PSO_SectionMgmt {
 				System.out.println("doing something on index = " + m_index);
 
 				int int_tab_pos = new Long(m_index).intValue() + 1;
-				SimulationSection ss0 = SimulationSection.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
+				SimulationSectionAssignment ss0 = SimulationSectionAssignment.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
 						new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), int_tab_pos);
 
-				SimulationSection ss1 = SimulationSection.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
+				SimulationSectionAssignment ss1 = SimulationSectionAssignment.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
 						new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), int_tab_pos + 1);
 
 				ss0.setTab_position(int_tab_pos + 1);
@@ -370,10 +370,10 @@ public class PSO_SectionMgmt {
 				System.out.println("doing something on index = " + m_index);
 
 				int int_tab_pos = new Long(m_index).intValue() + 1;
-				SimulationSection ss0 = SimulationSection.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
+				SimulationSectionAssignment ss0 = SimulationSectionAssignment.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
 						new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), int_tab_pos);
 
-				SimulationSection ss1 = SimulationSection.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
+				SimulationSectionAssignment ss1 = SimulationSectionAssignment.getBySimAndActorAndPhaseAndPos(pso.schema, pso.sim_id,
 						new Long(pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id), int_tab_pos - 1);
 
 				ss0.setTab_position(int_tab_pos - 1);
@@ -393,7 +393,7 @@ public class PSO_SectionMgmt {
 
 		System.out.println("getting simSecList for s/a/p:   " + pso.sim_id + "/" + pso.actor_being_worked_on_id + "/"
 				+ phase_being_worked_on_id);
-		pso.tempSimSecList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id,
+		pso.tempSimSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id,
 				pso.actor_being_worked_on_id, phase_being_worked_on_id);
 
 		return simulation;
@@ -472,13 +472,13 @@ public class PSO_SectionMgmt {
 
 		Long this_tab_pos = getTabPos();
 
-		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
+		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
 				new Long(phase_being_worked_on_id), new Long(_bss_id), _tab_heading, this_tab_pos.intValue());
 
 		if (universal) {
 			System.out.println("applying universal page");
 			Simulation simulation = pso.giveMeSim();
-			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema, simulation.getId(),
+			SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(pso.schema, simulation.getId(),
 					phase_being_worked_on_id);
 		}
 
@@ -496,7 +496,7 @@ public class PSO_SectionMgmt {
 			this_tab_pos = new Long(_tab_pos);
 		} catch (NumberFormatException nfe) {
 
-			this_tab_pos = SimulationSection.getHighestBySimAndActorAndPhase(pso.schema, pso.sim_id, new Long(
+			this_tab_pos = SimulationSectionAssignment.getHighestBySimAndActorAndPhase(pso.schema, pso.sim_id, new Long(
 					pso.actor_being_worked_on_id), new Long(phase_being_worked_on_id));
 			System.out.println("problem converting tab position: " + nfe.getMessage());
 		}
@@ -520,12 +520,12 @@ public class PSO_SectionMgmt {
 		System.out.println("tabhead " + tab_heading);
 		System.out.println("universal " + universal);
 
-		SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
+		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
 				new Long(phase_being_worked_on_id), bss_id, tab_heading, getTabPos().intValue());
 
 		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
 			System.out.println("applying sim sections on phase: " + phase_being_worked_on_id);
-			SimulationSection.applyUniversalSectionsToAllActorsForPhase(pso.schema, pso.sim_id,
+			SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(pso.schema, pso.sim_id,
 					phase_being_worked_on_id);
 		}
 
@@ -759,8 +759,8 @@ public class PSO_SectionMgmt {
 			
 			// Need to get the simulation section referenced, mark it as a subsection 
 			
-			SimulationSection leftSect = SimulationSection.getMe(pso.schema, new Long (select_left));
-			SimulationSection rightSect = SimulationSection.getMe(pso.schema, new Long (select_right));
+			SimulationSectionAssignment leftSect = SimulationSectionAssignment.getMe(pso.schema, new Long (select_left));
+			SimulationSectionAssignment rightSect = SimulationSectionAssignment.getMe(pso.schema, new Long (select_right));
 			
 			// Need to set them as sub sections
 			leftSect.setSimSubSection(true);
@@ -774,14 +774,14 @@ public class PSO_SectionMgmt {
 			rightSect.save(pso.schema);
 			
 			// Need to reorder the list
-			SimulationSection.reorder(pso.schema, pso.sim_id, pso.actor_being_worked_on_id, pso.phase_id);
+			SimulationSectionAssignment.reorder(pso.schema, pso.sim_id, pso.actor_being_worked_on_id, pso.phase_id);
 			
 			// Update page values
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 
 			if (save_and_add != null) {
-				SimulationSection ss0 = new SimulationSection(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
+				SimulationSectionAssignment ss0 = new SimulationSectionAssignment(pso.schema, pso.sim_id, new Long(pso.actor_being_worked_on_id),
 						new Long(phase_being_worked_on_id), customizableSectionOnScratchPad.getId(), _tab_heading, getTabPos().intValue());
 				
 				// send them back
@@ -902,7 +902,7 @@ public class PSO_SectionMgmt {
 			if (save_and_add != null) {
 
 				// add section to the applicable actors
-				SimulationSection.applySectionsToSomeActors(pso.schema, sim, this.phase_being_worked_on_id,
+				SimulationSectionAssignment.applySectionsToSomeActors(pso.schema, sim, this.phase_being_worked_on_id,
 						customizableSectionOnScratchPad.getId(), _tab_heading, conv.getConv_actor_assigns(pso.schema));
 				// send them back
 				pso.forward_on = true;
@@ -1022,7 +1022,7 @@ public class PSO_SectionMgmt {
 			if (save_and_add != null) {
 
 				// add section to the applicable actors
-				SimulationSection.applySectionToSpecificActors(pso.schema, pso.sim_id, this.phase_being_worked_on_id,
+				SimulationSectionAssignment.applySectionToSpecificActors(pso.schema, pso.sim_id, this.phase_being_worked_on_id,
 						customizableSectionOnScratchPad.getId(), _tab_heading, playersWithChat);
 				// send them back
 				pso.forward_on = true;

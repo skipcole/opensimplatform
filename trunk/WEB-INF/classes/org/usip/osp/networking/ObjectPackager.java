@@ -1,8 +1,10 @@
 package org.usip.osp.networking;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -98,6 +100,13 @@ public class ObjectPackager {
 
 		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>\r\n";
 		
+		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRawValue("release") + "</OSP_VERSION>";
+		
+		Date today = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		
+		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>";
+		
 		returnString += xstream.toXML(sim);
 
 		returnString += packageActors(schema, sim.getTransit_id(), xstream) + lineTerminator;
@@ -124,9 +133,9 @@ public class ObjectPackager {
 
 		String returnString = "";
 
-		for (ListIterator<SimulationSection> li = SimulationSection.getBySim(schema, sim_id).listIterator(); li
+		for (ListIterator<SimulationSectionAssignment> li = SimulationSectionAssignment.getBySim(schema, sim_id).listIterator(); li
 				.hasNext();) {
-			SimulationSection thisSection = li.next();
+			SimulationSectionAssignment thisSection = li.next();
 
 			thisSection.setTransit_id(thisSection.getId());
 			thisSection.setId(null);
@@ -197,7 +206,7 @@ public class ObjectPackager {
 
 		String returnString = "";
 		// Get list of base section ids
-		List setOfBaseSections = SimulationSection.getBaseIdsBySim(schema, sim_id);
+		List setOfBaseSections = SimulationSectionAssignment.getBaseIdsBySim(schema, sim_id);
 
 		for (ListIterator<Long> li = setOfBaseSections.listIterator(); li.hasNext();) {
 			Long thisBaseId = li.next();
@@ -529,7 +538,7 @@ public class ObjectPackager {
 		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
 			String act_string = li_i.next();
 
-			SimulationSection this_ss = (SimulationSection) xstream.fromXML(act_string);
+			SimulationSectionAssignment this_ss = (SimulationSectionAssignment) xstream.fromXML(act_string);
 
 			this_ss.setSim_id(sim_id);
 			this_ss.setActor_id((Long) actorIdMappings.get(this_ss.getActor_id()));
