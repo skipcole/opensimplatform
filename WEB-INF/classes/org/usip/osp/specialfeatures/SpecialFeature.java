@@ -5,7 +5,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.baseobjects.SimulationSection;
+import org.usip.osp.baseobjects.SimulationSectionAssignment;
 import org.usip.osp.persistence.MysqlDatabase;
 
 /**
@@ -55,7 +55,7 @@ public abstract class SpecialFeature{
     
     /** The game section object used to point the user to the section containing the
      * web page exposing this special feature to the user. */
-    public SimulationSection gs = new SimulationSection();
+    public SimulationSectionAssignment gs = new SimulationSectionAssignment();
     
     /** This is the label that identifies this special feature in the special feature 
      * table. This is not as necessary now that many of the variables are being moved

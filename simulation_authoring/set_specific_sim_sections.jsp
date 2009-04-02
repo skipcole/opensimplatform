@@ -160,7 +160,7 @@ function loadInfo(dropdownlist){
 			
 			////////////////////////////////////////////////////
 			for (ListIterator li = pso.tempSimSecList.listIterator(); li.hasNext();) {
-				SimulationSection ss = (SimulationSection) li.next();
+				SimulationSection ss = (SimulationSectionAssignment) li.next();
 				
 				idByPos.put(ii + "", ss.getId());
 				
@@ -172,7 +172,7 @@ function loadInfo(dropdownlist){
 			int first_ss = 0;
 			
 			for (ListIterator li = pso.tempSimSecList.listIterator(); li.hasNext();) {
-				SimulationSection ss = (SimulationSection) li.next();
+				SimulationSection ss = (SimulationSectionAssignment) li.next();
 				
 				int sec_ss = ss.getId().intValue();
 				
@@ -196,7 +196,7 @@ function loadInfo(dropdownlist){
 		  	ii = 0;
 			
 			for (ListIterator li = pso.tempSimSecList.listIterator(); li.hasNext();) {
-				SimulationSection ss = (SimulationSection) li.next();
+				SimulationSection ss = (SimulationSectionAssignment) li.next();
 		  %>
                   <% if (ii > 0) { %>
                   <td>&nbsp;</td>

@@ -168,10 +168,10 @@ public class ParticipantSessionObject {
 		}
 
 		try {
-			List simSecList = SimulationSection.getBySimAndActorAndPhase(schema, sim_id, actor_id, phase_id);
+			List simSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(schema, sim_id, actor_id, phase_id);
 
 			if (tabpos <= simSecList.size()) {
-				SimulationSection ss = (SimulationSection) simSecList.get(tabpos - 1);
+				SimulationSectionAssignment ss = (SimulationSectionAssignment) simSecList.get(tabpos - 1);
 				bottomFrame = ss.generateURLforBottomFrame(running_sim_id, actor_id, user_id);
 			}
 
@@ -516,11 +516,11 @@ public class ParticipantSessionObject {
 
 			} else if (objectType.equalsIgnoreCase("sim_section")) {
 				MultiSchemaHibernateUtil.beginTransaction(schema);
-				SimulationSection ss = (SimulationSection) MultiSchemaHibernateUtil.getSession(schema).get(
-						SimulationSection.class, o_id);
+				SimulationSectionAssignment ss = (SimulationSectionAssignment) MultiSchemaHibernateUtil.getSession(schema).get(
+						SimulationSectionAssignment.class, o_id);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-				SimulationSection.removeAndReorder(schema, ss);
+				SimulationSectionAssignment.removeAndReorder(schema, ss);
 
 			} else if (objectType.equalsIgnoreCase("user_assignment")) {
 				MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -1279,12 +1279,12 @@ public class ParticipantSessionObject {
 			returnList = new ArrayList<SimulationSectionGhost>();
 
 			// Get full list from database hit
-			List<SimulationSection> fullList = SimulationSection.getBySimAndActorAndPhase(schema, sim_id, actor_id,
+			List<SimulationSectionAssignment> fullList = SimulationSectionAssignment.getBySimAndActorAndPhase(schema, sim_id, actor_id,
 					phase_id);
 
 			// Copy the needed parts of that list into the ghosts
-			for (ListIterator<SimulationSection> li = fullList.listIterator(); li.hasNext();) {
-				SimulationSection ss = li.next();
+			for (ListIterator<SimulationSectionAssignment> li = fullList.listIterator(); li.hasNext();) {
+				SimulationSectionAssignment ss = li.next();
 
 				SimulationSectionGhost ssg = new SimulationSectionGhost();
 
@@ -1740,7 +1740,7 @@ public class ParticipantSessionObject {
 
 					saa.saveMe(schema);
 
-					SimulationSection.applyAllUniversalSections(schema, sim_id);
+					SimulationSectionAssignment.applyAllUniversalSections(schema, sim_id);
 
 				}
 
@@ -2153,7 +2153,7 @@ public class ParticipantSessionObject {
 
 		SimActorAssignment saa = new SimActorAssignment(schema, s_id, a_id);
 
-		SimulationSection.applyAllUniversalSections(schema, s_id);
+		SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
 
 	}
 
@@ -2348,11 +2348,11 @@ public class ParticipantSessionObject {
 		 * (Actor) alist.next();
 		 * 
 		 * System.out.println("checking read write on " + act.getName()); List
-		 * setOfSections = SimulationSection.getBySimAndActorAndPhase(schema,
+		 * setOfSections = SimulationSectionAssignment.getBySimAndActorAndPhase(schema,
 		 * this.sim_id, act.getId(), sp .getId());
 		 * 
 		 * for (ListIterator slist = setOfSections.listIterator();
-		 * slist.hasNext();) { SimulationSection ss = (SimulationSection)
+		 * slist.hasNext();) { SimulationSection ss = (SimulationSectionAssignment)
 		 * slist.next();
 		 * 
 		 * CustomizeableSection custSec = CustomizeableSection.getMe(schema,

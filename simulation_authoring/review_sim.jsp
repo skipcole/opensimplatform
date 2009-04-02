@@ -186,9 +186,9 @@ function showHide(name){
 		                <tr valign="top"><td valign="top" bgcolor="#44AAFF"> <%= sp.getName() %></td></tr>
 		                
 		                <%
-					List secsList = SimulationSection.getBySimAndActorAndPhase(pso.schema, pso.sim_id, new Long(0), sp.getId());
+					List secsList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, new Long(0), sp.getId());
 					for (ListIterator secsli = secsList.listIterator(); secsli.hasNext();) {
-						SimulationSection thisSecs = (SimulationSection) secsli.next();
+						SimulationSection thisSecs = (SimulationSectionAssignment) secsli.next();
 				%>
 		                <tr valign="top"><td width="200">&nbsp;&nbsp;<%= thisSecs.getTab_heading() %> </td></tr>
 		                
@@ -224,7 +224,7 @@ function showHide(name){
 		      <h2>11. Simulation Specific Sections </h2>
 		      <blockquote>
 		        <p>
-		          <% for (ListIterator bss = SimulationSection.getDistinctSectionsForSim(pso.schema, pso.sim_id).listIterator(); bss.hasNext();) {
+		          <% for (ListIterator bss = SimulationSectionAssignment.getDistinctSectionsForSim(pso.schema, pso.sim_id).listIterator(); bss.hasNext();) {
 					BaseSimSection this_base = (BaseSimSection) bss.next();
 					
 			  	if (this_base instanceof CustomizeableSection) { 

@@ -225,7 +225,7 @@ public class Simulation {
 		BaseSimSection introSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction");
 		
 		// Add the introduction as the first tab to all players.
-		SimulationSection ss0 = new SimulationSection(schema, this.getId(),
+		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this.getId(),
 				new Long(0), sp_first.getId(), introSection.getId(),
 				"Introduction", 1);
 		
@@ -248,11 +248,11 @@ public class Simulation {
 					schema);
 			
 		// Add the schedule as the second tab to all players.
-		SimulationSection ss1 = new SimulationSection(schema, this.getId(),
+		SimulationSectionAssignment ss1 = new SimulationSectionAssignment(schema, this.getId(),
 				new Long(0), sp_first.getId(), scheduleSection.getId(),
 				"Schedule", 2);
 
-		SimulationSection.applyUniversalSectionsToAllActorsForPhase(schema, this.getId(), sp_first.getId());
+		SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(schema, this.getId(), sp_first.getId());
 		///////////
 		
 		this.saveMe(schema);
@@ -373,7 +373,7 @@ public class Simulation {
 			// Loop over control base sim sections
 			List controlBaseSimSecs = BaseSimSection.getAllControl(schema);
 
-			List<SimulationSection> simSecs = SimulationSection
+			List<SimulationSectionAssignment> simSecs = SimulationSectionAssignment
 					.getBySimAndActorAndPhase(schema, this.id, Actor
 							.getControlActor(schema).getId(), this_sp.getId());
 
@@ -385,9 +385,9 @@ public class Simulation {
 				boolean foundThisControl = false;
 
 				// Loop over sim sections that control has in this phase.
-				for (ListIterator<SimulationSection> ls = simSecs
+				for (ListIterator<SimulationSectionAssignment> ls = simSecs
 						.listIterator(); ls.hasNext();) {
-					SimulationSection ss = (SimulationSection) ls.next();
+					SimulationSectionAssignment ss = (SimulationSectionAssignment) ls.next();
 
 					if (ss.getBase_section_id().compareTo(bss.getId()) == 0) {
 						foundThisControl = true;
@@ -398,7 +398,7 @@ public class Simulation {
 				// then add it.
 				if (!foundThisControl) {
 
-					SimulationSection ss0 = new SimulationSection(schema, this
+					SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this
 							.getId(), controlActor.getId(), this_sp.getId(),
 							bss.getId(), bss.getRec_tab_heading(),
 							sizeOfSimSecs + 1);
