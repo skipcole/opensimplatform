@@ -51,7 +51,7 @@
 					List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_being_worked_on_id, pso.phase_id, true);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
-					SimulationSection ss = (SimulationSectionAssignment) li.next();
+					SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
 				%>
                 <option value="<%= ss.getId() %>"><%= ss.getTab_heading() %></option>
               	<%
@@ -69,7 +69,7 @@
 					// List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_id, pso.phase_id);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
-					SimulationSection ss = (SimulationSectionAssignment) li.next();
+					SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
 				%>
                 <option value="<%= ss.getId() %>"><%= ss.getTab_heading() %></option>
               	<%

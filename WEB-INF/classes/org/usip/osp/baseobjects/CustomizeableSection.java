@@ -222,7 +222,7 @@ public class CustomizeableSection extends BaseSimSection {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
         
-        cs.setPage_file_name(cs.getPage_file_name() + "?cs_id=" + cs.getId());
+        //cs.setPage_file_name(cs.getPage_file_name() + "?cs_id=" + cs.getId());
         MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
         
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

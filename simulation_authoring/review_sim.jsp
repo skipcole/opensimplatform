@@ -188,7 +188,7 @@ function showHide(name){
 		                <%
 					List secsList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, new Long(0), sp.getId());
 					for (ListIterator secsli = secsList.listIterator(); secsli.hasNext();) {
-						SimulationSection thisSecs = (SimulationSectionAssignment) secsli.next();
+						SimulationSectionAssignment thisSecs = (SimulationSectionAssignment) secsli.next();
 				%>
 		                <tr valign="top"><td width="200">&nbsp;&nbsp;<%= thisSecs.getTab_heading() %> </td></tr>
 		                

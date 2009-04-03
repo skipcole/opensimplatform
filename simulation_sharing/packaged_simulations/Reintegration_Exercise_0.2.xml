@@ -1,0 +1,3540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SIM_PACKAGE_OBJECT>
+<OSP_VERSION>0.0.4</OSP_VERSION>
+<EXPORT_DATE>4/2/09 8:49 PM</EXPORT_DATE>
+<org.usip.osp.baseobjects.Simulation>
+  <transit__id>1</transit__id>
+  <name>Reintegration Exercise</name>
+  <version>0.2</version>
+  <blurb>A simulation to teach leadership in conflict environments.</blurb>
+  <allow__player__autoreg>false</allow__player__autoreg>
+  <introduction>&lt;span style=&quot;font-weight: bold;&quot; bold;\=&quot;&quot;&gt;Welcome!&lt;/span&gt;&lt;br&gt;&lt;br&gt;Please take a look around this web site and learn more about your characters and the other characters in the simulation. At this point, you should just be familiarizing yourself with this virtual world.&lt;br&gt;&lt;br&gt;The schedule page (and/or your instructor) will alert you when the simulation moves into the next phase where you will be able to see and do more things.&lt;br&gt;&lt;br&gt;Enjoy!&lt;br&gt;</introduction>
+  <learning__objvs>&lt;p&gt;The primary objective of the simulation is to provide you a chance to apply concepts and practice skills related to the following course objectives:&lt;/p&gt;&#x0D;&lt;ul&gt;&#x0D;&lt;li&gt;Develop negotiation and communication skills necessary to effectively lead aspects of conflict management missions&lt;/li&gt;&#x0D;&lt;li&gt;Understand how operational plans relate to mission mandates and how they are modified and prioritized based on assessments of local conditions and resource and staff contributions&lt;/li&gt;&#x0D;&lt;li&gt;Have knowledge of and consideration for the ethical and moral dilemmas that will arise in the execution of peacebuilding missions&lt;/li&gt;&#x0D;&lt;li&gt;Understand the complexities of leading diverse teams operating in different cultural environments&lt;/li&gt;&lt;/ul&gt;</learning__objvs>
+  <audience>8 to 16 young (college age) leaders.&lt;br&gt;</audience>
+  <planned__play__ideas>&lt;span style=&quot;font-weight: bold;&quot;&gt;&#x0D;&#x0D;Instructor and Control Team Resources&lt;br&gt;&lt;br style=&quot;font-weight: bold;&quot;&gt;&lt;/span&gt;During the simulation, the instructor will play the role of&#x0D;Simulation Control, four students will play the role of control team.&#x0D;Simulation Control and the control team will have four primary&#x0D;responsibilities:&#x0D;&#x0D;&lt;br&gt;&lt;br&gt;&#x0D;&#x0D;Actions and Messages: &lt;br&gt;Monitor the&#x0D;actions that the participants are, or should be, taking and the messages they&#x0D;are sending. There are four primary areas the members of the task force need to&#x0D;manage:&lt;br&gt;&lt;ol&gt;&lt;li&gt;Ensure the IC&#x0D;and the reintegration process is running smoothly.&#x0D;&#x0D;Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;Has&#x0D;the team opened the center?&lt;/li&gt;&lt;li&gt;Have&#x0D;they developed a strategy for handling the cash payments? &lt;br&gt;&lt;/li&gt;&lt;li&gt;How&#x0D;are they handling other issues (corruption, security, etc.) being raised by the&#x0D;injects?)&#x0D;&#x0D;&amp;nbsp;&#x0D;&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Manage relationships with key stakeholders&#x0D;in the community.&#x0D;&#x0D;The stakeholder outreach plan from&#x0D;the Kabul&#x0D;meetings should be used a guide. At a minimum, there should be outreach to&#x0D;senior government officials (mayor, governor, etc.), tribal leaders, local&#x0D;community groups, local development organizations working in the region, and&#x0D;others identified in the group?s outreach plan. The type of injects used by&#x0D;Simulation Control and the control team should be closely tied to their&#x0D;activities regarding stakeholder outreach.Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;How&#x0D;quickly are they responding to events on the ground?&lt;/li&gt;&lt;li&gt;Are&#x0D;they being proactive in reaching out to key stakeholders? &lt;br&gt;&lt;/li&gt;&lt;li&gt;Are&#x0D;they implementing the stakeholder outreach plan from the Kabul meeting?&amp;nbsp;&amp;nbsp;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Manage communications with headquarters.&#x0D;&#x0D;Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;How&#x0D;quickly are they responding to demands from HQ and events on the ground in&#x0D;regard to their communication with HQ?&lt;/li&gt;&lt;li&gt;Are&#x0D;they passing on the right amount of information?&lt;/li&gt;&lt;li&gt;Are&#x0D;they passing on information they shouldn?t be?&#x0D;&#x0D;&amp;nbsp;&#x0D;&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Maintain the effectiveness and coherence of&#x0D;the JRTF the team.&lt;/li&gt;&lt;ul&gt;&lt;li&gt;Has&#x0D;the team remained a team or are they working at cross-purposes?&lt;/li&gt;&lt;li&gt;Are&#x0D;they implementing the plan agreed to Kabul&#x0D;regarding how the task force will be organized?&#x0D;&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;/ol&gt;</planned__play__ideas>
+  <aar__starter__text>In this last part of the simulation, a&amp;nbsp; joint After Action Report (AAR) &lt;br&gt;will be developed by simulation participants.&lt;br&gt;&lt;br&gt;Each participant will prepare a section reviewing the simulation from the point of view of their actor, and will also contribute to an overview section.&lt;br&gt;&lt;br&gt;From the point of view of your character, try to identify your unforeseen issues, successes, failures and lessons learned.&lt;br&gt;&lt;br&gt;</aar__starter__text>
+  <creation__org>USIP</creation__org>
+  <creator></creator>
+  <copyright__string>Copyright 2008 USIP All rights reserved</copyright__string>
+  <isReadyForPublicListing>true</isReadyForPublicListing>
+  <listingKeyWords>Leadership, Communication, Teamwork</listingKeyWords>
+</org.usip.osp.baseobjects.Simulation><org.usip.osp.baseobjects.Actor>
+  <transit__id>1</transit__id>
+  <name>DAI Rep JRTF</name>
+  <public__description>Overview: &lt;br&gt;&lt;br&gt;From the DAI website, &lt;a href=&quot;http://www.dai.com&quot;&gt;www.dai.com&lt;/a&gt;&#x0D;
+&lt;br&gt;&lt;br&gt;DAI delivers development. We do it in many of the world&apos;s&#x0D;
+most demanding environments, by integrating a broad range of disciplines. Over&#x0D;
+40 years, our employee owners have built a forward-looking company ? one that&#x0D;
+combines innovative thinking, deep technical knowledge, and professional&#x0D;
+project management. We approach our work with passion, analytical rigor, and&#x0D;
+open minds. By freely sharing what we learn, we have built a reputation as thought&#x0D;
+leaders who translate good ideas into action and action into results. Our&#x0D;
+global team of 2,000 development professionals welcomes each opportunity to&#x0D;
+solve a new problem, no matter how difficult. That&apos;s how DAI has earned the&#x0D;
+trust of the clients, partners, and people who work alongside us all over the&#x0D;
+world. &lt;br&gt;&#x0D;
+&#x0D;
+</public__description>
+  <semi__public__description>Your Superiors: &lt;br&gt;&lt;br&gt;DAI headquarters are&#x0D;
+located in Washington D.C., where the Afghanistan team, headed by a senior VP,&#x0D;
+oversees all the projects in the country There is also a large field office in&#x0D;
+Kabul, headed by the DAI Chief of Part for Afghanistan. Additionally, the task&#x0D;
+force itself is being overseen by the Joint NATO-UNAMA Reintegration Office&#x0D;
+(JNAD) in Kabul. &lt;br&gt;&#x0D;
+&#x0D;
+&lt;br&gt;</semi__public__description>
+  <private__description>Key Concerns&#x0D;
+&#x0D;
+&lt;br&gt;As the DAI representative&#x0D;
+to this project you have several key concerns:&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;For&#x0D;
+     both your own reputation and the reputation of DAI, it is important that&#x0D;
+     this project as well as the other DAI projects in Afghanistan are implemented&#x0D;
+     successfully.&lt;br&gt;&lt;ul&gt;&lt;li&gt;As&#x0D;
+     a for profit entity, profitability is a key concern. Reducing costs and&#x0D;
+     increasing efficiency is always a key concern.&lt;/li&gt;&lt;li&gt;DAI&apos;s&#x0D;
+     most important donor is USAID. Maintaining good relations with USAID is crucial to DAI?s success both in Afghanistan and around the&#x0D;
+     world.&lt;/li&gt;&lt;li&gt;Many&#x0D;
+     of DAI?s projects in Afghanistan&#x0D;
+     are in areas where security is uncertain. A good relationship with NATO&#x0D;
+     and ISAF is crucial to be able to work in these areas,&#x0D;
+&#x0D;
+  &lt;br&gt;&lt;/li&gt;&lt;li&gt;While a good relationship&#x0D;
+with UNAMA and NAC is a positive, these relationships are not of paramount&#x0D;
+importance. UNAMA is a far less important actor in Afghanistan&#x0D;
+than NATO and the U.S.&#x0D;
+&lt;/li&gt;&lt;li&gt;As for NAC, you are concerned that they are in over the head on this project.&#x0D;
+While they have a long history in Afghanistan, their experience is&#x0D;
+primarily in advocacy and the implementation of small community projects. They&#x0D;
+don?t have experience implementing large complex projects such as this one. &#x0D;
+&#x0D;
+&lt;/li&gt;&lt;/ul&gt;</private__description>
+  <imageFilename>dai.png</imageFilename>
+  <imageThumbFilename>dai_thumb.png</imageThumbFilename>
+  <defaultColorChatBubble>#FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <transit__id>2</transit__id>
+  <name>NAC Rep JRTF</name>
+  <public__description>Norwegian Afghanistan&#x0D;
+Committee (NAC) Representative - Joint&#x0D;
+Reintegration Task Force&#x0D;
+&#x0D;
+&lt;br&gt;Overview (From the NAC website, &lt;a href=&quot;http://www.afghanistan.no&quot;&gt;www.afghanistan.no&lt;/a&gt;)&lt;br&gt;&lt;br&gt;NAC is an independent&#x0D;
+development organization with no political or religious affiliation. &lt;br&gt;NAC offers&#x0D;
+help regardless of religion and ethnicity, and many of our projects are aimed&#x0D;
+at girls and women. Also, we are a green development organization with environmental&#x0D;
+projects.&#x0D;
+&lt;br&gt;&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;NAC focuses on both&#x0D;
+long-term projects and short-term aid in Afghanistan&#x0D;
+and support two schools for girl-refugees in Peshawar, Pakistan.&#x0D;
+NAC started as a solidarity organization with the Afghan people after the&#x0D;
+Soviet invasion in 1979. However, it was not until 1986 our permanent presence&#x0D;
+in Afghanistan&#x0D;
+started. Since then our mission has expanded and today comprises developing&#x0D;
+projects in the areas of health, education, environment and infrastructure.&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;NAC&apos;s main foreign office&#x0D;
+is in Kabul and&#x0D;
+in addition we also have two regional offices in Jalalabad and Badakshan. NAC&#x0D;
+is a member organization with our members being able to take part in and&#x0D;
+influence our policies. A lot of our activities in Norway&#x0D;
+are based on voluntary work, and we have three local committees based in Oslo, Trondheim and Bergen. We also have a&#x0D;
+women&apos;s group working for the improvement of Afghan women&apos;s situation.&#x0D;
+&#x0D;
+</public__description>
+  <semi__public__description>&lt;span style=&quot;font-weight: bold;&quot;&gt;&#x0D;
+&#x0D;
+Superiors&#x0D;
+&#x0D;
+&lt;/span&gt;&lt;br style=&quot;font-weight: bold;&quot;&gt;&lt;br&gt;NAC headquarters are&#x0D;
+located in Oslo, Norway,&#x0D;
+where programs in Afghanistan&#x0D;
+are overseen by the Program Director ? Central Asia.&#x0D;
+NAC also has a small office in Kabul, headed by&#x0D;
+the NAC Chief of Party, Afghanistan. Additionally, the task&#x0D;
+force itself is being overseen by the Joint NATO-UNAMA Reintegration Office&#x0D;
+(JNAD) in Kabul.&#x0D;
+&#x0D;
+&lt;br&gt;</semi__public__description>
+  <private__description>Key Concerns&#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;As the NAC representative&#x0D;
+to this project, you have several key concerns:&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;&lt;ul&gt;&lt;li&gt;It&#x0D;
+     is important for your career and the NAC for the project to be&#x0D;
+     successfully implemented. However, NAC defines success as not simply the&#x0D;
+     number of militants disarmed, but how successfully the community as a&#x0D;
+     whole reintegrates the militants.&lt;/li&gt;&lt;li&gt;Many&#x0D;
+     NAC projects throughout Afghanistan&#x0D;
+     are implemented in close coordination with community leaders. Therefore,&#x0D;
+     maintaining a strong relationship with the community in Uzzdwaadi is important. &lt;/li&gt;&lt;li&gt;While&#x0D;
+     UNAMA is not a large donor, NAC&apos;s key donors are in close contact and&#x0D;
+     continuously coordinate with the United Nations in Afghanistan&#x0D;
+     and elsewhere. Therefore it is important you maintain a strong&#x0D;
+     relationship with UNAMA.&lt;/li&gt;&lt;li&gt;Related&#x0D;
+     to several of these key concerns is maintaining a reputation as being&#x0D;
+     independent of both the U.S.&#x0D;
+     and particularly the ISAF military forces.&lt;/li&gt;&lt;li&gt;You&#x0D;
+     realize that NAC is quite small in comparison with DAI. However, you&#x0D;
+     believe that NAC has much more intimate knowledge of Afghanistan&#x0D;
+     society. Moreover, you believe that DAI, while they have done good work is&#x0D;
+     always primarily concerned with their profits as opposed to the&#x0D;
+     communities in which they work. Therefore it is very important to you that&#x0D;
+     NAC continues to work on the project and is a key player in important&#x0D;
+     decisions.&#x0D;
+&#x0D;
+&#x0D;
+&#x0D;
+&lt;/li&gt;&lt;/ul&gt;</private__description>
+  <imageFilename>nac.png</imageFilename>
+  <imageThumbFilename>nac_thumb.png</imageThumbFilename>
+  <defaultColorChatBubble>#FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <transit__id>3</transit__id>
+  <name>UNAMA Rep JRTF</name>
+  <public__description>&lt;span style=&quot;font-weight: bold;&quot;&gt;Overview:&#x0D;
+&#x0D;
+&lt;/span&gt;&lt;br&gt;&lt;br&gt;From the UNAMA website, &lt;a href=&quot;http://www.unama-afg.org&quot;&gt;www.unama-afg.org&lt;/a&gt;:&#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;UNAMA coordinates all&#x0D;
+activities of the UN system in the country and works for the establishment of&#x0D;
+strong and sustainable Afghan institutions. The framework for cooperation&#x0D;
+between the Government of Afghanistan, the United Nations and the international&#x0D;
+community is outlined by the Afghanistan Compact, a blueprint for working&#x0D;
+towards peace and security, rule of law, good governance, human rights&#x0D;
+protection and sustainable economic and social development over a five-year&#x0D;
+period. The Compact was launched on 31 January 2006.&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;There are a number of&#x0D;
+guidelines that characterize the work of UNAMA: all activities of the UN system&#x0D;
+are coordinated and the programme of work is determined by Afghan needs and&#x0D;
+priorities; the Mission aims at having as many nationals as possible in posts&#x0D;
+that traditionally have been occupied by expatriates; capacity-building is a&#x0D;
+cardinal principle and UNAMA works towards the establishment of strong and&#x0D;
+sustainable Afghan institutions - in that context its ultimate goal is to work&#x0D;
+itself out of a job.&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;UNAMA?s priorities&#x0D;
+include strengthening Afghan institutions and building the capacity of the&#x0D;
+Afghan Administration at all levels, including the development of institutions&#x0D;
+of good governance, of law and order, and of security. Emphasis is also given&#x0D;
+to increasing employment and cash for work schemes, which provide income to&#x0D;
+families.&#x0D;
+&#x0D;
+&lt;br&gt;</public__description>
+  <semi__public__description>&lt;span style=&quot;font-weight: bold;&quot;&gt;Reporting Structure:&lt;/span&gt; &lt;span style=&quot;font-weight: bold;&quot;&gt;UNAMA Representative to the JRTF&lt;/span&gt;&lt;br&gt;&lt;br&gt;UNAMA has a large office&#x0D;
+in Kabul. The&#x0D;
+Security Sector Office, under the leadership of the Deputy Special&#x0D;
+Representative for Afghanistan&#x0D;
+has responsibility for this project. As the result of the partnership with&#x0D;
+NATO, this project has a relatively high profile, and has been a pet project of&#x0D;
+Special Representative for Afghanistan&#x0D;
+and Head of UNAMA.&#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;Additionally, the task force&#x0D;
+itself is being overseen by the Joint NATO-UNAMA Reintegration Office (JNAD) in&#x0D;
+Kabul.&#x0D;
+&#x0D;
+&lt;br&gt;</semi__public__description>
+  <private__description>&lt;span style=&quot;font-weight: bold;&quot;&gt;&#x0D;
+&#x0D;
+Key Concerns&lt;/span&gt;&#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;As&#x0D;
+the UNAMA representative, you have the following key concerns:&lt;br&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt;It is important to you that UNAMA&#x0D;
+be a key player in regard to reintegration programs specifically and&#x0D;
+development programs in Afghanistan&#x0D;
+more generally. It is your belief that eventually NATO troops will withdraw, so&#x0D;
+UNAMA must start to be seen as the lead actor in programs like this.&lt;/li&gt;&lt;li&gt;You see UNAMA&apos;s role as improving&#x0D;
+the situation of Afghan communities. Therefore, you are most concerned about&#x0D;
+community relations and strengthening social capital within the communities in&#x0D;
+which the reintegration program is operating.&#x0D;
+&lt;/li&gt;&lt;li&gt;Due to past events, UNAMA is very&#x0D;
+concerned about fiscal accountability.  It is clear that your superiors will want a&#x0D;
+very thorough accounting of how program monies were spent.&#x0D;
+&#x0D;
+&lt;/li&gt;&lt;/ul&gt;&#x0D;
+&#x0D;
+</private__description>
+  <imageFilename>unama.png</imageFilename>
+  <imageThumbFilename>unama_thumb.png</imageThumbFilename>
+  <defaultColorChatBubble>#FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <transit__id>4</transit__id>
+  <name>NATO Rep JRTF</name>
+  <public__description>&lt;span style=&quot;font-weight: bold;&quot;&gt;&#x0D;
+&#x0D;
+Overview&lt;/span&gt;&#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;From the NATO website, &lt;a href=&quot;http://www.nato.int/issues/afghanistan/index.html&quot;&gt;www.nato.int/issues/afghanistan/index.html&lt;/a&gt;:&#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;The Alliance?s&#x0D;
+aim is to help establish the conditions in which Afghanistan can enjoy ? after&#x0D;
+decades of conflict, destruction and poverty ? a representative government and&#x0D;
+self-sustaining peace and security.&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;NATO?s role is a key part&#x0D;
+of the Afghanistan Compact, a five-year plan between the government of Afghanistan and&#x0D;
+the international community, which sets goals relating to the security,&#x0D;
+governance and economic development of the country.&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;</public__description>
+  <semi__public__description>NATO?s engagement is&#x0D;
+three-fold:&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;br&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt;through&#x0D;
+     leadership of the UN-mandated International Security Assistance Force&#x0D;
+     (ISAF), an international force of some 52,700 troops (including National&#x0D;
+     Support Elements) that assists the Afghan authorities in extending and&#x0D;
+     exercising its authority and influence across the country, creating the&#x0D;
+     conditions for stabilisation and reconstruction&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;a Senior Civilian Representative,&#x0D;
+     responsible for advancing the political-military aspects of the Alliance?s commitment&#x0D;
+     to the country, who works closely with ISAF, liaises with the Afghan&#x0D;
+     government and other international organizations, and maintains contacts&#x0D;
+     with neighboring countries.&lt;/li&gt;&lt;/ul&gt;&lt;ul&gt;&lt;li&gt;a&#x0D;
+     substantial programme of cooperation with Afghanistan, concentrating on&#x0D;
+     defence reform, defence institution-building and the military aspects of&#x0D;
+     security sector reform.&#x0D;
+&#x0D;
+&lt;/li&gt;&lt;/ul&gt;</semi__public__description>
+  <private__description>&lt;span style=&quot;font-weight: bold;&quot;&gt;Your Superiors&#x0D;
+&#x0D;
+&lt;/span&gt;&lt;br&gt;&#x0D;
+&lt;br&gt;&#x0D;
+You report to U.S. Army&#x0D;
+Colonel Richard Tarken, head of civil affairs for the NATO International&#x0D;
+Security Assistance Force (ISAF). Colonel Tarken is located in Kabul at NATO ISAF HQ. Additionally, the task&#x0D;
+force itself is being overseen by the Joint NATO-UNAMA Reintegration Office&#x0D;
+(JNAD) in Kabul.&#x0D;
+&#x0D;
+&#x0D;
+&#x0D;
+&lt;br&gt;&lt;br style=&quot;font-weight: bold;&quot;&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Key Concerns&#x0D;
+&#x0D;
+&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt;As the NATO&#x0D;
+representative to the project, you have several key concerns:&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;/li&gt;&lt;li&gt;Of&#x0D;
+     overriding importance is to maximize the number of militants that are&#x0D;
+     disarmed. Every militant that is disarmed makes the military mission of&#x0D;
+     ISAF that much easier.&lt;/li&gt;&lt;li&gt;It&#x0D;
+     is crucial to ensure that those who receive the reintegration packages are&#x0D;
+     actually militants and that they remain demobilized. Many in the military&#x0D;
+     are already suspicious of the Civil Affairs strategy of paying militants&#x0D;
+     to disarm. Stories indicating that militants have taken money, but&#x0D;
+     continue to fight could make it difficult of NATO to continue to&#x0D;
+     participate in these types of programs.&lt;/li&gt;&lt;li&gt;As&#x0D;
+     the military member of the task force, you feel responsibility for&#x0D;
+     ensuring the security of the team. Good relations with the community are&#x0D;
+     key in order to gain solid intelligence on potential security threats.&#x0D;
+&#x0D;
+ &#x0D;
+&#x0D;
+&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;&lt;br&gt;</private__description>
+  <imageFilename>nato.png</imageFilename>
+  <imageThumbFilename>nato_thumb.png</imageThumbFilename>
+  <defaultColorChatBubble>#FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <transit__id>5</transit__id>
+  <name>control</name>
+  <public__description>&lt;br&gt;</public__description>
+  <semi__public__description>&lt;br&gt;</semi__public__description>
+  <private__description>&lt;br&gt;</private__description>
+  <imageFilename></imageFilename>
+  <defaultColorChatBubble>#FFFFFF</defaultColorChatBubble>
+  <control__actor>true</control__actor>
+  <npc>false</npc>
+  <isShown>false</isShown>
+</org.usip.osp.baseobjects.Actor>
+
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>1</transit__id>
+  <name>Started</name>
+  <notes>The first phase of the simulation.</notes>
+  <firstPhase>true</firstPhase>
+  <lastPhase>false</lastPhase>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>1</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>2</transit__id>
+  <name>The Kabul Meeting</name>
+  <notes>An internal, strategic planning process within the task force in Kabul - you will produce plans for implementation in Uzzdwaadi in the next phase</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>false</lastPhase>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>2</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>3</transit__id>
+  <name>Pre-Implementation</name>
+  <notes>Player documents have been created. Simulation action is frozen until implemenation phase begins.</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>false</lastPhase>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>3</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>4</transit__id>
+  <name>Implementation in Uzzdwaadi</name>
+  <notes>In this phase of the simulation, you, along with your colleagues in the Joint Reintegration Task Force, will be managing a reintegration program in the fictional Afghanistan town of Uzzdwaadi. </notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>false</lastPhase>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>4</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>5</transit__id>
+  <name>Reflection</name>
+  <notes>A time for player to reflect on all that has happened.</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>false</lastPhase>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>5</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>6</transit__id>
+  <name>Completed</name>
+  <notes>The last phase of the simulation.</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>true</lastPhase>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>9999</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+
+<org.usip.osp.communications.InjectGroup>
+  <transit__id>1</transit__id>
+  <sim__id>1</sim__id>
+  <name>To JRTF</name>
+  <description>Injects seen by all four members of the Joint Reintegration Task Force</description>
+</org.usip.osp.communications.InjectGroup>
+<org.usip.osp.communications.Inject>
+  <transit__id>1</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Letter from Tribal Leaders</inject__name>
+  <inject__text>To: Uzzdwaadi JRTF&lt;br&gt;&#x0D;From: IC Staff&lt;br&gt;&#x0D;Re: Letter from TRIBAL Leaders&lt;br&gt;&lt;br&gt;&#x0D;&#x0D;We have received a letter from a group of 15 tribal leaders in the Uzzdwaadi region. The letter reads in part: ?When the rest of our community is suffering deprivation and hardship, it is unacceptable that any resources should be given to those that left our community and created havoc in our country.? It appears that the letter has also been released to the media.&lt;br&gt;&lt;hr&gt;&#x0D;&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>2</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Letter from Uzzdwaadi Women?s Rights Organization</inject__name>
+  <inject__text>To: Uzzdwaadi JRTF&lt;br&gt;&#x0D;From: IC Staff&lt;br&gt;&#x0D;Re: Letter from Uzzdwaadi Women?s Rights Organization&lt;br&gt;&lt;br&gt;	&#x0D;	&#x0D;The IC has received a letter from a local Women&apos;s Rights Organization demanding that the widows and children of militants killed in the fighting be given the same incentive packages as the demobilized militants. The letter indicates that they have copied the letter to all female parliamentarians in Kabul and released it to the media.&#x0D;</inject__text>
+  <inject__notes>To: Uzzdwaadi JRTF &lt;br&gt;From: IC Staff &lt;br&gt;Re: Letter from Uzzdwaadi Women&apos;s Rights Organization &lt;br&gt;&lt;br&gt;The IC has received a letter from a local Women&apos;s Rights Organization demanding that the widows and children of militants killed in the fighting be given the same incentive packages as the demobilized militants. The letter indicates that they have copied the letter to all female parliamentarians in Kabul and released it to the media.</inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>3</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Welcome to Uzzdwaadi</inject__name>
+  <inject__text>Your task force arrived in Uzzdwaadi a few days ago. So far the logistics of the operation have run smoothly. You have established an office in a secure compound at the outskirts of the town. You also space for a small Intake (IC) one block away in which the initial contact with militants wishing to demobilize and reintegrate will take place. The office will primarily be staffed by two Afghanis that you brought with you from Kabul. You have also hired two local security guards to work at the IC Your best information indicates that several militants will present themselves at the IC when it is opened.</inject__text>
+  <inject__notes>Note to Instructor: &#x0D;&#x0D;This opening message should be revised to reflect what was decided in Phase 1 of the simulation, and should be on screen or sent immediately at the beginning of Phase 2, Implementation in Uzzdwaadi</inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>4</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>JRTF Orientation</inject__name>
+  <inject__text>As a group, the JRTF can send a message from the task force to any external individual or organization.&#x0D;&#x0D;As a group, the JRTF can take any actions it deems appropriate. During the exercise, Simulation Control will review all actions taken. If it is deemed that the JRTF has the capacity to take such an action, it will be approved.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>5</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>JRTF Individual Responsibilities</inject__name>
+  <inject__text>Any individual in the task force can send a message from the task force to any external individual or organization. These are sent in the individual?s professional capacity. Task force members can also, at any time, communicate privately with other members of the task force.&#x0D;&#x0D;Any individual in the task force can take any actions it deems appropriate. Simulation control will review all actions taken. If it is deemed that the individual has the capacity to take such an action, it will be approved. &#x0D;&#x0D;When the simulation begins, you will receive an opening message from the control team. At this point you should begin to implement your strategy, as decided on at the Kabul meeting.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>6</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Welcome - Situation Report</inject__name>
+  <inject__text>To: To: Uzzdwaadi JRTF&#x0D;&#x0D;From: Joint NATO-UNAMA Reintegration Office (JNAD) - Kabul&#x0D;&#x0D;Re: Uzzdwaadi reintegration effort.	&#x0D;&#x0D;Initial reports indicate that your start-up has gone smoothly. &#x0D;&#x0D;Please provide immediate updates regarding any problems. &#x0D;&#x0D;Yesterday&apos;s meeting between Kandahar task force members and tribal leaders went poorly. Tribal leaders are demanding the office and Intake Center be shutdown. &#x0D;&#x0D;Recommend begin outreach to community immediately.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>7</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Magazine Interview - Negative Press</inject__name>
+  <inject__text>From: Joint NATO-UNAMA Reintegration Office (JNAD) ? Kabul&#x0D;Re: Magazine interview&#x0D;&#x0D;A statement has been released by senior Taliban leadership through the Indian news magazine, Frontline. ?We have seen that some so-called mujahideen in the Uzzdwaadi region are following the example of Karzai and becoming U.S. stooges. This is not going to make life easier for the U.S. or Karzai because thee so-called mujahideens are `paper-tigers&apos;. The real mujahideens will continue to fight Karzai and his master - the U.S.  Karzai&apos;s days are numbered. Very soon, our mujahideens, the real mujahideens will get him.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>8</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Militants Killed</inject__name>
+  <inject__text>From: IC Staff&#x0D;Re: Militants Killed&#x0D;&#x0D;Reports have arrived at the IC that two militants in the reintegration program have been found murdered in a field just outside of Uzzdwaadi. Afghan National Police are investigating.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>9</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Militants wishing to reintegrate</inject__name>
+  <inject__text>From: IC Staff&#x0D;Re: Militants wishing to turn themselves in.&#x0D;&#x0D;We have received the following message signed by six individuals. We will agree to turn ourselves and our weapons in if  [CONTROL FILL IN BLANK]&#x0D;&#x0D;</inject__text>
+  <inject__notes>Insert something demand from the militants that would violate the task force?s code of conduct.</inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>10</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Call from the Mayor</inject__name>
+  <inject__text>From: Simulation Control&#x0D;Re: Call from the Mayor of Uzzdwaadi&#x0D;&#x0D;The JRTF received a call from the Mayor of Uzzdwaddi. He said that the mayor?s office has received numerous reports that the intake officers are demanding a kickback of $50 in order to ensure that former militants be accepted into the program. He is demanding that the staff members be fired and two members of his staff, who he guarantees are trustworthy, be hired to staff the IC.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>11</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Request from the Governor</inject__name>
+  <inject__text>From: Simulation Control	&#x0D;Re: Call from the Office of the Governor of Uzzdwaadi&#x0D;&#x0D;The JRTF received a call from the governor?s office of Uzzdwaadi. The governor is requesting a meeting with the head of the task force. &#x0D;</inject__text>
+  <inject__notes>Note: initially this is a test of their ability to respond quickly and choose a member of the task force to meet with the governor. Other issues can be raised during this meeting.</inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>12</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Messafe from MRRD</inject__name>
+  <inject__text>From: UNAMA - Kabul&#x0D;Re: Message from MRRD&#x0D;&#x0D;The UNAMA office in Kabuli has received a formal complaint from the Ministry of Rural Reconstruction and Development that [CONTROL INSERT SPECIFIC ACTIVITY] of the JRTF violates the letter and the spirit of the Afghanistan National Development Strategy (ANDS). UNAMA requests that the activities of the JRTF be brought in line with the ANDS.&#x0D;&#x0D;</inject__text>
+  <inject__notes>CONTROL INSERT SPECIFIC ACTIVITY above before sending</inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>13</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>ISAF operation</inject__name>
+  <inject__text>From: NATO-UNAMA Reintegration Office (JNAD) ? Kabul&#x0D;Re: ISAF operation&#x0D;&#x0D;ISAF forces, led by U.S. Army Rangers, launched a moonlight operation in a village on the Pakistan border 20 miles from Uzzdwaadi. ISAF claims 15 militants on their way back to Pakistan were killed. News organizations are reporting claims that seven civilians in the village were killed including two children.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>14</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <inject__name>Attack on Integration Center</inject__name>
+  <inject__text>From: IC Staff&#x0D;Re: Attack on IC&#x0D;&#x0D;This afternoon shots were fired from a passing car at the IC. No one was hurt, but one of several of the windows were shattered. &#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.InjectGroup>
+  <transit__id>2</transit__id>
+  <sim__id>1</sim__id>
+  <name>For UNAMA Rep</name>
+  <description>Injects visible to the UNAMA Representative to the Joint Reintegration Task Force</description>
+</org.usip.osp.communications.InjectGroup>
+<org.usip.osp.communications.Inject>
+  <transit__id>15</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>2</group__id>
+  <inject__name>Funding Delays</inject__name>
+  <inject__text>To: UNAMA Representative - JRTF&lt;br&gt;&#x0D;From: UNAMA - Kabul&lt;br&gt;&#x0D;Re: Funding Delays&lt;br&gt;&lt;br&gt;&#x0D;&#x0D;This is to inform you that the additional $1.5 million in funding committed to the reintegration program will likely be delayed as member countries have been slow to contribute to the reintegration fund.&#x0D;</inject__text>
+  <inject__notes>Issue this inject once money is spent or committed by the project. </inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>16</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>2</group__id>
+  <inject__name>De-mining operations</inject__name>
+  <inject__text>To: UNAMA Representative - JRTF&lt;br&gt;&#x0D;From: UNAMA - Kabul&lt;br&gt;&#x0D;Re: De-mining operations&lt;br&gt;&lt;br&gt;&#x0D;&#x0D;This is to inform you that regrettably we can no longer support de-mining as an alternative for reintegrated militants. The funding for UNMACA has not been renewed.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>17</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>2</group__id>
+  <inject__name>NATO Security Procedures</inject__name>
+  <inject__text>To: UNAMA Representative - JRTF&#x0D;From: UNAMA - Kabul&#x0D;Re: NATO Security Procedures.&#x0D;&#x0D;We note with great alarm the recent moves of NATO to increase security at the JRTF Intake Center. If this security remains, the program will likely be seen as a military program by the community. Recommend increased community outreach efforts and outreach to NATO to request that security presence be reduced.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>18</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>2</group__id>
+  <inject__name>Pace of reintegration efforts</inject__name>
+  <inject__text>From: UNAMA - Kabul&#x0D;Re: Pace of reintegration efforts.&#x0D;.&#x0D;We recently received a letter from several government officials in the Uzzdwaadi area complaining about the reintegration program. Their primary complaint was that former militants were receiving cash payments of up to US$500. Recommend you slow reintegration process until more community outreach can be done.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>19</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>2</group__id>
+  <inject__name>Funding streams</inject__name>
+  <inject__text>From: UNAMA - Kabul&#x0D;Re: Funding Streams for reintegration program.&#x0D;&#x0D;The finance director here is concerned that monies from the reintegration program are mixing with DAI and NAC funds from other sources. We request that you alert DAI and NAC that an audit of these funds will be required by UNAMA at the end of the program. &#x0D;&#x0D;</inject__text>
+  <inject__notes>Alternatively: If another group tried to be flexible with finances. HQ sends a stern note, that new monies cannot be applied to the project without proper approvals from UNAMA - Kabul.&#x0D;</inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.InjectGroup>
+  <transit__id>3</transit__id>
+  <sim__id>1</sim__id>
+  <name>to NAC Rep</name>
+  <description>Messages to NAC Representative to the JRTF</description>
+</org.usip.osp.communications.InjectGroup>
+<org.usip.osp.communications.Inject>
+  <transit__id>20</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>3</group__id>
+  <inject__name>Program Directors&apos; Concerns</inject__name>
+  <inject__text>From: NAC Chief of Party - Kabul&#x0D;Re: Message from Program Directors&#x0D;&#x0D;I have received a message from two program directors from important NAC programs in Afghanistan. They are concerned about former militants being integrated into existing programs. There is a real chance that the controversy surrounding the reintegration program will negatively impact existing programs.&#x0D;&#x0D;What can I tell them about the vetting process that may assuage their concerns?&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>21</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>3</group__id>
+  <inject__name>Board of Director&apos;s Concerns</inject__name>
+  <inject__text>From: NAC Chief of Party - Kabul&#x0D;Re: Board of Director?s Concerns&#x0D;&#x0D;We have received a message from NAC HQ-Oslo that indicates that the Board of Directors is very concerned about NAC?s involvement in a program in which the U.S. military is involved.  Please report immediately on the nature of military participation in the program.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>22</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>3</group__id>
+  <inject__name>Response to NAC HQ-Oslo</inject__name>
+  <inject__text>From: NAC Chief of Party - Kabul&#x0D;Re: Msg from NAC HQ-Oslo&#x0D;We have received a message from NAC HQ- Oslo that indicates the NADC is not happy. The NADC is reporting that several of its implementing partners on various NADC-funded programs in the area are complaining vehemently about the large cash payments that former militants are receiving. Several local NGOs have indicated that they can no longer work with the Norwegian NGOs as a result.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.InjectGroup>
+  <transit__id>4</transit__id>
+  <sim__id>1</sim__id>
+  <name>To DAI Rep</name>
+  <description></description>
+</org.usip.osp.communications.InjectGroup>
+<org.usip.osp.communications.Inject>
+  <transit__id>23</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>4</group__id>
+  <inject__name>US Congressional Protests</inject__name>
+  <inject__text>From: DAI Chief of Party Kabul	&#x0D;Re: Message from HQ regarding U.S. Congressmen&#x0D;&#x0D;We received a message form DAI HQ-Washington indicating that several congressmen have issued letters of protest to USAID regarding the reintegration program in Afghanistan. Their protest indicates that no U.S. money should go to organizations engaged in programs that provide ?amnesty to terrorists?. What can I tell them to assuage their concerns?</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>24</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>4</group__id>
+  <inject__name>Msg from Tribal Leaders</inject__name>
+  <inject__text>From: DAI Program Director - Uzzdwaadi	&#x0D;Re: Message from Tribal Leaders&#x0D;&#x0D;As you know I am a program director that oversees multiple workforce development and livelihood projects. We have had several contacts with tribal leaders indicating that they will fully support the reintegration program if two community members can enter the training program for every former militant. </inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>25</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>4</group__id>
+  <inject__name>Emphasis on Program Packages</inject__name>
+  <inject__text>From: DAI Chief of Party - Kabul&#x0D;Re: Emphasis on Program Packages&#x0D;We have been looking at the numbers from the reintegration program. We want to encourage you to promote the adoption of the demining or vocational training packages by the reintegrates. Both the enterprise support and agricultural packages are far more expensive for DAI to operate.&#x0D;&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>26</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>4</group__id>
+  <inject__name>Reintegration Pace</inject__name>
+  <inject__text>From: DAI Chief of Party - Kabul&#x0D;Re: Reintegration Pace&#x0D;&#x0D;We have been looking at the numbers from the reintegration program. We want to encourage you to increase the numbers of reintegrates. There are relatively high fixed costs for this program so we need to increase the number of militants in the program in order to make it more profitable..</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>27</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>4</group__id>
+  <inject__name>New funding</inject__name>
+  <inject__text>From: DAI Chief of Party - Kabul&#x0D;Re: New funding for project.&#x0D;&#x0D;We have received indications from USAID ?Washington that they can release an additional $2 million for the reintegration program through a USDA funding mechanism. Please alert other members of the task force that these monies will be added to the budgets of the DAI reintegration programs which are part of the JRTF project.</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.InjectGroup>
+  <transit__id>5</transit__id>
+  <sim__id>1</sim__id>
+  <name>To NATO Rep</name>
+  <description></description>
+</org.usip.osp.communications.InjectGroup>
+<org.usip.osp.communications.Inject>
+  <transit__id>28</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>5</group__id>
+  <inject__name>Taliban Message</inject__name>
+  <inject__text>From: ISAF Field Commander&#x0D;Re: Taliban Message&#x0D;&#x0D;We have received a message from the Taliban demanding that all reintegration efforts in the region cease. If this is not done, attacks on foreign installations and government offices in Uzzdwaadi will increase. The message has been authenticated as coming from the Taliban. The message has been forwarded to ISAF HQ as well.</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>29</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>5</group__id>
+  <inject__name>Security</inject__name>
+  <inject__text>From: Civil Affairs ? ISAF HQ&#x0D;Re: Security&#x0D;&#x0D;Given recent events and intelligence reports, we are ordering a contingent of eight NATO soldiers to guard the IC and surrounding areas. The contingent will initially be U.S. soldiers and will eventually be replaced by a French contingent.</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>30</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>5</group__id>
+  <inject__name>Capture of Militants</inject__name>
+  <inject__text>From: Civil Affairs ?  ISAF HQ&#x0D;Re: Capture of Militants&#x0D;&#x0D;Be advised that two militants acting as forward scouts for Taliban infiltrators from Pakistan were captured. It has been ascertained that these individuals are participants in the reintegration program. Please report on vetting process and possible improvements to said process.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>31</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>5</group__id>
+  <inject__name>Pace of Reintegration Process</inject__name>
+  <inject__text>From: Civil Affairs ? NATO, Kabul&#x0D;Re: Pace of Reintegration Process&#x0D;&#x0D;We are concerned about the slow pace of reintegration process. Please make every effort to increase number of militants being reintegrated.&#x0D;</inject__text>
+  <inject__notes></inject__notes>
+</org.usip.osp.communications.Inject>
+
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>1</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>AAR</uniqueName>
+  <version>1</version>
+  <description>An &apos;after action report&apos; (AAR) is a document written after an event describing what happened and what the lessons learned were. Adding this section to a simulation adds a page showing the after action report that the instructor has written. This is generally considered the essential final step of a simulation: to provide feedback to the players on how they have done, and give them thoughts to reflect upon.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <rec__tab__heading>AAR</rec__tab__heading>
+  <sample__image>aar.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>3</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Change Phase</uniqueName>
+  <version>1</version>
+  <description>A section to allow the game controller to change the phase of a simulation.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <rec__tab__heading>Control</rec__tab__heading>
+  <sample__image>change_phase.png</sample__image>
+  <control__section>true</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>7</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>End Simulation</uniqueName>
+  <version>1</version>
+  <description>A section to mark the simulation as terminated and move it into its final phase.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>end_sim.jsp</page__file__name>
+  <rec__tab__heading>End Sim</rec__tab__heading>
+  <sample__image>end_sim.png</sample__image>
+  <control__section>true</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>10</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Introduction</uniqueName>
+  <version>1</version>
+  <description>The introductory text will be shown here.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <rec__tab__heading>Introduction</rec__tab__heading>
+  <sample__image>introduction.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>11</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Make Announcement</uniqueName>
+  <version>1</version>
+  <description>A section to make broadcast announcements.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>make_announcement.jsp</page__file__name>
+  <rec__tab__heading>Make Announcements</rec__tab__heading>
+  <sample__image>make_announcement.png</sample__image>
+  <control__section>true</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>15</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Push Event</uniqueName>
+  <version>1</version>
+  <description>A section to allow the control player to push out events (injects) to all of the players.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <rec__tab__heading>Push Injects</rec__tab__heading>
+  <sample__image>push_injects.png</sample__image>
+  <control__section>true</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>17</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Show Announcements</uniqueName>
+  <version>1</version>
+  <description>A section to display announcments to the players.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <rec__tab__heading>Announcements</rec__tab__heading>
+  <sample__image>announcements.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>21</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>View Player Reflection</uniqueName>
+  <version>1</version>
+  <description>A section to view the player reflections.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <rec__tab__heading>View Player Reflection</rec__tab__heading>
+  <sample__image>view_player_reflection.png</sample__image>
+  <control__section>true</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>22</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Write AAR</uniqueName>
+  <version>1</version>
+  <description>A section to write the after action report.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <rec__tab__heading>Write AAR</rec__tab__heading>
+  <sample__image>aar.png</sample__image>
+  <control__section>true</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>13</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_private_chat_page.jsp</specificMakePage>
+  <contents/>
+  <bigString></bigString>
+  <hasCustomizer>false</hasCustomizer>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>24</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Private Chat Page</uniqueName>
+  <version>1</version>
+  <description>A page to allow actors to communicate with other actors privately.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <rec__tab__heading>Private Chat</rec__tab__heading>
+  <sample__image>private_chat_page.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>18</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>In this phase you will attempt to implement your plans.&lt;br&gt;</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>25</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Text Page</uniqueName>
+  <version>1</version>
+  <description>A page that will only display text. One of these pages can be a placeholder for pages that require more advanced programming.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <rec__tab__heading>IU Phase Introduction</rec__tab__heading>
+  <sample__image>text_page.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>2</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
+  <contents>
+    <entry>
+      <string>display_control</string>
+      <string>false</string>
+    </entry>
+  </contents>
+  <bigString>Below are listed alphabetically all of the current Actors that you can see.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.CastCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>26</transit__id>
+  <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
+  <uniqueName>Customized Cast</uniqueName>
+  <version>1</version>
+  <description>A section to allow players see information about themselves, and public information about the other actors in this simulation.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <rec__tab__heading>Cast</rec__tab__heading>
+  <sample__image>cast.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>12</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>make_reflection_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>Please reflect here on this simulation. Specifically,&lt;br&gt;&lt;ul&gt;&lt;li&gt;what were your goals?&lt;/li&gt;&lt;li&gt;how did you try to achieve them?&lt;/li&gt;&lt;li&gt;what obstacles did you face?&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;</bigString>
+  <hasCustomizer>false</hasCustomizer>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>27</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Player Reflection</uniqueName>
+  <version>1</version>
+  <description>A section to allow the players to express their impressions, defend their actions, etc.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <rec__tab__heading>Reflection</rec__tab__heading>
+  <sample__image>player_reflection.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>18</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>In this phase we want you to just spend some time reflecting upon your experience.&lt;br&gt;</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>28</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Text Page</uniqueName>
+  <version>1</version>
+  <description>A page that will only display text. One of these pages can be a placeholder for pages that require more advanced programming.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <rec__tab__heading>Phase Introduction</rec__tab__heading>
+  <sample__image>text_page.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>2</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
+  <contents>
+    <entry>
+      <string>display_control</string>
+      <string>false</string>
+    </entry>
+  </contents>
+  <bigString>Below are listed alphabetically all of the current Actors that you can see.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.CastCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>29</transit__id>
+  <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
+  <uniqueName>Customized Cast</uniqueName>
+  <version>1</version>
+  <description>A section to allow players see information about themselves, and public information about the other actors in this simulation.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <rec__tab__heading>Cast</rec__tab__heading>
+  <sample__image>cast.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>18</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>Below will be all of the documents that the team wrote together.&lt;br&gt;</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>30</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Text Page</uniqueName>
+  <version>1</version>
+  <description>A page that will only display text. One of these pages can be a placeholder for pages that require more advanced programming.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <rec__tab__heading>Team Documents</rec__tab__heading>
+  <sample__image>text_page.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>13</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_private_chat_page.jsp</specificMakePage>
+  <contents/>
+  <bigString></bigString>
+  <hasCustomizer>false</hasCustomizer>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>31</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Private Chat Page</uniqueName>
+  <version>1</version>
+  <description>A page to allow actors to communicate with other actors privately.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <rec__tab__heading>Private Chat</rec__tab__heading>
+  <sample__image>private_chat_page.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>2</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
+  <contents>
+    <entry>
+      <string>display_control</string>
+      <string>false</string>
+    </entry>
+  </contents>
+  <bigString>Below are listed alphabetically all of the current Actors that you can see.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.CastCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>32</transit__id>
+  <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
+  <uniqueName>Customized Cast</uniqueName>
+  <version>1</version>
+  <description>A section to allow players see information about themselves, and public information about the other actors in this simulation.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <rec__tab__heading>Cast</rec__tab__heading>
+  <sample__image>cast.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>2</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
+  <contents>
+    <entry>
+      <string>display_control</string>
+      <string>false</string>
+    </entry>
+  </contents>
+  <bigString>Below are listed alphabetically all of the current Actors that you can see.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.CastCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>33</transit__id>
+  <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
+  <uniqueName>Customized Cast</uniqueName>
+  <version>1</version>
+  <description>A section to allow players see information about themselves, and public information about the other actors in this simulation.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <rec__tab__heading>Cast</rec__tab__heading>
+  <sample__image>cast.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>18</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>Welcome to the Kabul Meetings phase.&lt;br&gt;&lt;br&gt;In this Phase you will work on 3 documents with your fellow students.&lt;br&gt;</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>34</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Text Page</uniqueName>
+  <version>1</version>
+  <description>A page that will only display text. One of these pages can be a placeholder for pages that require more advanced programming.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <rec__tab__heading>KM Phase Introduction</rec__tab__heading>
+  <sample__image>text_page.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>2</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
+  <contents>
+    <entry>
+      <string>display_control</string>
+      <string>false</string>
+    </entry>
+  </contents>
+  <bigString>Below are listed alphabetically all of the current Actors that you can see.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.CastCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>35</transit__id>
+  <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
+  <uniqueName>Customized Cast</uniqueName>
+  <version>1</version>
+  <description>A section to allow players see information about themselves, and public information about the other actors in this simulation.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <rec__tab__heading>Cast</rec__tab__heading>
+  <sample__image>cast.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>15</idOfOrigCustSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_read_documents_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>&lt;br&gt;</bigString>
+  <hasCustomizer>false</hasCustomizer>
+  <numDependentObjects>1</numDependentObjects>
+  <transit__id>36</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Schedule</uniqueName>
+  <version>1</version>
+  <description>A section to read a document or documents.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>read_document.jsp</page__file__name>
+  <rec__tab__heading>Schedule</rec__tab__heading>
+  <sample__image>read_document.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>true</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
+
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>1</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>2</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>View Player Reflection</tab__heading>
+  <base__sec__id>21</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>3</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Push Injects</tab__heading>
+  <base__sec__id>15</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>4</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Make Announcements</tab__heading>
+  <base__sec__id>11</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>make_announcement.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>5</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>End Sim</tab__heading>
+  <base__sec__id>7</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>end_sim.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>6</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Control</tab__heading>
+  <base__sec__id>3</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>7</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>9</tab__position>
+  <tab__heading>Push Injects</tab__heading>
+  <base__sec__id>15</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>8</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Private Chat</tab__heading>
+  <base__sec__id>24</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>9</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Private Chat</tab__heading>
+  <base__sec__id>24</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>10</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>7</tab__position>
+  <tab__heading>Private Chat</tab__heading>
+  <base__sec__id>24</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>11</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>4</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Push Injects</tab__heading>
+  <base__sec__id>15</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>12</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>12</tab__position>
+  <tab__heading>IU Phase Introduction</tab__heading>
+  <base__sec__id>25</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>13</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>IU Phase Introduction</tab__heading>
+  <base__sec__id>25</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>14</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>IU Phase Introduction</tab__heading>
+  <base__sec__id>25</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>15</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>IU Phase Introduction</tab__heading>
+  <base__sec__id>25</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>16</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>IU Phase Introduction</tab__heading>
+  <base__sec__id>25</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>17</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>IU Phase Introduction</tab__heading>
+  <base__sec__id>25</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>18</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>7</tab__position>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>19</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>20</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>21</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>22</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>4</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>23</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>24</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>25</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>26</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>27</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>4</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>28</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>29</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>8</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>26</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>30</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>26</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>31</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>26</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>32</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>26</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>33</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>26</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>34</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>26</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>35</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>7</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>36</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>37</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>38</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>39</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>40</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>41</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>27</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>42</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>27</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>43</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>27</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>44</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>27</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>45</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>27</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>46</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Phase Introduction</tab__heading>
+  <base__sec__id>28</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>47</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Phase Introduction</tab__heading>
+  <base__sec__id>28</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>48</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Phase Introduction</tab__heading>
+  <base__sec__id>28</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>49</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Phase Introduction</tab__heading>
+  <base__sec__id>28</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>50</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Phase Introduction</tab__heading>
+  <base__sec__id>28</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>51</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Phase Introduction</tab__heading>
+  <base__sec__id>28</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>52</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>53</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>View Player Reflection</tab__heading>
+  <base__sec__id>21</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>54</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Make Announcements</tab__heading>
+  <base__sec__id>11</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>make_announcement.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>55</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>End Sim</tab__heading>
+  <base__sec__id>7</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>end_sim.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>56</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Control</tab__heading>
+  <base__sec__id>3</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>57</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>10</tab__position>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>58</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>9</tab__position>
+  <tab__heading>View Player Reflection</tab__heading>
+  <base__sec__id>21</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>59</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>8</tab__position>
+  <tab__heading>Push Injects</tab__heading>
+  <base__sec__id>15</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>60</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>7</tab__position>
+  <tab__heading>End Sim</tab__heading>
+  <base__sec__id>7</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>end_sim.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>61</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>62</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>View Player Reflection</tab__heading>
+  <base__sec__id>21</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>63</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Push Injects</tab__heading>
+  <base__sec__id>15</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>64</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Make Announcements</tab__heading>
+  <base__sec__id>11</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>make_announcement.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>65</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>End Sim</tab__heading>
+  <base__sec__id>7</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>end_sim.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>66</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>6</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Control</tab__heading>
+  <base__sec__id>3</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>67</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>12</tab__position>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>68</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>11</tab__position>
+  <tab__heading>View Player Reflection</tab__heading>
+  <base__sec__id>21</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>69</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>10</tab__position>
+  <tab__heading>Push Injects</tab__heading>
+  <base__sec__id>15</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>70</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>9</tab__position>
+  <tab__heading>End Sim</tab__heading>
+  <base__sec__id>7</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>end_sim.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>71</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>11</tab__position>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>72</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>10</tab__position>
+  <tab__heading>View Player Reflection</tab__heading>
+  <base__sec__id>21</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>73</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>9</tab__position>
+  <tab__heading>Make Announcements</tab__heading>
+  <base__sec__id>11</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>make_announcement.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>74</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>8</tab__position>
+  <tab__heading>End Sim</tab__heading>
+  <base__sec__id>7</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>end_sim.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>75</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Push Injects</tab__heading>
+  <base__sec__id>15</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>76</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Control</tab__heading>
+  <base__sec__id>3</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>77</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>7</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>29</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>78</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>29</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>79</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>29</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>80</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>81</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>82</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>83</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>84</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>85</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Team Documents</tab__heading>
+  <base__sec__id>30</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>86</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Private Communications</tab__heading>
+  <base__sec__id>31</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>87</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Private Communications</tab__heading>
+  <base__sec__id>31</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>88</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Private Communications</tab__heading>
+  <base__sec__id>31</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>89</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Private Communications</tab__heading>
+  <base__sec__id>31</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>90</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Private Communications</tab__heading>
+  <base__sec__id>31</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>private_chat_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>91</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>92</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Make Announcements</tab__heading>
+  <base__sec__id>11</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>make_announcement.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>93</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Control</tab__heading>
+  <base__sec__id>3</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>94</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>95</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>96</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>97</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>98</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>4</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>99</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>100</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>32</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>101</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>32</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>102</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>32</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>103</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>32</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>104</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>32</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>105</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>32</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>106</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>KM Phase Introduction</tab__heading>
+  <base__sec__id>34</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>107</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>KM Phase Introduction</tab__heading>
+  <base__sec__id>34</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>108</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>KM Phase Introduction</tab__heading>
+  <base__sec__id>34</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>109</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>KM Phase Introduction</tab__heading>
+  <base__sec__id>34</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>110</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>KM Phase Introduction</tab__heading>
+  <base__sec__id>34</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>111</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>KM Phase Introduction</tab__heading>
+  <base__sec__id>34</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>112</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>113</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>114</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>115</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>116</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>4</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>117</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>33</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>118</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>33</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>119</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>33</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>120</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>KM Phase Introduction</tab__heading>
+  <base__sec__id>34</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>121</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Make Announcements</tab__heading>
+  <base__sec__id>11</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>make_announcement.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>122</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>5</tab__position>
+  <tab__heading>Control</tab__heading>
+  <base__sec__id>3</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>123</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>124</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>125</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>126</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>127</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>4</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>128</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>129</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>130</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>131</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>132</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>133</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>134</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>135</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>36</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>read_document.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>136</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>36</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>read_document.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>137</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>36</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>read_document.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>138</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>36</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>read_document.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>139</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>36</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>read_document.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>140</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>36</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>read_document.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>141</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>10</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>142</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>10</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>143</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>10</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>144</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>10</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>145</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>4</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>10</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>146</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>10</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>147</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>2</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>29</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>148</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>3</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>29</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>149</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>4</actor__id>
+  <phase__id>4</phase__id>
+  <tab__position>6</tab__position>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>29</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>150</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>10</tab__position>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>17</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>151</transit__id>
+  <sim__id>1</sim__id>
+  <sendString></sendString>
+  <actor__id>5</actor__id>
+  <phase__id>5</phase__id>
+  <tab__position>11</tab__position>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>27</base__sec__id>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+
+<org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+  <sim__id>1</sim__id>
+  <bss__id>36</bss__id>
+  <objectId>1</objectId>
+  <className>org.usip.osp.communications.SharedDocument</className>
+  <dep__obj__index>1</dep__obj__index>
+  <transit__id>1</transit__id>
+</org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+<org.usip.osp.communications.SharedDocument>
+  <sim__id>1</sim__id>
+  <editable>true</editable>
+  <bigString></bigString>
+  <uniqueDocTitle>schedule</uniqueDocTitle>
+  <displayTitle>Schedule for this Simulation</displayTitle>
+  <docDesc></docDesc>
+  <docStarterText></docStarterText>
+  <transit__id>1</transit__id>
+</org.usip.osp.communications.SharedDocument>
+
+</SIM_PACKAGE_OBJECT>

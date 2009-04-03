@@ -17,7 +17,7 @@
 		
 		System.out.println("creating doc of uniq title: " + uniq_doc_title);
 		SharedDocument sd = new SharedDocument(uniq_doc_title, doc_display_title, pso.sim_id);
-		sd.save(pso.schema);
+		sd.saveMe(pso.schema);
 		
 	}
 	
@@ -53,7 +53,7 @@
               <h1>Create/Edit Documents Page</h1>
               <br />
     <p>Documents associated with a simulation can be read and written to by the players. One must first create a document here, and then add it to specific 'Read' or 'Write' sections to give the players this functionality.
-    <form action="../../make_create_document_page.jsp" method="post" name="form2" id="form2">
+    <form action="make_create_document_page.jsp" method="post" name="form2" id="form2">
       
       <h2>Create New Document</h2>
             <table>

@@ -2352,7 +2352,7 @@ public class ParticipantSessionObject {
 		 * this.sim_id, act.getId(), sp .getId());
 		 * 
 		 * for (ListIterator slist = setOfSections.listIterator();
-		 * slist.hasNext();) { SimulationSection ss = (SimulationSectionAssignment)
+		 * slist.hasNext();) { SimulationSectionAssignment ss = (SimulationSectionAssignment)
 		 * slist.next();
 		 * 
 		 * CustomizeableSection custSec = CustomizeableSection.getMe(schema,

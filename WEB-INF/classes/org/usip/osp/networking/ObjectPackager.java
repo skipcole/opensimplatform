@@ -98,26 +98,27 @@ public class ObjectPackager {
 		sim.setTransit_id(sim.getId());
 		sim.setId(null);
 
-		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>\r\n";
-		
-		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRawValue("release") + "</OSP_VERSION>";
-		
+		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>" + lineTerminator;
+
+		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRawValue("release") + "</OSP_VERSION>"
+				+ lineTerminator;
+
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat();
-		
-		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>";
-		
+
+		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + lineTerminator;
+
 		returnString += xstream.toXML(sim);
 
 		returnString += packageActors(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packagePhases(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageInjects(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageBaseSimSectionInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
-		returnString += packageSimSectionInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packageSimSectionAssignmentInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageSimObjectInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 
-		returnString += "/SIM_PACKAGE_OBJECT>";
-		
+		returnString += "</SIM_PACKAGE_OBJECT>";
+
 		return returnString;
 
 	}
@@ -129,12 +130,12 @@ public class ObjectPackager {
 	 * @param xstream
 	 * @return
 	 */
-	public static String packageSimSectionInformation(String schema, long sim_id, XStream xstream) {
+	public static String packageSimSectionAssignmentInformation(String schema, long sim_id, XStream xstream) {
 
 		String returnString = "";
 
-		for (ListIterator<SimulationSectionAssignment> li = SimulationSectionAssignment.getBySim(schema, sim_id).listIterator(); li
-				.hasNext();) {
+		for (ListIterator<SimulationSectionAssignment> li = SimulationSectionAssignment.getBySim(schema, sim_id)
+				.listIterator(); li.hasNext();) {
 			SimulationSectionAssignment thisSection = li.next();
 
 			thisSection.setTransit_id(thisSection.getId());
@@ -285,7 +286,7 @@ public class ObjectPackager {
 			thisActor.setTransit_id(thisActor.getId());
 			thisActor.setId(null);
 
-			returnString += xstream.toXML(thisActor)  + lineTerminator;
+			returnString += xstream.toXML(thisActor) + lineTerminator;
 		}
 		return returnString;
 	}
@@ -423,8 +424,8 @@ public class ObjectPackager {
 		unpackInformationString += "--------------------------------------------------------------------<br />";
 		unpackInformationString += "<b>Unpacking Simulation Sections</b><br />";
 		unpackInformationString += "<blockquote>";
-		unpackInformationString += unpackageSimSections(schema, fullString, simRead.getId(), xstream, actorIdMappings,
-				phaseIdMappings, bssIdMappings);
+		unpackInformationString += unpackageSimSectionAssignmentss(schema, fullString, simRead.getId(), xstream,
+				actorIdMappings, phaseIdMappings, bssIdMappings);
 		unpackInformationString += "</blockquote>";
 		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />";
 		unpackInformationString += "--------------------------------------------------------------------<br />";
@@ -455,8 +456,9 @@ public class ObjectPackager {
 
 		// Get object dependencies
 		String returnString = "Getting Dependent Object Assignments <BR />";
-		
-		//Fill this up to import objects first, and then remap the bssdoa to them and the base sim section
+
+		// Fill this up to import objects first, and then remap the bssdoa to
+		// them and the base sim section
 		Hashtable<String, String> setOfObjectClassesToGet = new Hashtable();
 
 		List<String> bssdoa_list = getSetOfObjectFromFile(fullString,
@@ -464,56 +466,69 @@ public class ObjectPackager {
 				"</org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>");
 		for (ListIterator<String> li_i = bssdoa_list.listIterator(); li_i.hasNext();) {
 			String sd_string = li_i.next();
-			
-			BaseSimSectionDepObjectAssignment this_bssdoa = 
-				(BaseSimSectionDepObjectAssignment) xstream.fromXML(sd_string);
-			
+
+			BaseSimSectionDepObjectAssignment this_bssdoa = (BaseSimSectionDepObjectAssignment) xstream
+					.fromXML(sd_string);
+
 			setOfObjectClassesToGet.put(this_bssdoa.getClassName(), "set");
 		}
-		
+
 		Hashtable dependentObjectMappings = new Hashtable();
 		// Get objects belonging to the classes just found
-		for (Enumeration e = setOfObjectClassesToGet.keys(); e.hasMoreElements();){
+		for (Enumeration e = setOfObjectClassesToGet.keys(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
-			
+
 			String startXMLTag = "<" + key + ">";
 			String endXMLTag = "</" + key + ">";
 			returnString += "Looking for objects of class: " + key + "<br />";
-			
-			List dos_list = getSetOfObjectFromFile(fullString, startXMLTag,endXMLTag);
-			
+
+			List dos_list = getSetOfObjectFromFile(fullString, startXMLTag, endXMLTag);
+
 			for (ListIterator<String> li_i = dos_list.listIterator(); li_i.hasNext();) {
 				String sd_string = li_i.next();
-				
-				SimSectionDependentObject this_dos = 
-					(SimSectionDependentObject) xstream.fromXML(sd_string);
-				
+
+				SimSectionDependentObject this_dos = (SimSectionDependentObject) xstream.fromXML(sd_string);
+
 				// Save object, map its new id to the transit id
 				this_dos.saveMe(schema);
 				dependentObjectMappings.put(this_dos.getTransit_id(), this_dos.getId());
-				
-				returnString += "Found Dependent Object of class " + key + " and it had a transit id of " + 
-					this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId() + "<BR />";
+
+				returnString += "Found Dependent Object of class " + key + " and it had a transit id of "
+						+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId() + "<BR />";
+
+				System.out.println("Found Dependent Object of class " + key + " and it had a transit id of "
+						+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId() + "<BR />");
 			}
 		}
-		
-		// Now go back through the bssdoas, remap the values of bss id and dep obj. id, and then save them.
+
+		// Now go back through the bssdoas, remap the values of bss id and dep
+		// obj. id, and then save them.
 		for (ListIterator<String> li_i = bssdoa_list.listIterator(); li_i.hasNext();) {
 			String sd_string = li_i.next();
-			
-			BaseSimSectionDepObjectAssignment this_bssdoa = 
-				(BaseSimSectionDepObjectAssignment) xstream.fromXML(sd_string);
-			
+
+			BaseSimSectionDepObjectAssignment this_bssdoa = (BaseSimSectionDepObjectAssignment) xstream
+					.fromXML(sd_string);
+
 			System.out.println("this_bssdoa.getBss_id() was " + this_bssdoa.getBss_id());
-			
+			System.out.flush();
+
 			this_bssdoa.setSim_id(sim_id);
-			this_bssdoa.setBss_id((Long) bssIdMappings.get(this_bssdoa.getBss_id()));
+
+			// This is the line that is dying
+			// TODO
+			try {
+				Long thisMappedId = (Long) bssIdMappings.get(this_bssdoa.getBss_id());
+				this_bssdoa.setBss_id(thisMappedId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			this_bssdoa.setObjectId((Long) dependentObjectMappings.get(this_bssdoa.getObjectId()));
-			
+
 			this_bssdoa.saveMe(schema);
-			
-			returnString += "Found bssdoa. Sim id / bss id / obj id: " + this_bssdoa.getSim_id() + " / " +
-				this_bssdoa.getBss_id() + " / " + this_bssdoa.getObjectId() + "<BR />";
+
+			returnString += "Found bssdoa. Sim id / bss id / obj id: " + this_bssdoa.getSim_id() + " / "
+					+ this_bssdoa.getBss_id() + " / " + this_bssdoa.getObjectId() + "<BR />";
 		}
 
 		return returnString;
@@ -528,13 +543,13 @@ public class ObjectPackager {
 	 * @param sim_id
 	 * @param xstream
 	 */
-	public static String unpackageSimSections(String schema, String fullString, Long sim_id, XStream xstream,
-			Hashtable actorIdMappings, Hashtable phaseIdMappings, Hashtable bssIdMappings) {
+	public static String unpackageSimSectionAssignmentss(String schema, String fullString, Long sim_id,
+			XStream xstream, Hashtable actorIdMappings, Hashtable phaseIdMappings, Hashtable bssIdMappings) {
 
 		String returnString = "";
 
-		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.SimulationSection>",
-				"</org.usip.osp.baseobjects.SimulationSection>");
+		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.SimulationSectionAssignment>",
+				"</org.usip.osp.baseobjects.SimulationSectionAssignment>");
 		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
 			String act_string = li_i.next();
 
@@ -854,11 +869,13 @@ public class ObjectPackager {
 				exitLoop = true;
 			}
 		}
-		
-		// Since the above get things from the end of the file and works backwards, we reverse the order
-		// to make the imported objects come in in the same order in which they were exported.
+
+		// Since the above get things from the end of the file and works
+		// backwards, we reverse the order
+		// to make the imported objects come in in the same order in which they
+		// were exported.
 		Collections.reverse(returnList);
-		
+
 		return returnList;
 
 	}
