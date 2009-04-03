@@ -354,7 +354,7 @@ public class Actor {
         
         Session session = MultiSchemaHibernateUtil.getSession(schema);
         
-        String getHQL = "select count(ss) from SimulationSection ss where SIM_ID = "
+        String getHQL = "select count(ss) from SimulationSectionAssignment ss where SIM_ID = "
 			+ s_id + " AND PHASE_ID = " + pid.toString() + " AND ACTOR_ID = " + a_id.toString();
         
         System.out.println(getHQL);

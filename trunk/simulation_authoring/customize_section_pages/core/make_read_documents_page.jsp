@@ -42,7 +42,7 @@
                       <p>Tab Heading:
                         <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
                       </p>
-                      <p>To allow access to a player to read a document, you must first have created it. To create a new document associated with this simulation <a href="../../make_create_document_page.jsp">click here</a>. </p>
+                      <p>To allow access to a player to read a document, you must first have created it. To create a new document associated with this simulation <a href="make_create_document_page.jsp">click here</a>. </p>
                       <table width="100%" border="0">
                         <% List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id); 
 							Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(pso.schema, cs.getId());

@@ -33,7 +33,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * 
  */
 @Entity
-@Table(name = "SIMULATION_SECTIONS")
+@Table(name = "SIM_SEC_ASSIGNMENTS")
 @Proxy(lazy = false)
 public class SimulationSectionAssignment {
 	
@@ -41,7 +41,7 @@ public class SimulationSectionAssignment {
 		
 		System.out.println("hello world");
 		
-		String getHQL = "from SimulationSection where SIM_ID = 1  AND ACTOR_ID = 2 AND PHASE_ID = 6 and simSubSection is true " + 
+		String getHQL = "from SimulationSectionAssignment where SIM_ID = 1  AND ACTOR_ID = 2 AND PHASE_ID = 6 and simSubSection is true " + 
 			" and displaySectionIndex = 43 and simSubSectionIndex = 1 order by TAB_POS";
 
 		MultiSchemaHibernateUtil.beginTransaction("test");
@@ -328,11 +328,14 @@ public class SimulationSectionAssignment {
 
 		String returnString = this.getUrl() + this.getDirectory() + this.getPage_file_name();
 
+		returnString += "?cs_id=" + this.getBase_section_id();
+			
 		System.out.println("sendString is " + this.sendString);
 
-		String firstSep = "?";
+		//String firstSep = "?";
 		String subsequentSep = "&";
-		String thisSep = firstSep;
+		//String thisSep = firstSep;
+		String thisSep = subsequentSep;
 
 		if ((this.sendString != null) && (this.sendString.length() > 0)) {
 			if (this.sendString.charAt(POS_RS_ID) == '1') {
@@ -372,7 +375,7 @@ public class SimulationSectionAssignment {
 			return new ArrayList<Long>();
 		} else {
 
-			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSection ss where SIM_ID = " + sid.toString()
+			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSectionAssignment ss where SIM_ID = " + sid.toString()
 			+ " order by ss.base_sec_id";
 
 			System.out.println(getHQL);
@@ -433,7 +436,7 @@ public class SimulationSectionAssignment {
 			return new ArrayList<SimulationSectionAssignment>();
 		} else {
 
-			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString() + "order by simsec_id";
+			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + "order by simsec_id";
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -470,7 +473,7 @@ public class SimulationSectionAssignment {
 			Long aid, Long pid){
 		
 
-		String getHQL = "from SimulationSection where SIM_ID = " + sid + " AND ACTOR_ID = " + aid +
+		String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid + " AND ACTOR_ID = " + aid +
 			" AND PHASE_ID = " + pid + " and simSubSection is true " + 
 			" and displaySectionIndex = " + cs_id + " and simSubSectionIndex = " + index + " order by TAB_POS";
 
@@ -520,7 +523,7 @@ public class SimulationSectionAssignment {
 				getSub = "";
 			}
 			
-			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
+			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
 					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + getSub + " order by TAB_POS";
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -570,7 +573,7 @@ public class SimulationSectionAssignment {
 			return null;
 		} else {
 
-			String getHQL = "from SimulationSection where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
+			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
 					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + " AND TAB_POS = " + tab_pos;
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -668,7 +671,7 @@ public class SimulationSectionAssignment {
 	 */
 	private static List<SimulationSectionAssignment> getBySimAndPhaseAndBSSid(String schema, Long sid, Long pid, Long bss_id) {
 
-		String getHQL = "from SimulationSection where SIM_ID = " + sid + " AND BASE_SEC_ID = " + bss_id
+		String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid + " AND BASE_SEC_ID = " + bss_id
 				+ " AND PHASE_ID = " + pid.toString() + " order by TAB_POS";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
