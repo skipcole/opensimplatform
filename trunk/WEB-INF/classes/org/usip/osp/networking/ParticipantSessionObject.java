@@ -2754,6 +2754,51 @@ public class ParticipantSessionObject {
 
 		}
 	}
+	
+	
+	/**
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
+	public String getActorThumbImage(HttpServletRequest request, Long a_id) {
+
+		ServletContext context = request.getSession().getServletContext();
+
+		Hashtable<String, String> actor_thumbs = (Hashtable<String, String>) context.getAttribute("actor_thumbs");
+
+		if (actor_thumbs == null) {
+			actor_thumbs = new Hashtable<String, String>();
+			context.setAttribute("actor_thumbs", actor_thumbs);
+		}
+
+		String a_thumb = actor_thumbs.get(schema + "_" + running_sim_id + " " + a_id);
+		if (a_thumb == null) {
+			loadActorThumbsInHashtable(actor_thumbs);
+			a_thumb = actor_thumbs.get(schema + "_" + running_sim_id + " " + a_id);
+			context.setAttribute("actor_thumbs", actor_thumbs);
+		}
+
+		return a_thumb;
+	}
+	
+	public void loadActorThumbsInHashtable(Hashtable actor_thumbs) {
+
+		System.out.println("storing namges actor thumb nail images in hashtable. ");
+		Simulation sim = this.giveMeSim();
+
+		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
+			Actor act = li.next();
+
+			if (act.getImageThumbFilename() != null){
+				actor_thumbs.put(schema + "_" + running_sim_id + " " + act.getId(), act.getImageThumbFilename());
+			} else {
+				actor_thumbs.put(schema + "_" + running_sim_id + " " + act.getId(), "no_image_default_thumb.jpg");
+			}
+
+		}
+	}
 
 	/**
 	 * Checks for authorization, and then passes the request to the

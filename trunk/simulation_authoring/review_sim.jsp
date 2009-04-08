@@ -33,7 +33,7 @@
 
 <title>USIP Open Simulation Platform</title>
 <SCRIPT language=JavaScript1.2>
-<!--
+
 function showHide(name){
   if (document.all[name].style.display == "block") {
    document.all[name].style.display = "none";
@@ -42,7 +42,7 @@ function showHide(name){
   }
   return true;
 }
--->
+
 </SCRIPT>
 
 
@@ -128,14 +128,9 @@ function showHide(name){
 		    <% for (ListIterator la = simulation.getActors(pso.schema).listIterator(); la.hasNext();) {
 					Actor act = (Actor) la.next();
 					
-					
-					//String pub_desc = act.getPublic_description();
-					//String semi_desc = act.getSemi_public_description();
-					//String priv_desc = act.getPrivate_description();
-					
-					String pub_desc = "";
-					String semi_desc = "";
-					String priv_desc = "";
+					String pub_desc = act.getPublic_description();
+					String semi_desc = act.getSemi_public_description();
+					String priv_desc = act.getPrivate_description();
 					
 			  %>
 		    
@@ -143,7 +138,7 @@ function showHide(name){
 		    <a href="javascript://" onClick="showHide('actor_desc_<%= act.getId() %>');"><%= act.getName() %> </a><br />
 		    
 		    <div id="actor_desc_<%= act.getId() %>"  style="display:none; padding:5px;">
-		      <!--
+		      
           <blockquote>
             <strong>Public:</strong><br />
 			<%=  pub_desc %><hr />
@@ -152,7 +147,7 @@ function showHide(name){
 			<strong>Private:</strong><br />
 			<%= priv_desc %>
           </blockquote>
-          -->
+          
 		      </div>
             
           <br />
