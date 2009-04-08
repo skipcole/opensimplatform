@@ -30,6 +30,11 @@ public class USIP_OSP_ContextListener implements ServletContextListener{
         Hashtable actor_names = new Hashtable();
         context.setAttribute("actor_names", actor_names);
         
+        
+        /** Name of the actor thumb nail images stored by schema and rs_id and actor_id */
+        Hashtable actor_thumbs = new Hashtable();
+        context.setAttribute("actor_thumbs", actor_thumbs);
+        
         /**
          */
         Hashtable sim_section_info = new Hashtable();

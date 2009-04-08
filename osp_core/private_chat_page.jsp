@@ -210,10 +210,13 @@ width:100%;
 			
 			String this_a_id = caa.getActor_id().toString();
 			String this_a_name = pso.getActorName(request, caa.getActor_id());
+			
+			String this_a_thumb = "images/actors/" + pso.getActorThumbImage(request, caa.getActor_id());
+			
 	%>
 		
   <tr valign="top"> 
-    <td width="40%"> Your conversation with <%= this_a_name %> 
+    <td width="40%"> Your conversation with <img src = "<%= this_a_thumb %>" alt = "<%= this_a_name %>" >
     (<I><span id="actorpresent<%= caa.getActor_id().toString() %>">Checking status ...</span></I>)<br>
 				<form id="chatform<%= conv.getId() %>" >
   <p>Message: <input type="text" id="msg<%= conv.getId() %>" width="40" /> <br />
