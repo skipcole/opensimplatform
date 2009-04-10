@@ -31,12 +31,6 @@ public interface SimSectionDependentObject {
 	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject);
 	
 	/**
-	 * Returns the class of the object.
-	 * @return
-	 */
-	public String getObjectClass();
-	
-	/**
 	 * Returns the id of the object created.
 	 * @return
 	 */

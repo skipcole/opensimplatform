@@ -203,7 +203,7 @@ public class BaseSimSectionDepObjectAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		try {
-			Class objClass = Class.forName(bssdoa.className);
+			Class objClass = Class.forName(bssdoa.getClassName());
 			obj = MultiSchemaHibernateUtil.getSession(schema).get(objClass, bssdoa.getObjectId());
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -58,7 +58,7 @@ body {
         </tr>
 	<% } %>	
         <tr>
-          <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" class="menu_item" target="bodyinleft"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
           <td><div align="center"><a href="<%= myLogoutPage %>" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>

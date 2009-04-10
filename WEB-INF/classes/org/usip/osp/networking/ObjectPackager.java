@@ -179,11 +179,20 @@ public class ObjectPackager {
 			// We need to make sure that an object is not saved multiple times
 			// to the xml
 			SimSectionDependentObject depObj = bssdoa.pullOutObject(schema, bssdoa);
+			System.out.println(depObj.getClass());
+			System.out.println(depObj.getId());
+			
+			String hash_key_string = depObj.getClass() + "_" + depObj.getId();
 
-			String checkString = (String) previouslyStoredObjects.get(depObj);
+			String checkString = (String) previouslyStoredObjects.get(hash_key_string);
+			
+			System.out.println("hash_key_string was: " + hash_key_string);
+			System.out.println("check string was: " + checkString);
 
 			if (checkString == null) {
-				previouslyStoredObjects.put(depObj, "set");
+				
+				previouslyStoredObjects.put(hash_key_string, "set");
+				System.out.println("put hash_key_string: " + hash_key_string);
 
 				depObj.setTransit_id(depObj.getId());
 				depObj.setId(null);

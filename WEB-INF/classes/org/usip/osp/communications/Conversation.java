@@ -449,12 +449,6 @@ public class Conversation implements SimSectionDependentObject {
 		return conv;
 	}
 
-	@Override
-	public String getObjectClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/**
 	 * Saves the object to the database.
 	 * 
