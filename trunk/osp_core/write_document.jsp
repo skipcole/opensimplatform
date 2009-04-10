@@ -28,25 +28,13 @@
 		sd = (SharedDocument) setOfDocs.get(0);
 	}
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	String update_text = (String) request.getParameter("update_text");
-	
-	System.out.println("im back in here.");
-	if ( (sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("write_document"))){
-		System.out.println("im back in here saving.");
-		String write_document_text = (String) request.getParameter("write_document_text");
-		
-		sd.setBigString(write_document_text);
-		sd.save(pso.schema);
-		
-		   
-	} // End of if coming from this page and have added text
+	pso.handleWriteDocument(request, sd);
 	
 
 %>
 <html>
 <head>
-<title>Make Announcement Page</title>
+<title>OSP Write Document Page</title>
 <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">

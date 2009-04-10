@@ -516,8 +516,8 @@ public class ParticipantSessionObject {
 
 			} else if (objectType.equalsIgnoreCase("sim_section")) {
 				MultiSchemaHibernateUtil.beginTransaction(schema);
-				SimulationSectionAssignment ss = (SimulationSectionAssignment) MultiSchemaHibernateUtil.getSession(schema).get(
-						SimulationSectionAssignment.class, o_id);
+				SimulationSectionAssignment ss = (SimulationSectionAssignment) MultiSchemaHibernateUtil.getSession(
+						schema).get(SimulationSectionAssignment.class, o_id);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 				SimulationSectionAssignment.removeAndReorder(schema, ss);
@@ -1279,8 +1279,8 @@ public class ParticipantSessionObject {
 			returnList = new ArrayList<SimulationSectionGhost>();
 
 			// Get full list from database hit
-			List<SimulationSectionAssignment> fullList = SimulationSectionAssignment.getBySimAndActorAndPhase(schema, sim_id, actor_id,
-					phase_id);
+			List<SimulationSectionAssignment> fullList = SimulationSectionAssignment.getBySimAndActorAndPhase(schema,
+					sim_id, actor_id, phase_id);
 
 			// Copy the needed parts of that list into the ghosts
 			for (ListIterator<SimulationSectionAssignment> li = fullList.listIterator(); li.hasNext();) {
@@ -2348,12 +2348,13 @@ public class ParticipantSessionObject {
 		 * (Actor) alist.next();
 		 * 
 		 * System.out.println("checking read write on " + act.getName()); List
-		 * setOfSections = SimulationSectionAssignment.getBySimAndActorAndPhase(schema,
+		 * setOfSections =
+		 * SimulationSectionAssignment.getBySimAndActorAndPhase(schema,
 		 * this.sim_id, act.getId(), sp .getId());
 		 * 
 		 * for (ListIterator slist = setOfSections.listIterator();
-		 * slist.hasNext();) { SimulationSectionAssignment ss = (SimulationSectionAssignment)
-		 * slist.next();
+		 * slist.hasNext();) { SimulationSectionAssignment ss =
+		 * (SimulationSectionAssignment) slist.next();
 		 * 
 		 * CustomizeableSection custSec = CustomizeableSection.getMe(schema,
 		 * ss.getBase_section_id() + "");
@@ -2754,8 +2755,7 @@ public class ParticipantSessionObject {
 
 		}
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param request
@@ -2782,7 +2782,7 @@ public class ParticipantSessionObject {
 
 		return a_thumb;
 	}
-	
+
 	public void loadActorThumbsInHashtable(Hashtable actor_thumbs) {
 
 		System.out.println("storing namges actor thumb nail images in hashtable. ");
@@ -2791,7 +2791,7 @@ public class ParticipantSessionObject {
 		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
 			Actor act = li.next();
 
-			if (act.getImageThumbFilename() != null){
+			if (act.getImageThumbFilename() != null) {
 				actor_thumbs.put(schema + "_" + running_sim_id + " " + act.getId(), act.getImageThumbFilename());
 			} else {
 				actor_thumbs.put(schema + "_" + running_sim_id + " " + act.getId(), "no_image_default_thumb.jpg");
@@ -3165,5 +3165,28 @@ public class ParticipantSessionObject {
 		return returnString;
 
 	} // End of method
+
+	/**
+	 * 
+	 * @param request
+	 * @param sd
+	 */
+	public void handleWriteDocument(HttpServletRequest request, SharedDocument sd) {
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String update_text = (String) request.getParameter("update_text");
+
+
+		if ((sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("write_document"))) {
+			
+			System.out.println("im back in here saving.");
+			String write_document_text = (String) request.getParameter("write_document_text");
+
+			sd.setBigString(write_document_text);
+			sd.saveMe(schema);
+
+		} // End of if coming from this page and have added text
+
+	}
 
 } // End of class

@@ -301,11 +301,6 @@ public class GenericVariable implements SimSectionDependentObject{
 		return null;
 	}
 
-	@Override
-	public String getObjectClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 }

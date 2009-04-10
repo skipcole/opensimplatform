@@ -305,11 +305,6 @@ public class SharedDocument implements SimSectionDependentObject {
 		return sd.getId();
 	}
 
-	@Override
-	public String getObjectClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public static List getSetOfDocsForSection(String schema, Long section_id, Long rs_id) {
 
