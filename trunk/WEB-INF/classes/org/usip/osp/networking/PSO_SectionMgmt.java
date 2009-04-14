@@ -787,12 +787,12 @@ public class PSO_SectionMgmt {
 			// Need to set them as sub sections
 			leftSect.setSimSubSection(true);
 			leftSect.setSimSubSectionIndex(1);
-			leftSect.setDisplaySectionIndex(customizableSectionOnScratchPad.getId());
+			leftSect.setDisplaySectionId(customizableSectionOnScratchPad.getId());
 			leftSect.save(pso.schema);
 			
 			rightSect.setSimSubSection(true);
 			rightSect.setSimSubSectionIndex(2);
-			rightSect.setDisplaySectionIndex(customizableSectionOnScratchPad.getId());
+			rightSect.setDisplaySectionId(customizableSectionOnScratchPad.getId());
 			rightSect.save(pso.schema);
 			
 			// Need to reorder the list

@@ -556,7 +556,13 @@ public class ObjectPackager {
 			XStream xstream, Hashtable actorIdMappings, Hashtable phaseIdMappings, Hashtable bssIdMappings) {
 
 		String returnString = "";
-
+		
+		// Sub section ids will change, but since this set of ids point back into the same table
+		// its a bit more difficult to get them right the first time. So we keep a list of all the ones that
+		// will need changed after the first pass.
+		List subSectionIdsToClean = new ArrayList();
+		Hashtable ssidsHash = new Hashtable();
+		
 		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.SimulationSectionAssignment>",
 				"</org.usip.osp.baseobjects.SimulationSectionAssignment>");
 		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
@@ -568,11 +574,32 @@ public class ObjectPackager {
 			this_ss.setActor_id((Long) actorIdMappings.get(this_ss.getActor_id()));
 			this_ss.setPhase_id((Long) phaseIdMappings.get(this_ss.getPhase_id()));
 			this_ss.setBase_section_id((Long) bssIdMappings.get(this_ss.getBase_section_id()));
-
+			
 			this_ss.save(schema);
+			
+			if (this_ss.isSimSubSection()){
+				subSectionIdsToClean.add(this_ss.getId());
+			}
+			
+			ssidsHash.put(this_ss.getTransit_id(), this_ss.getId());
 
 			returnString += "Found " + this_ss.getTab_heading() + " and it had id " + this_ss.getId() + "<br />";
 
+		}
+		
+		// Loop over the saved sim section assignments and correct the sim sub section pointers to the ids in
+		// the new database.
+		for (ListIterator<Long> li_i = subSectionIdsToClean.listIterator(); li_i.hasNext();){
+			Long li_id = li_i.next();
+			
+			SimulationSectionAssignment this_ssa = SimulationSectionAssignment.getMe(schema, li_id);
+			
+			returnString += "<font color=green>Remapped " +  this_ssa.getDisplaySectionId() + " to " + 
+				(Long) ssidsHash.get(this_ssa.getDisplaySectionId()) + "</font><br />";
+			
+			this_ssa.setDisplaySectionId((Long) ssidsHash.get(this_ssa.getDisplaySectionId()));
+			this_ssa.save(schema);
+			
 		}
 
 		return returnString;
