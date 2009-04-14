@@ -669,9 +669,34 @@ public class PSO_SectionMgmt {
 	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
 
 		this.getSimSectionsInternalVariables(request);
+		System.out.println("making read document page");
+		
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
+		
+		// Ever read document page should have at least one document associated with it.
+		if (customizableSectionOnScratchPad.getNumDependentObjects() < 1){
+			customizableSectionOnScratchPad.setNumDependentObjects(1);
+		}
 
+		String add_document = (String) request.getParameter("add_document");
+		// If adding a document, just increase the number and return.
+		if (add_document != null) {
+			System.out.println("adding document!");
+			int numDocs = customizableSectionOnScratchPad.getNumDependentObjects() + 1;
+			customizableSectionOnScratchPad.setNumDependentObjects(numDocs);
+			
+			System.out.println("now has num docs: " + numDocs);
+			// Update page values
+			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
+			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.save(pso.schema);
+			
+			return customizableSectionOnScratchPad;
+		}
+		
+		
 		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 
 		&& (sending_page.equalsIgnoreCase("make_read_document_page"))) {
@@ -684,10 +709,7 @@ public class PSO_SectionMgmt {
 				sharedDocument = new SharedDocument();
 			}
 			
-			// Ever read document page should have at least one document associated with it.
-			if (customizableSectionOnScratchPad.getNumDependentObjects() < 1){
-				customizableSectionOnScratchPad.setNumDependentObjects(1);
-			}
+
 			
 			// Remove all dependent object assignments currently associated with this page.
 			BaseSimSectionDepObjectAssignment

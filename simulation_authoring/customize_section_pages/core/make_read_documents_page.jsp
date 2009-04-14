@@ -62,7 +62,7 @@
 
 		  %>
                             <label>Select Document
-                            <select name="doc_<%= ii %>">
+                            <select name="doc_<%= ii %>" size="1">
                               <%
 					for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 					
@@ -82,8 +82,8 @@
                         <% } %>
                         <tr>
                           <td valign="top"><label>
-                            <input type="submit" name="button" id="button" value="Add An Additional Document" />
-                            </label></td>
+                          <input type="submit" name="add_document" id="button" value="Add An Additional Document" />
+                          </label></td>
                           <td valign="top">&nbsp;</td>
                           <td>&nbsp;</td>
                         </tr>
