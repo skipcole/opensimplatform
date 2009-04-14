@@ -30,13 +30,13 @@
 	} // end of if pso.selected
 	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
+
+
 <script type="text/JavaScript">
 <!--
 function MM_preloadImages() { //v3.0
@@ -114,9 +114,8 @@ function loadInfo(dropdownlist){
 .style_cs {color: #FF0000}
 -->
 </style>
-<!-- InstanceEndEditable -->
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="loadFirstInfo();" -->
 </head>
 <body onLoad="loadFirstInfo();">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -127,29 +126,26 @@ function loadInfo(dropdownlist){
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Set Universal Simulation Sections</h1>
-    <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" -->
+              <h1>Set Universal Simulation Sections</h1>
+              <br />
       <blockquote> 
         <% 
 			if (pso.sim_id != null) {
 		%>
         <p>Set the sections available to all of the actors in the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-          here</a>.)</p>
-	  </blockquote>
-        
-        <table width="100%" border="1">
-          <tr>
-            <td> <table width="100%" border="0">
-                <tr> 
-                  <td width="71%"> <h2> 
-                      Every Actor in Phase <strong>'<%= spp.getName() %>' </strong> </h2></td>
-                  <td width="29%">
-				  <form id="form2" name="form2" method="post" action="set_universal_sim_sections.jsp">
-                      <select name="phase_id">
-                        <% 
+            here</a>.)</p>
+	    </blockquote>
+      <table width="100%" border="1">
+        <tr>
+          <td> <table width="100%" border="0">
+            <tr> 
+              <td width="71%"> <h2> 
+                Every Actor in Phase <strong>'<%= spp.getName() %>' </strong> </h2></td>
+                    <td width="29%">
+                      <form id="form2" name="form2" method="post" action="set_universal_sim_sections.jsp">
+                        <select name="phase_id">
+                          <% 
 						
 						for (ListIterator li = SimPhaseAssignment.getPhasesForSim(pso.schema, simulation.getId()).listIterator(); li.hasNext();) {
 							SimulationPhase sp = (SimulationPhase) li.next();
@@ -160,22 +156,21 @@ function loadInfo(dropdownlist){
 								selected_p = "selected";
 							}	
 				%>
-                        <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getName() %></option>
-                        <% } %>
-                      </select>
-                      <label>
-                      <input type="submit" name="command" value="Change Phase" />
-                      </label>
-                  </form>
-				  </td>
-                </tr>
-              </table>
-              <p>&nbsp;</p>
-              <%
+                          <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getName() %></option>
+                          <% } %>
+                          </select>
+                        <label>
+                          <input type="submit" name="command" value="Change Phase" />
+                          </label>
+                        </form>				    </td>
+                  </tr>
+            </table>
+                <p>&nbsp;</p>
+                <%
 			if (pso.tempSimSecList.size() > 0) {
 		%> <table  border="1" cellspacing="2" cellpadding="1">
-                <tr> 
-                  <%
+                  <tr> 
+                    <%
 		  	int ii = 0;
 			// Need set of ids by position to set the exchange going to the right.
 			Hashtable idByPos = new Hashtable();
@@ -199,72 +194,71 @@ function loadInfo(dropdownlist){
 				int sec_ss = ss.getId().intValue();
 				
 		  %>
-                  <% if (ii > 0) { %>
-                  
-                <td><!-- a href="set_universal_sim_sections.jsp?exchange=true&first_sec=< % = first_ss %>&sec_sec=< % = sec_ss %>" -->-<!-- /a--></td>
-                  <% } %>
-                  <td><a href="show_section_preview.jsp?sec_id=<%= sec_ss %>"><%= ss.getTab_heading() %></a></td>
-                  <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
-                  <td>-</td>
-                  <% } %>
-                  <%
+                    <% if (ii > 0) { %>
+                    
+                    <td><!-- a href="set_universal_sim_sections.jsp?exchange=true&first_sec=< % = first_ss %>&sec_sec=< % = sec_ss %>" -->-<!-- /a--></td>
+                    <% } %>
+                    <td><a href="show_section_preview.jsp?sec_id=<%= sec_ss %>"><%= ss.getTab_heading() %></a></td>
+                    <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
+                    <td>-</td>
+                    <% } %>
+                    <%
 				++ii;
 			
 				first_ss = ss.getId().intValue();
 				} // End of loop over simulation sections
 			%>
-                <tr> 
-                  <%
+                    <tr> 
+                      <%
 		  	ii = 0;
 			
 			for (ListIterator li = pso.tempSimSecList.listIterator(); li.hasNext();) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
 		  %>
-                  <% if (ii > 0) { %>
-                  <td>&nbsp;</td>
-                  <% } %>
-                  <td><a href="delete_object.jsp?object_type=sim_section&amp;objid=<%= ss.getId().toString() %>&amp;backpage=set_universal_sim_sections.jsp&amp;object_info=<%= ss.getTab_heading() %>">Remove </a></td>
-                  <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
-                  <td>&nbsp;</td>
-                  <% } %>
-                  <%
+                      <% if (ii > 0) { %>
+                      <td>&nbsp;</td>
+                    <% } %>
+                      <td><a href="delete_object.jsp?object_type=sim_section&amp;objid=<%= ss.getId().toString() %>&amp;backpage=set_universal_sim_sections.jsp&amp;object_info=<%= ss.getTab_heading() %>">Remove </a></td>
+                    <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
+                      <td>&nbsp;</td>
+                    <% } %>
+                      <%
 			++ii;
 				} // End of loop over simulation sections
 			%>
-                </tr>
-              </table>
-              <% } else { %> 
+                      </tr>
+                  </table>
+                <% } else { %> 
             <div align="center">No universal (?) simulation sections set for the 
               actors in this phase. </div>
-              <% } // end of if no sim sections %> 
-			  <p align="center">
-			  <img name="sample_image" id="sample_image" src="../simulation_section_information/images/sample.png" width="300" height="240" />
-			  </p>
-              <table width="100%" border="0" cellspacing="2" cellpadding="1">
-                <tr>
-                  <td colspan="2" valign="top"> <table border="1" width="100%">
-                    <form id="section_form" name="section_form" method="post" action="set_sim_sections_router.jsp">
-                      <tr> 
-                        <td width="50%" valign="top"><p>Select a Standard Section 
+                <% } // end of if no sim sections %> 
+            <p align="center">
+              <img name="sample_image" id="sample_image" src="../simulation_section_information/images/sample.png" width="300" height="240" />              </p>
+                <table width="100%" border="0" cellspacing="2" cellpadding="1">
+                  <tr>
+                    <td colspan="2" valign="top"> <table border="1" width="100%">
+                      <form id="section_form" name="section_form" method="post" action="set_sim_sections_router.jsp">
+                        <tr> 
+                          <td width="50%" valign="top"><p>Select a Standard Section 
                             Below 
-                          <blockquote> 
-                            <p>
-                              <select name="bss_id"  onChange="loadInfo(window.document.section_form.bss_id);">
-                                <%
+                            <blockquote> 
+                              <p>
+                                <select name="bss_id"  onChange="loadInfo(window.document.section_form.bss_id);">
+                                  <%
 							
 		for (ListIterator li = new BaseSimSection().getAll(pso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next();
 			%>
-                                <option value="<%= bss.getId() %>"><%= bss.getRec_tab_heading() %></option>
-                                <% } %>
-                                <option value="new_section">* Create an Entirely 
-                                  New Section</option>
-                                <% 
+                                  <option value="<%= bss.getId() %>"><%= bss.getRec_tab_heading() %></option>
+                                  <% } %>
+                                  <option value="new_section">* Create an Entirely 
+                                    New Section</option>
+                                  <% 
 								List uc = CustomizeableSection.getAllUncustomized(pso.schema);
 								
 								if (uc != null) {
 							%>
-                                <% 
+                                  <% 
 			for (ListIterator li = uc.listIterator(); li.hasNext();) {
 				CustomizeableSection cs = (CustomizeableSection) li.next();
 				
@@ -275,56 +269,47 @@ function loadInfo(dropdownlist){
 					postFont= "";
 				}
 			%>
-                                <option value="<%= cs.getId().toString() %>"><%= preFont %><%= cs.getRec_tab_heading() %><%= postFont %></option>
-                                <% } %>
-                                <% } %>
-                              </select>
-                            </p>
-                            <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a>   </p>
-                          </blockquote>
-                        </td>
-                        <td valign="top"> <label> Tab Heading: 
-                          <input type="text" name="tab_heading" />      
-                          </label> 
-                          <p> 
-                            <label> 
-                            <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
-                            <input type="hidden" name="phase_id" value="<%= pso.phase_id.toString() %>">
-							<input type="hidden" name="universal" value="true">
-                            <br />
-                            <input type="submit" name="command" value="Add Section">
-                            </label>
-                          </p></td>
-                      </tr>
-					  </form>
-                  </table></td>
-                </tr>
-              </table>
-              
-            </td>
-          </tr>
-        </table>
+                                  <option value="<%= cs.getId().toString() %>"><%= preFont %><%= cs.getRec_tab_heading() %><%= postFont %></option>
+                                  <% } %>
+                                  <% } %>
+                                  </select>
+                                </p>
+                              <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a>   </p>
+                            </blockquote>                          </td>
+                          <td valign="top"> <label> Tab Heading: 
+                            <input type="text" name="tab_heading" />      
+                            </label> 
+                            <p> 
+                              <label> 
+                                <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
+                                <input type="hidden" name="phase_id" value="<%= pso.phase_id.toString() %>">
+                                <input type="hidden" name="universal" value="true">
+                                <br />
+                                <input type="submit" name="command" value="Add Section">
+                                </label>
+                              </p></td>
+                        </tr>
+                        </form>
+                    </table></td>
+                  </tr>
+                  </table>            </td>
+            </tr>
+      </table>
       </blockquote>
       <p align="center"> 
         <%
 	Actor nextActor = (Actor) simulation.getActors(pso.schema).get(0);
 %>
         <a href="set_specific_sim_sections.jsp?actor_index=1&amp;phase_id=<%= spp.getId().toString() %>"> 
-        Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a> 
-        
-      </p>
+          Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a>      </p>
       <% } else { // End of if have set simulation id. %>
       <blockquote> 
         <p> 
           <%@ include file="select_message.jsp" %></p>
       </blockquote>
-      <% } // End of if have not set simulation for edits. %>
-      <p><a href="incorporate_underlying_model.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
-<!-- InstanceEndEditable -->
-			</td>
+      <% } // End of if have not set simulation for edits. %>      <p><a href="incorporate_underlying_model.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -337,7 +322,7 @@ function loadInfo(dropdownlist){
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
 <%
 	
 %>
