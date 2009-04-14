@@ -156,12 +156,12 @@ public class SimulationSectionAssignment {
 		this.simSubSectionIndex = simSubSectionIndex;
 	}
 
-	public Long getDisplaySectionIndex() {
-		return displaySectionIndex;
+	public Long getDisplaySectionId() {
+		return displaySectionId;
 	}
 
-	public void setDisplaySectionIndex(Long displaySectionIndex) {
-		this.displaySectionIndex = displaySectionIndex;
+	public void setDisplaySectionId(Long displaySectionId) {
+		this.displaySectionId = displaySectionId;
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class SimulationSectionAssignment {
 	private int simSubSectionIndex = 0;
 
 	/** The id of the custom section which is displaying this sub-section. */
-	private Long displaySectionIndex;
+	private Long displaySectionId;
 
 	/** Zero argument constructor needed by Hibernate. */
 	public SimulationSectionAssignment() {
@@ -313,13 +313,17 @@ public class SimulationSectionAssignment {
 		copy.setActor_id(this.getActor_id());
 		copy.setBase_section_id(this.getBase_section_id());
 		copy.setDirectory(this.getDirectory());
+		copy.setDisplaySectionId(this.getDisplaySectionId());
 		copy.setPage_file_name(this.getPage_file_name());
 		copy.setPhase_id(this.getPhase_id());
 		copy.sendString = this.sendString;
+		copy.setSimSubSection(this.isSimSubSection());
+		copy.setSimSubSectionIndex(this.getSimSubSectionIndex());
 		copy.setSim_id(this.getSim_id());
 		copy.setTab_heading(this.getTab_heading());
 		copy.setTab_position(this.getTab_position());
 		copy.setUrl(this.getUrl());
+		
 
 		return copy;
 	}
