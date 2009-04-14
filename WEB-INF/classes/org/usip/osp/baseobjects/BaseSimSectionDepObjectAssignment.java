@@ -227,6 +227,14 @@ public class BaseSimSectionDepObjectAssignment {
 
 	/** The id of this object used to pull it out of the database if necessary. */
 	private Long objectId;
+	
+	/**
+	 * If the dependent object associated with this section depends upon the actor's id, then this is true.
+	 */
+	private boolean actor_dependent = false;
+	
+	/** If the dependent objects associated with this section are associated with a particular actor, this is its id. */
+	private Long actor_id;
 
 	/**
 	 * The class name of this object used to create it or pull it out of the
@@ -284,6 +292,30 @@ public class BaseSimSectionDepObjectAssignment {
 
 	public void setObjectId(Long objectId) {
 		this.objectId = objectId;
+	}
+
+	public boolean isActor_dependent() {
+		return actor_dependent;
+	}
+
+	public void setActor_dependent(boolean actor_dependent) {
+		this.actor_dependent = actor_dependent;
+	}
+
+	public Long getActor_id() {
+		return actor_id;
+	}
+
+	public void setActor_id(Long actor_id) {
+		this.actor_id = actor_id;
+	}
+
+	public int getDep_obj_index() {
+		return dep_obj_index;
+	}
+
+	public void setDep_obj_index(int dep_obj_index) {
+		this.dep_obj_index = dep_obj_index;
 	}
 
 	public String getClassName() {

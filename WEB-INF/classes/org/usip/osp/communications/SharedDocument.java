@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import javax.persistence.*;
 
 import org.apache.log4j.Logger;
+import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
@@ -79,7 +80,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	public void setTransit_id(Long transit_id) {
 		this.transit_id = transit_id;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -212,7 +213,7 @@ public class SharedDocument implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() + " AND RS_ID is null";
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
-		
+
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
@@ -305,21 +306,67 @@ public class SharedDocument implements SimSectionDependentObject {
 		return sd.getId();
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @param bss_id
+	 * @param this_id
+	 * @return
+	 */
+	public static String getBaseDocsForBaseSimSection(String schema, Long bss_id, Long this_id) {
 
-	public static List getSetOfDocsForSection(String schema, Long section_id, Long rs_id) {
-
-		List returnList = new ArrayList();
-
-		String getString = "from SimSectionRSDepOjbectAssignment where section_id = '" + section_id + "' " + " and rs_id = "
-				+ rs_id + " and className = 'org.usip.osp.communications.SharedDocument' order by ssrsdoa_index";
+		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' and " +
+			" className = 'org.usip.osp.communications.SharedDocument'";
 
 		System.out.println(getString);
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List docList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
 
-		if (docList != null){
+		if (docList == null) {
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			return " ";
+		}
+
+		// Go over list and get items.
+		for (ListIterator<BaseSimSectionDepObjectAssignment> li = docList.listIterator(); li.hasNext();) {
+
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) li.next();
+			if (this_id.equals(bssdoa.getObjectId())){
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				return " selected ";
+			}
+			
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		return " ";
+
+	}
+
+	/**
+	 * 
+	 * @param schema
+	 * @param section_id
+	 * @param rs_id
+	 * @return
+	 */
+	public static List getSetOfDocsForSection(String schema, Long section_id, Long rs_id) {
+
+		List returnList = new ArrayList();
+
+		String getString = "from SimSectionRSDepOjbectAssignment where section_id = '" + section_id + "' "
+				+ " and rs_id = " + rs_id
+				+ " and className = 'org.usip.osp.communications.SharedDocument' order by ssrsdoa_index";
+
+		System.out.println(getString);
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List docList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
+
+		if (docList != null) {
 			System.out.println("got some docs back: " + docList.size());
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -336,7 +383,7 @@ public class SharedDocument implements SimSectionDependentObject {
 
 				SharedDocument sd = (SharedDocument) MultiSchemaHibernateUtil.getSession(schema).get(objClass,
 						ssrsdoa.getObjectId());
-				
+
 				System.out.println("strter title:" + sd.getDisplayTitle());
 				returnList.add(sd);
 

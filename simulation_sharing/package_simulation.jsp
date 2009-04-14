@@ -85,7 +85,7 @@
       <ul>
         <% for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
 			String sim = (String) li.next(); %>
-        <li><%= sim %></li>
+        <li><a href="./packaged_simulations/<%= sim %>" target="_new"><%= sim %></a></li>
 	  <% } %>
           </ul>
         </p>

@@ -143,9 +143,9 @@ public class Conversation implements SimSectionDependentObject {
 		List baseList = SimSectionRSDepOjbectAssignment.getAllForRunningSimSection(schema, rs_id, section_id);
 
 		for (ListIterator<SimSectionRSDepOjbectAssignment> li = baseList.listIterator(); li.hasNext();) {
-			SimSectionRSDepOjbectAssignment bssdoa = (SimSectionRSDepOjbectAssignment) li.next();
+			SimSectionRSDepOjbectAssignment ssrsdoa = (SimSectionRSDepOjbectAssignment) li.next();
 
-			List actorsAssignedToThisConversation = ConvActorAssignment.getAllForConversation(schema, bssdoa
+			List actorsAssignedToThisConversation = ConvActorAssignment.getAllForConversation(schema, ssrsdoa
 					.getObjectId());
 
 			for (ListIterator<ConvActorAssignment> bi = actorsAssignedToThisConversation.listIterator(); bi.hasNext();) {
@@ -153,7 +153,7 @@ public class Conversation implements SimSectionDependentObject {
 
 				if (caa.getActor_id().equals(aid)) {
 					Conversation conv = new Conversation();
-					conv.setId(bssdoa.getObjectId());
+					conv.setId(ssrsdoa.getObjectId());
 					returnList.add(conv);
 				}
 			}
