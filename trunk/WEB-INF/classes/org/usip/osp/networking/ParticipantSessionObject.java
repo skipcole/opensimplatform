@@ -2030,6 +2030,8 @@ public class ParticipantSessionObject {
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		Collections.reverse(returnList);
 
 		return returnList;
 	}

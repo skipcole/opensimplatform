@@ -197,6 +197,7 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setDescription(this.getDescription());
 		cs.setDirectory(this.getDirectory());
         cs.setHasASpecificMakePage(this.isHasASpecificMakePage());
+        cs.setNumDependentObjects(this.getNumDependentObjects());
 		cs.setPage_file_name(this.getPage_file_name());
 		cs.setPageTitle(this.getPageTitle());
 		cs.setRec_tab_heading(this.getRec_tab_heading());

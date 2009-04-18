@@ -46,11 +46,11 @@
 <p><%= cs.getBigString() %></p>
 
 <form name="form1" method="post" action="write_document.jsp">
-
+<input type="submit" name="update_text" value="Submit">
 <input type="hidden" name="sending_page" value="write_document" />
 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
   
-  		  <p>
+<p>
 		  <textarea id="write_document_text" name="write_document_text" style="height: 310px; width: 710px;">
 		  <%= sd.getBigString() %>
 		  </textarea>
@@ -59,9 +59,7 @@
 		</script>
 		  </p>
   <p>
-    <label>
-    <input type="submit" name="update_text" value="Submit">
-    </label>
+    <label></label>
   </p>
 </form>
 
