@@ -1,5 +1,6 @@
 package org.usip.osp.communications;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.*;
@@ -171,6 +172,35 @@ public class ChatController {
 
 		return this_conv;
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param pso
+	 * @param conv_id
+	 * @return
+	 */
+	public static String getHTMLConv(HttpServletRequest request,
+			ParticipantSessionObject pso, String conv_id){
+
+		String convLinesToReturn = "";
+		
+		Vector this_conv = getCachedConversation(request, pso, conv_id);
+		
+		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
+			ChatLine bcl = (ChatLine) e.nextElement();
+			
+			String fromAName = pso.getActorName(request, bcl.fromActor);
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a");
+
+			// Check to see were are above the start index sent.
+			if (bcl.getId().intValue() > 0) {
+				convLinesToReturn += (sdf.format(bcl.getMsgDate()) + " : <B>" +  fromAName + "</B> says &quot;" + bcl.getMsgtext() + "&quot;<br />");
+			}
+		}
+
+		return convLinesToReturn;
+	}
 
 	/**
 	 * Looks up all of the lines for the conversation needed and passes them
@@ -227,8 +257,7 @@ public class ChatController {
 		}
 	}
 
-	public static String getXMLConversation(Long user_id, Long actor_id,
-			String start_index, String conv_id, ParticipantSessionObject pso,
+	public static String getXMLConversation(String start_index, String conv_id, ParticipantSessionObject pso,
 			HttpServletRequest request) {
 
 		if ((start_index == null) || (start_index.trim().length() == 0)) {

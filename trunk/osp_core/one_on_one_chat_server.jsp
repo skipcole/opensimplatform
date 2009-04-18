@@ -19,8 +19,7 @@
 	
 	String xml_msgs = "";
 							
-	xml_msgs = ChatController.getXMLConversation(pso.user_id, pso.actor_id, 
-				start_index, conversation, pso, request);
+	xml_msgs = ChatController.getXMLConversation(start_index, conversation, pso, request);
 			
 	if ((xml_msgs != null) && (xml_msgs.trim().length() > 0)){
 		status_code = ChatController.NEW_MSG + "";

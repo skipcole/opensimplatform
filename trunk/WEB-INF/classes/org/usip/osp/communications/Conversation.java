@@ -3,6 +3,7 @@ package org.usip.osp.communications;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
@@ -11,6 +12,7 @@ import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.UserAssignment;
+import org.usip.osp.networking.ParticipantSessionObject;
 import org.usip.osp.persistence.SchemaInformationObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.specialfeatures.IntVariable;
@@ -115,16 +117,41 @@ public class Conversation implements SimSectionDependentObject {
 	 * Returns a list of all conversations associated with a particular
 	 * simulation.
 	 */
-	public static List getAllForSim(String schema, Long simid) {
+	public static List getAllForRunningSim(String schema, Long simid, Long rs_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Conversation where sim_id = " + simid).list();
+				"from Conversation where sim_id = " + simid + " and rs_id = " + rs_id).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public String getListOfActors(String schema, ParticipantSessionObject pso, HttpServletRequest request){
+		
+		String returnString = "";
+		
+		List cca_list = getConv_actor_assigns(schema);
+		
+		for (ListIterator<ConvActorAssignment> bi = cca_list.listIterator(); bi.hasNext();) {
+			ConvActorAssignment caa = (ConvActorAssignment) bi.next();
+			
+			String a_name = pso.getActorName(request, caa.getActor_id());
+
+			returnString += a_name + "-";
+		}
+		
+		
+		returnString = returnString.substring(0, returnString.length() -1 );
+		
+		return returnString;
 	}
 
 	/**
