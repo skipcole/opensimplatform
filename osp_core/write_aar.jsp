@@ -38,8 +38,11 @@
 <body>
 <h2>Write After Action Report (AAR) and End Simulation</h2>
 <p> The 'After Action Report' text shown below will be seen </p>
+
 <form name="form1" method="post" action="write_aar.jsp">
- 
+ <p>
+  <input type="submit" name="command" id="savechanges" value="Save Changes">
+</p>
 <p>
 		  <textarea id="write_aar_end_sim" name="write_aar_end_sim" style="height: 310px; width: 710px;"><%= rs.getAar_text() %></textarea>
 		<script language="javascript1.2">
@@ -50,7 +53,6 @@
   
   <p>
     <label></label>
-    <input type="submit" name="command" id="savechanges" value="Save Changes">
   </p>
   <p>
     <input type="hidden" name="sending_page" value="end_sim" />

@@ -72,13 +72,15 @@
   <tr>
     <td valign="top">&nbsp;</td>
     <td colspan="3" valign="top"><%= da_inject.getInject_name() %></td>
-    <td width="20%" rowspan="3" valign="top"><label>
+    <td width="33%" rowspan="3" valign="top"><label>
       <input name="player_target" type="radio" value="all" checked>
       To All Players </label>
   <br>
   <label>
   <input name="player_target" type="radio" value="some">
-    To Some Players</label><br>
+    To Some Players<BR />
+    <I>(Select to who after hitting submit.)</I></label> 
+  <br>
   <label>
   <input type="submit" name="button" id="button" value="Push Inject">
   </label></td>

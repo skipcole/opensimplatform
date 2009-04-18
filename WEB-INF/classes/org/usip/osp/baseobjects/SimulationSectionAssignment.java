@@ -42,7 +42,7 @@ public class SimulationSectionAssignment {
 		System.out.println("hello world");
 
 		String getHQL = "from SimulationSectionAssignment where SIM_ID = 1  AND ACTOR_ID = 2 AND PHASE_ID = 6 and simSubSection is true "
-				+ " and displaySectionIndex = 43 and simSubSectionIndex = 1 order by TAB_POS";
+				+ " and displaySectionId = 43 and simSubSectionIndex = 1 order by TAB_POS";
 
 		MultiSchemaHibernateUtil.beginTransaction("test");
 
@@ -482,7 +482,7 @@ public class SimulationSectionAssignment {
 			Long pid) {
 
 		String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid + " AND ACTOR_ID = " + aid
-				+ " AND PHASE_ID = " + pid + " and simSubSection is true " + " and displaySectionIndex = " + cs_id
+				+ " AND PHASE_ID = " + pid + " and simSubSection is true " + " and displaySectionId = " + cs_id
 				+ " and simSubSectionIndex = " + index + " order by TAB_POS";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
