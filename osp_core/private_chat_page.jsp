@@ -188,9 +188,11 @@ width:100%;
 	List listOfConversations = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id));
 	
 	Actor this_actor = pso.giveMeActor();
+	/*
 	if (this_actor.isControl_actor()){
 		listOfConversations = Conversation.getAllConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id));
 	}
+	*/
 	
 	// Loop over the conversations for this Actor
 	for (ListIterator<Conversation> li = listOfConversations.listIterator(); li.hasNext();) {
