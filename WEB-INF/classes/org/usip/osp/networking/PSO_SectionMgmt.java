@@ -687,6 +687,15 @@ public class PSO_SectionMgmt {
 		// If adding a document, just increase the number and return.
 		if (add_document != null) {
 			System.out.println("adding document!");
+			
+			// If this is the original custom page, make a new page
+			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
+				System.out.println("making copy");
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
+				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
+				sharedDocument = new SharedDocument();
+			}
+			
 			int numDocs = customizableSectionOnScratchPad.getNumDependentObjects() + 1;
 			customizableSectionOnScratchPad.setNumDependentObjects(numDocs);
 
