@@ -21,6 +21,11 @@
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("push_injects"))){
 	
 		String announcement_text = (String) request.getParameter("announcement_text");
+		String inject_action = (String) request.getParameter("inject_action");
+		
+		if ((inject_action != null) && (inject_action.equalsIgnoreCase("2")) {
+			announcement_text = announcement_text + "<BR /><strong>Communicate with Control your actions</strong><BR />";
+		}
 		
 		String player_target = (String) request.getParameter("player_target");
 		
@@ -92,7 +97,15 @@
         <label>
           <textarea name="announcement_text" id="textarea" cols="45" rows="5"><%= da_inject.getInject_text() %></textarea>
         </label>
-    </td>
+        <p>
+          <label>
+          Inject Trailer: 
+          <select name="inject_action" id="inject_action">
+            <option value="1" selected> </option>
+            <option value="2">Communicate with Control your actions</option>
+                                        </select>
+          </label>
+      </p></td>
   </tr>
   <tr>
     <td valign="top">&nbsp;</td>
