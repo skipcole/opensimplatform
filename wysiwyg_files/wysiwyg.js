@@ -25,22 +25,26 @@
 	                  WYSIWYG Height, Width, and CSS Directory.
 \* ---------------------------------------------------------------------- */
 
+rootDir = "/usip_osp/wysiwyg_files/";
+
 // Images Directory
-imagesDir = "../wysiwyg_files/icons/";
+imagesDir = rootDir + "icons/";
 
 // CSS Directory
-cssDir = "../wysiwyg_files/styles/";
+// commented out the line below 4/25/09
+//cssDir = "../wysiwyg_files/styles/";
 
 // Popups Directory
-popupsDir = "../wysiwyg_files/popups/";
+//popupsDir = "../wysiwyg_files/popups/";
+popupsDir = rootDir + "popups/";
 
 // WYSIWYG Width and Height
 wysiwygWidth = 710;
-wysiwygHeight = 439;
+wysiwygHeight = 339;
 
 // Include Style Sheet
-document.write('<link rel="stylesheet" type="text/css" href="../ver1/wysiwyg_files/' +cssDir+ 'styles.css">\n');
-
+//document.write('<link rel="stylesheet" type="text/css" href="../ver1/wysiwyg_files/' +cssDir+ 'styles.css">\n');
+document.write('<link rel="stylesheet" type="text/css" href="/usip_osp/wysiwyg_files/styles/styles.css">\n');
 
 /* ---------------------------------------------------------------------- *\
   Toolbar Settings: Set the features and buttons available in the WYSIWYG
@@ -130,6 +134,8 @@ var buttonName2 = new Array();
 // List of available actions and their respective ID and images
 var ToolbarList = {
 //Name              buttonID                 buttonTitle           buttonImage                            buttonImageRollover
+	"selectfont":     ['SelectFont',           'SelectFont',         imagesDir + 'select_font.gif',        imagesDir + 'select_font_on.gif'],
+	"selectsize":     ['SelectSize',           'SelectSize',         imagesDir + 'select_size.gif',        imagesDir + 'select_size_on.gif'],
   "bold":           ['Bold',                 'Bold',               imagesDir + 'bold.gif',               imagesDir + 'bold_on.gif'],
   "italic":         ['Italic',               'Italic',             imagesDir + 'italics.gif',            imagesDir + 'italics_on.gif'],
   "underline":      ['Underline',            'Underline',          imagesDir + 'underline.gif',          imagesDir + 'underline_on.gif'],
@@ -156,9 +162,7 @@ var ToolbarList = {
 	"createlink":     ['CreateLink',           'CreateLink',         imagesDir + 'insert_hyperlink.gif',   imagesDir + 'insert_hyperlink_on.gif'],
 	"viewSource":     ['ViewSource',           'ViewSource',         imagesDir + 'view_source.gif',        imagesDir + 'view_source_on.gif'],
 	"viewText":       ['ViewText',             'ViewText',           imagesDir + 'view_text.gif',          imagesDir + 'view_text_on.gif'],
-	"help":           ['Help',                 'Help',               imagesDir + 'help.gif',               imagesDir + 'help_on.gif'],
-	"selectfont":     ['SelectFont',           'SelectFont',         imagesDir + 'select_font.gif',        imagesDir + 'select_font_on.gif'],
-	"selectsize":     ['SelectSize',           'SelectSize',         imagesDir + 'select_size.gif',        imagesDir + 'select_size_on.gif']
+	"help":           ['Help',                 'Help',               imagesDir + 'help.gif',               imagesDir + 'help_on.gif']
 };
 
 
@@ -236,7 +240,7 @@ function generate_wysiwyg(textareaID) {
 	
   // Generate WYSIWYG toolbar one
   var toolbar;
-  toolbar =  '<table cellpadding="0" cellspacing="0" border="0" class="toolbar1" style="width:' + toolbarWidth + 'px;"><tr><td style="width: 6px;"><img src="../ver1/wysiwyg_files/' +imagesDir+ 'seperator2.gif" alt="" hspace="3"></td>';
+  toolbar =  '<table cellpadding="0" cellspacing="0" border="0" class="toolbar1" style="width:' + toolbarWidth + 'px;"><tr><td style="width: 6px;"><img src="' + imagesDir + 'seperator2.gif" alt="" hspace="3"></td>';
   
 	// Create IDs for inserting Font Type and Size drop downs
 	toolbar += '<td style="width: 90px;"><span id="FontSelect' + n + '"></span></td>';
@@ -265,7 +269,7 @@ function generate_wysiwyg(textareaID) {
 
   // Generate WYSIWYG toolbar two
   var toolbar2;
-  toolbar2 = '<table cellpadding="0" cellspacing="0" border="0" class="toolbar2" style="width:' + toolbarWidth + 'px;"><tr><td style="width: 6px;"><img src="../ver1/wysiwyg_files/' +imagesDir+ 'seperator2.gif" alt="" hspace="3"></td>';
+  toolbar2 = '<table cellpadding="0" cellspacing="0" border="0" class="toolbar2" style="width:' + toolbarWidth + 'px;"><tr><td style="width: 6px;"><img src="' + imagesDir + 'seperator2.gif" alt="" hspace="3"></td>';
  
   // Output all command buttons that belong to toolbar two
   for (var j = 0; j <= buttonName2.length;) {
@@ -590,7 +594,7 @@ function outputFontSelect(n) {
   
 	Fonts.sort();
 	var FontSelectDropDown = new Array;
-	FontSelectDropDown[n] = '<table border="0" cellpadding="0" cellspacing="0"><tr><td onMouseOver="document.getElementById(\'selectFont' + n + '\').src=\'' + FontSelectOn + '\';" onMouseOut="document.getElementById(\'selectFont' + n + '\').src=\'' + FontSelect + '\';"><img src="../ver1/wysiwyg_files/' + FontSelect + '" id="selectFont' + n + '" width="85" height="20" onClick="showFonts(\'' + n + '\');" unselectable="on"><br>';
+	FontSelectDropDown[n] = '<table border="0" cellpadding="0" cellspacing="0"><tr><td onMouseOver="document.getElementById(\'selectFont' + n + '\').src=\'' + FontSelectOn + '\';" onMouseOut="document.getElementById(\'selectFont' + n + '\').src=\'' + FontSelect + '\';"><img src="' + FontSelect + '" id="selectFont' + n + '" width="85" height="20" onClick="showFonts(\'' + n + '\');" unselectable="on"><br>';
 	FontSelectDropDown[n] += '<span id="Fonts' + n + '" class="dropdown" style="width: 145px;">';
 
 	for (var i = 0; i <= Fonts.length;) {
@@ -621,7 +625,7 @@ function outputFontSizes(n) {
 
 	FontSizes.sort();
 	var FontSizesDropDown = new Array;
-	FontSizesDropDown[n] = '<table border="0" cellpadding="0" cellspacing="0"><tr><td onMouseOver="document.getElementById(\'selectSize' + n + '\').src=\'' + FontSizeOn + '\';" onMouseOut="document.getElementById(\'selectSize' + n + '\').src=\'' + FontSize + '\';"><img src="../ver1/wysiwyg_files/' + FontSize + '" id="selectSize' + n + '" width="49" height="20" onClick="showFontSizes(\'' + n + '\');" unselectable="on"><br>';
+	FontSizesDropDown[n] = '<table border="0" cellpadding="0" cellspacing="0"><tr><td onMouseOver="document.getElementById(\'selectSize' + n + '\').src=\'' + FontSizeOn + '\';" onMouseOut="document.getElementById(\'selectSize' + n + '\').src=\'' + FontSize + '\';"><img src="' + FontSize + '" id="selectSize' + n + '" width="49" height="20" onClick="showFontSizes(\'' + n + '\');" unselectable="on"><br>';
   FontSizesDropDown[n] += '<span id="Sizes' + n + '" class="dropdown" style="width: 170px;">';
 
 	for (var i = 0; i <= FontSizes.length;) {
