@@ -30,6 +30,9 @@
 <head>
 <title>Make Announcement Page</title>
 <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
+// WYSIWYG Width and Height
+wysiwygWidth = 1010;
+wysiwygHeight = 210;
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
@@ -44,11 +47,12 @@ To All Players </label>
  / 
  <label>
  <input name="player_target" type="radio" value="some">
- To Some Players </label>
+ To Some Players (select who on next screen)</label>
 <input type="hidden" name="sending_page" value="add_news" />
   
-  		  <p>
-		  <textarea id="announcement_text" name="announcement_text" style="height: 310px; width: 710px;"></textarea>
+  		  <input type="submit" name="add_news" value="Submit">
+<p>
+		  <textarea id="announcement_text" name="announcement_text" style="height: 210px; width: 1010px;"></textarea>
 		<script language="javascript1.2">
   			generate_wysiwyg('announcement_text');
 		</script>
@@ -56,9 +60,7 @@ To All Players </label>
   
   
   <p>
-    <label>
-    <input type="submit" name="add_news" value="Submit">
-    </label>
+    <label></label>
   </p>
 </form>
 <h2 align="center">
