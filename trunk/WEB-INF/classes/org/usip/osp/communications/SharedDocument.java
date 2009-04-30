@@ -352,9 +352,9 @@ public class SharedDocument implements SimSectionDependentObject {
 	 * @param rs_id
 	 * @return
 	 */
-	public static List getSetOfDocsForSection(String schema, Long section_id, Long rs_id) {
+	public static List<SharedDocument> getSetOfDocsForSection(String schema, Long section_id, Long rs_id) {
 
-		List returnList = new ArrayList();
+		List<SharedDocument> returnList = new ArrayList<SharedDocument>();
 
 		String getString = "from SimSectionRSDepOjbectAssignment where section_id = '" + section_id + "' "
 				+ " and rs_id = " + rs_id

@@ -143,7 +143,7 @@
 	}
 %>
               </table>
-            <p>&nbsp;</p>
+            <p>For a more printable list, <a href="print_simulation_phases.jsp">click here</a>.</p>
               
           <div align="center"><a href="create_actors.jsp">Next Step: Create Actors 
             </a></div>

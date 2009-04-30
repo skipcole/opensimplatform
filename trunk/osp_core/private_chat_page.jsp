@@ -218,12 +218,12 @@ width:100%;
 	%>
 		
   <tr valign="top"> 
-    <td width="40%"> Your conversation with <img src = "<%= this_a_thumb %>" alt = "<%= this_a_name %>" >
+    <td width="40%"> Your conversation with <%= this_a_name %> <img src = "<%= this_a_thumb %>" alt = "<%= this_a_name %>" >
     (<I><span id="actorpresent<%= caa.getActor_id().toString() %>">Checking status ...</span></I>)<br>
 				<form id="chatform<%= conv.getId() %>" >
-  <p>Message: <input type="text" id="msg<%= conv.getId() %>" width="40" /> <br />
+  <p>&nbsp;&nbsp;<textarea cols="40" rows="5" id="msg<%= conv.getId() %>" ></textarea>
 	<input type="hidden" id="author<%= conv.getId() %>" value="You" />
-    <input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" />
+    <input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" /><br />
 	<input type="submit" value="Send">
   </p>
 </form>			</td>

@@ -23,7 +23,7 @@
 		String announcement_text = (String) request.getParameter("announcement_text");
 		String inject_action = (String) request.getParameter("inject_action");
 		
-		if ((inject_action != null) && (inject_action.equalsIgnoreCase("2")) {
+		if ((inject_action != null) && (inject_action.equalsIgnoreCase("2"))) {
 			announcement_text = announcement_text + "<BR /><strong>Communicate with Control your actions</strong><BR />";
 		}
 		

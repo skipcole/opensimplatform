@@ -664,6 +664,78 @@ public class PSO_SectionMgmt {
 		return customizableSectionOnScratchPad;
 	}
 
+	
+	/**
+	 * This method handles the creation of the page to allow player access to
+	 * read a document or documents.
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakeMemosPage(HttpServletRequest request) {
+
+		this.getSimSectionsInternalVariables(request);
+		System.out.println("making memos page");
+
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
+
+		// Ever read document page should have one (and only one) document associated
+		// with it.
+		if (customizableSectionOnScratchPad.getNumDependentObjects() < 1) {
+			customizableSectionOnScratchPad.setNumDependentObjects(1);
+		}
+
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
+
+		&& (sending_page.equalsIgnoreCase("make_memos_page"))) {
+
+			// If this is the original custom page, make a new page
+			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
+				System.out.println("making copy");
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
+				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
+				sharedDocument = new SharedDocument();
+			}
+
+			// Remove all dependent object assignments currently associated with
+			// this page.
+			BaseSimSectionDepObjectAssignment.removeAllForSection(pso.schema, customizableSectionOnScratchPad.getId());
+
+			// Loop to the number of documents (which are dependent object)
+			// expected to be found
+			for (int ii = 1; ii <= customizableSectionOnScratchPad.getNumDependentObjects(); ++ii) {
+				String req_key = "doc_" + ii;
+				String doc_id = (String) request.getParameter(req_key);
+
+				System.out.println("adding doc: " + doc_id);
+
+				// Create and save the assignment object
+				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
+						customizableSectionOnScratchPad.getId(), "org.usip.osp.communications.SharedDocument", ii,
+						new Long(doc_id), pso.sim_id, pso.schema);
+
+				bssdoa.saveMe(pso.schema);
+			}
+
+			// Update page values
+			String make__page_text = (String) request.getParameter("make__page_text");
+			customizableSectionOnScratchPad.setBigString(make__page_text);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.save(pso.schema);
+
+			if (save_and_add != null) {
+				// add section
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
+						request, _universal);
+				// send them back
+				pso.forward_on = true;
+			}
+
+		} // End of if this is the make__page
+
+		return customizableSectionOnScratchPad;
+	}
+
+	
 	/**
 	 * This method handles the creation of the page to allow player access to
 	 * read a document or documents.
