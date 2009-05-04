@@ -717,8 +717,8 @@ public class PSO_SectionMgmt {
 			}
 
 			// Update page values
-			String make__page_text = (String) request.getParameter("make__page_text");
-			customizableSectionOnScratchPad.setBigString(make__page_text);
+			String make_memos_page_text = (String) request.getParameter("make_memos_page_text");
+			customizableSectionOnScratchPad.setBigString(make_memos_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(pso.schema);
 

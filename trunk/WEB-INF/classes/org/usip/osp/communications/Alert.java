@@ -44,6 +44,9 @@ public class Alert {
 	/** An event for the player. */
 	public static final int TYPE_EVENT = 4;
 	
+	/** An incoming for the player. */
+	public static final int TYPE_MEMO = 5;
+	
     /** Database id of this Alert. */
 	@Id
 	@GeneratedValue
