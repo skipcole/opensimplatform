@@ -65,7 +65,11 @@
 <p><%= bodyText %></p>
 
 <form name="form1" method="post" action="player_reflection.jsp">
-
+  <p>
+    <label>
+    <input type="submit" name="update_text" value="Submit">
+    </label>
+  </p>
 <input type="hidden" name="sending_page" value="player_reflection" />
 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
   
@@ -77,11 +81,7 @@
   			generate_wysiwyg('player_reflection_text');
 		</script>
 		  </p>
-  <p>
-    <label>
-    <input type="submit" name="update_text" value="Submit">
-    </label>
-  </p>
+
 </form>
 
 <p>&nbsp;</p>

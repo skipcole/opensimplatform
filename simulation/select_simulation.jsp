@@ -74,7 +74,7 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%">
             <h1>Welcome <%= bu.getFull_name() %>!</h1>
-            <p>Below are simulations are assigned to you by an instructor: </p>
+            <p>Below are simulations assigned to you by an instructor: </p>
             <table width="80%" border="2" cellspacing="2" cellpadding="2">
               <tr valign="top">
                 <td width="30%"><h2>Organization</h2></td>

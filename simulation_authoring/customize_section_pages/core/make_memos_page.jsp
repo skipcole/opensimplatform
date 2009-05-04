@@ -7,7 +7,7 @@
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleMakeReadDocumentPage(request);
+	CustomizeableSection cs = pso.handleMakeMemosPage(request);
 	
 	if (pso.forward_on){
 		pso.forward_on = false;
