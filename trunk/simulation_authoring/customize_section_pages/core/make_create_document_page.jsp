@@ -6,26 +6,7 @@
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	//pso.handleMakeReadDocumentPage(request);
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String save_page = (String) request.getParameter("save_page");
-
-	if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_create_document_page"))){
-		String uniq_doc_title = (String) request.getParameter("uniq_doc_title");
-		String doc_display_title = (String) request.getParameter("doc_display_title");
-		
-		System.out.println("creating doc of uniq title: " + uniq_doc_title);
-		SharedDocument sd = new SharedDocument(uniq_doc_title, doc_display_title, pso.sim_id);
-		sd.saveMe(pso.schema);
-		
-	}
-	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
-		return;
-	}
+	SharedDocument this_sd = pso.handleCreateDocument(request);
 	
 	pso.fillReadWriteLists();
 	
@@ -35,9 +16,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
 <title>Open Simulation Platform Control Page</title>
-<script language="JavaScript" type="text/javascript" src="../../../wysiwyg_files/wysiwyg.js">
-</script>
-
 
 <link href="../../../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
@@ -58,10 +36,25 @@
       <h2>Create New Document</h2>
             <table>
               <tr>
-                <td>Unique Internal Document Title  <a href="../../helptext/uniq_doc_identifer_help.jsp" target="helpinright">(?)</a>:</td>
-              <td><input type="text" name="uniq_doc_title" /></td></tr>
-              <tr><td>Document Display Title <a href="../../helptext/document_display_title_help.jsp" target="helpinright">(?)</a>:</td>
-            <td><input name="doc_display_title" type="text" size="60" /></td></tr>
+                <td valign="top">Unique Internal Document Title  <a href="../../helptext/uniq_doc_identifer_help.jsp" target="helpinright">(?)</a>:</td>
+              <td valign="top"><input type="text" name="uniq_doc_title" value="<%= this_sd.getUniqueDocTitle() %>" /></td></tr>
+              <tr><td valign="top">Document Display Title <a href="../../helptext/document_display_title_help.jsp" target="helpinright">(?)</a>:</td>
+            <td valign="top"><input name="doc_display_title" type="text" size="60" value="<%= this_sd.getDisplayTitle() %>" /></td></tr>
+              <tr>
+                <td valign="top">Document Starter Text (?):</td>
+                <td valign="top">
+                <textarea id="doc_starter_text" name="doc_starter_text" style="height: 300px; width: 400px;"><%= this_sd.getBigString() %></textarea>
+                          <script language="JavaScript" type="text/javascript" src="../../../wysiwyg_files/wysiwyg.js">
+</script>
+		<script language="javascript1.2">
+			wysiwygWidth = 300;
+			wysiwygHeight = 300;
+  			generate_wysiwyg('doc_starter_text');
+		</script>
+                
+                
+                </td>
+              </tr>
               <tr><td>&nbsp;</td><td><input type="submit" name="create_doc" value="Create" /></td></tr>
               </table>
               <input type="hidden" name="sending_page" value="make_create_document_page" />
@@ -82,8 +75,8 @@
 					for (ListIterator li = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id).listIterator(); li.hasNext();) {
 						SharedDocument sd = (SharedDocument) li.next();
 				%>
-        <form action="../../make_create_document_page.jsp" method="post" name="form_edit_<%= ii + "" %>">
-          <tr><td><%= sd.getUniqueDocTitle() %></td>
+        <form action="make_create_document_page.jsp" method="post" name="form_edit_<%= ii + "" %>">
+          <tr><td><a href="make_create_document_page.jsp?shared_doc_id=<%= sd.getId() %>"><%= sd.getUniqueDocTitle() %></a></td>
                 <td><%= sd.getDisplayTitle() %></td>
                 <td><input name="Update" type="button" value="Update" /></td>
                 <td>delete</td>

@@ -842,6 +842,41 @@ public class ParticipantSessionObject {
 	}
 
 	/**
+	 * Handles the creation of documents to be added to the simulation.
+	 * 
+	 * @param request
+	 */
+	public SharedDocument handleCreateDocument(HttpServletRequest request){
+		
+		SharedDocument sd = new SharedDocument();
+		
+		String shared_doc_id = (String) request.getParameter("shared_doc_id");
+			
+		if ((shared_doc_id != null) && (shared_doc_id.trim().length() > 0)){
+			
+			sd = SharedDocument.getMe(schema, new Long(shared_doc_id));
+		}
+		
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String save_page = (String) request.getParameter("save_page");
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_create_document_page"))){
+			String uniq_doc_title = (String) request.getParameter("uniq_doc_title");
+			String doc_display_title = (String) request.getParameter("doc_display_title");
+			String doc_starter_text = (String) request.getParameter("doc_starter_text");
+			
+			System.out.println("creating doc of uniq title: " + uniq_doc_title);
+			sd = new SharedDocument(uniq_doc_title, doc_display_title, sim_id);
+			sd.setBigString(doc_starter_text);
+			sd.saveMe(schema);
+			
+		}
+		
+		return sd;
+		
+	}
+	/**
 	 * 
 	 * @param request
 	 * @return

@@ -109,7 +109,6 @@ public class RunningSimulation {
 		
 		// Create the dependent object (shared documents, conversations, variables, etc.)
 		createRunningSimObjects(schema, sim);
-		this.createMyVariables(schema, sim);
 
 	}
 
@@ -258,25 +257,6 @@ public class RunningSimulation {
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 			}
-
-		}
-
-	}
-
-	/**
-	 * Creates copies of all of the variables held by the sim, so one is
-	 * available for this running sim.
-	 * 
-	 * @param schema
-	 * @param sim
-	 */
-	private void createMyVariables(String schema, Simulation sim) {
-
-		for (ListIterator<GenericVariable> li = GenericVariable.getAllBaseGenericVariablesForSim(schema, sim.getId())
-				.listIterator(); li.hasNext();) {
-			GenericVariable gv = (GenericVariable) li.next();
-
-			GenericVariable gv_copy = gv.createCopy(this.id, schema);
 
 		}
 
