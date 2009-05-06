@@ -11,6 +11,7 @@ import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
+import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -67,9 +68,6 @@ public class SharedDocument implements SimSectionDependentObject {
 	/** Short description of this document. */
 	private String docDesc = "";
 
-	/** Any text that will start in here for the actor to work with. */
-	private String docStarterText = "";
-
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
@@ -119,14 +117,6 @@ public class SharedDocument implements SimSectionDependentObject {
 
 	public void setDocDesc(String docDesc) {
 		this.docDesc = docDesc;
-	}
-
-	public String getDocStarterText() {
-		return docStarterText;
-	}
-
-	public void setDocStarterText(String docStarterText) {
-		this.docStarterText = docStarterText;
 	}
 
 	public Long getSim_id() {
@@ -272,7 +262,7 @@ public class SharedDocument implements SimSectionDependentObject {
 		SharedDocument sd = new SharedDocument();
 
 		sd.setBase_id(this.getBase_id());
-		sd.setBigString(this.getDocStarterText());
+		sd.setBigString(this.getBigString());
 		sd.setDocDesc(this.getDocDesc());
 		sd.setEditable(this.isEditable());
 		sd.setRs_id(rsid);
@@ -296,7 +286,6 @@ public class SharedDocument implements SimSectionDependentObject {
 		sd.setBigString(templateSD.getBigString());
 		sd.setDisplayTitle(templateSD.getDisplayTitle());
 		sd.setDocDesc(templateSD.getDocDesc());
-		sd.setDocStarterText(templateSD.getDocStarterText());
 		sd.setRs_id(rs_id);
 		sd.setSim_id(sim_id);
 		sd.setUniqueDocTitle(templateSD.getUniqueDocTitle());
@@ -395,6 +384,24 @@ public class SharedDocument implements SimSectionDependentObject {
 		}
 
 		return returnList;
+
+	}
+	
+	/**
+	 * Pulls the simulation out of the database base on its id and schema.
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static SharedDocument getMe(String schema, Long sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		SharedDocument sd = (SharedDocument) MultiSchemaHibernateUtil
+				.getSession(schema).get(SharedDocument.class, sim_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return sd;
 
 	}
 
