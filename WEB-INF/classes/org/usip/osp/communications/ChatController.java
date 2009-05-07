@@ -324,16 +324,14 @@ public class ChatController {
 	 * @return
 	 */
 	public static Vector getActorsForConversation(ParticipantSessionObject pso,
-			String conv_id_string, HttpServletRequest request) {
+			Long conv_id, HttpServletRequest request) {
 
 		Vector returnVector = new Vector();
 
-		if ((conv_id_string == null) || (conv_id_string.equalsIgnoreCase(""))) {
+		if (conv_id == null) {
 			System.out.println("waring empty conversation id passe in");
 			return returnVector;
 		}
-
-		Long conv_id = new Long(conv_id_string);
 
 		Conversation conv = new Conversation();
 		conv.setId(conv_id);
@@ -356,8 +354,6 @@ public class ChatController {
 
 			returnVector.add(ag);
 		}
-
-		
 
 		return returnVector;
 	}

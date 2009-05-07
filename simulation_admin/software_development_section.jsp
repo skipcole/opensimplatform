@@ -42,7 +42,7 @@
           </tr>
         <tr valign="top"> 
           <td width="2%">&nbsp;</td>
-            <td width="24%"><a href="../public_html/oscw_javadocs/index.html" target="_top">JavaDocs</a></td>
+            <td width="24%"><a href="../osp_javadocs/index.html" target="_top">JavaDocs</a></td>
             <td width="2%">&nbsp;</td>
             <td width="72%">Hopefully these are clear. Don't hesitate to send an 
               email to <a href="mailto:scole@usip.org">scole@usip.org</a> if they 
