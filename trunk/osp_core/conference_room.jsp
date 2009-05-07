@@ -21,12 +21,13 @@
 	SimSectionRSDepOjbectAssignment ssrsdoa = SimSectionRSDepOjbectAssignment.getOneForRunningSimSection
 		(pso.schema, pso.running_sim_id, new Long(cs_id), 0);
 	
-	Vector this_set_of_actors = ChatController.getActorsForConversation(pso, ssrsdoa.getObjectId().toString(), request);
+	Vector this_set_of_actors = pso.getActorsForConversation(ssrsdoa.getObjectId(), request);
 	
 	System.out.println("id of conv is theoretically: " + ssrsdoa.getObjectId().toString());
 %>
 <html>
 <head>
+<script type="text/javascript" src="../jquery-1.2.6.js"></script>
 <script type="text/javascript">
 
 	var start_index = 0
@@ -41,7 +42,7 @@
 			String this_a_name = act.getName();
 	%>
 		actor_names["<%= this_a_id %>"] = "<%= this_a_name %>"
-		actor_colors["<%= this_a_id %>"] = "ffffff"
+		actor_colors["<%= this_a_id %>"] = "<%= act.getDefaultColorChatBubble() %>"
 	<%	
 		}
 	%>
@@ -98,6 +99,8 @@ function changeActorColor(dropdownlist){
 	array1 = passedvalue.split("_");
 	
 	actor_colors[array1[0]] = array1[1];
+	
+	$.post("color_changer_server.jsp", { actor_id: array1[0], chatlinecolor: array1[1] });
 	
 	chat_text = "";
 	// Set the restart to 0 to cause reload
@@ -274,12 +277,12 @@ Actors in this conversation:
 			String this_a_name = act.getName();
 	%>
 		<LI><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
-      <option value="<%= this_a_id %>_ffffff">White</option>
-	  <option value="<%= this_a_id %>_ffdddd">Red</option>
-	  <option value="<%= this_a_id %>_ddffdd">Green</option>
-	  <option value="<%= this_a_id %>_ddddff">Blue</option>
+      <option value="<%= this_a_id %>_ffffff" <%= pso.matchSelected("ffffff", act.getDefaultColorChatBubble(), " selected ") %>>White</option>
+	  <option value="<%= this_a_id %>_ffdddd" <%= pso.matchSelected("ffdddd", act.getDefaultColorChatBubble(), " selected ") %>>Red</option>
+	  <option value="<%= this_a_id %>_ddffdd" <%= pso.matchSelected("ddffdd", act.getDefaultColorChatBubble(), " selected ") %>>Green</option>
+	  <option value="<%= this_a_id %>_ddddff" <%= pso.matchSelected("ddddff", act.getDefaultColorChatBubble(), " selected ") %>>Blue</option>
 	  
-    </select> </form></LI>
+        </select> </form></LI>
 	<%	
 		}
 	%>

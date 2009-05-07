@@ -1807,6 +1807,18 @@ public class ParticipantSessionObject {
 		}
 
 	}
+	
+	public String matchSelected(String a, String b, String matchText){
+		if ((a == null) || (b == null)) {
+			return "";
+		}
+		
+		if (a.equalsIgnoreCase(b)){
+			return matchText;
+		} else {
+			return "";
+		}
+	}
 
 	/** Its a work in progress. */
 	public String getEvents() {
@@ -2818,6 +2830,41 @@ public class ParticipantSessionObject {
 		}
 
 		return a_thumb;
+	}
+	
+	public Vector myActors = new Vector();
+	/**
+	 * 
+	 * @return
+	 */
+	public Vector getActorsForConversation(Long ssrsdoa_id, HttpServletRequest request){
+		
+		if ((myActors == null) || (myActors.size() == 0)){
+			myActors = ChatController.getActorsForConversation(this, ssrsdoa_id, request);
+		}
+		
+		return myActors;
+		
+	}
+	
+	/**
+	 * Takes input from the chat page to change the color in which the actor's text is being seen.
+	 * @param actor_id
+	 * @param newColor
+	 */
+	public void changeActorsColor(String actor_id, String newColor){
+		
+		
+		for (Enumeration e = myActors.elements(); e.hasMoreElements();){
+			ActorGhost ag = (ActorGhost) e.nextElement();
+		
+			//System.out.println("color was: " + ag.getDefaultColorChatBubble());
+			
+			if (ag.getId().toString().equalsIgnoreCase(actor_id)){
+				ag.setDefaultColorChatBubble(newColor);
+				//System.out.println("color is: " + ag.getDefaultColorChatBubble());
+			}
+		}
 	}
 
 	public void loadActorThumbsInHashtable(Hashtable actor_thumbs) {

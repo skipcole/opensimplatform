@@ -72,7 +72,7 @@ public class Actor {
     /** Image of this actor to be shown.  */
     private String imageThumbFilename = "";
     
-    private String defaultColorChatBubble = "#FFFFFF";
+    private String defaultColorChatBubble = "FFFFFF";
 
     @Column(name = "CONTROL_ACTOR")
     private boolean control_actor = false;
