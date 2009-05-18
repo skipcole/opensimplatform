@@ -26,26 +26,37 @@
 	//If data has been submitted, tack it at the front, save it and move on
 	String sending_page = (String) request.getParameter("sending_page");
 	
-	if ((sending_page != null) && (  sending_page.equalsIgnoreCase("memos")  ) ) {
-		String memo_text = (String) request.getParameter("memo_text");
+	String start_memo = (String) request.getParameter("start_memo");
+	String save_draft = (String) request.getParameter("save_draft");
+	String submit_memo = (String) request.getParameter("submit_memo");
+	
+	String memo_text = (String) request.getParameter("memo_text");
+	
+	if (sending_page != null) {
+		if (submit_memo != null) {
+			if ((memo_text != null) && (memo_text.trim().length() > 0) ){
+
+				java.util.Date today = new java.util.Date();
+				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+				String memo_time = "<em>(Memo Submitted: " + sdf.format(today) + ")</em><br />";
 		
-		if ((memo_text != null) && (memo_text.trim().length() > 0) ){
-			String fullText = memo_text + "<br><hr>" + sd.getBigString();
-			sd.setBigString(fullText);
-			sd.saveMe(pso.schema);	
+				String fullText = memo_time + memo_text + "<br><hr>" + sd.getBigString();
+				sd.setBigString(fullText);
+				sd.saveMe(pso.schema);	
+				pso.memo_starter_text = "";
+			}
 		}
-	}
-
-	String starter_text = "";
 		
-	if ((sending_page != null) && (  sending_page.equalsIgnoreCase("memo_start")  ) ) {
-		System.out.println("saving memo text");
-		starter_text = "To: <BR />From:<BR />Date:<BR />Topic:<BR />Message:";
+		if (save_draft != null) {
+				pso.memo_starter_text = memo_text;
+		}
 
-	}
+		if (start_memo != null) {
+			pso.memo_starter_text = "To: <BR />From:<BR />Topic:<BR />Message:";
+		}
+		
+	}  // End of if coming back from the form on this page.
 	
-	
-
 %>
 <html>
 <head>
@@ -62,18 +73,16 @@
 
 <p>
 <p><%= cs.getBigString() %></p>
-<form name="form_getstarter" method="post" action="memos.jsp">
-<input type="hidden" name="sending_page" value="memo_start" />
-<input type="hidden" name="cs_id" value="<%= cs_id %>" />
+<form name="form_memos" method="post" action="memos.jsp">
 <input type="submit" name="start_memo" value="Start Memo">
-</form>
-
-<form name="form1" method="post" action="memos.jsp">
-<input type="submit" name="update_text" value="Submit Your Memo"><br />
+<input type="submit" name="save_draft" id="save_draft" value="Save Draft"> 
+(save early, save often)
+<br />
+<input type="submit" name="submit_memo" value="Submit Your Memo"><br />
 <input type="hidden" name="sending_page" value="memos" />
 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
 
-		  <textarea id="memo_text" name="memo_text" style="height: 300px; width: 500px;"><%= starter_text %></textarea>
+		  <textarea id="memo_text" name="memo_text" style="height: 300px; width: 500px;"><%= pso.memo_starter_text %></textarea>
           <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
 		<script language="javascript1.2">

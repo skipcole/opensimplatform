@@ -11,36 +11,18 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
+	pso.backPage = "push_injects.jsp";
+	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	String sending_page = (String) request.getParameter("sending_page");
-		
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("push_injects"))){
-	
-		String announcement_text = (String) request.getParameter("announcement_text");
-		String inject_action = (String) request.getParameter("inject_action");
-		
-		if ((inject_action != null) && (inject_action.equalsIgnoreCase("2"))) {
-			announcement_text = announcement_text + "<BR /><strong>Communicate with Control your actions</strong><BR />";
-		}
-		
-		String player_target = (String) request.getParameter("player_target");
-		
-		if ((player_target != null) && (player_target.equalsIgnoreCase("some"))){
-			pso.alertInQueueText = announcement_text;
-			pso.alertInQueueType = Alert.TYPE_EVENT;
-			pso.backPage = "push_injects.jsp";
-			response.sendRedirect("select_actors.jsp");
-			return;
-		} else {
-			pso.makeGeneralAnnouncement(announcement_text, request);
-		}
-		
+	if (pso.handlePushInject(request)){
+		response.sendRedirect("select_actors.jsp");
+		return;
 	}
-	
+		
 %>
 <html>
 <head>
@@ -139,12 +121,17 @@
   <input type="submit" name="button" id="button" value="Push Inject">
   </label></td>
   </tr>
-  <tr>
+  <%
+  	String injectLineColor = "#FFCCCC";
+  %>
+  <tr bgcolor="<%= pso.getInjectColor(da_inject.getId())%>">
     <td valign="top">&nbsp;</td>
     <td width="4%" valign="top">&nbsp;</td>
     <td colspan="2" valign="top">
+    	
         <label>
           <textarea name="announcement_text" id="textarea" cols="45" rows="5"><%= da_inject.getInject_text() %></textarea>
+          <input type="hidden" name="inject_id" value="<%= da_inject.getId() %>">
         </label>
         <p>
           <label>
