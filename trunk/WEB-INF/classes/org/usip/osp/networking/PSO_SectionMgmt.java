@@ -583,7 +583,7 @@ public class PSO_SectionMgmt {
 
 			}
 
-		} // End of if this is the make_write_news_page
+		} // End of if this is coming from the reflections page
 
 		return customizableSectionOnScratchPad;
 	}

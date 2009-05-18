@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import javax.persistence.*;
 
 import org.apache.log4j.Logger;
+import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
@@ -32,6 +33,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 @Entity
 @Table(name = "SHARED_DOCUMENTS")
+@Proxy(lazy=false)
 public class SharedDocument implements SimSectionDependentObject {
 
 	/** Database id of this Shared Document. */
@@ -291,7 +293,20 @@ public class SharedDocument implements SimSectionDependentObject {
 		sd.setUniqueDocTitle(templateSD.getUniqueDocTitle());
 
 		sd.saveMe(schema);
-
+		
+		// When a memo is added, add the doc notification to that actor.
+		
+		//Need to copy the SharedDocumentActorNotificationAssignmentObjects into a new set for this doc.
+		List assignmentsForDoc = 
+			SharedDocActorNotificAssignObj.getAllAssignmentsForDocument(schema, templateSD.getId());
+		
+		for (ListIterator<SharedDocActorNotificAssignObj> li = assignmentsForDoc.listIterator(); li.hasNext();) {
+			SharedDocActorNotificAssignObj sdanao = li.next();
+			
+			sdanao.setSd_id(sd.getId());
+			
+		}
+		
 		return sd.getId();
 	}
 

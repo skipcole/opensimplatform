@@ -67,9 +67,9 @@
 <form name="form1" method="post" action="player_reflection.jsp">
   <p>
     <label>
-    <input type="submit" name="update_text" value="Submit">
+    <input type="submit" name="update_text" value="Save">
     </label>
-  </p>
+  (Feel free to save your reflections frequently as you type. <strong><em>Make sure</em></strong> you save your final reflections.)</p>
 <input type="hidden" name="sending_page" value="player_reflection" />
 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
   

@@ -146,6 +146,8 @@ public class ParticipantSessionObject {
 	public String tabposition = "1";
 
 	public String bottomFrame = "";
+	
+	public String memo_starter_text = "";
 
 	/**
 	 * This is called from the top of the players frame to determine where they
@@ -179,6 +181,59 @@ public class ParticipantSessionObject {
 			e.printStackTrace();
 			forward_on = true;
 		}
+
+	}
+	
+	public Hashtable pushedInjects = new Hashtable();
+	
+	public String getInjectColor(Long injectId){
+		
+		String unshotColor = "#FFFFFF";
+		String shotColor = "#FFCCCC";
+		
+		String hashValue = (String) pushedInjects.get(injectId);
+		
+		if (hashValue == null){
+			return unshotColor;
+		} else {
+			return shotColor;
+		}
+		
+	}
+	
+	public boolean handlePushInject(HttpServletRequest request){
+
+		String sending_page = (String) request.getParameter("sending_page");
+			
+		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("push_injects"))){
+		
+			String announcement_text = (String) request.getParameter("announcement_text");
+			String inject_action = (String) request.getParameter("inject_action");
+			String inject_id_string = (String) request.getParameter("inject_id");
+			Long inject_id = new Long(inject_id_string);
+			
+			if (inject_id != null){
+				pushedInjects.put(inject_id, "set");
+			}
+				
+			if ((inject_action != null) && (inject_action.equalsIgnoreCase("2"))) {
+				announcement_text = announcement_text + "<BR /><strong>Communicate with Control your actions</strong><BR />";
+			}
+			
+			String player_target = (String) request.getParameter("player_target");
+			
+			if ((player_target != null) && (player_target.equalsIgnoreCase("some"))){
+				alertInQueueText = announcement_text;
+				alertInQueueType = Alert.TYPE_EVENT;
+				return true;
+			} else {
+				makeGeneralAnnouncement(announcement_text, request);
+				return false;
+			}
+			
+		}
+		
+		return false;
 
 	}
 
@@ -2903,6 +2958,25 @@ public class ParticipantSessionObject {
 			PSO_UserAdmin pu = new PSO_UserAdmin(this);
 			return pu.handleCreateAdminUser(request, schema);
 		}
+	}
+	
+	/**
+	 * Called from process_custom_page.jsp
+	 * 
+	 * @param request
+	 */
+	public void handleProcessCustomPage(HttpServletRequest request){
+		// This is what adds it to the base sim section list.
+		CustomizeableSection cs = handleMakeCustomizedSection(request);
+		
+		String tab_heading = (String) request.getParameter("tab_heading");
+	    String tab_pos = (String) request.getParameter("tab_pos");
+		String universal = (String) request.getParameter("universal");
+		
+		System.out.println("pcp - universal was : " + universal);
+		System.out.println("tab_heading : " + tab_heading);
+		
+		addSectionFromProcessCustomPage(cs.getId(), tab_pos, tab_heading, request, universal);
 	}
 
 	public User handleAutoRegistration(HttpServletRequest request) {

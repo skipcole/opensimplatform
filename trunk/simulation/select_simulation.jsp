@@ -108,6 +108,8 @@ body {
 			
 			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(pso.schema).get(SimulationPhase.class,rs.getPhase_id());
 			
+			// Must check to see that running sim has been enabled (TODO and not marked inactive.)
+			if (rs.isReady_to_begin()) {
   %>
               <tr valign="top">
                 <td><%= sg.getSchema_organization() %></td>
@@ -123,6 +125,9 @@ body {
       <td><%= sp.getName() %></td>
     </tr>
               <%
+			  
+			  } // End of if running simulation has been enabled.
+			  
   		} // End of loop over User Assignments
 		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);

@@ -399,6 +399,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.communications.Inject.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.InjectGroup.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocument.class);
+		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocActorNotificAssignObj.class);
 		
 		// Models
 		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelDefinitionObject.class);
