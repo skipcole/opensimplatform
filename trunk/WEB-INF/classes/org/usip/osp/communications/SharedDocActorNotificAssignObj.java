@@ -122,7 +122,8 @@ public class SharedDocActorNotificAssignObj {
 		sdanao.setActor_id(this.getActor_id());
 		sdanao.setNotificationText(this.getNotificationText());
 		sdanao.setSd_id(this.getSd_id());
-		sdanao.setSd_id(this.getSim_id());
+		sdanao.setSim_id(this.getSim_id());
+		
 		
 		return sdanao;
 	}
