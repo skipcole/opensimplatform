@@ -146,7 +146,7 @@ public class ParticipantSessionObject {
 	public String tabposition = "1";
 
 	public String bottomFrame = "";
-	
+
 	public String memo_starter_text = "";
 
 	/**
@@ -183,46 +183,47 @@ public class ParticipantSessionObject {
 		}
 
 	}
-	
+
 	public Hashtable pushedInjects = new Hashtable();
-	
-	public String getInjectColor(Long injectId){
-		
+
+	public String getInjectColor(Long injectId) {
+
 		String unshotColor = "#FFFFFF";
 		String shotColor = "#FFCCCC";
-		
+
 		String hashValue = (String) pushedInjects.get(injectId);
-		
-		if (hashValue == null){
+
+		if (hashValue == null) {
 			return unshotColor;
 		} else {
 			return shotColor;
 		}
-		
+
 	}
-	
-	public boolean handlePushInject(HttpServletRequest request){
+
+	public boolean handlePushInject(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
-			
-		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("push_injects"))){
-		
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("push_injects"))) {
+
 			String announcement_text = (String) request.getParameter("announcement_text");
 			String inject_action = (String) request.getParameter("inject_action");
 			String inject_id_string = (String) request.getParameter("inject_id");
 			Long inject_id = new Long(inject_id_string);
-			
-			if (inject_id != null){
+
+			if (inject_id != null) {
 				pushedInjects.put(inject_id, "set");
 			}
-				
+
 			if ((inject_action != null) && (inject_action.equalsIgnoreCase("2"))) {
-				announcement_text = announcement_text + "<BR /><strong>Communicate with Control your actions</strong><BR />";
+				announcement_text = announcement_text
+						+ "<BR /><strong>Communicate with Control your actions</strong><BR />";
 			}
-			
+
 			String player_target = (String) request.getParameter("player_target");
-			
-			if ((player_target != null) && (player_target.equalsIgnoreCase("some"))){
+
+			if ((player_target != null) && (player_target.equalsIgnoreCase("some"))) {
 				alertInQueueText = announcement_text;
 				alertInQueueType = Alert.TYPE_EVENT;
 				return true;
@@ -230,9 +231,9 @@ public class ParticipantSessionObject {
 				makeGeneralAnnouncement(announcement_text, request);
 				return false;
 			}
-			
+
 		}
-		
+
 		return false;
 
 	}
@@ -901,36 +902,36 @@ public class ParticipantSessionObject {
 	 * 
 	 * @param request
 	 */
-	public SharedDocument handleCreateDocument(HttpServletRequest request){
-		
+	public SharedDocument handleCreateDocument(HttpServletRequest request) {
+
 		SharedDocument sd = new SharedDocument();
-		
+
 		String shared_doc_id = (String) request.getParameter("shared_doc_id");
-			
-		if ((shared_doc_id != null) && (shared_doc_id.trim().length() > 0)){
-			
+
+		if ((shared_doc_id != null) && (shared_doc_id.trim().length() > 0)) {
+
 			sd = SharedDocument.getMe(schema, new Long(shared_doc_id));
 		}
-		
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String save_page = (String) request.getParameter("save_page");
 
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_create_document_page"))){
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_create_document_page"))) {
 			String uniq_doc_title = (String) request.getParameter("uniq_doc_title");
 			String doc_display_title = (String) request.getParameter("doc_display_title");
 			String doc_starter_text = (String) request.getParameter("doc_starter_text");
-			
+
 			System.out.println("creating doc of uniq title: " + uniq_doc_title);
 			sd = new SharedDocument(uniq_doc_title, doc_display_title, sim_id);
 			sd.setBigString(doc_starter_text);
 			sd.saveMe(schema);
-			
+
 		}
-		
+
 		return sd;
-		
+
 	}
+
 	/**
 	 * 
 	 * @param request
@@ -1862,13 +1863,13 @@ public class ParticipantSessionObject {
 		}
 
 	}
-	
-	public String matchSelected(String a, String b, String matchText){
+
+	public String matchSelected(String a, String b, String matchText) {
 		if ((a == null) || (b == null)) {
 			return "";
 		}
-		
-		if (a.equalsIgnoreCase(b)){
+
+		if (a.equalsIgnoreCase(b)) {
 			return matchText;
 		} else {
 			return "";
@@ -1946,7 +1947,13 @@ public class ParticipantSessionObject {
 		return highestChangeNumber;
 	}
 
-	public String getAlarmText(HttpServletRequest request, HttpServletResponse response) {
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public String alarmXML(HttpServletRequest request, HttpServletResponse response) {
 
 		Long runningSimHighestChange = getHighestChangeNumberForRunningSim(request);
 
@@ -1972,7 +1979,7 @@ public class ParticipantSessionObject {
 		}
 		// ////////////////////////////////////////////////////////
 
-		String alarmText = "";
+		String alarmType = "";
 
 		if ((running_sim_id != null) && (doDatabaseCheck)) {
 
@@ -1980,14 +1987,29 @@ public class ParticipantSessionObject {
 
 			RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 					RunningSimulation.class, running_sim_id);
-			alarmText = checkForAlarm(rs, request);
+			alarmType = checkForAlarm(rs, request);
 			doDatabaseCheck = false;
 
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		}
 
-		return alarmText;
+		String alarmXML = "<response>";
+		alarmXML += "<sim_event_type>" + alarmType + "</sim_event_type>";
+		
+		if (alarmType.equalsIgnoreCase("phase_change")){
+			alarmXML += "<sim_event_text>" + "Simulation Phase has changed. You may now have a different set of tabs." + "</sim_event_text>";
+		} else if (alarmType.equalsIgnoreCase("news")){
+			alarmXML += "<sim_event_text>" + "There is new news. Please check the news page as soon as possible." + "</sim_event_text>";
+		} else if (alarmType.equalsIgnoreCase("announcement")){
+			alarmXML += "<sim_event_text>" + "There is a new announcement. Please check the announcements page as soon as possible." + "</sim_event_text>";
+		} else if (alarmType.equalsIgnoreCase("memo")){
+			alarmXML += "<sim_event_text>" + "A new memo has been received." + "</sim_event_text>";
+		}
+		
+		alarmXML += "</response>";
+		
+		return alarmXML;
 	}
 
 	/**
@@ -2001,32 +2023,35 @@ public class ParticipantSessionObject {
 		boolean throwAnnouncementAlert = false;
 		boolean throwNewsAlert = false;
 		boolean throwPhaseChangeAlert = false;
+		boolean throwMemoAlert = false;
 
 		for (ListIterator<Alert> li = rs.getAlerts().listIterator(); li.hasNext();) {
-			Alert na = li.next();
+			Alert this_alert = li.next();
 
-			if (newsAlerts.get(na.getId().toString()) == null) {
+			if (newsAlerts.get(this_alert.getId().toString()) == null) {
 				// storing it in the hashtable, so alert not tripped on this one
 				// again.
-				newsAlerts.put(na.getId().toString(), "set");
+				newsAlerts.put(this_alert.getId().toString(), "set");
 
 				// Everyone gets phase change alerts.
-				if (na.getType() == Alert.TYPE_PHASECHANGE) {
+				if (this_alert.getType() == Alert.TYPE_PHASECHANGE) {
 					throwPhaseChangeAlert = true;
 				} else {
 					boolean thisUserApplicable = false;
 
-					if (!(na.isSpecific_targets())) {
+					if (!(this_alert.isSpecific_targets())) {
 						thisUserApplicable = true;
 					} else {
-						thisUserApplicable = na.checkActor(this.actor_id);
+						thisUserApplicable = this_alert.checkActor(this.actor_id);
 					}
 
 					if (thisUserApplicable) {
-						if (na.getType() == Alert.TYPE_NEWS) {
+						if (this_alert.getType() == Alert.TYPE_NEWS) {
 							throwNewsAlert = true;
-						} else if (na.getType() == Alert.TYPE_ANNOUNCEMENT) {
+						} else if (this_alert.getType() == Alert.TYPE_ANNOUNCEMENT) {
 							throwAnnouncementAlert = true;
+						} else if (this_alert.getType() == Alert.TYPE_MEMO) {
+							throwMemoAlert = true;
 						}
 					} // end of if this alert is applicable to this user
 				} // end of if this is not a phase change alert.
@@ -2039,6 +2064,8 @@ public class ParticipantSessionObject {
 			return "news";
 		} else if (throwAnnouncementAlert) {
 			return "announcement";
+		}  else if (throwMemoAlert) {
+			return "memo";
 		} else {
 			return "";
 		}
@@ -2076,26 +2103,32 @@ public class ParticipantSessionObject {
 		return rs;
 
 	}
+	
+	public void makeTargettedAnnouncement(HttpServletRequest request) {
+
+		String targets = list2String(getIdsOfCheckBoxes("actor_cb_", request));
+		
+		Alert al = new Alert();
+		al.setSpecific_targets(true);
+		al.setType(Alert.TYPE_ANNOUNCEMENT);
+		al.setAlertMessage(alertInQueueText);
+		al.setThe_specific_targets(targets);
+		
+		makeTargettedAnnouncement(al, targets, request);
+		
+	}
 
 	/**
 	 * Sends out announcements to only the players selected.
 	 * 
 	 * @param request
 	 */
-	public void makeTargettedAnnouncement(HttpServletRequest request) {
-
-		String targets = list2String(getIdsOfCheckBoxes("actor_cb_", request));
+	public void makeTargettedAnnouncement(Alert al, String targets, HttpServletRequest request) {		
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 				RunningSimulation.class, running_sim_id);
-
-		Alert al = new Alert();
-		al.setSpecific_targets(true);
-		al.setType(Alert.TYPE_ANNOUNCEMENT);
-		al.setAlertMessage(alertInQueueText);
-		al.setThe_specific_targets(targets);
 
 		rs.getAlerts().add(al);
 
@@ -2132,7 +2165,7 @@ public class ParticipantSessionObject {
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 		Collections.reverse(returnList);
 
 		return returnList;
@@ -2886,38 +2919,42 @@ public class ParticipantSessionObject {
 
 		return a_thumb;
 	}
-	
+
 	public Vector myActors = new Vector();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public Vector getActorsForConversation(Long ssrsdoa_id, HttpServletRequest request){
-		
-		if ((myActors == null) || (myActors.size() == 0)){
+	public Vector getActorsForConversation(Long ssrsdoa_id, HttpServletRequest request) {
+
+		if ((myActors == null) || (myActors.size() == 0)) {
 			myActors = ChatController.getActorsForConversation(this, ssrsdoa_id, request);
 		}
-		
+
 		return myActors;
-		
+
 	}
-	
+
 	/**
-	 * Takes input from the chat page to change the color in which the actor's text is being seen.
+	 * Takes input from the chat page to change the color in which the actor's
+	 * text is being seen.
+	 * 
 	 * @param actor_id
 	 * @param newColor
 	 */
-	public void changeActorsColor(String actor_id, String newColor){
-		
-		
-		for (Enumeration e = myActors.elements(); e.hasMoreElements();){
+	public void changeActorsColor(String actor_id, String newColor) {
+
+		for (Enumeration e = myActors.elements(); e.hasMoreElements();) {
 			ActorGhost ag = (ActorGhost) e.nextElement();
-		
-			//System.out.println("color was: " + ag.getDefaultColorChatBubble());
-			
-			if (ag.getId().toString().equalsIgnoreCase(actor_id)){
+
+			// System.out.println("color was: " +
+			// ag.getDefaultColorChatBubble());
+
+			if (ag.getId().toString().equalsIgnoreCase(actor_id)) {
 				ag.setDefaultColorChatBubble(newColor);
-				//System.out.println("color is: " + ag.getDefaultColorChatBubble());
+				// System.out.println("color is: " +
+				// ag.getDefaultColorChatBubble());
 			}
 		}
 	}
@@ -2959,23 +2996,23 @@ public class ParticipantSessionObject {
 			return pu.handleCreateAdminUser(request, schema);
 		}
 	}
-	
+
 	/**
 	 * Called from process_custom_page.jsp
 	 * 
 	 * @param request
 	 */
-	public void handleProcessCustomPage(HttpServletRequest request){
+	public void handleProcessCustomPage(HttpServletRequest request) {
 		// This is what adds it to the base sim section list.
 		CustomizeableSection cs = handleMakeCustomizedSection(request);
-		
+
 		String tab_heading = (String) request.getParameter("tab_heading");
-	    String tab_pos = (String) request.getParameter("tab_pos");
+		String tab_pos = (String) request.getParameter("tab_pos");
 		String universal = (String) request.getParameter("universal");
-		
+
 		System.out.println("pcp - universal was : " + universal);
 		System.out.println("tab_heading : " + tab_heading);
-		
+
 		addSectionFromProcessCustomPage(cs.getId(), tab_pos, tab_heading, request, universal);
 	}
 
@@ -2987,6 +3024,66 @@ public class ParticipantSessionObject {
 	public User handleCreateUser(HttpServletRequest request) {
 		PSO_UserAdmin pu = new PSO_UserAdmin(this);
 		return pu.handleCreateUser(request, schema);
+	}
+
+	public void handleMemoPage(SharedDocument sd, HttpServletRequest request) {
+
+		// If data has been submitted, tack it at the front, save it and move on
+		String sending_page = (String) request.getParameter("sending_page");
+
+		String start_memo = (String) request.getParameter("start_memo");
+		String save_draft = (String) request.getParameter("save_draft");
+		String submit_memo = (String) request.getParameter("submit_memo");
+
+		String memo_text = (String) request.getParameter("memo_text");
+
+		if (sending_page != null) {
+			if (submit_memo != null) {
+				if ((memo_text != null) && (memo_text.trim().length() > 0)) {
+
+					java.util.Date today = new java.util.Date();
+					java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+					String memo_time = "<em>(Memo Submitted: " + sdf.format(today) + ")</em><br />";
+
+					String fullText = memo_time + memo_text + "<br><hr>" + sd.getBigString();
+					sd.setBigString(fullText);
+					sd.saveMe(schema);
+					memo_starter_text = "";
+					
+					// Find all SDANAO objects for this document, and send notifications to the actors.
+					notifyOfDocChanges(schema, sd.getId(), this.actor_id, request);
+				}
+			}
+
+			if (save_draft != null) {
+				memo_starter_text = memo_text;
+			}
+
+			if (start_memo != null) {
+				memo_starter_text = "To: <BR />From:<BR />Topic:<BR />Message:";
+			}
+
+		} // End of if coming back from the form on this page.
+	}
+	
+	public void notifyOfDocChanges(String schema, Long sd_id, Long excluded_actor_id, HttpServletRequest request){
+		
+		List listToNotify = SharedDocActorNotificAssignObj.getAllAssignmentsForDocument(schema, sd_id);
+		
+		for (ListIterator<SharedDocActorNotificAssignObj> li = listToNotify.listIterator(); li.hasNext();) {
+			SharedDocActorNotificAssignObj sdanao = (SharedDocActorNotificAssignObj) li.next();
+			
+			if (sdanao.getActor_id() != excluded_actor_id) {
+				
+				Alert al = new Alert();
+				al.setSpecific_targets(true);
+				al.setType(Alert.TYPE_MEMO);
+				al.setThe_specific_targets(sdanao.getActor_id().toString());
+				
+				makeTargettedAnnouncement(al, sdanao.getActor_id().toString(), request);
+			}
+		}
+
 	}
 
 	public void handleMyProfile(HttpServletRequest request) {
@@ -3101,7 +3198,7 @@ public class ParticipantSessionObject {
 	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request));
 	}
-	
+
 	/**
 	 * A wrapper that passes the request through to the associated
 	 * PSO_SectionMgmt object.
@@ -3344,9 +3441,8 @@ public class ParticipantSessionObject {
 		String sending_page = (String) request.getParameter("sending_page");
 		String update_text = (String) request.getParameter("update_text");
 
-
 		if ((sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("write_document"))) {
-			
+
 			System.out.println("im back in here saving.");
 			String write_document_text = (String) request.getParameter("write_document_text");
 
