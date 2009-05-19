@@ -91,6 +91,18 @@
   			generate_wysiwyg('make_memos_page_text');
 		</script>
                       </p>
+                      <table border="1"><tr><td>
+                      <p>Make Custom Announcement to this Actor to Notify them if this memo has changed? 
+                        <input type="radio" name="radio" id="radio" value="radio" />
+                      Yes / 
+                      <input type="radio" name="radio2" id="radio2" value="radio2" />
+                      No</p>
+                      <p>Custom Memo Text: 
+                        <label>
+                        <input type="text" name="textfield" id="textfield" />
+                        </label>
+                      </p>
+                      </td></tr></table>
                       <p>
                         <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                         <input type="hidden" name="sending_page" value="make_memos_page" />

@@ -62,6 +62,10 @@ public class PSO_UserAdmin {
 	private void getBaseUserParamters(HttpServletRequest request) {
 		
 		_full_name = (String) request.getParameter("full_name");
+		_first_name = (String) request.getParameter("first_name");
+		_last_name = (String) request.getParameter("last_name");
+		_middle_name = (String) request.getParameter("middle_name");
+		
 		_admin = (String) request.getParameter("admin");
 		_author = (String) request.getParameter("author");
 		_email = (String) request.getParameter("email");
@@ -223,8 +227,8 @@ public class PSO_UserAdmin {
 
 					try {
 
-						user = new User(schema, _email, _password, "", "",
-								"", _full_name, _email, false, false, false);
+						user = new User(schema, _email, _password, _first_name, _last_name,
+								_middle_name, _full_name, _email, false, false, false);
 						
 						pso.forward_on = true;
 						

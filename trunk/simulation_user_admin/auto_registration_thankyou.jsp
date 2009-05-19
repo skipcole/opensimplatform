@@ -28,12 +28,14 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Thank you for registering.</h1>
-              <br />
-      <p>You should receive an email indicating that you have been registered. </p>
+              <p>You should now be able to <a href="../simulation/index.jsp">login to the system</a>, but will not be able to participate in any simulations until you have been assigned a role in one by an instructor.<br />
+                  </p>
+               <!-- 
+              <p>You should receive an email indicating that you have been registered. </p>
       <p>Note: If you do not find the acknowledgement email, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' </p>
+      -->
       <p>&nbsp;</p>
-      <form action="../simulation_facilitation/create_user.jsp" method="post" name="form1" id="form1">
-      </form>      <p>&nbsp;</p>			</td>
+      <p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

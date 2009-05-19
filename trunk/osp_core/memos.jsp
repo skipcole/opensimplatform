@@ -16,46 +16,13 @@
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
 	RunningSimulation rs = pso.giveMeRunningSim();
-	
-	System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
 
 	List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), rs.getId());
 
 	SharedDocument sd = (SharedDocument) setOfDocs.get(0);
 	
-	//If data has been submitted, tack it at the front, save it and move on
-	String sending_page = (String) request.getParameter("sending_page");
+	pso.handleMemoPage(sd, request);
 	
-	String start_memo = (String) request.getParameter("start_memo");
-	String save_draft = (String) request.getParameter("save_draft");
-	String submit_memo = (String) request.getParameter("submit_memo");
-	
-	String memo_text = (String) request.getParameter("memo_text");
-	
-	if (sending_page != null) {
-		if (submit_memo != null) {
-			if ((memo_text != null) && (memo_text.trim().length() > 0) ){
-
-				java.util.Date today = new java.util.Date();
-				java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
-				String memo_time = "<em>(Memo Submitted: " + sdf.format(today) + ")</em><br />";
-		
-				String fullText = memo_time + memo_text + "<br><hr>" + sd.getBigString();
-				sd.setBigString(fullText);
-				sd.saveMe(pso.schema);	
-				pso.memo_starter_text = "";
-			}
-		}
-		
-		if (save_draft != null) {
-				pso.memo_starter_text = memo_text;
-		}
-
-		if (start_memo != null) {
-			pso.memo_starter_text = "To: <BR />From:<BR />Topic:<BR />Message:";
-		}
-		
-	}  // End of if coming back from the form on this page.
 	
 %>
 <html>

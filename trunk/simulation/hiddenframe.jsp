@@ -31,19 +31,21 @@ function getSimEvent()
 	
 		function(myFunction){
 		
+			var sim_event_type = $("sim_event_type",myFunction).text();
 			var sim_event_text = $("sim_event_text",myFunction).text();
-			//sim_event_text = sim_event_text.trim()
 			
-			if (sim_event_text == "phase_change"){
-				alert("Simulation Phase has changed. You may now have different capabilities. There may also be new news.");
+			if (sim_event_type == "phase_change"){
+				alert(sim_event_text);
 			 	top.document.location="simwebui.jsp?tabposition=1";
 			 	sendThemRedirect = "true";
 			 	return;
 			} 
-			else if (sim_event_text == "news"){
-				alert("There is new news. Please check the news page as soon as possible.");
-			} else if (sim_event_text == "announcement"){
-				alert("There is a new announcement. Please check the announcements page as soon as possible.");
+			else if (sim_event_type == "news"){
+				alert(sim_event_text);
+			} else if (sim_event_type == "announcement"){
+				alert(sim_event_text);
+			}  else if (sim_event_type == "memo"){
+				alert(sim_event_text);
 			} 
 		
 			//alert("|" + sim_event_text + "|");

@@ -294,16 +294,17 @@ public class SharedDocument implements SimSectionDependentObject {
 
 		sd.saveMe(schema);
 		
-		// When a memo is added, add the doc notification to that actor.
-		
-		//Need to copy the SharedDocumentActorNotificationAssignmentObjects into a new set for this doc.
+		// If this document has notification objects associated with it, create copies of those:
+		//Copy the SharedDocumentActorNotificationAssignmentObjects into a new set for this doc.
 		List assignmentsForDoc = 
 			SharedDocActorNotificAssignObj.getAllAssignmentsForDocument(schema, templateSD.getId());
 		
 		for (ListIterator<SharedDocActorNotificAssignObj> li = assignmentsForDoc.listIterator(); li.hasNext();) {
 			SharedDocActorNotificAssignObj sdanao = li.next();
 			
-			sdanao.setSd_id(sd.getId());
+			SharedDocActorNotificAssignObj sdanao_copy = sdanao.createCopy();
+			sdanao_copy.setSd_id(sd.getId());
+			sdanao_copy.saveMe(schema);
 			
 		}
 		
