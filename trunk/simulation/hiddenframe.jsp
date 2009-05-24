@@ -18,15 +18,11 @@
 <script type="text/javascript" src="../jquery-1.2.6.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>USIP OSP Hidden Page</title>
-<script type="text/javascript"  >
-
-var sendThemRedirect;
-var callnum = 0;
-
+<script type="text/javascript">
 
 function getSimEvent()
   {
-  
+
   	$.get('sim_event_server.jsp', {'running_sim_id': "<%= pso.running_sim_id %>"}, 
 	
 		function(myFunction){
@@ -37,8 +33,6 @@ function getSimEvent()
 			if (sim_event_type == "phase_change"){
 				alert(sim_event_text);
 			 	top.document.location="simwebui.jsp?tabposition=1";
-			 	sendThemRedirect = "true";
-			 	return;
 			} 
 			else if (sim_event_type == "news"){
 				alert(sim_event_text);
@@ -48,9 +42,8 @@ function getSimEvent()
 				alert(sim_event_text);
 			} 
 		
-			//alert("|" + sim_event_text + "|");
 		}, 'xml');
-	
+
 	
   }  // End of getSimEvent method ;
 
@@ -58,9 +51,8 @@ function getSimEvent()
 
 function timedCount()
 {
-	callnum += 1;
-	getSimEvent();
-	setTimeout("timedCount()",4000);
+	getSimEvent()
+	setTimeout("timedCount()",2000)
 }
 
 

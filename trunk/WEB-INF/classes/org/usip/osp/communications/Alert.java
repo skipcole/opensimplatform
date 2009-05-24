@@ -35,18 +35,18 @@ public class Alert {
 	/** An announcement has been made and may be seen on the announcement page.*/
 	public static final int TYPE_ANNOUNCEMENT = 1;
 	
-	/** The phase of the simulation has changed. */
-	public static final int TYPE_PHASECHANGE = 2;
-	
 	/** New news is available from a news source accessible to the player. */
-	public static final int TYPE_NEWS = 3;
+	public static final int TYPE_NEWS = 2;
 	
 	/** An event for the player. */
-	public static final int TYPE_EVENT = 4;
+	public static final int TYPE_EVENT = 3;
+	
+	/** The phase of the simulation has changed. */
+	public static final int TYPE_PHASECHANGE = 102;
 	
 	/** An incoming for the player. */
-	public static final int TYPE_MEMO = 5;
-	
+	public static final int TYPE_MEMO = 105;
+		
     /** Database id of this Alert. */
 	@Id
 	@GeneratedValue
@@ -174,6 +174,17 @@ public class Alert {
 
 	public void setAlertEmailMessage(String alertEmailMessage) {
 		this.alertEmailMessage = alertEmailMessage;
+	}
+	
+	/** Saves a simulation. */
+	public void saveMe(String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
 	}
 	
 }

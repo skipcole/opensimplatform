@@ -147,7 +147,9 @@ public class ParticipantSessionObject {
 
 	public String bottomFrame = "";
 
-	public String memo_starter_text = "";
+	public static String DEFAULTMEMOTEXT = "To: <BR />From:<BR />Topic:<BR />Message:";
+
+	public String memo_starter_text = DEFAULTMEMOTEXT;
 
 	/**
 	 * This is called from the top of the players frame to determine where they
@@ -210,9 +212,9 @@ public class ParticipantSessionObject {
 			String announcement_text = (String) request.getParameter("announcement_text");
 			String inject_action = (String) request.getParameter("inject_action");
 			String inject_id_string = (String) request.getParameter("inject_id");
-			Long inject_id = new Long(inject_id_string);
 
-			if (inject_id != null) {
+			if (inject_id_string != null) {
+				Long inject_id = new Long(inject_id_string);
 				pushedInjects.put(inject_id, "set");
 			}
 
@@ -1965,8 +1967,6 @@ public class ParticipantSessionObject {
 
 		if (runningSimHighestChange.intValue() > myHighestChangeNumber.intValue()) {
 
-			myHighestChangeNumber = new Long(runningSimHighestChange.intValue());
-
 			doDatabaseCheck = true;
 		}
 
@@ -1979,7 +1979,7 @@ public class ParticipantSessionObject {
 		}
 		// ////////////////////////////////////////////////////////
 
-		String alarmType = "";
+		String alarmXML = "<response>";
 
 		if ((running_sim_id != null) && (doDatabaseCheck)) {
 
@@ -1987,29 +1987,55 @@ public class ParticipantSessionObject {
 
 			RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 					RunningSimulation.class, running_sim_id);
-			alarmType = checkForAlarm(rs, request);
-			doDatabaseCheck = false;
-
+			
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-		}
+			List alarms = checkForAlarm(rs, request);
+			
+			if (alarms.size() == 0){
+				alarmXML += "<numAlarms>0</numAlarms>";
+				
+			} else if (alarms.size() > 3){	// if too many alerts, just tell them to check their environment.
+				alarmXML += "<numAlarms>1</numAlarms>";
+				alarmXML += "<sim_event_text>" + 
+					"Multiple alerts received. Please check all of the tabs where you are receiving information." + 
+					"</sim_event_text>";
+				
+			} else {
+				alarmXML += "<numAlarms>" + alarms.size() + "</numAlarms>";
+				for (ListIterator<Alert> li = alarms.listIterator(); li.hasNext();) {
+					Alert this_alert = li.next();
+					
+					alarmXML += "<sim_event_text>" + this_alert.getAlertPopupMessage() + "</sim_event_text>";
+				}
+				
+				
+			}
 
-		String alarmXML = "<response>";
-		alarmXML += "<sim_event_type>" + alarmType + "</sim_event_type>";
+
+		} // End of if doing database check.
 		
-		if (alarmType.equalsIgnoreCase("phase_change")){
-			alarmXML += "<sim_event_text>" + "Simulation Phase has changed. You may now have a different set of tabs." + "</sim_event_text>";
-		} else if (alarmType.equalsIgnoreCase("news")){
-			alarmXML += "<sim_event_text>" + "There is new news. Please check the news page as soon as possible." + "</sim_event_text>";
-		} else if (alarmType.equalsIgnoreCase("announcement")){
-			alarmXML += "<sim_event_text>" + "There is a new announcement. Please check the announcements page as soon as possible." + "</sim_event_text>";
-		} else if (alarmType.equalsIgnoreCase("memo")){
-			alarmXML += "<sim_event_text>" + "A new memo has been received." + "</sim_event_text>";
-		}
 		
 		alarmXML += "</response>";
-		
+		myHighestChangeNumber = new Long(runningSimHighestChange.intValue());
 		return alarmXML;
+		
+		/* TODO Move parts from below to where they need to go.
+		 * 
+		if (alarmType.equalsIgnoreCase("phase_change")) {
+			alarmXML += "<sim_event_text>" + "Simulation Phase has changed. You may now have a different set of tabs."
+					+ "</sim_event_text>";
+		} else if (alarmType.equalsIgnoreCase("news")) {
+			alarmXML += "<sim_event_text>" + "There is new news. Please check the news page as soon as possible."
+					+ "</sim_event_text>";
+		} else if (alarmType.equalsIgnoreCase("announcement")) {
+			alarmXML += "<sim_event_text>"
+					+ "There is a new announcement. Please check the announcements page as soon as possible."
+					+ "</sim_event_text>";
+		} else if (alarmType.equalsIgnoreCase("memo")) {
+			
+		}
+		*/
 	}
 
 	/**
@@ -2018,57 +2044,29 @@ public class ParticipantSessionObject {
 	 * @param request
 	 * @return
 	 */
-	public String checkForAlarm(RunningSimulation rs, HttpServletRequest request) {
+	public List<Alert> checkForAlarm(RunningSimulation rs, HttpServletRequest request) {
 
-		boolean throwAnnouncementAlert = false;
-		boolean throwNewsAlert = false;
-		boolean throwPhaseChangeAlert = false;
-		boolean throwMemoAlert = false;
+		List<Alert> returnList = new ArrayList();
 
 		for (ListIterator<Alert> li = rs.getAlerts().listIterator(); li.hasNext();) {
 			Alert this_alert = li.next();
 
-			if (newsAlerts.get(this_alert.getId().toString()) == null) {
-				// storing it in the hashtable, so alert not tripped on this one
-				// again.
-				newsAlerts.put(this_alert.getId().toString(), "set");
+			boolean thisUserApplicable = false;
 
-				// Everyone gets phase change alerts.
-				if (this_alert.getType() == Alert.TYPE_PHASECHANGE) {
-					throwPhaseChangeAlert = true;
-				} else {
-					boolean thisUserApplicable = false;
+			if (!(this_alert.isSpecific_targets())) {
+				thisUserApplicable = true;
+			} else {
+				thisUserApplicable = this_alert.checkActor(this.actor_id);
+			}
 
-					if (!(this_alert.isSpecific_targets())) {
-						thisUserApplicable = true;
-					} else {
-						thisUserApplicable = this_alert.checkActor(this.actor_id);
-					}
+			if (thisUserApplicable) {
 
-					if (thisUserApplicable) {
-						if (this_alert.getType() == Alert.TYPE_NEWS) {
-							throwNewsAlert = true;
-						} else if (this_alert.getType() == Alert.TYPE_ANNOUNCEMENT) {
-							throwAnnouncementAlert = true;
-						} else if (this_alert.getType() == Alert.TYPE_MEMO) {
-							throwMemoAlert = true;
-						}
-					} // end of if this alert is applicable to this user
-				} // end of if this is not a phase change alert.
-			} // End of if this id of this alert is not null (?)
-		}
+				returnList.add(this_alert);
 
-		if (throwPhaseChangeAlert) {
-			return "phase_change";
-		} else if (throwNewsAlert) {
-			return "news";
-		} else if (throwAnnouncementAlert) {
-			return "announcement";
-		}  else if (throwMemoAlert) {
-			return "memo";
-		} else {
-			return "";
-		}
+			} // end of if this alert is applicable to this user
+		} // End of if this id of this alert is not null (?)
+
+		return returnList;
 	}
 
 	/**
@@ -2103,19 +2101,19 @@ public class ParticipantSessionObject {
 		return rs;
 
 	}
-	
+
 	public void makeTargettedAnnouncement(HttpServletRequest request) {
 
 		String targets = list2String(getIdsOfCheckBoxes("actor_cb_", request));
-		
+
 		Alert al = new Alert();
 		al.setSpecific_targets(true);
 		al.setType(Alert.TYPE_ANNOUNCEMENT);
 		al.setAlertMessage(alertInQueueText);
 		al.setThe_specific_targets(targets);
-		
+
 		makeTargettedAnnouncement(al, targets, request);
-		
+
 	}
 
 	/**
@@ -2123,7 +2121,7 @@ public class ParticipantSessionObject {
 	 * 
 	 * @param request
 	 */
-	public void makeTargettedAnnouncement(Alert al, String targets, HttpServletRequest request) {		
+	public void makeTargettedAnnouncement(Alert al, String targets, HttpServletRequest request) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -3026,7 +3024,7 @@ public class ParticipantSessionObject {
 		return pu.handleCreateUser(request, schema);
 	}
 
-	public void handleMemoPage(SharedDocument sd, HttpServletRequest request) {
+	public void handleMemoPage(SharedDocument sd, HttpServletRequest request, CustomizeableSection cs) {
 
 		// If data has been submitted, tack it at the front, save it and move on
 		String sending_page = (String) request.getParameter("sending_page");
@@ -3048,10 +3046,11 @@ public class ParticipantSessionObject {
 					String fullText = memo_time + memo_text + "<br><hr>" + sd.getBigString();
 					sd.setBigString(fullText);
 					sd.saveMe(schema);
-					memo_starter_text = "";
-					
-					// Find all SDANAO objects for this document, and send notifications to the actors.
-					notifyOfDocChanges(schema, sd.getId(), this.actor_id, request);
+					memo_starter_text = DEFAULTMEMOTEXT;
+
+					// Find all SDANAO objects for this document, and send
+					// notifications to the actors.
+					notifyOfDocChanges(schema, sd.getId(), this.actor_id, request, cs);
 				}
 			}
 
@@ -3060,26 +3059,29 @@ public class ParticipantSessionObject {
 			}
 
 			if (start_memo != null) {
-				memo_starter_text = "To: <BR />From:<BR />Topic:<BR />Message:";
+				memo_starter_text = DEFAULTMEMOTEXT;
 			}
 
 		} // End of if coming back from the form on this page.
 	}
-	
-	public void notifyOfDocChanges(String schema, Long sd_id, Long excluded_actor_id, HttpServletRequest request){
-		
+
+	public void notifyOfDocChanges(String schema, Long sd_id, Long excluded_actor_id, HttpServletRequest request,
+			CustomizeableSection cs) {
+
 		List listToNotify = SharedDocActorNotificAssignObj.getAllAssignmentsForDocument(schema, sd_id);
-		
+
 		for (ListIterator<SharedDocActorNotificAssignObj> li = listToNotify.listIterator(); li.hasNext();) {
 			SharedDocActorNotificAssignObj sdanao = (SharedDocActorNotificAssignObj) li.next();
-			
-			if (sdanao.getActor_id() != excluded_actor_id) {
-				
+
+			if (!(sdanao.getActor_id().equals(excluded_actor_id))) {
+
 				Alert al = new Alert();
 				al.setSpecific_targets(true);
-				al.setType(Alert.TYPE_MEMO);
+				al.setType(al.TYPE_MEMO);
 				al.setThe_specific_targets(sdanao.getActor_id().toString());
-				
+				al.setAlertMessage(sdanao.getNotificationText());
+				al.saveMe(schema);
+
 				makeTargettedAnnouncement(al, sdanao.getActor_id().toString(), request);
 			}
 		}
