@@ -91,18 +91,29 @@
   			generate_wysiwyg('make_memos_page_text');
 		</script>
                       </p>
-                      <table border="1"><tr><td>
-                      <p>Make Custom Announcement to this Actor to Notify them if this memo has changed? 
-                        <input type="radio" name="radio" id="radio" value="radio" />
-                      Yes / 
-                      <input type="radio" name="radio2" id="radio2" value="radio2" />
-                      No</p>
-                      <p>Custom Memo Text: 
-                        <label>
-                        <input type="text" name="textfield" id="textfield" />
-                        </label>
-                      </p>
-                      </td></tr></table>
+                      <p>
+                      <p> When this memo is submitted, the following actors will receive notification: </p>
+                      <blockquote>
+                      <table width="80%" border="0" cellspacing="0">
+                <%
+                      for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
+						Actor act = (Actor) la.next();
+                %>
+                        <tr>
+                          <td colspan="3"><%= act.getName() %> </td>
+                          </tr>
+                        <tr>
+                          <td width="15%" valign="top">&nbsp;</td>
+                          <td width="17%" valign="top"><input type="radio" name="radio" id="radio" value="radio" />
+None</td>
+                          <td width="68%" valign="top"><input type="radio" name="radio2" id="radio2" value="radio2" />
+Text:: 
+  <textarea name="textarea" id="textarea" cols="30" rows="2"></textarea></td>
+                        </tr>
+                        <% } %>
+                      </table>
+                      </blockquote>
+                      <p>&nbsp;</p>
                       <p>
                         <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                         <input type="hidden" name="sending_page" value="make_memos_page" />

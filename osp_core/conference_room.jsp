@@ -260,7 +260,7 @@ overflow:scroll;
 <TR>
     <TD width="25%"><form name="form1" method="post" action="">
   <p>Text to send: 
-          <input name="chattexttosend" type="text" id="chattexttosend" size="40" maxlength="255" />
+          <textarea name="chattexttosend" cols="40" rows="2" id="chattexttosend" type="text" ></textarea>
           <BR>
 	<input type="submit" name="Submit" value="Submit" onClick="sendText();return false;">
   </p>

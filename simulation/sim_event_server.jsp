@@ -12,10 +12,6 @@
 	}
 	
 	String alarmXML = pso.alarmXML(request, response);
-	//String callnumb = request.getParameter("callnumb");
-	//String running_sim_id = request.getParameter("running_sim_id");
-	
-	//System.out.println("ing_sim_id was: " + running_sim_id + ", alarm text was: " + alarmText);
 	
 	response.setContentType("text/xml");
 

@@ -21,7 +21,7 @@
 
 	SharedDocument sd = (SharedDocument) setOfDocs.get(0);
 	
-	pso.handleMemoPage(sd, request);
+	pso.handleMemoPage(sd, request, cs);
 	
 	
 %>
@@ -41,8 +41,7 @@
 <p>
 <p><%= cs.getBigString() %></p>
 <form name="form_memos" method="post" action="memos.jsp">
-<input type="submit" name="start_memo" value="Start Memo">
-<input type="submit" name="save_draft" id="save_draft" value="Save Draft"> 
+  <input type="submit" name="save_draft" id="save_draft" value="Save Draft"> 
 (save early, save often)
 <br />
 <input type="submit" name="submit_memo" value="Submit Your Memo"><br />

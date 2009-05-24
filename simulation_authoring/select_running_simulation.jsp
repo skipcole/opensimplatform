@@ -2,7 +2,7 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.persistence.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
@@ -76,11 +76,13 @@
 		for (ListIterator li = simulation.getRunning_sims(pso.schema).listIterator(); li.hasNext();) {
 			RunningSimulation rs = (RunningSimulation) li.next();
 			
+			if (rs != null) {
 		%>
             <tr> 
-              <td><a href="select_running_simulation.jsp?select_running_sim=true&amp;backpage=<%= pso.backPage %>&amp;r_sim_id=<%= rs.getId().toString() %>"><%= rs.getName() %></a></td>
+              <td><a href="select_running_simulation.jsp?select_running_sim=true&backpage=<%= pso.backPage %>&r_sim_id=<%= rs.getId() %>"><%= rs.getName() %></a></td>
             </tr>
             <%
+	}
 	}
 	
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
