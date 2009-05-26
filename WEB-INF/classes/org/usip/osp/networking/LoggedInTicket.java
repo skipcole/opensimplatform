@@ -7,6 +7,7 @@ import org.usip.osp.baseobjects.UserTrail;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
+ * 
  * @author Ronald "Skip" Cole<br />
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -22,6 +23,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 public class LoggedInTicket {
 
+	/** */
 	private Long trail_id;
 	
 	private Long user_id;
@@ -38,7 +40,31 @@ public class LoggedInTicket {
 	
 	private int internalCount = 0;
 	
-    public void hearHeartBeat(){
+	public LoggedInTicket() {
+		
+	}
+	
+    public void hearHeartBeat(String schema){
+    	
+    	Date timeNow = new Date();
+
+    	System.out.println("time: " + timeNow.getTime());
+    	
+    	if (lastHeartBeatPulse == null){
+    		lastHeartBeatPulse = new Date();
+    	}
+    	
+    	System.out.println("lastHeartBeatPulse : " + lastHeartBeatPulse.getTime());
+    	
+    	if (timeNow.getTime() > ((1000 * 1 * 60) + lastHeartBeatPulse.getTime())){
+    		
+    		System.out.println("time  saved: " + timeNow.getTime());
+    		
+    		UserTrail ut = UserTrail.getMe(schema, this.getTrail_id());
+    		ut.setEndSessionDate(timeNow);
+    		ut.saveMe(schema);
+
+    	}
         
         lastHeartBeatPulse = new Date();
         
@@ -60,13 +86,17 @@ public class LoggedInTicket {
 		
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @return
+	 */
 	public Long storeLoginInformationGetTrailID(String schema){
 		
 		UserTrail ut = new UserTrail();
 	
 		ut.setUser_id(user_id);
-		ut.setRunning_sim_id(running_sim_id);
-		ut.setActor_id(actor_id);
+
 		ut.setLoggedInDate(new java.util.Date());
 		ut.setEndSessionDate(ut.getLoggedInDate());
 		

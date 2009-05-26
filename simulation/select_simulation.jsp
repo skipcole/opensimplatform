@@ -12,14 +12,17 @@
 		return;
 	}
 	
-	System.out.println("user is logged in");
-	
 	if (pso.hasSelectedRunningSim){
-		System.out.println("user selected sim");
 		response.sendRedirect("simwebui.jsp?tabposition=1");
 		return;
-	} else {
-		System.out.println("user has not selected sim");
+	} 
+	
+	pso.handleLoadPlayerScenario(request);
+	
+	if (pso.forward_on) {
+		pso.forward_on = false;
+		response.sendRedirect("simwebui.jsp?tabposition=1");
+		return;
 	}
 	
 	// Don't know schema yet for sure, so get the base user for the name
@@ -116,11 +119,12 @@ body {
       <td><%= sim.getDisplayName() %></td>
       <td><%= rs.getName() %></td>
       <td><%= act.getName() %></td>
-      <td> <form action="load_player_scenario.jsp" method="post" name="form1" id="form1">
+      <td> <form action="select_simulation.jsp" method="post" name="form1" id="form1">
         <input type="submit" name="Submit" value="Play" />
         <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
         <input type="hidden" name="schema" value="<%= sg.getSchema_name() %>" />
         <input type="hidden" name="schema_org" value="<%= sg.getSchema_organization() %>" />
+        <input type="hidden" name="sending_page" value="select_simulation" />
         </form></td>
       <td><%= sp.getName() %></td>
     </tr>

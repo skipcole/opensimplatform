@@ -34,17 +34,19 @@
 <table width="80%" border="1">
 <tr>
       <td width=50><strong>Actor</strong></td>
-      <td>CS_ID</td>
+      <td><strong>Phase</strong></td>
       <td><strong>Reflection</strong></td>
 </tr>
   <%
   		for (ListIterator li = ref_list.listIterator(); li.hasNext();) {
 			PlayerReflection pr = (PlayerReflection) li.next();
 			
+			SimulationPhase sp = pso.getPhaseNameById(pr.getPhase_id());
+			
 		%>
   <tr>
     <td valign="top"><%= pso.getActorName(request, pr.getA_id()) %></td>
-    <td valign="top">&nbsp;</td>
+    <td valign="top"><%= sp.getName() %></td>
     <td valign="top"><%= pr.getBigString() %></td>
   </tr>
 

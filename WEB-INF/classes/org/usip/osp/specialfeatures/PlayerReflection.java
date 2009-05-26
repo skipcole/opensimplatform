@@ -57,7 +57,18 @@ public class PlayerReflection implements Comparable{
     @Column(name = "A_ID")
     private Long a_id;
     
-    @Transient
+    /** The phase in which this reflection was made. */
+    private Long phase_id;
+    
+    public Long getPhase_id() {
+		return phase_id;
+	}
+
+	public void setPhase_id(Long phase_id) {
+		this.phase_id = phase_id;
+	}
+
+	@Transient
     private String actor_name = "";
 
 	/** Indicates if this document can still be edited. */

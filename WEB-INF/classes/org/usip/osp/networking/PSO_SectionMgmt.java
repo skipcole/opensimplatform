@@ -1301,7 +1301,6 @@ public class PSO_SectionMgmt {
 
 		// If adding page, then add it and forward them on.
 		if (save_and_add != null) {
-			System.out.println("_universal was: " + _universal);
 			addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request,
 					_universal);
 			pso.forward_on = true;

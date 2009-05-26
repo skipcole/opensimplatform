@@ -16,38 +16,13 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-	
-	String bodyText = "";
+
+	PlayerReflection playerReflection = pso.handlePlayerReflection(request);
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-	CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(cs_id));
-    
-	bodyText = (String) cs.getBigString();
+	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
-	Long base_doc_id = (Long) cs.getContents().get("doc_id");
-	
-	MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-	
-	RunningSimulation rs = pso.giveMeRunningSim();
-	
-	System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
-	
-	PlayerReflection playerReflection = PlayerReflection.getPlayerReflection(pso.schema, cs.getId(), rs.getId(), pso.actor_id);
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String update_text = (String) request.getParameter("update_text");
-	
-	if ( (sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("player_reflection"))){
-		String player_reflection_text = (String) request.getParameter("player_reflection_text");
-		
-		playerReflection.setBigString(player_reflection_text);
-		playerReflection.save(pso.schema);
-		
-		   
-	} // End of if coming from this page and have added text
 	
 
 %>
@@ -62,7 +37,7 @@
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<p><%= bodyText %></p>
+<p><%= cs.getBigString() %></p>
 
 <form name="form1" method="post" action="player_reflection.jsp">
   <p>

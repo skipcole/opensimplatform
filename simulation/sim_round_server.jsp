@@ -11,11 +11,6 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-	
-	String from_actor = request.getParameter("from_actor");
-	String from_tab = request.getParameter("from_tab");
-	
-	pso.acceptUserHeartbeatPulses(from_actor, from_tab, request);
 
 %><%= pso.getSimulation_round() %>_<%= pso.getPhaseName() %><%
 	//
