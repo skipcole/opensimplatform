@@ -79,9 +79,6 @@ public class RunningSimulation {
 	@Column(name = "RS_ROUND")
 	private int round = 0;
 
-	@OneToMany
-	private List<Alert> alerts = new ArrayList<Alert>();
-
 	@Column(name = "RS_AAR")
 	@Lob
 	private String aar_text = "";
@@ -422,14 +419,6 @@ public class RunningSimulation {
 		this.grabBag = grabBag;
 	}
 
-	public List<Alert> getAlerts() {
-		return alerts;
-	}
-
-	public void setAlerts(List<Alert> alerts) {
-		this.alerts = alerts;
-	}
-
 	public Long getSim_id() {
 		return sim_id;
 	}
@@ -473,8 +462,10 @@ public class RunningSimulation {
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 				RunningSimulation.class, rs_id);
 
+		List alerts = Alert.getAllForRunningSim(schema, rs_id);
+		
 		// Get list iterator positioned at the end.
-		ListIterator<Alert> la = rs.getAlerts().listIterator(rs.getAlerts().size());
+		ListIterator<Alert> la = alerts.listIterator(alerts.size());
 
 		while (la.hasPrevious()) {
 			Alert al = (Alert) la.previous();

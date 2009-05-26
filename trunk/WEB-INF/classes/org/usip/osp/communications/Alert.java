@@ -6,6 +6,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 import java.util.Date;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -78,6 +79,16 @@ public class Alert {
 	/** a comma separated list of the actor ids for whom this alert is for.*/
 	private String the_specific_targets = "";
 	
+	private Long running_sim_id;
+	
+	public Long getRunning_sim_id() {
+		return running_sim_id;
+	}
+
+	public void setRunning_sim_id(Long running_sim_id) {
+		this.running_sim_id = running_sim_id;
+	}
+
 	public boolean isSpecific_targets() {
 		return specific_targets;
 	}
@@ -185,6 +196,25 @@ public class Alert {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
+	}
+	
+	/**
+	 * Returns all of the alerts for this running simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @return
+	 */
+	public static List <Alert> getAllForRunningSim(String schema, Long running_sim_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List <Alert> returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery("from Alert where running_sim_id = " + running_sim_id).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
 	}
 	
 }

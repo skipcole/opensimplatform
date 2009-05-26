@@ -139,6 +139,12 @@ public class BaseUser {
     }
 
     
+    /**
+     * 
+     * @param username
+     * @param password
+     * @return
+     */
     public static BaseUser validateUser(String username, String password) {
 
         // byte[] hashedP = MysqlDatabase.getPHash(password);

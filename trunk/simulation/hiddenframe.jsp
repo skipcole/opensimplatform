@@ -47,11 +47,16 @@ function getSimEvent()
 	
   }  // End of getSimEvent method ;
 
+function sendHeartbeat()
+{
+	  	$.get('heartbeat_acceptor.jsp');
+}
 
 
 function timedCount()
 {
 	getSimEvent()
+	sendHeartbeat()
 	setTimeout("timedCount()",2000)
 }
 

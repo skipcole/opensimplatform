@@ -130,8 +130,6 @@ public class ParticipantSessionObject {
 	/** Error message to be shown to the user. */
 	public String errorMsg = "";
 
-	public static String debugStuff = "start here:<br>";
-
 	public List tempSimSecList = new ArrayList();
 
 	/** Text of alert being worked on. */
@@ -238,30 +236,6 @@ public class ParticipantSessionObject {
 
 		return false;
 
-	}
-
-	/** Receives a heartbeat pulse from a user. */
-	public void acceptUserHeartbeatPulses(String from_actor, String from_tab, HttpServletRequest request) {
-
-		debugStuff = from_actor + " on " + from_tab;
-		Hashtable<Long, Hashtable> loggedInPlayers = (Hashtable<Long, Hashtable>) request.getSession()
-				.getServletContext().getAttribute("loggedInPlayers");
-
-		Hashtable thisSetOfUsers = loggedInPlayers.get(this.running_sim_id);
-
-		if (thisSetOfUsers == null) {
-			thisSetOfUsers = new Hashtable();
-			request.getSession().getServletContext().setAttribute("loggedInPlayers", loggedInPlayers);
-		}
-
-		LoggedInTicket lit = (LoggedInTicket) thisSetOfUsers.get(this.user_id);
-
-		// LoggedInTicket added to cache when player chose simulation. If now
-		if (lit == null) {
-			return;
-		} else {
-			lit.hearHeartBeat();
-		}
 	}
 
 	/**
@@ -519,6 +493,12 @@ public class ParticipantSessionObject {
 		return returnList;
 	}
 
+	/**
+	 * Handled the removal of a baseobject.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public boolean handleDeleteObject(HttpServletRequest request) {
 
 		String objectType = request.getParameter("object_type");
@@ -774,84 +754,96 @@ public class ParticipantSessionObject {
 	 */
 	public void handleLoadPlayerScenario(HttpServletRequest request) {
 
-		schema = (String) request.getParameter("schema");
-		schemaOrg = (String) request.getParameter("schema_org");
+		String sending_page = (String) request.getParameter("sending_page");
 
-		session = request.getSession();
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("select_simulation"))) {
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
+			schema = (String) request.getParameter("schema");
+			schemaOrg = (String) request.getParameter("schema_org");
 
-		String user_assignment_id = (String) request.getParameter("user_assignment_id");
+			session = request.getSession();
 
-		UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil.getSession(schema).get(UserAssignment.class,
-				new Long(user_assignment_id));
+			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		sim_id = ua.getSim_id();
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
+			String user_assignment_id = (String) request.getParameter("user_assignment_id");
 
-		running_sim_id = ua.getRunning_sim_id();
-		RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
-				RunningSimulation.class, running_sim_id);
+			UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil.getSession(schema).get(UserAssignment.class,
+					new Long(user_assignment_id));
 
-		actor_id = ua.getActor_id();
-		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_id);
+			sim_id = ua.getSim_id();
+			Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class,
+					sim_id);
 
-		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class,
-				running_sim.getPhase_id());
+			running_sim_id = ua.getRunning_sim_id();
+			RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
+					RunningSimulation.class, running_sim_id);
 
-		// Load information from the pertinent objects to be displayed.
-		loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
+			actor_id = ua.getActor_id();
+			Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_id);
 
-		// ////////////////////////////////////////////////////////////////////////
-		Hashtable<Long, String> roundNames = new Hashtable();
-		try {
-			roundNames = (Hashtable<Long, String>) session.getServletContext().getAttribute("roundNames");
-		} catch (Exception e) {
-			e.printStackTrace();
-			roundNames = new Hashtable<Long, String>();
-			session.getServletContext().setAttribute("roundNames", new Hashtable<Long, String>());
+			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(
+					SimulationPhase.class, running_sim.getPhase_id());
+
+			// Load information from the pertinent objects to be displayed.
+			loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
+
+			// ////////////////////////////////////////////////////////////////////////
+			Hashtable<Long, String> roundNames = new Hashtable();
+			try {
+				roundNames = (Hashtable<Long, String>) session.getServletContext().getAttribute("roundNames");
+			} catch (Exception e) {
+				e.printStackTrace();
+				roundNames = new Hashtable<Long, String>();
+				session.getServletContext().setAttribute("roundNames", new Hashtable<Long, String>());
+			}
+			String cachedRoundName = roundNames.get(running_sim_id);
+			if (cachedRoundName == null) {
+				roundNames.put(running_sim_id, simulation_round);
+				request.getSession().getServletContext().setAttribute("roundNames", roundNames);
+			}
+			// ///////////////////////////////////////////////////////////
+
+			loadPhaseNameInWebCache(request, sp);
+
+
+			// //////////////////////////////////////////////////////////////////////
+			// Store it in the web cache, if this has not been done already
+			// by another user.
+			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session.getServletContext().getAttribute(
+					"phaseIds");
+
+			Long cachedPhaseId = phaseIds.get(running_sim_id);
+			if (cachedPhaseId == null) {
+				phaseIds.put(running_sim_id, phase_id);
+				request.getSession().getServletContext().setAttribute("phaseIds", phaseIds);
+
+			}
+			// //////////////////////////////////////////////////////////////////////
+			// ///
+
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			User user = loginToSchema(user_id, schema, request);
+
+			myLoggedInTicket.setActor_id(actor_id);
+			myLoggedInTicket.setRunning_sim_id(running_sim_id);
+
+			// Player starts on tab 1, always.
+			myLoggedInTicket.setTab_position(new Long(1));
+
+			storeUserInfoInSessionInformation(request);
+
+			UserTrail ut = UserTrail.getMe(schema, myLoggedInTicket.getTrail_id());
+			ut.setActor_id(actor_id);
+			ut.setRunning_sim_id(running_sim_id);
+			ut.saveMe(schema);
+			
+			this.hasSelectedRunningSim = true;
+			
+			forward_on = true;
+			
+
 		}
-		String cachedRoundName = roundNames.get(running_sim_id);
-		if (cachedRoundName == null) {
-			roundNames.put(running_sim_id, simulation_round);
-			request.getSession().getServletContext().setAttribute("roundNames", roundNames);
-		}
-		// ///////////////////////////////////////////////////////////
-
-		loadPhaseNameInWebCache(request, sp);
-
-		// //////////////////////////////////////////////////////////////////////
-		// ///
-
-		// //////////////////////////////////////////////////////////////////////
-		// Store it in the web cache, if this has not been done already
-		// by another user.
-		Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session.getServletContext().getAttribute("phaseIds");
-
-		Long cachedPhaseId = phaseIds.get(running_sim_id);
-		if (cachedPhaseId == null) {
-			phaseIds.put(running_sim_id, phase_id);
-			request.getSession().getServletContext().setAttribute("phaseIds", phaseIds);
-
-		}
-		// //////////////////////////////////////////////////////////////////////
-		// ///
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		User user = loginToSchema(user_id, schema, request);
-
-		myLoggedInTicket.setActor_id(actor_id);
-		myLoggedInTicket.setRunning_sim_id(running_sim_id);
-
-		// Player starts on tab 1, always.
-		myLoggedInTicket.setTab_position(new Long(1));
-
-		storeUserInfoInSessionInformation(request);
-
-		System.out.println("user has selected simulation");
-		this.hasSelectedRunningSim = true;
-
 	}
 
 	public void getAndLoad(HttpServletRequest request) {
@@ -1242,8 +1234,6 @@ public class ParticipantSessionObject {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		System.out.println("validating user: " + username);
-
 		BaseUser bu = BaseUser.validateUser(username, password);
 
 		return bu;
@@ -1491,9 +1481,8 @@ public class ParticipantSessionObject {
 			al.setAlertMessage(phaseChangeNotice);
 			al.setAlertEmailMessage(phaseChangeNotice);
 
-			running_sim.getAlerts().add(al);
+			al.setRunning_sim_id(running_sim_id);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
-			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(running_sim);
 
 			// Let people know that there is a change to catch.
 			storeNewHighestChangeNumber(request);
@@ -1987,55 +1976,55 @@ public class ParticipantSessionObject {
 
 			RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 					RunningSimulation.class, running_sim_id);
-			
+
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 			List alarms = checkForAlarm(rs, request);
-			
-			if (alarms.size() == 0){
+
+			if (alarms.size() == 0) {
 				alarmXML += "<numAlarms>0</numAlarms>";
-				
-			} else if (alarms.size() > 3){	// if too many alerts, just tell them to check their environment.
+
+			} else if (alarms.size() > 3) { // if too many alerts, just tell
+											// them to check their environment.
 				alarmXML += "<numAlarms>1</numAlarms>";
-				alarmXML += "<sim_event_text>" + 
-					"Multiple alerts received. Please check all of the tabs where you are receiving information." + 
-					"</sim_event_text>";
-				
+				alarmXML += "<sim_event_text>"
+						+ "Multiple alerts received. Please check all of the tabs where you are receiving information."
+						+ "</sim_event_text>";
+
 			} else {
 				alarmXML += "<numAlarms>" + alarms.size() + "</numAlarms>";
 				for (ListIterator<Alert> li = alarms.listIterator(); li.hasNext();) {
 					Alert this_alert = li.next();
-					
+
 					alarmXML += "<sim_event_text>" + this_alert.getAlertPopupMessage() + "</sim_event_text>";
 				}
-				
-				
+
 			}
 
-
 		} // End of if doing database check.
-		
-		
+
 		alarmXML += "</response>";
 		myHighestChangeNumber = new Long(runningSimHighestChange.intValue());
 		return alarmXML;
-		
-		/* TODO Move parts from below to where they need to go.
+
+		/*
+		 * TODO Move parts from below to where they need to go.
 		 * 
-		if (alarmType.equalsIgnoreCase("phase_change")) {
-			alarmXML += "<sim_event_text>" + "Simulation Phase has changed. You may now have a different set of tabs."
-					+ "</sim_event_text>";
-		} else if (alarmType.equalsIgnoreCase("news")) {
-			alarmXML += "<sim_event_text>" + "There is new news. Please check the news page as soon as possible."
-					+ "</sim_event_text>";
-		} else if (alarmType.equalsIgnoreCase("announcement")) {
-			alarmXML += "<sim_event_text>"
-					+ "There is a new announcement. Please check the announcements page as soon as possible."
-					+ "</sim_event_text>";
-		} else if (alarmType.equalsIgnoreCase("memo")) {
-			
-		}
-		*/
+		 * if (alarmType.equalsIgnoreCase("phase_change")) { alarmXML +=
+		 * "<sim_event_text>" +
+		 * "Simulation Phase has changed. You may now have a different set of tabs."
+		 * + "</sim_event_text>"; } else if (alarmType.equalsIgnoreCase("news"))
+		 * { alarmXML += "<sim_event_text>" +
+		 * "There is new news. Please check the news page as soon as possible."
+		 * + "</sim_event_text>"; } else if
+		 * (alarmType.equalsIgnoreCase("announcement")) { alarmXML +=
+		 * "<sim_event_text>" +
+		 * "There is a new announcement. Please check the announcements page as soon as possible."
+		 * + "</sim_event_text>"; } else if (alarmType.equalsIgnoreCase("memo"))
+		 * {
+		 * 
+		 * }
+		 */
 	}
 
 	/**
@@ -2047,8 +2036,10 @@ public class ParticipantSessionObject {
 	public List<Alert> checkForAlarm(RunningSimulation rs, HttpServletRequest request) {
 
 		List<Alert> returnList = new ArrayList();
+		
+		List<Alert> alerts = Alert.getAllForRunningSim(schema, rs.getId());
 
-		for (ListIterator<Alert> li = rs.getAlerts().listIterator(); li.hasNext();) {
+		for (ListIterator<Alert> li = alerts.listIterator(); li.hasNext();) {
 			Alert this_alert = li.next();
 
 			boolean thisUserApplicable = false;
@@ -2087,8 +2078,7 @@ public class ParticipantSessionObject {
 		Alert al = new Alert();
 		al.setType(Alert.TYPE_ANNOUNCEMENT);
 		al.setAlertMessage(news);
-
-		rs.getAlerts().add(al);
+		al.setRunning_sim_id(running_sim_id);
 
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(rs);
@@ -2111,6 +2101,8 @@ public class ParticipantSessionObject {
 		al.setType(Alert.TYPE_ANNOUNCEMENT);
 		al.setAlertMessage(alertInQueueText);
 		al.setThe_specific_targets(targets);
+		al.setRunning_sim_id(running_sim_id);
+		al.saveMe(schema);
 
 		makeTargettedAnnouncement(al, targets, request);
 
@@ -2122,18 +2114,6 @@ public class ParticipantSessionObject {
 	 * @param request
 	 */
 	public void makeTargettedAnnouncement(Alert al, String targets, HttpServletRequest request) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
-				RunningSimulation.class, running_sim_id);
-
-		rs.getAlerts().add(al);
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(rs);
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Let people know that there is a change to catch.
 		storeNewHighestChangeNumber(request);
@@ -2151,22 +2131,21 @@ public class ParticipantSessionObject {
 	public List getAllAnnouncements() {
 
 		List returnList = new ArrayList();
-		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
-				RunningSimulation.class, running_sim_id);
-
-		for (ListIterator li = rs.getAlerts().listIterator(); li.hasNext();) {
+		List<Alert> alerts = Alert.getAllForRunningSim(schema, running_sim_id);
+		
+		for (ListIterator li = alerts.listIterator(); li.hasNext();) {
 			Alert al = (Alert) li.next();
-			System.out.println(al.getAlertMessage());
 			returnList.add(al);
 		}
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		Collections.reverse(returnList);
 
 		return returnList;
+	}
+	
+	public String getPhaseNameById(Long phase_id){
+		return "insert code here";
 	}
 
 	/**
@@ -2186,6 +2165,43 @@ public class ParticipantSessionObject {
 		} else {
 			return "";
 		}
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public PlayerReflection handlePlayerReflection(HttpServletRequest request){
+		
+		String cs_id_string = (String) request.getParameter("cs_id");
+		
+		Long cs_id = null;
+		
+		if (cs_id_string != null){
+			cs_id = new Long(cs_id_string);
+		} else {
+			Logger.getRootLogger().warn("Null CS_ID sent to pso.handlePlayerReflection");
+			return new PlayerReflection();
+		}
+		
+		PlayerReflection playerReflection = PlayerReflection.getPlayerReflection(schema, 
+				cs_id, running_sim_id, actor_id);
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String update_text = (String) request.getParameter("update_text");
+		
+		if ( (sending_page != null) && (update_text != null) && 
+				(sending_page.equalsIgnoreCase("player_reflection"))){
+			String player_reflection_text = (String) request.getParameter("player_reflection_text");
+			
+			playerReflection.setBigString(player_reflection_text);
+			playerReflection.save(schema);
+			
+			   
+		} // End of if coming from this page and have added text
+		
+		return playerReflection;
 	}
 
 	public String getSimulation_round() {
@@ -2663,7 +2679,6 @@ public class ParticipantSessionObject {
 
 		if (bu != null) {
 
-			System.out.println("bu id " + bu.getId());
 			user_id = bu.getId();
 
 			if (bu.getAuthorizedSchemas().size() == 0) {
@@ -2760,8 +2775,6 @@ public class ParticipantSessionObject {
 	 */
 	public String validateLoginToSim(HttpServletRequest request) {
 
-		System.out.println("attemptin validatin");
-
 		loggedin = false;
 
 		String sendToPage = "index.jsp";
@@ -2770,7 +2783,6 @@ public class ParticipantSessionObject {
 
 		if (bu != null) {
 
-			System.out.println("bu id " + bu.getId());
 			user_id = bu.getId();
 			user_name = bu.getUsername();
 
@@ -3080,6 +3092,7 @@ public class ParticipantSessionObject {
 				al.setType(al.TYPE_MEMO);
 				al.setThe_specific_targets(sdanao.getActor_id().toString());
 				al.setAlertMessage(sdanao.getNotificationText());
+				al.setRunning_sim_id(running_sim_id);
 				al.saveMe(schema);
 
 				makeTargettedAnnouncement(al, sdanao.getActor_id().toString(), request);

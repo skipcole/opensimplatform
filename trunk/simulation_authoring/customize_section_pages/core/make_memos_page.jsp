@@ -15,6 +15,12 @@
 		return;
 	}
 	
+	Simulation sim = new Simulation();
+	
+	if (pso.sim_id != null){
+		sim = pso.giveMeSim();
+	}
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -55,8 +61,8 @@
                         
 						%>
                         <tr>
-                          <td width="75%" valign="top">Document <%= ii %> <a href="helptext/make_memos_help.jsp" target="helpInRight">(?)</a></td>
-                          <td width="75%" valign="top"><%
+                          <td width="21%" valign="top">Document <%= ii %> <a href="helptext/make_memos_help.jsp" target="helpInRight">(?)</a></td>
+                          <td width="58%" valign="top"><%
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
 
 		  %>
@@ -74,7 +80,7 @@
                                                         </select>
 </label>
                             <% } // end of if no documents have been created. %></td>
-                          <td><label>
+                          <td width="21%"><label>
                             <input type="submit" name="button2" id="button2" value="Remove this Document" />
                             </label></td>
                         </tr>
@@ -106,7 +112,7 @@
                           <td width="15%" valign="top">&nbsp;</td>
                           <td width="17%" valign="top"><input type="radio" name="radio" id="radio" value="radio" />
 None</td>
-                          <td width="68%" valign="top"><input type="radio" name="radio2" id="radio2" value="radio2" />
+                          <td width="68%" valign="top"><input type="radio" name="radio2" id="radio2" value="radio2" align="top" />
 Text:: 
   <textarea name="textarea" id="textarea" cols="30" rows="2"></textarea></td>
                         </tr>

@@ -39,9 +39,18 @@ public class SharedDocActorNotificAssignObj {
 	@GeneratedValue
 	private Long id;
 	
+	/** Simulation to which this has been assigned. */
 	private Long sim_id;
 	
+	/** The document id for which this notification is set.*/
 	private Long sd_id;
+	
+	/** If this notification is going to be set on an actor by actor basis, use this field
+	 * to indicate the actor which will be triggering the notification to go out.*/
+	private Long from_actor_id;
+	
+	private Long from_phase_id;
+	
 	
 	private Long actor_id;
 	

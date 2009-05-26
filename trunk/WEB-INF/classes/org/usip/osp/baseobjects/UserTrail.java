@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents an audit item that keeps track of when a player enters and exits the simulated world.
@@ -51,6 +52,10 @@ public class UserTrail {
 	private Date loggedInDate;
 	
 	private Date endSessionDate;
+	
+	public UserTrail() {
+		
+	}
 
 	public Long getId() {
 		return id;
@@ -100,5 +105,33 @@ public class UserTrail {
 		this.endSessionDate = endSessionDate;
 	}
 	
+	/**
+	 * Pulls the user trail out of the database base on its id and schema.
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static UserTrail getMe(String schema, Long ut_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		UserTrail ut = (UserTrail) MultiSchemaHibernateUtil
+				.getSession(schema).get(UserTrail.class, ut_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return ut;
+
+	}
+	
+	/** Saves a simulation. */
+	public void saveMe(String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+	}
 	
 }
