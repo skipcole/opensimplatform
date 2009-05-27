@@ -50,7 +50,7 @@
           </tr>
         <tr valign="top"> 
           <td>&nbsp;</td>
-            <td><a href="../simulation_authoring/reset.jsp">Reset Simulation Caches</a></td>
+            <td><a href="reset.jsp">Reset Simulation Caches</a></td>
             <td>&nbsp;</td>
             <td>This should only be necessary if values have changed since the sim 
               began.</td>

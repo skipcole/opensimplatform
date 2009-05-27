@@ -738,12 +738,12 @@ public class ParticipantSessionObject {
 		// Store it in the web cache, if this has not been done already
 		// by another user.
 		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
-				"phaseNames");
+				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES);
 
 		String cachedPhaseName = phaseNames.get(running_sim_id);
 		if (cachedPhaseName == null) {
 			phaseNames.put(running_sim_id, sp.getName());
-			request.getSession().getServletContext().setAttribute("phaseNames", phaseNames);
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES, phaseNames);
 
 		}
 	}
@@ -3466,6 +3466,19 @@ public class ParticipantSessionObject {
 
 		} // End of if coming from this page and have added text
 
+	}
+	
+	public boolean handleResetWebCache(HttpServletRequest request){
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("reset"))) {
+			USIP_OSP_ContextListener.resetWebCache(request);
+			return true;
+		} else {
+			return false;
+		}	
+		
 	}
 
 } // End of class
