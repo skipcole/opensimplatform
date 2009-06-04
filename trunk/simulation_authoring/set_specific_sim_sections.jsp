@@ -13,6 +13,8 @@
 		return;
 	}
 	
+	pso.changeSectionColor(request);
+	
 	Simulation simulation = new Simulation();
 	Actor actor = new Actor();
 	SimulationPhase spp = new SimulationPhase();
@@ -20,10 +22,6 @@
 	
 	if (pso.sim_id != null) {
 		simulation = pso.handleSetSimSectionsPage(request);	
-		
-		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
-		System.out.println("actor id is " + pso.actor_being_worked_on_id);
-		System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
 	
 		if ((pso.actor_being_worked_on_id != null) && (pso.actor_being_worked_on_id.intValue() != 0 )){
 			actor = pso.giveMeActor(pso.actor_being_worked_on_id);
@@ -176,12 +174,15 @@ function loadInfo(dropdownlist){
 				
 				int sec_ss = ss.getId().intValue();
 				
+				String col_selected = "";
+				
+				
 		  %>
                   <% if (ii > 0) { %>
                   
                 <td><a href="set_specific_sim_sections.jsp?command=move_left&m_index=<%= ii %>">&lt;-</a><!-- /a--></td>
                   <% } %>
-                  <td><a href="#"><%= ss.getTab_heading() %></a></td>
+                  <td bgcolor="#<%= ss.getTabColor() %>"><a href="#"><%= ss.getTab_heading() %></a></td>
                   <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
                   <td><a href="set_specific_sim_sections.jsp?command=move_right&m_index=<%= ii %>">-&gt;</a></td>
                   <% } %>
@@ -191,6 +192,40 @@ function loadInfo(dropdownlist){
 				first_ss = ss.getId().intValue();
 				} // End of loop over simulation sections
 			%>
+            
+            <tr> 
+                  <%
+		  	ii = 0;
+			
+			for (ListIterator li = pso.tempSimSecList.listIterator(); li.hasNext();) {
+				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
+		  %>
+                  <% if (ii > 0) { %>
+                  <td>&nbsp;</td>
+                  <% } %>
+                  <td>
+                  
+					<form name="change_color_ssid_<%= ss.getId() %>" method="post" action="set_specific_sim_sections.jsp">
+                  
+                  		<input type="hidden" name="ss_id" value="<%= ss.getId() %>" />
+                        
+                        <input type="hidden" name="sending_section" value="change_color" />
+                  
+                        <select name="new_color">
+                          <option value="FFFFFF" <%= pso.matchSelected("FFFFFF", ss.getTabColor(), "selected") %> >White</option>
+                          <option value="FFCCCC" <%= pso.matchSelected("FFCCCC", ss.getTabColor(), "selected") %> >Red</option>
+                          <option value="CCFFCC" <%= pso.matchSelected("CCFFCC", ss.getTabColor(), "selected") %> >Green</option>
+                          <option value="CCCCFF" <%= pso.matchSelected("CCCCFF", ss.getTabColor(), "selected") %> >Blue</option>
+                        </select>
+                        <input type="submit" name="button" id="button" value="Go!" />
+					</form>
+                  <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
+                  <td>&nbsp;</td>
+                  <% } // End of if this is not the last.
+			++ii;
+				} // End of loop over simulation sections
+			%>
+                </tr>
                 <tr> 
                   <%
 		  	ii = 0;
@@ -201,7 +236,7 @@ function loadInfo(dropdownlist){
                   <% if (ii > 0) { %>
                   <td>&nbsp;</td>
                   <% } %>
-                  <td><a href="delete_object.jsp?object_type=sim_section&amp;objid=<%= ss.getId().toString() %>&backpage=set_specific_sim_sections.jsp&object_info=<%= ss.getTab_heading() %>">Remove </a></td>
+                  <td><a href="delete_object.jsp?object_type=sim_section&objid=<%= ss.getId().toString() %>&backpage=set_specific_sim_sections.jsp&object_info=<%= ss.getTab_heading() %>">Remove </a></td>
                   <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
                   <td>&nbsp;</td>
                   <% } %>

@@ -20,7 +20,17 @@ package org.usip.osp.baseobjects;
  */
 public class SimulationSectionGhost {
 
+	private String tabColor = "";
+	
 	private String tabHeading = "";
+	
+	public String getTabColor() {
+		return tabColor;
+	}
+
+	public void setTabColor(String tabColor) {
+		this.tabColor = tabColor;
+	}
 
 	public String getTabHeading() {
 		return tabHeading;

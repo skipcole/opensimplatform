@@ -27,27 +27,99 @@ import org.usip.osp.specialfeatures.SpecialFeature;
  */
 public class Chart extends SpecialFeature {
 
-    public JFreeChart this_chart = null;
+    private JFreeChart this_chart = null;
 
-    public String title = "";
+    private String title = "";
 
-    public String type = "";
+    private String type = "";
     
-    public String variableSFID = "";
+    private String variableSFID = "";
 
-    public String xAxisTitle = "";
+    private String xAxisTitle = "";
 
-    public String yAxisTitle = "";
+    private String yAxisTitle = "";
 
-    public int height = 300;
+    private int height = 300;
 
-    public int width = 400;
+    private int width = 400;
 
-    public String selectDataStatement = "";
+    private String selectDataStatement = "";
 
     public static final String SPECIALFIELDLABEL = "linechart_page";
 
-    @Override
+    public JFreeChart getThis_chart() {
+		return this_chart;
+	}
+
+	public void setThis_chart(JFreeChart this_chart) {
+		this.this_chart = this_chart;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getVariableSFID() {
+		return variableSFID;
+	}
+
+	public void setVariableSFID(String variableSFID) {
+		this.variableSFID = variableSFID;
+	}
+
+	public String getXAxisTitle() {
+		return xAxisTitle;
+	}
+
+	public void setXAxisTitle(String axisTitle) {
+		xAxisTitle = axisTitle;
+	}
+
+	public String getYAxisTitle() {
+		return yAxisTitle;
+	}
+
+	public void setYAxisTitle(String axisTitle) {
+		yAxisTitle = axisTitle;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public String getSelectDataStatement() {
+		return selectDataStatement;
+	}
+
+	public void setSelectDataStatement(String selectDataStatement) {
+		this.selectDataStatement = selectDataStatement;
+	}
+
+	@Override
     public String getSpecialFieldLabel() {
         return SPECIALFIELDLABEL;
     }

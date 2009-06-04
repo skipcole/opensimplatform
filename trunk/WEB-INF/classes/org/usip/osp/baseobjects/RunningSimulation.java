@@ -202,7 +202,7 @@ public class RunningSimulation {
 				} catch (Exception er) {
 					er.printStackTrace();
 				}
-
+				
 				// Add the objects to a hashtable based on the base template object
 				// (so template object shared by multiple sections only contribute one new object).
 				uniqueSimObjects.put(uniqueKey,thisRSVersionsId);

@@ -15,6 +15,8 @@
 		return;
 	}
 	
+	pso.backPage = "make_memos_page.jsp";
+	
 	Simulation sim = new Simulation();
 	
 	if (pso.sim_id != null){
@@ -49,8 +51,8 @@
                       </p>
                       <p>To allow access to a players to pass a memo document to and from their HQ, you must first have created it. To create a new document associated with this simulation <a href="make_create_document_page.jsp">click here</a>. </p>
                       <table width="100%" border="0">
-                        <% List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id); 
-							Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(pso.schema, cs.getId());
+                        <% 
+							List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id); 
 						%>
                         <% 
 							if (cs.getNumDependentObjects() < 1) {
@@ -73,22 +75,18 @@
 					
 						SharedDocument sd = (SharedDocument) li.next();
 				%>
-                              <option value="<%= sd.getId() %>" <%= pso.checkAgainstHash(index_hash, ii, sd.getId()) %> ><%= sd.getUniqueDocTitle() %></option>
+                              <option value="<%= sd.getId() %>" <%= pso.checkAgainstHash(cs.getId(), ii, sd.getId()) %> ><%= sd.getUniqueDocTitle() %></option>
                               <%
 					}
 				%>
                                                         </select>
 </label>
                             <% } // end of if no documents have been created. %></td>
-                          <td width="21%"><label>
-                            <input type="submit" name="button2" id="button2" value="Remove this Document" />
-                            </label></td>
                         </tr>
                         <% } %>
                         <tr>
                           <td valign="top"><label></label></td>
                           <td valign="top">&nbsp;</td>
-                          <td>&nbsp;</td>
                         </tr>
                       </table>
                       <p>Enter the introductory text that will appear on this page.
@@ -98,27 +96,8 @@
 		</script>
                       </p>
                       <p>
-                      <p> When this memo is submitted, the following actors will receive notification: </p>
-                      <blockquote>
-                      <table width="80%" border="0" cellspacing="0">
-                <%
-                      for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
-						Actor act = (Actor) la.next();
-                %>
-                        <tr>
-                          <td colspan="3"><%= act.getName() %> </td>
-                          </tr>
-                        <tr>
-                          <td width="15%" valign="top">&nbsp;</td>
-                          <td width="17%" valign="top"><input type="radio" name="radio" id="radio" value="radio" />
-None</td>
-                          <td width="68%" valign="top"><input type="radio" name="radio2" id="radio2" value="radio2" align="top" />
-Text:: 
-  <textarea name="textarea" id="textarea" cols="30" rows="2"></textarea></td>
-                        </tr>
-                        <% } %>
-                      </table>
-                      </blockquote>
+                      
+                      <p>Set <a href="make_notifications_page.jsp?cs_id=<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>">Notifications for this Document</a>.
                       <p>&nbsp;</p>
                       <p>
                         <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
