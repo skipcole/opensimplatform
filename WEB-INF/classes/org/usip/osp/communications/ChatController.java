@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.networking.ParticipantSessionObject;
+import org.usip.osp.networking.USIP_OSP_ContextListener;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -153,7 +154,7 @@ public class ChatController {
 		// /////////////////////////////////////////////////////
 		// The conversation is pulled out of the context Hashtable
 		Hashtable conversation_cache = (Hashtable) request.getSession()
-				.getServletContext().getAttribute("conversation_cache");
+				.getServletContext().getAttribute(USIP_OSP_ContextListener.CACHEON_CONVERSATIONS);
 
 		String conversationKey = getConvKey(pso, conv_id);
 

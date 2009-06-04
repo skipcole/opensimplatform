@@ -64,13 +64,6 @@
           </tr>
         <tr valign="top">
           <td>&nbsp;</td>
-            <td><a href="../simulation_authoring/toggle_debug.jsp">Toggle Debug</a></td>
-            <td>&nbsp;</td>
-            <td>Turn debugging flag 
-              <% if (Debug.debug_on) { %> off <% } else { %> on <% } %>.</td>
-          </tr>
-        <tr valign="top">
-          <td>&nbsp;</td>
           <td><a href="../osp_development/custom_section_xml_generator.jsp">Custom Section XML Generator</a></td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>

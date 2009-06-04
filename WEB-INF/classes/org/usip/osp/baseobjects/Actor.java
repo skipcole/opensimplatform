@@ -48,7 +48,7 @@ public class Actor {
 	}
 
     /** The display name of this actor. */
-	@Column(name = "ACTOR_NAME", unique = true)
+	@Column(name = "ACTOR_NAME")
     private String name = "";
 
     /** The public description of this actor. */

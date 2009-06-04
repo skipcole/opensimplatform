@@ -139,16 +139,8 @@ function timedCount()
     <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
   </tr>
 </table>
-
          </td>
 	<td align="right">
-    	      
-    
-    
-    
-    
-    
-    
     </td>
   </tr>
 </table>
@@ -157,9 +149,7 @@ function timedCount()
 	  	<%
 			int ii = 1;
 			
-			System.out.println("before");
 			List simSecList = pso.getSimSecList(request);
-			System.out.println("after");
 			
 			for (ListIterator li = simSecList.listIterator(); li.hasNext();) {
 				SimulationSectionGhost ssg = (SimulationSectionGhost) li.next();
@@ -170,7 +160,7 @@ function timedCount()
 					divId = "highlighted";
 				}
 		%>
-    	<td> <a href="simwebui.jsp?tabposition=<%= ii %>" target="_parent">
+    	<td bgcolor="#<%= ssg.getTabColor() %>"> <a href="simwebui.jsp?tabposition=<%= ii %>" target="_parent">
 	      <div align="center" class="<%= divId %>"><%= ssg.getTabHeading() %></div></a></td>
 		<%
 			++ii;

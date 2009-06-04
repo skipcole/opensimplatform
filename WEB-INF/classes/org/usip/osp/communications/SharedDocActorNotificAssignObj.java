@@ -49,9 +49,26 @@ public class SharedDocActorNotificAssignObj {
 	 * to indicate the actor which will be triggering the notification to go out.*/
 	private Long from_actor_id;
 	
+	/** If this notification is for only one particular phase, indicate that phase here. */
 	private Long from_phase_id;
 	
-	
+	public Long getFrom_actor_id() {
+		return from_actor_id;
+	}
+
+	public void setFrom_actor_id(Long from_actor_id) {
+		this.from_actor_id = from_actor_id;
+	}
+
+	public Long getFrom_phase_id() {
+		return from_phase_id;
+	}
+
+	public void setFrom_phase_id(Long from_phase_id) {
+		this.from_phase_id = from_phase_id;
+	}
+
+	/** Id of the actor that will get this notification. */
 	private Long actor_id;
 	
 	private String notificationText = "";
@@ -116,6 +133,30 @@ public class SharedDocActorNotificAssignObj {
 	}
 	
 	/**
+	 * Gets the notifications for this document. 
+	 * 
+	 * @param schema
+	 * @param doc_id
+	 * @return
+	 */
+	public static SharedDocActorNotificAssignObj getAssignmentForDocumentAndActor(String schema, Long doc_id, Long actor_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		String hql_string = "from SharedDocActorNotificAssignObj where sd_id = " + doc_id + " and actor_id = " + actor_id;
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		if ((returnList != null) && (returnList.size() > 0)){
+			SharedDocActorNotificAssignObj sdanao = (SharedDocActorNotificAssignObj) returnList.get(0);
+			return sdanao;
+		} else {
+			return null;
+		}
+
+	}
+	
+	/**
 	 * Saves the object to the database.
 	 * 
 	 * @param schema
@@ -126,9 +167,14 @@ public class SharedDocActorNotificAssignObj {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public SharedDocActorNotificAssignObj createCopy(){
 		SharedDocActorNotificAssignObj sdanao = new SharedDocActorNotificAssignObj();
 		sdanao.setActor_id(this.getActor_id());
+		//sdanao.set//
 		sdanao.setNotificationText(this.getNotificationText());
 		sdanao.setSd_id(this.getSd_id());
 		sdanao.setSim_id(this.getSim_id());

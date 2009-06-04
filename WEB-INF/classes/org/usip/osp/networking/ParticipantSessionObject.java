@@ -790,16 +790,17 @@ public class ParticipantSessionObject {
 			// ////////////////////////////////////////////////////////////////////////
 			Hashtable<Long, String> roundNames = new Hashtable();
 			try {
-				roundNames = (Hashtable<Long, String>) session.getServletContext().getAttribute("roundNames");
+				roundNames = (Hashtable<Long, String>) 
+					session.getServletContext().getAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
 			} catch (Exception e) {
 				e.printStackTrace();
 				roundNames = new Hashtable<Long, String>();
-				session.getServletContext().setAttribute("roundNames", new Hashtable<Long, String>());
+				session.getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES, new Hashtable<Long, String>());
 			}
 			String cachedRoundName = roundNames.get(running_sim_id);
 			if (cachedRoundName == null) {
 				roundNames.put(running_sim_id, simulation_round);
-				request.getSession().getServletContext().setAttribute("roundNames", roundNames);
+				request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES, roundNames);
 			}
 			// ///////////////////////////////////////////////////////////
 
@@ -810,12 +811,12 @@ public class ParticipantSessionObject {
 			// Store it in the web cache, if this has not been done already
 			// by another user.
 			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session.getServletContext().getAttribute(
-					"phaseIds");
+					USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
 
 			Long cachedPhaseId = phaseIds.get(running_sim_id);
 			if (cachedPhaseId == null) {
 				phaseIds.put(running_sim_id, phase_id);
-				request.getSession().getServletContext().setAttribute("phaseIds", phaseIds);
+				request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_PHASE_IDS, phaseIds);
 
 			}
 			// //////////////////////////////////////////////////////////////////////
@@ -1333,7 +1334,7 @@ public class ParticipantSessionObject {
 		session = request.getSession();
 
 		// Get phase id from the cache
-		Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session.getServletContext().getAttribute("phaseIds");
+		Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session.getServletContext().getAttribute(USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
 
 		Long cachedPhaseId = phaseIds.get(running_sim_id);
 
@@ -1343,21 +1344,16 @@ public class ParticipantSessionObject {
 
 		String hashKey = sim_id + "_" + actor_id + "_" + phase_id;
 
-		System.out.println("hashKey is " + hashKey);
-
 		Hashtable<String, List<SimulationSectionGhost>> sim_section_info = (Hashtable<String, List<SimulationSectionGhost>>) session
 				.getServletContext().getAttribute("sim_section_info");
 
 		if (sim_section_info == null) {
 			sim_section_info = new Hashtable<String, List<SimulationSectionGhost>>();
-			System.out.println("creating new sim_section_info");
 		}
 
 		List<SimulationSectionGhost> returnList = sim_section_info.get(hashKey);
 
 		if (returnList == null) {
-
-			System.out.println("SimSecList was null.");
 
 			returnList = new ArrayList<SimulationSectionGhost>();
 
@@ -1372,6 +1368,7 @@ public class ParticipantSessionObject {
 				SimulationSectionGhost ssg = new SimulationSectionGhost();
 
 				ssg.setTabHeading(ss.getTab_heading());
+				ssg.setTabColor(ss.getTabColor());
 
 				returnList.add(ssg);
 
@@ -1404,9 +1401,9 @@ public class ParticipantSessionObject {
 		this.simulation_round = running_sim.getRound() + "";
 
 		Hashtable<Long, String> roundNames = (Hashtable<Long, String>) request.getSession().getServletContext()
-				.getAttribute("roundNames");
+				.getAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
 		roundNames.put(running_sim_id, this.simulation_round);
-		request.getSession().getServletContext().setAttribute("roundNames", roundNames);
+		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES, roundNames);
 
 		propagateValues();
 
@@ -1464,11 +1461,11 @@ public class ParticipantSessionObject {
 			// //////////////////////////////////////////////////////////////////
 			// Store new phase id in the web cache
 			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session.getServletContext().getAttribute(
-					"phaseIds");
+					USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
 
 			phaseIds.put(running_sim_id, phase_id);
 
-			request.getSession().getServletContext().setAttribute("phaseIds", phaseIds);
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_PHASE_IDS, phaseIds);
 			// //////////////////////////////////////////////////////////////////
 			// ///////
 
@@ -1855,6 +1852,14 @@ public class ParticipantSessionObject {
 
 	}
 
+	/**
+	 * If a matches b, return the matchText.
+	 * 
+	 * @param a
+	 * @param b
+	 * @param matchText
+	 * @return
+	 */
 	public String matchSelected(String a, String b, String matchText) {
 		if ((a == null) || (b == null)) {
 			return "";
@@ -1895,7 +1900,7 @@ public class ParticipantSessionObject {
 			runningSimHighestChange = new Long(1);
 			highestChangeNumber.put(running_sim_id, runningSimHighestChange);
 
-			request.getSession().getServletContext().setAttribute("highestChangeNumber", highestChangeNumber);
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS, highestChangeNumber);
 
 		}
 
@@ -1920,7 +1925,7 @@ public class ParticipantSessionObject {
 
 		highestChangeNumber.put(running_sim_id, currentHighest);
 
-		request.getSession().getServletContext().setAttribute("highestChangeNumber", highestChangeNumber);
+		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS, highestChangeNumber);
 
 	}
 
@@ -1928,11 +1933,11 @@ public class ParticipantSessionObject {
 
 		// The conversation is pulled out of the context
 		Hashtable<Long, Long> highestChangeNumber = (Hashtable<Long, Long>) request.getSession().getServletContext()
-				.getAttribute("highestChangeNumber");
+				.getAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS);
 
 		if (highestChangeNumber == null) {
 			highestChangeNumber = new Hashtable();
-			request.getSession().getServletContext().setAttribute("highestChangeNumber", highestChangeNumber);
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS, highestChangeNumber);
 		}
 
 		return highestChangeNumber;
@@ -2207,7 +2212,7 @@ public class ParticipantSessionObject {
 	public String getSimulation_round() {
 
 		Hashtable<Long, String> roundNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
-				"roundNames");
+				USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
 
 		if (running_sim_id != null) {
 			simulation_round = roundNames.get(running_sim_id);
@@ -3235,21 +3240,26 @@ public class ParticipantSessionObject {
 	}
 
 	/**
+	 * One passes this a section id, a position, and the id of an object, and if that object is assigned
+	 * to this section, at that position, the word 'selected' is passed back. If not, an empty string is passed
+	 * back.
 	 * 
 	 * @param index_hash
 	 * @param ii
-	 * @param id
+	 * @param id_of_object_being_checked
 	 * @return
 	 */
-	public String checkAgainstHash(Hashtable index_hash, int ii, Long id) {
+	public String checkAgainstHash(Long cs_id, int ii, Long id_of_object_being_checked) {
 
-		if ((index_hash == null) || (id == null)) {
+		Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(schema, cs_id);
+		
+		if ((index_hash == null) || (id_of_object_being_checked == null)) {
 			return "";
 		}
 
 		Long valueFromHash = (Long) index_hash.get(new Long(ii));
 
-		if (id.equals(valueFromHash)) {
+		if (id_of_object_being_checked.equals(valueFromHash)) {
 			return " selected ";
 		} else {
 			return "";
@@ -3458,7 +3468,6 @@ public class ParticipantSessionObject {
 
 		if ((sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("write_document"))) {
 
-			System.out.println("im back in here saving.");
 			String write_document_text = (String) request.getParameter("write_document_text");
 
 			sd.setBigString(write_document_text);
@@ -3478,6 +3487,31 @@ public class ParticipantSessionObject {
 		} else {
 			return false;
 		}	
+		
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void changeSectionColor(HttpServletRequest request){
+		
+		String sending_section = (String) request.getParameter("sending_section");
+		
+		if ((sending_section != null) && (sending_section.equalsIgnoreCase("change_color"))) {
+			
+			String ss_id = (String) request.getParameter("ss_id");
+			String new_color = (String) request.getParameter("new_color");
+			
+			SimulationSectionAssignment ssa = SimulationSectionAssignment.getMe(schema, new Long(ss_id));
+			
+			if (ssa != null){
+				ssa.setTabColor(new_color);
+				ssa.save(schema);
+			}
+			
+			
+		}
 		
 	}
 

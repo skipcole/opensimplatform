@@ -37,27 +37,6 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class SimulationSectionAssignment {
 
-	public static void main(String args[]) {
-
-		System.out.println("hello world");
-
-		String getHQL = "from SimulationSectionAssignment where SIM_ID = 1  AND ACTOR_ID = 2 AND PHASE_ID = 6 and simSubSection is true "
-				+ " and displaySectionId = 43 and simSubSectionIndex = 1 order by TAB_POS";
-
-		MultiSchemaHibernateUtil.beginTransaction("test");
-
-		List returnList = MultiSchemaHibernateUtil.getSession("test").createQuery(getHQL).list();
-
-		if (returnList == null) {
-			returnList = new ArrayList();
-		}
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction("test");
-
-		System.out.println("length: " + returnList.size());
-
-	}
-
 	/**
 	 * Position in binary string of bit indicating if running simulation id
 	 * should be sent.
@@ -109,6 +88,10 @@ public class SimulationSectionAssignment {
 
 	@Column(name = "TAB_POS")
 	private int tab_position = 0;
+	
+	/** Color of this tab heading. */
+	@Column(name = "TAB_COLOR")
+	private String tabColor = "FFFFFF";
 
 	/** The tab heading of this section. */
 	@Column(name = "TAB_HEADING")
@@ -321,6 +304,7 @@ public class SimulationSectionAssignment {
 		copy.setSimSubSectionIndex(this.getSimSubSectionIndex());
 		copy.setSim_id(this.getSim_id());
 		copy.setTab_heading(this.getTab_heading());
+		copy.setTabColor(this.getTabColor());
 		copy.setTab_position(this.getTab_position());
 		copy.setUrl(this.getUrl());
 		
@@ -405,6 +389,12 @@ public class SimulationSectionAssignment {
 
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @param sid
+	 * @return
+	 */
 	public static List<BaseSimSection> getDistinctSectionsForSim(String schema, Long sid) {
 
 		List<Long> baseIds = getBaseIdsBySim(schema, sid);
@@ -906,6 +896,14 @@ public class SimulationSectionAssignment {
 
 	public void setTab_position(int tab_position) {
 		this.tab_position = tab_position;
+	}
+	
+	public String getTabColor() {
+		return tabColor;
+	}
+
+	public void setTabColor(String tabColor) {
+		this.tabColor = tabColor;
 	}
 
 	public String getTab_heading() {

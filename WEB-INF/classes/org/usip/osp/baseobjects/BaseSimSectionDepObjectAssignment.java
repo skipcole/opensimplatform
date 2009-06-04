@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -173,18 +174,52 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param bss_id
 	 * @return
 	 */
-	public static List getObjectsForSection(String schema, Long bss_id) {
+	public static List <BaseSimSectionDepObjectAssignment> getObjectsForSection(String schema, Long bss_id) {
 
 		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id
 				+ "' order by dep_obj_index";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
+		List <BaseSimSectionDepObjectAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
+
+	}
+	
+	/**
+	 * Gets a single shared document for a simulation section. 
+	 * @param schema
+	 * @param bss_id_s
+	 * @return
+	 */
+	public static SharedDocument getSharedDocumentForSection(String schema, String bss_id_s) {
+
+		Long bss_id = null;
+		
+		try {
+			bss_id = new Long(bss_id_s);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		if (bss_id == null){
+			return null;
+		}
+		
+		List startList = getObjectsForSection(schema, bss_id);
+		
+		if ((startList == null) || (startList.size() == 0)){
+			return null;
+		} else {
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment)startList.get(0);
+			
+			SharedDocument sd = SharedDocument.getMe(schema, bssdoa.getObjectId());
+			
+			return sd;
+		}
 
 	}
 

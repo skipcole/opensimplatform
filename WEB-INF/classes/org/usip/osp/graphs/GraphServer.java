@@ -61,7 +61,7 @@ public class GraphServer extends HttpServlet {
         if(chart_id != null){
             cci = getChartByNameAndRound(chart_id, game_round, sim_id, game_values_table);
         } else {
-            cci.this_chart = getDemoChart();
+            cci.setThis_chart(getDemoChart());
         }
 
         writeChartAsPNG(out, cci);
@@ -86,8 +86,8 @@ public class GraphServer extends HttpServlet {
 
         try {
 
-            ChartUtilities.writeChartAsPNG(out, cci.this_chart, cci.width,
-                    cci.height);
+            ChartUtilities.writeChartAsPNG(out, cci.getThis_chart(), cci.getWidth(),
+                    cci.getHeight());
 
         } catch (Exception e) {
 
@@ -116,8 +116,9 @@ public class GraphServer extends HttpServlet {
                 String chart_title = rst.getString("title");
                 String x_axis_title = rst.getString("x_axis_title");
                 String y_axis_title = rst.getString("y_axis_title");
-                cci.height = rst.getInt("height");
-                cci.width = rst.getInt("width");
+                
+                //cci.height = rst.getInt("height");
+                //cci.width = rst.getInt("width");
 
                 String howToGetData = rst.getString("first_data_source");
 
@@ -160,7 +161,7 @@ public class GraphServer extends HttpServlet {
                             );
                 }
 
-                cci.this_chart = chart;
+                cci.setThis_chart(chart);
 
             } // End of loop if found chart info
 
@@ -241,26 +242,4 @@ public class GraphServer extends HttpServlet {
 
     }
     
-    public void cachingDebris(){
-        /*
-         * Since inadvertant caching seems like it will be a problem, I have
-         * removed the caching I originally put in.
-         * 
-         * String nocache = request.getParameter("nocache"); //if ((nocache !=
-         * null) && (nocache.equalsIgnoreCase("true"))) {
-         * 
-         * Hashtable charts = (Hashtable) getServletContext().getAttribute(
-         * "charts");
-         * 
-         * if (charts == null) { charts = new Hashtable();
-         * getServletContext().setAttribute("charts", charts); } else {
-         *  // Try to pull it out of cache cci = (Chart) charts.get(chart_name +
-         * "_" + game_round);
-         *  // If not in cache, get it from db. if (cci == null){ cci =
-         * getChartByNameAndRound(chart_name, game_round, running_game_id); }
-         *  // Store it back in the cache charts.put(chart_name + "_" +
-         * game_round, cci);
-         *  }
-         */
-    }
 }

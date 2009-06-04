@@ -150,15 +150,14 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 		Hashtable<Long, Long> phaseIds = new Hashtable<Long, Long>();
 		context.setAttribute(CACHEON_PHASE_IDS, phaseIds);
 
-		*/
-
-		/** Players who have selected a game are recorded in these */
+		/** Players who have selected a game are recorded in these 
 		Hashtable<Long, Hashtable> loggedInPlayers = new Hashtable<Long, Hashtable>();
 		context.setAttribute(CACHEON_LOGGED_IN_PLAYERS, loggedInPlayers);
 
-		/** All users get an entry in this cache */
+		/** All users get an entry in this cache 
 		Hashtable<Long, LoggedInTicket> loggedInUsers = new Hashtable<Long, LoggedInTicket>();
 		context.setAttribute(CACHEON_LOGGED_IN_USERS, loggedInUsers);
+		*/
 
 	}
 

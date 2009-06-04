@@ -674,7 +674,6 @@ public class PSO_SectionMgmt {
 	public CustomizeableSection handleMakeMemosPage(HttpServletRequest request) {
 
 		this.getSimSectionsInternalVariables(request);
-		System.out.println("making memos page");
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
 
@@ -690,7 +689,6 @@ public class PSO_SectionMgmt {
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(pso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
@@ -705,8 +703,6 @@ public class PSO_SectionMgmt {
 			for (int ii = 1; ii <= customizableSectionOnScratchPad.getNumDependentObjects(); ++ii) {
 				String req_key = "doc_" + ii;
 				String doc_id = (String) request.getParameter(req_key);
-
-				System.out.println("adding doc: " + doc_id);
 
 				// Create and save the assignment object
 				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
