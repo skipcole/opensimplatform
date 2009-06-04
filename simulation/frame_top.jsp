@@ -16,6 +16,7 @@
 %>
 <html>
 <head>
+<script type="text/javascript" src="../jquery-1.2.6.js"></script>
 <title>Simulation <%= pso.simulation_name %>, Version , Session <%= pso.run_sim_name %></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
@@ -44,53 +45,34 @@
 <script type="text/javascript">
 function getSimRound()
   {
-  var xmlHttp;
-  try
-    {
-    // Firefox, Opera 8.0+, Safari
-    xmlHttp=new XMLHttpRequest();
-    }
-  catch (e)
-    {
-    // Internet Explorer
-    try
-      {
-      xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-      }
-    catch (e)
-      {
-      try
-        {
-        xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-      catch (e)
-        {
-        alert("Your browser does not support AJAX!");
-        return false;
-        }
-      }
-    }
-    xmlHttp.onreadystatechange=function()
-      {
-      if(xmlHttp.readyState==4)
-        {
 
-		var sim_round_text = xmlHttp.responseText;
+  	$.get('sim_round_server.jsp', {
+		'running_sim_id': "<%= pso.running_sim_id %>", 
+		'from_actor': "<%= pso.actor_id %>", 
+		'from_tab': "<%= tabposition %>"}, 
 		
-		array0 = sim_round_text.split("_");
+		function(myFunction){
 		
-		//document.getElementById('sim_round_div').innerHTML = array0[0];
-		document.getElementById('sim_event_div').innerHTML = array0[1];
-        }
-      }
-    xmlHttp.open("GET","sim_round_server.jsp?running_sim_id=<%= pso.running_sim_id %>&from_actor=<%= pso.actor_id %>&from_tab=<%= tabposition %>",true);
-    xmlHttp.send(null);
-  }
+			var my_status = $("my_status",myFunction).text();
+			var sim_round = $("sim_round",myFunction).text();
+			var sim_phase = $("sim_phase",myFunction).text();
+			
+			if (my_status == "logout"){
+				alert("You have been logged out.");
+			 	top.document.location="logout.jsp";
+			} else {
+				//document.getElementById('sim_round_div').innerHTML = array0[0];
+				document.getElementById('sim_phase_div').innerHTML = sim_phase;
+        	}
+			
+		} , 'xml');
+
+  } // End of get sim round
   
 function timedCount()
 {
 	getSimRound()
-	setTimeout("timedCount()",1000)
+	setTimeout("timedCount()",5000)
 }
 </script>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">
@@ -113,7 +95,7 @@ function timedCount()
           <td><strong><%= pso.simulation_name %></strong></td>
           <td><strong><%= pso.run_sim_name %></strong></td>
           <td><strong><%= pso.actor_name %></strong></td>
-          <td><strong><div id="sim_event_div">Loading...</div></strong></td>
+          <td><strong><div id="sim_phase_div">Loading...</div></strong></td>
           <!-- td><strong><div id="sim_round_div">Loading...</div></strong></td -->
         </tr>
       </table> 
