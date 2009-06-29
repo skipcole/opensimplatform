@@ -63,7 +63,7 @@
                         
 						%>
                         <tr>
-                          <td width="21%" valign="top">Document <%= ii %> <a href="helptext/make_memos_help.jsp" target="helpInRight">(?)</a></td>
+                          <td width="21%" valign="top">Document <a href="helptext/make_memos_help.jsp" target="helpInRight">(?)</a></td>
                           <td width="58%" valign="top"><%
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
 

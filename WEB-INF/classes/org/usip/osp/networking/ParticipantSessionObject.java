@@ -3245,21 +3245,26 @@ public class ParticipantSessionObject {
 	 * back.
 	 * 
 	 * @param index_hash
-	 * @param ii
+	 * @param object_index
 	 * @param id_of_object_being_checked
 	 * @return
 	 */
-	public String checkAgainstHash(Long cs_id, int ii, Long id_of_object_being_checked) {
+	public String checkAgainstHash(Long cs_id, int object_index, Long id_of_object_being_checked) {
 
+		Logger.getRootLogger().warn("checkAgainstHash (bss_id/index/object_id): " + cs_id + "/" + object_index + "/" + id_of_object_being_checked);
+		
 		Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(schema, cs_id);
 		
 		if ((index_hash == null) || (id_of_object_being_checked == null)) {
+			Logger.getRootLogger().warn("hash was null");
 			return "";
 		}
-
-		Long valueFromHash = (Long) index_hash.get(new Long(ii));
+		
+		// Get the value of the object stored at this position.
+		Long valueFromHash = (Long) index_hash.get(new Long(object_index));
 
 		if (id_of_object_being_checked.equals(valueFromHash)) {
+			System.out.println("returning selcted");
 			return " selected ";
 		} else {
 			return "";

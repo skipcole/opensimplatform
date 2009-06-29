@@ -8,7 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -33,6 +35,23 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Table(name = "SDANAO")
 @Proxy(lazy=false)
 public class SharedDocActorNotificAssignObj {
+	
+	public SharedDocActorNotificAssignObj(){
+		
+	}
+	
+	public SharedDocActorNotificAssignObj(String schema, Long sim_id, Long sd_id, Long actor_id, 
+			Long from_actor_id, Long from_phase_id, String notificationText){
+		
+		this.sim_id = sim_id;
+		this.sd_id = sd_id;
+		this.actor_id = actor_id;
+		this.from_actor_id = from_actor_id;
+		this.from_phase_id = from_phase_id;
+		this.notificationText = notificationText;
+		
+		this.saveMe(schema);
+	}
 
 	/** Database id of this Shared Document. */
 	@Id
@@ -157,6 +176,24 @@ public class SharedDocActorNotificAssignObj {
 	}
 	
 	/**
+	 * Pulls the sdanao out of the database base on its id and schema.
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static SharedDocActorNotificAssignObj getMe(String schema, Long sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		SharedDocActorNotificAssignObj sdanao = (SharedDocActorNotificAssignObj) MultiSchemaHibernateUtil
+				.getSession(schema).get(SharedDocActorNotificAssignObj.class, sim_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return sdanao;
+
+	}
+	
+	/**
 	 * Saves the object to the database.
 	 * 
 	 * @param schema
@@ -165,6 +202,33 @@ public class SharedDocActorNotificAssignObj {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param remove_id
+	 */
+	public static void removeSdanao(String schema, String remove_id){
+		
+		if (remove_id == null){
+			Logger.getRootLogger().warn("Warning! Invalid id sent into SDANDAO to remove.");
+		}
+		
+		Long sdanao_id = null;
+		
+		try {
+			sdanao_id = new Long(remove_id);
+		} catch (Exception e){
+			Logger.getRootLogger().warn("Warning! problem converting id :" + remove_id + " passed in to Long.");
+		}
+		
+		SharedDocActorNotificAssignObj sdanao = SharedDocActorNotificAssignObj.getMe(schema, sdanao_id);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).delete(sdanao);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
 	}
 	
 	/**

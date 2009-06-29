@@ -664,7 +664,6 @@ public class PSO_SectionMgmt {
 		return customizableSectionOnScratchPad;
 	}
 
-	
 	/**
 	 * This method handles the creation of the page to allow player access to
 	 * read a document or documents.
@@ -677,15 +676,17 @@ public class PSO_SectionMgmt {
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
 
-		// Ever read document page should have one (and only one) document associated
-		// with it.
+		// Ever read document page should have one (and only one) document associated with it.
 		if (customizableSectionOnScratchPad.getNumDependentObjects() < 1) {
 			customizableSectionOnScratchPad.setNumDependentObjects(1);
 		}
 
+		System.out.println(" sending_page: " + sending_page);
+		
 		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
-
-		&& (sending_page.equalsIgnoreCase("make_memos_page"))) {
+				&& (sending_page.equalsIgnoreCase("make_memos_page"))) {
+			
+			System.out.println("saving stuff");
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
@@ -694,15 +695,16 @@ public class PSO_SectionMgmt {
 				sharedDocument = new SharedDocument();
 			}
 
-			// Remove all dependent object assignments currently associated with
-			// this page.
+			// Remove all dependent object assignments currently associated with this page.
 			BaseSimSectionDepObjectAssignment.removeAllForSection(pso.schema, customizableSectionOnScratchPad.getId());
 
-			// Loop to the number of documents (which are dependent object)
-			// expected to be found
+			// Loop to the number of documents (which are dependent object) expected to be found
 			for (int ii = 1; ii <= customizableSectionOnScratchPad.getNumDependentObjects(); ++ii) {
+				
 				String req_key = "doc_" + ii;
 				String doc_id = (String) request.getParameter(req_key);
+				
+				System.out.println("doc_id is " + doc_id);
 
 				// Create and save the assignment object
 				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
@@ -731,7 +733,6 @@ public class PSO_SectionMgmt {
 		return customizableSectionOnScratchPad;
 	}
 
-	
 	/**
 	 * This method handles the creation of the page to allow player access to
 	 * read a document or documents.
@@ -755,7 +756,7 @@ public class PSO_SectionMgmt {
 		// If adding a document, just increase the number and return.
 		if (add_document != null) {
 			System.out.println("adding document!");
-			
+
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				System.out.println("making copy");
@@ -763,7 +764,7 @@ public class PSO_SectionMgmt {
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
 			}
-			
+
 			int numDocs = customizableSectionOnScratchPad.getNumDependentObjects() + 1;
 			customizableSectionOnScratchPad.setNumDependentObjects(numDocs);
 
@@ -1012,7 +1013,7 @@ public class PSO_SectionMgmt {
 				return null;
 			}
 		} else { // We are not saving. Get the conversation for this section, or
-					// created it.
+			// created it.
 			List convForThisSection = BaseSimSectionDepObjectAssignment.getObjectsForSection(pso.schema,
 					customizableSectionOnScratchPad.getId());
 

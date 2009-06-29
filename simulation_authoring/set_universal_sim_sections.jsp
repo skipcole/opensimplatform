@@ -111,6 +111,9 @@ function loadInfo(dropdownlist){
 <!-- TemplateParam name="theBodyInfo" type="text" value="" -->
 <style type="text/css">
 <!--
+.customized_section {background-color:#CCFFCC}
+.player_customized_section {background-color:#99FFFF}
+
 .style_cs {color: #FF0000}
 -->
 </style>
@@ -262,14 +265,13 @@ function loadInfo(dropdownlist){
 			for (ListIterator li = uc.listIterator(); li.hasNext();) {
 				CustomizeableSection cs = (CustomizeableSection) li.next();
 				
-				String preFont = "";
-				String postFont = "";
+				
+				String cs_class = "customized_section";
 				if (cs.isThisIsACustomizedSection()){
-					preFont = "Customized: ";
-					postFont= "";
+					cs_class = "player_customized_section";
 				}
 			%>
-                                  <option value="<%= cs.getId().toString() %>"><%= preFont %><%= cs.getRec_tab_heading() %><%= postFont %></option>
+                                  <option value="<%= cs.getId().toString() %>" class="<%= cs_class %>" ><%= cs.getRec_tab_heading() %></option>
                                   <% } %>
                                   <% } %>
                                   </select>
