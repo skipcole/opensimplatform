@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -100,21 +101,25 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param bss_id
 	 * @return
 	 */
-	public static Hashtable getIndexIdHashtable(String schema, Long bss_id) {
+	public static Hashtable<Long, Long> getIndexIdHashtable(String schema, Long bss_id) {
 
-		Hashtable returnHash = new Hashtable();
+		Hashtable <Long, Long> returnHash = new Hashtable<Long, Long>();
 
 		if (bss_id == null) {
+			Logger.getRootLogger().warn("Warning! getIndexIdHashtable get null bss_id");
 			return returnHash;
 		}
 
 		List checkList = getObjectsForSection(schema, bss_id);
+		
+		Logger.getRootLogger().warn(" checklist size: " + checkList.size());
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		for (ListIterator<BaseSimSectionDepObjectAssignment> li = checkList.listIterator(); li.hasNext();) {
 			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) li.next();
 
-			returnHash.put(new Long(bssdoa.getDepObjIndex()), bssdoa.getId());
+			Logger.getRootLogger().warn("index/id:" + bssdoa.getDepObjIndex() + "/" + bssdoa.getId());
+			returnHash.put(new Long(bssdoa.getDepObjIndex()), bssdoa.getObjectId());
 
 		}
 
@@ -197,12 +202,13 @@ public class BaseSimSectionDepObjectAssignment {
 	 */
 	public static SharedDocument getSharedDocumentForSection(String schema, String bss_id_s) {
 
+		System.out.println("bss_id is: " + bss_id_s);
 		Long bss_id = null;
 		
 		try {
 			bss_id = new Long(bss_id_s);
 		} catch (Exception e){
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		
 		if (bss_id == null){
