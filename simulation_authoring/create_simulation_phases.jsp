@@ -2,7 +2,7 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	pso.backPage = "create_simulation_phases.jsp";
@@ -47,7 +47,7 @@
               <% 
 			if (pso.sim_id != null) {
 			
-			List phaseList = SimulationPhase.getAllForSim(pso.schema, pso.sim_id);
+			List phaseList = SimPhaseAssignment.getPhasesForSim(pso.schema, pso.sim_id);
 
 		%>
               <blockquote>
@@ -136,7 +136,7 @@
                 <td valign="top"><%= sp.getOrder() + "" %></td>
                 <td valign="top">
                   <% if (flagNotes.length() == 0){ %>
-                  <a href="delete_object.jsp?object_type=phase&objid=<%= sp.getId().toString() %>&object_info=<%= sp.getName() %>">remove</a>
+                  <a href="delete_object.jsp?phase_sim_id=<%= pso.sim_id %>&object_type=phase&objid=<%= sp.getId().toString() %>&object_info=<%= sp.getName() %>">remove</a>
                   <% } %>                  </td>
               </tr>
               <%
