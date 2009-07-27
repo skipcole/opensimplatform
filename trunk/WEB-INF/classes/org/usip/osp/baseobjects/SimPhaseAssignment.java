@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -143,7 +144,11 @@ public class SimPhaseAssignment {
 		for (ListIterator<SimPhaseAssignment> li = startList.listIterator(); li.hasNext();) {
 			SimPhaseAssignment this_saa = (SimPhaseAssignment) li.next();
 			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class, this_saa.getPhase_id());
-			returnList.add(sp);
+			if (sp != null){
+				returnList.add(sp);
+			} else {
+				Logger.getRootLogger().warn("Warning! Null Simulation Phase detected");
+			}
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		

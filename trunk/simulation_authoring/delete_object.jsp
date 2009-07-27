@@ -16,6 +16,7 @@
     String objectInfo = request.getParameter("object_info");
     String objid = request.getParameter("objid");
     String cancel_action = request.getParameter("cancel_action");
+	String phase_sim_id = request.getParameter("phase_sim_id");
         
     String debug = "";
 	
@@ -56,6 +57,7 @@
         <blockquote>
           <p>
             <input type="hidden" name="object_type" value="<%= objectType %>" />
+            <input type="hidden" name="phase_sim_id" value="<%= phase_sim_id %>" />
             <input type="hidden" name="object_info" value="<%= objectInfo %>" />
             <input type="hidden" name="objid" value="<%= objid %>" />
             <input type="submit" name="deletion_confirm" value="Submit" />

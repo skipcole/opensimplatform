@@ -505,7 +505,8 @@ public class ParticipantSessionObject {
 		String objectInfo = request.getParameter("object_info");
 		String objid = request.getParameter("objid");
 		String cancel_action = request.getParameter("cancel_action");
-
+		String phase_sim_id = request.getParameter("phase_sim_id");
+		
 		String debug = "";
 
 		if (cancel_action != null) {
@@ -529,8 +530,11 @@ public class ParticipantSessionObject {
 				MultiSchemaHibernateUtil.beginTransaction(schema);
 				SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(
 						SimulationPhase.class, o_id);
+				Long phase_removed_id = sp.getId();
 				MultiSchemaHibernateUtil.getSession(schema).delete(sp);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				
+				SimPhaseAssignment.removeMe(schema, new Long(phase_sim_id), phase_removed_id);
 
 			} else if (objectType.equalsIgnoreCase("actor")) {
 				MultiSchemaHibernateUtil.beginTransaction(schema);
