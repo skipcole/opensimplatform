@@ -7,8 +7,7 @@ import org.usip.osp.persistence.BaseUser;
 
 /**
  * Utility class with methods to handle user administration; creation, editing, etc..
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

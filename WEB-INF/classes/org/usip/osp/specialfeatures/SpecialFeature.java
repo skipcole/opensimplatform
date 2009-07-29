@@ -12,8 +12,7 @@ import org.usip.osp.persistence.MysqlDatabase;
  * This is the base class of all of the 'special features' one can add to a simulation.
  * Essentially, it makes sure that the mechanics of storing and loading the object into
  * the archetypal, and also runs specific, tables gets taken care of.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

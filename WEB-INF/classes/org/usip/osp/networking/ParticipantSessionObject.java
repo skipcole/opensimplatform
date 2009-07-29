@@ -23,8 +23,7 @@ import com.oreilly.servlet.MultipartRequest;
  * This object contains all of the session information for the participant and
  * is the main interface to all of the java objects that the participant will
  * interact with.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

@@ -6,7 +6,6 @@ import org.usip.osp.baseobjects.*;
 import org.usip.osp.specialfeatures.*;
 
 /**
- * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

@@ -9,8 +9,7 @@ import org.hibernate.annotations.Proxy;
 
 /**
  * This class represents a variable that is held in a particular model.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

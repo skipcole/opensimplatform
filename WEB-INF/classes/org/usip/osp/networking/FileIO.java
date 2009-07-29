@@ -12,8 +12,7 @@ import org.usip.osp.baseobjects.UserAssignment;
 
 /**
  * Utility class that provides static methods to handle file input and output.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

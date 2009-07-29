@@ -3,7 +3,6 @@ package org.usip.osp.specialfeatures;
 import javax.persistence.*;
 
 /**
- * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

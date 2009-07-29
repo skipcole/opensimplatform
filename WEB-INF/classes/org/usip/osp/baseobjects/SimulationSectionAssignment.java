@@ -18,8 +18,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 /**
  * This class represents a section assigned to an actor at a particular phase. A
  * better name for the class might be 'SimulationSectionAssignment.'
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

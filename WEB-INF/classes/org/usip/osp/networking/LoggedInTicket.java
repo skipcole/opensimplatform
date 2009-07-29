@@ -7,8 +7,7 @@ import org.usip.osp.baseobjects.UserTrail;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

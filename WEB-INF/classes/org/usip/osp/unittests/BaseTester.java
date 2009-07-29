@@ -7,7 +7,6 @@ import java.util.Vector;
 import org.usip.osp.persistence.MysqlDatabase;
 
 /**
- * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

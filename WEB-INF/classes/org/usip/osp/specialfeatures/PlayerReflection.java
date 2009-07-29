@@ -12,8 +12,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents the reflections of a player regarding a simulation.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

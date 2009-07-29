@@ -12,8 +12,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class provides utility functions to manage a chat session.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

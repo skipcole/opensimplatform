@@ -18,8 +18,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * This class represents the assignment of a dependent object (such as a
  * conversation, shared document, variable, etc.) to a particular simulation
  * section.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

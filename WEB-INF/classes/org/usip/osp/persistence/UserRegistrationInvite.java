@@ -7,7 +7,6 @@ import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 
 /**
- * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

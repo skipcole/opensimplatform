@@ -15,7 +15,6 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 
 /**
- * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

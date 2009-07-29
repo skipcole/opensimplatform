@@ -14,8 +14,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 /**
  * This class allows one to set a trigger point such that when the value of one
  * variable switches beyond a limit, a separate action is taken.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

@@ -22,8 +22,7 @@ import org.usip.osp.persistence.MysqlDatabase;
 
 /**
  * This class represents a single line in a chat conversation.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

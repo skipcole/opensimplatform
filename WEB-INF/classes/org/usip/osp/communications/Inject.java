@@ -14,8 +14,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents a piece of information (an inject) thrust upon the players.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
