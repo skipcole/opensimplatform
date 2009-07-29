@@ -19,8 +19,7 @@ import org.usip.osp.specialfeatures.IntVariable;
 
 /**
  * This class represents a particular conversation amongst a group of actors.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

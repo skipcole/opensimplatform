@@ -12,8 +12,7 @@ import javax.persistence.*;
 
 /**
  * This class represents an actor playing in a particular simulation, for example 'Red Cross Worker.'
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

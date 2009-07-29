@@ -6,8 +6,7 @@ import java.util.ResourceBundle;
 
 /**
  * This class handles reading of properties out of the properties file for the program and making them available.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

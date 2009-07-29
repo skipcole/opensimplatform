@@ -14,8 +14,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * This class represents one specific choice in a set of answers that a player may select. For example,
  * the question might be "Do you want steak, or fish?" There would be one allowable response for steak and
  * another for fish.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

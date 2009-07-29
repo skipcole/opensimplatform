@@ -20,8 +20,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * This class holds the important definition information for a model that has been added to the system.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

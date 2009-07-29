@@ -13,8 +13,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents an audit item that keeps track of when a player enters and exits the simulated world.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

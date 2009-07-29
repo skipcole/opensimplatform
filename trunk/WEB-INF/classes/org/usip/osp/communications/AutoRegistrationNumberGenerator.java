@@ -12,8 +12,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 /**
  * This class gives out unique numbers to use for players to indicate a particular multi-player running
  * simulation session they would like to join.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

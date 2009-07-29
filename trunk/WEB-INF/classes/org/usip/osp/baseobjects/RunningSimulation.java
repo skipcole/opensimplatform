@@ -18,8 +18,7 @@ import org.usip.osp.specialfeatures.*;
 
 /**
  * This class represents a simulation in play.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

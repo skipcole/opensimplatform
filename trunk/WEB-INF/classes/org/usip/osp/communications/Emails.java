@@ -11,8 +11,7 @@ import org.hibernate.annotations.Proxy;
 
 /**
  * This class represents an in game email.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

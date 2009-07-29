@@ -16,8 +16,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 /**
  * This class represents sections that can be given to an actor at any given
  * phase of the game.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

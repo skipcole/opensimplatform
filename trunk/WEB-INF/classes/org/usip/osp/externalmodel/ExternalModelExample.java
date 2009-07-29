@@ -7,8 +7,7 @@ import org.usip.osp.modelinterface.ModelController;
 
 /**
  * This abstract class is an example class of how one can add external models.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

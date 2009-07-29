@@ -15,8 +15,7 @@ import org.usip.osp.persistence.*;
  * This class represents a USER in a particular schema. The base user inside of it contains the information
  * in the central table that holds all specific user information. In this particular object are mostly the 
  * permissions to all the user to do things (instruct, author or administrate) in this organizational database (schema).
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

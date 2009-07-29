@@ -10,7 +10,6 @@ import org.usip.osp.baseobjects.SimulationPhase;
 
 
 /**
- * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

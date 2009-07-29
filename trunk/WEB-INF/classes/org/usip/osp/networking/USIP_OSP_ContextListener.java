@@ -9,7 +9,6 @@ import javax.servlet.http.*;
 import org.apache.log4j.*;
 
 /**
- * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

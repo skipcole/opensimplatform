@@ -11,8 +11,7 @@ import java.util.StringTokenizer;
 
 /**
  * This class represents an alert, which can be of many different types, sent to a player or players.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

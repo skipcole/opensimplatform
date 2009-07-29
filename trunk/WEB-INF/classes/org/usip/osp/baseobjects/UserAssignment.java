@@ -11,8 +11,7 @@ import org.usip.osp.persistence.*;
 /**
  * This class represents the assignment of a user to a particular running 
  * simulation.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

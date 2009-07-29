@@ -6,8 +6,7 @@ import javax.persistence.Table;
 /**
  * This class was created to hold specific values regarding a planned play session, for example the number of 
  * players. Currently this information is just entered in free form text and this class is unused.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

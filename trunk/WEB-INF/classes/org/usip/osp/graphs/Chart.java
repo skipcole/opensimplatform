@@ -12,7 +12,6 @@ import org.usip.osp.specialfeatures.IntegerVariable;
 import org.usip.osp.specialfeatures.SpecialFeature;
 
 /**
- * @author Ronald "Skip" Cole<br />
  *
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

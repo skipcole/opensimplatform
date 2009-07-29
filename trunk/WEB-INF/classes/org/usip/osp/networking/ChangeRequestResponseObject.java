@@ -7,8 +7,7 @@ import org.hibernate.annotations.Proxy;
 
 /**
  * This class represents a change request response packet back to the sender.
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

@@ -1,7 +1,6 @@
 package org.usip.osp.baseobjects.core;
 
 /**
- * @author Ronald "Skip" Cole<br />
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

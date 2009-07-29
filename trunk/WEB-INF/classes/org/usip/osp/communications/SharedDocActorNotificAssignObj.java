@@ -17,8 +17,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * This class represents a subscription that a player has to a particular document.
  * When the document changes, players subscribed will receive an alert.
  * 
- * 
- * @author Ronald "Skip" Cole<br />
+ *
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
