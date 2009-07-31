@@ -100,7 +100,7 @@ import="java.sql.*,java.util.*,com.oreilly.servlet.*, com.oreilly.servlet.multip
 <%= pp.description %><br>
 <%= pp.name %>
 </p>
-<%= Debug.getDebug(debug) %>
+
 <br />
 
 </body>
