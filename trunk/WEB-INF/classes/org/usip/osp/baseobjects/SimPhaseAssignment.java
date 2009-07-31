@@ -54,7 +54,7 @@ public class SimPhaseAssignment {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -62,7 +62,7 @@ public class SimPhaseAssignment {
 	}
 
 	public Long getPhase_id() {
-		return phase_id;
+		return this.phase_id;
 	}
 
 	public void setPhase_id(Long phase_id) {
@@ -70,7 +70,7 @@ public class SimPhaseAssignment {
 	}
 	
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -79,7 +79,7 @@ public class SimPhaseAssignment {
 
 	public static SimPhaseAssignment getMe(String schema, Long sim_id, Long phase_id){
 		
-		String hqlQuery = "from SimPhaseAssignment where sim_id = " + sim_id + " AND phase_id = " + phase_id;
+		String hqlQuery = "from SimPhaseAssignment where sim_id = " + sim_id + " AND phase_id = " + phase_id; //$NON-NLS-1$ //$NON-NLS-2$
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
@@ -89,7 +89,7 @@ public class SimPhaseAssignment {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		if ((returnList != null) && (returnList.size() > 0)){
-			return (SimPhaseAssignment) returnList.get(0);
+			return returnList.get(0);
 		} else {
 			return null;
 		}
@@ -141,12 +141,12 @@ public class SimPhaseAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		for (ListIterator<SimPhaseAssignment> li = startList.listIterator(); li.hasNext();) {
-			SimPhaseAssignment this_saa = (SimPhaseAssignment) li.next();
+			SimPhaseAssignment this_saa = li.next();
 			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class, this_saa.getPhase_id());
 			if (sp != null){
 				returnList.add(sp);
 			} else {
-				Logger.getRootLogger().warn("Warning! Null Simulation Phase detected");
+				Logger.getRootLogger().warn("Warning! Null Simulation Phase detected"); //$NON-NLS-1$
 			}
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -169,7 +169,7 @@ public class SimPhaseAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		List<SimPhaseAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from SimPhaseAssignment where sim_id = " + sim_id + " order by phase_id").list();
+				"from SimPhaseAssignment where sim_id = " + sim_id + " order by phase_id").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		

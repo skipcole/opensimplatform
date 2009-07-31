@@ -27,19 +27,19 @@ public class SchemaGhost {
     	
     }
     public Long getId() {
-        return id;
+        return this.id;
     }
     public void setId(Long id) {
         this.id = id;
     }
     public String getSchema_name() {
-        return schema_name;
+        return this.schema_name;
     }
     public void setSchema_name(String schema_name) {
         this.schema_name = schema_name;
     }
     public String getSchema_organization() {
-        return schema_organization;
+        return this.schema_organization;
     }
     public void setSchema_organization(String schema_organization) {
         this.schema_organization = schema_organization;

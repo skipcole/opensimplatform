@@ -32,7 +32,7 @@ public class IntVariableHistory {
 	private Integer round;
 
 	public Integer getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setValue(Integer value) {
@@ -40,7 +40,7 @@ public class IntVariableHistory {
 	}
 
 	public Integer getRound() {
-		return round;
+		return this.round;
 	}
 
 	public void setRound(Integer round) {
@@ -48,7 +48,7 @@ public class IntVariableHistory {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {

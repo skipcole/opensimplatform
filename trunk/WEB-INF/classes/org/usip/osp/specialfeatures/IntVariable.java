@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.SimulationPhase;
 
 
 /**
@@ -27,13 +26,13 @@ import org.usip.osp.baseobjects.SimulationPhase;
 public class IntVariable extends SimVariable{
 
 	public static void main(String args[]) {
-		System.out.println("begin");
+		System.out.println("begin"); //$NON-NLS-1$
 		IntVariable iv = new IntVariable();
 		
 	
 		
 		
-		System.out.println("end");
+		System.out.println("end"); //$NON-NLS-1$
 	}
 
 	@Column(name = "VALUE")
@@ -48,7 +47,7 @@ public class IntVariable extends SimVariable{
 
 
 	public Integer getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setValue(Integer value) {
@@ -74,7 +73,7 @@ public class IntVariable extends SimVariable{
 	}
 
 	public Integer getInitial_value() {
-		return initial_value;
+		return this.initial_value;
 	}
 
 	public void setInitial_value(Integer initial_value) {

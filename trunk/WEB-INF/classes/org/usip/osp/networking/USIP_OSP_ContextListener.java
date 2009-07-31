@@ -24,67 +24,67 @@ import org.apache.log4j.*;
 public class USIP_OSP_ContextListener implements ServletContextListener {
 
 	/** Name of the actors stored by schema and rs_id and actor_id */
-	public static final String CACHEON_ACTOR_NAMES = "actor_names";
+	public static final String CACHEON_ACTOR_NAMES = "actor_names"; //$NON-NLS-1$
 
 	/**
 	 * Name of the actor thumb nail images stored by schema and rs_id and
 	 * actor_id
 	 */
-	public static final String CACHEON_ACTOR_THUMBS = "actor_thumbs";
+	public static final String CACHEON_ACTOR_THUMBS = "actor_thumbs"; //$NON-NLS-1$
 
 	/** Simulation section Information is continually being accessed. */
-	public static final String CACHEON_SIM_SEC_INFO = "sim_section_info";
+	public static final String CACHEON_SIM_SEC_INFO = "sim_section_info"; //$NON-NLS-1$
 	
 	/**
 	 * Conversations are cached so that the database doesn't have to be
 	 * continually hit as players log on and off.
 	 */
-	public static final String CACHEON_BROADCAST_CONV = "broadcast_conversations";
+	public static final String CACHEON_BROADCAST_CONV = "broadcast_conversations"; //$NON-NLS-1$
 	
 	/**
 	 * Conversations are cached so that the database doesn't have to be
 	 * continually hit as players log on and off.
 	 */
-	public static final String CACHEON_CONVERSATIONS = "conversation_cache";
+	public static final String CACHEON_CONVERSATIONS = "conversation_cache"; //$NON-NLS-1$
 	
 	/**
 	 * The actors available for conversation are cached to help load chat
 	 * pages quickly.
 	 */
-	public static final String CACHEON_CONV_ACTORS = "conversation_actors";
+	public static final String CACHEON_CONV_ACTORS = "conversation_actors"; //$NON-NLS-1$
 	
 	/**
 	 * Chart information can also be cached.
 	 */
-	public static final String CACHEON_CHARTS = "charts";
+	public static final String CACHEON_CHARTS = "charts"; //$NON-NLS-1$
 	
 	/**
 	 * When a change is made to the database, this value is updated for the
 	 * simulation. Highest change number This alerts the program to check
 	 * against the database for new values.
 	 */
-	public static final String CACHEON_CHANGE_NUMBERS = "highestChangeNumber";
+	public static final String CACHEON_CHANGE_NUMBERS = "highestChangeNumber"; //$NON-NLS-1$
 
-	public static final String CACHEON_PHASE_IDS = "phaseIds";
-	public static final String CACHEON_L_S_PHASE_NAMES = "phaseNames";
+	public static final String CACHEON_PHASE_IDS = "phaseIds"; //$NON-NLS-1$
+	public static final String CACHEON_L_S_PHASE_NAMES = "phaseNames"; //$NON-NLS-1$
 	
 	/** The id of the running simulation is used to find the round name. */
-	public static final String CACHEON_L_S_ROUND_NAMES = "roundNames";
+	public static final String CACHEON_L_S_ROUND_NAMES = "roundNames"; //$NON-NLS-1$
 	
 	/** The id of the running simulation is keyed */
-	public static final String CACHEON_L_S_PHASE_CHANGE_ALARMS = "phaseChangeAlarm";
+	public static final String CACHEON_L_S_PHASE_CHANGE_ALARMS = "phaseChangeAlarm"; //$NON-NLS-1$
 
 	/** Tickets are used to keep track of who is currently logged in. */
-	public static final String CACHEON_ACTIVE_TICKETS = "activeTickets";
+	public static final String CACHEON_ACTIVE_TICKETS = "activeTickets"; //$NON-NLS-1$
 	
 	
-	public static final String CACHEON_LOGGED_IN_PLAYERS = "loggedInPlayers";
+	public static final String CACHEON_LOGGED_IN_PLAYERS = "loggedInPlayers"; //$NON-NLS-1$
 	
 	
-	public static final String CACHEON_LOGGED_IN_USERS = "loggedInUsers";
+	public static final String CACHEON_LOGGED_IN_USERS = "loggedInUsers"; //$NON-NLS-1$
 
 	public static void main(String args[]) {
-		System.out.println("Hello World");
+		System.out.println("Hello World"); //$NON-NLS-1$
 
 	}
 
@@ -114,20 +114,20 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 			int mod = field[ii].getModifiers();
 			String modifiers = Modifier.toString(mod);
 
-			if (modifiers.equalsIgnoreCase("public static final")) {
+			if (modifiers.equalsIgnoreCase("public static final")) { //$NON-NLS-1$
 
 				try {
 					String field_value = (String) field[ii].get(null);
-					if (fieldName.contains("_L_S_")){
+					if (fieldName.contains("_L_S_")){ //$NON-NLS-1$
 						context.setAttribute(field_value, new Hashtable<Long, String>());
 					} else {
 						context.setAttribute(field_value, new Hashtable());
 					}
 
 				} catch (Exception e) {
-					Logger.getRootLogger().warn("Exception in USIP_OSP_ContextListener.resetWebCache");
-					Logger.getRootLogger().warn("Error was: " + e.getMessage());
-					Logger.getRootLogger().warn("While trying to set field: " + fieldName);
+					Logger.getRootLogger().warn("Exception in USIP_OSP_ContextListener.resetWebCache"); //$NON-NLS-1$
+					Logger.getRootLogger().warn("Error was: " + e.getMessage()); //$NON-NLS-1$
+					Logger.getRootLogger().warn("While trying to set field: " + fieldName); //$NON-NLS-1$
 				}
 			}
 

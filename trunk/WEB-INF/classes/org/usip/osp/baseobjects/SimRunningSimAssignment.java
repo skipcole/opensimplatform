@@ -59,7 +59,7 @@ public class SimRunningSimAssignment {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -67,7 +67,7 @@ public class SimRunningSimAssignment {
 	}
 
 	public Long getRunningSimulation_id() {
-		return runningsim_id;
+		return this.runningsim_id;
 	}
 
 	public void setRunningSimulation_id(Long runningsim_id) {
@@ -75,7 +75,7 @@ public class SimRunningSimAssignment {
 	}
 	
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -84,7 +84,7 @@ public class SimRunningSimAssignment {
 
 	public static SimRunningSimAssignment getMe(String schema, Long sim_id, Long runningsim_id){
 		
-		String hqlQuery = "from SimRunningSimAssignment where sim_id = " + sim_id + " AND runningsim_id = " + runningsim_id;
+		String hqlQuery = "from SimRunningSimAssignment where sim_id = " + sim_id + " AND runningsim_id = " + runningsim_id; //$NON-NLS-1$ //$NON-NLS-2$
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
@@ -94,7 +94,7 @@ public class SimRunningSimAssignment {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		if ((returnList != null) && (returnList.size() > 0)){
-			return (SimRunningSimAssignment) returnList.get(0);
+			return returnList.get(0);
 		} else {
 			return null;
 		}
@@ -134,7 +134,7 @@ public class SimRunningSimAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		for (ListIterator<SimRunningSimAssignment> li = startList.listIterator(); li.hasNext();) {
-			SimRunningSimAssignment this_saa = (SimRunningSimAssignment) li.next();
+			SimRunningSimAssignment this_saa = li.next();
 			RunningSimulation act = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(RunningSimulation.class, this_saa.getRunningSimulation_id());
 			returnList.add(act);
 		}
@@ -156,7 +156,7 @@ public class SimRunningSimAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		List<SimRunningSimAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from SimRunningSimAssignment where sim_id = " + sim_id).list();
+				"from SimRunningSimAssignment where sim_id = " + sim_id).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		

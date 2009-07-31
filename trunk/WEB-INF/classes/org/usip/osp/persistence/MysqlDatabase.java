@@ -2,8 +2,6 @@ package org.usip.osp.persistence;
 
 import java.security.MessageDigest;
 import java.sql.*;
-import java.util.*;
-
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 
 /**
@@ -21,15 +19,15 @@ import org.usip.osp.baseobjects.USIP_OSP_Properties;
  */
 public class MysqlDatabase {
 
-    private static String conn_string = "";
+    private static String conn_string = ""; //$NON-NLS-1$
 
     static {
-            conn_string = USIP_OSP_Properties.getValue("conn_string");
+            conn_string = USIP_OSP_Properties.getValue("conn_string"); //$NON-NLS-1$
     }
     
     public static String makeConnString(String base_url, String user, String pass){
         
-        String conn_string = base_url + "&user=" + user + "&password=" + pass;
+        String conn_string = base_url + "&user=" + user + "&password=" + pass; //$NON-NLS-1$ //$NON-NLS-2$
         
         System.out.print(conn_string);
         return conn_string;
@@ -44,7 +42,7 @@ public class MysqlDatabase {
         Connection connection = null;
 
         try {
-            Class.forName("org.gjt.mm.mysql.Driver").newInstance();
+            Class.forName("org.gjt.mm.mysql.Driver").newInstance(); //$NON-NLS-1$
             connection = DriverManager.getConnection(conn_string);
 
             return connection;
@@ -63,15 +61,15 @@ public class MysqlDatabase {
      */
     public static Connection getConnection(String connString) {
         
-        System.out.println(" ");
-        System.out.println("conn string is: ");
+        System.out.println(" "); //$NON-NLS-1$
+        System.out.println("conn string is: "); //$NON-NLS-1$
         System.out.println(connString);
-        System.out.println(" ");
+        System.out.println(" "); //$NON-NLS-1$
         
         Connection connection = null;
 
         try {
-            Class.forName("org.gjt.mm.mysql.Driver").newInstance();
+            Class.forName("org.gjt.mm.mysql.Driver").newInstance(); //$NON-NLS-1$
             connection = DriverManager.getConnection(connString);
 
             return connection;
@@ -89,7 +87,7 @@ public class MysqlDatabase {
         byte[] pbytes = password.getBytes();
 
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance("SHA-1"); //$NON-NLS-1$
 
             md.update(pbytes);
 

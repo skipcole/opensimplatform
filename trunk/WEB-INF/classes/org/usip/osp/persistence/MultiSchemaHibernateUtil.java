@@ -3,17 +3,12 @@ package org.usip.osp.persistence;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
-import org.hibernate.Interceptor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
-import org.usip.osp.baseobjects.UserAssignment;
 
 /**
  * @author original HibernateUtil from Cameron McKenzie
@@ -35,7 +30,7 @@ public class MultiSchemaHibernateUtil {
     /**
      * One schema will hold the connection information for the other schema
      */
-    public static String principalschema = "";
+    public static String principalschema = ""; //$NON-NLS-1$
     
     /** Multiple schema each with connection information stored
      * in hashtables keyed off of the schema name.
@@ -53,22 +48,22 @@ public class MultiSchemaHibernateUtil {
     private static Hashtable setOfUrls = new Hashtable();
    
     /** Our dialect for now is constant. */
-    protected static String dialect = "";
+    protected static String dialect = ""; //$NON-NLS-1$
     /** Our driver class for now is constant. */
-    protected static String driver_class = "";
+    protected static String driver_class = ""; //$NON-NLS-1$
 
 	static {
         
-        principalschema = USIP_OSP_Properties.getValue("principalschema");
+        principalschema = USIP_OSP_Properties.getValue("principalschema"); //$NON-NLS-1$
         
-		dialect = USIP_OSP_Properties.getValue("dialect");
-		driver_class = USIP_OSP_Properties.getValue("driver_class");
+		dialect = USIP_OSP_Properties.getValue("dialect"); //$NON-NLS-1$
+		driver_class = USIP_OSP_Properties.getValue("driver_class"); //$NON-NLS-1$
         
-        String username = USIP_OSP_Properties.getValue("username");
-        String password = USIP_OSP_Properties.getValue("password");
-        String loc = USIP_OSP_Properties.getValue("loc");
-        String port = USIP_OSP_Properties.getValue("port");
-        String url = loc + port + "/" + principalschema + "?autoReconnect=true";
+        String username = USIP_OSP_Properties.getValue("username"); //$NON-NLS-1$
+        String password = USIP_OSP_Properties.getValue("password"); //$NON-NLS-1$
+        String loc = USIP_OSP_Properties.getValue("loc"); //$NON-NLS-1$
+        String port = USIP_OSP_Properties.getValue("port"); //$NON-NLS-1$
+        String url = loc + port + "/" + principalschema + "?autoReconnect=true"; //$NON-NLS-1$ //$NON-NLS-2$
         
         setOfUsernames.put(principalschema, username);
         setOfPasswords.put(principalschema, password);
@@ -83,13 +78,13 @@ public class MultiSchemaHibernateUtil {
             MultiSchemaHibernateUtil.beginTransaction(principalschema, true);
             
             List sioList = MultiSchemaHibernateUtil.getSession(principalschema, true).createQuery(
-            "from SchemaInformationObject").list();
+            "from SchemaInformationObject").list(); //$NON-NLS-1$
             
-            System.out.println("loading the sios");
+            System.out.println("loading the sios"); //$NON-NLS-1$
             for (ListIterator<SchemaInformationObject> li = sioList.listIterator(); li.hasNext();) {
-                SchemaInformationObject this_sio = (SchemaInformationObject) li.next();
+                SchemaInformationObject this_sio = li.next();
                 
-                System.out.println("this_sio: " + this_sio.getSchema_name());
+                System.out.println("this_sio: " + this_sio.getSchema_name()); //$NON-NLS-1$
                 
                 storeAnSIOInHashtables(this_sio);
                 
@@ -120,11 +115,11 @@ public class MultiSchemaHibernateUtil {
         String username = (String) setOfUsernames.get(schema);
         String password = (String) setOfPasswords.get(schema);
         
-        System.out.println("    in initializeConnection     ");
-        System.out.println("schema is " + schema);
-        System.out.println("url is " + url);
-        System.out.println("user is " + username);
-        System.out.println("    done in initializeConnection     ");
+        System.out.println("    in initializeConnection     "); //$NON-NLS-1$
+        System.out.println("schema is " + schema); //$NON-NLS-1$
+        System.out.println("url is " + url); //$NON-NLS-1$
+        System.out.println("user is " + username); //$NON-NLS-1$
+        System.out.println("    done in initializeConnection     "); //$NON-NLS-1$
     }
 
     /**
@@ -135,7 +130,7 @@ public class MultiSchemaHibernateUtil {
      */
     public static Configuration getInitializedConfiguration(String schema, boolean root) {
 
-        System.out.println("getInitializedConfiguration " + schema + " " + root);
+        System.out.println("getInitializedConfiguration " + schema + " " + root); //$NON-NLS-1$ //$NON-NLS-2$
         
         AnnotationConfiguration config = (AnnotationConfiguration) setOfAnnotationConfigs.get(schema);
         
@@ -144,10 +139,10 @@ public class MultiSchemaHibernateUtil {
             initializeConnection(schema, config);
             
             if (root){
-                System.out.println(" root! ");
+                System.out.println(" root! "); //$NON-NLS-1$
                 addRootSchemaClasses(config);
             } else {
-                System.out.println("! roots ");
+                System.out.println("! roots "); //$NON-NLS-1$
                 addSchemaClasses(config);
             }
 
@@ -166,7 +161,7 @@ public class MultiSchemaHibernateUtil {
         SessionFactory factory = (SessionFactory) setOfSessionFactories.get(schema);
         
 		if (factory == null) {
-            System.out.println("starting with schema : " + schema);
+            System.out.println("starting with schema : " + schema); //$NON-NLS-1$
 			Configuration config = MultiSchemaHibernateUtil.getInitializedConfiguration(schema, root);
 			factory = config.buildSessionFactory();
             setOfSessionFactories.put(schema, factory);
@@ -226,7 +221,7 @@ public class MultiSchemaHibernateUtil {
      */
     public static void recreateRootDatabase() {
         
-        System.out.println("recreatin root");
+        System.out.println("recreatin root"); //$NON-NLS-1$
         
         Configuration config = MultiSchemaHibernateUtil.getInitializedConfiguration(principalschema, true);
         setOfAnnotationConfigs.put(principalschema, config);
@@ -282,7 +277,7 @@ public class MultiSchemaHibernateUtil {
 		try {
 			MultiSchemaHibernateUtil.getSession(schema).getTransaction().commit();
 		} catch (Exception e) {
-			System.out.println("Problem in commit");
+			System.out.println("Problem in commit"); //$NON-NLS-1$
 			e.printStackTrace();
 		} finally {
 			MultiSchemaHibernateUtil.getSession(schema).close();
@@ -295,7 +290,7 @@ public class MultiSchemaHibernateUtil {
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
-            System.out.println("Problem in commit");
+            System.out.println("Problem in commit"); //$NON-NLS-1$
             e.printStackTrace();
         }
     }
@@ -320,36 +315,36 @@ public class MultiSchemaHibernateUtil {
         String username = (String) setOfUsernames.get(schema);
         String password = (String) setOfPasswords.get(schema);
         
-        System.out.println("    in initializeConnection     ");
-        System.out.println("schema is " + schema);
-        System.out.println("url is " + url);
-        System.out.println("user is " + username);
-        System.out.println("    done in initializeConnection     ");
+        System.out.println("    in initializeConnection     "); //$NON-NLS-1$
+        System.out.println("schema is " + schema); //$NON-NLS-1$
+        System.out.println("url is " + url); //$NON-NLS-1$
+        System.out.println("user is " + username); //$NON-NLS-1$
+        System.out.println("    done in initializeConnection     "); //$NON-NLS-1$
         
-		ac.setProperty("hibernate.dialect", dialect);
-		ac.setProperty("hibernate.current_session_context_class",
-				"org.hibernate.context.ThreadLocalSessionContext");
-		ac.setProperty("hibernate.connection.driver_class", driver_class);
+		ac.setProperty("hibernate.dialect", dialect); //$NON-NLS-1$
+		ac.setProperty("hibernate.current_session_context_class", //$NON-NLS-1$
+				"org.hibernate.context.ThreadLocalSessionContext"); //$NON-NLS-1$
+		ac.setProperty("hibernate.connection.driver_class", driver_class); //$NON-NLS-1$
         
-		ac.setProperty("hibernate.connection.url", url);       
-		ac.setProperty("hibernate.connection.username", username);
-		ac.setProperty("hibernate.connection.password", password);
-		ac.setProperty("hibernate.transaction.factory_class",
-				"org.hibernate.transaction.JDBCTransactionFactory");
+		ac.setProperty("hibernate.connection.url", url);        //$NON-NLS-1$
+		ac.setProperty("hibernate.connection.username", username); //$NON-NLS-1$
+		ac.setProperty("hibernate.connection.password", password); //$NON-NLS-1$
+		ac.setProperty("hibernate.transaction.factory_class", //$NON-NLS-1$
+				"org.hibernate.transaction.JDBCTransactionFactory"); //$NON-NLS-1$
 		
-		ac.setProperty("hibernate.query.substitutions", "true 1, false 0");
+		ac.setProperty("hibernate.query.substitutions", "true 1, false 0"); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		ac.setProperty("hibernate.show_sql", "false");
+		ac.setProperty("hibernate.show_sql", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		ac.setProperty("hibernate.connection.isolation", "1");
+		ac.setProperty("hibernate.connection.isolation", "1"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		ac.setProperty("hibernate.c3p0.min_size", "0");
-		ac.setProperty("hibernate.c3p0.max_size", "45");
-		ac.setProperty("hibernate.c3p0.timeout", "300");
-		ac.setProperty("hibernate.c3p0.max_statements", "50");
-		ac.setProperty("hibernate.c3p0.idle_test_period", "300");
+		ac.setProperty("hibernate.c3p0.min_size", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+		ac.setProperty("hibernate.c3p0.max_size", "45"); //$NON-NLS-1$ //$NON-NLS-2$
+		ac.setProperty("hibernate.c3p0.timeout", "300"); //$NON-NLS-1$ //$NON-NLS-2$
+		ac.setProperty("hibernate.c3p0.max_statements", "50"); //$NON-NLS-1$ //$NON-NLS-2$
+		ac.setProperty("hibernate.c3p0.idle_test_period", "300"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		System.out.println("intialization finished");
+		System.out.println("intialization finished"); //$NON-NLS-1$
 	}
     
     /**
@@ -414,7 +409,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.IntVariableHistory.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
 		
-		System.out.println("classes added");
+		System.out.println("classes added"); //$NON-NLS-1$
 	}
 
 }

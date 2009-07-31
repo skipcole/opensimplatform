@@ -8,8 +8,6 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.*;
-import org.usip.osp.specialfeatures.*;
-
 import org.apache.log4j.*;
 
 /**
@@ -38,7 +36,7 @@ public class Simulation {
 	 */
 	public static void main(String args[]) {
 
-		Logger.getRootLogger().debug("hello world");	
+		Logger.getRootLogger().debug("hello world");	 //$NON-NLS-1$
 		
 	}
 
@@ -52,7 +50,7 @@ public class Simulation {
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -61,21 +59,21 @@ public class Simulation {
 
 	/** Name of this Simulation. */
 	@Column(name = "SIM_NAME")
-	private String name = "";
+	private String name = ""; //$NON-NLS-1$
 
 	/** Version of this Simulation. */
 	@Column(name = "SIM_VERSION")
-	private String version = "";
+	private String version = ""; //$NON-NLS-1$
 	
 	/** Version of the software this simulation was made with. */
-	private String software_version = "";	
+	private String software_version = "";	 //$NON-NLS-1$
 	
 	/** A paragraph introducing what this simulation is all about. */
 	@Lob
-	private String blurb = "";
+	private String blurb = ""; //$NON-NLS-1$
 	
 	public String getBlurb() {
-		return blurb;
+		return this.blurb;
 	}
 
 	public void setBlurb(String blurb) {
@@ -86,7 +84,7 @@ public class Simulation {
 	private boolean allow_player_autoreg = false;
 
 	public boolean isAllow_player_autoreg() {
-		return allow_player_autoreg;
+		return this.allow_player_autoreg;
 	}
 
 	public void setAllow_player_autoreg(boolean allow_player_autoreg) {
@@ -96,25 +94,25 @@ public class Simulation {
 	/** Introduction to this Simulation. */
 	@Column(name = "SIM_INTRO")
 	@Lob
-	private String introduction = "";
+	private String introduction = ""; //$NON-NLS-1$
 
 	/** Learning Objectives of this Simulation. */
 	@Column(name = "SIM_LEARN_OBJVS")
 	@Lob
-	private String learning_objvs = "";
+	private String learning_objvs = ""; //$NON-NLS-1$
 
 	/** Planned audience of this Simulation. */
 	@Column(name = "SIM_AUDIENCE")
 	@Lob
-	private String audience = "";
+	private String audience = ""; //$NON-NLS-1$
 
 	/** Thoughts on how this sim should be conducted. */
 	@Column(name = "SIM_PLAY_IDEAS")
 	@Lob
-	private String planned_play_ideas = "";
+	private String planned_play_ideas = ""; //$NON-NLS-1$
 
 	public String getPlanned_play_ideas() {
-		return planned_play_ideas;
+		return this.planned_play_ideas;
 	}
 
 	public void setPlanned_play_ideas(String planned_play_ideas) {
@@ -124,29 +122,29 @@ public class Simulation {
 	/** AAR starter text for this Simulation. */
 	@Column(name = "SIM_AAR")
 	@Lob
-	private String aar_starter_text = "";
+	private String aar_starter_text = ""; //$NON-NLS-1$
 
 	/** Creating Organization of this Simulation. */
 	@Column(name = "SIM_CREATION_ORG")
-	private String creation_org = "";
+	private String creation_org = ""; //$NON-NLS-1$
 
 	/** Author of this Simulation. */
 	@Column(name = "SIM_CREATOR")
-	private String creator = "";
+	private String creator = ""; //$NON-NLS-1$
 
 	/** Copyright information to be shown on every page footer. */
 	@Column(name = "COPYRIGHTSTRING")
-	private String copyright_string = "";
+	private String copyright_string = ""; //$NON-NLS-1$
 
 	/** Flag to let instructors know it can be used. */
 	@Column(name = "READYFORLISTING")
 	private boolean isReadyForPublicListing = false;
 
 	@Column(name = "LISTINGKEYWORDS")
-	private String listingKeyWords = "";
+	private String listingKeyWords = ""; //$NON-NLS-1$
 
 	public String getLearning_objvs() {
-		return learning_objvs;
+		return this.learning_objvs;
 	}
 
 	public void setLearning_objvs(String learning_objvs) {
@@ -154,7 +152,7 @@ public class Simulation {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -162,7 +160,7 @@ public class Simulation {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -170,7 +168,7 @@ public class Simulation {
 	}
 
 	public String getVersion() {
-		return version;
+		return this.version;
 	}
 
 	public void setVersion(String version) {
@@ -178,7 +176,7 @@ public class Simulation {
 	}
 
 	public String getSoftware_version() {
-		return software_version;
+		return this.software_version;
 	}
 
 	public void setSoftware_version(String software_version) {
@@ -215,41 +213,42 @@ public class Simulation {
 		
 		// Add the control character
 		Actor ctrl_act = Actor.getControlActor(schema);
+		@SuppressWarnings("unused")
 		SimActorAssignment saa = new SimActorAssignment(schema, this.getId(), ctrl_act.getId());
 		
 		// Give controller all default sections
 		addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
 		
 		// Maybe should look this up in some other way, but I'll save that for another day.
-		BaseSimSection introSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction");
+		BaseSimSection introSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction"); //$NON-NLS-1$
 		
 		// Add the introduction as the first tab to all players.
 		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this.getId(),
 				new Long(0), sp_first.getId(), introSection.getId(),
-				"Introduction", 1);
+				"Introduction", 1); //$NON-NLS-1$
 		
 		// Create a schedule page and add it as the second section for all players in the first phase
-		CustomizeableSection scheduleSectionBase = (CustomizeableSection) BaseSimSection.getByRecommendedTagHeading(schema, "Read Document");
+		CustomizeableSection scheduleSectionBase = (CustomizeableSection) BaseSimSection.getByRecommendedTagHeading(schema, "Read Document"); //$NON-NLS-1$
 		// need to get the schedule customized section
 		
 		CustomizeableSection scheduleSection = scheduleSectionBase.makeCopy(schema);
 		
-		scheduleSection.setUniqueName("Schedule");
-		scheduleSection.setDescription("A place for the players to read the schedule.");
+		scheduleSection.setUniqueName("Schedule"); //$NON-NLS-1$
+		scheduleSection.setDescription("A place for the players to read the schedule."); //$NON-NLS-1$
 		
 		// Add the schedule page
-		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId());
+		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		sd.saveMe(schema);
 			
 		// need to associate with it the schedule document 
 		BaseSimSectionDepObjectAssignment bssdoa = 
-			new BaseSimSectionDepObjectAssignment(scheduleSection.getId(), "org.usip.osp.communications.SharedDocument", 1, sd.getId(), this.getId(),
+			new BaseSimSectionDepObjectAssignment(scheduleSection.getId(), "org.usip.osp.communications.SharedDocument", 1, sd.getId(), this.getId(), //$NON-NLS-1$
 					schema);
 			
 		// Add the schedule as the second tab to all players.
 		SimulationSectionAssignment ss1 = new SimulationSectionAssignment(schema, this.getId(),
 				new Long(0), sp_first.getId(), scheduleSection.getId(),
-				"Schedule", 2);
+				"Schedule", 2); //$NON-NLS-1$
 
 		SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(schema, this.getId(), sp_first.getId());
 		///////////
@@ -262,7 +261,7 @@ public class Simulation {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from Simulation").list();
+				.createQuery("from Simulation").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -275,7 +274,7 @@ public class Simulation {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from Simulation where READYFORLISTING = '1'")
+				.createQuery("from Simulation where READYFORLISTING = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -295,7 +294,7 @@ public class Simulation {
 		List firstList =  getAllPublished(schema);
 
 		for (ListIterator<Simulation> li = firstList.listIterator(); li.hasNext();) {
-			Simulation this_sim = (Simulation) li.next();
+			Simulation this_sim = li.next();
 			
 			if (this_sim.isAllow_player_autoreg()){
 				returnList.add(this_sim);
@@ -350,7 +349,7 @@ public class Simulation {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		for (ListIterator<SimulationPhase> li = simulation.getPhases(schema).listIterator(); li.hasNext();) {
-			SimulationPhase this_sp = (SimulationPhase) li.next();
+			SimulationPhase this_sp = li.next();
 			
 			System.out.println(this_sp.getName());
 		}
@@ -367,7 +366,7 @@ public class Simulation {
 		// Loop over phases
 		for (ListIterator<SimulationPhase> li = this.getPhases(schema).listIterator(); li
 				.hasNext();) {
-			SimulationPhase this_sp = (SimulationPhase) li.next();
+			SimulationPhase this_sp = li.next();
 
 			// Loop over control base sim sections
 			List controlBaseSimSecs = BaseSimSection.getAllControl(schema);
@@ -378,7 +377,7 @@ public class Simulation {
 
 			for (ListIterator<BaseSimSection> bs = controlBaseSimSecs
 					.listIterator(); bs.hasNext();) {
-				BaseSimSection bss = (BaseSimSection) bs.next();
+				BaseSimSection bss = bs.next();
 
 				int sizeOfSimSecs = simSecs.size();
 				boolean foundThisControl = false;
@@ -386,7 +385,7 @@ public class Simulation {
 				// Loop over sim sections that control has in this phase.
 				for (ListIterator<SimulationSectionAssignment> ls = simSecs
 						.listIterator(); ls.hasNext();) {
-					SimulationSectionAssignment ss = (SimulationSectionAssignment) ls.next();
+					SimulationSectionAssignment ss = ls.next();
 
 					if (ss.getBase_section_id().compareTo(bss.getId()) == 0) {
 						foundThisControl = true;
@@ -404,8 +403,8 @@ public class Simulation {
 
 					simSecs.add(ss0);
 
-					System.out.println("adding " + bss.getRec_tab_heading()
-							+ " at " + (sizeOfSimSecs + 1));
+					System.out.println("adding " + bss.getRec_tab_heading() //$NON-NLS-1$
+							+ " at " + (sizeOfSimSecs + 1)); //$NON-NLS-1$
 
 				}
 
@@ -436,7 +435,7 @@ public class Simulation {
 		for (ListIterator li = this.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 
-			if (sp.getName().equalsIgnoreCase("Completed")) {
+			if (sp.getName().equalsIgnoreCase("Completed")) { //$NON-NLS-1$
 				return sp.getId();
 			}
 
@@ -456,7 +455,7 @@ public class Simulation {
 
 		RunningSimulation rs = new RunningSimulation(rs_name, this, schema);
 
-		SimRunningSimAssignment srsa = new SimRunningSimAssignment(schema, id, rs.getId());
+		SimRunningSimAssignment srsa = new SimRunningSimAssignment(schema, this.id, rs.getId());
 
 		return rs;
 
@@ -469,12 +468,12 @@ public class Simulation {
 	 */
 	public void removeActor(String schema, Long actor_id) {
 
-		SimActorAssignment.removeMe(schema, id, actor_id);
+		SimActorAssignment.removeMe(schema, this.id, actor_id);
 
 	}
 
 	public String getIntroduction() {
-		return introduction;
+		return this.introduction;
 	}
 
 	public void setIntroduction(String introduction) {
@@ -482,15 +481,15 @@ public class Simulation {
 	}
 	
 	public List<Actor> getActors(String schema) {
-		return SimActorAssignment.getActorsForSim(schema, id);
+		return SimActorAssignment.getActorsForSim(schema, this.id);
 	}
 	
 	public List<SimulationPhase> getPhases(String schema) {
-		return SimPhaseAssignment.getPhasesForSim(schema, id);
+		return SimPhaseAssignment.getPhasesForSim(schema, this.id);
 	}
 
 	public String getAudience() {
-		return audience;
+		return this.audience;
 	}
 
 	public void setAudience(String audience) {
@@ -522,15 +521,15 @@ public class Simulation {
 
 	public String getDisplayName() {
 
-		return this.name + " version " + this.version;
+		return this.name + " version " + this.version; //$NON-NLS-1$
 	}
 	
 	public List<RunningSimulation> getRunning_sims(String schema) {
-		return SimRunningSimAssignment.getRunningSimulationsForSim(schema, id);
+		return SimRunningSimAssignment.getRunningSimulationsForSim(schema, this.id);
 	}
 
 	public String getCreation_org() {
-		return creation_org;
+		return this.creation_org;
 	}
 
 	public void setCreation_org(String creation_org) {
@@ -538,7 +537,7 @@ public class Simulation {
 	}
 
 	public String getCreator() {
-		return creator;
+		return this.creator;
 	}
 
 	public void setCreator(String creator) {
@@ -546,7 +545,7 @@ public class Simulation {
 	}
 
 	public String getAar_starter_text() {
-		return aar_starter_text;
+		return this.aar_starter_text;
 	}
 
 	public void setAar_starter_text(String aar_starter_text) {
@@ -554,7 +553,7 @@ public class Simulation {
 	}
 
 	public List<Conversation> getConversations(String schema) {
-		return SimConversationAssignment.getConversationsForSim(schema, id);
+		return SimConversationAssignment.getConversationsForSim(schema, this.id);
 	}
 	/**
 	 * Only adds conversation to a simulation if that conversation has not
@@ -564,11 +563,11 @@ public class Simulation {
 	 */
 	public void addConversation(String schema, Conversation conv) {
 
-		SimConversationAssignment sca = new SimConversationAssignment(schema, id, conv.getId());
+		SimConversationAssignment sca = new SimConversationAssignment(schema, this.id, conv.getId());
 	}
 
 	public String getCopyright_string() {
-		return copyright_string;
+		return this.copyright_string;
 	}
 
 	public void setCopyright_string(String copyright_string) {
@@ -576,7 +575,7 @@ public class Simulation {
 	}
 
 	public boolean isReadyForPublicListing() {
-		return isReadyForPublicListing;
+		return this.isReadyForPublicListing;
 	}
 
 	public void setReadyForPublicListing(boolean isReadyForPublicListing) {
@@ -584,7 +583,7 @@ public class Simulation {
 	}
 
 	public String getListingKeyWords() {
-		return listingKeyWords;
+		return this.listingKeyWords;
 	}
 
 	public void setListingKeyWords(String listingKeyWords) {

@@ -1,15 +1,10 @@
 package org.usip.osp.specialfeatures;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Enumeration;
 import java.util.Vector;
 
 import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.persistence.MysqlDatabase;
 
 /**
  *
@@ -27,27 +22,27 @@ import org.usip.osp.persistence.MysqlDatabase;
 public class PlayerControlToggleBoolean extends SpecialFeature {
     
     /** The Special Field id of the boolean variable affected by this control. */
-    public String booleanVarSFid = "";
+    public String booleanVarSFid = ""; //$NON-NLS-1$
     
     /** The simulation run specific id of the boolean variable affected by this control. */
-    public String booleanVarSimID = "";
+    public String booleanVarSimID = ""; //$NON-NLS-1$
     
     /** The message on the label to mark this variable as true. */
-    public String setToTrueLabelMessage = "";
+    public String setToTrueLabelMessage = ""; //$NON-NLS-1$
     
     /** The message on the label to mark this variable as false. */
-    public String setToFalseLabelMessage = "";
+    public String setToFalseLabelMessage = ""; //$NON-NLS-1$
     
     /** The title shown on the page. */
-    public String title = "";
+    public String title = ""; //$NON-NLS-1$
     
     /** */
-    public String tracked = "false";
+    public String tracked = "false"; //$NON-NLS-1$
     
-    public static final String SPECIALFIELDLABEL = "sim_player_toggle_boolean";
+    public static final String SPECIALFIELDLABEL = "sim_player_toggle_boolean"; //$NON-NLS-1$
 
     public PlayerControlToggleBoolean (){
-        this.jsp_page = "show_toggle_boolean.jsp";
+        this.jsp_page = "show_toggle_boolean.jsp"; //$NON-NLS-1$
     }
     
     @Override
@@ -57,7 +52,7 @@ public class PlayerControlToggleBoolean extends SpecialFeature {
 
     @Override
     public String getShortNameBase() {
-        return "sim_pc_toggle_boolean_";
+        return "sim_pc_toggle_boolean_"; //$NON-NLS-1$
     }
 
     
@@ -70,7 +65,7 @@ public class PlayerControlToggleBoolean extends SpecialFeature {
     @Override
     public String prep(String running_game_id, Simulation game) {
         
-        String returnString = "";
+        String returnString = ""; //$NON-NLS-1$
         
 
         return returnString;
@@ -78,7 +73,7 @@ public class PlayerControlToggleBoolean extends SpecialFeature {
 
     @Override
     public String storeInRunningGameTable(String running_game_id, String tableName) {
-        return "No need to store in running game table.";
+        return "No need to store in running game table."; //$NON-NLS-1$
     }
     
     public String convertListToString(){

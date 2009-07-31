@@ -2,8 +2,6 @@ package org.usip.osp.specialfeatures;
 
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.Vector;
-
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.SimulationSectionAssignment;
 import org.usip.osp.persistence.MysqlDatabase;
@@ -29,25 +27,25 @@ public abstract class SpecialFeature{
     
     /** This contains the name of the jsp page that typically shows this feature to the 
      * player. It is set, by convention, when the object is created. */
-    public String jsp_page = "missing.jsp";
+    public String jsp_page = "missing.jsp"; //$NON-NLS-1$
 
     /** The name of this special feature. */
-    public String name = "";
+    public String name = ""; //$NON-NLS-1$
     
     /** The tab heading of this feature seen by the player. */
-    public String tab_heading = "";
+    public String tab_heading = ""; //$NON-NLS-1$
     
     /** The title, if any, on the page. */
-    public String page_title = "";
+    public String page_title = ""; //$NON-NLS-1$
     
     /** A description of this special feature. */
-    public String description = "";
+    public String description = ""; //$NON-NLS-1$
     
     /** The game id associated with this special feature. */
-    public String game_id = "";
+    public String game_id = ""; //$NON-NLS-1$
 
     /** The id of the record in the SIM_values table particular to this special features. */ 
-    public String sim_id = "";
+    public String sim_id = ""; //$NON-NLS-1$
     
     /** The id of the record in the 'special features' table. */
     private Long sf_id;

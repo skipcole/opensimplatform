@@ -2,14 +2,12 @@ package org.usip.osp.baseobjects;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -66,7 +64,7 @@ public class SimSectionRSDepOjbectAssignment {
 	private String uniqueTagName;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -74,7 +72,7 @@ public class SimSectionRSDepOjbectAssignment {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -82,7 +80,7 @@ public class SimSectionRSDepOjbectAssignment {
 	}
 
 	public Long getRs_id() {
-		return rs_id;
+		return this.rs_id;
 	}
 
 	public void setRs_id(Long rs_id) {
@@ -90,7 +88,7 @@ public class SimSectionRSDepOjbectAssignment {
 	}
 
 	public Long getSection_id() {
-		return section_id;
+		return this.section_id;
 	}
 
 	public void setSection_id(Long section_id) {
@@ -98,7 +96,7 @@ public class SimSectionRSDepOjbectAssignment {
 	}
 
 	public String getClassName() {
-		return className;
+		return this.className;
 	}
 
 	public void setClassName(String className) {
@@ -106,7 +104,7 @@ public class SimSectionRSDepOjbectAssignment {
 	}
 
 	public Long getObjectId() {
-		return objectId;
+		return this.objectId;
 	}
 
 	public void setObjectId(Long objectId) {
@@ -114,7 +112,7 @@ public class SimSectionRSDepOjbectAssignment {
 	}
 	
 	public int getSSRSDOA_Index() {
-		return ssrsdoa_index;
+		return this.ssrsdoa_index;
 	}
 
 	public void setSSRSDOA_Index(int index) {
@@ -122,7 +120,7 @@ public class SimSectionRSDepOjbectAssignment {
 	}
 
 	public String getUniqueTagName() {
-		return uniqueTagName;
+		return this.uniqueTagName;
 	}
 
 	public void setUniqueTagName(String uniqueTagName) {
@@ -164,7 +162,7 @@ public class SimSectionRSDepOjbectAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		List<SimSectionRSDepOjbectAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from SimSectionRSDepOjbectAssignment where rs_id = " + rs_id + " and section_id = " + section_id).list();
+				"from SimSectionRSDepOjbectAssignment where rs_id = " + rs_id + " and section_id = " + section_id).list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		

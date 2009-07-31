@@ -32,14 +32,14 @@ public class ModelVariables {
 	@GeneratedValue
 	private Long id;
 	
-	private String modelName = "";
+	private String modelName = ""; //$NON-NLS-1$
 	
-	private String modelVersion = "";
+	private String modelVersion = ""; //$NON-NLS-1$
 	
-	private String variableName = "";
+	private String variableName = ""; //$NON-NLS-1$
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -47,7 +47,7 @@ public class ModelVariables {
 	}
 
 	public String getModelName() {
-		return modelName;
+		return this.modelName;
 	}
 
 	public void setModelName(String modelName) {
@@ -55,7 +55,7 @@ public class ModelVariables {
 	}
 
 	public String getModelVersion() {
-		return modelVersion;
+		return this.modelVersion;
 	}
 
 	public void setModelVersion(String modelVersion) {
@@ -63,7 +63,7 @@ public class ModelVariables {
 	}
 
 	public String getVariableName() {
-		return variableName;
+		return this.variableName;
 	}
 
 	public void setVariableName(String variableName) {

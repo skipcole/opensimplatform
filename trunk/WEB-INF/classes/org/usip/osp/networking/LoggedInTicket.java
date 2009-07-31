@@ -2,7 +2,6 @@ package org.usip.osp.networking;
 
 import java.util.*;
 
-import org.usip.osp.baseobjects.BaseSimSection;
 import org.usip.osp.baseobjects.UserTrail;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -47,17 +46,17 @@ public class LoggedInTicket {
     	
     	Date timeNow = new Date();
 
-    	System.out.println("time: " + timeNow.getTime());
+    	System.out.println("time: " + timeNow.getTime()); //$NON-NLS-1$
     	
-    	if (lastHeartBeatPulse == null){
-    		lastHeartBeatPulse = new Date();
+    	if (this.lastHeartBeatPulse == null){
+    		this.lastHeartBeatPulse = new Date();
     	}
     	
-    	System.out.println("lastHeartBeatPulse : " + lastHeartBeatPulse.getTime());
+    	System.out.println("lastHeartBeatPulse : " + this.lastHeartBeatPulse.getTime()); //$NON-NLS-1$
     	
-    	if (timeNow.getTime() > ((1000 * 1 * 60) + lastHeartBeatPulse.getTime())){
+    	if (timeNow.getTime() > ((1000 * 1 * 60) + this.lastHeartBeatPulse.getTime())){
     		
-    		System.out.println("time  saved: " + timeNow.getTime());
+    		System.out.println("time  saved: " + timeNow.getTime()); //$NON-NLS-1$
     		
     		UserTrail ut = UserTrail.getMe(schema, this.getTrail_id());
     		ut.setEndSessionDate(timeNow);
@@ -65,7 +64,7 @@ public class LoggedInTicket {
 
     	}
         
-        lastHeartBeatPulse = new Date();
+        this.lastHeartBeatPulse = new Date();
         
     }
 	
@@ -94,7 +93,7 @@ public class LoggedInTicket {
 		
 		UserTrail ut = new UserTrail();
 	
-		ut.setUser_id(user_id);
+		ut.setUser_id(this.user_id);
 
 		ut.setLoggedInDate(new java.util.Date());
 		ut.setEndSessionDate(ut.getLoggedInDate());
@@ -113,7 +112,7 @@ public class LoggedInTicket {
 	
 
 	public Long getRunning_sim_id() {
-		return running_sim_id;
+		return this.running_sim_id;
 	}
 
 	public void setRunning_sim_id(Long running_sim_id) {
@@ -121,7 +120,7 @@ public class LoggedInTicket {
 	}
 
 	public Long getUser_id() {
-		return user_id;
+		return this.user_id;
 	}
 
 	public void setUser_id(Long user_id) {
@@ -129,7 +128,7 @@ public class LoggedInTicket {
 	}
 
 	public Long getActor_id() {
-		return actor_id;
+		return this.actor_id;
 	}
 
 	public void setActor_id(Long actor_id) {
@@ -137,7 +136,7 @@ public class LoggedInTicket {
 	}
 
 	public Long getTab_position() {
-		return tab_position;
+		return this.tab_position;
 	}
 
 	public void setTab_position(Long tab_position) {
@@ -145,7 +144,7 @@ public class LoggedInTicket {
 	}
 
 	public Date getFirstLoggedIn() {
-		return firstLoggedIn;
+		return this.firstLoggedIn;
 	}
 
 	public void setFirstLoggedIn(Date firstLoggedIn) {
@@ -153,7 +152,7 @@ public class LoggedInTicket {
 	}
 
 	public Date getLastHeartBeatPulse() {
-		return lastHeartBeatPulse;
+		return this.lastHeartBeatPulse;
 	}
 
 	public void setLastHeartBeatPulse(Date lastHeartBeatPulse) {
@@ -161,7 +160,7 @@ public class LoggedInTicket {
 	}
 
 	public Long getTrail_id() {
-		return trail_id;
+		return this.trail_id;
 	}
 
 	public void setTrail_id(Long trail_id) {

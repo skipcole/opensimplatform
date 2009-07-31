@@ -1,6 +1,5 @@
 package org.usip.osp.baseobjects;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -46,7 +45,7 @@ public class SimulationPhase implements Comparable{
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -55,12 +54,12 @@ public class SimulationPhase implements Comparable{
 
 	/** Name of this Phase. */
 	@Column(name = "PHASE_NAME")
-	private String name = "";
+	private String name = ""; //$NON-NLS-1$
 	
 	/** Name of this Phase. */
 	@Column(name = "PHASE_NOTES")
 	@Lob
-	private String notes = "";
+	private String notes = ""; //$NON-NLS-1$
 	
 	private boolean firstPhase = false;
 	
@@ -80,7 +79,7 @@ public class SimulationPhase implements Comparable{
 	private int order;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -88,7 +87,7 @@ public class SimulationPhase implements Comparable{
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -96,7 +95,7 @@ public class SimulationPhase implements Comparable{
 	}
 	
 	public String getNotes() {
-		return notes;
+		return this.notes;
 	}
 
 	public void setNotes(String notes) {
@@ -105,7 +104,7 @@ public class SimulationPhase implements Comparable{
 	
 	
 	public boolean isFirstPhase() {
-		return firstPhase;
+		return this.firstPhase;
 	}
 
 	public void setFirstPhase(boolean firstPhase) {
@@ -113,7 +112,7 @@ public class SimulationPhase implements Comparable{
 	}
 
 	public boolean isLastPhase() {
-		return lastPhase;
+		return this.lastPhase;
 	}
 
 	public void setLastPhase(boolean lastPhase) {
@@ -121,7 +120,7 @@ public class SimulationPhase implements Comparable{
 	}
 
 	public int getOrder() {
-		return order;
+		return this.order;
 	}
 
 	public void setOrder(int order) {
@@ -130,7 +129,7 @@ public class SimulationPhase implements Comparable{
 
 	
 	public boolean isTimePasses() {
-		return timePasses;
+		return this.timePasses;
 	}
 
 	public void setTimePasses(boolean timePasses) {
@@ -138,7 +137,7 @@ public class SimulationPhase implements Comparable{
 	}
 
 	public int getTime_passage_mechanism() {
-		return time_passage_mechanism;
+		return this.time_passage_mechanism;
 	}
 
 	public void setTime_passage_mechanism(int time_passage_mechanism) {
@@ -146,7 +145,7 @@ public class SimulationPhase implements Comparable{
 	}
 
 	public boolean isTime_advances_automatically() {
-		return time_advances_automatically;
+		return this.time_advances_automatically;
 	}
 
 	public void setTime_advances_automatically(boolean time_advances_automatically) {
@@ -174,10 +173,10 @@ public class SimulationPhase implements Comparable{
 	 */
 	public static SimulationPhase getNewFirstPhase(String schema){
 		SimulationPhase sp_first = new SimulationPhase();
-		sp_first.setName("Started");
+		sp_first.setName("Started"); //$NON-NLS-1$
 		sp_first.setOrder(1);
 		sp_first.setFirstPhase(true);
-		sp_first.setNotes("The first phase of the simulation.");
+		sp_first.setNotes("The first phase of the simulation."); //$NON-NLS-1$
 		sp_first.saveMe(schema);
 		
 		return sp_first;
@@ -191,10 +190,10 @@ public class SimulationPhase implements Comparable{
 	public static SimulationPhase getNewLastPhase(String schema){
 		
 		SimulationPhase sp_last = new SimulationPhase();
-		sp_last.setName("Completed");
+		sp_last.setName("Completed"); //$NON-NLS-1$
 		sp_last.setOrder(9999);
 		sp_last.setLastPhase(true);
-		sp_last.setNotes("The last phase of the simulation.");
+		sp_last.setNotes("The last phase of the simulation."); //$NON-NLS-1$
 		sp_last.saveMe(schema);
 		
 		return sp_last;

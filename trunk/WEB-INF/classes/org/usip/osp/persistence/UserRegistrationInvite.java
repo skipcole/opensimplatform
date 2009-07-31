@@ -31,13 +31,13 @@ public class UserRegistrationInvite {
 	private Long id;
 
 	/** Email of instructor who sent invite to register. */
-	private String invitingInstructor = "";
+	private String invitingInstructor = ""; //$NON-NLS-1$
 
 	/** Email sent invitation. */
-	private String originalInviteEmailAddress = "";
+	private String originalInviteEmailAddress = ""; //$NON-NLS-1$
 
 	/** Email addressed used by invited user to register. */
-	private String emailAddressRegistered = "";
+	private String emailAddressRegistered = ""; //$NON-NLS-1$
 
 	/** Date the user registers. */
 	@Column(name = "INVITATION_DATE", columnDefinition = "datetime")
@@ -78,7 +78,7 @@ public class UserRegistrationInvite {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -86,7 +86,7 @@ public class UserRegistrationInvite {
 	}
 
 	public String getInvitingInstructor() {
-		return invitingInstructor;
+		return this.invitingInstructor;
 	}
 
 	public void setInvitingInstructor(String invitingInstructor) {
@@ -94,7 +94,7 @@ public class UserRegistrationInvite {
 	}
 
 	public String getOriginalInviteEmailAddress() {
-		return originalInviteEmailAddress;
+		return this.originalInviteEmailAddress;
 	}
 
 	public void setOriginalInviteEmailAddress(String originalInviteEmailAddress) {
@@ -102,7 +102,7 @@ public class UserRegistrationInvite {
 	}
 
 	public String getEmailAddressRegistered() {
-		return emailAddressRegistered;
+		return this.emailAddressRegistered;
 	}
 
 	public void setEmailAddressRegistered(String emailAddressRegistered) {
@@ -110,7 +110,7 @@ public class UserRegistrationInvite {
 	}
 
 	public Date getInvitationDate() {
-		return invitationDate;
+		return this.invitationDate;
 	}
 
 	public void setInvitationDate(Date invitationDate) {
@@ -118,7 +118,7 @@ public class UserRegistrationInvite {
 	}
 
 	public Date getRegistrationDate() {
-		return registrationDate;
+		return this.registrationDate;
 	}
 
 	public void setRegistrationDate(Date registrationDate) {
@@ -126,7 +126,7 @@ public class UserRegistrationInvite {
 	}
 
 	public String getInvitationSet() {
-		return invitationSet;
+		return this.invitationSet;
 	}
 
 	public void setInvitationSet(String invitationSet) {
@@ -134,7 +134,7 @@ public class UserRegistrationInvite {
 	}
 
 	public String getSchemaInvitedTo() {
-		return schemaInvitedTo;
+		return this.schemaInvitedTo;
 	}
 
 	public void setSchemaInvitedTo(String schemaInvitedTo) {

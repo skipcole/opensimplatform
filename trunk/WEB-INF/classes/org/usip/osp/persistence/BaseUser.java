@@ -1,6 +1,5 @@
 package org.usip.osp.persistence;
 
-import java.sql.*;
 import java.util.*;
 
 import javax.persistence.*;
@@ -8,8 +7,6 @@ import javax.persistence.*;
 import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.User;
-import org.usip.osp.baseobjects.UserAssignment;
-import org.usip.osp.networking.LoggedInTicket;
 
 /**
  * This class holds all of the personal information (name, email address, etc.) on players.
@@ -37,22 +34,22 @@ public class BaseUser {
     private Long id;
 
     @Column(name = "USERNAME", unique = true)
-    private String username = "";
+    private String username = ""; //$NON-NLS-1$
 
     @Column(name = "PASSWORD")
-    private String password = "";
+    private String password = ""; //$NON-NLS-1$
 
     @Column(name = "FULLNAME")
-    private String full_name = "";
+    private String full_name = ""; //$NON-NLS-1$
     
     @Column(name = "FIRSTNAME")
-    private String first_name = "";
+    private String first_name = ""; //$NON-NLS-1$
 
     @Column(name = "LASTNAME")
-    private String last_name = "";
+    private String last_name = ""; //$NON-NLS-1$
 
     @Column(name = "MIDDLENAME")
-    private String middle_name = "";
+    private String middle_name = ""; //$NON-NLS-1$
     
     @Column(name = "REGISTERED")
     private boolean registered = false;    
@@ -103,7 +100,7 @@ public class BaseUser {
         
         if (bu == null){
             
-            System.out.println("Base user " + u + " not found.");
+            System.out.println("Base user " + u + " not found."); //$NON-NLS-1$ //$NON-NLS-2$
             
             bu = new BaseUser();
             bu.setUsername(u);
@@ -117,7 +114,7 @@ public class BaseUser {
                     MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(bu);
             MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
         } else {
-            System.out.println("Base user " + u + " already exists.");
+            System.out.println("Base user " + u + " already exists."); //$NON-NLS-1$ //$NON-NLS-2$
         }
         
         this.id = bu.getId();
@@ -149,7 +146,7 @@ public class BaseUser {
         // byte[] hashedP = MysqlDatabase.getPHash(password);
         // String phash = new String(hashedP);
         if ((username == null) || (password == null)) {
-            System.out.println("username or password was null.");
+            System.out.println("username or password was null."); //$NON-NLS-1$
             return null;
         }
 
@@ -158,8 +155,8 @@ public class BaseUser {
 
         List sList = MultiSchemaHibernateUtil.getSession(
                 MultiSchemaHibernateUtil.principalschema, true).createQuery(
-                "from BaseUser where USERNAME = '" + username
-                        + "' AND PASSWORD = '" + password + "'").list();
+                "from BaseUser where USERNAME = '" + username //$NON-NLS-1$
+                        + "' AND PASSWORD = '" + password + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
         if ((sList == null) || (sList.size() == 0)) {
             MultiSchemaHibernateUtil.getSession(
@@ -184,7 +181,7 @@ public class BaseUser {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -192,7 +189,7 @@ public class BaseUser {
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
@@ -200,7 +197,7 @@ public class BaseUser {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     private static Session startMeUp() {
@@ -235,7 +232,7 @@ public class BaseUser {
         
         // Loop over known schemas and see if this user exists in them.
         for (ListIterator<SchemaInformationObject> sio_l = SchemaInformationObject.getAll().listIterator(); sio_l.hasNext();) {
-        	SchemaInformationObject sio = (SchemaInformationObject) sio_l.next();
+        	SchemaInformationObject sio = sio_l.next();
         	
         	if (User.doesUserExistInSchema(user_id,sio.getSchema_name())){
                 SchemaGhost sg = new SchemaGhost();
@@ -244,7 +241,7 @@ public class BaseUser {
                 sg.setSchema_name(sio.getSchema_name());
                 sg.setSchema_organization(sio.getSchema_organization());
 
-                System.out.println("user authorized for " + sio.getSchema_name());
+                System.out.println("user authorized for " + sio.getSchema_name()); //$NON-NLS-1$
 
                 returnList.add(sg);
         	}
@@ -267,7 +264,7 @@ public class BaseUser {
 
         List returnList = MultiSchemaHibernateUtil.getSession(
                 MultiSchemaHibernateUtil.principalschema, true).createQuery(
-                "from BaseUser where username = '" + the_username + "'").list();
+                "from BaseUser where username = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
         BaseUser bu = null;
 
@@ -307,7 +304,7 @@ public class BaseUser {
     public static BaseUser getUniqueUser(String the_username, 
             String the_password, String schema){
         
-        System.out.println("getting user by name: " + the_username);
+        System.out.println("getting user by name: " + the_username); //$NON-NLS-1$
         BaseUser bu = getByUsername(the_username);
               
         if (bu!= null) {
@@ -355,7 +352,7 @@ public class BaseUser {
      * @return Returns the real_name.
      */
     public String getFull_name() {
-        return full_name;
+        return this.full_name;
     }
 
     /**
@@ -370,7 +367,7 @@ public class BaseUser {
      * @return the first_name
      */
     public String getFirst_name() {
-        return first_name;
+        return this.first_name;
     }
 
     /**
@@ -385,7 +382,7 @@ public class BaseUser {
      * @return the last_name
      */
     public String getLast_name() {
-        return last_name;
+        return this.last_name;
     }
 
     /**
@@ -400,7 +397,7 @@ public class BaseUser {
      * @return the middle_name
      */
     public String getMiddle_name() {
-        return middle_name;
+        return this.middle_name;
     }
 
     /**
@@ -412,7 +409,7 @@ public class BaseUser {
     }
 
 	public boolean isRegistered() {
-		return registered;
+		return this.registered;
 	}
 
 	public void setRegistered(boolean registered) {

@@ -2,8 +2,6 @@ package org.usip.osp.graphs;
 
 import java.io.*;
 import java.sql.*;
-import java.util.*;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.jfree.chart.*;
@@ -49,11 +47,11 @@ public class GraphServer extends HttpServlet {
 
         prepResonse(response);
 
-        String chart_id = request.getParameter("chart_id");
-        String sim_id = request.getParameter("sim_id");
-        String game_round = request.getParameter("game_round");
+        String chart_id = request.getParameter("chart_id"); //$NON-NLS-1$
+        String sim_id = request.getParameter("sim_id"); //$NON-NLS-1$
+        String game_round = request.getParameter("game_round"); //$NON-NLS-1$
         //String running_game_id = request.getParameter("running_game_id");
-        String game_values_table = request.getParameter("game_values_table");
+        String game_values_table = request.getParameter("game_values_table"); //$NON-NLS-1$
 
         Chart cci = new Chart();
         
@@ -68,10 +66,10 @@ public class GraphServer extends HttpServlet {
     }
 
     public void prepResonse(HttpServletResponse response) {
-        response.setContentType("image/png");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Expires", "-1");
+        response.setContentType("image/png"); //$NON-NLS-1$
+        response.setHeader("Cache-Control", "no-cache"); //$NON-NLS-1$ //$NON-NLS-2$
+        response.setHeader("Pragma", "no-cache"); //$NON-NLS-1$ //$NON-NLS-2$
+        response.setHeader("Expires", "-1"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     /**
@@ -102,8 +100,8 @@ public class GraphServer extends HttpServlet {
 
         Chart cci = new Chart();
 
-        String selectChartInfo = "SELECT * FROM `charts` where sf_id = '"
-                + chart_id + "'";
+        String selectChartInfo = "SELECT * FROM `charts` where sf_id = '" //$NON-NLS-1$
+                + chart_id + "'"; //$NON-NLS-1$
 
         try {
             Connection connection = MysqlDatabase.getConnection();
@@ -111,18 +109,18 @@ public class GraphServer extends HttpServlet {
             ResultSet rst = stmt.executeQuery(selectChartInfo);
 
             if (rst.next()) {
-                String chart_type = rst.getString("type");
-                String chart_title = rst.getString("title");
-                String x_axis_title = rst.getString("x_axis_title");
-                String y_axis_title = rst.getString("y_axis_title");
+                String chart_type = rst.getString("type"); //$NON-NLS-1$
+                String chart_title = rst.getString("title"); //$NON-NLS-1$
+                String x_axis_title = rst.getString("x_axis_title"); //$NON-NLS-1$
+                String y_axis_title = rst.getString("y_axis_title"); //$NON-NLS-1$
                 
                 //cci.height = rst.getInt("height");
                 //cci.width = rst.getInt("width");
 
-                String howToGetData = rst.getString("first_data_source");
+                String howToGetData = rst.getString("first_data_source"); //$NON-NLS-1$
 
-                howToGetData = howToGetData.replace("[simulation_id]", sim_id);
-                howToGetData = howToGetData.replace("[sim_value_table_name]", values_table);
+                howToGetData = howToGetData.replace("[simulation_id]", sim_id); //$NON-NLS-1$
+                howToGetData = howToGetData.replace("[sim_value_table_name]", values_table); //$NON-NLS-1$
                 
                 Statement stmt2 = connection.createStatement();
                 ResultSet rst2 = stmt.executeQuery(howToGetData);
@@ -130,7 +128,7 @@ public class GraphServer extends HttpServlet {
                 JFreeChart chart = null;
 
 
-                if (chart_type.equalsIgnoreCase("LineChart")) {
+                if (chart_type.equalsIgnoreCase("LineChart")) { //$NON-NLS-1$
                     
                     DefaultCategoryDataset cd = DataGatherer.getChartData(
                             chart_type, game_round,
@@ -147,7 +145,7 @@ public class GraphServer extends HttpServlet {
                             false // urls
                             );
 
-                } else if (chart_type.equalsIgnoreCase("BarChart")) {
+                } else if (chart_type.equalsIgnoreCase("BarChart")) { //$NON-NLS-1$
 
                     DefaultPieDataset dataset = DataGatherer.getPieData(
                             chart_id, game_round,
@@ -176,16 +174,16 @@ public class GraphServer extends HttpServlet {
     public static JFreeChart getLineChart() {
         DefaultCategoryDataset cd = new DefaultCategoryDataset();
 
-        cd.addValue(20, "Population Satisfaction", new Integer(1));
-        cd.addValue(40, "Population Satisfaction", new Integer(2));
-        cd.addValue(60, "Population Satisfaction", new Integer(3));
-        cd.addValue(80, "Population Satisfaction", new Integer(4));
+        cd.addValue(20, "Population Satisfaction", new Integer(1)); //$NON-NLS-1$
+        cd.addValue(40, "Population Satisfaction", new Integer(2)); //$NON-NLS-1$
+        cd.addValue(60, "Population Satisfaction", new Integer(3)); //$NON-NLS-1$
+        cd.addValue(80, "Population Satisfaction", new Integer(4)); //$NON-NLS-1$
 
         // create the chart...
         JFreeChart chart = ChartFactory.createLineChart(
-                "Population Satisfaction", // chart title
-                "Game Round", // domain axis label
-                "Satisfaction Level", // range axis label
+                "Population Satisfaction", // chart title //$NON-NLS-1$
+                "Game Round", // domain axis label //$NON-NLS-1$
+                "Satisfaction Level", // range axis label //$NON-NLS-1$
                 cd, // data
                 PlotOrientation.VERTICAL, // orientation
                 false, // include legend
@@ -198,39 +196,39 @@ public class GraphServer extends HttpServlet {
 
     public static JFreeChart getDemoChart() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(10.0, "S1", "C1");
-        dataset.addValue(4.0, "S1", "C2");
-        dataset.addValue(15.0, "S1", "C3");
-        dataset.addValue(14.0, "S1", "C4");
-        dataset.addValue(-5.0, "S2", "C1");
-        dataset.addValue(-7.0, "S2", "C2");
-        dataset.addValue(14.0, "S2", "C3");
-        dataset.addValue(-3.0, "S2", "C4");
-        dataset.addValue(6.0, "S3", "C1");
-        dataset.addValue(17.0, "S3", "C2");
-        dataset.addValue(-12.0, "S3", "C3");
-        dataset.addValue(7.0, "S3", "C4");
-        dataset.addValue(7.0, "S4", "C1");
-        dataset.addValue(15.0, "S4", "C2");
-        dataset.addValue(11.0, "S4", "C3");
-        dataset.addValue(0.0, "S4", "C4");
-        dataset.addValue(-8.0, "S5", "C1");
-        dataset.addValue(-6.0, "S5", "C2");
-        dataset.addValue(10.0, "S5", "C3");
-        dataset.addValue(-9.0, "S5", "C4");
-        dataset.addValue(9.0, "S6", "C1");
-        dataset.addValue(8.0, "S6", "C2");
-        dataset.addValue(null, "S6", "C3");
-        dataset.addValue(6.0, "S6", "C4");
-        dataset.addValue(-10.0, "S7", "C1");
-        dataset.addValue(9.0, "S7", "C2");
-        dataset.addValue(7.0, "S7", "C3");
-        dataset.addValue(7.0, "S7", "C4");
-        dataset.addValue(11.0, "S8", "C1");
-        dataset.addValue(13.0, "S8", "C2");
-        dataset.addValue(9.0, "S8", "C3");
-        dataset.addValue(9.0, "S8", "C4");
-        dataset.addValue(-3.0, "S9", "C1");
+        dataset.addValue(10.0, "S1", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(4.0, "S1", "C2"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(15.0, "S1", "C3"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(14.0, "S1", "C4"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-5.0, "S2", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-7.0, "S2", "C2"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(14.0, "S2", "C3"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-3.0, "S2", "C4"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(6.0, "S3", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(17.0, "S3", "C2"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-12.0, "S3", "C3"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(7.0, "S3", "C4"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(7.0, "S4", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(15.0, "S4", "C2"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(11.0, "S4", "C3"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(0.0, "S4", "C4"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-8.0, "S5", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-6.0, "S5", "C2"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(10.0, "S5", "C3"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-9.0, "S5", "C4"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(9.0, "S6", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(8.0, "S6", "C2"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(null, "S6", "C3"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(6.0, "S6", "C4"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-10.0, "S7", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(9.0, "S7", "C2"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(7.0, "S7", "C3"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(7.0, "S7", "C4"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(11.0, "S8", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(13.0, "S8", "C2"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(9.0, "S8", "C3"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(9.0, "S8", "C4"); //$NON-NLS-1$ //$NON-NLS-2$
+        dataset.addValue(-3.0, "S9", "C1"); //$NON-NLS-1$ //$NON-NLS-2$
         dataset.addValue(7.0, "S9", "C2");
         dataset.addValue(11.0, "S9", "C3");
         dataset.addValue(-10.0, "S9", "C4");

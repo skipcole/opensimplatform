@@ -4,7 +4,6 @@ import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,14 +45,14 @@ public class CustomizeableSection extends BaseSimSection {
 		
 		CustomizeableSection cs = new CustomizeableSection();
 		
-		cs.setBigString(cleanNulls(request.getParameter("bigString")));
-		cs.setConfers_read_ability(makeTrueIfTrue(request.getParameter("confers_read_ability")));
-		cs.setConfers_write_ability(makeTrueIfTrue(request.getParameter("confers_write_ability")));
-		cs.setControl_section(makeTrueIfTrue(request.getParameter("control_section")));
-		cs.setCreatingOrganization(cleanNulls(request.getParameter("creatingOrganization")));
-		cs.setCust_lib_name(cleanNulls(request.getParameter("cust_lib_name")));
-		cs.setCustomizerClassName(cleanNulls(request.getParameter("customizerClassName")));
-		cs.setDescription(cleanNulls(request.getParameter("description")));
+		cs.setBigString(cleanNulls(request.getParameter("bigString"))); //$NON-NLS-1$
+		cs.setConfers_read_ability(makeTrueIfTrue(request.getParameter("confers_read_ability"))); //$NON-NLS-1$
+		cs.setConfers_write_ability(makeTrueIfTrue(request.getParameter("confers_write_ability"))); //$NON-NLS-1$
+		cs.setControl_section(makeTrueIfTrue(request.getParameter("control_section"))); //$NON-NLS-1$
+		cs.setCreatingOrganization(cleanNulls(request.getParameter("creatingOrganization"))); //$NON-NLS-1$
+		cs.setCust_lib_name(cleanNulls(request.getParameter("cust_lib_name"))); //$NON-NLS-1$
+		cs.setCustomizerClassName(cleanNulls(request.getParameter("customizerClassName"))); //$NON-NLS-1$
+		cs.setDescription(cleanNulls(request.getParameter("description"))); //$NON-NLS-1$
 		
 		
 		return cs;
@@ -67,7 +66,7 @@ public class CustomizeableSection extends BaseSimSection {
 	 */
 	public static String cleanNulls(String input){
 		if (input == null){
-			return "";
+			return ""; //$NON-NLS-1$
 		} else {
 			return input;
 		}
@@ -80,7 +79,7 @@ public class CustomizeableSection extends BaseSimSection {
 			return false;
 		}
 		
-		if (inputString.equalsIgnoreCase("true")){
+		if (inputString.equalsIgnoreCase("true")){ //$NON-NLS-1$
 			return true;
 		} else {
 			return false;
@@ -105,20 +104,20 @@ public class CustomizeableSection extends BaseSimSection {
     /**
      * Name of a specific page to make this page
      */
-    private String specificMakePage = "";
+    private String specificMakePage = ""; //$NON-NLS-1$
 
     /**
      * This hashtable holds specific content information for this simulation.
      */
 	private Hashtable contents = new Hashtable();
     
-	private String pageTitle = "";
+	private String pageTitle = ""; //$NON-NLS-1$
 	
     /**
      * If this custom section has a big string, like a page of text, store it in here.
      */
     @Lob
-    private String bigString = "";
+    private String bigString = ""; //$NON-NLS-1$
     
     private boolean hasCustomizer = false;
     
@@ -135,7 +134,7 @@ public class CustomizeableSection extends BaseSimSection {
     
 
 	public int getNumDependentObjects() {
-		return numDependentObjects;
+		return this.numDependentObjects;
 	}
 
 	public void setNumDependentObjects(int numDependentObjects) {
@@ -143,7 +142,7 @@ public class CustomizeableSection extends BaseSimSection {
 	}
 
 	public Customizer getMyCustomizer() {
-		return myCustomizer;
+		return this.myCustomizer;
 	}
 
 	public void setMyCustomizer(Customizer myCustomizer) {
@@ -151,7 +150,7 @@ public class CustomizeableSection extends BaseSimSection {
 	}
 
 	public boolean isHasCustomizer() {
-		return hasCustomizer;
+		return this.hasCustomizer;
 	}
 
 	public void setHasCustomizer(boolean hasCustomizer) {
@@ -159,7 +158,7 @@ public class CustomizeableSection extends BaseSimSection {
 	}
 
 	public String getCustomizerClassName() {
-		return customizerClassName;
+		return this.customizerClassName;
 	}
 
 	public void setCustomizerClassName(String customizerClassName) {
@@ -170,10 +169,10 @@ public class CustomizeableSection extends BaseSimSection {
 
 		CustomizeableSection cs = new CustomizeableSection();
 		
-		cs.setBigString("Set this to a good default value if you inted to use it, else you can leave it blank.");
+		cs.setBigString("Set this to a good default value if you inted to use it, else you can leave it blank."); //$NON-NLS-1$
 		cs.hasCustomizer = true;
-		cs.setCustomizerClassName("org.yourco.yourproject.ClassName");
-		cs.setPageTitle("Page Title Here");
+		cs.setCustomizerClassName("org.yourco.yourproject.ClassName"); //$NON-NLS-1$
+		cs.setPageTitle("Page Title Here"); //$NON-NLS-1$
 		
 		System.out.println(ObjectPackager.getObjectXML(cs));
 
@@ -245,7 +244,7 @@ public class CustomizeableSection extends BaseSimSection {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		if (cs == null){
-			System.out.println("Warning. Null cs returned using id " + the_id);
+			System.out.println("Warning. Null cs returned using id " + the_id); //$NON-NLS-1$
 		}
 		
 		return cs;
@@ -253,8 +252,8 @@ public class CustomizeableSection extends BaseSimSection {
 	}
 	
 	public String simImage(String baseWebDirectory){
-		String imageName = (String) getContents().get("image_file_name");
-		String fullfilename = baseWebDirectory + "/simulation/images/" + imageName;
+		String imageName = (String) getContents().get("image_file_name"); //$NON-NLS-1$
+		String fullfilename = baseWebDirectory + "/simulation/images/" + imageName; //$NON-NLS-1$
 	
 		return fullfilename;
 		
@@ -277,7 +276,7 @@ public class CustomizeableSection extends BaseSimSection {
 
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema)
 				.createQuery(
-						"from BaseSimSection where DTYPE='CustomizeableSection'")
+						"from BaseSimSection where DTYPE='CustomizeableSection'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -295,7 +294,7 @@ public class CustomizeableSection extends BaseSimSection {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		// TODO there is a better hibernate way to do this, i just don't know it.
-		String query = "from BaseSimSection where DTYPE = 'CustomizeableSection'";
+		String query = "from BaseSimSection where DTYPE = 'CustomizeableSection'"; //$NON-NLS-1$
 		
 		Query theQuery = MultiSchemaHibernateUtil.getSession(schema).createQuery(query);
 		
@@ -304,7 +303,7 @@ public class CustomizeableSection extends BaseSimSection {
 		ArrayList returnList = new ArrayList();
 		
 		for (ListIterator<CustomizeableSection> bi = firstList.listIterator(); bi.hasNext();) {
-			CustomizeableSection bid = (CustomizeableSection) bi.next();
+			CustomizeableSection bid = bi.next();
 			
 				returnList.add(bid);
 
@@ -317,10 +316,10 @@ public class CustomizeableSection extends BaseSimSection {
 	}
 
 	public Hashtable getContents() {
-		if (contents == null){
-			contents = new Hashtable();
+		if (this.contents == null){
+			this.contents = new Hashtable();
 		}
-		return contents;
+		return this.contents;
 	}
 
 	public void setContents(Hashtable contents) {
@@ -328,7 +327,7 @@ public class CustomizeableSection extends BaseSimSection {
 	}
 
     public boolean isThisIsACustomizedSection() {
-        return thisIsACustomizedSection;
+        return this.thisIsACustomizedSection;
     }
 
     public void setThisIsACustomizedSection(boolean thisIsACustomizedSection) {
@@ -336,7 +335,7 @@ public class CustomizeableSection extends BaseSimSection {
     }
 
     public Long getIdOfOrigCustSection() {
-		return idOfOrigCustSection;
+		return this.idOfOrigCustSection;
 	}
 
 	public void setIdOfOrigCustSection(Long idOfOrigCustSection) {
@@ -344,7 +343,7 @@ public class CustomizeableSection extends BaseSimSection {
 	}
 
     public boolean isHasASpecificMakePage() {
-        return hasASpecificMakePage;
+        return this.hasASpecificMakePage;
     }
 
     public void setHasASpecificMakePage(boolean hasASpecificMakePage) {
@@ -352,7 +351,7 @@ public class CustomizeableSection extends BaseSimSection {
     }
 
     public String getSpecificMakePage() {
-        return specificMakePage;
+        return this.specificMakePage;
     }
 
     public void setSpecificMakePage(String specificMakePage) {
@@ -360,7 +359,7 @@ public class CustomizeableSection extends BaseSimSection {
     }
 
     public String getBigString() {
-        return bigString;
+        return this.bigString;
     }
 
     public void setBigString(String bigString) {
@@ -368,7 +367,7 @@ public class CustomizeableSection extends BaseSimSection {
     }
     
 	public String getPageTitle() {
-		return pageTitle;
+		return this.pageTitle;
 	}
 
 	public void setPageTitle(String pageTitle) {

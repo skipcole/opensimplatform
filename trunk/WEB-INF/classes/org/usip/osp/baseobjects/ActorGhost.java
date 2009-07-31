@@ -21,12 +21,12 @@ public class ActorGhost {
 
 	private Long id;
 	
-    private String name = "";
+    private String name = ""; //$NON-NLS-1$
     
-    private String defaultColorChatBubble = "#FFFFFF";
+    private String defaultColorChatBubble = "#FFFFFF"; //$NON-NLS-1$
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -34,7 +34,7 @@ public class ActorGhost {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -42,7 +42,7 @@ public class ActorGhost {
 	}
 
 	public String getDefaultColorChatBubble() {
-		return defaultColorChatBubble;
+		return this.defaultColorChatBubble;
 	}
 
 	public void setDefaultColorChatBubble(String defaultColorChatBubble) {
@@ -59,10 +59,13 @@ public class ActorGhost {
 
         ActorGhost a = (ActorGhost) o;
 
-        return -(a.name.compareTo(name));
+        return -(a.name.compareTo(this.name));
 
     }
     
+    /**
+     * Zero argument constructor needed by Hibernate.
+     */
     public ActorGhost(){
     	
     }

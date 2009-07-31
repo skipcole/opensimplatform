@@ -15,7 +15,7 @@ package org.usip.osp.graphs;
  */
 public class VariableValue {
 
-    public String datatype = "integer";
+    public String datatype = "integer"; //$NON-NLS-1$
     
     public int game_round = 0;
     

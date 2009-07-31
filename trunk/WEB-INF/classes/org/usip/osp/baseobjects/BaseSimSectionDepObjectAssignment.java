@@ -67,10 +67,10 @@ public class BaseSimSectionDepObjectAssignment {
 
 		BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment();
 
-		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' "
-				+ " and objectId = " + objectId
-				+ " and className = '" + className + "'"
-				+ " and sim_id = " + sim_id;
+		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' " //$NON-NLS-1$ //$NON-NLS-2$
+				+ " and objectId = " + objectId //$NON-NLS-1$
+				+ " and className = '" + className + "'" //$NON-NLS-1$ //$NON-NLS-2$
+				+ " and sim_id = " + sim_id; //$NON-NLS-1$
 
 		System.out.println(getString);
 		
@@ -105,19 +105,19 @@ public class BaseSimSectionDepObjectAssignment {
 		Hashtable <Long, Long> returnHash = new Hashtable<Long, Long>();
 
 		if (bss_id == null) {
-			Logger.getRootLogger().warn("Warning! getIndexIdHashtable get null bss_id");
+			Logger.getRootLogger().warn("Warning! getIndexIdHashtable get null bss_id"); //$NON-NLS-1$
 			return returnHash;
 		}
 
 		List checkList = getObjectsForSection(schema, bss_id);
 		
-		Logger.getRootLogger().warn(" checklist size: " + checkList.size());
+		Logger.getRootLogger().warn(" checklist size: " + checkList.size()); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		for (ListIterator<BaseSimSectionDepObjectAssignment> li = checkList.listIterator(); li.hasNext();) {
-			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) li.next();
+			BaseSimSectionDepObjectAssignment bssdoa = li.next();
 
-			Logger.getRootLogger().warn("index/id:" + bssdoa.getDepObjIndex() + "/" + bssdoa.getId());
+			Logger.getRootLogger().warn("index/id:" + bssdoa.getDepObjIndex() + "/" + bssdoa.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 			returnHash.put(new Long(bssdoa.getDepObjIndex()), bssdoa.getObjectId());
 
 		}
@@ -140,7 +140,7 @@ public class BaseSimSectionDepObjectAssignment {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		for (ListIterator<BaseSimSectionDepObjectAssignment> li = deleteList.listIterator(); li.hasNext();) {
-			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) li.next();
+			BaseSimSectionDepObjectAssignment bssdoa = li.next();
 
 			MultiSchemaHibernateUtil.getSession(schema).delete(bssdoa);
 
@@ -159,7 +159,7 @@ public class BaseSimSectionDepObjectAssignment {
 	 */
 	public static List getSimDependencies(String schema, Long sim_id) {
 
-		String getString = "from BaseSimSectionDepObjectAssignment where sim_id = '" + sim_id + "' order by id";
+		String getString = "from BaseSimSectionDepObjectAssignment where sim_id = '" + sim_id + "' order by id"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -180,8 +180,8 @@ public class BaseSimSectionDepObjectAssignment {
 	 */
 	public static List <BaseSimSectionDepObjectAssignment> getObjectsForSection(String schema, Long bss_id) {
 
-		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id
-				+ "' order by dep_obj_index";
+		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id //$NON-NLS-1$
+				+ "' order by dep_obj_index"; //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -201,7 +201,7 @@ public class BaseSimSectionDepObjectAssignment {
 	 */
 	public static SharedDocument getSharedDocumentForSection(String schema, String bss_id_s) {
 
-		System.out.println("bss_id is: " + bss_id_s);
+		System.out.println("bss_id is: " + bss_id_s); //$NON-NLS-1$
 		Long bss_id = null;
 		
 		try {
@@ -295,7 +295,7 @@ public class BaseSimSectionDepObjectAssignment {
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -303,7 +303,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -311,7 +311,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -319,7 +319,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public Long getBss_id() {
-		return bss_id;
+		return this.bss_id;
 	}
 
 	public void setBss_id(Long bss_id) {
@@ -327,7 +327,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public Long getObjectId() {
-		return objectId;
+		return this.objectId;
 	}
 
 	public void setObjectId(Long objectId) {
@@ -335,7 +335,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public boolean isActor_dependent() {
-		return actor_dependent;
+		return this.actor_dependent;
 	}
 
 	public void setActor_dependent(boolean actor_dependent) {
@@ -343,7 +343,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public Long getActor_id() {
-		return actor_id;
+		return this.actor_id;
 	}
 
 	public void setActor_id(Long actor_id) {
@@ -351,7 +351,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public int getDep_obj_index() {
-		return dep_obj_index;
+		return this.dep_obj_index;
 	}
 
 	public void setDep_obj_index(int dep_obj_index) {
@@ -359,7 +359,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public String getClassName() {
-		return className;
+		return this.className;
 	}
 
 	public void setClassName(String className) {
@@ -367,7 +367,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public int getDepObjIndex() {
-		return dep_obj_index;
+		return this.dep_obj_index;
 	}
 
 	public void setDepObjIndex(int index) {
@@ -375,7 +375,7 @@ public class BaseSimSectionDepObjectAssignment {
 	}
 
 	public String getUniqueTagName() {
-		return uniqueTagName;
+		return this.uniqueTagName;
 	}
 
 	public void setUniqueTagName(String uniqueTagName) {

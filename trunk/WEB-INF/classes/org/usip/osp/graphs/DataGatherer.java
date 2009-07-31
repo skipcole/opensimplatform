@@ -64,11 +64,11 @@ public class DataGatherer {
         DefaultCategoryDataset cd = new DefaultCategoryDataset();
 
         if (false) {
-            cd.addValue(new Integer(1), "words", new Integer(1));
-            cd.addValue(new Integer(5), "words", new Integer(2));
-            cd.addValue(new Integer(10), "words", new Integer(3));
+            cd.addValue(new Integer(1), "words", new Integer(1)); //$NON-NLS-1$
+            cd.addValue(new Integer(5), "words", new Integer(2)); //$NON-NLS-1$
+            cd.addValue(new Integer(10), "words", new Integer(3)); //$NON-NLS-1$
 
-        } else if (chartType.equalsIgnoreCase("LineChart")) {
+        } else if (chartType.equalsIgnoreCase("LineChart")) { //$NON-NLS-1$
             try {
 
                 Connection connection = MysqlDatabase.getConnection();
@@ -78,7 +78,7 @@ public class DataGatherer {
 
                 while (rst.next()) {
                     cd.addValue(new Double(rst.getString(2)).doubleValue(),
-                            "hard coded stuff", new Integer(rst.getString(1)));
+                            "hard coded stuff", new Integer(rst.getString(1))); //$NON-NLS-1$
                 }
 
                 connection.close();
@@ -87,14 +87,14 @@ public class DataGatherer {
                 e.printStackTrace();
             }
 
-        } else if (chartType.equalsIgnoreCase("myfirst")) {
+        } else if (chartType.equalsIgnoreCase("myfirst")) { //$NON-NLS-1$
             try {
                 Connection connection = MysqlDatabase.getConnection();
                 Statement stmt = connection.createStatement();
                 ResultSet rst = stmt.executeQuery(getDataSQL);
 
                 while (rst.next()) {
-                    cd.addValue(rst.getDouble(2), "Population Satisfaction",
+                    cd.addValue(rst.getDouble(2), "Population Satisfaction", //$NON-NLS-1$
                             new Integer(rst.getInt(1)));
                 }
 

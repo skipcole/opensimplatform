@@ -4,8 +4,6 @@ import java.sql.*;
 import java.util.*;
 
 import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.graphs.Chart;
 import org.usip.osp.graphs.VariableValue;
 import org.usip.osp.persistence.MysqlDatabase;
 
@@ -24,35 +22,35 @@ import org.usip.osp.persistence.MysqlDatabase;
  */
 public class IntegerVariable {
 
-    String var_type = "";
+    String var_type = ""; //$NON-NLS-1$
 
     public float maxValue = Float.MAX_VALUE;
 
     public float minValue = Float.MIN_VALUE;
 
-    public String initialValue = "";
+    public String initialValue = ""; //$NON-NLS-1$
     
-    public String value = "";
+    public String value = ""; //$NON-NLS-1$
     
-    public String tracked = "false";
+    public String tracked = "false"; //$NON-NLS-1$
     
-    public String has_max = "false";
+    public String has_max = "false"; //$NON-NLS-1$
 
-    public String max_value = "0";
+    public String max_value = "0"; //$NON-NLS-1$
 
-    public String has_min = "false";
+    public String has_min = "false"; //$NON-NLS-1$
 
-    public String min_value = "0";
+    public String min_value = "0"; //$NON-NLS-1$
     
-    public String sim_id = "";
+    public String sim_id = ""; //$NON-NLS-1$
 
-    public static final String SPECIALFIELDLABEL = "sim_int_var";
+    public static final String SPECIALFIELDLABEL = "sim_int_var"; //$NON-NLS-1$
 
     /**
      * This describes how the variable propagates (changes in value) from round
      * to round.
      */
-    public String propagation_type = "";
+    public String propagation_type = ""; //$NON-NLS-1$
 
 
     /**
@@ -65,8 +63,8 @@ public class IntegerVariable {
     public Vector getSetForASimulation(String game_id) {
         Vector rv = new Vector();
 
-        String selectSDs = "SELECT * FROM `sf_var_integer` "
-                + "WHERE game_id = " + game_id;
+        String selectSDs = "SELECT * FROM `sf_var_integer` " //$NON-NLS-1$
+                + "WHERE game_id = " + game_id; //$NON-NLS-1$
 
         try {
             Connection connection = MysqlDatabase.getConnection();
@@ -95,16 +93,16 @@ public class IntegerVariable {
     public String addNewValue(String tableName, String running_game_id,
             String game_round, String newValue) {
 
-        String debug = "start: ";
+        String debug = "start: "; //$NON-NLS-1$
         try {
             Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
 
-            String insertSQL = "INSERT INTO `"
+            String insertSQL = "INSERT INTO `" //$NON-NLS-1$
                     + tableName
-                    + "` ( sim_id, "
-                    + "`game_id`, `running_game_id` , `game_round` , `var_name` , "
-                    + "`value` ) VALUES ( ?, ?, ?, ?, ?, ? )";
+                    + "` ( sim_id, " //$NON-NLS-1$
+                    + "`game_id`, `running_game_id` , `game_round` , `var_name` , " //$NON-NLS-1$
+                    + "`value` ) VALUES ( ?, ?, ?, ?, ?, ? )"; //$NON-NLS-1$
 
             debug += insertSQL;
 
@@ -128,7 +126,7 @@ public class IntegerVariable {
      */
     public String prep(String running_game_id, Simulation game) {
 
-        String returnString = "";
+        String returnString = ""; //$NON-NLS-1$
 
         // Find out if the game has simulation variables
         Vector simIntVars = new IntegerVariable().getSetForASimulation(game.getId().toString());
@@ -153,7 +151,7 @@ public class IntegerVariable {
     public String createInitialValueEntry(String tableName,
             String running_game_id) {
 
-        return addNewValue(tableName, running_game_id, "1", this.initialValue);
+        return addNewValue(tableName, running_game_id, "1", this.initialValue); //$NON-NLS-1$
     }
 
     /**
@@ -187,18 +185,18 @@ public class IntegerVariable {
      */
     public String store() {
 
-        String debug = "start: ";
+        String debug = "start: "; //$NON-NLS-1$
 
         try {
             Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
 
-            String insertSQL = "INSERT INTO `sf_var_integer` ( "
-                    + "`sf_id`, `game_id` , `var_name`, `description` , `prop_type` , "
-                    + "`initial_value` ,`value` , "
-                    + "`has_max` , `max_value` , `has_min` , `min_value` ) "
-                    + " VALUES ( "
-                    + "NULL , ?, ?, ?, ?, ?, '0', 'false', '0', 'false', '0' )";
+            String insertSQL = "INSERT INTO `sf_var_integer` ( " //$NON-NLS-1$
+                    + "`sf_id`, `game_id` , `var_name`, `description` , `prop_type` , " //$NON-NLS-1$
+                    + "`initial_value` ,`value` , " //$NON-NLS-1$
+                    + "`has_max` , `max_value` , `has_min` , `min_value` ) " //$NON-NLS-1$
+                    + " VALUES ( " //$NON-NLS-1$
+                    + "NULL , ?, ?, ?, ?, ?, '0', 'false', '0', 'false', '0' )"; //$NON-NLS-1$
 
             debug += insertSQL;
 
@@ -208,7 +206,7 @@ public class IntegerVariable {
 
             ps.execute();
 
-            String queryId = "select LAST_INSERT_ID()";
+            String queryId = "select LAST_INSERT_ID()"; //$NON-NLS-1$
 
             ResultSet rs = stmt.executeQuery(queryId);
 
@@ -233,7 +231,7 @@ public class IntegerVariable {
      */
     public String load() {
 
-        String selectSQL = "SELECT * FROM `sf_var_integer` WHERE sf_id = ";
+        String selectSQL = "SELECT * FROM `sf_var_integer` WHERE sf_id = "; //$NON-NLS-1$
 
         try {
             Connection connection = MysqlDatabase.getConnection();
@@ -252,32 +250,32 @@ public class IntegerVariable {
             e.printStackTrace();
             return e.getMessage();
         }
-        return "";
+        return ""; //$NON-NLS-1$
     }
 
     public void loadMeFromResultSet(ResultSet rst) throws SQLException {
 
 
 
-        this.maxValue = rst.getFloat("max_value");
-        this.minValue = rst.getFloat("min_value");
+        this.maxValue = rst.getFloat("max_value"); //$NON-NLS-1$
+        this.minValue = rst.getFloat("min_value"); //$NON-NLS-1$
 
     }
 
     public String propagate(Simulation game, String gameround, String rgid) {
 
-        String returnString = "IntegerVariable.propogate(): ";
+        String returnString = "IntegerVariable.propogate(): "; //$NON-NLS-1$
 
         int game_round = new Integer(gameround).intValue();
 
-        if (propagation_type.equalsIgnoreCase("fibonacci")) {
+        if (this.propagation_type.equalsIgnoreCase("fibonacci")) { //$NON-NLS-1$
 
             // Select past values
         	// TODO
             Vector v = null;
             //getPastValues(game.db_tablename_var_int_v, this.sim_id);
 
-            returnString += "<BR>numb past values is: " + v.size();
+            returnString += "<BR>numb past values is: " + v.size(); //$NON-NLS-1$
             // Determin new value
             int newValue = 99;
 
@@ -292,7 +290,7 @@ public class IntegerVariable {
                 newValue = vv1.intValue + vv2.intValue;
             }
 
-            returnString += "<br>new value is: " + newValue;
+            returnString += "<br>new value is: " + newValue; //$NON-NLS-1$
 
             // Insert line with new value
          // TODO
@@ -326,17 +324,17 @@ public class IntegerVariable {
     public String storeInRunningGameTable(String running_game_id,
             String tableName) {
 
-        String debug = "start: ";
+        String debug = "start: "; //$NON-NLS-1$
         try {
             Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
 
-            String insertSQL = "INSERT INTO `" + tableName
-                    + "` ( sim_id, sf_id, `game_id`,`running_game_id`, "
-                    + "`var_name`, `initial_value` , "
-                    + "`has_min`, `has_max` , `min_value`, `max_value`, "
-                    + "`prop_type` , `description` ) "
-                    + "VALUES (NULL , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertSQL = "INSERT INTO `" + tableName //$NON-NLS-1$
+                    + "` ( sim_id, sf_id, `game_id`,`running_game_id`, " //$NON-NLS-1$
+                    + "`var_name`, `initial_value` , " //$NON-NLS-1$
+                    + "`has_min`, `has_max` , `min_value`, `max_value`, " //$NON-NLS-1$
+                    + "`prop_type` , `description` ) " //$NON-NLS-1$
+                    + "VALUES (NULL , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; //$NON-NLS-1$
 
             debug += insertSQL;
 
@@ -346,7 +344,7 @@ public class IntegerVariable {
 
             ps.execute();
 
-            String queryId = "select LAST_INSERT_ID()";
+            String queryId = "select LAST_INSERT_ID()"; //$NON-NLS-1$
 
             ResultSet rs = stmt.executeQuery(queryId);
 
@@ -356,8 +354,8 @@ public class IntegerVariable {
             connection.close();
 
         } catch (Exception e) {
-            debug += "<font color=red>" + e.getMessage() + ":" + e.toString()
-                    + "</font>";
+            debug += "<font color=red>" + e.getMessage() + ":" + e.toString() //$NON-NLS-1$ //$NON-NLS-2$
+                    + "</font>"; //$NON-NLS-1$
             e.printStackTrace();
         }
 
@@ -368,10 +366,10 @@ public class IntegerVariable {
 
     public String getCurrentValue(String tableName, String simId,
             String gameround) {
-        String returnString = "";
+        String returnString = ""; //$NON-NLS-1$
 
-        String selectSQL = "select value from " + tableName + " where "
-                + "sim_id = " + simId + " and game_round = " + gameround;
+        String selectSQL = "select value from " + tableName + " where " //$NON-NLS-1$ //$NON-NLS-2$
+                + "sim_id = " + simId + " and game_round = " + gameround; //$NON-NLS-1$ //$NON-NLS-2$
 
         returnString = selectSQL;
 
@@ -382,7 +380,7 @@ public class IntegerVariable {
             ResultSet rst = stmt.executeQuery(selectSQL);
 
             if (rst.next()) {
-                returnString = rst.getString("value");
+                returnString = rst.getString("value"); //$NON-NLS-1$
 
             }
             connection.close();
@@ -396,13 +394,13 @@ public class IntegerVariable {
     }
 
     public String removeFromDB() {
-        String debug = "start: ";
+        String debug = "start: "; //$NON-NLS-1$
 
         try {
             Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
 
-            String removeSQL = "delete from `sf_var_integer` where sf_id = ";
+            String removeSQL = "delete from `sf_var_integer` where sf_id = "; //$NON-NLS-1$
 
             debug += removeSQL;
             stmt.execute(removeSQL);
@@ -410,7 +408,7 @@ public class IntegerVariable {
             connection.close();
 
         } catch (Exception e) {
-            debug += " : " + e.getMessage();
+            debug += " : " + e.getMessage(); //$NON-NLS-1$
             e.printStackTrace();
         }
 
@@ -422,8 +420,8 @@ public class IntegerVariable {
 
         Vector returnVector = new Vector();
 
-        String selectSQL = "select * from " + tableName + " where sim_id = "
-                + simId + " order by game_round";
+        String selectSQL = "select * from " + tableName + " where sim_id = " //$NON-NLS-1$ //$NON-NLS-2$
+                + simId + " order by game_round"; //$NON-NLS-1$
 
         try {
             Connection connection = MysqlDatabase.getConnection();
@@ -433,9 +431,9 @@ public class IntegerVariable {
             while (rst.next()) {
                 VariableValue vv = new VariableValue();
 
-                vv.game_round = rst.getInt("game_round");
+                vv.game_round = rst.getInt("game_round"); //$NON-NLS-1$
 
-                String int_string = rst.getString("value");
+                String int_string = rst.getString("value"); //$NON-NLS-1$
                 vv.intValue = new Integer(int_string).intValue();
 
                 returnVector.add(vv);

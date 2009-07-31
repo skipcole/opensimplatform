@@ -57,7 +57,7 @@ public class UserTrail {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -65,7 +65,7 @@ public class UserTrail {
 	}
 
 	public Long getUser_id() {
-		return user_id;
+		return this.user_id;
 	}
 
 	public void setUser_id(Long user_id) {
@@ -73,7 +73,7 @@ public class UserTrail {
 	}
 
 	public Date getLoggedInDate() {
-		return loggedInDate;
+		return this.loggedInDate;
 	}
 
 	public void setLoggedInDate(Date loggedInDate) {
@@ -81,7 +81,7 @@ public class UserTrail {
 	}
 
 	public Long getRunning_sim_id() {
-		return running_sim_id;
+		return this.running_sim_id;
 	}
 
 	public void setRunning_sim_id(Long running_sim_id) {
@@ -89,7 +89,7 @@ public class UserTrail {
 	}
 
 	public Long getActor_id() {
-		return actor_id;
+		return this.actor_id;
 	}
 
 	public void setActor_id(Long actor_id) {
@@ -97,7 +97,7 @@ public class UserTrail {
 	}
 
 	public Date getEndSessionDate() {
-		return endSessionDate;
+		return this.endSessionDate;
 	}
 
 	public void setEndSessionDate(Date endSessionDate) {

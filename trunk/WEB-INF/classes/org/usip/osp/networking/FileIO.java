@@ -3,12 +3,7 @@ package org.usip.osp.networking;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
-
-import org.usip.osp.baseobjects.BaseSimSection;
-import org.usip.osp.baseobjects.SimulationPhase;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
-import org.usip.osp.baseobjects.UserAssignment;
 
 /**
  * Utility class that provides static methods to handle file input and output.
@@ -27,20 +22,20 @@ import org.usip.osp.baseobjects.UserAssignment;
  */
 public class FileIO {
 
-	private static String actor_image_dir = "";
-	private static String base_section_web_dir = "";
-	private static String model_dir = "";
-	private static String base_web_dir = "";
-	protected static String packaged_sim_dir = "";
-	private static String sim_image_dir = "";
+	private static String actor_image_dir = ""; //$NON-NLS-1$
+	private static String base_section_web_dir = ""; //$NON-NLS-1$
+	private static String model_dir = ""; //$NON-NLS-1$
+	private static String base_web_dir = ""; //$NON-NLS-1$
+	protected static String packaged_sim_dir = ""; //$NON-NLS-1$
+	private static String sim_image_dir = ""; //$NON-NLS-1$
 
 	static {
-		base_web_dir = USIP_OSP_Properties.getValue("base_web_dir");
-		base_section_web_dir = USIP_OSP_Properties.getValue("base_section_web_dir");
-		model_dir = USIP_OSP_Properties.getValue("model_dir");
-		actor_image_dir = USIP_OSP_Properties.getValue("actor_image_dir");
-		packaged_sim_dir = USIP_OSP_Properties.getValue("packaged_sim_dir");
-		sim_image_dir = USIP_OSP_Properties.getValue("sim_image_dir");
+		base_web_dir = USIP_OSP_Properties.getValue("base_web_dir"); //$NON-NLS-1$
+		base_section_web_dir = USIP_OSP_Properties.getValue("base_section_web_dir"); //$NON-NLS-1$
+		model_dir = USIP_OSP_Properties.getValue("model_dir"); //$NON-NLS-1$
+		actor_image_dir = USIP_OSP_Properties.getValue("actor_image_dir"); //$NON-NLS-1$
+		packaged_sim_dir = USIP_OSP_Properties.getValue("packaged_sim_dir"); //$NON-NLS-1$
+		sim_image_dir = USIP_OSP_Properties.getValue("sim_image_dir"); //$NON-NLS-1$
 
 	}
 
@@ -52,15 +47,15 @@ public class FileIO {
 	 */
 	public static void saveImageFile(String saveType, String fileName, File fileData) {
 
-		String saveDir = "";
+		String saveDir = ""; //$NON-NLS-1$
 
-		if (saveType.equalsIgnoreCase("actorImage")) {
+		if (saveType.equalsIgnoreCase("actorImage")) { //$NON-NLS-1$
 			saveDir = actor_image_dir;
-		} else if (saveType.equalsIgnoreCase("simImage")) {
-			System.out.println("saving file " + fileName + " to " + sim_image_dir);
+		} else if (saveType.equalsIgnoreCase("simImage")) { //$NON-NLS-1$
+			System.out.println("saving file " + fileName + " to " + sim_image_dir); //$NON-NLS-1$ //$NON-NLS-2$
 			saveDir = sim_image_dir;
 		} else {
-			System.out.println("Warning. Don't know where to save " + fileName);
+			System.out.println("Warning. Don't know where to save " + fileName); //$NON-NLS-1$
 		}
 
 		try {
@@ -158,19 +153,19 @@ public class FileIO {
 		ArrayList returnList = new ArrayList();
 
 		if (locDir == null) {
-			System.out.println("Problem finding files at " + packaged_sim_dir);
+			System.out.println("Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				System.out.println("Problem finding files at " + packaged_sim_dir);
+				System.out.println("Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
 					String fName = files[ii].getName();
 
-					if (fName.endsWith(".xml")) {
+					if (fName.endsWith(".xml")) { //$NON-NLS-1$
 
 						returnList.add(fName);
 					}
@@ -183,12 +178,6 @@ public class FileIO {
 	}
 
 
-
-	public static void main(String args[]) {
-
-
-	}
-
 	/**
 	 * Gets the contents of a file (such as an xml file) as a string.
 	 * 
@@ -197,7 +186,7 @@ public class FileIO {
 	 */
 	public static String getFileContents(File thisFile) {
 
-		String fullString = "";
+		String fullString = ""; //$NON-NLS-1$
 		try {
 			FileReader fr = new FileReader(thisFile);
 			BufferedReader br = new BufferedReader(fr);

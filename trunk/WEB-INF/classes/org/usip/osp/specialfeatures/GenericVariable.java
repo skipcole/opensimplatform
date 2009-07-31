@@ -9,8 +9,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
-import org.usip.osp.baseobjects.SimulationPhase;
-import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.networking.ParticipantSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -42,7 +40,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	}
 	
 	/** Key to pull id out if stored in Hashtable */
-	public static final String GEN_VAR_KEY = "gen_var_key";
+	public static final String GEN_VAR_KEY = "gen_var_key"; //$NON-NLS-1$
 
 	/** Database id. */
 	@Id
@@ -62,13 +60,13 @@ public class GenericVariable implements SimSectionDependentObject{
     private Long rs_id;
     
     @Lob
-    private String value = "";
+    private String value = ""; //$NON-NLS-1$
     
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -80,7 +78,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	
 
 	public Long getCurrentlySelectedResponse() {
-		return currentlySelectedResponse;
+		return this.currentlySelectedResponse;
 	}
 
 	public void setCurrentlySelectedResponse(Long currentlySelectedResponse) {
@@ -88,7 +86,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -96,7 +94,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	}
 
 	public String getValue() {
-		return value;
+		return this.value;
 	}
 
 	public void setValue(String value) {
@@ -104,7 +102,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	}
 	
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -112,7 +110,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	}
 
 	public Long getBase_id() {
-		return base_id;
+		return this.base_id;
 	}
 
 	public void setBase_id(Long base_id) {
@@ -120,7 +118,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	}
 
 	public Long getRs_id() {
-		return rs_id;
+		return this.rs_id;
 	}
 
 	public void setRs_id(Long rs_id) {
@@ -151,12 +149,12 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		String hql_string = "from GenericVariable where RS_ID = " + rs_id 
-		+ " AND BASE_ID = '" + gv_id + "'";
+		String hql_string = "from GenericVariable where RS_ID = " + rs_id  //$NON-NLS-1$
+		+ " AND BASE_ID = '" + gv_id + "'"; //$NON-NLS-1$ //$NON-NLS-2$
 		
-		System.out.println("----------------------------------");
+		System.out.println("----------------------------------"); //$NON-NLS-1$
 		System.out.println(hql_string);
-		System.out.println("----------------------------------");
+		System.out.println("----------------------------------"); //$NON-NLS-1$
 		
 		List varFound = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		
@@ -166,12 +164,12 @@ public class GenericVariable implements SimSectionDependentObject{
 		}
 		
 		if (varFound.size() > 1){
-			Logger.getRootLogger().warn("More than one generic variable copy found");
+			Logger.getRootLogger().warn("More than one generic variable copy found"); //$NON-NLS-1$
 		}
 		
 		
 		for (ListIterator<GenericVariable> li = varFound.listIterator(); li.hasNext();) {
-			this_gv = (GenericVariable) li.next();
+			this_gv = li.next();
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -208,8 +206,8 @@ public class GenericVariable implements SimSectionDependentObject{
 	 */
 	public static List getAllBaseGenericVariablesForSim(String schema, Long the_sim_id) {
 		
-		String hql_string = "from GenericVariable where SIM_ID = " + the_sim_id.toString() 
-			+ " AND BASE_ID is null";
+		String hql_string = "from GenericVariable where SIM_ID = " + the_sim_id.toString()  //$NON-NLS-1$
+			+ " AND BASE_ID is null"; //$NON-NLS-1$
 	
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
@@ -251,7 +249,7 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 		Long gv_id = (Long) cust.getContents().get(GEN_VAR_KEY);
 		
-		System.out.println("The gv_id found inside of this custom section is " + gv_id);
+		System.out.println("The gv_id found inside of this custom section is " + gv_id); //$NON-NLS-1$
 		
 		return getGVForRunningSim(schema, gv_id, rs_id);
 		
@@ -262,7 +260,7 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 		Long gv_id = (Long) cust.getContents().get(GEN_VAR_KEY);
 		
-		System.out.println("The gv_id found inside of this custom section is " + gv_id);
+		System.out.println("The gv_id found inside of this custom section is " + gv_id); //$NON-NLS-1$
 		
 		return getmE(schema, gv_id);
 		
@@ -276,18 +274,18 @@ public class GenericVariable implements SimSectionDependentObject{
 	 */
 	public void checkMyTriggers(ParticipantSessionObject pso, int condition){
 		
-		Logger.getRootLogger().warn("GenericVariable.checkMyTriggers");
+		Logger.getRootLogger().warn("GenericVariable.checkMyTriggers"); //$NON-NLS-1$
 		
 		List setOfPossibleTriggers = Trigger.
 			getTriggersForVariable(pso.schema, Trigger.VAR_TYPE_GENERIC, this.getBase_id());
 		
 		for (ListIterator<Trigger> li = setOfPossibleTriggers.listIterator(); li.hasNext();) {
-			Trigger this_trig = (Trigger) li.next();
+			Trigger this_trig = li.next();
 			
-			Logger.getRootLogger().warn("Found Trigger " + this_trig.getId());
+			Logger.getRootLogger().warn("Found Trigger " + this_trig.getId()); //$NON-NLS-1$
 			
 			if (this_trig.getFire_on() == condition){
-				Logger.getRootLogger().warn("executing on  " + this_trig.getId());
+				Logger.getRootLogger().warn("executing on  " + this_trig.getId()); //$NON-NLS-1$
 				this_trig.execute(pso);
 			}
 			

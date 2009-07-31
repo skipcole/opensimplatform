@@ -20,21 +20,21 @@ import org.usip.osp.networking.ParticipantSessionObject;
 
 public class CastCustomizer extends Customizer{
 
-	public static final String KEY_FOR_DISPLAY_CONTROL = "display_control";
-	public static final String KEY_FOR_CONTROL_ON_BOTTOM = "control_on_bottom";
+	public static final String KEY_FOR_DISPLAY_CONTROL = "display_control"; //$NON-NLS-1$
+	public static final String KEY_FOR_CONTROL_ON_BOTTOM = "control_on_bottom"; //$NON-NLS-1$
 
 	public void handleCustomizeSection(HttpServletRequest request, 
 			ParticipantSessionObject pso, CustomizeableSection cs) {
 
-		System.out.println("CastCustomizeableSection.handleCustomizeSection");
+		System.out.println("CastCustomizeableSection.handleCustomizeSection"); //$NON-NLS-1$
 		
-		String save_results = (String) request.getParameter("save_results");
+		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
-		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) {
+		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) { //$NON-NLS-1$
 			
-			System.out.println("CastCustomizeableSection.handleCustomizeSection.save_results");
+			System.out.println("CastCustomizeableSection.handleCustomizeSection.save_results"); //$NON-NLS-1$
 
-			String display_control = (String) request.getParameter("display_control");
+			String display_control = request.getParameter("display_control"); //$NON-NLS-1$
 
 			cs.getContents().put(KEY_FOR_DISPLAY_CONTROL, display_control);
 

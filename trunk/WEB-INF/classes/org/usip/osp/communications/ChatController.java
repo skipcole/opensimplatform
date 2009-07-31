@@ -56,7 +56,7 @@ public class ChatController {
 
 		java.util.Date now = new java.util.Date();
 
-		System.out.println("timeOfLastCheck is " + timeOfLastCheck.getTime());
+		System.out.println("timeOfLastCheck is " + timeOfLastCheck.getTime()); //$NON-NLS-1$
 
 		if ((timeOfLastCheck.getTime() + (42 * 1000)) > now.getTime()) {
 
@@ -66,26 +66,26 @@ public class ChatController {
 
 		}
 
-		String checking_actor_key = schema + "_" + rsid + "_" + checking_actor;
-		String checked_actor_key = schema + "_" + rsid + "_" + checked_actor;
+		String checking_actor_key = schema + "_" + rsid + "_" + checking_actor; //$NON-NLS-1$ //$NON-NLS-2$
+		String checked_actor_key = schema + "_" + rsid + "_" + checked_actor; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Mark the checking actor present
-		onlineUsers.put(checking_actor_key, now.getTime() + "");
+		onlineUsers.put(checking_actor_key, now.getTime() + ""); //$NON-NLS-1$
 
-		System.out.println("checked_actor_key: " + checked_actor_key);
+		System.out.println("checked_actor_key: " + checked_actor_key); //$NON-NLS-1$
 
 		for (Enumeration e = onlineUsers.keys(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
 
-			System.out.println("      checking against key: " + key);
+			System.out.println("      checking against key: " + key); //$NON-NLS-1$
 
 			if (key.equalsIgnoreCase(checked_actor_key)) {
-				return "online";
+				return "online"; //$NON-NLS-1$
 			}
 
 		}
 
-		return "offline";
+		return "offline"; //$NON-NLS-1$
 	}
 
 	/**
@@ -101,12 +101,12 @@ public class ChatController {
 
 			String usersLastTouchTime = (String) onlineUsers.get(key);
 			
-			System.out.println("usersLastTouchTime: " + usersLastTouchTime);
+			System.out.println("usersLastTouchTime: " + usersLastTouchTime); //$NON-NLS-1$
 
 			long longULTT = new Long(usersLastTouchTime).longValue();
 
 			if (((longULTT + (60 * 1000)) < now.getTime())) {
-				System.out.println("removing: " + key);
+				System.out.println("removing: " + key); //$NON-NLS-1$
 				onlineUsers.remove(key);
 			}
 
@@ -117,23 +117,23 @@ public class ChatController {
 			ParticipantSessionObject pso) {
 
 		if ((pso == null) || (pso.running_sim_id == null)) {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 
 		// Get user id
-		String user_id = request.getParameter("user_id");
+		String user_id = request.getParameter("user_id"); //$NON-NLS-1$
 
 		// Get actor id
-		String actor_id = request.getParameter("actor_id");
+		String actor_id = request.getParameter("actor_id"); //$NON-NLS-1$
 
 		// Start index is where to start getting messages from
-		String start_index = request.getParameter("start_index");
+		String start_index = request.getParameter("start_index"); //$NON-NLS-1$
 
 		// Get the new text to add to the conversation
-		String newtext = request.getParameter("newtext");
+		String newtext = request.getParameter("newtext"); //$NON-NLS-1$
 
 		// Get the key for this conversation
-		String conv_id = request.getParameter("conv_id");
+		String conv_id = request.getParameter("conv_id"); //$NON-NLS-1$
 
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
 
@@ -143,7 +143,7 @@ public class ChatController {
 
 	public static String getConvKey(ParticipantSessionObject pso, String conv_id) {
 
-		return (pso.schema + "_" + pso.running_sim_id + "_" + conv_id);
+		return (pso.schema + "_" + pso.running_sim_id + "_" + conv_id); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -183,7 +183,7 @@ public class ChatController {
 	public static String getHTMLConv(HttpServletRequest request,
 			ParticipantSessionObject pso, String conv_id){
 
-		String convLinesToReturn = "";
+		String convLinesToReturn = ""; //$NON-NLS-1$
 		
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
 		
@@ -191,11 +191,11 @@ public class ChatController {
 			ChatLine bcl = (ChatLine) e.nextElement();
 			
 			String fromAName = pso.getActorName(request, bcl.fromActor);
-			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a");
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a"); //$NON-NLS-1$
 
 			// Check to see were are above the start index sent.
 			if (bcl.getId().intValue() > 0) {
-				convLinesToReturn += (sdf.format(bcl.getMsgDate()) + " : <B>" +  fromAName + "</B> says &quot;" + bcl.getMsgtext() + "&quot;<br />");
+				convLinesToReturn += (sdf.format(bcl.getMsgDate()) + " : <B>" +  fromAName + "</B> says &quot;" + bcl.getMsgtext() + "&quot;<br />"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
 		}
 
@@ -216,7 +216,7 @@ public class ChatController {
 			Vector<ChatLine> this_conv, Long rsid, String schema) {
 
 		if (start_index == null) {
-			start_index = "0";
+			start_index = "0"; //$NON-NLS-1$
 		}
 
 		int start_int = new Integer(start_index).intValue();
@@ -228,13 +228,13 @@ public class ChatController {
 			this_conv.add(cl);
 		}
 
-		String convLinesToReturn = "";
+		String convLinesToReturn = ""; //$NON-NLS-1$
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
 			ChatLine bcl = (ChatLine) e.nextElement();
 
 			// Check to see were are above the start index sent.
 			if (bcl.getId().intValue() > start_int) {
-				convLinesToReturn += (bcl.packageMe() + "|||||");
+				convLinesToReturn += (bcl.packageMe() + "|||||"); //$NON-NLS-1$
 			}
 		}
 
@@ -261,7 +261,7 @@ public class ChatController {
 			HttpServletRequest request) {
 
 		if ((start_index == null) || (start_index.trim().length() == 0)) {
-			start_index = "0";
+			start_index = "0"; //$NON-NLS-1$
 		}
 
 		int start_int = new Integer(start_index).intValue();
@@ -269,7 +269,7 @@ public class ChatController {
 		// This conversation is pulled from the set of conversations Vector
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
 
-		String convLinesToReturn = "";
+		String convLinesToReturn = ""; //$NON-NLS-1$
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
 			ChatLine bcl = (ChatLine) e.nextElement();
 
@@ -297,9 +297,9 @@ public class ChatController {
 
 		List<ChatLine> returnList = MultiSchemaHibernateUtil.getSession(schema)
 				.createQuery(
-						"from ChatLine where RUNNING_SIM_ID = "
-								+ running_sim_id + " AND CONV_ID = '" + conv_id
-								+ "'").list();
+						"from ChatLine where RUNNING_SIM_ID = " //$NON-NLS-1$
+								+ running_sim_id + " AND CONV_ID = '" + conv_id //$NON-NLS-1$
+								+ "'").list(); //$NON-NLS-1$
 
 		for (ListIterator li = returnList.listIterator(); li.hasNext();) {
 			ChatLine bcl = (ChatLine) li.next();
@@ -329,7 +329,7 @@ public class ChatController {
 		Vector returnVector = new Vector();
 
 		if (conv_id == null) {
-			System.out.println("waring empty conversation id passe in");
+			System.out.println("waring empty conversation id passe in"); //$NON-NLS-1$
 			return returnVector;
 		}
 
@@ -339,15 +339,15 @@ public class ChatController {
 		for (ListIterator<ConvActorAssignment> ais = conv
 				.getConv_actor_assigns(pso.schema).listIterator(); ais.hasNext();) {
 
-			ConvActorAssignment caa = (ConvActorAssignment) ais.next();
+			ConvActorAssignment caa = ais.next();
 
 			Long a_id = caa.getActor_id();
 
-			System.out.println("actors id was " + a_id);
+			System.out.println("actors id was " + a_id); //$NON-NLS-1$
 			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(pso.schema)
 					.get(Actor.class, a_id);
-			System.out.println("actor name is " + act.getName());
+			System.out.println("actor name is " + act.getName()); //$NON-NLS-1$
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 			
 			ActorGhost ag = new ActorGhost(act);

@@ -46,21 +46,21 @@ public class SimActorAssignment {
     @Column(name = "ACTOR_ID")
     private Long actor_id;
     
-    private String actors_role = "";
+    private String actors_role = ""; //$NON-NLS-1$
     
 	public String getActors_role() {
-		return actors_role;
+		return this.actors_role;
 	}
 
 	public void setActors_role(String actors_role) {
 		this.actors_role = actors_role;
 	}
 	
-	private String actors_chat_color = "";
+	private String actors_chat_color = ""; //$NON-NLS-1$
 	
 
 	public String getActors_chat_color() {
-		return actors_chat_color;
+		return this.actors_chat_color;
 	}
 
 	public void setActors_chat_color(String actors_chat_color) {
@@ -80,7 +80,7 @@ public class SimActorAssignment {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -88,7 +88,7 @@ public class SimActorAssignment {
 	}
 
 	public Long getActor_id() {
-		return actor_id;
+		return this.actor_id;
 	}
 
 	public void setActor_id(Long actor_id) {
@@ -96,7 +96,7 @@ public class SimActorAssignment {
 	}
 	
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -105,7 +105,7 @@ public class SimActorAssignment {
 
 	public static SimActorAssignment getMe(String schema, Long sim_id, Long actor_id){
 		
-		String hqlQuery = "from SimActorAssignment where sim_id = " + sim_id + " AND actor_id = " + actor_id;
+		String hqlQuery = "from SimActorAssignment where sim_id = " + sim_id + " AND actor_id = " + actor_id; //$NON-NLS-1$ //$NON-NLS-2$
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
@@ -115,7 +115,7 @@ public class SimActorAssignment {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		if ((returnList != null) && (returnList.size() > 0)){
-			return (SimActorAssignment) returnList.get(0);
+			return returnList.get(0);
 		} else {
 			return null;
 		}
@@ -155,7 +155,7 @@ public class SimActorAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		for (ListIterator<SimActorAssignment> li = startList.listIterator(); li.hasNext();) {
-			SimActorAssignment this_saa = (SimActorAssignment) li.next();
+			SimActorAssignment this_saa = li.next();
 			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, this_saa.getActor_id());
 			returnList.add(act);
 		}
@@ -177,7 +177,7 @@ public class SimActorAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		List<SimActorAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from SimActorAssignment where sim_id = " + sim_id + " order by id").list();
+				"from SimActorAssignment where sim_id = " + sim_id + " order by id").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		

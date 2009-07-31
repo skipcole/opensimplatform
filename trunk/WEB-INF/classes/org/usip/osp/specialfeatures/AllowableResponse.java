@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.CustomizeableSection;
-import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 
@@ -47,16 +46,16 @@ public class AllowableResponse implements Comparable{
     
 	/** Words that introduce this choice. */
 	@Lob
-    private String responseText = "";
+    private String responseText = ""; //$NON-NLS-1$
 	
 	/** If this response has a value associated with it, it is store here. */
-	private String specificValue = "";
+	private String specificValue = ""; //$NON-NLS-1$
 
 	@Lob
-    private String specificWordsForAAR = "";
+    private String specificWordsForAAR = ""; //$NON-NLS-1$
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -64,7 +63,7 @@ public class AllowableResponse implements Comparable{
 	}
 
 	public String getResponseText() {
-		return responseText;
+		return this.responseText;
 	}
 
 	public void setResponseText(String responseText) {
@@ -72,7 +71,7 @@ public class AllowableResponse implements Comparable{
 	}
 
 	public String getSpecificValue() {
-		return specificValue;
+		return this.specificValue;
 	}
 
 	public void setSpecificValue(String specificValue) {
@@ -80,7 +79,7 @@ public class AllowableResponse implements Comparable{
 	}
 
 	public String getSpecificWordsForAAR() {
-		return specificWordsForAAR;
+		return this.specificWordsForAAR;
 	}
 
 	public void setSpecificWordsForAAR(String specificWordsForAAR) {
@@ -88,7 +87,7 @@ public class AllowableResponse implements Comparable{
 	}
 
 	public Long getCust_id() {
-		return cust_id;
+		return this.cust_id;
 	}
 
 	public void setCust_id(Long cust_id) {
@@ -96,7 +95,7 @@ public class AllowableResponse implements Comparable{
 	}
 	
 	public int getIndex() {
-		return ar_index;
+		return this.ar_index;
 	}
 
 	public void setIndex(int ar_index) {
@@ -104,7 +103,7 @@ public class AllowableResponse implements Comparable{
 	}
 
 	public int getAr_index() {
-		return ar_index;
+		return this.ar_index;
 	}
 
 	public void setAr_index(int ar_index) {
@@ -112,7 +111,7 @@ public class AllowableResponse implements Comparable{
 	}
 
 	public boolean isInitiallySelected() {
-		return initiallySelected;
+		return this.initiallySelected;
 	}
 
 	public void setInitiallySelected(boolean initiallySelected) {
@@ -120,7 +119,7 @@ public class AllowableResponse implements Comparable{
 	}
 
 	public boolean isWriteChangesToAAR() {
-		return writeChangesToAAR;
+		return this.writeChangesToAAR;
 	}
 
 	public void setWriteChangesToAAR(boolean writeChangesToAAR) {
@@ -157,7 +156,7 @@ public class AllowableResponse implements Comparable{
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from AllowableResponse where cust_id = '" + cust_id + "' order by ar_index")
+				.createQuery("from AllowableResponse where cust_id = '" + cust_id + "' order by ar_index") //$NON-NLS-1$ //$NON-NLS-2$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -175,13 +174,13 @@ public class AllowableResponse implements Comparable{
 	public static List getStarterAllowableResponses(CustomizeableSection cust, String schema){
 		AllowableResponse ar1 = new AllowableResponse();
 		ar1.setIndex(1);
-		ar1.setResponseText("Choice 1");
+		ar1.setResponseText("Choice 1"); //$NON-NLS-1$
 		ar1.saveMe(schema);
 		
 		
 		AllowableResponse ar2 = new AllowableResponse();
 		ar2.setIndex(2);
-		ar2.setResponseText("Choice 2");
+		ar2.setResponseText("Choice 2"); //$NON-NLS-1$
 		ar2.saveMe(schema);
 		
 		List returnList = new ArrayList<AllowableResponse>();
@@ -240,7 +239,7 @@ public class AllowableResponse implements Comparable{
 	}
 	
 	public static String convertListOfARsToInfoString(List theARs){
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 	
 	/**
@@ -251,6 +250,7 @@ public class AllowableResponse implements Comparable{
 	 */
 	public static void reOrderAllowableResponses(List theARs){
 		
+		// TODO
 	}
 
 	@Override
@@ -261,7 +261,7 @@ public class AllowableResponse implements Comparable{
 			return this.ar_index - ar.ar_index;
 			
 		} catch (Exception e){
-			System.out.println("Non Allowable Response Object passed into CompareTo");
+			System.out.println("Non Allowable Response Object passed into CompareTo"); //$NON-NLS-1$
 		}
 		
 		return 0;

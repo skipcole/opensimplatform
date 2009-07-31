@@ -9,8 +9,6 @@ import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.BaseSimSection;
-import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.networking.FileIO;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -48,15 +46,15 @@ public class ModelDefinitionObject implements Comparable{
 	@GeneratedValue
 	private Long id;
 	
-	private String creatingOrganization = "";
+	private String creatingOrganization = ""; //$NON-NLS-1$
 	
-	private String modelName = "";
+	private String modelName = ""; //$NON-NLS-1$
 	
-	private String modelVersion = "";
+	private String modelVersion = ""; //$NON-NLS-1$
 	
-	private String modelDescription = "";
+	private String modelDescription = ""; //$NON-NLS-1$
 	
-	private String modelDirectory = "";
+	private String modelDirectory = ""; //$NON-NLS-1$
 	
 	private int runningLocation = 0;
 	
@@ -69,7 +67,7 @@ public class ModelDefinitionObject implements Comparable{
 	private String filelocation;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -77,7 +75,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public String getCreatingOrganization() {
-		return creatingOrganization;
+		return this.creatingOrganization;
 	}
 
 	public void setCreatingOrganization(String creatingOrganization) {
@@ -85,7 +83,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public String getModelName() {
-		return modelName;
+		return this.modelName;
 	}
 
 	public void setModelName(String modelName) {
@@ -93,7 +91,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public String getModelVersion() {
-		return modelVersion;
+		return this.modelVersion;
 	}
 
 	public void setModelVersion(String modelVersion) {
@@ -101,7 +99,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public String getModelDescription() {
-		return modelDescription;
+		return this.modelDescription;
 	}
 
 	public void setModelDescription(String modelDescription) {
@@ -109,7 +107,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public String getModelDirectory() {
-		return modelDirectory;
+		return this.modelDirectory;
 	}
 
 	public void setModelDirectory(String modelDirectory) {
@@ -117,7 +115,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public int getRunningLocation() {
-		return runningLocation;
+		return this.runningLocation;
 	}
 
 	public void setRunningLocation(int runningLocation) {
@@ -125,7 +123,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public int getRemoteCommunication() {
-		return remoteCommunication;
+		return this.remoteCommunication;
 	}
 
 	public void setRemoteCommunication(int remoteCommunication) {
@@ -133,7 +131,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public String getControllerClassName() {
-		return controllerClassName;
+		return this.controllerClassName;
 	}
 
 	public void setControllerClassName(String controllerClassName) {
@@ -141,7 +139,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 
 	public String getControllerPackageName() {
-		return controllerPackageName;
+		return this.controllerPackageName;
 	}
 
 	public void setControllerPackageName(String controllerPackageName) {
@@ -149,7 +147,7 @@ public class ModelDefinitionObject implements Comparable{
 	}
 	
 	public String getFilelocation() {
-		return filelocation;
+		return this.filelocation;
 	}
 
 	public void setFilelocation(String filelocation) {
@@ -170,33 +168,33 @@ public class ModelDefinitionObject implements Comparable{
 		// The set of base simulation sections are read out of
 		// XML files stored in the simulation_section_information directory.
 
-		String fileLocation = USIP_OSP_Properties.getValue("model_dir");
+		String fileLocation = USIP_OSP_Properties.getValue("model_dir"); //$NON-NLS-1$
 
 		File locDir = new File(fileLocation);
 
 		if (locDir == null) {
-			System.out.println("Problem finding files at " + fileLocation);
+			System.out.println("Problem finding files at " + fileLocation); //$NON-NLS-1$
 			return returnList;
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				System.out.println("Problem finding files at " + fileLocation);
+				System.out.println("Problem finding files at " + fileLocation); //$NON-NLS-1$
 				return returnList;
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
 					String fName = files[ii].getName();
 
-					if (fName.endsWith(".xml")) {
+					if (fName.endsWith(".xml")) { //$NON-NLS-1$
 
 						try {
 							String fullFileLoc = fileLocation + fName;
 							returnList.add(ModelDefinitionObject.readAheadXML(schema, files[ii], fullFileLoc));
 							
 						} catch (Exception e) {
-							System.out.println("problem reading in file " + fName);
+							System.out.println("problem reading in file " + fName); //$NON-NLS-1$
 							System.out.println(e.getMessage());
 						}
 					}
@@ -237,7 +235,7 @@ public class ModelDefinitionObject implements Comparable{
 	public static ModelDefinitionObject unpackageXML(String xmlString) {
 
 		XStream xstream = new XStream(new DomDriver());
-		xstream.alias("mdo", ModelDefinitionObject.class);
+		xstream.alias("mdo", ModelDefinitionObject.class); //$NON-NLS-1$
 
 		return (ModelDefinitionObject) xstream.fromXML(xmlString);
 	}
@@ -251,7 +249,7 @@ public class ModelDefinitionObject implements Comparable{
 		
 		ModelDefinitionObject mdo = new ModelDefinitionObject();
 		
-		mdo.setModelName(cleanNulls(request.getParameter("model_name")));
+		mdo.setModelName(cleanNulls(request.getParameter("model_name"))); //$NON-NLS-1$
 
 		return mdo;
 		
@@ -264,7 +262,7 @@ public class ModelDefinitionObject implements Comparable{
 	 */
 	public static String cleanNulls(String input){
 		if (input == null){
-			return "";
+			return ""; //$NON-NLS-1$
 		} else {
 			return input;
 		}
@@ -281,7 +279,7 @@ public class ModelDefinitionObject implements Comparable{
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<ModelDefinitionObject> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from ModelDefinitionObject").list();
+				"from ModelDefinitionObject").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -335,15 +333,15 @@ public class ModelDefinitionObject implements Comparable{
 			String modelName, String modelVersion) {
 		ModelDefinitionObject mdo = null;
 
-		String queryString = "from ModelDefinitionObject where creatingOrganization = '" + creatingOrganization + "' "
-				+ "AND modelName = '" + modelName + "' AND modelVersion = '" + modelVersion + "'";
+		String queryString = "from ModelDefinitionObject where creatingOrganization = '" + creatingOrganization + "' " //$NON-NLS-1$ //$NON-NLS-2$
+				+ "AND modelName = '" + modelName + "' AND modelVersion = '" + modelVersion + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<ModelDefinitionObject> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
 
 		if ((returnList != null) && (returnList.size() > 0)){
-			mdo = (ModelDefinitionObject) returnList.get(0);
+			mdo = returnList.get(0);
 			return mdo;
 		}
 

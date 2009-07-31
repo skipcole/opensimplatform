@@ -3,11 +3,7 @@ package org.usip.osp.specialfeatures;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.servlet.http.HttpServletRequest;
-
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -60,7 +56,7 @@ public class PlayerReflection implements Comparable{
     private Long phase_id;
     
     public Long getPhase_id() {
-		return phase_id;
+		return this.phase_id;
 	}
 
 	public void setPhase_id(Long phase_id) {
@@ -68,17 +64,17 @@ public class PlayerReflection implements Comparable{
 	}
 
 	@Transient
-    private String actor_name = "";
+    private String actor_name = ""; //$NON-NLS-1$
 
 	/** Indicates if this document can still be edited. */
 	private boolean editable = true;
 
 	/** Contents of this document. */
 	@Lob
-	private String bigString = "";
+	private String bigString = ""; //$NON-NLS-1$
 	
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -86,7 +82,7 @@ public class PlayerReflection implements Comparable{
 	}
 
 	public Long getBase_id() {
-		return base_id;
+		return this.base_id;
 	}
 
 	public void setBase_id(Long base_id) {
@@ -94,7 +90,7 @@ public class PlayerReflection implements Comparable{
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -102,7 +98,7 @@ public class PlayerReflection implements Comparable{
 	}
 
 	public Long getRs_id() {
-		return rs_id;
+		return this.rs_id;
 	}
 
 	public void setRs_id(Long rs_id) {
@@ -110,7 +106,7 @@ public class PlayerReflection implements Comparable{
 	}
 
 	public Long getCs_id() {
-		return cs_id;
+		return this.cs_id;
 	}
 
 	public void setCs_id(Long cs_id) {
@@ -118,7 +114,7 @@ public class PlayerReflection implements Comparable{
 	}
 	
 	public Long getA_id() {
-		return a_id;
+		return this.a_id;
 	}
 
 	public void setA_id(Long a_id) {
@@ -126,7 +122,7 @@ public class PlayerReflection implements Comparable{
 	}
 
 	public boolean isEditable() {
-		return editable;
+		return this.editable;
 	}
 
 	public void setEditable(boolean editable) {
@@ -134,7 +130,7 @@ public class PlayerReflection implements Comparable{
 	}
 
 	public String getBigString() {
-		return bigString;
+		return this.bigString;
 	}
 
 	public void setBigString(String bigString) {
@@ -155,10 +151,10 @@ public class PlayerReflection implements Comparable{
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		String hql_string = "from PlayerReflection where CS_ID = " + cs_id + " AND RS_ID = " + rs_id
-		+ " AND A_ID = " + a_id;
+		String hql_string = "from PlayerReflection where CS_ID = " + cs_id + " AND RS_ID = " + rs_id //$NON-NLS-1$ //$NON-NLS-2$
+		+ " AND A_ID = " + a_id; //$NON-NLS-1$
 		
-		System.out.println("hql_string is " + hql_string);
+		System.out.println("hql_string is " + hql_string); //$NON-NLS-1$
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		
@@ -185,9 +181,9 @@ public class PlayerReflection implements Comparable{
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		String hql_string = "from PlayerReflection where RS_ID = " + rs_id;
+		String hql_string = "from PlayerReflection where RS_ID = " + rs_id; //$NON-NLS-1$
 		
-		System.out.println("hql_string is " + hql_string);
+		System.out.println("hql_string is " + hql_string); //$NON-NLS-1$
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		
@@ -209,7 +205,7 @@ public class PlayerReflection implements Comparable{
 	}
 
 	public String getActor_name() {
-		return actor_name;
+		return this.actor_name;
 	}
 
 	public void setActor_name(String actor_name) {
