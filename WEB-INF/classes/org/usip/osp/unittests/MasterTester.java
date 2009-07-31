@@ -1,7 +1,5 @@
 package org.usip.osp.unittests;
 
-import java.util.Vector;
-
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.specialfeatures.*;
 
@@ -38,7 +36,7 @@ public class MasterTester extends BaseTester{
     
     
     public static String runTests(){
-        String runOut = "Run Started: <BR>";
+        String runOut = "Run Started: <BR>"; //$NON-NLS-1$
         
         runOut += cleanDatabase();
         
@@ -78,76 +76,76 @@ public class MasterTester extends BaseTester{
         
         runOut += testAssignUserToSim();
         
-        runOut += b + b + "Run Finished: ";
+        runOut += b + b + "Run Finished: "; //$NON-NLS-1$
         
         return runOut;
     }
     
     public static String testSimCreation(){
-        String returnString = makeHeader("Making Simulations 'Test1' and 'Test2'");
+        String returnString = makeHeader("Making Simulations 'Test1' and 'Test2'"); //$NON-NLS-1$
         
-        testGame1.setName("Test1");
-        testGame1.setVersion("1");
+        testGame1.setName("Test1"); //$NON-NLS-1$
+        testGame1.setVersion("1"); //$NON-NLS-1$
         //testGame1.layout.bannertitle = "Banner Heading Unit 1";
         //testGame1.store();
         
-        returnString += b + "Created Simulation Test1 version 1";
+        returnString += b + "Created Simulation Test1 version 1"; //$NON-NLS-1$
         
-        testGame2.setName("Test2");
-        testGame2.setVersion("1");
+        testGame2.setName("Test2"); //$NON-NLS-1$
+        testGame2.setVersion("1"); //$NON-NLS-1$
         //testGame2.layout.bannertitle = "Banner Heading Unit 2";
         //testGame2.store();
         
-        returnString += b + "Created Simulation Test2 version 1";
+        returnString += b + "Created Simulation Test2 version 1"; //$NON-NLS-1$
         
         return returnString;
     }
     
     public static String testSimIntroCreation(){
-        String returnString = makeHeader("Inserting Simulation Introduction");
+        String returnString = makeHeader("Inserting Simulation Introduction"); //$NON-NLS-1$
         
         //testGame1.setIntroductionInDB("These are the times that try men's souls.");
 
-        returnString += b + "Simulation Introduction set (Paine quote)for Test version 1";
+        returnString += b + "Simulation Introduction set (Paine quote)for Test version 1"; //$NON-NLS-1$
         
         return returnString;
     }
     
     public static String testCreateSharedDocuments(){
-        String returnString = makeHeader("Creating Shared Document");
+        String returnString = makeHeader("Creating Shared Document"); //$NON-NLS-1$
         
 
-        returnString += b + "First Shared Document Created";
+        returnString += b + "First Shared Document Created"; //$NON-NLS-1$
         
         return returnString;
     }
     
     public static String testCreateIntegerVariable(){
-        String returnString = makeHeader("Creating Simulation Integer Variable");
+        String returnString = makeHeader("Creating Simulation Integer Variable"); //$NON-NLS-1$
         
         //iv1.game_id  = testGame1.getId();
 
-        iv1.propagation_type = "fibonacci";
-        iv1.initialValue = "1";
+        iv1.propagation_type = "fibonacci"; //$NON-NLS-1$
+        iv1.initialValue = "1"; //$NON-NLS-1$
         
         returnString += b + iv1.store();
 
-        returnString += b + "First (Fibonacci) Integer Variable Created";
+        returnString += b + "First (Fibonacci) Integer Variable Created"; //$NON-NLS-1$
         
         //iv2.game_id  = testGame1.id;
 
-        iv2.propagation_type = "constant";
-        iv2.initialValue = "1";
+        iv2.propagation_type = "constant"; //$NON-NLS-1$
+        iv2.initialValue = "1"; //$NON-NLS-1$
         
         returnString += b + iv2.store();
 
-        returnString += b + "Second (Constant) Integer Variable Created";
+        returnString += b + "Second (Constant) Integer Variable Created"; //$NON-NLS-1$
         
         return returnString;
     }
     
     public static String testCreateChart(){
-        String returnString = makeHeader("disabled Chart of Integer");
+        String returnString = makeHeader("disabled Chart of Integer"); //$NON-NLS-1$
         
         /*
         chart1.title = "Rat Population Chart";
@@ -173,41 +171,41 @@ public class MasterTester extends BaseTester{
 
     
     public static String testCreateBudgetVariable(){
-        String returnString = makeHeader("Creating Budget Variable");
+        String returnString = makeHeader("Creating Budget Variable"); //$NON-NLS-1$
         
         //bd_v1.game_id  = testGame1.id;
         //bd_v1.name = "Budget Name";
         //bd_v1.description = "Description of First Budget Variable.";
-        bd_v1.value = "10000";
+        bd_v1.value = "10000"; //$NON-NLS-1$
         bd_v1.accumulates = true;
 
 
-        returnString += b + "First Budget Variable Created";
+        returnString += b + "First Budget Variable Created"; //$NON-NLS-1$
         
 
         //bd_v2.game_id  = testGame1.id;
         //bd_v2.name = "Budget Variable 2 Name";
         //bd_v2.description = "Description of Second Budget Variable.";
-        bd_v1.value = "0";
+        bd_v1.value = "0"; //$NON-NLS-1$
         bd_v2.accumulates = false;
         //bd_v2.store();
 
-        returnString += b + "Second Budget Variable Created";
+        returnString += b + "Second Budget Variable Created"; //$NON-NLS-1$
         
         return returnString;
     }
     
     public static String testCreatePlayerBudgetTransferControl(){
-        String returnString = makeHeader("Creating Player Budget Transfer Control");
+        String returnString = makeHeader("Creating Player Budget Transfer Control"); //$NON-NLS-1$
         
         //pcbt1.game_id = testGame1.id;
-        pcbt1.name = "Player Control";
-        pcbt1.description = "Text describing this player control.";
+        pcbt1.name = "Player Control"; //$NON-NLS-1$
+        pcbt1.description = "Text describing this player control."; //$NON-NLS-1$
         
         //pcbt1.fromAcctString = bd_v1.get_sf_id();
         //pcbt1.toAcctString = bd_v2.get_sf_id();
         
-        returnString += b + "Player Budget Transfer Control Created";
+        returnString += b + "Player Budget Transfer Control Created"; //$NON-NLS-1$
         
         return returnString;
     }
@@ -215,7 +213,7 @@ public class MasterTester extends BaseTester{
 
     
     public static String testSelectDefaultSections(){
-        String returnString = makeHeader("Setting Default Sections");
+        String returnString = makeHeader("Setting Default Sections"); //$NON-NLS-1$
         /*
         testGame1.listOfStdSectionIds.add("1");
         testGame1.listOfStdSectionIds.add("2");
@@ -234,24 +232,24 @@ public class MasterTester extends BaseTester{
         
         testGame1.updateGameStdSections();
         */
-        returnString += b + "Assigned default sections to Test version 1";
+        returnString += b + "Assigned default sections to Test version 1"; //$NON-NLS-1$
         
         return returnString;
     }
     
     
     public static String testSectionCreation(){
-        String returnString = makeHeader("Making Sections");
+        String returnString = makeHeader("Making Sections"); //$NON-NLS-1$
         
         SimulationSectionAssignment gsb = new SimulationSectionAssignment();
         
         //gsb.section_short_name = "funding";
-        gsb.setTab_heading("Funding");
+        gsb.setTab_heading("Funding"); //$NON-NLS-1$
         //gsb.page_file_name = "funding.jsp";
 
         //gsb.storeBaseSection();
         
-        returnString += b + "saved funding section";
+        returnString += b + "saved funding section"; //$NON-NLS-1$
         
         return returnString;
     }
@@ -261,7 +259,7 @@ public class MasterTester extends BaseTester{
      * @return
      */
     public static String testCreateActor(){
-        String returnString = makeHeader("Making Actor not working");
+        String returnString = makeHeader("Making Actor not working"); //$NON-NLS-1$
         
         // TODO
         /*
@@ -297,7 +295,7 @@ public class MasterTester extends BaseTester{
     
     public static String testAssignActor(){
         
-        String returnString = makeHeader("Assigning Actor");
+        String returnString = makeHeader("Assigning Actor"); //$NON-NLS-1$
         
         /*
         testGame1.addActor(act_r.id);
@@ -307,14 +305,14 @@ public class MasterTester extends BaseTester{
         testGame2.addActor(act_b.id);
         */
         
-        returnString += b + "assigned actor a";
+        returnString += b + "assigned actor a"; //$NON-NLS-1$
         
         return returnString;
     }
     
     public static String testAssignSharedDocSection(){
         
-        String returnString = makeHeader("Assigning sim variable chart to user.");
+        String returnString = makeHeader("Assigning sim variable chart to user."); //$NON-NLS-1$
         SimulationSectionAssignment gs = new SimulationSectionAssignment();
         
         // TODO
@@ -336,7 +334,7 @@ public class MasterTester extends BaseTester{
     
     public static String testAssignSimVarSection(){
         
-        String returnString = makeHeader("Disabled Assigning sim variable chart to user.");
+        String returnString = makeHeader("Disabled Assigning sim variable chart to user."); //$NON-NLS-1$
         /*
         
         chart1.gs.game_id = testGame1.id;
@@ -357,7 +355,7 @@ public class MasterTester extends BaseTester{
     
     public static String testAssignPlayerControlSection(){
         
-        String returnString = makeHeader("Assigning Player Control to user.");
+        String returnString = makeHeader("Assigning Player Control to user."); //$NON-NLS-1$
         
         // TODO
         
@@ -375,7 +373,7 @@ public class MasterTester extends BaseTester{
     
     public static String testAssignPlayerBudgetTransferControlSection(){
         
-        String returnString = makeHeader("Assigning Player Budget Transfer Control to user.");
+        String returnString = makeHeader("Assigning Player Budget Transfer Control to user."); //$NON-NLS-1$
         
         // TODO
         SimulationSectionAssignment gs_base = null;
@@ -400,7 +398,7 @@ public class MasterTester extends BaseTester{
     }
     
     public static String testCreateUser(){
-        String returnString = makeHeader("Making User");
+        String returnString = makeHeader("Making User"); //$NON-NLS-1$
         /*
         userA.setUsername("a");
         //userA.setPassword("a");
@@ -427,29 +425,29 @@ public class MasterTester extends BaseTester{
 		*/
         //userC.store();
         
-        returnString += b + "created user c";
+        returnString += b + "created user c"; //$NON-NLS-1$
         
         return returnString;
     }
     
     public static String testCreateRunningSim(){
-        String returnString = makeHeader("Creating Running Simulation");
+        String returnString = makeHeader("Creating Running Simulation"); //$NON-NLS-1$
         
  
         //returnString += b + "Error out: " + rg.store();
         
-        returnString += b + "created running simulation rg";
+        returnString += b + "created running simulation rg"; //$NON-NLS-1$
         
         return returnString;
     }
     
     public static String testAssignUserToSim(){
-        String returnString = makeHeader("Assigning User to Simulation");
+        String returnString = makeHeader("Assigning User to Simulation"); //$NON-NLS-1$
         
         // TODO
         //returnString += b + User.assignUserToGame(testGame1.id, rg.id, act_r.id, userA.getId() + "");
         
-        returnString += b + "Assigned user to running simulation";
+        returnString += b + "Assigned user to running simulation"; //$NON-NLS-1$
         
         return returnString;
     }

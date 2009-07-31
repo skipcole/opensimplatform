@@ -3,8 +3,6 @@ package org.usip.osp.baseobjects;
 import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
 import java.util.*;
 
 import javax.persistence.*;
@@ -39,7 +37,7 @@ public class Actor {
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -48,30 +46,30 @@ public class Actor {
 
     /** The display name of this actor. */
 	@Column(name = "ACTOR_NAME")
-    private String name = "";
+    private String name = ""; //$NON-NLS-1$
 
     /** The public description of this actor. */
 	@Column(name = "ACTOR_PUB_DESC")
     @Lob
-	private String public_description = "";
+	private String public_description = ""; //$NON-NLS-1$
 
     /** Details known about this actor to those close to him or her. */
 	@Column(name = "ACTOR_SP_DESC")
     @Lob
-	private String semi_public_description = "";
+	private String semi_public_description = ""; //$NON-NLS-1$
 
     /** Details only known to this actor (and perhaps intimate associates).*/
 	@Column(name = "ACTOR_PRIV_DESC")
 	@Lob
-    private String private_description = "";
+    private String private_description = ""; //$NON-NLS-1$
 
 	/** Image of this actor to be shown.  */
-    private String imageFilename = "";
+    private String imageFilename = ""; //$NON-NLS-1$
     
     /** Image of this actor to be shown.  */
-    private String imageThumbFilename = "";
+    private String imageThumbFilename = ""; //$NON-NLS-1$
     
-    private String defaultColorChatBubble = "FFFFFF";
+    private String defaultColorChatBubble = "FFFFFF"; //$NON-NLS-1$
 
     @Column(name = "CONTROL_ACTOR")
     private boolean control_actor = false;
@@ -94,7 +92,7 @@ public class Actor {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Actor order by actor_name").list();
+				"from Actor order by actor_name").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -130,7 +128,7 @@ public class Actor {
     	ArrayList returnList = new ArrayList<String>();
     	
     	for (ListIterator<Actor> li = getAll(schema).listIterator(); li.hasNext();) {
-    		Actor act = (Actor) li.next();
+    		Actor act = li.next();
     		
     		returnList.add(act.getName());		
     	}
@@ -139,16 +137,7 @@ public class Actor {
     	
     }
     
-    /**
-     * Just used for occasional debugging.
-     * 
-     * @param args
-     */
-    public static void main(String args[]){
-        
-        
-    }
-    
+   
     /**
      * Gets the control actor for the given schema.
      * 
@@ -176,15 +165,15 @@ public class Actor {
         Actor controlActor = new Actor();
 
         List returnList = hibernate_session.createQuery(
-                "from Actor where actor_name = 'control'").list();
+                "from Actor where actor_name = 'control'").list(); //$NON-NLS-1$
         
         if ((returnList != null) && (returnList.size() > 0)){
             controlActor = (Actor) returnList.get(0);
-            System.out.println("got control actor: " + controlActor.getName());
+            System.out.println("got control actor: " + controlActor.getName()); //$NON-NLS-1$
             
             hibernate_session.evict(controlActor);
         } else {
-            controlActor.setName("control");
+            controlActor.setName("control"); //$NON-NLS-1$
             controlActor.setControl_actor(true);
             controlActor.setShown(false);
             hibernate_session.saveOrUpdate(controlActor);
@@ -204,7 +193,7 @@ public class Actor {
 
         Actor a = (Actor) o;
 
-        return -(a.name.compareTo(name));
+        return -(a.name.compareTo(this.name));
 
     }
     
@@ -213,7 +202,7 @@ public class Actor {
 	 * @return Returns the defaultColorChatBubble.
 	 */
 	public String getDefaultColorChatBubble() {
-		return defaultColorChatBubble;
+		return this.defaultColorChatBubble;
 	}
 
 	/**
@@ -227,7 +216,7 @@ public class Actor {
 	 * @return Returns the id.
 	 */
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -241,7 +230,7 @@ public class Actor {
 	 * @return Returns the imageFilename.
 	 */
 	public String getImageFilename() {
-		return imageFilename;
+		return this.imageFilename;
 	}
 
 	/**
@@ -252,7 +241,7 @@ public class Actor {
 	}
 
 	public String getImageThumbFilename() {
-		return imageThumbFilename;
+		return this.imageThumbFilename;
 	}
 
 	public void setImageThumbFilename(String imageThumbFilename) {
@@ -263,7 +252,7 @@ public class Actor {
 	 * @return Returns the name.
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
@@ -277,7 +266,7 @@ public class Actor {
 	 * @return Returns the npc.
 	 */
 	public boolean isNpc() {
-		return npc;
+		return this.npc;
 	}
 
 	/**
@@ -291,7 +280,7 @@ public class Actor {
 	 * @return Returns the private_description.
 	 */
 	public String getPrivate_description() {
-		return private_description;
+		return this.private_description;
 	}
 
 	/**
@@ -305,7 +294,7 @@ public class Actor {
 	 * @return Returns the public_description.
 	 */
 	public String getPublic_description() {
-		return public_description;
+		return this.public_description;
 	}
 
 	/**
@@ -319,7 +308,7 @@ public class Actor {
 	 * @return Returns the semi_public_description.
 	 */
 	public String getSemi_public_description() {
-		return semi_public_description;
+		return this.semi_public_description;
 	}
 
 	/**
@@ -331,7 +320,7 @@ public class Actor {
 
 
     public boolean isShown() {
-        return isShown;
+        return this.isShown;
     }
 
 
@@ -353,8 +342,8 @@ public class Actor {
         
         Session session = MultiSchemaHibernateUtil.getSession(schema);
         
-        String getHQL = "select count(ss) from SimulationSectionAssignment ss where SIM_ID = "
-			+ s_id + " AND PHASE_ID = " + pid.toString() + " AND ACTOR_ID = " + a_id.toString();
+        String getHQL = "select count(ss) from SimulationSectionAssignment ss where SIM_ID = " //$NON-NLS-1$
+			+ s_id + " AND PHASE_ID = " + pid.toString() + " AND ACTOR_ID = " + a_id.toString(); //$NON-NLS-1$ //$NON-NLS-2$
         
         System.out.println(getHQL);
         
@@ -370,7 +359,7 @@ public class Actor {
 	 * @return
 	 */
 	public boolean isControl_actor() {
-		return control_actor;
+		return this.control_actor;
 	}
 
 	public void setControl_actor(boolean control_actor) {
@@ -388,10 +377,9 @@ public class Actor {
 		SimActorAssignment saa = SimActorAssignment.getMe(schema, sim_id, this.id);
 		
 		if ((sim_id == null) || (saa == null)){
-			return "Actor has not been assigned to this simulation.";
-		} else {
-			return saa.getActors_role();
+			return "Actor has not been assigned to this simulation."; //$NON-NLS-1$
 		}
+		return saa.getActors_role();
 		
 	}
 	

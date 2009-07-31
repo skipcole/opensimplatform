@@ -47,7 +47,7 @@ public abstract class SimVariable{
     private String propagation_type;
 
 	public Long getRs_id() {
-		return rs_id;
+		return this.rs_id;
 	}
 
 	public void setRs_id(Long rs_id) {
@@ -55,7 +55,7 @@ public abstract class SimVariable{
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -63,7 +63,7 @@ public abstract class SimVariable{
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -71,7 +71,7 @@ public abstract class SimVariable{
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -79,7 +79,7 @@ public abstract class SimVariable{
 	}
 
 	public String getPropagation_type() {
-		return propagation_type;
+		return this.propagation_type;
 	}
 
 	public void setPropagation_type(String propagation_type) {

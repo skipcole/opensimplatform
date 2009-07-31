@@ -1,8 +1,5 @@
 package org.usip.osp.baseobjects;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.*;
 
 import javax.persistence.*;
@@ -38,15 +35,6 @@ public class User {
 	@Column(name = "USER_ID")
 	private Long id;
 
-	public static void main(String args[]) {
-
-		for (ListIterator<User> li = User.getAll("uo_schema1").listIterator(); li
-				.hasNext();) {
-			User ua = (User) li.next();
-
-		}
-	}
-
 	@Column(name = "SIMCREATOR")
 	private boolean sim_author = false;
 
@@ -60,7 +48,7 @@ public class User {
 	private int timeZoneOffset;
 
 	public int getTimeZoneOffset() {
-		return timeZoneOffset;
+		return this.timeZoneOffset;
 	}
 
 	public void setTimeZoneOffset(int timeZoneOffset) {
@@ -71,22 +59,22 @@ public class User {
 	private Long trail_id;
 
 	@Transient
-	private String bu_full_name = "";
+	private String bu_full_name = ""; //$NON-NLS-1$
 
 	@Transient
-	private String bu_first_name = "";
+	private String bu_first_name = ""; //$NON-NLS-1$
 
 	@Transient
-	private String bu_last_name = "";
+	private String bu_last_name = ""; //$NON-NLS-1$
 
 	@Transient
-	private String bu_middle_name = "";
+	private String bu_middle_name = ""; //$NON-NLS-1$
 
 	@Transient
-	private String bu_username = "";
+	private String bu_username = ""; //$NON-NLS-1$
 	
 	@Transient
-	private String bu_password = "";
+	private String bu_password = ""; //$NON-NLS-1$
 
 	public User() {
 
@@ -111,7 +99,7 @@ public class User {
 			String full_name, String email, boolean sim_creator,
 			boolean sim_instructor, boolean admin) {
 
-		System.out.println("creating user " + username);
+		System.out.println("creating user " + username); //$NON-NLS-1$
 
 		BaseUser bu = BaseUser.getUniqueUser(username, password, schema);
 		
@@ -121,9 +109,9 @@ public class User {
 		bu.setMiddle_name(middle_name);
 		bu.saveMe();
 
-		System.out.println("-----------------");
-		System.out.println("bu id " + bu.getId());
-		System.out.println("-----------------");
+		System.out.println("-----------------"); //$NON-NLS-1$
+		System.out.println("bu id " + bu.getId()); //$NON-NLS-1$
+		System.out.println("-----------------"); //$NON-NLS-1$
 
 		this.setId(bu.getId());
 
@@ -198,7 +186,7 @@ public class User {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -209,7 +197,7 @@ public class User {
 	 * @return Returns the admin.
 	 */
 	public boolean isAdmin() {
-		return admin;
+		return this.admin;
 	}
 
 	/**
@@ -224,7 +212,7 @@ public class User {
 	 * @return Returns the sim_creator.
 	 */
 	public boolean isSim_author() {
-		return sim_author;
+		return this.sim_author;
 	}
 
 	/**
@@ -246,7 +234,7 @@ public class User {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from User").list();
+				.createQuery("from User").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -259,7 +247,7 @@ public class User {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from User").list();
+				.createQuery("from User").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -278,7 +266,7 @@ public class User {
 		List returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery(
-						"from User where simcreator = '1' or admin = '1' or siminstructor = '1'")
+						"from User where simcreator = '1' or admin = '1' or siminstructor = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -308,10 +296,10 @@ public class User {
 			org.hibernate.Session hibernate_session) {
 
 		List<User> list = hibernate_session.createQuery(
-				"from User where username = '" + username + "'").list();
+				"from User where username = '" + username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if ((list != null) && (list.size() == 1)) {
-			return (User) list.get(0);
+			return list.get(0);
 		} else {
 			return null;
 		}
@@ -388,7 +376,7 @@ public class User {
 	}
 
 	public Long getTrail_id() {
-		return trail_id;
+		return this.trail_id;
 	}
 
 	public void setTrail_id(Long trail_id) {
@@ -396,7 +384,7 @@ public class User {
 	}
 
 	public boolean isSim_instructor() {
-		return sim_instructor;
+		return this.sim_instructor;
 	}
 
 	public void setSim_instructor(boolean sim_instructor) {
@@ -414,7 +402,7 @@ public class User {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from User").list();
+				.createQuery("from User").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -460,7 +448,7 @@ public class User {
 
 		} else {
 			System.out
-					.println("warning. user found without base user component.");
+					.println("warning. user found without base user component."); //$NON-NLS-1$
 		}
 
 		MultiSchemaHibernateUtil
@@ -472,7 +460,7 @@ public class User {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		for (ListIterator<User> li = initialList.listIterator(); li.hasNext();) {
-			User user = (User) li.next();
+			User user = li.next();
 
 			user.loadMyDetails();
 		}
@@ -483,7 +471,7 @@ public class User {
 	}
 
 	public String getBu_full_name() {
-		return bu_full_name;
+		return this.bu_full_name;
 	}
 
 	public void setBu_full_name(String bu_full_name) {
@@ -491,7 +479,7 @@ public class User {
 	}
 
 	public String getBu_first_name() {
-		return bu_first_name;
+		return this.bu_first_name;
 	}
 
 	public void setBu_first_name(String bu_first_name) {
@@ -499,7 +487,7 @@ public class User {
 	}
 
 	public String getBu_last_name() {
-		return bu_last_name;
+		return this.bu_last_name;
 	}
 
 	public void setBu_last_name(String bu_last_name) {
@@ -507,7 +495,7 @@ public class User {
 	}
 
 	public String getBu_middle_name() {
-		return bu_middle_name;
+		return this.bu_middle_name;
 	}
 
 	public void setBu_middle_name(String bu_middle_name) {
@@ -515,7 +503,7 @@ public class User {
 	}
 
 	public String getBu_username() {
-		return bu_username;
+		return this.bu_username;
 	}
 
 	public void setBu_username(String bu_username) {
@@ -523,7 +511,7 @@ public class User {
 	}
 
 	public String getBu_password() {
-		return bu_password;
+		return this.bu_password;
 	}
 
 	public void setBu_password(String bu_password) {

@@ -13,9 +13,6 @@ import java.util.ListIterator;
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.Inject;
 import org.usip.osp.communications.InjectGroup;
-import org.usip.osp.communications.SharedDocument;
-import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -37,7 +34,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 public class ObjectPackager {
 
-	public static final String lineTerminator = "\r\n";
+	public static final String lineTerminator = "\r\n"; //$NON-NLS-1$
 
 	public static void main(String[] args) {
 
@@ -48,16 +45,16 @@ public class ObjectPackager {
 	}
 
 	public static void play() {
-		BaseSimSection bss_intro = new BaseSimSection("test", "", "../osp_core", "introduction.jsp", "Introduction",
-				"Your introductory text will be shown here.");
+		BaseSimSection bss_intro = new BaseSimSection("test", "", "../osp_core", "introduction.jsp", "Introduction", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				"Your introductory text will be shown here."); //$NON-NLS-1$
 
-		bss_intro.setCreatingOrganization("org.usip.osp.");
-		bss_intro.setUniqueName("Cast");
-		bss_intro.setVersion("1");
+		bss_intro.setCreatingOrganization("org.usip.osp."); //$NON-NLS-1$
+		bss_intro.setUniqueName("Cast"); //$NON-NLS-1$
+		bss_intro.setVersion("1"); //$NON-NLS-1$
 
 		XStream xstream = new XStream();
 
-		xstream.alias("bss", BaseSimSection.class);
+		xstream.alias("bss", BaseSimSection.class); //$NON-NLS-1$
 
 		System.out.println(xstream.toXML(bss_intro));
 
@@ -97,15 +94,15 @@ public class ObjectPackager {
 		sim.setTransit_id(sim.getId());
 		sim.setId(null);
 
-		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>" + lineTerminator;
+		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>" + lineTerminator; //$NON-NLS-1$
 
-		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRawValue("release") + "</OSP_VERSION>"
+		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRawValue("release") + "</OSP_VERSION>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				+ lineTerminator;
 
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat();
 
-		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + lineTerminator;
+		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + lineTerminator; //$NON-NLS-1$ //$NON-NLS-2$
 
 		returnString += xstream.toXML(sim);
 
@@ -116,7 +113,7 @@ public class ObjectPackager {
 		returnString += packageSimSectionAssignmentInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageSimObjectInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 
-		returnString += "</SIM_PACKAGE_OBJECT>";
+		returnString += "</SIM_PACKAGE_OBJECT>"; //$NON-NLS-1$
 
 		return returnString;
 
@@ -131,7 +128,7 @@ public class ObjectPackager {
 	 */
 	public static String packageSimSectionAssignmentInformation(String schema, long sim_id, XStream xstream) {
 
-		String returnString = "";
+		String returnString = ""; //$NON-NLS-1$
 
 		for (ListIterator<SimulationSectionAssignment> li = SimulationSectionAssignment.getBySim(schema, sim_id)
 				.listIterator(); li.hasNext();) {
@@ -158,7 +155,7 @@ public class ObjectPackager {
 	 */
 	public static String packageSimObjectInformation(String schema, long sim_id, XStream xstream) {
 
-		String returnString = "";
+		String returnString = ""; //$NON-NLS-1$
 
 		// Keeps a list of items stored so we don't store the same item twice.
 		Hashtable previouslyStoredObjects = new Hashtable();
@@ -181,17 +178,17 @@ public class ObjectPackager {
 			System.out.println(depObj.getClass());
 			System.out.println(depObj.getId());
 			
-			String hash_key_string = depObj.getClass() + "_" + depObj.getId();
+			String hash_key_string = depObj.getClass() + "_" + depObj.getId(); //$NON-NLS-1$
 
 			String checkString = (String) previouslyStoredObjects.get(hash_key_string);
 			
-			System.out.println("hash_key_string was: " + hash_key_string);
-			System.out.println("check string was: " + checkString);
+			System.out.println("hash_key_string was: " + hash_key_string); //$NON-NLS-1$
+			System.out.println("check string was: " + checkString); //$NON-NLS-1$
 
 			if (checkString == null) {
 				
-				previouslyStoredObjects.put(hash_key_string, "set");
-				System.out.println("put hash_key_string: " + hash_key_string);
+				previouslyStoredObjects.put(hash_key_string, "set"); //$NON-NLS-1$
+				System.out.println("put hash_key_string: " + hash_key_string); //$NON-NLS-1$
 
 				depObj.setTransit_id(depObj.getId());
 				depObj.setId(null);
@@ -213,7 +210,7 @@ public class ObjectPackager {
 	 */
 	public static String packageBaseSimSectionInformation(String schema, long sim_id, XStream xstream) {
 
-		String returnString = "";
+		String returnString = ""; //$NON-NLS-1$
 		// Get list of base section ids
 		List setOfBaseSections = SimulationSectionAssignment.getBaseIdsBySim(schema, sim_id);
 
@@ -222,11 +219,11 @@ public class ObjectPackager {
 
 			BaseSimSection bss = BaseSimSection.getMe(schema, thisBaseId.toString());
 
-			if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.BaseSimSection")) {
+			if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.BaseSimSection")) { //$NON-NLS-1$
 				bss.setTransit_id(bss.getId());
 				bss.setId(null);
 				returnString += xstream.toXML(bss) + lineTerminator;
-			} else if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.CustomizeableSection")) {
+			} else if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.CustomizeableSection")) { //$NON-NLS-1$
 
 				bss = null;
 				CustomizeableSection cbss = CustomizeableSection.getMe(schema, thisBaseId.toString());
@@ -234,7 +231,7 @@ public class ObjectPackager {
 				cbss.setId(null);
 				returnString += xstream.toXML(cbss) + lineTerminator;
 			} else {
-				System.out.println("Warning in Object Packager. Unknown object.");
+				System.out.println("Warning in Object Packager. Unknown object."); //$NON-NLS-1$
 			}
 
 		}
@@ -251,7 +248,7 @@ public class ObjectPackager {
 	 */
 	public static String packageInjects(String schema, long sim_id, XStream xstream) {
 
-		String returnString = "";
+		String returnString = ""; //$NON-NLS-1$
 
 		List<InjectGroup> allInjectGroups = InjectGroup.getAllForSim(schema, sim_id);
 		for (ListIterator<InjectGroup> li = allInjectGroups.listIterator(); li.hasNext();) {
@@ -286,10 +283,10 @@ public class ObjectPackager {
 	 * @return
 	 */
 	public static String packageActors(String schema, long sim_id, XStream xstream) {
-		String returnString = "";
+		String returnString = ""; //$NON-NLS-1$
 		List<Actor> allActors = SimActorAssignment.getActorsForSim(schema, sim_id);
 		for (ListIterator<Actor> li = allActors.listIterator(); li.hasNext();) {
-			Actor thisActor = (Actor) li.next();
+			Actor thisActor = li.next();
 
 			thisActor.setTransit_id(thisActor.getId());
 			thisActor.setId(null);
@@ -308,10 +305,10 @@ public class ObjectPackager {
 	 */
 	public static String packagePhases(String schema, long sim_id, XStream xstream) {
 
-		String returnString = "";
+		String returnString = ""; //$NON-NLS-1$
 		List<SimulationPhase> allPhases = SimPhaseAssignment.getPhasesForSim(schema, sim_id);
 		for (ListIterator<SimulationPhase> li = allPhases.listIterator(); li.hasNext();) {
-			SimulationPhase thisPhase = (SimulationPhase) li.next();
+			SimulationPhase thisPhase = li.next();
 
 			thisPhase.setTransit_id(thisPhase.getId());
 			thisPhase.setId(null);
@@ -330,7 +327,7 @@ public class ObjectPackager {
 	public static Simulation unpackSimDetails(String fileloc, String schema) {
 
 		XStream xstream = new XStream(new DomDriver());
-		xstream.alias("sim", Simulation.class);
+		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
 
 		Hashtable actorIdMappings = new Hashtable();
 		// We use the actor id of 0 in the sections table to indicate that it is
@@ -343,19 +340,19 @@ public class ObjectPackager {
 
 		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileloc;
 
-		System.out.println("looking for file to unpack at " + fileLocation);
+		System.out.println("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
 
 		String fullString = FileIO.getFileContents(new File(fileLocation));
 
-		String simString = getObjectFromFile(fullString, "<org.usip.osp.baseobjects.Simulation>",
-				"</org.usip.osp.baseobjects.Simulation>");
+		String simString = getObjectFromFile(fullString, "<org.usip.osp.baseobjects.Simulation>", //$NON-NLS-1$
+				"</org.usip.osp.baseobjects.Simulation>"); //$NON-NLS-1$
 
 		Simulation simRead = (Simulation) xstream.fromXML(simString);
 
 		return simRead;
 	}
 
-	public static String unpackInformationString = "";
+	public static String unpackInformationString = ""; //$NON-NLS-1$
 
 	/**
 	 * 
@@ -365,7 +362,7 @@ public class ObjectPackager {
 	public static void unpackSim(String fileloc, String schema, String sim_name, String sim_version) {
 
 		XStream xstream = new XStream(new DomDriver());
-		xstream.alias("sim", Simulation.class);
+		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
 
 		Hashtable actorIdMappings = new Hashtable();
 		// We use the actor id of 0 in the sections table to indicate that it is
@@ -378,12 +375,12 @@ public class ObjectPackager {
 
 		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileloc;
 
-		System.out.println("looking for file to unpack at " + fileLocation);
+		System.out.println("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
 
 		String fullString = FileIO.getFileContents(new File(fileLocation));
 
-		String simString = getObjectFromFile(fullString, "<org.usip.osp.baseobjects.Simulation>",
-				"</org.usip.osp.baseobjects.Simulation>");
+		String simString = getObjectFromFile(fullString, "<org.usip.osp.baseobjects.Simulation>", //$NON-NLS-1$
+				"</org.usip.osp.baseobjects.Simulation>"); //$NON-NLS-1$
 
 		Simulation simRead = (Simulation) xstream.fromXML(simString);
 
@@ -392,57 +389,57 @@ public class ObjectPackager {
 
 		simRead.saveMe(schema);
 
-		unpackInformationString += "<b>Unpacking Actors</b><br />";
-		unpackInformationString += "<blockquote>";
+		unpackInformationString += "<b>Unpacking Actors</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackageActors(schema, fullString, simRead.getId(), xstream, actorIdMappings);
-		unpackInformationString += "</blockquote>";
-		unpackInformationString += "<b>Actors Unpacked</b><br />";
-		unpackInformationString += "--------------------------------------------------------------------<br />";
-		unpackInformationString += "<b>Unpacking Phases</b><br />";
-		unpackInformationString += "<blockquote>";
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Actors Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Unpacking Phases</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackagePhases(schema, fullString, simRead.getId(), xstream, phaseIdMappings);
-		unpackInformationString += "</blockquote>";
-		unpackInformationString += "<b>Phases Unpacked</b><br />";
-		unpackInformationString += "--------------------------------------------------------------------<br />";
-		unpackInformationString += "<b>Unpacking Injects</b><br />";
-		unpackInformationString += "<blockquote>";
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Phases Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Unpacking Injects</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackageInjects(schema, fullString, simRead.getId(), xstream);
-		unpackInformationString += "</blockquote>";
-		unpackInformationString += "<b>Injects Unpacked</b><br />";
-		unpackInformationString += "--------------------------------------------------------------------<br />";
-		unpackInformationString += "<b>Unpacking Base Simulation Sections</b><br />";
-		unpackInformationString += "<blockquote>";
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Injects Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Unpacking Base Simulation Sections</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackageBaseSimSections(schema, fullString, simRead.getId(), xstream, bssIdMappings);
-		unpackInformationString += "</blockquote>";
-		unpackInformationString += "<b>Base Sim Sections Unpacked</b><br />";
-		unpackInformationString += "--------------------------------------------------------------------<br />";
-		unpackInformationString += "<b>Unpacking Customizeable Sim Sections</b><br />";
-		unpackInformationString += "<blockquote>";
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Base Sim Sections Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Unpacking Customizeable Sim Sections</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackageCustomizeableSimSections(schema, fullString, simRead.getId(), xstream,
 				bssIdMappings);
-		unpackInformationString += "</blockquote>";
-		unpackInformationString += "<b>Customizeable Sections Unpacked</b><br />";
-		unpackInformationString += "--------------------------------------------------------------------<br />";
-		unpackInformationString += "<b>Unpacking Customized Sim Sections</b><br />";
-		unpackInformationString += "<blockquote>";
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Customizeable Sections Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Unpacking Customized Sim Sections</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackageCustomizedSimSections(schema, fullString, simRead.getId(), xstream,
 				bssIdMappings);
-		unpackInformationString += "</blockquote>";
-		unpackInformationString += "<b>Customizeable Sections Unpacked</b><br />";
-		unpackInformationString += "--------------------------------------------------------------------<br />";
-		unpackInformationString += "<b>Unpacking Simulation Sections</b><br />";
-		unpackInformationString += "<blockquote>";
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Customizeable Sections Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Unpacking Simulation Sections</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackageSimSectionAssignmentss(schema, fullString, simRead.getId(), xstream,
 				actorIdMappings, phaseIdMappings, bssIdMappings);
-		unpackInformationString += "</blockquote>";
-		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />";
-		unpackInformationString += "--------------------------------------------------------------------<br />";
-		unpackInformationString += "<b>Unpacking Simulation Objects</b><br />";
-		unpackInformationString += "<blockquote>";
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Unpacking Simulation Objects</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackageSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings);
-		unpackInformationString += "</blockquote>";
-		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />";
-		unpackInformationString += "--------------------------------------------------------------------<br />";
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
 
 		// ? documents, variables, conversations, etc.
 
@@ -463,7 +460,7 @@ public class ObjectPackager {
 			Hashtable bssIdMappings) {
 
 		// Get object dependencies
-		String returnString = "Getting Dependent Object Assignments <BR />";
+		String returnString = "Getting Dependent Object Assignments <BR />"; //$NON-NLS-1$
 
 		// Fill this up to import objects first, and then remap the bssdoa to
 		// them and the base sim section
@@ -594,7 +591,7 @@ public class ObjectPackager {
 			SimulationSectionAssignment this_ssa = SimulationSectionAssignment.getMe(schema, li_id);
 			
 			returnString += "<font color=green>Remapped " +  this_ssa.getDisplaySectionId() + " to " + 
-				(Long) ssidsHash.get(this_ssa.getDisplaySectionId()) + "</font><br />";
+				ssidsHash.get(this_ssa.getDisplaySectionId()) + "</font><br />";
 			
 			this_ssa.setDisplaySectionId((Long) ssidsHash.get(this_ssa.getDisplaySectionId()));
 			this_ssa.save(schema);

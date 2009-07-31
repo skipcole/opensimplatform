@@ -26,7 +26,7 @@ public class DemoTester extends BaseTester{
      
     
     public static String runTests(){
-        String runOut = "Run Started: <BR>";
+        String runOut = "Run Started: <BR>"; //$NON-NLS-1$
   
         runOut += cleanDatabase();
         runOut += testSimCreation();
@@ -36,25 +36,25 @@ public class DemoTester extends BaseTester{
     }
     
     public static String testSimCreation(){
-        String returnString = makeHeader("Making Simulations 'Test1' and 'Test2'");
+        String returnString = makeHeader("Making Simulations 'Test1' and 'Test2'"); //$NON-NLS-1$
         
         //testDemoGame.name = "One For All";
         //testDemoGame.version = "1";
         //testDemoGame.layout.bannertitle = "My Organization";
         //testDemoGame.store();
         
-        returnString += b + "Created Demo Simulation";
+        returnString += b + "Created Demo Simulation"; //$NON-NLS-1$
         
         
         return returnString;
     }
     
     public static String testSimIntroCreation(){
-        String returnString = makeHeader("Inserting Simulation Introduction");
+        String returnString = makeHeader("Inserting Simulation Introduction"); //$NON-NLS-1$
         
         //testDemoGame.setIntroductionInDB("A Sample Sim.");
 
-        returnString += b + "Simulation Introduction Set";
+        returnString += b + "Simulation Introduction Set"; //$NON-NLS-1$
         
         return returnString;
     }

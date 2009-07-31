@@ -22,29 +22,29 @@ import org.usip.osp.persistence.BaseUser;
  */
 public class PSO_UserAdmin {
 
-	private String _full_name = "";
-	private String _first_name = "";
-	private String _last_name = "";
-	private String _middle_name = "";
+	private String _full_name = ""; //$NON-NLS-1$
+	private String _first_name = ""; //$NON-NLS-1$
+	private String _last_name = ""; //$NON-NLS-1$
+	private String _middle_name = ""; //$NON-NLS-1$
 	
 	private boolean _makeAdmin = false;
 	private boolean _makeAuthor = false;
 	private boolean _makeInstructor = false;
 	
 	/** Flag to indicate if user is to be admin user. */
-	private String _admin = "";
+	private String _admin = ""; //$NON-NLS-1$
 
 	/** Flag to indicate if user is to be simulation author. */
-	private String _author = "";
+	private String _author = ""; //$NON-NLS-1$
 
 	/** Email / username of user. */
-	private String _email = "";
+	private String _email = ""; //$NON-NLS-1$
 
 	/** Flag to indicate if user is to be an instructor. */
-	private String _instructor = "";
+	private String _instructor = ""; //$NON-NLS-1$
 
 	/** Password of the user. */
-	private String _password = "";
+	private String _password = ""; //$NON-NLS-1$
 	
 	private ParticipantSessionObject pso;
 	
@@ -60,28 +60,28 @@ public class PSO_UserAdmin {
 	 */
 	private void getBaseUserParamters(HttpServletRequest request) {
 		
-		_full_name = (String) request.getParameter("full_name");
-		_first_name = (String) request.getParameter("first_name");
-		_last_name = (String) request.getParameter("last_name");
-		_middle_name = (String) request.getParameter("middle_name");
+		this._full_name = request.getParameter("full_name"); //$NON-NLS-1$
+		this._first_name = request.getParameter("first_name"); //$NON-NLS-1$
+		this._last_name = request.getParameter("last_name"); //$NON-NLS-1$
+		this._middle_name = request.getParameter("middle_name"); //$NON-NLS-1$
 		
-		_admin = (String) request.getParameter("admin");
-		_author = (String) request.getParameter("author");
-		_email = (String) request.getParameter("email");
-		_instructor = (String) request.getParameter("instructor");
-		_password = (String) request.getParameter("password");
+		this._admin = request.getParameter("admin"); //$NON-NLS-1$
+		this._author = request.getParameter("author"); //$NON-NLS-1$
+		this._email = request.getParameter("email"); //$NON-NLS-1$
+		this._instructor = request.getParameter("instructor"); //$NON-NLS-1$
+		this._password = request.getParameter("password"); //$NON-NLS-1$
 
-		if ((_admin != null) && (_admin.equalsIgnoreCase("true"))) {
-			_makeAdmin = true;
-			_makeAuthor = true;
-			_makeInstructor = true;
-		} else if ((_author != null)
-				&& (_author.equalsIgnoreCase("true"))) {
-			_makeAuthor = true;
-			_makeInstructor = true;
-		} else if ((_instructor != null)
-				&& (_instructor.equalsIgnoreCase("true"))) {
-			_makeInstructor = true;
+		if ((this._admin != null) && (this._admin.equalsIgnoreCase("true"))) { //$NON-NLS-1$
+			this._makeAdmin = true;
+			this._makeAuthor = true;
+			this._makeInstructor = true;
+		} else if ((this._author != null)
+				&& (this._author.equalsIgnoreCase("true"))) { //$NON-NLS-1$
+			this._makeAuthor = true;
+			this._makeInstructor = true;
+		} else if ((this._instructor != null)
+				&& (this._instructor.equalsIgnoreCase("true"))) { //$NON-NLS-1$
+			this._makeInstructor = true;
 		}
 
 	}
@@ -91,10 +91,10 @@ public class PSO_UserAdmin {
 	 * @param request
 	 */
 	private void getUserDetails(HttpServletRequest request){
-		_full_name = (String) request.getParameter("full_name");
-		_first_name = (String) request.getParameter("first_name");
-		_last_name = (String) request.getParameter("last_name");
-		_middle_name = (String) request.getParameter("middle_name");
+		this._full_name = request.getParameter("full_name"); //$NON-NLS-1$
+		this._first_name = request.getParameter("first_name"); //$NON-NLS-1$
+		this._last_name = request.getParameter("last_name"); //$NON-NLS-1$
+		this._middle_name = request.getParameter("middle_name"); //$NON-NLS-1$
 	}
 
 	/**
@@ -105,57 +105,57 @@ public class PSO_UserAdmin {
 
 		User user = new User();
 
-		String command = (String) request.getParameter("command");
+		String command = request.getParameter("command"); //$NON-NLS-1$
 
 		if (command != null) {
 			
 			getBaseUserParamters(request);
 			getUserDetails(request);
 			
-			String u_id = (String) request.getParameter("u_id");
+			String u_id = request.getParameter("u_id"); //$NON-NLS-1$
 			
-			if (command.equalsIgnoreCase("Create")) {
+			if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
 
 				if (!hasEnoughInfoToCreateUser()) {
 					return user;
 				} else {
 
 					try {
-						user = new User(schema, _email, _password, "", "", "",
-								_full_name, _email, _makeAuthor, _makeInstructor,
-								_makeAdmin);
+						user = new User(schema, this._email, this._password, "", "", "", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+								this._full_name, this._email, this._makeAuthor, this._makeInstructor,
+								this._makeAdmin);
 						
-						user.setBu_password(_password);
-						user.setBu_username(_email);
-						user.setBu_first_name(_first_name);
-						user.setBu_full_name(_full_name);
-						user.setBu_last_name(_last_name);
-						user.setBu_middle_name(_middle_name);
+						user.setBu_password(this._password);
+						user.setBu_username(this._email);
+						user.setBu_first_name(this._first_name);
+						user.setBu_full_name(this._full_name);
+						user.setBu_last_name(this._last_name);
+						user.setBu_middle_name(this._middle_name);
 						
 						user.saveMe(schema);
 
 					} catch (Exception e) {
 						e.printStackTrace();
-						pso.errorMsg = e.getMessage();
+						this.pso.errorMsg = e.getMessage();
 					}
 				}
-			} else if (command.equalsIgnoreCase("Update")) { // 
+			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
 				user = User.getMe(schema, new Long(u_id));
-				user.setAdmin(_makeAdmin);
-				user.setBu_first_name(_first_name);
-				user.setBu_full_name(_full_name);
-				user.setBu_last_name(_last_name);
-				user.setBu_middle_name(_middle_name);
-				user.setBu_username(_email);
-				user.setBu_password(_password);
-				user.setSim_author(_makeAuthor);
-				user.setSim_instructor(_makeInstructor);
+				user.setAdmin(this._makeAdmin);
+				user.setBu_first_name(this._first_name);
+				user.setBu_full_name(this._full_name);
+				user.setBu_last_name(this._last_name);
+				user.setBu_middle_name(this._middle_name);
+				user.setBu_username(this._email);
+				user.setBu_password(this._password);
+				user.setSim_author(this._makeAuthor);
+				user.setSim_instructor(this._makeInstructor);
 				
 				user.saveMe(schema);
 				
-			} else if (command.equalsIgnoreCase("Edit")) {
+			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
 				user = User.getMe(schema, new Long(u_id));
-			} else if (command.equalsIgnoreCase("Clear")) { // 
+			} else if (command.equalsIgnoreCase("Clear")) { //  //$NON-NLS-1$
 				// returning new simulation will clear fields.
 			}
 
@@ -173,14 +173,14 @@ public class PSO_UserAdmin {
 
 		User user = new User();
 		
-		String command = (String) request.getParameter("command");
+		String command = request.getParameter("command"); //$NON-NLS-1$
 
 		if (command != null) {
 
 			getBaseUserParamters(request);
 
 			// /////////////////////////////////
-			if (command.equalsIgnoreCase("Save")) {
+			if (command.equalsIgnoreCase("Save")) { //$NON-NLS-1$
 
 				if (!hasEnoughInfoToCreateUser()) {
 					return user;
@@ -188,11 +188,11 @@ public class PSO_UserAdmin {
 
 					try {
 
-						user = new User(schema, _email, _password, "", "",
-								"", _full_name, _email, false, false, false);
+						user = new User(schema, this._email, this._password, "", "", //$NON-NLS-1$ //$NON-NLS-2$
+								"", this._full_name, this._email, false, false, false); //$NON-NLS-1$
 
 					} catch (Exception e) {
-						pso.errorMsg = e.getMessage();
+						this.pso.errorMsg = e.getMessage();
 					}
 				}
 			}
@@ -209,16 +209,16 @@ public class PSO_UserAdmin {
 
 		User user = new User();
 		
-		String command = (String) request.getParameter("command");
+		String command = request.getParameter("command"); //$NON-NLS-1$
 
 		if (command != null) {
 
 			getBaseUserParamters(request);
 			
-			String schema = (String) request.getParameter("selected_schema");
+			String schema = request.getParameter("selected_schema"); //$NON-NLS-1$
 
 			// /////////////////////////////////
-			if (command.equalsIgnoreCase("Register")) {
+			if (command.equalsIgnoreCase("Register")) { //$NON-NLS-1$
 
 				if (!hasEnoughInfoToCreateUser()) {
 					return user;
@@ -226,13 +226,13 @@ public class PSO_UserAdmin {
 
 					try {
 
-						user = new User(schema, _email, _password, _first_name, _last_name,
-								_middle_name, _full_name, _email, false, false, false);
+						user = new User(schema, this._email, this._password, this._first_name, this._last_name,
+								this._middle_name, this._full_name, this._email, false, false, false);
 						
-						pso.forward_on = true;
+						this.pso.forward_on = true;
 						
 					} catch (Exception e) {
-						pso.errorMsg = e.getMessage();
+						this.pso.errorMsg = e.getMessage();
 					}
 				}
 			}
@@ -247,18 +247,18 @@ public class PSO_UserAdmin {
 	 */
 	private boolean hasEnoughInfoToCreateUser() {
 
-		System.out.println("p is " + _password);
-		System.out.println("f is " + _full_name);
-		System.out.println("e is " + _email);
+		System.out.println("p is " + this._password); //$NON-NLS-1$
+		System.out.println("f is " + this._full_name); //$NON-NLS-1$
+		System.out.println("e is " + this._email); //$NON-NLS-1$
 		
-		if (_password.trim().equalsIgnoreCase("")) {
-			pso.errorMsg += "Must enter password.<br/>";
+		if (this._password.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
+			this.pso.errorMsg += "Must enter password.<br/>"; //$NON-NLS-1$
 			return false;
-		} else if (_full_name.trim().equalsIgnoreCase("")) {
-			pso.errorMsg += "Must enter full name.<br/>";
+		} else if (this._full_name.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
+			this.pso.errorMsg += "Must enter full name.<br/>"; //$NON-NLS-1$
 			return false;
-		} else if (_email.trim().equalsIgnoreCase("")) {
-			pso.errorMsg += "Must enter email address.<br/>";
+		} else if (this._email.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
+			this.pso.errorMsg += "Must enter email address.<br/>"; //$NON-NLS-1$
 			return false;
 		}
 
@@ -276,7 +276,7 @@ public class PSO_UserAdmin {
 		
 		BaseUser bu = BaseUser.getByUserId(user_id);
 		
-		bu.updateMe(_first_name, _full_name, _last_name, _middle_name);
+		bu.updateMe(this._first_name, this._full_name, this._last_name, this._middle_name);
 	}
 
 }

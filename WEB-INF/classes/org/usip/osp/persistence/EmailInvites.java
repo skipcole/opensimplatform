@@ -4,11 +4,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import org.hibernate.*;
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.User;
-import org.usip.osp.baseobjects.UserAssignment;
-import org.usip.osp.networking.LoggedInTicket;
 
 /**
  * 

@@ -35,12 +35,12 @@ public class MultiPartFormOutputStream {
 	/**
 	 * The line end characters.  
 	 */
-	private static final String NEWLINE = "\r\n";
+	private static final String NEWLINE = "\r\n"; //$NON-NLS-1$
  
 	/**
 	 * The boundary prefix.  
 	 */
-	private static final String PREFIX = "--";
+	private static final String PREFIX = "--"; //$NON-NLS-1$
  
 	/**
 	 * The output stream to write to.  
@@ -68,10 +68,10 @@ public class MultiPartFormOutputStream {
 	 */
 	public MultiPartFormOutputStream(OutputStream os, String boundary) {
 		if(os == null) {
-			throw new IllegalArgumentException("Output stream is required.");
+			throw new IllegalArgumentException("Output stream is required."); //$NON-NLS-1$
 		}
 		if(boundary == null || boundary.length() == 0) {
-			throw new IllegalArgumentException("Boundary stream is required.");
+			throw new IllegalArgumentException("Boundary stream is required."); //$NON-NLS-1$
 		}
 		this.out = new DataOutputStream(os);
 		this.boundary = boundary;
@@ -172,10 +172,10 @@ public class MultiPartFormOutputStream {
 	public void writeField(String name, String value) 
 			throws java.io.IOException {
 		if(name == null) {
-			throw new IllegalArgumentException("Name cannot be null or empty.");
+			throw new IllegalArgumentException("Name cannot be null or empty."); //$NON-NLS-1$
 		}
 		if(value == null) {
-			value = "";
+			value = ""; //$NON-NLS-1$
 		}
 		/*
 		--boundary\r\n
@@ -184,17 +184,17 @@ public class MultiPartFormOutputStream {
 		<value>\r\n
 		*/
 		// write boundary
-		out.writeBytes(PREFIX);
-		out.writeBytes(boundary);
-		out.writeBytes(NEWLINE);
+		this.out.writeBytes(PREFIX);
+		this.out.writeBytes(this.boundary);
+		this.out.writeBytes(NEWLINE);
 		// write content header
-		out.writeBytes("Content-Disposition: form-data; name=\"" + name + "\"");
-		out.writeBytes(NEWLINE);
-		out.writeBytes(NEWLINE);
+		this.out.writeBytes("Content-Disposition: form-data; name=\"" + name + "\""); //$NON-NLS-1$ //$NON-NLS-2$
+		this.out.writeBytes(NEWLINE);
+		this.out.writeBytes(NEWLINE);
 		// write content
-		out.writeBytes(value);
-		out.writeBytes(NEWLINE);
-		out.flush();
+		this.out.writeBytes(value);
+		this.out.writeBytes(NEWLINE);
+		this.out.flush();
 	}
  
 	/**
@@ -210,13 +210,13 @@ public class MultiPartFormOutputStream {
 	public void writeFile(String name, String mimeType, File file) 
 			throws java.io.IOException {
 		if(file == null) {
-			throw new IllegalArgumentException("File cannot be null.");
+			throw new IllegalArgumentException("File cannot be null."); //$NON-NLS-1$
 		}
 		if(!file.exists()) {
-			throw new IllegalArgumentException("File does not exist.");
+			throw new IllegalArgumentException("File does not exist."); //$NON-NLS-1$
 		}
 		if(file.isDirectory()) {
-			throw new IllegalArgumentException("File cannot be a directory.");
+			throw new IllegalArgumentException("File cannot be a directory."); //$NON-NLS-1$
 		}
 		writeFile(name, mimeType, file.getCanonicalPath(), new FileInputStream(file));
 	}
@@ -235,10 +235,10 @@ public class MultiPartFormOutputStream {
 			String fileName, InputStream is) 
 			throws java.io.IOException {
 		if(is == null) {
-			throw new IllegalArgumentException("Input stream cannot be null.");
+			throw new IllegalArgumentException("Input stream cannot be null."); //$NON-NLS-1$
 		}
 		if(fileName == null || fileName.length() == 0) {
-			throw new IllegalArgumentException("File name cannot be null or empty.");
+			throw new IllegalArgumentException("File name cannot be null or empty."); //$NON-NLS-1$
 		}
 		/*
 		--boundary\r\n
@@ -248,30 +248,30 @@ public class MultiPartFormOutputStream {
 		<file-data>\r\n
 		*/
 		// write boundary
-		out.writeBytes(PREFIX);
-		out.writeBytes(boundary);
-		out.writeBytes(NEWLINE);
+		this.out.writeBytes(PREFIX);
+		this.out.writeBytes(this.boundary);
+		this.out.writeBytes(NEWLINE);
 		// write content header
-		out.writeBytes("Content-Disposition: form-data; name=\"" + name + 
-			"\"; filename=\"" + fileName + "\"");
-		out.writeBytes(NEWLINE);
+		this.out.writeBytes("Content-Disposition: form-data; name=\"" + name +  //$NON-NLS-1$
+			"\"; filename=\"" + fileName + "\""); //$NON-NLS-1$ //$NON-NLS-2$
+		this.out.writeBytes(NEWLINE);
 		if(mimeType != null) {
-			out.writeBytes("Content-Type: " + mimeType);
-			out.writeBytes(NEWLINE);
+			this.out.writeBytes("Content-Type: " + mimeType); //$NON-NLS-1$
+			this.out.writeBytes(NEWLINE);
 		}
-		out.writeBytes(NEWLINE);
+		this.out.writeBytes(NEWLINE);
 		// write content
 		byte[] data = new byte[1024];
 		int r = 0;
 		while((r = is.read(data, 0, data.length)) != -1) {
-			out.write(data, 0, r);
+			this.out.write(data, 0, r);
 		}
 		// close input stream, but ignore any possible exception for it
 		try {
 			is.close();
 		} catch(Exception e) {}
-		out.writeBytes(NEWLINE);
-		out.flush();
+		this.out.writeBytes(NEWLINE);
+		this.out.flush();
 	}
  
 	/**
@@ -289,10 +289,10 @@ public class MultiPartFormOutputStream {
 			String fileName, byte[] data) 
 			throws java.io.IOException {
 		if(data == null) {
-			throw new IllegalArgumentException("Data cannot be null.");
+			throw new IllegalArgumentException("Data cannot be null."); //$NON-NLS-1$
 		}
 		if(fileName == null || fileName.length() == 0) {
-			throw new IllegalArgumentException("File name cannot be null or empty.");
+			throw new IllegalArgumentException("File name cannot be null or empty."); //$NON-NLS-1$
 		}
 		/*
 		--boundary\r\n
@@ -302,22 +302,22 @@ public class MultiPartFormOutputStream {
 		<file-data>\r\n
 		*/
 		// write boundary
-		out.writeBytes(PREFIX);
-		out.writeBytes(boundary);
-		out.writeBytes(NEWLINE);
+		this.out.writeBytes(PREFIX);
+		this.out.writeBytes(this.boundary);
+		this.out.writeBytes(NEWLINE);
 		// write content header
-		out.writeBytes("Content-Disposition: form-data; name=\"" + name + 
-			"\"; filename=\"" + fileName + "\"");
-		out.writeBytes(NEWLINE);
+		this.out.writeBytes("Content-Disposition: form-data; name=\"" + name +  //$NON-NLS-1$
+			"\"; filename=\"" + fileName + "\""); //$NON-NLS-1$ //$NON-NLS-2$
+		this.out.writeBytes(NEWLINE);
 		if(mimeType != null) {
-			out.writeBytes("Content-Type: " + mimeType);
-			out.writeBytes(NEWLINE);
+			this.out.writeBytes("Content-Type: " + mimeType); //$NON-NLS-1$
+			this.out.writeBytes(NEWLINE);
 		}
-		out.writeBytes(NEWLINE);
+		this.out.writeBytes(NEWLINE);
 		// write content
-		out.write(data, 0, data.length);
-		out.writeBytes(NEWLINE);
-		out.flush();
+		this.out.write(data, 0, data.length);
+		this.out.writeBytes(NEWLINE);
+		this.out.flush();
 	}
  
 	/**
@@ -340,12 +340,12 @@ public class MultiPartFormOutputStream {
 	 */
 	public void close() throws java.io.IOException {
 		// write final boundary
-		out.writeBytes(PREFIX);
-		out.writeBytes(boundary);
-		out.writeBytes(PREFIX);
-		out.writeBytes(NEWLINE);
-		out.flush();
-		out.close();
+		this.out.writeBytes(PREFIX);
+		this.out.writeBytes(this.boundary);
+		this.out.writeBytes(PREFIX);
+		this.out.writeBytes(NEWLINE);
+		this.out.flush();
+		this.out.close();
 	}
  
 	/**
@@ -372,7 +372,7 @@ public class MultiPartFormOutputStream {
 		URLConnection urlConn = url.openConnection();
 		if(urlConn instanceof HttpURLConnection) {
 			HttpURLConnection httpConn = (HttpURLConnection)urlConn;
-			httpConn.setRequestMethod("POST");
+			httpConn.setRequestMethod("POST"); //$NON-NLS-1$
 		}
 		urlConn.setDoInput(true);
 		urlConn.setDoOutput(true);
@@ -390,7 +390,7 @@ public class MultiPartFormOutputStream {
 	 * @see  #getContentType(String)
 	 */
 	public static String createBoundary() {
-		return "--------------------" + 
+		return "--------------------" +  //$NON-NLS-1$
 			Long.toString(System.currentTimeMillis(), 16);
 	}
  
@@ -411,7 +411,7 @@ public class MultiPartFormOutputStream {
 	 * @see  #createBoundary()
 	 */
 	public static String getContentType(String boundary) {
-		return "multipart/form-data; boundary=" + boundary;
+		return "multipart/form-data; boundary=" + boundary; //$NON-NLS-1$
 	}
 }
 

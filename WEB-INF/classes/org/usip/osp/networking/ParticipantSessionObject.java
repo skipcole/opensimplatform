@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 import java.io.File;
-import java.io.StreamTokenizer;
 import java.sql.*;
 
 import javax.servlet.ServletContext;
@@ -14,7 +13,6 @@ import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 import org.usip.osp.specialfeatures.*;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -45,13 +43,13 @@ public class ParticipantSessionObject {
 	public boolean forward_on = false;
 
 	/** Schema of the database that the user is working in. */
-	public String schema = "";
+	public String schema = ""; //$NON-NLS-1$
 
 	/** Organization of the schema that the user is working in. */
-	public String schemaOrg = "";
+	public String schemaOrg = ""; //$NON-NLS-1$
 
 	/** The page to take them back to if needed. */
-	public String backPage = "index.jsp";
+	public String backPage = "index.jsp"; //$NON-NLS-1$
 
 	/** Id of User that is logged in and using this ParticipantSessionObject. */
 	public Long user_id;
@@ -77,25 +75,25 @@ public class ParticipantSessionObject {
 	private boolean isFacilitator = false;
 
 	/** Records the display name of this user. */
-	public String user_Display_Name = "";
+	public String user_Display_Name = ""; //$NON-NLS-1$
 
 	/** Records the email of this user. */
-	public String user_email = "";
+	public String user_email = ""; //$NON-NLS-1$
 
 	/** Name of simulation being conducted or worked on. */
-	public String simulation_name = "";
+	public String simulation_name = ""; //$NON-NLS-1$
 
 	/** Version of the simulation be conducted or worked on. */
-	public String simulation_version = "";
+	public String simulation_version = ""; //$NON-NLS-1$
 
 	/** Organization that created the simulation. */
-	public String simulation_org = "";
+	public String simulation_org = ""; //$NON-NLS-1$
 
 	/**
 	 * Copyright string to display at the bottom of every page in the
 	 * simulation.
 	 */
-	public String sim_copyright_info = "";
+	public String sim_copyright_info = ""; //$NON-NLS-1$
 
 	/** ID of Simulation being conducted or worked on. */
 	public Long sim_id;
@@ -104,13 +102,13 @@ public class ParticipantSessionObject {
 	public Long running_sim_id;
 
 	/** Name of the running simulation session. */
-	public String run_sim_name = "";
+	public String run_sim_name = ""; //$NON-NLS-1$
 
 	/** ID of Actor being played or worked on. */
 	public Long actor_id;
 
 	/** Name of the actor being played or worked on. */
-	public String actor_name = "";
+	public String actor_name = ""; //$NON-NLS-1$
 
 	/** ID of Phase being conducted or worked on. */
 	public Long phase_id;
@@ -119,20 +117,20 @@ public class ParticipantSessionObject {
 	public boolean phaseSelected = false;
 
 	/** Name of phase being conducted or worked on. */
-	private String phaseName = "";
+	private String phaseName = ""; //$NON-NLS-1$
 
 	/** Round being displayed */
-	private String simulation_round = "0";
+	private String simulation_round = "0"; //$NON-NLS-1$
 
 	public HttpSession session = null;
 
 	/** Error message to be shown to the user. */
-	public String errorMsg = "";
+	public String errorMsg = ""; //$NON-NLS-1$
 
 	public List tempSimSecList = new ArrayList();
 
 	/** Text of alert being worked on. */
-	public String alertInQueueText = "";
+	public String alertInQueueText = ""; //$NON-NLS-1$
 
 	/** Type of alert being worked on. */
 	public int alertInQueueType = 0;
@@ -140,11 +138,11 @@ public class ParticipantSessionObject {
 	/** Login ticket of this user. */
 	public LoggedInTicket myLoggedInTicket = new LoggedInTicket();
 
-	public String tabposition = "1";
+	public String tabposition = "1"; //$NON-NLS-1$
 
-	public String bottomFrame = "";
+	public String bottomFrame = ""; //$NON-NLS-1$
 
-	public static String DEFAULTMEMOTEXT = "To: <BR />From:<BR />Topic:<BR />Message:";
+	public static String DEFAULTMEMOTEXT = "To: <BR />From:<BR />Topic:<BR />Message:"; //$NON-NLS-1$
 
 	public String memo_starter_text = DEFAULTMEMOTEXT;
 
@@ -156,29 +154,29 @@ public class ParticipantSessionObject {
 	 */
 	public void handleSimWeb(HttpServletRequest request) {
 
-		tabposition = (String) request.getParameter("tabposition");
+		this.tabposition = request.getParameter("tabposition"); //$NON-NLS-1$
 
-		bottomFrame = "frame_bottom.jsp";
+		this.bottomFrame = "frame_bottom.jsp"; //$NON-NLS-1$
 
 		int tabpos = 1;
 
 		try {
-			tabpos = new Integer(tabposition).intValue();
+			tabpos = new Integer(this.tabposition).intValue();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
-			List simSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(schema, sim_id, actor_id, phase_id);
+			List simSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(this.schema, this.sim_id, this.actor_id, this.phase_id);
 
 			if (tabpos <= simSecList.size()) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) simSecList.get(tabpos - 1);
-				bottomFrame = ss.generateURLforBottomFrame(running_sim_id, actor_id, user_id);
+				this.bottomFrame = ss.generateURLforBottomFrame(this.running_sim_id, this.actor_id, this.user_id);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			forward_on = true;
+			this.forward_on = true;
 		}
 
 	}
@@ -187,10 +185,10 @@ public class ParticipantSessionObject {
 
 	public String getInjectColor(Long injectId) {
 
-		String unshotColor = "#FFFFFF";
-		String shotColor = "#FFCCCC";
+		String unshotColor = "#FFFFFF"; //$NON-NLS-1$
+		String shotColor = "#FFCCCC"; //$NON-NLS-1$
 
-		String hashValue = (String) pushedInjects.get(injectId);
+		String hashValue = (String) this.pushedInjects.get(injectId);
 
 		if (hashValue == null) {
 			return unshotColor;
@@ -202,29 +200,29 @@ public class ParticipantSessionObject {
 
 	public boolean handlePushInject(HttpServletRequest request) {
 
-		String sending_page = (String) request.getParameter("sending_page");
+		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
 
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("push_injects"))) {
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("push_injects"))) { //$NON-NLS-1$
 
-			String announcement_text = (String) request.getParameter("announcement_text");
-			String inject_action = (String) request.getParameter("inject_action");
-			String inject_id_string = (String) request.getParameter("inject_id");
+			String announcement_text = request.getParameter("announcement_text"); //$NON-NLS-1$
+			String inject_action = request.getParameter("inject_action"); //$NON-NLS-1$
+			String inject_id_string = request.getParameter("inject_id"); //$NON-NLS-1$
 
 			if (inject_id_string != null) {
 				Long inject_id = new Long(inject_id_string);
-				pushedInjects.put(inject_id, "set");
+				this.pushedInjects.put(inject_id, "set"); //$NON-NLS-1$
 			}
 
-			if ((inject_action != null) && (inject_action.equalsIgnoreCase("2"))) {
+			if ((inject_action != null) && (inject_action.equalsIgnoreCase("2"))) { //$NON-NLS-1$
 				announcement_text = announcement_text
-						+ "<BR /><strong>Communicate with Control your actions</strong><BR />";
+						+ "<BR /><strong>Communicate with Control your actions</strong><BR />"; //$NON-NLS-1$
 			}
 
-			String player_target = (String) request.getParameter("player_target");
+			String player_target = request.getParameter("player_target"); //$NON-NLS-1$
 
-			if ((player_target != null) && (player_target.equalsIgnoreCase("some"))) {
-				alertInQueueText = announcement_text;
-				alertInQueueType = Alert.TYPE_EVENT;
+			if ((player_target != null) && (player_target.equalsIgnoreCase("some"))) { //$NON-NLS-1$
+				this.alertInQueueText = announcement_text;
+				this.alertInQueueType = Alert.TYPE_EVENT;
 				return true;
 			} else {
 				makeGeneralAnnouncement(announcement_text, request);
@@ -244,11 +242,11 @@ public class ParticipantSessionObject {
 	 */
 	public Simulation handleUnpackDetails(HttpServletRequest request) {
 
-		String filename = (String) request.getParameter("filename");
+		String filename = request.getParameter("filename"); //$NON-NLS-1$
 
-		System.out.println("unpacking " + filename);
+		System.out.println("unpacking " + filename); //$NON-NLS-1$
 
-		return ObjectPackager.unpackSimDetails(filename, schema);
+		return ObjectPackager.unpackSimDetails(filename, this.schema);
 
 	}
 
@@ -259,24 +257,24 @@ public class ParticipantSessionObject {
 	 */
 	public void handleUnpackSimulation(HttpServletRequest request) {
 
-		String filename = (String) request.getParameter("filename");
-		String sim_name = (String) request.getParameter("sim_name");
-		String sim_version = (String) request.getParameter("sim_version");
+		String filename = request.getParameter("filename"); //$NON-NLS-1$
+		String sim_name = request.getParameter("sim_name"); //$NON-NLS-1$
+		String sim_version = request.getParameter("sim_version"); //$NON-NLS-1$
 
-		System.out.println("unpacking " + filename);
+		System.out.println("unpacking " + filename); //$NON-NLS-1$
 
-		ObjectPackager.unpackSim(filename, schema, sim_name, sim_version);
+		ObjectPackager.unpackSim(filename, this.schema, sim_name, sim_version);
 
 	}
 
 	public void handleWriteAAR(HttpServletRequest request) {
 
-		String command = (String) request.getParameter("command");
-		String sending_page = (String) request.getParameter("sending_page");
+		String command = request.getParameter("command"); //$NON-NLS-1$
+		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
 
 		if (sending_page != null) {
 			if (command != null) {
-				if (command.equalsIgnoreCase("Save Changes")) {
+				if (command.equalsIgnoreCase("Save Changes")) { //$NON-NLS-1$
 					saveAarText(request);
 				}
 			}
@@ -291,21 +289,21 @@ public class ParticipantSessionObject {
 	 */
 	public void handleEndSim(HttpServletRequest request) {
 
-		String command = (String) request.getParameter("command");
-		String sending_page = (String) request.getParameter("sending_page");
+		String command = request.getParameter("command"); //$NON-NLS-1$
+		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
 
 		if (sending_page != null) {
 			if (command != null) {
-				if (command.equalsIgnoreCase("End Simulation")) {
+				if (command.equalsIgnoreCase("End Simulation")) { //$NON-NLS-1$
 
 					// Mark Completed, change phase
 					Simulation sim = this.giveMeSim();
-					System.out.println("forwarin on to : " + sim.getLastPhaseId(schema).toString());
-					this.changePhase(sim.getLastPhaseId(schema).toString(), request);
+					System.out.println("forwarin on to : " + sim.getLastPhaseId(this.schema).toString()); //$NON-NLS-1$
+					this.changePhase(sim.getLastPhaseId(this.schema).toString(), request);
 
 					// Forward them back
-					forward_on = true;
-					backPage = "../simulation/simwebui.jsp?tabposition=1";
+					this.forward_on = true;
+					this.backPage = "../simulation/simwebui.jsp?tabposition=1"; //$NON-NLS-1$
 				}
 			}
 		}
@@ -313,12 +311,12 @@ public class ParticipantSessionObject {
 	}
 
 	private void saveAarText(HttpServletRequest request) {
-		String write_aar_end_sim = (String) request.getParameter("write_aar_end_sim");
-		System.out.println("saving: " + write_aar_end_sim);
+		String write_aar_end_sim = request.getParameter("write_aar_end_sim"); //$NON-NLS-1$
+		System.out.println("saving: " + write_aar_end_sim); //$NON-NLS-1$
 
 		RunningSimulation rs = giveMeRunningSim();
 		rs.setAar_text(write_aar_end_sim);
-		rs.saveMe(schema);
+		rs.saveMe(this.schema);
 	}
 
 	/**
@@ -337,34 +335,34 @@ public class ParticipantSessionObject {
 
 		SimulationPhase returnSP = new SimulationPhase();
 
-		String command = (String) request.getParameter("command");
-		String phase_name = (String) request.getParameter("phase_name");
-		String phase_notes = (String) request.getParameter("phase_notes");
-		String nominal_order = (String) request.getParameter("nominal_order");
+		String command = request.getParameter("command"); //$NON-NLS-1$
+		String phase_name = request.getParameter("phase_name"); //$NON-NLS-1$
+		String phase_notes = request.getParameter("phase_notes"); //$NON-NLS-1$
+		String nominal_order = request.getParameter("nominal_order"); //$NON-NLS-1$
 
 		if (command != null) {
-			if (command.equalsIgnoreCase("Create")) {
+			if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
 				returnSP.setName(phase_name);
 				returnSP.setNotes(phase_notes);
 				returnSP.setOrder(string2Int(nominal_order));
-				returnSP.saveMe(schema);
-				SimPhaseAssignment spa = new SimPhaseAssignment(schema, sim.getId(), returnSP.getId());
+				returnSP.saveMe(this.schema);
+				SimPhaseAssignment spa = new SimPhaseAssignment(this.schema, sim.getId(), returnSP.getId());
 
-				Actor ctrl_act = Actor.getControlActor(schema);
-				sim.addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
+				Actor ctrl_act = Actor.getControlActor(this.schema);
+				sim.addControlSectionsToAllPhasesOfControl(this.schema, ctrl_act);
 
-				sim.saveMe(schema);
-			} else if (command.equalsIgnoreCase("Edit")) {
-				String sp_id = (String) request.getParameter("sp_id");
-				returnSP = SimulationPhase.getMe(schema, sp_id);
-			} else if (command.equalsIgnoreCase("Update")) { // 
-				String sp_id = (String) request.getParameter("sp_id");
-				returnSP = SimulationPhase.getMe(schema, sp_id);
+				sim.saveMe(this.schema);
+			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
+				String sp_id = request.getParameter("sp_id"); //$NON-NLS-1$
+				returnSP = SimulationPhase.getMe(this.schema, sp_id);
+			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
+				String sp_id = request.getParameter("sp_id"); //$NON-NLS-1$
+				returnSP = SimulationPhase.getMe(this.schema, sp_id);
 				returnSP.setName(phase_name);
 				returnSP.setNotes(phase_notes);
 				returnSP.setOrder(string2Int(nominal_order));
-				returnSP.saveMe(schema);
-			} else if (command.equalsIgnoreCase("Clear")) { // 
+				returnSP.saveMe(this.schema);
+			} else if (command.equalsIgnoreCase("Clear")) { //  //$NON-NLS-1$
 				// returning new simulation phase will clear fields.
 			}
 		}
@@ -387,31 +385,31 @@ public class ParticipantSessionObject {
 	/** Assigns a user to a simulation. */
 	public void handleAssignUser(HttpServletRequest request) {
 
-		String command = (String) request.getParameter("command");
+		String command = request.getParameter("command"); //$NON-NLS-1$
 
 		if (command != null) {
-			if ((command.equalsIgnoreCase("Assign User"))) {
+			if ((command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
-				String user_id = (String) request.getParameter("user_to_add_to_simulation");
-				String actor_id = (String) request.getParameter("actor_to_add_to_simulation");
-				String sim_id = (String) request.getParameter("simulation_adding_to");
-				String running_sim_id = (String) request.getParameter("running_simulation_adding_to");
+				String user_id = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
+				String actor_id = request.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
+				String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
+				String running_sim_id = request.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
 
-				UserAssignment ua = UserAssignment.getUniqueUserAssignment(schema, new Long(sim_id), new Long(
+				UserAssignment ua = UserAssignment.getUniqueUserAssignment(this.schema, new Long(sim_id), new Long(
 						running_sim_id), new Long(actor_id), new Long(user_id));
 			}
 		}
 	}
 
-	public String setOfUsers = "";
-	public String invitationCode = "";
+	public String setOfUsers = ""; //$NON-NLS-1$
+	public String invitationCode = ""; //$NON-NLS-1$
 
 	public String getDefaultInviteMessage() {
-		String defaultInviteEmailMsg = "Dear Student,\r\n";
-		defaultInviteEmailMsg += "Please go to the web site ";
-		defaultInviteEmailMsg += USIP_OSP_Properties.getValue("simulation_url")
-				+ "/simulation_user_admin/auto_registration_form.jsp and register yourself.\r\n\r\n";
-		defaultInviteEmailMsg += "Thank you,\r\n";
+		String defaultInviteEmailMsg = "Dear Student,\r\n"; //$NON-NLS-1$
+		defaultInviteEmailMsg += "Please go to the web site "; //$NON-NLS-1$
+		defaultInviteEmailMsg += USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
+				+ "/simulation_user_admin/auto_registration_form.jsp and register yourself.\r\n\r\n"; //$NON-NLS-1$
+		defaultInviteEmailMsg += "Thank you,\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += this.user_Display_Name;
 
 		return defaultInviteEmailMsg;
@@ -423,14 +421,14 @@ public class ParticipantSessionObject {
 	 * @param request
 	 */
 	public void handleBulkInvite(HttpServletRequest request) {
-		setOfUsers = (String) request.getParameter("setOfUsers");
-		String thisInviteEmailMsg = (String) request.getParameter("defaultInviteEmailMsg");
-		invitationCode = (String) request.getParameter("invitationCode");
+		this.setOfUsers = request.getParameter("setOfUsers"); //$NON-NLS-1$
+		String thisInviteEmailMsg = request.getParameter("defaultInviteEmailMsg"); //$NON-NLS-1$
+		this.invitationCode = request.getParameter("invitationCode"); //$NON-NLS-1$
 
-		Long schema_id = SchemaInformationObject.lookUpId(schema);
+		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
 
-		for (ListIterator<String> li = getSetOfEmails(setOfUsers).listIterator(); li.hasNext();) {
-			String this_email = (String) li.next();
+		for (ListIterator<String> li = getSetOfEmails(this.setOfUsers).listIterator(); li.hasNext();) {
+			String this_email = li.next();
 
 			if (BaseUser.checkIfUserExists(this_email)) {
 				System.out.println("exists:" + this_email);
@@ -441,7 +439,7 @@ public class ParticipantSessionObject {
 				System.out.println("does not exist:" + this_email);
 
 				// Add entry into system to all them to register.
-				UserRegistrationInvite uri = new UserRegistrationInvite(user_name, this_email, invitationCode, schema);
+				UserRegistrationInvite uri = new UserRegistrationInvite(this.user_name, this_email, this.invitationCode, this.schema);
 
 				uri.saveMe();
 
@@ -465,11 +463,11 @@ public class ParticipantSessionObject {
 
 		Vector cced = null;
 		Vector bcced = new Vector();
-		bcced.add(user_name);
+		bcced.add(this.user_name);
 
-		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
+		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(this.schema);
 
-		Emailer.postMail(sio, the_email, subject, message, user_name, cced, bcced);
+		Emailer.postMail(sio, the_email, subject, message, this.user_name, cced, bcced);
 	}
 
 	/**
@@ -512,63 +510,63 @@ public class ParticipantSessionObject {
 			return true;
 		}
 
-		String deletion_confirm = (String) request.getParameter("deletion_confirm");
+		String deletion_confirm = request.getParameter("deletion_confirm");
 		if ((deletion_confirm != null) && (deletion_confirm.equalsIgnoreCase("Submit"))) {
 
 			Long o_id = new Long(objid);
 
 			if (objectType.equalsIgnoreCase("simulation")) {
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-				Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, o_id);
-				MultiSchemaHibernateUtil.getSession(schema).delete(sim);
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(this.schema).get(Simulation.class, o_id);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(sim);
 				this.sim_id = null;
 
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 			} else if (objectType.equalsIgnoreCase("phase")) {
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-				SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(this.schema).get(
 						SimulationPhase.class, o_id);
 				Long phase_removed_id = sp.getId();
-				MultiSchemaHibernateUtil.getSession(schema).delete(sp);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(sp);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 				
-				SimPhaseAssignment.removeMe(schema, new Long(phase_sim_id), phase_removed_id);
+				SimPhaseAssignment.removeMe(this.schema, new Long(phase_sim_id), phase_removed_id);
 
 			} else if (objectType.equalsIgnoreCase("actor")) {
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-				Actor act = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, o_id);
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				Actor act = (Actor) MultiSchemaHibernateUtil.getSession(this.schema).get(Actor.class, o_id);
 
-				if (actor_id != null) {
-					if (actor_id.intValue() == act.getId().intValue()) {
-						actor_id = null;
+				if (this.actor_id != null) {
+					if (this.actor_id.intValue() == act.getId().intValue()) {
+						this.actor_id = null;
 					}
 				}
 
-				MultiSchemaHibernateUtil.getSession(schema).delete(act);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(act);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 			} else if (objectType.equalsIgnoreCase("inject")) {
 
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-				Inject inject = (Inject) MultiSchemaHibernateUtil.getSession(schema).get(Inject.class, o_id);
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				Inject inject = (Inject) MultiSchemaHibernateUtil.getSession(this.schema).get(Inject.class, o_id);
 
-				MultiSchemaHibernateUtil.getSession(schema).delete(inject);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(inject);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 			} else if (objectType.equalsIgnoreCase("sim_section")) {
-				MultiSchemaHibernateUtil.beginTransaction(schema);
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) MultiSchemaHibernateUtil.getSession(
-						schema).get(SimulationSectionAssignment.class, o_id);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+						this.schema).get(SimulationSectionAssignment.class, o_id);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
-				SimulationSectionAssignment.removeAndReorder(schema, ss);
+				SimulationSectionAssignment.removeAndReorder(this.schema, ss);
 
 			} else if (objectType.equalsIgnoreCase("user_assignment")) {
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-				UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil.getSession(schema).get(
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil.getSession(this.schema).get(
 						UserAssignment.class, o_id);
-				MultiSchemaHibernateUtil.getSession(schema).delete(ua);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(ua);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 			}
 
 			return true;
@@ -583,26 +581,26 @@ public class ParticipantSessionObject {
 	 */
 	public void handleEnableSim(HttpServletRequest request) {
 
-		String command = (String) request.getParameter("command");
+		String command = request.getParameter("command");
 
 		if (command != null) {
 			if ((command.equalsIgnoreCase("Start Simulation"))) {
 
-				String email_users = (String) request.getParameter("email_users");
-				String email_text = (String) request.getParameter("email_text");
+				String email_users = request.getParameter("email_users");
+				String email_text = request.getParameter("email_text");
 
-				BaseUser bu = BaseUser.getByUserId(user_id);
+				BaseUser bu = BaseUser.getByUserId(this.user_id);
 
-				MultiSchemaHibernateUtil.beginTransaction(schema);
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
 
-				User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, user_id);
+				User user = (User) MultiSchemaHibernateUtil.getSession(this.schema).get(User.class, this.user_id);
 
-				RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
-						RunningSimulation.class, running_sim_id);
+				RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(this.schema).get(
+						RunningSimulation.class, this.running_sim_id);
 
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
-				running_sim.enableAndPrep(schema, sim_id.toString(), bu.getUsername(), email_users, email_text);
+				running_sim.enableAndPrep(this.schema, this.sim_id.toString(), bu.getUsername(), email_users, email_text);
 
 			} // End of if coming from this page and have enabled the sim
 			// ////////////////////////////
@@ -616,20 +614,20 @@ public class ParticipantSessionObject {
 	 */
 	public void handleEnterInstructorRatings(HttpServletRequest request) {
 
-		String num_stars = (String) request.getParameter("num_stars");
-		String user_comments = (String) request.getParameter("user_comments");
-		String user_stated_name = (String) request.getParameter("user_stated_name");
+		String num_stars = request.getParameter("num_stars");
+		String user_comments = request.getParameter("user_comments");
+		String user_stated_name = request.getParameter("user_stated_name");
 
-		SimulationRatings sr = SimulationRatings.getInstructorRatingsBySimAndUser(schema, sim_id, user_id);
+		SimulationRatings sr = SimulationRatings.getInstructorRatingsBySimAndUser(this.schema, this.sim_id, this.user_id);
 
 		sr.setNumberOfStars(new Long(num_stars).intValue());
-		sr.setSim_id(sim_id);
-		sr.setUser_id(user_id);
+		sr.setSim_id(this.sim_id);
+		sr.setUser_id(this.user_id);
 		sr.setUsers_stated_name(user_stated_name);
 		sr.setUser_comments(user_comments);
 		sr.setComment_type(SimulationRatings.INSTRUCTOR_COMMENT);
 
-		sr.saveMe(schema);
+		sr.saveMe(this.schema);
 
 	}
 
@@ -647,15 +645,15 @@ public class ParticipantSessionObject {
 		if (command != null) {
 			if (command.equalsIgnoreCase("Load")) {
 				System.out.println("Will be loading file from: " + fullfileloc);
-				BaseSimSection.readInXMLFile(schema, new File(fullfileloc));
+				BaseSimSection.readInXMLFile(this.schema, new File(fullfileloc));
 
 			} else if (command.equalsIgnoreCase("Reload")) {
 				System.out.println("Will be reloading file from: " + fullfileloc);
-				BaseSimSection.reloadXMLFile(schema, new File(fullfileloc), new Long(loaded_id));
+				BaseSimSection.reloadXMLFile(this.schema, new File(fullfileloc), new Long(loaded_id));
 				// save
 			} else if (command.equalsIgnoreCase("Unload")) {
 				System.out.println("Will be unloading bss id: " + loaded_id);
-				BaseSimSection.removeBSS(schema, loaded_id);
+				BaseSimSection.removeBSS(this.schema, loaded_id);
 			}
 		}
 	}
@@ -674,15 +672,15 @@ public class ParticipantSessionObject {
 		if (command != null) {
 			if (command.equalsIgnoreCase("Load")) {
 				System.out.println("Will be loading file from: " + fullfileloc);
-				BaseSimSection.readInXMLFile(schema, new File(fullfileloc));
+				BaseSimSection.readInXMLFile(this.schema, new File(fullfileloc));
 
 			} else if (command.equalsIgnoreCase("Reload")) {
 				System.out.println("Will be reloading file from: " + fullfileloc);
-				BaseSimSection.reloadXMLFile(schema, new File(fullfileloc), new Long(loaded_id));
+				BaseSimSection.reloadXMLFile(this.schema, new File(fullfileloc), new Long(loaded_id));
 				// save
 			} else if (command.equalsIgnoreCase("Unload")) {
 				System.out.println("Will be unloading bss id: " + loaded_id);
-				BaseSimSection.removeBSS(schema, loaded_id);
+				BaseSimSection.removeBSS(this.schema, loaded_id);
 			}
 		}
 	}
@@ -694,24 +692,24 @@ public class ParticipantSessionObject {
 	 */
 	public void handleLoadPlayerAutoAssignedScenario(HttpServletRequest request) {
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.beginTransaction(this.schema);
 
-		this.sim_id = new Long((String) request.getParameter("sim_id"));
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
+		this.sim_id = new Long(request.getParameter("sim_id"));
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(this.schema).get(Simulation.class, this.sim_id);
 
-		this.actor_id = new Long((String) request.getParameter("actor_id"));
-		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_id);
+		this.actor_id = new Long(request.getParameter("actor_id"));
+		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(this.schema).get(Actor.class, this.actor_id);
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
-		RunningSimulation rs = new RunningSimulation("My Session", this.giveMeSim(), schema);
+		RunningSimulation rs = new RunningSimulation("My Session", this.giveMeSim(), this.schema);
 		this.running_sim_id = rs.getId();
 		rs.setReady_to_begin(true);
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(SimulationPhase.class,
+		MultiSchemaHibernateUtil.beginTransaction(this.schema);
+		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(this.schema).get(SimulationPhase.class,
 				rs.getPhase_id());
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 		this.loadSimInfoForDisplay(request, simulation, rs, actor, sp);
 
@@ -740,12 +738,12 @@ public class ParticipantSessionObject {
 		// //////////////////////////////////////////////////////////////////////
 		// Store it in the web cache, if this has not been done already
 		// by another user.
-		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
+		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) this.session.getServletContext().getAttribute(
 				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES);
 
-		String cachedPhaseName = phaseNames.get(running_sim_id);
+		String cachedPhaseName = phaseNames.get(this.running_sim_id);
 		if (cachedPhaseName == null) {
-			phaseNames.put(running_sim_id, sp.getName());
+			phaseNames.put(this.running_sim_id, sp.getName());
 			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES, phaseNames);
 
 		}
@@ -757,18 +755,18 @@ public class ParticipantSessionObject {
 	 */
 	public void handleLoadPlayerScenario(HttpServletRequest request) {
 
-		String sending_page = (String) request.getParameter("sending_page");
+		String sending_page = request.getParameter("sending_page");
 
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("select_simulation"))) {
 
-			schema = (String) request.getParameter("schema");
-			schemaOrg = (String) request.getParameter("schema_org");
+			schema = request.getParameter("schema");
+			schemaOrg = request.getParameter("schema_org");
 
 			session = request.getSession();
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			String user_assignment_id = (String) request.getParameter("user_assignment_id");
+			String user_assignment_id = request.getParameter("user_assignment_id");
 
 			UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil.getSession(schema).get(UserAssignment.class,
 					new Long(user_assignment_id));
@@ -1049,12 +1047,6 @@ public class ParticipantSessionObject {
 	public String handleCreateRootDB(HttpServletRequest request) {
 
 		String returnMsg = "";
-
-		if (false && (checkDatabaseCreated()) && (!(isLoggedin()))) {
-
-			this.forward_on = true;
-			return "";
-		}
 
 		String sending_page = request.getParameter("sending_page");
 		String wipe_database_key = request.getParameter("wipe_database_key");

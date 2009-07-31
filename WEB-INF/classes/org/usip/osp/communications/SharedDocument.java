@@ -9,10 +9,8 @@ import javax.persistence.*;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
-import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
-import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -58,22 +56,22 @@ public class SharedDocument implements SimSectionDependentObject {
 
 	/** Contents of this document. */
 	@Lob
-	private String bigString = "";
+	private String bigString = ""; //$NON-NLS-1$
 
 	/** Title of this document. */
-	private String uniqueDocTitle = "";
+	private String uniqueDocTitle = ""; //$NON-NLS-1$
 
 	/** Title of this document to be displayed to the players. */
-	private String displayTitle = "";
+	private String displayTitle = ""; //$NON-NLS-1$
 
 	/** Short description of this document. */
-	private String docDesc = "";
+	private String docDesc = ""; //$NON-NLS-1$
 
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -81,7 +79,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -89,7 +87,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public boolean isEditable() {
-		return editable;
+		return this.editable;
 	}
 
 	public void setEditable(boolean editable) {
@@ -97,7 +95,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public Long getBase_id() {
-		return base_id;
+		return this.base_id;
 	}
 
 	public void setBase_id(Long base_id) {
@@ -105,7 +103,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public String getBigString() {
-		return bigString;
+		return this.bigString;
 	}
 
 	public void setBigString(String bigString) {
@@ -113,7 +111,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public String getDocDesc() {
-		return docDesc;
+		return this.docDesc;
 	}
 
 	public void setDocDesc(String docDesc) {
@@ -121,7 +119,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -129,7 +127,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public Long getRs_id() {
-		return rs_id;
+		return this.rs_id;
 	}
 
 	public void setRs_id(Long rs_id) {
@@ -137,7 +135,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public String getUniqueDocTitle() {
-		return uniqueDocTitle;
+		return this.uniqueDocTitle;
 	}
 
 	public void setUniqueDocTitle(String uniqueDocTitle) {
@@ -145,7 +143,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	public String getDisplayTitle() {
-		return displayTitle;
+		return this.displayTitle;
 	}
 
 	public void setDisplayTitle(String displayTitle) {
@@ -202,7 +200,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	public static List getAllBaseDocumentsForSim(String schema, Long the_sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() + " AND RS_ID is null";
+		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() + " AND RS_ID is null"; //$NON-NLS-1$ //$NON-NLS-2$
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -224,17 +222,17 @@ public class SharedDocument implements SimSectionDependentObject {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String hql_string = "from SharedDocument where SIM_ID = " + sim_id + " AND RS_ID = " + rs_id
-				+ " AND uniqueDocTitle = 'schedule'";
+		String hql_string = "from SharedDocument where SIM_ID = " + sim_id + " AND RS_ID = " + rs_id //$NON-NLS-1$ //$NON-NLS-2$
+				+ " AND uniqueDocTitle = 'schedule'"; //$NON-NLS-1$
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 
 		if ((returnList == null) || (returnList.size() == 0)) {
 			// original should have been copied in the 'enable' sim phase.
 			// We do it there to keep from two people doing it at the same time.
-			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			Logger.getRootLogger().warn("No shared document found. It should have be created at the enable step.");
-			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); //$NON-NLS-1$
+			Logger.getRootLogger().warn("No shared document found. It should have be created at the enable step."); //$NON-NLS-1$
+			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); //$NON-NLS-1$
 
 		} else {
 			sd = (SharedDocument) returnList.get(0);
@@ -278,7 +276,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	@Override
 	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
 
-		Logger.getRootLogger().warn("Creating shared document for running sim : " + rs_id);
+		Logger.getRootLogger().warn("Creating shared document for running sim : " + rs_id); //$NON-NLS-1$
 
 		SharedDocument templateSD = (SharedDocument) templateObject;
 
@@ -319,8 +317,8 @@ public class SharedDocument implements SimSectionDependentObject {
 	 */
 	public static String getBaseDocsForBaseSimSection(String schema, Long bss_id, Long this_id) {
 
-		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' and " +
-			" className = 'org.usip.osp.communications.SharedDocument'";
+		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' and " + //$NON-NLS-1$ //$NON-NLS-2$
+			" className = 'org.usip.osp.communications.SharedDocument'"; //$NON-NLS-1$
 
 		System.out.println(getString);
 
@@ -330,22 +328,22 @@ public class SharedDocument implements SimSectionDependentObject {
 
 		if (docList == null) {
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			return " ";
+			return " "; //$NON-NLS-1$
 		}
 
 		// Go over list and get items.
 		for (ListIterator<BaseSimSectionDepObjectAssignment> li = docList.listIterator(); li.hasNext();) {
 
-			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) li.next();
+			BaseSimSectionDepObjectAssignment bssdoa = li.next();
 			if (this_id.equals(bssdoa.getObjectId())){
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-				return " selected ";
+				return " selected "; //$NON-NLS-1$
 			}
 			
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		return " ";
+		return " "; //$NON-NLS-1$
 
 	}
 
@@ -360,9 +358,9 @@ public class SharedDocument implements SimSectionDependentObject {
 
 		List<SharedDocument> returnList = new ArrayList<SharedDocument>();
 
-		String getString = "from SimSectionRSDepOjbectAssignment where section_id = '" + section_id + "' "
-				+ " and rs_id = " + rs_id
-				+ " and className = 'org.usip.osp.communications.SharedDocument' order by ssrsdoa_index";
+		String getString = "from SimSectionRSDepOjbectAssignment where section_id = '" + section_id + "' " //$NON-NLS-1$ //$NON-NLS-2$
+				+ " and rs_id = " + rs_id //$NON-NLS-1$
+				+ " and className = 'org.usip.osp.communications.SharedDocument' order by ssrsdoa_index"; //$NON-NLS-1$
 
 		System.out.println(getString);
 
@@ -371,14 +369,14 @@ public class SharedDocument implements SimSectionDependentObject {
 		List docList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
 
 		if (docList != null) {
-			System.out.println("got some docs back: " + docList.size());
+			System.out.println("got some docs back: " + docList.size()); //$NON-NLS-1$
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Go over list and get items.
 		for (ListIterator<SimSectionRSDepOjbectAssignment> li = docList.listIterator(); li.hasNext();) {
 
-			SimSectionRSDepOjbectAssignment ssrsdoa = (SimSectionRSDepOjbectAssignment) li.next();
+			SimSectionRSDepOjbectAssignment ssrsdoa = li.next();
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -388,7 +386,7 @@ public class SharedDocument implements SimSectionDependentObject {
 				SharedDocument sd = (SharedDocument) MultiSchemaHibernateUtil.getSession(schema).get(objClass,
 						ssrsdoa.getObjectId());
 
-				System.out.println("strter title:" + sd.getDisplayTitle());
+				System.out.println("strter title:" + sd.getDisplayTitle()); //$NON-NLS-1$
 				returnList.add(sd);
 
 			} catch (Exception e) {

@@ -52,7 +52,7 @@ public class UserAssignment{
     private Long user_id;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -60,7 +60,7 @@ public class UserAssignment{
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -68,7 +68,7 @@ public class UserAssignment{
 	}
 
 	public Long getRunning_sim_id() {
-		return running_sim_id;
+		return this.running_sim_id;
 	}
 
 	public void setRunning_sim_id(Long running_sim_id) {
@@ -76,7 +76,7 @@ public class UserAssignment{
 	}
 
 	public Long getActor_id() {
-		return actor_id;
+		return this.actor_id;
 	}
 
 	public void setActor_id(Long actor_id) {
@@ -84,7 +84,7 @@ public class UserAssignment{
 	}
 
 	public Long getUser_id() {
-		return user_id;
+		return this.user_id;
 	}
 
 	public void setUser_id(Long user_id) {
@@ -92,7 +92,7 @@ public class UserAssignment{
 	}
 	
 	public List getAllForUser(Long userid, org.hibernate.Session hibernate_session) {
-		return (hibernate_session.createQuery("from UserAssignment where user_id = " + 
+		return (hibernate_session.createQuery("from UserAssignment where user_id = " +  //$NON-NLS-1$
 				userid.toString()).list());
 	}
 	
@@ -143,15 +143,15 @@ public class UserAssignment{
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		String hqlString = "from UserAssignment where RUNNING_SIM_ID = '" + rid +  
-			"' and ACTOR_ID = '" + aid + "' AND SIM_ID = '" + sid + "'";
+		String hqlString = "from UserAssignment where RUNNING_SIM_ID = '" + rid +   //$NON-NLS-1$
+			"' and ACTOR_ID = '" + aid + "' AND SIM_ID = '" + sid + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
 		System.out.println(hqlString);
 		
 		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString).list();
 
 		for (ListIterator<UserAssignment> li = userList.listIterator(); li.hasNext();) {
-			UserAssignment ua = (UserAssignment) li.next();
+			UserAssignment ua = li.next();
 			MultiSchemaHibernateUtil.getSession(schema).delete(ua);
 			
 		}
@@ -162,7 +162,7 @@ public class UserAssignment{
 	
 	public static User getUserAssigned (String schema, Long rid, Long aid) {
 		
-		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid;
+		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
 		
 		//System.out.println(hqlString);
 		
@@ -172,13 +172,13 @@ public class UserAssignment{
 		
 		User returnUser = null;
 		if ((userList != null) && (userList.size() > 0)){
-			UserAssignment ua = (UserAssignment) userList.get(0);
+			UserAssignment ua = userList.get(0);
 			returnUser = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class,ua.getUser_id());
 			
 			returnUser.loadMyDetails();
 			System.out.println(returnUser.getBu_username());
 		} else{
-			System.out.println("no user assigned found.");
+			System.out.println("no user assigned found."); //$NON-NLS-1$
 		}
 		
 		
@@ -190,7 +190,7 @@ public class UserAssignment{
 	
 	public static UserAssignment getUserAssignment (String schema, Long rid, Long aid) {
 		
-		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid;
+		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
 		System.out.println(hqlString);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -200,13 +200,13 @@ public class UserAssignment{
 		UserAssignment returnUserAssignment = null;
 		
 		if ((userList != null) && (userList.size() == 1)){
-			returnUserAssignment = (UserAssignment) userList.get(0);
-			System.out.println("found ua: " + returnUserAssignment.getId());
+			returnUserAssignment = userList.get(0);
+			System.out.println("found ua: " + returnUserAssignment.getId()); //$NON-NLS-1$
 		} else if (userList.size() > 1){
-			System.out.println("Warning more than one user assigned to role.");
+			System.out.println("Warning more than one user assigned to role."); //$NON-NLS-1$
 			return null;
 		} else {
-			System.out.println(" returnUserAssignment has not been assigned!" );
+			System.out.println(" returnUserAssignment has not been assigned!" ); //$NON-NLS-1$
 		}
 		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

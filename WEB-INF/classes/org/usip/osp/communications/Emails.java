@@ -49,11 +49,11 @@ public class Emails {
     /** Id of the user making this chat line. */
     private Long fromUser;
     
-    private String subjectLine = "";
+    private String subjectLine = ""; //$NON-NLS-1$
     
     /** Body of the message text. */
     @Lob
-    protected String msgtext = "";
+    protected String msgtext = ""; //$NON-NLS-1$
     
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;

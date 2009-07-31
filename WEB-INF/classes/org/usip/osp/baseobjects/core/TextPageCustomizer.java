@@ -24,11 +24,11 @@ public class TextPageCustomizer extends Customizer{
 	public void handleCustomizeSection(HttpServletRequest request, 
 			ParticipantSessionObject pso, CustomizeableSection cs) {
 		
-		String save_results = (String) request.getParameter("save_results");
+		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
-		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) {
+		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) { //$NON-NLS-1$
 			
-			String text_page_text = (String) request.getParameter("text_page_text");
+			String text_page_text = request.getParameter("text_page_text"); //$NON-NLS-1$
 			
 			cs.setBigString(text_page_text);
 

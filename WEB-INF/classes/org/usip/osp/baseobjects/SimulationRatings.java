@@ -43,7 +43,7 @@ public class SimulationRatings {
 	
 	private Long user_id;
 	
-	private String users_stated_name = "Anonymous";
+	private String users_stated_name = "Anonymous"; //$NON-NLS-1$
 	
 	private Long rs_id;
 	
@@ -52,10 +52,10 @@ public class SimulationRatings {
 	private int comment_type = 0;
 	
 	@Lob
-	private String user_comments = "";
+	private String user_comments = ""; //$NON-NLS-1$
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -63,7 +63,7 @@ public class SimulationRatings {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -71,7 +71,7 @@ public class SimulationRatings {
 	}
 
 	public Long getActor_id() {
-		return actor_id;
+		return this.actor_id;
 	}
 
 	public void setActor_id(Long actor_id) {
@@ -79,7 +79,7 @@ public class SimulationRatings {
 	}
 
 	public String getActor_name() {
-		return actor_name;
+		return this.actor_name;
 	}
 
 	public void setActor_name(String actor_name) {
@@ -87,7 +87,7 @@ public class SimulationRatings {
 	}
 
 	public Long getUser_id() {
-		return user_id;
+		return this.user_id;
 	}
 
 	public void setUser_id(Long user_id) {
@@ -95,7 +95,7 @@ public class SimulationRatings {
 	}
 
 	public String getUsers_stated_name() {
-		return users_stated_name;
+		return this.users_stated_name;
 	}
 
 	public void setUsers_stated_name(String users_stated_name) {
@@ -103,7 +103,7 @@ public class SimulationRatings {
 	}
 
 	public Long getRs_id() {
-		return rs_id;
+		return this.rs_id;
 	}
 
 	public void setRs_id(Long rs_id) {
@@ -111,7 +111,7 @@ public class SimulationRatings {
 	}
 
 	public int getNumberOfStars() {
-		return numberOfStars;
+		return this.numberOfStars;
 	}
 
 	public void setNumberOfStars(int numberOfStars) {
@@ -119,7 +119,7 @@ public class SimulationRatings {
 	}
 
 	public int getComment_type() {
-		return comment_type;
+		return this.comment_type;
 	}
 
 	public void setComment_type(int comment_type) {
@@ -128,16 +128,16 @@ public class SimulationRatings {
 	
 	public String getCommentoryType (){
 		if (this.comment_type == INSTRUCTOR_COMMENT){
-			return "Instructor";
+			return "Instructor"; //$NON-NLS-1$
 		} else if (this.comment_type == PLAYER_COMMENT){
-			return "Player";
+			return "Player"; //$NON-NLS-1$
 		} else {
-			return "unknown";
+			return "unknown"; //$NON-NLS-1$
 		}
 	}
 
 	public String getUser_comments() {
-		return user_comments;
+		return this.user_comments;
 	}
 
 	public void setUser_comments(String user_comments) {
@@ -167,19 +167,19 @@ public class SimulationRatings {
 
 		if (sid == null) {
 
-			System.out.println("sid/aid/pid: " + sid );
+			System.out.println("sid/aid/pid: " + sid ); //$NON-NLS-1$
 			return new ArrayList<SimulationRatings>();
 		} else {
 
-			String getHQL = "from SimulationRatings where SIM_ID = "
-				+ sid.toString() + " ";
+			String getHQL = "from SimulationRatings where SIM_ID = " //$NON-NLS-1$
+				+ sid.toString() + " "; //$NON-NLS-1$
 			
 			if (getType == SimulationRatings.ALL_COMMENTS){
-				getHQL += "";
+				getHQL += ""; //$NON-NLS-1$
 			} else if (getType == SimulationRatings.INSTRUCTOR_COMMENT){
-				getHQL += " AND COMMENT_TYPE = " + SimulationRatings.INSTRUCTOR_COMMENT + " ";
+				getHQL += " AND COMMENT_TYPE = " + SimulationRatings.INSTRUCTOR_COMMENT + " "; //$NON-NLS-1$ //$NON-NLS-2$
 			} else if (getType == SimulationRatings.PLAYER_COMMENT){
-				getHQL += " AND COMMENT_TYPE = " + SimulationRatings.PLAYER_COMMENT + " ";
+				getHQL += " AND COMMENT_TYPE = " + SimulationRatings.PLAYER_COMMENT + " "; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -211,12 +211,12 @@ public class SimulationRatings {
 		
 		if ((sim_id == null) || (user_id == null)){
 
-			System.out.println("sid/uid: " + sim_id + "/" + user_id);
+			System.out.println("sid/uid: " + sim_id + "/" + user_id); //$NON-NLS-1$ //$NON-NLS-2$
 			return sr;
 		} else {
 
-			String getHQL = "from SimulationRatings where SIM_ID = "
-				+ sim_id + " AND ACTOR_ID = " + actor_id + " AND USER_ID = " + user_id;
+			String getHQL = "from SimulationRatings where SIM_ID = " //$NON-NLS-1$
+				+ sim_id + " AND ACTOR_ID = " + actor_id + " AND USER_ID = " + user_id; //$NON-NLS-1$ //$NON-NLS-2$
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -246,12 +246,12 @@ public class SimulationRatings {
 		
 		if ((sim_id == null) || (user_id == null)){
 
-			System.out.println("sid/uid: " + sim_id + "/" + user_id);
+			System.out.println("sid/uid: " + sim_id + "/" + user_id); //$NON-NLS-1$ //$NON-NLS-2$
 			return sr;
 		} else {
 
-			String getHQL = "from SimulationRatings where SIM_ID = "
-				+ sim_id + " AND USER_ID = " + user_id + " AND COMMENT_TYPE = " + SimulationRatings.INSTRUCTOR_COMMENT;
+			String getHQL = "from SimulationRatings where SIM_ID = " //$NON-NLS-1$
+				+ sim_id + " AND USER_ID = " + user_id + " AND COMMENT_TYPE = " + SimulationRatings.INSTRUCTOR_COMMENT; //$NON-NLS-1$ //$NON-NLS-2$
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 

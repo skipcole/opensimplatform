@@ -33,7 +33,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 public class Trigger {
 
 	/** Key to pull id out if stored in Hashtable */
-	public static final String TRIGGER_KEY = "trigger_key";
+	public static final String TRIGGER_KEY = "trigger_key"; //$NON-NLS-1$
 
 	public static final int VAR_TYPE_GENERIC = 0;
 
@@ -64,7 +64,7 @@ public class Trigger {
 	private int fire_on;
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -72,7 +72,7 @@ public class Trigger {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -80,7 +80,7 @@ public class Trigger {
 	}
 
 	public Long getVar_id() {
-		return var_id;
+		return this.var_id;
 	}
 
 	public void setVar_id(Long var_id) {
@@ -88,7 +88,7 @@ public class Trigger {
 	}
 
 	public int getVar_type() {
-		return var_type;
+		return this.var_type;
 	}
 
 	public void setVar_type(int var_type) {
@@ -96,7 +96,7 @@ public class Trigger {
 	}
 
 	public int getAction_type() {
-		return action_type;
+		return this.action_type;
 	}
 
 	public void setAction_type(int action_type) {
@@ -104,7 +104,7 @@ public class Trigger {
 	}
 
 	public int getFire_on() {
-		return fire_on;
+		return this.fire_on;
 	}
 
 	public void setFire_on(int fire_on) {
@@ -156,20 +156,20 @@ public class Trigger {
 
 	public void execute(ParticipantSessionObject pso) {
 
-		Logger.getRootLogger().warn("Trigger.execute");
-		switch (action_type) {
+		Logger.getRootLogger().warn("Trigger.execute"); //$NON-NLS-1$
+		switch (this.action_type) {
 
 		case ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR: {
-			Logger.getRootLogger().warn("ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR");
+			Logger.getRootLogger().warn("ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR"); //$NON-NLS-1$
 
-			GenericVariable gv = GenericVariable.getGVForRunningSim(pso.schema, var_id, pso.running_sim_id);
-			Logger.getRootLogger().warn("gv id: " + gv.getId());
+			GenericVariable gv = GenericVariable.getGVForRunningSim(pso.schema, this.var_id, pso.running_sim_id);
+			Logger.getRootLogger().warn("gv id: " + gv.getId()); //$NON-NLS-1$
 
 			RunningSimulation rs = RunningSimulation.getMe(pso.schema, pso.running_sim_id);
-			Logger.getRootLogger().warn("rs id: " + rs.getId());
+			Logger.getRootLogger().warn("rs id: " + rs.getId()); //$NON-NLS-1$
 
 			AllowableResponse ar = AllowableResponse.getMe(pso.schema, gv.getCurrentlySelectedResponse());
-			Logger.getRootLogger().warn("ar id: " + ar.getId());
+			Logger.getRootLogger().warn("ar id: " + ar.getId()); //$NON-NLS-1$
 
 			rs.setAar_text(rs.getAar_text() + ar.getSpecificWordsForAAR());
 			rs.saveMe(pso.schema);
@@ -197,10 +197,10 @@ public class Trigger {
 
 		if (var_type == VAR_TYPE_GENERIC) {
 
-			System.out.println("from Trigger where var_id = '" + baseVarId + "'");
+			System.out.println("from Trigger where var_id = '" + baseVarId + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-					"from Trigger where var_id = '" + baseVarId + "'").list();
+					"from Trigger where var_id = '" + baseVarId + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		}

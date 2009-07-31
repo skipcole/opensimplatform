@@ -30,16 +30,16 @@ public class PlannedSessionParameters {
 	}
 	
 	/** Synchronous or Asynchronous */
-	private String play_type = "";
+	private String play_type = ""; //$NON-NLS-1$
 	
 	private int num_hours = 0;
 	
 	private int num_players = 0;
 	
-	private String details = "";
+	private String details = ""; //$NON-NLS-1$
 
 	public String getPlay_type() {
-		return play_type;
+		return this.play_type;
 	}
 
 	public void setPlay_type(String play_type) {
@@ -47,7 +47,7 @@ public class PlannedSessionParameters {
 	}
 
 	public int getNum_hours() {
-		return num_hours;
+		return this.num_hours;
 	}
 
 	public void setNum_hours(int num_hours) {
@@ -55,7 +55,7 @@ public class PlannedSessionParameters {
 	}
 
 	public int getNum_players() {
-		return num_players;
+		return this.num_players;
 	}
 
 	public void setNum_players(int num_players) {
@@ -63,7 +63,7 @@ public class PlannedSessionParameters {
 	}
 
 	public String getDetails() {
-		return details;
+		return this.details;
 	}
 
 	public void setDetails(String details) {

@@ -24,32 +24,32 @@ public class USIP_OSP_Properties {
     private static ResourceBundle resourceBundle;
     
     /** This sets the set of properties we will be looking at */
-    private static String environment_name = "_local";
+    private static String environment_name = "_local"; //$NON-NLS-1$
 
     /** A Hashtable of stored values to avoid re-reading of them. */
     private static Hashtable<String, String> hashedValues = new Hashtable<String, String>();
     
     static {
         
-    	String os_name = System.getProperty("os.name");
+    	String os_name = System.getProperty("os.name"); //$NON-NLS-1$
     	
     	System.out.println(os_name);
     	
-    	String file_loc = System.getProperty("user.home");
+    	String file_loc = System.getProperty("user.home"); //$NON-NLS-1$
     	
-    	System.out.println("user.home is" + file_loc);
+    	System.out.println("user.home is" + file_loc); //$NON-NLS-1$
     	
         try {
-            resourceBundle = ResourceBundle.getBundle("USIP_OSP_Properties", new Locale("en", "US"));
+            resourceBundle = ResourceBundle.getBundle("USIP_OSP_Properties", new Locale("en", "US")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-            if ((os_name == null) || (!(os_name.equalsIgnoreCase("SunOS")))){
-            	environment_name = "_local";
+            if ((os_name == null) || (!(os_name.equalsIgnoreCase("SunOS")))){ //$NON-NLS-1$
+            	environment_name = "_local"; //$NON-NLS-1$
             } else {
-            	environment_name = "_remote";
+            	environment_name = "_remote"; //$NON-NLS-1$
             }
             
         } catch (Exception e) {
-            System.out.println("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal.");
+            System.out.println("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
         }
     }
     
@@ -73,7 +73,7 @@ public class USIP_OSP_Properties {
     	
     	String fullKey = propertyName + envName;
     	
-    	String cachedAnswer = (String) hashedValues.get(fullKey);
+    	String cachedAnswer = hashedValues.get(fullKey);
     	
     	if (cachedAnswer == null){
     		cachedAnswer = resourceBundle.getString(fullKey);

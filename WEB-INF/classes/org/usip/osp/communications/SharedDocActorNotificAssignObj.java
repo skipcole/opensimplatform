@@ -2,7 +2,6 @@ package org.usip.osp.communications;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,7 +9,6 @@ import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -71,7 +69,7 @@ public class SharedDocActorNotificAssignObj {
 	private Long from_phase_id;
 	
 	public Long getFrom_actor_id() {
-		return from_actor_id;
+		return this.from_actor_id;
 	}
 
 	public void setFrom_actor_id(Long from_actor_id) {
@@ -79,7 +77,7 @@ public class SharedDocActorNotificAssignObj {
 	}
 
 	public Long getFrom_phase_id() {
-		return from_phase_id;
+		return this.from_phase_id;
 	}
 
 	public void setFrom_phase_id(Long from_phase_id) {
@@ -89,10 +87,10 @@ public class SharedDocActorNotificAssignObj {
 	/** Id of the actor that will get this notification. */
 	private Long actor_id;
 	
-	private String notificationText = "";
+	private String notificationText = ""; //$NON-NLS-1$
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -100,7 +98,7 @@ public class SharedDocActorNotificAssignObj {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -108,7 +106,7 @@ public class SharedDocActorNotificAssignObj {
 	}
 
 	public Long getSd_id() {
-		return sd_id;
+		return this.sd_id;
 	}
 
 	public void setSd_id(Long sd_id) {
@@ -116,7 +114,7 @@ public class SharedDocActorNotificAssignObj {
 	}
 
 	public Long getActor_id() {
-		return actor_id;
+		return this.actor_id;
 	}
 
 	public void setActor_id(Long actor_id) {
@@ -124,7 +122,7 @@ public class SharedDocActorNotificAssignObj {
 	}
 
 	public String getNotificationText() {
-		return notificationText;
+		return this.notificationText;
 	}
 
 	public void setNotificationText(String notificationText) {
@@ -141,7 +139,7 @@ public class SharedDocActorNotificAssignObj {
 	public static List getAllAssignmentsForDocument(String schema, Long doc_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		String hql_string = "from SharedDocActorNotificAssignObj where sd_id = " + doc_id;
+		String hql_string = "from SharedDocActorNotificAssignObj where sd_id = " + doc_id; //$NON-NLS-1$
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -160,7 +158,7 @@ public class SharedDocActorNotificAssignObj {
 	public static SharedDocActorNotificAssignObj getAssignmentForDocumentAndActor(String schema, Long doc_id, Long actor_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		String hql_string = "from SharedDocActorNotificAssignObj where sd_id = " + doc_id + " and actor_id = " + actor_id;
+		String hql_string = "from SharedDocActorNotificAssignObj where sd_id = " + doc_id + " and actor_id = " + actor_id; //$NON-NLS-1$ //$NON-NLS-2$
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -211,7 +209,7 @@ public class SharedDocActorNotificAssignObj {
 	public static void removeSdanao(String schema, String remove_id){
 		
 		if (remove_id == null){
-			Logger.getRootLogger().warn("Warning! Invalid id sent into SDANDAO to remove.");
+			Logger.getRootLogger().warn("Warning! Invalid id sent into SDANDAO to remove."); //$NON-NLS-1$
 		}
 		
 		Long sdanao_id = null;
@@ -219,7 +217,7 @@ public class SharedDocActorNotificAssignObj {
 		try {
 			sdanao_id = new Long(remove_id);
 		} catch (Exception e){
-			Logger.getRootLogger().warn("Warning! problem converting id :" + remove_id + " passed in to Long.");
+			Logger.getRootLogger().warn("Warning! problem converting id :" + remove_id + " passed in to Long."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
 		SharedDocActorNotificAssignObj sdanao = SharedDocActorNotificAssignObj.getMe(schema, sdanao_id);

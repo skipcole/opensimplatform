@@ -19,12 +19,12 @@ package org.usip.osp.baseobjects;
  */
 public class SimulationSectionGhost {
 
-	private String tabColor = "";
+	private String tabColor = ""; //$NON-NLS-1$
 	
-	private String tabHeading = "";
+	private String tabHeading = ""; //$NON-NLS-1$
 	
 	public String getTabColor() {
-		return tabColor;
+		return this.tabColor;
 	}
 
 	public void setTabColor(String tabColor) {
@@ -32,7 +32,7 @@ public class SimulationSectionGhost {
 	}
 
 	public String getTabHeading() {
-		return tabHeading;
+		return this.tabHeading;
 	}
 
 	public void setTabHeading(String tabHeading) {

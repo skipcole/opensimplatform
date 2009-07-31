@@ -26,25 +26,25 @@ import java.util.*;
  */
 public class Emailer {
 
-	public static String simulation_url = "";
+	public static String simulation_url = ""; //$NON-NLS-1$
 
 	static {
 		try {
 
-			simulation_url = USIP_OSP_Properties.getValue("simulation_url");
+			simulation_url = USIP_OSP_Properties.getValue("simulation_url"); //$NON-NLS-1$
 
 		} catch (Exception e) {
 			System.out
-					.println("Problem getting simulation URL to include in email to participants.");
+					.println("Problem getting simulation URL to include in email to participants."); //$NON-NLS-1$
 		}
 	}
 
 	public static void main(String args[]) {
 
 		Vector toV = new Vector();
-		toV.add("scole@usip.org");
+		toV.add("scole@usip.org"); //$NON-NLS-1$
 
-		String p = "a,b,c,";
+		String p = "a,b,c,"; //$NON-NLS-1$
 		toV = listToVector(p);
 
 		System.out.println(toV.size());
@@ -56,7 +56,7 @@ public class Emailer {
 
 		Vector returnV = new Vector();
 
-		StringTokenizer st = new StringTokenizer(inputList, ",");
+		StringTokenizer st = new StringTokenizer(inputList, ","); //$NON-NLS-1$
 
 		while (st.hasMoreTokens()) {
 			returnV.add(st.nextToken().trim());
@@ -121,8 +121,8 @@ public class Emailer {
 				InternetAddress[] addressCC = new InternetAddress[cced.size()];
 				for (Enumeration<String> e = cced.elements(); e
 						.hasMoreElements();) {
-					String s = (String) e.nextElement();
-					System.out.println("addressCC[ii] is " + addressCC[ii]);
+					String s = e.nextElement();
+					System.out.println("addressCC[ii] is " + addressCC[ii]); //$NON-NLS-1$
 					addressCC[ii] = new InternetAddress(s);
 				}
 				msg.setRecipients(Message.RecipientType.CC, addressCC);
@@ -133,8 +133,8 @@ public class Emailer {
 				InternetAddress[] addressBCC = new InternetAddress[bcced.size()];
 				for (Enumeration<String> e = bcced.elements(); e
 						.hasMoreElements();) {
-					String s = (String) e.nextElement();
-					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!s is " + s);
+					String s = e.nextElement();
+					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!s is " + s); //$NON-NLS-1$
 					addressBCC[ii] = new InternetAddress(s);
 
 				}
@@ -142,7 +142,7 @@ public class Emailer {
 			}
 			// Setting the Subject and Content Type
 			msg.setSubject(subject);
-			msg.setContent(message, "text/plain");
+			msg.setContent(message, "text/plain"); //$NON-NLS-1$
 			Transport.send(msg);
 
 		} catch (Exception err) {
@@ -167,15 +167,15 @@ public class Emailer {
 
 		postMail(sio, to, subject, message, from, cced, bcced);
 
-		return "okay";
+		return "okay"; //$NON-NLS-1$
 	}
 
 	public static Session getJavaxMailSessionForSchema(final SchemaInformationObject sio,
 			boolean debug) {
 		Properties props = new Properties();
-		props.put("mail.transport.protocol", "smtp");
-		props.put("mail.smtp.host", sio.getEmail_smtp());
-		props.put("mail.smtp.auth", "true");
+		props.put("mail.transport.protocol", "smtp"); //$NON-NLS-1$ //$NON-NLS-2$
+		props.put("mail.smtp.host", sio.getEmail_smtp()); //$NON-NLS-1$
+		props.put("mail.smtp.auth", "true"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Authenticator auth = new Authenticator() {
 
@@ -246,7 +246,7 @@ public class Emailer {
 
 			// Setting the Subject and Content Type
 			msg.setSubject(subject);
-			msg.setContent(message, "text/plain");
+			msg.setContent(message, "text/plain"); //$NON-NLS-1$
 
 			// System.out.println(message);
 			Transport.send(msg);
@@ -256,6 +256,6 @@ public class Emailer {
 			return err.getMessage();
 		}
 
-		return "okay";
+		return "okay"; //$NON-NLS-1$
 	}
 }

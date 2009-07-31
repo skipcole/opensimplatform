@@ -7,12 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.servlet.http.HttpServletRequest;
-
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.communications.ChatController;
 import org.usip.osp.communications.ConvActorAssignment;
-import org.usip.osp.communications.Conversation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -63,7 +59,7 @@ public class SimulationSectionAssignment {
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -77,7 +73,7 @@ public class SimulationSectionAssignment {
 	 * Indicates elements of information should be sent in a URL string to an
 	 * external page.
 	 */
-	private String sendString = "";
+	private String sendString = ""; //$NON-NLS-1$
 
 	@Column(name = "ACTOR_ID")
 	private Long actor_id;
@@ -90,7 +86,7 @@ public class SimulationSectionAssignment {
 	
 	/** Color of this tab heading. */
 	@Column(name = "TAB_COLOR")
-	private String tabColor = "FFFFFF";
+	private String tabColor = "FFFFFF"; //$NON-NLS-1$
 
 	/** The tab heading of this section. */
 	@Column(name = "TAB_HEADING")
@@ -102,15 +98,15 @@ public class SimulationSectionAssignment {
 
 	/** URL of this section */
 	@Column(name = "SIMSEC_URL")
-	private String url = "";
+	private String url = ""; //$NON-NLS-1$
 
 	/** Directory of this section */
 	@Column(name = "SIMSEC_DIR")
-	private String directory = "";
+	private String directory = ""; //$NON-NLS-1$
 
 	/** Filename of this section */
 	@Column(name = "SIMSEC_FILENAME")
-	private String page_file_name = "";
+	private String page_file_name = ""; //$NON-NLS-1$
 
 	@Column(name = "ADDED_AS_UNIV")
 	private boolean addedAsUniversalSection = false;
@@ -123,7 +119,7 @@ public class SimulationSectionAssignment {
 	private boolean simSubSection = false;
 
 	public boolean isSimSubSection() {
-		return simSubSection;
+		return this.simSubSection;
 	}
 
 	public void setSimSubSection(boolean simSubSection) {
@@ -131,7 +127,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public int getSimSubSectionIndex() {
-		return simSubSectionIndex;
+		return this.simSubSectionIndex;
 	}
 
 	public void setSimSubSectionIndex(int simSubSectionIndex) {
@@ -139,7 +135,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public Long getDisplaySectionId() {
-		return displaySectionId;
+		return this.displaySectionId;
 	}
 
 	public void setDisplaySectionId(Long displaySectionId) {
@@ -250,7 +246,7 @@ public class SimulationSectionAssignment {
 		if (bss_id != null) {
 			bss = BaseSimSection.getMe(schema, bss_id.toString());
 		} else {
-			System.out.println("Warning bss_id at simulation section creation was null.");
+			System.out.println("Warning bss_id at simulation section creation was null."); //$NON-NLS-1$
 			return;
 		}
 
@@ -321,33 +317,33 @@ public class SimulationSectionAssignment {
 
 		String returnString = this.getUrl() + this.getDirectory() + this.getPage_file_name();
 
-		returnString += "?cs_id=" + this.getBase_section_id();
+		returnString += "?cs_id=" + this.getBase_section_id(); //$NON-NLS-1$
 
-		System.out.println("sendString is " + this.sendString);
+		System.out.println("sendString is " + this.sendString); //$NON-NLS-1$
 
 		// String firstSep = "?";
-		String subsequentSep = "&";
+		String subsequentSep = "&"; //$NON-NLS-1$
 		// String thisSep = firstSep;
 		String thisSep = subsequentSep;
 
 		if ((this.sendString != null) && (this.sendString.length() > 0)) {
 			if (this.sendString.charAt(POS_RS_ID) == '1') {
-				returnString += (thisSep + "running_sim_id=" + rs_id);
+				returnString += (thisSep + "running_sim_id=" + rs_id); //$NON-NLS-1$
 				thisSep = subsequentSep;
 			}
 
 			if (this.sendString.charAt(POS_A_ID) == '1') {
-				returnString += (thisSep + "actor_id=" + actor_id);
+				returnString += (thisSep + "actor_id=" + actor_id); //$NON-NLS-1$
 				thisSep = subsequentSep;
 			}
 
 			if (this.sendString.charAt(POS_U_ID) == '1') {
-				returnString += (thisSep + "user_id=" + user_id);
+				returnString += (thisSep + "user_id=" + user_id); //$NON-NLS-1$
 				thisSep = subsequentSep;
 			}
 		}
 
-		System.out.println("returnString: " + returnString);
+		System.out.println("returnString: " + returnString); //$NON-NLS-1$
 
 		return returnString;
 	}
@@ -364,12 +360,12 @@ public class SimulationSectionAssignment {
 
 		if (sid == null) {
 
-			System.out.println("sid: " + sid);
+			System.out.println("sid: " + sid); //$NON-NLS-1$
 			return new ArrayList<Long>();
 		} else {
 
-			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSectionAssignment ss where SIM_ID = "
-					+ sid.toString() + " order by ss.base_sec_id";
+			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSectionAssignment ss where SIM_ID = " //$NON-NLS-1$
+					+ sid.toString() + " order by ss.base_sec_id"; //$NON-NLS-1$
 
 			System.out.println(getHQL);
 
@@ -381,7 +377,7 @@ public class SimulationSectionAssignment {
 				returnList = new ArrayList();
 			}
 
-			System.out.println("get # ids: " + returnList.size());
+			System.out.println("get # ids: " + returnList.size()); //$NON-NLS-1$
 
 			return returnList;
 		}
@@ -403,7 +399,7 @@ public class SimulationSectionAssignment {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		for (ListIterator<Long> bi = baseIds.listIterator(); bi.hasNext();) {
-			Long bid = (Long) bi.next();
+			Long bid = bi.next();
 
 			if (bid != null) {
 
@@ -431,11 +427,11 @@ public class SimulationSectionAssignment {
 
 		if (sid == null) {
 
-			System.out.println("sid: " + sid);
+			System.out.println("sid: " + sid); //$NON-NLS-1$
 			return new ArrayList<SimulationSectionAssignment>();
 		} else {
 
-			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + "order by simsec_id";
+			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + "order by simsec_id"; //$NON-NLS-1$ //$NON-NLS-2$
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -470,9 +466,9 @@ public class SimulationSectionAssignment {
 	public static SimulationSectionAssignment getSubSection(String schema, Long cs_id, int index, Long sid, Long aid,
 			Long pid) {
 
-		String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid + " AND ACTOR_ID = " + aid
-				+ " AND PHASE_ID = " + pid + " and simSubSection is true " + " and displaySectionId = " + cs_id
-				+ " and simSubSectionIndex = " + index + " order by TAB_POS";
+		String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid + " AND ACTOR_ID = " + aid //$NON-NLS-1$ //$NON-NLS-2$
+				+ " AND PHASE_ID = " + pid + " and simSubSection is true " + " and displaySectionId = " + cs_id //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ " and simSubSectionIndex = " + index + " order by TAB_POS"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -510,18 +506,18 @@ public class SimulationSectionAssignment {
 
 		if ((sid == null) || (aid == null) || (pid == null)) {
 
-			System.out.println("sid/aid/pid: " + sid + "/" + aid + "/" + pid);
+			System.out.println("sid/aid/pid: " + sid + "/" + aid + "/" + pid); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return new ArrayList<SimulationSectionAssignment>();
 		} else {
 
-			String getSub = " and simSubSection is false ";
+			String getSub = " and simSubSection is false "; //$NON-NLS-1$
 
 			if (getSubSections) {
-				getSub = "";
+				getSub = ""; //$NON-NLS-1$
 			}
 
-			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
-					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + getSub + " order by TAB_POS";
+			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + " AND ACTOR_ID = " //$NON-NLS-1$ //$NON-NLS-2$
+					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + getSub + " order by TAB_POS"; //$NON-NLS-1$ //$NON-NLS-2$
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -553,10 +549,10 @@ public class SimulationSectionAssignment {
 		List returnList = getBySimAndActorAndPhase(schema, sid, aid, pid);
 
 		if ((returnList == null) || (returnList.size() == 0)) {
-			System.out.println("returning highest tab = 1");
+			System.out.println("returning highest tab = 1"); //$NON-NLS-1$
 			return new Long(1);
 		} else {
-			System.out.println("returning highest tab = " + (returnList.size() + 1));
+			System.out.println("returning highest tab = " + (returnList.size() + 1)); //$NON-NLS-1$
 			return new Long(returnList.size() + 1);
 		}
 	}
@@ -576,13 +572,13 @@ public class SimulationSectionAssignment {
 
 		if ((sid == null) || (aid == null) || (pid == null)) {
 
-			System.out.println("Error: sid/aid/pid: " + sid + "/" + aid + "/" + pid);
+			System.out.println("Error: sid/aid/pid: " + sid + "/" + aid + "/" + pid); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return null;
 		} else {
 
-			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + " AND ACTOR_ID = "
-					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + " AND TAB_POS = " + tab_pos
-					+ " and simSubSection = false";
+			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + " AND ACTOR_ID = " //$NON-NLS-1$ //$NON-NLS-2$
+					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + " AND TAB_POS = " + tab_pos //$NON-NLS-1$ //$NON-NLS-2$
+					+ " and simSubSection = false"; //$NON-NLS-1$
 
 			System.out.println(getHQL);
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -590,7 +586,7 @@ public class SimulationSectionAssignment {
 
 			// If list has gotten out of order, attempt cleaning it up.
 			if ((returnList == null) || (returnList.size() != 1)) {
-				System.out.println("got wrong number of sections");
+				System.out.println("got wrong number of sections"); //$NON-NLS-1$
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 				// Reorder and try it again.
@@ -603,7 +599,7 @@ public class SimulationSectionAssignment {
 
 			if ((returnList == null) || (returnList.size() != 1)) {
 
-				System.out.println("Still have got the wrong number of sections after reordering. Returning null.");
+				System.out.println("Still have got the wrong number of sections after reordering. Returning null."); //$NON-NLS-1$
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 				return null;
@@ -632,7 +628,7 @@ public class SimulationSectionAssignment {
 		// Get, and remove, and occurance of this section for all actors.
 		List removeList = SimulationSectionAssignment.getBySimAndPhaseAndBSSid(schema, sim.getId(), pid, bss_id);
 		for (ListIterator<SimulationSectionAssignment> lr = removeList.listIterator(); lr.hasNext();) {
-			SimulationSectionAssignment s_gone = (SimulationSectionAssignment) lr.next();
+			SimulationSectionAssignment s_gone = lr.next();
 
 			SimulationSectionAssignment.remove(schema, s_gone);
 
@@ -663,7 +659,7 @@ public class SimulationSectionAssignment {
 		List removeList = SimulationSectionAssignment.getBySimAndPhaseAndBSSid(schema, sim_id, pid, sec_id);
 
 		for (ListIterator<SimulationSectionAssignment> lr = removeList.listIterator(); lr.hasNext();) {
-			SimulationSectionAssignment s_gone = (SimulationSectionAssignment) lr.next();
+			SimulationSectionAssignment s_gone = lr.next();
 
 			SimulationSectionAssignment.remove(schema, s_gone);
 
@@ -697,8 +693,8 @@ public class SimulationSectionAssignment {
 	private static List<SimulationSectionAssignment> getBySimAndPhaseAndBSSid(String schema, Long sid, Long pid,
 			Long bss_id) {
 
-		String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid + " AND BASE_SEC_ID = " + bss_id
-				+ " AND PHASE_ID = " + pid.toString() + " order by TAB_POS";
+		String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid + " AND BASE_SEC_ID = " + bss_id //$NON-NLS-1$ //$NON-NLS-2$
+				+ " AND PHASE_ID = " + pid.toString() + " order by TAB_POS"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -777,7 +773,7 @@ public class SimulationSectionAssignment {
 		for (ListIterator lia = actorList.listIterator(); lia.hasNext();) {
 			Actor act = (Actor) lia.next();
 
-			System.out.println("checking universals on " + act.getName());
+			System.out.println("checking universals on " + act.getName()); //$NON-NLS-1$
 
 			applyUniversalsToActor(schema, sid, universalList, act.getId(), pid);
 
@@ -799,7 +795,7 @@ public class SimulationSectionAssignment {
 		for (ListIterator lis = universalList.listIterator(); lis.hasNext();) {
 			SimulationSectionAssignment ss = (SimulationSectionAssignment) lis.next();
 
-			System.out.println("     checking universalList on " + ss.getTab_heading());
+			System.out.println("     checking universalList on " + ss.getTab_heading()); //$NON-NLS-1$
 
 			boolean foundThisSection = false;
 
@@ -808,10 +804,10 @@ public class SimulationSectionAssignment {
 			for (ListIterator listOld = currentActorsList.listIterator(); listOld.hasNext();) {
 				SimulationSectionAssignment ss_old = (SimulationSectionAssignment) listOld.next();
 
-				System.out.println("             comparing " + ss_old.getBase_section_id() + " and "
+				System.out.println("             comparing " + ss_old.getBase_section_id() + " and " //$NON-NLS-1$ //$NON-NLS-2$
 						+ ss.getBase_section_id());
 				if (ss_old.getBase_section_id().equals(ss.getBase_section_id())) {
-					System.out.println("             found match!");
+					System.out.println("             found match!"); //$NON-NLS-1$
 					foundThisSection = true;
 				}
 
@@ -858,7 +854,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -866,7 +862,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -874,7 +870,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public Long getActor_id() {
-		return actor_id;
+		return this.actor_id;
 	}
 
 	public void setActor_id(Long actor_id) {
@@ -882,7 +878,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public Long getPhase_id() {
-		return phase_id;
+		return this.phase_id;
 	}
 
 	public void setPhase_id(Long phase_id) {
@@ -890,7 +886,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public int getTab_position() {
-		return tab_position;
+		return this.tab_position;
 	}
 
 	public void setTab_position(int tab_position) {
@@ -898,7 +894,7 @@ public class SimulationSectionAssignment {
 	}
 	
 	public String getTabColor() {
-		return tabColor;
+		return this.tabColor;
 	}
 
 	public void setTabColor(String tabColor) {
@@ -906,7 +902,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public String getTab_heading() {
-		return tab_heading;
+		return this.tab_heading;
 	}
 
 	public void setTab_heading(String tab_heading) {
@@ -914,7 +910,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public Long getBase_section_id() {
-		return base_sec_id;
+		return this.base_sec_id;
 	}
 
 	public void setBase_section_id(Long base_section_id) {
@@ -922,7 +918,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public String getUrl() {
-		return url;
+		return this.url;
 	}
 
 	public void setUrl(String url) {
@@ -930,7 +926,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public String getDirectory() {
-		return directory;
+		return this.directory;
 	}
 
 	public void setDirectory(String directory) {
@@ -938,7 +934,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public String getPage_file_name() {
-		return page_file_name;
+		return this.page_file_name;
 	}
 
 	public void setPage_file_name(String page_file_name) {
@@ -946,7 +942,7 @@ public class SimulationSectionAssignment {
 	}
 
 	public boolean isAddedAsUniversalSection() {
-		return addedAsUniversalSection;
+		return this.addedAsUniversalSection;
 	}
 
 	public void setAddedAsUniversalSection(boolean addedAsUniversalSection) {

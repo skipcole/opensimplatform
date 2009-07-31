@@ -1,15 +1,10 @@
 package org.usip.osp.communications;
 
-import java.util.*;
 import java.util.Date;
-import java.sql.*;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -18,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.networking.ParticipantSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-import org.usip.osp.persistence.MysqlDatabase;
 
 /**
  * This class represents a single line in a chat conversation.
@@ -61,13 +55,13 @@ public class ChatLine {
     
     /** Body of the message text. */
     @Lob
-    protected String msgtext = "";
+    protected String msgtext = ""; //$NON-NLS-1$
     
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
 	
 	@Transient
-	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a"); //$NON-NLS-1$
 	
     /**
      * Packages a line with information (index, from id, and message payload) with
@@ -77,9 +71,9 @@ public class ChatLine {
      */
     public String packageMe(){
         
-        String me = id + "_" + fromActor + "_";
+        String me = this.id + "_" + this.fromActor + "_"; //$NON-NLS-1$ //$NON-NLS-2$
         
-        me = me + "xyxyx_" + msgtext;
+        me = me + "xyxyx_" + this.msgtext; //$NON-NLS-1$
         
         return me;
     }
@@ -92,18 +86,18 @@ public class ChatLine {
      */
     public String packageIntoXML(ParticipantSessionObject pso, HttpServletRequest request){
     	
-    	String time_string = sdf.format(this.msgDate);
+    	String time_string = this.sdf.format(this.msgDate);
     	
-    	String returnString = "<message>";
+    	String returnString = "<message>"; //$NON-NLS-1$
     	
-    	String actorName = pso.getActorName(request, fromActor);
+    	String actorName = pso.getActorName(request, this.fromActor);
     	
-    	returnString += "     <conversation>" + conversation_id + "</conversation>";
-    	returnString += "     <time>" + time_string + "</time>";
-    	returnString += "     <id>" + id + "</id>";
-    	returnString += "     <author>" + actorName + "</author>";
-    	returnString += "     <text>" + msgtext + "</text>";
-    	returnString += "</message>\r\n";
+    	returnString += "     <conversation>" + this.conversation_id + "</conversation>"; //$NON-NLS-1$ //$NON-NLS-2$
+    	returnString += "     <time>" + time_string + "</time>"; //$NON-NLS-1$ //$NON-NLS-2$
+    	returnString += "     <id>" + this.id + "</id>"; //$NON-NLS-1$ //$NON-NLS-2$
+    	returnString += "     <author>" + actorName + "</author>"; //$NON-NLS-1$ //$NON-NLS-2$
+    	returnString += "     <text>" + this.msgtext + "</text>"; //$NON-NLS-1$ //$NON-NLS-2$
+    	returnString += "</message>\r\n"; //$NON-NLS-1$
         
         return returnString;
     }
@@ -117,10 +111,10 @@ public class ChatLine {
     }
     
     public static void main(String args[]){
-    	System.out.println("Hi handsome");
-    	ChatLine cl = new ChatLine("1", "1", "1", "1", "cargo cult");
-    	cl.saveMe("test");
-    	System.out.println("done");
+    	System.out.println("Hi handsome"); //$NON-NLS-1$
+    	ChatLine cl = new ChatLine("1", "1", "1", "1", "cargo cult"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+    	cl.saveMe("test"); //$NON-NLS-1$
+    	System.out.println("done"); //$NON-NLS-1$
     	
     }
     
@@ -157,7 +151,7 @@ public class ChatLine {
     }
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -165,7 +159,7 @@ public class ChatLine {
 	}
 
 	public Long getRunning_sim_id() {
-		return running_sim_id;
+		return this.running_sim_id;
 	}
 
 	public void setRunning_sim_id(Long running_sim_id) {
@@ -173,7 +167,7 @@ public class ChatLine {
 	}
 
 	public Long getConversation_id() {
-		return conversation_id;
+		return this.conversation_id;
 	}
 
 	public void setConversation_id(Long conversation_id) {
@@ -181,7 +175,7 @@ public class ChatLine {
 	}
 
 	public Long getFromActor() {
-		return fromActor;
+		return this.fromActor;
 	}
 
 	public void setFromActor(Long fromChatter) {
@@ -189,7 +183,7 @@ public class ChatLine {
 	}
 
 	public String getMsgtext() {
-		return msgtext;
+		return this.msgtext;
 	}
 
 	public void setMsgtext(String msgtext) {
@@ -197,7 +191,7 @@ public class ChatLine {
 	}
 
 	public Long getFromUser() {
-		return fromUser;
+		return this.fromUser;
 	}
 
 	public void setFromUser(Long fromUser) {
@@ -205,7 +199,7 @@ public class ChatLine {
 	}
 
 	public Date getMsgDate() {
-		return msgDate;
+		return this.msgDate;
 	}
 
 	public void setMsgDate(Date msgDate) {

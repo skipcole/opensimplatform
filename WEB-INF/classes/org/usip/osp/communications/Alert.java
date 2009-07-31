@@ -57,13 +57,13 @@ public class Alert {
 	private int type = 0;
 	
     @Lob
-    private String alertMessage = "";
+    private String alertMessage = ""; //$NON-NLS-1$
 	
     @Lob
-    private String alertPopupMessage = "";
+    private String alertPopupMessage = ""; //$NON-NLS-1$
     
     @Lob
-    private String alertEmailMessage = "";
+    private String alertEmailMessage = ""; //$NON-NLS-1$
     
     
 	@Column(name="ALERT_TIME", columnDefinition="datetime") 	
@@ -76,12 +76,12 @@ public class Alert {
 
 	@Column(name="THE_SPEC_TARGS")
 	/** a comma separated list of the actor ids for whom this alert is for.*/
-	private String the_specific_targets = "";
+	private String the_specific_targets = ""; //$NON-NLS-1$
 	
 	private Long running_sim_id;
 	
 	public Long getRunning_sim_id() {
-		return running_sim_id;
+		return this.running_sim_id;
 	}
 
 	public void setRunning_sim_id(Long running_sim_id) {
@@ -89,7 +89,7 @@ public class Alert {
 	}
 
 	public boolean isSpecific_targets() {
-		return specific_targets;
+		return this.specific_targets;
 	}
 
 	public void setSpecific_targets(boolean specific_targets) {
@@ -97,7 +97,7 @@ public class Alert {
 	}
 
 	public String getThe_specific_targets() {
-		return the_specific_targets;
+		return this.the_specific_targets;
 	}
 
 	public void setThe_specific_targets(String the_specific_targets) {
@@ -106,12 +106,12 @@ public class Alert {
 
 	public Alert(){
 		
-		timeOfAlert = new java.util.Date();
+		this.timeOfAlert = new java.util.Date();
 		
 	}
 	
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -119,7 +119,7 @@ public class Alert {
 	}
 
 	public Date getTimeOfAlert() {
-		return timeOfAlert;
+		return this.timeOfAlert;
 	}
 
 	public void setTimeOfAlert(Date timeOfAlert) {
@@ -127,7 +127,7 @@ public class Alert {
 	}
 
 	public int getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(int type) {
@@ -150,7 +150,7 @@ public class Alert {
 			
 			String a_id = actor_id.toString();
 			
-			StringTokenizer str = new StringTokenizer(this.the_specific_targets, ",");
+			StringTokenizer str = new StringTokenizer(this.the_specific_targets, ","); //$NON-NLS-1$
 			
 	        while (str.hasMoreTokens()) {
 	            if(str.nextToken().trim().equalsIgnoreCase(a_id)){
@@ -163,7 +163,7 @@ public class Alert {
 	}
 
 	public String getAlertMessage() {
-		return alertMessage;
+		return this.alertMessage;
 	}
 
 	public void setAlertMessage(String alertMessage) {
@@ -171,7 +171,7 @@ public class Alert {
 	}
 
 	public String getAlertPopupMessage() {
-		return alertPopupMessage;
+		return this.alertPopupMessage;
 	}
 
 	public void setAlertPopupMessage(String alertPopupMessage) {
@@ -179,7 +179,7 @@ public class Alert {
 	}
 
 	public String getAlertEmailMessage() {
-		return alertEmailMessage;
+		return this.alertEmailMessage;
 	}
 
 	public void setAlertEmailMessage(String alertEmailMessage) {
@@ -209,7 +209,7 @@ public class Alert {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List <Alert> returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from Alert where running_sim_id = " + running_sim_id).list();
+				.createQuery("from Alert where running_sim_id = " + running_sim_id).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

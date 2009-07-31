@@ -42,7 +42,7 @@ public class Inject {
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -58,18 +58,18 @@ public class Inject {
     private Long group_id;
 	
     /** Name of this inject. */
-	private String inject_name = "";
+	private String inject_name = ""; //$NON-NLS-1$
 	
 	/** Name of this group of injects. */
 	@Lob
-	private String inject_text = "";
+	private String inject_text = ""; //$NON-NLS-1$
 	
 	/** Description of this group of injects. */
 	@Lob
-	private String inject_notes = "";
+	private String inject_notes = ""; //$NON-NLS-1$
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -77,7 +77,7 @@ public class Inject {
 	}
 
 	public String getInject_text() {
-		return inject_text;
+		return this.inject_text;
 	}
 
 	public void setInject_text(String inject_text) {
@@ -85,7 +85,7 @@ public class Inject {
 	}
 
 	public String getInject_Notes() {
-		return inject_notes;
+		return this.inject_notes;
 	}
 
 	public void setInject_Notes(String inject_notes) {
@@ -93,7 +93,7 @@ public class Inject {
 	}
 	
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -101,7 +101,7 @@ public class Inject {
 	}
 
 	public Long getGroup_id() {
-		return group_id;
+		return this.group_id;
 	}
 
 	public void setGroup_id(Long group_id) {
@@ -109,7 +109,7 @@ public class Inject {
 	}
 
 	public String getInject_name() {
-		return inject_name;
+		return this.inject_name;
 	}
 
 	public void setInject_name(String inject_name) {
@@ -141,8 +141,8 @@ public class Inject {
 
 		List returnList = 
 			MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Inject where SIM_ID = " + sim_id + 
-				" and GROUP_ID = " + group_id).list();
+				"from Inject where SIM_ID = " + sim_id +  //$NON-NLS-1$
+				" and GROUP_ID = " + group_id).list(); //$NON-NLS-1$
 		
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

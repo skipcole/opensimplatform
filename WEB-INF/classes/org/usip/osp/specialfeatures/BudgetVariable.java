@@ -4,8 +4,6 @@ import java.sql.*;
 import java.util.*;
 
 import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.graphs.VariableValue;
 import org.usip.osp.persistence.MysqlDatabase;
 
 /**
@@ -25,71 +23,71 @@ public class BudgetVariable {
 
     public boolean accumulates = true;
     
-    public static final String TRANSTYPE_INITIAL = "initial";
+    public static final String TRANSTYPE_INITIAL = "initial"; //$NON-NLS-1$
     
-    public static final String TRANSTYPE_MOVE = "move";
+    public static final String TRANSTYPE_MOVE = "move"; //$NON-NLS-1$
     
-    public static final String TRANSTYPE_FINAL = "final";
+    public static final String TRANSTYPE_FINAL = "final"; //$NON-NLS-1$
     
-    public static final String SPECIALFIELDLABEL = "sim_player_budget_transfer";
+    public static final String SPECIALFIELDLABEL = "sim_player_budget_transfer"; //$NON-NLS-1$
     
-    String var_type = "";
+    String var_type = ""; //$NON-NLS-1$
 
     public float maxValue = Float.MAX_VALUE;
 
     public float minValue = Float.MIN_VALUE;
 
-    public String initialValue = "";
+    public String initialValue = ""; //$NON-NLS-1$
     
-    public String value = "";
+    public String value = ""; //$NON-NLS-1$
     
-    public String tracked = "false";
+    public String tracked = "false"; //$NON-NLS-1$
 
     public BudgetVariable(){
-        value = "0";
+        this.value = "0"; //$NON-NLS-1$
     }
     
     
     public static void createGameBudgetTable(String tableName){
         
-        String createTableSQL = "CREATE TABLE `" + tableName + "` ( " +
-            "`sim_id` int(11) NOT NULL auto_increment, " +
-            "`sf_id` int(11) NOT NULL, " +
-            "`game_id` int(11) NOT NULL, " +
-            "`running_game_id` int(11) default '0', " + 
-            "`var_name` varchar(100) default NULL, " +
-            "`initial_value` varchar(10) default NULL, " +
-            "`tracked` varchar(5) default NULL, " +
-            "`prop_type` varchar(100) default NULL, " +
-            "`description` longtext, " +
-            "PRIMARY KEY  (`sim_id`)) ";
+        String createTableSQL = "CREATE TABLE `" + tableName + "` ( " + //$NON-NLS-1$ //$NON-NLS-2$
+            "`sim_id` int(11) NOT NULL auto_increment, " + //$NON-NLS-1$
+            "`sf_id` int(11) NOT NULL, " + //$NON-NLS-1$
+            "`game_id` int(11) NOT NULL, " + //$NON-NLS-1$
+            "`running_game_id` int(11) default '0', " +  //$NON-NLS-1$
+            "`var_name` varchar(100) default NULL, " + //$NON-NLS-1$
+            "`initial_value` varchar(10) default NULL, " + //$NON-NLS-1$
+            "`tracked` varchar(5) default NULL, " + //$NON-NLS-1$
+            "`prop_type` varchar(100) default NULL, " + //$NON-NLS-1$
+            "`description` longtext, " + //$NON-NLS-1$
+            "PRIMARY KEY  (`sim_id`)) "; //$NON-NLS-1$
               
     }
     
     public static void createGameBudgetTableValues(String tableName){
         
-        String createTableSQL = "CREATE TABLE `" + tableName + "` ( " +
-            "`sim_id` int(11) NOT NULL, " +
-            "`game_id` int(11) NOT NULL, " +
-            "`running_game_id` int(11) default '0', " + 
-            "`game_round` int(11) default '0', " +
-            "`trans_type` varchar(100) NOT NULL, " +
-            "`trans_value` varchar(10) default NULL, " +
-            "`source_acct` varchar(20) default '0', " +
-            "`sink_acct` varchar(20) default '0'," +
-            "`description` varchar(100) default NULL " +
-            ") ";
+        String createTableSQL = "CREATE TABLE `" + tableName + "` ( " + //$NON-NLS-1$ //$NON-NLS-2$
+            "`sim_id` int(11) NOT NULL, " + //$NON-NLS-1$
+            "`game_id` int(11) NOT NULL, " + //$NON-NLS-1$
+            "`running_game_id` int(11) default '0', " +  //$NON-NLS-1$
+            "`game_round` int(11) default '0', " + //$NON-NLS-1$
+            "`trans_type` varchar(100) NOT NULL, " + //$NON-NLS-1$
+            "`trans_value` varchar(10) default NULL, " + //$NON-NLS-1$
+            "`source_acct` varchar(20) default '0', " + //$NON-NLS-1$
+            "`sink_acct` varchar(20) default '0'," + //$NON-NLS-1$
+            "`description` varchar(100) default NULL " + //$NON-NLS-1$
+            ") "; //$NON-NLS-1$
               
     }
     
     public static String removeTransaction(String tablename, String game_id, String running_game_id, 
             String game_round, String fromAcctID, String toAcctID) {
         
-        String debug = "";
+        String debug = ""; //$NON-NLS-1$
         
-        String deleteSQL = "delete from " + tablename +" where " +
-            "game_id = ? and running_game_id = ? and " +
-            "game_round = ? and source_acct = ? and sink_acct = ?";
+        String deleteSQL = "delete from " + tablename +" where " + //$NON-NLS-1$ //$NON-NLS-2$
+            "game_id = ? and running_game_id = ? and " + //$NON-NLS-1$
+            "game_round = ? and source_acct = ? and sink_acct = ?"; //$NON-NLS-1$
         
         debug = deleteSQL;
         
@@ -122,8 +120,8 @@ public class BudgetVariable {
     public static String getCurrentTransactionAmount(String tablename, String game_id, String running_game_id, 
             String game_round, String fromAcctID, String toAcctID){
         
-        String selectSQL = "select trans_value from " + tablename + 
-            " where ";
+        String selectSQL = "select trans_value from " + tablename +  //$NON-NLS-1$
+            " where "; //$NON-NLS-1$
         
         // TODO
         return selectSQL;
@@ -145,17 +143,17 @@ public class BudgetVariable {
     public static String moveMoney(String tablename, String game_id, String running_game_id, 
             String game_round, String amount, String fromAcctID, String toAcctID, String description) {
 
-        String debug = "";
+        String debug = ""; //$NON-NLS-1$
         
         // Delete previous transaction for this round if it exists.
         removeTransaction(tablename, game_id, running_game_id, 
                 game_round, fromAcctID, toAcctID);
         
         
-        String insertSQL = "INSERT INTO " + tablename + " ( " +
-            "`sim_id` , `game_id` , `running_game_id` , `game_round` , " +
-            "`trans_type`, `trans_value` , `source_acct` , `sink_acct`,  `description`) " + 
-            "VALUES ( '-1', ?, ?, ?, 'move', ?, ?, ?, ?) ";
+        String insertSQL = "INSERT INTO " + tablename + " ( " + //$NON-NLS-1$ //$NON-NLS-2$
+            "`sim_id` , `game_id` , `running_game_id` , `game_round` , " + //$NON-NLS-1$
+            "`trans_type`, `trans_value` , `source_acct` , `sink_acct`,  `description`) " +  //$NON-NLS-1$
+            "VALUES ( '-1', ?, ?, ?, 'move', ?, ?, ?, ?) "; //$NON-NLS-1$
 
         try {
             Connection connection = MysqlDatabase.getConnection();
@@ -186,19 +184,19 @@ public class BudgetVariable {
     
     class TransactionSum{
         
-        public String acct = "";
+        public String acct = ""; //$NON-NLS-1$
         
-        public String amount = "";
+        public String amount = ""; //$NON-NLS-1$
         
     }
     
     public String sumRound(String tableName, String game_id, String running_game_id, String game_round){
         
-        String debug = "BudgetVariable.sumRound ";
+        String debug = "BudgetVariable.sumRound "; //$NON-NLS-1$
         
-        String selectRecords = "SELECT * FROM `" + tableName + "` " +
-                "WHERE game_id = '1' " +
-                "and running_game_id = '1' and game_round = '1' and trans_type = 'move'";
+        String selectRecords = "SELECT * FROM `" + tableName + "` " + //$NON-NLS-1$ //$NON-NLS-2$
+                "WHERE game_id = '1' " + //$NON-NLS-1$
+                "and running_game_id = '1' and game_round = '1' and trans_type = 'move'"; //$NON-NLS-1$
             
         debug += selectRecords;
         
@@ -213,28 +211,28 @@ public class BudgetVariable {
 
             while (rst.next()) {
                 // Trans type will determine what we do with it.
-                String ttype = rst.getString("trans_type");
+                String ttype = rst.getString("trans_type"); //$NON-NLS-1$
                 
                 // If it is an initial amount, create a transaction sum containing it.
                 if (ttype.equalsIgnoreCase(TRANSTYPE_INITIAL)){
                     TransactionSum ts = new TransactionSum();
-                    ts.acct = rst.getString("sim_id");
-                    ts.amount = rst.getString("trans_value");
+                    ts.acct = rst.getString("sim_id"); //$NON-NLS-1$
+                    ts.amount = rst.getString("trans_value"); //$NON-NLS-1$
                     transactionSums.add(ts);
                     //Put this account id in the master list
-                    listOfAccounts.put(ts.acct, "set");
+                    listOfAccounts.put(ts.acct, "set"); //$NON-NLS-1$
                 } else if (ttype.equalsIgnoreCase(TRANSTYPE_MOVE)){
                     TransactionSum ts_from = new TransactionSum();
-                    ts_from.acct = rst.getString("source_acct");
-                    ts_from.amount = " - " + rst.getString("trans_value");
+                    ts_from.acct = rst.getString("source_acct"); //$NON-NLS-1$
+                    ts_from.amount = " - " + rst.getString("trans_value"); //$NON-NLS-1$ //$NON-NLS-2$
                     
                     TransactionSum ts_to = new TransactionSum();
-                    ts_to.acct = rst.getString("sink_acct");
-                    ts_to.amount = " - " + rst.getString("trans_value");
+                    ts_to.acct = rst.getString("sink_acct"); //$NON-NLS-1$
+                    ts_to.amount = " - " + rst.getString("trans_value"); //$NON-NLS-1$ //$NON-NLS-2$
                     
                     //Make sure both accounts show up in the master list
-                    listOfAccounts.put(ts_from.acct, "set");
-                    listOfAccounts.put(ts_to.acct, "set");
+                    listOfAccounts.put(ts_from.acct, "set"); //$NON-NLS-1$
+                    listOfAccounts.put(ts_to.acct, "set"); //$NON-NLS-1$
                 }    
                 
             } // End of loop over results set
@@ -260,10 +258,10 @@ public class BudgetVariable {
                     
                 }
                 
-                String deletePrevFinal = "delete from " + tableName + " where " +
-                    "game_id = " + game_id + " and sim_id = " + acct_id + " and " +
-                    "running_game_id = " + running_game_id + " and game_round = " + 
-                    game_round + " and trans_type = 'final' ";
+                String deletePrevFinal = "delete from " + tableName + " where " + //$NON-NLS-1$ //$NON-NLS-2$
+                    "game_id = " + game_id + " and sim_id = " + acct_id + " and " + //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                    "running_game_id = " + running_game_id + " and game_round = " +  //$NON-NLS-1$ //$NON-NLS-2$
+                    game_round + " and trans_type = 'final' "; //$NON-NLS-1$
                 
                 stmt.execute(deletePrevFinal);
                 
@@ -288,7 +286,7 @@ public class BudgetVariable {
      */
     public String propagate(Simulation game, String gameround, String rgid) {
 
-        String returnString = "SimulationVariable.propogate(): ";
+        String returnString = "SimulationVariable.propogate(): "; //$NON-NLS-1$
 
         int game_round = new Integer(gameround).intValue();
         
@@ -314,7 +312,7 @@ public class BudgetVariable {
     }
 
      public String createInitialValueEntry(String tableName, String running_game_id) {
-        String debug = "start: ";
+        String debug = "start: "; //$NON-NLS-1$
         
         Float f = new Float(0);
         
@@ -349,10 +347,10 @@ public class BudgetVariable {
         // Maybe add a dirty flag to allow transactions that don't sum the whol round,
         // and then have this check to see if dirty, and sum round before returning final value
         
-        String returnString = "BudgetVariable.getCurrentValue ";
+        String returnString = "BudgetVariable.getCurrentValue "; //$NON-NLS-1$
         
-        String selectSQL = "SELECT trans_value FROM `" + tableName + "` WHERE `sim_id` = " +
-            simId + " AND `game_round` = " + gameround + " AND `trans_type` = 'final'";
+        String selectSQL = "SELECT trans_value FROM `" + tableName + "` WHERE `sim_id` = " + //$NON-NLS-1$ //$NON-NLS-2$
+            simId + " AND `game_round` = " + gameround + " AND `trans_type` = 'final'"; //$NON-NLS-1$ //$NON-NLS-2$
             
         returnString += selectSQL;
         
@@ -363,7 +361,7 @@ public class BudgetVariable {
             ResultSet rst = stmt.executeQuery(selectSQL);
 
             if (rst.next()) {
-                returnString = rst.getString("trans_value");
+                returnString = rst.getString("trans_value"); //$NON-NLS-1$
 
             }
 

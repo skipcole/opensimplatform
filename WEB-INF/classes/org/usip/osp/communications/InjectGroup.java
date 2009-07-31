@@ -41,7 +41,7 @@ public class InjectGroup {
 	private Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -53,13 +53,13 @@ public class InjectGroup {
     private Long sim_id;
 	
 	/** Name of this group of injects. */
-	private String name = "";
+	private String name = ""; //$NON-NLS-1$
 	
 	/** Description of this group of injects. */
-	private String description = "";
+	private String description = ""; //$NON-NLS-1$
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -67,7 +67,7 @@ public class InjectGroup {
 	}
 
 	public Long getSim_id() {
-		return sim_id;
+		return this.sim_id;
 	}
 
 	public void setSim_id(Long sim_id) {
@@ -75,7 +75,7 @@ public class InjectGroup {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -83,7 +83,7 @@ public class InjectGroup {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -103,7 +103,7 @@ public class InjectGroup {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from InjectGroup where SIM_ID = " + sim_id + " order by injectclass_id").list();
+				"from InjectGroup where SIM_ID = " + sim_id + " order by injectclass_id").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

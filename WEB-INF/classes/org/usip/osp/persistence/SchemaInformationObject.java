@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.servlet.http.HttpServletRequest;
-
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 
@@ -50,10 +48,10 @@ public class SchemaInformationObject {
 	private String userpass;
 
 	/** locationt to access database, such as 'jdbc:mysql://localhost:' */
-	private String location = "jdbc:mysql://localhost:";
+	private String location = "jdbc:mysql://localhost:"; //$NON-NLS-1$
 
 	/** Port to access schema, on MySQL it is generally 3306. */
-	private String port = "3306";
+	private String port = "3306"; //$NON-NLS-1$
 
 	// //////////////////////////////////////////
 	/** Email SMTP server */
@@ -79,7 +77,7 @@ public class SchemaInformationObject {
 
 		List x = getAll();
 
-		System.out.println("got all");
+		System.out.println("got all"); //$NON-NLS-1$
 
 		for (ListIterator li = x.listIterator(); li.hasNext();) {
 			SchemaInformationObject sio = (SchemaInformationObject) li.next();
@@ -101,7 +99,7 @@ public class SchemaInformationObject {
 
 		List<SchemaInformationObject> returnList = MultiSchemaHibernateUtil
 				.getSession(MultiSchemaHibernateUtil.principalschema, true)
-				.createQuery("from SchemaInformationObject").list();
+				.createQuery("from SchemaInformationObject").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil
 				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
@@ -121,16 +119,16 @@ public class SchemaInformationObject {
 		Connection conn = MysqlDatabase.getConnection(makeConnString());
 
 		if (conn == null) {
-			return "problem creating database connection";
+			return "problem creating database connection"; //$NON-NLS-1$
 		}
 
 		try {
 			conn.close();
 		} catch (Exception e) {
-			System.out.println("Error in closing connection in test conn.");
+			System.out.println("Error in closing connection in test conn."); //$NON-NLS-1$
 		}
 
-		return "Database Connection Verified";
+		return "Database Connection Verified"; //$NON-NLS-1$
 	}
 
 	/**
@@ -140,8 +138,8 @@ public class SchemaInformationObject {
 	 */
 	public String makeConnString() {
 
-		String conn_string = makeURL() + "&user=" + username + "&password="
-				+ userpass;
+		String conn_string = makeURL() + "&user=" + this.username + "&password=" //$NON-NLS-1$ //$NON-NLS-2$
+				+ this.userpass;
 
 		System.out.print(conn_string);
 		return conn_string;
@@ -153,14 +151,14 @@ public class SchemaInformationObject {
 	 * @return
 	 */
 	public String makeURL() {
-		String url = location + port + "/" + schema_name
-				+ "?autoReconnect=true";
+		String url = this.location + this.port + "/" + this.schema_name //$NON-NLS-1$
+				+ "?autoReconnect=true"; //$NON-NLS-1$
 
 		return url;
 	}
 
 	public String getSchema_name() {
-		return schema_name;
+		return this.schema_name;
 	}
 
 	public void setSchema_name(String schema_name) {
@@ -168,7 +166,7 @@ public class SchemaInformationObject {
 	}
 
 	public String getUsername() {
-		return username;
+		return this.username;
 	}
 
 	public void setUsername(String username) {
@@ -176,7 +174,7 @@ public class SchemaInformationObject {
 	}
 
 	public String getUserpass() {
-		return userpass;
+		return this.userpass;
 	}
 
 	public void setUserpass(String userpass) {
@@ -184,7 +182,7 @@ public class SchemaInformationObject {
 	}
 
 	public String getPort() {
-		return port;
+		return this.port;
 	}
 
 	public void setPort(String port) {
@@ -192,7 +190,7 @@ public class SchemaInformationObject {
 	}
 
 	public String getLocation() {
-		return location;
+		return this.location;
 	}
 
 	public void setLocation(String location) {
@@ -200,7 +198,7 @@ public class SchemaInformationObject {
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -208,17 +206,17 @@ public class SchemaInformationObject {
 	}
 
 	public String toString() {
-		return "schema: " + this.schema_name + "\n\r" + "user: "
-				+ this.username + "\n\r" + "loc: " + this.location + "\n\r"
-				+ "port: " + this.port + "\n\r" + "url: " + this.makeURL()
-				+ "\n\r" + "conn: " + this.makeConnString()
-				+ "email smtp server: " + this.email_smtp + "\n\r"
-				+ "email user: " + this.smtp_auth_user + "\n\r"
-				+ "email archive: " + this.email_archive_address + "\n\r";
+		return "schema: " + this.schema_name + "\n\r" + "user: " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ this.username + "\n\r" + "loc: " + this.location + "\n\r" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ "port: " + this.port + "\n\r" + "url: " + this.makeURL() //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ "\n\r" + "conn: " + this.makeConnString() //$NON-NLS-1$ //$NON-NLS-2$
+				+ "email smtp server: " + this.email_smtp + "\n\r" //$NON-NLS-1$ //$NON-NLS-2$
+				+ "email user: " + this.smtp_auth_user + "\n\r" //$NON-NLS-1$ //$NON-NLS-2$
+				+ "email archive: " + this.email_archive_address + "\n\r"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public String getSchema_organization() {
-		return schema_organization;
+		return this.schema_organization;
 	}
 
 	public void setSchema_organization(String schema_organization) {
@@ -240,8 +238,8 @@ public class SchemaInformationObject {
 
 		List sList = MultiSchemaHibernateUtil.getSession(
 				MultiSchemaHibernateUtil.principalschema, true).createQuery(
-				"from SchemaInformationObject where SCHEMANAME = '"
-						+ schemaName + "'").list();
+				"from SchemaInformationObject where SCHEMANAME = '" //$NON-NLS-1$
+						+ schemaName + "'").list(); //$NON-NLS-1$
 
 		if ((sList != null) && (sList.size() == 1)) {
 			SchemaInformationObject sio = (SchemaInformationObject) sList
@@ -259,7 +257,7 @@ public class SchemaInformationObject {
 	}
 
 	public String getEmail_archive_address() {
-		return email_archive_address;
+		return this.email_archive_address;
 	}
 
 	public void setEmail_archive_address(String email_archive_address) {
@@ -267,7 +265,7 @@ public class SchemaInformationObject {
 	}
 
 	public String getEmail_smtp() {
-		return email_smtp;
+		return this.email_smtp;
 	}
 
 	public void setEmail_smtp(String email_smtp) {
@@ -275,7 +273,7 @@ public class SchemaInformationObject {
 	}
 
 	public String getSmtp_auth_password() {
-		return smtp_auth_password;
+		return this.smtp_auth_password;
 	}
 
 	public void setSmtp_auth_password(String smtp_auth_password) {
@@ -283,7 +281,7 @@ public class SchemaInformationObject {
 	}
 
 	public String getSmtp_auth_user() {
-		return smtp_auth_user;
+		return this.smtp_auth_user;
 	}
 
 	public void setSmtp_auth_user(String smtp_auth_user) {
@@ -305,8 +303,8 @@ public class SchemaInformationObject {
 
 		List sList = MultiSchemaHibernateUtil.getSession(
 				MultiSchemaHibernateUtil.principalschema, true).createQuery(
-				"from SchemaInformationObject where SCHEMANAME = '"
-						+ schemaName + "'").list();
+				"from SchemaInformationObject where SCHEMANAME = '" //$NON-NLS-1$
+						+ schemaName + "'").list(); //$NON-NLS-1$
 
 		if ((sList != null) && (sList.size() == 1)) {
 			SchemaInformationObject sio = (SchemaInformationObject) sList
@@ -335,18 +333,18 @@ public class SchemaInformationObject {
 		SchemaInformationObject sio1 = new SchemaInformationObject();
 
 		sio1.setEmail_archive_address(USIP_OSP_Properties
-				.getValue("email_archive_address"));
-		sio1.setEmail_smtp(USIP_OSP_Properties.getValue("email_smtp"));
-		sio1.setLocation(USIP_OSP_Properties.getValue("loc"));
-		sio1.setPort(USIP_OSP_Properties.getValue("port"));
-		sio1.setSchema_name(USIP_OSP_Properties.getValue("principalschema"));
+				.getValue("email_archive_address")); //$NON-NLS-1$
+		sio1.setEmail_smtp(USIP_OSP_Properties.getValue("email_smtp")); //$NON-NLS-1$
+		sio1.setLocation(USIP_OSP_Properties.getValue("loc")); //$NON-NLS-1$
+		sio1.setPort(USIP_OSP_Properties.getValue("port")); //$NON-NLS-1$
+		sio1.setSchema_name(USIP_OSP_Properties.getValue("principalschema")); //$NON-NLS-1$
 		sio1.setSchema_organization(USIP_OSP_Properties
-				.getValue("schema_organization"));
+				.getValue("schema_organization")); //$NON-NLS-1$
 		sio1.setSmtp_auth_password(USIP_OSP_Properties
-				.getValue("smtp_auth_password"));
-		sio1.setSmtp_auth_user(USIP_OSP_Properties.getValue("smtp_auth_user"));
-		sio1.setUsername(USIP_OSP_Properties.getValue("username"));
-		sio1.setUserpass(USIP_OSP_Properties.getValue("password"));
+				.getValue("smtp_auth_password")); //$NON-NLS-1$
+		sio1.setSmtp_auth_user(USIP_OSP_Properties.getValue("smtp_auth_user")); //$NON-NLS-1$
+		sio1.setUsername(USIP_OSP_Properties.getValue("username")); //$NON-NLS-1$
+		sio1.setUserpass(USIP_OSP_Properties.getValue("password")); //$NON-NLS-1$
 
 		return sio1;
 

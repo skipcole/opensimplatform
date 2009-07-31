@@ -55,12 +55,12 @@ public class BaseSimSection implements Comparable {
 		 */
 		CustomizeableSection bss = new CustomizeableSection();
 		bss.setConfers_read_ability(true);
-		bss.setBigString("<H1>Broadcast stuff</H1><p>words</p>");
+		bss.setBigString("<H1>Broadcast stuff</H1><p>words</p>"); //$NON-NLS-1$
 		
-		System.out.println("can read " + bss.isConfers_read_ability());
+		System.out.println("can read " + bss.isConfers_read_ability()); //$NON-NLS-1$
 
 		
-		 System.out.println("--------------------"); //
+		 System.out.println("--------------------"); // //$NON-NLS-1$
 		 System.out.println(ObjectPackager.getObjectXML(bss));
 
 		 /* 
@@ -101,7 +101,7 @@ public class BaseSimSection implements Comparable {
 	 * @return
 	 */
 	public static boolean startsWithLetter(String s) {
-		if ((s == null) || (s.equalsIgnoreCase(""))) {
+		if ((s == null) || (s.equalsIgnoreCase(""))) { //$NON-NLS-1$
 			return false;
 		}
 
@@ -135,28 +135,28 @@ public class BaseSimSection implements Comparable {
 		File locDir = new File(fileLocation);
 
 		if (locDir == null) {
-			System.out.println("Problem finding files at " + fileLocation);
+			System.out.println("Problem finding files at " + fileLocation); //$NON-NLS-1$
 			return returnList;
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				System.out.println("Problem finding files at " + fileLocation);
+				System.out.println("Problem finding files at " + fileLocation); //$NON-NLS-1$
 				return returnList;
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
 					String fName = files[ii].getName();
 
-					if (fName.endsWith(".xml")) {
+					if (fName.endsWith(".xml")) { //$NON-NLS-1$
 
 						try {
 							String fullFileLoc = fileLocation + fName;
 							returnList.add(BaseSimSection.readAheadXML(schema, files[ii], fullFileLoc));
 							
 						} catch (Exception e) {
-							System.out.println("problem reading in file " + fName);
+							System.out.println("problem reading in file " + fName); //$NON-NLS-1$
 							System.out.println(e.getMessage());
 						}
 					}
@@ -183,29 +183,29 @@ public class BaseSimSection implements Comparable {
 
 		String fileLocation = FileIO.getBase_section_web_dir();
 
-		System.out.println("Looking for files at: " + fileLocation);
+		System.out.println("Looking for files at: " + fileLocation); //$NON-NLS-1$
 
 		File locDir = new File(fileLocation);
 
 		if (locDir == null) {
-			return ("Problem finding files at " + fileLocation);
+			return ("Problem finding files at " + fileLocation); //$NON-NLS-1$
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				return ("Problem finding files at " + fileLocation);
+				return ("Problem finding files at " + fileLocation); //$NON-NLS-1$
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
 					String fName = files[ii].getName();
 
-					if (fName.endsWith(".xml")) {
+					if (fName.endsWith(".xml")) { //$NON-NLS-1$
 
 						try {
 							readInXMLFile(schema, files[ii]);
 						} catch (Exception e) {
-							System.out.println("problem reading in file " + fName);
+							System.out.println("problem reading in file " + fName); //$NON-NLS-1$
 							System.out.println(e.getMessage());
 						}
 					}
@@ -213,7 +213,7 @@ public class BaseSimSection implements Comparable {
 				}
 			}
 
-			return "Read in Base Simulation Section Information.";
+			return "Read in Base Simulation Section Information."; //$NON-NLS-1$
 		}
 	}
 
@@ -316,7 +316,7 @@ public class BaseSimSection implements Comparable {
 	public static BaseSimSection unpackageXML(String xmlString) {
 
 		XStream xstream = new XStream(new DomDriver());
-		xstream.alias("bss", BaseSimSection.class);
+		xstream.alias("bss", BaseSimSection.class); //$NON-NLS-1$
 
 		return (BaseSimSection) xstream.fromXML(xmlString);
 	}
@@ -331,7 +331,7 @@ public class BaseSimSection implements Comparable {
 	protected Long transit_id;
 
 	public Long getTransit_id() {
-		return transit_id;
+		return this.transit_id;
 	}
 
 	public void setTransit_id(Long transit_id) {
@@ -339,12 +339,12 @@ public class BaseSimSection implements Comparable {
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////
-	protected String creatingOrganization = "";
-	protected String uniqueName = "";
-	protected String version = "";
+	protected String creatingOrganization = ""; //$NON-NLS-1$
+	protected String uniqueName = ""; //$NON-NLS-1$
+	protected String version = ""; //$NON-NLS-1$
 
 	public String getCreatingOrganization() {
-		return creatingOrganization;
+		return this.creatingOrganization;
 	}
 
 	public void setCreatingOrganization(String creatingOrganization) {
@@ -352,7 +352,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getUniqueName() {
-		return uniqueName;
+		return this.uniqueName;
 	}
 
 	public void setUniqueName(String uniqueName) {
@@ -360,7 +360,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getVersion() {
-		return version;
+		return this.version;
 	}
 
 	public void setVersion(String version) {
@@ -372,32 +372,32 @@ public class BaseSimSection implements Comparable {
 	/** Description of this standard section. */
 	@Column(name = "BASE_SIMSEC_DESC")
 	@Lob
-	protected String description = "";
+	protected String description = ""; //$NON-NLS-1$
 
 	/** URL of this section */
 	@Column(name = "BASE_SIMSEC_URL")
-	protected String url = "";
+	protected String url = ""; //$NON-NLS-1$
 
 	/** Directory of this section */
 	@Column(name = "BASE_SIMSEC_DIR")
-	protected String directory = "";
+	protected String directory = ""; //$NON-NLS-1$
 
 	/** Filename of this section */
 	@Column(name = "BASE_SIMSEC_FILENAME")
-	protected String page_file_name = "";
+	protected String page_file_name = ""; //$NON-NLS-1$
 
 	/** Recommended (tab heading) of this section */
 	@Column(name = "BASE_TAB_HEADING")
-	protected String rec_tab_heading = "";
+	protected String rec_tab_heading = ""; //$NON-NLS-1$
 
-	private static final String NOSAMPLEIMAGE = "no_sample_image.png";
+	private static final String NOSAMPLEIMAGE = "no_sample_image.png"; //$NON-NLS-1$
 
 	/**
 	 * Sample image to let the simulation creator see what this section looks
 	 * like.
 	 */
 	@Column(name = "BASE_SAMPLE_IMAGE")
-	protected String sample_image = "";
+	protected String sample_image = ""; //$NON-NLS-1$
 
 	/**
 	 * Sets if this is a control section or not for this simulation - indicating
@@ -407,7 +407,7 @@ public class BaseSimSection implements Comparable {
 	protected boolean control_section = false;
 
 	@Column(name = "CUSTOM_LIB_NAME")
-	protected String cust_lib_name = "";
+	protected String cust_lib_name = ""; //$NON-NLS-1$
 
 	/**
 	 * Indicates if having this section allows a player to read a document
@@ -427,7 +427,7 @@ public class BaseSimSection implements Comparable {
 	 * The string, for example, of '110' indicates: send the running sim id,
 	 * send the actor id, don't send the user id.
 	 */
-	protected String sendString = "";
+	protected String sendString = ""; //$NON-NLS-1$
 
 	/**
 	 * Zero argument constructor needed by Hibernate.
@@ -469,7 +469,7 @@ public class BaseSimSection implements Comparable {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from BaseSimSection where DTYPE='BaseSimSection'").list();
+				"from BaseSimSection where DTYPE='BaseSimSection'").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -495,7 +495,7 @@ public class BaseSimSection implements Comparable {
 		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(schema).get(BaseSimSection.class,
 				new Long(the_id));
 
-		System.out.println("this bss can read: " + bss.isConfers_read_ability());
+		System.out.println("this bss can read: " + bss.isConfers_read_ability()); //$NON-NLS-1$
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return bss;
@@ -506,7 +506,7 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection' OR DTYPE='CustomizeableSection'";
+		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection' OR DTYPE='CustomizeableSection'"; //$NON-NLS-1$ //$NON-NLS-2$
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -524,7 +524,7 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection'";
+		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection'"; //$NON-NLS-1$ //$NON-NLS-2$
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -542,7 +542,7 @@ public class BaseSimSection implements Comparable {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String queryString = "from BaseSimSection where " + " DTYPE='CustomizeableSection'";
+		String queryString = "from BaseSimSection where " + " DTYPE='CustomizeableSection'"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		List<CustomizeableSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString)
 				.list();
@@ -563,7 +563,7 @@ public class BaseSimSection implements Comparable {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from BaseSimSection").list();
+				.createQuery("from BaseSimSection").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -585,7 +585,7 @@ public class BaseSimSection implements Comparable {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from BaseSimSection where control_section = '1' order by BASE_SIMSEC_ID").list();
+				"from BaseSimSection where control_section = '1' order by BASE_SIMSEC_ID").list(); //$NON-NLS-1$
 
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
@@ -602,7 +602,7 @@ public class BaseSimSection implements Comparable {
 	 * @return the id
 	 */
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -614,7 +614,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
@@ -622,7 +622,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getUrl() {
-		return url;
+		return this.url;
 	}
 
 	public void setUrl(String url) {
@@ -630,7 +630,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getDirectory() {
-		return directory;
+		return this.directory;
 	}
 
 	public void setDirectory(String directory) {
@@ -638,7 +638,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getPage_file_name() {
-		return page_file_name;
+		return this.page_file_name;
 	}
 
 	public void setPage_file_name(String page_file_name) {
@@ -646,7 +646,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getRec_tab_heading() {
-		return rec_tab_heading;
+		return this.rec_tab_heading;
 	}
 
 	public void setRec_tab_heading(String rec_tab_heading) {
@@ -655,8 +655,8 @@ public class BaseSimSection implements Comparable {
 
 	public String getSample_image() {
 
-		if ((sample_image != null) && (sample_image.length() > 0)) {
-			return sample_image;
+		if ((this.sample_image != null) && (this.sample_image.length() > 0)) {
+			return this.sample_image;
 		} else {
 			return NOSAMPLEIMAGE;
 		}
@@ -667,7 +667,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getSendString() {
-		return sendString;
+		return this.sendString;
 	}
 
 	public void setSendString(String sendString) {
@@ -675,7 +675,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public boolean isControl_section() {
-		return control_section;
+		return this.control_section;
 	}
 
 	public void setControl_section(boolean control_section) {
@@ -683,7 +683,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getCust_lib_name() {
-		return cust_lib_name;
+		return this.cust_lib_name;
 	}
 
 	public void setCust_lib_name(String cust_lib_name) {
@@ -691,7 +691,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public boolean isConfers_read_ability() {
-		return confers_read_ability;
+		return this.confers_read_ability;
 	}
 
 	public void setConfers_read_ability(boolean confers_read_ability) {
@@ -699,7 +699,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public boolean isConfers_write_ability() {
-		return confers_write_ability;
+		return this.confers_write_ability;
 	}
 
 	public void setConfers_write_ability(boolean confers_write_ability) {
@@ -728,10 +728,10 @@ public class BaseSimSection implements Comparable {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from BaseSimSection where BASE_TAB_HEADING = '" + rec_tab_name + "'").list();
+				"from BaseSimSection where BASE_TAB_HEADING = '" + rec_tab_name + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if (returnList != null) {
-			bss = (BaseSimSection) returnList.get(0);
+			bss = returnList.get(0);
 			return bss;
 		}
 
@@ -751,15 +751,15 @@ public class BaseSimSection implements Comparable {
 	public static BaseSimSection getByName(String schema, String creatingOrganization, String uniqueName, String version) {
 		BaseSimSection bss = null;
 
-		String queryString = "from BaseSimSection where creatingOrganization = '" + creatingOrganization + "' "
-				+ "AND uniqueName = '" + uniqueName + "' AND version = '" + version + "'";
+		String queryString = "from BaseSimSection where creatingOrganization = '" + creatingOrganization + "' " //$NON-NLS-1$ //$NON-NLS-2$
+				+ "AND uniqueName = '" + uniqueName + "' AND version = '" + version + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
 
 		if ((returnList != null) && (returnList.size() > 0)){
-			bss = (BaseSimSection) returnList.get(0);
+			bss = returnList.get(0);
 			return bss;
 		}
 
@@ -768,7 +768,7 @@ public class BaseSimSection implements Comparable {
 	}
 
 	public String getVersionInformation() {
-		return creatingOrganization + uniqueName + " version: " + version;
+		return this.creatingOrganization + this.uniqueName + " version: " + this.version; //$NON-NLS-1$
 	}
 
 }
