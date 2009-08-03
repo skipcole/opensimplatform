@@ -240,6 +240,7 @@ public class Simulation {
 		
 		scheduleSection.setUniqueName("Schedule"); //$NON-NLS-1$
 		scheduleSection.setDescription("A place for the players to read the schedule."); //$NON-NLS-1$
+		scheduleSection.setRec_tab_heading("Schedule"); //$NON-NLS-1$
 		scheduleSection.save(schema);
 		
 		// Add the schedule page
