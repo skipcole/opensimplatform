@@ -736,6 +736,9 @@ public class PSO_SectionMgmt {
 	 * This method handles the creation of the page to allow player access to
 	 * read a document or documents.
 	 * 
+	 * Entry into this section comes in several different ways: when user adds document,
+	 * when user add edits, etc.
+	 * 
 	 * @param request
 	 */
 	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
@@ -745,13 +748,13 @@ public class PSO_SectionMgmt {
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(pso.schema, _custom_section_id);
 
-		// Ever read document page should have at least one document associated
-		// with it.
+		// Ever read document page should have at least one document associated with it.
 		if (customizableSectionOnScratchPad.getNumDependentObjects() < 1) {
 			customizableSectionOnScratchPad.setNumDependentObjects(1);
 		}
 
 		String add_document = (String) request.getParameter("add_document");
+		
 		// If adding a document, just increase the number and return.
 		if (add_document != null) {
 			System.out.println("adding document!");

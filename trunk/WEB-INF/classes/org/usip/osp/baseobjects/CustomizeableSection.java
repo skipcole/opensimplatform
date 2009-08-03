@@ -179,13 +179,14 @@ public class CustomizeableSection extends BaseSimSection {
 		
 	}
 	
+	// TODO and even gives it a pointer to itself in the form of a url link (cs_id=id).
     /**
-     * Copies the template customized section into a new version, and even gives it a pointer to 
-     * itself in the form of a url link (cs_id=id).
+     * Copies the template customized section into a new version and saves it in the database.
      * @param schema
      * @return
      */
 	public CustomizeableSection makeCopy(String schema){
+		
 		CustomizeableSection cs = new CustomizeableSection();
 		
         cs.setBigString(this.getBigString());
@@ -222,7 +223,7 @@ public class CustomizeableSection extends BaseSimSection {
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
         
         //cs.setPage_file_name(cs.getPage_file_name() + "?cs_id=" + cs.getId());
-        MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
+        //MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
         
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
         
