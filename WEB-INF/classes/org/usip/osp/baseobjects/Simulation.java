@@ -207,7 +207,12 @@ public class Simulation {
 		getPhases(schema).add(sp_first);
 		getPhases(schema).add(sp_last);
 		
+		// Create object in the database
+		@SuppressWarnings("unused")
 		SimPhaseAssignment spf = new SimPhaseAssignment(schema, this.getId(), sp_first.getId());
+		
+		// Create object in the database
+		@SuppressWarnings("unused")
 		SimPhaseAssignment spl = new SimPhaseAssignment(schema, this.getId(), sp_last.getId());
 		// /////////////////////////////////////////////////
 		
@@ -235,6 +240,7 @@ public class Simulation {
 		
 		scheduleSection.setUniqueName("Schedule"); //$NON-NLS-1$
 		scheduleSection.setDescription("A place for the players to read the schedule."); //$NON-NLS-1$
+		scheduleSection.save(schema);
 		
 		// Add the schedule page
 		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId()); //$NON-NLS-1$ //$NON-NLS-2$

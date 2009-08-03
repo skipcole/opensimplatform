@@ -3246,7 +3246,7 @@ public class ParticipantSessionObject {
 	 */
 	public String checkAgainstHash(Long cs_id, int object_index, Long id_of_object_being_checked) {
 
-		Logger.getRootLogger().warn("checkAgainstHash (bss_id/index/object_id): " + cs_id + "/" + object_index + "/" + id_of_object_being_checked);
+		Logger.getRootLogger().debug("pso.checkAgainstHash (bss_id/index/object_id): " + cs_id + "/" + object_index + "/" + id_of_object_being_checked);
 		
 		Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(schema, cs_id);
 		

@@ -68,7 +68,7 @@
 					
 						SharedDocument sd = (SharedDocument) li.next();
 				%>
-                              <option value="<%= sd.getId() %>" <%= pso.checkAgainstHash(index_hash, ii, sd.getId()) %> ><%= sd.getUniqueDocTitle() %></option>
+                              <option value="<%= sd.getId() %>" <%= pso.checkAgainstHash(cs.getId(), ii, sd.getId()) %> ><%= sd.getUniqueDocTitle() %></option>
                               <%
 					}
 				%>
