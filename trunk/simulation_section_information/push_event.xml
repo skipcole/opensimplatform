@@ -8,5 +8,5 @@
   <page__file__name>push_injects.jsp</page__file__name>
   <rec__tab__heading>Push Injects</rec__tab__heading>
   <sample__image>push_injects.png</sample__image>
-  <control__section>true</control__section>
+  <control__section>false</control__section>
 </org.usip.osp.baseobjects.BaseSimSection>

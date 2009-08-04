@@ -8,5 +8,5 @@
   <page__file__name>end_sim.jsp</page__file__name>
   <rec__tab__heading>End Sim</rec__tab__heading>
   <sample__image>end_sim.png</sample__image>
-  <control__section>true</control__section>
+  <control__section>false</control__section>
 </org.usip.osp.baseobjects.BaseSimSection>

@@ -309,7 +309,7 @@ function loadInfo(dropdownlist){
         <p> 
           <%@ include file="select_message.jsp" %></p>
       </blockquote>
-      <% } // End of if have not set simulation for edits. %>      <p><a href="incorporate_underlying_model.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      <% } // End of if have not set simulation for edits. %>      <p><a href="add_objects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

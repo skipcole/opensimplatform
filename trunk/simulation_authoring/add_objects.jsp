@@ -7,7 +7,7 @@
 	errorPage="../error.jsp" %>
 <% 
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "incorporate_underlying_model.jsp";
+	pso.backPage = "add_objects.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
@@ -39,31 +39,18 @@
 		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
-			<td width="100%"><br />
-              <h1>Add Simulation Object</h1>
-              <ul>
-                <li>Add Document - Add a document to the simulation that the players and instructors will be able to read (and or modify).</li>
-              </ul>
-              <h1>&nbsp;</h1>
-              <h1>(Coming Someday) Incorporate Underlying Model </h1>
-              <br />
-      <blockquote> 
-        <% 
+			<td width="100%"><% 
 			if (pso.sim_id != null) {
 		%>
-        <p>Incorporate  underlying model to the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
-          (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-            here</a>.)</p>
-          <p>Select from one of the currently Installed Models to utilize it.</p>
-          <ul>
-            <li>Basic Math</li>
-            
-            <li><a href="incorporate_underlying_model_equation.jsp">Daisy World</a></li>
-          </ul>
-          <p>If you would like to have a different model incorporated, please contact your adminstrator.</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-      </blockquote>
+			  <br />
+              <h1>Add Simulation Object</h1>
+              <ul>
+                <li><a href="make_create_document_page.jsp">Add Document</a> - Add a document to the simulation that the players and instructors will be able to read and/or modify.</li>
+                <li>(<span class="style1">Coming Someday</span>) <a href="incorporate_underlying_model.jsp">Incorporate Underlying Model</a> </li>
+              </ul>
+              <p>&nbsp;</p>
+              <br />
+
       <p align="center"><a href="set_universal_sim_sections.jsp?actor_index=0">Next 
         Step: Assign Simulation Sections to Actors</a></p>
       <% } else { // End of if have set simulation id. %>

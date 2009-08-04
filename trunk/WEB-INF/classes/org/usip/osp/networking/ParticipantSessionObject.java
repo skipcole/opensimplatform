@@ -894,37 +894,67 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Handles the creation of documents to be added to the simulation.
+	 * Handles the creation of documents to be added to the simulation. This method is called at the 
+	 * top of the jsp. It can be called for several reasons.
+	 * 1.) Player is just entering form. Method should return a new, 'unsaved' document.
+	 * 2.) Player hits the create button. Method should return the shared document created.
+	 * 3.) Player select one of the existing docs to queue it up for editing. Method should return the doc selected.
+	 * 4.) Player hit the clear button, so method should return a new, 'unsaved' document.
+	 * 5.) Player hit the update button, so method should update the document and then return it.
 	 * 
 	 * @param request
 	 */
 	public SharedDocument handleCreateDocument(HttpServletRequest request) {
 
-		SharedDocument sd = new SharedDocument();
-
+		SharedDocument this_sd = new SharedDocument();
+		
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null){
+			return this_sd;
+		}
+		
+		// If we got passed in a doc id, use it to retrieve the doc we are working on.
 		String shared_doc_id = (String) request.getParameter("shared_doc_id");
-
 		if ((shared_doc_id != null) && (shared_doc_id.trim().length() > 0)) {
-
-			sd = SharedDocument.getMe(schema, new Long(shared_doc_id));
+			this_sd = SharedDocument.getMe(schema, new Long(shared_doc_id));
 		}
-
+		
+		// If player just entered this page from a different form, just return the blank document
+		// (This will also return the doc queued up for editing, if it was selected.)
 		String sending_page = (String) request.getParameter("sending_page");
-		String save_page = (String) request.getParameter("save_page");
-
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_create_document_page"))) {
-			String uniq_doc_title = (String) request.getParameter("uniq_doc_title");
-			String doc_display_title = (String) request.getParameter("doc_display_title");
-			String doc_starter_text = (String) request.getParameter("doc_starter_text");
-
-			System.out.println("creating doc of uniq title: " + uniq_doc_title);
-			sd = new SharedDocument(uniq_doc_title, doc_display_title, sim_id);
-			sd.setBigString(doc_starter_text);
-			sd.saveMe(schema);
-
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_document_page")))) {
+			return this_sd;
 		}
 
-		return sd;
+		// If we got down to here, we must be doing some real work on a document.
+		String uniq_doc_title = (String) request.getParameter("uniq_doc_title");
+		String doc_display_title = (String) request.getParameter("doc_display_title");
+		String doc_starter_text = (String) request.getParameter("doc_starter_text");
+		
+		// Do create if called.
+		String create_doc = (String) request.getParameter("create_doc");
+		if ((create_doc != null)) {
+			System.out.println("creating doc of uniq title: " + uniq_doc_title);
+			this_sd = new SharedDocument(uniq_doc_title, doc_display_title, sim_id);
+			this_sd.setBigString(doc_starter_text);
+			this_sd.saveMe(schema);
+
+		}
+		
+		// Do update if called.
+		String update_doc = (String) request.getParameter("update_doc");
+		if ((update_doc != null)) {
+			System.out.println("updating doc of uniq title: " + uniq_doc_title);
+			this_sd.setUniqueDocTitle(uniq_doc_title);
+			this_sd.setDisplayTitle(doc_display_title);
+			this_sd.setSim_id(sim_id);
+			this_sd.setBigString(doc_starter_text);
+			this_sd.saveMe(schema);
+
+		}
+		
+		return this_sd;
 
 	}
 

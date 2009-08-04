@@ -86,7 +86,7 @@ org.usip.osp.persistence.*" errorPage="../error.jsp" %>
             </tr>
         <tr valign="top"> 
               <td>10.</td>
-            <td><a href="incorporate_underlying_model.jsp">Add/Incorporate Complex Models</a><a href="create_aar_starter_text.jsp"> </a><a href="create_injects.jsp"> </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_special_features_help.jsp" target="helpinright">(?)</a></td>
+            <td><a href="add_objects.jsp">Add Objects</a>   (?)</td>
             </tr>
         <tr valign="top"> 
               <td>11.</td>
