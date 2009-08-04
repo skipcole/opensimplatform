@@ -8,5 +8,5 @@
   <page__file__name>view_player_reflection.jsp</page__file__name>
   <rec__tab__heading>View Player Reflection</rec__tab__heading>
   <sample__image>view_player_reflection.png</sample__image>
-  <control__section>true</control__section>
+  <control__section>false</control__section>
 </org.usip.osp.baseobjects.BaseSimSection>

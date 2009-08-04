@@ -114,8 +114,7 @@
             </p>
           <p>&nbsp;</p>
       </blockquote>
-      <p align="center"><a href="incorporate_underlying_model.jsp">Next Step: Add Special 
-        Feature</a><a href="set_universal_sim_sections.jsp?actor_index=0"></a></p>
+      <p align="center"><a href="add_objects.jsp">Next Step: Add Objects</a><a href="set_universal_sim_sections.jsp?actor_index=0"></a></p>
       <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>

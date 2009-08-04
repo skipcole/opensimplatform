@@ -31,8 +31,8 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
               <tr> 
                 <td width="720"> 
                   <p><font size="+1">We have created this wizard to help 
-                    you, a subject matter expert, create an online training simulation and 
-                    then be able to share it with others.</font></p>
+                      <a href="#">you, a subject matter expert</a>, create an <a href="#">online</a> <a href="#">training</a> <a href="#">simulation</a> and 
+                    then be able to <a href="#">share</a> it with others.</font></p>
           <p><font size="+1">Let's unpack that a bit...</font></p>
         </blockquote>
                   <div align="center"> 

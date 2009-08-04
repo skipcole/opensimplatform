@@ -1,13 +1,13 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" errorPage="" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/tutorialPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>USIP Open Simulation Platform</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+
+
+
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
@@ -15,7 +15,8 @@ body {
 	background-color: #FFFFFF;
 }
 -->
-</style></head>
+</style>
+</head>
 
 <body>
 <table width="720" border="0" align="center" cellspacing="2" cellpadding="2">
@@ -33,7 +34,7 @@ body {
     <td width="24" height="24" >&nbsp;</td>
 </tr>
 <tr> 
-    <td colspan="3"><!-- InstanceBeginEditable name="pageBody" -->
+    <td colspan="3">
 
       <blockquote> 
         <h2 align="left">Tutorial Scenario Information<td></font></h2>
@@ -75,9 +76,9 @@ body {
         <p>&nbsp;</p>
       </ol>
       <p align="center">&nbsp;</p>
-      <p align="center">&nbsp;</p><td>&nbsp;</td>
-
-<!-- InstanceEndEditable --></td>
+      <p align="center">&nbsp;</p>
+      <td>&nbsp;</td>
+      </td>
   </tr>
 <tr> 
     <td width="24" height="24"  >&nbsp;</td>
@@ -89,4 +90,4 @@ body {
 <p>&nbsp;</p>
 <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
