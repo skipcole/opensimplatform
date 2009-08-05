@@ -34,10 +34,11 @@ body {
     <td width="24" height="24" >&nbsp;</td>
 </tr>
 <tr> 
-    <td colspan="3">
+    <td colspan="4">
 
       <blockquote> 
-        <h2 align="left">Tutorial Scenario Information<td></font></h2>
+        <h2 align="left">Tutorial Scenario Information</font>
+      </h2>
       </blockquote>
       <ol>
         <blockquote> 
@@ -74,10 +75,10 @@ body {
           </tr>
         </table>
         <p>&nbsp;</p>
-      </ol>
+        </ol>
       <p align="center">&nbsp;</p>
       <p align="center">&nbsp;</p>
-      <td>&nbsp;</td>
+    <td>&nbsp;</td>
       </td>
   </tr>
 <tr> 

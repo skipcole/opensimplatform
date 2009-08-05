@@ -24,7 +24,7 @@ body {
     <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- TemplateBeginEditable name="tutorialName" -->tutorialName<!-- TemplateEndEditable --></h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
-	  <div align="center"><!-- TemplateBeginEditable name="linkToHelp" --><a href="../simulation_tutorials/sim_author_1/help.jsp">Help!</a><!-- TemplateEndEditable --></div>	  </td>
+	  <div align="center"><!-- TemplateBeginEditable name="linkToHelp" --><a href="../simulation_tutorials/help.jsp">Help!</a><!-- TemplateEndEditable --></div>	  </td>
   </tr>
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
