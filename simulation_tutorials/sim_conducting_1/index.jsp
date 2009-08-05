@@ -38,14 +38,39 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
-<h1>Step. Enter your objectives</h1>
-<p>&nbsp; </p>
+<h1>Welcome</h1>
+<blockquote>
+  <p>In this tutorial we  are going to set up a space where two people can come  to practice negotiatitons while a third person facilitates: an online '<strong>negotiation practice room</strong>.' The tutorial will walk you through all steps neccessary. Time to complete it should be approximately an hour.</p>
+  <p>To complete this tutorial you will need access to an authoring account on an OSP server. If you need assistance getting this, please send an email to scole@usip.org.</p>
+  <p align="center"><a href="page1.jsp">Begin</a></p>
+  <p>&nbsp;</p>
+  <p>If you are returning to this tutorial, you many jump ahead to any section below.</p>
+  <ol>
+    <li><a href="page1.jsp">Logging on and getting to the 'create' section</a></li>
+    <li><a href="page2.jsp">Creating your simulation</a></li>
+    <li><a href="page3.jsp">Entering your objectives</a></li>
+    <li><a href="page4.jsp">Entering your audience</a></li>
+    <li><a href="page5.jsp">Enter your introduction</a></li>
+    <li><a href="page6.jsp">Enter your planned play ideas</a></li>
+    <li><a href="page7.jsp">Creating phases</a></li>
+    <li>Creating actors</li>
+    <li>Skipping over creating injects</li>
+    <li>Creating documents</li>
+    <li>Creating universal sections</li>
+    <li>Assigning specific sections</li>
+    <li>Entering in your starter 'After Action Report' text</li>
+    <li>Reviewing your simulation</li>
+  </ol>
+
+  <p>&nbsp;</p>
+</blockquote>
+<p>&nbsp;</p>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp#toc">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="#">table of contents</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --> <a href="page1.jsp">next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

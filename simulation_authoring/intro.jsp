@@ -15,10 +15,15 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 <title>USIP Open Simulation Platform</title>
 </head>
 
-<frameset rows="150,90%" border="0">
-  <frame src="welcome_top.jsp" />
-  <frame src="intro_text.jsp" />
+<frameset rows="*" cols="75%,25%">
+	<frameset rows="150,90%" border="0">
+  		<frame src="welcome_top.jsp" />
+  		<frame src="intro_text.jsp" />
+	</frameset>
+	<frame name="helpinright" src="helptext/control_basichelp.jsp">
 </frameset>
+
+
 <noframes><body>
 </body>
 </noframes></html>

@@ -24,7 +24,7 @@ body {
     <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></h1></td>
     <td align="right" background="../../Templates/images/top_fade.png" width="20%"> 
 
-	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
+	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="../help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
   </tr>
   <tr>
     <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="120" height="20" /></td>
@@ -40,22 +40,23 @@ body {
 <!-- InstanceBeginEditable name="pageBody" -->
 <h1>Welcome</h1>
 <blockquote>
-  <p>In this tutorial we  are going to set up a space where two people can come  to practice negotiatitons while a third person facilitates: an online '<strong>negotiation practice room</strong>.' The tutorial will walk you through all steps neccessary. Time to complete it should be approximately an hour.</p>
+  <p>In this tutorial we  are going to set up a very simple simulation where two people can enter into to negotiate over oranges. Along the way we will discuss many core concepts of the OSP. Time to complete this tutorial is  approximately an hour.</p>
   <p>To complete this tutorial you will need access to an authoring account on an OSP server. If you need assistance getting this, please send an email to scole@usip.org.</p>
   <p align="center"><a href="page1.jsp">Begin</a></p>
   <p>&nbsp;</p>
   <p>If you are returning to this tutorial, you many jump ahead to any section below.</p>
+  <h1><a name="toc" id="toc"></a>Table of Contents</h1>
   <ol>
-    <li><a href="page1.jsp">Logging on and getting to the 'create' section</a></li>
-    <li><a href="page2.jsp">Creating your simulation</a></li>
-    <li><a href="page3.jsp">Entering your objectives</a></li>
-    <li><a href="page4.jsp">Entering your audience</a></li>
+    <li><a href="page1.jsp">Log on and go to the 'Create' section</a></li>
+    <li><a href="page2.jsp">Create your simulation</a></li>
+    <li><a href="page3.jsp">Enter your objectives</a></li>
+    <li><a href="page4.jsp">Enter your audience</a></li>
     <li><a href="page5.jsp">Enter your introduction</a></li>
     <li><a href="page6.jsp">Enter your planned play ideas</a></li>
     <li><a href="page7.jsp">Creating phases</a></li>
-    <li>Creating actors</li>
+    <li><a href="page8.jsp">Creating actors</a></li>
     <li>Skipping over creating injects</li>
-    <li>Creating documents</li>
+    <li>Skipping over creating documents</li>
     <li>Creating universal sections</li>
     <li>Assigning specific sections</li>
     <li>Entering in your starter 'After Action Report' text</li>
