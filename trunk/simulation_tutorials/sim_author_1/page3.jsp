@@ -38,14 +38,24 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
-<h1>Step. Enter your objectives</h1>
-<p>&nbsp; </p>
+<br />
+<h1>Step 3. Enter your objectives</h1>
+<blockquote>
+  <p>a.) Enter in the information on the objectives page as shown in the image below.</p>
+  <blockquote>
+    <p>Tip: In general your objectives will be much longer than the simple one's shown below. This is where you really want to indicate clearly, to all who read or use this simulation in the future, what your original intent was. </p>
+    <p><img src="images/tut_sim_auth_1_page3_objectives.PNG" alt="Enter Objectives" width="607" height="379" border="1" /></p>
+    <p>b.) Hit the 'Save' button. </p>
+    <p>c.) Select the link 'Next Step: Enter Audience' to move on to the next step.</p>
+    <p>&nbsp;</p>
+  </blockquote>
+</blockquote>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp#toc">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page2.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page4.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

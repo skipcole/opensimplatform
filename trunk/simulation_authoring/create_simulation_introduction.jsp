@@ -76,7 +76,7 @@
 	        </p>
             <p> 
               <input type="hidden" name="sending_page" value="create_sim_intro" />
-              <input type="submit" name="enter_intro" value="Submit" />
+              <input type="submit" name="enter_intro" value="Save" />
               </p>
           </blockquote>
       </form>

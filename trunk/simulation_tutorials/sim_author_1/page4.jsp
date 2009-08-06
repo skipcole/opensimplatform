@@ -37,12 +37,25 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->Step. <!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<br />
+<h1>Step 4. Enter your audience</h1>
+<blockquote>
+  <p>a.) Fill out the 'Simulation Audience' form as shown below.</p>
+  <blockquote>
+    <p>Tip: In general you will add much more information in this section. At this stage you are considering who your audience is, and the more you think about who they are, the better you will be able to reach them.</p>
+    <p><img src="images/tut_sim_auth_1_page4_audience.PNG" alt="Enter Audience" width="557" height="389" border="1" /></p>
+  </blockquote>
+  <p>b.) Hit the 'Save' button. </p>
+  <p>c.) Select the link 'Next Step: Enter Simulation Introduction' to move on to the next step.</p>
+  <p>&nbsp;</p>
+</blockquote>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp#toc">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page3.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page5.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>
