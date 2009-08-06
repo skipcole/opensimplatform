@@ -53,14 +53,12 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Enter Planned Play Ideas </h1>
+              <h1>Enter Planned Play Ideas</h1>
               <br />
-	<p> Here the simulation creator can enter details on how they think the simulation can be conducted. Anything entered here is not set in stone, but more or less provide guidelines to help one during the creation process.
-	  <p>The details of how one sets up a simulation (the number of actors, including email or list servers vs chat, etc.) will determine many of the things here in practice. But this page is included to help the simulation creator state his or her original concept.
-	    <% 
+	  <% 
 			if (pso.sim_id != null) {
 		%>
-	    <p>Enter the planned play ideas for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
+	    <p>Enter the planned play ideas <a href="helptext/create_simulation_help.jsp" target="helpinright">(?)</a> for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
 	      (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
 	        here</a>.)</p>
 	<form action="create_simulation_planned_play_ideas.jsp" method="post" name="form2" id="form2">
