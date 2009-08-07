@@ -33,6 +33,10 @@ public class Actor {
     @Column(name = "ACTOR_ID")
     private Long id;
 	
+	/** Id of the simulation that this actor is 'associated' with. They may be associated, but not assigned
+	 * to a simulation. */
+	private Long sim_id;
+	
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
@@ -137,49 +141,18 @@ public class Actor {
     	
     }
     
-   
-    /**
-     * Gets the control actor for the given schema.
-     * 
-     * @param schema
-     * @return
-     */
-    public static Actor getControlActor(String schema){
-
-        MultiSchemaHibernateUtil.beginTransaction(schema);
-        
-        Actor controlActor = getControlActor(MultiSchemaHibernateUtil.getSession(schema));
-        
-        MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-        
-        return controlActor;
-    }
-    
-    /**
-     * Gets the unique control actor, or if none is present, creates one.
-     * @param hibernate_session
-     * @return
-     */
-    public static Actor getControlActor(Session hibernate_session){
-        
-        Actor controlActor = new Actor();
-
-        List returnList = hibernate_session.createQuery(
-                "from Actor where actor_name = 'control'").list(); //$NON-NLS-1$
-        
-        if ((returnList != null) && (returnList.size() > 0)){
-            controlActor = (Actor) returnList.get(0);
-            System.out.println("got control actor: " + controlActor.getName()); //$NON-NLS-1$
-            
-            hibernate_session.evict(controlActor);
-        } else {
-            controlActor.setName("control"); //$NON-NLS-1$
-            controlActor.setControl_actor(true);
-            controlActor.setShown(false);
-            hibernate_session.saveOrUpdate(controlActor);
-        }
-        
-        return controlActor;
+    public static List <Actor> getControlActors(String schema, Long _sim_id){
+    	
+    	MultiSchemaHibernateUtil.beginTransaction(schema);
+    	
+    	List <Actor> returnList = 
+    		MultiSchemaHibernateUtil.getSession(schema).createQuery(
+    				"from Actor where sim_id = " + _sim_id + " and control_actor = true").list(); //$NON-NLS-1$
+    	
+    	MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+    	
+    	return returnList;
+    	
     }
     
 
@@ -224,6 +197,14 @@ public class Actor {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getSim_id() {
+		return this.sim_id;
+	}
+
+	public void setSim_id(Long sim_id) {
+		this.sim_id = sim_id;
 	}
 
 	/**

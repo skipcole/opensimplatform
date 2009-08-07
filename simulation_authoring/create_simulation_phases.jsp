@@ -75,17 +75,7 @@
                     </label></td>
                 </tr>
                 <tr>
-                  <td valign="top">Time Advances
-                    During Phase?:(?)</td>
-                  <td valign="top"><label>
-                    <input type="radio" name="time_advance" id="time_advance_yes" value="yes" />
-                    Yes </label> / <label>
-                      <input type="radio" name="time_advance" id="time_advance_no" value="no" />
-                      No
-                      </label></td>
-                </tr>
-                <tr>
-                  <td valign="top">&nbsp;</td>
+                  <td valign="top"><a href="helptext/advanced_phase_features.jsp" target="helpinright">Advanced (?)</a></td>
                   <td valign="top">&nbsp;</td>
                 </tr>
                 <tr> 
