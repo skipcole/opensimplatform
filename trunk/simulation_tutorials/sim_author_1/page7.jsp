@@ -37,12 +37,22 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->Step. <!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<h1>Step 7. Skipping over creating phases</h1>
+<blockquote>
+  <p>a.) Observe the 'Create Phases' page. We will not be creating or editing phases here. That will be covered in the next authoring tutorial.</p>
+  <blockquote>
+    <p>Tip: A'phase' is what ever the simulation author wants it to be. Some examples might be 'Negotiate' phase, or 'Reflect' phase. At any given phase each actor can have a completely different set of things that the can see or do. For example, players may be able to chat with each other in one phase (we will see how we can enable that later in this tutorial) but not be able to later on.</p>
+  </blockquote>
+  <p>b.) Select the link 'Next Step: Create Actors' to move on to the next step.</p>
+</blockquote>
+<p>&nbsp;</p>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp#toc">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page6.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page8.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

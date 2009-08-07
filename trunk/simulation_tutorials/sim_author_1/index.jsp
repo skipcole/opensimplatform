@@ -54,8 +54,9 @@ body {
     <li><a href="page4.jsp">Enter your audience</a></li>
     <li><a href="page5.jsp">Enter your introduction</a></li>
     <li><a href="page6.jsp">Enter your planned play ideas</a></li>
-    <li><a href="page7.jsp">Creating phases</a></li>
-    <li><a href="page8.jsp">Creating actors</a></li>
+    <li><a href="page7.jsp">Skipping over creating phases</a></li>
+    <li><a href="page8.jsp">Create actors</a></li>
+    <li>Assign actors</li>
     <li>Skipping over creating injects</li>
     <li>Skipping over creating documents</li>
     <li>Creating universal sections</li>

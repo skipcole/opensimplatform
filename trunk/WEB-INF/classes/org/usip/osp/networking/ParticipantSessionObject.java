@@ -21,17 +21,17 @@ import com.oreilly.servlet.MultipartRequest;
  * This object contains all of the session information for the participant and
  * is the main interface to all of the java objects that the participant will
  * interact with.
- *
  * 
- *         This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
+ * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  * 
  */
 public class ParticipantSessionObject {
@@ -167,7 +167,8 @@ public class ParticipantSessionObject {
 		}
 
 		try {
-			List simSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(this.schema, this.sim_id, this.actor_id, this.phase_id);
+			List simSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(this.schema, this.sim_id,
+					this.actor_id, this.phase_id);
 
 			if (tabpos <= simSecList.size()) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) simSecList.get(tabpos - 1);
@@ -348,8 +349,12 @@ public class ParticipantSessionObject {
 				returnSP.saveMe(this.schema);
 				SimPhaseAssignment spa = new SimPhaseAssignment(this.schema, sim.getId(), returnSP.getId());
 
-				Actor ctrl_act = Actor.getControlActor(this.schema);
-				sim.addControlSectionsToAllPhasesOfControl(this.schema, ctrl_act);
+				List<Actor> ctrl_actors = Actor.getControlActors(schema, sim.getId());
+
+				for (ListIterator<Actor> li = ctrl_actors.listIterator(); li.hasNext();) {
+					Actor this_act = li.next();
+					sim.addControlSectionsToAllPhasesOfControl(this.schema, this_act);
+				}
 
 				sim.saveMe(this.schema);
 			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
@@ -439,7 +444,8 @@ public class ParticipantSessionObject {
 				System.out.println("does not exist:" + this_email);
 
 				// Add entry into system to all them to register.
-				UserRegistrationInvite uri = new UserRegistrationInvite(this.user_name, this_email, this.invitationCode, this.schema);
+				UserRegistrationInvite uri = new UserRegistrationInvite(this.user_name, this_email,
+						this.invitationCode, this.schema);
 
 				uri.saveMe();
 
@@ -503,7 +509,7 @@ public class ParticipantSessionObject {
 		String objid = request.getParameter("objid");
 		String cancel_action = request.getParameter("cancel_action");
 		String phase_sim_id = request.getParameter("phase_sim_id");
-		
+
 		String debug = "";
 
 		if (cancel_action != null) {
@@ -517,7 +523,8 @@ public class ParticipantSessionObject {
 
 			if (objectType.equalsIgnoreCase("simulation")) {
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
-				Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(this.schema).get(Simulation.class, o_id);
+				Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(this.schema).get(Simulation.class,
+						o_id);
 				MultiSchemaHibernateUtil.getSession(this.schema).delete(sim);
 				this.sim_id = null;
 
@@ -530,7 +537,7 @@ public class ParticipantSessionObject {
 				Long phase_removed_id = sp.getId();
 				MultiSchemaHibernateUtil.getSession(this.schema).delete(sp);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
-				
+
 				SimPhaseAssignment.removeMe(this.schema, new Long(phase_sim_id), phase_removed_id);
 
 			} else if (objectType.equalsIgnoreCase("actor")) {
@@ -595,12 +602,13 @@ public class ParticipantSessionObject {
 
 				User user = (User) MultiSchemaHibernateUtil.getSession(this.schema).get(User.class, this.user_id);
 
-				RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(this.schema).get(
-						RunningSimulation.class, this.running_sim_id);
+				RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(this.schema)
+						.get(RunningSimulation.class, this.running_sim_id);
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
-				running_sim.enableAndPrep(this.schema, this.sim_id.toString(), bu.getUsername(), email_users, email_text);
+				running_sim.enableAndPrep(this.schema, this.sim_id.toString(), bu.getUsername(), email_users,
+						email_text);
 
 			} // End of if coming from this page and have enabled the sim
 			// ////////////////////////////
@@ -618,7 +626,8 @@ public class ParticipantSessionObject {
 		String user_comments = request.getParameter("user_comments");
 		String user_stated_name = request.getParameter("user_stated_name");
 
-		SimulationRatings sr = SimulationRatings.getInstructorRatingsBySimAndUser(this.schema, this.sim_id, this.user_id);
+		SimulationRatings sr = SimulationRatings.getInstructorRatingsBySimAndUser(this.schema, this.sim_id,
+				this.user_id);
 
 		sr.setNumberOfStars(new Long(num_stars).intValue());
 		sr.setSim_id(this.sim_id);
@@ -695,7 +704,8 @@ public class ParticipantSessionObject {
 		MultiSchemaHibernateUtil.beginTransaction(this.schema);
 
 		this.sim_id = new Long(request.getParameter("sim_id"));
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(this.schema).get(Simulation.class, this.sim_id);
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(this.schema).get(Simulation.class,
+				this.sim_id);
 
 		this.actor_id = new Long(request.getParameter("actor_id"));
 		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(this.schema).get(Actor.class, this.actor_id);
@@ -707,8 +717,8 @@ public class ParticipantSessionObject {
 		rs.setReady_to_begin(true);
 
 		MultiSchemaHibernateUtil.beginTransaction(this.schema);
-		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(this.schema).get(SimulationPhase.class,
-				rs.getPhase_id());
+		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(this.schema).get(
+				SimulationPhase.class, rs.getPhase_id());
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 		this.loadSimInfoForDisplay(request, simulation, rs, actor, sp);
@@ -744,7 +754,8 @@ public class ParticipantSessionObject {
 		String cachedPhaseName = phaseNames.get(this.running_sim_id);
 		if (cachedPhaseName == null) {
 			phaseNames.put(this.running_sim_id, sp.getName());
-			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES, phaseNames);
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES,
+					phaseNames);
 
 		}
 	}
@@ -791,22 +802,23 @@ public class ParticipantSessionObject {
 			// ////////////////////////////////////////////////////////////////////////
 			Hashtable<Long, String> roundNames = new Hashtable();
 			try {
-				roundNames = (Hashtable<Long, String>) 
-					session.getServletContext().getAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
+				roundNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
+						USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
 			} catch (Exception e) {
 				e.printStackTrace();
 				roundNames = new Hashtable<Long, String>();
-				session.getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES, new Hashtable<Long, String>());
+				session.getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
+						new Hashtable<Long, String>());
 			}
 			String cachedRoundName = roundNames.get(running_sim_id);
 			if (cachedRoundName == null) {
 				roundNames.put(running_sim_id, simulation_round);
-				request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES, roundNames);
+				request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
+						roundNames);
 			}
 			// ///////////////////////////////////////////////////////////
 
 			loadPhaseNameInWebCache(request, sp);
-
 
 			// //////////////////////////////////////////////////////////////////////
 			// Store it in the web cache, if this has not been done already
@@ -817,7 +829,8 @@ public class ParticipantSessionObject {
 			Long cachedPhaseId = phaseIds.get(running_sim_id);
 			if (cachedPhaseId == null) {
 				phaseIds.put(running_sim_id, phase_id);
-				request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_PHASE_IDS, phaseIds);
+				request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_PHASE_IDS,
+						phaseIds);
 
 			}
 			// //////////////////////////////////////////////////////////////////////
@@ -839,11 +852,10 @@ public class ParticipantSessionObject {
 			ut.setActor_id(actor_id);
 			ut.setRunning_sim_id(running_sim_id);
 			ut.saveMe(schema);
-			
+
 			this.hasSelectedRunningSim = true;
-			
+
 			forward_on = true;
-			
 
 		}
 	}
@@ -894,44 +906,50 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * Handles the creation of documents to be added to the simulation. This method is called at the 
-	 * top of the jsp. It can be called for several reasons.
-	 * 1.) Player is just entering form. Method should return a new, 'unsaved' document.
-	 * 2.) Player hits the create button. Method should return the shared document created.
-	 * 3.) Player select one of the existing docs to queue it up for editing. Method should return the doc selected.
-	 * 4.) Player hit the clear button, so method should return a new, 'unsaved' document.
-	 * 5.) Player hit the update button, so method should update the document and then return it.
+	 * Handles the creation of documents to be added to the simulation. This
+	 * method is called at the top of the jsp. It can be called for several
+	 * reasons. 1.) Player is just entering form. Method should return a new,
+	 * 'unsaved' document. 2.) Player hits the create button. Method should
+	 * return the shared document created. 3.) Player select one of the existing
+	 * docs to queue it up for editing. Method should return the doc selected.
+	 * 4.) Player hit the clear button, so method should return a new, 'unsaved'
+	 * document. 5.) Player hit the update button, so method should update the
+	 * document and then return it.
 	 * 
 	 * @param request
 	 */
 	public SharedDocument handleCreateDocument(HttpServletRequest request) {
 
 		SharedDocument this_sd = new SharedDocument();
-		
+
 		// If the player cleared the form, return the blank document.
 		String clear_button = (String) request.getParameter("clear_button");
-		if (clear_button != null){
+		if (clear_button != null) {
 			return this_sd;
 		}
-		
-		// If we got passed in a doc id, use it to retrieve the doc we are working on.
+
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
 		String shared_doc_id = (String) request.getParameter("shared_doc_id");
 		if ((shared_doc_id != null) && (shared_doc_id.trim().length() > 0)) {
 			this_sd = SharedDocument.getMe(schema, new Long(shared_doc_id));
 		}
-		
-		// If player just entered this page from a different form, just return the blank document
-		// (This will also return the doc queued up for editing, if it was selected.)
+
+		// If player just entered this page from a different form, just return
+		// the blank document
+		// (This will also return the doc queued up for editing, if it was
+		// selected.)
 		String sending_page = (String) request.getParameter("sending_page");
 		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_document_page")))) {
 			return this_sd;
 		}
 
-		// If we got down to here, we must be doing some real work on a document.
+		// If we got down to here, we must be doing some real work on a
+		// document.
 		String uniq_doc_title = (String) request.getParameter("uniq_doc_title");
 		String doc_display_title = (String) request.getParameter("doc_display_title");
 		String doc_starter_text = (String) request.getParameter("doc_starter_text");
-		
+
 		// Do create if called.
 		String create_doc = (String) request.getParameter("create_doc");
 		if ((create_doc != null)) {
@@ -941,7 +959,7 @@ public class ParticipantSessionObject {
 			this_sd.saveMe(schema);
 
 		}
-		
+
 		// Do update if called.
 		String update_doc = (String) request.getParameter("update_doc");
 		if ((update_doc != null)) {
@@ -953,7 +971,7 @@ public class ParticipantSessionObject {
 			this_sd.saveMe(schema);
 
 		}
-		
+
 		return this_sd;
 
 	}
@@ -1359,7 +1377,8 @@ public class ParticipantSessionObject {
 		session = request.getSession();
 
 		// Get phase id from the cache
-		Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session.getServletContext().getAttribute(USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
+		Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session.getServletContext().getAttribute(
+				USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
 
 		Long cachedPhaseId = phaseIds.get(running_sim_id);
 
@@ -1428,7 +1447,8 @@ public class ParticipantSessionObject {
 		Hashtable<Long, String> roundNames = (Hashtable<Long, String>) request.getSession().getServletContext()
 				.getAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
 		roundNames.put(running_sim_id, this.simulation_round);
-		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES, roundNames);
+		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
+				roundNames);
 
 		propagateValues();
 
@@ -1757,6 +1777,9 @@ public class ParticipantSessionObject {
 			if (saveActor) {
 				System.out.println("saving actor");
 				makeUploadDir();
+				
+				String _sim_id = (String) mpr.getParameter("sim_id");
+				actorOnScratchPad.setSim_id(new Long(_sim_id));
 
 				actorOnScratchPad.setPublic_description((String) mpr.getParameter("public_description"));
 				actorOnScratchPad.setName((String) mpr.getParameter("actor_name"));
@@ -1925,7 +1948,8 @@ public class ParticipantSessionObject {
 			runningSimHighestChange = new Long(1);
 			highestChangeNumber.put(running_sim_id, runningSimHighestChange);
 
-			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS, highestChangeNumber);
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS,
+					highestChangeNumber);
 
 		}
 
@@ -1950,7 +1974,8 @@ public class ParticipantSessionObject {
 
 		highestChangeNumber.put(running_sim_id, currentHighest);
 
-		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS, highestChangeNumber);
+		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS,
+				highestChangeNumber);
 
 	}
 
@@ -1962,7 +1987,8 @@ public class ParticipantSessionObject {
 
 		if (highestChangeNumber == null) {
 			highestChangeNumber = new Hashtable();
-			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS, highestChangeNumber);
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS,
+					highestChangeNumber);
 		}
 
 		return highestChangeNumber;
@@ -2015,7 +2041,7 @@ public class ParticipantSessionObject {
 				alarmXML += "<numAlarms>0</numAlarms>";
 
 			} else if (alarms.size() > 3) { // if too many alerts, just tell
-											// them to check their environment.
+				// them to check their environment.
 				alarmXML += "<numAlarms>1</numAlarms>";
 				alarmXML += "<sim_event_text>"
 						+ "Multiple alerts received. Please check all of the tabs where you are receiving information."
@@ -2066,7 +2092,7 @@ public class ParticipantSessionObject {
 	public List<Alert> checkForAlarm(RunningSimulation rs, HttpServletRequest request) {
 
 		List<Alert> returnList = new ArrayList();
-		
+
 		List<Alert> alerts = Alert.getAllForRunningSim(schema, rs.getId());
 
 		for (ListIterator<Alert> li = alerts.listIterator(); li.hasNext();) {
@@ -2163,7 +2189,7 @@ public class ParticipantSessionObject {
 		List returnList = new ArrayList();
 
 		List<Alert> alerts = Alert.getAllForRunningSim(schema, running_sim_id);
-		
+
 		for (ListIterator li = alerts.listIterator(); li.hasNext();) {
 			Alert al = (Alert) li.next();
 			returnList.add(al);
@@ -2173,8 +2199,8 @@ public class ParticipantSessionObject {
 
 		return returnList;
 	}
-	
-	public String getPhaseNameById(Long phase_id){
+
+	public String getPhaseNameById(Long phase_id) {
 		return "insert code here";
 	}
 
@@ -2196,41 +2222,39 @@ public class ParticipantSessionObject {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public PlayerReflection handlePlayerReflection(HttpServletRequest request){
-		
+	public PlayerReflection handlePlayerReflection(HttpServletRequest request) {
+
 		String cs_id_string = (String) request.getParameter("cs_id");
-		
+
 		Long cs_id = null;
-		
-		if (cs_id_string != null){
+
+		if (cs_id_string != null) {
 			cs_id = new Long(cs_id_string);
 		} else {
 			Logger.getRootLogger().warn("Null CS_ID sent to pso.handlePlayerReflection");
 			return new PlayerReflection();
 		}
-		
-		PlayerReflection playerReflection = PlayerReflection.getPlayerReflection(schema, 
-				cs_id, running_sim_id, actor_id);
-		
+
+		PlayerReflection playerReflection = PlayerReflection.getPlayerReflection(schema, cs_id, running_sim_id,
+				actor_id);
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String update_text = (String) request.getParameter("update_text");
-		
-		if ( (sending_page != null) && (update_text != null) && 
-				(sending_page.equalsIgnoreCase("player_reflection"))){
+
+		if ((sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("player_reflection"))) {
 			String player_reflection_text = (String) request.getParameter("player_reflection_text");
-			
+
 			playerReflection.setBigString(player_reflection_text);
 			playerReflection.save(schema);
-			
-			   
+
 		} // End of if coming from this page and have added text
-		
+
 		return playerReflection;
 	}
 
@@ -3265,9 +3289,9 @@ public class ParticipantSessionObject {
 	}
 
 	/**
-	 * One passes this a section id, a position, and the id of an object, and if that object is assigned
-	 * to this section, at that position, the word 'selected' is passed back. If not, an empty string is passed
-	 * back.
+	 * One passes this a section id, a position, and the id of an object, and if
+	 * that object is assigned to this section, at that position, the word
+	 * 'selected' is passed back. If not, an empty string is passed back.
 	 * 
 	 * @param index_hash
 	 * @param object_index
@@ -3276,15 +3300,17 @@ public class ParticipantSessionObject {
 	 */
 	public String checkAgainstHash(Long cs_id, int object_index, Long id_of_object_being_checked) {
 
-		Logger.getRootLogger().debug("pso.checkAgainstHash (bss_id/index/object_id): " + cs_id + "/" + object_index + "/" + id_of_object_being_checked);
-		
+		Logger.getRootLogger().debug(
+				"pso.checkAgainstHash (bss_id/index/object_id): " + cs_id + "/" + object_index + "/"
+						+ id_of_object_being_checked);
+
 		Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(schema, cs_id);
-		
+
 		if ((index_hash == null) || (id_of_object_being_checked == null)) {
 			Logger.getRootLogger().warn("hash was null");
 			return "";
 		}
-		
+
 		// Get the value of the object stored at this position.
 		Long valueFromHash = (Long) index_hash.get(new Long(object_index));
 
@@ -3506,43 +3532,42 @@ public class ParticipantSessionObject {
 		} // End of if coming from this page and have added text
 
 	}
-	
-	public boolean handleResetWebCache(HttpServletRequest request){
-		
+
+	public boolean handleResetWebCache(HttpServletRequest request) {
+
 		String sending_page = (String) request.getParameter("sending_page");
-		
+
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("reset"))) {
 			USIP_OSP_ContextListener.resetWebCache(request);
 			return true;
 		} else {
 			return false;
-		}	
-		
+		}
+
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
-	public void changeSectionColor(HttpServletRequest request){
-		
+	public void changeSectionColor(HttpServletRequest request) {
+
 		String sending_section = (String) request.getParameter("sending_section");
-		
+
 		if ((sending_section != null) && (sending_section.equalsIgnoreCase("change_color"))) {
-			
+
 			String ss_id = (String) request.getParameter("ss_id");
 			String new_color = (String) request.getParameter("new_color");
-			
+
 			SimulationSectionAssignment ssa = SimulationSectionAssignment.getMe(schema, new Long(ss_id));
-			
-			if (ssa != null){
+
+			if (ssa != null) {
 				ssa.setTabColor(new_color);
 				ssa.save(schema);
 			}
-			
-			
+
 		}
-		
+
 	}
 
 } // End of class

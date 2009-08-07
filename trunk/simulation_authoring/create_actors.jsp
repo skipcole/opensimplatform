@@ -59,6 +59,12 @@
 </head>
 <body>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
+
+<% 
+			if (pso.sim_id != null) {    
+%>
+          
+
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
@@ -69,6 +75,9 @@
               <h1>Create / Edit Actor</h1>
               <br />
     <form enctype="multipart/form-data" action="create_actors.jsp" method="post">
+    
+    <input type="hidden" name="sim_id" value="<%= pso.sim_id %>" />
+    
       <p>
         <input type="hidden" name="sending_page" value="create_actors" />
         <span class="style1"><%= pso.errorMsg %></span>
@@ -95,6 +104,8 @@
                 Description</font><a href="helptext/actor_public_desc.jsp" target="helpinright">(?)</a>: </td>
               <td valign="top"><textarea id="public_description" name="public_description" style="height: 120px; width: 480px;"><%= actorOnScratchPad.getPublic_description() %></textarea>
                 <script language="javascript1.2">
+					wysiwygWidth = 480;
+					wysiwygHeight = 120;
   			generate_wysiwyg('public_description');
 		</script></td>
             </tr>
@@ -104,6 +115,8 @@
                 Public Description</font><a href="helptext/actor_semi_public_desc.jsp" target="helpinright">(?)</a>: </td>
               <td valign="top"><textarea id="semi_public_description" name="semi_public_description" style="height: 120px; width: 480px;"><%= actorOnScratchPad.getSemi_public_description() %></textarea>
                 <script language="javascript1.2">
+					wysiwygWidth = 480;
+					wysiwygHeight = 120;
   			generate_wysiwyg('semi_public_description');
 		</script>			</td>
             </tr>
@@ -113,24 +126,11 @@
                 Description</font><a href="helptext/actor_private_desc.jsp" target="helpinright">(?)</a>: </td>
               <td valign="top"><textarea id="private_description" name="private_description" style="height: 120px; width: 480px;"><%= actorOnScratchPad.getPrivate_description() %></textarea>
                 <script language="javascript1.2">
-  			generate_wysiwyg('private_description');
-		</script></td>
+					wysiwygWidth = 480;
+					wysiwygHeight = 120;
+  					generate_wysiwyg('private_description');
+				</script></td>
             </tr>
-            <% 
-			if (pso.sim_id != null) {    
-		  %>
-            <tr>
-              <td valign="top">&nbsp;</td>
-               <td valign="top"><label>
-                 <% String isShown = "";
-			   		if (actorOnScratchPad.isShown()) {
-						isShown = "checked";
-					}
-				%>
-                 <input name="actor_shown" type="checkbox" value="true" <%= isShown %> />
-                 Shown</label></td>
-               <td valign="top">This actor is shown to other actors. [need to make this work] </td>
-             </tr>
             <tr>
               <td valign="top">&nbsp;</td>
 			  <td valign="top"><label>
@@ -147,8 +147,8 @@
               <td valign="top">&nbsp;</td>
 			  <td valign="top" bgcolor="#FFFFCC"><label>
 			    <input name="add_to_sim" type="checkbox" value="true" checked="checked" />
-			    Add</label></td>
-              <td valign="top" bgcolor="#FFFFCC">Add this actor to the simulation <%= simulation.getDisplayName() %></td>
+			    Assign</label></td>
+              <td valign="top" bgcolor="#FFFFCC">Assign this actor to the simulation <%= simulation.getDisplayName() %></td>
             </tr>
             <tr>
               <td valign="top">&nbsp;</td>
@@ -167,7 +167,6 @@
                 <option value="ddddff">Light Blue</option>
   </select> </td>
             </tr>
-            <% } %>
             <tr> 
               <td colspan="3" valign="top"><input type="hidden" name="MAX_FILE_SIZE" value="100000" />
                 Choose an image file to upload: 
@@ -244,6 +243,14 @@ if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.ge
     <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>.</p></td>
   </tr>
 </table>
+
+<% } else { // End of if have set simulation id. %>
+      <blockquote>
+        <p>
+          <%@ include file="select_message.jsp" %></p>
+      </blockquote>
+      <% } // End of if have not set simulation for edits. %>
+
 </td></tr></table>
 
 <p>&nbsp;</p>
@@ -251,6 +258,3 @@ if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.ge
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

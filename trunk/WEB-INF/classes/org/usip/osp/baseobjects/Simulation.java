@@ -12,32 +12,33 @@ import org.apache.log4j.*;
 
 /**
  * This class represents a simulation.
- *
  * 
- *         This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
+ * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  * 
  */
 @Entity
 @Table(name = "SIMULATIONS")
 @Proxy(lazy = false)
 public class Simulation {
-	
+
 	/**
 	 * Just used for occasional debugging.
+	 * 
 	 * @param args
 	 */
 	public static void main(String args[]) {
 
-		Logger.getRootLogger().debug("hello world");	 //$NON-NLS-1$
-		
+		Logger.getRootLogger().debug("hello world"); //$NON-NLS-1$
+
 	}
 
 	/** Database id of this Simulation. */
@@ -45,7 +46,7 @@ public class Simulation {
 	@GeneratedValue
 	@Column(name = "SIM_ID")
 	private Long id;
-	
+
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
@@ -64,14 +65,14 @@ public class Simulation {
 	/** Version of this Simulation. */
 	@Column(name = "SIM_VERSION")
 	private String version = ""; //$NON-NLS-1$
-	
+
 	/** Version of the software this simulation was made with. */
-	private String software_version = "";	 //$NON-NLS-1$
-	
+	private String software_version = ""; //$NON-NLS-1$
+
 	/** A paragraph introducing what this simulation is all about. */
 	@Lob
 	private String blurb = ""; //$NON-NLS-1$
-	
+
 	public String getBlurb() {
 		return this.blurb;
 	}
@@ -186,17 +187,20 @@ public class Simulation {
 	public Simulation() {
 
 	}
-	
+
 	/**
-	 * Creates the initial phases and standard universal sections of a simulation.
+	 * Creates the initial phases and standard universal sections of a
+	 * simulation.
 	 * 
-	 * @param schema The name of the schema to create objects in.
+	 * @param schema
+	 *            The name of the schema to create objects in.
 	 */
-	public void createDefaultObjects(String schema){
-		
-		// Save simulation to give it an id that will be used by some of the objects 
+	public void createDefaultObjects(String schema) {
+
+		// Save simulation to give it an id that will be used by some of the
+		// objects
 		// inside of it to refer to it.
-		if (this.getId() == null){
+		if (this.getId() == null) {
 			this.saveMe(schema);
 		}
 		// //////////////////////////////////////////////
@@ -206,60 +210,53 @@ public class Simulation {
 
 		getPhases(schema).add(sp_first);
 		getPhases(schema).add(sp_last);
-		
+
 		// Create object in the database
 		@SuppressWarnings("unused")
 		SimPhaseAssignment spf = new SimPhaseAssignment(schema, this.getId(), sp_first.getId());
-		
+
 		// Create object in the database
 		@SuppressWarnings("unused")
 		SimPhaseAssignment spl = new SimPhaseAssignment(schema, this.getId(), sp_last.getId());
 		// /////////////////////////////////////////////////
-		
-		// Add the control character
-		Actor ctrl_act = Actor.getControlActor(schema);
-		@SuppressWarnings("unused")
-		SimActorAssignment saa = new SimActorAssignment(schema, this.getId(), ctrl_act.getId());
-		
-		// Give controller all default sections
-		addControlSectionsToAllPhasesOfControl(schema, ctrl_act);
-		
-		// Maybe should look this up in some other way, but I'll save that for another day.
+
+		// Maybe should look this up in some other way, but I'll save that for
+		// another day.
 		BaseSimSection introSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction"); //$NON-NLS-1$
-		
+
 		// Add the introduction as the first tab to all players.
-		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this.getId(),
-				new Long(0), sp_first.getId(), introSection.getId(),
-				"Introduction", 1); //$NON-NLS-1$
-		
-		// Create a schedule page and add it as the second section for all players in the first phase
-		CustomizeableSection scheduleSectionBase = (CustomizeableSection) BaseSimSection.getByRecommendedTagHeading(schema, "Read Document"); //$NON-NLS-1$
+		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
+				.getId(), introSection.getId(), "Introduction", 1); //$NON-NLS-1$
+
+		// Create a schedule page and add it as the second section for all
+		// players in the first phase
+		CustomizeableSection scheduleSectionBase = (CustomizeableSection) BaseSimSection.getByRecommendedTagHeading(
+				schema, "Read Document"); //$NON-NLS-1$
 		// need to get the schedule customized section
-		
+
 		CustomizeableSection scheduleSection = scheduleSectionBase.makeCopy(schema);
-		
+
 		scheduleSection.setUniqueName("Schedule"); //$NON-NLS-1$
 		scheduleSection.setDescription("A place for the players to read the schedule."); //$NON-NLS-1$
 		scheduleSection.setRec_tab_heading("Schedule"); //$NON-NLS-1$
 		scheduleSection.save(schema);
-		
+
 		// Add the schedule page
 		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		sd.saveMe(schema);
-			
-		// need to associate with it the schedule document 
-		BaseSimSectionDepObjectAssignment bssdoa = 
-			new BaseSimSectionDepObjectAssignment(scheduleSection.getId(), "org.usip.osp.communications.SharedDocument", 1, sd.getId(), this.getId(), //$NON-NLS-1$
-					schema);
-			
+
+		// need to associate with it the schedule document
+		BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(scheduleSection.getId(),
+				"org.usip.osp.communications.SharedDocument", 1, sd.getId(), this.getId(), //$NON-NLS-1$
+				schema);
+
 		// Add the schedule as the second tab to all players.
-		SimulationSectionAssignment ss1 = new SimulationSectionAssignment(schema, this.getId(),
-				new Long(0), sp_first.getId(), scheduleSection.getId(),
-				"Schedule", 2); //$NON-NLS-1$
+		SimulationSectionAssignment ss1 = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
+				.getId(), scheduleSection.getId(), "Schedule", 2); //$NON-NLS-1$
 
 		SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(schema, this.getId(), sp_first.getId());
-		///////////
-		
+		// /////////
+
 		this.saveMe(schema);
 	}
 
@@ -267,29 +264,27 @@ public class Simulation {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from Simulation").list(); //$NON-NLS-1$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery("from Simulation").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
 
-	
 	public static List getAllPublished(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from Simulation where READYFORLISTING = '1'") //$NON-NLS-1$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Simulation where READYFORLISTING = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
-	
-	/** 
+
+	/**
 	 * Returns a set of simulations that a player can register for.
 	 * 
 	 * @param schema
@@ -298,15 +293,15 @@ public class Simulation {
 	public static List getAllPublishedAutoRegisterable(String schema) {
 
 		List returnList = new ArrayList();
-		List firstList =  getAllPublished(schema);
+		List firstList = getAllPublished(schema);
 
 		for (ListIterator<Simulation> li = firstList.listIterator(); li.hasNext();) {
 			Simulation this_sim = li.next();
-			
-			if (this_sim.isAllow_player_autoreg()){
+
+			if (this_sim.isAllow_player_autoreg()) {
 				returnList.add(this_sim);
 			}
-			
+
 		}
 
 		return returnList;
@@ -325,6 +320,7 @@ public class Simulation {
 
 	/**
 	 * Pulls the simulation out of the database base on its id and schema.
+	 * 
 	 * @param schema
 	 * @param sim_id
 	 * @return
@@ -332,15 +328,14 @@ public class Simulation {
 	public static Simulation getMe(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(Simulation.class, sim_id);
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return simulation;
 
 	}
-	
+
 	/**
 	 * This method is of dubious value and may go away.
 	 * 
@@ -351,70 +346,69 @@ public class Simulation {
 	public static Simulation getMeFullyLoaded(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(Simulation.class, sim_id);
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		for (ListIterator<SimulationPhase> li = simulation.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase this_sp = li.next();
-			
+
 			System.out.println(this_sp.getName());
 		}
-	
-		
 
 		return simulation;
 
 	}
 
-	public void addControlSectionsToAllPhasesOfControl(String schema,
-			Actor controlActor) {
+	public void addControlSectionsToAllPhasesOfControl(String schema, Actor controlActor) {
 
 		// Loop over phases
-		for (ListIterator<SimulationPhase> li = this.getPhases(schema).listIterator(); li
-				.hasNext();) {
+		for (ListIterator<SimulationPhase> li = this.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase this_sp = li.next();
 
 			// Loop over control base sim sections
 			List controlBaseSimSecs = BaseSimSection.getAllControl(schema);
 
-			List<SimulationSectionAssignment> simSecs = SimulationSectionAssignment
-					.getBySimAndActorAndPhase(schema, this.id, Actor
-							.getControlActor(schema).getId(), this_sp.getId());
+			// Loop over all of the control actors in this simulation
+			List control_actors = Actor.getControlActors(schema, this.getId());
 
-			for (ListIterator<BaseSimSection> bs = controlBaseSimSecs
-					.listIterator(); bs.hasNext();) {
-				BaseSimSection bss = bs.next();
+			for (ListIterator<Actor> liac = control_actors.listIterator(); li.hasNext();) {
+				Actor this_control_act = liac.next();
 
-				int sizeOfSimSecs = simSecs.size();
-				boolean foundThisControl = false;
+				List<SimulationSectionAssignment> simSecs = SimulationSectionAssignment.getBySimAndActorAndPhase(
+						schema, this.id, this_control_act.getId(), this_sp.getId());
 
-				// Loop over sim sections that control has in this phase.
-				for (ListIterator<SimulationSectionAssignment> ls = simSecs
-						.listIterator(); ls.hasNext();) {
-					SimulationSectionAssignment ss = ls.next();
+				for (ListIterator<BaseSimSection> bs = controlBaseSimSecs.listIterator(); bs.hasNext();) {
+					BaseSimSection bss = bs.next();
 
-					if (ss.getBase_section_id().compareTo(bss.getId()) == 0) {
-						foundThisControl = true;
+					int sizeOfSimSecs = simSecs.size();
+					boolean foundThisControl = false;
+
+					// Loop over sim sections that control has in this phase.
+					for (ListIterator<SimulationSectionAssignment> ls = simSecs.listIterator(); ls.hasNext();) {
+						SimulationSectionAssignment ss = ls.next();
+
+						if (ss.getBase_section_id().compareTo(bss.getId()) == 0) {
+							foundThisControl = true;
+						}
 					}
+
+					// If control does not have this control section in this
+					// phase,
+					// then add it.
+					if (!foundThisControl) {
+
+						SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this.getId(),
+								controlActor.getId(), this_sp.getId(), bss.getId(), bss.getRec_tab_heading(),
+								sizeOfSimSecs + 1);
+
+						simSecs.add(ss0);
+
+						System.out.println("adding " + bss.getRec_tab_heading() //$NON-NLS-1$
+								+ " at " + (sizeOfSimSecs + 1)); //$NON-NLS-1$
+
+					}
+
 				}
-
-				// If control does not have this control section in this phase,
-				// then add it.
-				if (!foundThisControl) {
-
-					SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this
-							.getId(), controlActor.getId(), this_sp.getId(),
-							bss.getId(), bss.getRec_tab_heading(),
-							sizeOfSimSecs + 1);
-
-					simSecs.add(ss0);
-
-					System.out.println("adding " + bss.getRec_tab_heading() //$NON-NLS-1$
-							+ " at " + (sizeOfSimSecs + 1)); //$NON-NLS-1$
-
-				}
-
 			}
 
 		}
@@ -457,8 +451,7 @@ public class Simulation {
 	 * 
 	 * @param rs_name
 	 */
-	public RunningSimulation addNewRunningSimulation(String rs_name,
-			String schema) {
+	public RunningSimulation addNewRunningSimulation(String rs_name, String schema) {
 
 		RunningSimulation rs = new RunningSimulation(rs_name, this, schema);
 
@@ -486,11 +479,11 @@ public class Simulation {
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
-	
+
 	public List<Actor> getActors(String schema) {
 		return SimActorAssignment.getActorsForSim(schema, this.id);
 	}
-	
+
 	public List<SimulationPhase> getPhases(String schema) {
 		return SimPhaseAssignment.getPhasesForSim(schema, this.id);
 	}
@@ -530,7 +523,7 @@ public class Simulation {
 
 		return this.name + " version " + this.version; //$NON-NLS-1$
 	}
-	
+
 	public List<RunningSimulation> getRunning_sims(String schema) {
 		return SimRunningSimAssignment.getRunningSimulationsForSim(schema, this.id);
 	}
@@ -562,6 +555,7 @@ public class Simulation {
 	public List<Conversation> getConversations(String schema) {
 		return SimConversationAssignment.getConversationsForSim(schema, this.id);
 	}
+
 	/**
 	 * Only adds conversation to a simulation if that conversation has not
 	 * already been added.
@@ -596,6 +590,5 @@ public class Simulation {
 	public void setListingKeyWords(String listingKeyWords) {
 		this.listingKeyWords = listingKeyWords;
 	}
-	
 
 } // End of Simulation
