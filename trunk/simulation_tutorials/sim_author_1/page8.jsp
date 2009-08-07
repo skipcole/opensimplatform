@@ -38,6 +38,7 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
+<br />
 <h1>Step 8. Create actors</h1>
 <blockquote>
   <p>a.) Right click your mouse on each of the images below to save them onto your computer. You will be using these to upload images for the three actors you will be creating.</p>
@@ -48,49 +49,26 @@ body {
   <blockquote>
     <p>Tip: Make sure that you select the 'Control' checkbox for this (and only this) actor.</p>
     <p>Tip 2: The path to the image files will depend on where you saved the images in step a. above.</p>
-    <p><img src="images/tut_sim_auth_1_page8_createcontrol.PNG" alt="Create Control" width="740" height="790" border="1" /></p>
-    <p>c.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
-    <p>d.) Create 'Player A' as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
-    <p>e.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
-    <p>f.) Create 'Player B' as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
-    <table width="80%" border="1" cellspacing="0" cellpadding="2">
-      <tr>
-        <td valign="top">&nbsp;</td>
-        <td valign="top">Player A</td>
-        <td valign="top">Player B</td>
-      </tr>
-      <tr>
-        <td valign="top">Public Description</td>
-        <td valign="top">Would like to buy 6 oranges.</td>
-        <td valign="top">Would like to buy 6 oranges.</td>
-      </tr>
-      <tr>
-        <td valign="top">Semi-Public Description</td>
-        <td valign="top">Wants the oranges for </td>
-        <td valign="top">You want the oranges to make orange juice with.</td>
-      </tr>
-      <tr>
-        <td valign="top">Private Description</td>
-        <td valign="top">You have 15 Dollars.</td>
-        <td valign="top">You have 15 Dollars.</td>
-      </tr>
-      <tr>
-        <td valign="top">&nbsp;</td>
-        <td valign="top">&nbsp;</td>
-        <td valign="top">&nbsp;</td>
-      </tr>
-    </table>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+    <p><img src="images/tut_sim_auth_1_page8_createcontrol.PNG" alt="Create Facilitator" width="658" height="692" border="1" /></p>
   </blockquote>
-  <p>g.) Select the link 'Next Step: Create Actors' to move on to the next step.</p>
+  <p>c.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
+  <p>d.) Create 'Player A' as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_auth_1_page8_create_playerA.PNG" alt="Create Player A" width="626" height="585" border="1" /></p>
+    </blockquote>
+  <p>e.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
+  <p>f.) Create 'Player B' as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_auth_1_page8_create_playerB.PNG" alt="Create Player B" width="666" height="572" border="1" /></p>
+  </blockquote>
+  <p>g.) Select the link 'Next Step: Assign Actor to Simulation' to move on to the next step.</p>
 </blockquote>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page7.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page9.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>

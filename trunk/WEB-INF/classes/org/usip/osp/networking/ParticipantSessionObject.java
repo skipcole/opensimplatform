@@ -2285,6 +2285,13 @@ public class ParticipantSessionObject {
 	}
 
 	public RunningSimulation giveMeRunningSim() {
+		
+		if (running_sim_id == null){
+			Logger.getRootLogger().warn("Warning RunningSimId is null in pso.giveMeRunningSim");
+			
+			return null;
+		}
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 				RunningSimulation.class, running_sim_id);

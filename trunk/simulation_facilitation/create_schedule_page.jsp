@@ -16,7 +16,11 @@
 	
 	RunningSimulation rs = pso.giveMeRunningSim();
 	
-	SharedDocument sd = SharedDocument.getScheduleDocument(pso.schema, simulation.getId(), rs.getId());
+	SharedDocument sd = new SharedDocument();
+	
+	if (rs != null) {
+		sd = SharedDocument.getScheduleDocument(pso.schema, simulation.getId(), rs.getId());
+	}
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">

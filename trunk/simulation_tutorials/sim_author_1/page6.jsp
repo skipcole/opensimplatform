@@ -38,6 +38,7 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
+<br />
 <h1>Step 6. Enter your planned play ideas</h1>
 <blockquote>
   <p>a.) Fill out the 'Planned Play Ideas' form as shown below.</p>
@@ -53,7 +54,7 @@ body {
 <table  border="0" align="center" cellspacing="5">
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page5.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page7.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>

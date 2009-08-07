@@ -220,14 +220,24 @@ public class Simulation {
 		SimPhaseAssignment spl = new SimPhaseAssignment(schema, this.getId(), sp_last.getId());
 		// /////////////////////////////////////////////////
 
-		// Maybe should look this up in some other way, but I'll save that for
-		// another day.
+		// Add the introduction section to the set of universal sections.
+		// Maybe should look this up in some other way, but I'll save that for another day.
 		BaseSimSection introSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction"); //$NON-NLS-1$
 
 		// Add the introduction as the first tab to all players.
-		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
+		@SuppressWarnings("unused")
+		SimulationSectionAssignment ss_intro = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
 				.getId(), introSection.getId(), "Introduction", 1); //$NON-NLS-1$
 
+		// Add the after action review section to the set of universal sections.
+		// Maybe should look this up in some other way, but I'll save that for another day.
+		BaseSimSection aarSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction"); //$NON-NLS-1$
+
+		// Add the introduction as the first tab to all players.
+		@SuppressWarnings("unused")
+		SimulationSectionAssignment ss_aar = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_last
+				.getId(), aarSection.getId(), "AAR", 1); //$NON-NLS-1$
+		
 		// Create a schedule page and add it as the second section for all
 		// players in the first phase
 		CustomizeableSection scheduleSectionBase = (CustomizeableSection) BaseSimSection.getByRecommendedTagHeading(

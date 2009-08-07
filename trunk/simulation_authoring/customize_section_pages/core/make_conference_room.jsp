@@ -53,7 +53,8 @@
 	  <form action="make_conference_room.jsp" method="post" name="form2" id="form2">
 	    <blockquote><strong>Tab Heading</strong>: 
 	      <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
-	      <p>Select the Actors to be included in this meeting room. If desired, assign them a designated role (such as participant, visitor, etc.) </p>
+	      <p>Select the Actors to be included in this meeting room. <br />
+	        If desired, assign them a designated role (such as participant, visitor, etc.) </p>
           <p><%
 				
 			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
