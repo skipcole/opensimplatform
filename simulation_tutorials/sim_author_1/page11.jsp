@@ -37,12 +37,22 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->Step. <!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<br />
+<h1>Step 11. Skipping over creating documents</h1>
+<blockquote>
+  <p>a.) Observe the 'Add Simulation Object' page. We will not be creating or editing objects here. That will be covered in the next authoring tutorial.</p>
+  <blockquote>
+    <p>Tip: The 'Add Document link will take the author to a place where they can add documents to the simulation that the students and facilitators can read and write to. For example, if the simulation calls for the student's to work on a contract together, that would be a document added to the simulation.</p>
+  </blockquote>
+  <p>b.) Select the link 'Next Step: Assign Simulation Sections to Actors' to move on to the next step.</p>
+</blockquote>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp#toc">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page10.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page12.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

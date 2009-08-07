@@ -38,6 +38,7 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
+<br />
 <h1>Step 7. Skipping over creating phases</h1>
 <blockquote>
   <p>a.) Observe the 'Create Phases' page. We will not be creating or editing phases here. That will be covered in the next authoring tutorial.</p>
@@ -51,7 +52,7 @@ body {
 <table  border="0" align="center" cellspacing="5">
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page6.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page8.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>

@@ -90,7 +90,9 @@
                 Name</font><a href="helptext/actor_name.jsp" target="helpinright">(?)</a>: </td>
               <td valign="top"><input type="text" name="actor_name" value="<%= actorOnScratchPad.getName() %>" tabindex="1" />
                 <% if (actorOnScratchPad.getId() != null) { %>
-                Actor Id: <%= actorOnScratchPad.getId() %>
+                	<% if (actorOnScratchPad.isControl_actor()) { %>
+                    	<B><I>Control Character</I></B>
+                    <% } // end of if this is a control character %>
                 <% } %>            </td>
             </tr>
             <!-- tr>
@@ -145,12 +147,12 @@
             </tr>
             <tr>
               <td valign="top">&nbsp;</td>
-			  <td valign="top" bgcolor="#FFFFCC"><label>
+			  <td valign="top"><label>
 			    <input name="add_to_sim" type="checkbox" value="true" checked="checked" />
 			    Assign</label></td>
-              <td valign="top" bgcolor="#FFFFCC">Assign this actor to the simulation <%= simulation.getDisplayName() %></td>
+              <td valign="top" >Assign this actor to the simulation <%= simulation.getDisplayName() %></td>
             </tr>
-            <tr>
+            <!-- tr>
               <td valign="top">&nbsp;</td>
               <td valign="top" bgcolor="#FFFFCC">Actor's Role in Sim(?)</td>
               <td valign="top" bgcolor="#FFFFCC">
@@ -166,7 +168,7 @@
                 <option value="ddffdd">Light Green</option>
                 <option value="ddddff">Light Blue</option>
   </select> </td>
-            </tr>
+            </tr    -->
             <tr> 
               <td colspan="3" valign="top"><input type="hidden" name="MAX_FILE_SIZE" value="100000" />
                 Choose an image file to upload: 
@@ -245,6 +247,8 @@ if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.ge
 </table>
 
 <% } else { // End of if have set simulation id. %>
+	</TD></TR>
+    <TR><TD>
       <blockquote>
         <p>
           <%@ include file="select_message.jsp" %></p>

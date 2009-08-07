@@ -61,7 +61,7 @@
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %>
         <blockquote> 
-          <p>Cast page will display control characters 
+          <p>Cast page will display control characters? 
             <label>
               <input type="radio" name="display_control" id="display_control_yes" value="true" <%= selected_display_control_yes %> />
               Yes</label>

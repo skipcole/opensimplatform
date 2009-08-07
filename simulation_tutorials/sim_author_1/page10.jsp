@@ -37,12 +37,22 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->Step. <!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<br />
+<h1>Step 10. Skipping over creating injects</h1>
+<blockquote>
+  <p>a.) Observe the 'Create Injects' page. We will not be creating or editing injects here. That will be covered in a future authoring tutorial.</p>
+  <blockquote>
+    <p>Tip: Injects (also sometimes called events) are things that may happen to the players during a simulation. For example, things may be going along fine for the players, and then the facilitator will hit them with a general strike, or a terrorist attack, or whatever the scenario calls for. Injects provide learning opportunities for the players and allow them to call into action some of the lessons they have been taught.</p>
+  </blockquote>
+  <p>b.) Select the link 'Next Step: Add Objects' to move on to the next step.</p>
+</blockquote>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp#toc">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp#toc">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page9.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page11.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

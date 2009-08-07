@@ -56,10 +56,10 @@ body {
     <li><a href="page6.jsp">Enter your planned play ideas</a></li>
     <li><a href="page7.jsp">Skipping over creating phases</a></li>
     <li><a href="page8.jsp">Create actors</a></li>
-    <li>Assign actors</li>
-    <li>Skipping over creating injects</li>
-    <li>Skipping over creating documents</li>
-    <li>Creating universal sections</li>
+    <li><a href="page9.jsp">Assign actors</a></li>
+    <li><a href="page10.jsp">Skipping over creating injects</a></li>
+    <li><a href="page11.jsp">Skipping over creating documents</a></li>
+    <li><a href="page12.jsp">Creating universal sections</a></li>
     <li>Assigning specific sections</li>
     <li>Entering in your starter 'After Action Report' text</li>
     <li>Reviewing your simulation</li>
