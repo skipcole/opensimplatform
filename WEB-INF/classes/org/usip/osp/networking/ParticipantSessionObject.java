@@ -712,7 +712,7 @@ public class ParticipantSessionObject {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
-		RunningSimulation rs = new RunningSimulation("My Session", this.giveMeSim(), this.schema);
+		RunningSimulation rs = new RunningSimulation("My Session", this.giveMeSim(), this.schema, null, "Player Self Assigned");
 		this.running_sim_id = rs.getId();
 		rs.setReady_to_begin(true);
 
@@ -3367,7 +3367,7 @@ public class ParticipantSessionObject {
 				&& (sending_page.equalsIgnoreCase("create_running_sim"))) {
 
 			String rsn = (String) request.getParameter("running_sim_name");
-			RunningSimulation rs = simulation.addNewRunningSimulation(rsn, schema);
+			RunningSimulation rs = simulation.addNewRunningSimulation(rsn, schema, this.user_id, this.user_Display_Name);
 
 			running_sim_id = rs.getId();
 

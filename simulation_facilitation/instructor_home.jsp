@@ -39,8 +39,9 @@
                   <blockquote>
                     <p>Welcome Instructor!</p>
                     <ul>
-                      <li>Take me to the <a href="library.jsp">Online Library</a>.</li>
-                      <li>Take me to a list of my simulations. </li>
+                      <li>Take me to the <a href="library.jsp">online library</a>.</li>
+                      <li>Take me to the <a href="play_panel.jsp">simulation facilitation control panel</a>.</li>
+                      <li>Take me to a <a href="view_running_sims.jsp">list of my simulations</a>. </li>
                     </ul>
                   </blockquote>
                   <p align="center"></p></td>

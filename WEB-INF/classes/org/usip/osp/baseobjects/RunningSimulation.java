@@ -40,6 +40,9 @@ public class RunningSimulation {
 
 	@Column(name = "SIM_ID")
 	private Long sim_id;
+	
+	/** Id of the instructor that created this running simulation. */
+	private Long creator_id;
 
 	@Column(name = "RS_NAME")
 	private String name;
@@ -90,7 +93,7 @@ public class RunningSimulation {
 	 * @param sim
 	 * @param schema
 	 */
-	public RunningSimulation(String name, Simulation sim, String schema) {
+	public RunningSimulation(String name, Simulation sim, String schema, Long creator_id, String creator_name) {
 
 		this.name = name;
 		this.aar_text = sim.getAar_starter_text();
@@ -338,6 +341,14 @@ public class RunningSimulation {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getCreator_id() {
+		return creator_id;
+	}
+
+	public void setCreator_id(Long creator_id) {
+		this.creator_id = creator_id;
 	}
 
 	public String getName() {

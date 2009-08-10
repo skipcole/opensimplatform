@@ -5,7 +5,7 @@
 	errorPage="" %>
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "../simulation_facilitation/create_running_sim.jsp";
+	pso.backPage = "../simulation_facilitation/view_running_sim.jsp";
 	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
@@ -41,18 +41,14 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  <h1>Create Running Simulation</h1>
+			  <h1>View Running Simulations</h1>
 			  <br />
             <blockquote> 
               <% 
 			if (pso.sim_id != null) {
 		%>
-              <p>Create running simulations for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
-                (If you would like to create running simulations for a different simulation, 
-                <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
-              <p><% if (pso.running_sim_id != null) { %>You are currently working on runnign simulation <%= pso.run_sim_name %>.<% } %>
-              If you would like to select a running simulation already created,  <a href="../simulation_authoring/select_running_simulation.jsp">click here.</a></p>
-              Below are the running simulation currently associated with <b> <%= simulation.getName() %> </b>. <br />
+
+              Below are the running simulation created by [Insert Creator's Name] </b>. <br />
               <table width="80%" border = "1">
                 <tr> 
                   <td><h2>Running Simulation</h2></td>
@@ -78,21 +74,8 @@
 		%>
                 </table>
 	          </blockquote>
-            <form action="create_running_sim.jsp" method="post" name="form1" id="form1">
-              <input type="hidden" name="sending_page" value="create_running_sim" />
-              <table width="80%" border="0" cellspacing="2" cellpadding="2">
-                <tr> 
-                  <td>Enter new Running Simulation Name (for example 'Summer 2007 - 
-                    1')</td>
-              <td><input type="text" name="running_sim_name" /></td>
-            </tr>
-                <tr> 
-                  <td>&nbsp;</td>
-              <td><input type="submit" name="addRunningSimulation" value="Submit" /></td>
-            </tr>
-                </table>
-            </form>
-            <p align="center"><a href="create_schedule_page.jsp">Next step: Create Schedule Page</a></p>
+
+            <p align="center">&nbsp;</p>
             <% } else { // End of if have set simulation id. %>
             <blockquote> 
               <p>                </p>

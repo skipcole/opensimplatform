@@ -28,14 +28,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
 <title>Open Simulation Platform Control Page</title>
-
-
-<style type="text/css">
-<!--
-.style1 {color: #FF0000}
--->
-</style>
-
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="">
@@ -76,11 +68,13 @@
         </table>
     </form>
     <p>&nbsp;</p>
-        </blockquote>
+    <p><em><strong>Functionality to Come</strong></em>: Click here to see your previous bulk invitations.</p>
+    <p>&nbsp;</p>
+      </blockquote>
       <blockquote>
         <div align="center">
-          <p><a href="administrate_users.jsp">Next 
-            Step: Administrate Users </a></p>
+          <p><a href="create_user.jsp">Next 
+            Step: Create Users </a></p>
           <p align="left"><a href="create_schedule_page.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
         </div>
         </blockquote>			</td>

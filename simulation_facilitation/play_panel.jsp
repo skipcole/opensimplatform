@@ -28,7 +28,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1 align="center">Simulation Facilitation Panel</h1>
+              <h1 align="center">Simulation Facilitation Control Panel</h1>
               <br />
       <table width="100%" border="0" cellspacing="2" cellpadding="1">
         <tr valign="top"> 
@@ -46,24 +46,20 @@
           <td>3. </td>
             <td><a href="bulk_invite.jsp">Invite Users</a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></td>
             </tr>
-        <tr valign="top">
-          <td>4.</td>
-            <td><a href="administrate_users.jsp">Administrate Users</a> <a href="helptext/administrate_users_help.jsp" target="helpinright">(?) </a></td>
-            </tr>
         <tr valign="top"> 
-          <td>5.</td>
+          <td>4.</td>
             <td><a href="create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a> </td>
             </tr>
         <tr valign="top"> 
-          <td>6.</td>
+          <td>5.</td>
             <td><a href="assign_user_to_simulation.jsp">Assigns Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
             </tr>
         <tr valign="top"> 
-          <td>7.</td>
+          <td>6.</td>
             <td><a href="enable_simulation.jsp">Enable Simulation</a> <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></td>
             </tr>
         <tr valign="top"> 
-          <td>8.</td>
+          <td>7.</td>
             <td><a href="../simulation/index.jsp?schema=<%= pso.schema %>" target="_top">Enter Simulation</a> <a href="helptext/enter_sim_help.jsp" target="helpinright">(?)</a> </td>
             </tr>
       </table>

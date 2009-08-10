@@ -87,12 +87,18 @@ body {
      <p>&nbsp;</p>
      <p>Tip: You will not see the 'Market' listed in the universal sections. This is because one select the actors that can participate in a meeting room, and not all of them may have been selected. These selections will show up when you look at the individual actors, which is the next step.</p>
    </blockquote>
-   <p>h.) [hve them change phase and see that 'aar' has already been added. then add cast again. Then change phase back.</p>
-   <p>&nbsp;</p>
-   <p>Select the link 'Next Step: Customize Sections for the Actor Orange Salesman' to move on to the next step.</p>
-   <p>should not need to do anything for any of these 3</p>
-   <p>then do aar</p>
-   <p>then done.</p>
+   <p>h.) Use the control in the upper right hand corner to to change phase to the completed phase. </p>
+   <blockquote>
+     <p>Tip: First select the phase 'Completed' and then push the 'Change Phase' button.</p>
+     <p><img src="images/tut_sim_auth_1_page12_change_phase.PNG" alt="Change Phase 1" width="145" height="75" border="1" align="middle" /> to <img src="images/tut_sim_auth_1_page12_change_phase2.PNG" alt="Change Phase 2" width="150" height="79" border="1" align="middle" /> to <img src="images/tut_sim_auth_1_page12_change_phase3.PNG" alt="Change Phase 3" width="149" height="79" border="1" align="middle" /></p>
+   </blockquote>
+   <p>i.) Observe that 'AAR' has already been added to the the 'completed' phase as shown below.</p>
+   <blockquote>
+     <p><img src="images/tut_sim_auth_1_page12_aar.PNG" alt="AAR in Completed Phase" width="717" height="457" border="1" /></p>
+   </blockquote>
+   <p>j.) Add the 'Cast' phase, as done before, to this 'Completed' phase.</p>
+   <p>k.) Change phase back to the 'Started' phase.</p>
+   <p>l..) Select the link 'Next Step: Customize Sections for the Actor Orange Salesman' to move on to the next step.</p>
    <p>&nbsp;</p>
    <blockquote>
      <p>&nbsp;</p>

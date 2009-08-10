@@ -21,7 +21,7 @@
 
 <frameset rows="*" cols="75%,25%" border="1">
   <frameset rows="150,90%" border="0">
-    <frame src="facilitate_top.jsp">
+    <frame  name="headeruptop" src="facilitate_top.jsp">
     <frame name="bodyinleft" src="instructor_home.jsp">
   </frameset>
   
