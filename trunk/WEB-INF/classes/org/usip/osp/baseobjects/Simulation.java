@@ -461,11 +461,9 @@ public class Simulation {
 	 * 
 	 * @param rs_name
 	 */
-	public RunningSimulation addNewRunningSimulation(String rs_name, String schema) {
+	public RunningSimulation addNewRunningSimulation(String rs_name, String schema, Long _creator_id, String _creator_name) {
 
-		RunningSimulation rs = new RunningSimulation(rs_name, this, schema);
-
-		SimRunningSimAssignment srsa = new SimRunningSimAssignment(schema, this.id, rs.getId());
+		RunningSimulation rs = new RunningSimulation(rs_name, this, schema, _creator_id, _creator_name);
 
 		return rs;
 
@@ -535,7 +533,13 @@ public class Simulation {
 	}
 
 	public List<RunningSimulation> getRunning_sims(String schema) {
-		return SimRunningSimAssignment.getRunningSimulationsForSim(schema, this.id);
+		
+		if (this.id == null){
+			Logger.getRootLogger().warn("Simulation with null id called upon to return list of running sims.");
+			return new ArrayList<RunningSimulation>();
+		}
+		
+		return RunningSimulation.getAllForSim(this.id.toString(), schema);
 	}
 
 	public String getCreation_org() {

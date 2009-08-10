@@ -40,6 +40,17 @@ public class SimPhaseAssignment {
     /** Unique id of this phase. */
     @Column(name = "PHASE_ID")
     private Long phase_id;
+    
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return this.transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
 	
 	public SimPhaseAssignment(){
 		

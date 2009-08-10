@@ -16,16 +16,15 @@
 
 
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
+
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -36,65 +35,62 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Create User</h1>
-      <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" -->
-
-<p><font color="#FF0000"><%= pso.errorMsg %></font></p>
-<form action="create_user.jsp" method="post" name="form1" id="form1">
+              <h1>Create User</h1>
+              <br />
+			
+      <p><font color="#FF0000"><%= pso.errorMsg %></font></p>
+      <form action="create_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
-		  <tr>
+          <tr>
             <td>username/email<a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?)</a></td>
-            <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"  /></td>
-          </tr>
+              <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"  /></td>
+            </tr>
           <tr>
             <td>password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?)</a></td>
-            <td><input type="text" name="password" tabindex="2"  value="<%= userOnScratchPad.getBu_password() %>"/></td>
-          </tr>
-            <tr>
-    <td>Full Name:</td>
-    <td>
-          <input type="text" name="full_name" tabindex="3"  id="full_name" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
-  </tr>
-    <tr>
-    <td>First Name:</td>
-    <td>
-      <label>
-      <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
-      </label></td>
-  </tr>
-    <tr>
-    <td>Middle Name:</td>
-    <td>
-      <label>
-      <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
-      </label></td>
-  </tr>
-    <tr>
-    <td>Last Name:</td>
-    <td>
-      <label>
-      <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
-      </label></td>
-  </tr>
+              <td><input type="text" name="password" tabindex="2"  value="<%= userOnScratchPad.getBu_password() %>"/></td>
+            </tr>
+          <tr>
+            <td>Full Name:</td>
+      <td>
+        <input type="text" name="full_name" tabindex="3"  id="full_name" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
+    </tr>
+          <tr>
+            <td>First Name:</td>
+      <td>
+        <label>
+          <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
+          </label></td>
+    </tr>
+          <tr>
+            <td>Middle Name:</td>
+      <td>
+        <label>
+          <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
+          </label></td>
+    </tr>
+          <tr>
+            <td>Last Name:</td>
+      <td>
+        <label>
+          <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
+          </label></td>
+    </tr>
           <tr>
             <td>&nbsp;</td>
-            <td><input type="hidden" name="sending_page" value="create_users" />
-              <input type="submit" name="command" value="Save" tabindex="6" />
-              <%
+              <td><input type="hidden" name="sending_page" value="create_users" />
+                <input type="submit" name="command" value="Save" tabindex="6" />
+                <%
 			  	// Put in switch here to allow the ediiting of users
 			  %>
-              <label>
-              <input type="submit" name="command" value="Clear" />
-              </label></td>
-          </tr>
-        </table>
-</form>
-<p>&nbsp;</p>
+                <label>
+                  <input type="submit" name="command" value="Clear" />
+                  </label></td>
+            </tr>
+          </table>
+        </form>
+      <p>&nbsp;</p>
       <p>Below are listed alphabetically by username all of the current players 
-        listed for your organization.</p>
-<blockquote>
+        listed for your organization.</p>      <blockquote>
         <p>
           <%
 		  
@@ -102,19 +98,16 @@
 		
 		for (ListIterator uli = userList.listIterator(); uli.hasNext();) {
 			User bu = (User) uli.next();  %>
-		
+          
           <%= bu.getBu_username() %> <br />
           <% } %>
-        </p>
-        <p align="center"><a href="assign_user_to_simulation.jsp">Next 
-          Step: Assign User</a></p>
-        <p align="left"><a href="administrate_users.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
-</blockquote>
-<!-- InstanceEndEditable -->
-			</td>
+          </p>
+          <p align="center"><a href="assign_user_to_simulation.jsp">Next 
+            Step: Assign User</a></p>
+          <p align="left"><a href="bulk_invite.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
+        </blockquote>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -127,7 +120,7 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
 <%
 	pso.errorMsg = "";
 	

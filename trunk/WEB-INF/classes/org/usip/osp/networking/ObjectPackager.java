@@ -108,6 +108,7 @@ public class ObjectPackager {
 
 		returnString += packageActors(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packagePhases(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packagePhaseAssignments(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageInjects(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageBaseSimSectionInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageSimSectionAssignmentInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
@@ -314,6 +315,28 @@ public class ObjectPackager {
 			thisPhase.setId(null);
 
 			returnString += xstream.toXML(thisPhase) + lineTerminator;
+		}
+		return returnString;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param xstream
+	 * @return
+	 */
+	public static String packagePhaseAssignments(String schema, long sim_id, XStream xstream) {
+
+		String returnString = ""; //$NON-NLS-1$
+		List<SimPhaseAssignment> allPhases = SimPhaseAssignment.getPhasesAssignmentsForSim(schema, sim_id);
+		for (ListIterator<SimPhaseAssignment> li = allPhases.listIterator(); li.hasNext();) {
+			SimPhaseAssignment thisPhaseAssignment = li.next();
+
+			thisPhaseAssignment.setTransit_id(thisPhaseAssignment.getId());
+			thisPhaseAssignment.setId(null);
+
+			returnString += xstream.toXML(thisPhaseAssignment) + lineTerminator;
 		}
 		return returnString;
 	}

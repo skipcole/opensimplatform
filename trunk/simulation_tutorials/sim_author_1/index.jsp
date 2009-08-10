@@ -60,9 +60,9 @@ body {
     <li><a href="page10.jsp">Skipping over creating injects</a></li>
     <li><a href="page11.jsp">Skipping over creating documents</a></li>
     <li><a href="page12.jsp">Creating universal sections</a></li>
-    <li>Assigning specific sections</li>
-    <li>Entering in your starter 'After Action Report' text</li>
-    <li>Reviewing your simulation</li>
+    <li><a href="page13.jsp">Assigning specific sections</a></li>
+    <li><a href="page14.jsp">Write  starter 'After Action Report' text</a></li>
+    <li><a href="page15.jsp">Reviewing your simulation</a></li>
   </ol>
 
   <p>&nbsp;</p>
