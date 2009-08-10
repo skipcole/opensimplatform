@@ -21,7 +21,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->tutorialName<!-- InstanceEndEditable --></h1></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->All Tutorials<!-- InstanceEndEditable --></h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
@@ -37,7 +37,13 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->pageBody<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<BR />
+<h1>Help!</h1>
+<p>For now, just send an email to scole@usip.org. Actually you can even call me a 202-251-7057.</p>
+<p>After these tutorials have been out here for a week or so, we will change this first line of defense against frustrating problems to the User News Group, </p>
+<p>&nbsp;</p>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="sim_author_1/index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>

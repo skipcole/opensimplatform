@@ -29,21 +29,66 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../jquery-1.2.6.js"></script>
+<script  type="text/javascript">
+
+// Here is where we do the div show/hide magjic
+// I found lots of tutorials on how to do this online.
+// One really good one was at http://www.sohtanaka.com/web-design/easy-toggle-jquery-tutorial/
+// Of course wee need to work this to get it to look like the rest of the site.
+
+$(document).ready(function(){
+
+	//Hide (Collapse) the toggle containers on load
+	$(".toggle_container").hide(); 
+
+	//Switch the "Open" and "Close" state per click
+	$("h3.trigger").toggle(function(){
+		$(this).addClass("active");
+		}, function () {
+		$(this).removeClass("active");
+	});
+
+	//Slide up and down on click
+	$("h3.trigger").click(function(){
+		$(this).next(".toggle_container").slideToggle("slow");
+	});
+
+});
+</script>
+<style type="text/css">
+h3.trigger {
+	padding: 0 0 10 50px;
+	margin: 0 0 5px 0;
+	height: 28px;
+	line-height: 28px;
+	width: 450px;
+	font-size: 2em;
+	font-weight: normal;
+}
+h3.trigger a {
+
+	text-decoration: none;
+	display: block;
+}
+h3.trigger a:hover { color: #ccc; }
+
+.toggle_container {
+	margin: 0 0 5px;
+	padding: 0;
+	border-top: 1px solid #d6d6d6;
+	overflow: hidden;
+	font-size: 1.2em;
+	width: 500px;
+	clear: both;
+}
+.toggle_container .block {
+	padding: 20px;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <title>USIP Open Simulation Platform</title>
-<SCRIPT language=JavaScript1.2>
-
-function showHide(name){
-  if (document.all[name].style.display == "block") {
-   document.all[name].style.display = "none";
-  } else {
-   document.all[name].style.display = "block";
-  }
-  return true;
-}
-
-</SCRIPT>
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
@@ -134,28 +179,24 @@ function showHide(name){
 					
 			  %>
 		    
-		    
-		    <a href="javascript://" onClick="showHide('actor_desc_<%= act.getId() %>');"><%= act.getName() %> </a><br />
-		    
-		    <div id="actor_desc_<%= act.getId() %>"  style="display:none; padding:5px;">
-		      
-          <blockquote>
-            <strong>Public:</strong><br />
+<h3 class="trigger"><a href="#"><%= act.getName() %></a></h2>
+<div class="toggle_container">
+	<div class="block">
+		<blockquote>
+            <strong>Public Description:</strong><br />
 			<%=  pub_desc %><hr />
-			<strong>Semi-Public:</strong><br />
+			<strong>Semi-Public Description:</strong><br />
 			<%=  semi_desc %><hr />
-			<strong>Private:</strong><br />
+			<strong>Private Description:</strong><br />
 			<%= priv_desc %>
           </blockquote>
-          
-		      </div>
-            
-          <br />
-		    
+	</div>
+</div>    
 		    <% } // End of loop over Actors %>
 		    
-		    <br />
+		    <P><div>
 		    <% if (pso.isAuthor()) { %>(<a href="create_actors.jsp">create another actor </a>)(<a href="assign_actor_to_simulation.jsp">assign another actor </a>)<% } %>
+            </div></P>
 		    <hr />
 		    </blockquote>
           <h2>9. Simulation Special Features </h2>

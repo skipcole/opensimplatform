@@ -40,9 +40,17 @@ body {
 <!-- InstanceBeginEditable name="pageBody" -->
 <h1>Step 14. Write  starter 'After Action Report' text</h1>
 <blockquote>
-  <p>a.)</p>
+  <p>a.) Click on the HTML button (shown in the image below) to put the editor window into HTML Mode.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_auth_1_page14_aar.PNG" alt="AAR Edit Window" width="537" height="63" /></p>
+  </blockquote>
+  <p>b.) Download <a href="aar_starter_text.txt" target="_blank">this text file</a> with AAR starter text in it.</p>
+  <p>c.) Copy and paste the text above into the editor window and hit 'Save.'</p>
+  <blockquote>
+    <p>Tip: You don't ever really need to work with raw HTML. We included the HTML file above to make doing this tutorial a little faster. </p>
+  </blockquote>
+  <p>d..) Select the link 'Next Step: Review Simulation ' to move on to the final step.</p>
   <p>&nbsp;</p>
-  <p>b..) Select the link 'Next Step: Review Simulation ' to move on to the final step.</p>
 </blockquote>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">

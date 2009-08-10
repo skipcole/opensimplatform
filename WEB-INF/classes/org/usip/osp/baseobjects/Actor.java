@@ -141,15 +141,27 @@ public class Actor {
     	
     }
     
+    /**
+     * 
+     * @param schema
+     * @param _sim_id
+     * @return
+     */
     public static List <Actor> getControlActors(String schema, Long _sim_id){
     	
     	MultiSchemaHibernateUtil.beginTransaction(schema);
     	
     	List <Actor> returnList = 
     		MultiSchemaHibernateUtil.getSession(schema).createQuery(
-    				"from Actor where sim_id = " + _sim_id + " and control_actor = true").list(); //$NON-NLS-1$
+    				"from Actor where sim_id = " + _sim_id + " and control_actor = '1'").list(); //$NON-NLS-1$
     	
     	MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+    	
+    	if (returnList == null){
+    		System.out.println("Found no control actors");
+    	} else {
+    		System.out.println("num control actors: " + returnList.size());
+    	}
     	
     	return returnList;
     	

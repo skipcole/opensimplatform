@@ -1,0 +1,355 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+
+
+
+<script type="text/javascript" src="../jquery-1.2.6.js"></script>
+<script type="text/javascript">
+
+// Here is where we do the div show/hide magjic
+// I found lots of tutorials on how to do this online.
+// One really good one was at http://www.sohtanaka.com/web-design/easy-toggle-jquery-tutorial/
+// Of course wee need to work this to get it to look like the rest of the site.
+
+$(document).ready(function(){
+
+	//Hide (Collapse) the toggle containers on load
+	$(".toggle_container").hide(); 
+
+	//Switch the "Open" and "Close" state per click
+	$("h3.trigger").toggle(function(){
+		$(this).addClass("active");
+		}, function () {
+		$(this).removeClass("active");
+	});
+
+	//Slide up and down on click
+	$("h3.trigger").click(function(){
+		$(this).next(".toggle_container").slideToggle("slow");
+	});
+
+});
+</script>
+<style type="text/css">
+h3.trigger {
+	padding: 0 0 0 50px;
+	margin: 0 0 5px 0;
+	height: 28px;
+	line-height: 28px;
+	width: 450px;
+	font-size: 2em;
+	font-weight: normal;
+	float: left;
+}
+h3.trigger a {
+
+	text-decoration: none;
+	display: block;
+}
+h3.trigger a:hover { color: #ccc; }
+
+.toggle_container {
+	margin: 0 0 5px;
+	padding: 0;
+	border-top: 1px solid #d6d6d6;
+	background: #f0f0f0 url(toggle_block_stretch.gif) repeat-y left top;
+	overflow: hidden;
+	font-size: 1.2em;
+	width: 500px;
+	clear: both;
+}
+.toggle_container .block {
+	padding: 20px;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>USIP Open Simulation Platform</title>
+
+
+<link href="../usip_osp.css" rel="stylesheet" type="text/css">
+</head><body onload="">
+<table align="left" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td>
+<table align="left" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr> 
+    <td>
+		<table bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
+		<tbody><tr>
+			<td width="120"><img src="../Templates/images/white_block_120.png"></td>
+			<td width="100%"><br>
+			  <h1>Review Simulation</h1>
+			  <br>
+			
+	        <blockquote>
+	          
+	          <p>Below is the review for the simulation <strong>Buying Oranges version SC</strong>.<br>
+	            (If you would like to look at a different simulation, <a href="file:///C:/Users/scole/Documents/select_simulation.jsp">click 
+	              here</a>.)</p>
+            </blockquote>
+	        <blockquote>
+	          <h2>1. Simulation Name: </h2>
+			  <blockquote>
+			    <p>Buying Oranges version SC</p>
+			    <p>(<a href="file:///C:/Users/scole/Documents/create_simulation.jsp">edit</a>)</p>
+			  </blockquote>
+			  <blockquote><hr></blockquote>
+		  <h2>2. Simulation Learning Objectives</h2>
+			  <blockquote>
+			    <p>To teach the difference between positions and interests.<br></p>
+			    <p>(<a href="file:///C:/Users/scole/Documents/create_simulation_objectives.jsp">edit</a>)</p>
+			  </blockquote>
+			  <blockquote><hr></blockquote>
+		  <h2>3. Simulation Audience</h2>
+			  <blockquote>
+			    <p>Anyone new to negotiation.<br></p>
+			    <p>(<a href="file:///C:/Users/scole/Documents/create_simulation_audience.jsp">edit</a>)</p>
+			  </blockquote>
+			  <blockquote><hr></blockquote>
+		  
+		<h2>4. Simulation Introduction</h2>
+			  <blockquote>
+			    <p><font size="4"><span style="font-family: Verdana;">Welcome To This Simulation!</span></font><br><br></p><div style="margin-left: 40px;">Please read the information regarding your character in the 'Cast' tab,<br>then proceed to the 'Market' tab.<br></div><br><font size="4"><span style="font-family: Verdana;">Enjoy!</span></font><br>
+			    <p>(<a href="file:///C:/Users/scole/Documents/create_simulation_introduction.jsp">edit</a>)</p>
+			  </blockquote>
+			  <blockquote><hr></blockquote>
+			  
+		<h2>5. Simulation Planned Play Ideas </h2>
+			  <blockquote>
+			    <p>All three participants (2 negotiators and 1 facilitator) log in to the <br>system simultaneously for one 10 to 15 minute simulation.<br></p>
+			    <p>(<a href="file:///C:/Users/scole/Documents/create_simulation_planned_play_ideas.jsp">edit</a>)</p>
+			  </blockquote>
+			  <blockquote><hr></blockquote>
+		  
+		<h2>6. Simulation Phases </h2>
+			  <blockquote>
+			    <p>
+			      
+			      
+			      
+			      Started<br>
+			      
+			      
+			      Completed<br>
+			      
+			      </p>
+			    <p>(<a href="file:///C:/Users/scole/Documents/create_simulation_phases.jsp">edit</a>)</p>
+			  </blockquote>
+			  <blockquote><hr></blockquote>
+		  
+		
+		  <h2>7. &amp; 8. Simulation Actors </h2>
+		  <blockquote>
+		    
+		    
+		    
+<h3 class="trigger"><a href="#">Orange Salesman</a></h3>
+<div class="toggle_container">
+	<div class="block">
+		<h3>Content Header</h3>
+		<blockquote>
+            <strong>Public:</strong><br>
+She has 6 oranges for sale and will take $1 per orange. She does not
+want to make any enemies, so when multiple bids come in she will ask
+the potential buyers to work it out amongst themselves who should get
+the oranges.<br><hr>
+			<strong>Semi-Public:</strong><br>
+			<br><hr>
+			<strong>Private:</strong><br>
+You are the simulation facilitator. You should try to guide (but not
+push) your students into figuring out that they can both get there
+needs met completely. One of them needs the orange peels for marmalade,
+the other needs the flesh of the oranges to make fruit.<br>
+          </blockquote>
+	</div>
+</div>
+		      
+          <br>
+		    
+		    
+		    
+<h3 class="trigger"><a href="#">Player A</a></h3>
+<div class="toggle_container">
+	<div class="block">
+		<h3>Content Header</h3>
+		<blockquote>
+            <strong>Public:</strong><br>
+			Would like to buy 6 oranges.<hr>
+			<strong>Semi-Public:</strong><br>
+			You want the oranges to make marmalade. You need the peels from exactly 6 oranges to complete your recipe.<br><hr>
+			<strong>Private:</strong><br>
+			You have 15 Dollars.
+          </blockquote>
+	</div>
+</div>
+		      
+          <br>
+		    
+		    
+		    
+<h3 class="trigger"><a href="#">Player B</a></h3>
+<div class="toggle_container">
+	<div class="block">
+		<h3>Content Header</h3>
+		<blockquote>
+            <strong>Public:</strong><br>
+			Would like to buy 6 oranges.<hr>
+			<strong>Semi-Public:</strong><br>
+			You want the oranges to make orange juice with. You need the fruit of exactly 6 oranges to complete your recipe.<br><hr>
+			<strong>Private:</strong><br>
+			You have 15 Dollars.
+          </blockquote>
+	</div>
+</div>
+		      
+          <br>
+		    
+		    
+		    
+		    <p>
+		    (<a href="file:///C:/Users/scole/Documents/create_actors.jsp">create another actor </a>)(<a href="file:///C:/Users/scole/Documents/assign_actor_to_simulation.jsp">assign another actor </a>)
+            </p>
+		    <hr>
+		    </blockquote>
+          <h2>9. Simulation Special Features </h2>
+		      <blockquote>
+		        <p>&nbsp;</p>
+		        <p>(<a href="file:///C:/Users/scole/Documents/incorporate_underlying_model.jsp">edit</a>)</p>
+		        <hr>
+		        </blockquote>
+		      <h2>10. Simulation Default Sections (for each phase) </h2>
+		      <blockquote>
+		        <c:out value="${rowEnd}">
+		          
+		          </c:out><table align="center" width="80%">
+		          
+		          
+		          <tbody><tr valign="top">
+		            
+		            <td width="30%">
+		              
+		              <table>
+		                <tbody><tr valign="top"><td bgcolor="#44aaff" valign="top"> Started</td></tr>
+		                
+		                
+		                <tr valign="top"><td width="200">&nbsp;&nbsp;Introduction </td></tr>
+		                
+		                
+		                <tr valign="top"><td width="200">&nbsp;&nbsp;Schedule </td></tr>
+		                
+		                
+		                <tr valign="top"><td width="200">&nbsp;&nbsp;Cast </td></tr>
+		                
+		                
+		                </tbody></table>				</td>
+				  
+			
+		          
+		          
+		          
+		          
+		            <td width="30%">
+		              
+		              <table>
+		                <tbody><tr valign="top"><td bgcolor="#44aaff" valign="top"> Completed</td></tr>
+		                
+		                
+		                </tbody></table>				</td>
+				  
+			
+		          
+		          
+		          
+		           
+		          </tr></tbody></table>
+		  
+		      <p>(<a href="file:///C:/Users/scole/Documents/set_specific_sim_sections.jsp?actor_index=0">edit</a>)</p>
+		        <hr>
+		        </blockquote>
+		      <h2>11. Simulation Specific Sections </h2>
+		      <blockquote>
+		        <p>
+		          
+		        
+		        
+		        
+		        
+		        
+		        
+		          <a href="javascript://" onclick="showHide('custom_sim_desc_24')">Schedule</a><br>
+		          </p><div id="custom_sim_desc_24" style="padding: 5px; display: none;">
+		            <blockquote>
+		              		              </blockquote>
+                      </div>
+                      
+		        
+		        
+		          <a href="javascript://" onclick="showHide('custom_sim_desc_25')">Cast</a><br>
+		          <div id="custom_sim_desc_25" style="padding: 5px; display: none;">
+		            <blockquote>
+		              Below are listed alphabetically all of the current Actors that you can see.		              </blockquote>
+                      </div>
+                      
+		        
+		        
+		          <a href="javascript://" onclick="showHide('custom_sim_desc_26')">Meeting Room</a><br>
+		          <div id="custom_sim_desc_26" style="padding: 5px; display: none;">
+		            <blockquote>
+		              In this room you may communicate with the actors listed.		              </blockquote>
+                      </div>
+                      
+		        
+		        
+		        
+		        <p>(<a href="file:///C:/Users/scole/Documents/create_simulation_objectives.jsp">edit</a>)</p>
+		        <hr>
+		        </blockquote>
+		      <h2>12. Simulation 'After Action Report' Starter Text </h2>
+		      <blockquote>
+		        <p>This
+simulation has been set up such that both players, if they take the
+time to discuss what their true interests are, can get everything they
+desire. <br><br>Depending on the outcome of this simulation, you may want to say one of the following things.<br><br>Case 1.) If one person buys all 6 oranges.<br><br></p><div style="margin-left: 40px;"><span style="font-weight: bold;">Congratulations Player A(B). Sad news Player (B)A. </span><br><br> One of you has won, and one of you has lost. What will this do to your long term relationship?<br>
+There was a better way to resolve this negotiation. Player A just
+wanted the orange peels, and Player B the fruit. You could have
+purchased all of the oranges and then divided them out that way so you
+each would have gotten everything you needed.<br><br>Win-win outcomes like this are not always possible, but it generally a good thing to look for if time and circumstance permit.<br></div><br><br>Case 2.) If both players by 3 oranges.<br><div style="margin-left: 40px;"><br><span style="font-weight: bold;">Semi-congratulations</span><br>You
+have sacrificed your short term needs for the long-term health of your
+relationship together. This is not the worst thing that could happen.
+But, there was a better way to resolve this negotiation. Player A just
+wanted the orange peels, and Player B the fruit. You could have
+purchased all of the oranges and then divided them out that way so you
+each would have gotten everything you needed.<br>Win-win outcomes like this are not always possible, but it generally a good thing to look for if time and circumstance permit.<br></div><br><br>Case
+3.) If both players buy the oranges and divide them by giving the peels
+to the player who needs them for marmalade, and the fruit to the player
+who needs them for orange juice.<br> <br><div style="margin-left: 40px;"><span style="font-weight: bold;">Congratulations!</span> You have found a way, but getting past your positions and to your true interests, to satisfy both parties needs. <br><br>Win-win outcomes like this are not always possible, but it generally a good thing to look for if time and circumstance permit.<br></div> <br>
+		        <p>(<a href="file:///C:/Users/scole/Documents/create_aar_starter_text.jsp">edit</a>)</p>
+		        <hr>
+		        </blockquote>
+		      <p>&nbsp;</p>
+		      <blockquote>
+		        
+		        <p align="center"><a href="file:///C:/Users/scole/simulation_facilitation/facilitateweb.jsp" target="_top">On 
+		          To Play Test the Simulation</a></p>
+            <p align="center"><a href="file:///C:/Users/scole/Documents/publish_sim.jsp">On To Publish the Simulation</a></p>
+		    
+		        </blockquote>
+	          </blockquote>
+	        
+            
+            <a href="file:///C:/Users/scole/Documents/create_aar_starter_text.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"></a>
+            			</td>
+		</tr>
+		</tbody></table>	</td>
+  </tr>
+  <tr> 
+    <td>
+    <p align="center">The <a href="http://www.usip.org/">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
+  </tr>
+</tbody></table>
+</td></tr></tbody></table>
+
+<p>&nbsp;</p>
+
+<p align="center">&nbsp;</p>
+</body></html>

@@ -65,14 +65,16 @@
 	  <form action="create_aar_starter_text.jsp" method="post" name="form2" id="form2">
 	    <blockquote>
 	      <p>
-	        <textarea id="sim_aar" name="sim_aar" style="height: 710px; width: 710px;"><%= simulation.getAar_starter_text() %></textarea>
+	        <textarea id="sim_aar" name="sim_aar" style="height: 240px; width: 710px;"><%= simulation.getAar_starter_text() %></textarea>
 	        <script language="javascript1.2">
+				wysiwygWidth = 710;
+				wysiwygHeight = 240;
   			generate_wysiwyg('sim_aar');
 		</script>
 	        </p>
             <p> 
               <input type="hidden" name="sending_page" value="create_sim_aar" />
-              <input type="submit" name="enter_intro" value="Submit" />
+              <input type="submit" name="enter_intro" value="Save" />
               </p>
           </blockquote>
       </form>
