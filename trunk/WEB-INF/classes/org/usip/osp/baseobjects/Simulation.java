@@ -381,7 +381,7 @@ public class Simulation {
 			// Loop over all of the control actors in this simulation
 			List control_actors = Actor.getControlActors(schema, this.getId());
 
-			for (ListIterator<Actor> liac = control_actors.listIterator(); li.hasNext();) {
+			for (ListIterator<Actor> liac = control_actors.listIterator(); liac.hasNext();) {
 				Actor this_control_act = liac.next();
 
 				List<SimulationSectionAssignment> simSecs = SimulationSectionAssignment.getBySimAndActorAndPhase(

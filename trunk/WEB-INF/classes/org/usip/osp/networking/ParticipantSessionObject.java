@@ -1789,7 +1789,20 @@ public class ParticipantSessionObject {
 				String control_actor = (String) mpr.getParameter("control_actor");
 
 				if ((control_actor != null) && (control_actor.equalsIgnoreCase("true"))) {
+					
 					actorOnScratchPad.setControl_actor(true);
+					if (this.sim_id != null){
+						
+						MultiSchemaHibernateUtil.beginTransaction(schema);
+						System.out.println("actors id is" + actorOnScratchPad.getId());
+						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(actorOnScratchPad);
+						MultiSchemaHibernateUtil.getSession(schema).flush();
+						MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+						
+						Simulation sim = Simulation.getMe(schema, this.sim_id);
+						sim.addControlSectionsToAllPhasesOfControl(this.schema, actorOnScratchPad);
+					}
+					
 				} else {
 					actorOnScratchPad.setControl_actor(false);
 				}
