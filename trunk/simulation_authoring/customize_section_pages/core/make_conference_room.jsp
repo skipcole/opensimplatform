@@ -53,8 +53,7 @@
 	  <form action="make_conference_room.jsp" method="post" name="form2" id="form2">
 	    <blockquote><strong>Tab Heading</strong>: 
 	      <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
-	      <p>Select the Actors to be included in this meeting room. <br />
-	        If desired, assign them a designated role (such as participant, visitor, etc.) </p>
+	      <p>Select the Actors to be included in this meeting room, and if desired, assign them a designated role <a href="actors_chat_role_help.jsp" target="helpinright">(?)</a>. </p>
           <p><%
 				
 			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
@@ -71,7 +70,9 @@
 				
 			%>
             <label><input type="checkbox" name="actor_cb_<%= act.getId().toString() %>" value="true" <%= checked %> /> 
-              <%= act.getName() %></label> 
+              <%= act.getName() %></label>
+            , 
+            <strong>role</strong> (<em>optional</em>):
             <label>
               <input type="text" name="role_<%= act.getId().toString() %>" value="<%= role %>" />
               </label>
