@@ -5,13 +5,13 @@
 	errorPage="" %>
 <% 
 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleCustomizeSection(request);
+	CustomizeableSection cs = afso.handleCustomizeSection(request);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
@@ -50,7 +50,7 @@
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %>
         <blockquote>Tab Heading: 
-          <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
+          <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
           <p>
             <textarea id="text_page_text" name="text_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
             
@@ -59,8 +59,8 @@
 		</script>
             </p>
             <p> 
-              <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
-              <input type="hidden" name="universal" value="<%= pso.getMyPSO_SectionMgmt().get_universal() %>">
+              <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+              <input type="hidden" name="universal" value="<%= afso.getMyPSO_SectionMgmt().get_universal() %>">
               <input type="hidden" name="sending_page" value="make_text_page" />
               <input type="hidden" name="save_results" value="true" />
               <input type="submit" name="save_page" value="Save" />
@@ -68,7 +68,7 @@
               </p>
             <p>&nbsp;</p>
           </blockquote>
-      </form>      <a href="<%= pso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+      </form>      <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

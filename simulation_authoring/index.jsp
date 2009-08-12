@@ -1,19 +1,19 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" errorPage="../error.jsp" %>
 <%
 				
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	String prevErrorMsg = pso.errorMsg;
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	String prevErrorMsg = afso.errorMsg;
 	
 	String attempting_login = (String) request.getParameter("attempting_login");
 	
 	if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))){
 		session.setAttribute("pso", null);
-		pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-		response.sendRedirect(pso.validateLoginToOSP(request, pso.AUTHOR_LOGIN));
+		afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+		response.sendRedirect(afso.validateLoginToOSP(request, afso.AUTHOR_LOGIN));
 		return;
 	} // End of if login in.
 	
-	pso.errorMsg = prevErrorMsg;
+	afso.errorMsg = prevErrorMsg;
 	
 %>
 <html>
@@ -54,7 +54,7 @@
             <td> <input type="submit" name="Submit" value="Submit"> </td>
           </tr>
           <tr> 
-            <td colspan="2"><font color="#FF0000"><%= pso.errorMsg %></font></td>
+            <td colspan="2"><font color="#FF0000"><%= afso.errorMsg %></font></td>
           </tr>
         </table>
       </form>
@@ -79,5 +79,5 @@
 </body>
 </html>
 <%
-	pso.errorMsg = "";
+	afso.errorMsg = "";
 %>

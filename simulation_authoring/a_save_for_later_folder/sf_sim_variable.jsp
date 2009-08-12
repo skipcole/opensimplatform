@@ -4,10 +4,10 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
-		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+	if ((afso.simulation.id == null) || (afso.simulation.id.equalsIgnoreCase(""))){
+		afso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
 		response.sendRedirect("add_special_features.jsp");
 		return;
 	}
@@ -24,7 +24,7 @@
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_sim_var"))){
 	
-		sv.sim_id = pso.simulation.id;
+		sv.sim_id = afso.simulation.id;
 		sv.name = (String) request.getParameter("var_name");
 		sv.setVarType((String) request.getParameter("var_type"));
 		sv.propagation_type = (String) request.getParameter("prop_type");
@@ -73,7 +73,7 @@
 	}
 	///////////////////////////////////////
 
-	Vector simVars = new SimulationVariable().getSetForASimulation(pso.simulation.id);
+	Vector simVars = new SimulationVariable().getSetForASimulation(afso.simulation.id);
 	
 	
 %>
@@ -103,7 +103,7 @@
       can be changed either directly or indirectly due to the players actions. </p>
     <p>Some examples of simulation variables could be the GDP of a country, or the 
       number of rats in a city.</p>
-    <p>Current simulation variables for the Simulation <%= pso.simulation.name %>:</p>
+    <p>Current simulation variables for the Simulation <%= afso.simulation.name %>:</p>
     <ul>
   <% if (simVars.size() == 0) { %>
       <li>None</li>

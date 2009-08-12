@@ -5,22 +5,22 @@
 	org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 
 	String cs_id = (String)  request.getParameter("cs_id");
 	
-	SharedDocument sd = BaseSimSectionDepObjectAssignment.getSharedDocumentForSection(pso.schema, cs_id);
+	SharedDocument sd = BaseSimSectionDepObjectAssignment.getSharedDocumentForSection(afso.schema, cs_id);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
 	Simulation sim = new Simulation();
 	
-	if (pso.sim_id != null){
-		sim = pso.giveMeSim();
+	if (afso.sim_id != null){
+		sim = afso.giveMeSim();
 	}
 	
 	///////////////////////////////////////////////////
@@ -41,14 +41,14 @@
 			Long from_actor_id = null;
 			Long from_phase_id = null;
 			
-			SharedDocActorNotificAssignObj sdanao_new = new SharedDocActorNotificAssignObj(pso.schema, pso.sim_id, sd.getId(), new Long(actor_id), 
+			SharedDocActorNotificAssignObj sdanao_new = new SharedDocActorNotificAssignObj(afso.schema, afso.sim_id, sd.getId(), new Long(actor_id), 
 			from_actor_id, from_phase_id, sdanao_text);
 		} else if (sdanao.startsWith("remove_")){
 			
 			sdanao = sdanao.replaceAll("remove_", "");
 			
 			System.out.println("removing " + sdanao);
-			SharedDocActorNotificAssignObj.removeSdanao(pso.schema, sdanao);
+			SharedDocActorNotificAssignObj.removeSdanao(afso.schema, sdanao);
 
 		}
 	}
@@ -88,13 +88,13 @@
                       <blockquote>
                       <table width="80%" border="0" cellspacing="0">
                 <%
-                      for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
+                      for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
 						Actor act = (Actor) la.next();
 						
 						// Get the SDANAO object for this actor and this document
 						
 						SharedDocActorNotificAssignObj sdanao = 
-							SharedDocActorNotificAssignObj.getAssignmentForDocumentAndActor(pso.schema, sd.getId(), act.getId());
+							SharedDocActorNotificAssignObj.getAssignmentForDocumentAndActor(afso.schema, sd.getId(), act.getId());
 						
 						String noneSelected = "";
 						String hasSdanao = "";
@@ -137,7 +137,7 @@ Text::
                     <p>&nbsp;</p>
                     </blockquote>
                   
-                  <a href="<%= pso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a> </td>
+                  <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a> </td>
               </tr>
             </table></td>
         </tr>

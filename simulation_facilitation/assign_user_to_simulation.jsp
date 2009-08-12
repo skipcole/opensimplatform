@@ -4,27 +4,27 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	pso.backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
+	afso.backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
 	
-	pso.handleAssignUser(request);
+	afso.handleAssignUser(request);
 	
 	////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	/////////////////////////////////////////////////////
 	RunningSimulation running_simulation = new RunningSimulation();
-	if (pso.running_sim_id != null){
-		running_simulation = pso.giveMeRunningSim();
+	if (afso.running_sim_id != null){
+		running_simulation = afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
 	
@@ -53,7 +53,7 @@
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
       <% 
-			if (pso.sim_id == null) {
+			if (afso.sim_id == null) {
 		%>
       <p>You must first select the simulation for which you will be adding users.<br />
         Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or 
@@ -63,7 +63,7 @@
         To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click 
         here</a>. 
         <%
-			if (pso.running_sim_id == null) {
+			if (afso.running_sim_id == null) {
 		%>
       <p>You must select the running simulation for which you will be assigning 
         users.<br />
@@ -84,9 +84,9 @@
           <td ><strong>Assign User</strong></td>
         </tr>
         <%
-			for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
+			for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
-				User user_assigned = UserAssignment.getUserAssigned(pso.schema, running_simulation.getId(), act.getId());
+				User user_assigned = UserAssignment.getUserAssigned(afso.schema, running_simulation.getId(), act.getId());
 				
 				UserAssignment ua = new UserAssignment();
 				
@@ -94,7 +94,7 @@
 					user_assigned = new User();
 					user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
 					
-					ua = UserAssignment.getUserAssignment (pso.schema, pso.running_sim_id, act.getId());
+					ua = UserAssignment.getUserAssignment (afso.schema, afso.running_sim_id, act.getId());
 				}
 
 					%>
@@ -111,7 +111,7 @@
             <td> <select name="user_to_add_to_simulation">
                 <% // loop over something potential users for this actor roll.
 					
-					for (ListIterator lusers = User.getAll(pso.schema, true).listIterator(); lusers.hasNext();) {
+					for (ListIterator lusers = User.getAll(afso.schema, true).listIterator(); lusers.hasNext();) {
 					User user = (User) lusers.next();
 
 				  %>
@@ -132,10 +132,10 @@
 			// End of loop over results set of Actors
 		%>
       </table>
-      <% } // end of if pso.running_sim.id has been set. 
+      <% } // end of if afso.running_sim.id has been set. 
 		%>
       <%	
-	}// end of if pso.simulation.id has been set.
+	}// end of if afso.simulation.id has been set.
 %></blockquote>
       <p>&nbsp;</p>
       <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>

@@ -4,10 +4,10 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
-		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+	if ((afso.simulation.id == null) || (afso.simulation.id.equalsIgnoreCase(""))){
+		afso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
 		response.sendRedirect("add_special_features.jsp");
 		return;
 	}
@@ -22,7 +22,7 @@
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_player_control"))){
 	
-		pctb.sim_id = pso.simulation.id;
+		pctb.sim_id = afso.simulation.id;
 		pctb.name = (String) request.getParameter("pc_name_bt");
 		pctb.title = (String) request.getParameter("pc_title");
 		pctb.description = (String) request.getParameter("pc_desc_bt");
@@ -57,9 +57,9 @@
 	}
 	///////////////////////////////////////
 
-	Vector simVars = new BooleanVariable().getSetForASimulation(pso.simulation.id);
+	Vector simVars = new BooleanVariable().getSetForASimulation(afso.simulation.id);
 	
-	Vector simPCs = new PlayerControlToggleBoolean().getSetForASimulation(pso.simulation.id);
+	Vector simPCs = new PlayerControlToggleBoolean().getSetForASimulation(afso.simulation.id);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -85,7 +85,7 @@
               <br />
       <%= Debug.getDebug(debug) %>
       <blockquote>
-        <p>Current toggle boolean controls for the Simulation <%= pso.simulation.name %>:</p>
+        <p>Current toggle boolean controls for the Simulation <%= afso.simulation.name %>:</p>
           <blockquote>
             <p>
               <% if (simPCs.size() == 0) { %>

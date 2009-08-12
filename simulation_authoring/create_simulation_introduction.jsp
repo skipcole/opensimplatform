@@ -4,18 +4,18 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "create_simulation_introduction.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "create_simulation_introduction.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 	// Determine if setting sim to edit.
@@ -27,7 +27,7 @@
 	if ( (sending_page != null) && (enter_intro != null) && (sending_page.equalsIgnoreCase("create_sim_intro"))){
 		
 		simulation.setIntroduction(sim_intro);
-		simulation.saveMe(pso.schema);
+		simulation.saveMe(afso.schema);
 
 	}
 	
@@ -61,7 +61,7 @@
               <h1>Enter Simulation Introduction</h1>
               <br />
     <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
 	  <p>Enter the introduction for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
 	    (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 

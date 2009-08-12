@@ -4,27 +4,27 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,com.oreilly.servlet.*" 
 	errorPage="../error.jsp" %>
 <%
-		ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-		pso.backPage = "../simulation_authoring/create_actors.jsp";
+		AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+		afso.backPage = "../simulation_authoring/create_actors.jsp";
 		
-		if (!(pso.isLoggedin())) {
+		if (!(afso.isLoggedin())) {
 			response.sendRedirect("index.jsp");
 			return;
 		}
 		
 		///////////////////////////////////////////////////////////////////
 		Simulation simulation = new Simulation();
-		if (pso.sim_id != null) {
-			simulation = pso.giveMeSim();
+		if (afso.sim_id != null) {
+			simulation = afso.giveMeSim();
 		}
 
-		pso.handleCreateActor(request);
+		afso.handleCreateActor(request);
 		
 		Actor actorOnScratchPad = new Actor();
-		if (pso.actor_id != null) {
-			actorOnScratchPad = pso.giveMeActor();
+		if (afso.actor_id != null) {
+			actorOnScratchPad = afso.giveMeActor();
 					
-			// TODO remove code below. it shouldn't happen. pso.actor_id is getting bad old data somehow		
+			// TODO remove code below. it shouldn't happen. afso.actor_id is getting bad old data somehow		
 			if (actorOnScratchPad == null){
 				actorOnScratchPad = new Actor();
 			}		
@@ -33,7 +33,7 @@
 		boolean inEditMode = false;
 		
 		// ////////////////////////////////////////////////////////////////////////////
-		List actorL = Actor.getAll(pso.schema);
+		List actorL = Actor.getAll(afso.schema);
 		// ///////////////////////////////////////////////////////////////////////
 
 %>
@@ -61,7 +61,7 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 
 <% 
-			if (pso.sim_id != null) {    
+			if (afso.sim_id != null) {    
 %>
           
 
@@ -76,12 +76,12 @@
               <br />
     <form enctype="multipart/form-data" action="create_actors.jsp" method="post">
     
-    <input type="hidden" name="sim_id" value="<%= pso.sim_id %>" />
+    <input type="hidden" name="sim_id" value="<%= afso.sim_id %>" />
     
       <p>
         <input type="hidden" name="sending_page" value="create_actors" />
-        <span class="style1"><%= pso.errorMsg %></span>
-        <% pso.errorMsg = ""; %>
+        <span class="style1"><%= afso.errorMsg %></span>
+        <% afso.errorMsg = ""; %>
         </p>
           <table width="50%" border="0" cellspacing="2" cellpadding="2">
             <tr>
@@ -156,7 +156,7 @@
               <td valign="top">&nbsp;</td>
               <td valign="top" bgcolor="#FFFFCC">Actor's Role in Sim(?)</td>
               <td valign="top" bgcolor="#FFFFCC">
-                <textarea name="actors_role" id="actors_role"  style="height: 120px; width: 480px;" ><% if ((actorOnScratchPad.getId() != null) && (simulation.getId() != null) ) { %><%= actorOnScratchPad.getRole(pso.schema, simulation.getId()) %><% } %>
+                <textarea name="actors_role" id="actors_role"  style="height: 120px; width: 480px;" ><% if ((actorOnScratchPad.getId() != null) && (simulation.getId() != null) ) { %><%= actorOnScratchPad.getRole(afso.schema, simulation.getId()) %><% } %>
               </textarea>            </td>
             </tr>
             <tr>
@@ -183,10 +183,10 @@
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>
               <td valign="top">
-  <input type="hidden" name="actorid" value="<%= pso.actor_id %>" /> 
+  <input type="hidden" name="actorid" value="<%= afso.actor_id %>" /> 
                 
                 <%
-				if (pso.actor_id == null) {
+				if (afso.actor_id == null) {
 				%>
                 <input type="submit" name="create_actor" value="Create Actor" />
                 <%

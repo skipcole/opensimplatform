@@ -4,24 +4,24 @@
 	import="java.sql.*,java.util.*,java.io.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	pso.backPage = "review_sim.jsp";
+	afso.backPage = "review_sim.jsp";
 	
 	String loadSim = (String) request.getParameter("loadSim");
 	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))) {
-		pso.sim_id = new Long((String) request.getParameter("sim_id"));
+		afso.sim_id = new Long((String) request.getParameter("sim_id"));
 	}
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 
@@ -107,7 +107,7 @@ h3.trigger a:hover { color: #ccc; }
 			
 	        <blockquote>
 	          <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
 	          <p>Below is the review for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
 	            (If you would like to look at a different simulation, <a href="select_simulation.jsp">click 
@@ -117,33 +117,33 @@ h3.trigger a:hover { color: #ccc; }
 	          <h2>1. Simulation Name: </h2>
 			  <blockquote>
 			    <p><%= simulation.getDisplayName() %></p>
-			    <p><% if (pso.isAuthor()) { %>(<a href="create_simulation.jsp">edit</a>)<% } %></p>
+			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  <h2>2. Simulation Learning Objectives</h2>
 			  <blockquote>
 			    <p><%= simulation.getLearning_objvs() %></p>
-			    <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
+			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  <h2>3. Simulation Audience</h2>
 			  <blockquote>
 			    <p><%= simulation.getAudience() %></p>
-			    <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_audience.jsp">edit</a>)<% } %></p>
+			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_audience.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  
 		<h2>4. Simulation Introduction</h2>
 			  <blockquote>
 			    <p><%= simulation.getIntroduction() %></p>
-			    <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_introduction.jsp">edit</a>)<% } %></p>
+			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_introduction.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 			  
 		<h2>5. Simulation Planned Play Ideas </h2>
 			  <blockquote>
 			    <p><%= simulation.getPlanned_play_ideas() %></p>
-			    <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_planned_play_ideas.jsp">edit</a>)<% } %></p>
+			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_planned_play_ideas.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  
@@ -152,7 +152,7 @@ h3.trigger a:hover { color: #ccc; }
 			    <p>
 			      
 			      <%
-		for (ListIterator li = simulation.getPhases(pso.schema).listIterator(); li.hasNext();) {
+		for (ListIterator li = simulation.getPhases(afso.schema).listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 			
 		%>
@@ -162,7 +162,7 @@ h3.trigger a:hover { color: #ccc; }
 	}
 %>
 			      </p>
-			    <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_phases.jsp">edit</a>)<% } %></p>
+			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_phases.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  
@@ -170,7 +170,7 @@ h3.trigger a:hover { color: #ccc; }
 		  <h2>7. &amp; 8. Simulation Actors </h2>
 		  <blockquote>
 		    
-		    <% for (ListIterator la = simulation.getActors(pso.schema).listIterator(); la.hasNext();) {
+		    <% for (ListIterator la = simulation.getActors(afso.schema).listIterator(); la.hasNext();) {
 					Actor act = (Actor) la.next();
 					
 					String pub_desc = act.getPublic_description();
@@ -195,14 +195,14 @@ h3.trigger a:hover { color: #ccc; }
 		    <% } // End of loop over Actors %>
 		    
 		    <P><div>
-		    <% if (pso.isAuthor()) { %>(<a href="create_actors.jsp">create another actor </a>)(<a href="assign_actor_to_simulation.jsp">assign another actor </a>)<% } %>
+		    <% if (afso.isAuthor()) { %>(<a href="create_actors.jsp">create another actor </a>)(<a href="assign_actor_to_simulation.jsp">assign another actor </a>)<% } %>
             </div></P>
 		    <hr />
 		    </blockquote>
           <h2>9. Simulation Special Features </h2>
 		      <blockquote>
 		        <p>&nbsp;</p>
-		        <p><% if (pso.isAuthor()) { %>(<a href="incorporate_underlying_model.jsp">edit</a>)<% } %></p>
+		        <p><% if (afso.isAuthor()) { %>(<a href="incorporate_underlying_model.jsp">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
 		      <h2>10. Simulation Default Sections (for each phase) </h2>
@@ -210,7 +210,7 @@ h3.trigger a:hover { color: #ccc; }
 		        <table width="80%" align="center">
 		          <%  int iIndex = 0;
 	   
-	   		for (ListIterator li = simulation.getPhases(pso.schema).listIterator(); li.hasNext();) {
+	   		for (ListIterator li = simulation.getPhases(afso.schema).listIterator(); li.hasNext();) {
 				SimulationPhase sp = (SimulationPhase) li.next();
 		%>
 		          <% if (iIndex == 0) { %>
@@ -222,7 +222,7 @@ h3.trigger a:hover { color: #ccc; }
 		                <tr valign="top"><td valign="top" bgcolor="#44AAFF"> <%= sp.getName() %></td></tr>
 		                
 		                <%
-					List secsList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, new Long(0), sp.getId());
+					List secsList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id, new Long(0), sp.getId());
 					for (ListIterator secsli = secsList.listIterator(); secsli.hasNext();) {
 						SimulationSectionAssignment thisSecs = (SimulationSectionAssignment) secsli.next();
 				%>
@@ -254,13 +254,13 @@ h3.trigger a:hover { color: #ccc; }
 		          <% } %>
 		          </table>
 		  
-		      <p><% if (pso.isAuthor()) { %>(<a href="set_specific_sim_sections.jsp?actor_index=0">edit</a>)<% } %></p>
+		      <p><% if (afso.isAuthor()) { %>(<a href="set_specific_sim_sections.jsp?actor_index=0">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
 		      <h2>11. Simulation Specific Sections </h2>
 		      <blockquote>
 		        <p>
-		          <% for (ListIterator bss = SimulationSectionAssignment.getDistinctSectionsForSim(pso.schema, pso.sim_id).listIterator(); bss.hasNext();) {
+		          <% for (ListIterator bss = SimulationSectionAssignment.getDistinctSectionsForSim(afso.schema, afso.sim_id).listIterator(); bss.hasNext();) {
 					BaseSimSection this_base = (BaseSimSection) bss.next();
 					
 			  	if (this_base instanceof CustomizeableSection) { 
@@ -277,18 +277,18 @@ h3.trigger a:hover { color: #ccc; }
 			  	} // End of loop over sim sections.
 				%>
 		        </p>
-		        <p><% if (pso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
+		        <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
 		      <h2>12. Simulation 'After Action Report' Starter Text </h2>
 		      <blockquote>
 		        <p><%= simulation.getAar_starter_text() %></p>
-		        <p><% if (pso.isAuthor()) { %>(<a href="create_aar_starter_text.jsp">edit</a>)<% } %></p>
+		        <p><% if (afso.isAuthor()) { %>(<a href="create_aar_starter_text.jsp">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
 		      <p>&nbsp;</p>
 		      <blockquote>
-		        <% if (pso.isAuthor()) { %>
+		        <% if (afso.isAuthor()) { %>
 		        <p align="center"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top">On 
 		          To Play Test the Simulation</a></p>
             <p align="center"><a href="publish_sim.jsp">On To Publish the Simulation</a></p>
@@ -300,7 +300,7 @@ h3.trigger a:hover { color: #ccc; }
               <%@ include file="select_message.jsp" %></p>
                   </blockquote>
             <% } // End of if have not set simulation for edits. %>
-            <% if (pso.isAuthor()) { %>
+            <% if (afso.isAuthor()) { %>
             <a href="create_aar_starter_text.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
             <% } else { %>
 	  	    <a href="../simulation_facilitation/instructor_home.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>

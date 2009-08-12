@@ -5,7 +5,7 @@
 	errorPage="../error.jsp" %>
 <%
 
-	ParticipantSessionObject.logout(request);
+	AuthorFacilitatorSessionObject.logout(request);
 	session.setAttribute("pso", null);
 	
 	response.sendRedirect("index.jsp?");

@@ -3,7 +3,7 @@ import="java.sql.*,java.util.*,com.oreilly.servlet.*, com.oreilly.servlet.multip
 
 <%
 
-        ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+        AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 
         String debug = "";
 
@@ -30,7 +30,7 @@ import="java.sql.*,java.util.*,com.oreilly.servlet.*, com.oreilly.servlet.multip
                 debug += " pp created.";
                 // pp.section_short_name = (String)
                 // request.getParameter("section_short_name");
-                pp.sim_id = pso.simulation.id;
+                pp.sim_id = afso.simulation.id;
                 pp.name = (String) mpr.getParameter("section_short_name");
                 pp.tabheading = (String) mpr.getParameter("page_tab_heading");
                 pp.page_title = (String) mpr.getParameter("page_title");

@@ -3,11 +3,11 @@ import="java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usi
 errorPage="../error.jsp" %>
 <%
 	
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 		
-	pso.handleProcessCustomPage(request);
+	afso.handleProcessCustomPage(request);
 	
-	response.sendRedirect(pso.backPage);
+	response.sendRedirect(afso.backPage);
 	return;
 	
 %>

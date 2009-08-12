@@ -4,13 +4,13 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "add_underlying_model.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "add_underlying_model.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 %>
@@ -36,7 +36,7 @@
               <br />
       <blockquote> 
         <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
         <h2>&nbsp;</h2>
           <h2><a href="#">Planet Temperature</a>: Pt = Funcition (Number Black Daisies, Number White Daises).</h2>

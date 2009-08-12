@@ -3,25 +3,25 @@
 
 	String attempting_select = (String) request.getParameter("attempting_select");
 	
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	System.out.println("user id is " + pso.user_id);
-	BaseUser bu = BaseUser.getByUserId(pso.user_id);
+	System.out.println("user id is " + afso.user_id);
+	BaseUser bu = BaseUser.getByUserId(afso.user_id);
 	
-	List ghostList = BaseUser.getAuthorizedSchemas(pso.user_id);
+	List ghostList = BaseUser.getAuthorizedSchemas(afso.user_id);
 	
 	if ((attempting_select != null) && (attempting_select.equalsIgnoreCase("true"))){
 		
 		String selected_schema = (String) request.getParameter("selected_schema");
 		
-		User user = pso.loginToSchema(pso.user_id, selected_schema, request);
+		User user = afso.loginToSchema(afso.user_id, selected_schema, request);
 				
 		if ((user.isSim_author()) || (user.isSim_instructor()) ) {
-			pso.schema = selected_schema;
+			afso.schema = selected_schema;
 			response.sendRedirect("intro.jsp");
 			return;
 		} else {
-			pso.errorMsg = "Not authorized to author or instruct simulations.";
+			afso.errorMsg = "Not authorized to author or instruct simulations.";
 			response.sendRedirect("index.jsp");
 			return;
 		}

@@ -4,16 +4,16 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "create_simulation_objectives.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "create_simulation_objectives.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	Simulation simulation = new Simulation();	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	Simulation simulation = new Simulation();	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 	// Determine if setting sim to edit.
@@ -25,7 +25,7 @@
 	if ( (sending_page != null) && (enter_sim_objectives != null) && (sending_page.equalsIgnoreCase("enter_sim_objectives"))){
 
 		simulation.setLearning_objvs(sim_objectives);
-		simulation.saveMe(pso.schema);
+		simulation.saveMe(afso.schema);
 		
 	}
 	
@@ -60,7 +60,7 @@
               <br />
       <blockquote>
         <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
         <p>Enter your learning objectives for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 

@@ -5,9 +5,9 @@
 	errorPage="../error.jsp" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -20,10 +20,10 @@
         
     String debug = "";
 	
-	boolean doneWithThis = pso.handleDeleteObject(request);
+	boolean doneWithThis = afso.handleDeleteObject(request);
 	
 	if (doneWithThis) {
-		response.sendRedirect(pso.backPage);
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 
@@ -67,7 +67,7 @@
       </form>
       <blockquote> 
         <p>&nbsp;</p>
-          <p><a href="<%= pso.backPage %>">Back</a></p>
+          <p><a href="<%= afso.backPage %>">Back</a></p>
       </blockquote>
 			</td>
 		</tr>

@@ -8,12 +8,12 @@
 	errorPage="../error.jsp" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	String db_schema = (String) request.getParameter("db_schema");
 	
 	if ((db_schema != null) && (db_schema.length() > 0)) {
-		pso.schema = db_schema;
+		afso.schema = db_schema;
 	}
 
 %>
@@ -64,7 +64,7 @@ body {
       <table border="0" cellspacing="1">
         <%
 
-		for (ListIterator li = BaseSimSection.getAllBase(pso.schema).listIterator(); li.hasNext();) {
+		for (ListIterator li = BaseSimSection.getAllBase(afso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next(); %>
         <tr align="left" valign="top"> 
           <td><strong><%= bss.getRec_tab_heading() %></strong></td>
@@ -75,7 +75,7 @@ body {
         
         <%
 
-		for (ListIterator li = new CustomizeableSection().getAllCustomizable(pso.schema).listIterator(); li.hasNext();) {
+		for (ListIterator li = new CustomizeableSection().getAllCustomizable(afso.schema).listIterator(); li.hasNext();) {
 			CustomizeableSection bss = (CustomizeableSection) li.next(); %>
         <tr align="left" valign="top"> 
           <td><strong><%= bss.getRec_tab_heading() %></strong><br />

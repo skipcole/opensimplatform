@@ -5,17 +5,17 @@
 	errorPage="" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "../simulation_authoring/create_simulation.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "../simulation_authoring/create_simulation.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-    Simulation simulation = pso.handleCreateOrUpdateNewSim(request);  
+    Simulation simulation = afso.handleCreateOrUpdateNewSim(request);  
 	
-	List simList = Simulation.getAll(pso.schema);
+	List simList = Simulation.getAll(afso.schema);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -65,7 +65,7 @@
             <td>&nbsp;</td>
               <td valign="top">Simulation Creator <a href="helptext/sim_banner.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top">
-  <input type="hidden" name="simcreator" value="<%= pso.user_Display_Name %>"> 
+  <input type="hidden" name="simcreator" value="<%= afso.user_Display_Name %>"> 
                 <%= simulation.getCreator() %></td>
             </tr>
           <tr>

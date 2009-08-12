@@ -4,12 +4,12 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	pso.backPage = "create_simulation_introduction.jsp";
+	afso.backPage = "create_simulation_introduction.jsp";
 	
-	Simulation simulation = new Simulation();	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	Simulation simulation = new Simulation();	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 	// Determine if setting sim to edit.
@@ -21,7 +21,7 @@
 	if ( (sending_page != null) && (enter_intro != null) && (sending_page.equalsIgnoreCase("create_sim_aar"))){
 		
 		simulation.setAar_starter_text(sim_aar);
-		simulation.saveMe(pso.schema);
+		simulation.saveMe(afso.schema);
 
 	}
 	
@@ -55,7 +55,7 @@
               <h1>Enter 'After Action Report' Starter Text </h1>
               <br />
     <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
 	  <p>The 'After Action Report' (AAR) is a highly important part of your simulation. In it you will provide feedback to your participants on how they did. </p>
 	  <p>Whoever runs the simulation will be able to tailor the AAR text to fit what happened, but below you can enter in common text that you may feel may end up in many of the simulations. Click here (?) for some examples. </p>

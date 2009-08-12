@@ -4,11 +4,11 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	SharedDocument this_sd = pso.handleCreateDocument(request);
+	SharedDocument this_sd = afso.handleCreateDocument(request);
 	
-	pso.fillReadWriteLists();
+	afso.fillReadWriteLists();
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -87,14 +87,14 @@
   </tr>
         <%
 			  		int ii = 0;
-					for (ListIterator li = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id).listIterator(); li.hasNext();) {
+					for (ListIterator li = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 						SharedDocument sd = (SharedDocument) li.next();
 				%>
         
           <tr><td><a href="make_create_document_page.jsp?shared_doc_id=<%= sd.getId() %>"><%= sd.getUniqueDocTitle() %></a></td>
                 <td><%= sd.getDisplayTitle() %></td>
                 <td>delete**</td>
-                <td><%= pso.stringListToNames(request, (String) pso.ActorsWithReadAccess.get(sd.getId().toString()), "<br />") %>**</td>
+                <td><%= afso.stringListToNames(request, (String) afso.ActorsWithReadAccess.get(sd.getId().toString()), "<br />") %>**</td>
                 <td>**</td>
                 </tr>
           
@@ -104,7 +104,7 @@
       </table>
       <p>* Read/Write access simply means that at some point in the simulation an actor has access to read or write to this document.<br />
       ** This feature has not yet been implemented.</p>
-      <p><a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

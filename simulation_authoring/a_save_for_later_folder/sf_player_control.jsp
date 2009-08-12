@@ -4,10 +4,10 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
-		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+	if ((afso.simulation.id == null) || (afso.simulation.id.equalsIgnoreCase(""))){
+		afso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
 		response.sendRedirect("add_special_features.jsp");
 		return;
 	}
@@ -22,7 +22,7 @@
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_player_control"))){
 	
-		pc.sim_id = pso.simulation.id;
+		pc.sim_id = afso.simulation.id;
 		pc.name = (String) request.getParameter("pc_name");
 		pc.description = (String) request.getParameter("pc_desc");
 		
@@ -58,9 +58,9 @@
 	}
 	///////////////////////////////////////
 
-	Vector simVars = new IntegerVariable().getSetForASimulation(pso.simulation.id);
+	Vector simVars = new IntegerVariable().getSetForASimulation(afso.simulation.id);
 	
-	Vector simPCs = new PlayerControl().getSetForASimulation(pso.simulation.id);
+	Vector simPCs = new PlayerControl().getSetForASimulation(afso.simulation.id);
 	
 	
 %>
@@ -93,7 +93,7 @@
           as the number of rats in the city, is not something that can be directly 
           controlled by them. But they can control other items, such as the budget 
           of the 'rat extermination department.'</p>
-          <p>Current player controls for the Simulation <%= pso.simulation.name %>:</p>
+          <p>Current player controls for the Simulation <%= afso.simulation.name %>:</p>
           <blockquote>
             <p>
               <% if (simPCs.size() == 0) { %>

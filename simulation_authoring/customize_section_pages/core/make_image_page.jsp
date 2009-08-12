@@ -4,13 +4,13 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,com.oreilly.servlet.*, com.oreilly.servlet.multipart.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleMakeImagePage(request);
+	CustomizeableSection cs = afso.handleMakeImagePage(request);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
@@ -51,7 +51,7 @@
           <tr> 
             <td>&nbsp;</td>
               <td valign="top">Page Tab Heading:</td>
-              <td valign="top"> <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/></td>
+              <td valign="top"> <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -67,7 +67,7 @@
             <td>&nbsp;</td>
               <td valign="top">Image File:</td>
               <td valign="top"> <input type="hidden" name="MAX_FILE_SIZE" value="400000" /> 
-                <input name="uploadedfile" type="file" value="<%= cs.simImage(pso.getBaseSimURL()) %>"  /></td>
+                <input name="uploadedfile" type="file" value="<%= cs.simImage(afso.getBaseSimURL()) %>"  /></td>
             </tr>
           <tr> 
             <td colspan="3" valign="top"></td>
@@ -77,15 +77,15 @@
               <td>&nbsp;</td>
               <td>
                 <input type="hidden" name="sending_page" value="add_image_page" />
-                <input type="hidden" name="custom_page" value="<%=  pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+                <input type="hidden" name="custom_page" value="<%=  afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                 <input type="submit" name="save_page" value="Save" />
                 <input type="submit" name="save_and_add" value="Save and Add Section" />                </td>
             </tr>
           </table>
       </form>
       <% if (hasImage) { %>
-      <img src="<%= cs.simImage(pso.getBaseSimURL()) %>" />
-      <% } %>      <p><a href="<%= pso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      <img src="<%= cs.simImage(afso.getBaseSimURL()) %>" />
+      <% } %>      <p><a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

@@ -4,9 +4,9 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -15,7 +15,7 @@
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("sim_blurb_information"))) {
 		
-		pso.handleLoadPlayerAutoAssignedScenario(request);
+		afso.handleLoadPlayerAutoAssignedScenario(request);
 		response.sendRedirect("../simulation/simwebui.jsp?tabposition=1");
 		return;
 		
@@ -24,11 +24,11 @@
 	///////////////////////////////////////////////////////////////////////
 	String sim_id = (String) request.getParameter("sim_id");
 	if (sim_id != null) {
-		pso.sim_id = new Long(sim_id);
+		afso.sim_id = new Long(sim_id);
 	}
 	Simulation sim = new Simulation();	
-	if (pso.sim_id != null){
-		sim = pso.giveMeSim();
+	if (afso.sim_id != null){
+		sim = afso.giveMeSim();
 	}
 	
 
@@ -60,7 +60,7 @@
         
       <table>
         <%
-			for (ListIterator lia = sim.getActors(pso.schema).listIterator(); lia.hasNext();) {
+			for (ListIterator lia = sim.getActors(afso.schema).listIterator(); lia.hasNext();) {
 				Actor act = (Actor) lia.next();
 			
 		%>

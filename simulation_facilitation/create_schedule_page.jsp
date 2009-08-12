@@ -8,18 +8,18 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 	
-	pso.backPage = "../simulation_facilitation/create_schedule_page.jsp";
+	afso.backPage = "../simulation_facilitation/create_schedule_page.jsp";
 	
-	Simulation simulation = pso.handleCreateSchedulePage(request);
+	Simulation simulation = afso.handleCreateSchedulePage(request);
 	
-	RunningSimulation rs = pso.giveMeRunningSim();
+	RunningSimulation rs = afso.giveMeRunningSim();
 	
 	SharedDocument sd = new SharedDocument();
 	
 	if (rs != null) {
-		sd = SharedDocument.getScheduleDocument(pso.schema, simulation.getId(), rs.getId());
+		sd = SharedDocument.getScheduleDocument(afso.schema, simulation.getId(), rs.getId());
 	}
 	
 %>
@@ -46,14 +46,14 @@
               <h1>Create Schedule Page</h1>
               <br />
                     <% 
-			if (pso.sim_id == null) {
+			if (afso.sim_id == null) {
 		%>
                   <p>You must first select the simulation which you will be enabling.<br />
                       
                   Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring/create_simulation.jsp">create a new one</a>.</p>
                   <% } else { 
 		
-			if ((pso.running_sim_id == null)) {
+			if ((afso.running_sim_id == null)) {
 		%>
                   <p>You must select the running simulation for which you will be creating a schedule.<br />
                       
@@ -96,7 +96,7 @@
                   <% } // end of if running_sim.id has been set. %>
                   <%
 		
-	}// end of if pso.simulation.id has been set.
+	}// end of if afso.simulation.id has been set.
 
 %>
                   <blockquote>

@@ -10,7 +10,7 @@ import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
 import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.networking.ParticipantSessionObject;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -129,7 +129,7 @@ public class Conversation implements SimSectionDependentObject {
 	 * @param schema
 	 * @return
 	 */
-	public String getListOfActors(String schema, ParticipantSessionObject pso, HttpServletRequest request){
+	public String getListOfActors(String schema, AuthorFacilitatorSessionObject pso, HttpServletRequest request){
 		
 		String returnString = ""; //$NON-NLS-1$
 		

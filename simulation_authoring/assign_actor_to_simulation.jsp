@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 
 	String sending_page = (String) request.getParameter("sending_page");
 	String addactortosim = (String) request.getParameter("addactortosim");
@@ -14,17 +14,17 @@
 	String sim_id = (String) request.getParameter("sim_id");
 	
 	if ( (sending_page != null) && (addactortosim != null) && (sending_page.equalsIgnoreCase("assign_actor"))){
-		pso.addActorToSim(sim_id, actor_id);
+		afso.addActorToSim(sim_id, actor_id);
 	} // End of if coming from this page and have assigned actor
 	
 	if ( (remove != null) &&  (remove.equalsIgnoreCase("true"))){
-		pso.removeActorFromSim(sim_id, actor_id);
+		afso.removeActorFromSim(sim_id, actor_id);
 		     
 	} // End of if coming from this page and have removed actor
 	
 
 	//////////////////////////////////
-	List simList = Simulation.getAll(pso.schema);
+	List simList = Simulation.getAll(afso.schema);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -66,7 +66,7 @@
               <td><%= sim.getName() %>:<%= sim.getVersion() %></td>
               <td><%
 			
-			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
+			for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 
 			%> 
@@ -75,7 +75,7 @@
                 <% } // End of loop over Actors %>                </td>
               <td><select name="actor_id">
                 <% 
-                for (ListIterator la = sim.getAvailableActors(pso.schema).listIterator(); la.hasNext();) {
+                for (ListIterator la = sim.getAvailableActors(afso.schema).listIterator(); la.hasNext();) {
 					Actor aa = (Actor) la.next();
 		%>
                 <option value="<%= aa.getId().toString() %>"><%= aa.getName() %></option>

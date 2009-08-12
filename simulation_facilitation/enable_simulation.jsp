@@ -6,25 +6,25 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	pso.backPage = "enable_simulation.jsp";
+	afso.backPage = "enable_simulation.jsp";
 
 	////////////////////////////////////////////////////////
-	Simulation simulation = new Simulation();	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	Simulation simulation = new Simulation();	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 	/////////////////////////////////////////////////////
 	RunningSimulation running_sim = new RunningSimulation();
-	if (pso.running_sim_id != null){
-		pso.handleEnableSim(request);
-		running_sim = (RunningSimulation) pso.giveMeRunningSim();
+	if (afso.running_sim_id != null){
+		afso.handleEnableSim(request);
+		running_sim = (RunningSimulation) afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
 	
@@ -54,7 +54,7 @@
       <p></p>
       <blockquote> 
         <% 
-			if (pso.sim_id == null) {
+			if (afso.sim_id == null) {
 		%>
         <p>You must first select the simulation which you will be enabling.<br />
           
@@ -64,7 +64,7 @@
         <p>Enabling <strong>simulation: <%= simulation.getDisplayName() %></strong>. <br />
           To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.</p>
           <%
-			if (pso.running_sim_id == null) {
+			if (afso.running_sim_id == null) {
 		%>
         <p>You must select the running simulation for which you will be enabling.<br />
           
@@ -116,7 +116,7 @@ Enjoy!
       <% } // end of if running_sim.id has been set. %>
         <%
 		
-	}// end of if pso.simulation.id has been set.
+	}// end of if afso.simulation.id has been set.
 
 %>        <blockquote>
           <div align="center"><a href="../simulation/index.jsp" target="_top">Next 

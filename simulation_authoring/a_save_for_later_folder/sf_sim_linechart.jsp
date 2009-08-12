@@ -4,10 +4,10 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*,org.usip.osp.graphs.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
-		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+	if ((afso.simulation.id == null) || (afso.simulation.id.equalsIgnoreCase(""))){
+		afso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
 		response.sendRedirect("add_special_features.jsp");
 		return;
 	}
@@ -22,7 +22,7 @@
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_sim_var"))){
 	
-		chart.sim_id = pso.simulation.id;
+		chart.sim_id = afso.simulation.id;
 		chart.name = (String) request.getParameter("chart_name");
 
 		chart.variableSFID = (String) request.getParameter("var_sf_id");
@@ -64,7 +64,7 @@
 	*/
 	///////////////////////////////////////
 
-	Vector simCharts = new Chart().getSetForASimulation(pso.simulation.id);
+	Vector simCharts = new Chart().getSetForASimulation(afso.simulation.id);
 	
 	
 %>
@@ -91,7 +91,7 @@
               <br />
     <p><%= Debug.getDebug(debug) %></p>
     <blockquote>
-      <p>Current line charts for the Simulation <%= pso.simulation.name %>:</p>
+      <p>Current line charts for the Simulation <%= afso.simulation.name %>:</p>
           <blockquote>
             <p>
               <% if (simCharts.size() == 0) { %>
@@ -123,7 +123,7 @@
           <td width="1%">&nbsp;</td>
               <td width="31%">Variable</td>
               <td width="68%"> <%
-			Vector simVars = new IntegerVariable().getSetForASimulation(pso.simulation.id);
+			Vector simVars = new IntegerVariable().getSetForASimulation(afso.simulation.id);
 			%> <select name="var_sf_id">
                 <% for (Enumeration e = simVars.elements(); e.hasMoreElements();){ 
 					IntegerVariable this_int = (IntegerVariable) e.nextElement();  %>

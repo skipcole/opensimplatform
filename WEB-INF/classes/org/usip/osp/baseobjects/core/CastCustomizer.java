@@ -16,7 +16,7 @@ package org.usip.osp.baseobjects.core;
 import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.CustomizeableSection;
-import org.usip.osp.networking.ParticipantSessionObject;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 
 public class CastCustomizer extends Customizer{
 
@@ -24,7 +24,7 @@ public class CastCustomizer extends Customizer{
 	public static final String KEY_FOR_CONTROL_ON_BOTTOM = "control_on_bottom"; //$NON-NLS-1$
 
 	public void handleCustomizeSection(HttpServletRequest request, 
-			ParticipantSessionObject pso, CustomizeableSection cs) {
+			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
 
 		System.out.println("CastCustomizeableSection.handleCustomizeSection"); //$NON-NLS-1$
 		
@@ -45,7 +45,7 @@ public class CastCustomizer extends Customizer{
 	}
 
 	public void loadSimCustomizeSection(HttpServletRequest request, 
-			ParticipantSessionObject pso, CustomizeableSection cs) {
+			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
 		// TODO Auto-generated method stub
 
 	}

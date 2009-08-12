@@ -6,7 +6,7 @@
 %>
 <%
 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
 	
 	// Get the id for this conversation
 	String cs_id = (String) request.getParameter("cs_id");

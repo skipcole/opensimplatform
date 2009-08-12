@@ -4,13 +4,13 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,com.oreilly.servlet.*, com.oreilly.servlet.multipart.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleMakeSplitPageVertical(request);
+	CustomizeableSection cs = afso.handleMakeSplitPageVertical(request);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
@@ -40,7 +40,7 @@
           <tr> 
             <td>&nbsp;</td>
               <td valign="top">Page Tab Heading:</td>
-              <td valign="top"> <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/></td>
+              <td valign="top"> <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -48,7 +48,7 @@
               <td valign="top">
               <select name="select_left" id="select">
               	<%
-					List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_being_worked_on_id, pso.phase_id, true);
+					List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, true);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
 					SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
@@ -66,7 +66,7 @@
               <td valign="top">
                             <select name="select_right" id="select">
               	<%
-					// List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(pso.schema, pso.sim_id, pso.actor_id, pso.phase_id);
+					// List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id, afso.actor_id, afso.phase_id);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
 					SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
@@ -91,13 +91,13 @@
               <td>&nbsp;</td>
               <td>
                 <input type="hidden" name="sending_page" value="make_split_page" />
-                <input type="hidden" name="custom_page" value="<%=  pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+                <input type="hidden" name="custom_page" value="<%=  afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                 <input type="submit" name="save_page" value="Save" />
                 <input type="submit" name="save_and_add" value="Save and Add Section" />                </td>
             </tr>
           </table>
       </form>
-      <p><a href="<%= pso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      <p><a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>
