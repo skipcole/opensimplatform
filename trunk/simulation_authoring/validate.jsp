@@ -4,7 +4,7 @@ org.usip.osp.baseobjects.*,org.apache.log4j.*" errorPage="../error.jsp" %>
 <%
 	String attempting_login = (String) request.getParameter("attempting_login");
 	
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	Logger.getRootLogger().debug("in validate jsp");
 	
@@ -12,28 +12,28 @@ org.usip.osp.baseobjects.*,org.apache.log4j.*" errorPage="../error.jsp" %>
 		
 		Logger.getRootLogger().debug("attemptin validatin");
 		
-		BaseUser bu = pso.validate(request);
+		BaseUser bu = afso.validate(request);
 		
 		if (bu != null){
 		
 			System.out.println("bu id " + bu.getId());
-			pso.user_id = bu.getId();
-			System.out.println("pso id " + pso.user_id);
+			afso.user_id = bu.getId();
+			System.out.println("pso id " + afso.user_id);
 
 			if (bu.getAuthorizedSchemas().size() == 0){
-				pso.errorMsg = "You are not authorized to enter any schema.";
+				afso.errorMsg = "You are not authorized to enter any schema.";
 			} else if (bu.getAuthorizedSchemas().size() == 1){
 				// Send them on directly to this schema
 				SchemaGhost sg = (SchemaGhost) bu.getAuthorizedSchemas().get(0);
 				System.out.println("ghost schema is " + sg.getSchema_name());
-				pso.schema = sg.getSchema_name();
-				User user = pso.loginToSchema(pso.user_id, sg.getSchema_name(), request);
+				afso.schema = sg.getSchema_name();
+				User user = afso.loginToSchema(afso.user_id, sg.getSchema_name(), request);
 				
 				if ((user.isSim_author()) || (user.isSim_instructor()) ) {
 					response.sendRedirect("intro.jsp");
 					return;
 				} else {
-					pso.errorMsg = "Not authorized to author or instruct simulations.";
+					afso.errorMsg = "Not authorized to author or instruct simulations.";
 					response.sendRedirect("index.jsp");
 					return;
 				}
@@ -45,7 +45,7 @@ org.usip.osp.baseobjects.*,org.apache.log4j.*" errorPage="../error.jsp" %>
 			}
 			
 		} else {
-			pso.errorMsg = "Failed Login Attempt";
+			afso.errorMsg = "Failed Login Attempt";
 			response.sendRedirect("index.jsp");
 			return;
 		}

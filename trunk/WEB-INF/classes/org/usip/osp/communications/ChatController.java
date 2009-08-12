@@ -6,7 +6,7 @@ import java.util.*;
 import javax.servlet.http.*;
 
 import org.usip.osp.baseobjects.*;
-import org.usip.osp.networking.ParticipantSessionObject;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.networking.USIP_OSP_ContextListener;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -114,7 +114,7 @@ public class ChatController {
 	}
 
 	public static String getConversation(HttpServletRequest request,
-			ParticipantSessionObject pso) {
+			AuthorFacilitatorSessionObject pso) {
 
 		if ((pso == null) || (pso.running_sim_id == null)) {
 			return ""; //$NON-NLS-1$
@@ -141,14 +141,14 @@ public class ChatController {
 				conv_id, this_conv, pso.running_sim_id, pso.schema);
 	}
 
-	public static String getConvKey(ParticipantSessionObject pso, String conv_id) {
+	public static String getConvKey(AuthorFacilitatorSessionObject pso, String conv_id) {
 
 		return (pso.schema + "_" + pso.running_sim_id + "_" + conv_id); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
 	public static Vector getCachedConversation(HttpServletRequest request,
-			ParticipantSessionObject pso, String conv_id) {
+			AuthorFacilitatorSessionObject pso, String conv_id) {
 
 		// /////////////////////////////////////////////////////
 		// The conversation is pulled out of the context Hashtable
@@ -181,7 +181,7 @@ public class ChatController {
 	 * @return
 	 */
 	public static String getHTMLConv(HttpServletRequest request,
-			ParticipantSessionObject pso, String conv_id){
+			AuthorFacilitatorSessionObject pso, String conv_id){
 
 		String convLinesToReturn = ""; //$NON-NLS-1$
 		
@@ -208,7 +208,7 @@ public class ChatController {
 	 * user needs.
 	 * 
 	 * @param request
-	 * @param pso
+	 * @param afso
 	 * @return
 	 */
 	public static String getConversation(String user_id, String actor_id,
@@ -243,7 +243,7 @@ public class ChatController {
 
 	public static void insertChatLine(Long user_id, Long actor_id,
 			String start_index, String newtext, String conv_id,
-			ParticipantSessionObject pso, HttpServletRequest request) {
+			AuthorFacilitatorSessionObject pso, HttpServletRequest request) {
 
 		// This conversation is pulled from the set of conversations Vector
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
@@ -257,7 +257,7 @@ public class ChatController {
 		}
 	}
 
-	public static String getXMLConversation(String start_index, String conv_id, ParticipantSessionObject pso,
+	public static String getXMLConversation(String start_index, String conv_id, AuthorFacilitatorSessionObject pso,
 			HttpServletRequest request) {
 
 		if ((start_index == null) || (start_index.trim().length() == 0)) {
@@ -323,7 +323,7 @@ public class ChatController {
 	 * @param request
 	 * @return
 	 */
-	public static Vector getActorsForConversation(ParticipantSessionObject pso,
+	public static Vector getActorsForConversation(AuthorFacilitatorSessionObject pso,
 			Long conv_id, HttpServletRequest request) {
 
 		Vector returnVector = new Vector();

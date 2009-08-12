@@ -4,21 +4,21 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.hibernate.*" 
 	errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "../simulation_facilitation/view_running_sim.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
+	afso.backPage = "../simulation_facilitation/view_running_sim.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
-	pso.handleAddRunningSimulation(request, simulation);
+	afso.handleAddRunningSimulation(request, simulation);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -45,7 +45,7 @@
 			  <br />
             <blockquote> 
               <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
 
               Below are the running simulation created by [Insert Creator's Name] </b>. <br />
@@ -55,14 +55,14 @@
               <td><h2>Phase</h2></td>
             </tr>
                 <%
-		  	List rsList = RunningSimulation.getAllForSim(pso.sim_id.toString(), pso.schema);
+		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id.toString(), afso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();
 				
 				SimulationPhase sp = new SimulationPhase();
 				if (rs.getPhase_id() != null){
-					sp = SimulationPhase.getMe(pso.schema, rs.getPhase_id().toString());
+					sp = SimulationPhase.getMe(afso.schema, rs.getPhase_id().toString());
 				}
 		%>
                 <tr> 
@@ -86,7 +86,7 @@
                   </p>
             <p>&nbsp;</p>
             <% 
-		if (!(pso.isAuthor())) { %>
+		if (!(afso.isAuthor())) { %>
 	  		<a href="instructor_home.jsp" target="_top">&lt;-- Back            </a>
 	        <% } %>			</td>
 		</tr>

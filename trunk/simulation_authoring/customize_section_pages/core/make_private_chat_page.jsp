@@ -8,20 +8,20 @@
 		org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleMakePrivateChatPage(request);
+	CustomizeableSection cs = afso.handleMakePrivateChatPage(request);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
 	Simulation sim = new Simulation();
 	
-	if (pso.sim_id != null){
-		sim = pso.giveMeSim();
+	if (afso.sim_id != null){
+		sim = afso.giveMeSim();
 	}
 			
 %>
@@ -54,7 +54,7 @@
 	      <p>Fill out the top right part of the grid below to determine the sets of characters that will have a private chat window. </p>
           <table border="1"><tr><td>&nbsp;</td>
 		  <%
-			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
+			for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 				String checked = "";
 			%>
@@ -63,17 +63,17 @@
             </tr>
             <%
 			int index_row = 0;
-			for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
+			for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 				index_row += 1;
 			%>
             <tr><td><strong><%= act.getName() %></strong></td>
 				  <%
 				// Get this from pso
-				Hashtable setConversations = pso.setOfConversationForASection(cs.getId());
+				Hashtable setConversations = afso.setOfConversationForASection(cs.getId());
 				
 				int index_col = 0;
-				for (ListIterator la2 = sim.getActors(pso.schema).listIterator(); la2.hasNext();) {
+				for (ListIterator la2 = sim.getActors(afso.schema).listIterator(); la2.hasNext();) {
 					Actor act2 = (Actor) la2.next();
 					index_col += 1;
 				
@@ -104,13 +104,13 @@
 		</script>
             </p>
             <p> 
-              <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+              <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="sending_page" value="make_private_chat_page" />
               <input type="submit" name="save_and_add" value="Save and Add Sections" />
               </p>
             <p>&nbsp;</p>
           </blockquote>
-      </form>	  <a href="<%= pso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+      </form>	  <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

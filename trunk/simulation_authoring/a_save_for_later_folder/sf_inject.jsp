@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
@@ -20,9 +20,9 @@
 		sv.setDescription(request.getParameter("description"));
 		sv.setPropagation_type(request.getParameter("prop_type"));
 		sv.setInitialValue(request.getParameter("start_value"));
-		pso.hibernate_session.saveOrUpdate(sv);
-		pso.simulation.getVar_int().add(sv);
-		pso.hibernate_session.saveOrUpdate(pso.simulation);
+		afso.hibernate_session.saveOrUpdate(sv);
+		afso.simulation.getVar_int().add(sv);
+		afso.hibernate_session.saveOrUpdate(afso.simulation);
 		
 	} // End of if 
 	
@@ -51,7 +51,7 @@
 	}
 	///////////////////////////////////////
 
-	List simInts = pso.simulation.getVar_int();
+	List simInts = afso.simulation.getVar_int();
 	
 	
 %>
@@ -78,7 +78,7 @@
               <br />
     <p><%= Debug.getDebug(debug) %></p>
     <blockquote>
-      <p>Current integer variables for the Simulation <%= pso.simulation.getDisplayName() %>:</p>
+      <p>Current integer variables for the Simulation <%= afso.simulation.getDisplayName() %>:</p>
           <blockquote>
             <p>
               <% if (simInts.size() == 0) { %>

@@ -6,10 +6,10 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "bulk_invite.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
+	afso.backPage = "bulk_invite.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -18,7 +18,7 @@
 	String sending_page = (String) request.getParameter("sending_page");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("bulk_invite"))){
-		pso.handleBulkInvite(request);
+		afso.handleBulkInvite(request);
 	}
 	
 
@@ -53,13 +53,13 @@
         <tr valign="top"> 
           <td width="34%">Email Addresses: (?) <br /> <br /> </td>
                 <td width="66%"><br /> <p> 
-                  <textarea name="setOfUsers" cols="60" rows="5"><%= pso.setOfUsers %></textarea>
+                  <textarea name="setOfUsers" cols="60" rows="5"><%= afso.setOfUsers %></textarea>
                   </p>
                   <p>&nbsp;</p></td>
               </tr>
         <tr valign="top">
           <td>Message Text: </td>
-                <td><textarea name="defaultInviteEmailMsg" cols="60" rows="5"><%= pso.getDefaultInviteMessage() %></textarea></td>
+                <td><textarea name="defaultInviteEmailMsg" cols="60" rows="5"><%= afso.getDefaultInviteMessage() %></textarea></td>
               </tr>
         <tr valign="top"> 
           <td>&nbsp;</td>

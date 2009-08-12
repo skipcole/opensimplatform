@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 	String loadSim = (String) request.getParameter("loadSim");
 	
 	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))){
@@ -8,7 +8,7 @@
 
 		System.out.println("sim id is " + sim_id);
 		
-		pso.sim_id = new Long(sim_id);
+		afso.sim_id = new Long(sim_id);
 		
 	}
 %>

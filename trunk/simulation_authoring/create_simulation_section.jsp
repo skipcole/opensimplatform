@@ -4,16 +4,16 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	pso.handleCreateSimulationSection(request);
+	afso.handleCreateSimulationSection(request);
 
-	List baseList = BaseSimSection.getAll(pso.schema);
+	List baseList = BaseSimSection.getAll(afso.schema);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -109,7 +109,7 @@
         <%
 	}
 %>
-      </table>      <p><a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      </table>      <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

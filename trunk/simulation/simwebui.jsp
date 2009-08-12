@@ -8,7 +8,7 @@
 	errorPage="../error.jsp" %>
 <%
 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
 	
 	pso.handleEndSim(request);
 	

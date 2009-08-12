@@ -8,13 +8,13 @@
 		org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	Simulation sim = pso.handleMakeCaucusPage(request);
+	Simulation sim = afso.handleMakeCaucusPage(request);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
@@ -47,17 +47,17 @@
       <blockquote> 
 	  <form action="customize_section_pages/core/make_conference_room.jsp" method="post" name="form2" id="form2">
         <blockquote><strong>Tab Heading</strong>: 
-          <input type="text" name="tab_heading" value="<%= pso.tab_heading %>"/>
+          <input type="text" name="tab_heading" value="<%= afso.tab_heading %>"/>
         <p>Select the Actors to be included in this Chat room. <br />
           If desired, assign them a designated role (such as participant, visitor, etc.) </p>
         <p><%
 		
-		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
+		MultiSchemaHibernateUtil.beginTransaction(afso.schema);
 		
 		Conversation conv = new Conversation();
 		
-		if (pso.sim_conv_id != null) {
-			conv = (Conversation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Conversation.class, pso.sim_conv_id);
+		if (afso.sim_conv_id != null) {
+			conv = (Conversation) MultiSchemaHibernateUtil.getSession(afso.schema).get(Conversation.class, afso.sim_conv_id);
 		}	
 		
 		%>
@@ -87,7 +87,7 @@
            
 		<% } // End of loop over Actors 
 		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(afso.schema);
 		%>
 		</table>
 	
@@ -104,14 +104,14 @@
         <p>Enter any text that will appear on this page. <br>
         </p>
         <p>
-            <textarea id="text_page_text" name="text_page_text" style="height: 110px; width: 710px;"><%= pso.customizableSectionOnScratchPad.getBigString() %></textarea>
+            <textarea id="text_page_text" name="text_page_text" style="height: 110px; width: 710px;"><%= afso.customizableSectionOnScratchPad.getBigString() %></textarea>
 
 		<script language="javascript1.2">
   			generate_wysiwyg('text_page_text');
 		</script>
           </p>
           <p> 
-            <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+            <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
             <input type="hidden" name="sending_page" value="make_caucus_page" />
             <input type="submit" name="save_page" value="Save" />
             <input type="submit" name="save_and_add" value="Save and Add Section" />
@@ -119,7 +119,7 @@
           <p><input type="submit" name="create_duplicate" value="Create Duplicate" disabled /></p>
         </blockquote>
       </form>
-	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
+	  <a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

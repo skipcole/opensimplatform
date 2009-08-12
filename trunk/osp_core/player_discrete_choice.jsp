@@ -8,7 +8,7 @@
 	org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);

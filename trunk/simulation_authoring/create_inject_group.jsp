@@ -7,12 +7,12 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_inject_group"))){
-		pso.handleCreateInjectGroup(request);
+		afso.handleCreateInjectGroup(request);
 		response.sendRedirect("create_injects.jsp");
 		return;
 	}
@@ -51,7 +51,7 @@
               <br />
       <blockquote> 
         <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
         <p>Creating Inject Group</p>
           <form id="form2" name="form2" method="post" action="">

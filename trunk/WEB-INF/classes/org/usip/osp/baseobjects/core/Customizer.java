@@ -20,7 +20,7 @@ package org.usip.osp.baseobjects.core;
 import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.CustomizeableSection;
-import org.usip.osp.networking.ParticipantSessionObject;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 
 public abstract class Customizer {
 
@@ -33,7 +33,7 @@ public abstract class Customizer {
 	 * @return
 	 */
 	public abstract void handleCustomizeSection(HttpServletRequest request, 
-			ParticipantSessionObject pso, CustomizeableSection cs);
+			AuthorFacilitatorSessionObject pso, CustomizeableSection cs);
 	
 	/**
 	 * This method is called by the simulation section during play.
@@ -43,5 +43,5 @@ public abstract class Customizer {
 	 * @return
 	 */
 	public abstract void loadSimCustomizeSection(HttpServletRequest request, 
-			ParticipantSessionObject pso, CustomizeableSection cs);
+			AuthorFacilitatorSessionObject pso, CustomizeableSection cs);
 }

@@ -5,13 +5,13 @@
 	org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleMakeReadDocumentPage(request);
+	CustomizeableSection cs = afso.handleMakeReadDocumentPage(request);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
@@ -40,12 +40,12 @@
                     <blockquote>
                       <p>Number of Documents to be Shown: </p>
                       <p>Tab Heading:
-                        <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
+                        <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
                       </p>
                       <p>To allow access to a player to read a document, you must first have created it. To create a new document associated with this simulation <a href="../../make_create_document_page.jsp">click here</a>. </p>
                       <table width="100%" border="0">
-                        <% List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id); 
-							Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(pso.schema, cs.getId());
+                        <% List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id); 
+							Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(afso.schema, cs.getId());
 						%>
                         <% 
 							if (cs.getNumDependentObjects() < 1) {
@@ -68,7 +68,7 @@
 					
 						SharedDocument sd = (SharedDocument) li.next();
 				%>
-                              <option value="<%= sd.getId() %>" <%= pso.checkAgainstHash(cs.getId(), ii, sd.getId()) %> ><%= sd.getUniqueDocTitle() %></option>
+                              <option value="<%= sd.getId() %>" <%= afso.checkAgainstHash(cs.getId(), ii, sd.getId()) %> ><%= sd.getUniqueDocTitle() %></option>
                               <%
 					}
 				%>
@@ -95,7 +95,7 @@
 		</script>
                       </p>
                       <p>
-                        <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+                        <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                         <input type="hidden" name="sending_page" value="make_read_document_page" />
                         <input type="submit" name="save_page" value="Save" />
                         <input type="submit" name="save_and_add" value="Save and Add Section" />
@@ -103,7 +103,7 @@
                       <p>&nbsp;</p>
                     </blockquote>
                   </form>
-                  <a href="<%= pso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a> </td>
+                  <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a> </td>
               </tr>
             </table></td>
         </tr>

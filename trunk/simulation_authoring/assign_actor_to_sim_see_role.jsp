@@ -4,12 +4,12 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	String sim_id = (String) request.getParameter("sim_id");
 	String actor_id = (String) request.getParameter("actor_id");
 	
-	SimActorAssignment saa = SimActorAssignment.getMe(pso.schema, new Long(sim_id), new Long(actor_id));
+	SimActorAssignment saa = SimActorAssignment.getMe(afso.schema, new Long(sim_id), new Long(actor_id));
 	
 
 %>

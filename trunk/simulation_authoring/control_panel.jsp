@@ -6,19 +6,19 @@ org.usip.osp.baseobjects.*,
 org.usip.osp.networking.*,
 org.usip.osp.persistence.*" errorPage="../error.jsp" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "control_panel.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "control_panel.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
 	Simulation simulation = new Simulation();
 	
-	if (pso.sim_id != null){
-		System.out.println("loading sim " + pso.sim_id);
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		System.out.println("loading sim " + afso.sim_id);
+		simulation = afso.giveMeSim();
 	}
 	
 
@@ -113,7 +113,7 @@ org.usip.osp.persistence.*" errorPage="../error.jsp" %>
       </table>
       <p align="center">
         <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 			
 				String gameNameDisplay = simulation.getName() + " version " + simulation.getVersion();
 

@@ -5,22 +5,22 @@
 	errorPage="../error.jsp" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 	//////////////////////////////////
 	// Get list of all simulations
-	List simList = Simulation.getAll(pso.schema);
+	List simList = Simulation.getAll(afso.schema);
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	
@@ -36,11 +36,11 @@
 	
 	if ((select_sim != null) && (select_sim.equalsIgnoreCase("true"))){
 		
-		pso.sim_id = new Long(   (String) request.getParameter("sim_id")   );
+		afso.sim_id = new Long(   (String) request.getParameter("sim_id")   );
 		
-		simulation = pso.giveMeSim();
+		simulation = afso.giveMeSim();
 		
-		response.sendRedirect(pso.backPage);
+		response.sendRedirect(afso.backPage);
 		return;
 			
 	}
@@ -84,7 +84,7 @@
 			
 		%>
             <tr> 
-              <td><a href="select_simulation.jsp?select_sim=true&amp;backpage=<%= pso.backPage %>&amp;sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> version <%= sim.getVersion() %></a></td>
+              <td><a href="select_simulation.jsp?select_sim=true&amp;backpage=<%= afso.backPage %>&amp;sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> version <%= sim.getVersion() %></a></td>
             </tr>
             <%
 	}

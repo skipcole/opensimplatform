@@ -21,7 +21,7 @@
  */
  
  
- 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+ 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
 	
 	if (   (pso.running_sim_id == null)  ||  (!(pso.isLoggedin()))  ) {
 		return;

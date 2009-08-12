@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
@@ -18,7 +18,7 @@
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_sim_var"))){
 	
-		sv.sim_id = pso.simulation.id;
+		sv.sim_id = afso.simulation.id;
 		sv.name = (String) request.getParameter("var_name");
 		sv.setVarType((String) request.getParameter("var_type"));
 		sv.propagation_type = (String) request.getParameter("prop_type");
@@ -68,7 +68,7 @@
 	}
 	///////////////////////////////////////
 
-	Vector simVars = new SimulationVariable().getSetForASimulation(pso.simulation.id);
+	Vector simVars = new SimulationVariable().getSetForASimulation(afso.simulation.id);
 	
 	
 %>
@@ -98,7 +98,7 @@
 			<!-- InstanceBeginEditable name="pageBody" --> 
 <p><%= Debug.getDebug(debug) %></p>
       <p>&nbsp;</p>
-<p>Current simulation variables for the Simulation <%= pso.simulation.name %>:</p>
+<p>Current simulation variables for the Simulation <%= afso.simulation.name %>:</p>
 
 <ul>
 <% if (simVars.size() == 0) { %>

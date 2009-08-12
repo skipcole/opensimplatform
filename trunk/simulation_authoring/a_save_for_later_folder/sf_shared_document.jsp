@@ -4,16 +4,16 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
-		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+	if ((afso.simulation.id == null) || (afso.simulation.id.equalsIgnoreCase(""))){
+		afso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
 		response.sendRedirect("add_special_features.jsp");
 		return;
 	}
 	
-	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
-		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+	if ((afso.simulation.id == null) || (afso.simulation.id.equalsIgnoreCase(""))){
+		afso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
 		response.sendRedirect("add_special_features.jsp");
 		return;
 	}
@@ -29,7 +29,7 @@
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("add_shared_doc"))){
 	
-		sd.sim_id = pso.simulation.id;
+		sd.sim_id = afso.simulation.id;
 		sd.tabheading = (String) request.getParameter("tab_title");
 		sd.docTitle = (String) request.getParameter("doc_title");
 		sd.docDesc = (String) request.getParameter("doc_desc");
@@ -57,7 +57,7 @@
 	}
 	///////////////////////////////////////
 	
-	Vector sharedDocs = new SharedDocument().getSetForASimulation(pso.simulation.id);
+	Vector sharedDocs = new SharedDocument().getSetForASimulation(afso.simulation.id);
 	
 	
 %>
@@ -84,7 +84,7 @@
               <br />
     <p><%= Debug.getDebug(debug) %></p>
     <blockquote>
-      <p>Current Shared Documents for the Simulation <%= pso.simulation.name %>:</p>
+      <p>Current Shared Documents for the Simulation <%= afso.simulation.name %>:</p>
           <blockquote>
             <p>
               <% if (sharedDocs.size() == 0) { %>

@@ -46,9 +46,9 @@ public class PSO_UserAdmin {
 	/** Password of the user. */
 	private String _password = ""; //$NON-NLS-1$
 	
-	private ParticipantSessionObject pso;
+	private AuthorFacilitatorSessionObject pso;
 	
-	public PSO_UserAdmin(ParticipantSessionObject pso){
+	public PSO_UserAdmin(AuthorFacilitatorSessionObject pso){
 		
 		this.pso = pso;
 	}

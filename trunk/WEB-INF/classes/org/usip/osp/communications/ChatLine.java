@@ -11,7 +11,7 @@ import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.networking.ParticipantSessionObject;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -84,7 +84,7 @@ public class ChatLine {
      * 
      * @return	Returns the chatline packaged in xml.
      */
-    public String packageIntoXML(ParticipantSessionObject pso, HttpServletRequest request){
+    public String packageIntoXML(AuthorFacilitatorSessionObject pso, HttpServletRequest request){
     	
     	String time_string = this.sdf.format(this.msgDate);
     	

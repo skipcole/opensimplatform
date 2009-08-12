@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %><%
 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), false);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), false);
 	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");

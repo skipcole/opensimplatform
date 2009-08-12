@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" 
 import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="../error.jsp" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -51,7 +51,7 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 
           </blockquote>
         <p align="center">  
-          <% if (pso.isAdmin()) { %>
+          <% if (afso.isAdmin()) { %>
           <a href="../simulation_admin/adminwebui.jsp" target="_top">Administrate</a> 
           <% } %>
           <br />

@@ -6,7 +6,7 @@
 %>
 <%
 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
 	
 	String status_code = ChatController.NO_NEW_MSG + "";
 	

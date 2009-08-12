@@ -4,23 +4,23 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "create_simulation_phases.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "create_simulation_phases.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 	///////////////////////////////////////////////////////////
 	String sending_page = (String) request.getParameter("sending_page");
-	SimulationPhase spOnScratchPad = pso.handleCreateOrUpdatePhase(simulation, request);
+	SimulationPhase spOnScratchPad = afso.handleCreateOrUpdatePhase(simulation, request);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -45,9 +45,9 @@
 			  <br />
             <blockquote> 
               <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 			
-			List phaseList = SimPhaseAssignment.getPhasesForSim(pso.schema, pso.sim_id);
+			List phaseList = SimPhaseAssignment.getPhasesForSim(afso.schema, afso.sim_id);
 
 		%>
               <blockquote>
@@ -126,7 +126,7 @@
                 <td valign="top"><%= sp.getOrder() + "" %></td>
                 <td valign="top">
                   <% if (flagNotes.length() == 0){ %>
-                  <a href="delete_object.jsp?phase_sim_id=<%= pso.sim_id %>&object_type=phase&objid=<%= sp.getId().toString() %>&object_info=<%= sp.getName() %>">remove</a>
+                  <a href="delete_object.jsp?phase_sim_id=<%= afso.sim_id %>&object_type=phase&objid=<%= sp.getId().toString() %>&object_info=<%= sp.getName() %>">remove</a>
                   <% } %>                  </td>
               </tr>
               <%

@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
-import org.usip.osp.networking.ParticipantSessionObject;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -272,7 +272,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	 * @param pso
 	 * @param condition
 	 */
-	public void checkMyTriggers(ParticipantSessionObject pso, int condition){
+	public void checkMyTriggers(AuthorFacilitatorSessionObject pso, int condition){
 		
 		Logger.getRootLogger().warn("GenericVariable.checkMyTriggers"); //$NON-NLS-1$
 		

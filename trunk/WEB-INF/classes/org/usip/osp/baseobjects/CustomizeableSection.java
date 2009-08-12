@@ -383,7 +383,7 @@ public class CustomizeableSection extends BaseSimSection {
 	 * @param cs
 	 * @return
 	 */
-	public void handleCustomizeSection(HttpServletRequest request, ParticipantSessionObject pso){}
+	public void handleCustomizeSection(HttpServletRequest request, AuthorFacilitatorSessionObject pso){}
 	
 	/**
 	 * This method is called by the simulation section during play.
@@ -392,6 +392,6 @@ public class CustomizeableSection extends BaseSimSection {
 	 * @param cs
 	 * @return
 	 */
-	public void loadSimCustomizeSection(HttpServletRequest request, ParticipantSessionObject pso){}
+	public void loadSimCustomizeSection(HttpServletRequest request, AuthorFacilitatorSessionObject pso){}
 
 }

@@ -6,13 +6,13 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "add_objects.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "add_objects.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 %>
@@ -40,7 +40,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
 			  <br />
               <h1>Add Simulation Object</h1>

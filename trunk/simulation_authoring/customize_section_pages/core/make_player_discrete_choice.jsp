@@ -8,20 +8,20 @@
 	org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleMakePlayerDiscreteChoice(request);
+	CustomizeableSection cs = afso.handleMakePlayerDiscreteChoice(request);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
 	// Get list of allowable responses
-	List allowableResponses = AllowableResponse.pullOutArs(cs, pso.schema);
+	List allowableResponses = AllowableResponse.pullOutArs(cs, afso.schema);
 	
-	Hashtable answersSelected = pso.selectedChoices(cs, true);
+	Hashtable answersSelected = afso.selectedChoices(cs, true);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -51,7 +51,7 @@
         <input type="hidden" name="num_ars" value="<%= allowableResponses.size() %>" />
         <blockquote>
           <p>Tab Heading: 
-            <input type="text" name="tab_heading" value="<%= pso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
+            <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             <br />
             </p>
             <p><strong>Enter the choice that the player will need to make on this page.            </strong></p>
@@ -116,7 +116,7 @@
             <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p> 
-              <input type="hidden" name="custom_page" value="<%= pso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
+              <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="sending_page" value="make_player_discrete_choice" />
               <input type="submit" name="save_page" value="Save" />
               <input type="submit" name="save_and_add" value="Save and Add Section" />
@@ -130,7 +130,7 @@
           </label>
         <input type="hidden" name="author_adds_choice" value="true" />
       </form>
-      <a href="<%= pso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+      <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

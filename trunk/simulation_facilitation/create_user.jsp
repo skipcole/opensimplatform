@@ -5,14 +5,14 @@
 	errorPage="" %>
 <%
 	
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	User userOnScratchPad = pso.handleCreateUser(request);
+	User userOnScratchPad = afso.handleCreateUser(request);
 
 
 %>
@@ -38,7 +38,7 @@
               <h1>Create User</h1>
               <br />
 			
-      <p><font color="#FF0000"><%= pso.errorMsg %></font></p>
+      <p><font color="#FF0000"><%= afso.errorMsg %></font></p>
       <form action="create_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -94,7 +94,7 @@
         <p>
           <%
 		  
-		  List userList = User.getAllForSchemaAndLoadDetails(pso.schema);
+		  List userList = User.getAllForSchemaAndLoadDetails(afso.schema);
 		
 		for (ListIterator uli = userList.listIterator(); uli.hasNext();) {
 			User bu = (User) uli.next();  %>
@@ -122,6 +122,6 @@
 </body>
 </html>
 <%
-	pso.errorMsg = "";
+	afso.errorMsg = "";
 	
 %>

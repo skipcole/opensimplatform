@@ -5,7 +5,7 @@
 	errorPage="../error.jsp" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

@@ -11,7 +11,7 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	pso.handleInstallModels(request);        
+	afso.handleInstallModels(request);        
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -50,10 +50,10 @@ body {
   <td valign="top"><div align="right"><strong>State</strong></div></td>
   <td valign="top"><strong>Action</strong></td>
   </tr>
-	<% for (ListIterator li = ModelDefinitionObject.screenModelsFromXMLFiles(pso.schema).listIterator(); li.hasNext();) {
+	<% for (ListIterator li = ModelDefinitionObject.screenModelsFromXMLFiles(afso.schema).listIterator(); li.hasNext();) {
 			ModelDefinitionObject mdo = (ModelDefinitionObject) li.next(); 
 			
-			Long loaded_id = ModelDefinitionObject.checkInstalled(pso.schema, mdo);
+			Long loaded_id = ModelDefinitionObject.checkInstalled(afso.schema, mdo);
 			
 			boolean loaded = false;
 			

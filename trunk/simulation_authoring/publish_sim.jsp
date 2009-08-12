@@ -4,14 +4,14 @@
 	import="java.sql.*,java.util.*,java.io.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	pso.backPage = "publish_sim.jsp";
+	afso.backPage = "publish_sim.jsp";
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	String command = (String) request.getParameter("command");
@@ -20,13 +20,13 @@
 	
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("publish_sim"))){
-		pso.handlePublishing(command, sim_key_words, auto_registration);
+		afso.handlePublishing(command, sim_key_words, auto_registration);
 	}
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 
 %>
@@ -53,7 +53,7 @@
               <br />
 	  <blockquote>
 	    <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
 	    <p>Publishing simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
 	      (If you would like to look at a different simulation, <a href="select_simulation.jsp">click 
@@ -113,7 +113,7 @@
           </tr>
         <% 
 		  
-		  for (ListIterator li = Simulation.getAll(pso.schema).listIterator(); li.hasNext();) {
+		  for (ListIterator li = Simulation.getAll(afso.schema).listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
 			
 			String ready = "Under Development";

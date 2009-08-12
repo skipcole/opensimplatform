@@ -5,13 +5,13 @@
 	errorPage="" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 
 	Simulation simulation = new Simulation();
-	simulation.setCreator(pso.user_Display_Name);
+	simulation.setCreator(afso.user_Display_Name);
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 	String sending_page = (String) request.getParameter("sending_page");
@@ -34,7 +34,7 @@
 	
 	
 	//////////////////////////////////
-	List simList = Simulation.getAll(pso.schema);
+	List simList = Simulation.getAll(afso.schema);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
@@ -83,7 +83,7 @@
             <td width="16%"><strong>User Comments</strong></td>
           </tr>
           <% 
-		  for (ListIterator li = Simulation.getAllPublished(pso.schema).listIterator(); li.hasNext();) {
+		  for (ListIterator li = Simulation.getAllPublished(afso.schema).listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
 			%>
           <tr valign="top"> 

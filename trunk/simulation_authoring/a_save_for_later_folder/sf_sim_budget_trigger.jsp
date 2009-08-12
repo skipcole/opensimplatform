@@ -4,10 +4,10 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if ((pso.simulation.id == null) || (pso.simulation.id.equalsIgnoreCase(""))){
-		pso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
+	if ((afso.simulation.id == null) || (afso.simulation.id.equalsIgnoreCase(""))){
+		afso.errorMsg = "<p><font color=red> You must first select the sim you want to add this special feature to.</font></p>";
 		response.sendRedirect("add_special_features.jsp");
 		return;
 	}
@@ -22,7 +22,7 @@
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_sim_var"))){
 	
-		sbv.sim_id = pso.simulation.id;
+		sbv.sim_id = afso.simulation.id;
 		sbv.name = (String) request.getParameter("var_name");
 		//sbv.setValue((String) request.getParameter("initial_value"));
 		sbv.description = (String) request.getParameter("var_description");
@@ -49,7 +49,7 @@
 	}
 	///////////////////////////////////////
 
-	Vector simVars = new BudgetVariable().getSetForASimulation(pso.simulation.id);
+	Vector simVars = new BudgetVariable().getSetForASimulation(afso.simulation.id);
 	
 	String trueSelected = "";
 	String falseSelected = "selected";
@@ -85,7 +85,7 @@
       <p><%= Debug.getDebug(debug) %></p>
       <p>Budget triggers are a starting point to allow player actions affect their 
         universe.</p>
-      <p>Current budget triggersfor the Simulation <%= pso.simulation.name %>:</p>
+      <p>Current budget triggersfor the Simulation <%= afso.simulation.name %>:</p>
       <ul>
         <% if (simVars.size() == 0) { %>
         <li>None</li>

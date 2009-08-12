@@ -6,7 +6,7 @@
 %>
 <%
 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
 
 	String checking_actor =  (String) request.getParameter("checking_actor");
 	String checked_actor = (String) request.getParameter("checked_actor");

@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 
 import org.usip.osp.baseobjects.*;
-import org.usip.osp.networking.ParticipantSessionObject;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -154,7 +154,7 @@ public class Trigger {
 
 	}
 
-	public void execute(ParticipantSessionObject pso) {
+	public void execute(AuthorFacilitatorSessionObject pso) {
 
 		Logger.getRootLogger().warn("Trigger.execute"); //$NON-NLS-1$
 		switch (this.action_type) {

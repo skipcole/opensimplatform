@@ -4,21 +4,21 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.hibernate.*" 
 	errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "../simulation_facilitation/create_running_sim.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
+	afso.backPage = "../simulation_facilitation/create_running_sim.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
-	pso.handleAddRunningSimulation(request, simulation);
+	afso.handleAddRunningSimulation(request, simulation);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -45,12 +45,12 @@
 			  <br />
             <blockquote> 
               <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
               <p>Create running simulations for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
                 (If you would like to create running simulations for a different simulation, 
                 <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
-              <p><% if (pso.running_sim_id != null) { %>You are currently working on runnign simulation <%= pso.run_sim_name %>.<% } %>
+              <p><% if (afso.running_sim_id != null) { %>You are currently working on runnign simulation <%= afso.run_sim_name %>.<% } %>
               If you would like to select a running simulation already created,  <a href="../simulation_authoring/select_running_simulation.jsp">click here.</a></p>
               Below are the running simulation currently associated with <b> <%= simulation.getName() %> </b>. <br />
               <table width="80%" border = "1">
@@ -59,14 +59,14 @@
               <td><h2>Phase</h2></td>
             </tr>
                 <%
-		  	List rsList = RunningSimulation.getAllForSim(pso.sim_id.toString(), pso.schema);
+		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id.toString(), afso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();
 				
 				SimulationPhase sp = new SimulationPhase();
 				if (rs.getPhase_id() != null){
-					sp = SimulationPhase.getMe(pso.schema, rs.getPhase_id().toString());
+					sp = SimulationPhase.getMe(afso.schema, rs.getPhase_id().toString());
 				}
 		%>
                 <tr> 
@@ -103,7 +103,7 @@
                   </p>
             <p>&nbsp;</p>
             <% 
-		if (!(pso.isAuthor())) { %>
+		if (!(afso.isAuthor())) { %>
 	  		<a href="instructor_home.jsp" target="_top">&lt;-- Back            </a>
 	        <% } %>			</td>
 		</tr>

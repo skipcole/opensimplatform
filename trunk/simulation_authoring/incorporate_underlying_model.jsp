@@ -6,13 +6,13 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "incorporate_underlying_model.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "incorporate_underlying_model.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 %>
@@ -49,7 +49,7 @@
               <br />
       <blockquote> 
         <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
         <p>Incorporate  underlying model to the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 

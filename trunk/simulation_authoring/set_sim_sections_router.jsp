@@ -5,13 +5,13 @@
 	errorPage="../error.jsp" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
-	response.sendRedirect(pso.handleSimSectionsRouter(request));
+	response.sendRedirect(afso.handleSimSectionsRouter(request));
 	
 	if (true){
 		return;

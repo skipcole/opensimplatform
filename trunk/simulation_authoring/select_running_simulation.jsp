@@ -5,17 +5,17 @@
 	errorPage="" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 
 	String sending_page = (String) request.getParameter("sending_page");
@@ -26,12 +26,12 @@
 		
 		Long r_sim_id = new Long(   (String) request.getParameter("r_sim_id")   );
 		
-		pso.running_sim_id = r_sim_id;
+		afso.running_sim_id = r_sim_id;
 		
-		RunningSimulation rs = pso.giveMeRunningSim();
+		RunningSimulation rs = afso.giveMeRunningSim();
 		
-		pso.run_sim_name = rs.getName();
-		response.sendRedirect(pso.backPage);
+		afso.run_sim_name = rs.getName();
+		response.sendRedirect(afso.backPage);
 		return;
 			
 	}
@@ -71,21 +71,21 @@
           <table>
             <%
 		
-		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-		simulation = (Simulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Simulation.class, simulation.getId());
-		for (ListIterator li = simulation.getRunning_sims(pso.schema).listIterator(); li.hasNext();) {
+		MultiSchemaHibernateUtil.beginTransaction(afso.schema);
+		simulation = (Simulation) MultiSchemaHibernateUtil.getSession(afso.schema).get(Simulation.class, simulation.getId());
+		for (ListIterator li = simulation.getRunning_sims(afso.schema).listIterator(); li.hasNext();) {
 			RunningSimulation rs = (RunningSimulation) li.next();
 			
 			if (rs != null) {
 		%>
             <tr> 
-              <td><a href="select_running_simulation.jsp?select_running_sim=true&backpage=<%= pso.backPage %>&r_sim_id=<%= rs.getId() %>"><%= rs.getName() %></a></td>
+              <td><a href="select_running_simulation.jsp?select_running_sim=true&backpage=<%= afso.backPage %>&r_sim_id=<%= rs.getId() %>"><%= rs.getName() %></a></td>
             </tr>
             <%
 	}
 	}
 	
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(afso.schema);
 
 %>
             </table>

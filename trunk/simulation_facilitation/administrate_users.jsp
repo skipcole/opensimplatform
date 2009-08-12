@@ -4,27 +4,27 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	pso.backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
+	afso.backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
 	
-	pso.handleAssignUser(request);
+	afso.handleAssignUser(request);
 	
 	////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	/////////////////////////////////////////////////////
 	RunningSimulation running_simulation = new RunningSimulation();
-	if (pso.running_sim_id != null){
-		running_simulation = pso.giveMeRunningSim();
+	if (afso.running_sim_id != null){
+		running_simulation = afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
 	

@@ -4,9 +4,9 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -15,18 +15,18 @@
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("sim_ratings"))) {
 		
-		pso.handleEnterInstructorRatings(request);
+		afso.handleEnterInstructorRatings(request);
 		
 	}
 	
 	///////////////////////////////////////////////////////////////////////
 	String sim_id = (String) request.getParameter("sim_id");
 	if (sim_id != null) {
-		pso.sim_id = new Long(sim_id);
+		afso.sim_id = new Long(sim_id);
 	}
 	Simulation sim = new Simulation();	
-	if (pso.sim_id != null){
-		sim = pso.giveMeSim();
+	if (afso.sim_id != null){
+		sim = afso.giveMeSim();
 	}
 	
 %>
@@ -64,7 +64,7 @@
       <td><strong>Comments</strong></td>
       </tr>
 	  <%
-	  	for (ListIterator li = SimulationRatings.getRatingsBySim(pso.schema, pso.sim_id, SimulationRatings.INSTRUCTOR_COMMENT).listIterator(); li.hasNext();) {
+	  	for (ListIterator li = SimulationRatings.getRatingsBySim(afso.schema, afso.sim_id, SimulationRatings.INSTRUCTOR_COMMENT).listIterator(); li.hasNext();) {
 			SimulationRatings sr = (SimulationRatings) li.next();
 			
 	  %>
@@ -76,7 +76,7 @@
       <p>&nbsp;</p>
       <h2>Your Rating</h2>
       <%
-	  	SimulationRatings sr_i = SimulationRatings.getInstructorRatingsBySimAndUser(pso.schema, pso.sim_id, pso.user_id);
+	  	SimulationRatings sr_i = SimulationRatings.getInstructorRatingsBySimAndUser(afso.schema, afso.sim_id, afso.user_id);
 		
 			String selected_num_1 = "";
 			String selected_num_2 = "";
@@ -167,7 +167,7 @@
       <td valign="top"><strong>Comments</strong></td>
       </tr>
               <%
-	  	for (ListIterator li = SimulationRatings.getRatingsBySim(pso.schema, pso.sim_id, SimulationRatings.PLAYER_COMMENT).listIterator(); li.hasNext();) {
+	  	for (ListIterator li = SimulationRatings.getRatingsBySim(afso.schema, afso.sim_id, SimulationRatings.PLAYER_COMMENT).listIterator(); li.hasNext();) {
 			SimulationRatings sr = (SimulationRatings) li.next();
 	  %>
       <tr><td valign="top"><%= sr.getActor_name() %></td><td valign="top"><%= sr.getUsers_stated_name() %></td><td valign="top"><%= sr.getUser_comments() %></td></tr>

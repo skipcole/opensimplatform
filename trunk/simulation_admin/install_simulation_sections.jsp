@@ -10,7 +10,7 @@
 <%
 	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
 	
-	pso.handleInstallSimulationSections(request);        
+	afso.handleInstallSimulationSections(request);        
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -50,10 +50,10 @@ body {
   <td valign="top"><div align="right"><strong>State</strong></div></td>
   <td valign="top"><strong>Action</strong></td>
   </tr>
-	<% for (ListIterator li = BaseSimSection.screenBaseSimSectionsFromXMLFiles(pso.schema).listIterator(); li.hasNext();) {
+	<% for (ListIterator li = BaseSimSection.screenBaseSimSectionsFromXMLFiles(afso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next(); 
 			
-			Long loaded_id = BaseSimSection.checkInstalled(pso.schema, bss);
+			Long loaded_id = BaseSimSection.checkInstalled(afso.schema, bss);
 			
 			boolean loaded = false;
 			

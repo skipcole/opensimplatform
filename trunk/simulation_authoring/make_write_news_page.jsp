@@ -4,13 +4,13 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	CustomizeableSection cs = pso.handleMakeWriteNewsPage(request);
+	CustomizeableSection cs = afso.handleMakeWriteNewsPage(request);
 	
-	if (pso.forward_on){
-		pso.forward_on = false;
-		response.sendRedirect(pso.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
@@ -47,7 +47,7 @@
       </blockquote>
       <form action="make_write_news_page.jsp" method="post" name="form2" id="form2">
         <blockquote>Tab Heading: 
-          <input type="text" name="tab_heading" value="<%= pso.tab_heading %>"/>
+          <input type="text" name="tab_heading" value="<%= afso.tab_heading %>"/>
           <p>
             <textarea id="make_write_news_page_text" name="make_write_news_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
 
@@ -64,7 +64,7 @@
           <p><input type="submit" name="create_duplicate" value="Create Duplicate" disabled /></p>
         </blockquote>
       </form>
-	  <a href="<%= pso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
+	  <a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a><!-- InstanceEndEditable -->
 			</td>
 		</tr>
 		</table>

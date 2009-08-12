@@ -5,10 +5,10 @@
 	errorPage="../error.jsp" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = pso.getBaseSimURL() + "/simulation_authoring/set_universal_sim_sections.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = afso.getBaseSimURL() + "/simulation_authoring/set_universal_sim_sections.jsp";
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -20,14 +20,14 @@
 		
 	SimulationPhase spp = new SimulationPhase();
 	
-	if ((pso.sim_id != null) && (pso.sim_id != null)){
-		simulation = pso.handleSetUniversalSimSectionsPage(request);	
+	if ((afso.sim_id != null) && (afso.sim_id != null)){
+		simulation = afso.handleSetUniversalSimSectionsPage(request);	
 	
-		if (pso.phase_id != null) {
-			spp = pso.giveMePhase();
+		if (afso.phase_id != null) {
+			spp = afso.giveMePhase();
 		}
 	
-	} // end of if pso.selected
+	} // end of if afso.selected
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -71,7 +71,7 @@ function MM_swapImage() { //v3.0
 	var sample_image_directory = new Array();
 	
 	<%	
-	for (ListIterator li = new BaseSimSection().getAllAndChildren(pso.schema).listIterator(); li.hasNext();) {
+	for (ListIterator li = new BaseSimSection().getAllAndChildren(afso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next(); %>
 	tab_headings["<%= bss.getId() %>"] = "<%= bss.getRec_tab_heading() %>";
 	sec_descs["<%= bss.getId() %>"] = "<%= bss.getDescription() %>";
@@ -133,7 +133,7 @@ function loadInfo(dropdownlist){
               <br />
       <blockquote> 
         <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
         <p>Set the sections available to all of the actors in the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
           (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
@@ -150,12 +150,12 @@ function loadInfo(dropdownlist){
                         <select name="phase_id">
                           <% 
 						
-						for (ListIterator li = SimPhaseAssignment.getPhasesForSim(pso.schema, simulation.getId()).listIterator(); li.hasNext();) {
+						for (ListIterator li = SimPhaseAssignment.getPhasesForSim(afso.schema, simulation.getId()).listIterator(); li.hasNext();) {
 							SimulationPhase sp = (SimulationPhase) li.next();
 							
 							String selected_p = "";
 							
-							if (sp.getId().intValue() == pso.phase_id.intValue()) {
+							if (sp.getId().intValue() == afso.phase_id.intValue()) {
 								selected_p = "selected";
 							}	
 				%>
@@ -170,7 +170,7 @@ function loadInfo(dropdownlist){
             </table>
                 <p>&nbsp;</p>
                 <%
-			if (pso.tempSimSecList.size() > 0) {
+			if (afso.tempSimSecList.size() > 0) {
 		%> <table  border="1" cellspacing="2" cellpadding="1">
                   <tr> 
                     <%
@@ -179,7 +179,7 @@ function loadInfo(dropdownlist){
 			Hashtable idByPos = new Hashtable();
 			
 			////////////////////////////////////////////////////
-			for (ListIterator li = pso.tempSimSecList.listIterator(); li.hasNext();) {
+			for (ListIterator li = afso.tempSimSecList.listIterator(); li.hasNext();) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
 				
 				idByPos.put(ii + "", ss.getId());
@@ -191,7 +191,7 @@ function loadInfo(dropdownlist){
 			ii = 0;
 			int first_ss = 0;
 			
-			for (ListIterator li = pso.tempSimSecList.listIterator(); li.hasNext();) {
+			for (ListIterator li = afso.tempSimSecList.listIterator(); li.hasNext();) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
 				
 				int sec_ss = ss.getId().intValue();
@@ -202,7 +202,7 @@ function loadInfo(dropdownlist){
                     <td><!-- a href="set_universal_sim_sections.jsp?exchange=true&first_sec=< % = first_ss %>&sec_sec=< % = sec_ss %>" -->-<!-- /a--></td>
                     <% } %>
                     <td><a href="show_section_preview.jsp?sec_id=<%= sec_ss %>"><%= ss.getTab_heading() %></a></td>
-                    <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
+                    <% if (ii < (afso.tempSimSecList.size() - 1)) { %>
                     <td>-</td>
                     <% } %>
                     <%
@@ -215,14 +215,14 @@ function loadInfo(dropdownlist){
                       <%
 		  	ii = 0;
 			
-			for (ListIterator li = pso.tempSimSecList.listIterator(); li.hasNext();) {
+			for (ListIterator li = afso.tempSimSecList.listIterator(); li.hasNext();) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
 		  %>
                       <% if (ii > 0) { %>
                       <td>&nbsp;</td>
                     <% } %>
                       <td><a href="delete_object.jsp?object_type=sim_section&amp;objid=<%= ss.getId().toString() %>&amp;backpage=set_universal_sim_sections.jsp&amp;object_info=<%= ss.getTab_heading() %>">Remove </a></td>
-                    <% if (ii < (pso.tempSimSecList.size() - 1)) { %>
+                    <% if (ii < (afso.tempSimSecList.size() - 1)) { %>
                       <td>&nbsp;</td>
                     <% } %>
                       <%
@@ -249,7 +249,7 @@ function loadInfo(dropdownlist){
                                 <select name="bss_id"  onChange="loadInfo(window.document.section_form.bss_id);">
                                   <%
 							
-		for (ListIterator li = new BaseSimSection().getAll(pso.schema).listIterator(); li.hasNext();) {
+		for (ListIterator li = new BaseSimSection().getAll(afso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next();
 			%>
                                   <option value="<%= bss.getId() %>"><%= bss.getRec_tab_heading() %></option>
@@ -257,7 +257,7 @@ function loadInfo(dropdownlist){
                                   <option value="new_section">* Create an Entirely 
                                     New Section</option>
                                   <% 
-								List uc = CustomizeableSection.getAllUncustomized(pso.schema);
+								List uc = CustomizeableSection.getAllUncustomized(afso.schema);
 								
 								if (uc != null) {
 							%>
@@ -284,7 +284,7 @@ function loadInfo(dropdownlist){
                             <p> 
                               <label> 
                                 <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
-                                <input type="hidden" name="phase_id" value="<%= pso.phase_id.toString() %>">
+                                <input type="hidden" name="phase_id" value="<%= afso.phase_id.toString() %>">
                                 <input type="hidden" name="universal" value="true">
                                 <br />
                                 <input type="submit" name="command" value="Add Section">
@@ -300,7 +300,7 @@ function loadInfo(dropdownlist){
       </blockquote>
       <p align="center"> 
         <%
-	Actor nextActor = (Actor) simulation.getActors(pso.schema).get(0);
+	Actor nextActor = (Actor) simulation.getActors(afso.schema).get(0);
 %>
         <a href="set_specific_sim_sections.jsp?actor_index=1&amp;phase_id=<%= spp.getId().toString() %>"> 
           Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a>      </p>

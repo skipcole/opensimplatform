@@ -8,7 +8,7 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	
 	String inject_group_id = (String) request.getParameter("inject_group_id");
@@ -19,7 +19,7 @@
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_ind_inject"))){
 		System.out.println("doing inject creation");
-		pso.handleCreateInject(request);
+		afso.handleCreateInject(request);
 		response.sendRedirect("create_injects.jsp");
 		return;
 	}
@@ -30,7 +30,7 @@
 	
 	if ( (edit != null) && (edit.equalsIgnoreCase("true"))){
 		
-		inj = Inject.getMe(pso.schema, new Long(inj_id));
+		inj = Inject.getMe(afso.schema, new Long(inj_id));
 		in_edit_mode = true;
 		
 	}
@@ -65,7 +65,7 @@
               <br />
       <blockquote> 
         <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
         <p>          </p>
           <form id="form2" name="form2" method="post" action="create_indvidual_inject.jsp">

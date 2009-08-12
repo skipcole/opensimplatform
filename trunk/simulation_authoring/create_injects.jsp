@@ -7,13 +7,13 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	pso.backPage = "create_injects.jsp";
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	afso.backPage = "create_injects.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 %>
@@ -38,7 +38,7 @@
             <blockquote> 
               <h1>Create Injects</h1>
         <% 
-			if (pso.sim_id != null) {
+			if (afso.sim_id != null) {
 		%>
           <table width="100%" border="0" cellspacing="0" cellpadding="4">
             <tr>
@@ -53,7 +53,7 @@
               <td colspan="4"><strong><u>Current Inject Groups and Injects</u></strong></td>
               </tr>
             <%
-			for (ListIterator li = InjectGroup.getAllForSim(pso.schema, pso.sim_id).listIterator(); li.hasNext();) {
+			for (ListIterator li = InjectGroup.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 			InjectGroup ig = (InjectGroup) li.next();
 		%>
             <tr>
@@ -68,7 +68,7 @@
               <td colspan="3" valign="top"><strong>Group Description:</strong> <%= ig.getDescription() %></td>
             </tr>
             <% 
-		  List injectList = Inject.getAllForSimAndGroup(pso.schema, pso.sim_id, ig.getId());
+		  List injectList = Inject.getAllForSimAndGroup(afso.schema, afso.sim_id, ig.getId());
 		  
 		   if (injectList.size() > 0) { 
 		  	for (ListIterator lii = injectList.listIterator(); lii.hasNext();) {
