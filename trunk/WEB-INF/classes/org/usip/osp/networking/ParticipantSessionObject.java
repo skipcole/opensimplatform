@@ -122,6 +122,7 @@ public class ParticipantSessionObject {
 	/** Round being displayed */
 	private String simulation_round = "0"; //$NON-NLS-1$
 
+	/** The Session object. */
 	public HttpSession session = null;
 
 	/** Error message to be shown to the user. */
@@ -1268,21 +1269,7 @@ public class ParticipantSessionObject {
 		return returnValue;
 	}
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public BaseUser validate(HttpServletRequest request) {
 
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-
-		BaseUser bu = BaseUser.validateUser(username, password);
-
-		return bu;
-
-	}
 
 	/**
 	 * Should take this opportunity to mark in the user trail that they have
@@ -2749,7 +2736,7 @@ public class ParticipantSessionObject {
 
 		String sendToPage = "index.jsp";
 
-		BaseUser bu = validate(request);
+		BaseUser bu = OSPSessionObjectHelper.validate(request);
 
 		if (bu != null) {
 
@@ -2853,7 +2840,7 @@ public class ParticipantSessionObject {
 
 		String sendToPage = "index.jsp";
 
-		BaseUser bu = validate(request);
+		BaseUser bu = OSPSessionObjectHelper.validate(request);
 
 		if (bu != null) {
 
