@@ -402,9 +402,7 @@ public class Simulation {
 						}
 					}
 
-					// If control does not have this control section in this
-					// phase,
-					// then add it.
+					// If control does not have this control section in this phase, then add it.
 					if (!foundThisControl) {
 
 						SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, this.getId(),

@@ -62,7 +62,7 @@ body {
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page12.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page13.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page14.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>
