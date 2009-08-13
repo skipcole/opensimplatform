@@ -7,9 +7,9 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	String sim_id = (String) request.getParameter("sim_id");
-	String actor_id = (String) request.getParameter("actor_id");
+	String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
 	
-	SimActorAssignment saa = SimActorAssignment.getMe(afso.schema, new Long(sim_id), new Long(actor_id));
+	SimActorAssignment saa = SimActorAssignment.getMe(afso.schema, new Long(sim_id), new Long(actor_being_worked_on_id));
 	
 
 %>
@@ -32,7 +32,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Actor <%= actor_id %> in  Simulation <%= sim_id %></h1>
+              <h1>Actor <%= actor_being_worked_on_id %> in  Simulation <%= sim_id %></h1>
               <br />
       <table width="100%" border="0" cellspacing="2" cellpadding="2">
         

@@ -5,14 +5,14 @@
 	errorPage="" %>
 <%
 	
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	User userOnScratchPad = pso.handleAutoRegistration(request);
+	User userOnScratchPad = afso.handleAutoRegistration(request);
 	
-	if(pso.forward_on){
+	if(afso.forward_on){
 	
 		response.sendRedirect("auto_registration_thankyou.jsp");
-		pso.forward_on = false;
+		afso.forward_on = false;
 		return;
 	}
 %>
@@ -158,6 +158,6 @@ body {
 </body>
 </html>
 <%
-	pso.errorMsg = "";
+	afso.errorMsg = "";
 	
 %>

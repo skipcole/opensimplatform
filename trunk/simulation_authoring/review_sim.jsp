@@ -289,7 +289,7 @@ h3.trigger a:hover { color: #ccc; }
 		      <p>&nbsp;</p>
 		      <blockquote>
 		        <% if (afso.isAuthor()) { %>
-		        <p align="center"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top">On 
+		        <p align="center"><a href="../simulation_facilitation/playweb.jsp" target="_top">On 
 		          To Play Test the Simulation</a></p>
             <p align="center"><a href="publish_sim.jsp">On To Publish the Simulation</a></p>
 		    <% } // end of if show edit. %>

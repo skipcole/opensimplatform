@@ -6,7 +6,7 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");

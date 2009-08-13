@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=ISO-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -29,10 +29,10 @@ body {
 </head>
 <body onLoad="">
 <%
-	String myLogoutPage = pso.getBaseSimURL() + "/simulation/logout.jsp";
+	String myLogoutPage = afso.getBaseSimURL() + "/simulation/logout.jsp";
 	
-	if ( (pso.isAuthor())  || (pso.isFacilitator())) {
-		myLogoutPage = pso.getBaseSimURL() + "/simulation_authoring/logout.jsp";
+	if ( (afso.isAuthor())  || (afso.isFacilitator())) {
+		myLogoutPage = afso.getBaseSimURL() + "/simulation_authoring/logout.jsp";
 	}
 %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -43,11 +43,11 @@ body {
 
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
-	<%  if (pso.isAuthor()) { %>
+	<%  if (afso.isAuthor()) { %>
         <tr>
           <td><div align="center"><a href="../simulation_authoring/intro.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
-	<% } else if (pso.isFacilitator()) { %>
+	<% } else if (afso.isFacilitator()) { %>
 		<tr>
           <td><div align="center"><a href="../simulation_facilitation/instructor_home.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
@@ -65,7 +65,7 @@ body {
     <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
     <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"><% 
 			
-		if (pso.isAuthor()) { %>
+		if (afso.isAuthor()) { %>
 		
 		<table border="0" cellpadding="0" cellspacing="0" >
 		   <tr>

@@ -4,9 +4,9 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -15,13 +15,13 @@
 	String loaddetails = (String) request.getParameter("loaddetails");
 	Simulation sim = new Simulation();
 	if ((loaddetails != null) && (loaddetails.equalsIgnoreCase("true"))){
-		sim = pso.handleUnpackDetails(request);
+		sim = afso.handleUnpackDetails(request);
 	}
 	
 	String unpack = (String) request.getParameter("unpack");
 	
 	if ((unpack != null) && (unpack.equalsIgnoreCase("true"))){
-		pso.handleUnpackSimulation(request);
+		afso.handleUnpackSimulation(request);
 		response.sendRedirect("unpackage_results.jsp");
 		return;
 	}
