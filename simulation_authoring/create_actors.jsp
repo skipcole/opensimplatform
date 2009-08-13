@@ -21,10 +21,10 @@
 		afso.handleCreateActor(request);
 		
 		Actor actorOnScratchPad = new Actor();
-		if (afso.actor_id != null) {
+		if (afso.actor_being_worked_on_id != null) {
 			actorOnScratchPad = afso.giveMeActor();
 					
-			// TODO remove code below. it shouldn't happen. afso.actor_id is getting bad old data somehow		
+			// TODO remove code below. it shouldn't happen. afso.actor_being_worked_on_id is getting bad old data somehow		
 			if (actorOnScratchPad == null){
 				actorOnScratchPad = new Actor();
 			}		
@@ -183,10 +183,10 @@
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>
               <td valign="top">
-  <input type="hidden" name="actorid" value="<%= afso.actor_id %>" /> 
+  <input type="hidden" name="actorid" value="<%= afso.actor_being_worked_on_id %>" /> 
                 
                 <%
-				if (afso.actor_id == null) {
+				if (afso.actor_being_worked_on_id == null) {
 				%>
                 <input type="submit" name="create_actor" value="Create Actor" />
                 <%

@@ -8,36 +8,36 @@
 	errorPage="" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if ( (pso.checkDatabaseCreated()) &&  (!(pso.isLoggedin()))) {
+	if ( (afso.checkDatabaseCreated()) &&  (!(afso.isLoggedin()))) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	String error_msg = pso.handleCreateDB(request);
+	String error_msg = afso.handleCreateDB(request);
 	
-	String db_schema = pso.getClean(request, "db_schema");
-	String db_org = pso.getClean(request, "db_org");
-    String db_user = pso.getClean(request, "db_user");
-    String db_pass = pso.getClean(request, "db_pass");
-	String db_loc = pso.getClean(request, "db_loc");
-	String db_port = pso.getClean(request, "db_port");
+	String db_schema = afso.getClean(request, "db_schema");
+	String db_org = afso.getClean(request, "db_org");
+    String db_user = afso.getClean(request, "db_user");
+    String db_pass = afso.getClean(request, "db_pass");
+	String db_loc = afso.getClean(request, "db_loc");
+	String db_port = afso.getClean(request, "db_port");
 	
-	String admin_first = pso.getClean(request, "admin_first");
-	String admin_middle = pso.getClean(request, "admin_middle");
-	String admin_last = pso.getClean(request, "admin_last");	
-	String admin_full = pso.getClean(request, "admin_full");
+	String admin_first = afso.getClean(request, "admin_first");
+	String admin_middle = afso.getClean(request, "admin_middle");
+	String admin_last = afso.getClean(request, "admin_last");	
+	String admin_full = afso.getClean(request, "admin_full");
 	
-	String admin_pass = pso.getClean(request, "admin_pass");
-    String admin_email = pso.getClean(request, "admin_email");
-	String new_admin_user_cbox = pso.getClean(request, "new_admin_user_cbox");
+	String admin_pass = afso.getClean(request, "admin_pass");
+    String admin_email = afso.getClean(request, "admin_email");
+	String new_admin_user_cbox = afso.getClean(request, "new_admin_user_cbox");
 
     //////////////////////////////////////////////////////////////////    
-    String email_smtp = pso.getClean(request, "email_smtp");
-    String email_user = pso.getClean(request, "email_user");
-    String email_pass = pso.getClean(request, "email_pass");
-    String email_user_address = pso.getClean(request, "email_user_address");
+    String email_smtp = afso.getClean(request, "email_smtp");
+    String email_user = afso.getClean(request, "email_user");
+    String email_pass = afso.getClean(request, "email_pass");
+    String email_user_address = afso.getClean(request, "email_user_address");
         
 
 %>

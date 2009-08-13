@@ -7,7 +7,7 @@
 	errorPage="" %>
 
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 
 	String sending_page = (String) request.getParameter("sending_page");
 	String runsuite = (String) request.getParameter("runsuite");

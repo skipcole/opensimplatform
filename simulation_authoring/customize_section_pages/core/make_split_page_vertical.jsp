@@ -66,7 +66,7 @@
               <td valign="top">
                             <select name="select_right" id="select">
               	<%
-					// List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id, afso.actor_id, afso.phase_id);
+					// List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
 					SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();

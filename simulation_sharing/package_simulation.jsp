@@ -8,11 +8,11 @@
 		org.usip.osp.networking.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	//////////////////////////////////
 	// Get list of all simulations for pull down
-	List simList = Simulation.getAll(pso.schema);
+	List simList = Simulation.getAll(afso.schema);
 	
 	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
@@ -25,7 +25,7 @@
 		String filename = (String) request.getParameter("filename");
 		
 		saveMsg = "File saved to " + 
-		pso.handlePackageSim(sim_id, filename);
+		afso.handlePackageSim(sim_id, filename);
 	}
 	
 %>
@@ -68,7 +68,7 @@
                   <input type="hidden" name="sim_id" value="<%= sim.getId().toString() %>" />
                   <%= sim.getName() %> : <%= sim.getVersion() %>                  </td>
               <td>
-                <input name="filename" type="text" id="textfield" value="<%= pso.getDefaultSimXMLFileName(sim) %>" size="60" />                </td>
+                <input name="filename" type="text" id="textfield" value="<%= afso.getDefaultSimXMLFileName(sim) %>" size="60" />                </td>
               <td><label>
                 <input type="submit" name="button" id="button" value="Package It" />
                 </label>            </td>

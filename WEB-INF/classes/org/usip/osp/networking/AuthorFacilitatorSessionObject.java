@@ -56,7 +56,7 @@ public class AuthorFacilitatorSessionObject {
 
 	/**
 	 * Username/ Email address of user that is logged in and using this
-	 * ParticipantSessionObject.
+	 * AuthorFacilitatorSessionObject.
 	 */
 	public String user_name;
 
@@ -1398,6 +1398,21 @@ public class AuthorFacilitatorSessionObject {
 
 		return actor;
 	}
+	
+	public Actor giveMeActor() {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_being_worked_on_id);
+
+		MultiSchemaHibernateUtil.getSession(schema).evict(actor);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		if (actor == null) {
+			actor = new Actor();
+		}
+
+		return actor;
+	}
 
 	public SimulationPhase giveMePhase() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -1859,33 +1874,7 @@ public class AuthorFacilitatorSessionObject {
 
 	}
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String validateLoginToSim(HttpServletRequest request) {
 
-		loggedin = false;
-
-		String sendToPage = "index.jsp";
-
-		BaseUser bu = OSPSessionObjectHelper.validate(request);
-
-		if (bu != null) {
-
-			user_id = bu.getId();
-			user_name = bu.getUsername();
-
-			loggedin = true;
-			sendToPage = "select_simulation.jsp";
-
-		} else {
-			errorMsg = "Failed Login Attempt";
-		}
-
-		return sendToPage;
-	}
 
 	/**
 	 * Takes a comma separated list of actor ids and turns it into a list of
@@ -2108,6 +2097,7 @@ public class AuthorFacilitatorSessionObject {
 
 	// /////////////////////////////////////////////////////////////////////////
 
+	/** Id of the actor being developed */
 	public Long actor_being_worked_on_id;
 
 	/**

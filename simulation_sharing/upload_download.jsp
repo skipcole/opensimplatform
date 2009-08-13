@@ -4,11 +4,11 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 		
 	//////////////////////////////////
 	// Get list of all simulations for pull down
-	List simList = Simulation.getAll(pso.hibernate_session);
+	List simList = Simulation.getAll(afso.hibernate_session);
 	
 	// Determine if setting sim to edit.
 	String sending_page = (String) request.getParameter("sending_page");
@@ -18,8 +18,8 @@
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_game_details"))){
 		selected_sim_id = (String) request.getParameter("selected_sim_id");
 		if (selected_sim_id != null) {
-			pso.simulation.id = selected_sim_id;
-			pso.simulation.load();
+			afso.simulation.id = selected_sim_id;
+			afso.simulation.load();
 		}
 	} // End of if changing sim to set text for.
 	
@@ -32,10 +32,10 @@
 	
 	if ( (sending_page != null) && (commit_edits != null) && (sending_page.equalsIgnoreCase("create_game_details2"))){
 		
-		pso.simulation.id = pso.simulation.id;
-		pso.simulation.load();
-		pso.simulation.setIntroductionInDB(game_intro);
-		selected_sim_id = pso.simulation.id;
+		afso.simulation.id = afso.simulation.id;
+		afso.simulation.load();
+		afso.simulation.setIntroductionInDB(game_intro);
+		selected_sim_id = afso.simulation.id;
 	}
 	
 %>

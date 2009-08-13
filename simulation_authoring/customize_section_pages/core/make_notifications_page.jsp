@@ -30,19 +30,19 @@
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_notifications_page"))){
 		
 		String sdanao = (String) request.getParameter("sdanao");
-		String actor_id = (String) request.getParameter("actor_id");
+		String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
 		String sdanao_text = (String) request.getParameter("sdanao_text");
 		
 		System.out.println(sdanao);
 		if (sdanao.equalsIgnoreCase("create_null")){
 			
-			System.out.println("actor_id" + actor_id);
+			System.out.println("actor_being_worked_on_id" + actor_being_worked_on_id);
 			
-			Long from_actor_id = null;
+			Long from_actor_being_worked_on_id = null;
 			Long from_phase_id = null;
 			
-			SharedDocActorNotificAssignObj sdanao_new = new SharedDocActorNotificAssignObj(afso.schema, afso.sim_id, sd.getId(), new Long(actor_id), 
-			from_actor_id, from_phase_id, sdanao_text);
+			SharedDocActorNotificAssignObj sdanao_new = new SharedDocActorNotificAssignObj(afso.schema, afso.sim_id, sd.getId(), new Long(actor_being_worked_on_id), 
+			from_actor_being_worked_on_id, from_phase_id, sdanao_text);
 		} else if (sdanao.startsWith("remove_")){
 			
 			sdanao = sdanao.replaceAll("remove_", "");
@@ -115,7 +115,7 @@
                 %>
                 <form action="make_notifications_page.jsp" method="post" name="form2" id="form2">
                 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
-                <input type="hidden" name="actor_id" value="<%= act.getId() %>" />
+                <input type="hidden" name="actor_being_worked_on_id" value="<%= act.getId() %>" />
                         <tr>
                           <td colspan="4"><%= act.getName() %> </td>
                           </tr>

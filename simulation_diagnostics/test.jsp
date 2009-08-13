@@ -12,6 +12,6 @@
 <body>
 
 <p>echo this: <%= test %></p>
-<p>echo from PSO: <%= ParticipantSessionObject.debugStuff %> </p>
+<p>echo from AFSO: <%= AuthorFacilitatorSessionObject.debugStuff %> </p>
 </body>
 </html>

@@ -51,6 +51,10 @@ public class PlayerSessionObject {
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
 	
+	public boolean isLoggedin() {
+		return loggedin;
+	}
+	
 	/** Schema of the database that the user is working in. */
 	public String schema = ""; //$NON-NLS-1$
 	
@@ -107,7 +111,7 @@ public class PlayerSessionObject {
 	
 	/**
 	 * Username/ Email address of user that is logged in and using this
-	 * ParticipantSessionObject.
+	 * PlayerSessionObject.
 	 */
 	public String user_name;
 	
@@ -1340,6 +1344,37 @@ public class PlayerSessionObject {
 		// //////////////////////////////////////////////
 		// Fire the triggers
 		// Get Triggers
+	}
+	
+	/** Error message to be shown to the user. */
+	public String errorMsg = ""; //$NON-NLS-1$
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public String validateLoginToSim(HttpServletRequest request) {
+
+		loggedin = false;
+
+		String sendToPage = "index.jsp";
+
+		BaseUser bu = OSPSessionObjectHelper.validate(request);
+
+		if (bu != null) {
+
+			user_id = bu.getId();
+			user_name = bu.getUsername();
+
+			loggedin = true;
+			sendToPage = "select_simulation.jsp";
+
+		} else {
+			errorMsg = "Failed Login Attempt";
+		}
+
+		return sendToPage;
 	}
 
 }

@@ -1,14 +1,14 @@
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" errorPage="../error.jsp" %>
 <%
 				
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	String prevErrorMsg = afso.errorMsg;
 	
 	String attempting_login = (String) request.getParameter("attempting_login");
 	
 	if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))){
 		session.setAttribute("afso", null);
-		afso = AuthorFacilitatorSessionObject.getPSO(request.getSession(true), true);
+		afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 		response.sendRedirect(afso.validateLoginToOSP(request, afso.FACILITATOR_LOGIN));
 		return;
 	} // End of if login in.

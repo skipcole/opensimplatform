@@ -6,8 +6,8 @@
 <%
 	String error_msg = "";
 	
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
-	if (!(pso.isLoggedin())) {
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("../simulation_authoring/index.jsp");
 		return;
 	}
@@ -21,11 +21,11 @@
 	if ((sending_page != null) && (update != null)
 			&& (sending_page.equalsIgnoreCase("my_profile"))) {
 		
-		pso.handleMyProfile(request);
+		afso.handleMyProfile(request);
 		
 	}
 	
-	User user = pso.giveMeUser();
+	User user = afso.giveMeUser();
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -80,11 +80,11 @@
     </tr>
     <tr>
       <td>Authorization Level:</td>
-      <td><% if (pso.isAuthor()) { %>Simulation Creator, <% } %> <% if (pso.isAdmin()) { %>, Administrator <% } %></td>
+      <td><% if (afso.isAuthor()) { %>Simulation Creator, <% } %> <% if (afso.isAdmin()) { %>, Administrator <% } %></td>
     </tr>
     <tr>
       <td>Email Address:</td>
-      <td><%= pso.user_email %><input type="hidden" name="email" value="<%= pso.user_email %>" /> </td>
+      <td><%= afso.user_email %><input type="hidden" name="email" value="<%= afso.user_email %>" /> </td>
     </tr>
     <tr>
       <td>&nbsp;</td>

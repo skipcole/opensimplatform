@@ -4,14 +4,14 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	ParticipantSessionObject pso = ParticipantSessionObject.getPSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
-	if (!(pso.isLoggedin()) || (!(pso.isAdmin()))) {
+	if (!(afso.isLoggedin()) || (!(afso.isAdmin()))) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	User userOnScratchPad = pso.handleCreateAdminUser(request);
+	User userOnScratchPad = afso.handleCreateAdminUser(request);
 	
 	String is_admin = "";
 	String is_author = "";
@@ -54,7 +54,7 @@
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
 
-<p><font color="#FF0000"><%= pso.errorMsg %></font></p>
+<p><font color="#FF0000"><%= afso.errorMsg %></font></p>
       <p>On this page you can create simulation authors, instructors and administrative 
         users. </p>
       <p>You can also promote normal users to be simulation authors, instructors or administrative 
@@ -136,7 +136,7 @@
             <td><strong>Author</strong></td>
             <td><strong>Facilitator</strong></td>
           </tr>
-          <% for (ListIterator li = User.getAllAdminsSCandInstructors(pso.schema).listIterator(); li.hasNext();) {
+          <% for (ListIterator li = User.getAllAdminsSCandInstructors(afso.schema).listIterator(); li.hasNext();) {
 			User user = (User) li.next(); %>
           <tr> 
             <td><a href="create_admin_user.jsp?command=Edit&u_id=<%= user.getId().toString() %>"><%= user.getBu_username() %></a></td>
@@ -167,5 +167,5 @@
 </body>
 <!-- InstanceEnd --></html>
 <%
-	pso.errorMsg = "";
+	afso.errorMsg = "";
 %>

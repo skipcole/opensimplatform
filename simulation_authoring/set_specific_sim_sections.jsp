@@ -139,7 +139,7 @@ function loadInfo(dropdownlist){
                       </select>
                       <label>
 					  <input type="hidden" name="actor_index" value="<%= afso.getMyPSO_SectionMgmt().getCurrentActorIndex()  %>">
-					  <input type="hidden" name="actor_id" value="<%= actor.getId() %>">
+					  <input type="hidden" name="actor_being_worked_on_id" value="<%= actor.getId() %>">
                       <input type="submit" name="command" value="Change Phase" />
                       </label>
                   </form>
@@ -299,7 +299,7 @@ function loadInfo(dropdownlist){
                             <label> 
                             <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
                             <input type="hidden" name="actor_index" value="<%= afso.getMyPSO_SectionMgmt().getCurrentActorIndex() %>">
-                            <input type="hidden" name="actor_id" value="<%= actor.getId() %>">
+                            <input type="hidden" name="actor_being_worked_on_id" value="<%= actor.getId() %>">
                             <input type="hidden" name="phase_id" value="<%= afso.phase_id.toString() %>">
                             <br />
                             <input type="submit" name="command" value="Add Section">

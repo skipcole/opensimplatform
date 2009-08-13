@@ -10,15 +10,15 @@
 	String addactortosim = (String) request.getParameter("addactortosim");
 	String remove = (String) request.getParameter("remove");
 	
-	String actor_id = (String) request.getParameter("actor_id");
+	String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
 	String sim_id = (String) request.getParameter("sim_id");
 	
 	if ( (sending_page != null) && (addactortosim != null) && (sending_page.equalsIgnoreCase("assign_actor"))){
-		afso.addActorToSim(sim_id, actor_id);
+		afso.addActorToSim(sim_id, actor_being_worked_on_id);
 	} // End of if coming from this page and have assigned actor
 	
 	if ( (remove != null) &&  (remove.equalsIgnoreCase("true"))){
-		afso.removeActorFromSim(sim_id, actor_id);
+		afso.removeActorFromSim(sim_id, actor_being_worked_on_id);
 		     
 	} // End of if coming from this page and have removed actor
 	
@@ -70,10 +70,10 @@
 				Actor act = (Actor) la.next();
 
 			%> 
-                <A href="assign_actor_to_sim_see_role.jsp?actor_id=<%= act.getId() %>&sim_id=<%= sim.getId() %>"> <%= act.getName() %> </A>
-                <A href="assign_actor_to_simulation.jsp?remove=true&actor_id=<%= act.getId().toString() %>&sim_id=<%= sim.getId().toString() %>"> (remove) </A><br/>
+                <A href="assign_actor_to_sim_see_role.jsp?actor_being_worked_on_id=<%= act.getId() %>&sim_id=<%= sim.getId() %>"> <%= act.getName() %> </A>
+                <A href="assign_actor_to_simulation.jsp?remove=true&actor_being_worked_on_id=<%= act.getId().toString() %>&sim_id=<%= sim.getId().toString() %>"> (remove) </A><br/>
                 <% } // End of loop over Actors %>                </td>
-              <td><select name="actor_id">
+              <td><select name="actor_being_worked_on_id">
                 <% 
                 for (ListIterator la = sim.getAvailableActors(afso.schema).listIterator(); la.hasNext();) {
 					Actor aa = (Actor) la.next();
