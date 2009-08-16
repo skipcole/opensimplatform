@@ -84,7 +84,7 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	public static final String CACHEON_LOGGED_IN_USERS = "loggedInUsers"; //$NON-NLS-1$
 
 	public static void main(String args[]) {
-		System.out.println("Hello World"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("Hello World"); //$NON-NLS-1$
 
 	}
 

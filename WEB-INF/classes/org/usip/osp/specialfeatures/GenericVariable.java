@@ -152,9 +152,9 @@ public class GenericVariable implements SimSectionDependentObject{
 		String hql_string = "from GenericVariable where RS_ID = " + rs_id  //$NON-NLS-1$
 		+ " AND BASE_ID = '" + gv_id + "'"; //$NON-NLS-1$ //$NON-NLS-2$
 		
-		System.out.println("----------------------------------"); //$NON-NLS-1$
-		System.out.println(hql_string);
-		System.out.println("----------------------------------"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("----------------------------------"); //$NON-NLS-1$
+		Logger.getRootLogger().debug(hql_string);
+		Logger.getRootLogger().debug("----------------------------------"); //$NON-NLS-1$
 		
 		List varFound = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		
@@ -249,7 +249,7 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 		Long gv_id = (Long) cust.getContents().get(GEN_VAR_KEY);
 		
-		System.out.println("The gv_id found inside of this custom section is " + gv_id); //$NON-NLS-1$
+		Logger.getRootLogger().debug("The gv_id found inside of this custom section is " + gv_id); //$NON-NLS-1$
 		
 		return getGVForRunningSim(schema, gv_id, rs_id);
 		
@@ -260,7 +260,7 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 		Long gv_id = (Long) cust.getContents().get(GEN_VAR_KEY);
 		
-		System.out.println("The gv_id found inside of this custom section is " + gv_id); //$NON-NLS-1$
+		Logger.getRootLogger().debug("The gv_id found inside of this custom section is " + gv_id); //$NON-NLS-1$
 		
 		return getmE(schema, gv_id);
 		

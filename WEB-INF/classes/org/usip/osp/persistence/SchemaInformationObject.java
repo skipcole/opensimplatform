@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.apache.log4j.*;
 
 /**
  * 
@@ -77,12 +78,12 @@ public class SchemaInformationObject {
 
 		List x = getAll();
 
-		System.out.println("got all"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("got all"); //$NON-NLS-1$
 
 		for (ListIterator li = x.listIterator(); li.hasNext();) {
 			SchemaInformationObject sio = (SchemaInformationObject) li.next();
 
-			System.out.println(sio.getSchema_name());
+			Logger.getRootLogger().debug(sio.getSchema_name());
 		}
 
 	}
@@ -125,7 +126,7 @@ public class SchemaInformationObject {
 		try {
 			conn.close();
 		} catch (Exception e) {
-			System.out.println("Error in closing connection in test conn."); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Error in closing connection in test conn."); //$NON-NLS-1$
 		}
 
 		return "Database Connection Verified"; //$NON-NLS-1$

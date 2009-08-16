@@ -6,7 +6,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import java.util.*;
 
 import javax.persistence.*;
-
+import org.apache.log4j.*;
 
 /**
  * This class represents an actor playing in a particular simulation, for example 'Red Cross Worker.'
@@ -158,9 +158,9 @@ public class Actor {
     	MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
     	
     	if (returnList == null){
-    		System.out.println("Found no control actors");
+    		Logger.getRootLogger().debug("Found no control actors");
     	} else {
-    		System.out.println("num control actors: " + returnList.size());
+    		Logger.getRootLogger().debug("num control actors: " + returnList.size());
     	}
     	
     	return returnList;
@@ -338,7 +338,7 @@ public class Actor {
         String getHQL = "select count(ss) from SimulationSectionAssignment ss where SIM_ID = " //$NON-NLS-1$
 			+ s_id + " AND PHASE_ID = " + pid.toString() + " AND ACTOR_ID = " + a_id.toString(); //$NON-NLS-1$ //$NON-NLS-2$
         
-        System.out.println(getHQL);
+        Logger.getRootLogger().debug(getHQL);
         
         Long count = (Long) session.createQuery(getHQL).uniqueResult(); 
         

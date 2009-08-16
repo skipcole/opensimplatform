@@ -197,7 +197,7 @@ public class Trigger {
 
 		if (var_type == VAR_TYPE_GENERIC) {
 
-			System.out.println("from Trigger where var_id = '" + baseVarId + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.getRootLogger().debug("from Trigger where var_id = '" + baseVarId + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 
 			returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
 					"from Trigger where var_id = '" + baseVarId + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$

@@ -1,5 +1,11 @@
 package org.usip.osp.baseobjects.core;
 
+import javax.servlet.http.HttpServletRequest;
+import org.usip.osp.baseobjects.CustomizeableSection;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.apache.log4j.*;
+
+
 /**
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
@@ -13,11 +19,6 @@ package org.usip.osp.baseobjects.core;
  *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
-import javax.servlet.http.HttpServletRequest;
-
-import org.usip.osp.baseobjects.CustomizeableSection;
-import org.usip.osp.networking.AuthorFacilitatorSessionObject;
-
 public class CastCustomizer extends Customizer{
 
 	public static final String KEY_FOR_DISPLAY_CONTROL = "display_control"; //$NON-NLS-1$
@@ -26,13 +27,13 @@ public class CastCustomizer extends Customizer{
 	public void handleCustomizeSection(HttpServletRequest request, 
 			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
 
-		System.out.println("CastCustomizeableSection.handleCustomizeSection"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("CastCustomizeableSection.handleCustomizeSection"); //$NON-NLS-1$
 		
 		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
 		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) { //$NON-NLS-1$
 			
-			System.out.println("CastCustomizeableSection.handleCustomizeSection.save_results"); //$NON-NLS-1$
+			Logger.getRootLogger().debug("CastCustomizeableSection.handleCustomizeSection.save_results"); //$NON-NLS-1$
 
 			String display_control = request.getParameter("display_control"); //$NON-NLS-1$
 

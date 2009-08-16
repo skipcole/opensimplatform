@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.persistence.BaseUser;
+import org.apache.log4j.*;
 
 /**
  * Utility class with methods to handle user administration; creation, editing, etc..
@@ -247,9 +248,9 @@ public class PSO_UserAdmin {
 	 */
 	private boolean hasEnoughInfoToCreateUser() {
 
-		System.out.println("p is " + this._password); //$NON-NLS-1$
-		System.out.println("f is " + this._full_name); //$NON-NLS-1$
-		System.out.println("e is " + this._email); //$NON-NLS-1$
+		Logger.getRootLogger().debug("p is " + this._password); //$NON-NLS-1$
+		Logger.getRootLogger().debug("f is " + this._full_name); //$NON-NLS-1$
+		Logger.getRootLogger().debug("e is " + this._email); //$NON-NLS-1$
 		
 		if (this._password.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
 			this.pso.errorMsg += "Must enter password.<br/>"; //$NON-NLS-1$

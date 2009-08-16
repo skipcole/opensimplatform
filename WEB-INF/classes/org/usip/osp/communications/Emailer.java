@@ -8,6 +8,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.SchemaInformationObject;
 
 import java.util.*;
+import org.apache.log4j.*;
 
 /**
  * This utility class provides the methods necessary to send information via email to the players.
@@ -34,8 +35,7 @@ public class Emailer {
 			simulation_url = USIP_OSP_Properties.getValue("simulation_url"); //$NON-NLS-1$
 
 		} catch (Exception e) {
-			System.out
-					.println("Problem getting simulation URL to include in email to participants."); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Problem getting simulation URL to include in email to participants."); //$NON-NLS-1$
 		}
 	}
 
@@ -47,7 +47,7 @@ public class Emailer {
 		String p = "a,b,c,"; //$NON-NLS-1$
 		toV = listToVector(p);
 
-		System.out.println(toV.size());
+		Logger.getRootLogger().debug(toV.size());
 		// postMail(toV, "test", "words of message", "scole@usip.org", null,
 		// null);
 	}
@@ -122,7 +122,7 @@ public class Emailer {
 				for (Enumeration<String> e = cced.elements(); e
 						.hasMoreElements();) {
 					String s = e.nextElement();
-					System.out.println("addressCC[ii] is " + addressCC[ii]); //$NON-NLS-1$
+					Logger.getRootLogger().debug("addressCC[ii] is " + addressCC[ii]); //$NON-NLS-1$
 					addressCC[ii] = new InternetAddress(s);
 				}
 				msg.setRecipients(Message.RecipientType.CC, addressCC);
@@ -134,7 +134,7 @@ public class Emailer {
 				for (Enumeration<String> e = bcced.elements(); e
 						.hasMoreElements();) {
 					String s = e.nextElement();
-					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!s is " + s); //$NON-NLS-1$
+					Logger.getRootLogger().debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!s is " + s); //$NON-NLS-1$
 					addressBCC[ii] = new InternetAddress(s);
 
 				}
@@ -248,7 +248,7 @@ public class Emailer {
 			msg.setSubject(subject);
 			msg.setContent(message, "text/plain"); //$NON-NLS-1$
 
-			// System.out.println(message);
+			// Logger.getRootLogger().debug(message);
 			Transport.send(msg);
 
 		} catch (Exception err) {

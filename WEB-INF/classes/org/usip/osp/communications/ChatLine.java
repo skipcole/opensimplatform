@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.apache.log4j.*;
 
 /**
  * This class represents a single line in a chat conversation.
@@ -111,10 +112,10 @@ public class ChatLine {
     }
     
     public static void main(String args[]){
-    	System.out.println("Hi handsome"); //$NON-NLS-1$
+    	Logger.getRootLogger().debug("Hi handsome"); //$NON-NLS-1$
     	ChatLine cl = new ChatLine("1", "1", "1", "1", "cargo cult"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
     	cl.saveMe("test"); //$NON-NLS-1$
-    	System.out.println("done"); //$NON-NLS-1$
+    	Logger.getRootLogger().debug("done"); //$NON-NLS-1$
     	
     }
     

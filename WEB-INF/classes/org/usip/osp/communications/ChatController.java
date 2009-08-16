@@ -9,7 +9,7 @@ import org.usip.osp.baseobjects.*;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.networking.USIP_OSP_ContextListener;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
+import org.apache.log4j.*;
 /**
  * This class provides utility functions to manage a chat session.
  *
@@ -56,7 +56,7 @@ public class ChatController {
 
 		java.util.Date now = new java.util.Date();
 
-		System.out.println("timeOfLastCheck is " + timeOfLastCheck.getTime()); //$NON-NLS-1$
+		Logger.getRootLogger().debug("timeOfLastCheck is " + timeOfLastCheck.getTime()); //$NON-NLS-1$
 
 		if ((timeOfLastCheck.getTime() + (42 * 1000)) > now.getTime()) {
 
@@ -72,12 +72,12 @@ public class ChatController {
 		// Mark the checking actor present
 		onlineUsers.put(checking_actor_key, now.getTime() + ""); //$NON-NLS-1$
 
-		System.out.println("checked_actor_key: " + checked_actor_key); //$NON-NLS-1$
+		Logger.getRootLogger().debug("checked_actor_key: " + checked_actor_key); //$NON-NLS-1$
 
 		for (Enumeration e = onlineUsers.keys(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
 
-			System.out.println("      checking against key: " + key); //$NON-NLS-1$
+			Logger.getRootLogger().debug("      checking against key: " + key); //$NON-NLS-1$
 
 			if (key.equalsIgnoreCase(checked_actor_key)) {
 				return "online"; //$NON-NLS-1$
@@ -101,12 +101,12 @@ public class ChatController {
 
 			String usersLastTouchTime = (String) onlineUsers.get(key);
 			
-			System.out.println("usersLastTouchTime: " + usersLastTouchTime); //$NON-NLS-1$
+			Logger.getRootLogger().debug("usersLastTouchTime: " + usersLastTouchTime); //$NON-NLS-1$
 
 			long longULTT = new Long(usersLastTouchTime).longValue();
 
 			if (((longULTT + (60 * 1000)) < now.getTime())) {
-				System.out.println("removing: " + key); //$NON-NLS-1$
+				Logger.getRootLogger().debug("removing: " + key); //$NON-NLS-1$
 				onlineUsers.remove(key);
 			}
 
@@ -329,7 +329,7 @@ public class ChatController {
 		Vector returnVector = new Vector();
 
 		if (conv_id == null) {
-			System.out.println("waring empty conversation id passe in"); //$NON-NLS-1$
+			Logger.getRootLogger().debug("waring empty conversation id passe in"); //$NON-NLS-1$
 			return returnVector;
 		}
 
@@ -343,11 +343,11 @@ public class ChatController {
 
 			Long a_id = caa.getActor_id();
 
-			System.out.println("actors id was " + a_id); //$NON-NLS-1$
+			Logger.getRootLogger().debug("actors id was " + a_id); //$NON-NLS-1$
 			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(pso.schema)
 					.get(Actor.class, a_id);
-			System.out.println("actor name is " + act.getName()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("actor name is " + act.getName()); //$NON-NLS-1$
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 			
 			ActorGhost ag = new ActorGhost(act);

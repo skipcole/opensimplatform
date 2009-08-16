@@ -7,7 +7,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
+import org.apache.log4j.*;
 
 /**
  * This class represents one specific choice in a set of answers that a player may select. For example,
@@ -261,7 +261,7 @@ public class AllowableResponse implements Comparable{
 			return this.ar_index - ar.ar_index;
 			
 		} catch (Exception e){
-			System.out.println("Non Allowable Response Object passed into CompareTo"); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Non Allowable Response Object passed into CompareTo"); //$NON-NLS-1$
 		}
 		
 		return 0;

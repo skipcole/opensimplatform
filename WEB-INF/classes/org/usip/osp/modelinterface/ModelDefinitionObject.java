@@ -15,6 +15,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import org.apache.log4j.*;
 
 /**
  * This class holds the important definition information for a model that has been added to the system.
@@ -173,14 +174,14 @@ public class ModelDefinitionObject implements Comparable{
 		File locDir = new File(fileLocation);
 
 		if (locDir == null) {
-			System.out.println("Problem finding files at " + fileLocation); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
 			return returnList;
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				System.out.println("Problem finding files at " + fileLocation); //$NON-NLS-1$
+				Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
 				return returnList;
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
@@ -194,8 +195,8 @@ public class ModelDefinitionObject implements Comparable{
 							returnList.add(ModelDefinitionObject.readAheadXML(schema, files[ii], fullFileLoc));
 							
 						} catch (Exception e) {
-							System.out.println("problem reading in file " + fName); //$NON-NLS-1$
-							System.out.println(e.getMessage());
+							Logger.getRootLogger().debug("problem reading in file " + fName); //$NON-NLS-1$
+							Logger.getRootLogger().debug(e.getMessage());
 						}
 					}
 

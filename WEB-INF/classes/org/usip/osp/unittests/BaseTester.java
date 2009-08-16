@@ -3,6 +3,7 @@ package org.usip.osp.unittests;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
+import org.apache.log4j.*;
 
 /**
  *
@@ -31,7 +32,7 @@ public class BaseTester {
             resourceBundle = ResourceBundle.getBundle("MasterTester", new Locale("en", "US")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
         } catch (Exception e) {
-            System.out.println("Properties file MasterTester_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
+            Logger.getRootLogger().debug("Properties file MasterTester_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
         }
     }
     

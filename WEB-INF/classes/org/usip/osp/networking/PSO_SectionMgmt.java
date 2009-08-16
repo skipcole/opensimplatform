@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.baseobjects.core.Customizer;
 import org.usip.osp.communications.ConvActorAssignment;
@@ -164,7 +165,7 @@ public class PSO_SectionMgmt {
 	 */
 	public void determinePhase(Simulation simulation) {
 
-		System.out.println("Determining Phase and _phase_id is " + this._phase_id); //$NON-NLS-1$
+		Logger.getRootLogger().debug("Determining Phase and _phase_id is " + this._phase_id); //$NON-NLS-1$
 
 		if ((this._phase_id != null) && (this._phase_id.length() > 0)) {
 			this.phase_being_worked_on_id = new Long(this._phase_id);
@@ -202,11 +203,11 @@ public class PSO_SectionMgmt {
 					Class classDefinition = Class.forName(this.customizableSectionOnScratchPad.getCustomizerClassName());
 					this.customizableSectionOnScratchPad.setMyCustomizer((Customizer) classDefinition.newInstance());
 				} catch (InstantiationException er) {
-					System.out.println(er);
+					Logger.getRootLogger().debug(er);
 				} catch (IllegalAccessException er) {
-					System.out.println(er);
+					Logger.getRootLogger().debug(er);
 				} catch (ClassNotFoundException er) {
-					System.out.println(er);
+					Logger.getRootLogger().debug(er);
 				}
 
 				this.customizableSectionOnScratchPad.getMyCustomizer().handleCustomizeSection(request, this.afso,
@@ -306,7 +307,7 @@ public class PSO_SectionMgmt {
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
 
-		System.out.println("_actor_index was: |" + this._actor_index + "|"); //$NON-NLS-1$ //$NON-NLS-2$
+		Logger.getRootLogger().warn("_actor_index was: |" + this._actor_index + "|"); //$NON-NLS-1$ //$NON-NLS-2$
 		// //////////////////////////////////////////////////////////////
 		// Determine the actor we are working on.
 		if ((this._actor_index != null) && (this._actor_index.trim().length() > 0)) {
@@ -315,7 +316,7 @@ public class PSO_SectionMgmt {
 			this.currentActorIndex = 1;
 		}
 
-		System.out.println("Current actor index = " + this.currentActorIndex); //$NON-NLS-1$
+		Logger.getRootLogger().warn("Current actor index = " + this.currentActorIndex); //$NON-NLS-1$
 
 		Simulation simulation = this.afso.giveMeSim();
 
@@ -325,24 +326,24 @@ public class PSO_SectionMgmt {
 			this_actor = simulation.getActors(this.afso.schema).get(this.currentActorIndex - 1);
 			this.afso.actor_being_worked_on_id = this_actor.getId();
 		} else {
-			System.out.println("Warning! This simulation appears to have no actors."); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Warning! This simulation appears to have no actors."); //$NON-NLS-1$
 		}
 
-		System.out.println("actor id is " + this.afso.actor_being_worked_on_id); //$NON-NLS-1$
+		Logger.getRootLogger().debug("actor id is " + this.afso.actor_being_worked_on_id); //$NON-NLS-1$
 		// ////////////////////////////////////////////////////////////
 
 		// //////////////////////////////////////////////////////////
 		// Determine what phase we are working on.
 		determinePhase(simulation);
 
-		System.out.println("command is = " + this.command); //$NON-NLS-1$
+		Logger.getRootLogger().debug("command is = " + this.command); //$NON-NLS-1$
 
 		if (this.command != null) {
 			if (this.command.equalsIgnoreCase("Change Phase")) { //$NON-NLS-1$
 				// This has been handled in the phase id section above.
 			} else if (this.command.equalsIgnoreCase("move_right")) { //$NON-NLS-1$
 				String m_index = request.getParameter("m_index"); //$NON-NLS-1$
-				System.out.println("doing something on index = " + m_index); //$NON-NLS-1$
+				Logger.getRootLogger().debug("doing something on index = " + m_index); //$NON-NLS-1$
 
 				int int_tab_pos = new Long(m_index).intValue() + 1;
 				SimulationSectionAssignment ss0 = SimulationSectionAssignment.getBySimAndActorAndPhaseAndPos(
@@ -360,15 +361,15 @@ public class PSO_SectionMgmt {
 				ss1.save(this.afso.schema);
 
 				if (ss0 != null) {
-					System.out.println(ss0.getTab_heading());
+					Logger.getRootLogger().debug(ss0.getTab_heading());
 				} else {
-					System.out.println("warning ss0 is null"); //$NON-NLS-1$
+					Logger.getRootLogger().debug("warning ss0 is null"); //$NON-NLS-1$
 				}
 
 			} else if (this.command.equalsIgnoreCase("move_left")) { //$NON-NLS-1$
 
 				String m_index = request.getParameter("m_index"); //$NON-NLS-1$
-				System.out.println("doing something on index = " + m_index); //$NON-NLS-1$
+				Logger.getRootLogger().debug("doing something on index = " + m_index); //$NON-NLS-1$
 
 				int int_tab_pos = new Long(m_index).intValue() + 1;
 				SimulationSectionAssignment ss0 = SimulationSectionAssignment.getBySimAndActorAndPhaseAndPos(
@@ -386,15 +387,15 @@ public class PSO_SectionMgmt {
 				ss1.save(this.afso.schema);
 
 				if (ss0 != null) {
-					System.out.println(ss0.getTab_heading());
+					Logger.getRootLogger().debug(ss0.getTab_heading());
 				} else {
-					System.out.println("warning ss0 is null"); //$NON-NLS-1$
+					Logger.getRootLogger().debug("warning ss0 is null"); //$NON-NLS-1$
 				}
 
 			}
 		}
 
-		System.out.println("getting simSecList for s/a/p:   " + this.afso.sim_id + "/" + this.afso.actor_being_worked_on_id + "/" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		Logger.getRootLogger().debug("getting simSecList for s/a/p:   " + this.afso.sim_id + "/" + this.afso.actor_being_worked_on_id + "/" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				+ this.phase_being_worked_on_id);
 		this.afso.tempSimSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(this.afso.schema, this.afso.sim_id,
 				this.afso.actor_being_worked_on_id, this.phase_being_worked_on_id);
@@ -446,7 +447,7 @@ public class PSO_SectionMgmt {
 			}
 		}
 
-		System.out.println("Router Accidentally called");
+		Logger.getRootLogger().debug("Router Accidentally called");
 		return this.afso.backPage;
 
 	}
@@ -467,7 +468,7 @@ public class PSO_SectionMgmt {
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
 
-		System.out.println("schema: " + this.afso.schema + ", sim_id: " + this.afso.sim_id + ", a_id: "
+		Logger.getRootLogger().debug("schema: " + this.afso.schema + ", sim_id: " + this.afso.sim_id + ", a_id: "
 				+ this.afso.actor_being_worked_on_id + ", phase_id:" + this.phase_being_worked_on_id + ", bss_id: " + this._bss_id
 				+ ", tab heading: " + this._tab_heading + ", tab pos: " + this._tab_pos);
 
@@ -480,7 +481,7 @@ public class PSO_SectionMgmt {
 				this_tab_pos.intValue());
 
 		if (universal) {
-			System.out.println("applying universal page");
+			Logger.getRootLogger().debug("applying universal page");
 			Simulation simulation = this.afso.giveMeSim();
 			SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(this.afso.schema, simulation.getId(),
 					this.phase_being_worked_on_id);
@@ -502,7 +503,7 @@ public class PSO_SectionMgmt {
 
 			this_tab_pos = SimulationSectionAssignment.getHighestBySimAndActorAndPhase(this.afso.schema, this.afso.sim_id,
 					new Long(this.afso.actor_being_worked_on_id), new Long(this.phase_being_worked_on_id));
-			System.out.println("problem converting tab position: " + nfe.getMessage());
+			Logger.getRootLogger().debug("problem converting tab position: " + nfe.getMessage());
 		}
 
 		return this_tab_pos;
@@ -520,16 +521,16 @@ public class PSO_SectionMgmt {
 	public void addSectionFromProcessCustomPage(Long bss_id, String string_tab_pos, String tab_heading,
 			HttpServletRequest request, String universal) {
 
-		System.out.println("bss_id " + bss_id);
-		System.out.println("tabhead " + tab_heading);
-		System.out.println("universal " + universal);
+		Logger.getRootLogger().debug("bss_id " + bss_id);
+		Logger.getRootLogger().debug("tabhead " + tab_heading);
+		Logger.getRootLogger().debug("universal " + universal);
 
 		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(this.afso.schema, this.afso.sim_id, new Long(
 				this.afso.actor_being_worked_on_id), new Long(this.phase_being_worked_on_id), bss_id, tab_heading, getTabPos()
 				.intValue());
 
 		if ((universal != null) && (universal.equalsIgnoreCase("true"))) {
-			System.out.println("applying sim sections on phase: " + this.phase_being_worked_on_id);
+			Logger.getRootLogger().debug("applying sim sections on phase: " + this.phase_being_worked_on_id);
 			SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(this.afso.schema, this.afso.sim_id,
 					this.phase_being_worked_on_id);
 		}
@@ -618,7 +619,7 @@ public class PSO_SectionMgmt {
 
 			// If this is the original custom page, make a new page
 			if (!(this.customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
+				Logger.getRootLogger().debug("making copy");
 				this.customizableSectionOnScratchPad = this.customizableSectionOnScratchPad.makeCopy(afso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
@@ -680,12 +681,12 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setNumDependentObjects(1);
 		}
 
-		System.out.println(" sending_page: " + sending_page);
+		Logger.getRootLogger().debug(" sending_page: " + sending_page);
 		
 		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 				&& (sending_page.equalsIgnoreCase("make_memos_page"))) {
 			
-			System.out.println("saving stuff");
+			Logger.getRootLogger().debug("saving stuff");
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
@@ -703,7 +704,7 @@ public class PSO_SectionMgmt {
 				String req_key = "doc_" + ii;
 				String doc_id = (String) request.getParameter(req_key);
 				
-				System.out.println("doc_id is " + doc_id);
+				Logger.getRootLogger().debug("doc_id is " + doc_id);
 
 				// Create and save the assignment object
 				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
@@ -744,7 +745,7 @@ public class PSO_SectionMgmt {
 	public CustomizeableSection handleMakeReadDocumentPage(HttpServletRequest request) {
 
 		this.getSimSectionsInternalVariables(request);
-		System.out.println("making read document page");
+		Logger.getRootLogger().debug("making read document page");
 
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
 
@@ -757,11 +758,11 @@ public class PSO_SectionMgmt {
 		
 		// If adding a document, just increase the number and return.
 		if (add_document != null) {
-			System.out.println("adding document!");
+			Logger.getRootLogger().debug("adding document!");
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
+				Logger.getRootLogger().debug("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
@@ -770,7 +771,7 @@ public class PSO_SectionMgmt {
 			int numDocs = customizableSectionOnScratchPad.getNumDependentObjects() + 1;
 			customizableSectionOnScratchPad.setNumDependentObjects(numDocs);
 
-			System.out.println("now has num docs: " + numDocs);
+			Logger.getRootLogger().debug("now has num docs: " + numDocs);
 			// Update page values
 			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
@@ -786,7 +787,7 @@ public class PSO_SectionMgmt {
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
+				Logger.getRootLogger().debug("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
@@ -802,7 +803,7 @@ public class PSO_SectionMgmt {
 				String req_key = "doc_" + ii;
 				String doc_id = (String) request.getParameter(req_key);
 
-				System.out.println("adding doc: " + doc_id);
+				Logger.getRootLogger().debug("adding doc: " + doc_id);
 
 				// Create and save the assignment object
 				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
@@ -849,7 +850,7 @@ public class PSO_SectionMgmt {
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
+				Logger.getRootLogger().debug("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 			}
@@ -857,8 +858,8 @@ public class PSO_SectionMgmt {
 			String select_left = (String) request.getParameter("select_left");
 			String select_right = (String) request.getParameter("select_right");
 
-			System.out.println("select left is " + select_left);
-			System.out.println("select right is " + select_right);
+			Logger.getRootLogger().debug("select left is " + select_left);
+			Logger.getRootLogger().debug("select right is " + select_right);
 
 			// Need to get the simulation section referenced, mark it as a
 			// subsection
@@ -931,7 +932,7 @@ public class PSO_SectionMgmt {
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				System.out.println("making copy");
+				Logger.getRootLogger().debug("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
 
 				conv = new Conversation();
@@ -993,7 +994,7 @@ public class PSO_SectionMgmt {
 					if ((request.getParameter(param_name) != null)
 							&& (request.getParameter(param_name).equalsIgnoreCase("true"))) {
 						String this_a_id = param_name.replaceFirst("actor_cb_", "");
-						System.out.println("adding " + this_a_id + " in schema" + afso.schema + " to sim_id "
+						Logger.getRootLogger().debug("adding " + this_a_id + " in schema" + afso.schema + " to sim_id "
 								+ afso.sim_id);
 						conv.addActor(this_a_id, afso.schema, afso.sim_id, (String) setOfUserRoles.get(this_a_id));
 					}
@@ -1077,7 +1078,7 @@ public class PSO_SectionMgmt {
 				String pname = (String) e.nextElement();
 
 				String vname = (String) request.getParameter(pname);
-				System.out.println(pname + " " + vname);
+				Logger.getRootLogger().debug(pname + " " + vname);
 
 				if (pname.startsWith("act_cb_")) {
 					pname = pname.replaceAll("act_cb_", "");
@@ -1086,7 +1087,7 @@ public class PSO_SectionMgmt {
 
 					String f_actor = str.nextToken();
 					String s_actor = str.nextToken();
-					System.out.println("setting up actors " + f_actor + " and " + s_actor);
+					Logger.getRootLogger().debug("setting up actors " + f_actor + " and " + s_actor);
 
 					try {
 						Long actorWithChat = new Long(f_actor);
@@ -1183,7 +1184,7 @@ public class PSO_SectionMgmt {
 					afso.makeUploadDir();
 					String initFileName = mpr.getOriginalFileName("uploadedfile");
 
-					System.out.println("init file was: " + initFileName);
+					Logger.getRootLogger().debug("init file was: " + initFileName);
 
 					if ((initFileName != null) && (initFileName.trim().length() > 0)) {
 						customizableSectionOnScratchPad.getContents().put("image_file_name", initFileName);
@@ -1211,7 +1212,7 @@ public class PSO_SectionMgmt {
 
 			} // End of if mpr != null
 		} catch (Exception mpr_e) {
-			System.out.println("error : " + mpr_e.getMessage());
+			Logger.getRootLogger().debug("error : " + mpr_e.getMessage());
 			_custom_section_id = (String) request.getParameter("custom_page");
 			customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
 
@@ -1236,15 +1237,15 @@ public class PSO_SectionMgmt {
 		String command = (String) request.getParameter("command");
 
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("create_schedule"))) {
-			System.out.println("good to here.");
+			Logger.getRootLogger().debug("good to here.");
 
 			if ((command != null) && (command.equalsIgnoreCase("Save"))) {
-				System.out.println("good to here now.");
+				Logger.getRootLogger().debug("good to here now.");
 				RunningSimulation rs = afso.giveMeRunningSim();
 
 				SharedDocument sd = SharedDocument.getScheduleDocument(afso.schema, simulation.getId(), rs.getId());
 
-				System.out.println("shared doc id is : " + sd.getId() + "");
+				Logger.getRootLogger().debug("shared doc id is : " + sd.getId() + "");
 				String sim_schedule = (String) request.getParameter("sim_schedule");
 				sd.setBigString(sim_schedule);
 				sd.saveMe(afso.schema);
@@ -1331,7 +1332,7 @@ public class PSO_SectionMgmt {
 			String ar_id = (String) request.getParameter("ar_id_" + ii);
 			String ar_selected = (String) request.getParameter("ar_selected_" + ii);
 
-			System.out.println("ii was " + ii + " and ar_id was " + ar_id + " and ar_selected was " + ar_selected);
+			Logger.getRootLogger().debug("ii was " + ii + " and ar_id was " + ar_id + " and ar_selected was " + ar_selected);
 
 			AllowableResponse thisResponse = new AllowableResponse();
 
@@ -1343,7 +1344,7 @@ public class PSO_SectionMgmt {
 					if ((ar_selected != null) && (ar_selected.equalsIgnoreCase("true"))) {
 						// Mark it in the generic variable
 						gv.setCurrentlySelectedResponse(thisResponseID);
-						System.out.println("set gv current response: " + thisResponseID);
+						Logger.getRootLogger().debug("set gv current response: " + thisResponseID);
 						gv.saveMe(schema);
 					}
 

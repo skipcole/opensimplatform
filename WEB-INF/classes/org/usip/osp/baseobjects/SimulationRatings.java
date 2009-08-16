@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
+import org.apache.log4j.*;
 /**
  * This class represents a simulation.
  *
@@ -167,7 +167,7 @@ public class SimulationRatings {
 
 		if (sid == null) {
 
-			System.out.println("sid/aid/pid: " + sid ); //$NON-NLS-1$
+			Logger.getRootLogger().debug("sid/aid/pid: " + sid ); //$NON-NLS-1$
 			return new ArrayList<SimulationRatings>();
 		} else {
 
@@ -211,7 +211,7 @@ public class SimulationRatings {
 		
 		if ((sim_id == null) || (user_id == null)){
 
-			System.out.println("sid/uid: " + sim_id + "/" + user_id); //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.getRootLogger().debug("sid/uid: " + sim_id + "/" + user_id); //$NON-NLS-1$ //$NON-NLS-2$
 			return sr;
 		} else {
 
@@ -246,7 +246,7 @@ public class SimulationRatings {
 		
 		if ((sim_id == null) || (user_id == null)){
 
-			System.out.println("sid/uid: " + sim_id + "/" + user_id); //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.getRootLogger().debug("sid/uid: " + sim_id + "/" + user_id); //$NON-NLS-1$ //$NON-NLS-2$
 			return sr;
 		} else {
 

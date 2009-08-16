@@ -12,7 +12,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.core.Customizer;
 import org.usip.osp.networking.*;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
+import org.apache.log4j.*;
 /**
  * This class represents a simulation section that has been customized.
  *
@@ -174,7 +174,7 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setCustomizerClassName("org.yourco.yourproject.ClassName"); //$NON-NLS-1$
 		cs.setPageTitle("Page Title Here"); //$NON-NLS-1$
 		
-		System.out.println(ObjectPackager.getObjectXML(cs));
+		Logger.getRootLogger().debug(ObjectPackager.getObjectXML(cs));
 
 		
 	}
@@ -245,7 +245,7 @@ public class CustomizeableSection extends BaseSimSection {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		if (cs == null){
-			System.out.println("Warning. Null cs returned using id " + the_id); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Warning. Null cs returned using id " + the_id); //$NON-NLS-1$
 		}
 		
 		return cs;

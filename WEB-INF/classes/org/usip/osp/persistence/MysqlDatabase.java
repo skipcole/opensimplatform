@@ -3,6 +3,7 @@ package org.usip.osp.persistence;
 import java.security.MessageDigest;
 import java.sql.*;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.apache.log4j.*;
 
 /**
  *
@@ -61,10 +62,10 @@ public class MysqlDatabase {
      */
     public static Connection getConnection(String connString) {
         
-        System.out.println(" "); //$NON-NLS-1$
-        System.out.println("conn string is: "); //$NON-NLS-1$
-        System.out.println(connString);
-        System.out.println(" "); //$NON-NLS-1$
+        Logger.getRootLogger().debug(" "); //$NON-NLS-1$
+        Logger.getRootLogger().debug("conn string is: "); //$NON-NLS-1$
+        Logger.getRootLogger().debug(connString);
+        Logger.getRootLogger().debug(" "); //$NON-NLS-1$
         
         Connection connection = null;
 

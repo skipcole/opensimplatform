@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
-
+import org.apache.log4j.*;
 
 /**
  *
@@ -26,13 +26,13 @@ import org.hibernate.annotations.Proxy;
 public class IntVariable extends SimVariable{
 
 	public static void main(String args[]) {
-		System.out.println("begin"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("begin"); //$NON-NLS-1$
 		IntVariable iv = new IntVariable();
 		
 	
 		
 		
-		System.out.println("end"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("end"); //$NON-NLS-1$
 	}
 
 	@Column(name = "VALUE")
