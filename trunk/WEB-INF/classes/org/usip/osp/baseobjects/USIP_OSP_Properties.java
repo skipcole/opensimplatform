@@ -3,7 +3,7 @@ package org.usip.osp.baseobjects;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+import org.apache.log4j.*;
 /**
  * This class handles reading of properties out of the properties file for the program and making them available.
  *
@@ -33,11 +33,11 @@ public class USIP_OSP_Properties {
         
     	String os_name = System.getProperty("os.name"); //$NON-NLS-1$
     	
-    	System.out.println(os_name);
+    	Logger.getRootLogger().debug(os_name);
     	
     	String file_loc = System.getProperty("user.home"); //$NON-NLS-1$
     	
-    	System.out.println("user.home is" + file_loc); //$NON-NLS-1$
+    	Logger.getRootLogger().debug("user.home is" + file_loc); //$NON-NLS-1$
     	
         try {
             resourceBundle = ResourceBundle.getBundle("USIP_OSP_Properties", new Locale("en", "US")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -49,7 +49,7 @@ public class USIP_OSP_Properties {
             }
             
         } catch (Exception e) {
-            System.out.println("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
+            Logger.getRootLogger().debug("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
         }
     }
     

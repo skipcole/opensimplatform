@@ -136,7 +136,7 @@ public class AuthorFacilitatorSessionObject {
 
 		String filename = request.getParameter("filename"); //$NON-NLS-1$
 
-		System.out.println("unpacking " + filename); //$NON-NLS-1$
+		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
 		return ObjectPackager.unpackSimDetails(filename, this.schema);
 
@@ -153,7 +153,7 @@ public class AuthorFacilitatorSessionObject {
 		String sim_name = request.getParameter("sim_name"); //$NON-NLS-1$
 		String sim_version = request.getParameter("sim_version"); //$NON-NLS-1$
 
-		System.out.println("unpacking " + filename); //$NON-NLS-1$
+		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
 		ObjectPackager.unpackSim(filename, this.schema, sim_name, sim_version);
 
@@ -280,12 +280,12 @@ public class AuthorFacilitatorSessionObject {
 			String this_email = li.next();
 
 			if (BaseUser.checkIfUserExists(this_email)) {
-				System.out.println("exists:" + this_email);
+				Logger.getRootLogger().debug("exists:" + this_email);
 				// ?? make sure exists in this schema
 
 			} else {
 
-				System.out.println("does not exist:" + this_email);
+				Logger.getRootLogger().debug("does not exist:" + this_email);
 
 				// Add entry into system to all them to register.
 				UserRegistrationInvite uri = new UserRegistrationInvite(this.user_name, this_email,
@@ -497,15 +497,15 @@ public class AuthorFacilitatorSessionObject {
 
 		if (command != null) {
 			if (command.equalsIgnoreCase("Load")) {
-				System.out.println("Will be loading file from: " + fullfileloc);
+				Logger.getRootLogger().debug("Will be loading file from: " + fullfileloc);
 				BaseSimSection.readInXMLFile(this.schema, new File(fullfileloc));
 
 			} else if (command.equalsIgnoreCase("Reload")) {
-				System.out.println("Will be reloading file from: " + fullfileloc);
+				Logger.getRootLogger().debug("Will be reloading file from: " + fullfileloc);
 				BaseSimSection.reloadXMLFile(this.schema, new File(fullfileloc), new Long(loaded_id));
 				// save
 			} else if (command.equalsIgnoreCase("Unload")) {
-				System.out.println("Will be unloading bss id: " + loaded_id);
+				Logger.getRootLogger().debug("Will be unloading bss id: " + loaded_id);
 				BaseSimSection.removeBSS(this.schema, loaded_id);
 			}
 		}
@@ -524,15 +524,15 @@ public class AuthorFacilitatorSessionObject {
 
 		if (command != null) {
 			if (command.equalsIgnoreCase("Load")) {
-				System.out.println("Will be loading file from: " + fullfileloc);
+				Logger.getRootLogger().debug("Will be loading file from: " + fullfileloc);
 				BaseSimSection.readInXMLFile(this.schema, new File(fullfileloc));
 
 			} else if (command.equalsIgnoreCase("Reload")) {
-				System.out.println("Will be reloading file from: " + fullfileloc);
+				Logger.getRootLogger().debug("Will be reloading file from: " + fullfileloc);
 				BaseSimSection.reloadXMLFile(this.schema, new File(fullfileloc), new Long(loaded_id));
 				// save
 			} else if (command.equalsIgnoreCase("Unload")) {
-				System.out.println("Will be unloading bss id: " + loaded_id);
+				Logger.getRootLogger().debug("Will be unloading bss id: " + loaded_id);
 				BaseSimSection.removeBSS(this.schema, loaded_id);
 			}
 		}
@@ -637,7 +637,7 @@ public class AuthorFacilitatorSessionObject {
 		// Do create if called.
 		String create_doc = (String) request.getParameter("create_doc");
 		if ((create_doc != null)) {
-			System.out.println("creating doc of uniq title: " + uniq_doc_title);
+			Logger.getRootLogger().debug("creating doc of uniq title: " + uniq_doc_title);
 			this_sd = new SharedDocument(uniq_doc_title, doc_display_title, sim_id);
 			this_sd.setBigString(doc_starter_text);
 			this_sd.saveMe(schema);
@@ -647,7 +647,7 @@ public class AuthorFacilitatorSessionObject {
 		// Do update if called.
 		String update_doc = (String) request.getParameter("update_doc");
 		if ((update_doc != null)) {
-			System.out.println("updating doc of uniq title: " + uniq_doc_title);
+			Logger.getRootLogger().debug("updating doc of uniq title: " + uniq_doc_title);
 			this_sd.setUniqueDocTitle(uniq_doc_title);
 			this_sd.setDisplayTitle(doc_display_title);
 			this_sd.setSim_id(sim_id);
@@ -733,7 +733,7 @@ public class AuthorFacilitatorSessionObject {
 		sio.setSmtp_auth_user(email_user);
 		sio.setSmtp_auth_password(email_pass);
 		sio.setEmail_archive_address(email_user_address);
-		System.out.println(sio.toString());
+		Logger.getRootLogger().debug(sio.toString());
 
 		// Test SIO
 		String databaseConn = sio.testConn();
@@ -817,7 +817,7 @@ public class AuthorFacilitatorSessionObject {
 			String send_actor_info = (String) request.getParameter("send_actor_info");
 			String send_user_info = (String) request.getParameter("send_user_info");
 
-			System.out.println("rsid / actor /user: " + send_rsid_info + send_actor_info + send_user_info);
+			Logger.getRootLogger().debug("rsid / actor /user: " + send_rsid_info + send_actor_info + send_user_info);
 
 			String sendStringWork = "";
 
@@ -839,7 +839,7 @@ public class AuthorFacilitatorSessionObject {
 				sendStringWork += "0";
 			}
 
-			System.out.println("send string was: " + sendStringWork);
+			Logger.getRootLogger().debug("send string was: " + sendStringWork);
 			bss.setSendString(sendStringWork);
 
 			bss.saveMe(schema);
@@ -931,13 +931,13 @@ public class AuthorFacilitatorSessionObject {
 			conn.close();
 
 		} catch (Exception e) {
-			System.out.println("Problem getting users");
+			Logger.getRootLogger().debug("Problem getting users");
 			return false;
 		} finally {
 			try {
 				conn.close();
 			} catch (Exception e1) {
-				System.out.println("Could not close connection in pso.");
+				Logger.getRootLogger().debug("Could not close connection in pso.");
 			}
 		}
 
@@ -962,7 +962,7 @@ public class AuthorFacilitatorSessionObject {
 	 */
 	public static void logout(HttpServletRequest request) {
 
-		System.out.println("TODO: record the user's logout in their trail.");
+		Logger.getRootLogger().debug("TODO: record the user's logout in their trail.");
 
 	}
 
@@ -1015,7 +1015,7 @@ public class AuthorFacilitatorSessionObject {
 		AuthorFacilitatorSessionObject afso = (AuthorFacilitatorSessionObject) session.getAttribute("afso");
 
 		if (afso == null) {
-			System.out.println("afso is new");
+			Logger.getRootLogger().debug("afso is new");
 			afso = new AuthorFacilitatorSessionObject();
 			afso.session = session;
 		}
@@ -1138,7 +1138,7 @@ public class AuthorFacilitatorSessionObject {
 				inEditMode = false;
 			}
 		} catch (java.io.IOException ioe) {
-			System.out.println("error in edit actor:" + ioe.getMessage());
+			Logger.getRootLogger().debug("error in edit actor:" + ioe.getMessage());
 
 			actorid = (String) request.getParameter("actorid");
 			if (actorid != null) {
@@ -1146,7 +1146,7 @@ public class AuthorFacilitatorSessionObject {
 			}
 
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			Logger.getRootLogger().debug(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -1169,8 +1169,8 @@ public class AuthorFacilitatorSessionObject {
 
 			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
 
-			System.out.println("create_actor is " + create_actor);
-			System.out.println("update_actor is " + update_actor);
+			Logger.getRootLogger().debug("create_actor is " + create_actor);
+			Logger.getRootLogger().debug("update_actor is " + update_actor);
 
 			if ((create_actor != null) && (create_actor.equalsIgnoreCase("Create Actor")) || (update_actor != null)
 					&& (update_actor.equalsIgnoreCase("Update Actor"))
@@ -1180,7 +1180,7 @@ public class AuthorFacilitatorSessionObject {
 			}
 
 			if (saveActor) {
-				System.out.println("saving actor");
+				Logger.getRootLogger().debug("saving actor");
 				makeUploadDir();
 				
 				String _sim_id = (String) mpr.getParameter("sim_id");
@@ -1199,7 +1199,7 @@ public class AuthorFacilitatorSessionObject {
 					if (this.sim_id != null){
 						
 						MultiSchemaHibernateUtil.beginTransaction(schema);
-						System.out.println("actors id is" + actorOnScratchPad.getId());
+						Logger.getRootLogger().debug("actors id is" + actorOnScratchPad.getId());
 						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(actorOnScratchPad);
 						MultiSchemaHibernateUtil.getSession(schema).flush();
 						MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -1222,7 +1222,7 @@ public class AuthorFacilitatorSessionObject {
 
 					File fileData = mpr.getFile("uploadedfile");
 
-					System.out.println("File is " + fileData.length());
+					Logger.getRootLogger().debug("File is " + fileData.length());
 
 					if (fileData.length() <= max_file_longvalue) {
 						FileIO.saveImageFile("actorImage", actorOnScratchPad.getImageFilename(), mpr
@@ -1244,7 +1244,7 @@ public class AuthorFacilitatorSessionObject {
 
 					File fileData = mpr.getFile("uploaded_thumb_file");
 
-					System.out.println("File is " + fileData.length());
+					Logger.getRootLogger().debug("File is " + fileData.length());
 
 					if (fileData.length() <= max_file_longvalue) {
 						FileIO.saveImageFile("actorImage", actorOnScratchPad.getImageThumbFilename(), mpr
@@ -1260,7 +1260,7 @@ public class AuthorFacilitatorSessionObject {
 
 				MultiSchemaHibernateUtil.beginTransaction(schema);
 
-				System.out.println("actors id is" + actorOnScratchPad.getId());
+				Logger.getRootLogger().debug("actors id is" + actorOnScratchPad.getId());
 				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(actorOnScratchPad);
 				MultiSchemaHibernateUtil.getSession(schema).flush();
 
@@ -1295,7 +1295,7 @@ public class AuthorFacilitatorSessionObject {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("problem in create actor: " + e.getMessage());
+			Logger.getRootLogger().debug("problem in create actor: " + e.getMessage());
 
 			try {
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -1313,7 +1313,7 @@ public class AuthorFacilitatorSessionObject {
 			new File("uploads").mkdir();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("attempt to make dir: " + e.getMessage());
+			Logger.getRootLogger().debug("attempt to make dir: " + e.getMessage());
 		}
 
 	}
@@ -1642,7 +1642,7 @@ public class AuthorFacilitatorSessionObject {
 		 * alist = actorList.listIterator(); alist.hasNext();) { Actor act =
 		 * (Actor) alist.next();
 		 * 
-		 * System.out.println("checking read write on " + act.getName()); List
+		 * Logger.getRootLogger().debug("checking read write on " + act.getName()); List
 		 * setOfSections =
 		 * SimulationSectionAssignment.getBySimAndActorAndPhase(schema,
 		 * this.sim_id, act.getId(), sp .getId());
@@ -1654,9 +1654,9 @@ public class AuthorFacilitatorSessionObject {
 		 * CustomizeableSection custSec = CustomizeableSection.getMe(schema,
 		 * ss.getBase_section_id() + "");
 		 * 
-		 * if (custSec != null) { System.out.println("cs id: " +
-		 * ss.getBase_section_id()); System.out.println("bss rec tab: " +
-		 * custSec.getRec_tab_heading()); System.out.println("can read " +
+		 * if (custSec != null) { Logger.getRootLogger().debug("cs id: " +
+		 * ss.getBase_section_id()); Logger.getRootLogger().debug("bss rec tab: " +
+		 * custSec.getRec_tab_heading()); Logger.getRootLogger().debug("can read " +
 		 * custSec.isConfers_read_ability());
 		 * 
 		 * if (custSec.isConfers_read_ability() == true) { Hashtable
@@ -1671,16 +1671,16 @@ public class AuthorFacilitatorSessionObject {
 		 * 
 		 * ActorsWithReadAccess.put(docs, currentActors);
 		 * 
-		 * System.out.println("docs were : " + currentActors); }
+		 * Logger.getRootLogger().debug("docs were : " + currentActors); }
 		 * 
 		 * }
 		 * 
 		 * if (custSec.isConfers_write_ability() == true) {
-		 * System.out.println("confers read and write"); Hashtable storedGoodies
+		 * Logger.getRootLogger().debug("confers read and write"); Hashtable storedGoodies
 		 * = custSec.getContents(); String docs = (String)
 		 * storedGoodies.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
-		 * System.out.println("docs were : " + docs); } }
-		 * System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		 * Logger.getRootLogger().debug("docs were : " + docs); } }
+		 * Logger.getRootLogger().debug("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		 * 
 		 * }
 		 * 
@@ -1792,7 +1792,7 @@ public class AuthorFacilitatorSessionObject {
 			} else if (bu.getAuthorizedSchemas().size() == 1) {
 				// Send them on directly to this schema
 				SchemaGhost sg = (SchemaGhost) bu.getAuthorizedSchemas().get(0);
-				System.out.println("ghost schema is " + sg.getSchema_name());
+				Logger.getRootLogger().debug("ghost schema is " + sg.getSchema_name());
 				schema = sg.getSchema_name();
 				User user = loginToSchema(user_id, sg.getSchema_name(), request);
 
@@ -1820,7 +1820,7 @@ public class AuthorFacilitatorSessionObject {
 
 		} else {
 			errorMsg = "Failed Login Attempt";
-			System.out.println(errorMsg);
+			Logger.getRootLogger().debug(errorMsg);
 		}
 
 		return sendToPage;
@@ -1849,12 +1849,12 @@ public class AuthorFacilitatorSessionObject {
 				this.errorMsg = "";
 			}
 
-			System.out.println("emailing " + email);
+			Logger.getRootLogger().debug("emailing " + email);
 
 			String message = "A request for your password has been received. Your password is " + bu.getPassword();
 
 			String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
-			System.out.println("System.out.println(admin_email); " + admin_email);
+			Logger.getRootLogger().debug("Logger.getRootLogger().debug(admin_email); " + admin_email);
 
 			Vector ccs = new Vector();
 			Vector bccs = new Vector();
@@ -1943,7 +1943,7 @@ public class AuthorFacilitatorSessionObject {
 
 	public void loadActorNamesInHashtable(Hashtable actor_names) {
 
-		System.out.println("storing names in hashtable. ");
+		Logger.getRootLogger().debug("storing names in hashtable. ");
 		Simulation sim = this.giveMeSim();
 
 		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
@@ -2009,12 +2009,12 @@ public class AuthorFacilitatorSessionObject {
 		for (Enumeration e = myActors.elements(); e.hasMoreElements();) {
 			ActorGhost ag = (ActorGhost) e.nextElement();
 
-			// System.out.println("color was: " +
+			// Logger.getRootLogger().debug("color was: " +
 			// ag.getDefaultColorChatBubble());
 
 			if (ag.getId().toString().equalsIgnoreCase(actor_id)) {
 				ag.setDefaultColorChatBubble(newColor);
-				// System.out.println("color is: " +
+				// Logger.getRootLogger().debug("color is: " +
 				// ag.getDefaultColorChatBubble());
 			}
 		}
@@ -2022,7 +2022,7 @@ public class AuthorFacilitatorSessionObject {
 
 	public void loadActorThumbsInHashtable(Hashtable actor_thumbs) {
 
-		System.out.println("storing namges actor thumb nail images in hashtable. ");
+		Logger.getRootLogger().debug("storing namges actor thumb nail images in hashtable. ");
 		Simulation sim = this.giveMeSim();
 
 		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
@@ -2071,8 +2071,8 @@ public class AuthorFacilitatorSessionObject {
 		String tab_pos = (String) request.getParameter("tab_pos");
 		String universal = (String) request.getParameter("universal");
 
-		System.out.println("pcp - universal was : " + universal);
-		System.out.println("tab_heading : " + tab_heading);
+		Logger.getRootLogger().debug("pcp - universal was : " + universal);
+		Logger.getRootLogger().debug("tab_heading : " + tab_heading);
 
 		addSectionFromProcessCustomPage(cs.getId(), tab_pos, tab_heading, request, universal);
 	}
@@ -2221,7 +2221,7 @@ public class AuthorFacilitatorSessionObject {
 		Long valueFromHash = (Long) index_hash.get(new Long(object_index));
 
 		if (id_of_object_being_checked.equals(valueFromHash)) {
-			System.out.println("returning selcted");
+			Logger.getRootLogger().debug("returning selcted");
 			return " selected ";
 		} else {
 			return "";
@@ -2337,12 +2337,12 @@ public class AuthorFacilitatorSessionObject {
 		for (ListIterator li = allowableResponses.listIterator(); li.hasNext();) {
 			AllowableResponse ar = (AllowableResponse) li.next();
 
-			System.out.println("!!!!!!!!!!!!!!!!!!checking " + ar.getId());
+			Logger.getRootLogger().debug("!!!!!!!!!!!!!!!!!!checking " + ar.getId());
 
 			if ((gv != null) && (gv.getCurrentlySelectedResponse() != null)
 					&& (gv.getCurrentlySelectedResponse().equals(ar.getId()))) {
 				answersSelected.put(ar.getId(), " checked ");
-				System.out.println("put in checked for " + ar.getId());
+				Logger.getRootLogger().debug("put in checked for " + ar.getId());
 			} else {
 				answersSelected.put(ar.getId(), "");
 			}
@@ -2441,6 +2441,10 @@ public class AuthorFacilitatorSessionObject {
 
 	}
 	
+	/**
+	 * Pulls the running sim whose id is being stored out of the database.
+	 * @return
+	 */
 	public RunningSimulation giveMeRunningSim() {
 		
 		if (running_sim_id == null){

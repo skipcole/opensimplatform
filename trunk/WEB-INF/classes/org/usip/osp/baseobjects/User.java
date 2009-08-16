@@ -7,7 +7,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.networking.LoggedInTicket;
 import org.usip.osp.persistence.*;
-
+import org.apache.log4j.*;
 /**
  * This class represents a USER in a particular schema. The base user inside of it contains the information
  * in the central table that holds all specific user information. In this particular object are mostly the 
@@ -99,7 +99,7 @@ public class User {
 			String full_name, String email, boolean sim_creator,
 			boolean sim_instructor, boolean admin) {
 
-		System.out.println("creating user " + username); //$NON-NLS-1$
+		Logger.getRootLogger().debug("creating user " + username); //$NON-NLS-1$
 
 		BaseUser bu = BaseUser.getUniqueUser(username, password, schema);
 		
@@ -109,9 +109,9 @@ public class User {
 		bu.setMiddle_name(middle_name);
 		bu.saveMe();
 
-		System.out.println("-----------------"); //$NON-NLS-1$
-		System.out.println("bu id " + bu.getId()); //$NON-NLS-1$
-		System.out.println("-----------------"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("-----------------"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("bu id " + bu.getId()); //$NON-NLS-1$
+		Logger.getRootLogger().debug("-----------------"); //$NON-NLS-1$
 
 		this.setId(bu.getId());
 
@@ -447,8 +447,7 @@ public class User {
 			this.setBu_username(bu.getUsername());
 
 		} else {
-			System.out
-					.println("warning. user found without base user component."); //$NON-NLS-1$
+			Logger.getRootLogger().debug("warning. user found without base user component."); //$NON-NLS-1$
 		}
 
 		MultiSchemaHibernateUtil

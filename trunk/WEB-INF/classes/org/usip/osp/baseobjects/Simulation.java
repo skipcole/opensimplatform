@@ -362,7 +362,7 @@ public class Simulation {
 		for (ListIterator<SimulationPhase> li = simulation.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase this_sp = li.next();
 
-			System.out.println(this_sp.getName());
+			Logger.getRootLogger().debug(this_sp.getName());
 		}
 
 		return simulation;
@@ -411,7 +411,7 @@ public class Simulation {
 
 						simSecs.add(ss0);
 
-						System.out.println("adding " + bss.getRec_tab_heading() //$NON-NLS-1$
+						Logger.getRootLogger().debug("adding " + bss.getRec_tab_heading() //$NON-NLS-1$
 								+ " at " + (sizeOfSimSecs + 1)); //$NON-NLS-1$
 
 					}

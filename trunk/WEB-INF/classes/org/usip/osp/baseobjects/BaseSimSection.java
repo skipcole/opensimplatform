@@ -12,7 +12,7 @@ import org.usip.osp.persistence.*;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-
+import org.apache.log4j.*;
 /**
  * This class represents sections that can be given to an actor at any given
  * phase of the game.
@@ -57,19 +57,19 @@ public class BaseSimSection implements Comparable {
 		bss.setConfers_read_ability(true);
 		bss.setBigString("<H1>Broadcast stuff</H1><p>words</p>"); //$NON-NLS-1$
 		
-		System.out.println("can read " + bss.isConfers_read_ability()); //$NON-NLS-1$
+		Logger.getRootLogger().debug("can read " + bss.isConfers_read_ability()); //$NON-NLS-1$
 
 		
-		 System.out.println("--------------------"); // //$NON-NLS-1$
-		 System.out.println(ObjectPackager.getObjectXML(bss));
+		 Logger.getRootLogger().debug("--------------------"); // //$NON-NLS-1$
+		 Logger.getRootLogger().debug(ObjectPackager.getObjectXML(bss));
 
 		 /* 
 		 * int aliquot = 2; int numPrinted = 0; if (sss.length() > aliquot) {
 		 * while (numPrinted < sss.length()) { char[] c = new char[aliquot]; int
 		 * numToGet = aliquot; if ((sss.length() - numPrinted) < aliquot) {
-		 * numToGet = sss.length() - numPrinted; } System.out.println(numPrinted
+		 * numToGet = sss.length() - numPrinted; } Logger.getRootLogger().debug(numPrinted
 		 * + " " + numToGet); sss.getChars(numPrinted, numPrinted + numToGet, c,
-		 * 0); System.out.println(c); try { sss.wait(1000); } catch (Exception
+		 * 0); Logger.getRootLogger().debug(c); try { sss.wait(1000); } catch (Exception
 		 * e) { e.printStackTrace(); }
 		 * 
 		 * numPrinted += aliquot; } }
@@ -135,14 +135,14 @@ public class BaseSimSection implements Comparable {
 		File locDir = new File(fileLocation);
 
 		if (locDir == null) {
-			System.out.println("Problem finding files at " + fileLocation); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
 			return returnList;
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				System.out.println("Problem finding files at " + fileLocation); //$NON-NLS-1$
+				Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
 				return returnList;
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
@@ -156,8 +156,8 @@ public class BaseSimSection implements Comparable {
 							returnList.add(BaseSimSection.readAheadXML(schema, files[ii], fullFileLoc));
 							
 						} catch (Exception e) {
-							System.out.println("problem reading in file " + fName); //$NON-NLS-1$
-							System.out.println(e.getMessage());
+							Logger.getRootLogger().debug("problem reading in file " + fName); //$NON-NLS-1$
+							Logger.getRootLogger().debug(e.getMessage());
 						}
 					}
 
@@ -183,7 +183,7 @@ public class BaseSimSection implements Comparable {
 
 		String fileLocation = FileIO.getBase_section_web_dir();
 
-		System.out.println("Looking for files at: " + fileLocation); //$NON-NLS-1$
+		Logger.getRootLogger().debug("Looking for files at: " + fileLocation); //$NON-NLS-1$
 
 		File locDir = new File(fileLocation);
 
@@ -205,8 +205,8 @@ public class BaseSimSection implements Comparable {
 						try {
 							readInXMLFile(schema, files[ii]);
 						} catch (Exception e) {
-							System.out.println("problem reading in file " + fName); //$NON-NLS-1$
-							System.out.println(e.getMessage());
+							Logger.getRootLogger().debug("problem reading in file " + fName); //$NON-NLS-1$
+							Logger.getRootLogger().debug(e.getMessage());
 						}
 					}
 
@@ -495,7 +495,7 @@ public class BaseSimSection implements Comparable {
 		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(schema).get(BaseSimSection.class,
 				new Long(the_id));
 
-		System.out.println("this bss can read: " + bss.isConfers_read_ability()); //$NON-NLS-1$
+		Logger.getRootLogger().debug("this bss can read: " + bss.isConfers_read_ability()); //$NON-NLS-1$
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return bss;

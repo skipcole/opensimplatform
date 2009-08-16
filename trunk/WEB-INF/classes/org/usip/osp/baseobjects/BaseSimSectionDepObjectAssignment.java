@@ -72,7 +72,7 @@ public class BaseSimSectionDepObjectAssignment {
 				+ " and className = '" + className + "'" //$NON-NLS-1$ //$NON-NLS-2$
 				+ " and sim_id = " + sim_id; //$NON-NLS-1$
 
-		System.out.println(getString);
+		Logger.getRootLogger().debug(getString);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -201,13 +201,13 @@ public class BaseSimSectionDepObjectAssignment {
 	 */
 	public static SharedDocument getSharedDocumentForSection(String schema, String bss_id_s) {
 
-		System.out.println("bss_id is: " + bss_id_s); //$NON-NLS-1$
+		Logger.getRootLogger().debug("bss_id is: " + bss_id_s); //$NON-NLS-1$
 		Long bss_id = null;
 		
 		try {
 			bss_id = new Long(bss_id_s);
 		} catch (Exception e){
-			System.out.println(e.getMessage());
+			Logger.getRootLogger().debug(e.getMessage());
 		}
 		
 		if (bss_id == null){

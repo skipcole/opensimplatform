@@ -38,7 +38,7 @@ public class PlayerSessionObject {
 		PlayerSessionObject pso = (PlayerSessionObject) session.getAttribute("pso");
 
 		if (pso == null) {
-			System.out.println("pso is new");
+			Logger.getRootLogger().debug("pso is new");
 			pso = new PlayerSessionObject();
 			pso.session = session;
 		}
@@ -786,7 +786,7 @@ public class PlayerSessionObject {
 	public Long getHighestChangeNumberForRunningSim(HttpServletRequest request) {
 
 		if (running_sim_id == null) {
-			System.out.println("returning null");
+			Logger.getRootLogger().debug("returning null");
 			return null;
 		}
 		// The conversation is pulled out of the context
@@ -816,7 +816,7 @@ public class PlayerSessionObject {
 
 		Long currentHighest = this.getHighestChangeNumberForRunningSim(request);
 
-		System.out.println("current highest: " + currentHighest.intValue());
+		Logger.getRootLogger().debug("current highest: " + currentHighest.intValue());
 
 		currentHighest = new Long(currentHighest.intValue() + 1);
 
@@ -842,7 +842,7 @@ public class PlayerSessionObject {
 
 		running_sim.setRound(running_sim.getRound() + 1);
 
-		System.out.println("Round is " + running_sim.getRound());
+		Logger.getRootLogger().debug("Round is " + running_sim.getRound());
 
 		this.simulation_round = running_sim.getRound() + "";
 
@@ -881,7 +881,7 @@ public class PlayerSessionObject {
 			RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 					RunningSimulation.class, running_sim_id);
 			running_sim.setPhase_id(phase_id);
-			System.out.println("set rs " + running_sim_id + " to " + phase_id);
+			Logger.getRootLogger().debug("set rs " + running_sim_id + " to " + phase_id);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(running_sim);
 
 			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(
@@ -896,7 +896,7 @@ public class PlayerSessionObject {
 			phaseNames.put(running_sim_id, this.phaseName);
 			request.getSession().getServletContext().setAttribute("phaseNames", phaseNames);
 
-			System.out.println("setting phase change alert");
+			Logger.getRootLogger().debug("setting phase change alert");
 
 			// //////////////////////////////////////////////////////////////////
 			// Store new phase id in the web cache
@@ -937,7 +937,7 @@ public class PlayerSessionObject {
 
 				for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
 					Long key = (Long) e.nextElement();
-					System.out.println("need to email " + key);
+					Logger.getRootLogger().debug("need to email " + key);
 
 					// Need to get user email address from the key, which is the
 					// user id.
@@ -969,7 +969,7 @@ public class PlayerSessionObject {
 		 * 
 		 * try{ MultiSchemaHibernateUtil.commitAndCloseTransaction(schema); }
 		 * catch (org.hibernate.TransactionException te){ // Do nothing } catch
-		 * (Exception real_e){ System.out.println("Exception of type: " +
+		 * (Exception real_e){ Logger.getRootLogger().debug("Exception of type: " +
 		 * real_e.getClass()); } }
 		 */
 
@@ -1001,7 +1001,7 @@ public class PlayerSessionObject {
 
 					// Mark Completed, change phase
 					Simulation sim = this.giveMeSim();
-					System.out.println("forwarin on to : " + sim.getLastPhaseId(this.schema).toString()); //$NON-NLS-1$
+					Logger.getRootLogger().debug("forwarin on to : " + sim.getLastPhaseId(this.schema).toString()); //$NON-NLS-1$
 					this.changePhase(sim.getLastPhaseId(this.schema).toString(), request);
 
 					// Forward them back
@@ -1124,7 +1124,7 @@ public class PlayerSessionObject {
 	 */
 	public SimulationRatings handleSimFeedback(HttpServletRequest request) {
 
-		System.out.println("handling sim feedback");
+		Logger.getRootLogger().debug("handling sim feedback");
 
 		SimulationRatings sr = SimulationRatings.getBySimAndActorAndUser(schema, sim_id, actor_id, user_id);
 
@@ -1228,7 +1228,7 @@ public class PlayerSessionObject {
 	
 	private void saveAarText(HttpServletRequest request) {
 		String write_aar_end_sim = request.getParameter("write_aar_end_sim"); //$NON-NLS-1$
-		System.out.println("saving: " + write_aar_end_sim); //$NON-NLS-1$
+		Logger.getRootLogger().debug("saving: " + write_aar_end_sim); //$NON-NLS-1$
 
 		RunningSimulation rs = giveMeRunningSim();
 		rs.setAar_text(write_aar_end_sim);

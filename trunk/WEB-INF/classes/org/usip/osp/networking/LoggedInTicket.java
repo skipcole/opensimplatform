@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.usip.osp.baseobjects.UserTrail;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.apache.log4j.*;
 
 /**
  *
@@ -46,17 +47,17 @@ public class LoggedInTicket {
     	
     	Date timeNow = new Date();
 
-    	System.out.println("time: " + timeNow.getTime()); //$NON-NLS-1$
+    	Logger.getRootLogger().debug("time: " + timeNow.getTime()); //$NON-NLS-1$
     	
     	if (this.lastHeartBeatPulse == null){
     		this.lastHeartBeatPulse = new Date();
     	}
     	
-    	System.out.println("lastHeartBeatPulse : " + this.lastHeartBeatPulse.getTime()); //$NON-NLS-1$
+    	Logger.getRootLogger().debug("lastHeartBeatPulse : " + this.lastHeartBeatPulse.getTime()); //$NON-NLS-1$
     	
     	if (timeNow.getTime() > ((1000 * 1 * 60) + this.lastHeartBeatPulse.getTime())){
     		
-    		System.out.println("time  saved: " + timeNow.getTime()); //$NON-NLS-1$
+    		Logger.getRootLogger().debug("time  saved: " + timeNow.getTime()); //$NON-NLS-1$
     		
     		UserTrail ut = UserTrail.getMe(schema, this.getTrail_id());
     		ut.setEndSessionDate(timeNow);

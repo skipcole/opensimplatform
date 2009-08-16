@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
+import org.apache.log4j.*;
 
 /**
  * This class represents the assignment of an actor to a particular conversation. 
@@ -161,7 +161,7 @@ public class ConvActorAssignment {
 
 		if ((getList != null) && (getList.size() > 0)){
 			returnCAA = getList.get(0);
-			System.out.println("returnCAA role was: " + returnCAA.getRole()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("returnCAA role was: " + returnCAA.getRole()); //$NON-NLS-1$
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		

@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.*;
-
+import org.apache.log4j.*;
 /**
  * This class represents the assignment of a user to a particular running 
  * simulation.
@@ -146,7 +146,7 @@ public class UserAssignment{
 		String hqlString = "from UserAssignment where RUNNING_SIM_ID = '" + rid +   //$NON-NLS-1$
 			"' and ACTOR_ID = '" + aid + "' AND SIM_ID = '" + sid + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		
-		System.out.println(hqlString);
+		Logger.getRootLogger().debug(hqlString);
 		
 		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString).list();
 
@@ -164,7 +164,7 @@ public class UserAssignment{
 		
 		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
 		
-		//System.out.println(hqlString);
+		//Logger.getRootLogger().debug(hqlString);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
@@ -176,9 +176,9 @@ public class UserAssignment{
 			returnUser = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class,ua.getUser_id());
 			
 			returnUser.loadMyDetails();
-			System.out.println(returnUser.getBu_username());
+			Logger.getRootLogger().debug(returnUser.getBu_username());
 		} else{
-			System.out.println("no user assigned found."); //$NON-NLS-1$
+			Logger.getRootLogger().debug("no user assigned found."); //$NON-NLS-1$
 		}
 		
 		
@@ -191,7 +191,7 @@ public class UserAssignment{
 	public static UserAssignment getUserAssignment (String schema, Long rid, Long aid) {
 		
 		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
-		System.out.println(hqlString);
+		Logger.getRootLogger().debug(hqlString);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
@@ -201,12 +201,12 @@ public class UserAssignment{
 		
 		if ((userList != null) && (userList.size() == 1)){
 			returnUserAssignment = userList.get(0);
-			System.out.println("found ua: " + returnUserAssignment.getId()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("found ua: " + returnUserAssignment.getId()); //$NON-NLS-1$
 		} else if (userList.size() > 1){
-			System.out.println("Warning more than one user assigned to role."); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Warning more than one user assigned to role."); //$NON-NLS-1$
 			return null;
 		} else {
-			System.out.println(" returnUserAssignment has not been assigned!" ); //$NON-NLS-1$
+			Logger.getRootLogger().debug(" returnUserAssignment has not been assigned!" ); //$NON-NLS-1$
 		}
 		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

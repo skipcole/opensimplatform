@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
+import org.apache.log4j.*;
 /**
  * This class represents a section assigned to an actor at a particular phase. A
  * better name for the class might be 'SimulationSectionAssignment.'
@@ -246,7 +246,7 @@ public class SimulationSectionAssignment {
 		if (bss_id != null) {
 			bss = BaseSimSection.getMe(schema, bss_id.toString());
 		} else {
-			System.out.println("Warning bss_id at simulation section creation was null."); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Warning bss_id at simulation section creation was null."); //$NON-NLS-1$
 			return;
 		}
 
@@ -319,7 +319,7 @@ public class SimulationSectionAssignment {
 
 		returnString += "?cs_id=" + this.getBase_section_id(); //$NON-NLS-1$
 
-		System.out.println("sendString is " + this.sendString); //$NON-NLS-1$
+		Logger.getRootLogger().debug("sendString is " + this.sendString); //$NON-NLS-1$
 
 		// String firstSep = "?";
 		String subsequentSep = "&"; //$NON-NLS-1$
@@ -343,7 +343,7 @@ public class SimulationSectionAssignment {
 			}
 		}
 
-		System.out.println("returnString: " + returnString); //$NON-NLS-1$
+		Logger.getRootLogger().debug("returnString: " + returnString); //$NON-NLS-1$
 
 		return returnString;
 	}
@@ -360,14 +360,14 @@ public class SimulationSectionAssignment {
 
 		if (sid == null) {
 
-			System.out.println("sid: " + sid); //$NON-NLS-1$
+			Logger.getRootLogger().debug("sid: " + sid); //$NON-NLS-1$
 			return new ArrayList<Long>();
 		} else {
 
 			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSectionAssignment ss where SIM_ID = " //$NON-NLS-1$
 					+ sid.toString() + " order by ss.base_sec_id"; //$NON-NLS-1$
 
-			System.out.println(getHQL);
+			Logger.getRootLogger().debug(getHQL);
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -377,7 +377,7 @@ public class SimulationSectionAssignment {
 				returnList = new ArrayList();
 			}
 
-			System.out.println("get # ids: " + returnList.size()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("get # ids: " + returnList.size()); //$NON-NLS-1$
 
 			return returnList;
 		}
@@ -427,7 +427,7 @@ public class SimulationSectionAssignment {
 
 		if (sid == null) {
 
-			System.out.println("sid: " + sid); //$NON-NLS-1$
+			Logger.getRootLogger().debug("sid: " + sid); //$NON-NLS-1$
 			return new ArrayList<SimulationSectionAssignment>();
 		} else {
 
@@ -506,7 +506,7 @@ public class SimulationSectionAssignment {
 
 		if ((sid == null) || (aid == null) || (pid == null)) {
 
-			System.out.println("sid/aid/pid: " + sid + "/" + aid + "/" + pid); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			Logger.getRootLogger().debug("sid/aid/pid: " + sid + "/" + aid + "/" + pid); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return new ArrayList<SimulationSectionAssignment>();
 		} else {
 
@@ -549,10 +549,10 @@ public class SimulationSectionAssignment {
 		List returnList = getBySimAndActorAndPhase(schema, sid, aid, pid);
 
 		if ((returnList == null) || (returnList.size() == 0)) {
-			System.out.println("returning highest tab = 1"); //$NON-NLS-1$
+			Logger.getRootLogger().debug("returning highest tab = 1"); //$NON-NLS-1$
 			return new Long(1);
 		} else {
-			System.out.println("returning highest tab = " + (returnList.size() + 1)); //$NON-NLS-1$
+			Logger.getRootLogger().debug("returning highest tab = " + (returnList.size() + 1)); //$NON-NLS-1$
 			return new Long(returnList.size() + 1);
 		}
 	}
@@ -572,7 +572,7 @@ public class SimulationSectionAssignment {
 
 		if ((sid == null) || (aid == null) || (pid == null)) {
 
-			System.out.println("Error: sid/aid/pid: " + sid + "/" + aid + "/" + pid); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			Logger.getRootLogger().debug("Error: sid/aid/pid: " + sid + "/" + aid + "/" + pid); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return null;
 		} else {
 
@@ -580,13 +580,13 @@ public class SimulationSectionAssignment {
 					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + " AND TAB_POS = " + tab_pos //$NON-NLS-1$ //$NON-NLS-2$
 					+ " and simSubSection = false"; //$NON-NLS-1$
 
-			System.out.println(getHQL);
+			Logger.getRootLogger().debug(getHQL);
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
 
 			// If list has gotten out of order, attempt cleaning it up.
 			if ((returnList == null) || (returnList.size() != 1)) {
-				System.out.println("got wrong number of sections"); //$NON-NLS-1$
+				Logger.getRootLogger().debug("got wrong number of sections"); //$NON-NLS-1$
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 				// Reorder and try it again.
@@ -599,7 +599,7 @@ public class SimulationSectionAssignment {
 
 			if ((returnList == null) || (returnList.size() != 1)) {
 
-				System.out.println("Still have got the wrong number of sections after reordering. Returning null."); //$NON-NLS-1$
+				Logger.getRootLogger().debug("Still have got the wrong number of sections after reordering. Returning null."); //$NON-NLS-1$
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 				return null;
@@ -773,7 +773,7 @@ public class SimulationSectionAssignment {
 		for (ListIterator lia = actorList.listIterator(); lia.hasNext();) {
 			Actor act = (Actor) lia.next();
 
-			System.out.println("checking universals on " + act.getName()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("checking universals on " + act.getName()); //$NON-NLS-1$
 
 			applyUniversalsToActor(schema, sid, universalList, act.getId(), pid);
 
@@ -795,7 +795,7 @@ public class SimulationSectionAssignment {
 		for (ListIterator lis = universalList.listIterator(); lis.hasNext();) {
 			SimulationSectionAssignment ss = (SimulationSectionAssignment) lis.next();
 
-			System.out.println("     checking universalList on " + ss.getTab_heading()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("     checking universalList on " + ss.getTab_heading()); //$NON-NLS-1$
 
 			boolean foundThisSection = false;
 
@@ -804,10 +804,10 @@ public class SimulationSectionAssignment {
 			for (ListIterator listOld = currentActorsList.listIterator(); listOld.hasNext();) {
 				SimulationSectionAssignment ss_old = (SimulationSectionAssignment) listOld.next();
 
-				System.out.println("             comparing " + ss_old.getBase_section_id() + " and " //$NON-NLS-1$ //$NON-NLS-2$
+				Logger.getRootLogger().debug("             comparing " + ss_old.getBase_section_id() + " and " //$NON-NLS-1$ //$NON-NLS-2$
 						+ ss.getBase_section_id());
 				if (ss_old.getBase_section_id().equals(ss.getBase_section_id())) {
-					System.out.println("             found match!"); //$NON-NLS-1$
+					Logger.getRootLogger().debug("             found match!"); //$NON-NLS-1$
 					foundThisSection = true;
 				}
 

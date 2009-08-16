@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.apache.log4j.*;
 
 /**
  * Utility class that provides static methods to handle file input and output.
@@ -52,10 +53,10 @@ public class FileIO {
 		if (saveType.equalsIgnoreCase("actorImage")) { //$NON-NLS-1$
 			saveDir = actor_image_dir;
 		} else if (saveType.equalsIgnoreCase("simImage")) { //$NON-NLS-1$
-			System.out.println("saving file " + fileName + " to " + sim_image_dir); //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.getRootLogger().debug("saving file " + fileName + " to " + sim_image_dir); //$NON-NLS-1$ //$NON-NLS-2$
 			saveDir = sim_image_dir;
 		} else {
-			System.out.println("Warning. Don't know where to save " + fileName); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Warning. Don't know where to save " + fileName); //$NON-NLS-1$
 		}
 
 		try {
@@ -153,13 +154,13 @@ public class FileIO {
 		ArrayList returnList = new ArrayList();
 
 		if (locDir == null) {
-			System.out.println("Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
+			Logger.getRootLogger().debug("Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				System.out.println("Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
+				Logger.getRootLogger().debug("Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
@@ -197,7 +198,7 @@ public class FileIO {
 				fullString += daLine;
 
 				daLine = br.readLine();
-				//System.out.println(daLine);
+				//Logger.getRootLogger().debug(daLine);
 			}
 
 			br.close();

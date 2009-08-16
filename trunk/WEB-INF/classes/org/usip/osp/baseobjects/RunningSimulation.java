@@ -11,7 +11,7 @@ import org.usip.osp.communications.Alert;
 import org.usip.osp.communications.Emailer;
 import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
+import org.apache.log4j.*;
 /**
  * This class represents a simulation in play.
  *
@@ -134,7 +134,7 @@ public class RunningSimulation {
 	 */
 	public void enableAndPrep(String schema, String sid, String from, String email_users, String emailText) {
 
-		System.out.println("Enabling Sim."); //$NON-NLS-1$
+		Logger.getRootLogger().debug("Enabling Sim."); //$NON-NLS-1$
 
 		Simulation sim = Simulation.getMe(schema, new Long(sid));
 
@@ -143,9 +143,9 @@ public class RunningSimulation {
 
 		// Email if desired
 		if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) { //$NON-NLS-1$
-			System.out.println("sending welcome emails"); //$NON-NLS-1$
+			Logger.getRootLogger().debug("sending welcome emails"); //$NON-NLS-1$
 
-			System.out.println("sending from " + from); //$NON-NLS-1$
+			Logger.getRootLogger().debug("sending from " + from); //$NON-NLS-1$
 			sendWelcomeEmail(schema, from, emailText);
 
 		}
@@ -300,7 +300,7 @@ public class RunningSimulation {
 
 			fullEmail += this_guys_emailText;
 
-			System.out.println("emailing : " + bu.getUsername()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("emailing : " + bu.getUsername()); //$NON-NLS-1$
 
 			String cc = null;
 			String bcc = from;

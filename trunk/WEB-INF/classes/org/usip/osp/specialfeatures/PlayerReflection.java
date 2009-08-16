@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.apache.log4j.*;
 
 /**
  * This class represents the reflections of a player regarding a simulation.
@@ -154,7 +155,7 @@ public class PlayerReflection implements Comparable{
 		String hql_string = "from PlayerReflection where CS_ID = " + cs_id + " AND RS_ID = " + rs_id //$NON-NLS-1$ //$NON-NLS-2$
 		+ " AND A_ID = " + a_id; //$NON-NLS-1$
 		
-		System.out.println("hql_string is " + hql_string); //$NON-NLS-1$
+		Logger.getRootLogger().debug("hql_string is " + hql_string); //$NON-NLS-1$
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		
@@ -183,7 +184,7 @@ public class PlayerReflection implements Comparable{
 		
 		String hql_string = "from PlayerReflection where RS_ID = " + rs_id; //$NON-NLS-1$
 		
-		System.out.println("hql_string is " + hql_string); //$NON-NLS-1$
+		Logger.getRootLogger().debug("hql_string is " + hql_string); //$NON-NLS-1$
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
 		

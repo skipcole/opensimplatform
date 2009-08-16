@@ -15,6 +15,7 @@ import org.usip.osp.communications.Inject;
 import org.usip.osp.communications.InjectGroup;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import org.apache.log4j.*;
 
 /**
  * Packages and unpackages objects to XML using the opensource software library
@@ -38,7 +39,7 @@ public class ObjectPackager {
 
 	public static void main(String[] args) {
 
-		// System.out.println(packageSimulation("test", new Long(1)));
+		// Logger.getRootLogger().debug(packageSimulation("test", new Long(1)));
 
 		play();
 
@@ -56,7 +57,7 @@ public class ObjectPackager {
 
 		xstream.alias("bss", BaseSimSection.class); //$NON-NLS-1$
 
-		System.out.println(xstream.toXML(bss_intro));
+		Logger.getRootLogger().debug(xstream.toXML(bss_intro));
 
 	}
 
@@ -176,20 +177,20 @@ public class ObjectPackager {
 			// We need to make sure that an object is not saved multiple times
 			// to the xml
 			SimSectionDependentObject depObj = bssdoa.pullOutObject(schema, bssdoa);
-			System.out.println(depObj.getClass());
-			System.out.println(depObj.getId());
+			Logger.getRootLogger().debug(depObj.getClass());
+			Logger.getRootLogger().debug(depObj.getId());
 			
 			String hash_key_string = depObj.getClass() + "_" + depObj.getId(); //$NON-NLS-1$
 
 			String checkString = (String) previouslyStoredObjects.get(hash_key_string);
 			
-			System.out.println("hash_key_string was: " + hash_key_string); //$NON-NLS-1$
-			System.out.println("check string was: " + checkString); //$NON-NLS-1$
+			Logger.getRootLogger().debug("hash_key_string was: " + hash_key_string); //$NON-NLS-1$
+			Logger.getRootLogger().debug("check string was: " + checkString); //$NON-NLS-1$
 
 			if (checkString == null) {
 				
 				previouslyStoredObjects.put(hash_key_string, "set"); //$NON-NLS-1$
-				System.out.println("put hash_key_string: " + hash_key_string); //$NON-NLS-1$
+				Logger.getRootLogger().debug("put hash_key_string: " + hash_key_string); //$NON-NLS-1$
 
 				depObj.setTransit_id(depObj.getId());
 				depObj.setId(null);
@@ -232,7 +233,7 @@ public class ObjectPackager {
 				cbss.setId(null);
 				returnString += xstream.toXML(cbss) + lineTerminator;
 			} else {
-				System.out.println("Warning in Object Packager. Unknown object."); //$NON-NLS-1$
+				Logger.getRootLogger().debug("Warning in Object Packager. Unknown object."); //$NON-NLS-1$
 			}
 
 		}
@@ -363,7 +364,7 @@ public class ObjectPackager {
 
 		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileloc;
 
-		System.out.println("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
+		Logger.getRootLogger().debug("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
 
 		String fullString = FileIO.getFileContents(new File(fileLocation));
 
@@ -398,7 +399,7 @@ public class ObjectPackager {
 
 		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileloc;
 
-		System.out.println("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
+		Logger.getRootLogger().debug("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
 
 		String fullString = FileIO.getFileContents(new File(fileLocation));
 
@@ -524,7 +525,7 @@ public class ObjectPackager {
 				returnString += "Found Dependent Object of class " + key + " and it had a transit id of "
 						+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId() + "<BR />";
 
-				System.out.println("Found Dependent Object of class " + key + " and it had a transit id of "
+				Logger.getRootLogger().debug("Found Dependent Object of class " + key + " and it had a transit id of "
 						+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId() + "<BR />");
 			}
 		}
@@ -537,7 +538,7 @@ public class ObjectPackager {
 			BaseSimSectionDepObjectAssignment this_bssdoa = (BaseSimSectionDepObjectAssignment) xstream
 					.fromXML(sd_string);
 
-			System.out.println("this_bssdoa.getBss_id() was " + this_bssdoa.getBss_id());
+			Logger.getRootLogger().debug("this_bssdoa.getBss_id() was " + this_bssdoa.getBss_id());
 			System.out.flush();
 
 			this_bssdoa.setSim_id(sim_id);
@@ -653,7 +654,7 @@ public class ObjectPackager {
 				if (correspondingSimSection == null) {
 					String warnString = "<font color=\"red\"> Warning. CustomizeableSection simulation section "
 							+ this_bss.getVersionInformation() + " not found.<br /></font>";
-					System.out.println(warnString);
+					Logger.getRootLogger().debug(warnString);
 					returnString += warnString;
 				} else {
 					returnString += "Found " + this_bss.getUniqueName() + " and it had id "
@@ -729,7 +730,7 @@ public class ObjectPackager {
 				String warnString = "<font color=\"red\"> Warning. Base simulation section "
 						+ this_bss.getVersionInformation() + " ( id : " + this_bss.getTransit_id()
 						+ ") not found.<br /></font>";
-				System.out.println(warnString);
+				Logger.getRootLogger().debug(warnString);
 				returnString += warnString;
 			} else {
 				returnString += "Found " + this_bss.getUniqueName() + " and it had id "

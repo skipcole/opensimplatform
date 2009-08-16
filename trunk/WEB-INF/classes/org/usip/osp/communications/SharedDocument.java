@@ -320,7 +320,7 @@ public class SharedDocument implements SimSectionDependentObject {
 		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' and " + //$NON-NLS-1$ //$NON-NLS-2$
 			" className = 'org.usip.osp.communications.SharedDocument'"; //$NON-NLS-1$
 
-		System.out.println(getString);
+		Logger.getRootLogger().debug(getString);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -362,14 +362,14 @@ public class SharedDocument implements SimSectionDependentObject {
 				+ " and rs_id = " + rs_id //$NON-NLS-1$
 				+ " and className = 'org.usip.osp.communications.SharedDocument' order by ssrsdoa_index"; //$NON-NLS-1$
 
-		System.out.println(getString);
+		Logger.getRootLogger().debug(getString);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List docList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
 
 		if (docList != null) {
-			System.out.println("got some docs back: " + docList.size()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("got some docs back: " + docList.size()); //$NON-NLS-1$
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -386,7 +386,7 @@ public class SharedDocument implements SimSectionDependentObject {
 				SharedDocument sd = (SharedDocument) MultiSchemaHibernateUtil.getSession(schema).get(objClass,
 						ssrsdoa.getObjectId());
 
-				System.out.println("strter title:" + sd.getDisplayTitle()); //$NON-NLS-1$
+				Logger.getRootLogger().debug("strter title:" + sd.getDisplayTitle()); //$NON-NLS-1$
 				returnList.add(sd);
 
 			} catch (Exception e) {
