@@ -276,9 +276,11 @@ public class RunningSimulation {
 			String this_guys_emailText = emailText;
 
 			// /////////////////////////////////////
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-			User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, ua.getUser_id());
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			// MultiSchemaHibernateUtil.beginTransaction(schema);
+			// User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, ua.getUser_id());
+			// MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			
+			
 			// /////////////////////////////////////
 			MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
 			BaseUser bu = (BaseUser) MultiSchemaHibernateUtil
@@ -463,16 +465,13 @@ public class RunningSimulation {
 
 		String returnString = ""; //$NON-NLS-1$
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
-				RunningSimulation.class, rs_id);
-
 		List alerts = Alert.getAllForRunningSim(schema, rs_id);
 		
 		// Get list iterator positioned at the end.
 		ListIterator<Alert> la = alerts.listIterator(alerts.size());
 
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
 		while (la.hasPrevious()) {
 			Alert al = la.previous();
 

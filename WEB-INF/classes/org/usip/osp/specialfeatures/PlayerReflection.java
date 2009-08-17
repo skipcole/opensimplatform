@@ -176,9 +176,14 @@ public class PlayerReflection implements Comparable{
 		return playerReflection;
 	}
 	
+	/**
+	 * Returns all reflections for the players of a particular running simulation.
+	 * 
+	 * @param schema
+	 * @param rs_id
+	 * @return
+	 */
 	public static List getReflections(String schema, Long rs_id){
-		
-		PlayerReflection playerReflection = new PlayerReflection();
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		

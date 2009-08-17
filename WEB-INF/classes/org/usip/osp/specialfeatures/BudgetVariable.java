@@ -47,24 +47,46 @@ public class BudgetVariable {
         this.value = "0"; //$NON-NLS-1$
     }
     
+    private Long sim_id;
+    private Long running_sim_id;
+    private String var_name;
+    private String description;
     
-    public static void createGameBudgetTable(String tableName){
-        
-        String createTableSQL = "CREATE TABLE `" + tableName + "` ( " + //$NON-NLS-1$ //$NON-NLS-2$
-            "`sim_id` int(11) NOT NULL auto_increment, " + //$NON-NLS-1$
-            "`sf_id` int(11) NOT NULL, " + //$NON-NLS-1$
-            "`game_id` int(11) NOT NULL, " + //$NON-NLS-1$
-            "`running_game_id` int(11) default '0', " +  //$NON-NLS-1$
-            "`var_name` varchar(100) default NULL, " + //$NON-NLS-1$
-            "`initial_value` varchar(10) default NULL, " + //$NON-NLS-1$
-            "`tracked` varchar(5) default NULL, " + //$NON-NLS-1$
-            "`prop_type` varchar(100) default NULL, " + //$NON-NLS-1$
-            "`description` longtext, " + //$NON-NLS-1$
-            "PRIMARY KEY  (`sim_id`)) "; //$NON-NLS-1$
-              
-    }
+
     
-    public static void createGameBudgetTableValues(String tableName){
+    public Long getSim_id() {
+		return sim_id;
+	}
+
+	public void setSim_id(Long sim_id) {
+		this.sim_id = sim_id;
+	}
+
+	public Long getRunning_sim_id() {
+		return running_sim_id;
+	}
+
+	public void setRunning_sim_id(Long running_sim_id) {
+		this.running_sim_id = running_sim_id;
+	}
+
+	public String getVar_name() {
+		return var_name;
+	}
+
+	public void setVar_name(String var_name) {
+		this.var_name = var_name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public static void createGameBudgetTableValues(String tableName){
         
         String createTableSQL = "CREATE TABLE `" + tableName + "` ( " + //$NON-NLS-1$ //$NON-NLS-2$
             "`sim_id` int(11) NOT NULL, " + //$NON-NLS-1$
@@ -314,6 +336,7 @@ public class BudgetVariable {
      public String createInitialValueEntry(String tableName, String running_game_id) {
         String debug = "start: "; //$NON-NLS-1$
         
+        /*
         Float f = new Float(0);
         
         try {

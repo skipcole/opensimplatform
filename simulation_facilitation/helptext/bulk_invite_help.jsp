@@ -30,7 +30,8 @@ body {
 <h1>Bulk Invite  </h1>
 <ul>
   <li>If a user is already registered, you will be notified.</li>
-  <li>You will be able to check to see which of the players you have invited to register have actually done so. </li>
+  <li>You will be able to check to see which of the players you have invited to register have actually done so when you attempt to assign players to the simulation.<br>
+  </li>
 </ul>
 <!-- InstanceEndEditable --> 
 </body>

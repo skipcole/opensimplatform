@@ -191,6 +191,8 @@ public class AuthorFacilitatorSessionObject {
 				returnSP.setNotes(phase_notes);
 				returnSP.setOrder(string2Int(nominal_order));
 				returnSP.saveMe(this.schema);
+				
+				@SuppressWarnings("unused")
 				SimPhaseAssignment spa = new SimPhaseAssignment(this.schema, sim.getId(), returnSP.getId());
 
 				List<Actor> ctrl_actors = Actor.getControlActors(schema, sim.getId());
@@ -244,6 +246,7 @@ public class AuthorFacilitatorSessionObject {
 				String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
 				String running_sim_id = request.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
 
+				@SuppressWarnings("unused")
 				UserAssignment ua = UserAssignment.getUniqueUserAssignment(this.schema, new Long(sim_id), new Long(
 						running_sim_id), new Long(actor_id), new Long(user_id));
 			}
@@ -254,10 +257,17 @@ public class AuthorFacilitatorSessionObject {
 	public String invitationCode = ""; //$NON-NLS-1$
 
 	public String getDefaultInviteMessage() {
+		
 		String defaultInviteEmailMsg = "Dear Student,\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += "Please go to the web site "; //$NON-NLS-1$
 		defaultInviteEmailMsg += USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
-				+ "/simulation_user_admin/auto_registration_form.jsp and register yourself.\r\n\r\n"; //$NON-NLS-1$
+				+ "/simulation_user_admin/auto_registration_form.jsp";
+		
+		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
+		
+		defaultInviteEmailMsg += "?schema_id=" + schema_id;
+			
+		defaultInviteEmailMsg += " and register yourself.\r\n\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += "Thank you,\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += this.user_Display_Name;
 
@@ -270,11 +280,17 @@ public class AuthorFacilitatorSessionObject {
 	 * @param request
 	 */
 	public void handleBulkInvite(HttpServletRequest request) {
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		if ( (sending_page == null) || (!(sending_page.equalsIgnoreCase("bulk_invite")))){
+			return;
+		}
+		
 		this.setOfUsers = request.getParameter("setOfUsers"); //$NON-NLS-1$
 		String thisInviteEmailMsg = request.getParameter("defaultInviteEmailMsg"); //$NON-NLS-1$
 		this.invitationCode = request.getParameter("invitationCode"); //$NON-NLS-1$
 
-		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
 
 		for (ListIterator<String> li = getSetOfEmails(this.setOfUsers).listIterator(); li.hasNext();) {
 			String this_email = li.next();
@@ -353,8 +369,6 @@ public class AuthorFacilitatorSessionObject {
 		String objid = request.getParameter("objid");
 		String cancel_action = request.getParameter("cancel_action");
 		String phase_sim_id = request.getParameter("phase_sim_id");
-
-		String debug = "";
 
 		if (cancel_action != null) {
 			return true;
@@ -754,6 +768,7 @@ public class AuthorFacilitatorSessionObject {
 		MultiSchemaHibernateUtil.recreateDatabase(sio);
 
 		// Must create the new user in this schema
+		@SuppressWarnings("unused")
 		User user = new User(schema, admin_email, admin_pass, admin_first, admin_last, admin_middle, admin_full,
 				admin_email, true, true, true);
 
@@ -904,9 +919,13 @@ public class AuthorFacilitatorSessionObject {
 
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean checkDatabaseCreated() {
 
-		List users = null;
+		List users = new ArrayList();
 
 		Connection conn = null;
 
@@ -1346,9 +1365,14 @@ public class AuthorFacilitatorSessionObject {
 		return eventText;
 	}
 
+	public String getPhaseNameById(String phase_id) {
+		
+		return "insert code here";
+	}
 
 
 	public String getPhaseNameById(Long phase_id) {
+		
 		return "insert code here";
 	}
 
@@ -1446,6 +1470,7 @@ public class AuthorFacilitatorSessionObject {
 		Long s_id = new Long(sim_id);
 		Long a_id = new Long(actor_id);
 
+		@SuppressWarnings("unused")
 		SimActorAssignment saa = new SimActorAssignment(schema, s_id, a_id);
 
 		SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);

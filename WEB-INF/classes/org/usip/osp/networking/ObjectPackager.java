@@ -176,7 +176,7 @@ public class ObjectPackager {
 
 			// We need to make sure that an object is not saved multiple times
 			// to the xml
-			SimSectionDependentObject depObj = bssdoa.pullOutObject(schema, bssdoa);
+			SimSectionDependentObject depObj = BaseSimSectionDepObjectAssignment.pullOutObject(schema, bssdoa);
 			Logger.getRootLogger().debug(depObj.getClass());
 			Logger.getRootLogger().debug(depObj.getId());
 			
@@ -807,6 +807,7 @@ public class ObjectPackager {
 
 			phaseIdMappings.put(this_phase.getTransit_id(), this_phase.getId());
 
+			@SuppressWarnings("unused")
 			SimPhaseAssignment spa = new SimPhaseAssignment(schema, sim_id, this_phase.getId());
 		}
 

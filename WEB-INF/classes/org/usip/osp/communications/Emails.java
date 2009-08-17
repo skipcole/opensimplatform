@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 
 /**
- * This class represents an in game email.
+ * This class represents an in simulation email.
  *
  *
  * This file is part of the USIP Open Simulation Platform.<br>

@@ -4,7 +4,6 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.User;
 import org.apache.log4j.*;
@@ -201,22 +200,6 @@ public class BaseUser {
         return this.id;
     }
 
-    private static Session startMeUp() {
-
-        String ps = MultiSchemaHibernateUtil.principalschema;
-
-        MultiSchemaHibernateUtil.beginTransaction(
-                MultiSchemaHibernateUtil.principalschema, true);
-
-        return MultiSchemaHibernateUtil.getSession(ps);
-    }
-
-    private static void shutMeDown(Session root_session) {
-
-        String ps = MultiSchemaHibernateUtil.principalschema;
-
-        MultiSchemaHibernateUtil.commitAndCloseTransaction(root_session);
-    }
 
     /**
      * Given a user_id return all of the schemas to which this user has been

@@ -357,7 +357,6 @@ public class MultiSchemaHibernateUtil {
     public static void addRootSchemaClasses(AnnotationConfiguration ac) {
         ac.addAnnotatedClass(org.usip.osp.persistence.BaseUser.class);
         ac.addAnnotatedClass(org.usip.osp.persistence.SchemaInformationObject.class);
-        ac.addAnnotatedClass(org.usip.osp.persistence.UserRegistrationInvite.class);
     }
 
     /**
@@ -394,6 +393,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.communications.InjectGroup.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocument.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocActorNotificAssignObj.class);
+		ac.addAnnotatedClass(org.usip.osp.communications.UserRegistrationInvite.class);
 		
 		// Models
 		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelDefinitionObject.class);

@@ -14,12 +14,8 @@
 		return;
 	}
 	
+	afso.handleBulkInvite(request);
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("bulk_invite"))){
-		afso.handleBulkInvite(request);
-	}
 	
 
 %>
@@ -61,6 +57,12 @@
           <td>Message Text: </td>
                 <td><textarea name="defaultInviteEmailMsg" cols="60" rows="5"><%= afso.getDefaultInviteMessage() %></textarea></td>
               </tr>
+        <tr valign="top">
+          <td>Look Up Code(?): (in case you want to)</td>
+          <td><label>
+            <input type="text" name="textfield" id="textfield" />
+          </label></td>
+        </tr>
         <tr valign="top"> 
           <td>&nbsp;</td>
                 <td> <input type="submit" name="command" value="Send Invite Email" /></td>

@@ -1160,7 +1160,7 @@ public class PlayerSessionObject {
 
 				Alert al = new Alert();
 				al.setSpecific_targets(true);
-				al.setType(al.TYPE_MEMO);
+				al.setType(Alert.TYPE_MEMO);
 				al.setThe_specific_targets(sdanao.getActor_id().toString());
 				al.setAlertMessage(sdanao.getNotificationText());
 				al.setRunning_sim_id(running_sim_id);
