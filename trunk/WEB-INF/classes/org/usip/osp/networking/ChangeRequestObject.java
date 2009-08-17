@@ -44,6 +44,86 @@ public class ChangeRequestObject {
 	private Long sending_actor;
 	
 	private Long sending_user;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getSim_id() {
+		return sim_id;
+	}
+
+	public void setSim_id(Long sim_id) {
+		this.sim_id = sim_id;
+	}
+
+	public Long getRunning_sim_id() {
+		return running_sim_id;
+	}
+
+	public void setRunning_sim_id(Long running_sim_id) {
+		this.running_sim_id = running_sim_id;
+	}
+
+	public int getRound_sent() {
+		return round_sent;
+	}
+
+	public void setRound_sent(int round_sent) {
+		this.round_sent = round_sent;
+	}
+
+	public Long getPhase_id_sent() {
+		return phase_id_sent;
+	}
+
+	public void setPhase_id_sent(Long phase_id_sent) {
+		this.phase_id_sent = phase_id_sent;
+	}
+
+	public String getVariable_name() {
+		return variable_name;
+	}
+
+	public void setVariable_name(String variable_name) {
+		this.variable_name = variable_name;
+	}
+
+	public String getNew_value() {
+		return new_value;
+	}
+
+	public void setNew_value(String new_value) {
+		this.new_value = new_value;
+	}
+
+	public String getAuthentication_string() {
+		return authentication_string;
+	}
+
+	public void setAuthentication_string(String authentication_string) {
+		this.authentication_string = authentication_string;
+	}
+
+	public Long getSending_actor() {
+		return sending_actor;
+	}
+
+	public void setSending_actor(Long sending_actor) {
+		this.sending_actor = sending_actor;
+	}
+
+	public Long getSending_user() {
+		return sending_user;
+	}
+
+	public void setSending_user(Long sending_user) {
+		this.sending_user = sending_user;
+	}
 	
 	
 	

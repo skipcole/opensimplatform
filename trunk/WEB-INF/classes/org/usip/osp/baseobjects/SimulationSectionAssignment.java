@@ -644,6 +644,7 @@ public class SimulationSectionAssignment {
 			// If this doesn't work, try the getBySimAndActorAndPhase
 			int highestTab = Actor.getHighestTabPosForPhase(schema, sim.getId(), pid, a_id);
 
+			@SuppressWarnings("unused")
 			SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, sim.getId(), a_id, pid, bss_id,
 					tab_head, highestTab);
 
@@ -675,6 +676,7 @@ public class SimulationSectionAssignment {
 			// If this doesn't work, try the getBySimAndActorAndPhase
 			int highestTab = Actor.getHighestTabPosForPhase(schema, sim_id, pid, a_id);
 
+			@SuppressWarnings("unused")
 			SimulationSectionAssignment ss0 = new SimulationSectionAssignment(schema, sim_id, a_id, pid, sec_id,
 					tab_head, highestTab);
 		}

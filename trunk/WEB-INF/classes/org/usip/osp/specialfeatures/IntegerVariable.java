@@ -154,30 +154,6 @@ public class IntegerVariable {
         return addNewValue(tableName, running_game_id, "1", this.initialValue); //$NON-NLS-1$
     }
 
-    /**
-     * Gets all of the simulation variables for a particular running game.
-     * 
-     * @param game
-     * @param rgid
-     * @return
-     */
-    public Vector getSimVariablesForARunningSimulation(Simulation simulation, String rgid) {
-
-    	//TODO
-        Vector returnVector = null;
-    	//getSetForASimulation(simulation.id);
-
-        for (Enumeration e = returnVector.elements(); e.hasMoreElements();) {
-            IntegerVariable iv = (IntegerVariable) e.nextElement();
-
-            //iv.game_id = game.id;
-            // TODO
-            //iv.sim_id = iv.lookUpMySimID(game.db_tablename_var_int, rgid);
-
-        }
-
-        return returnVector;
-    }
 
     /**
      * Inserts into sf_var_integer table
@@ -262,6 +238,13 @@ public class IntegerVariable {
 
     }
 
+    /**
+     * 
+     * @param game
+     * @param gameround
+     * @param rgid
+     * @return
+     */
     public String propagate(Simulation game, String gameround, String rgid) {
 
         String returnString = "IntegerVariable.propogate(): "; //$NON-NLS-1$

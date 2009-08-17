@@ -1,10 +1,11 @@
-package org.usip.osp.persistence;
+package org.usip.osp.communications;
 
 import java.util.Date;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * 
@@ -50,7 +51,7 @@ public class UserRegistrationInvite {
 	/** Used to help keep track of a set of students invited all at one time. */
 	private String invitationSet;
 
-	private String schemaInvitedTo;
+	private String schema;
 
 	public UserRegistrationInvite() {
 
@@ -71,7 +72,7 @@ public class UserRegistrationInvite {
 		this.invitingInstructor = invitingInstructor;
 		this.originalInviteEmailAddress = originalInviteEmailAddress;
 		this.invitationSet = invitationSet;
-		this.schemaInvitedTo = schemaInvitedTo;
+		this.schema = schemaInvitedTo;
 		
 		this.registrationDate = new java.util.Date();
 
@@ -133,19 +134,22 @@ public class UserRegistrationInvite {
 		this.invitationSet = invitationSet;
 	}
 
-	public String getSchemaInvitedTo() {
-		return this.schemaInvitedTo;
+	public String getSchema() {
+		return this.schema;
 	}
 
-	public void setSchemaInvitedTo(String schemaInvitedTo) {
-		this.schemaInvitedTo = schemaInvitedTo;
+	public void setSchema(String schemaInvitedTo) {
+		this.schema = schemaInvitedTo;
 	}
 
+	/**
+	 * Saves the UserRegistrationInvite into the database.
+	 */
 	public void saveMe() {
 
-		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
-		MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).saveOrUpdate(this);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
 

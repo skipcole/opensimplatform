@@ -476,6 +476,7 @@ public class PSO_SectionMgmt {
 
 		Long this_tab_pos = getTabPos();
 
+		@SuppressWarnings("unused")
 		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(this.afso.schema, this.afso.sim_id, new Long(
 				this.afso.actor_being_worked_on_id), new Long(this.phase_being_worked_on_id), new Long(this._bss_id), this._tab_heading,
 				this_tab_pos.intValue());
@@ -525,6 +526,7 @@ public class PSO_SectionMgmt {
 		Logger.getRootLogger().debug("tabhead " + tab_heading);
 		Logger.getRootLogger().debug("universal " + universal);
 
+		@SuppressWarnings("unused")
 		SimulationSectionAssignment ss0 = new SimulationSectionAssignment(this.afso.schema, this.afso.sim_id, new Long(
 				this.afso.actor_being_worked_on_id), new Long(this.phase_being_worked_on_id), bss_id, tab_heading, getTabPos()
 				.intValue());
@@ -887,6 +889,7 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.save(afso.schema);
 
 			if (save_and_add != null) {
+				@SuppressWarnings("unused")
 				SimulationSectionAssignment ss0 = new SimulationSectionAssignment(afso.schema, afso.sim_id, new Long(
 						afso.actor_being_worked_on_id), new Long(phase_being_worked_on_id),
 						customizableSectionOnScratchPad.getId(), _tab_heading, getTabPos().intValue());
@@ -941,6 +944,7 @@ public class PSO_SectionMgmt {
 				conv.save(afso.schema, afso.sim_id);
 
 				// Create and save the assignment obect
+				@SuppressWarnings("unused")
 				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
 						customizableSectionOnScratchPad.getId(), "org.usip.osp.communications.Conversation", 1, conv
 								.getId(), afso.sim_id, afso.schema);
@@ -1118,6 +1122,7 @@ public class PSO_SectionMgmt {
 						caa2.save(afso.schema);
 
 						// Create and save the assignment obect
+						@SuppressWarnings("unused")
 						BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
 								customizableSectionOnScratchPad.getId(), "org.usip.osp.communications.Conversation", 1,
 								conv.getId(), afso.sim_id, afso.schema);

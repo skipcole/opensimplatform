@@ -313,7 +313,7 @@ public class MasterTester extends BaseTester{
     public static String testAssignSharedDocSection(){
         
         String returnString = makeHeader("Assigning sim variable chart to user."); //$NON-NLS-1$
-        SimulationSectionAssignment gs = new SimulationSectionAssignment();
+        //SimulationSectionAssignment gs = new SimulationSectionAssignment();
         
         // TODO
         

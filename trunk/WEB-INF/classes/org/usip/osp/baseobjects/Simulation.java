@@ -256,11 +256,13 @@ public class Simulation {
 		sd.saveMe(schema);
 
 		// need to associate with it the schedule document
+		@SuppressWarnings("unused")
 		BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(scheduleSection.getId(),
 				"org.usip.osp.communications.SharedDocument", 1, sd.getId(), this.getId(), //$NON-NLS-1$
 				schema);
 
 		// Add the schedule as the second tab to all players.
+		@SuppressWarnings("unused")
 		SimulationSectionAssignment ss1 = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
 				.getId(), scheduleSection.getId(), "Schedule", 2); //$NON-NLS-1$
 
@@ -505,7 +507,7 @@ public class Simulation {
 	/** Gets list of actors not previously assigned to this simulation. */
 	public List<Actor> getAvailableActors(String schema) {
 
-		List fullList = new Actor().getAll(schema);
+		List fullList = Actor.getAll(schema);
 
 		for (ListIterator la = this.getActors(schema).listIterator(); la.hasNext();) {
 			Actor act = (Actor) la.next();
@@ -576,6 +578,7 @@ public class Simulation {
 	 */
 	public void addConversation(String schema, Conversation conv) {
 
+		@SuppressWarnings("unused")
 		SimConversationAssignment sca = new SimConversationAssignment(schema, this.id, conv.getId());
 	}
 

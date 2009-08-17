@@ -15,6 +15,10 @@
 		afso.forward_on = false;
 		return;
 	}
+	
+	// Get the schema id that has been sent in. If there is none, then allow user to select organizational database.
+	String schema_id = (String) request.getParameter("schema_id");
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -113,8 +117,9 @@ body {
           <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
           </label></td>
     </tr>
+    <% if (schema_id == null) { %>
           <tr>
-            <td>Organization(s):</td>
+            <td>Organizational Database: (?)</td>
               <td>
               <select name="selected_schema">
 			  <%
@@ -130,6 +135,16 @@ body {
               
               </td>
             </tr>
+     <% } else { %>
+     	<tr>
+            <td>Organizational Database: (?)</td>
+              <td>
+              <input type=hidden name="selected_schema" value=<% schema_id %>>
+				look up schema name	
+              
+              </td>
+            </tr>
+     <% }  // end if if schema_id was null %>
           <tr>
             <td>&nbsp;</td>
               <td>

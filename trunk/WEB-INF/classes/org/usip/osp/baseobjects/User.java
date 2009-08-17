@@ -34,6 +34,9 @@ public class User {
 	@Id
 	@Column(name = "USER_ID")
 	private Long id;
+	
+	@Column(name = "USER_NAME")
+	private String user_name;
 
 	@Column(name = "SIMCREATOR")
 	private boolean sim_author = false;
@@ -115,6 +118,7 @@ public class User {
 
 		this.setId(bu.getId());
 
+		this.user_name = username;
 		this.sim_author = sim_creator;
 		this.sim_instructor = sim_instructor;
 		this.admin = admin;
@@ -191,6 +195,14 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
 	/**
@@ -290,20 +302,6 @@ public class User {
 		
 		return user;
 		
-	}
-
-	private User getUser(String username,
-			org.hibernate.Session hibernate_session) {
-
-		List<User> list = hibernate_session.createQuery(
-				"from User where username = '" + username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
-
-		if ((list != null) && (list.size() == 1)) {
-			return list.get(0);
-		} else {
-			return null;
-		}
-
 	}
 	
 	/**

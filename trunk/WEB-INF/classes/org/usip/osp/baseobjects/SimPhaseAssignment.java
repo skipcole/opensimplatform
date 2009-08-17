@@ -56,6 +56,13 @@ public class SimPhaseAssignment {
 		
 	}
 	
+	/**
+	 * Saves this SimPhaseAssignment if it does not already exist.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param phase_id
+	 */
 	public SimPhaseAssignment(String schema, Long sim_id, Long phase_id){
 		this.sim_id = sim_id;
 		this.phase_id = phase_id;
