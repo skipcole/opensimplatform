@@ -660,7 +660,7 @@ public class PlayerSessionObject {
 	 * @param request
 	 * @return
 	 */
-	public RunningSimulation makeGeneralAnnouncement(String news, HttpServletRequest request) {
+	public void makeGeneralAnnouncement(String news, HttpServletRequest request) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -679,8 +679,6 @@ public class PlayerSessionObject {
 
 		// Let people know that there is a change to catch.
 		storeNewHighestChangeNumber(request);
-
-		return rs;
 
 	}
 
@@ -928,7 +926,7 @@ public class PlayerSessionObject {
 
 				Hashtable uniqList = new Hashtable();
 
-				for (ListIterator<UserAssignment> li = running_sim.getUser_assignments().listIterator(); li.hasNext();) {
+				for (ListIterator<UserAssignment> li = running_sim.getUser_assignments(schema).listIterator(); li.hasNext();) {
 					UserAssignment ua = li.next();
 					uniqList.put(ua.getUser_id(), "set");
 				}
@@ -1092,7 +1090,6 @@ public class PlayerSessionObject {
 	 */
 	public void handleMakeAnnouncement(HttpServletRequest request) {
 
-		RunningSimulation rs = giveMeRunningSim();
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String add_news = (String) request.getParameter("add_news");
@@ -1110,7 +1107,7 @@ public class PlayerSessionObject {
 				this.forward_on = true;
 				return;
 			} else {
-				rs = makeGeneralAnnouncement(announcement_text, request);
+				makeGeneralAnnouncement(announcement_text, request);
 			}
 
 		} // End of if coming from this page and have added announcement.

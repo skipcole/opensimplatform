@@ -19,6 +19,25 @@
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
+
+	  <div align="center"></div>	  </td>
+  </tr>
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
+  </tr>
+  <tr>
+  	<td width="120" align="right" valign="top">&nbsp;</td>
+    <td colspan="1" valign="top"><br /></td>
+    <td width="194" align="right" valign="top">		</td>
+  </tr>
+</table>
+<BR />
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 

@@ -136,6 +136,7 @@ public class BaseUser {
 
     
     /**
+     * Returns the user if the password entered is correct, otherwise returns null.
      * 
      * @param username
      * @param password
@@ -266,6 +267,11 @@ public class BaseUser {
         return bu;
     }
     
+    /**
+     * 
+     * @param the_username
+     * @return
+     */
     public static boolean checkIfUserExists(String the_username){
     	
     	BaseUser bu = getByUsername(the_username);

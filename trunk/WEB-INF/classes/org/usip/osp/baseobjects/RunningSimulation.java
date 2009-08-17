@@ -56,10 +56,6 @@ public class RunningSimulation {
 	 */
 	private String rs_password;
 
-	@OneToMany
-	@JoinColumn(name = "RUNNING_SIM_ID")
-	private List<UserAssignment> user_assignments = new ArrayList<UserAssignment>();
-
 	/** The id of the current phase. */
 	@Column(name = "RS_PHASEID")
 	private Long phase_id;
@@ -270,7 +266,7 @@ public class RunningSimulation {
 
 		emailText = emailText.replace("[web_site_location]", Emailer.simulation_url); //$NON-NLS-1$
 
-		for (ListIterator<UserAssignment> li = this.user_assignments.listIterator(); li.hasNext();) {
+		for (ListIterator<UserAssignment> li = getUser_assignments(schema, this.id).listIterator(); li.hasNext();) {
 			UserAssignment ua = li.next();
 
 			String this_guys_emailText = emailText;
@@ -384,13 +380,17 @@ public class RunningSimulation {
 	public void setRs_password(String rs_password) {
 		this.rs_password = rs_password;
 	}
-
-	public List<UserAssignment> getUser_assignments() {
-		return this.user_assignments;
+	
+	public List<UserAssignment> getUser_assignments(String schema) {
+		
+		return UserAssignment.getAllForRunningSim(schema, this.id);
+		
 	}
 
-	public void setUser_assignments(List<UserAssignment> user_assignments) {
-		this.user_assignments = user_assignments;
+	public List<UserAssignment> getUser_assignments(String schema, Long rsid) {
+		
+		return UserAssignment.getAllForRunningSim(schema, rsid);
+		
 	}
 
 	public boolean isReady_to_begin() {

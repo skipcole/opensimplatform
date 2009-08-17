@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.persistence.Entity;
 
+import org.hibernate.annotations.Proxy;
 import org.jfree.chart.*;
 
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -24,6 +25,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * 
  */
 @Entity
+@Proxy(lazy=false)
 public class Chart{
 
     private JFreeChart this_chart = null;
