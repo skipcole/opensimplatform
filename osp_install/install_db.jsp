@@ -141,11 +141,6 @@ body {
                   <input type="text" name="admin_email" value="<%= admin_email %>"/></td>
               </tr>
               <tr> 
-                <td valign="top"><input type="checkbox" name="new_admin_user_cbox" value="new" />
-                  New Admin User</td>
-                <td valign="top">Fill out field in blue below</td>
-              </tr>
-              <tr> 
                 <td valign="top">admin password:</td>
                 <td valign="top"> 
                   <input type="text" name="admin_pass" value="<%= admin_pass %>"/></td>

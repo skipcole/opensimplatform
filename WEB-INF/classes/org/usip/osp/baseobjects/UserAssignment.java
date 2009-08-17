@@ -1,5 +1,6 @@
 package org.usip.osp.baseobjects;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -94,6 +95,26 @@ public class UserAssignment{
 	public List getAllForUser(Long userid, org.hibernate.Session hibernate_session) {
 		return (hibernate_session.createQuery("from UserAssignment where user_id = " +  //$NON-NLS-1$
 				userid.toString()).list());
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param rsid
+	 * @return
+	 */
+	public static List getAllForRunningSim(String schema, Long rsid) {
+		
+		List returnList = new ArrayList<UserAssignment>();
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		returnList =  MultiSchemaHibernateUtil.getSession(schema).createQuery("from UserAssignment where running_sim_id = " +  //$NON-NLS-1$
+				rsid.toString()).list();
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
 	}
 	
 	/**

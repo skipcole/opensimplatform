@@ -365,7 +365,6 @@ public class AuthorFacilitatorSessionObject {
 	public boolean handleDeleteObject(HttpServletRequest request) {
 
 		String objectType = request.getParameter("object_type");
-		String objectInfo = request.getParameter("object_info");
 		String objid = request.getParameter("objid");
 		String cancel_action = request.getParameter("cancel_action");
 		String phase_sim_id = request.getParameter("phase_sim_id");
@@ -457,8 +456,6 @@ public class AuthorFacilitatorSessionObject {
 				BaseUser bu = BaseUser.getByUserId(this.user_id);
 
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
-
-				User user = (User) MultiSchemaHibernateUtil.getSession(this.schema).get(User.class, this.user_id);
 
 				RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil.getSession(this.schema)
 						.get(RunningSimulation.class, this.running_sim_id);
@@ -675,6 +672,11 @@ public class AuthorFacilitatorSessionObject {
 	}
 
 	/**
+	 * Takes input from the install page and creates the database.
+	 * 
+	 * We check to see if this admin user already exists. If they do, and the
+	 * installer has entered the admin's existing password, then no problem. 
+	 * Otherwise we indicate to them that the admin user exists and has a different password.
 	 * 
 	 * @param request
 	 * @return
@@ -700,7 +702,6 @@ public class AuthorFacilitatorSessionObject {
 		String db_loc = (String) request.getParameter("db_loc");
 		String db_port = (String) request.getParameter("db_port");
 
-		String new_admin_user_cbox = (String) request.getParameter("new_admin_user_cbox");
 		String admin_first = (String) request.getParameter("admin_first");
 		String admin_middle = (String) request.getParameter("admin_middle");
 		String admin_last = (String) request.getParameter("admin_last");
@@ -717,21 +718,23 @@ public class AuthorFacilitatorSessionObject {
 		String error_msg = "";
 		String ps = MultiSchemaHibernateUtil.principalschema;
 
-		boolean existingAdminUser = true;
-
-		if ((new_admin_user_cbox != null) && (new_admin_user_cbox.equalsIgnoreCase("new"))) {
-			existingAdminUser = false;
-		}
-
-		Long admin_user_id;
-		BaseUser bu = null;
-
+		
 		if ((sending_page != null) && (cleandb != null) && (sending_page.equalsIgnoreCase("clean_db"))) {
 
 			if ((admin_pass == null) || (admin_pass.length() == 0)) {
 				return ("Must enter admin password.");
 			} else if ((admin_email == null) || ((admin_email.length() == 0))) {
 				return ("Must enter admin email.");
+			}
+			
+			BaseUser existing_admin = BaseUser.getByUsername(admin_email);
+
+			// If admin already exist, need to make sure that the password passed in is the same.
+			if (existing_admin != null){
+				BaseUser bu = BaseUser.validateUser(admin_email, admin_pass);
+				if (bu == null){
+					return ("Admin password does not match the existing admin's password.");
+				}
 			}
 		}
 
@@ -773,7 +776,6 @@ public class AuthorFacilitatorSessionObject {
 				admin_email, true, true, true);
 
 		String loadss = (String) request.getParameter("loadss");
-		String load_cs = (String) request.getParameter("load_cs");
 
 		if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
 			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
@@ -784,6 +786,7 @@ public class AuthorFacilitatorSessionObject {
 		return error_msg;
 
 	}
+	
 
 	/**
 	 * Recreates the root database that will hold information on the other
@@ -1125,7 +1128,6 @@ public class AuthorFacilitatorSessionObject {
 	public void handleCreateActor(HttpServletRequest request) {
 
 		String actorid = "";
-		boolean inEditMode = false;
 
 		try {
 			MultipartRequest mpr = new MultipartRequest(request, USIP_OSP_Properties.getValue("uploads"));
@@ -1153,9 +1155,7 @@ public class AuthorFacilitatorSessionObject {
 
 			} else if ((clear_button != null) && (clear_button.equalsIgnoreCase("Clear"))) {
 				actor_being_worked_on_id = null;
-			} else {
-				inEditMode = false;
-			}
+			} 
 		} catch (java.io.IOException ioe) {
 			Logger.getRootLogger().debug("error in edit actor:" + ioe.getMessage());
 

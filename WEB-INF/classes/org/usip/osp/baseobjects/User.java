@@ -271,6 +271,7 @@ public class User {
 
 	}
 
+	/** Returns list of all Admins, creators and instructors. */
 	public static List getAllAdminsSCandInstructors(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -288,6 +289,12 @@ public class User {
 
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param user_id
+	 * @return
+	 */
 	public static User getUser(String schema, Long user_id){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -303,6 +310,7 @@ public class User {
 		return user;
 		
 	}
+	
 	
 	/**
 	 * Gets the user info from the schema indicated, and then gets the base user info

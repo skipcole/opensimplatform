@@ -29,15 +29,14 @@
 	//////////////////////////////////////////////////////
 	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/controlPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<!-- InstanceBeginEditable name="doctitle" -->
+
 <title>Open Simulation Platform Control Page</title>
-<!-- InstanceEndEditable -->
-<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<!-- InstanceParam name="onloadAttribute" type="text" value="" -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -48,10 +47,8 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Assign User to a Running Simulation</h1>
-      <!-- InstanceEndEditable --><br />
-			<!-- InstanceBeginEditable name="pageBody" --> 
+              <h1>Assign User to a Running Simulation</h1>
+              <br />
       <% 
 			if (afso.sim_id == null) {
 		%>
@@ -61,7 +58,7 @@
       <% } else { %>
       <p>Assigning users to <strong>simulation <%= simulation.getDisplayName() %></strong>. <br />
         To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click 
-        here</a>. 
+          here</a>. 
         <%
 			if (afso.running_sim_id == null) {
 		%>
@@ -72,17 +69,16 @@
       <% } else { %>
       <p>Assign users to play the role of actors in the <strong>running simulation 
         <%= running_simulation.getName() %></strong><br/>
-		To select a different running simulation, <a href="../simulation_authoring/select_running_simulation.jsp">click 
-        here</a>. 
-		</p>
+        To select a different running simulation, <a href="../simulation_authoring/select_running_simulation.jsp">click 
+          here</a>.      </p>
       <table border="1">
         <tr valign="top"> 
           <td ><strong>Actor</strong></td>
-          <td ><strong>User Assigned</strong></td>
-          <td >&nbsp;</td>
-          <td ><strong>Available Users</strong></td>
-          <td ><strong>Assign User</strong></td>
-        </tr>
+            <td ><strong>User Assigned</strong></td>
+            <td >&nbsp;</td>
+            <td ><strong>Available Users</strong></td>
+            <td ><strong>Assign User</strong></td>
+          </tr>
         <%
 			for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
@@ -101,14 +97,14 @@
         <tr valign="top"> 
           <form action="assign_user_to_simulation.jsp" method="post" name="form3" id="form3">
             <td><%= act.getName() %></td>
-            <td><%= user_assigned.getBu_username() %></td>
-            <td>
-			<% String nameToSend = " this user assignment "; %> 
-			<% if ((ua != null) && (ua.getId() != null)){ %>
-			<a href="delete_object.jsp?object_type=user_assignment&objid=<%= ua.getId() %>&object_info=<%= nameToSend %>">
-			<% } %>
-			<img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a></td>
-            <td> <select name="user_to_add_to_simulation">
+              <td><%= user_assigned.getBu_username() %></td>
+              <td>
+                <% String nameToSend = " this user assignment "; %> 
+                <% if ((ua != null) && (ua.getId() != null)){ %>
+                <a href="delete_object.jsp?object_type=user_assignment&objid=<%= ua.getId() %>&object_info=<%= nameToSend %>">
+                  <% } %>
+                  <img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a></td>
+              <td> <select name="user_to_add_to_simulation">
                 <% // loop over something potential users for this actor roll.
 					
 					for (ListIterator lusers = User.getAll(afso.schema, true).listIterator(); lusers.hasNext();) {
@@ -119,14 +115,14 @@
                 <%
 				  	} // End of loop over potentail users.
 				  %>
-              </select> </td>
-            <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
-              <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 
-              <input type="hidden" name="simulation_adding_to" value="<%= simulation.getId() %>" /> 
-              <input type="hidden" name="running_simulation_adding_to" value="<%= running_simulation.getId() %>" /> 
-              <input type="submit" name="command" value="Assign User" /></td>
-          </form>
-        </tr>
+                </select> </td>
+              <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
+                <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 
+                <input type="hidden" name="simulation_adding_to" value="<%= simulation.getId() %>" /> 
+                <input type="hidden" name="running_simulation_adding_to" value="<%= running_simulation.getId() %>" /> 
+                <input type="submit" name="command" value="Assign User" /></td>
+            </form>
+          </tr>
         <%
 		  	}
 			// End of loop over results set of Actors
@@ -136,16 +132,13 @@
 		%>
       <%	
 	}// end of if afso.simulation.id has been set.
-%></blockquote>
+%>
+      </blockquote>
       <p>&nbsp;</p>
-      <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>
-      <p align="left"><a href="create_user.jsp">&lt;- 
-        Back</a></p>
-      <!-- InstanceEndEditable -->
-			</td>
+      <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>      <p align="left"><a href="create_user.jsp">&lt;- 
+        Back</a></p>			</td>
 		</tr>
-		</table>
-	</td>
+		</table>	</td>
   </tr>
   <tr> 
     <td>
@@ -158,7 +151,7 @@
 
 <p align="center">&nbsp;</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
 <%
 	
 %>
