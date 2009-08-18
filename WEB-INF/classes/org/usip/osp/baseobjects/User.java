@@ -156,8 +156,7 @@ public class User {
 		LoggedInTicket lit = new LoggedInTicket();
 		lit.setUser_id(user.getId());
 
-		// trail id gets passed up to the pso, to keep track of this login
-		// activities
+		// trail id gets passed up to the pso, to keep track of this login activities
 		user.trail_id = lit.storeLoginInformationGetTrailID(schema);
 
 		return user;

@@ -178,7 +178,13 @@ public class GenericVariable implements SimSectionDependentObject{
 
 	}
 	
-	public static GenericVariable getmE(String schema, Long gv_id) {
+	/**
+	 * 
+	 * @param schema
+	 * @param gv_id
+	 * @return
+	 */
+	public static GenericVariable getMe(String schema, Long gv_id) {
 
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -262,7 +268,7 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 		Logger.getRootLogger().debug("The gv_id found inside of this custom section is " + gv_id); //$NON-NLS-1$
 		
-		return getmE(schema, gv_id);
+		return getMe(schema, gv_id);
 		
 	}
 	
@@ -294,8 +300,18 @@ public class GenericVariable implements SimSectionDependentObject{
 
 	@Override
 	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Logger.getRootLogger().warn("Creating generic variable for running sim : " + rs_id); //$NON-NLS-1$
+
+		GenericVariable templateGV = (GenericVariable) templateObject;
+
+		GenericVariable gv = new GenericVariable();
+		
+		gv.setValue(templateGV.getValue());
+		
+		gv.saveMe(schema);
+		
+		return gv.getId();
 	}
 
 

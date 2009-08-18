@@ -105,9 +105,6 @@ public class PlayerSessionObject {
 	
 	/** Records the display name of this user. */
 	public String user_Display_Name = ""; //$NON-NLS-1$
-
-	/** Records the email of this user. */
-	public String user_email = ""; //$NON-NLS-1$
 	
 	/**
 	 * Username/ Email address of user that is logged in and using this
@@ -246,6 +243,8 @@ public class PlayerSessionObject {
 
 	
 	/**
+	 * This method is called when the user selects a simulation to play.
+	 * (From simulation/select_simulation.jsp)
 	 * 
 	 * @param request
 	 */
@@ -319,17 +318,11 @@ public class PlayerSessionObject {
 
 			}
 			// //////////////////////////////////////////////////////////////////////
-			// ///
+
 
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-			User user = loginToSchema(user_id, schema, request);
-
-			myLoggedInTicket.setActor_id(actor_id);
-			myLoggedInTicket.setRunning_sim_id(running_sim_id);
-
-			// Player starts on tab 1, always.
-			myLoggedInTicket.setTab_position(new Long(1));
+			recordLoginToSchema(user_id, schema, actor_id, running_sim_id, request);
 
 			storeUserInfoInSessionInformation(request);
 
@@ -346,13 +339,15 @@ public class PlayerSessionObject {
 	}
 	
 	/**
+	 * Sets values in this PlayerSessionObject to be those stored for the user, and creates
+	 * the loggedInTicket to record their presence.
 	 * 
 	 * @param bu_id
 	 * @param schema
 	 * @param request
 	 * @return
 	 */
-	public User loginToSchema(Long bu_id, String schema, HttpServletRequest request) {
+	public void recordLoginToSchema(Long bu_id, String schema, Long actor_id, Long running_sim_id, HttpServletRequest request) {
 
 		User user = User.getInfoOnLogin(bu_id, schema);
 		BaseUser bu = BaseUser.getByUserId(bu_id);
@@ -360,12 +355,16 @@ public class PlayerSessionObject {
 		if (user != null) {
 			this.user_id = user.getId();
 			this.user_Display_Name = bu.getFull_name();
-
-			// TODO
-			this.user_email = bu.getUsername();
+			
+			// Username is also email address
+			this.user_name = bu.getUsername();
 
 			myLoggedInTicket.setTrail_id(user.getTrail_id());
 			myLoggedInTicket.setUser_id(this.user_id);
+			myLoggedInTicket.setActor_id(actor_id);
+			myLoggedInTicket.setRunning_sim_id(running_sim_id);
+			// Player starts on tab 1, always.
+			myLoggedInTicket.setTab_position(new Long(1));
 
 			Hashtable<Long, LoggedInTicket> loggedInUsers = (Hashtable<Long, LoggedInTicket>) request.getSession()
 					.getServletContext().getAttribute("loggedInUsers");
@@ -374,11 +373,30 @@ public class PlayerSessionObject {
 
 			loggedin = true;
 		} else {
+			Logger.getRootLogger().warn("Warning: While user selecting simulation, null user detected.");
 			loggedin = false;
 		}
 
-		return user;
 
+	}
+	
+	/**
+	 * Returns the phase name stored in the web cache.
+	 * 
+	 * @return
+	 */
+	public String getPhaseName() {
+
+		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
+				"phaseNames");
+
+		if (running_sim_id != null) {
+			phaseName = phaseNames.get(running_sim_id);
+
+			return phaseName;
+		} else {
+			return "";
+		}
 	}
 	
 	/** Gets called when the user has selected a scenario to play. */

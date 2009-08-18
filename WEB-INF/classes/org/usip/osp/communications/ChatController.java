@@ -190,7 +190,7 @@ public class ChatController {
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
 			ChatLine bcl = (ChatLine) e.nextElement();
 			
-			String fromAName = pso.getActorName(request, bcl.fromActor);
+			String fromAName = pso.getActorName(request, bcl.getFromActor());
 			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a"); //$NON-NLS-1$
 
 			// Check to see were are above the start index sent.

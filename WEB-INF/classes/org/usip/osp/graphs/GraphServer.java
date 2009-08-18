@@ -79,7 +79,7 @@ public class GraphServer extends HttpServlet {
      * @param cci
      * @throws IOException
      */
-    public void writeChartAsPNG(OutputStream out, Chart cci) throws IOException {
+    public static void writeChartAsPNG(OutputStream out, Chart cci) throws IOException {
 
         try {
 

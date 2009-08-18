@@ -49,14 +49,14 @@ public class ChatLine {
     private Long conversation_id;
     
     /** Id of the actor making this chat line. */
-    protected Long fromActor;
+    private Long fromActor;
     
     /** Id of the user making this chat line. */
     private Long fromUser;
     
     /** Body of the message text. */
     @Lob
-    protected String msgtext = ""; //$NON-NLS-1$
+    private String msgtext = ""; //$NON-NLS-1$
     
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;

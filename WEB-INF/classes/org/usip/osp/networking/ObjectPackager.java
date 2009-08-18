@@ -775,6 +775,7 @@ public class ObjectPackager {
 
 			actorIdMappings.put(this_act.getTransit_id(), this_act.getId());
 
+			@SuppressWarnings("unused")
 			SimActorAssignment saa = new SimActorAssignment(schema, sim_id, this_act.getId());
 		}
 
