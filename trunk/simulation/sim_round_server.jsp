@@ -12,8 +12,6 @@
 		status_code = "logout";
 	}
 	
-	System.out.println("i got called");
-	
 	response.setContentType("text/xml");
 
 %><?xml version="1.0"?>

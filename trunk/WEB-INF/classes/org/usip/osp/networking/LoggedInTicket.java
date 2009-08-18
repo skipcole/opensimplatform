@@ -43,6 +43,11 @@ public class LoggedInTicket {
 		
 	}
 	
+	/**
+	 * Hears heartbeat and if more than a minute has passed, records the time in the database.
+	 * 
+	 * @param schema
+	 */
     public void hearHeartBeat(String schema){
     	
     	Date timeNow = new Date();

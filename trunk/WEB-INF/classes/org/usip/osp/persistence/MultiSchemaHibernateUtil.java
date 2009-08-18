@@ -109,12 +109,16 @@ public class MultiSchemaHibernateUtil {
         
     }
     
+    /**
+     * Debugging method just used to check what is found in properties file.
+     * 
+     * @param args
+     */
     public static void main(String args []){
         String schema = principalschema;
         
         String url = (String) setOfUrls.get(schema);
         String username = (String) setOfUsernames.get(schema);
-        String password = (String) setOfPasswords.get(schema);
         
         Logger.getRootLogger().debug("    in initializeConnection     "); //$NON-NLS-1$
         Logger.getRootLogger().debug("schema is " + schema); //$NON-NLS-1$
