@@ -105,6 +105,7 @@ public class ObjectPackager {
 
 		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + lineTerminator; //$NON-NLS-1$ //$NON-NLS-2$
 
+		// This packages the values directly associate with the simulation such as objectives and audience.
 		returnString += xstream.toXML(sim);
 
 		returnString += packageActors(schema, sim.getTransit_id(), xstream) + lineTerminator;
@@ -343,6 +344,9 @@ public class ObjectPackager {
 	}
 
 	/**
+	 * This method pulls out a bit of information about the simulation to show to the person about
+	 * to import it. Most importantly it pulls out the name and version of the simulation to be extracted
+	 * to display that to the person doing the import to allow them to change it if they desire to do so.
 	 * 
 	 * @param fileloc
 	 * @param schema
@@ -352,15 +356,6 @@ public class ObjectPackager {
 
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
-
-		Hashtable actorIdMappings = new Hashtable();
-		// We use the actor id of 0 in the sections table to indicate that it is
-		// a 'universal' section
-		// TODO we might want to revisit that practice.
-		actorIdMappings.put(new Long(0), new Long(0));
-
-		Hashtable phaseIdMappings = new Hashtable();
-		Hashtable bssIdMappings = new Hashtable();
 
 		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileloc;
 
@@ -936,5 +931,27 @@ public class ObjectPackager {
 
 		return returnList;
 
+	}
+	
+	/**
+	 * This works with the method 'compare' to create xml return string.
+	 * @param startTag
+	 * @param endTag
+	 * @param value
+	 * @return
+	 */
+	public static String addResultsToXML(String startTag, String endTag, boolean value){
+		
+		String returnString = startTag;
+		
+		if (value){
+			returnString += "Same";
+		} else {
+			returnString += "Different";
+		}
+		
+		returnString += endTag;
+		
+		return returnString;
 	}
 }

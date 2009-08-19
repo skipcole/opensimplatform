@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.*;
 
 /**
@@ -216,6 +217,34 @@ public class SimulationPhase implements Comparable{
 		
 		SimulationPhase sp = (SimulationPhase) arg0;
 		return  this.getOrder() - sp.getOrder();
+	}
+	
+	/**
+	 * Compares two phases (generally matched by name) to make sure that they are identical.
+	 * 
+	 * @param phase_a
+	 * @param phase_b
+	 * @return
+	 */
+	public static String compare(SimulationPhase phase_a, SimulationPhase phase_b){
+		
+		boolean foundDifference = false;
+		
+		String differenceString = "<PHASE_COMPARE>\r\n";
+		
+		// Compare Objectives
+		if (phase_a.getName().equals(phase_b.getName())){
+			differenceString += ObjectPackager.addResultsToXML("     <PHASE_NAME>", "</PHASE_NAME>\r\n", true);
+		} else {
+			differenceString += ObjectPackager.addResultsToXML("     <PHASE_NAME>", "</PHASE_NAME>\r\n", false);
+			foundDifference = true;
+		}
+		
+		differenceString += ObjectPackager.addResultsToXML("     <RESULTS>", "</RESULTS>\r\n", !(foundDifference));
+		
+		differenceString += "</PHASE_COMPARE>\r\n";
+		
+		return differenceString;
 	}
 	
 }

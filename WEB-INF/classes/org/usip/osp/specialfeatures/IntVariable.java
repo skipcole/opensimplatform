@@ -27,7 +27,6 @@ public class IntVariable extends SimVariable{
 
 	public static void main(String args[]) {
 		Logger.getRootLogger().debug("begin"); //$NON-NLS-1$
-		IntVariable iv = new IntVariable();
 		
 	
 		
@@ -41,10 +40,16 @@ public class IntVariable extends SimVariable{
 	@Column(name = "INITIAL_VALUE")
 	private Integer initial_value;
 	
-	@OneToMany
-	@JoinColumn(name = "IV_ID")
-	private List<IntVariableHistory> history = new ArrayList<IntVariableHistory>();
+	private List<OSPObjectHistory> history = new ArrayList<OSPObjectHistory>();
 
+
+	public List<OSPObjectHistory> getHistory() {
+		return history;
+	}
+
+	public void setHistory(List<OSPObjectHistory> history) {
+		this.history = history;
+	}
 
 	public Integer getValue() {
 		return this.value;

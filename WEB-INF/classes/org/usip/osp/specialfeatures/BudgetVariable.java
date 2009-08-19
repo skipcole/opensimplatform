@@ -86,58 +86,8 @@ public class BudgetVariable {
 		this.description = description;
 	}
 
-	public static void createGameBudgetTableValues(String tableName){
-        
-        String createTableSQL = "CREATE TABLE `" + tableName + "` ( " + //$NON-NLS-1$ //$NON-NLS-2$
-            "`sim_id` int(11) NOT NULL, " + //$NON-NLS-1$
-            "`game_id` int(11) NOT NULL, " + //$NON-NLS-1$
-            "`running_game_id` int(11) default '0', " +  //$NON-NLS-1$
-            "`game_round` int(11) default '0', " + //$NON-NLS-1$
-            "`trans_type` varchar(100) NOT NULL, " + //$NON-NLS-1$
-            "`trans_value` varchar(10) default NULL, " + //$NON-NLS-1$
-            "`source_acct` varchar(20) default '0', " + //$NON-NLS-1$
-            "`sink_acct` varchar(20) default '0'," + //$NON-NLS-1$
-            "`description` varchar(100) default NULL " + //$NON-NLS-1$
-            ") "; //$NON-NLS-1$
-              
-    }
+
     
-    public static String removeTransaction(String tablename, String game_id, String running_game_id, 
-            String game_round, String fromAcctID, String toAcctID) {
-        
-        String debug = ""; //$NON-NLS-1$
-        
-        String deleteSQL = "delete from " + tablename +" where " + //$NON-NLS-1$ //$NON-NLS-2$
-            "game_id = ? and running_game_id = ? and " + //$NON-NLS-1$
-            "game_round = ? and source_acct = ? and sink_acct = ?"; //$NON-NLS-1$
-        
-        debug = deleteSQL;
-        
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
-
-            // Insert credit line
-            PreparedStatement ps = connection
-                    .prepareStatement(deleteSQL);
-            ps.setString(1, game_id);
-            ps.setString(2, running_game_id);
-            ps.setString(3, game_round);
-            ps.setString(4, fromAcctID);
-            ps.setString(5, toAcctID);
-            
-            ps.execute();
-
-            connection.close();
-
-        } catch (Exception e) {
-            debug += e.getMessage();
-            e.printStackTrace();
-        }
-
-        return debug;
-        
-    }
     
     public static String getCurrentTransactionAmount(String tablename, String game_id, String running_game_id, 
             String game_round, String fromAcctID, String toAcctID){
@@ -165,11 +115,10 @@ public class BudgetVariable {
     public static String moveMoney(String tablename, String game_id, String running_game_id, 
             String game_round, String amount, String fromAcctID, String toAcctID, String description) {
 
-        String debug = ""; //$NON-NLS-1$
         
         // Delete previous transaction for this round if it exists.
-        removeTransaction(tablename, game_id, running_game_id, 
-                game_round, fromAcctID, toAcctID);
+       // removeTransaction(tablename, game_id, running_game_id, 
+       //         game_round, fromAcctID, toAcctID);
         
         
         String insertSQL = "INSERT INTO " + tablename + " ( " + //$NON-NLS-1$ //$NON-NLS-2$
@@ -177,31 +126,8 @@ public class BudgetVariable {
             "`trans_type`, `trans_value` , `source_acct` , `sink_acct`,  `description`) " +  //$NON-NLS-1$
             "VALUES ( '-1', ?, ?, ?, 'move', ?, ?, ?, ?) "; //$NON-NLS-1$
 
-        try {
-            Connection connection = MysqlDatabase.getConnection();
-            Statement stmt = connection.createStatement();
 
-            // Insert the transaction line
-            PreparedStatement ps = connection
-                    .prepareStatement(insertSQL);
-            ps.setString(1, game_id);
-            ps.setString(2, running_game_id);
-            ps.setString(3, game_round);
-            ps.setString(4, amount);
-            ps.setString(5, fromAcctID);
-            ps.setString(6, toAcctID);
-            ps.setString(7, description);
-            
-            ps.execute();
-
-            connection.close();
-
-        } catch (Exception e) {
-            debug += e.getMessage();
-            e.printStackTrace();
-        }
-
-        return debug;
+        return insertSQL;
     }
     
     class TransactionSum{

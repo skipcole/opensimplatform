@@ -410,7 +410,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.PlayerReflection.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.SimVariable.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.IntVariable.class);
-		ac.addAnnotatedClass(org.usip.osp.specialfeatures.IntVariableHistory.class);
+		ac.addAnnotatedClass(org.usip.osp.specialfeatures.OSPObjectHistory.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
 		
 		Logger.getRootLogger().debug("classes added"); //$NON-NLS-1$

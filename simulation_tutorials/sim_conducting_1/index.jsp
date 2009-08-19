@@ -41,27 +41,28 @@ body {
 <h1>Welcome</h1>
 <blockquote>
   <p>In this tutorial we  are going to set up a space where two people can come  to practice negotiatitons while a third person facilitates: an online '<strong>negotiation practice room</strong>.' The tutorial will walk you through all steps neccessary. Time to complete it should be approximately an hour.</p>
-  <p>To complete this tutorial you will need access to an authoring account on an OSP server. If you need assistance getting this, please send an email to scole@usip.org.</p>
+  <p>To complete this tutorial you will need:</p>
+  <ol>
+    <li> Access to an authoring account on an OSP server. If you need assistance getting this, please send an email to scole@usip.org.</li>
+    <li>An online simulation to conduct. If you have just completed the tutorial 'Simulation Author 1', you can use the simulation you created there.</li>
+    <li>Friends to play the various roles in the simulation (Alternately you can log on and log off as each of the players by yourself.)</li>
+    <li>About 1 hour of time.</li>
+  </ol>
   <p align="center"><a href="page1.jsp">Begin</a></p>
   <p>&nbsp;</p>
   <p>If you are returning to this tutorial, you many jump ahead to any section below.</p>
   <ol>
     <li><a href="page1.jsp">Logging on and getting to the 'create' section</a></li>
     <li><a href="page2.jsp">Creating your simulation</a></li>
-    <li><a href="page3.jsp">Entering your objectives</a></li>
-    <li><a href="page4.jsp">Entering your audience</a></li>
-    <li><a href="page5.jsp">Enter your introduction</a></li>
-    <li><a href="page6.jsp">Enter your planned play ideas</a></li>
-    <li><a href="page7.jsp">Creating phases</a></li>
-    <li>Creating actors</li>
-    <li>Skipping over creating injects</li>
-    <li>Creating documents</li>
-    <li>Creating universal sections</li>
-    <li>Assigning specific sections</li>
-    <li>Entering in your starter 'After Action Report' text</li>
-    <li>Reviewing your simulation</li>
+    <li>Create Running Simulation (?)</li>
+    <li>Create Schedule Page (?) (optional)</li>
+    <li>Invite Users (?) </li>
+    <li>Create Users (?) </li>
+    <li>Assigns Players (?) </li>
+    <li>Enable Simulation (?)</li>
+    <li>Enter Simulation (?)</li>
+    <li></li>
   </ol>
-
   <p>&nbsp;</p>
 </blockquote>
 <p>&nbsp;</p>
