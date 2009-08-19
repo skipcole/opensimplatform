@@ -16,17 +16,17 @@ import org.usip.osp.specialfeatures.*;
  * PURPOSE. <BR>
  * 
  */
-public class MasterTester extends BaseTester{
+public class MasterTester{
     
-    public static Simulation testGame1 = new Simulation();
-    public static Simulation testGame2 = new Simulation();
+    public static Simulation testSim1 = new Simulation();
+    public static Simulation testSim2 = new Simulation();
     public static Actor act_r = new Actor();
     public static Actor act_g = new Actor();
     public static Actor act_b = new Actor();
       
     
-    public static IntegerVariable iv1 = new IntegerVariable();
-    public static IntegerVariable iv2 = new IntegerVariable();
+    //public static IntegerVariable iv1 = new IntegerVariable();
+    //public static IntegerVariable iv2 = new IntegerVariable();
     
     public static BudgetVariable bd_v1 = new BudgetVariable();
     public static BudgetVariable bd_v2 = new BudgetVariable();
@@ -81,18 +81,39 @@ public class MasterTester extends BaseTester{
         return runOut;
     }
     
+    /**
+     * Cleans the database. 
+     * @return
+     */
+    public static String cleanDatabase(){
+        String returnString = makeHeader("Cleaning Database - Not!"); //$NON-NLS-1$
+        
+        
+        return returnString;
+    }
+    
+    public static String makeHeader(String headerName){
+        
+        return(b + "------------------------" + b + g + headerName + ef ); //$NON-NLS-1$
+    }
+    
+    public static final String b = "<BR>"; //$NON-NLS-1$
+    public static final String r = "<font color=red>"; //$NON-NLS-1$
+    public static final String g = "<font color=green>"; //$NON-NLS-1$
+    public static final String ef = "</font>"; //$NON-NLS-1$
+    
     public static String testSimCreation(){
         String returnString = makeHeader("Making Simulations 'Test1' and 'Test2'"); //$NON-NLS-1$
         
-        testGame1.setName("Test1"); //$NON-NLS-1$
-        testGame1.setVersion("1"); //$NON-NLS-1$
+        testSim1.setName("Test1"); //$NON-NLS-1$
+        testSim1.setVersion("1"); //$NON-NLS-1$
         //testGame1.layout.bannertitle = "Banner Heading Unit 1";
         //testGame1.store();
         
         returnString += b + "Created Simulation Test1 version 1"; //$NON-NLS-1$
         
-        testGame2.setName("Test2"); //$NON-NLS-1$
-        testGame2.setVersion("1"); //$NON-NLS-1$
+        testSim2.setName("Test2"); //$NON-NLS-1$
+        testSim2.setVersion("1"); //$NON-NLS-1$
         //testGame2.layout.bannertitle = "Banner Heading Unit 2";
         //testGame2.store();
         
@@ -125,19 +146,19 @@ public class MasterTester extends BaseTester{
         
         //iv1.game_id  = testGame1.getId();
 
-        iv1.propagation_type = "fibonacci"; //$NON-NLS-1$
-        iv1.initialValue = "1"; //$NON-NLS-1$
+        //iv1.propagation_type = "fibonacci"; //$NON-NLS-1$
+        //iv1.initialValue = "1"; //$NON-NLS-1$
         
-        returnString += b + iv1.store();
+        //returnString += b + iv1.store();
 
         returnString += b + "First (Fibonacci) Integer Variable Created"; //$NON-NLS-1$
         
         //iv2.game_id  = testGame1.id;
 
-        iv2.propagation_type = "constant"; //$NON-NLS-1$
-        iv2.initialValue = "1"; //$NON-NLS-1$
+        //iv2.propagation_type = "constant"; //$NON-NLS-1$
+        //iv2.initialValue = "1"; //$NON-NLS-1$
         
-        returnString += b + iv2.store();
+        //returnString += b + iv2.store();
 
         returnString += b + "Second (Constant) Integer Variable Created"; //$NON-NLS-1$
         

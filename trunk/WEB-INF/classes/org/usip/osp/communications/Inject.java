@@ -30,7 +30,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "INJECTS")
 @Proxy(lazy=false)
-public class Inject {
+public class Inject implements LearningEvent{
 
     /** Database id of this Inject. */
 	@Id
@@ -64,7 +64,7 @@ public class Inject {
 	@Lob
 	private String inject_text = ""; //$NON-NLS-1$
 	
-	/** Description of this group of injects. */
+	/** Notes regarding this injects. */
 	@Lob
 	private String inject_notes = ""; //$NON-NLS-1$
 
@@ -149,4 +149,28 @@ public class Inject {
 
 		return returnList;
 	}
+	
+	@Lob
+	private String learningObjectives = ""; //$NON-NLS-1$
+	
+	@Lob
+	private String typicalQuestionsAndResponses = ""; //$NON-NLS-1$
+
+	public String getLearningObjectives() {
+		return learningObjectives;
+	}
+
+	public void setLearningObjectives(String learningObjectives) {
+		this.learningObjectives = learningObjectives;
+	}
+
+	public String getTypicalQuestionsAndResponses() {
+		return typicalQuestionsAndResponses;
+	}
+
+	public void setTypicalQuestionsAndResponses(String typicalQuestionsAndResponses) {
+		this.typicalQuestionsAndResponses = typicalQuestionsAndResponses;
+	}
+	
+	
 }

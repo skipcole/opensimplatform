@@ -7,6 +7,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.SharedDocument;
+import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.*;
 
@@ -30,16 +31,6 @@ import org.apache.log4j.*;
 @Proxy(lazy = false)
 public class Simulation {
 
-	/**
-	 * Just used for occasional debugging.
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-
-		Logger.getRootLogger().debug("hello world"); //$NON-NLS-1$
-
-	}
 
 	/** Database id of this Simulation. */
 	@Id
@@ -187,6 +178,93 @@ public class Simulation {
 	public Simulation() {
 
 	}
+
+	
+	/**
+	 * Just used for occasional debugging.
+	 * 
+	 * @param args
+	 */
+	public static void main(String args[]) {
+
+		Logger.getRootLogger().debug("hello world"); //$NON-NLS-1$
+		
+		Simulation a = new Simulation();
+		Simulation b = new Simulation();
+		
+		a.setLearning_objvs("a");
+		b.setLearning_objvs("a");
+		
+		System.out.println(Simulation.compare(a, b, true));
+		
+
+	}
+	/**
+	 * Compares the simulations and returns an xml string indicating any differences.
+	 * 
+	 * @param sim_a
+	 * @param sim_b
+	 * @return
+	 */
+	public static String compare(Simulation sim_a, Simulation sim_b, boolean exclude_name){
+		
+		boolean foundDifference = false;
+		
+		String differenceString = "<SIM_COMPARE>\r\n";
+		
+		
+		// Compare Objectives
+		if (sim_a.getLearning_objvs().equals(sim_b.getLearning_objvs())){
+			differenceString += ObjectPackager.addResultsToXML("     <OBJECTIVES>", "</OBJECTIVES>\r\n", true);
+		} else {
+			differenceString += ObjectPackager.addResultsToXML("     <OBJECTIVES>", "</OBJECTIVES>\r\n", false);
+			foundDifference = true;
+		}
+		
+		// Compare Audience
+		if (sim_a.getAudience().equals(sim_b.getAudience())){
+			differenceString += ObjectPackager.addResultsToXML("     <AUDIENCE>", "</AUDIENCE>\r\n", true);
+		} else {
+			differenceString += ObjectPackager.addResultsToXML("     <AUDIENCE>", "</AUDIENCE>\r\n", false);
+			foundDifference = true;
+		}
+		
+		// Compare Planned Play Ideas
+		if (sim_a.getPlanned_play_ideas().equals(sim_b.getPlanned_play_ideas())){
+			differenceString += ObjectPackager.addResultsToXML("     <PLANNED_PLAY_IDEAS>", "</PLANNED_PLAY_IDEAS>\r\n", true);
+		} else {
+			differenceString += ObjectPackager.addResultsToXML("     <PLANNED_PLAY_IDEAS>", "</PLANNED_PLAY_IDEAS>\r\n", false);
+			foundDifference = true;
+		}
+		
+		// Compare Introductions
+		if (sim_a.getIntroduction().equals(sim_b.getIntroduction())){
+			differenceString += ObjectPackager.addResultsToXML("     <INTRODUCTION>", "</INTRODUCTION>\r\n", true);
+		} else {
+			differenceString += ObjectPackager.addResultsToXML("     <INTRODUCTION>", "</INTRODUCTION>\r\n", false);
+			foundDifference = true;
+		}
+		
+		// Need to compare phases
+		
+		// Look at results to see if any of them differed.
+		String phaseCompareXML = SimulationPhase.compare(new SimulationPhase(), new SimulationPhase());
+		
+		if (!(phaseCompareXML.contains("<RESULTS>Same</RESULTS"))){
+			foundDifference = true;
+		}
+		differenceString += phaseCompareXML;
+		
+		differenceString += ObjectPackager.addResultsToXML("     <RESULTS>", "</RESULTS>\r\n", !(foundDifference));
+		
+		differenceString += "</SIM_COMPARE>";
+		
+		return differenceString;
+	}
+	
+
+	
+	
 
 	/**
 	 * Creates the initial phases and standard universal sections of a

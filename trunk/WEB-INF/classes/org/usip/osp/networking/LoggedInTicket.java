@@ -36,9 +36,7 @@ public class LoggedInTicket {
 	private Date firstLoggedIn;
 	
 	private Date lastHeartBeatPulse;
-	
-	private int internalCount = 0;
-	
+		
 	public LoggedInTicket() {
 		
 	}
