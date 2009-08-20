@@ -19,11 +19,42 @@ errorPage=""
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Open Simulation Platform Control Page</title>
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+body {
+	background-color: #FFFFFF;
+	background-image: url(../Templates/images/page_bg.png);
+	background-repeat: repeat-x;
+}
+-->
+</style>
 </head>
-<body>
+<body onLoad="">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform Installation</h1></td>
+    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
+
+	  <div align="center">
+  
+	  </div>	  </td>
+  </tr>
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
+  </tr>
+  <tr>
+  	<td width="120" align="right" valign="top"></td>
+    <td colspan="1" valign="top"></td>
+    <td width="194" align="right" valign="top"></td>
+  </tr>
+</table>
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr> 
-    <td width="80%" valign="top"> <h1>Installation Instructions</h1></td>
+    <td width="80%" valign="top"><br /> <h1>Installation Instructions - Continued. </h1></td>
     <td width="20%" align="right" valign="top">&nbsp;</td>
   </tr>
 </table>
@@ -124,7 +155,7 @@ errorPage=""
     <td><a href="../simulation_authoring/index.jsp">Login to Tool</a></td>
   </tr>
 </table>
-<p>Any questions? Contact our community at <a href="http://www.opensimplatform.org">opensimplatform.org</a></p>
+<p><strong>Any questions? Contact our community at <a href="http://docs.opensimplatform.org">docs.opensimplatform.org</a></strong></p>
 <p><a href="mailto:scole@usip.org"></a></p>
 <p>&nbsp;</p>
 

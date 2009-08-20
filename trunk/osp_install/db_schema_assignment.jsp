@@ -54,12 +54,34 @@
 <!--
 body {
 	background-color: #FFFFFF;
+	background-image: url(../Templates/images/page_bg.png);
+	background-repeat: repeat-x;
 }
 -->
 </style>
 </head>
 <body onLoad="">
 
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform Installation</h1></td>
+    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
+
+	  <div align="center">
+  
+	  </div>	  </td>
+  </tr>
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
+  </tr>
+  <tr>
+  	<td width="120" align="right" valign="top"></td>
+    <td colspan="1" valign="top"></td>
+    <td width="194" align="right" valign="top"></td>
+  </tr>
+</table>
 <BR />
 <table width="720" bgcolor="#DDDDFF" align="center" border="0" cellspacing="0" cellpadding="0">
   <tr> 
@@ -71,21 +93,24 @@ body {
     <td colspan="3"> <form action="install_db.jsp" method="post" name="form1" id="form1">
         <h1>
           <input type="hidden" name="sending_page" value="clean_db" />
-          Install Database </h1>
+          List of Schema Installed</h1>
 		  <blockquote>
           <table width="80%" border="0" cellspacing="2" cellpadding="1">
             <tr> 
               <td>id</td>
               <td>Schema Name</td>
               <td>Organization</td>
+              <td>Last Login</td>
             </tr>
             <tr> 
               <td>1</td>
               <td>usiposp</td>
               <td>&nbsp;</td>
+              <td>&nbsp;</td>
             </tr>
             <tr>
               <td>2</td>
+              <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>
