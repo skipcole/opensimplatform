@@ -45,11 +45,12 @@ body {
     <p>Tip: From the Review Page you immediately go back to any section that needs editing and work on it.</p>
   </blockquote>
   <p>b.) If you would like to compare your results with what we got, <a href="review_sim.htm" target="_blank">click here to see our review page</a>.</p>
-  <p>&nbsp;</p>
-  <h2>Congratulations!</h2>
   <blockquote>
-    <p>You have finished the first tutorial and have learned about simulation phases and simulation sections. (Two of the hardest concepts many people encounter.)</p>
+    <p>Tip: At this point one could start to play test a simulation to make sure it achieved its objectives. There is a link to move immediately onto the play testing at the bottom of the review page. We are going to push on to the next step, that of publishing this simulation so that it will be in the online library and can be used in our next tutorial &quot;Simulation Conducting 1.&quot;</p>
   </blockquote>
+  <p>c.)  Select the link 'On To Publish the Simulation' to move on to the final step.</p>
+  <p>&nbsp;</p>
+  <blockquote>&nbsp;</blockquote>
   <p>&nbsp;</p>
 </blockquote>
 <!-- InstanceEndEditable -->
@@ -57,7 +58,7 @@ body {
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page14.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" -->Coming Soon! On To Next Tutorial 'Simulation Conducting 1' --&gt;<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page16.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

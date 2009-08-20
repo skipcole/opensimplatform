@@ -109,7 +109,7 @@
             <td width="16%"><strong>Status</strong></td>
             <td width="16%"><strong>Author</strong></td>
             <td width="16%"><strong>Keywords</strong></td>
-            <td width="16%"><strong>Date Marked Ready</strong></td>
+            <td width="16%"><strong>Date Published</strong></td>
           </tr>
         <% 
 		  

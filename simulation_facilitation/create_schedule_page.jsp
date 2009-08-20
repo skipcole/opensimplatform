@@ -81,10 +81,12 @@
                   <form action="create_schedule_page.jsp" method="post" name="form2" id="form2">
                     <blockquote>
                       <p>
-                        <textarea id="sim_schedule" name="sim_schedule" style="height: 710px; width: 710px;"><%= sd.getBigString() %></textarea>
-                          
-                        <script language="javascript1.2">
-  			generate_wysiwyg('sim_planned_play_ideas');
+                        <textarea id="sim_schedule" name="sim_schedule" style="height: 120px; width: 480px;"><%= sd.getBigString() %></textarea>
+            
+        <script language="javascript1.2">
+			wysiwygWidth = 480;
+			wysiwygHeight = 120;
+  			generate_wysiwyg('sim_schedule');
 		</script>
                       </p>
             <p> 
