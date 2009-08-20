@@ -29,13 +29,35 @@
 <!--
 body {
 	background-color: #FFFFFF;
+	background-image: url(../Templates/images/page_bg.png);
+	background-repeat: repeat-x;
 }
 -->
 </style>
 </head>
 <body onLoad="">
 
-<BR />
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform Installation</h1></td>
+    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
+
+	  <div align="center">
+  
+	  </div>	  </td>
+  </tr>
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
+  </tr>
+  <tr>
+  	<td width="120" align="right" valign="top"></td>
+    <td colspan="1" valign="top"></td>
+    <td width="194" align="right" valign="top"></td>
+  </tr>
+</table>
+<br />
 <table width="720" bgcolor="#DDDDFF" align="center" border="0" cellspacing="0" cellpadding="0">
   <tr> 
     <td width="24" height="24"  >&nbsp;</td>
@@ -46,7 +68,7 @@ body {
     <td colspan="3"> <form action="install_root_db.jsp" method="post" name="form1" id="form1">
         <h1>
           <input type="hidden" name="sending_page" value="install_root_db" />
-          Install Database </h1>
+          Install Root Database </h1>
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
           <tr> 
             <td valign="top">Warning. Hitting submit on this page will purge the 

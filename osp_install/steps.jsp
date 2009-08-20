@@ -19,19 +19,47 @@ errorPage=""
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Open Simulation Platform Control Page</title>
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
-.style1 {
+body {
+	background-color: #FFFFFF;
+	background-image: url(../Templates/images/page_bg.png);
+	background-repeat: repeat-x;
+}
+.style1 {font-weight: bold}
+.style2 {
 	color: #FF0000;
 	font-weight: bold;
 }
 -->
 </style>
 </head>
-<body>
+<body onLoad="">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform Installation</h1></td>
+    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
+
+	  <div align="center">
+  
+	  </div>	  </td>
+  </tr>
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
+  </tr>
+  <tr>
+  	<td width="120" align="right" valign="top"></td>
+    <td colspan="1" valign="top"></td>
+    <td width="194" align="right" valign="top"></td>
+  </tr>
+</table>
 <table width="100%" border="0" cellspacing="2" cellpadding="2">
   <tr> 
-    <td width="80%" valign="top"> <h1>Installation Instructions</h1></td>
+    <td width="80%" valign="top"><br /><h1>Installation Instructions</h1></td>
     <td width="20%" align="right" valign="top">&nbsp;</td>
   </tr>
 </table>
@@ -49,11 +77,10 @@ errorPage=""
     <td width="25">&nbsp;</td>
     <td colspan="2">Check Requirements</td>
     <td width="667"> <ul>
-        <li>Java 5.0</li>
-        <li>Tomcat</li>
-        <li>MySQL Database<br />
+        <li><strong>MySQL Database</strong></li>
+        <li>(Java 5.0 / Tomcat) To be seeing this page you must have already installed these.<br />
         </li>
-      </ul></td>
+    </ul></td>
   </tr>
   <tr align="left" valign="top"> 
     <td>2.</td>
@@ -86,15 +113,15 @@ errorPage=""
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>Update Properties File</td>
-    <td> The properties file <span class="style1">USIP_OSP_Properties_en_US.properties</span> needs to be edited to configure it to your system.<br /></td>
+    <td> The properties file <strong>USIP_OSP_Properties_en_US.properties</strong> needs to be edited to configure it to your system.<br /></td>
   </tr>
     <tr align="left" valign="top">
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>NB:</td>
-      <td>The principal schema (a mysql schema) MUST exist. By default it is usiposp.</td>
-    </tr>
+      <td>The principal schema (a mysql schema) MUST exist. By default it is <strong>usiposp</strong>.</td>
+  </tr>
   <tr align="left" valign="top"> 
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -117,12 +144,17 @@ errorPage=""
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>Check DB</td>
-    <td>Verify that the following schema exists:<span class="style1"> <%= USIP_OSP_Properties.getValue("principalschema") %></span></td>
+    <td><span class="style2">Verify that the following schema exists:</span><span class="style1"> <%= USIP_OSP_Properties.getValue("principalschema") %></span></td>
   </tr>
 </table>
 <p>After you have edited your properties file, click on the link below to go to the next step.</p>
-<p>Do Not Click to move foward unless you have a mysql schema named as it is done in the properties file mentioned in Step 3!</p>
-<p>ON to the last set of <a href="steps_2.jsp">steps</a>.</p>
+<ul>
+  <li>Do Not Click to move foward unless you have a mysql schema named as it is done in the properties file mentioned in Step 3. If you do, your system will hang.</li>
+</ul>
+<blockquote>
+  <p>ON to the last set of <a href="steps_2.jsp">steps</a>.</p>
+</blockquote>
+<p>&nbsp;</p>
 <hr />
 <p>Any questions? Contact our community at <a href="http://www.opensimplatform.org">opensimplatform.org</a></p>
 <p>&nbsp;</p>
