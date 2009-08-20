@@ -1,6 +1,5 @@
-#summary One-sentence summary of this page.
+#summary OSP Wiki is located at http://docs.opensimplatform.org
 
 = Our Wiki =
 
 [http://docs.opensimplatform.org Our Wiki is located here.]
-
