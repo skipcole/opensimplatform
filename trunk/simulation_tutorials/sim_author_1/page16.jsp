@@ -21,7 +21,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Conducting 1.0<!-- InstanceEndEditable --></h1></td>
+    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></h1></td>
     <td align="right" background="../../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="../help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
@@ -38,29 +38,30 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
-<br />
-<h1>Step 1. Logging on as a facilitator</h1>
+<h1>Step 16. Publishing your simulation</h1>
 <blockquote>
-  <p>a.) Go to the URL of the OSP server where you have your simulation facilitator account. </p>
+  <p>a.) Observe the publishing form. It should similar to the form shown below.</p>
   <blockquote>
-    <p>Tip: There is one login place for Simulation Authors and another for Simulation Facilitators. (The web addresses for authors includes 'simulation_authoring' in it, the web address for facilitators includes 'simulation_facilitation'.) The login page for the Simulation Facilittor is shown below.</p>
-    <p>Tip 2: In general we will be using the terms 'instructor' and 'facilitator' interchangeably. The subtle distinction between these words is left to the readers as a thought exercise.</p>
-    <p><img src="images/tut_sim_conduct_1_page1_loginpage.PNG" alt="OSP Facilitator Login Page" width="751" height="479" border="1" /></p>
-    <p>&nbsp;</p>
+    <p><img src="images/tut_sim_auth_1_page16_publish1.PNG" alt="Simulation Publish 1" width="824" height="444" border="1" /></p>
   </blockquote>
-  <p>b.) After you have logged in as a facilitator, you should see the landing page shown below.</p>
+  <p>b.) Enter the key words &quot;tutorial, negotiation, interests,positions&quot; and hit the publish button. </p>
+  <p>c.) Observe that the publish form looks similar to the one shown below.</p>
   <blockquote>
-    <p><img src="images/tut_sim_conduct_1_page1_landingpage.PNG" alt="Facilitator Landing Page" width="457" height="199" border="1" /></p>
+    <p><img src="images/tut_sim_auth_1_page16_publish2.PNG" alt="Simulation Publish 2" width="810" height="461" border="1" /></p>
   </blockquote>
-  <blockquote>&nbsp;</blockquote>
+  <p>&nbsp;</p>
+  <h2>Congratulations!</h2>
+  <blockquote>
+    <p>You have finished the first tutorial and have learned about simulation phases and simulation sections. (Two of the hardest concepts many people encounter.)</p>
+  </blockquote>
+  <p>&nbsp;</p>
 </blockquote>
-<p>&nbsp;</p>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page15.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" -->On To Next Tutorial 'Simulation Conducting 1' --&gt;<!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

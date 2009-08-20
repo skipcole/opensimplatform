@@ -1,10 +1,16 @@
-<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="" %>
+<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.baseobjects.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
+	}
+
+	Simulation simulation = new Simulation();
+	
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	
 %>
@@ -29,7 +35,10 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1 align="center">Simulation Facilitation Control Panel</h1>
-              <br />
+              <% if (afso.sim_id != null) { %>
+              	<blockquote><strong>
+              	Working on Simulation: <%= simulation.getDisplayName() %>                </strong></blockquote>
+              <% } %>
       <table width="100%" border="0" cellspacing="2" cellpadding="1">
         <tr valign="top"> 
           <td colspan="2"><h2>Step</h2></td>

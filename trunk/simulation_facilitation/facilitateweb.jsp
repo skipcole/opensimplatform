@@ -3,12 +3,16 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
 	String loadSim = (String) request.getParameter("loadSim");
 	
+	String mainPage = "instructor_home.jsp";
+	
 	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))){
 		String sim_id = (String) request.getParameter("sim_id");
 
 		System.out.println("sim id is " + sim_id);
 		
 		afso.sim_id = new Long(sim_id);
+		
+		 mainPage = "play_panel.jsp";
 		
 	}
 %>
@@ -22,7 +26,7 @@
 <frameset rows="*" cols="75%,25%" border="1">
   <frameset rows="150,90%" border="0">
     <frame  name="headeruptop" src="facilitate_top.jsp">
-    <frame name="bodyinleft" src="instructor_home.jsp">
+    <frame name="bodyinleft" src="<%= mainPage %>">
   </frameset>
   
   <frame name="helpinright" src="helptext/facilitation_basichelp.jsp">

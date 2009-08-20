@@ -21,7 +21,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></h1></td>
+    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Conducting 1.0<!-- InstanceEndEditable --></h1></td>
     <td align="right" background="../../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="../help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
@@ -44,19 +44,19 @@ body {
   <p>To complete this tutorial you will need:</p>
   <ol>
     <li> Access to an authoring account on an OSP server. If you need assistance getting this, please send an email to scole@usip.org.</li>
-    <li>An online simulation to conduct. If you have just completed the tutorial 'Simulation Author 1', you can use the simulation you created there.</li>
-    <li>Friends to play the various roles in the simulation (Alternately you can log on and log off as each of the players by yourself.)</li>
+    <li>An online simulation to conduct. If you have just completed the tutorial '<a href="../sim_author_1/index.jsp">Simulation Author 1</a>', you can use the simulation you created there.</li>
+    <li>Friends/Colleagues to play the various roles in the simulation (Alternately you can log on and log off as each of the players by yourself.)</li>
     <li>About 1 hour of time.</li>
   </ol>
   <p align="center"><a href="page1.jsp">Begin</a></p>
   <p>&nbsp;</p>
   <p>If you are returning to this tutorial, you many jump ahead to any section below.</p>
   <ol>
-    <li><a href="page1.jsp">Logging on and getting to the 'create' section</a></li>
-    <li><a href="page2.jsp">Creating your simulation</a></li>
-    <li>Create Running Simulation (?)</li>
-    <li>Create Schedule Page (?) (optional)</li>
-    <li>Invite Users (?) </li>
+    <li><a href="page1.jsp">Logging on as a facilitator</a></li>
+    <li><a href="page2.jsp">Selecting the simulation</a></li>
+    <li><a href="page3.jsp">Create Running Simulation</a></li>
+    <li><a href="page4.jsp">Create Schedule Page</a></li>
+    <li><a href="page5.jsp">Bulk Invite Users</a></li>
     <li>Create Users (?) </li>
     <li>Assigns Players (?) </li>
     <li>Enable Simulation (?)</li>

@@ -21,7 +21,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->tutorialName<!-- InstanceEndEditable --></h1></td>
+    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Conducting 1.0<!-- InstanceEndEditable --></h1></td>
     <td align="right" background="../../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="../help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
@@ -37,12 +37,29 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->pageBody<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<br />
+<h1>Create Running Simulation</h1>
+<blockquote>
+  <p>a.) Observe the panel shown below. </p>
+  <blockquote>
+    <p>Tip: A 'running simulation' is a simulation in play. We are walking through the process of setting one up.</p>
+    <p><img src="images/tut_sim_conduct_1_page3_createrunningsim.PNG" alt="Create Running Simulation" width="781" height="356" border="1" /></p>
+  </blockquote>
+  <p>b.) Enter in a name for the tutorial simulation you will be conducting (such as 'Tutorial 1' followed by your initials) and then hit 'Submit.' </p>
+  <blockquote>
+    <p>Tip: The panel should then look similar to the images shown below.</p>
+    <p><img src="images/tut_sim_conduct_1_page3_createrunningsim_2.PNG" alt="Create Running Simulation 2" width="827" height="395" border="1" /></p>
+  </blockquote>
+  <p>c.) Click on the link 'Next step: Create Schedule Page' to move to the next step.</p>
+  <p>&nbsp;</p>
+</blockquote>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page2.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page4.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

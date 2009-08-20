@@ -134,6 +134,17 @@ public class Simulation {
 
 	@Column(name = "LISTINGKEYWORDS")
 	private String listingKeyWords = ""; //$NON-NLS-1$
+	
+	/** Flag to indicate that simulation has been published. */
+	private Date publishDate;
+
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
+	}
 
 	public String getLearning_objvs() {
 		return this.learning_objvs;
