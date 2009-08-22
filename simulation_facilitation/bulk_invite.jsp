@@ -6,7 +6,7 @@
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	afso.backPage = "bulk_invite.jsp";
 	
 	if (!(afso.isLoggedin())) {

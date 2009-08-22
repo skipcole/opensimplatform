@@ -8,7 +8,7 @@
 	errorPage="" %>
 
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if ( (afso.checkDatabaseCreated()) &&  (!(afso.isLoggedin()))) {
 		response.sendRedirect("index.jsp");

@@ -6,7 +6,7 @@
 <%
 	String error_msg = "";
 	
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("../simulation/index.jsp");
 		return;
@@ -52,7 +52,7 @@ body {
           <td><div align="center"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></div></td>
         </tr>
         <tr>
-          <td><div align="center"><a href="../simulation/logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="../logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
       </table>	  
 	  </div>	  </td>

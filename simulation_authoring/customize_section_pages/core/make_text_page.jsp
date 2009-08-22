@@ -5,7 +5,7 @@
 	errorPage="" %>
 <% 
 
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	CustomizeableSection cs = afso.handleCustomizeSection(request);
 	

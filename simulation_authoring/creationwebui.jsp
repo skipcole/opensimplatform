@@ -5,12 +5,24 @@
 	errorPage="../error.jsp" %>
 
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+
+	AuthorFacilitatorSessionObject.handleInitialEntry(request);
+
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
+	
+	String bottomFrame = "control_panel.jsp";
+	String show_intro = (String) request.getParameter("show_intro");
+	
+	if ((show_intro != null) && (show_intro.equalsIgnoreCase("true") ) ) {
+		bottomFrame = "intro_text.jsp";
+	}
+	
+	
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
@@ -22,7 +34,7 @@
 <frameset rows="*" cols="75%,25%">
   <frameset rows="150,90%" border="0">
     <frame name="headeruptop" src="author_top.jsp">
-    <frame name="bodyinleft" src="control_panel.jsp">
+    <frame name="bodyinleft" src="<%= bottomFrame %>">
   </frameset>
   
   <frame name="helpinright" src="helptext/control_basichelp.jsp">

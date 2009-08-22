@@ -8,7 +8,7 @@
 	org.usip.osp.specialfeatures.*" 
 	errorPage="" %>
 <% 
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	CustomizeableSection cs = afso.handleMakePlayerDiscreteChoice(request);
 	

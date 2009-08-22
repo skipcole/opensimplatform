@@ -5,7 +5,7 @@
 	errorPage="../error.jsp" %>
 
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");

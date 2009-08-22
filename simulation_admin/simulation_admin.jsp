@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="" %>
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
@@ -73,6 +73,12 @@
                       <td><a href="email_test.jsp">Test Email</a></td>
                       <td>&nbsp;</td>
                       <td>Allows you to test the functionality of the email system.</td>
+                    </tr>
+                    <tr valign="top">
+                      <td>&nbsp;</td>
+                      <td><a href="db_schema_assignment.jsp">View Databases</a></td>
+                      <td>&nbsp;</td>
+                      <td>Allows one to see all of the installed databases and the last time someone has logged into them.</td>
                     </tr>
                   </table>
                   <p>&nbsp;</p>

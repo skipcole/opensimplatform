@@ -5,6 +5,8 @@
 	errorPage="../error.jsp" %>
 <%
 
+	PlayerSessionObject.handleInitialEntry(request);
+
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
 	
 	if (!(pso.isLoggedin())) {
@@ -55,7 +57,7 @@ body {
     <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
-	  <div align="center"><a href="logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div>  </td>
+	  <div align="center"><a href="../logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div>  </td>
   </tr>
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>

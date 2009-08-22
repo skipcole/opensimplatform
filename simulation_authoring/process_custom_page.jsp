@@ -3,7 +3,7 @@ import="java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usi
 errorPage="../error.jsp" %>
 <%
 	
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 		
 	afso.handleProcessCustomPage(request);
 	

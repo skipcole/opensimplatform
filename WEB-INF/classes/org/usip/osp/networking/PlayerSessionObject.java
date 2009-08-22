@@ -1391,5 +1391,49 @@ public class PlayerSessionObject {
 
 		return sendToPage;
 	}
+	
+	/** If user has selected an author, instructor or admin entry point into the system, 
+	 * this is called to set their AFSO object.
+	 * 
+	 * @param request
+	 * @param schema_id
+	 */
+	public static void handleInitialEntry(HttpServletRequest request){
+		
+		String initial_entry = (String) request.getParameter("initial_entry");
+		
+		if ((initial_entry != null) && (initial_entry.equalsIgnoreCase("true"))){
+			
+			PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
+			
+			String schema_id = (String) request.getParameter("schema_id");
+			
+			SchemaInformationObject sio = SchemaInformationObject.getMe(new Long(schema_id));
+			
+			pso.schema = sio.getSchema_name();
+			pso.schemaOrg = sio.getSchema_organization();
+			
+			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request.getSession(true).getAttribute("osp_soh");
+			
+			User user = User.getMe(pso.schema, osp_soh.getUserid());
+			BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
+				
+			if (user != null) {
+				pso.user_id = user.getId();
+
+				pso.user_Display_Name = bu.getFull_name();
+				pso.user_name = bu.getUsername();
+				
+				pso.loggedin = true;
+				
+				user.setLastLogin(new Date());
+				user.saveMe(pso.schema);
+				
+			} else {
+				pso.loggedin = false;
+				Logger.getRootLogger().warn("handling initial entry into simulation and got null user");
+			}
+		}
+	}
 
 }

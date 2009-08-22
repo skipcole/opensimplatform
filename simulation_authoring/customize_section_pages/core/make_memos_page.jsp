@@ -5,7 +5,7 @@
 	org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	CustomizeableSection cs = afso.handleMakeMemosPage(request);
 	
