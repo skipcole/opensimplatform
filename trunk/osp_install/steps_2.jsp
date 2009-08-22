@@ -152,7 +152,7 @@ body {
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td><a href="../simulation_authoring/index.jsp">Login to Tool</a></td>
+    <td><a href="../login.jsp">Login to Tool</a></td>
   </tr>
 </table>
 <p><strong>Any questions? Contact our community at <a href="http://docs.opensimplatform.org">docs.opensimplatform.org</a></strong></p>

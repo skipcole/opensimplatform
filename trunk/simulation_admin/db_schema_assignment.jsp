@@ -8,7 +8,7 @@
 	errorPage="" %>
 
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if ( (afso.checkDatabaseCreated()) &&  (!(afso.isLoggedin()))) {
 		response.sendRedirect("index.jsp");
@@ -90,30 +90,34 @@ body {
     <td width="24" height="24" >&nbsp;</td>
   </tr>
   <tr> 
-    <td colspan="3"> <form action="install_db.jsp" method="post" name="form1" id="form1">
+    <td colspan="3"> <form action="../osp_install/install_db.jsp" method="post" name="form1" id="form1">
         <h1>
           <input type="hidden" name="sending_page" value="clean_db" />
           List of Schema Installed</h1>
 		  <blockquote>
+          <%
+		  	List ghostList = SchemaInformationObject.getAll();
+		  %>
           <table width="80%" border="0" cellspacing="2" cellpadding="1">
             <tr> 
-              <td>id</td>
-              <td>Schema Name</td>
-              <td>Organization</td>
-              <td>Last Login</td>
+              <td><strong>id</strong></td>
+              <td><strong>Schema Name</strong></td>
+              <td><strong>Organization</strong></td>
+              <td><strong>Last Login</strong></td>
             </tr>
+            <%
+			  	for (ListIterator<SchemaInformationObject> li = ghostList.listIterator(); li.hasNext();) {
+            		SchemaInformationObject this_sg = (SchemaInformationObject) li.next();
+				%>
             <tr> 
-              <td>1</td>
-              <td>usiposp</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
+              <td><%= this_sg.getId() %></td>
+              <td><%= this_sg.getSchema_name() %></td>
+              <td><%= this_sg.getSchema_organization() %></td>
+              <td><%= this_sg.getLastLogin() %></td>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
+            <%
+		  		} // End of loop over schemas
+		  %>
           </table>
           <p>&nbsp;</p>
         </blockquote>

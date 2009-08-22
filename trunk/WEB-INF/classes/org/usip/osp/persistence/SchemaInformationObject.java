@@ -1,6 +1,7 @@
 package org.usip.osp.persistence;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.apache.log4j.*;
 
@@ -66,6 +68,17 @@ public class SchemaInformationObject {
 
 	/** Email archive address. */
 	private String email_archive_address;
+	
+	/** Keeps track of the last time an author, instructor or admin has logged on. */
+	private Date lastLogin;
+	
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
 
 	/**
 	 * Your standard zero argument constructor.
@@ -348,6 +361,25 @@ public class SchemaInformationObject {
 		sio1.setUserpass(USIP_OSP_Properties.getValue("password")); //$NON-NLS-1$
 
 		return sio1;
+
+	}
+	
+	/**
+	 * Pulls the schemainformationobject out of the database base on its id and schema.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static SchemaInformationObject getMe(Long schema_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
+		SchemaInformationObject sio = (SchemaInformationObject) 
+			MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).get(SchemaInformationObject.class, schema_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+
+		return sio;
 
 	}
 

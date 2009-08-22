@@ -47,6 +47,16 @@ public class User {
 	@Column(name = "ADMIN")
 	private boolean admin = false;
 	
+	private Date lastLogin;
+	
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
 	/** Used to keep track of time zone of users. */
 	private int timeZoneOffset;
 

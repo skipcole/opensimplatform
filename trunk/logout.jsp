@@ -7,7 +7,9 @@
 
 	AuthorFacilitatorSessionObject.logout(request);
 	session.setAttribute("afso", null);
+	session.setAttribute("osp_soh", null);
+	session.setAttribute("pso", null);
 	
-	response.sendRedirect("index.jsp?");
+	response.sendRedirect("login.jsp");
 	return;
 %>

@@ -8,7 +8,7 @@
 		org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	Simulation sim = afso.handleMakeCaucusPage(request);
 	

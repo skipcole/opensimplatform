@@ -3,7 +3,7 @@ import="java.sql.*,java.util.*,com.oreilly.servlet.*, com.oreilly.servlet.multip
 
 <%
 
-        AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+        AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 
         String debug = "";
 

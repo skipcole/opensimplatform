@@ -115,7 +115,7 @@ public class AuthorFacilitatorSessionObject {
 
 
 	/** The Session object. */
-	public HttpSession session = null;
+	private HttpSession session = null;
 
 	/** Error message to be shown to the user. */
 	public String errorMsg = ""; //$NON-NLS-1$
@@ -1005,8 +1005,6 @@ public class AuthorFacilitatorSessionObject {
 			this.isAdmin = user.isAdmin();
 			this.isSimCreator = user.isSim_author();
 			this.user_Display_Name = bu.getFull_name();
-
-			// TODO
 			this.user_email = bu.getUsername();
 
 			myLoggedInTicket.setTrail_id(user.getTrail_id());
@@ -1029,10 +1027,9 @@ public class AuthorFacilitatorSessionObject {
 
 
 	/**
-	 * Returns the AFSO stored in the session, or creates one. The coder can
-	 * indicated if he or she wants to start a transaction.
+	 * Returns the AFSO stored in the session, or creates one.
 	 */
-	public static AuthorFacilitatorSessionObject getAFSO(HttpSession session, boolean getConn) {
+	public static AuthorFacilitatorSessionObject getAFSO(HttpSession session) {
 
 		AuthorFacilitatorSessionObject afso = (AuthorFacilitatorSessionObject) session.getAttribute("afso");
 
@@ -1795,6 +1792,50 @@ public class AuthorFacilitatorSessionObject {
 
 	public static final int FACILITATOR_LOGIN = 2;
 
+	/** If user has selected an author, instructor or admin entry point into the system, 
+	 * this is called to set their AFSO object.
+	 * 
+	 * @param request
+	 * @param schema_id
+	 */
+	public static void handleInitialEntry(HttpServletRequest request){
+		
+		String initial_entry = (String) request.getParameter("initial_entry");
+		
+		if ((initial_entry != null) && (initial_entry.equalsIgnoreCase("true"))){
+			
+			AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+			
+			String schema_id = (String) request.getParameter("schema_id");
+			
+			SchemaInformationObject sio = SchemaInformationObject.getMe(new Long(schema_id));
+			
+			afso.schema = sio.getSchema_name();
+			afso.schemaOrg = sio.getSchema_organization();
+			
+			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request.getSession(true).getAttribute("osp_soh");
+			
+			User user = User.getMe(afso.schema, osp_soh.getUserid());
+			BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
+				
+			if (user != null) {
+				afso.user_id = user.getId();
+				afso.isAdmin = user.isAdmin();
+				afso.isSimCreator = user.isSim_author();
+				afso.user_Display_Name = bu.getFull_name();
+				afso.user_email = bu.getUsername();
+				
+				afso.loggedin = true;
+				
+				user.setLastLogin(new Date());
+				user.saveMe(afso.schema);
+				
+			} else {
+				afso.loggedin = false;
+				Logger.getRootLogger().warn("handling initial entry into simulation and got null user");
+			}
+		}
+	}
 	/**
 	 * 
 	 * @param request
@@ -1824,7 +1865,7 @@ public class AuthorFacilitatorSessionObject {
 				if (user.isSim_author() && (login_type == AUTHOR_LOGIN)) {
 					loggedin = true;
 					this.isSimCreator = true;
-					sendToPage = "intro.jsp";
+					sendToPage = "creationwebui.jsp?show_intro=true";
 				} else if (user.isSim_instructor() && (login_type == FACILITATOR_LOGIN)) {
 					loggedin = true;
 					this.isFacilitator = true;

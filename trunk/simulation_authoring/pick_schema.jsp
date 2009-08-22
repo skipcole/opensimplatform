@@ -3,7 +3,7 @@
 
 	String attempting_select = (String) request.getParameter("attempting_select");
 	
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	System.out.println("user id is " + afso.user_id);
 	BaseUser bu = BaseUser.getByUserId(afso.user_id);
@@ -18,7 +18,7 @@
 				
 		if ((user.isSim_author()) || (user.isSim_instructor()) ) {
 			afso.schema = selected_schema;
-			response.sendRedirect("intro.jsp");
+			response.sendRedirect("creationwebui.jsp?show_intro=true");
 			return;
 		} else {
 			afso.errorMsg = "Not authorized to author or instruct simulations.";

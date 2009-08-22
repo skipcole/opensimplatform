@@ -8,7 +8,7 @@
 		org.usip.osp.networking.*" 
 	errorPage="" %>
 <% 
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true), true);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	//////////////////////////////////
 	// Get list of all simulations for pull down
