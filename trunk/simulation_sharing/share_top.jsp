@@ -66,7 +66,7 @@ body {
 		   <tr>
 		<td bgcolor="#475DB0"><a href="../simulation_planning/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;THINK&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
-	    <td bgcolor="#475DB0"><a href="../simulation_authoring/creationwebui.jsp?show_intro=true" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+	    <td bgcolor="#475DB0"><a href="../simulation_authoring/creationwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
 		<td bgcolor="#475DB0"><a href="../simulation_facilitation/playweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>

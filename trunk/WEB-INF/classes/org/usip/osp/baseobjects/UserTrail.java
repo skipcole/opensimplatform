@@ -31,7 +31,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class UserTrail {
 
-	/** Database id of this Simulation. */
+	/** Database id of this UserTrail. */
 	@Id
 	@GeneratedValue
 	@Column(name = "ID")
@@ -122,7 +122,7 @@ public class UserTrail {
 
 	}
 	
-	/** Saves a simulation. */
+	/** Saves a user trail. */
 	public void saveMe(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);

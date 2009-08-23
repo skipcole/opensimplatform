@@ -1429,6 +1429,14 @@ public class PlayerSessionObject {
 				user.setLastLogin(new Date());
 				user.saveMe(pso.schema);
 				
+				pso.myLoggedInTicket.setTrail_id(user.getTrail_id());
+				pso.myLoggedInTicket.setUser_id(pso.user_id);
+
+				Hashtable<Long, LoggedInTicket> loggedInUsers = (Hashtable<Long, LoggedInTicket>) request.getSession()
+						.getServletContext().getAttribute("loggedInUsers");
+
+				loggedInUsers.put(user.getId(), pso.myLoggedInTicket);
+				
 			} else {
 				pso.loggedin = false;
 				Logger.getRootLogger().warn("handling initial entry into simulation and got null user");

@@ -7,7 +7,10 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 
 /**
- *
+ * The 'LoggedInTicket' and 'UserTrail' work together to keep track of and record when players log onto the 
+ * system. The 'LoggedInTicket' is not persisted to the database. It recieves 
+ * The 'UserTrail' object is persisted to the 
+ * database. 
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -72,6 +75,13 @@ public class LoggedInTicket {
         
     }
 	
+    /**
+     * Returns the LoggedInTicket based on its id.
+     * 
+     * @param trail_id
+     * @param setOfUsers
+     * @return
+     */
 	public static LoggedInTicket lookupLoggedInTicket(Long trail_id, Vector setOfUsers){
 		
 		for (Enumeration e = setOfUsers.elements(); e.hasMoreElements();){
@@ -89,6 +99,8 @@ public class LoggedInTicket {
 	}
 	
 	/**
+	 * Persists the information in this LoggedInTicket to a UserTrail object, and returns 
+	 * the id of that trail. 
 	 * 
 	 * @param schema
 	 * @return
