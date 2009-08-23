@@ -122,9 +122,6 @@ public class AuthorFacilitatorSessionObject {
 
 	public List tempSimSecList = new ArrayList();
 
-	/** Login ticket of this user. */
-	public LoggedInTicket myLoggedInTicket = new LoggedInTicket();
-
 
 
 	/**
@@ -714,6 +711,9 @@ public class AuthorFacilitatorSessionObject {
 		String email_user = (String) request.getParameter("email_user");
 		String email_pass = (String) request.getParameter("email_pass");
 		String email_user_address = (String) request.getParameter("email_user_address");
+		
+		String email_status = checkEmailStatus(email_smtp, email_user, email_pass, email_user_address);
+		
 
 		String error_msg = "";
 		String ps = MultiSchemaHibernateUtil.principalschema;
@@ -750,6 +750,7 @@ public class AuthorFacilitatorSessionObject {
 		sio.setSmtp_auth_user(email_user);
 		sio.setSmtp_auth_password(email_pass);
 		sio.setEmail_archive_address(email_user_address);
+		sio.setEmailState(email_status);
 		Logger.getRootLogger().debug(sio.toString());
 
 		// Test SIO
@@ -785,6 +786,23 @@ public class AuthorFacilitatorSessionObject {
 
 		return error_msg;
 
+	}
+	
+	/** Verify that all required fields have been entered for the email smtp server. */
+	public String checkEmailStatus(String email_smtp, String email_user, String email_pass, String email_user_address){
+		
+		if ((email_smtp == null) || ( email_user == null) || (email_pass  == null) || (email_user_address == null)){
+			return SchemaInformationObject.EMAIL_STATE_DOWN;
+		} else if (
+			(email_smtp.trim().equalsIgnoreCase("")) || 
+			(email_user.trim().equalsIgnoreCase("")) ||
+			(email_pass.trim().equalsIgnoreCase("")) || 
+			(email_user_address.trim().equalsIgnoreCase(""))
+		){
+			return SchemaInformationObject.EMAIL_STATE_DOWN;
+		} else {
+			return SchemaInformationObject.EMAIL_STATE_UNVERIFIED;
+		}
 	}
 	
 
@@ -987,43 +1005,6 @@ public class AuthorFacilitatorSessionObject {
 		Logger.getRootLogger().debug("TODO: record the user's logout in their trail.");
 
 	}
-
-	/**
-	 * 
-	 * @param bu_id
-	 * @param schema
-	 * @param request
-	 * @return
-	 */
-	public User loginToSchema(Long bu_id, String schema, HttpServletRequest request) {
-
-		User user = User.getInfoOnLogin(bu_id, schema);
-		BaseUser bu = BaseUser.getByUserId(bu_id);
-
-		if (user != null) {
-			this.user_id = user.getId();
-			this.isAdmin = user.isAdmin();
-			this.isSimCreator = user.isSim_author();
-			this.user_Display_Name = bu.getFull_name();
-			this.user_email = bu.getUsername();
-
-			myLoggedInTicket.setTrail_id(user.getTrail_id());
-			myLoggedInTicket.setUser_id(this.user_id);
-
-			Hashtable<Long, LoggedInTicket> loggedInUsers = (Hashtable<Long, LoggedInTicket>) request.getSession()
-					.getServletContext().getAttribute("loggedInUsers");
-
-			loggedInUsers.put(user.getId(), myLoggedInTicket);
-
-			loggedin = true;
-		} else {
-			loggedin = false;
-		}
-
-		return user;
-
-	}
-
 
 
 	/**
@@ -1711,9 +1692,7 @@ public class AuthorFacilitatorSessionObject {
 	}
 
 
-
-
-
+	/** Puts the name of the sim and the date into a string to use for xml export file name. */
 	public String getDefaultSimXMLFileName(Simulation simulation) {
 
 		Date saveDate = new java.util.Date();
@@ -1836,62 +1815,7 @@ public class AuthorFacilitatorSessionObject {
 			}
 		}
 	}
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String validateLoginToOSP(HttpServletRequest request, int login_type) {
-
-		loggedin = false;
-
-		String sendToPage = "index.jsp";
-
-		BaseUser bu = OSPSessionObjectHelper.validate(request);
-
-		if (bu != null) {
-
-			user_id = bu.getId();
-
-			if (bu.getAuthorizedSchemas().size() == 0) {
-				errorMsg = "You are not authorized to enter any databases.";
-			} else if (bu.getAuthorizedSchemas().size() == 1) {
-				// Send them on directly to this schema
-				SchemaGhost sg = (SchemaGhost) bu.getAuthorizedSchemas().get(0);
-				Logger.getRootLogger().debug("ghost schema is " + sg.getSchema_name());
-				schema = sg.getSchema_name();
-				User user = loginToSchema(user_id, sg.getSchema_name(), request);
-
-				if (user.isSim_author() && (login_type == AUTHOR_LOGIN)) {
-					loggedin = true;
-					this.isSimCreator = true;
-					sendToPage = "creationwebui.jsp?show_intro=true";
-				} else if (user.isSim_instructor() && (login_type == FACILITATOR_LOGIN)) {
-					loggedin = true;
-					this.isFacilitator = true;
-					sendToPage = "facilitateweb.jsp";
-				} else {
-					errorMsg = "Not authorized.";
-				}
-
-				user_name = bu.getUsername();
-
-			} else if (bu.getAuthorizedSchemas().size() > 1) {
-				// Send them on to the page where they can select schema.
-				loggedin = true;
-				sendToPage = "pick_schema.jsp";
-
-				user_name = bu.getUsername();
-			}
-
-		} else {
-			errorMsg = "Failed Login Attempt";
-			Logger.getRootLogger().debug(errorMsg);
-		}
-
-		return sendToPage;
-	}
-
+	
 	/**
 	 * Sends password to user via email upon request.
 	 * 
@@ -2007,6 +1931,10 @@ public class AuthorFacilitatorSessionObject {
 		return a_name;
 	}
 
+	/** Stores names in a hashtable so they can be pulled out quickly from the context.
+	 * 
+	 * @param actor_names
+	 */
 	public void loadActorNamesInHashtable(Hashtable actor_names) {
 
 		Logger.getRootLogger().debug("storing names in hashtable. ");

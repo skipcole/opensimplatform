@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
@@ -16,6 +17,7 @@ import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.apache.log4j.*;
 
 /**
+ * This class represents a schema database that has been created to hold simulation data.
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -69,6 +71,35 @@ public class SchemaInformationObject {
 	/** Email archive address. */
 	private String email_archive_address;
 	
+	public static final String EMAIL_STATE_VERIFIED = "verified";
+	
+	public static final String EMAIL_STATE_UNVERIFIED = "unverified";
+	
+	public static final String EMAIL_STATE_DOWN = "down";
+	
+	@Lob
+	/** notes for this particular installation. */
+	private String notes = "";
+	
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	/** Indicates if the email system has been verified and if it is up. */
+	private String emailState = "";
+	
+	public String getEmailState() {
+		return emailState;
+	}
+
+	public void setEmailState(String emailState) {
+		this.emailState = emailState;
+	}
+
 	/** Keeps track of the last time an author, instructor or admin has logged on. */
 	private Date lastLogin;
 	
