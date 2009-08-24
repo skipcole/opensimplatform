@@ -10,7 +10,7 @@
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	afso.handleInstallSimulationSections(request);        
+	afso.handleSetNextDowntime(request);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -45,13 +45,14 @@ body {
           <p>The 'Next Planned Downtime' message can be set in the properties file, or set here.</p>
           <p>Your current 'next downtime message' is: </p>
           </p>
-          <form id="form1" name="form1" method="post" action="">
+          <form id="form1" name="form1" method="post" action="update_next_downtime_msg.jsp">
+          <input type="hidden" name="send_page" value="change_downtime" />
           <table width="100%" border="1" cellspacing="0">
             <tr>
               <td width="19%" valign="top">Message:</td>
               <td width="81%" valign="top">
                 <label>
-                  <textarea name="textarea" id="textarea" cols="45" rows="5"></textarea>
+                  <textarea name="new_planned" id="new_planned" cols="45" rows="5"><%= USIP_OSP_Properties.getNextPlannedDowntime() %></textarea>
                 </label>
               
               </td>

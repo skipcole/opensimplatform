@@ -29,7 +29,23 @@ public class USIP_OSP_Properties {
     /** A Hashtable of stored values to avoid re-reading of them. */
     private static Hashtable<String, String> hashedValues = new Hashtable<String, String>();
     
-    static {
+    /** A string indicating when the system is planned to go down next. */
+    private static String nextPlannedDowntime;
+    
+    public static String getNextPlannedDowntime() {
+    	if (nextPlannedDowntime == null) {
+    		nextPlannedDowntime = USIP_OSP_Properties.getRawValue("next_planned_outage");
+    		return nextPlannedDowntime;
+    	} else {
+    		return nextPlannedDowntime;
+    	}
+	}
+
+	public static void setNextPlannedDowntime(String newNextPlannedDowntime) {
+		USIP_OSP_Properties.nextPlannedDowntime = newNextPlannedDowntime;
+	}
+
+	static {
         
     	String os_name = System.getProperty("os.name"); //$NON-NLS-1$
     	
