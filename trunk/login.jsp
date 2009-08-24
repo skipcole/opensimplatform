@@ -94,7 +94,7 @@ body {
 	  <center>
         <table width="50%" border="0" cellspacing="2" cellpadding="1">
            <tr>
-            <td>Upcoming Planned Outage:<br /> <%= USIP_OSP_Properties.getRawValue("next_planned_outage") %></td>
+            <td>Upcoming Planned Outage:<br /> <%= USIP_OSP_Properties.getNextPlannedDowntime() %></td>
           </tr>
           <tr> 
           <tr> 

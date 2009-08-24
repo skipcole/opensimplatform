@@ -2457,5 +2457,21 @@ public class AuthorFacilitatorSessionObject {
 
 		return rs;
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleSetNextDowntime(HttpServletRequest request){
+		String send_page = request.getParameter("send_page"); //$NON-NLS-1$
+
+		if ((send_page != null) && (send_page.equalsIgnoreCase("change_downtime"))) {
+			
+			String new_planned = request.getParameter("new_planned");
+			
+			USIP_OSP_Properties.setNextPlannedDowntime(new_planned);
+		}
+		
+	}
 
 } // End of class
