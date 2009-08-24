@@ -1,13 +1,12 @@
-package org.usip.osp.networking;
+package org.usip.osp.baseobjects;
 
 import java.util.*;
 
-import org.usip.osp.baseobjects.UserTrail;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 
 /**
- * The 'LoggedInTicket' and 'UserTrail' work together to keep track of and record when players log onto the 
+ * The 'UserTrailGhost' and 'UserTrail' work together to keep track of and record when players log onto the 
  * system. The 'LoggedInTicket' is not persisted to the database. It recieves 
  * The 'UserTrail' object is persisted to the 
  * database. 
@@ -23,7 +22,7 @@ import org.apache.log4j.*;
  * A PARTICULAR PURPOSE. <BR>
  * 
  */
-public class LoggedInTicket {
+public class UserTrailGhost {
 
 	/** */
 	private Long trail_id;
@@ -40,7 +39,7 @@ public class LoggedInTicket {
 	
 	private Date lastHeartBeatPulse;
 		
-	public LoggedInTicket() {
+	public UserTrailGhost() {
 		
 	}
 	
@@ -82,10 +81,10 @@ public class LoggedInTicket {
      * @param setOfUsers
      * @return
      */
-	public static LoggedInTicket lookupLoggedInTicket(Long trail_id, Vector setOfUsers){
+	public static UserTrailGhost lookupUserTrailGhost(Long trail_id, Vector setOfUsers){
 		
 		for (Enumeration e = setOfUsers.elements(); e.hasMoreElements();){
-			LoggedInTicket lit = (LoggedInTicket) e.nextElement();
+			UserTrailGhost lit = (UserTrailGhost) e.nextElement();
 			
 			if (lit.trail_id.compareTo(trail_id) == 0){
 				return lit;

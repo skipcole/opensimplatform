@@ -5,7 +5,6 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.networking.LoggedInTicket;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.*;
 /**
@@ -163,7 +162,7 @@ public class User {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Store user logged in information in database
-		LoggedInTicket lit = new LoggedInTicket();
+		UserTrailGhost lit = new UserTrailGhost();
 		lit.setUser_id(user.getId());
 
 		// trail id gets passed up to the pso, to keep track of this login activities

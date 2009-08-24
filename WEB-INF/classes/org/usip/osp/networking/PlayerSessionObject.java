@@ -142,7 +142,7 @@ public class PlayerSessionObject {
 	public boolean hasSelectedRunningSim = false;
 
 	/** Login ticket of this user. */
-	public LoggedInTicket myLoggedInTicket = new LoggedInTicket();
+	public UserTrailGhost myLoggedInTicket = new UserTrailGhost();
 	
 	/**
 	 * This is called from the top of the players frame to determine where they
@@ -366,7 +366,7 @@ public class PlayerSessionObject {
 			// Player starts on tab 1, always.
 			myLoggedInTicket.setTab_position(new Long(1));
 
-			Hashtable<Long, LoggedInTicket> loggedInUsers = (Hashtable<Long, LoggedInTicket>) request.getSession()
+			Hashtable<Long, UserTrailGhost> loggedInUsers = (Hashtable<Long, UserTrailGhost>) request.getSession()
 					.getServletContext().getAttribute("loggedInUsers");
 
 			loggedInUsers.put(user.getId(), myLoggedInTicket);
@@ -1432,7 +1432,7 @@ public class PlayerSessionObject {
 				pso.myLoggedInTicket.setTrail_id(user.getTrail_id());
 				pso.myLoggedInTicket.setUser_id(pso.user_id);
 
-				Hashtable<Long, LoggedInTicket> loggedInUsers = (Hashtable<Long, LoggedInTicket>) request.getSession()
+				Hashtable<Long, UserTrailGhost> loggedInUsers = (Hashtable<Long, UserTrailGhost>) request.getSession()
 						.getServletContext().getAttribute("loggedInUsers");
 
 				loggedInUsers.put(user.getId(), pso.myLoggedInTicket);
