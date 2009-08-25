@@ -40,7 +40,7 @@
                     </tr>
                     <tr valign="top">
                       <td>&nbsp;</td>
-                      <td><a href="../osp_install/index.jsp">Installation Instructions</a></td>
+                      <td><a href="../osp_install/index.jsp" target="_top">Installation Instructions</a></td>
                       <td>&nbsp;</td>
                       <td>These should already have been used. A link here is included for reference. </td>
                     </tr>

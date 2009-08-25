@@ -15,6 +15,12 @@
 	BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
 	
 	List ghostList = BaseUser.getAuthorizedSchemas(osp_soh.getUserid());
+	
+	// Check to see if this is just one player logged in to one schema. 
+	// If this is the case, forward them on.
+	if ((ghostList != null) && (ghostList.size() == 1)){
+	
+	}
 		
 %>
 <html>
@@ -40,7 +46,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform Select Section</h1></td>
+    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform Select Program Section</h1></td>
     <td align="right" background="Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
@@ -66,35 +72,34 @@ body {
   <tr> 
     <td colspan="3">
       <blockquote> 
-          <p>Select the section of the OSP you would like to enter into.</p>
-
-          <%
+          <h2>Select from the Following</h2>
+            <%
 			  	for (ListIterator<SchemaGhost> li = ghostList.listIterator(); li.hasNext();) {
             		SchemaGhost this_sg = (SchemaGhost) li.next();
 					User user_in_this_schema = User.getMe(this_sg.getSchema_name() , osp_soh.getUserid());
 		  %>
-          <table align="center"><tr><td><%= this_sg.getSchema_organization() %></td></tr>
+        <table align="center"><tr><td><h3>Database: <%= this_sg.getSchema_organization() %></h3></td></tr>
           <tr><td>
-          <table align="center" border="1" cellspacing="2" cellpadding="0">
+          <table align="center" border="1" cellspacing="2" cellpadding="1">
             <tr>
             
               <% if(user_in_this_schema.isAdmin()) { %>
-                <td width="25%" valign="top"><p align="center"><a href="simulation_admin/adminwebui.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>">Administrator</a></p>
-                  <p>&nbsp;</p></td>
+                <td width="25%" valign="top"><p align="center"><a href="simulation_admin/adminwebui.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/admins.png" alt="Admin Login" width="140" height="120"></a></p>
+                  <p>Use this section to administrate this OSP installation.</p></td>
               <% } // end of if is administratgor %>
                 
               <% if(user_in_this_schema.isSim_author()) { %>
-              	<td width="25%" valign="top"><p align="center"><a href="simulation_authoring/creationwebui.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>&show_intro=true">Author</a></p>
+              	<td width="25%" valign="top"><p align="center"><a href="simulation_authoring/creationwebui.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>&show_intro=true"><img src="images/authors.png" alt="Author Login" width="140" height="120"></a></p>
               	  Use this section to author simulations</td>
               <% } // end of if is author. %>
                 
               <% if(user_in_this_schema.isSim_instructor()) {  %>  
-              <td width="25%" valign="top"><p align="center"><a href="simulation_facilitation/facilitateweb.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>">Instructor</a></p>
-                <p>&nbsp;</p></td>
+              <td width="25%" valign="top"><p align="center"><a href="simulation_facilitation/facilitateweb.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/instructors.png" alt="Instructor Login" width="140" height="120"></a></p>
+                <p>Use this section to create running simulations, invite students and other common instructor tasks.</p></td>
               <% } // end of if is instructor. %>
                 
-              <td width="25%" valign="top"><p align="center"><a href="simulation/select_simulation.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>">Player</a></p>
-                <p>&nbsp;</p></td>
+              <td width="25%" valign="top"><p align="center"><a href="simulation/select_simulation.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/players.png" alt="Player Login" width="140" height="120"></a></p>
+                <p>Use this section to enter into a simulated world either as a student or a control character.</p></td>
             </tr>
           </table>
           </td></tr>

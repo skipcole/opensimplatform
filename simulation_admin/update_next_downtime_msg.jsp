@@ -53,9 +53,11 @@ body {
               <td width="81%" valign="top">
                 <label>
                   <textarea name="new_planned" id="new_planned" cols="45" rows="5"><%= USIP_OSP_Properties.getNextPlannedDowntime() %></textarea>
-                </label>
-              
-              </td>
+                </label>              </td>
+            </tr>
+            <tr>
+              <td valign="top">NB:</td>
+              <td valign="top">Changes made to the 'next down time' here will disappear if the web server is rebooted. This functionality really only exists to put unplanned down time events, such as 'We are bringing the system down on the night of 01/03/15 (Saturday) for emergency maintenance.'</td>
             </tr>
             <tr>
               <td valign="top">Change</td>
