@@ -2,7 +2,7 @@
 <%@ page 
 	contentType="text/html; charset=ISO-8859-1" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="" %>
 <%
 
@@ -91,7 +91,7 @@
           <input type="submit" name="send_email" value="Submit" /></td>
       </tr>
           </table>
-        </form>      <p><%= Debug.getDebug(debug) %></p>			</td>
+        </form>      <p><%= debug %></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>
