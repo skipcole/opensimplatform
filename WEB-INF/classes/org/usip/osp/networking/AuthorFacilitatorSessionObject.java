@@ -746,11 +746,22 @@ public class AuthorFacilitatorSessionObject {
 			return error_msg;
 		}
 
-		// Store SIO
-		MultiSchemaHibernateUtil.beginTransaction(ps, true);
-		MultiSchemaHibernateUtil.getSession(ps, true).saveOrUpdate(sio);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(ps);
+		// Store SIO if schema object of this name already exist, return warning.
+		
+		try {
+			MultiSchemaHibernateUtil.beginTransaction(ps, true);
+			MultiSchemaHibernateUtil.getSession(ps, true).saveOrUpdate(sio);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(ps);
+		} catch (Exception e){
 
+			error_msg = "Warning. Unable to create the database entry for this schema. <br />" +
+				"This may indicate that it already has been created.";
+
+			e.printStackTrace();
+			
+			return error_msg;
+		}
+		
 		// Put it directly in web cache.
 		MultiSchemaHibernateUtil.storeAnSIOInHashtables(sio);
 
@@ -2012,7 +2023,7 @@ public class AuthorFacilitatorSessionObject {
 			errorMsg = "Not authorized to create administrative users.";
 			return user;
 		} else {
-			PSO_UserAdmin pu = new PSO_UserAdmin(this);
+			OSP_UserAdmin pu = new OSP_UserAdmin(this);
 			return pu.handleCreateAdminUser(request, schema);
 		}
 	}
@@ -2037,17 +2048,17 @@ public class AuthorFacilitatorSessionObject {
 	}
 
 	public User handleAutoRegistration(HttpServletRequest request) {
-		PSO_UserAdmin pu = new PSO_UserAdmin(this);
+		OSP_UserAdmin pu = new OSP_UserAdmin(this);
 		return pu.handleAutoRegistration(request);
 	}
 
 	public User handleCreateUser(HttpServletRequest request) {
-		PSO_UserAdmin pu = new PSO_UserAdmin(this);
+		OSP_UserAdmin pu = new OSP_UserAdmin(this);
 		return pu.handleCreateUser(request, schema);
 	}
 
 	public void handleMyProfile(HttpServletRequest request) {
-		PSO_UserAdmin pu = new PSO_UserAdmin(this);
+		OSP_UserAdmin pu = new OSP_UserAdmin(this);
 		pu.handleMyProfile(request, user_id);
 	}
 

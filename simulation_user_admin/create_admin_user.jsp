@@ -69,11 +69,6 @@
             <td>password<a href="helptext/user_password.jsp" target="helpinright">(?)</a></td>
             <td><input type="text" name="password" tabindex="2" value="<%= userOnScratchPad.getBu_password() %>" /></td>
           </tr>
-            <tr>
-    <td>Full Name<a href="helptext/user_real_name.jsp" target="helpinright">(?)</a>:</td>
-    <td>
-          <input type="text" name="full_name" id="full_name" tabindex="3" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
-  </tr>
     <tr>
     <td>First Name:</td>
     <td>
