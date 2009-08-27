@@ -77,6 +77,12 @@ public class SchemaInformationObject {
 	
 	public static final String EMAIL_STATE_DOWN = "down";
 	
+	private Date creationDate;
+	
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
 	@Lob
 	/** notes for this particular installation. */
 	private String notes = "";
@@ -110,12 +116,26 @@ public class SchemaInformationObject {
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
 	}
+	
+	/** Set to indicate that this schema is safe to run unit tests in. */
+	private boolean unitTestSchema = false;
+	
+
+	public boolean isUnitTestSchema() {
+		return unitTestSchema;
+	}
+
+	public void setUnitTestSchema(boolean unitTestSchema) {
+		this.unitTestSchema = unitTestSchema;
+	}
 
 	/**
 	 * Your standard zero argument constructor.
 	 */
 	public SchemaInformationObject() {
 
+		this.creationDate = new Date();
+		
 	}
 
 	public static void main(String args[]) {
@@ -411,6 +431,17 @@ public class SchemaInformationObject {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
 		return sio;
+
+	}
+	
+	/** Saves a schemainformation object. */
+	public void saveMe() {
+
+		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
+
+		MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).saveOrUpdate(this);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
 	}
 

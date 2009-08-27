@@ -281,13 +281,7 @@ function loadInfo(dropdownlist){
                                 </blockquote>                          </td>
                           <td valign="top"> <label> Tab Heading: 
                             <input type="text" name="tab_heading" />
-                            <br />
-                            Tab Position: 
-                            <select name="tab_pos">
-                              <% for (int tp = 1; tp <= afso.tempSimSecList.size() + 1; ++tp) { %>
-                              <option value="<%= tp %>"><%= tp %></option>
-                              <% } %>
-                              </select>
+                            <input type="hidden" name="tab_pos" value="<%= afso.tempSimSecList.size() + 1 %>">
                             </label> <p> 
                               <label> 
                                 <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>

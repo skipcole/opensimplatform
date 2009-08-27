@@ -142,7 +142,7 @@ public class PlayerSessionObject {
 	public boolean hasSelectedRunningSim = false;
 
 	/** Login ticket of this user. */
-	public UserTrailGhost myLoggedInTicket = new UserTrailGhost();
+	public UserTrailGhost myUserTrailGhost = new UserTrailGhost();
 	
 	/**
 	 * This is called from the top of the players frame to determine where they
@@ -326,7 +326,7 @@ public class PlayerSessionObject {
 
 			storeUserInfoInSessionInformation(request);
 
-			UserTrail ut = UserTrail.getMe(schema, myLoggedInTicket.getTrail_id());
+			UserTrail ut = UserTrail.getMe(schema, myUserTrailGhost.getTrail_id());
 			ut.setActor_id(actor_id);
 			ut.setRunning_sim_id(running_sim_id);
 			ut.saveMe(schema);
@@ -359,17 +359,17 @@ public class PlayerSessionObject {
 			// Username is also email address
 			this.user_name = bu.getUsername();
 
-			myLoggedInTicket.setTrail_id(user.getTrail_id());
-			myLoggedInTicket.setUser_id(this.user_id);
-			myLoggedInTicket.setActor_id(actor_id);
-			myLoggedInTicket.setRunning_sim_id(running_sim_id);
+			myUserTrailGhost.setTrail_id(user.getTrail_id());
+			myUserTrailGhost.setUser_id(this.user_id);
+			myUserTrailGhost.setActor_id(actor_id);
+			myUserTrailGhost.setRunning_sim_id(running_sim_id);
 			// Player starts on tab 1, always.
-			myLoggedInTicket.setTab_position(new Long(1));
+			myUserTrailGhost.setTab_position(new Long(1));
 
 			Hashtable<Long, UserTrailGhost> loggedInUsers = (Hashtable<Long, UserTrailGhost>) request.getSession()
 					.getServletContext().getAttribute("loggedInUsers");
 
-			loggedInUsers.put(user.getId(), myLoggedInTicket);
+			loggedInUsers.put(user.getId(), myUserTrailGhost);
 
 			loggedin = true;
 		} else {
@@ -412,7 +412,7 @@ public class PlayerSessionObject {
 			loggedInPlayers.put(this.running_sim_id, thisSetOfPlayers);
 		}
 
-		thisSetOfPlayers.put(this.myLoggedInTicket.getTrail_id(), myLoggedInTicket);
+		thisSetOfPlayers.put(this.myUserTrailGhost.getTrail_id(), myUserTrailGhost);
 
 		request.getSession().getServletContext().setAttribute("loggedInPlayers", loggedInPlayers);
 
@@ -1429,13 +1429,16 @@ public class PlayerSessionObject {
 				user.setLastLogin(new Date());
 				user.saveMe(pso.schema);
 				
-				pso.myLoggedInTicket.setTrail_id(user.getTrail_id());
-				pso.myLoggedInTicket.setUser_id(pso.user_id);
+				pso.myUserTrailGhost.setTrail_id(user.getTrail_id());
+				pso.myUserTrailGhost.setUser_id(pso.user_id);
 
 				Hashtable<Long, UserTrailGhost> loggedInUsers = (Hashtable<Long, UserTrailGhost>) request.getSession()
 						.getServletContext().getAttribute("loggedInUsers");
 
-				loggedInUsers.put(user.getId(), pso.myLoggedInTicket);
+				loggedInUsers.put(user.getId(), pso.myUserTrailGhost);
+				
+				sio.setLastLogin(new Date());
+				sio.saveMe();
 				
 			} else {
 				pso.loggedin = false;

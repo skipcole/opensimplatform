@@ -23,11 +23,11 @@
     String db_pass = afso.getClean(request, "db_pass");
 	String db_loc = afso.getClean(request, "db_loc");
 	String db_port = afso.getClean(request, "db_port");
+	String db_notes = afso.getClean(request, "db_notes");
 	
 	String admin_first = afso.getClean(request, "admin_first");
 	String admin_middle = afso.getClean(request, "admin_middle");
 	String admin_last = afso.getClean(request, "admin_last");	
-	String admin_full = afso.getClean(request, "admin_full");
 	
 	String admin_pass = afso.getClean(request, "admin_pass");
     String admin_email = afso.getClean(request, "admin_email");
@@ -129,6 +129,10 @@ body {
                 <td valign="top">DB Port</td>
                 <td valign="top"><input type="text" name="db_port" value="<%= db_port %>" /></td>
               </tr>
+              <tr>
+                <td valign="top">DB Notes</td>
+                <td valign="top"><textarea name="db_notes" cols="40" rows="2"><%= db_notes %></textarea></td>
+              </tr>
               <tr> 
                 <td valign="top">&nbsp;</td>
                 <td valign="top">&nbsp;</td>
@@ -151,11 +155,6 @@ body {
                 <td valign="top">admin last name:</td>
                 <td valign="top"> 
                   <input type="text" name="admin_last" value="<%= admin_last %>" /></td>
-              </tr>
-              <tr> 
-                <td valign="top">admin user full name:</td>
-                <td valign="top"> 
-                  <input type="text" name="admin_full" value="<%= admin_full %>" /></td>
               </tr>
               <tr> 
                 <td valign="top">admin username/email:</td>
@@ -205,7 +204,13 @@ body {
             <td><input type="submit" name="cleandb" value="Submit" /></td>
           </tr>
         </table>
+        
+        <% if ((error_msg != null) && (error_msg.equalsIgnoreCase("database_created"))){ %>
+		<p> You may now<a href="../login.jsp"> login as the root user</a> with the password that you provided.</p>
+        <% } else { %>
         <p><font color="#FF0000"><%= error_msg %></font></p>
+        <% } %>
+        
         <p><a href="steps_2.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       </form>
       <p>&nbsp;</p>

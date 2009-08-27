@@ -60,7 +60,6 @@ public class AuthorFacilitatorSessionObject {
 	 */
 	public String user_name;
 
-
 	/** Records if user is an admin. */
 	private boolean isAdmin = false;
 
@@ -112,8 +111,6 @@ public class AuthorFacilitatorSessionObject {
 	/** Name of phase being conducted or worked on. */
 	private String phaseName = ""; //$NON-NLS-1$
 
-
-
 	/** The Session object. */
 	private HttpSession session = null;
 
@@ -121,8 +118,6 @@ public class AuthorFacilitatorSessionObject {
 	public String errorMsg = ""; //$NON-NLS-1$
 
 	public List tempSimSecList = new ArrayList();
-
-
 
 	/**
 	 * Unpacks a simulation from an XML file.
@@ -156,11 +151,6 @@ public class AuthorFacilitatorSessionObject {
 
 	}
 
-
-
-
-
-
 	/**
 	 * This responds to one of threee commands:
 	 * <ol>
@@ -188,7 +178,7 @@ public class AuthorFacilitatorSessionObject {
 				returnSP.setNotes(phase_notes);
 				returnSP.setOrder(string2Int(nominal_order));
 				returnSP.saveMe(this.schema);
-				
+
 				@SuppressWarnings("unused")
 				SimPhaseAssignment spa = new SimPhaseAssignment(this.schema, sim.getId(), returnSP.getId());
 
@@ -254,16 +244,16 @@ public class AuthorFacilitatorSessionObject {
 	public String invitationCode = ""; //$NON-NLS-1$
 
 	public String getDefaultInviteMessage() {
-		
+
 		String defaultInviteEmailMsg = "Dear Student,\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += "Please go to the web site "; //$NON-NLS-1$
 		defaultInviteEmailMsg += USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
 				+ "/simulation_user_admin/auto_registration_form.jsp";
-		
+
 		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
-		
+
 		defaultInviteEmailMsg += "?schema_id=" + schema_id;
-			
+
 		defaultInviteEmailMsg += " and register yourself.\r\n\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += "Thank you,\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += this.user_Display_Name;
@@ -277,17 +267,16 @@ public class AuthorFacilitatorSessionObject {
 	 * @param request
 	 */
 	public void handleBulkInvite(HttpServletRequest request) {
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
-		
-		if ( (sending_page == null) || (!(sending_page.equalsIgnoreCase("bulk_invite")))){
+
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("bulk_invite")))) {
 			return;
 		}
-		
+
 		this.setOfUsers = request.getParameter("setOfUsers"); //$NON-NLS-1$
 		String thisInviteEmailMsg = request.getParameter("defaultInviteEmailMsg"); //$NON-NLS-1$
 		this.invitationCode = request.getParameter("invitationCode"); //$NON-NLS-1$
-
 
 		for (ListIterator<String> li = getSetOfEmails(this.setOfUsers).listIterator(); li.hasNext();) {
 			String this_email = li.next();
@@ -546,12 +535,6 @@ public class AuthorFacilitatorSessionObject {
 		}
 	}
 
-
-
-
-
-
-
 	public void getAndLoad(HttpServletRequest request) {
 
 		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
@@ -672,8 +655,9 @@ public class AuthorFacilitatorSessionObject {
 	 * Takes input from the install page and creates the database.
 	 * 
 	 * We check to see if this admin user already exists. If they do, and the
-	 * installer has entered the admin's existing password, then no problem. 
-	 * Otherwise we indicate to them that the admin user exists and has a different password.
+	 * installer has entered the admin's existing password, then no problem.
+	 * Otherwise we indicate to them that the admin user exists and has a
+	 * different password.
 	 * 
 	 * @param request
 	 * @return
@@ -698,11 +682,12 @@ public class AuthorFacilitatorSessionObject {
 		String db_pass = (String) request.getParameter("db_pass");
 		String db_loc = (String) request.getParameter("db_loc");
 		String db_port = (String) request.getParameter("db_port");
+		String db_notes = (String) request.getParameter("db_notes");
 
 		String admin_first = (String) request.getParameter("admin_first");
 		String admin_middle = (String) request.getParameter("admin_middle");
 		String admin_last = (String) request.getParameter("admin_last");
-		String admin_full = (String) request.getParameter("admin_full");
+		String admin_full = admin_first + " " + admin_last;
 
 		String admin_pass = (String) request.getParameter("admin_pass");
 		String admin_email = (String) request.getParameter("admin_email");
@@ -711,14 +696,12 @@ public class AuthorFacilitatorSessionObject {
 		String email_user = (String) request.getParameter("email_user");
 		String email_pass = (String) request.getParameter("email_pass");
 		String email_user_address = (String) request.getParameter("email_user_address");
-		
+
 		String email_status = checkEmailStatus(email_smtp, email_user, email_pass, email_user_address);
-		
 
 		String error_msg = "";
 		String ps = MultiSchemaHibernateUtil.principalschema;
 
-		
 		if ((sending_page != null) && (cleandb != null) && (sending_page.equalsIgnoreCase("clean_db"))) {
 
 			if ((admin_pass == null) || (admin_pass.length() == 0)) {
@@ -726,13 +709,14 @@ public class AuthorFacilitatorSessionObject {
 			} else if ((admin_email == null) || ((admin_email.length() == 0))) {
 				return ("Must enter admin email.");
 			}
-			
+
 			BaseUser existing_admin = BaseUser.getByUsername(admin_email);
 
-			// If admin already exist, need to make sure that the password passed in is the same.
-			if (existing_admin != null){
+			// If admin already exist, need to make sure that the password
+			// passed in is the same.
+			if (existing_admin != null) {
 				BaseUser bu = BaseUser.validateUser(admin_email, admin_pass);
-				if (bu == null){
+				if (bu == null) {
 					return ("Admin password does not match the existing admin's password.");
 				}
 			}
@@ -746,6 +730,7 @@ public class AuthorFacilitatorSessionObject {
 		sio.setUserpass(db_pass);
 		sio.setLocation(db_loc);
 		sio.setPort(db_port);
+		sio.setNotes(db_notes);
 		sio.setEmail_smtp(email_smtp);
 		sio.setSmtp_auth_user(email_user);
 		sio.setSmtp_auth_password(email_pass);
@@ -782,29 +767,27 @@ public class AuthorFacilitatorSessionObject {
 			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
 		}
 
-		error_msg = "You may now login as the root user with the password that you provided.";
+		error_msg = "database_created";
 
 		return error_msg;
 
 	}
-	
-	/** Verify that all required fields have been entered for the email smtp server. */
-	public String checkEmailStatus(String email_smtp, String email_user, String email_pass, String email_user_address){
-		
-		if ((email_smtp == null) || ( email_user == null) || (email_pass  == null) || (email_user_address == null)){
+
+	/**
+	 * Verify that all required fields have been entered for the email smtp
+	 * server.
+	 */
+	public String checkEmailStatus(String email_smtp, String email_user, String email_pass, String email_user_address) {
+
+		if ((email_smtp == null) || (email_user == null) || (email_pass == null) || (email_user_address == null)) {
 			return SchemaInformationObject.EMAIL_STATE_DOWN;
-		} else if (
-			(email_smtp.trim().equalsIgnoreCase("")) || 
-			(email_user.trim().equalsIgnoreCase("")) ||
-			(email_pass.trim().equalsIgnoreCase("")) || 
-			(email_user_address.trim().equalsIgnoreCase(""))
-		){
+		} else if ((email_smtp.trim().equalsIgnoreCase("")) || (email_user.trim().equalsIgnoreCase(""))
+				|| (email_pass.trim().equalsIgnoreCase("")) || (email_user_address.trim().equalsIgnoreCase(""))) {
 			return SchemaInformationObject.EMAIL_STATE_DOWN;
 		} else {
 			return SchemaInformationObject.EMAIL_STATE_UNVERIFIED;
 		}
 	}
-	
 
 	/**
 	 * Recreates the root database that will hold information on the other
@@ -992,8 +975,6 @@ public class AuthorFacilitatorSessionObject {
 		return returnValue;
 	}
 
-
-
 	/**
 	 * Should take this opportunity to mark in the user trail that they have
 	 * logged out.
@@ -1005,7 +986,6 @@ public class AuthorFacilitatorSessionObject {
 		Logger.getRootLogger().debug("TODO: record the user's logout in their trail.");
 
 	}
-
 
 	/**
 	 * Returns the AFSO stored in the session, or creates one.
@@ -1024,12 +1004,6 @@ public class AuthorFacilitatorSessionObject {
 
 		return afso;
 	}
-
-
-
-
-
-
 
 	/**
 	 * Upon the creation of a new simulation several things happen: 1.) The
@@ -1092,7 +1066,6 @@ public class AuthorFacilitatorSessionObject {
 		return simulation;
 	}
 
-
 	public boolean isLoggedin() {
 		return loggedin;
 	}
@@ -1133,7 +1106,7 @@ public class AuthorFacilitatorSessionObject {
 
 			} else if ((clear_button != null) && (clear_button.equalsIgnoreCase("Clear"))) {
 				actor_being_worked_on_id = null;
-			} 
+			}
 		} catch (java.io.IOException ioe) {
 			Logger.getRootLogger().debug("error in edit actor:" + ioe.getMessage());
 
@@ -1179,7 +1152,7 @@ public class AuthorFacilitatorSessionObject {
 			if (saveActor) {
 				Logger.getRootLogger().debug("saving actor");
 				makeUploadDir();
-				
+
 				String _sim_id = (String) mpr.getParameter("sim_id");
 				actorOnScratchPad.setSim_id(new Long(_sim_id));
 
@@ -1191,20 +1164,20 @@ public class AuthorFacilitatorSessionObject {
 				String control_actor = (String) mpr.getParameter("control_actor");
 
 				if ((control_actor != null) && (control_actor.equalsIgnoreCase("true"))) {
-					
+
 					actorOnScratchPad.setControl_actor(true);
-					if (this.sim_id != null){
-						
+					if (this.sim_id != null) {
+
 						MultiSchemaHibernateUtil.beginTransaction(schema);
 						Logger.getRootLogger().debug("actors id is" + actorOnScratchPad.getId());
 						MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(actorOnScratchPad);
 						MultiSchemaHibernateUtil.getSession(schema).flush();
 						MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-						
+
 						Simulation sim = Simulation.getMe(schema, this.sim_id);
 						sim.addControlSectionsToAllPhasesOfControl(this.schema, actorOnScratchPad);
 					}
-					
+
 				} else {
 					actorOnScratchPad.setControl_actor(false);
 				}
@@ -1344,13 +1317,12 @@ public class AuthorFacilitatorSessionObject {
 	}
 
 	public String getPhaseNameById(String phase_id) {
-		
+
 		return "insert code here";
 	}
 
-
 	public String getPhaseNameById(Long phase_id) {
-		
+
 		return "insert code here";
 	}
 
@@ -1373,8 +1345,6 @@ public class AuthorFacilitatorSessionObject {
 		}
 	}
 
-
-
 	public Simulation giveMeSim() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
@@ -1384,9 +1354,6 @@ public class AuthorFacilitatorSessionObject {
 		return simulation;
 
 	}
-
-
-
 
 	public Actor giveMeActor(Long a_id) {
 
@@ -1400,7 +1367,7 @@ public class AuthorFacilitatorSessionObject {
 
 		return actor;
 	}
-	
+
 	public Actor giveMeActor() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, actor_being_worked_on_id);
@@ -1645,8 +1612,8 @@ public class AuthorFacilitatorSessionObject {
 		 * alist = actorList.listIterator(); alist.hasNext();) { Actor act =
 		 * (Actor) alist.next();
 		 * 
-		 * Logger.getRootLogger().debug("checking read write on " + act.getName()); List
-		 * setOfSections =
+		 * Logger.getRootLogger().debug("checking read write on " +
+		 * act.getName()); List setOfSections =
 		 * SimulationSectionAssignment.getBySimAndActorAndPhase(schema,
 		 * this.sim_id, act.getId(), sp .getId());
 		 * 
@@ -1658,8 +1625,10 @@ public class AuthorFacilitatorSessionObject {
 		 * ss.getBase_section_id() + "");
 		 * 
 		 * if (custSec != null) { Logger.getRootLogger().debug("cs id: " +
-		 * ss.getBase_section_id()); Logger.getRootLogger().debug("bss rec tab: " +
-		 * custSec.getRec_tab_heading()); Logger.getRootLogger().debug("can read " +
+		 * ss.getBase_section_id());
+		 * Logger.getRootLogger().debug("bss rec tab: " +
+		 * custSec.getRec_tab_heading());
+		 * Logger.getRootLogger().debug("can read " +
 		 * custSec.isConfers_read_ability());
 		 * 
 		 * if (custSec.isConfers_read_ability() == true) { Hashtable
@@ -1679,11 +1648,12 @@ public class AuthorFacilitatorSessionObject {
 		 * }
 		 * 
 		 * if (custSec.isConfers_write_ability() == true) {
-		 * Logger.getRootLogger().debug("confers read and write"); Hashtable storedGoodies
-		 * = custSec.getContents(); String docs = (String)
+		 * Logger.getRootLogger().debug("confers read and write"); Hashtable
+		 * storedGoodies = custSec.getContents(); String docs = (String)
 		 * storedGoodies.get(SharedDocument.DOCS_IN_HASHTABLE_KEY);
 		 * Logger.getRootLogger().debug("docs were : " + docs); } }
-		 * Logger.getRootLogger().debug("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		 * Logger.getRootLogger
+		 * ().debug("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		 * 
 		 * }
 		 * 
@@ -1691,8 +1661,10 @@ public class AuthorFacilitatorSessionObject {
 		 */
 	}
 
-
-	/** Puts the name of the sim and the date into a string to use for xml export file name. */
+	/**
+	 * Puts the name of the sim and the date into a string to use for xml export
+	 * file name.
+	 */
 	public String getDefaultSimXMLFileName(Simulation simulation) {
 
 		Date saveDate = new java.util.Date();
@@ -1771,100 +1743,93 @@ public class AuthorFacilitatorSessionObject {
 
 	public static final int FACILITATOR_LOGIN = 2;
 
-	/** If user has selected an author, instructor or admin entry point into the system, 
-	 * this is called to set their AFSO object.
+	/**
+	 * If user has selected an author, instructor or admin entry point into the
+	 * system, this is called to set their AFSO object.
 	 * 
 	 * @param request
 	 * @param schema_id
 	 */
-	public static void handleInitialEntry(HttpServletRequest request){
-		
+	public static void handleInitialEntry(HttpServletRequest request) {
+
 		String initial_entry = (String) request.getParameter("initial_entry");
-		
-		if ((initial_entry != null) && (initial_entry.equalsIgnoreCase("true"))){
-			
+
+		if ((initial_entry != null) && (initial_entry.equalsIgnoreCase("true"))) {
+
 			AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-			
+
 			String schema_id = (String) request.getParameter("schema_id");
-			
+
 			SchemaInformationObject sio = SchemaInformationObject.getMe(new Long(schema_id));
-			
+
 			afso.schema = sio.getSchema_name();
 			afso.schemaOrg = sio.getSchema_organization();
-			
+
 			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request.getSession(true).getAttribute("osp_soh");
-			
+
 			User user = User.getMe(afso.schema, osp_soh.getUserid());
 			BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
-				
+
 			if (user != null) {
 				afso.user_id = user.getId();
 				afso.isAdmin = user.isAdmin();
 				afso.isSimCreator = user.isSim_author();
 				afso.user_Display_Name = bu.getFull_name();
 				afso.user_email = bu.getUsername();
-				
+
 				afso.loggedin = true;
-				
+
 				user.setLastLogin(new Date());
 				user.saveMe(afso.schema);
-				
+
+				sio.setLastLogin(new Date());
+				sio.saveMe();
+
 			} else {
 				afso.loggedin = false;
 				Logger.getRootLogger().warn("handling initial entry into simulation and got null user");
 			}
 		}
 	}
-	
+
 	/**
 	 * Sends password to user via email upon request.
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public boolean handleRetrievePassword(HttpServletRequest request) {
+	public static boolean handleRetrievePassword(HttpServletRequest request) {
 
-		String sending_page = (String) request.getParameter("sending_page");
+		String email = (String) request.getParameter("email");
 
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("retrieve_password"))) {
+		BaseUser bu = BaseUser.getByUsername(email);
 
-			String email = (String) request.getParameter("email");
-
-			BaseUser bu = BaseUser.getByUsername(email);
-
-			if (bu == null) {
-				this.errorMsg = "User not found in database";
-				return false;
-			} else {
-				this.errorMsg = "";
-			}
-
-			Logger.getRootLogger().debug("emailing " + email);
-
-			String message = "A request for your password has been received. Your password is " + bu.getPassword();
-
-			String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
-			Logger.getRootLogger().debug("Logger.getRootLogger().debug(admin_email); " + admin_email);
-
-			Vector ccs = new Vector();
-			Vector bccs = new Vector();
-			bccs.add(admin_email);
-
-			try {
-				SchemaInformationObject sio = SchemaInformationObject.loadPrincipalSchemaObjectFromPropertiesFile();
-
-				Emailer.postMail(sio, email, "Access to OSP", message, admin_email, ccs, bccs);
-			} catch (Exception e) {
-				this.errorMsg = "error was: " + e.getMessage();
-			}
-			return true;
-		} else {
+		if (bu == null) {
 			return false;
 		}
 
+		Logger.getRootLogger().debug("emailing " + email);
+
+		String message = "A request for your password has been received. Your password is " + bu.getPassword();
+
+		String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
+		Logger.getRootLogger().debug("Logger.getRootLogger().debug(admin_email); " + admin_email);
+
+		Vector ccs = new Vector();
+		Vector bccs = new Vector();
+		bccs.add(admin_email);
+
+		try {
+			SchemaInformationObject sio = SchemaInformationObject.loadPrincipalSchemaObjectFromPropertiesFile();
+
+			Emailer.postMail(sio, email, "Access to OSP", message, admin_email, ccs, bccs);
+		} catch (Exception e) {
+			Logger.getRootLogger().warn("retreive password error was: " + e.getMessage());
+		}
+
+		return true;
+
 	}
-
-
 
 	/**
 	 * Takes a comma separated list of actor ids and turns it into a list of
@@ -1896,8 +1861,6 @@ public class AuthorFacilitatorSessionObject {
 
 		return returnList;
 	}
-
-
 
 	public String getActorName(HttpServletRequest request, String a_id) {
 
@@ -1931,7 +1894,9 @@ public class AuthorFacilitatorSessionObject {
 		return a_name;
 	}
 
-	/** Stores names in a hashtable so they can be pulled out quickly from the context.
+	/**
+	 * Stores names in a hashtable so they can be pulled out quickly from the
+	 * context.
 	 * 
 	 * @param actor_names
 	 */
@@ -2081,9 +2046,6 @@ public class AuthorFacilitatorSessionObject {
 		return pu.handleCreateUser(request, schema);
 	}
 
-
-
-
 	public void handleMyProfile(HttpServletRequest request) {
 		PSO_UserAdmin pu = new PSO_UserAdmin(this);
 		pu.handleMyProfile(request, user_id);
@@ -2123,7 +2085,6 @@ public class AuthorFacilitatorSessionObject {
 
 		return (getMyPSO_SectionMgmt().handleSetUniversalSimSectionsPage(request));
 	}
-
 
 	/**
 	 * A wrapper that passes the request through to the associated
@@ -2260,7 +2221,8 @@ public class AuthorFacilitatorSessionObject {
 				&& (sending_page.equalsIgnoreCase("create_running_sim"))) {
 
 			String rsn = (String) request.getParameter("running_sim_name");
-			RunningSimulation rs = simulation.addNewRunningSimulation(rsn, schema, this.user_id, this.user_Display_Name);
+			RunningSimulation rs = simulation
+					.addNewRunningSimulation(rsn, schema, this.user_id, this.user_Display_Name);
 
 			running_sim_id = rs.getId();
 
@@ -2375,8 +2337,6 @@ public class AuthorFacilitatorSessionObject {
 		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
 
-
-
 	/**
 	 * 
 	 * @param request
@@ -2434,19 +2394,20 @@ public class AuthorFacilitatorSessionObject {
 		}
 
 	}
-	
+
 	/**
 	 * Pulls the running sim whose id is being stored out of the database.
+	 * 
 	 * @return
 	 */
 	public RunningSimulation giveMeRunningSim() {
-		
-		if (running_sim_id == null){
+
+		if (running_sim_id == null) {
 			Logger.getRootLogger().warn("Warning RunningSimId is null in pso.giveMeRunningSim");
-			
+
 			return null;
 		}
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 				RunningSimulation.class, running_sim_id);
@@ -2457,21 +2418,21 @@ public class AuthorFacilitatorSessionObject {
 
 		return rs;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
-	public void handleSetNextDowntime(HttpServletRequest request){
+	public void handleSetNextDowntime(HttpServletRequest request) {
 		String send_page = request.getParameter("send_page"); //$NON-NLS-1$
 
 		if ((send_page != null) && (send_page.equalsIgnoreCase("change_downtime"))) {
-			
+
 			String new_planned = request.getParameter("new_planned");
-			
+
 			USIP_OSP_Properties.setNextPlannedDowntime(new_planned);
 		}
-		
+
 	}
 
 } // End of class

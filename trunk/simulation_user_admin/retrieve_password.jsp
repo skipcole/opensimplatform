@@ -4,11 +4,18 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
-	AuthorFacilitatorSessionObject afso = new AuthorFacilitatorSessionObject();
 	
-	session.setAttribute("pso", pso);
+	String sending_page = (String) request.getParameter("sending_page");
 	
-	boolean justSentPassword = afso.handleRetrievePassword(request);
+	boolean retrieve_attempt_made = false;
+	boolean justSentPassword = false;
+
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("retrieve_password"))) {
+		
+		retrieve_attempt_made = true;
+		justSentPassword = AuthorFacilitatorSessionObject.handleRetrievePassword(request);
+		
+	}
 
 	
 %>
@@ -75,13 +82,20 @@
   </table>
         </form>
       <p>&nbsp;</p>
+      <% if (retrieve_attempt_made) { %>
       <% if (justSentPassword) { %>
       <p>Thank you for your request.</p>
       <p>You should soon receive an email containing your password.</p>
       <p>Note: If you do not find the  email with your password in it, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' (The details of doing this depend upon your email service provider, so please direct any email related questions to them.)</p>
-      <% } // end of if just requested email %> 
+      <% } // end of if just requested email 
+	  		else {
+	  %> 
       <span class="style1">
-<%= afso.errorMsg %> </span>      <p>&nbsp;</p>			</td>
+      <font color="#FF0000">The email address you entered was not found in our database.</font>
+		 </span>      
+	<% } // and of if failed attempt. %>
+    <% } // end of if attempted to retrieved attempt. %>
+<p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>
@@ -97,7 +111,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	afso.errorMsg = "";
-	
-%>
