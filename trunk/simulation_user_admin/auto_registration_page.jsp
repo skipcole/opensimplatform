@@ -92,11 +92,6 @@ body {
               <td><input type="text" name="password" tabindex="2"  value="<%= userOnScratchPad.getBu_password() %>"/></td>
             </tr>
           <tr>
-            <td>Full Name:</td>
-      <td>
-        <input type="text" name="full_name" tabindex="3"  id="full_name" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
-    </tr>
-          <tr>
             <td>First Name:</td>
       <td>
         <label>
@@ -139,7 +134,7 @@ body {
      	<tr>
             <td>Organizational Database: (?)</td>
               <td>
-              <input type=hidden name="selected_schema" value=<% schema_id %>>
+              <input type=hidden name="selected_schema" value="<%= schema_id %>">
 				look up schema name	
               
               </td>

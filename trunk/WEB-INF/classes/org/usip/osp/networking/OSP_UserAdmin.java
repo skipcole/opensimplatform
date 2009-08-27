@@ -21,7 +21,7 @@ import org.apache.log4j.*;
  *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
-public class PSO_UserAdmin {
+public class OSP_UserAdmin {
 
 	private String _full_name = ""; //$NON-NLS-1$
 	private String _first_name = ""; //$NON-NLS-1$
@@ -49,7 +49,7 @@ public class PSO_UserAdmin {
 	
 	private AuthorFacilitatorSessionObject pso;
 	
-	public PSO_UserAdmin(AuthorFacilitatorSessionObject pso){
+	public OSP_UserAdmin(AuthorFacilitatorSessionObject pso){
 		
 		this.pso = pso;
 	}
@@ -61,10 +61,15 @@ public class PSO_UserAdmin {
 	 */
 	private void getBaseUserParamters(HttpServletRequest request) {
 		
-		this._full_name = request.getParameter("full_name"); //$NON-NLS-1$
 		this._first_name = request.getParameter("first_name"); //$NON-NLS-1$
 		this._last_name = request.getParameter("last_name"); //$NON-NLS-1$
 		this._middle_name = request.getParameter("middle_name"); //$NON-NLS-1$
+		
+		// Construct full name from the piece of name passed in.
+		this._full_name = this._first_name + " " + this._middle_name;
+		this._full_name = this._full_name.trim();
+		this._full_name += " " + this._last_name;
+		this._full_name = this._full_name.trim();
 		
 		this._admin = request.getParameter("admin"); //$NON-NLS-1$
 		this._author = request.getParameter("author"); //$NON-NLS-1$

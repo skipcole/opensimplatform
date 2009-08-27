@@ -91,13 +91,6 @@ body {
         <h1>
           <input type="hidden" name="sending_page" value="clean_db" />
           Install Database </h1>
-        <table width="80%" border="0" cellspacing="2" cellpadding="2">
-          <tr> 
-            <td valign="top">Warning. Hitting submit on this page will purge the 
-              database.</td>
-            <td>&nbsp;</td>
-          </tr>
-        </table>
         <blockquote>
           <blockquote> 
             <table width="75%" border="0" cellspacing="2" cellpadding="1">
