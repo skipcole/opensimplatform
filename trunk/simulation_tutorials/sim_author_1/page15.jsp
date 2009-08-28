@@ -38,6 +38,7 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
+<br />
 <h1>Step 15. Reviewing your simulation</h1>
 <blockquote>
   <p>a.) Observe the review page. It should indicate all the steps you have taken so fare.</p>

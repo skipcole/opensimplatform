@@ -6,16 +6,7 @@
 <!-- InstanceEndEditable --> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css">
-<!-- InstanceBeginEditable name="head" -->
-<style type="text/css">
-<!--
-.style1 {
-	color: #0066CC;
-	font-weight: bold;
-}
--->
-</style>
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 <style type="text/css">
 <!--
 body {
@@ -27,12 +18,12 @@ body {
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
-<h1>Bulk Invite Look-Up Code</h1>
+<h1>Bulk Invite Message </h1>
 <ul>
-  <li>This is planned functionality. </li>
-  <li>It will allow you look up a set of users that you have invited by the code entered.</li>
+  <li>You may edit the default message text.</li>
+  <li>But please be careful not to change the URL (web address) in the message. This should be correct for your system.<br>
+  </li>
 </ul>
-<br />
 <!-- InstanceEndEditable --> 
 </body>
 <!-- InstanceEnd --></html>

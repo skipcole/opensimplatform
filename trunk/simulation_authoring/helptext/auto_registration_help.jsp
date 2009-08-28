@@ -27,12 +27,11 @@ body {
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
-<h1>Bulk Invite Look-Up Code</h1>
-<ul>
-  <li>This is planned functionality. </li>
-  <li>It will allow you look up a set of users that you have invited by the code entered.</li>
-</ul>
-<br />
+<h1>Player Auto-Registration</h1>
+<p>This allows the players to assign themselves to a simulation without any instructor involved.</p>
+<p>Currently this is used to allow players to immediately enter into small sample simulations containing some basic information from the multi-player simulation that they will later participate in. (For example, if one has a large simulation called 'X', one could create an auto-registration enabled simulation called 'Demo X' go give the players a flavor of what they will soon be participating in.)</p>
+<p>It is envisioned that later this may be useful for player 'pick-up' games, or just play in simulations in which no human facilitator is involved.</p>
+<p>&nbsp;</p>
 <!-- InstanceEndEditable --> 
 </body>
 <!-- InstanceEnd --></html>

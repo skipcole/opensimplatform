@@ -76,7 +76,7 @@
                 <textarea name="sim_key_words"><%= simulation.getListingKeyWords() %></textarea></td>
                 </tr>
 	        <tr>
-	          <td>Allow Player Auto-Registration</td>
+	          <td>Allow Player Auto-Registration <a href="helptext/auto_registration_help.jsp" target="helpinright">(?)</a></td>
                   <td><label>
                     <input type="checkbox" name="auto_registration" id="auto_registration"  value="true"/>
                     </label></td>
@@ -133,8 +133,7 @@
       </table>
       <p>&nbsp;</p>
       <blockquote>
-        <p align="center"><a href="../simulation_facilitation/facilitateweb.jsp" target="_top">On To The Play 
-          Section</a></p>
+        <p align="center">&nbsp;</p>
 		  </blockquote>
       </blockquote>
 

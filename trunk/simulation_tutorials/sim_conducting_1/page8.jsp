@@ -37,12 +37,36 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->pageBody<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<br />
+<h1>Step 8. Enable Simulation</h1>
+<blockquote>
+  <p>a.) Observe the form below. This is where you will enable your simulation </p>
+  <blockquote>
+    <p><img src="images/tut_sim_conduct_1_page8_enable_simulation.PNG" alt="Enable Simulation" width="936" height="528" border="1" /></p>
+  </blockquote>
+  <p>&nbsp;</p>
+  <p>b.) Click the button 'Start Simulation.' Emails will be sent out to all of your players, your running simulation enabled for entry, and you should see that the page now looks like the form below.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_conduct_1_page8_an_enabled_simulation.PNG" alt="An Enabled Simulation" width="782" height="342" border="1" /></p>
+  </blockquote>
+  <p>&nbsp;</p>
+  <p>c.) Login to the simulation and play through it.</p>
+  <p>&nbsp;</p>
+  <h2>Congratulations!</h2>
+  <blockquote>
+    <p>You have finished the first tutorial on how to conduct a simulation using the OSP!</p>
+  </blockquote>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</blockquote>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page7.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" -->    <!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

@@ -61,15 +61,8 @@ public class OSP_UserAdmin {
 	 */
 	private void getBaseUserParamters(HttpServletRequest request) {
 		
-		this._first_name = request.getParameter("first_name"); //$NON-NLS-1$
-		this._last_name = request.getParameter("last_name"); //$NON-NLS-1$
-		this._middle_name = request.getParameter("middle_name"); //$NON-NLS-1$
-		
-		// Construct full name from the piece of name passed in.
-		this._full_name = this._first_name + " " + this._middle_name;
-		this._full_name = this._full_name.trim();
-		this._full_name += " " + this._last_name;
-		this._full_name = this._full_name.trim();
+		// Gets the user's name.
+		getUserNameDetails(request);
 		
 		this._admin = request.getParameter("admin"); //$NON-NLS-1$
 		this._author = request.getParameter("author"); //$NON-NLS-1$
@@ -93,14 +86,20 @@ public class OSP_UserAdmin {
 	}
 	
 	/**
-	 * Gets more details about the user from the request.
+	 * Gets name details about the user from the request.
 	 * @param request
 	 */
-	private void getUserDetails(HttpServletRequest request){
-		this._full_name = request.getParameter("full_name"); //$NON-NLS-1$
+	private void getUserNameDetails(HttpServletRequest request){
+		
 		this._first_name = request.getParameter("first_name"); //$NON-NLS-1$
 		this._last_name = request.getParameter("last_name"); //$NON-NLS-1$
 		this._middle_name = request.getParameter("middle_name"); //$NON-NLS-1$
+		
+		// Construct full name from the piece of name passed in.
+		this._full_name = this._first_name + " " + this._middle_name;
+		this._full_name = this._full_name.trim();
+		this._full_name += " " + this._last_name;
+		this._full_name = this._full_name.trim();
 	}
 
 	/**
@@ -116,7 +115,6 @@ public class OSP_UserAdmin {
 		if (command != null) {
 			
 			getBaseUserParamters(request);
-			getUserDetails(request);
 			
 			String u_id = request.getParameter("u_id"); //$NON-NLS-1$
 			
@@ -261,7 +259,7 @@ public class OSP_UserAdmin {
 			this.pso.errorMsg += "Must enter password.<br/>"; //$NON-NLS-1$
 			return false;
 		} else if (this._full_name.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
-			this.pso.errorMsg += "Must enter full name.<br/>"; //$NON-NLS-1$
+			this.pso.errorMsg += "Must enter name.<br/>"; //$NON-NLS-1$
 			return false;
 		} else if (this._email.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
 			this.pso.errorMsg += "Must enter email address.<br/>"; //$NON-NLS-1$
@@ -278,7 +276,7 @@ public class OSP_UserAdmin {
 	 */
 	public void handleMyProfile(HttpServletRequest request, Long user_id){
 		
-		getUserDetails(request);
+		getUserNameDetails(request);
 		
 		BaseUser bu = BaseUser.getByUserId(user_id);
 		

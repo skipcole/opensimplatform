@@ -46,9 +46,9 @@ body {
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="sim_author_1/index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="sim_author_1/index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="sim_author_1/page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="../index.jsp">&lt;-- back to Main Tutorial Page</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

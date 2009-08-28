@@ -57,7 +57,7 @@
 		%>
                   <p>You must select the running simulation for which you will be creating a schedule.<br />
                       
-                  Please <a href="../simulation_authoring/select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
+                  Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
                   <p>
                     <% } else { %>
                             </p>

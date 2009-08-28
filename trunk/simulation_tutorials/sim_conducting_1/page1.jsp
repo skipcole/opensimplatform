@@ -41,14 +41,14 @@ body {
 <br />
 <h1>Step 1. Logging on as a facilitator</h1>
 <blockquote>
-  <p>a.) Go to the URL of the OSP server where you have your simulation facilitator account. </p>
+  <p>a.) Go to the URL of the OSP server where you have your   account and login. After logging in, you will be taken to the page where you can select the section of the OSP you want to enter into.</p>
   <blockquote>
-    <p>Tip: There is one login place for Simulation Authors and another for Simulation Facilitators. (The web addresses for authors includes 'simulation_authoring' in it, the web address for facilitators includes 'simulation_facilitation'.) The login page for the Simulation Facilittor is shown below.</p>
-    <p>Tip 2: In general we will be using the terms 'instructor' and 'facilitator' interchangeably. The subtle distinction between these words is left to the readers as a thought exercise.</p>
-    <p><img src="images/tut_sim_conduct_1_page1_loginpage.PNG" alt="OSP Facilitator Login Page" width="751" height="479" border="1" /></p>
+    <p><img src="images/tut_sim_conduct_1_page1_select_func.PNG" alt="Select Function" width="339" height="326" /></p>
+    <p>&nbsp;</p>
+    <p>Tip: In general we will be using the terms 'instructor' and  'facilitator' interchangeably. The subtle distinction between these  words is left to the readers as a thought exercise.</p>
     <p>&nbsp;</p>
   </blockquote>
-  <p>b.) After you have logged in as a facilitator, you should see the landing page shown below.</p>
+  <p>b.) Select the 'Instructors' icon. You will then see the landing page shown below.</p>
   <blockquote>
     <p><img src="images/tut_sim_conduct_1_page1_landingpage.PNG" alt="Facilitator Landing Page" width="457" height="199" border="1" /></p>
   </blockquote>
@@ -59,7 +59,7 @@ body {
 <table  border="0" align="center" cellspacing="5">
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>

@@ -37,12 +37,28 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->pageBody<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<br />
+<h1>Step 6. Create Users</h1>
+<blockquote>
+  <p>a.) You can also just create users by hand. Enter the information on the form as needed below to create a user.</p>
+  <blockquote>
+    <blockquote>
+      <p><img src="images/tut_sim_conduct_1_page6_create_user.PNG" alt="Create User" width="503" height="208" border="1" /></p>
+    </blockquote>
+    <p>&nbsp;</p>
+    <p>b.) Create the users you will need for your simulation. If you are doing the 'Buying Oranges' simulation, you will need at least 3 users: one facilitator and one for each of the Players A and B.</p>
+    <p>c.) Click on the link 'Next step: Assign Players' to move to the next step.</p>
+  </blockquote>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</blockquote>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page5.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page7.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

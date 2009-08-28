@@ -93,7 +93,7 @@ body {
           Install Database </h1>
         <blockquote>
           <blockquote> 
-            <table width="75%" border="0" cellspacing="2" cellpadding="1">
+            <table  border="0" cellspacing="2" cellpadding="1">
               <tr> 
                 <td><strong>Database Login</strong></td>
                 <td>&nbsp;</td>

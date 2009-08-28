@@ -38,7 +38,8 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
-<h1>Step. Assigning specific sections</h1>
+<br />
+<h1>Step 13. Assigning specific sections</h1>
 <blockquote>
   <p>a..) Observe the  Actor Orange Salesman's sections in the Started phase. </p>
   <blockquote>

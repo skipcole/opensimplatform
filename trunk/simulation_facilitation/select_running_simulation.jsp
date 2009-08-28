@@ -66,7 +66,7 @@
           <p>Below are listed alphabetically all of the current running simulations for the simulation 
             <%= simulation.getDisplayName() %>. </p>
           <p>Please 
-            select one, or <a href="../simulation_facilitation/create_running_sim.jsp">create a new one</a>, 
+            select one, or <a href="create_running_sim.jsp">create a new one</a>, 
             to continue.</p>
           <table>
             <%
@@ -79,7 +79,7 @@
 			if (rs != null) {
 		%>
             <tr> 
-              <td><a href="select_running_simulation.jsp?select_running_sim=true&backpage=<%= afso.backPage %>&r_sim_id=<%= rs.getId() %>"><%= rs.getName() %></a></td>
+              <td><a href="select_running_simulation.jsp?select_running_sim=true&amp;backpage=<%= afso.backPage %>&amp;r_sim_id=<%= rs.getId() %>"><%= rs.getName() %></a></td>
             </tr>
             <%
 	}

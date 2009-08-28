@@ -39,16 +39,23 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Bulk Invite Users</h1>
+<h1>Step 5. Bulk Invite Users</h1>
 <blockquote>
+  <p>a.) Students must be registered on the OSP system to be able to participate in simulations. The OSP provides you the ability to send many students an invitation to register.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_conduct_1_page5_bulk_invite.PNG" alt="Bulk Invite" width="895" height="400" border="1" /></p>
+    <p>Tip: This functionality is only available if the OSP server has been set up properly to communicate with an SMTP email server. If this functionality is grayed out, or if the emails do not seem to have been sent, you should talk to your OSP administrator.</p>
+  </blockquote>
+  <p>b.) If you are going to do the bulk invite, enter the email addresses desired and then hit 'Send Invite Email.'</p>
+  <p>c.) Click on the link 'Next step: Create Users' to move to the next step.</p>
   <p>&nbsp;</p>
 </blockquote>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page4.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page6.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

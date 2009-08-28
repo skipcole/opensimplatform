@@ -41,16 +41,22 @@ body {
 <br />
 <h1>Step 1. Log on and go to the 'Create' section</h1>
 <blockquote>
-  <p>a.) Go to the URL of the OSP server where you have your simulation author account. </p>
-  <p>b.) Log in with the username and password you have been given. This should lead you to the landing page below. Take a moment to read it and orient yourself on it.</p>
+  <p>a.) Go to the URL of the OSP server where you have your   account. </p>
+  <p>b.) Log in with the username and password you have been given. You will be taken to a page where you will be able to select the section of the OSP you want to enter into. Depending upon the privileges you have on the system, you will see from 1 to 4 icons as shown below.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_auth_1_page1_select_func.PNG" alt="Select Section" width="681" height="329" /></p>
+  </blockquote>
+  <p>&nbsp;</p>
+  <p>c.) Select the 'Authors' icon. This will lead you to the  page below. Take a moment to read it and orient yourself on it.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page1_landingpage.PNG" alt="OSP Landing Page" width="797" height="474" border="1" /></p>
   </blockquote>
-  <p>c.) Click on the link 'CREATE' in the top banner. This will take you to the 'Control Panel' shown below.</p>
+  <p>&nbsp;</p>
+  <p>d.) Click on the link 'CREATE' in the top banner. This will take you to the 'Control Panel' shown below.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page1_controlpanel.PNG" alt="Control Panel" width="546" height="470" border="1" /></p>
   </blockquote>
-  <p>d.) Read through the steps involved in creating a simulation, then click on step 1, &quot;Create New Simulation&quot; to move on.</p>
+  <p>e.) Read through the steps involved in creating a simulation, then click on step 1, &quot;Create New Simulation&quot; to move on.</p>
 </blockquote>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

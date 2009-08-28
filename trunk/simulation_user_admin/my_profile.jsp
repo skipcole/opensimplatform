@@ -51,12 +51,7 @@
               <h1>My Profile </h1>
               <br />
       <form id="form1" name="form1" method="post" action="my_profile.jsp">
-  <table width="80%" border="0" cellspacing="2" cellpadding="1">
-    <tr>
-      <td>Full Name:</td>
-      <td>
-        <input type="text" name="full_name" id="full_name" value="<%= user.getBu_full_name() %>" />        </td>
-    </tr>
+  <table border="0" cellspacing="2" cellpadding="1">
     <tr>
       <td>First Name:</td>
       <td>
@@ -80,7 +75,12 @@
     </tr>
     <tr>
       <td>Authorization Level:</td>
-      <td><% if (afso.isAuthor()) { %>Simulation Creator, <% } %> <% if (afso.isAdmin()) { %>, Administrator <% } %></td>
+      <td>
+      		<% if (afso.isAdmin()) { %>Administrator, <% } %>
+	  		<% if (afso.isAuthor()) { %>Simulation Author, <% } %> 
+			<% if (afso.isFacilitator()) { %>Simulation Facilitator <% } %>
+            
+      </td>
     </tr>
     <tr>
       <td>Email Address:</td>
