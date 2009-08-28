@@ -39,6 +39,14 @@
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.style1 {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -50,8 +58,6 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Enable Simulation to Start</h1>
-              <br />
-      <p></p>
       <blockquote> 
         <% 
 			if (afso.sim_id == null) {
@@ -68,27 +74,23 @@
 		%>
         <p>You must select the running simulation for which you will be enabling.<br />
           
-          Please <a href="../simulation_authoring/select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
+          Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
 		  
 		<% } else if (running_sim.isReady_to_begin()) { %>
-        <p><strong>Running simulation <%= running_sim.getName() %> </strong> has  been enabled.<br />
-          To select a different running simulation to enable, <a href="../simulation_authoring/select_running_simulation.jsp">click here</a>.</p>
+        <p><strong>Running simulation <%= running_sim.getName() %> </strong> <span class="style1">has  been enabled.</span><br />
+          To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
 		  <% } else { %>
         <p>Enabling <strong>running simulation <%= running_sim.getName() %></strong><br />
-          To select a different running simulation to enable, <a href="../simulation_authoring/select_running_simulation.jsp">click here</a>.</p>
+          To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
   
   <p>&nbsp;</p>
     <form action="enable_simulation.jsp" method="post" name="form1" id="form1">
       <input type="hidden" name="sending_page" value="enable_game" />
-      <table width="100%" border="0" cellspacing="2" cellpadding="2">
+      <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top"> 
-          <td width="34%">Notify players:</td>
+          <td width="34%">Notify players via Email:</td>
                 <td width="66%"> <input name="email_users" type="checkbox" value="true" checked="checked" />
                   yes </td>
-              </tr>
-        <tr valign="top">
-          <td>List of Players:</td>
-                <td>Put in list of players to notify</td>
               </tr>
         <tr valign="top"> 
           <td width="34%">Email text:<br /> <br /> </td>
@@ -119,8 +121,12 @@ Enjoy!
 	}// end of if afso.simulation.id has been set.
 
 %>        <blockquote>
-          <div align="center"><a href="../simulation/index.jsp" target="_top">Next 
-            Step: Begin Play</a></div>
+          <div align="center">
+            <p><a href="../login.jsp" target="_top">Next 
+              Step: Begin Play</a></p>
+            <p align="left"><a href="assign_user_to_simulation.jsp">&lt;- 
+        Back</a></p>
+          </div>
           </blockquote>			</td>
 		</tr>
 		</table>	</td>

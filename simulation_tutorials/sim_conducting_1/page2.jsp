@@ -39,7 +39,7 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Selecting the simulation</h1>
+<h1>Step 2. Selecting the simulation</h1>
 <blockquote>
   <p>a.) . Select the link to take you to the 'Online Library.' It should take you to a library that looks similar to the one below.</p>
   <blockquote>
@@ -58,7 +58,7 @@ body {
 <table  border="0" align="center" cellspacing="5">
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page1.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page3.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>

@@ -42,7 +42,7 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 
           <ol>
             <li><font size="+1">Think: Some advice on creating online simulations</font></li>
-              <li><font size="+1">Create: Use this tool to create online simulations</font></li>
+              <li><font size="+1"><a href="control_panel.jsp">Create</a>: Use this tool to create online simulations</font></li>
               <li><font size="+1">Play: Expose players to the simulations you have 
                 created and gain valuable feedback.</font></li>
               <li><font size="+1">Share: Compact and upload your Simulation to share 
@@ -50,12 +50,7 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
             </ol>
 
           </blockquote>
-        <p align="center">  
-          <% if (afso.isAdmin()) { %>
-          <a href="../simulation_admin/adminwebui.jsp" target="_top">Administrate</a> 
-          <% } %>
-          <br />
-          </font></p>        </td>
+</p>        </td>
     </tr>
             </table>			</td>
 		</tr>

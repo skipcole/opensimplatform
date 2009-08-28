@@ -38,7 +38,7 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
-<h1>Step 14. Write  starter 'After Action Report' text</h1>
+<br /><h1>Step 14. Write  starter 'After Action Report' text</h1>
 <blockquote>
   <p>a.) Click on the HTML button (shown in the image below) to put the editor window into HTML Mode.</p>
   <blockquote>

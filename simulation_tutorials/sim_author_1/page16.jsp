@@ -38,6 +38,7 @@ body {
   </tr>
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
+<br />
 <h1>Step 16. Publishing your simulation</h1>
 <blockquote>
   <p>a.) Observe the publishing form. It should similar to the form shown below.</p>
@@ -61,7 +62,7 @@ body {
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page15.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" -->On To Next Tutorial 'Simulation Conducting 1' --&gt;<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" -->On To Next Tutorial '<a href="../sim_conducting_1/index.jsp">Simulation Conducting 1</a>' --&gt;<!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

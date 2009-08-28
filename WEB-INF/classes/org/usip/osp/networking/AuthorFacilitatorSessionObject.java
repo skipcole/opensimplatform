@@ -64,7 +64,7 @@ public class AuthorFacilitatorSessionObject {
 	private boolean isAdmin = false;
 
 	/** Records if user is authorized to create simulations. */
-	private boolean isSimCreator = false;
+	private boolean isSimAuthor = false;
 
 	/** Records if user is authorized to facilitate simulations. */
 	private boolean isFacilitator = false;
@@ -1450,12 +1450,8 @@ public class AuthorFacilitatorSessionObject {
 		return isAdmin;
 	}
 
-	public boolean isSimCreator() {
-		return isSimCreator;
-	}
-
 	public boolean isAuthor() {
-		return isSimCreator;
+		return isSimAuthor;
 	}
 
 	public boolean isFacilitator() {
@@ -1784,7 +1780,9 @@ public class AuthorFacilitatorSessionObject {
 			if (user != null) {
 				afso.user_id = user.getId();
 				afso.isAdmin = user.isAdmin();
-				afso.isSimCreator = user.isSim_author();
+				afso.isSimAuthor = user.isSim_author();
+				afso.isFacilitator = user.isSim_instructor();
+				
 				afso.user_Display_Name = bu.getFull_name();
 				afso.user_email = bu.getUsername();
 
@@ -2019,7 +2017,7 @@ public class AuthorFacilitatorSessionObject {
 
 		User user = new User();
 
-		if ((!this.isAdmin) || (!this.isSimCreator)) {
+		if ((!this.isAdmin) || (!this.isSimAuthor)) {
 			errorMsg = "Not authorized to create administrative users.";
 			return user;
 		} else {

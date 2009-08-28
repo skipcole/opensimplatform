@@ -37,12 +37,34 @@ body {
     <td width="194" align="right" valign="top"></td>
   </tr>
 </table>
-<!-- InstanceBeginEditable name="pageBody" -->pageBody<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="pageBody" -->
+<br />
+<h1>Step. 7 Assign Players</h1>
+<blockquote>
+  <p>a.) Players must be assigned to a role. For example, the real student 'John Doe' maybe be assigned to the fictional role of 'UK Prime Minister.' The form shown below is the one you will use to make assignments.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_conduct_1_page7_assign_user.PNG" alt="Assign Players" width="659" height="353" border="1" /></p>
+    <p>Tip: Many people do not find this form intuitive, and so we will probably be changing it soon.</p>
+  </blockquote>
+  <p>b.) Assign players to your simulation. You do this by following the steps below:</p>
+  <ol>
+    <ol>
+      <li>Select the user's email address (which is also their username) from the pulldown menu.</li>
+      <li>Click the 'Assign User' Button for that row.</li>
+      <li>If you make a mistake, you can select the button with the minus symbol ('-') to remove an assignment.</li>
+      <li>When all of the red 'Not Assigned' labels have been replaced with email addresses, you are done.</li>
+    </ol>
+  </ol>
+  <p>c.) Click on the link 'Next step: Enable Simulation' to move to the next step.</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+</blockquote>
+<!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="index.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="index.jsp">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page2.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page6.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page8.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

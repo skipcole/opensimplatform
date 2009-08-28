@@ -61,7 +61,7 @@
             </tr>
         <tr valign="top"> 
           <td>5.</td>
-            <td><a href="assign_user_to_simulation.jsp">Assigns Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
+            <td><a href="assign_user_to_simulation.jsp">Assign Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
             </tr>
         <tr valign="top"> 
           <td>6.</td>

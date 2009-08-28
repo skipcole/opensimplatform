@@ -36,7 +36,6 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Create User</h1>
-              <br />
 			
       <p><font color="#FF0000"><%= afso.errorMsg %></font></p>
       <form action="create_user.jsp" method="post" name="form1" id="form1">
@@ -49,11 +48,6 @@
             <td>password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?)</a></td>
               <td><input type="text" name="password" tabindex="2"  value="<%= userOnScratchPad.getBu_password() %>"/></td>
             </tr>
-          <tr>
-            <td>Full Name:</td>
-      <td>
-        <input type="text" name="full_name" tabindex="3"  id="full_name" value="<%= userOnScratchPad.getBu_full_name() %>" />      </td>
-    </tr>
           <tr>
             <td>First Name:</td>
       <td>

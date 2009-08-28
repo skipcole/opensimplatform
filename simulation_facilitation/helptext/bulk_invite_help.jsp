@@ -6,16 +6,7 @@
 <!-- InstanceEndEditable --> 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css">
-<!-- InstanceBeginEditable name="head" -->
-<style type="text/css">
-<!--
-.style1 {
-	color: #0066CC;
-	font-weight: bold;
-}
--->
-</style>
-<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
 <style type="text/css">
 <!--
 body {
@@ -29,8 +20,9 @@ body {
 <!-- InstanceBeginEditable name="PageBody" -->
 <h1>Bulk Invite  </h1>
 <ul>
+  <li>Enter a set of email addresses separated by commas, or each on a separate line.</li>
   <li>If a user is already registered, you will be notified.</li>
-  <li>You will be able to check to see which of the players you have invited to register have actually done so when you attempt to assign players to the simulation.<br>
+  <li><em>Planned Functionality</em>: You will be able to check to see which of the players you have invited to register have actually done so when you attempt to assign players to the simulation.<br>
   </li>
 </ul>
 <!-- InstanceEndEditable --> 

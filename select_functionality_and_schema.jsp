@@ -46,7 +46,9 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform Select Program Section</h1></td>
+    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform -<br>
+    &nbsp;Select Program Section
+    </h1></td>
     <td align="right" background="Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
@@ -61,8 +63,6 @@ body {
     <td width="194" align="right" valign="top">		</td>
   </tr>
 </table>
-<BR />
-<p>&nbsp;</p>
 <table width="720" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="#DDDDFF">
 <tr> 
     <td width="24" height="24" >&nbsp;</td>
@@ -90,12 +90,12 @@ body {
                 
               <% if(user_in_this_schema.isSim_author()) { %>
               	<td width="25%" valign="top"><p align="center"><a href="simulation_authoring/creationwebui.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>&show_intro=true"><img src="images/authors.png" alt="Author Login" width="140" height="120"></a></p>
-              	  Use this section to author simulations</td>
-              <% } // end of if is author. %>
+              	  Use this section to author simulations.</td>
+                <% } // end of if is author. %>
                 
               <% if(user_in_this_schema.isSim_instructor()) {  %>  
               <td width="25%" valign="top"><p align="center"><a href="simulation_facilitation/facilitateweb.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/instructors.png" alt="Instructor Login" width="140" height="120"></a></p>
-                <p>Use this section to create running simulations, invite students and other common instructor tasks.</p></td>
+                <p>Use this section to create running simulations, invite students and perform other common instructor tasks.</p></td>
               <% } // end of if is instructor. %>
                 
               <td width="25%" valign="top"><p align="center"><a href="simulation/select_simulation.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/players.png" alt="Player Login" width="140" height="120"></a></p>

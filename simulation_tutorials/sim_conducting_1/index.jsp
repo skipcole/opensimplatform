@@ -57,11 +57,12 @@ body {
     <li><a href="page3.jsp">Create Running Simulation</a></li>
     <li><a href="page4.jsp">Create Schedule Page</a></li>
     <li><a href="page5.jsp">Bulk Invite Users</a></li>
-    <li>Create Users (?) </li>
-    <li>Assigns Players (?) </li>
-    <li>Enable Simulation (?)</li>
-    <li>Enter Simulation (?)</li>
-    <li></li>
+    <li><a href="page6.jsp">Create Users</a></li>
+    <li><a href="page7.jsp">Assign Players</a> </li>
+    <li><a href="page8.jsp">Enable Simulation</a></li>
+    <li><a href="page9.jsp">Enter Simulation</a> as the Facilitator</li>
+    <li><a href="page10.jsp">Enter Simulation</a> as a Player</li>
+    <li><a href="page11.jsp">Enter Simulation</a> as the Facilitator Again</li>
   </ol>
   <p>&nbsp;</p>
 </blockquote>

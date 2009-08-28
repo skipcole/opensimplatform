@@ -42,23 +42,23 @@
         <p>Please enter a set of emails below, separated by spaces, commas or carriage returns. Then modify the message text as you see fit, and hit send. The users will 
           receive an email inviting them to autoregister on the system. You will 
           then be able to add them as players in one of your simulations.</p>
-    <p>&nbsp;</p>
     <form action="bulk_invite.jsp" method="post" name="form1" id="form1">
       <input type="hidden" name="sending_page" value="bulk_invite" />
       <table width="100%" border="0" cellspacing="2" cellpadding="2">
         <tr valign="top"> 
-          <td width="34%">Email Addresses: (?) <br /> <br /> </td>
+          <td width="34%">Email Addresses: <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?)</a> <br />
+             <br /> </td>
                 <td width="66%"><br /> <p> 
                   <textarea name="setOfUsers" cols="60" rows="5"><%= afso.setOfUsers %></textarea>
                   </p>
                   <p>&nbsp;</p></td>
               </tr>
         <tr valign="top">
-          <td>Message Text: </td>
+          <td>Message Text: <a href="helptext/bulk_invite_message_text_help.jsp" target="helpinright">(?)</a></td>
                 <td><textarea name="defaultInviteEmailMsg" cols="60" rows="5"><%= afso.getDefaultInviteMessage() %></textarea></td>
               </tr>
         <tr valign="top">
-          <td>Look Up Code(?): (in case you want to)</td>
+          <td>Look Up Code <a href="helptext/bulk_invite_help_lookupcode.jsp" target="helpinright">(?)</a>:</td>
           <td><label>
             <input type="text" name="textfield" id="textfield" />
           </label></td>
