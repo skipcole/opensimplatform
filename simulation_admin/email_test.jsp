@@ -13,12 +13,13 @@
 		return;
 	}
 	
-	String e_to = "scole@usip.org";
-	String e_cc = "scole@usip.org";
-	String e_bcc = "scole@usip.org";
-	String e_from = "scole@usip.org";
-	String e_subject = "sub";
-	String e_text = "text";
+	String e_to = "";
+	String e_cc = "";
+	String e_bcc = "";
+	String e_from = "";
+	String e_subject = "";
+	String e_text = "";
+	String e_schema = "";
 	
 	String debug = "okay";
 
@@ -33,8 +34,10 @@
 		e_from = (String) request.getParameter("e_from");
 		e_subject = (String) request.getParameter("e_subject");
 		e_text = (String) request.getParameter("e_text");
+		e_schema = (String) request.getParameter("e_schema");
 	
-		debug = Emailer.postSimReadyMail(e_to, e_from, e_cc, e_subject, e_text);
+		debug = Emailer.postSimReadyMail(e_schema, e_to, e_from, e_cc, e_bcc, e_subject, e_text);
+		
 	}
 	
 %>
@@ -57,7 +60,8 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Test Email Functionality</h1>
+              <h1>Test Email </h1>
+              <h1>(Functionality in Progress)</h1>
               <br />
       <form name="form2" id="form2" method="post" action="">
         <table width="80%" border="0" cellspacing="2" cellpadding="1">
@@ -85,6 +89,10 @@
             <td>Text:</td>
         <td><input type="text" name="e_text"  value="<%= e_text %>"/></td>
       </tr>
+          <tr>
+            <td>Schema:</td>
+            <td><input type="text" name="e_schema"  value="<%= e_schema %>"/></td>
+          </tr>
           <tr> 
             <td>&nbsp;</td>
         <td><input type="hidden" name="sending_page" value="email_test" />

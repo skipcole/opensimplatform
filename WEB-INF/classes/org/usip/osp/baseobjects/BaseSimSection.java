@@ -86,7 +86,13 @@ public class BaseSimSection implements Comparable {
 	 */
 	public static Long checkInstalled(String schema, BaseSimSection bss){
 		
-		BaseSimSection correspondingBss = getByName(schema, bss.creatingOrganization, bss.uniqueName, bss.version);
+		BaseSimSection correspondingBss = null;
+		
+		try {
+			correspondingBss = getByName(schema, bss.creatingOrganization, bss.uniqueName, bss.version);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 		
 		if (correspondingBss == null){
 			return null;

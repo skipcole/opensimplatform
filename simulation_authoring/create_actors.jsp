@@ -11,12 +11,6 @@
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		
-		///////////////////////////////////////////////////////////////////
-		Simulation simulation = new Simulation();
-		if (afso.sim_id != null) {
-			simulation = afso.giveMeSim();
-		}
 
 		afso.handleCreateActor(request);
 		
@@ -32,8 +26,14 @@
 
 		boolean inEditMode = false;
 		
-		// ////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////
 		List actorL = Actor.getAll(afso.schema);
+		///////////////////////////////////////////////////////////////////
+		Simulation simulation = new Simulation();
+		if (afso.sim_id != null) {
+			simulation = afso.giveMeSim();
+			actorL = Actor.getAllForSimulation(afso.schema, afso.sim_id);
+		}
 		// ///////////////////////////////////////////////////////////////////////
 
 %>
@@ -212,7 +212,7 @@ if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.ge
     <% } %>
 
     <hr />
-    <p>Below are listed alphabetically all of the current Actors.</p>
+    <p>Below are listed alphabetically all of the current Actors associated with this simulation.</p>
     <blockquote> 
       <table>
         <%

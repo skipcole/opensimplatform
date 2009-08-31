@@ -104,6 +104,24 @@ public class Actor {
     }
     
     /**
+     * Returns all of the actors found in a schema.
+     * 
+     * @param schema
+     * @return
+     */
+    public static List getAllForSimulation(String schema, Long sim_id){
+        
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Actor where sim_id = '" + sim_id + "' order by actor_name").list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+    }
+    
+    /**
      * Returns a particular actor.
      * 
      * @param schema
