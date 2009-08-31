@@ -40,9 +40,9 @@
                     </tr>
                     <tr valign="top">
                       <td>&nbsp;</td>
-                      <td><a href="../osp_install/index.jsp" target="_top">Installation Instructions</a></td>
+                      <td><a href="install_edit_db.jsp">Edit / Install Databases</a></td>
                       <td>&nbsp;</td>
-                      <td>These should already have been used. A link here is included for reference. </td>
+                      <td>Edit or install a new database. </td>
                     </tr>
                     <tr valign="top">
                       <td>&nbsp;</td>

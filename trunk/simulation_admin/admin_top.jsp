@@ -43,7 +43,7 @@ body {
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
         <tr>
-          <td><div align="center"><a href="../simulation_authoring/creationwebui.jsp?show_intro=true" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="adminwebui.jsp?show_intro=true" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
           <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp"  target="bodyinleft" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
@@ -69,7 +69,7 @@ body {
 		<td bgcolor="#475DB0"><a href="../simulation_facilitation/playweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;PLAY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td>
         <td bgcolor="#475DB0"><a href="../simulation_sharing/index.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;SHARE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-        <td bgcolor="#9AABE1"><a href="#" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;ADMINISTRATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+        <td bgcolor="#9AABE1"><a href="adminwebui.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;ADMINISTRATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		   </tr>
 		</table>
 	<% } %></td>
