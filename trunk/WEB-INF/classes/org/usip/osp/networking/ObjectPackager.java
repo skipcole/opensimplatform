@@ -36,6 +36,16 @@ import org.apache.log4j.*;
 public class ObjectPackager {
 
 	public static final String lineTerminator = "\r\n"; //$NON-NLS-1$
+	
+	/** Creates an opening tag for the XML surrounding an object. */
+	public static String makeOpenTag(Class thisClass){
+		return "<" + thisClass.getName() + ">";
+	}
+	
+	/** Creates a closing tag for the XML surrounding an object. */
+	public static String makeCloseTag(Class thisClass){
+		return "</" + thisClass.getName() + ">";
+	}
 
 	public static void main(String[] args) {
 
@@ -222,11 +232,11 @@ public class ObjectPackager {
 
 			BaseSimSection bss = BaseSimSection.getMe(schema, thisBaseId.toString());
 
-			if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.BaseSimSection")) { //$NON-NLS-1$
+			if (bss.getClass().getName().equalsIgnoreCase(BaseSimSection.class.getName())) { 
 				bss.setTransit_id(bss.getId());
 				bss.setId(null);
 				returnString += xstream.toXML(bss) + lineTerminator;
-			} else if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.CustomizeableSection")) { //$NON-NLS-1$
+			} else if (bss.getClass().getName().equalsIgnoreCase(CustomizeableSection.class.getName())) { 
 
 				bss = null;
 				CustomizeableSection cbss = CustomizeableSection.getMe(schema, thisBaseId.toString());
@@ -363,8 +373,8 @@ public class ObjectPackager {
 
 		String fullString = FileIO.getFileContents(new File(fileLocation));
 
-		String simString = getObjectFromFile(fullString, "<org.usip.osp.baseobjects.Simulation>", //$NON-NLS-1$
-				"</org.usip.osp.baseobjects.Simulation>"); //$NON-NLS-1$
+		String simString = getObjectFromFile(fullString, makeOpenTag(Simulation.class), 
+				makeCloseTag(Simulation.class)); //$NON-NLS-1$
 
 		Simulation simRead = (Simulation) xstream.fromXML(simString);
 
@@ -398,8 +408,8 @@ public class ObjectPackager {
 
 		String fullString = FileIO.getFileContents(new File(fileLocation));
 
-		String simString = getObjectFromFile(fullString, "<org.usip.osp.baseobjects.Simulation>", //$NON-NLS-1$
-				"</org.usip.osp.baseobjects.Simulation>"); //$NON-NLS-1$
+		String simString = getObjectFromFile(fullString, makeOpenTag(Simulation.class), //$NON-NLS-1$
+				makeCloseTag(Simulation.class)); //$NON-NLS-1$
 
 		Simulation simRead = (Simulation) xstream.fromXML(simString);
 
@@ -486,8 +496,8 @@ public class ObjectPackager {
 		Hashtable<String, String> setOfObjectClassesToGet = new Hashtable();
 
 		List<String> bssdoa_list = getSetOfObjectFromFile(fullString,
-				"<org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>",
-				"</org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>");
+				makeOpenTag(BaseSimSectionDepObjectAssignment.class),
+				makeCloseTag(BaseSimSectionDepObjectAssignment.class));
 		for (ListIterator<String> li_i = bssdoa_list.listIterator(); li_i.hasNext();) {
 			String sd_string = li_i.next();
 
@@ -578,8 +588,8 @@ public class ObjectPackager {
 		List subSectionIdsToClean = new ArrayList();
 		Hashtable ssidsHash = new Hashtable();
 		
-		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.SimulationSectionAssignment>",
-				"</org.usip.osp.baseobjects.SimulationSectionAssignment>");
+		List bsss = getSetOfObjectFromFile(fullString, makeOpenTag(SimulationSectionAssignment.class),
+				makeCloseTag(SimulationSectionAssignment.class));
 		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
 			String act_string = li_i.next();
 
@@ -634,8 +644,8 @@ public class ObjectPackager {
 
 		String returnString = "";
 
-		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.CustomizeableSection>",
-				"</org.usip.osp.baseobjects.CustomizeableSection>");
+		List bsss = getSetOfObjectFromFile(fullString, makeOpenTag(CustomizeableSection.class),
+				makeCloseTag(CustomizeableSection.class));
 
 		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
 			String act_string = li_i.next();
@@ -676,8 +686,8 @@ public class ObjectPackager {
 
 		String returnString = "";
 
-		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.CustomizeableSection>",
-				"</org.usip.osp.baseobjects.CustomizeableSection>");
+		List bsss = getSetOfObjectFromFile(fullString, makeOpenTag(CustomizeableSection.class),
+				makeCloseTag(CustomizeableSection.class));
 		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
 			String act_string = li_i.next();
 
@@ -710,8 +720,8 @@ public class ObjectPackager {
 
 		String returnString = "";
 
-		List bsss = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.BaseSimSection>",
-				"</org.usip.osp.baseobjects.BaseSimSection>");
+		List bsss = getSetOfObjectFromFile(fullString, makeOpenTag(BaseSimSection.class),
+				makeCloseTag(BaseSimSection.class));
 
 		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
 			String act_string = li_i.next();
@@ -754,8 +764,8 @@ public class ObjectPackager {
 
 		ArrayList actorNames = Actor.getAllActorNames(schema);
 
-		List actors = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.Actor>",
-				"</org.usip.osp.baseobjects.Actor>");
+		List actors = getSetOfObjectFromFile(fullString, makeOpenTag(Actor.class),
+				makeCloseTag(Actor.class));
 		for (ListIterator<String> li_i = actors.listIterator(); li_i.hasNext();) {
 			String act_string = li_i.next();
 
@@ -790,8 +800,8 @@ public class ObjectPackager {
 			Hashtable phaseIdMappings) {
 
 		String returnString = "";
-		List phases = getSetOfObjectFromFile(fullString, "<org.usip.osp.baseobjects.SimulationPhase>",
-				"</org.usip.osp.baseobjects.SimulationPhase>");
+		List phases = getSetOfObjectFromFile(fullString, makeOpenTag(SimulationPhase.class),
+				makeCloseTag(SimulationPhase.class));
 		for (ListIterator<String> li_i = phases.listIterator(); li_i.hasNext();) {
 			String phase_string = li_i.next();
 
@@ -824,8 +834,8 @@ public class ObjectPackager {
 		String returnString = "Unpackaging Inject Groups and Injects.";
 		Hashtable injectGroupIds = new Hashtable();
 
-		List injectGroups = getSetOfObjectFromFile(fullString, "<org.usip.osp.communications.InjectGroup>",
-				"</org.usip.osp.communications.InjectGroup>");
+		List injectGroups = getSetOfObjectFromFile(fullString, makeOpenTag(InjectGroup.class),
+				makeCloseTag(InjectGroup.class));
 
 		for (ListIterator<String> li_i = injectGroups.listIterator(); li_i.hasNext();) {
 			String injectGroup_string = li_i.next();
@@ -839,8 +849,8 @@ public class ObjectPackager {
 
 		}
 
-		List injects = getSetOfObjectFromFile(fullString, "<org.usip.osp.communications.Inject>",
-				"</org.usip.osp.communications.Inject>");
+		List injects = getSetOfObjectFromFile(fullString, makeOpenTag(Inject.class),
+				makeCloseTag(Inject.class));
 
 		for (ListIterator<String> li_i = injects.listIterator(); li_i.hasNext();) {
 			String inject_string = li_i.next();

@@ -60,7 +60,44 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Test Email </h1>
+              <h1>Current Installlation Email Parameters</h1>
+              <p>Below are the values for the principal schema. This information is pulled out of the properties file, and is used when users attempt to retrieve their password.</p>
+              
+              <form id="form1" name="form1" method="post" action="">
+              <table border="1" cellspacing="2" cellpadding="0">
+                <tr>
+                  <td width="60%" valign="top">email_archive_address</td>
+                  <td width="40%" valign="top"><input type="text" name="textfield2" id="textfield2" value="<%= USIP_OSP_Properties.getValue("email_archive_address") %>" /></td>
+                </tr>
+                <tr>
+                  <td valign="top">email_smtp</td>
+                  <td valign="top"><input type="text" name="textfield" id="textfield" value="<%= USIP_OSP_Properties.getValue("email_smtp") %>" /></td>
+                </tr>
+                <tr>
+                  <td valign="top">schema_organization</td>
+                  <td valign="top"><input type="text" name="textfield" id="textfield" value="<%= USIP_OSP_Properties.getValue("schema_organization") %>" /></td>
+                </tr>
+                <tr>
+                  <td valign="top">smtp_auth_password</td>
+                  <td valign="top"><input type="text" name="textfield" id="textfield" value="<%= USIP_OSP_Properties.getValue("smtp_auth_password") %>" /></td>
+                </tr>
+                <tr>
+                  <td valign="top">smtp_auth_user</td>
+                  <td valign="top"><input type="text" name="textfield" id="textfield" value="<%= USIP_OSP_Properties.getValue("smtp_auth_user") %>" /></td>
+                </tr>
+                <tr>
+                  <td valign="top"><p>Make Changes:</p>
+                    <p>(<strong><em>Coming Soon!</em></strong>)</p></td>
+                  <td valign="top">
+                    <input type="submit" name="button" id="button" value="Submit" disabled="disabled" />
+                  
+                  </td>
+                </tr>
+              </table>
+              </form>
+              <p>&nbsp;</p>
+              <p>&nbsp;</p>
+              <h1>Send Test Email </h1>
               <h1>(Functionality in Progress)</h1>
               <br />
       <form name="form2" id="form2" method="post" action="">

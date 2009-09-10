@@ -70,7 +70,7 @@
 				}
 		%>
                 <tr> 
-                  <td><a href="administrate_users.jsp"><%= rs.getName() %></a></td>
+                  <td><a href="administrate_users.jsp?rs_id=<%= rs.getId() %>"><%= rs.getName() %></a></td>
               <td><%= sp.getName() %></td>
             </tr>
                 <%
