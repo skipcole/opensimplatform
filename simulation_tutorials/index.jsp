@@ -49,7 +49,7 @@ body {
       </li>
     </ol>
   </li>
-  <li><a href="index.jsp">Simulation Conducting 1</a> -  This tutorial will introduce you to all of the steps necessecary to conduct an online simulation: creating a play session, establishing a schedule, inviting player, etc. <br />
+  <li><a href="sim_conducting_1/index.jsp">Simulation Conducting 1</a> -  This tutorial will introduce you to all of the steps necessecary to conduct an online simulation: creating a play session, establishing a schedule, inviting player, etc. <br />
   Requirements:
     <ol>
       <li> In this tutorial you will set up a play session for the simulation you created in the previous tutorial 'Simulation Authoring.' </li>

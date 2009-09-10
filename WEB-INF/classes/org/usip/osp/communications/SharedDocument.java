@@ -318,7 +318,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	public static String getBaseDocsForBaseSimSection(String schema, Long bss_id, Long this_id) {
 
 		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' and " + //$NON-NLS-1$ //$NON-NLS-2$
-			" className = 'org.usip.osp.communications.SharedDocument'"; //$NON-NLS-1$
+			" className = '" + SharedDocument.class.getName() + "'"; //$NON-NLS-1$
 
 		Logger.getRootLogger().debug(getString);
 
