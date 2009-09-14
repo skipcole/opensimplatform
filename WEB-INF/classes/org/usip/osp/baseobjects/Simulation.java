@@ -393,17 +393,13 @@ public class Simulation {
 	 */
 	public static List getAllPublishedAutoRegisterable(String schema) {
 
-		List returnList = new ArrayList();
-		List firstList = getAllPublished(schema);
+		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		for (ListIterator<Simulation> li = firstList.listIterator(); li.hasNext();) {
-			Simulation this_sim = li.next();
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Simulation where READYFORLISTING = '1' and allow_player_autoreg = '1'") //$NON-NLS-1$
+				.list();
 
-			if (this_sim.isAllow_player_autoreg()) {
-				returnList.add(this_sim);
-			}
-
-		}
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}

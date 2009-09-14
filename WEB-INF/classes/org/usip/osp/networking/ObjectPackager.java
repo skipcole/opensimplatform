@@ -107,7 +107,7 @@ public class ObjectPackager {
 
 		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>" + lineTerminator; //$NON-NLS-1$
 
-		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRawValue("release") + "</OSP_VERSION>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRelease() + "</OSP_VERSION>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				+ lineTerminator;
 
 		Date today = new Date();
@@ -872,7 +872,7 @@ public class ObjectPackager {
 	 * @param thisName
 	 * @return
 	 */
-	public static String getUniqueUsersName(ArrayList<String> listOfNames, String thisName) {
+	public static String getUniqueUsersName(List<String> listOfNames, String thisName) {
 
 		if (!(listOfNames.contains(thisName))) {
 			listOfNames.add(thisName);

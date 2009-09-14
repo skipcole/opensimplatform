@@ -58,16 +58,16 @@ public class USIP_OSP_Properties {
         try {
             resourceBundle = ResourceBundle.getBundle("USIP_OSP_Properties", new Locale("en", "US")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-            if ((os_name == null) || (!(os_name.equalsIgnoreCase("SunOS")))){ //$NON-NLS-1$
-            	environment_name = "_local"; //$NON-NLS-1$
-            } else {
-            	environment_name = "_remote"; //$NON-NLS-1$
-            }
+           	environment_name = getRawValue("environment_name");
             
         } catch (Exception e) {
             Logger.getRootLogger().debug("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
         }
     }
+	
+	public static String getRelease(){
+		return USIP_OSP_Properties.getRawValue("release");
+	}
     
     /**
      * Gets a value for a property based on default environment value.

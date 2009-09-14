@@ -4,12 +4,16 @@
 #
 
 ################################################################
-# Change the line below to change development environments
-#environment_name=_local
-#environment_name=_remote
+# Change the environment name line below to change environments
+# 
+# You Must declare one environment name. Whatevere this name is, for example '_remote', you will add this to the end 
+# of each of your environment variables. This was designed to allow you keep multiple sets of environment variables in
+# one properties file.
 
-release=0.0.7
-next_planned_outage=Night of August 23 (Morning of August 24) 2009
+environment_name=_remote
+
+release=0.0.0
+next_planned_outage=TBD
 
 ##################################################################
 # For remote testing
@@ -47,34 +51,6 @@ base_sim_url_remote=http://dev.opensimplatform.org/
 simulation_url_remote=http://dev.opensimplatform.org/simulation/
 uploads_remote=/usr/local/etc/httpd/sites/peaceplatform.org/catalina/bin/uploads
 
-##################################################################
-###################################################################
-# For local testing
-# Note, We want eventually to set an APACHE_HOME variable to C:\apache\tomcat
-base_web_dir_local=C:\\apache\\tomcat\\webapps\\usip_osp\\
-base_section_web_dir_local=C:\\apache\\tomcat\\webapps\\usip_osp\\simulation_section_information\\
-model_dir_local=C:\\apache\\tomcat\\webapps\\usip_osp\\simulation_model_information\\
-actor_image_dir_local=C:\\apache\\tomcat\\webapps\\usip_osp\\osp_core\\images\\actors\\
-packaged_sim_dir_local=C:\\apache\\tomcat\\webapps\\usip_osp\\simulation_sharing\\packaged_simulations\\
-sim_image_dir_local=C:\\apache\\tomcat\\webapps\\usip_osp\\simulation\\images\\
-
-conn_string_local=jdbc:mysql://localhost:3306/test?user=skip&password=password
-
-principalschema_local=usiposp
-schema_local=usiposp
-username_local=root
-password_local=password
-loc_local=jdbc:mysql://localhost:
-port_local=3306
-osp_admin_email_local=me@skipcole.com
-
-wipe_database_key_local=local
-
-dialect_local=org.hibernate.dialect.MySQLInnoDBDialect
-driver_class_local=com.mysql.jdbc.Driver
-base_sim_url_local=http://localhost:8080/usip_osp/
-simulation_url_local=http://localhost:8080/usip_osp/simulation/index.jsp
-uploads_local=C:\\apache\\tomcat\\work\\Catalina\\bin\\uploads\\
 
 ###########################################################################
 unittest_principalschema_local=usiposp

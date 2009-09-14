@@ -184,12 +184,13 @@ public class RunningSimulation {
 				try {
 					Class objClass = Class.forName(bssdoa.getClassName());
 					
+					// We start and finish the transaction here since the next step will also involve a transaction.
 					MultiSchemaHibernateUtil.beginTransaction(schema);
 					SimSectionDependentObject template_obj = (SimSectionDependentObject)
 						MultiSchemaHibernateUtil.getSession(schema).get(objClass, bssdoa.getObjectId());
 					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 					
-					// Create object
+					// Create object - uses its own hibernate transaction to create object.
 					thisRSVersionsId = template_obj.createRunningSimVersion(schema, 
 							sim.getId(), this.id, template_obj);
 					
@@ -326,7 +327,7 @@ public class RunningSimulation {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<RunningSimulation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from RunningSimulation where sim_id = " + simid).list(); //$NON-NLS-1$
+				"from RunningSimulation where sim_id = :sim_id").setString("sim_id", simid).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

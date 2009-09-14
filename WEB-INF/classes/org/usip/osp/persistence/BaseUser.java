@@ -156,8 +156,10 @@ public class BaseUser {
 
         List sList = MultiSchemaHibernateUtil.getSession(
                 MultiSchemaHibernateUtil.principalschema, true).createQuery(
-                "from BaseUser where USERNAME = '" + username //$NON-NLS-1$
-                        + "' AND PASSWORD = '" + password + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
+                "from BaseUser where USERNAME = :username AND PASSWORD = :password ")
+                .setString("username", username)
+                .setString("password", password)
+                .list(); //$NON-NLS-1$ 
 
         if ((sList == null) || (sList.size() == 0)) {
             MultiSchemaHibernateUtil.getSession(

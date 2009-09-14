@@ -303,8 +303,9 @@ public class SchemaInformationObject {
 
 		List sList = MultiSchemaHibernateUtil.getSession(
 				MultiSchemaHibernateUtil.principalschema, true).createQuery(
-				"from SchemaInformationObject where SCHEMANAME = '" //$NON-NLS-1$
-						+ schemaName + "'").list(); //$NON-NLS-1$
+				"from SchemaInformationObject where SCHEMANAME = :schemaName ")
+				.setString("schemaName", schemaName)
+				.list(); //$NON-NLS-1$
 
 		if ((sList != null) && (sList.size() == 1)) {
 			SchemaInformationObject sio = (SchemaInformationObject) sList
@@ -368,8 +369,9 @@ public class SchemaInformationObject {
 
 		List sList = MultiSchemaHibernateUtil.getSession(
 				MultiSchemaHibernateUtil.principalschema, true).createQuery(
-				"from SchemaInformationObject where SCHEMANAME = '" //$NON-NLS-1$
-						+ schemaName + "'").list(); //$NON-NLS-1$
+				"from SchemaInformationObject where SCHEMANAME = :schemaName ")
+				.setString("schemaName", schemaName)	
+				.list(); //$NON-NLS-1$
 
 		if ((sList != null) && (sList.size() == 1)) {
 			SchemaInformationObject sio = (SchemaInformationObject) sList
