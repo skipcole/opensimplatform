@@ -59,7 +59,7 @@ body {
   <tr> 
     <td colspan="3" background="Templates/images/page_bg.png" ><P>&nbsp;</P>
       <h1 align="center">&nbsp;&nbsp;&nbsp;USIP Open Simulation Platform <br>
-        &nbsp;&nbsp;&nbsp;(Release <%= USIP_OSP_Properties.getRawValue("release") %>)<br> 
+        &nbsp;&nbsp;&nbsp;(Release <%= USIP_OSP_Properties.getRelease() %>)<br> 
         <br>
       </h1>
       <form name="form1" method="post" action="login.jsp" target="_top">

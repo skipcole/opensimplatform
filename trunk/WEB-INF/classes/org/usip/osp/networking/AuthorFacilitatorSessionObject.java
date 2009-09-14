@@ -207,14 +207,15 @@ public class AuthorFacilitatorSessionObject {
 		return returnSP;
 	}
 
+	/** Turns a string into an int. */
 	public int string2Int(String input) {
 
 		int returnX = 0;
 
 		try {
-			returnX = new Integer(input).intValue();
+			returnX = Integer.parseInt(input);
 		} catch (Exception e) {
-			// Let it slide
+			e.printStackTrace();
 		}
 
 		return returnX;
@@ -1043,7 +1044,7 @@ public class AuthorFacilitatorSessionObject {
 
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
-				simulation.setSoftware_version(USIP_OSP_Properties.getRawValue("release"));
+				simulation.setSoftware_version(USIP_OSP_Properties.getRelease());
 				simulation.setCreation_org(creation_org);
 				simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);

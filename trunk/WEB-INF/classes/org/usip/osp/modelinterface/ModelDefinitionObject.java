@@ -334,12 +334,17 @@ public class ModelDefinitionObject implements Comparable{
 			String modelName, String modelVersion) {
 		ModelDefinitionObject mdo = null;
 
-		String queryString = "from ModelDefinitionObject where creatingOrganization = '" + creatingOrganization + "' " //$NON-NLS-1$ //$NON-NLS-2$
-				+ "AND modelName = '" + modelName + "' AND modelVersion = '" + modelVersion + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		String queryString = "from ModelDefinitionObject where creatingOrganization = :creatingOrganization " //$NON-NLS-1$ 
+				+ "AND modelName = :modelName AND modelVersion = :modelVersion "; //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<ModelDefinitionObject> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
+		List<ModelDefinitionObject> returnList = 
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString)
+			.setString("creatingOrganization", creatingOrganization)
+			.setString("modelName", modelName)
+			.setString("modelVersion", modelVersion)
+			.list();
 
 		if ((returnList != null) && (returnList.size() > 0)){
 			mdo = returnList.get(0);

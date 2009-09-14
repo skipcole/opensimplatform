@@ -95,6 +95,10 @@ public class SimulationSectionAssignment {
 	/** The id of the base section that this section was 'cast' from. */
 	@Column(name = "BASE_SEC_ID")
 	private Long base_sec_id;
+	
+	private String baseUniqueName = ""; //$NON-NLS-1$
+	
+	private String baseVersion = ""; //$NON-NLS-1$
 
 	/** URL of this section */
 	@Column(name = "SIMSEC_URL")
@@ -262,6 +266,12 @@ public class SimulationSectionAssignment {
 		this.setDirectory(bss.getDirectory());
 
 		this.setPage_file_name(bss.getPage_file_name());
+		
+		// These variables are not strictly needed, but it is convenient to keep them to help sanity check a 
+		// simulation that has been imported. The 'id' of a base simulation section may easily change, but its name and version
+		// should be similar.
+		this.setBaseUniqueName(bss.getUniqueName());
+		this.setBaseVersion(bss.getVersion());
 
 		// Inside a phase, the section can have different tab headings and
 		// positions.
@@ -949,6 +959,38 @@ public class SimulationSectionAssignment {
 
 	public void setAddedAsUniversalSection(boolean addedAsUniversalSection) {
 		this.addedAsUniversalSection = addedAsUniversalSection;
+	}
+
+	public String getSendString() {
+		return sendString;
+	}
+
+	public void setSendString(String sendString) {
+		this.sendString = sendString;
+	}
+
+	public Long getBase_sec_id() {
+		return base_sec_id;
+	}
+
+	public void setBase_sec_id(Long base_sec_id) {
+		this.base_sec_id = base_sec_id;
+	}
+
+	public String getBaseUniqueName() {
+		return baseUniqueName;
+	}
+
+	public void setBaseUniqueName(String base_unique_name) {
+		this.baseUniqueName = base_unique_name;
+	}
+
+	public String getBaseVersion() {
+		return baseVersion;
+	}
+
+	public void setBaseVersion(String base_version) {
+		this.baseVersion = base_version;
 	}
 
 }
