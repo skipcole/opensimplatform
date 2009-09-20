@@ -1058,7 +1058,7 @@ public class AuthorFacilitatorSessionObject {
 				simulation = Simulation.getMe(schema, new Long(sim_id));
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
-				simulation.setSoftware_version(USIP_OSP_Properties.getRawValue("release"));
+				simulation.setSoftware_version(USIP_OSP_Properties.getRelease());
 				simulation.setCreation_org(creation_org);
 				// simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
@@ -2347,26 +2347,6 @@ public class AuthorFacilitatorSessionObject {
 		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
 
-	/**
-	 * 
-	 * @param request
-	 * @param sd
-	 */
-	public void handleWriteDocument(HttpServletRequest request, SharedDocument sd) {
-
-		String sending_page = (String) request.getParameter("sending_page");
-		String update_text = (String) request.getParameter("update_text");
-
-		if ((sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("write_document"))) {
-
-			String write_document_text = (String) request.getParameter("write_document_text");
-
-			sd.setBigString(write_document_text);
-			sd.saveMe(schema);
-
-		} // End of if coming from this page and have added text
-
-	}
 
 	public boolean handleResetWebCache(HttpServletRequest request) {
 

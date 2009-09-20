@@ -59,7 +59,7 @@ function getSimRound()
 			
 			if (my_status == "logout"){
 				alert("You have been logged out.");
-			 	top.document.location="logout.jsp";
+			 	top.document.location="../logout.jsp";
 			} else {
 				//document.getElementById('sim_round_div').innerHTML = array0[0];
 				document.getElementById('sim_phase_div').innerHTML = sim_phase;

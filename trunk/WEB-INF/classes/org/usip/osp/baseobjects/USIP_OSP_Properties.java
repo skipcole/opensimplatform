@@ -22,9 +22,6 @@ import org.apache.log4j.*;
 public class USIP_OSP_Properties {
 
     private static ResourceBundle resourceBundle;
-    
-    /** This sets the set of properties we will be looking at */
-    private static String environment_name = "_local"; //$NON-NLS-1$
 
     /** A Hashtable of stored values to avoid re-reading of them. */
     private static Hashtable<String, String> hashedValues = new Hashtable<String, String>();
@@ -34,7 +31,7 @@ public class USIP_OSP_Properties {
     
     public static String getNextPlannedDowntime() {
     	if (nextPlannedDowntime == null) {
-    		nextPlannedDowntime = USIP_OSP_Properties.getRawValue("next_planned_outage");
+    		nextPlannedDowntime = USIP_OSP_Properties.getValue("next_planned_outage");
     		return nextPlannedDowntime;
     	} else {
     		return nextPlannedDowntime;
@@ -57,16 +54,18 @@ public class USIP_OSP_Properties {
     	
         try {
             resourceBundle = ResourceBundle.getBundle("USIP_OSP_Properties", new Locale("en", "US")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
-           	environment_name = getRawValue("environment_name");
             
         } catch (Exception e) {
             Logger.getRootLogger().debug("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
         }
     }
 	
+	/**
+	 * This method returns the release number which is stored here.
+	 * @return
+	 */
 	public static String getRelease(){
-		return USIP_OSP_Properties.getRawValue("release");
+		return "0.0.9";
 	}
     
     /**
@@ -75,7 +74,7 @@ public class USIP_OSP_Properties {
      * @return
      */
     public static String getValue(String propertyName){
-    	return getValue(propertyName, environment_name);
+    	return getCachedValue(propertyName);
     }
     
     /**
@@ -85,17 +84,15 @@ public class USIP_OSP_Properties {
      * @param envName
      * @return
      */
-    public static String getValue(String propertyName, String envName){
+    public static String getCachedValue(String propertyName){
     	
-    	String fullKey = propertyName + envName;
-    	
-    	String cachedAnswer = hashedValues.get(fullKey);
+    	String cachedAnswer = hashedValues.get(propertyName);
     	
     	if (cachedAnswer == null){
-    		cachedAnswer = resourceBundle.getString(fullKey);
+    		cachedAnswer = resourceBundle.getString(propertyName);
     		
     		if (cachedAnswer != null){
-    			hashedValues.put(fullKey, cachedAnswer);
+    			hashedValues.put(propertyName, cachedAnswer);
     		}
     		
     	}

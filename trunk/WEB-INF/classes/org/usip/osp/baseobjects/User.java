@@ -530,5 +530,20 @@ public class User {
 	public void setBu_password(String bu_password) {
 		this.bu_password = bu_password;
 	}
+	
+	
+	/**
+	 * If someone is just a player in this schema, return true, else return false.
+	 */
+	public boolean isJustPlayer(){
+		if (
+				(!(this.isAdmin())) &&
+				(!(this.isSim_author())) &&
+				(!(this.isSim_instructor()))
+				){
+			return true;
+		}
+		return false;
+	}
 
 }
