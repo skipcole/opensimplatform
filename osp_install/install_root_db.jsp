@@ -32,6 +32,7 @@ body {
 	background-image: url(../Templates/images/page_bg.png);
 	background-repeat: repeat-x;
 }
+.style1 {color: #FF0000}
 -->
 </style>
 </head>
@@ -79,8 +80,9 @@ body {
         <blockquote><%= error_msg %></blockquote>
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
           <tr>
-            <td valign="top">Wipe Database Key</td>
-            <td><label>
+            <td valign="top"><p>Wipe Database Key</p>
+            <p class="style1">(The key you enter must match the corresponding key located in the properties file. This is to prevent accidental database eradication.)</p></td>
+            <td valign="top"><label>
               <input type="text" name="wipe_database_key" id="textfield" />
             </label></td>
           </tr>

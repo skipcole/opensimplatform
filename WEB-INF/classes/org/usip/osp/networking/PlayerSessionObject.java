@@ -1265,6 +1265,27 @@ public class PlayerSessionObject {
 
 	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @param sd
+	 */
+	public void handleWriteDocument(HttpServletRequest request, SharedDocument sd) {
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String update_text = (String) request.getParameter("update_text");
+
+		if ((sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("write_document"))) {
+
+			String write_document_text = (String) request.getParameter("write_document_text");
+
+			sd.setBigString(write_document_text);
+			sd.saveMe(schema);
+
+		} // End of if coming from this page and have added text
+
+	}
+	
 	/** Round being displayed */
 	private String simulation_round = "0"; //$NON-NLS-1$
 

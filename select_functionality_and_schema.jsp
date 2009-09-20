@@ -20,6 +20,13 @@
 	// If this is the case, forward them on.
 	if ((ghostList != null) && (ghostList.size() == 1)){
 	
+		SchemaGhost this_sg = (SchemaGhost) ghostList.get(0);
+		User user_in_this_schema = User.getMe(this_sg.getSchema_name() , osp_soh.getUserid());
+	
+		if (user_in_this_schema.isJustPlayer()){
+			response.sendRedirect("simulation/select_simulation.jsp?initial_entry=true&schema_id=" + this_sg.getId());
+			return;
+		}
 	}
 		
 %>
