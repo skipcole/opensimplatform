@@ -19,7 +19,8 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * conversation, shared document, variable, etc.) to a particular simulation
  * section.
  *
- * 
+ */
+/* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can

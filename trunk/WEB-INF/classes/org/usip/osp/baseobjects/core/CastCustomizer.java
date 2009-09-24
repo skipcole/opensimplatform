@@ -6,7 +6,7 @@ import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.apache.log4j.*;
 
 
-/**
+/*
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

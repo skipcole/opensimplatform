@@ -17,7 +17,8 @@ import org.apache.log4j.*;
  * This class represents sections that can be given to an actor at any given
  * phase of the game.
  *
- * 
+ */
+/* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can

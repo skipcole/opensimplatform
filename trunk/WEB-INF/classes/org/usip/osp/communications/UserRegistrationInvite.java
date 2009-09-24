@@ -7,7 +7,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
-/**
+/*
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

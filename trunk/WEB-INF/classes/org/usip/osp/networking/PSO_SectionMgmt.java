@@ -21,7 +21,7 @@ import org.usip.osp.specialfeatures.Trigger;
 
 import com.oreilly.servlet.MultipartRequest;
 
-/**
+/*
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

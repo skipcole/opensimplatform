@@ -4,7 +4,8 @@ package org.usip.osp.baseobjects;
  * This class represents a non-persistent version of an Actor. We ran into problems using the hibernate
  * versions of classes directly in the web application. If using this ghost is necessary, I don't know. But it
  * helped us quickly get around our issues.
- *
+ */
+/*
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

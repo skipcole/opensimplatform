@@ -1328,16 +1328,6 @@ public class AuthorFacilitatorSessionObject {
 		return eventText;
 	}
 
-	public String getPhaseNameById(String phase_id) {
-
-		return "insert code here";
-	}
-
-	public String getPhaseNameById(Long phase_id) {
-
-		return "insert code here";
-	}
-
 	/**
 	 * Returns the phase name stored in the web cache.
 	 * 
@@ -1860,7 +1850,8 @@ public class AuthorFacilitatorSessionObject {
 		String returnList = "";
 
 		while (str.hasMoreTokens()) {
-			returnList += (getActorName(request, str.nextToken().trim()) + separator);
+			Long a_id = new Long(str.nextToken().trim());
+			returnList += (USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, a_id) + separator);
 
 		}
 
@@ -1872,56 +1863,9 @@ public class AuthorFacilitatorSessionObject {
 		return returnList;
 	}
 
-	public String getActorName(HttpServletRequest request, String a_id) {
 
-		return getActorName(request, new Long(a_id));
-	}
 
-	/**
-	 * 
-	 * @param request
-	 * @param a_id
-	 * @return
-	 */
-	public String getActorName(HttpServletRequest request, Long a_id) {
 
-		ServletContext context = request.getSession().getServletContext();
-
-		Hashtable<String, String> actor_names = (Hashtable<String, String>) context.getAttribute("actor_names");
-
-		if (actor_names == null) {
-			actor_names = new Hashtable<String, String>();
-			context.setAttribute("actor_names", actor_names);
-		}
-
-		String a_name = actor_names.get(schema + "_" + running_sim_id + " " + a_id);
-		if (a_name == null) {
-			loadActorNamesInHashtable(actor_names);
-			a_name = actor_names.get(schema + "_" + running_sim_id + " " + a_id);
-			context.setAttribute("actor_names", actor_names);
-		}
-
-		return a_name;
-	}
-
-	/**
-	 * Stores names in a hashtable so they can be pulled out quickly from the
-	 * context.
-	 * 
-	 * @param actor_names
-	 */
-	public void loadActorNamesInHashtable(Hashtable actor_names) {
-
-		Logger.getRootLogger().debug("storing names in hashtable. ");
-		Simulation sim = this.giveMeSim();
-
-		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
-			Actor act = li.next();
-
-			actor_names.put(schema + "_" + running_sim_id + " " + act.getId(), act.getName());
-
-		}
-	}
 
 	/**
 	 * 
