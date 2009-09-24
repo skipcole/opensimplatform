@@ -16,7 +16,8 @@ import org.apache.log4j.*;
 /**
  * This class represents a simulation section that has been customized.
  *
- * 
+ */
+/* 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can

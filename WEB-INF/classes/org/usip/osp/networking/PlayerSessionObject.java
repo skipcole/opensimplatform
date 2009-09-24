@@ -203,7 +203,7 @@ public class PlayerSessionObject {
 		String hashKey = sim_id + "_" + actor_id + "_" + phase_id;
 
 		Hashtable<String, List<SimulationSectionGhost>> sim_section_info = (Hashtable<String, List<SimulationSectionGhost>>) session
-				.getServletContext().getAttribute("sim_section_info");
+				.getServletContext().getAttribute(USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
 
 		if (sim_section_info == null) {
 			sim_section_info = new Hashtable<String, List<SimulationSectionGhost>>();
@@ -234,7 +234,7 @@ public class PlayerSessionObject {
 			// Store that list into the Context
 			sim_section_info.put(hashKey, returnList);
 
-			session.getServletContext().setAttribute("sim_section_info", sim_section_info);
+			session.getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO, sim_section_info);
 
 		}
 
@@ -1094,6 +1094,7 @@ public class PlayerSessionObject {
 		if ((sending_page != null) && (update_text != null) && (sending_page.equalsIgnoreCase("player_reflection"))) {
 			String player_reflection_text = (String) request.getParameter("player_reflection_text");
 
+			playerReflection.setPhase_id(this.phase_id);
 			playerReflection.setBigString(player_reflection_text);
 			playerReflection.save(schema);
 
@@ -1305,22 +1306,33 @@ public class PlayerSessionObject {
 
 	}
 	
+	/**
+	 * Store it in the web cache, if this has not been done already by another user.
+	 * @param request
+	 * @param sp
+	 */
 	public void loadPhaseNameInWebCache(HttpServletRequest request, SimulationPhase sp) {
-		// //////////////////////////////////////////////////////////////////////
-		// Store it in the web cache, if this has not been done already
-		// by another user.
+
 		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) this.session.getServletContext().getAttribute(
-				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES);
+				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
 
 		String cachedPhaseName = phaseNames.get(this.running_sim_id);
+		
 		if (cachedPhaseName == null) {
 			phaseNames.put(this.running_sim_id, sp.getName());
-			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES,
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID,
 					phaseNames);
 
 		}
 	}
 	
+	/**
+	 * Returns the color of an inject, which are colored if they have already been used during this play session.
+	 * TODO - persist the information that they have been used back to the database.
+	 * 
+	 * @param injectId
+	 * @return
+	 */
 	public String getInjectColor(Long injectId) {
 
 		String unshotColor = "#FFFFFF"; //$NON-NLS-1$
@@ -1467,5 +1479,13 @@ public class PlayerSessionObject {
 			}
 		}
 	}
+	public String getActorName(HttpServletRequest request, String a_id) {
 
+		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(a_id));
+	}
+	
+	public String getActorName(HttpServletRequest request, Long a_id) {
+
+		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, a_id);
+	}
 }

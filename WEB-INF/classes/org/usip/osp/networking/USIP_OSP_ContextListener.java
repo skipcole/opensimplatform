@@ -8,7 +8,7 @@ import javax.servlet.http.*;
 
 import org.apache.log4j.*;
 
-/**
+/*
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -66,7 +66,10 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	public static final String CACHEON_CHANGE_NUMBERS = "highestChangeNumber"; //$NON-NLS-1$
 
 	public static final String CACHEON_PHASE_IDS = "phaseIds"; //$NON-NLS-1$
-	public static final String CACHEON_L_S_PHASE_NAMES = "phaseNames"; //$NON-NLS-1$
+	
+	public static final String CACHEON_L_S_PHASE_NAMES_BY_RS_ID = "phaseNames"; //$NON-NLS-1$
+	
+	public static final String CACHEON_L_S_PHASE_NAMES_BY_ID = "phaseNamesById"; //$NON-NLS-1$
 	
 	/** The id of the running simulation is used to find the round name. */
 	public static final String CACHEON_L_S_ROUND_NAMES = "roundNames"; //$NON-NLS-1$
@@ -88,19 +91,28 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 
 	}
 
+	/**
+	 * Utility method that ultimately leads on to resetWebCache(ServletContext)
+	 * @param request
+	 */
 	public static void resetWebCache(HttpServletRequest request) {
 		
 		resetWebCache(request.getSession());
 		
 	}
 	
+	/**
+	 * Utility method that ultimately leads on to resetWebCache(ServletContext)
+	 * @param request
+	 */
 	public static void resetWebCache(HttpSession session) {
 		
 		resetWebCache(session.getServletContext());
 	}
 	
 	/**
-	 * This loops over all of the public static final fi
+	 * This loops over all of the public static final fields in this class itself and uses their names
+	 * to get the stored caches, which it then sets to new Hashtables.
 	 * 
 	 * @param sce
 	 */
@@ -135,28 +147,14 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 
 	}
 
+	/**
+	 * Calls the resetWebCache method to assure that empty hashtables have been set up for all of the cached values.
+	 */
 	public void contextInitialized(ServletContextEvent sce) {
 
 		ServletContext context = sce.getServletContext();
 		
 		USIP_OSP_ContextListener.resetWebCache(context);
-
-		/*
-
-		Hashtable<Long, Long> highestChangeNumber = new Hashtable<Long, Long>();
-		context.setAttribute(CACHEON_CHANGE_NUMBERS, highestChangeNumber);
-
-		Hashtable<Long, Long> phaseIds = new Hashtable<Long, Long>();
-		context.setAttribute(CACHEON_PHASE_IDS, phaseIds);
-
-		/** Players who have selected a game are recorded in these 
-		Hashtable<Long, Hashtable> loggedInPlayers = new Hashtable<Long, Hashtable>();
-		context.setAttribute(CACHEON_LOGGED_IN_PLAYERS, loggedInPlayers);
-
-		/** All users get an entry in this cache 
-		Hashtable<Long, LoggedInTicket> loggedInUsers = new Hashtable<Long, LoggedInTicket>();
-		context.setAttribute(CACHEON_LOGGED_IN_USERS, loggedInUsers);
-		*/
 
 	}
 

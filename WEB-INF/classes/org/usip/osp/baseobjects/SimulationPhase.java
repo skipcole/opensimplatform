@@ -201,11 +201,33 @@ public class SimulationPhase implements Comparable{
 		
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param the_id
+	 * @return
+	 */
 	public static SimulationPhase getMe(String schema, String the_id){
+		
+		if (the_id == null){
+			return null;
+		}
+		
+		return getMe(schema, new Long(the_id));
+	}
+	
+	/**
+	 * Returns the simulation phase from the database.
+	 * 
+	 * @param schema
+	 * @param the_id
+	 * @return
+	 */
+	public static SimulationPhase getMe(String schema, Long the_id){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.
-			getSession(schema).get(SimulationPhase.class, new Long(the_id));
+			getSession(schema).get(SimulationPhase.class, the_id);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return sp;

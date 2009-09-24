@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.networking.USIP_OSP_ContextListener;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
@@ -176,21 +177,21 @@ public class ChatController {
 	/**
 	 * 
 	 * @param request
-	 * @param pso
+	 * @param afso
 	 * @param conv_id
 	 * @return
 	 */
 	public static String getHTMLConv(HttpServletRequest request,
-			AuthorFacilitatorSessionObject pso, String conv_id){
+			AuthorFacilitatorSessionObject afso, String conv_id){
 
 		String convLinesToReturn = ""; //$NON-NLS-1$
 		
-		Vector this_conv = getCachedConversation(request, pso, conv_id);
+		Vector this_conv = getCachedConversation(request, afso, conv_id);
 		
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
 			ChatLine bcl = (ChatLine) e.nextElement();
 			
-			String fromAName = pso.getActorName(request, bcl.getFromActor());
+			String fromAName = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.running_sim_id, request, bcl.getFromActor());
 			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a"); //$NON-NLS-1$
 
 			// Check to see were are above the start index sent.

@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 
-/**
+/*
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 

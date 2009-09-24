@@ -10,8 +10,8 @@ import org.apache.log4j.*;
 
 /**
  * This class represents an actor playing in a particular simulation, for example 'Red Cross Worker.'
- *
- *
+ */
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or

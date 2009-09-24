@@ -11,6 +11,7 @@ import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -129,7 +130,7 @@ public class Conversation implements SimSectionDependentObject {
 	 * @param schema
 	 * @return
 	 */
-	public String getListOfActors(String schema, AuthorFacilitatorSessionObject pso, HttpServletRequest request){
+	public String getListOfActors(String schema, AuthorFacilitatorSessionObject afso, HttpServletRequest request){
 		
 		String returnString = ""; //$NON-NLS-1$
 		
@@ -138,7 +139,7 @@ public class Conversation implements SimSectionDependentObject {
 		for (ListIterator<ConvActorAssignment> bi = cca_list.listIterator(); bi.hasNext();) {
 			ConvActorAssignment caa = bi.next();
 			
-			String a_name = pso.getActorName(request, caa.getActor_id());
+			String a_name = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.running_sim_id, request, caa.getActor_id());
 
 			returnString += a_name + "-"; //$NON-NLS-1$
 		}

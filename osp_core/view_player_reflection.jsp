@@ -41,7 +41,7 @@
   		for (ListIterator li = ref_list.listIterator(); li.hasNext();) {
 			PlayerReflection pr = (PlayerReflection) li.next();
 			
-			SimulationPhase sp = pso.getPhaseNameById(pr.getPhase_id());
+			SimulationPhase sp = SimulationPhase.getMe(pso.schema, pr.getPhase_id());
 			
 		%>
   <tr>
