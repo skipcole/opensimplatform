@@ -32,11 +32,16 @@ public class FileIO {
 
 	static {
 		base_web_dir = USIP_OSP_Properties.getValue("base_web_dir"); //$NON-NLS-1$
-		base_section_web_dir = USIP_OSP_Properties.getValue("base_section_web_dir"); //$NON-NLS-1$
-		model_dir = USIP_OSP_Properties.getValue("model_dir"); //$NON-NLS-1$
-		actor_image_dir = USIP_OSP_Properties.getValue("actor_image_dir"); //$NON-NLS-1$
-		packaged_sim_dir = USIP_OSP_Properties.getValue("packaged_sim_dir"); //$NON-NLS-1$
-		sim_image_dir = USIP_OSP_Properties.getValue("sim_image_dir"); //$NON-NLS-1$
+		
+		base_section_web_dir = base_web_dir + "simulation_section_information" + File.separator;
+		
+		model_dir = base_web_dir + "simulation_model_information" + File.separator;
+		
+		actor_image_dir = base_web_dir + "osp_core" + File.separator + "images" + File.separator + "actors" + File.separator;
+		
+		packaged_sim_dir = base_web_dir + "simulation_sharing" + File.separator + "packaged_simulations" + File.separator;
+		
+		sim_image_dir = base_web_dir + "simulation" + File.separator + "images" + File.separator;
 
 	}
 

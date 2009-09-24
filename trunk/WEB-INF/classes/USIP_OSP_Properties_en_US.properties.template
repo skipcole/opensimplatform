@@ -2,7 +2,14 @@
 #	This file contains basic system information for the
 #	USIP Open Simulation Platform to function.
 #
+#	Section 1 - General
+#	Section 2 - File system Related
+#	Section 3 - Database Related
+#	Section 4 - Email Related
 
+###########
+# Section 1 - General
+###########
 ################################################################
 # If you know when the system is planned on being brought down for service
 # (a specific date, or an a repeating basis) you can put this information here and it 
@@ -12,6 +19,37 @@
 #
 next_planned_outage=None Currently Planned
 
+#######################################################################################
+# URL of the apache/tomcat server
+#
+base_sim_url=http://dev.opensimplatform.org/
+
+#######################################################################################
+# URL of the OSP on this server
+#
+simulation_url=http://dev.opensimplatform.org/simulation/
+
+
+###########
+# Section 2 - File System Related
+###########
+##################################################################
+# The base_web_dir is the location where the website files are located on your system.
+# This will probably need to be changed to match exactly your own system requirements.
+#
+# (The directory should end with the directory separator ('/' or '\\' appropriate to your system.)
+#
+base_web_dir=/usr/local/etc/httpd/sites/opensimplatform/htdocs/simulation_dev/
+
+##################################################################
+# The uploads directory is the location where the files may be uploaded to on your Apache/Tomcat server.
+# This will probably need to be changed to match exactly your own system requirements.
+#
+uploads=/usr/local/etc/httpd/sites/opensimplatform/catalina/bin/uploads
+
+###########
+# Section 3 - Database Related
+###########
 #################################################################
 # This key is use when reseting the root database.
 # You will want to set it to a secrent random key to prevent someone 
@@ -19,44 +57,81 @@ next_planned_outage=None Currently Planned
 #
 wipe_database_key=local
 
-##################################################################
-base_web_dir=/usr/local/etc/httpd/sites/peaceplatform.org/htdocs/simulation_dev/
-base_section_web_dir=/usr/local/etc/httpd/sites/peaceplatform.org/htdocs/simulation_dev/simulation_section_information/
-model_dir=/usr/local/etc/httpd/sites/peaceplatform.org/htdocs/simulation_dev/simulation_model_information/
-actor_image_dir=/usr/local/etc/httpd/sites/peaceplatform.org/htdocs/simulation_dev/osp_core/images/actors/
-packaged_sim_dir=/usr/local/etc/httpd/sites/peaceplatform.org/htdocs/simulation_dev/simulation_sharing/packaged_simulations/
-sim_image_dir=/usr/local/etc/httpd/sites/peaceplatform.org/htdocs/simulation_dev/simulation/images/
-
-conn_string=jdbc:mysql://localhost:3306/test?user=peacepla&password=password
-
-principalschema=usiposp
-username=peacepla
-password=password
-
+#######################################################################################
+# Location of the database server
+#     (If the database is running on the same machine, this probably will not need changed.)
 #
 loc=jdbc:mysql://localhost:
 
 #######################################################################################
 # Port of the database server
 #     (This probably will not need changed.)
+#
 port=3306
 
+#######################################################################################
+# Name of the principal database schema
+#
+principalschema=usiposp
+
+#######################################################################################
+# UserName when connecting to the database
+#
+username=peacepla
+
+#######################################################################################
+# Password when connecting to the database
+#
+password=password
+
+#######################################################################################
+# Overall connection string used when connecting to the database
+# (This is used when we make a direct connection to the database. Normally we go through hibernate.)
+conn_string=jdbc:mysql://localhost:3306/test?user=peacepla&password=password
+
+#######################################################################################
+# Dialect of communication between the database and hibernate
+#     (This probably will not need changed.)
+#
+dialect=org.hibernate.dialect.MySQLInnoDBDialect
+
+#######################################################################################
+# Driver class for communication between the database and hibernate
+#     (This probably will not need changed.)
+#
+driver_class=com.mysql.jdbc.Driver
+
+
+###########
+# Section 4 - Email Related
+###########
+
+#######################################################################################
+# Administrator's email address
+#
 osp_admin_email=me@skipcole.com
 
-######################################
+#######################################################################################
+# Email archive address
+#
 email_archive_address=usiposp@hotmail.com
+
+#######################################################################################
+# Email SMTP Server
+#
 email_smtp=peaceplatform.org
-schema_organization=USIP
-smtp_auth_password=password
+
+#######################################################################################
+# UserName when connecting to the database
+#
 smtp_auth_user=peacepla
-password=pasword
-username=peacepla
-#######################################
 
-dialect=org.hibernate.dialect.MySQLInnoDBDialect
-driver_class=com.mysql.jdbc.Driver
-base_sim_url=http://dev.opensimplatform.org/
-simulation_url=http://dev.opensimplatform.org/simulation/
-uploads=/usr/local/etc/httpd/sites/peaceplatform.org/catalina/bin/uploads
+#######################################################################################
+# Password when connecting to the SMTP Server
+#
+smtp_auth_password=password
 
+###########################################################
+# Not sure if we use the entry below.
+schema_organization=USIP
 
