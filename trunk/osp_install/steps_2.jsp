@@ -89,6 +89,17 @@ body {
       Database (populate it with tables.)</td>
   </tr>
 
+  <tr align="left" valign="top">
+    <td colspan="5"><p>&nbsp;</p>
+    <p>Note: The bottom section of the installation guide is going to all go away. Actually this page will go away. Coming to this page will take the user immediately to step 4a above (creating the root database) which will then lead onto step 4b (creating the first simulation database). </p>
+    <p>Verifying an installation (our current step 5) will be highly recommended, and if we have the time to get fancy later, maybe we can have the initial login to the system automatically bring the administrator to a 'verify' section. After the installation has been verified then they won't automatically be brought there.</p>
+    <p>Of course, with a bit more automation, we could have step 4b roll immediately into a verification step that occurs without the installer doing anything. </p>
+    <p>The automatically run diagnostics should</p>
+    <ol>
+      <li>Tell them how many base simulation sections have been added to the system.</li>
+      <li>Send them a test email from the system, and tell them to check in their junk email box.</li>
+    </ol>    <p>&nbsp;</p></td>
+  </tr>
   <tr align="left" valign="top"> 
     <td>5</td>
     <td>&nbsp;</td>
@@ -108,51 +119,6 @@ body {
     <td>&nbsp;</td>
     <td>diagnostics</td>
     <td>Click here to run diagnostics</td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>6b</td>
-    <td>&nbsp;</td>
-    <td>sections</td>
-    <td>
-      <form name="form1" id="form1" method="post" action="../simulation_authoring/catalog_of_installed_sections.jsp">
-	  
-        <select name="db_schema">
-		<% 
-		List sioList = new ArrayList();
-		
-		try {
-			sioList = SchemaInformationObject.getAll();
-		} catch (Exception ee){
-			System.out.println("SchemaInformationObject doesn't seem to exist.");
-		}
-		
-		for (ListIterator li = sioList.listIterator(); li.hasNext();) {
-			SchemaInformationObject sio = (SchemaInformationObject) li.next();
-		
-		%>
-          <option value="<%= sio.getSchema_name() %>"><%= sio.getSchema_name() %></option>
-		  <% 
-		  }
-		%>
-        </select>
-        <input type="submit" name="Submit" value="Submit" />
-        to see the sections now available 
-      </form></td>
-  </tr>
-  <tr align="left" valign="top"> 
-    <td>&nbsp;</td>
-    <td>6c</td>
-    <td>&nbsp;</td>
-    <td>email</td>
-    <td>Click here to send test email from the system</td>
-  </tr>
-  <tr align="left" valign="top">
-    <td>7</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td><a href="../login.jsp">Login to Tool</a></td>
   </tr>
 </table>
 <p><strong>Any questions? Contact our community at <a href="http://docs.opensimplatform.org">docs.opensimplatform.org</a></strong></p>

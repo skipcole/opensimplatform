@@ -60,9 +60,10 @@ public class USIP_OSP_Cache {
 		return phaseName;
 	}
 
+	
 	public static String getPhaseNameById(HttpServletRequest request, String schema, String phase_id) {
 
-		return getPhaseNameById(request, schema, new Long(phase_id));
+		return USIP_OSP_Cache.getPhaseNameById(request, schema, new Long(phase_id));
 
 	}
 	
@@ -110,6 +111,52 @@ public class USIP_OSP_Cache {
 			actor_names.put(schema + "_" + running_sim_id + " " + act.getId(), act.getName());
 
 		}
+	}
+	
+	/**
+	 * Returns the change number table for a particular running simulation.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Hashtable getAlertNumberHashtableForRunningSim(HttpServletRequest request) {
+
+		// The conversation is pulled out of the context
+		Hashtable<Long, Long> highestAlertNumberHashtable = (Hashtable<Long, Long>) request.getSession().getServletContext()
+				.getAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS);
+
+		if (highestAlertNumberHashtable == null) {
+			highestAlertNumberHashtable = new Hashtable();
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
+					highestAlertNumberHashtable);
+		}
+
+		return highestAlertNumberHashtable;
+	}
+	
+	/**
+	 * TODO: Yes we should be doing this with transactions to avoid race conditions.
+	 * 
+	 * @param request
+	 * @param running_sim_id
+	 * @return
+	 */
+	public static Long getNextHighestChangeNumber(HttpServletRequest request, Long running_sim_id){
+		
+		Hashtable<Long, Long> highestChangeNumberHashtable = getAlertNumberHashtableForRunningSim(request);
+		
+		Long changeNumber = highestChangeNumberHashtable.get(running_sim_id);
+		
+		Long nextChangeNumber = new Long(changeNumber.intValue() + 1);
+		
+		highestChangeNumberHashtable.put(running_sim_id, nextChangeNumber);
+		
+		// I don't know if this next step is needed.
+		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
+				highestChangeNumberHashtable);
+		
+		return changeNumber;
+		
 	}
 
 }

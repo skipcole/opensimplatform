@@ -86,8 +86,6 @@ body {
         <%  }  %>
         </table>
     </td></tr></table>
-    <p>&nbsp;</p>
-    <h2>&nbsp;</h2>
     </blockquote>
     <blockquote>
       <p>&nbsp;</p>

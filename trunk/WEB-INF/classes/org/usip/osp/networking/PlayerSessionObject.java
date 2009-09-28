@@ -11,7 +11,11 @@ import org.usip.osp.persistence.*;
 import org.usip.osp.specialfeatures.PlayerReflection;
 
 /**
- * 
+ * This object contains all of the session information for the participant and
+ * is the main interface to all of the java objects that the participant will
+ * interact with.
+ */
+/*
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -22,18 +26,17 @@ import org.usip.osp.specialfeatures.PlayerReflection;
  * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
- * 
  */
 public class PlayerSessionObject {
 
 	/** The Session object. */
 	public HttpSession session = null;
-	
+
 	/**
 	 * Returns the PSO stored in the session, or creates one. The coder can
 	 * indicated if he or she wants to start a transaction.
 	 */
-	public static PlayerSessionObject getPSO(HttpSession session, boolean getConn) {
+	public static PlayerSessionObject getPSO(HttpSession session) {
 
 		PlayerSessionObject pso = (PlayerSessionObject) session.getAttribute("pso");
 
@@ -47,29 +50,29 @@ public class PlayerSessionObject {
 
 		return pso;
 	}
-	
+
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
-	
+
 	public boolean isLoggedin() {
 		return loggedin;
 	}
-	
+
 	/** Schema of the database that the user is working in. */
 	public String schema = ""; //$NON-NLS-1$
-	
+
 	/** Organization of the schema that the user is working in. */
 	public String schemaOrg = ""; //$NON-NLS-1$
-	
+
 	/** ID of Actor being played. */
 	public Long actor_id;
-	
+
 	/** Name of the actor being played or worked on. */
 	public String actor_name = ""; //$NON-NLS-1$
-	
+
 	/** ID of Simulation being conducted or worked on. */
 	public Long sim_id;
-	
+
 	/** Name of simulation being conducted or worked on. */
 	public String simulation_name = ""; //$NON-NLS-1$
 
@@ -78,13 +81,13 @@ public class PlayerSessionObject {
 
 	/** Organization that created the simulation. */
 	public String simulation_org = ""; //$NON-NLS-1$
-	
+
 	/**
 	 * Copyright string to display at the bottom of every page in the
 	 * simulation.
 	 */
 	public String sim_copyright_info = ""; //$NON-NLS-1$
-	
+
 	/** ID of the Running Simulation being conducted or worked on. */
 	public Long running_sim_id;
 
@@ -93,57 +96,59 @@ public class PlayerSessionObject {
 
 	/** ID of Phase being conducted. */
 	public Long phase_id;
-	
+
 	/** Indicates if user has selected a phase. */
 	public boolean phaseSelected = false;
 
 	/** Name of phase being conducted or worked on. */
 	private String phaseName = ""; //$NON-NLS-1$
-	
+
 	/** Id of User that is logged on. */
 	public Long user_id;
-	
+
 	/** Records the display name of this user. */
 	public String user_Display_Name = ""; //$NON-NLS-1$
-	
+
 	/**
 	 * Username/ Email address of user that is logged in and using this
 	 * PlayerSessionObject.
 	 */
 	public String user_name;
-	
+
 	public String bottomFrame = ""; //$NON-NLS-1$
-	
+
 	/**
 	 * This is the highest change number that the player has. The change number
 	 * for the particular running simulation is kept in the hashtable assigned
 	 * to the web application.
 	 */
-	public Long myHighestChangeNumber = new Long(0);
-	
+	public Long myHighestAlertNumber = new Long(0);
+
+	private Long myUserAssignmentId;
+
 	/** Text of alert being worked on. */
 	public String alertInQueueText = ""; //$NON-NLS-1$
 
 	/** Type of alert being worked on. */
 	public int alertInQueueType = 0;
-	
+
 	/** Page to forward the user on to. */
 	public boolean forward_on = false;
-	
+
 	public String tabposition = "1"; //$NON-NLS-1$
-	
+
 	/** The page to take them back to if needed. */
 	public String backPage = "index.jsp"; //$NON-NLS-1$
-	
+
 	/**
 	 * Once a player has selected a running sim, do not let them back out and
 	 * choose another without logging out and logging in.
 	 */
 	public boolean hasSelectedRunningSim = false;
 
-	/** Login ticket of this user. */
+	/** User trail ghost of this user. */
 	public UserTrailGhost myUserTrailGhost = new UserTrailGhost();
-	
+
 	/**
 	 * This is called from the top of the players frame to determine where they
 	 * should go.
@@ -179,7 +184,7 @@ public class PlayerSessionObject {
 		}
 
 	}
-	
+
 	/**
 	 * Returns the list of simulation sections for the actor being played.
 	 * 
@@ -241,10 +246,9 @@ public class PlayerSessionObject {
 		return returnList;
 	}
 
-	
 	/**
-	 * This method is called when the user selects a simulation to play.
-	 * (From simulation/select_simulation.jsp)
+	 * This method is called when the user selects a simulation to play. (From
+	 * simulation/select_simulation.jsp)
 	 * 
 	 * @param request
 	 */
@@ -265,6 +269,10 @@ public class PlayerSessionObject {
 
 			UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil.getSession(schema).get(UserAssignment.class,
 					new Long(user_assignment_id));
+
+			myUserAssignmentId = ua.getId();
+
+			this.myHighestAlertNumber = ua.getHighestAlertNumberRecieved();
 
 			sim_id = ua.getSim_id();
 			Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class,
@@ -319,7 +327,6 @@ public class PlayerSessionObject {
 			}
 			// //////////////////////////////////////////////////////////////////////
 
-
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 			recordLoginToSchema(user_id, schema, actor_id, running_sim_id, request);
@@ -337,17 +344,18 @@ public class PlayerSessionObject {
 
 		}
 	}
-	
+
 	/**
-	 * Sets values in this PlayerSessionObject to be those stored for the user, and creates
-	 * the loggedInTicket to record their presence.
+	 * Sets values in this PlayerSessionObject to be those stored for the user,
+	 * and creates the loggedInTicket to record their presence.
 	 * 
 	 * @param bu_id
 	 * @param schema
 	 * @param request
 	 * @return
 	 */
-	public void recordLoginToSchema(Long bu_id, String schema, Long actor_id, Long running_sim_id, HttpServletRequest request) {
+	public void recordLoginToSchema(Long bu_id, String schema, Long actor_id, Long running_sim_id,
+			HttpServletRequest request) {
 
 		User user = User.getInfoOnLogin(bu_id, schema);
 		BaseUser bu = BaseUser.getByUserId(bu_id);
@@ -355,7 +363,7 @@ public class PlayerSessionObject {
 		if (user != null) {
 			this.user_id = user.getId();
 			this.user_Display_Name = bu.getFull_name();
-			
+
 			// Username is also email address
 			this.user_name = bu.getUsername();
 
@@ -377,9 +385,8 @@ public class PlayerSessionObject {
 			loggedin = false;
 		}
 
-
 	}
-	
+
 	/**
 	 * Returns the phase name stored in the web cache.
 	 * 
@@ -388,7 +395,7 @@ public class PlayerSessionObject {
 	public String getPhaseName() {
 
 		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
-				"phaseNames");
+				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
 
 		if (running_sim_id != null) {
 			phaseName = phaseNames.get(running_sim_id);
@@ -398,7 +405,7 @@ public class PlayerSessionObject {
 			return "";
 		}
 	}
-	
+
 	/** Gets called when the user has selected a scenario to play. */
 	public void storeUserInfoInSessionInformation(HttpServletRequest request) {
 
@@ -418,7 +425,6 @@ public class PlayerSessionObject {
 
 	}
 
-	
 	/**
 	 * Loads a session.
 	 * 
@@ -437,7 +443,8 @@ public class PlayerSessionObject {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
-		RunningSimulation rs = new RunningSimulation("My Session", this.giveMeSim(), this.schema, null, "Player Self Assigned");
+		RunningSimulation rs = new RunningSimulation("My Session", this.giveMeSim(), this.schema, null,
+				"Player Self Assigned");
 		this.running_sim_id = rs.getId();
 		rs.setReady_to_begin(true);
 
@@ -449,41 +456,12 @@ public class PlayerSessionObject {
 		this.loadSimInfoForDisplay(request, simulation, rs, actor, sp);
 
 	}
-	
+
+
 	/**
-	 * 
-	 * @param rs
-	 * @param request
-	 * @return
-	 */
-	public List<Alert> checkForAlarm(RunningSimulation rs, HttpServletRequest request) {
-
-		List<Alert> returnList = new ArrayList();
-
-		List<Alert> alerts = Alert.getAllForRunningSim(schema, rs.getId());
-
-		for (ListIterator<Alert> li = alerts.listIterator(); li.hasNext();) {
-			Alert this_alert = li.next();
-
-			boolean thisUserApplicable = false;
-
-			if (!(this_alert.isSpecific_targets())) {
-				thisUserApplicable = true;
-			} else {
-				thisUserApplicable = this_alert.checkActor(this.actor_id);
-			}
-
-			if (thisUserApplicable) {
-
-				returnList.add(this_alert);
-
-			} // end of if this alert is applicable to this user
-		} // End of if this id of this alert is not null (?)
-
-		return returnList;
-	}
-	
-	/**
+	 * This method does the following: 1.) Gets from the cache the highest
+	 * change number for this simulation. 2.) It compares this with what this
+	 * user has as the highest change number they have seen. 3.)
 	 * 
 	 * @param request
 	 * @param response
@@ -491,7 +469,8 @@ public class PlayerSessionObject {
 	 */
 	public String alarmXML(HttpServletRequest request, HttpServletResponse response) {
 
-		Long runningSimHighestChange = getHighestChangeNumberForRunningSim(request);
+		// Get from the cache the highest change number for this simulation.
+		Long runningSimHighestChange = getHighestAlertNumberForRunningSim(request);
 
 		if (runningSimHighestChange == null) {
 			return "";
@@ -499,15 +478,25 @@ public class PlayerSessionObject {
 
 		boolean doDatabaseCheck = false;
 
-		if (runningSimHighestChange.intValue() > myHighestChangeNumber.intValue()) {
+		// compare the highest running sim change number with what this user has
+		// seen.
+		if (runningSimHighestChange.intValue() > myHighestAlertNumber.intValue()) {
 
 			doDatabaseCheck = true;
 		}
 
 		// //////////////////////////////////////////////////////
-		// Every two minutes do a new database check anyway.
+		// Every two minutes (assuming polling is being done every second) do a
+		// database check anyway, and store myHighest Alert Number
 		myCount += 1;
 		if (myCount == 120) {
+
+			System.out.println("Saving high alert number.");
+
+			UserAssignment ua = UserAssignment.getMe(schema, this.myUserAssignmentId);
+			ua.setHighestAlertNumberRecieved(myHighestAlertNumber);
+			ua.saveMe(schema);
+
 			doDatabaseCheck = true;
 			myCount = 0;
 		}
@@ -517,62 +506,47 @@ public class PlayerSessionObject {
 
 		if ((running_sim_id != null) && (doDatabaseCheck)) {
 
-			MultiSchemaHibernateUtil.beginTransaction(schema);
+			// Get a list of alarms
+			List<Alert> alerts = Alert.getAllForRunningSimAboveNumber(schema, running_sim_id, myHighestAlertNumber);
 
-			RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
-					RunningSimulation.class, running_sim_id);
-
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-			List alarms = checkForAlarm(rs, request);
-
-			if (alarms.size() == 0) {
+			if (alerts.size() == 0) {
 				alarmXML += "<numAlarms>0</numAlarms>";
 
-			} else if (alarms.size() > 3) { // if too many alerts, just tell
-				// them to check their environment.
-				alarmXML += "<numAlarms>1</numAlarms>";
-				alarmXML += "<sim_event_text>"
-						+ "Multiple alerts received. Please check all of the tabs where you are receiving information."
-						+ "</sim_event_text>";
-
 			} else {
-				alarmXML += "<numAlarms>" + alarms.size() + "</numAlarms>";
-				for (ListIterator<Alert> li = alarms.listIterator(); li.hasNext();) {
-					Alert this_alert = li.next();
+				
+				Alert this_alert = alerts.get(0);
+				
+				boolean thisUserApplicable = false;
+
+				if (!(this_alert.isSpecific_targets())) {
+					thisUserApplicable = true;
+				} else {
+					thisUserApplicable = this_alert.checkActor(this.actor_id);
+				}
+				
+				// Check to see if its applicable, if so, add it to output.
+				if (thisUserApplicable) {
+					alarmXML += "<numAlarms>1</numAlarms>";
+				
+					alarmXML += "<sim_event_type>" + this_alert.getTypeText() + "</sim_event_type>";
 
 					alarmXML += "<sim_event_text>" + this_alert.getAlertPopupMessage() + "</sim_event_text>";
+				} else { // Not applicable to this actor
+					alarmXML += "<numAlarms>0</numAlarms>";
 				}
-
+				
+				// Either way, mark this one as checked by setting the highest alert number
+				myHighestAlertNumber = new Long(this_alert.getId());
 			}
 
 		} // End of if doing database check.
 
 		alarmXML += "</response>";
-		myHighestChangeNumber = new Long(runningSimHighestChange.intValue());
+
 		return alarmXML;
 
-		/*
-		 * TODO Move parts from below to where they need to go.
-		 * 
-		 * if (alarmType.equalsIgnoreCase("phase_change")) { alarmXML +=
-		 * "<sim_event_text>" +
-		 * "Simulation Phase has changed. You may now have a different set of tabs."
-		 * + "</sim_event_text>"; } else if (alarmType.equalsIgnoreCase("news"))
-		 * { alarmXML += "<sim_event_text>" +
-		 * "There is new news. Please check the news page as soon as possible."
-		 * + "</sim_event_text>"; } else if
-		 * (alarmType.equalsIgnoreCase("announcement")) { alarmXML +=
-		 * "<sim_event_text>" +
-		 * "There is a new announcement. Please check the announcements page as soon as possible."
-		 * + "</sim_event_text>"; } else if (alarmType.equalsIgnoreCase("memo"))
-		 * {
-		 * 
-		 * }
-		 */
 	}
 
-	
 	public static String DEFAULTMEMOTEXT = "To: <BR />From:<BR />Topic:<BR />Message:"; //$NON-NLS-1$
 
 	public String memo_starter_text = DEFAULTMEMOTEXT;
@@ -654,21 +628,6 @@ public class PlayerSessionObject {
 		return returnString;
 
 	} // End of method
-	
-	public Hashtable getHashtableForThisRunningSim(HttpServletRequest request) {
-
-		// The conversation is pulled out of the context
-		Hashtable<Long, Long> highestChangeNumber = (Hashtable<Long, Long>) request.getSession().getServletContext()
-				.getAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS);
-
-		if (highestChangeNumber == null) {
-			highestChangeNumber = new Hashtable();
-			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS,
-					highestChangeNumber);
-		}
-
-		return highestChangeNumber;
-	}
 
 	/**
 	 * Creates a general announcement and adds it to the set of announcements
@@ -690,16 +649,27 @@ public class PlayerSessionObject {
 		al.setAlertMessage(news);
 		al.setRunning_sim_id(running_sim_id);
 
+		String shortIntro = USIP_OSP_Util.cleanAndShorten(news, 20) + " ...";
+		
+		System.out.println(shortIntro);
+		
+		al.setAlertPopupMessage("There is a new announcement: " + shortIntro);
+		
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(rs);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Let people know that there is a change to catch.
-		storeNewHighestChangeNumber(request);
+		storeNewHighestChangeNumber(request, al.getId());
 
 	}
 
+	/**
+	 * Takes information out of the request to create the targeted announcement.
+	 * 
+	 * @param request
+	 */
 	public void makeTargettedAnnouncement(HttpServletRequest request) {
 
 		String targets = list2String(getIdsOfCheckBoxes("actor_cb_", request));
@@ -708,6 +678,10 @@ public class PlayerSessionObject {
 		al.setSpecific_targets(true);
 		al.setType(Alert.TYPE_ANNOUNCEMENT);
 		al.setAlertMessage(alertInQueueText);
+
+		String shortIntro = USIP_OSP_Util.cleanAndShorten(alertInQueueText, 20) + " ...";
+
+		al.setAlertPopupMessage("There is a new announcement: " + shortIntro);
 		al.setThe_specific_targets(targets);
 		al.setRunning_sim_id(running_sim_id);
 		al.saveMe(schema);
@@ -715,7 +689,7 @@ public class PlayerSessionObject {
 		makeTargettedAnnouncement(al, targets, request);
 
 	}
-	
+
 	/** Takes a list and turns it into a comma separated string. */
 	public String list2String(List idList) {
 
@@ -733,7 +707,7 @@ public class PlayerSessionObject {
 		return returnString;
 
 	}
-	
+
 	/**
 	 * returns a list of strings containing the value ( generally assumed to be
 	 * an id) from the checkboxes of a form.
@@ -766,7 +740,7 @@ public class PlayerSessionObject {
 	public void makeTargettedAnnouncement(Alert al, String targets, HttpServletRequest request) {
 
 		// Let people know that there is a change to catch.
-		storeNewHighestChangeNumber(request);
+		storeNewHighestChangeNumber(request, al.getId());
 
 		this.alertInQueueText = "";
 		this.alertInQueueType = 0;
@@ -793,33 +767,45 @@ public class PlayerSessionObject {
 
 		return returnList;
 	}
-	
+
 	public Hashtable<String, String> newsAlerts = new Hashtable<String, String>();
 
 	public int myCount = 0;
 
-	/** */
-	public Long getHighestChangeNumberForRunningSim(HttpServletRequest request) {
+	/**
+	 * This method 1.) gets the cache of alert numbers, 2.) get the highest
+	 * Alert number for this simulation 3.) (If the highest Alert number is
+	 * null, then set it to '0' in the cache.) 4.) returns the highest Alert
+	 * number for this simulation run.
+	 * 
+	 * */
+	public Long getHighestAlertNumberForRunningSim(HttpServletRequest request) {
 
 		if (running_sim_id == null) {
-			Logger.getRootLogger().debug("returning null");
+			Logger.getRootLogger().debug("returning null for highest change number. ");
 			return null;
 		}
-		// The conversation is pulled out of the context
-		Hashtable<Long, Long> highestChangeNumber = getHashtableForThisRunningSim(request);
 
-		Long runningSimHighestChange = (Long) highestChangeNumber.get(running_sim_id);
+		// Get cache of alert numbers
+		Hashtable<Long, Long> highestAlertNumber = USIP_OSP_Cache.getAlertNumberHashtableForRunningSim(request);
 
-		if (runningSimHighestChange == null) {
-			runningSimHighestChange = new Long(1);
-			highestChangeNumber.put(running_sim_id, runningSimHighestChange);
+		// Get the highest change number for this simulation
+		Long runningSimHighestAlert = (Long) highestAlertNumber.get(running_sim_id);
 
-			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS,
-					highestChangeNumber);
+		// If the highest change number is null, then set it to '0' in the
+		// cache.
+		if (runningSimHighestAlert == null) {
+			// Try to get it from database. If that fails, set it to 0.
+			runningSimHighestAlert = Alert.getHighestAlertNumber(schema, running_sim_id);
+			
+			highestAlertNumber.put(running_sim_id, runningSimHighestAlert);
+
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
+					highestAlertNumber);
 
 		}
 
-		return runningSimHighestChange;
+		return runningSimHighestAlert;
 	}
 
 	/**
@@ -828,19 +814,16 @@ public class PlayerSessionObject {
 	 * 
 	 * @param request
 	 */
-	public void storeNewHighestChangeNumber(HttpServletRequest request) {
+	public void storeNewHighestChangeNumber(HttpServletRequest request, Long newHighestAlertNumber) {
 
-		Long currentHighest = this.getHighestChangeNumberForRunningSim(request);
+		// Get the hashtable to store it in from the cache
+		Hashtable<Long, Long> highestChangeNumber = USIP_OSP_Cache.getAlertNumberHashtableForRunningSim(request);
 
-		Logger.getRootLogger().debug("current highest: " + currentHighest.intValue());
+		// put it back into the hashtable
+		highestChangeNumber.put(running_sim_id, newHighestAlertNumber);
 
-		currentHighest = new Long(currentHighest.intValue() + 1);
-
-		Hashtable<Long, Long> highestChangeNumber = getHashtableForThisRunningSim(request);
-
-		highestChangeNumber.put(running_sim_id, currentHighest);
-
-		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_CHANGE_NUMBERS,
+		// Make sure that this hashtable is stored back in the context.
+		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
 				highestChangeNumber);
 
 	}
@@ -874,8 +857,16 @@ public class PlayerSessionObject {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
+		// ////////////////////////////////////////////////////
+		// 9/27/09 - We are not using rounds right now, but I added the code
+		// below for when
+		// we are. So the stuff below this is completely untried.
+		Alert al = new Alert();
+		al.setType(Alert.TYPE_UNDEFINED);
+		al.saveMe(schema);
+
 		// Let people know that there is a change to catch.
-		storeNewHighestChangeNumber(request);
+		storeNewHighestChangeNumber(request, al.getId());
 
 	}
 
@@ -907,10 +898,11 @@ public class PlayerSessionObject {
 
 			// Store new phase name in web cache.
 			Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) request.getSession().getServletContext()
-					.getAttribute("phaseNames");
+					.getAttribute(USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
 
 			phaseNames.put(running_sim_id, this.phaseName);
-			request.getSession().getServletContext().setAttribute("phaseNames", phaseNames);
+			request.getSession().getServletContext().setAttribute(
+					USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID, phaseNames);
 
 			Logger.getRootLogger().debug("setting phase change alert");
 
@@ -926,6 +918,7 @@ public class PlayerSessionObject {
 			// ///////
 
 			Alert al = new Alert();
+
 			al.setType(Alert.TYPE_PHASECHANGE);
 
 			String phaseChangeNotice = "Phase has changed from '" + previousPhase + "' to '" + this.phaseName + "'.";
@@ -933,18 +926,20 @@ public class PlayerSessionObject {
 			// Will need to add email text, etc.
 			al.setAlertMessage(phaseChangeNotice);
 			al.setAlertEmailMessage(phaseChangeNotice);
+			al.setAlertPopupMessage(phaseChangeNotice);
 
 			al.setRunning_sim_id(running_sim_id);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
 
 			// Let people know that there is a change to catch.
-			storeNewHighestChangeNumber(request);
+			storeNewHighestChangeNumber(request, al.getId());
 
 			if ((notify_via_email != null) && (notify_via_email.equalsIgnoreCase("true"))) {
 
 				Hashtable uniqList = new Hashtable();
 
-				for (ListIterator<UserAssignment> li = running_sim.getUser_assignments(schema).listIterator(); li.hasNext();) {
+				for (ListIterator<UserAssignment> li = running_sim.getUser_assignments(schema).listIterator(); li
+						.hasNext();) {
 					UserAssignment ua = li.next();
 					uniqList.put(ua.getUser_id(), "set");
 				}
@@ -985,12 +980,13 @@ public class PlayerSessionObject {
 		 * 
 		 * try{ MultiSchemaHibernateUtil.commitAndCloseTransaction(schema); }
 		 * catch (org.hibernate.TransactionException te){ // Do nothing } catch
-		 * (Exception real_e){ Logger.getRootLogger().debug("Exception of type: " +
+		 * (Exception real_e){
+		 * Logger.getRootLogger().debug("Exception of type: " +
 		 * real_e.getClass()); } }
 		 */
 
 	}
-	
+
 	public Simulation giveMeSim() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
@@ -1028,9 +1024,9 @@ public class PlayerSessionObject {
 		}
 
 	}
-	
+
 	public Hashtable pushedInjects = new Hashtable();
-	
+
 	public boolean handlePushInject(HttpServletRequest request) {
 
 		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
@@ -1067,6 +1063,7 @@ public class PlayerSessionObject {
 		return false;
 
 	}
+
 	/**
 	 * 
 	 * @param request
@@ -1102,13 +1099,12 @@ public class PlayerSessionObject {
 
 		return playerReflection;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
 	public void handleMakeAnnouncement(HttpServletRequest request) {
-
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String add_news = (String) request.getParameter("add_news");
@@ -1132,7 +1128,7 @@ public class PlayerSessionObject {
 		} // End of if coming from this page and have added announcement.
 
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -1163,7 +1159,7 @@ public class PlayerSessionObject {
 
 		return sr;
 	}
-	
+
 	public void notifyOfDocChanges(String schema, Long sd_id, Long excluded_actor_id, HttpServletRequest request,
 			CustomizeableSection cs) {
 
@@ -1183,6 +1179,7 @@ public class PlayerSessionObject {
 				al.saveMe(schema);
 
 				makeTargettedAnnouncement(al, sdanao.getActor_id().toString(), request);
+
 			}
 		}
 
@@ -1202,15 +1199,15 @@ public class PlayerSessionObject {
 
 		return actor;
 	}
-	
+
 	public RunningSimulation giveMeRunningSim() {
-		
-		if (running_sim_id == null){
+
+		if (running_sim_id == null) {
 			Logger.getRootLogger().warn("Warning RunningSimId is null in pso.giveMeRunningSim");
-			
+
 			return null;
 		}
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
 				RunningSimulation.class, running_sim_id);
@@ -1221,7 +1218,6 @@ public class PlayerSessionObject {
 
 		return rs;
 	}
-	
 
 	public void loadSimInfoForDisplay(HttpServletRequest request, Simulation simulation, RunningSimulation running_sim,
 			Actor actor, SimulationPhase sp) {
@@ -1241,7 +1237,7 @@ public class PlayerSessionObject {
 		loadPhaseNameInWebCache(request, sp);
 
 	}
-	
+
 	private void saveAarText(HttpServletRequest request) {
 		String write_aar_end_sim = request.getParameter("write_aar_end_sim"); //$NON-NLS-1$
 		Logger.getRootLogger().debug("saving: " + write_aar_end_sim); //$NON-NLS-1$
@@ -1250,7 +1246,7 @@ public class PlayerSessionObject {
 		rs.setAar_text(write_aar_end_sim);
 		rs.saveMe(this.schema);
 	}
-	
+
 	public void handleWriteAAR(HttpServletRequest request) {
 
 		String command = request.getParameter("command"); //$NON-NLS-1$
@@ -1265,7 +1261,7 @@ public class PlayerSessionObject {
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -1286,7 +1282,7 @@ public class PlayerSessionObject {
 		} // End of if coming from this page and have added text
 
 	}
-	
+
 	/** Round being displayed */
 	private String simulation_round = "0"; //$NON-NLS-1$
 
@@ -1305,9 +1301,11 @@ public class PlayerSessionObject {
 		}
 
 	}
-	
+
 	/**
-	 * Store it in the web cache, if this has not been done already by another user.
+	 * Store it in the web cache, if this has not been done already by another
+	 * user.
+	 * 
 	 * @param request
 	 * @param sp
 	 */
@@ -1317,18 +1315,23 @@ public class PlayerSessionObject {
 				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
 
 		String cachedPhaseName = phaseNames.get(this.running_sim_id);
-		
+
+		System.out.println("cachedPhaseName is " + cachedPhaseName);
+
 		if (cachedPhaseName == null) {
 			phaseNames.put(this.running_sim_id, sp.getName());
-			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID,
-					phaseNames);
+			request.getSession().getServletContext().setAttribute(
+					USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID, phaseNames);
+
+			System.out.println("cachedPhaseName is " + sp.getName());
 
 		}
 	}
-	
+
 	/**
-	 * Returns the color of an inject, which are colored if they have already been used during this play session.
-	 * TODO - persist the information that they have been used back to the database.
+	 * Returns the color of an inject, which are colored if they have already
+	 * been used during this play session. TODO - persist the information that
+	 * they have been used back to the database.
 	 * 
 	 * @param injectId
 	 * @return
@@ -1347,6 +1350,7 @@ public class PlayerSessionObject {
 		}
 
 	}
+
 	/**
 	 * Gets all game variables that change from round to round, and based on
 	 * their type and current conditions, sets them to the new values.
@@ -1393,10 +1397,10 @@ public class PlayerSessionObject {
 		// Fire the triggers
 		// Get Triggers
 	}
-	
+
 	/** Error message to be shown to the user. */
 	public String errorMsg = ""; //$NON-NLS-1$
-	
+
 	/**
 	 * 
 	 * @param request
@@ -1424,44 +1428,45 @@ public class PlayerSessionObject {
 
 		return sendToPage;
 	}
-	
-	/** If user has selected an author, instructor or admin entry point into the system, 
-	 * this is called to set their AFSO object.
+
+	/**
+	 * If user has selected an author, instructor or admin entry point into the
+	 * system, this is called to set their AFSO object.
 	 * 
 	 * @param request
 	 * @param schema_id
 	 */
-	public static void handleInitialEntry(HttpServletRequest request){
-		
+	public static void handleInitialEntry(HttpServletRequest request) {
+
 		String initial_entry = (String) request.getParameter("initial_entry");
-		
-		if ((initial_entry != null) && (initial_entry.equalsIgnoreCase("true"))){
-			
-			PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
-			
+
+		if ((initial_entry != null) && (initial_entry.equalsIgnoreCase("true"))) {
+
+			PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+
 			String schema_id = (String) request.getParameter("schema_id");
-			
+
 			SchemaInformationObject sio = SchemaInformationObject.getMe(new Long(schema_id));
-			
+
 			pso.schema = sio.getSchema_name();
 			pso.schemaOrg = sio.getSchema_organization();
-			
+
 			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request.getSession(true).getAttribute("osp_soh");
-			
+
 			User user = User.getMe(pso.schema, osp_soh.getUserid());
 			BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
-				
+
 			if (user != null) {
 				pso.user_id = user.getId();
 
 				pso.user_Display_Name = bu.getFull_name();
 				pso.user_name = bu.getUsername();
-				
+
 				pso.loggedin = true;
-				
+
 				user.setLastLogin(new Date());
 				user.saveMe(pso.schema);
-				
+
 				pso.myUserTrailGhost.setTrail_id(user.getTrail_id());
 				pso.myUserTrailGhost.setUser_id(pso.user_id);
 
@@ -1469,21 +1474,38 @@ public class PlayerSessionObject {
 						.getServletContext().getAttribute("loggedInUsers");
 
 				loggedInUsers.put(user.getId(), pso.myUserTrailGhost);
-				
+
 				sio.setLastLogin(new Date());
 				sio.saveMe();
-				
+
 			} else {
 				pso.loggedin = false;
 				Logger.getRootLogger().warn("handling initial entry into simulation and got null user");
 			}
 		}
 	}
+
+	/**
+	 * Pulls an actor's name out of the cache, or out of the database if
+	 * necessary.
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
 	public String getActorName(HttpServletRequest request, String a_id) {
 
 		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(a_id));
 	}
-	
+
+	/**
+	 * Pulls an actor's name out of the cache, or out of the database if
+	 * necessary.
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
 	public String getActorName(HttpServletRequest request, Long a_id) {
 
 		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, a_id);

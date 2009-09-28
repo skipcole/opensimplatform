@@ -18,10 +18,10 @@ import org.usip.osp.specialfeatures.*;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
- * This object contains all of the session information for the participant and
- * is the main interface to all of the java objects that the participant will
- * interact with.
- * 
+ * This object contains all of the session information for the simulation author /facilitator and
+ * is the main interface to all of the java objects that they will interact with.
+ */
+/*
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -678,11 +678,14 @@ public class AuthorFacilitatorSessionObject {
 
 		schema = db_schema;
 
+		
+		
+		String db_user = USIP_OSP_Properties.getValue("username");
+		String db_pass = USIP_OSP_Properties.getValue("password");
+		String db_loc = USIP_OSP_Properties.getValue("loc");
+		String db_port = USIP_OSP_Properties.getValue("port");
+		
 		String db_org = (String) request.getParameter("db_org");
-		String db_user = (String) request.getParameter("db_user");
-		String db_pass = (String) request.getParameter("db_pass");
-		String db_loc = (String) request.getParameter("db_loc");
-		String db_port = (String) request.getParameter("db_port");
 		String db_notes = (String) request.getParameter("db_notes");
 
 		String admin_first = (String) request.getParameter("admin_first");
@@ -1336,7 +1339,7 @@ public class AuthorFacilitatorSessionObject {
 	public String getPhaseName() {
 
 		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session.getServletContext().getAttribute(
-				"phaseNames");
+				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
 
 		if (running_sim_id != null) {
 			phaseName = phaseNames.get(running_sim_id);
@@ -1830,41 +1833,6 @@ public class AuthorFacilitatorSessionObject {
 		return true;
 
 	}
-
-	/**
-	 * Takes a comma separated list of actor ids and turns it into a list of
-	 * names.
-	 * 
-	 * @param request
-	 * @param id_list
-	 * @return
-	 */
-	public String stringListToNames(HttpServletRequest request, String id_list, String separator) {
-
-		if (id_list == null) {
-			return "";
-		}
-
-		StringTokenizer str = new StringTokenizer(id_list, ",");
-
-		String returnList = "";
-
-		while (str.hasMoreTokens()) {
-			Long a_id = new Long(str.nextToken().trim());
-			returnList += (USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, a_id) + separator);
-
-		}
-
-		// chop the final comma off
-		if (returnList.endsWith(separator)) {
-			returnList = returnList.substring(0, returnList.length() - 2);
-		}
-
-		return returnList;
-	}
-
-
-
 
 
 	/**

@@ -19,10 +19,6 @@
 	
 	String db_schema = afso.getClean(request, "db_schema");
 	String db_org = afso.getClean(request, "db_org");
-    String db_user = afso.getClean(request, "db_user");
-    String db_pass = afso.getClean(request, "db_pass");
-	String db_loc = afso.getClean(request, "db_loc");
-	String db_port = afso.getClean(request, "db_port");
 	String db_notes = afso.getClean(request, "db_notes");
 	
 	String admin_first = afso.getClean(request, "admin_first");
@@ -105,22 +101,6 @@ body {
               <tr> 
                 <td valign="top">Organization</td>
                 <td valign="top"><input type="text" name="db_org" value="<%= db_org %>" /></td>
-              </tr>
-              <tr> 
-                <td valign="top">DB User</td>
-                <td valign="top"><input type="text" name="db_user" value="<%= db_user %>" /></td>
-              </tr>
-              <tr> 
-                <td valign="top">DB Password</td>
-                <td valign="top"><input type="text" name="db_pass" value="<%= db_pass %>" /></td>
-              </tr>
-              <tr> 
-                <td valign="top">DB Location</td>
-                <td valign="top"><input type="text" name="db_loc" value="<%= db_loc %>" /></td>
-              </tr>
-              <tr> 
-                <td valign="top">DB Port</td>
-                <td valign="top"><input type="text" name="db_port" value="<%= db_port %>" /></td>
               </tr>
               <tr>
                 <td valign="top">DB Notes</td>

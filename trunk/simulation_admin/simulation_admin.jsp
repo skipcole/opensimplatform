@@ -26,59 +26,34 @@
                 <td width="100%"><br />
                   <h1>Simulation Software Admininstration</h1>
                   <br />
-                  <table width="100%" border="0" cellspacing="2" cellpadding="1">
-                    <!--tr valign="top"> 
-    <td>4.</td>
-    <td>GC <a href="create_game_phases.jsp">creates Game Phases</a></td>
-    <td>For example, &quot;In Progress&quot; or &quot;Done&quot;</td>
-  </tr -->
+                  <table width="100%" border="1" cellspacing="2" cellpadding="1">
                     <tr valign="top">
-                      <td width="2%">&nbsp;</td>
                       <td width="24%"><a href="../simulation_user_admin/create_admin_user.jsp">Add Administrative User</a></td>
-                      <td width="2%">&nbsp;</td>
                       <td width="72%">Allows you to add a user who can administrate or create or facilitate simulations.</td>
                     </tr>
                     <tr valign="top">
-                      <td>&nbsp;</td>
-                      <td><a href="install_edit_db.jsp">Edit / Install Databases</a></td>
-                      <td>&nbsp;</td>
-                      <td>Edit or install a new database. </td>
+                      <td><a href="install_edit_db.jsp">View / Edit / Install Databases</a></td>
+                      <td>Allows one to see all of the installed databases and the last time someone has logged into them. Also allows one to edit or install a new database. </td>
                     </tr>
                     <tr valign="top">
-                      <td>&nbsp;</td>
                       <td><a href="install_simulation_sections.jsp">Install Simulation Sections</a></td>
-                      <td>&nbsp;</td>
                       <td>Install sections that can be added to simulations.</td>
                     </tr>
                     <tr valign="top">
-                      <td>&nbsp;</td>
                       <td><a href="install_models.jsp">Install Model</a></td>
-                      <td>&nbsp;</td>
                       <td>Allows you to install a model whose definition file has been found on this system.</td>
                     </tr>
                     <tr valign="top">
-                      <td>&nbsp;</td>
                       <td><a href="update_next_downtime_msg.jsp">Set Next Planned Downtime</a></td>
-                      <td>&nbsp;</td>
                       <td>Allows you to update the 'next scheduled downtime notice' on the login pages.</td>
                     </tr>
                     <tr valign="top">
-                      <td>&nbsp;</td>
                       <td><a href="software_development_section.jsp">Software Development</a></td>
-                      <td>&nbsp;</td>
                       <td>Section useful to developers only.</td>
                     </tr>
                     <tr valign="top">
-                      <td>&nbsp;</td>
                       <td><a href="email_test.jsp">Test Email</a></td>
-                      <td>&nbsp;</td>
                       <td>Allows you to test the functionality of the email system.</td>
-                    </tr>
-                    <tr valign="top">
-                      <td>&nbsp;</td>
-                      <td><a href="db_schema_assignment.jsp">View Databases</a></td>
-                      <td>&nbsp;</td>
-                      <td>Allows one to see all of the installed databases and the last time someone has logged into them.</td>
                     </tr>
                   </table>
                   <p>&nbsp;</p>
