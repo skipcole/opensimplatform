@@ -2,11 +2,11 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 <%
 	String tabposition = request.getParameter("tabposition");
 	
-	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
@@ -18,7 +18,9 @@
 <head>
 <script type="text/javascript" src="../jquery-1.2.6.js"></script>
 <title>Simulation <%= pso.simulation_name %>, Version , Session <%= pso.run_sim_name %></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
 <style type="text/css">
 <!--
 .normal {
@@ -61,18 +63,18 @@ function getSimRound()
 				alert("You have been logged out.");
 			 	top.document.location="../logout.jsp";
 			} else {
-				//document.getElementById('sim_round_div').innerHTML = array0[0];
 				document.getElementById('sim_phase_div').innerHTML = sim_phase;
         	}
 			
 		} , 'xml');
 
   } // End of get sim round
+
   
 function timedCount()
 {
 	getSimRound()
-	setTimeout("timedCount()",5000)
+	setTimeout("timedCount()", 1000)
 }
 </script>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">
@@ -152,6 +154,3 @@ function timedCount()
 	</table>
 </body>
 </html>
-<%
-	
-%>

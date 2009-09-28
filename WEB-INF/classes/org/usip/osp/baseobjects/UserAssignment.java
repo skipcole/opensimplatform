@@ -13,7 +13,8 @@ import org.apache.log4j.*;
  * This class represents the assignment of a user to a particular running 
  * simulation.
  *
- *
+ */
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or
@@ -51,6 +52,16 @@ public class UserAssignment{
     /** User id of this user Assignment */
     @Column(name = "USER_ID")
     private Long user_id;
+    
+    private Long highestAlertNumberRecieved = new Long(0);
+
+	public Long getHighestAlertNumberRecieved() {
+		return highestAlertNumberRecieved;
+	}
+
+	public void setHighestAlertNumberRecieved(Long highestAlertNumberRecieved) {
+		this.highestAlertNumberRecieved = highestAlertNumberRecieved;
+	}
 
 	public Long getId() {
 		return this.id;
@@ -234,6 +245,39 @@ public class UserAssignment{
 		
 		return returnUserAssignment;
 		
+	}
+	
+	/**
+	 * Pulls the user assignment out of the database base on its id and schema.
+	 * 
+	 * @param schema
+	 * @param ua_id
+	 * @return
+	 */
+	public static UserAssignment getMe(String schema, Long ua_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil.getSession(schema).get(UserAssignment.class, ua_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return ua;
+
+	}
+	
+	/**
+	 * Saves this object back to the database.
+	 * 
+	 * @param schema
+	 */
+	public void saveMe(String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
 	}
     
 	

@@ -5,7 +5,7 @@
 	errorPage="" %>
 
 <%
-	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 		
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
@@ -24,7 +24,7 @@
 		   
 	} // End of if coming from this page and have added simulation.
 	
-	//pso = PlayerSessionObject.getPSO(request.getSession(true), true);
+	//pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	
 

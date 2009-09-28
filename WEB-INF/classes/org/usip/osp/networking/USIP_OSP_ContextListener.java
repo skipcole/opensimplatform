@@ -63,7 +63,7 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	 * simulation. Highest change number This alerts the program to check
 	 * against the database for new values.
 	 */
-	public static final String CACHEON_CHANGE_NUMBERS = "highestChangeNumber"; //$NON-NLS-1$
+	public static final String CACHEON_ALERT_NUMBERS = "highestAlertNumber"; //$NON-NLS-1$
 
 	public static final String CACHEON_PHASE_IDS = "phaseIds"; //$NON-NLS-1$
 	

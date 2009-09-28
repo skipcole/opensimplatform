@@ -6,7 +6,7 @@
 %>
 <%
 
-	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 		
 	String message = (String) request.getParameter("message");
 

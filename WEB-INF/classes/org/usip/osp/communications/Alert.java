@@ -10,76 +10,76 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * This class represents an alert, which can be of many different types, sent to a player or players.
- *
- *
+ * This class represents an alert, which can be of many different types, sent to
+ * a player or players.
+ * 
+ * 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
- * The USIP Open Simulation Platform is free software; you can redistribute it and/or
- * modify it under the terms of the new BSD Style license associated with this
- * distribution.<br>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- * PURPOSE. <BR>
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  * 
  */
 @Entity
 @Table(name = "ALERTS")
-@Proxy(lazy=false)
+@Proxy(lazy = false)
 public class Alert {
 
-	/** This alert is of an undefined type.*/
+	/** This alert is of an undefined type. */
 	public static final int TYPE_UNDEFINED = 0;
-	
-	/** An announcement has been made and may be seen on the announcement page.*/
+
+	/** An announcement has been made and may be seen on the announcement page. */
 	public static final int TYPE_ANNOUNCEMENT = 1;
-	
+
 	/** New news is available from a news source accessible to the player. */
 	public static final int TYPE_NEWS = 2;
-	
+
 	/** An event for the player. */
 	public static final int TYPE_EVENT = 3;
-	
+
 	/** The phase of the simulation has changed. */
 	public static final int TYPE_PHASECHANGE = 102;
-	
+
 	/** An incoming for the player. */
 	public static final int TYPE_MEMO = 105;
-		
-    /** Database id of this Alert. */
+
+	/** Database id of this Alert. */
 	@Id
 	@GeneratedValue
 	@Column(name = "ALERT_ID")
-    private Long id;
+	private Long id;
 
 	@Column(name = "ALERT_TYPE")
 	private int type = 0;
-	
-    @Lob
-    private String alertMessage = ""; //$NON-NLS-1$
-	
-    @Lob
-    private String alertPopupMessage = ""; //$NON-NLS-1$
-    
-    @Lob
-    private String alertEmailMessage = ""; //$NON-NLS-1$
-    
-    
-	@Column(name="ALERT_TIME", columnDefinition="datetime") 	
+
+	@Lob
+	private String alertMessage = ""; //$NON-NLS-1$
+
+	@Lob
+	private String alertPopupMessage = ""; //$NON-NLS-1$
+
+	@Lob
+	private String alertEmailMessage = ""; //$NON-NLS-1$
+
+	@Column(name = "ALERT_TIME", columnDefinition = "datetime")
 	@GeneratedValue
 	private Date timeOfAlert;
-	
-	@Column(name="SPEC_TARGS")
-	/** If this alert is only for specific actors (targets). */
+
+	@Column(name = "SPEC_TARGS")
+	/* If this alert is only for specific actors (targets). */
 	private boolean specific_targets = false;
 
-	@Column(name="THE_SPEC_TARGS")
-	/** a comma separated list of the actor ids for whom this alert is for.*/
+	@Column(name = "THE_SPEC_TARGS")
+	/* a comma separated list of the actor ids for whom this alert is for. */
 	private String the_specific_targets = ""; //$NON-NLS-1$
-	
+
 	private Long running_sim_id;
-	
+
 	public Long getRunning_sim_id() {
 		return this.running_sim_id;
 	}
@@ -104,12 +104,12 @@ public class Alert {
 		this.the_specific_targets = the_specific_targets;
 	}
 
-	public Alert(){
-		
+	public Alert() {
+
 		this.timeOfAlert = new java.util.Date();
-		
+
 	}
-	
+
 	public Long getId() {
 		return this.id;
 	}
@@ -133,32 +133,55 @@ public class Alert {
 	public void setType(int type) {
 		this.type = type;
 	}
-	
+
 	/**
-	 * Returns true if this actor is included in the distribution list for this 
+	 * Returns a human readable translation of the alert type code.
+	 * 
+	 * @return
+	 */
+	public String getTypeText() {
+		switch (this.type) {
+		case TYPE_ANNOUNCEMENT:
+			return "announcement";
+		case TYPE_EVENT:
+			return "event";
+		case TYPE_MEMO:
+			return "memo";
+		case TYPE_NEWS:
+			return "news";
+		case TYPE_PHASECHANGE:
+			return "phase_change";
+
+		}
+
+		return "unknown";
+	}
+
+	/**
+	 * Returns true if this actor is included in the distribution list for this
 	 * alert.
 	 * 
 	 * @param actor_id
 	 * @return
 	 */
-	public boolean checkActor(Long actor_id){
-		
+	public boolean checkActor(Long actor_id) {
+
 		// If this is an alert for everyone, just return true.
-		if (!(this.specific_targets)){
+		if (!(this.specific_targets)) {
 			return true;
 		} else {
-			
+
 			String a_id = actor_id.toString();
-			
+
 			StringTokenizer str = new StringTokenizer(this.the_specific_targets, ","); //$NON-NLS-1$
-			
-	        while (str.hasMoreTokens()) {
-	            if(str.nextToken().trim().equalsIgnoreCase(a_id)){
-	            	return true;
-	            }
-	        }
-	        
-	        return false;
+
+			while (str.hasMoreTokens()) {
+				if (str.nextToken().trim().equalsIgnoreCase(a_id)) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 
@@ -185,7 +208,7 @@ public class Alert {
 	public void setAlertEmailMessage(String alertEmailMessage) {
 		this.alertEmailMessage = alertEmailMessage;
 	}
-	
+
 	/** Saves a simulation. */
 	public void saveMe(String schema) {
 
@@ -196,7 +219,7 @@ public class Alert {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
-	
+
 	/**
 	 * Returns all of the alerts for this running simulation.
 	 * 
@@ -204,16 +227,66 @@ public class Alert {
 	 * @param running_sim_id
 	 * @return
 	 */
-	public static List <Alert> getAllForRunningSim(String schema, Long running_sim_id){
-		
+	public static List<Alert> getAllForRunningSim(String schema, Long running_sim_id) {
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List <Alert> returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from Alert where running_sim_id = " + running_sim_id).list(); //$NON-NLS-1$
+		List<Alert> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Alert where running_sim_id = " + running_sim_id).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
 	
+	public static void main(String args[]){
+		System.out.println("Hello World");
+		System.out.println(getHighestAlertNumber("test", new Long(1)));
+		
+	}
+	
+	/**
+	 * Get the highest Alert number for a running simulation
+	 */
+	public static Long getHighestAlertNumber(String schema, Long running_sim_id){
+		
+		Long returnLong = new Long(0);
+		
+		String query = "select max(id) from Alert where running_sim_id = " + running_sim_id;
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<Long> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(query).list();
+		
+		if (returnList != null){
+			returnLong = (Long) returnList.get(0);
+			
+		}
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnLong;
+	}
+
+	/**
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @param myHighestChangeNumber
+	 * @return
+	 */
+	public static List<Alert> getAllForRunningSimAboveNumber(String schema, Long running_sim_id,
+			Long myHighestAlertNumber) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<Alert> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Alert where running_sim_id = " + running_sim_id
+						+ " AND ALERT_ID > " + myHighestAlertNumber).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+
 }

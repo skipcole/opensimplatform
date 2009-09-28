@@ -433,29 +433,14 @@ public class Simulation {
 
 	}
 
+
+
 	/**
-	 * This method is of dubious value and may go away.
+	 * Adds the designated control sections to all control actors.
 	 * 
 	 * @param schema
-	 * @param sim_id
-	 * @return
+	 * @param controlActor
 	 */
-	public static Simulation getMeFullyLoaded(String schema, Long sim_id) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		for (ListIterator<SimulationPhase> li = simulation.getPhases(schema).listIterator(); li.hasNext();) {
-			SimulationPhase this_sp = li.next();
-
-			Logger.getRootLogger().debug(this_sp.getName());
-		}
-
-		return simulation;
-
-	}
-
 	public void addControlSectionsToAllPhasesOfControl(String schema, Actor controlActor) {
 
 		// Loop over phases

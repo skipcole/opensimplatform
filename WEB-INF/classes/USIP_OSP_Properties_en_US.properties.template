@@ -1,11 +1,15 @@
-#
+################################################################################
 #	This file contains basic system information for the
-#	USIP Open Simulation Platform to function.
+#	USIP Open Simulation Platform (OSP)to function.
+#
+#	It is divided into the following sections.
 #
 #	Section 1 - General
 #	Section 2 - File system Related
 #	Section 3 - Database Related
 #	Section 4 - Email Related
+################################################################################
+
 
 ###########
 # Section 1 - General
@@ -19,12 +23,12 @@
 #
 next_planned_outage=None Currently Planned
 
-#######################################################################################
+################################################################################
 # URL of the apache/tomcat server
 #
 base_sim_url=http://dev.opensimplatform.org/
 
-#######################################################################################
+################################################################################
 # URL of the OSP on this server
 #
 simulation_url=http://dev.opensimplatform.org/simulation/
@@ -57,45 +61,47 @@ uploads=/usr/local/etc/httpd/sites/opensimplatform/catalina/bin/uploads
 #
 wipe_database_key=local
 
-#######################################################################################
+################################################################################
 # Location of the database server
-#     (If the database is running on the same machine, this probably will not need changed.)
+#     (If the database is running on the same machine, 
+#      this probably will not need changed.)
 #
 loc=jdbc:mysql://localhost:
 
-#######################################################################################
+################################################################################
 # Port of the database server
 #     (This probably will not need changed.)
 #
 port=3306
 
-#######################################################################################
+################################################################################
 # Name of the principal database schema
 #
 principalschema=usiposp
 
-#######################################################################################
+################################################################################
 # UserName when connecting to the database
 #
 username=peacepla
 
-#######################################################################################
+################################################################################
 # Password when connecting to the database
 #
 password=password
 
-#######################################################################################
+################################################################################
 # Overall connection string used when connecting to the database
-# (This is used when we make a direct connection to the database. Normally we go through hibernate.)
+# (This is used when we make a direct connection to the database. 
+#  Normally we go through hibernate.)
 conn_string=jdbc:mysql://localhost:3306/test?user=peacepla&password=password
 
-#######################################################################################
+################################################################################
 # Dialect of communication between the database and hibernate
 #     (This probably will not need changed.)
 #
 dialect=org.hibernate.dialect.MySQLInnoDBDialect
 
-#######################################################################################
+################################################################################
 # Driver class for communication between the database and hibernate
 #     (This probably will not need changed.)
 #
@@ -105,28 +111,27 @@ driver_class=com.mysql.jdbc.Driver
 ###########
 # Section 4 - Email Related
 ###########
-
-#######################################################################################
+################################################################################
 # Administrator's email address
 #
 osp_admin_email=me@skipcole.com
 
-#######################################################################################
+################################################################################
 # Email archive address
 #
 email_archive_address=usiposp@hotmail.com
 
-#######################################################################################
+################################################################################
 # Email SMTP Server
 #
 email_smtp=peaceplatform.org
 
-#######################################################################################
+################################################################################
 # UserName when connecting to the database
 #
 smtp_auth_user=peacepla
 
-#######################################################################################
+################################################################################
 # Password when connecting to the SMTP Server
 #
 smtp_auth_password=password

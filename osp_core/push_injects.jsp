@@ -9,7 +9,7 @@
 	errorPage="" %>
 
 <%
-	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	pso.backPage = "push_injects.jsp";
 	

@@ -8,7 +8,7 @@
 	// The conversation is pulled out of the context
 	Hashtable conversation_actors  = (Hashtable) getServletContext().getAttribute("conversation_actors");
 
-	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true), true);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
