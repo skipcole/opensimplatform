@@ -158,5 +158,60 @@ public class USIP_OSP_Cache {
 		return changeNumber;
 		
 	}
+	
+	/**
+	 * Pulls the name of the image file out of the cache, or loads it if not found.
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
+	public static String getActorThumbImage(HttpServletRequest request, String schema, 
+			Long running_sim_id, Long a_id, Long sim_id) {
+				
+			ServletContext context = request.getSession().getServletContext();
+
+			Hashtable<String, String> actor_thumbs = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.CACHEON_ACTOR_THUMBS);
+
+			if (actor_thumbs == null) {
+				actor_thumbs = new Hashtable<String, String>();
+				context.setAttribute("actor_thumbs", actor_thumbs);
+			}
+
+			String a_thumb = actor_thumbs.get(schema + "_" + running_sim_id + " " + a_id);
+			if (a_thumb == null) {
+				loadActorThumbsInHashtable(actor_thumbs, schema, running_sim_id, sim_id);
+				a_thumb = actor_thumbs.get(schema + "_" + running_sim_id + " " + a_id);
+				context.setAttribute("actor_thumbs", actor_thumbs);
+			}
+
+			return a_thumb;
+		
+	}
+	
+	/**
+	 * Loads all of the actor thumbnail image names into the schema.
+	 * 
+	 * @param actor_thumbs
+	 * @param schema
+	 * @param running_sim_id
+	 * @param sim_id
+	 */
+	public static void loadActorThumbsInHashtable(Hashtable actor_thumbs, String schema, Long running_sim_id, Long sim_id) {
+
+		Logger.getRootLogger().debug("storing namges actor thumb nail images in hashtable. ");
+		Simulation sim = Simulation.getMe(schema, sim_id);
+
+		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
+			Actor act = li.next();
+
+			if (act.getImageThumbFilename() != null) {
+				actor_thumbs.put(schema + "_" + running_sim_id + " " + act.getId(), act.getImageThumbFilename());
+			} else {
+				actor_thumbs.put(schema + "_" + running_sim_id + " " + act.getId(), "no_image_default_thumb.jpg");
+			}
+
+		}
+	}
 
 }

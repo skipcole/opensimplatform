@@ -18,8 +18,9 @@ import org.usip.osp.specialfeatures.*;
 import com.oreilly.servlet.MultipartRequest;
 
 /**
- * This object contains all of the session information for the simulation author /facilitator and
- * is the main interface to all of the java objects that they will interact with.
+ * This object contains all of the session information for the simulation author
+ * /facilitator and is the main interface to all of the java objects that they
+ * will interact with.
  */
 /*
  * 
@@ -32,7 +33,6 @@ import com.oreilly.servlet.MultipartRequest;
  * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
- * 
  */
 public class AuthorFacilitatorSessionObject {
 
@@ -678,20 +678,22 @@ public class AuthorFacilitatorSessionObject {
 
 		schema = db_schema;
 
-		
-		
+		// /////////////////////////////////////////////
+		// Get the database parameters out of the properties file.
 		String db_user = USIP_OSP_Properties.getValue("username");
 		String db_pass = USIP_OSP_Properties.getValue("password");
 		String db_loc = USIP_OSP_Properties.getValue("loc");
 		String db_port = USIP_OSP_Properties.getValue("port");
-		
+		// ////////////////////////////////////////////////
+
 		String db_org = (String) request.getParameter("db_org");
 		String db_notes = (String) request.getParameter("db_notes");
 
 		String admin_first = (String) request.getParameter("admin_first");
 		String admin_middle = (String) request.getParameter("admin_middle");
 		String admin_last = (String) request.getParameter("admin_last");
-		String admin_full = admin_first + " " + admin_last;
+
+		String admin_full = USIP_OSP_Util.constructName(admin_first, admin_middle, admin_last);
 
 		String admin_pass = (String) request.getParameter("admin_pass");
 		String admin_email = (String) request.getParameter("admin_email");
@@ -700,6 +702,7 @@ public class AuthorFacilitatorSessionObject {
 		String email_user = (String) request.getParameter("email_user");
 		String email_pass = (String) request.getParameter("email_pass");
 		String email_user_address = (String) request.getParameter("email_user_address");
+		String email_server_number = (String) request.getParameter("email_server_number");
 
 		String email_status = checkEmailStatus(email_smtp, email_user, email_pass, email_user_address);
 
@@ -740,6 +743,7 @@ public class AuthorFacilitatorSessionObject {
 		sio.setSmtp_auth_password(email_pass);
 		sio.setEmail_archive_address(email_user_address);
 		sio.setEmailState(email_status);
+		sio.setEmailServerNumber(new Long(email_server_number));
 		Logger.getRootLogger().debug(sio.toString());
 
 		// Test SIO
@@ -750,22 +754,23 @@ public class AuthorFacilitatorSessionObject {
 			return error_msg;
 		}
 
-		// Store SIO if schema object of this name already exist, return warning.
-		
+		// Store SIO if schema object of this name already exist, return
+		// warning.
+
 		try {
 			MultiSchemaHibernateUtil.beginTransaction(ps, true);
 			MultiSchemaHibernateUtil.getSession(ps, true).saveOrUpdate(sio);
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(ps);
-		} catch (Exception e){
+		} catch (Exception e) {
 
-			error_msg = "Warning. Unable to create the database entry for this schema. <br />" +
-				"This may indicate that it already has been created.";
+			error_msg = "Warning. Unable to create the database entry for this schema. <br />"
+					+ "This may indicate that it already has been created.";
 
 			e.printStackTrace();
-			
+
 			return error_msg;
 		}
-		
+
 		// Put it directly in web cache.
 		MultiSchemaHibernateUtil.storeAnSIOInHashtables(sio);
 
@@ -988,18 +993,6 @@ public class AuthorFacilitatorSessionObject {
 		}
 
 		return returnValue;
-	}
-
-	/**
-	 * Should take this opportunity to mark in the user trail that they have
-	 * logged out.
-	 * 
-	 * @param request
-	 */
-	public static void logout(HttpServletRequest request) {
-
-		Logger.getRootLogger().debug("TODO: record the user's logout in their trail.");
-
 	}
 
 	/**
@@ -1301,26 +1294,6 @@ public class AuthorFacilitatorSessionObject {
 			Logger.getRootLogger().debug("attempt to make dir: " + e.getMessage());
 		}
 
-	}
-
-	/**
-	 * If a matches b, return the matchText.
-	 * 
-	 * @param a
-	 * @param b
-	 * @param matchText
-	 * @return
-	 */
-	public String matchSelected(String a, String b, String matchText) {
-		if ((a == null) || (b == null)) {
-			return "";
-		}
-
-		if (a.equalsIgnoreCase(b)) {
-			return matchText;
-		} else {
-			return "";
-		}
 	}
 
 	/** Its a work in progress. */
@@ -1776,7 +1749,7 @@ public class AuthorFacilitatorSessionObject {
 				afso.isAdmin = user.isAdmin();
 				afso.isSimAuthor = user.isSim_author();
 				afso.isFacilitator = user.isSim_instructor();
-				
+
 				afso.user_Display_Name = bu.getFull_name();
 				afso.user_email = bu.getUsername();
 
@@ -1803,6 +1776,8 @@ public class AuthorFacilitatorSessionObject {
 	 */
 	public static boolean handleRetrievePassword(HttpServletRequest request) {
 
+		boolean returnValue = true;
+
 		String email = (String) request.getParameter("email");
 
 		BaseUser bu = BaseUser.getByUsername(email);
@@ -1823,99 +1798,21 @@ public class AuthorFacilitatorSessionObject {
 		bccs.add(admin_email);
 
 		try {
-			SchemaInformationObject sio = SchemaInformationObject.loadPrincipalSchemaObjectFromPropertiesFile();
+			SchemaInformationObject sio = SchemaInformationObject.getFirstUpEmailServer();
 
-			Emailer.postMail(sio, email, "Access to OSP", message, admin_email, ccs, bccs);
+			if (sio != null) {
+				Emailer.postMail(sio, email, "Access to OSP", message, admin_email, ccs, bccs);
+			} else {
+				Logger.getRootLogger().warn("Warning no email servers found.");
+				returnValue = false;
+			}
+
 		} catch (Exception e) {
 			Logger.getRootLogger().warn("retreive password error was: " + e.getMessage());
 		}
 
-		return true;
+		return returnValue;
 
-	}
-
-
-	/**
-	 * 
-	 * @param request
-	 * @param a_id
-	 * @return
-	 */
-	public String getActorThumbImage(HttpServletRequest request, Long a_id) {
-
-		ServletContext context = request.getSession().getServletContext();
-
-		Hashtable<String, String> actor_thumbs = (Hashtable<String, String>) context.getAttribute("actor_thumbs");
-
-		if (actor_thumbs == null) {
-			actor_thumbs = new Hashtable<String, String>();
-			context.setAttribute("actor_thumbs", actor_thumbs);
-		}
-
-		String a_thumb = actor_thumbs.get(schema + "_" + running_sim_id + " " + a_id);
-		if (a_thumb == null) {
-			loadActorThumbsInHashtable(actor_thumbs);
-			a_thumb = actor_thumbs.get(schema + "_" + running_sim_id + " " + a_id);
-			context.setAttribute("actor_thumbs", actor_thumbs);
-		}
-
-		return a_thumb;
-	}
-
-	public Vector myActors = new Vector();
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Vector getActorsForConversation(Long ssrsdoa_id, HttpServletRequest request) {
-
-		if ((myActors == null) || (myActors.size() == 0)) {
-			myActors = ChatController.getActorsForConversation(this, ssrsdoa_id, request);
-		}
-
-		return myActors;
-
-	}
-
-	/**
-	 * Takes input from the chat page to change the color in which the actor's
-	 * text is being seen.
-	 * 
-	 * @param actor_id
-	 * @param newColor
-	 */
-	public void changeActorsColor(String actor_id, String newColor) {
-
-		for (Enumeration e = myActors.elements(); e.hasMoreElements();) {
-			ActorGhost ag = (ActorGhost) e.nextElement();
-
-			// Logger.getRootLogger().debug("color was: " +
-			// ag.getDefaultColorChatBubble());
-
-			if (ag.getId().toString().equalsIgnoreCase(actor_id)) {
-				ag.setDefaultColorChatBubble(newColor);
-				// Logger.getRootLogger().debug("color is: " +
-				// ag.getDefaultColorChatBubble());
-			}
-		}
-	}
-
-	public void loadActorThumbsInHashtable(Hashtable actor_thumbs) {
-
-		Logger.getRootLogger().debug("storing namges actor thumb nail images in hashtable. ");
-		Simulation sim = this.giveMeSim();
-
-		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
-			Actor act = li.next();
-
-			if (act.getImageThumbFilename() != null) {
-				actor_thumbs.put(schema + "_" + running_sim_id + " " + act.getId(), act.getImageThumbFilename());
-			} else {
-				actor_thumbs.put(schema + "_" + running_sim_id + " " + act.getId(), "no_image_default_thumb.jpg");
-			}
-
-		}
 	}
 
 	/**
@@ -2259,7 +2156,6 @@ public class AuthorFacilitatorSessionObject {
 		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
 
-
 	public boolean handleResetWebCache(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
@@ -2335,6 +2231,54 @@ public class AuthorFacilitatorSessionObject {
 			USIP_OSP_Properties.setNextPlannedDowntime(new_planned);
 		}
 
+	}
+
+	/**
+	 * Put any housekeeping items here.
+	 * 
+	 * @param request
+	 */
+	public void logout(HttpServletRequest request) {
+
+		if (loggedin) {
+
+		}
+	}
+
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleMakeNotifications(HttpServletRequest request, SharedDocument sd) {
+
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_notifications_page"))) {
+
+			String sdanao = (String) request.getParameter("sdanao");
+			String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
+			String sdanao_text = (String) request.getParameter("sdanao_text");
+
+			System.out.println(sdanao);
+			if (sdanao.equalsIgnoreCase("create_null")) {
+
+				System.out.println("actor_being_worked_on_id" + actor_being_worked_on_id);
+
+				Long from_actor_being_worked_on_id = null;
+				Long from_phase_id = null;
+
+				SharedDocActorNotificAssignObj sdanao_new = new SharedDocActorNotificAssignObj(schema, sim_id, sd
+						.getId(), new Long(actor_being_worked_on_id), from_actor_being_worked_on_id, from_phase_id,
+						sdanao_text);
+			} else if (sdanao.startsWith("remove_")) {
+
+				sdanao = sdanao.replaceAll("remove_", "");
+
+				System.out.println("removing " + sdanao);
+				SharedDocActorNotificAssignObj.removeSdanao(schema, sdanao);
+
+			}
+		}
 	}
 
 } // End of class

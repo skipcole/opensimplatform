@@ -7,6 +7,7 @@ org.usip.osp.networking.*,
 org.usip.osp.persistence.*" errorPage="../error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	
 	afso.backPage = "control_panel.jsp";
 	
 	if (!(afso.isLoggedin())) {

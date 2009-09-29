@@ -7,7 +7,6 @@
 #	Section 1 - General
 #	Section 2 - File system Related
 #	Section 3 - Database Related
-#	Section 4 - Email Related
 ################################################################################
 
 
@@ -107,36 +106,4 @@ dialect=org.hibernate.dialect.MySQLInnoDBDialect
 #
 driver_class=com.mysql.jdbc.Driver
 
-
-###########
-# Section 4 - Email Related
-###########
-################################################################################
-# Administrator's email address
-#
-osp_admin_email=me@skipcole.com
-
-################################################################################
-# Email archive address
-#
-email_archive_address=usiposp@hotmail.com
-
-################################################################################
-# Email SMTP Server
-#
-email_smtp=peaceplatform.org
-
-################################################################################
-# UserName when connecting to the database
-#
-smtp_auth_user=peacepla
-
-################################################################################
-# Password when connecting to the SMTP Server
-#
-smtp_auth_password=password
-
-###########################################################
-# Not sure if we use the entry below.
-schema_organization=USIP
 
