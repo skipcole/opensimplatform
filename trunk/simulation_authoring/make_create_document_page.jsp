@@ -94,7 +94,7 @@
           <tr><td><a href="make_create_document_page.jsp?shared_doc_id=<%= sd.getId() %>"><%= sd.getUniqueDocTitle() %></a></td>
                 <td><%= sd.getDisplayTitle() %></td>
                 <td>delete**</td>
-                <td><%= afso.stringListToNames(request, (String) afso.ActorsWithReadAccess.get(sd.getId().toString()), "<br />") %>**</td>
+                <td><%= USIP_OSP_Util.stringListToNames(afso.schema, afso.sim_id, afso.running_sim_id, request, (String) afso.ActorsWithReadAccess.get(sd.getId().toString()), "<br />") %>**</td>
                 <td>**</td>
                 </tr>
           

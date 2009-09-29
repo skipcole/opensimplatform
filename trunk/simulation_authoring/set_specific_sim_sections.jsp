@@ -206,10 +206,10 @@ function loadInfo(dropdownlist){
                           <input type="hidden" name="sending_section" value="change_color" />
                           
                           <select name="new_color">
-                            <option value="FFFFFF" <%= afso.matchSelected("FFFFFF", ss.getTabColor(), "selected") %> >White</option>
-                            <option value="FFCCCC" <%= afso.matchSelected("FFCCCC", ss.getTabColor(), "selected") %> >Red</option>
-                            <option value="CCFFCC" <%= afso.matchSelected("CCFFCC", ss.getTabColor(), "selected") %> >Green</option>
-                            <option value="CCCCFF" <%= afso.matchSelected("CCCCFF", ss.getTabColor(), "selected") %> >Blue</option>
+                            <option value="FFFFFF" <%= USIP_OSP_Util.matchSelected("FFFFFF", ss.getTabColor(), "selected") %> >White</option>
+                            <option value="FFCCCC" <%= USIP_OSP_Util.matchSelected("FFCCCC", ss.getTabColor(), "selected") %> >Red</option>
+                            <option value="CCFFCC" <%= USIP_OSP_Util.matchSelected("CCFFCC", ss.getTabColor(), "selected") %> >Green</option>
+                            <option value="CCCCFF" <%= USIP_OSP_Util.matchSelected("CCCCFF", ss.getTabColor(), "selected") %> >Blue</option>
                             </select>
                           <input type="submit" name="button" id="button" value="Go!" />
                           </form>

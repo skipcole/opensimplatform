@@ -72,4 +72,44 @@ public class USIP_OSP_Util {
 
 		return shortIntro;
 	}
+	
+	/**
+	 * Constructs a nicely formatted name from the standard 3 western parts: first, middle and last.
+	 * 
+	 * @param first
+	 * @param middle
+	 * @param last
+	 * @return
+	 */
+	public static String constructName(String first, String middle, String last){
+		
+		// Construct full name from the piece of name passed in.
+		String returnString = first + " " + middle;
+		returnString = returnString.trim();
+		returnString += " " + last;
+		returnString = returnString.trim();
+		
+		return returnString;
+		
+	}
+	
+	/**
+	 * If a matches b, return the matchText.
+	 * 
+	 * @param a
+	 * @param b
+	 * @param matchText
+	 * @return
+	 */
+	public static String matchSelected(String a, String b, String matchText) {
+		if ((a == null) || (b == null)) {
+			return "";
+		}
+
+		if (a.equalsIgnoreCase(b)) {
+			return matchText;
+		} else {
+			return "";
+		}
+	}
 }

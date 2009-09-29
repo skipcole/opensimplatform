@@ -2,6 +2,7 @@ package org.usip.osp.networking;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.persistence.BaseUser;
 import org.apache.log4j.*;
@@ -96,10 +97,8 @@ public class OSP_UserAdmin {
 		this._middle_name = request.getParameter("middle_name"); //$NON-NLS-1$
 		
 		// Construct full name from the piece of name passed in.
-		this._full_name = this._first_name + " " + this._middle_name;
-		this._full_name = this._full_name.trim();
-		this._full_name += " " + this._last_name;
-		this._full_name = this._full_name.trim();
+		this._full_name = USIP_OSP_Util.constructName(this._first_name, this._middle_name, this._last_name);
+		
 	}
 
 	/**

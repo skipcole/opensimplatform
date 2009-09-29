@@ -266,6 +266,21 @@ public class UserAssignment{
 	}
 	
 	/**
+	 * Saves the highestAlertNumber back into the database.
+	 * @param schema
+	 * @param ua_id
+	 * @param myHighestAlertNumber
+	 */
+	public static void saveHighAlertNumber(String schema, Long ua_id, Long myHighestAlertNumber) {
+
+		UserAssignment ua = UserAssignment.getMe(schema, ua_id);
+		ua.setHighestAlertNumberRecieved(myHighestAlertNumber);
+		ua.saveMe(schema);
+
+	}
+	
+	
+	/**
 	 * Saves this object back to the database.
 	 * 
 	 * @param schema

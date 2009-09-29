@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.networking.USIP_OSP_ContextListener;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -115,7 +116,7 @@ public class ChatController {
 	}
 
 	public static String getConversation(HttpServletRequest request,
-			AuthorFacilitatorSessionObject pso) {
+			PlayerSessionObject pso) {
 
 		if ((pso == null) || (pso.running_sim_id == null)) {
 			return ""; //$NON-NLS-1$
@@ -142,14 +143,15 @@ public class ChatController {
 				conv_id, this_conv, pso.running_sim_id, pso.schema);
 	}
 
-	public static String getConvKey(AuthorFacilitatorSessionObject pso, String conv_id) {
+	/** Returns a key for the conversation based on schema, running sim id and conversation id. */
+	public static String getConvKey(PlayerSessionObject pso, String conv_id) {
 
 		return (pso.schema + "_" + pso.running_sim_id + "_" + conv_id); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
 	public static Vector getCachedConversation(HttpServletRequest request,
-			AuthorFacilitatorSessionObject pso, String conv_id) {
+			PlayerSessionObject pso, String conv_id) {
 
 		// /////////////////////////////////////////////////////
 		// The conversation is pulled out of the context Hashtable
@@ -177,21 +179,21 @@ public class ChatController {
 	/**
 	 * 
 	 * @param request
-	 * @param afso
+	 * @param pso
 	 * @param conv_id
 	 * @return
 	 */
 	public static String getHTMLConv(HttpServletRequest request,
-			AuthorFacilitatorSessionObject afso, String conv_id){
+			PlayerSessionObject pso, String conv_id){
 
 		String convLinesToReturn = ""; //$NON-NLS-1$
 		
-		Vector this_conv = getCachedConversation(request, afso, conv_id);
+		Vector this_conv = getCachedConversation(request, pso, conv_id);
 		
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
 			ChatLine bcl = (ChatLine) e.nextElement();
 			
-			String fromAName = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.running_sim_id, request, bcl.getFromActor());
+			String fromAName = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, bcl.getFromActor());
 			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a"); //$NON-NLS-1$
 
 			// Check to see were are above the start index sent.
@@ -244,7 +246,7 @@ public class ChatController {
 
 	public static void insertChatLine(Long user_id, Long actor_id,
 			String start_index, String newtext, String conv_id,
-			AuthorFacilitatorSessionObject pso, HttpServletRequest request) {
+			PlayerSessionObject pso, HttpServletRequest request) {
 
 		// This conversation is pulled from the set of conversations Vector
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
@@ -258,7 +260,7 @@ public class ChatController {
 		}
 	}
 
-	public static String getXMLConversation(String start_index, String conv_id, AuthorFacilitatorSessionObject pso,
+	public static String getXMLConversation(String start_index, String conv_id, PlayerSessionObject pso,
 			HttpServletRequest request) {
 
 		if ((start_index == null) || (start_index.trim().length() == 0)) {
@@ -324,7 +326,7 @@ public class ChatController {
 	 * @param request
 	 * @return
 	 */
-	public static Vector getActorsForConversation(AuthorFacilitatorSessionObject pso,
+	public static Vector getActorsForConversation(PlayerSessionObject pso,
 			Long conv_id, HttpServletRequest request) {
 
 		Vector returnVector = new Vector();

@@ -5,7 +5,11 @@
 	errorPage="../error.jsp" %>
 <%
 
-	AuthorFacilitatorSessionObject.logout(request);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	afso.logout(request);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	pso.logout(request);
+	
 	session.setAttribute("afso", null);
 	session.setAttribute("osp_soh", null);
 	session.setAttribute("pso", null);

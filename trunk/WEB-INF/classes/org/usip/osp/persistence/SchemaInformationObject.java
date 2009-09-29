@@ -105,6 +105,16 @@ public class SchemaInformationObject {
 	public void setEmailState(String emailState) {
 		this.emailState = emailState;
 	}
+	
+	private Long emailServerNumber;
+	
+	public Long getEmailServerNumber() {
+		return emailServerNumber;
+	}
+
+	public void setEmailServerNumber(Long emailServerNumber) {
+		this.emailServerNumber = emailServerNumber;
+	}
 
 	/** Keeps track of the last time an author, instructor or admin has logged on. */
 	private Date lastLogin;
@@ -140,14 +150,14 @@ public class SchemaInformationObject {
 
 	public static void main(String args[]) {
 
-		List x = getAll();
+		List x = getAllOrderedByEmailServerNumber();
 
-		Logger.getRootLogger().debug("got all"); //$NON-NLS-1$
+		Logger.getRootLogger().warn("got all"); //$NON-NLS-1$
 
 		for (ListIterator li = x.listIterator(); li.hasNext();) {
 			SchemaInformationObject sio = (SchemaInformationObject) li.next();
 
-			Logger.getRootLogger().debug(sio.getSchema_name());
+			Logger.getRootLogger().warn(sio.getSchema_name());
 		}
 
 	}
@@ -165,6 +175,26 @@ public class SchemaInformationObject {
 		List<SchemaInformationObject> returnList = MultiSchemaHibernateUtil
 				.getSession(MultiSchemaHibernateUtil.principalschema, true)
 				.createQuery("from SchemaInformationObject").list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+
+		return returnList;
+	}
+	
+	/**
+	 * Returns a list of all of the SchemaInformationObjects (SIOs) found ordered by Email Server Number
+	 * 
+	 * @return
+	 */
+	public static List<SchemaInformationObject> getAllOrderedByEmailServerNumber() {
+
+		MultiSchemaHibernateUtil.beginTransaction(
+				MultiSchemaHibernateUtil.principalschema, true);
+
+		List<SchemaInformationObject> returnList = MultiSchemaHibernateUtil
+				.getSession(MultiSchemaHibernateUtil.principalschema, true)
+				.createQuery("from SchemaInformationObject order by emailServerNumber asc").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil
 				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
@@ -387,35 +417,6 @@ public class SchemaInformationObject {
 
 		return returnSIO;
 	}
-
-	/**
-	 * This loads information out of the properties file into a schema
-	 * information object. Note: This SchemaInformationObject (SIO) is not saved
-	 * in the SIO table, since having it there would be redundant.
-	 * 
-	 * @return
-	 */
-	public static SchemaInformationObject loadPrincipalSchemaObjectFromPropertiesFile() {
-
-		SchemaInformationObject sio1 = new SchemaInformationObject();
-
-		sio1.setEmail_archive_address(USIP_OSP_Properties
-				.getValue("email_archive_address")); //$NON-NLS-1$
-		sio1.setEmail_smtp(USIP_OSP_Properties.getValue("email_smtp")); //$NON-NLS-1$
-		sio1.setLocation(USIP_OSP_Properties.getValue("loc")); //$NON-NLS-1$
-		sio1.setPort(USIP_OSP_Properties.getValue("port")); //$NON-NLS-1$
-		sio1.setSchema_name(USIP_OSP_Properties.getValue("principalschema")); //$NON-NLS-1$
-		sio1.setSchema_organization(USIP_OSP_Properties
-				.getValue("schema_organization")); //$NON-NLS-1$
-		sio1.setSmtp_auth_password(USIP_OSP_Properties
-				.getValue("smtp_auth_password")); //$NON-NLS-1$
-		sio1.setSmtp_auth_user(USIP_OSP_Properties.getValue("smtp_auth_user")); //$NON-NLS-1$
-		sio1.setUsername(USIP_OSP_Properties.getValue("username")); //$NON-NLS-1$
-		sio1.setUserpass(USIP_OSP_Properties.getValue("password")); //$NON-NLS-1$
-
-		return sio1;
-
-	}
 	
 	/**
 	 * Pulls the schemainformationobject out of the database base on its id and schema.
@@ -445,6 +446,27 @@ public class SchemaInformationObject {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
+	}
+
+	/**
+	 * Gets an email server that seems to be up.
+	 * 
+	 * @return
+	 */
+	public static SchemaInformationObject getFirstUpEmailServer() {
+		
+		List fList = getAllOrderedByEmailServerNumber();
+		
+		for (ListIterator li = fList.listIterator(); li.hasNext();) {
+			SchemaInformationObject sio = (SchemaInformationObject) li.next();
+
+			// TODOD Should probably select a 'verified' ones first, but for now ...
+			if (!(sio.emailState.equalsIgnoreCase(EMAIL_STATE_DOWN))){
+				return sio;
+			}
+		}
+		
+		return null;
 	}
 
 }

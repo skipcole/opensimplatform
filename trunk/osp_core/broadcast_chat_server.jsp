@@ -7,7 +7,6 @@
 
 /**
  * 
- * @author Ronald Skip Cole
  *
 
  * This file is part of the Open Simulation Platform.<br>    The Open Simulation Platform is free software; you can redistribute it and/or modify

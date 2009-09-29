@@ -23,36 +23,9 @@
 		sim = afso.giveMeSim();
 	}
 	
-	///////////////////////////////////////////////////
-	// This will move into psoHandleMakeNotifications
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_notifications_page"))){
-		
-		String sdanao = (String) request.getParameter("sdanao");
-		String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
-		String sdanao_text = (String) request.getParameter("sdanao_text");
-		
-		System.out.println(sdanao);
-		if (sdanao.equalsIgnoreCase("create_null")){
-			
-			System.out.println("actor_being_worked_on_id" + actor_being_worked_on_id);
-			
-			Long from_actor_being_worked_on_id = null;
-			Long from_phase_id = null;
-			
-			SharedDocActorNotificAssignObj sdanao_new = new SharedDocActorNotificAssignObj(afso.schema, afso.sim_id, sd.getId(), new Long(actor_being_worked_on_id), 
-			from_actor_being_worked_on_id, from_phase_id, sdanao_text);
-		} else if (sdanao.startsWith("remove_")){
-			
-			sdanao = sdanao.replaceAll("remove_", "");
-			
-			System.out.println("removing " + sdanao);
-			SharedDocActorNotificAssignObj.removeSdanao(afso.schema, sdanao);
 
-		}
-	}
-	///////////////////////////////////////////////////
+	afso.handleMakeNotifications(request, sd);
+
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

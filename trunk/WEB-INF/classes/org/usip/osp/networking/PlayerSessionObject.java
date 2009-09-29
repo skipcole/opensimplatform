@@ -2,6 +2,7 @@ package org.usip.osp.networking;
 
 import java.util.*;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.*;
 
 import org.apache.log4j.Logger;
@@ -457,7 +458,9 @@ public class PlayerSessionObject {
 
 	}
 
-
+	/** Keeps track of the previously recorded high alert number. */
+	private Long prevMyHighestAlertNumber = new Long(0);
+	
 	/**
 	 * This method does the following: 1.) Gets from the cache the highest
 	 * change number for this simulation. 2.) It compares this with what this
@@ -489,14 +492,15 @@ public class PlayerSessionObject {
 		// Every two minutes (assuming polling is being done every second) do a
 		// database check anyway, and store myHighest Alert Number
 		myCount += 1;
+		
 		if (myCount == 120) {
 
-			System.out.println("Saving high alert number.");
-
-			UserAssignment ua = UserAssignment.getMe(schema, this.myUserAssignmentId);
-			ua.setHighestAlertNumberRecieved(myHighestAlertNumber);
-			ua.saveMe(schema);
-
+			if (!(myHighestAlertNumber.equals(prevMyHighestAlertNumber))){
+				UserAssignment.saveHighAlertNumber(schema, this.myUserAssignmentId, myHighestAlertNumber);
+			}
+			
+			prevMyHighestAlertNumber = new Long(myHighestAlertNumber);
+			
 			doDatabaseCheck = true;
 			myCount = 0;
 		}
@@ -798,11 +802,14 @@ public class PlayerSessionObject {
 			// Try to get it from database. If that fails, set it to 0.
 			runningSimHighestAlert = Alert.getHighestAlertNumber(schema, running_sim_id);
 			
-			highestAlertNumber.put(running_sim_id, runningSimHighestAlert);
+			if (runningSimHighestAlert != null) {
+				highestAlertNumber.put(running_sim_id, runningSimHighestAlert);
 
-			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
+				request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
 					highestAlertNumber);
-
+			} else {
+				runningSimHighestAlert = new Long(0);
+			}
 		}
 
 		return runningSimHighestAlert;
@@ -1175,6 +1182,7 @@ public class PlayerSessionObject {
 				al.setType(Alert.TYPE_MEMO);
 				al.setThe_specific_targets(sdanao.getActor_id().toString());
 				al.setAlertMessage(sdanao.getNotificationText());
+				al.setAlertPopupMessage(sdanao.getNotificationText());
 				al.setRunning_sim_id(running_sim_id);
 				al.saveMe(schema);
 
@@ -1510,4 +1518,76 @@ public class PlayerSessionObject {
 
 		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, a_id);
 	}
+	
+	/**
+	 * Should take this opportunity to mark in the user trail that they have
+	 * logged out.
+	 * 
+	 * @param request
+	 */
+	public void logout(HttpServletRequest request) {
+
+		if (loggedin){
+			Logger.getRootLogger().warn("TODO: record the user's logout in their trail.");
+		
+			if (myUserAssignmentId != null){
+				UserAssignment.saveHighAlertNumber(schema, myUserAssignmentId, myHighestAlertNumber);
+			}
+		}
+	}
+	
+	/**
+	 * Pulls the name of the image file out of the cache, or loads it if not found.
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
+	public String getActorThumbImage(HttpServletRequest request, Long a_id) {
+		
+		String a_thumb = USIP_OSP_Cache.getActorThumbImage(request, schema, running_sim_id, a_id, sim_id);
+
+		return a_thumb;
+	}
+
+	public Vector myActors = new Vector();
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Vector getActorsForConversation(Long ssrsdoa_id, HttpServletRequest request) {
+
+		if ((myActors == null) || (myActors.size() == 0)) {
+			myActors = ChatController.getActorsForConversation(this, ssrsdoa_id, request);
+		}
+
+		return myActors;
+
+	}
+
+	/**
+	 * Takes input from the chat page to change the color in which the actor's
+	 * text is being seen.
+	 * 
+	 * @param actor_id
+	 * @param newColor
+	 */
+	public void changeActorsColor(String actor_id, String newColor) {
+
+		for (Enumeration e = myActors.elements(); e.hasMoreElements();) {
+			ActorGhost ag = (ActorGhost) e.nextElement();
+
+			// Logger.getRootLogger().debug("color was: " +
+			// ag.getDefaultColorChatBubble());
+
+			if (ag.getId().toString().equalsIgnoreCase(actor_id)) {
+				ag.setDefaultColorChatBubble(newColor);
+				// Logger.getRootLogger().debug("color is: " +
+				// ag.getDefaultColorChatBubble());
+			}
+		}
+	}
+
+
 }

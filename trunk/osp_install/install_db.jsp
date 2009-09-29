@@ -87,6 +87,8 @@ body {
         <h1>
           <input type="hidden" name="sending_page" value="clean_db" />
           Install Database </h1>
+        <p>Now that you have installed the root database, you need to install a simulation database to hold simulation data.</p>
+        <p>&nbsp;</p>
         <blockquote>
           <blockquote> 
             <table  border="0" cellspacing="2" cellpadding="1">
@@ -164,6 +166,10 @@ body {
               <tr> 
                 <td valign="top">email user address </td>
                 <td valign="top"><input type="text" name="email_user_address"  value="<%= email_user_address %>" /></td>
+              </tr>
+              <tr>
+                <td valign="top">email server number <a href="helptext/email_server_number.jsp"  target="helpinright">(?)</a></td>
+                <td valign="top">1 <input type="hidden" name="email_server_number" value="1" /></td>
               </tr>
             </table>
           </blockquote>

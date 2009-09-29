@@ -277,10 +277,10 @@ Actors in this conversation:
 			String this_a_name = act.getName();
 	%>
 		<LI><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
-      <option value="<%= this_a_id %>_ffffff" <%= pso.matchSelected("ffffff", act.getDefaultColorChatBubble(), " selected ") %>>White</option>
-	  <option value="<%= this_a_id %>_ffdddd" <%= pso.matchSelected("ffdddd", act.getDefaultColorChatBubble(), " selected ") %>>Red</option>
-	  <option value="<%= this_a_id %>_ddffdd" <%= pso.matchSelected("ddffdd", act.getDefaultColorChatBubble(), " selected ") %>>Green</option>
-	  <option value="<%= this_a_id %>_ddddff" <%= pso.matchSelected("ddddff", act.getDefaultColorChatBubble(), " selected ") %>>Blue</option>
+      <option value="<%= this_a_id %>_ffffff" <%= USIP_OSP_Util.matchSelected("ffffff", act.getDefaultColorChatBubble(), " selected ") %>>White</option>
+	  <option value="<%= this_a_id %>_ffdddd" <%= USIP_OSP_Util.matchSelected("ffdddd", act.getDefaultColorChatBubble(), " selected ") %>>Red</option>
+	  <option value="<%= this_a_id %>_ddffdd" <%= USIP_OSP_Util.matchSelected("ddffdd", act.getDefaultColorChatBubble(), " selected ") %>>Green</option>
+	  <option value="<%= this_a_id %>_ddddff" <%= USIP_OSP_Util.matchSelected("ddddff", act.getDefaultColorChatBubble(), " selected ") %>>Blue</option>
 	  
         </select> </form></LI>
 	<%	

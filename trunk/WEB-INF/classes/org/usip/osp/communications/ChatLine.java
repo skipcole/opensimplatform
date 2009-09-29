@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
@@ -86,7 +87,7 @@ public class ChatLine {
      * 
      * @return	Returns the chatline packaged in xml.
      */
-    public String packageIntoXML(AuthorFacilitatorSessionObject afso, HttpServletRequest request){
+    public String packageIntoXML(PlayerSessionObject afso, HttpServletRequest request){
     	
     	String time_string = this.sdf.format(this.msgDate);
     	
