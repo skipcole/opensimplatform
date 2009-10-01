@@ -46,6 +46,18 @@ public class SchemaInformationObject {
 	/** Organization for which this schema has been created. */
 	private String schema_organization;
 
+	/** username to login to database to access schema. */
+	private String username;
+
+	/** password to login to database to access schema. */
+	private String userpass;
+
+	/** locationt to access database, such as 'jdbc:mysql://localhost:' */
+	private String location = "jdbc:mysql://localhost:"; //$NON-NLS-1$
+
+	/** Port to access schema, on MySQL it is generally 3306. */
+	private String port = "3306"; //$NON-NLS-1$
+
 	// //////////////////////////////////////////
 	/** Email SMTP server */
 	private String email_smtp;
@@ -190,6 +202,55 @@ public class SchemaInformationObject {
 		return returnList;
 	}
 
+	/**
+	 * Tests to see if a connection can be made to the databse in question. The
+	 * string "Database Connection Verified" is returned upon successful
+	 * connection.
+	 * 
+	 * @return
+	 */
+	public String testConn() {
+
+		Connection conn = MysqlDatabase.getConnection(makeConnString());
+
+		if (conn == null) {
+			return "problem creating database connection"; //$NON-NLS-1$
+		}
+
+		try {
+			conn.close();
+		} catch (Exception e) {
+			Logger.getRootLogger().debug("Error in closing connection in test conn."); //$NON-NLS-1$
+		}
+
+		return "Database Connection Verified"; //$NON-NLS-1$
+	}
+
+	/**
+	 * Generates the connection string from the url, username and password.
+	 * 
+	 * @return
+	 */
+	public String makeConnString() {
+
+		String conn_string = makeURL() + "&user=" + this.username + "&password=" //$NON-NLS-1$ //$NON-NLS-2$
+				+ this.userpass;
+
+		System.out.print(conn_string);
+		return conn_string;
+	}
+
+	/**
+	 * Generates the URL based on the location, port and schema_name.
+	 * 
+	 * @return
+	 */
+	public String makeURL() {
+		String url = this.location + this.port + "/" + this.schema_name //$NON-NLS-1$
+				+ "?autoReconnect=true"; //$NON-NLS-1$
+
+		return url;
+	}
 
 	public String getSchema_name() {
 		return this.schema_name;
@@ -199,6 +260,37 @@ public class SchemaInformationObject {
 		this.schema_name = schema_name;
 	}
 
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getUserpass() {
+		return this.userpass;
+	}
+
+	public void setUserpass(String userpass) {
+		this.userpass = userpass;
+	}
+
+	public String getPort() {
+		return this.port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
+	}
+
+	public String getLocation() {
+		return this.location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
 	public Long getId() {
 		return this.id;
@@ -209,7 +301,10 @@ public class SchemaInformationObject {
 	}
 
 	public String toString() {
-		return "schema: " + this.schema_name + "\n\r"
+		return "schema: " + this.schema_name + "\n\r" + "user: " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ this.username + "\n\r" + "loc: " + this.location + "\n\r" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ "port: " + this.port + "\n\r" + "url: " + this.makeURL() //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ "\n\r" + "conn: " + this.makeConnString() //$NON-NLS-1$ //$NON-NLS-2$
 				+ "email smtp server: " + this.email_smtp + "\n\r" //$NON-NLS-1$ //$NON-NLS-2$
 				+ "email user: " + this.smtp_auth_user + "\n\r" //$NON-NLS-1$ //$NON-NLS-2$
 				+ "email archive: " + this.email_archive_address + "\n\r"; //$NON-NLS-1$ //$NON-NLS-2$

@@ -1207,17 +1207,6 @@ public class PlayerSessionObject {
 
 		return actor;
 	}
-	
-	/**
-	 * Returns the user associated with this session.
-	 * 
-	 * @return
-	 */
-	public User giveMeUser() {
-
-		return User.getUser(schema, this.user_id);
-
-	}
 
 	public RunningSimulation giveMeRunningSim() {
 

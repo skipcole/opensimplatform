@@ -71,7 +71,7 @@ public class DataGatherer {
         } else if (chartType.equalsIgnoreCase("LineChart")) { //$NON-NLS-1$
             try {
 
-                Connection connection = MultiSchemaHibernateUtil.getConnection();
+                Connection connection = MysqlDatabase.getConnection();
                 Statement stmt = connection.createStatement();
 
                 ResultSet rst = stmt.executeQuery(getDataSQL);
@@ -89,7 +89,7 @@ public class DataGatherer {
 
         } else if (chartType.equalsIgnoreCase("myfirst")) { //$NON-NLS-1$
             try {
-                Connection connection = MultiSchemaHibernateUtil.getConnection();
+                Connection connection = MysqlDatabase.getConnection();
                 Statement stmt = connection.createStatement();
                 ResultSet rst = stmt.executeQuery(getDataSQL);
 

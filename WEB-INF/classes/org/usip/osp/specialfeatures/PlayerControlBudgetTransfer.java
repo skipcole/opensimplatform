@@ -9,7 +9,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.MysqlDatabase;
 
 /*
  * 
@@ -119,7 +119,7 @@ public class PlayerControlBudgetTransfer extends SpecialFeature {
             returnString += "<P>" + updateSQL + "</P>"; //$NON-NLS-1$ //$NON-NLS-2$
 
             try {
-                Connection connection = MultiSchemaHibernateUtil.getConnection();
+                Connection connection = MysqlDatabase.getConnection();
                 Statement stmt = connection.createStatement();
 
                 stmt.execute(updateSQL);
@@ -140,7 +140,7 @@ public class PlayerControlBudgetTransfer extends SpecialFeature {
     public String storeInRunningGameTable(String running_game_id, String tableName) {
         String debug = "start: "; //$NON-NLS-1$
         try {
-            Connection connection = MultiSchemaHibernateUtil.getConnection();
+            Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
 
             String insertSQL = "INSERT INTO `" //$NON-NLS-1$

@@ -9,7 +9,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.*;
 import org.jfree.data.general.DefaultPieDataset;
 
-import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.MysqlDatabase;
 
 
 /*
@@ -104,7 +104,7 @@ public class GraphServer extends HttpServlet {
                 + chart_id + "'"; //$NON-NLS-1$
 
         try {
-            Connection connection = MultiSchemaHibernateUtil.getConnection();
+            Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rst = stmt.executeQuery(selectChartInfo);
 

@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.MysqlDatabase;
 
 /*
  * 
@@ -153,7 +153,7 @@ public class BudgetVariable {
         Vector transactionSums = new Vector();
         
         try {
-            Connection connection = MultiSchemaHibernateUtil.getConnection();
+            Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
             ResultSet rst = stmt.executeQuery(selectRecords);
 
@@ -304,7 +304,7 @@ public class BudgetVariable {
         returnString += selectSQL;
         
         try {
-            Connection connection = MultiSchemaHibernateUtil.getConnection();
+            Connection connection = MysqlDatabase.getConnection();
             Statement stmt = connection.createStatement();
 
             ResultSet rst = stmt.executeQuery(selectSQL);
