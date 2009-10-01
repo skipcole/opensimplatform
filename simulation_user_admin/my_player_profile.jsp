@@ -6,13 +6,13 @@
 <%
 	String error_msg = "";
 	
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	if (!(afso.isLoggedin())) {
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	if (!(pso.isLoggedin())) {
 		response.sendRedirect("../simulation/index.jsp");
 		return;
 	}
 	
-	User user = afso.giveMeUser();
+	User user = pso.giveMeUser();
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -105,7 +105,7 @@ body {
 
     <tr>
       <td valign="top">Email Address:</td>
-      <td valign="top"><%= afso.user_email %></td>
+      <td valign="top"><%= pso.user_name %></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
