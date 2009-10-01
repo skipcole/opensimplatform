@@ -2,8 +2,9 @@ package org.usip.osp.persistence;
 
 import java.security.MessageDigest;
 import java.sql.*;
-import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.apache.log4j.*;
+
+import com.mysql.jdbc.SQLError;
 
 /*
  * 
@@ -19,42 +20,8 @@ import org.apache.log4j.*;
  * 
  */
 public class MysqlDatabase {
+ 
 
-    private static String conn_string = ""; //$NON-NLS-1$
-
-    static {
-            conn_string = USIP_OSP_Properties.getValue("conn_string"); //$NON-NLS-1$
-    }
-    
-    public static String makeConnString(String base_url, String user, String pass){
-        
-        String conn_string = base_url + "&user=" + user + "&password=" + pass; //$NON-NLS-1$ //$NON-NLS-2$
-        
-        System.out.print(conn_string);
-        return conn_string;
-    }
-
-    /**
-     * Returns a database connection.
-     * 
-     * @return
-     */
-    public static Connection getConnection() {
-        Connection connection = null;
-
-        try {
-            Class.forName("org.gjt.mm.mysql.Driver").newInstance(); //$NON-NLS-1$
-            connection = DriverManager.getConnection(conn_string);
-
-            return connection;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-    
     /**
      * Returns a database connection.
      * 
@@ -75,6 +42,8 @@ public class MysqlDatabase {
 
             return connection;
 
+        } catch (SQLException se) {
+            System.out.println(se.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

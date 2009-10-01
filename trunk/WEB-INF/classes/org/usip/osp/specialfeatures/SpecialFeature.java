@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.SimulationSectionAssignment;
-import org.usip.osp.persistence.MysqlDatabase;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This is the base class of all of the 'special features' one can add to a simulation.
@@ -101,7 +101,7 @@ public abstract class SpecialFeature{
     static void createTable(String createTableSQL){
         
         try {
-            Connection connection = MysqlDatabase.getConnection();
+            Connection connection = MultiSchemaHibernateUtil.getConnection();
             Statement stmt = connection.createStatement();
             
             stmt.execute(createTableSQL);

@@ -677,13 +677,7 @@ public class AuthorFacilitatorSessionObject {
 		String db_schema = (String) request.getParameter("db_schema");
 
 		schema = db_schema;
-
-		// /////////////////////////////////////////////
-		// Get the database parameters out of the properties file.
-		String db_user = USIP_OSP_Properties.getValue("username");
-		String db_pass = USIP_OSP_Properties.getValue("password");
-		String db_loc = USIP_OSP_Properties.getValue("loc");
-		String db_port = USIP_OSP_Properties.getValue("port");
+		
 		// ////////////////////////////////////////////////
 
 		String db_org = (String) request.getParameter("db_org");
@@ -733,10 +727,7 @@ public class AuthorFacilitatorSessionObject {
 		SchemaInformationObject sio = new SchemaInformationObject();
 		sio.setSchema_name(db_schema);
 		sio.setSchema_organization(db_org);
-		sio.setUsername(db_user);
-		sio.setUserpass(db_pass);
-		sio.setLocation(db_loc);
-		sio.setPort(db_port);
+		
 		sio.setNotes(db_notes);
 		sio.setEmail_smtp(email_smtp);
 		sio.setSmtp_auth_user(email_user);
@@ -746,11 +737,8 @@ public class AuthorFacilitatorSessionObject {
 		sio.setEmailServerNumber(new Long(email_server_number));
 		Logger.getRootLogger().debug(sio.toString());
 
-		// Test SIO
-		String databaseConn = sio.testConn();
-
-		if (!(databaseConn.equalsIgnoreCase("Database Connection Verified"))) {
-			error_msg += "<BR>" + databaseConn;
+		if (!(MultiSchemaHibernateUtil.testConn())) {
+			error_msg += "<BR> Failed to create database connection";
 			return error_msg;
 		}
 
@@ -770,9 +758,6 @@ public class AuthorFacilitatorSessionObject {
 
 			return error_msg;
 		}
-
-		// Put it directly in web cache.
-		MultiSchemaHibernateUtil.storeAnSIOInHashtables(sio);
 
 		MultiSchemaHibernateUtil.recreateDatabase(sio);
 
@@ -833,6 +818,10 @@ public class AuthorFacilitatorSessionObject {
 
 			MultiSchemaHibernateUtil.recreateRootDatabase();
 			returnMsg = "Root schema should now contain empty tables.";
+			
+			// Entering the correct key is equivalent to having logged in.
+			this.loggedin = true;
+			
 
 		} else if ((sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))) {
 			returnMsg = "Wrong key entered.";
@@ -842,6 +831,11 @@ public class AuthorFacilitatorSessionObject {
 
 	}
 
+	/**
+	 * Handles the creation of simulation sections.
+	 * 
+	 * @param request
+	 */
 	public void handleCreateSimulationSection(HttpServletRequest request) {
 		String sending_page = (String) request.getParameter("sending_page");
 		String createsection = (String) request.getParameter("createsection");
@@ -943,57 +937,7 @@ public class AuthorFacilitatorSessionObject {
 
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean checkDatabaseCreated() {
 
-		List users = new ArrayList();
-
-		Connection conn = null;
-
-		try {
-
-			String username = USIP_OSP_Properties.getValue("username");
-			String password = USIP_OSP_Properties.getValue("password");
-			String loc = USIP_OSP_Properties.getValue("loc");
-			String port = USIP_OSP_Properties.getValue("port");
-			String url = loc + port + "/" + USIP_OSP_Properties.getValue("principalschema") + "?autoReconnect=true";
-
-			String conn_string = MysqlDatabase.makeConnString(url, username, password);
-
-			conn = MysqlDatabase.getConnection(conn_string);
-			Statement stmt = conn.createStatement();
-			ResultSet rst = stmt.executeQuery("select * from users");
-
-			while (rst.next()) {
-				users.add(rst.getString(1));
-			}
-
-			conn.close();
-
-		} catch (Exception e) {
-			Logger.getRootLogger().debug("Problem getting users");
-			return false;
-		} finally {
-			try {
-				conn.close();
-			} catch (Exception e1) {
-				Logger.getRootLogger().debug("Could not close connection in pso.");
-			}
-		}
-
-		boolean returnValue = false;
-
-		if (users == null) {
-			returnValue = false;
-		} else if (users.size() > 0) {
-			returnValue = true;
-		}
-
-		return returnValue;
-	}
 
 	/**
 	 * Returns the AFSO stored in the session, or creates one.
@@ -1374,6 +1318,7 @@ public class AuthorFacilitatorSessionObject {
 	}
 
 	/**
+	 * Returns the user associated with this session.
 	 * 
 	 * @return
 	 */
@@ -1790,18 +1735,19 @@ public class AuthorFacilitatorSessionObject {
 
 		String message = "A request for your password has been received. Your password is " + bu.getPassword();
 
-		String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
-		Logger.getRootLogger().debug("Logger.getRootLogger().debug(admin_email); " + admin_email);
+		//String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
+		//Logger.getRootLogger().debug("Logger.getRootLogger().debug(admin_email); " + admin_email);
 
 		Vector ccs = new Vector();
 		Vector bccs = new Vector();
-		bccs.add(admin_email);
+		//bccs.add(admin_email);
 
 		try {
 			SchemaInformationObject sio = SchemaInformationObject.getFirstUpEmailServer();
-
+			
 			if (sio != null) {
-				Emailer.postMail(sio, email, "Access to OSP", message, admin_email, ccs, bccs);
+				bccs.add(sio.getEmail_archive_address());
+				Emailer.postMail(sio, email, "Access to OSP", message, "noreply@opensimplatform.org", ccs, bccs);
 			} else {
 				Logger.getRootLogger().warn("Warning no email servers found.");
 				returnValue = false;

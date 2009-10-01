@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.User;
 import org.apache.log4j.*;
@@ -246,16 +247,20 @@ public class BaseUser {
      */
     public static BaseUser getByUsername(String the_username) {
 
-        MultiSchemaHibernateUtil.beginTransaction(
+    	BaseUser bu = null;
+    	
+        Session s = MultiSchemaHibernateUtil.beginTransaction(
                 MultiSchemaHibernateUtil.principalschema, true);
 
-        List returnList = MultiSchemaHibernateUtil.getSession(
-                MultiSchemaHibernateUtil.principalschema, true).createQuery(
-                "from BaseUser where username = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
-
-        BaseUser bu = null;
-
         try {
+            List returnList = s.createQuery(
+                    "from BaseUser where username = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
+        	
+            /*
+             *             List returnList = MultiSchemaHibernateUtil.getSession(
+                    MultiSchemaHibernateUtil.principalschema, true).createQuery(
+                    "from BaseUser where username = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
+             */
         	if ((returnList != null) && (returnList.size() > 0)){
         		bu = (BaseUser) returnList.get(0);
         	}

@@ -10,7 +10,7 @@
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	if ( (afso.checkDatabaseCreated()) &&  (!(afso.isLoggedin()))) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
