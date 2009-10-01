@@ -1,0 +1,106 @@
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: normal;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	font-style: italic;
+}
+h2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 24px;
+	margin-top: 0pt;
+	margin-bottom: 12pt;
+	font-weight: normal;
+}
+h3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	margin-top: 0px;
+	margin-bottom: 12pt;
+}
+h4 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	margin-top: 0pt;
+	margin-bottom: 0px;
+	font-style: italic;
+}
+h5 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 6pt;
+}
+h6 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #FFFFFF;
+	margin-bottom: 0px;
+}
+p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;		
+}
+.super {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	position:relative;
+	top:-3px;
+	font-size:10px;
+	margin-left:2px;
+	font-weight:bold;	
+}
+.caption {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.glossary_link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #009933;
+}
+.p2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	/* margin: 0px; */
+}
+.popup_heading {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+.text_heading {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FFFFFF;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.text-only {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FFFFFF;
+}
+.copyright {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+}
+.ph1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+}
+

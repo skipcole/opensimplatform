@@ -1,0 +1,12 @@
+<org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Write AAR</uniqueName>
+  <version>1</version>
+  <description>A section to write the after action report.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <rec__tab__heading>Write AAR</rec__tab__heading>
+  <sample__image>aar.png</sample__image>
+  <control__section>true</control__section>
+</org.usip.osp.baseobjects.BaseSimSection>

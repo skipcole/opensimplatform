@@ -1,0 +1,114 @@
+
+a {color:#1041a1;text-decoration: none}
+a:hover {color:#05266C;}
+a:visited {color:#3c15a1;}
+a:visited:hover {color:#05266C;}
+
+
+H1 {
+	color: #003399;
+	font-family:georgia,trebuchet ms, verdana, arial, helvetica;
+	padding-top: 0px; 
+	padding-bottom:5px; 
+	font-size:18pt;
+	margin: 0px 0px 5px 0px;
+	letter-spacing:.1em;
+	text-align:left;
+	line-height: 20px;
+	clear:both;
+	}
+
+H1.header {
+	color: #FFFFFF;
+	font-family:georgia,trebuchet ms, verdana, arial, helvetica;
+	padding-top: 0px; padding-bottom:5px; 
+	font-size:18pt;
+	font-style:normal;
+	margin: 0px 0px 10px 0px;
+	letter-spacing:.1em;
+	text-align:left;
+	line-height: 20px;
+	 clear:both;
+	}
+
+H2 {
+	color: #05266C;
+	font-family:palatino,georgia,trebuchet ms, verdana, arial, helvetica;
+	padding-top: 0px; padding-bottom:5px; 
+	font-size:16px;
+	margin: 0px;
+	text-align:left;
+	clear:both; line-height: 18px;
+	}
+
+H2.big {
+	color: #05266C;
+	font-family:palatino,georgia,trebuchet ms, verdana, arial, helvetica;
+	padding-top: 5px; padding-bottom:8px; 
+	font-size:17px;
+	margin: 0px;
+	text-align:left;
+	clear:both;
+	}
+
+H3 {
+	color: black;
+	font-family:palatino,georgia,trebuchet ms, verdana, arial, helvetica;
+	padding-top: 7px; padding-bottom:0px; 
+	font-size:16px;
+	margin: 0px 12px 3px 0px;
+	background-image: url(/images/dot_424562.gif); background-repeat: repeat-x; background-position: bottom;
+	text-align:left;
+	clear:both;
+	}
+
+H3.explore {
+	color: black;
+	font-family:palatino,georgia,trebuchet ms, verdana, arial, helvetica;
+	padding-top: 0px; padding-bottom:0px; 
+	font-size:15px;
+	margin: 0px 12px 3px 0px;
+	background-image: url(/images/dot_424562.gif); background-repeat: repeat-x; background-position: bottom;
+	text-align:left;
+	}
+
+H4 {
+	color: black;
+	font-family:palatino,georgia,trebuchet ms, verdana, arial, helvetica;
+	padding-top: 0px; padding-bottom:0px; 
+	font-size:17px;
+	margin: 4px 12px 8px 0px;
+	text-align:left;
+	line-height:19px;
+	}
+
+H5 {
+	color: black;
+	font-family:verdana, arial, helvetica;
+	padding-top: 6px; padding-bottom:0px; 
+	font-size:13px;
+	margin: 4px 12px 8px 0px;
+	text-align:left;
+	letter-spacing:.05em;
+	clear:both;
+	}
+
+li {
+text-align:left;
+}
+
+td.content {
+	text-align:left;
+	}.menu_item {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	color: #FFFFFF;
+	font-style:normal;
+}
+
+a:visited.menu_item {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+	color: #FFFFFF;
+	font-style:normal;
+}

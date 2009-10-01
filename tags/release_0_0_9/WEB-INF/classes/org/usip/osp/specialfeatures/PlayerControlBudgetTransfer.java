@@ -1,0 +1,202 @@
+package org.usip.osp.specialfeatures;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Enumeration;
+import java.util.Vector;
+
+import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.persistence.MysqlDatabase;
+
+/*
+ * 
+ *         This file is part of the USIP Open Simulation Platform.<br>
+ * 
+ * The USIP Open Simulation Platform is free software; you can redistribute it and/or
+ * modify it under the terms of the new BSD Style license associated with this
+ * distribution.<br>
+ * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ * PURPOSE. <BR>
+ * 
+ */
+public class PlayerControlBudgetTransfer extends SpecialFeature {
+    
+    /** Special Feature ID(s) of the accounts from which one can move funds from. */
+    public String fromAcctString = ""; //$NON-NLS-1$
+    
+    /** Simulation run specific ID(s) of the accounts from which one can move funds from. */
+    public String fromSimAcctString = ""; //$NON-NLS-1$
+    
+    /** Vector of all of the from accounts. */
+    public Vector fromAccounts = new Vector();
+    
+    /** Special Feature ID(s) of the accounts from which one can move funds from. */
+    public String toAcctString = ""; //$NON-NLS-1$
+    
+    /** Simulation run specific ID(s) of the accounts from which one can move funds from. */
+    public String toSimAcctString = ""; //$NON-NLS-1$
+    
+    /** Vector of all of the to accounts. */
+    public Vector toAccounts = new Vector();
+    
+    
+
+    public static final String SPECIALFIELDLABEL = "sim_player_budget_transfer"; //$NON-NLS-1$
+
+    public PlayerControlBudgetTransfer (){
+        this.jsp_page = "show_budget_transfer.jsp"; //$NON-NLS-1$
+    }
+    
+    @Override
+    public String getSpecialFieldLabel() {
+        return SPECIALFIELDLABEL;
+    }
+
+    @Override
+    public String getShortNameBase() {
+        return "sim_pc_fund_xfer_"; //$NON-NLS-1$
+    }
+
+
+    
+    public void loadMeFromResultSet(ResultSet rst) throws SQLException {
+
+
+    }
+    
+
+    @Override
+    public String prep(String running_game_id, Simulation game) {
+        
+        String returnString = ""; //$NON-NLS-1$
+        
+        // Find out if the game has simulation variables
+        Vector simPCs = new Vector();
+
+        for (Enumeration e = simPCs.elements(); e.hasMoreElements();) {
+            PlayerControlBudgetTransfer pcbt = (PlayerControlBudgetTransfer) e.nextElement();
+
+            // Get the sim id of each of the from budgets 
+            BudgetVariable fromBudgetVar = new BudgetVariable();
+            //fromBudgetVar.set_sf_id(new Long(pcbt.fromAcctString));
+            //fromBudgetVar.load();
+            // TODO
+            //fromBudgetVar.sim_id = fromBudgetVar.lookUpMySimID(game.db_tablename_var_bud, running_game_id);
+            //pcbt.fromSimAcctString = fromBudgetVar.sim_id;
+                
+            // Get the sim id of each of the to accounts
+            BudgetVariable toBudgetVar = new BudgetVariable();
+            //toBudgetVar.set_sf_id(new Long(pcbt.toAcctString));
+            //toBudgetVar.load();
+            //TODO
+            //toBudgetVar.sim_id = toBudgetVar.lookUpMySimID(game.db_tablename_var_bud, running_game_id);
+            //pcbt.toSimAcctString = toBudgetVar.sim_id;
+            
+            
+            // This stores it, and gets its sim_id
+            // TODO
+            //returnString += pcbt.storeInRunningGameTable(running_game_id,
+            //        game.db_tablename);
+
+            // Get the sim_id of the variable that this player control affects
+            //String var_sim_id = pc.intVar.lookUpMySimID(game.db_tablename,
+            //        running_game_id);
+
+            // Take the record id of the entry created above, and use that in
+            // the game sections
+            String updateSQL = "UPDATE `game_sections` SET page_file_name = '" //$NON-NLS-1$
+                    + this.jsp_page + "?sf_id=" + pcbt.get_sf_id() //$NON-NLS-1$
+                    + "&sim_id=" + pcbt.sim_id //$NON-NLS-1$
+                    + "' WHERE `section_short_name` = '" + getShortNameBase() //$NON-NLS-1$
+                    + pcbt.get_sf_id() + "' " + "AND running_game_id = " //$NON-NLS-1$ //$NON-NLS-2$
+                    + running_game_id;
+
+            returnString += "<P>" + updateSQL + "</P>"; //$NON-NLS-1$ //$NON-NLS-2$
+
+            try {
+                Connection connection = MysqlDatabase.getConnection();
+                Statement stmt = connection.createStatement();
+
+                stmt.execute(updateSQL);
+
+                connection.close();
+
+            } catch (Exception er) {
+                returnString += er.getMessage();
+                er.printStackTrace();
+            }
+
+        }
+
+        return returnString;
+    }
+
+    @Override
+    public String storeInRunningGameTable(String running_game_id, String tableName) {
+        String debug = "start: "; //$NON-NLS-1$
+        try {
+            Connection connection = MysqlDatabase.getConnection();
+            Statement stmt = connection.createStatement();
+
+            String insertSQL = "INSERT INTO `" //$NON-NLS-1$
+                    + tableName
+                    + "` ( sim_id, sf_id, " //$NON-NLS-1$
+                    + "game_id, running_game_id, `sf_label` , `value_label1`, `value_label2`, `value_label3`, `value_text1`,  `value_text2`, `value_text3` " //$NON-NLS-1$
+                    + " ) VALUES ( NULL , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; //$NON-NLS-1$
+
+            debug += insertSQL;
+
+            PreparedStatement ps = connection.prepareStatement(insertSQL);
+
+            ps.setString(1, this.get_sf_id());
+            ps.setString(2, this.game_id);
+            ps.setString(3, running_game_id);
+            ps.setString(4, this.getSpecialFieldLabel());
+            ps.setString(5, this.name);
+            ps.setString(6, this.fromSimAcctString);
+            ps.setString(7, this.toSimAcctString);
+            ps.setString(8, this.description);
+            ps.setString(9, this.fromAcctString);
+            ps.setString(10, this.toAcctString);
+
+            ps.execute();
+
+            String queryId = "select LAST_INSERT_ID()"; //$NON-NLS-1$
+
+            ResultSet rs = stmt.executeQuery(queryId);
+
+            if (rs.next()) {
+                this.sim_id = rs.getInt(1) + ""; //$NON-NLS-1$
+            }
+            connection.close();
+
+        } catch (Exception e) {
+            debug += "<font color=red>" + e.getMessage() + ":" + e.toString() //$NON-NLS-1$ //$NON-NLS-2$
+                    + "</font>"; //$NON-NLS-1$
+            e.printStackTrace();
+        }
+
+        return debug;
+
+    }
+    
+    public String convertListToString(){
+        return null;
+    }
+    
+    public Vector convertStringToList(){
+        return null;
+    }
+
+    @Override
+    public String removeFromDB() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+}
