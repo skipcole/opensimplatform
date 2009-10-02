@@ -7,7 +7,8 @@
 	
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	User userOnScratchPad = afso.handleAutoRegistration(request);
+	User userOnScratchPad = new User();
+	//User userOnScratchPad = afso.handleAutoRegistration(request);
 	
 	if(afso.forward_on){
 	
@@ -67,6 +68,11 @@ body {
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
+              <h1>Attention: We are disabling this from until we get a CAPTCHA installed.</h1>
+              <p>We are getting too many spam hits on this site. If you need an acount, contact Skip.
+                (If you have an author account, you can already add users to the system.)                </p>
+              <p>Sorry for the inconvenience. </p>
+              <p>&nbsp;</p>
               <h1>Registration Page</h1>
               <br />
 			
@@ -80,36 +86,36 @@ body {
     <li>After registering you will receive an email at the address you give for your email address. If you do not see this email shortly after registering, please look for it in your junk email box (and then white list the sender if you know how to.)</li>
         </ol>
       <p>Please enter your information below. </p>
-      <form action="auto_registration_page.jsp" method="post" name="form1" id="form1">
+      <form action="" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           
           <tr>
             <td>username/email<a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?)</a></td>
-              <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"  /></td>
+              <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>" disabled="disabled"  /></td>
             </tr>
           <tr>
             <td>password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?)</a></td>
-              <td><input type="text" name="password" tabindex="2"  value="<%= userOnScratchPad.getBu_password() %>"/></td>
+              <td><input type="text" name="password" tabindex="2"  value="<%= userOnScratchPad.getBu_password() %>" disabled="disabled" /></td>
             </tr>
           <tr>
             <td>First Name:</td>
       <td>
         <label>
-          <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
+          <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" disabled="disabled"  />
           </label></td>
     </tr>
           <tr>
             <td>Middle Name:</td>
       <td>
         <label>
-          <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
+          <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" disabled="disabled"   />
           </label></td>
     </tr>
           <tr>
             <td>Last Name:</td>
       <td>
         <label>
-          <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
+          <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>" disabled="disabled"    />
           </label></td>
     </tr>
     <% if (schema_id == null) { %>
@@ -146,7 +152,7 @@ body {
                 
                 <input type="hidden" name="sending_page" value="create_users" /> 
                 
-                <input type="submit" name="command" value="Register" tabindex="6" />			</td>
+                <input type="submit" name="command" value="Register" tabindex="6"  disabled="disabled"   />			</td>
             </tr>
           </table>
         </form>
