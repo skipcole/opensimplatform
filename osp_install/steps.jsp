@@ -58,7 +58,11 @@ body {
   </tr>
 </table>
 <p>&nbsp;</p>
-<p>Follow the instructions below to install the USIP Open Simulation Platform <br>
+<p>Follow the instructions below to install the USIP Open Simulation Platform </p>
+<p>(This page needs re-write)</p>
+<p>----------</p>
+<p>The installation process will walk you through creating one simulation database. Additional databases may be created later by entering the administration section of the OSP and clicking on the &quot;View / Edit / Install Databases&quot; link.</p>
+<p>--<br>
 </p>
 <table width="100%" border="1" cellspacing="0" cellpadding="2">
   <tr align="left" valign="top"> 

@@ -2,7 +2,7 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 
@@ -49,11 +49,12 @@
               <br />
       <table width="100%" border="0" cellspacing="2" cellpadding="2">
         <tr valign="top">
-          <td>&nbsp;</td>
-            <td> <h2>Simulation/Version</h2></td>
-            <td> <h2>Current Actors</h2></td>
-            <td> <h2>Actor</h2></td>
-            <td> <h2>Assign</h2></td>
+          <td width="1%">&nbsp;</td>
+            <td width="37%"> <h2>Simulation/Version</h2></td>
+            <td width="26%"> <h2>Current Actors</h2></td>
+            <td width="15%"><h2>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></h2></td>
+            <td width="7%"> <h2>Actor</h2></td>
+            <td width="14%"> <h2>Assign</h2></td>
           </tr>
         <%
 		
@@ -73,9 +74,15 @@
                 <A href="assign_actor_to_sim_see_role.jsp?actor_being_worked_on_id=<%= act.getId() %>&sim_id=<%= sim.getId() %>"> <%= act.getName() %> </A>
                 <A href="assign_actor_to_simulation.jsp?remove=true&actor_being_worked_on_id=<%= act.getId().toString() %>&sim_id=<%= sim.getId().toString() %>"> (remove) </A><br/>
                 <% } // End of loop over Actors %>                </td>
+              <td><label>
+                <select name="select" id="select">
+                  <option value="required" selected="selected">Required</option>
+                  <option value="optional">Optional</option>
+                                                </select>
+              </label></td>
               <td><select name="actor_being_worked_on_id">
                 <% 
-                for (ListIterator la = sim.getAvailableActors(afso.schema).listIterator(); la.hasNext();) {
+                for (ListIterator la = sim.getAvailableActorsForSim(afso.schema).listIterator(); la.hasNext();) {
 					Actor aa = (Actor) la.next();
 		%>
                 <option value="<%= aa.getId().toString() %>"><%= aa.getName() %></option>
@@ -84,6 +91,11 @@
               <td> <input type="hidden" name="sending_page" value="assign_actor" /> 
                 <input type="hidden" name="sim_id" value="<%= sim.getId().toString() %>" /> 
                 <input type="submit" name="addactortosim" value="Submit" /></td>
+            </tr>
+            <tr><td>&nbsp;</td><td></td><td></td>
+              <td colspan="3"><a href="#">add actor from other simulation</a> (?)</td>
+            </tr>
+            <tr><td colspan="6"><hr /></td>
             </tr>
           </form>
           <%

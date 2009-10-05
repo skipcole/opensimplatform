@@ -536,6 +536,12 @@ public class AuthorFacilitatorSessionObject {
 		}
 	}
 
+	/**
+	 * Takes the request parameters passed them and loads them as session
+	 * variables.
+	 * 
+	 * @param request
+	 */
 	public void getAndLoad(HttpServletRequest request) {
 
 		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
@@ -677,7 +683,7 @@ public class AuthorFacilitatorSessionObject {
 		String db_schema = (String) request.getParameter("db_schema");
 
 		schema = db_schema;
-		
+
 		// ////////////////////////////////////////////////
 
 		String db_org = (String) request.getParameter("db_org");
@@ -727,7 +733,7 @@ public class AuthorFacilitatorSessionObject {
 		SchemaInformationObject sio = new SchemaInformationObject();
 		sio.setSchema_name(db_schema);
 		sio.setSchema_organization(db_org);
-		
+
 		sio.setNotes(db_notes);
 		sio.setEmail_smtp(email_smtp);
 		sio.setSmtp_auth_user(email_user);
@@ -779,10 +785,111 @@ public class AuthorFacilitatorSessionObject {
 	}
 
 	/**
+	 * Creates or updates a database based on the parameters passed in.
+	 * 
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String handleCreateOrUpdateDB(HttpServletRequest request, Long adminUserId) {
+
+		String error_msg = "";
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String command = (String) request.getParameter("command");
+
+		if ((sending_page == null) || (command == null)) {
+			return error_msg;
+		}
+
+		if (command.equalsIgnoreCase("Clear")) {
+			return error_msg;
+		}
+
+		SchemaInformationObject sio = new SchemaInformationObject();
+		if (command.equalsIgnoreCase("Update")) {
+			String sio_id = (String) request.getParameter("sio_id");
+			sio = SchemaInformationObject.getMe(new Long(sio_id));
+		}
+
+		if ((command.equalsIgnoreCase("Update")) || (command.equalsIgnoreCase("Create"))) {
+			String db_schema = (String) request.getParameter("db_schema");
+			String db_org = (String) request.getParameter("db_org");
+			String db_notes = (String) request.getParameter("db_notes");
+			String email_smtp = (String) request.getParameter("email_smtp");
+			String email_user = (String) request.getParameter("email_user");
+			String email_pass = (String) request.getParameter("email_pass");
+			String email_user_address = (String) request.getParameter("email_user_address");
+			String email_server_number = (String) request.getParameter("email_server_number");
+			String email_status = checkEmailStatus(email_smtp, email_user, email_pass, email_user_address);
+
+			// Fill SIO
+			sio.setSchema_name(db_schema);
+			sio.setSchema_organization(db_org);
+			sio.setNotes(db_notes);
+			sio.setEmail_smtp(email_smtp);
+			sio.setSmtp_auth_user(email_user);
+			sio.setSmtp_auth_password(email_pass);
+			sio.setEmail_archive_address(email_user_address);
+			sio.setEmailState(email_status);
+			sio.setEmailServerNumber(new Long(email_server_number));
+			Logger.getRootLogger().debug(sio.toString());
+
+			String ps = MultiSchemaHibernateUtil.principalschema;
+
+			if (!(MultiSchemaHibernateUtil.testConn())) {
+				error_msg += "<BR> Failed to create database connection";
+				return error_msg;
+			}
+
+			// Store SIO. If a schema object with the same name already exist,
+			// an error will be returned.
+
+			try {
+				MultiSchemaHibernateUtil.beginTransaction(ps, true);
+				MultiSchemaHibernateUtil.getSession(ps, true).saveOrUpdate(sio);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(ps);
+			} catch (Exception e) {
+
+				error_msg = "Warning. Unable to create the database entry for this schema. <br />"
+						+ "This may indicate that it already has been created.";
+
+				e.printStackTrace();
+
+				return error_msg;
+			}
+
+			// Only if we are creating a new Schema Information Object will we
+			// recreate the database.
+			if (command.equalsIgnoreCase("Create")) {
+				MultiSchemaHibernateUtil.recreateDatabase(sio);
+				
+				String loadss = (String) request.getParameter("loadss");
+
+				if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
+					BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema);
+				}
+			}
+
+			BaseUser bu = BaseUser.getByUserId(adminUserId);
+
+			// Create the admin in this schema
+			@SuppressWarnings("unused")
+			User user = new User(db_schema, bu, true, true, true);
+
+			error_msg = "database_created";
+
+		}
+		return error_msg;
+
+	}
+
+	/**
 	 * Verify that all required fields have been entered for the email smtp
 	 * server.
 	 */
-	public String checkEmailStatus(String email_smtp, String email_user, String email_pass, String email_user_address) {
+	public static String checkEmailStatus(String email_smtp, String email_user, String email_pass,
+			String email_user_address) {
 
 		if ((email_smtp == null) || (email_user == null) || (email_pass == null) || (email_user_address == null)) {
 			return SchemaInformationObject.EMAIL_STATE_DOWN;
@@ -818,10 +925,9 @@ public class AuthorFacilitatorSessionObject {
 
 			MultiSchemaHibernateUtil.recreateRootDatabase();
 			returnMsg = "Root schema should now contain empty tables.";
-			
+
 			// Entering the correct key is equivalent to having logged in.
 			this.loggedin = true;
-			
 
 		} else if ((sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))) {
 			returnMsg = "Wrong key entered.";
@@ -936,8 +1042,6 @@ public class AuthorFacilitatorSessionObject {
 		}
 
 	}
-
-
 
 	/**
 	 * Returns the AFSO stored in the session, or creates one.
@@ -1337,9 +1441,19 @@ public class AuthorFacilitatorSessionObject {
 
 		Long s_id = new Long(sim_id);
 		Long a_id = new Long(actor_id);
+		
+		Actor this_act = Actor.getMe(schema, a_id);
+		
+		if (!(this_act.getSim_id().equals(s_id))){
+			
+			this_act = Actor.cloneMe(schema, a_id);
+			this_act.setSim_id(s_id);
+			this_act.saveMe(schema);
+			
+		}
 
 		@SuppressWarnings("unused")
-		SimActorAssignment saa = new SimActorAssignment(schema, s_id, a_id);
+		SimActorAssignment saa = new SimActorAssignment(schema, s_id, this_act.getId());
 
 		SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
 
@@ -1735,16 +1849,17 @@ public class AuthorFacilitatorSessionObject {
 
 		String message = "A request for your password has been received. Your password is " + bu.getPassword();
 
-		//String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
-		//Logger.getRootLogger().debug("Logger.getRootLogger().debug(admin_email); " + admin_email);
+		// String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
+		// Logger.getRootLogger().debug("Logger.getRootLogger().debug(admin_email); "
+		// + admin_email);
 
 		Vector ccs = new Vector();
 		Vector bccs = new Vector();
-		//bccs.add(admin_email);
+		// bccs.add(admin_email);
 
 		try {
 			SchemaInformationObject sio = SchemaInformationObject.getFirstUpEmailServer();
-			
+
 			if (sio != null) {
 				bccs.add(sio.getEmail_archive_address());
 				Emailer.postMail(sio, email, "Access to OSP", message, "noreply@opensimplatform.org", ccs, bccs);

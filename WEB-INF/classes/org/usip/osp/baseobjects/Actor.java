@@ -78,10 +78,11 @@ public class Actor {
     @Column(name = "CONTROL_ACTOR")
     private boolean control_actor = false;
     
+    /** Flag to indicate if this is a 'non-player character' as opposed to a real live player. */
     private boolean npc = false;
     
     /** Determines if the characters can see this character. The 'control' character,
-     * for example, is invisible to them.
+     * for example, may be invisible to them.
      */
     private boolean isShown = true;
     
@@ -97,6 +98,24 @@ public class Actor {
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from Actor order by actor_name").list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+    }
+    
+    /**
+     * Returns all of the actors found in a schema for a particular simulation
+     * 
+     * @param schema
+     * @return
+     */
+    public static List getAllForSim(String schema, Long sim_id){
+        
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Actor where sim_id = :sim_id order by actor_name").setLong("sim_id", sim_id).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -138,6 +157,19 @@ public class Actor {
 
 		return act;
 
+	}
+	
+	public static Actor cloneMe(String schema, Long actor_id){
+		
+		Actor clone = new Actor();
+		clone.saveMe(schema);
+		Long clone_id = clone.getId();
+		
+		Actor act = Actor.getMe(schema, actor_id);
+		act.setId(clone_id);
+		act.saveMe(schema);
+	
+		return act;
 	}
     
 	/**
