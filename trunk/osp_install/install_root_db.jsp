@@ -8,6 +8,14 @@
 	errorPage="" %>
 
 <%
+	
+	int checkInstall = AuthorFacilitatorSessionObject.checkInstall(request);
+	
+	if (checkInstall != 0) {
+		response.sendRedirect("steps.jsp?reason_failed=" + checkInstall);
+		return;
+	}
+
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	String error_msg = afso.handleCreateRootDB(request);
@@ -32,7 +40,8 @@ body {
 	background-image: url(../Templates/images/page_bg.png);
 	background-repeat: repeat-x;
 }
-.style1 {color: #FF0000}
+.style2 {color: #000000}
+.style3 {color: #FF0000}
 -->
 </style>
 </head>
@@ -70,18 +79,11 @@ body {
         <h1>
           <input type="hidden" name="sending_page" value="install_root_db" />
           Install Root Database </h1>
-        <table width="80%" border="0" cellspacing="2" cellpadding="2">
-          <tr> 
-            <td valign="top">Warning. Hitting submit on this page will purge the 
-              database.</td>
-            <td>&nbsp;</td>
-          </tr>
-        </table>
-        <blockquote><%= error_msg %></blockquote>
+        <blockquote>&nbsp;</blockquote>
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
           <tr>
             <td valign="top"><p>Wipe Database Key</p>
-            <p class="style1">(The key you enter must match the corresponding key located in the properties file. This is to prevent accidental database eradication.)</p></td>
+            <p class="style2">(The key you enter must match the corresponding key located in the properties file. This is to prevent accidental database eradication.)</p></td>
             <td valign="top"><label>
               <input type="text" name="wipe_database_key" id="textfield" />
             </label></td>
@@ -91,7 +93,8 @@ body {
             <td><input type="submit" name="installrootdb" value="Submit" /></td>
           </tr>
         </table>
-        <p><a href="steps_2.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
+        
+        <p align="center" class="style3"><%= error_msg %> &nbsp;</p>
       </form>
       <p>&nbsp;</p>
       <p>&nbsp;</p></td>

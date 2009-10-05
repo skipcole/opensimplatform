@@ -12,7 +12,7 @@ AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(req
 </head>
 
 <body>
-Below is a sample of what this page make look like during a simulation for  actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %> . 
-URL: <%= afso.phase_id %>
+Below is a sample of what this page make look like during a simulation for  actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %> .<br />
+TODO: List out all actors and phases that have this simulation section.
 </body>
 </html>

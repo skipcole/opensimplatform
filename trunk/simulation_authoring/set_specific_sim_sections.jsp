@@ -177,7 +177,7 @@ function loadInfo(dropdownlist){
                     
                     <td><a href="set_specific_sim_sections.jsp?command=move_left&m_index=<%= ii %>">&lt;-</a><!-- /a--></td>
                     <% } %>
-                    <td bgcolor="#<%= ss.getTabColor() %>"><a href="#"><%= ss.getTab_heading() %></a></td>
+                    <td bgcolor="#<%= ss.getTabColor() %>"><a href="show_section_preview.jsp?sec_id=<%= sec_ss %>"><%= ss.getTab_heading() %></a></td>
                     <% if (ii < (afso.tempSimSecList.size() - 1)) { %>
                     <td><a href="set_specific_sim_sections.jsp?command=move_right&m_index=<%= ii %>">-&gt;</a></td>
                     <% } %>

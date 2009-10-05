@@ -74,7 +74,7 @@ loc=jdbc:mysql://localhost:
 port=3306
 
 ################################################################################
-# Name of the principal database schema
+# Name of the root (also referred to as the principal) database schema
 #
 principalschema=usiposp
 
@@ -105,5 +105,4 @@ dialect=org.hibernate.dialect.MySQLInnoDBDialect
 #     (This probably will not need changed.)
 #
 driver_class=com.mysql.jdbc.Driver
-
 

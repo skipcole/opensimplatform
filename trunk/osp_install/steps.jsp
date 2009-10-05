@@ -21,11 +21,7 @@ body {
 	background-image: url(../Templates/images/page_bg.png);
 	background-repeat: repeat-x;
 }
-.style1 {font-weight: bold}
-.style2 {
-	color: #FF0000;
-	font-weight: bold;
-}
+.style3 {color: #FF0000}
 -->
 </style>
 </head>
@@ -57,13 +53,13 @@ body {
     <td width="20%" align="right" valign="top">&nbsp;</td>
   </tr>
 </table>
-<p>&nbsp;</p>
-<p>Follow the instructions below to install the USIP Open Simulation Platform </p>
-<p>(This page needs re-write)</p>
-<p>----------</p>
-<p>The installation process will walk you through creating one simulation database. Additional databases may be created later by entering the administration section of the OSP and clicking on the &quot;View / Edit / Install Databases&quot; link.</p>
-<p>--<br>
-</p>
+<h3>Important Notes:</h3>
+<ul>
+  <li>Complete Instructions (including up to date system requirements and faqs) are maintained at: <a href="http://demo.opensimplatform.org/docs/index.php/Step_by_Step_Installation">http://demo.opensimplatform.org/docs/index.php/Step_by_Step_Installation</a></li>
+  <li>The installation process will walk you through creating one simulation database. Additional databases may be created later by entering the administration section of the OSP and clicking on the &quot;View / Edit / Install Databases&quot; link.</li>
+</ul>
+<h3>Installation Instructions<br>
+</h3>
 <table width="100%" border="1" cellspacing="0" cellpadding="2">
   <tr align="left" valign="top"> 
     <td colspan="2"><strong>Step</strong></td>
@@ -76,7 +72,7 @@ body {
     <td colspan="2">Check Requirements</td>
     <td width="667"> <ul>
         <li><strong>MySQL Database</strong></li>
-        <li>(Java 5.0 / Tomcat) To be seeing this page you must have already installed these.<br />
+        <li>(Java 5.0 / Tomcat) To be seeing this page on your server you must have already installed these.<br />
         </li>
     </ul></td>
   </tr>
@@ -103,22 +99,42 @@ body {
   <tr align="left" valign="top"> 
     <td>3.</td>
     <td>&nbsp;</td>
-    <td colspan="2">Prepare Properties Files</td>
-    <td>&nbsp;</td>
+    <td colspan="2">Prepare Databases</td>
+    <td>You will need to create two MySQL databases to house the information needed to run the OSP.</td>
   </tr>
     <tr align="left" valign="top">
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>Update Properties File</td>
-    <td> The properties file <strong>USIP_OSP_Properties_en_US.properties</strong> needs to be edited to configure it to your system.<br /></td>
+    <td>Create root schema</td>
+    <td>  The first database  is normally named <strong>usiposp</strong>. The name you give it much match what is in the properties file (editing the properties file is done in the next step.)<br /></td>
+  </tr>  
+     <tr align="left" valign="top">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Create first simulation schema</td>
+    <td> The second database schema will be used to house simulation information. It can have any name you desire.<br /></td>
+  </tr> 
+  <tr align="left" valign="top"> 
+    <td>4.</td>
+    <td>&nbsp;</td>
+    <td colspan="2">Create Properties Files</td>
+    <td>&nbsp;</td>
   </tr>
     <tr align="left" valign="top">
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td>NB:</td>
-      <td>The principal schema (a mysql schema) MUST exist. By default it is <strong>usiposp</strong>.</td>
+      <td>Open Tempate file</td>
+      <td>Open the file <strong>USIP_OSP_Properties_en_US.properties.template</strong> and do a 'Save As' filename <strong>USIP_OSP_Properties_en_US.properties</strong></td>
+    </tr>
+    <tr align="left" valign="top">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Edit Properties File</td>
+    <td> Edit the file <strong>USIP_OSP_Properties_en_US.properties</strong>  to configure it to your system.<br /></td>
   </tr>
   <tr align="left" valign="top"> 
     <td>&nbsp;</td>
@@ -131,30 +147,42 @@ body {
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>Locate this install page</td>
-    <td>Find this page, the file 'osp_install/index.jsp,' on the machine you 
-      are installing on. The link below will only function correctly if you are 
+    <td>Return to this page</td>
+    <td>The link below will only function correctly if you are 
       looking at this page on the Tomcat server on which you are installing. </td>
   </tr>
-
-  <tr align="left" valign="top"> 
+  <tr align="left" valign="top">
+    <td>5.</td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>Check DB</td>
-    <td><span class="style2">Verify that the following schema exists:</span><span class="style1"> <%= USIP_OSP_Properties.getValue("principalschema") %></span></td>
+    <td colspan="2"><a href="install_root_db.jsp">Click</a> to Move Foward</td>
+    <td>The next set of <a href="install_root_db.jsp">steps</a> will prepare for you your root database and first simulation database.</td>
   </tr>
 </table>
-<p>After you have edited your properties file, click on the link below to go to the next step.</p>
-<ul>
-  <li>Do Not Click to move foward unless you have a mysql schema named as it is done in the properties file mentioned in Step 3. If you do, your system will hang.</li>
-</ul>
 <blockquote>
-  <p>ON to the last set of <a href="steps_2.jsp">steps</a>.</p>
+<% String reason_failed = request.getParameter("reason_failed");
+
+if (reason_failed != null) {
+
+%>
+<% if (!(reason_failed.equalsIgnoreCase("0"))) { %>
+<p class="style3">Your attempt to move forward to the next set of steps has failed.</p>
+  <ul>
+	<% if (reason_failed.equalsIgnoreCase("1")) { %>
+		
+		  <li>It appears that your properties file could not be found. </li>
+
+	<% } %>
+    
+    <% if (reason_failed.equalsIgnoreCase("2")) { %>
+		<li>It appears that the values listed in your properties file did not lead to a successful database connection. </li>
+	<% } %>
+	
+    </ul>
+<% }  // End of reason failed not being equal to 0. %>
+<% } // End of reason failed not being null  %>
 </blockquote>
-<p>&nbsp;</p>
 <hr />
-<p>Any questions? Contact our community at <a href="http://www.opensimplatform.org">opensimplatform.org</a></p>
+<p>Any questions? Contact our community at <a href="http://docs.opensimplatform.org">docs.opensimplatform.org</a></p>
 <p>&nbsp;</p>
 
 </body>

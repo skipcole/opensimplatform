@@ -166,7 +166,7 @@ public class MultiSchemaHibernateUtil {
 	}
 
 	/**
-	 * Tests to see if a connection can be made to the databse in question. The
+	 * Tests to see if a connection can be made to the database in question. The
 	 * string "Database Connection Verified" is returned upon successful
 	 * connection.
 	 * 
