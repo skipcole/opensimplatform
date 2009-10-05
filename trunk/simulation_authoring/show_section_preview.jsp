@@ -1,3 +1,22 @@
+<%@ page contentType="text/html; charset=utf-8" language="java" 
+	import="java.sql.*,org.usip.osp.networking.*,org.usip.osp.baseobjects.*" 
+	errorPage="" %>
+<%
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	if (  (!(afso.isLoggedin()))){
+		response.sendRedirect("index.jsp");
+		return;
+	}
+
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	
+	pso.loadInAFSOInformation(afso);
+	
+	String sec_id = request.getParameter("sec_id");
+	SimulationSectionAssignment ssa = SimulationSectionAssignment.getMe(afso.schema, new Long(sec_id));
+	System.out.println(ssa.generateURLforBottomFrame(new Long(0), pso.actor_id, new Long(0)));
+
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -7,7 +26,7 @@
 
 <frameset rows="50,90%,50" cols="*">
   <frame src="show_section_preview_top.jsp">
-  <frame src="show_section_preview_mid.jsp">
+  <frame src="<%= ssa.generateURLforBottomFrame(new Long(0), pso.actor_id, new Long(0)) %>">
   <frame src="show_section_preview_bot.jsp">
 </frameset>
 <noframes><body>

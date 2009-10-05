@@ -373,5 +373,40 @@ public class SchemaInformationObject {
 		
 		return null;
 	}
+	
+	/**
+	 * Just cleans fields up for presentation on a web form.
+	 * 
+	 */
+	public void cleanForPresentation(){
+		
+		if (this.getSchema_name() == null) {
+			this.setSchema_name("");
+		}
+		
+		if (this.getSchema_organization() == null) {
+			this.setSchema_organization("");
+		}
+		
+		if (this.getEmail_archive_address() == null){
+			this.setEmail_archive_address("");
+		}
+		
+		if (this.getEmail_smtp() == null){
+			this.setEmail_smtp("");
+		}
+		
+		if (this.getEmailServerNumber() == null){
+			this.setEmailServerNumber(new Long(1));
+		}
+		
+		if (this.getSmtp_auth_password() == null){
+			this.setSmtp_auth_password("");
+		}
+		
+		if (this.getSmtp_auth_user() == null){
+			this.setSmtp_auth_user("");
+		}
+	}
 
 }

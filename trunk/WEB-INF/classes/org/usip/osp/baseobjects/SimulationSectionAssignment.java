@@ -526,12 +526,16 @@ public class SimulationSectionAssignment {
 				getSub = ""; //$NON-NLS-1$
 			}
 
-			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + " AND ACTOR_ID = " //$NON-NLS-1$ //$NON-NLS-2$
-					+ aid.toString() + " AND PHASE_ID = " + pid.toString() + getSub + " order by TAB_POS"; //$NON-NLS-1$ //$NON-NLS-2$
+			String getHQL = "from SimulationSectionAssignment where SIM_ID = :sim_id AND ACTOR_ID = "
+					+ ":act_id AND PHASE_ID = :p_id " + getSub + " order by TAB_POS"; //$NON-NLS-1$ //$NON-NLS-2$
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
+			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL)
+				.setString("sim_id", sid.toString())
+				.setString("act_id", aid.toString())
+				.setString("p_id", pid.toString())
+				.list();
 
 			if (returnList == null) {
 				returnList = new ArrayList();

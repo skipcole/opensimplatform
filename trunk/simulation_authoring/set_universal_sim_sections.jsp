@@ -2,7 +2,7 @@
 	contentType="text/html; charset=iso-8859-1" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -15,7 +15,10 @@
 	
 	Simulation simulation = new Simulation();
 	Actor actor = new Actor();
-	actor.setId(new Long(0));
+	
+	afso.actor_being_worked_on_id = new Long(0);
+	
+	actor.setId(afso.actor_being_worked_on_id);
 	actor.setName("Every One");
 		
 	SimulationPhase spp = new SimulationPhase();
@@ -300,11 +303,19 @@ function loadInfo(dropdownlist){
       </blockquote>
       <p align="center"> 
         <%
-	Actor nextActor = (Actor) simulation.getActors(afso.schema).get(0);
+			List setOfActors = simulation.getActors(afso.schema);
+			
+			if ((setOfActors != null) && (setOfActors.size() > 0)) {
+	
+				Actor nextActor = (Actor) setOfActors.get(0);
 %>
         <a href="set_specific_sim_sections.jsp?actor_index=1&amp;phase_id=<%= spp.getId().toString() %>"> 
           Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a>      </p>
-      <% } else { // End of if have set simulation id. %>
+      <% 
+	  
+	  		} // end of if set of actors not 0.
+	  
+	  } else { // End of if have set simulation id. %>
       <blockquote> 
         <p> 
           <%@ include file="select_message.jsp" %></p>

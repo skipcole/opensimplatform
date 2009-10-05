@@ -11,8 +11,9 @@ import org.apache.log4j.*;
  * This class represents a USER in a particular schema. The base user inside of it contains the information
  * in the central table that holds all specific user information. In this particular object are mostly the 
  * permissions to all the user to do things (instruct, author or administrate) in this organizational database (schema).
- *
- * 
+ */
+
+/* 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can
@@ -90,6 +91,37 @@ public class User {
 
 	public User() {
 
+	}
+	
+	/**
+	 * Creates an entry for the base user in this schema with the permissions passed in.
+	 * 
+	 * @param schema
+	 * @param bu
+	 * @param sim_creator
+	 * @param sim_instructor
+	 * @param admin
+	 */
+	public User(String schema, BaseUser bu, boolean sim_creator,
+			boolean sim_instructor, boolean admin) {
+		
+		this.setId(bu.getId());
+
+		this.user_name = bu.getUsername();
+		this.sim_author = sim_creator;
+		this.sim_instructor = sim_instructor;
+		this.admin = admin;
+
+		try {
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+
+			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -262,7 +294,14 @@ public class User {
 
 	}
 
-	public static List getAll(String schema, boolean getdetails) {
+	/** Gets all of the users in this schema. If the 'getDetails' flag is true, 
+	 * then all of the user details stored in the BaseUserTable will be loaded.
+	 * 
+	 * @param schema
+	 * @param getDetails
+	 * @return
+	 */
+	public static List getAll(String schema, boolean getDetails) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -271,7 +310,7 @@ public class User {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-		if (getdetails) {
+		if (getDetails) {
 			returnList = getDetails(returnList, schema);
 		}
 

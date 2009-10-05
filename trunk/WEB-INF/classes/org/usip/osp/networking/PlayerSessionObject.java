@@ -246,6 +246,24 @@ public class PlayerSessionObject {
 
 		return returnList;
 	}
+	
+	/**
+	 * When an author is previewing how a section will look for a player, this method is called to load up
+	 * a temporary PlayerSessionObject with information for the Simulation Section being previewed to use.
+	 * 
+	 * @param afso
+	 */
+	public void loadInAFSOInformation(AuthorFacilitatorSessionObject afso){
+		
+		this.loggedin = afso.isLoggedin();
+		
+		this.schema   = afso.schema;
+		this.sim_id   = afso.sim_id;
+		this.actor_id = afso.actor_being_worked_on_id;
+		this.phase_id = afso.phase_id;
+		
+		
+	}
 
 	/**
 	 * This method is called when the user selects a simulation to play. (From

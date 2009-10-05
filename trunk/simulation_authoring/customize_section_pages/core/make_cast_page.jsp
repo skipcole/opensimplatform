@@ -86,12 +86,18 @@
                   </label></td>
               </tr>
               </table>
-            <p>&nbsp;</p>
             <p>
-              <script language="javascript1.2">
-  			generate_wysiwyg('make_reflection_page_text');
-		</script>
-              </p>
+
+                ------------Ignore this stuff. it is work in progress-------------</p>
+            <p>csid will not be null. Maybe we will have to look at the assignments? </p>
+            <p>
+            We need an 'actor already has this section at this phase' function.<br />
+		    <label>
+		    <input type="checkbox" name="checkbox" id="checkbox" />
+		    </label>
+		    Add this to actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %>              </p>
+            <p>If this section has already been added, then just have 'save' and nothing else - so the section can't be added multiple times.</p>
+            <p>------------------------------------------</p>
             <p> 
               <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="save_results" value="true" />

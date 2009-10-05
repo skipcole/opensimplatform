@@ -10,7 +10,7 @@
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	if ( (afso.checkDatabaseCreated()) &&  (!(afso.isLoggedin()))) {
+	if (   !(afso.isLoggedin() )  || (   !(afso.isAdmin())   )   ) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
@@ -26,9 +26,10 @@
 		sio = SchemaInformationObject.getMe(schema_id);
 	}
 	
+	sio.cleanForPresentation();
 	
-	// String error_msg = afso.handleCreateDB(request);
-	String error_msg = "This Functionality is in progress.";
+	String error_msg = afso.handleCreateOrUpdateDB(request, afso.user_id);
+
         
 
 %>
@@ -164,7 +165,17 @@ body {
               </tr>
               <tr> 
                 <td valign="top">&nbsp;</td>
-                <td valign="top">Loop over Admins to show them.</td>
+                <td valign="top">
+                <%
+					if (sio.getId() == null) {
+				%>
+                You () will be added as administrator to any schema you create.
+                <%
+				} else {
+				%>
+                Loop over Admins to show them.
+                <% } %>
+                </td>
               </tr>
                <tr>
                  <td valign="top">&nbsp;</td>
@@ -198,26 +209,67 @@ body {
               </tr>
               <tr>
                 <td valign="top">email server number (?)</td>
+                <td valign="top"><input type="text" name="email_server_number"  value="<%= sio.getEmailServerNumber() %>" /></td>
+              </tr>
+              <tr>
                 <td valign="top">&nbsp;</td>
+                <td valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td valign="top"><strong>Installed Components</strong></td>
+                <td valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td valign="top">&nbsp;</td>
+                <td valign="top">
+                <%
+					if (sio.getId() == null) {
+				%>
+                	<input name="loadss" type="checkbox" value="true" checked="checked" />
+					Load all section descriptor files found in sections directory
+				<%
+					} else {
+				%>
+                	Installed components for this schema may be seen by logging into the schema as an Admin and going to the 
+                    administrative page 'Install Simulation Sections.'
+                <% } %>
+
+</td>
+              </tr>
+              <tr>
+                <td valign="top">&nbsp;</td>
+                <td valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td valign="top"><strong>Create / Update</strong></td>
+                <td valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td valign="top">&nbsp;</td>
+                <td valign="top">
+				<%
+					if (sio.getId() == null) {
+				%>
+                <input type="submit" name="command" value="Create" />
+                <%
+				} else {
+				%>
+                <input type="hidden" name="sio_id" value="<%= sio.getId() %>" />
+                <input type="submit" name="command" value="Clear" tabindex="6" />
+                <input type="submit" name="command" value="Update" />
+                <%
+					}
+				%>              
+                </td>
+              </tr>
+              <tr>
+                <td valign="top">&nbsp;</td>
+                <td valign="top"><%= error_msg %></td>
               </tr>
             </table>
           </blockquote>
-          <p>
-            <input name="loadss" type="checkbox" value="true" checked="checked" />
-            Load all section descriptor files found in sections directory</p>
+          <p>&nbsp;</p>
         </blockquote>
-        <table width="80%" border="0" cellspacing="2" cellpadding="2">
-          <tr> 
-            <td valign="top">Warning. Hitting submit will purge the database.</td>
-            <td><input type="submit" name="cleandb" value="Submit" disabled="disabled" /></td>
-          </tr>
-        </table>
-        
-        <% if ((error_msg != null) && (error_msg.equalsIgnoreCase("database_created"))){ %>
-        <% } else { %>
-        <p><font color="#FF0000"><%= error_msg %></font></p>
-        <% } %>
-        
         <p>&nbsp;</p>
       </form>
       <p>&nbsp;</p>
