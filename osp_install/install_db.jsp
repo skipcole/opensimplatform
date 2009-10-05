@@ -17,6 +17,12 @@
 	
 	String error_msg = afso.handleCreateDB(request);
 	
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
+		return;
+	}
+	
 	String db_schema = afso.getClean(request, "db_schema");
 	String db_org = afso.getClean(request, "db_org");
 	String db_notes = afso.getClean(request, "db_notes");
@@ -184,13 +190,10 @@ body {
           </tr>
         </table>
         
-        <% if ((error_msg != null) && (error_msg.equalsIgnoreCase("database_created"))){ %>
-		<p> You may now<a href="../login.jsp"> login as the root user</a> with the password that you provided.</p>
-        <% } else { %>
         <p><font color="#FF0000"><%= error_msg %></font></p>
-        <% } %>
+
         
-        <p><a href="steps_2.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
+        <p>&nbsp;</p>
       </form>
       <p>&nbsp;</p>
       <p>&nbsp;</p></td>

@@ -744,7 +744,7 @@ public class AuthorFacilitatorSessionObject {
 		Logger.getRootLogger().debug(sio.toString());
 
 		if (!(MultiSchemaHibernateUtil.testConn())) {
-			error_msg += "<BR> Failed to create database connection";
+			error_msg += "<BR> Failed to create database connection to the database " + db_schema + ".";
 			return error_msg;
 		}
 
@@ -780,6 +780,9 @@ public class AuthorFacilitatorSessionObject {
 
 		error_msg = "database_created";
 
+		this.forward_on = true;
+		this.backPage = "install_confirmation.jsp";
+		
 		return error_msg;
 
 	}
@@ -928,6 +931,12 @@ public class AuthorFacilitatorSessionObject {
 
 			// Entering the correct key is equivalent to having logged in.
 			this.loggedin = true;
+			
+			
+			this.forward_on = true;
+			this.backPage = "install_db.jsp";
+			
+			return returnMsg;
 
 		} else if ((sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))) {
 			returnMsg = "Wrong key entered.";
@@ -935,6 +944,22 @@ public class AuthorFacilitatorSessionObject {
 
 		return returnMsg;
 
+	}
+	
+	public static final int INSTALL_ERROR_NO_PROP = 1;
+	public static final int INSTALL_ERROR_NO_CONN = 2;
+	
+	public static int checkInstall (HttpServletRequest request){
+		
+		if (!(USIP_OSP_Properties.isFoundPropertiesFile())){
+			return INSTALL_ERROR_NO_PROP;
+		}
+		
+		if (!MultiSchemaHibernateUtil.testConn()){
+			return INSTALL_ERROR_NO_CONN;
+		}
+		
+		return 0;
 	}
 
 	/**

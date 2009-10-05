@@ -29,7 +29,17 @@ public class USIP_OSP_Properties {
     /** A string indicating when the system is planned to go down next. */
     private static String nextPlannedDowntime;
     
-    public static String getNextPlannedDowntime() {
+    private static boolean foundPropertiesFile = false;
+    
+    public static boolean isFoundPropertiesFile() {
+		return foundPropertiesFile;
+	}
+
+	public static void setFoundPropertiesFile(boolean foundPropertiesFile) {
+		USIP_OSP_Properties.foundPropertiesFile = foundPropertiesFile;
+	}
+
+	public static String getNextPlannedDowntime() {
     	if (nextPlannedDowntime == null) {
     		nextPlannedDowntime = USIP_OSP_Properties.getValue("next_planned_outage");
     		return nextPlannedDowntime;
@@ -54,9 +64,10 @@ public class USIP_OSP_Properties {
     	
         try {
             resourceBundle = ResourceBundle.getBundle("USIP_OSP_Properties", new Locale("en", "US")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-            
+            foundPropertiesFile = true;
         } catch (Exception e) {
-            Logger.getRootLogger().debug("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
+        	foundPropertiesFile = false;
+        	Logger.getRootLogger().warn("Properties file USIP_OSP_Properties_en_US.properties not found. Need it. Its a Big Deal."); //$NON-NLS-1$
         }
     }
 	
