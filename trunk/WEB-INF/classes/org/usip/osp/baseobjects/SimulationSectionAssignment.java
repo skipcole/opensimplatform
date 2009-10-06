@@ -14,8 +14,9 @@ import org.apache.log4j.*;
 /**
  * This class represents a section assigned to an actor at a particular phase. A
  * better name for the class might be 'SimulationSectionAssignment.'
- *
  * 
+ */
+/*
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
@@ -222,6 +223,7 @@ public class SimulationSectionAssignment {
 	}
 
 	/**
+	 * Removes this SimulationSectionAssignment from the database.
 	 * 
 	 * @param schema
 	 * @param ss
@@ -260,7 +262,7 @@ public class SimulationSectionAssignment {
 		this.setPhase_id(pid);
 
 		// These variables are copied straight from the template
-		this.setBase_section_id(bss.getId());
+		this.setBase_sec_id(bss.getId());
 		this.sendString = bss.getSendString();
 		this.setUrl(bss.getUrl());
 		this.setDirectory(bss.getDirectory());
@@ -282,6 +284,11 @@ public class SimulationSectionAssignment {
 
 	}
 
+	/**
+	 * Saves this SimulationSectionAssignment to the database.
+	 * 
+	 * @param schema
+	 */
 	public void save(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -299,7 +306,7 @@ public class SimulationSectionAssignment {
 		SimulationSectionAssignment copy = new SimulationSectionAssignment();
 
 		copy.setActor_id(this.getActor_id());
-		copy.setBase_section_id(this.getBase_section_id());
+		copy.setBase_sec_id(this.getBase_sec_id());
 		copy.setDirectory(this.getDirectory());
 		copy.setDisplaySectionId(this.getDisplaySectionId());
 		copy.setPage_file_name(this.getPage_file_name());
@@ -327,7 +334,7 @@ public class SimulationSectionAssignment {
 
 		String returnString = this.getUrl() + this.getDirectory() + this.getPage_file_name();
 
-		returnString += "?cs_id=" + this.getBase_section_id(); //$NON-NLS-1$
+		returnString += "?cs_id=" + this.getBase_sec_id(); //$NON-NLS-1$
 
 		Logger.getRootLogger().debug("sendString is " + this.sendString); //$NON-NLS-1$
 
@@ -666,6 +673,15 @@ public class SimulationSectionAssignment {
 
 	}
 
+	/** Applies this section to a list of Actors 
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param pid
+	 * @param sec_id
+	 * @param tab_head
+	 * @param a_ids
+	 */
 	public static void applySectionToSpecificActors(String schema, Long sim_id, Long pid, Long sec_id, String tab_head,
 			List<Long> a_ids) {
 
@@ -727,6 +743,7 @@ public class SimulationSectionAssignment {
 	}
 
 	/**
+	 * Applies the 'universal' sections to all actors for all phases.
 	 * 
 	 * @param schema
 	 * @param sim
@@ -802,10 +819,10 @@ public class SimulationSectionAssignment {
 	 * @param schema
 	 * @param s_id
 	 * @param universalList
-	 * @param act
-	 * @param pid
+	 * @param a_id
+	 * @param p_id
 	 */
-	public static void applyUniversalsToActor(String schema, Long s_id, List universalList, Long act, Long pid) {
+	public static void applyUniversalsToActor(String schema, Long s_id, List universalList, Long a_id, Long p_id) {
 		// Check to see if this section already exists in this actor's set.
 		// If not, then add it.
 		for (ListIterator lis = universalList.listIterator(); lis.hasNext();) {
@@ -813,10 +830,10 @@ public class SimulationSectionAssignment {
 
 			Logger.getRootLogger().debug("     checking universalList on " + ss.getTab_heading()); //$NON-NLS-1$
 
-			boolean foundThisSection = false;
+			boolean foundThisSection = determineIfActorHasThisSectionAtThisPhase(schema, 
+					s_id, a_id, p_id, ss.getBase_sec_id());
 
-			List currentActorsList = getBySimAndActorAndPhase(schema, s_id, act, pid);
-
+			/*
 			for (ListIterator listOld = currentActorsList.listIterator(); listOld.hasNext();) {
 				SimulationSectionAssignment ss_old = (SimulationSectionAssignment) listOld.next();
 
@@ -827,13 +844,17 @@ public class SimulationSectionAssignment {
 					foundThisSection = true;
 				}
 
-			}
+			} */
+			
 			if (!foundThisSection) {
+				
+				List currentActorsList = getBySimAndActorAndPhase(schema, s_id, a_id, p_id);
+				
 				MultiSchemaHibernateUtil.beginTransaction(schema);
 
 				SimulationSectionAssignment ss_new = ss.createCopy();
 
-				ss_new.setActor_id(act);
+				ss_new.setActor_id(a_id);
 				ss_new.setAddedAsUniversalSection(true);
 
 				ss_new.setTab_position(currentActorsList.size() + 1);
@@ -843,6 +864,28 @@ public class SimulationSectionAssignment {
 			}
 
 		}
+	}
+	
+	public static boolean determineIfActorHasThisSectionAtThisPhase(String schema, 
+			Long s_id, Long a_id, Long p_id, Long ssa_base_id){
+		
+		boolean foundThisSection = false;
+
+		List currentActorsList = getBySimAndActorAndPhase(schema, s_id, a_id, p_id);
+
+		for (ListIterator listOld = currentActorsList.listIterator(); listOld.hasNext();) {
+			
+			SimulationSectionAssignment ss_old = (SimulationSectionAssignment) listOld.next();
+
+			Logger.getRootLogger().debug("             comparing " + ss_old.getBase_sec_id() + " and " //$NON-NLS-1$ //$NON-NLS-2$
+					+ ssa_base_id);
+			if (ss_old.getBase_sec_id().equals(ssa_base_id)) {
+				Logger.getRootLogger().debug("             found match!"); //$NON-NLS-1$
+				foundThisSection = true;
+			}
+
+		}
+		return foundThisSection;
 	}
 
 	/**
@@ -923,14 +966,6 @@ public class SimulationSectionAssignment {
 
 	public void setTab_heading(String tab_heading) {
 		this.tab_heading = tab_heading;
-	}
-
-	public Long getBase_section_id() {
-		return this.base_sec_id;
-	}
-
-	public void setBase_section_id(Long base_section_id) {
-		this.base_sec_id = base_section_id;
 	}
 
 	public String getUrl() {

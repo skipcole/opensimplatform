@@ -86,18 +86,27 @@
                   </label></td>
               </tr>
               </table>
-            <p>
+            <p>------------Ignore this stuff. it is work in progress-------------</p>
+            <%
+			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
+				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
+			
+			System.out.println("already has it is " + 	hasItAlready);
+			
+			String actors_name_string = "fill it in from cache";
+			
+			if (afso.actor_being_worked_on_id.equals(0)) {
+				actors_name_string = " every actor ";
+			} else {
+				
+			}
+			%>
+            <% if (!(hasItAlready)) { %>
+		    	<p><input type="checkbox" name="checkbox" id="checkbox" /> Add this to actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %>              </p>
+            <% } else { %>
+            	<p>This section has already been added to actor <%= afso.actor_being_worked_on_id %> for phase <%= afso.phase_id %>.</p>
+            <% } %>
 
-                ------------Ignore this stuff. it is work in progress-------------</p>
-            <p>csid will not be null. Maybe we will have to look at the assignments? </p>
-            <p>
-            We need an 'actor already has this section at this phase' function.<br />
-		    <label>
-		    <input type="checkbox" name="checkbox" id="checkbox" />
-		    </label>
-		    Add this to actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %>              </p>
-            <p>If this section has already been added, then just have 'save' and nothing else - so the section can't be added multiple times.</p>
-            <p>------------------------------------------</p>
             <p> 
               <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="save_results" value="true" />

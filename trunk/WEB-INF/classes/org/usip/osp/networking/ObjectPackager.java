@@ -598,7 +598,7 @@ public class ObjectPackager {
 			this_ss.setSim_id(sim_id);
 			this_ss.setActor_id((Long) actorIdMappings.get(this_ss.getActor_id()));
 			this_ss.setPhase_id((Long) phaseIdMappings.get(this_ss.getPhase_id()));
-			this_ss.setBase_section_id((Long) bssIdMappings.get(this_ss.getBase_section_id()));
+			this_ss.setBase_sec_id((Long) bssIdMappings.get(this_ss.getBase_sec_id()));
 			
 			this_ss.save(schema);
 			

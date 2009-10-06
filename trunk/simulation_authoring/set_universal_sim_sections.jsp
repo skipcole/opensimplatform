@@ -268,6 +268,14 @@ function loadInfo(dropdownlist){
 			for (ListIterator li = uc.listIterator(); li.hasNext();) {
 				CustomizeableSection cs = (CustomizeableSection) li.next();
 				
+				//////////////////////////////////////////////////////////
+				// Don't list sections the actor already has at this phase.
+				boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
+					afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
+			
+				System.out.println("already has it is " + 	hasItAlready);
+			
+				if (!(hasItAlready) ) {
 				
 				String cs_class = "customized_section";
 				if (cs.isThisIsACustomizedSection()){
@@ -275,8 +283,11 @@ function loadInfo(dropdownlist){
 				}
 			%>
                                   <option value="<%= cs.getId().toString() %>" class="<%= cs_class %>" ><%= cs.getRec_tab_heading() %></option>
-                                  <% } %>
-                                  <% } %>
+                                  
+								  <% }  // End of if they don't have this section already at this phase         %>
+								  
+								  <% }  // End of loop over customizeable sections         %>
+                        <% } %>
                                   </select>
                                 </p>
                               <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a>   </p>
