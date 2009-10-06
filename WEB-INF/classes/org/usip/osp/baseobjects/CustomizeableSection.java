@@ -395,4 +395,20 @@ public class CustomizeableSection extends BaseSimSection {
 	 */
 	public void loadSimCustomizeSection(HttpServletRequest request, AuthorFacilitatorSessionObject pso){}
 
+	/**
+	 * Returns the make page for the customizeable section.
+	 * 
+	 * @param cbss
+	 * @return
+	 */
+	public String getMakePage(){
+		
+		if (!this.isHasASpecificMakePage()) {
+			return ("customize_page.jsp?custom_page=" + this.getId());
+		} else {
+			return (this.getSpecificMakePage() + "?custom_page=" + this.getId());
+		}
+		
+	}
+
 }

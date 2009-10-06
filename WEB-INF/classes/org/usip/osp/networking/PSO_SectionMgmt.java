@@ -438,11 +438,8 @@ public class PSO_SectionMgmt {
 
 				CustomizeableSection cbss = CustomizeableSection.getMe(this.afso.schema, this._bss_id);
 
-				if (!cbss.isHasASpecificMakePage()) {
-					return ("customize_page.jsp?custom_page=" + new Long(this._bss_id));
-				} else {
-					return (cbss.getSpecificMakePage() + "?custom_page=" + new Long(this._bss_id));
-				}
+				return cbss.getMakePage();
+				
 
 			}
 		}
@@ -451,7 +448,7 @@ public class PSO_SectionMgmt {
 		return this.afso.backPage;
 
 	}
-
+	
 	/**
 	 * 
 	 * @param request

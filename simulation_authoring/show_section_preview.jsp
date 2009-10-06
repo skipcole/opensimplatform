@@ -21,13 +21,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>OSP Show Section Preview</title>
 </head>
 
 <frameset rows="50,90%,50" cols="*">
   <frame src="show_section_preview_top.jsp">
   <frame src="<%= ssa.generateURLforBottomFrame(new Long(0), pso.actor_id, new Long(0)) %>">
-  <frame src="show_section_preview_bot.jsp">
+  <frame src="show_section_preview_bot.jsp?sec_id=<%= ssa.getBase_sec_id() %>">
 </frameset>
 <noframes><body>
 </body>

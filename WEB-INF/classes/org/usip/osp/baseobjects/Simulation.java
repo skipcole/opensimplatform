@@ -469,7 +469,7 @@ public class Simulation {
 					for (ListIterator<SimulationSectionAssignment> ls = simSecs.listIterator(); ls.hasNext();) {
 						SimulationSectionAssignment ss = ls.next();
 
-						if (ss.getBase_section_id().compareTo(bss.getId()) == 0) {
+						if (ss.getBase_sec_id().compareTo(bss.getId()) == 0) {
 							foundThisControl = true;
 						}
 					}
