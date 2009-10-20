@@ -64,6 +64,10 @@ public class Emails {
     @Lob
     private String msgtext = ""; //$NON-NLS-1$
     
+    private boolean hasBeenRead;
+    
+    private Long priority;
+    
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
 
@@ -137,6 +141,22 @@ public class Emails {
 
 	public void setMsgDate(java.util.Date msgDate) {
 		this.msgDate = msgDate;
+	}
+
+	public boolean isHasBeenRead() {
+		return hasBeenRead;
+	}
+
+	public void setHasBeenRead(boolean hasBeenRead) {
+		this.hasBeenRead = hasBeenRead;
+	}
+
+	public Long getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Long priority) {
+		this.priority = priority;
 	}
 	
 	
