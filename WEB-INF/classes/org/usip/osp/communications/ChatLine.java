@@ -63,6 +63,9 @@ public class ChatLine {
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
 	
+    /** Indicates if a chat line has been read or not. */
+    private boolean hasBeenRead;
+	
 	@Transient
 	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a"); //$NON-NLS-1$
 	
@@ -207,6 +210,14 @@ public class ChatLine {
 
 	public void setMsgDate(Date msgDate) {
 		this.msgDate = msgDate;
+	}
+
+	public boolean isHasBeenRead() {
+		return hasBeenRead;
+	}
+
+	public void setHasBeenRead(boolean hasBeenRead) {
+		this.hasBeenRead = hasBeenRead;
 	}
     
 }
