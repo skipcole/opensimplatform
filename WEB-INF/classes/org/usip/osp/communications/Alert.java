@@ -12,8 +12,8 @@ import java.util.StringTokenizer;
 /**
  * This class represents an alert, which can be of many different types, sent to
  * a player or players.
- * 
- * 
+ */
+/* 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
@@ -32,15 +32,18 @@ public class Alert {
 
 	/** This alert is of an undefined type. */
 	public static final int TYPE_UNDEFINED = 0;
+	
+	/** An announcement has been made and may be seen on the announcement page. */
+	public static final int TYPE_RUN_ENABLED = 101;
 
 	/** An announcement has been made and may be seen on the announcement page. */
-	public static final int TYPE_ANNOUNCEMENT = 1;
+	public static final int TYPE_ANNOUNCEMENT = 2;
 
 	/** New news is available from a news source accessible to the player. */
-	public static final int TYPE_NEWS = 2;
+	public static final int TYPE_NEWS = 3;
 
 	/** An event for the player. */
-	public static final int TYPE_EVENT = 3;
+	public static final int TYPE_EVENT = 4;
 
 	/** The phase of the simulation has changed. */
 	public static final int TYPE_PHASECHANGE = 102;
@@ -78,6 +81,8 @@ public class Alert {
 	/* a comma separated list of the actor ids for whom this alert is for. */
 	private String the_specific_targets = ""; //$NON-NLS-1$
 
+	private Long sim_id;
+	
 	private Long running_sim_id;
 
 	public Long getRunning_sim_id() {
@@ -209,7 +214,7 @@ public class Alert {
 		this.alertEmailMessage = alertEmailMessage;
 	}
 
-	/** Saves a simulation. */
+	/** Saves an alert. */
 	public void saveMe(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -287,6 +292,14 @@ public class Alert {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
+	}
+
+	public void setSim_id(Long sim_id) {
+		this.sim_id = sim_id;
+	}
+
+	public Long getSim_id() {
+		return sim_id;
 	}
 
 }

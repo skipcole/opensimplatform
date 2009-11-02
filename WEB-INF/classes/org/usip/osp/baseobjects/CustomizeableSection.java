@@ -47,6 +47,7 @@ public class CustomizeableSection extends BaseSimSection {
 		CustomizeableSection cs = new CustomizeableSection();
 		
 		cs.setBigString(cleanNulls(request.getParameter("bigString"))); //$NON-NLS-1$
+		
 		cs.setConfers_read_ability(makeTrueIfTrue(request.getParameter("confers_read_ability"))); //$NON-NLS-1$
 		cs.setConfers_write_ability(makeTrueIfTrue(request.getParameter("confers_write_ability"))); //$NON-NLS-1$
 		cs.setControl_section(makeTrueIfTrue(request.getParameter("control_section"))); //$NON-NLS-1$
@@ -54,6 +55,19 @@ public class CustomizeableSection extends BaseSimSection {
 		cs.setCust_lib_name(cleanNulls(request.getParameter("cust_lib_name"))); //$NON-NLS-1$
 		cs.setCustomizerClassName(cleanNulls(request.getParameter("customizerClassName"))); //$NON-NLS-1$
 		cs.setDescription(cleanNulls(request.getParameter("description"))); //$NON-NLS-1$
+		
+		
+		cs.setDirectory(cleanNulls(request.getParameter("directory"))); //$NON-NLS-1$
+		cs.setHasASpecificMakePage(makeTrueIfTrue(request.getParameter("hasASpecificMakePage"))); //$NON-NLS-1$
+		cs.setHasCustomizer(makeTrueIfTrue(request.getParameter("hasCustomizer"))); //$NON-NLS-1$
+		cs.setPage_file_name(cleanNulls(request.getParameter("page_file_name"))); //$NON-NLS-1$
+		cs.setPageTitle(cleanNulls(request.getParameter("pageTitle"))); //$NON-NLS-1$
+		cs.setRec_tab_heading(cleanNulls(request.getParameter("rec_tab_heading"))); //$NON-NLS-1$
+		cs.setSample_image(cleanNulls(request.getParameter("sample_image"))); //$NON-NLS-1$
+		cs.setSpecificMakePage(cleanNulls(request.getParameter("specificMakePage"))); //$NON-NLS-1$
+		cs.setUniqueName(cleanNulls(request.getParameter("uniqueName"))); //$NON-NLS-1$
+		cs.setUrl(cleanNulls(request.getParameter("url"))); //$NON-NLS-1$
+		cs.setVersion(cleanNulls(request.getParameter("version"))); //$NON-NLS-1$
 		
 		
 		return cs;

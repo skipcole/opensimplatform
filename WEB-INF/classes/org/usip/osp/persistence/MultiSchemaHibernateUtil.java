@@ -431,6 +431,8 @@ public class MultiSchemaHibernateUtil {
 
 		// Communications
 		ac.addAnnotatedClass(org.usip.osp.communications.ChatLine.class);
+		ac.addAnnotatedClass(org.usip.osp.communications.CommunicationsHub.class);
+		ac.addAnnotatedClass(org.usip.osp.communications.CommunicationsReceived.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.ConvActorAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.Conversation.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.Inject.class);
