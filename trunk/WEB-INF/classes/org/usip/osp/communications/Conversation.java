@@ -16,8 +16,8 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents a particular conversation amongst a group of actors.
- *
- * 
+ */
+/*
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can

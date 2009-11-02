@@ -5,6 +5,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.communications.CommunicationsHub;
 import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.Alert;
@@ -65,6 +66,17 @@ public class RunningSimulation {
 
 	@Column(name = "RS_DONE")
 	private boolean completed = false;
+
+	@Column(name = "ENABLED_DATE", columnDefinition = "datetime")
+	private Date enabledDate;
+	
+	public Date getEnabledDate() {
+		return enabledDate;
+	}
+
+	public void setEnabledDate(Date enabledDate) {
+		this.enabledDate = enabledDate;
+	}
 
 	@Column(name = "COMPLETION_DATE", columnDefinition = "datetime")
 	@GeneratedValue
@@ -148,6 +160,15 @@ public class RunningSimulation {
 
 		// Mark it ready to go
 		this.ready_to_begin = true;
+		this.setEnabledDate(new java.util.Date());
+		
+		Alert startEvent = new Alert();
+		startEvent.setSim_id(sim.getId());
+		startEvent.setRunning_sim_id(this.getId());
+		startEvent.setType(Alert.TYPE_RUN_ENABLED);
+		startEvent.setTimeOfAlert(this.getEnabledDate());
+		startEvent.saveMe(schema);
+		CommunicationsHub ch = new CommunicationsHub(startEvent, schema);
 
 		this.saveMe(schema);
 

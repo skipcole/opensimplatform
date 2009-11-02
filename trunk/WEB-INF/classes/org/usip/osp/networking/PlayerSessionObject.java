@@ -28,7 +28,7 @@ import org.usip.osp.specialfeatures.PlayerReflection;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
  */
-public class PlayerSessionObject {
+public class PlayerSessionObject extends SessionObjectBase{
 
 	/** The Session object. */
 	public HttpSession session = null;
@@ -59,9 +59,6 @@ public class PlayerSessionObject {
 		return loggedin;
 	}
 
-	/** Schema of the database that the user is working in. */
-	public String schema = ""; //$NON-NLS-1$
-
 	/** Organization of the schema that the user is working in. */
 	public String schemaOrg = ""; //$NON-NLS-1$
 
@@ -70,30 +67,6 @@ public class PlayerSessionObject {
 
 	/** Name of the actor being played or worked on. */
 	public String actor_name = ""; //$NON-NLS-1$
-
-	/** ID of Simulation being conducted or worked on. */
-	public Long sim_id;
-
-	/** Name of simulation being conducted or worked on. */
-	public String simulation_name = ""; //$NON-NLS-1$
-
-	/** Version of the simulation be conducted or worked on. */
-	public String simulation_version = ""; //$NON-NLS-1$
-
-	/** Organization that created the simulation. */
-	public String simulation_org = ""; //$NON-NLS-1$
-
-	/**
-	 * Copyright string to display at the bottom of every page in the
-	 * simulation.
-	 */
-	public String sim_copyright_info = ""; //$NON-NLS-1$
-
-	/** ID of the Running Simulation being conducted or worked on. */
-	public Long running_sim_id;
-
-	/** Name of the running simulation session. */
-	public String run_sim_name = ""; //$NON-NLS-1$
 
 	/** ID of Phase being conducted. */
 	public Long phase_id;
