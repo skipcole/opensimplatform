@@ -87,6 +87,13 @@ public class Emailer {
 
 		return sio;
 	}
+	
+	public static void postMail(String schema, Emails email){
+		
+		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
+		
+		
+	}
 
 	/**
 	 * 
@@ -170,6 +177,14 @@ public class Emailer {
 		return "okay"; //$NON-NLS-1$
 	}
 
+	/**
+	 * This method takes the SMTP information in the SchemaInformationObject and uses it to 
+	 * create the javax.mail.Session object.
+	 * 
+	 * @param sio
+	 * @param debug
+	 * @return
+	 */
 	public static Session getJavaxMailSessionForSchema(final SchemaInformationObject sio,
 			boolean debug) {
 		Properties props = new Properties();
