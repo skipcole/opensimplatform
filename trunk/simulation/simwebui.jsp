@@ -30,7 +30,7 @@
 %>
 <html>
 <head>
-<title>OSP Simulation<%= pso.simulation_name %>, Session <%= pso.run_sim_name %></title>
+<title>OSP Simulation <%= pso.simulation_name %>, Session <%= pso.run_sim_name %></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">

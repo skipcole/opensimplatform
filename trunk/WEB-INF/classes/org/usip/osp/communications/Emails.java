@@ -12,8 +12,8 @@ import org.hibernate.annotations.Proxy;
 /**
  * This class represents an in simulation email.
  * It is in development and is currently not used anywhere.
- *
- *
+ */
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or
