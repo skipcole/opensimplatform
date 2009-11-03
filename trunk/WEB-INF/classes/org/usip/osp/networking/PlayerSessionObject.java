@@ -643,6 +643,7 @@ public class PlayerSessionObject extends SessionObjectBase{
 		al.setType(Alert.TYPE_ANNOUNCEMENT);
 		al.setAlertMessage(news);
 		al.setRunning_sim_id(running_sim_id);
+		al.setSim_id(sim_id);
 
 		String shortIntro = USIP_OSP_Util.cleanAndShorten(news, 20) + " ...";
 		
@@ -651,12 +652,17 @@ public class PlayerSessionObject extends SessionObjectBase{
 		al.setAlertPopupMessage("There is a new announcement: " + shortIntro);
 		
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
+		
+		
+		
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(rs);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Let people know that there is a change to catch.
 		storeNewHighestChangeNumber(request, al.getId());
+		
+		CommunicationsHub ch = new CommunicationsHub(al, schema);
 
 	}
 

@@ -1,7 +1,10 @@
 package org.usip.osp.communications;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.SimulationPhase;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -81,7 +87,35 @@ public class CommunicationsHub {
 		
 		System.out.println(sdf.format(ch.getTimeStamp()));
 		
+		List x = getAllForRunningSim("test", new Long(2));
 		
+		for (ListIterator<CommunicationsHub> li = getAllForRunningSim("test", new Long(2)).listIterator(); li.hasNext();) {
+			CommunicationsHub this_sp = li.next();
+			System.out.println("id is: " + this_sp.getMsgId() + ", class is " + this_sp.getMsgClass());
+			
+			MultiSchemaHibernateUtil.beginTransaction("test");
+			
+			Alert a = (Alert) MultiSchemaHibernateUtil.getSession("test").get(this_sp.getMsgClass(), this_sp.getMsgId());
+
+			System.out.println(packageEvent(a));
+			
+			MultiSchemaHibernateUtil.commitAndCloseTransaction("test");
+		}
+		
+	}
+	
+	public static String packageEvent(Alert a){
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
+		
+		String returnString = "<event start=\"" 
+			+ sdf.format(a.getTimeOfAlert()) + "\" title=\"" + a.getAlertPopupMessage() 
+			+ "\">";
+		
+		returnString += USIP_OSP_Util.htmlToCode(a.getAlertMessage());
+		
+		returnString += "</event>";
+		return returnString;
 	}
 
 	public Long getId() {
@@ -132,5 +166,22 @@ public class CommunicationsHub {
 		this.timeStamp = timeStamp;
 	}
 	
-	
+	/**
+	 * Returns all of the alerts for this running simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @return
+	 */
+	public static List<CommunicationsHub> getAllForRunningSim(String schema, Long running_sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<CommunicationsHub> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from CommunicationsHub where running_sim_id = " + running_sim_id).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}	
 }
