@@ -148,10 +148,8 @@
           </tr>
           <tr>
             <td colspan="3" bgcolor="#FFFF99">
-			<% String x = ObjectPackager.getObjectXML(cs);
-				x = x.replaceAll("<", "&lt;");
-				x = x.replaceAll(">", "&gt;");
-				x = x.replaceAll("\\r\\n", "<br />");
+			<% 
+				String x = USIP_OSP_Util.htmlToCode(ObjectPackager.getObjectXML(cs));
 			%>
 			<pre><%= x %></pre></td>
             </tr>

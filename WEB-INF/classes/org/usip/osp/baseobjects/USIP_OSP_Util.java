@@ -112,4 +112,13 @@ public class USIP_OSP_Util {
 			return "";
 		}
 	}
+	
+	public static String htmlToCode(String htmlString){
+		
+		htmlString = htmlString.replaceAll("\\r\\n", "<br />");
+		htmlString = htmlString.replaceAll("<", "&lt;");
+		htmlString = htmlString.replaceAll(">", "&gt;");
+		
+		return htmlString;
+	}
 }
