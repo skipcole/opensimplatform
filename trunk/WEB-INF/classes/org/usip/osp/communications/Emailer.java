@@ -92,6 +92,10 @@ public class Emailer {
 		
 		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
 		
+		Session session = getJavaxMailSessionForSchema(sio, true);
+
+		Message msg = new MimeMessage(session);
+		
 		
 	}
 
