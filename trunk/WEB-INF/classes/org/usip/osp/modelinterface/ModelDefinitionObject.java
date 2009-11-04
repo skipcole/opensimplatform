@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.networking.FileIO;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -250,23 +251,10 @@ public class ModelDefinitionObject implements Comparable{
 		
 		ModelDefinitionObject mdo = new ModelDefinitionObject();
 		
-		mdo.setModelName(cleanNulls(request.getParameter("model_name"))); //$NON-NLS-1$
+		mdo.setModelName(USIP_OSP_Util.cleanNulls(request.getParameter("model_name"))); //$NON-NLS-1$
 
 		return mdo;
 		
-	}
-	
-	/**
-	 * Turns nulls into empty strings.
-	 * @param input
-	 * @return
-	 */
-	public static String cleanNulls(String input){
-		if (input == null){
-			return ""; //$NON-NLS-1$
-		} else {
-			return input;
-		}
 	}
 	
 	/**

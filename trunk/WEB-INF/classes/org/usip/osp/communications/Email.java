@@ -8,6 +8,8 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents an in simulation email.
@@ -26,15 +28,42 @@ import org.hibernate.annotations.Proxy;
  * 
  */
 @Entity
-@Table(name = "EMAILS")
 @Proxy(lazy=false)
-public class Emails {
+public class Email {
 	
 	/**
 	 * Zero argument constructor required by hibernate.
 	 */
-	public Emails(){
+	public Email(){
 		
+	}
+	
+	/**
+	 * Saves this object back to the database.
+	 * 
+	 * @param schema
+	 */
+	public void saveMe(String schema) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	/**
+	 * Pulls the simulation out of the database base on its id and schema.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static Email getMe(String schema, Long email_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		Email email = (Email) MultiSchemaHibernateUtil.getSession(schema).get(Email.class, email_id);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return email;
+
 	}
 
     /** Unique id of this email line. Also used for indexing (thus assuming ids only go up). */
@@ -64,12 +93,19 @@ public class Emails {
     @Lob
     private String msgtext = ""; //$NON-NLS-1$
     
-    private boolean hasBeenRead;
-    
-    private Long priority;
-    
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
+	
+	/** Indicates if message is a draft, or if it has been actually sent. */
+	private boolean hasBeenSent = false;
+
+	public boolean hasBeenSent() {
+		return hasBeenSent;
+	}
+
+	public void setHasBeenSent(boolean hasBeenSent) {
+		this.hasBeenSent = hasBeenSent;
+	}
 
 	public Long getId() {
 		return id;
@@ -141,22 +177,6 @@ public class Emails {
 
 	public void setMsgDate(java.util.Date msgDate) {
 		this.msgDate = msgDate;
-	}
-
-	public boolean isHasBeenRead() {
-		return hasBeenRead;
-	}
-
-	public void setHasBeenRead(boolean hasBeenRead) {
-		this.hasBeenRead = hasBeenRead;
-	}
-
-	public Long getPriority() {
-		return priority;
-	}
-
-	public void setPriority(Long priority) {
-		this.priority = priority;
 	}
 	
 	

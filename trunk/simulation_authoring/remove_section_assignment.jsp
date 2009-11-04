@@ -1,5 +1,5 @@
 <%@ page 
-	contentType="text/html; charset=iso-8859-1" 
+	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
@@ -20,7 +20,7 @@
 <html>
 <head>
 <title>Remove Section Assignment</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
 <body>

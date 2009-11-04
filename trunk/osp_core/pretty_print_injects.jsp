@@ -1,5 +1,5 @@
 <%@ page 
-	contentType="text/html; charset=iso-8859-1" 
+	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,
 	org.usip.osp.communications.*,
@@ -45,7 +45,7 @@
 <html>
 <head>
 <title>Pretty Print Injects Page</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <STYLE TYPE="text/css">
      P.breakhere {page-break-after: always}
 </STYLE> 

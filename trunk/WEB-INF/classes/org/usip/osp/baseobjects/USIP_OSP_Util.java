@@ -121,4 +121,17 @@ public class USIP_OSP_Util {
 		
 		return htmlString;
 	}
+	
+	/**
+	 * Turns nulls into empty strings.
+	 * @param input
+	 * @return
+	 */
+	public static String cleanNulls(String input){
+		if (input == null){
+			return ""; //$NON-NLS-1$
+		} else {
+			return input;
+		}
+	}
 }

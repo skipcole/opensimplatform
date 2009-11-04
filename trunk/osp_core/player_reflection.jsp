@@ -1,5 +1,5 @@
 <%@ page 
-	contentType="text/html; charset=iso-8859-1" 
+	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,
 	java.util.*,
@@ -31,7 +31,7 @@
 <title>Player Reflection Page</title>
 <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>

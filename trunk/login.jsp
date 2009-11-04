@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=iso-8859-1" language="java" 
+<%@ page contentType="text/html; charset=UTF-8" language="java" 
 import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.baseobjects.*" errorPage="" %>
 <%
 	
@@ -18,7 +18,7 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 <html>
 <head>
 <title>USIP Open Simulation Platform Login</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="usip_osp.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
@@ -109,6 +109,6 @@ body {
 
 </table>
 
-<p align="center">The <a href="http://www.usip.org">USIP</a> Online Simulation Creation Software Wizard is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
+<p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
 </body>
 </html>

@@ -88,7 +88,7 @@ public class Emailer {
 		return sio;
 	}
 	
-	public static void postMail(String schema, Emails email){
+	public static void postMail(String schema, Email email){
 		
 		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
 		

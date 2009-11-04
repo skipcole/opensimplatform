@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>Player Communications</title>
-<meta http-equiv="content-type"	content="text/html;	charset=iso-8859-1"	/>
+<meta http-equiv="content-type"	content="text/html;	charset=UTF-8"	/>
 <style type="text/css">
 	body {
 		margin: 20px;

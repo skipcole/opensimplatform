@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>Open Simulation Platform Tutorial</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../../ver1/simulation_tutorial/oswc.css" rel="stylesheet" type="text/css">
 </head>
 

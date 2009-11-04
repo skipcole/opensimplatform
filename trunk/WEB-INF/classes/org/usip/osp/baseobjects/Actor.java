@@ -409,6 +409,11 @@ public class Actor {
 		this.control_actor = control_actor;
 	}
 	
+	/**
+	 * Saves this object back to the database.
+	 * 
+	 * @param schema
+	 */
 	public void saveMe(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);

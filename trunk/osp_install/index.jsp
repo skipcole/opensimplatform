@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>USIP OSP Installation Page</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <frameset cols="75%,25%">
   <frame name="installbody" src="steps.jsp">
