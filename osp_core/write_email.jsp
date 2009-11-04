@@ -18,28 +18,39 @@
 	
 	Simulation simulation = new Simulation();	
 	
+	List eligibleActors = new ArrayList();
+	
 	if (pso.sim_id != null){
 		simulation = pso.giveMeSim();
+		eligibleActors = simulation.getActors(pso.schema);
 	}
 	
 	Email email = new Email();
+	List emailRecipients = new ArrayList();
+	
 	if (pso.draft_email_id != null){
 		email = Email.getMe(pso.schema, pso.draft_email_id);
+		emailRecipients = Email.getRecipientsOfAnEmail(pso.schema, pso.draft_email_id);
 	}
 	
-	email.setSubjectLine(USIP_OSP_Util.cleanNulls(request.getParameter("email_subject"));
-	email.setMsgtext(USIP_OSP_Util.cleanNulls(request.getParameter("email_text"));
+	email.setSubjectLine(USIP_OSP_Util.cleanNulls(request.getParameter("email_subject")));
+	email.setMsgtext(USIP_OSP_Util.cleanNulls(request.getParameter("email_text")));
 	
-	String email_subject = request.getParameter("email_subject");
 	String sending_page = request.getParameter("sending_page");
 	
+	String debug = "";
+	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("writing_email"))){
-		
-		String number_of_recipients = request.getParameter("number_of_recipients");
-		
+	
+		email.saveMe(pso.schema);
+		pso.draft_email_id = email.getId();
+			
 		String add_recipient = request.getParameter("add_recipient");
 		if (add_recipient != null) {
-		
+			debug = request.getParameter("email_recipient");
+			EmailRecipients er = 
+				new EmailRecipients(pso.schema, pso.draft_email_id, pso.running_sim_id, pso.sim_id, 
+				new Long(debug), pso.getActorName(pso.schema, debug), EmailRecipients.RECIPIENT_TO);
 		}
 		
 		
@@ -54,43 +65,50 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
-<meta http-equiv="refresh" content="20" />
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 <h2>Compose Email</h2>
 <form name="form1" method="post" action="write_email.jsp">
-  <input type="hidden" name="sending_page" value="write_email" />
+  <input type="hidden" name="sending_page" value="writing_email" />
   
 
 
 <br>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td>Subject: </td>
-    <td colspan="2"><label>
+    <td valign="top">Subject: </td>
+    <td colspan="2" valign="top"><label>
 <input name="email_subject" type="text" id="email_subject" size="60" value="<%= email.getSubjectLine() %>">
 </label></td>
     </tr>
   <tr>
-    <td width="6%">To:</td>
-    <td width="51%">John Doe 
+    <td width="6%" valign="top">To:</td>
+    <td width="51%" valign="top">
+    <%
+  		for (ListIterator li =  emailRecipients.listIterator(); li.hasNext();) {
+			EmailRecipients er = (EmailRecipients) li.next();
+			%>
+    <%= er.getActorName() %>
       <label>
       <input type="submit" name="remove_recipient" id="remove_recipient" value="Remove">
-      </label></td>
-    <td width="43%"><label>
-      <select name="emal_recipient" id="emal_recipient">
+      </label><br />
+    	<% } %>  
+      
+      </td>
+    <td width="43%" valign="top"><label>
+      <select name="email_recipient" id="email_recipient">
         <%
-  		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
-			Actor aa = (Actor) li.next();
+  		for (ListIterator li =  eligibleActors.listIterator(); li.hasNext();) {
+			Actor act = (Actor) li.next();
 			
-			if (!(aa.getId().equals(pso.actor_id))) {
+			if (!(act.getId().equals(pso.actor_id))) {
 			%>
-        <option value="<%= aa.getId() %>"><%= aa.getName() %></option>
+        <option value="<%= act.getId() %>"><%= act.getName() %></option>
         <% 
-			} 
-			}
+			} // end of if this is not the same actor
+			}  // end of loop over emails
 		%>
       </select>
       <input type="submit" name="add_recipient" id="add_recipient" value="Add Selected">
@@ -127,7 +145,7 @@
 <p>
   <label></label>
 </p>
-<p>&nbsp;</p>
+<p>debug is: <%= debug %></p>
 <p>&nbsp;</p>
 <p>
     <label></label>

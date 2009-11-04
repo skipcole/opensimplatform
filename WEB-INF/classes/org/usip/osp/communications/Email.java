@@ -1,14 +1,21 @@
 package org.usip.osp.communications;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.SimulationPhase;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -50,10 +57,10 @@ public class Email {
 	}
 	
 	/**
-	 * Pulls the simulation out of the database base on its id and schema.
+	 * Pulls the Email out of the database base on its id and schema.
 	 * 
 	 * @param schema
-	 * @param sim_id
+	 * @param email_id
 	 * @return
 	 */
 	public static Email getMe(String schema, Long email_id) {
@@ -82,6 +89,8 @@ public class Email {
     
     /** Id of the actor making this chat line. */
 	private Long fromActor;
+	
+	private String fromActorName = ""; //$NON_NSL-1$
     
     /** Id of the user making this chat line. */
     private Long fromUser;
@@ -95,7 +104,7 @@ public class Email {
     
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
-	
+
 	/** Indicates if message is a draft, or if it has been actually sent. */
 	private boolean hasBeenSent = false;
 
@@ -147,6 +156,14 @@ public class Email {
 		this.fromActor = fromActor;
 	}
 
+	public String getFromActorName() {
+		return fromActorName;
+	}
+
+	public void setFromActorName(String fromActorName) {
+		this.fromActorName = fromActorName;
+	}
+
 	public Long getFromUser() {
 		return fromUser;
 	}
@@ -179,5 +196,73 @@ public class Email {
 		this.msgDate = msgDate;
 	}
 	
+	/**
+	 * Returns all of the email directed to an actor during a simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @param actor_id
+	 * @return
+	 */
+	public static List getAllTo(String schema, Long running_sim_id, Long actor_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String hqlString = "from EmailRecipients where " +
+				"running_sim_id = :rsid and actor_id = :aid";
+		
+		List tempList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hqlString)
+			.setString("rsid", running_sim_id.toString())
+			.setString("aid", actor_id.toString())
+			.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		ArrayList returnList = new ArrayList();
+		
+		for (ListIterator<EmailRecipients> li = tempList.listIterator(); li.hasNext();) {
+			EmailRecipients this_er = li.next();
+			
+			Email x = Email.getMe(schema, this_er.getEmail_id());
+			
+			returnList.add(x);
+			
+		}
+		
+		return returnList;
+	
+	}
+	
+	/**
+	 * Returns all of the email directed to an actor during a simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @param actor_id
+	 * @return
+	 */
+	public static List getRecipientsOfAnEmail(String schema, Long email_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String hqlString = "from EmailRecipients where " +
+				"email_id = :eid";
+		
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hqlString)
+			.setString("eid", email_id.toString())
+			.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		
+		return returnList;
+	
+	}
+	
+	public List getAllForActor(String schema, Long running_sim_id, Long actor_id){
+		return null;
+	}
 	
 }
