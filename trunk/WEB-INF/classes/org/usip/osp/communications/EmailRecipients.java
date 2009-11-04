@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.SimActorAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /*
@@ -30,6 +31,25 @@ public class EmailRecipients {
 	public static final int RECIPIENT_CC = 3;
 	public static final int RECIPIENT_BCC = 4;
 
+	/** Zero argument constructor required by hibernate. */
+	public EmailRecipients(){
+		
+	}
+	
+	public EmailRecipients(String schema, Long email_id, Long rsid, Long sid, Long aid, String a_name, int etype){
+		
+		this.setActor_id(aid);
+		this.setActorName(a_name);
+		this.setEmail_id(email_id);
+		this.setRecipient_type(etype);
+		this.setRunning_sim_id(rsid);
+		this.setSim_id(sid);
+		
+		this.saveMe(schema);
+	
+	}
+	
+	
     /** Unique id of this email recipient line. */
 	@Id 
 	@GeneratedValue
@@ -47,6 +67,9 @@ public class EmailRecipients {
 	/** ID of the actor to which this email was sent. */
 	private Long actor_id;
 	
+	/** Name of this actor */
+	private String actorName;
+	
 	/** ID of the player playing the role to which this email was sent. */
 	private Long user_id;
 	
@@ -62,6 +85,39 @@ public class EmailRecipients {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param er_id
+	 */
+	public static void removeMe(String schema, Long er_id){
+		
+		EmailRecipients saa = EmailRecipients.getMe(schema, er_id);
+		
+		if (saa != null){
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			MultiSchemaHibernateUtil.getSession(schema).delete(saa);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		}
+	}
+	
+	/**
+	 * Pulls the email recipient out of the database base on its id and schema.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static EmailRecipients getMe(String schema, Long email_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		EmailRecipients email_rep = (EmailRecipients) MultiSchemaHibernateUtil.getSession(schema).get(EmailRecipients.class, email_id);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return email_rep;
+
 	}
 
 	public Long getId() {
@@ -104,6 +160,14 @@ public class EmailRecipients {
 		this.actor_id = actor_id;
 	}
 
+	public String getActorName() {
+		return actorName;
+	}
+
+	public void setActorName(String actor_name) {
+		this.actorName = actor_name;
+	}
+
 	public Long getUser_id() {
 		return user_id;
 	}
@@ -120,12 +184,4 @@ public class EmailRecipients {
 		this.recipient_type = recipient_type;
 	}
 	
-	
-	public List getAllTo(String schema, Long email_id){
-		return null;
-	}
-	
-	public List getAllForActor(String schema, Long running_sim_id, Long actor_id){
-		return null;
-	}
 }
