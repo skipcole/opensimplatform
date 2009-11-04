@@ -1,5 +1,5 @@
 <%@ page 
-	contentType="text/html; charset=iso-8859-1" 
+	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,
 		org.usip.osp.networking.*,
@@ -34,7 +34,7 @@
 wysiwygWidth = 1010;
 wysiwygHeight = 210;
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>

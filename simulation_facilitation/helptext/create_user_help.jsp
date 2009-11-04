@@ -4,7 +4,7 @@
 <!-- InstanceBeginEditable name="doctitle" -->
 <title>Help Section Page</title>
 <!-- InstanceEndEditable --> 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css">
 <!-- InstanceBeginEditable name="head" -->
 <style type="text/css">

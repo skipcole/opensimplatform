@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Create Simulation - Think</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
 <frameset rows="*" cols="75%,25%" border="1">

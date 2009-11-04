@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>USIP Open Simulation Platform Login</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <META http-equiv="refresh" content="0;URL=../login.jsp"> 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">
 </head>

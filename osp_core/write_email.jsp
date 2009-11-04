@@ -1,5 +1,5 @@
 <%@ page 
-	contentType="text/html; charset=iso-8859-1" 
+	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,
 		org.usip.osp.networking.*,
@@ -16,12 +16,33 @@
 		return;
 	}
 	
-	String email_text = request.getParameter("email_text");
+	Simulation simulation = new Simulation();	
 	
+	if (pso.sim_id != null){
+		simulation = pso.giveMeSim();
+	}
+	
+	Email email = new Email();
+	if (pso.draft_email_id != null){
+		email = Email.getMe(pso.schema, pso.draft_email_id);
+	}
+	
+	email.setSubjectLine(USIP_OSP_Util.cleanNulls(request.getParameter("email_subject"));
+	email.setMsgtext(USIP_OSP_Util.cleanNulls(request.getParameter("email_text"));
+	
+	String email_subject = request.getParameter("email_subject");
 	String sending_page = request.getParameter("sending_page");
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("writing_email"))){
-		Emails email = new Emails();
+		
+		String number_of_recipients = request.getParameter("number_of_recipients");
+		
+		String add_recipient = request.getParameter("add_recipient");
+		if (add_recipient != null) {
+		
+		}
+		
+		
 	}
 		
 %>
@@ -34,6 +55,7 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 <meta http-equiv="refresh" content="20" />
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -41,12 +63,16 @@
 <form name="form1" method="post" action="write_email.jsp">
   <input type="hidden" name="sending_page" value="write_email" />
   
-Subject: 
-<label>
-<input name="email_subject" type="text" id="email_subject" size="60">
-</label>
+
+
 <br>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>Subject: </td>
+    <td colspan="2"><label>
+<input name="email_subject" type="text" id="email_subject" size="60" value="<%= email.getSubjectLine() %>">
+</label></td>
+    </tr>
   <tr>
     <td width="6%">To:</td>
     <td width="51%">John Doe 
@@ -55,7 +81,17 @@ Subject:
       </label></td>
     <td width="43%"><label>
       <select name="emal_recipient" id="emal_recipient">
-        <option value="a">a</option>
+        <%
+  		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
+			Actor aa = (Actor) li.next();
+			
+			if (!(aa.getId().equals(pso.actor_id))) {
+			%>
+        <option value="<%= aa.getId() %>"><%= aa.getName() %></option>
+        <% 
+			} 
+			}
+		%>
       </select>
       <input type="submit" name="add_recipient" id="add_recipient" value="Add Selected">
     </label></td>
@@ -63,15 +99,35 @@ Subject:
 </table>
 <br>
 <p>
-		  <textarea id="email_text" name="email_text" style="height: 310px; width: 710px;"><%= email_text %>
+		  <textarea id="email_text" name="email_text" style="height: 310px; width: 710px;"><%= email.getMsgtext() %>
 		  </textarea>
 		<script language="javascript1.2">
   			generate_wysiwyg('email_text');
 		</script>
 		  </p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="50%"><input type="submit" name="email_save" id="email_save" value="Save Email"></td>
+    <td width="50%"><div align="right">
+      <label>
+      <input type="submit" name="email_clear" id="email_clear" value="Clear">
+      </label>
+    </div></td>
+  </tr>
+  <tr>
+    <td><input type="submit" name="update_text" value="Send Email"></td>
+    <td><div align="right">
+      <label>
+      <input type="submit" name="email_delete_draft" id="email_delete_draft" value="Delete Draft">
+      </label>
+    </div></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
 <p>
-  <input type="submit" name="update_text" value="Send Email">
+  <label></label>
 </p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>
     <label></label>

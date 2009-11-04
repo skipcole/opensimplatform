@@ -4,7 +4,7 @@
 <!-- TemplateBeginEditable name="doctitle" -->
 <title>Help Section Page</title>
 <!-- TemplateEndEditable --> 
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">
 <!-- TemplateBeginEditable name="head" --><!-- TemplateEndEditable -->
 <style type="text/css">

@@ -88,6 +88,9 @@ public class PlayerSessionObject extends SessionObjectBase{
 	 * PlayerSessionObject.
 	 */
 	public String user_name;
+	
+	public Long draft_email_id;
+	
 
 	public String bottomFrame = ""; //$NON-NLS-1$
 
