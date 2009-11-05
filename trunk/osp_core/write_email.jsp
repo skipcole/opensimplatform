@@ -16,44 +16,14 @@
 		return;
 	}
 	
-	Simulation simulation = new Simulation();	
+	Email email = pso.handleEmailWrite(request);
 	
-	List eligibleActors = new ArrayList();
-	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
-		eligibleActors = simulation.getActors(pso.schema);
-	}
-	
-	Email email = new Email();
-	List emailRecipients = new ArrayList();
-	
-	if (pso.draft_email_id != null){
-		email = Email.getMe(pso.schema, pso.draft_email_id);
-		emailRecipients = Email.getRecipientsOfAnEmail(pso.schema, pso.draft_email_id);
-	}
-	
-	email.setSubjectLine(USIP_OSP_Util.cleanNulls(request.getParameter("email_subject")));
-	email.setMsgtext(USIP_OSP_Util.cleanNulls(request.getParameter("email_text")));
-	
-	String sending_page = request.getParameter("sending_page");
-	
-	String debug = "";
-	
-	if ((sending_page != null) && (sending_page.equalsIgnoreCase("writing_email"))){
-	
-		email.saveMe(pso.schema);
-		pso.draft_email_id = email.getId();
-			
-		String add_recipient = request.getParameter("add_recipient");
-		if (add_recipient != null) {
-			debug = request.getParameter("email_recipient");
-			EmailRecipients er = 
-				new EmailRecipients(pso.schema, pso.draft_email_id, pso.running_sim_id, pso.sim_id, 
-				new Long(debug), pso.getActorName(pso.schema, debug), EmailRecipients.RECIPIENT_TO);
-		}
-		
-		
+	// mail has been sent. remove draft id, and return to email page.
+	if (pso.forward_on){
+		pso.forward_on = false;
+		pso.draft_email_id = null;
+		response.sendRedirect("email.jsp");
+		return;
 	}
 		
 %>
@@ -72,8 +42,7 @@
 <h2>Compose Email</h2>
 <form name="form1" method="post" action="write_email.jsp">
   <input type="hidden" name="sending_page" value="writing_email" />
-  
-
+  <input type="hidden" name="draft_email_id" value="<%= pso.draft_email_id %>" />
 
 <br>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
@@ -87,7 +56,7 @@
     <td width="6%" valign="top">To:</td>
     <td width="51%" valign="top">
     <%
-  		for (ListIterator li =  emailRecipients.listIterator(); li.hasNext();) {
+  		for (ListIterator li =  pso.emailRecipients.listIterator(); li.hasNext();) {
 			EmailRecipients er = (EmailRecipients) li.next();
 			%>
     <%= er.getActorName() %>
@@ -100,7 +69,7 @@
     <td width="43%" valign="top"><label>
       <select name="email_recipient" id="email_recipient">
         <%
-  		for (ListIterator li =  eligibleActors.listIterator(); li.hasNext();) {
+  		for (ListIterator li =  pso.eligibleActors.listIterator(); li.hasNext();) {
 			Actor act = (Actor) li.next();
 			
 			if (!(act.getId().equals(pso.actor_id))) {
@@ -133,7 +102,7 @@
     </div></td>
   </tr>
   <tr>
-    <td><input type="submit" name="update_text" value="Send Email"></td>
+    <td><input type="submit" name="email_send" value="Send Email"></td>
     <td><div align="right">
       <label>
       <input type="submit" name="email_delete_draft" id="email_delete_draft" value="Delete Draft">
@@ -145,7 +114,6 @@
 <p>
   <label></label>
 </p>
-<p>debug is: <%= debug %></p>
 <p>&nbsp;</p>
 <p>
     <label></label>
