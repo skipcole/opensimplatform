@@ -28,7 +28,7 @@ import org.usip.osp.specialfeatures.PlayerReflection;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
  */
-public class PlayerSessionObject extends SessionObjectBase{
+public class PlayerSessionObject extends SessionObjectBase {
 
 	/** The Session object. */
 	public HttpSession session = null;
@@ -88,9 +88,8 @@ public class PlayerSessionObject extends SessionObjectBase{
 	 * PlayerSessionObject.
 	 */
 	public String user_name;
-	
+
 	public Long draft_email_id;
-	
 
 	public String bottomFrame = ""; //$NON-NLS-1$
 
@@ -222,23 +221,23 @@ public class PlayerSessionObject extends SessionObjectBase{
 
 		return returnList;
 	}
-	
+
 	/**
-	 * When an author is previewing how a section will look for a player, this method is called to load up
-	 * a temporary PlayerSessionObject with information for the Simulation Section being previewed to use.
+	 * When an author is previewing how a section will look for a player, this
+	 * method is called to load up a temporary PlayerSessionObject with
+	 * information for the Simulation Section being previewed to use.
 	 * 
 	 * @param afso
 	 */
-	public void loadInAFSOInformation(AuthorFacilitatorSessionObject afso){
-		
+	public void loadInAFSOInformation(AuthorFacilitatorSessionObject afso) {
+
 		this.loggedin = afso.isLoggedin();
-		
-		this.schema   = afso.schema;
-		this.sim_id   = afso.sim_id;
+
+		this.schema = afso.schema;
+		this.sim_id = afso.sim_id;
 		this.actor_id = afso.actor_being_worked_on_id;
 		this.phase_id = afso.phase_id;
-		
-		
+
 	}
 
 	/**
@@ -454,7 +453,7 @@ public class PlayerSessionObject extends SessionObjectBase{
 
 	/** Keeps track of the previously recorded high alert number. */
 	private Long prevMyHighestAlertNumber = new Long(0);
-	
+
 	/**
 	 * This method does the following: 1.) Gets from the cache the highest
 	 * change number for this simulation. 2.) It compares this with what this
@@ -486,15 +485,15 @@ public class PlayerSessionObject extends SessionObjectBase{
 		// Every two minutes (assuming polling is being done every second) do a
 		// database check anyway, and store myHighest Alert Number
 		myCount += 1;
-		
+
 		if (myCount == 120) {
 
-			if (!(myHighestAlertNumber.equals(prevMyHighestAlertNumber))){
+			if (!(myHighestAlertNumber.equals(prevMyHighestAlertNumber))) {
 				UserAssignment.saveHighAlertNumber(schema, this.myUserAssignmentId, myHighestAlertNumber);
 			}
-			
+
 			prevMyHighestAlertNumber = new Long(myHighestAlertNumber);
-			
+
 			doDatabaseCheck = true;
 			myCount = 0;
 		}
@@ -511,9 +510,9 @@ public class PlayerSessionObject extends SessionObjectBase{
 				alarmXML += "<numAlarms>0</numAlarms>";
 
 			} else {
-				
+
 				Alert this_alert = alerts.get(0);
-				
+
 				boolean thisUserApplicable = false;
 
 				if (!(this_alert.isSpecific_targets())) {
@@ -521,19 +520,20 @@ public class PlayerSessionObject extends SessionObjectBase{
 				} else {
 					thisUserApplicable = this_alert.checkActor(this.actor_id);
 				}
-				
+
 				// Check to see if its applicable, if so, add it to output.
 				if (thisUserApplicable) {
 					alarmXML += "<numAlarms>1</numAlarms>";
-				
+
 					alarmXML += "<sim_event_type>" + this_alert.getTypeText() + "</sim_event_type>";
 
 					alarmXML += "<sim_event_text>" + this_alert.getAlertPopupMessage() + "</sim_event_text>";
 				} else { // Not applicable to this actor
 					alarmXML += "<numAlarms>0</numAlarms>";
 				}
-				
-				// Either way, mark this one as checked by setting the highest alert number
+
+				// Either way, mark this one as checked by setting the highest
+				// alert number
 				myHighestAlertNumber = new Long(this_alert.getId());
 			}
 
@@ -649,22 +649,21 @@ public class PlayerSessionObject extends SessionObjectBase{
 		al.setSim_id(sim_id);
 
 		String shortIntro = USIP_OSP_Util.cleanAndShorten(news, 20) + " ...";
-		
+
 		System.out.println(shortIntro);
-		
+
 		al.setAlertPopupMessage("There is a new announcement: " + shortIntro);
-		
+
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
-		
-		
-		
+
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(rs);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Let people know that there is a change to catch.
 		storeNewHighestChangeNumber(request, al.getId());
-		
+
+		@SuppressWarnings("unused")
 		CommunicationsHub ch = new CommunicationsHub(al, schema);
 
 	}
@@ -801,12 +800,12 @@ public class PlayerSessionObject extends SessionObjectBase{
 		if (runningSimHighestAlert == null) {
 			// Try to get it from database. If that fails, set it to 0.
 			runningSimHighestAlert = Alert.getHighestAlertNumber(schema, running_sim_id);
-			
+
 			if (runningSimHighestAlert != null) {
 				highestAlertNumber.put(running_sim_id, runningSimHighestAlert);
 
 				request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
-					highestAlertNumber);
+						highestAlertNumber);
 			} else {
 				runningSimHighestAlert = new Long(0);
 			}
@@ -1002,6 +1001,100 @@ public class PlayerSessionObject extends SessionObjectBase{
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		return simulation;
 
+	}
+
+	public List eligibleActors = new ArrayList();
+	public List emailRecipients = new ArrayList();
+
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Email handleEmailWrite(HttpServletRequest request) {
+
+		Email email = new Email();
+
+		String queue_up = request.getParameter("queue_up");
+		String email_clear = request.getParameter("email_clear");
+
+		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))) {
+			String email_id = request.getParameter("email_id");
+			draft_email_id = new Long(email_id);
+		} else if (email_clear != null) {
+			draft_email_id = null;
+		}
+
+		forward_on = false;
+
+		String sending_page = request.getParameter("sending_page");
+		
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("writing_email"))) {
+
+			String add_recipient = request.getParameter("add_recipient");
+			String email_save = request.getParameter("email_save");
+			String email_send = request.getParameter("email_send");
+
+			boolean doSave = false;
+			if ((add_recipient != null) || (email_save != null) || (email_send != null)) {
+
+				doSave = true;
+
+			}
+
+			if (doSave) {
+
+				String form_email_id = request.getParameter("draft_email_id");
+				if ((form_email_id != null) && (!(form_email_id.equalsIgnoreCase("null"))) ){
+					draft_email_id = new Long(form_email_id);
+					email.setId(draft_email_id);
+				}
+				
+				if (email_send != null) {
+					email.setHasBeenSent(true);
+					forward_on = true;
+				}
+
+				email.setFromActor(actor_id);
+				email.setFromActorName(actor_name);
+				email.setFromUser(user_id);
+				email.setMsgDate(new java.util.Date());
+				email.setMsgtext(USIP_OSP_Util.cleanNulls(request.getParameter("email_text")));
+				email.setRunning_sim_id(running_sim_id);
+				email.setSim_id(sim_id);
+				email.setSubjectLine(USIP_OSP_Util.cleanNulls(request.getParameter("email_subject")));
+
+				email.saveMe(schema);
+				draft_email_id = email.getId();
+
+				if (add_recipient != null) {
+					String email_rep = request.getParameter("email_recipient");
+					
+					@SuppressWarnings("unused")
+					EmailRecipients er = new EmailRecipients(schema, draft_email_id, running_sim_id, sim_id, new Long(
+							email_rep), getActorName(request, email_rep), EmailRecipients.RECIPIENT_TO);
+				}
+			} // end of if saving.
+		} // end of if returning from this same page.
+
+		if (draft_email_id != null) {
+			email = Email.getMe(schema, draft_email_id);
+			emailRecipients = Email.getRecipientsOfAnEmail(schema, draft_email_id);
+		} else {
+			emailRecipients = new ArrayList();
+		}
+		
+		Simulation simulation = new Simulation();
+
+		if (sim_id != null) {
+			simulation = giveMeSim();
+			eligibleActors = simulation.getActors(schema);
+			
+			//TODO remove actors that have already been added.
+			
+		}
+
+		return email;
 	}
 
 	/**
@@ -1207,7 +1300,7 @@ public class PlayerSessionObject extends SessionObjectBase{
 
 		return actor;
 	}
-	
+
 	/**
 	 * Returns the user associated with this session.
 	 * 
@@ -1529,7 +1622,7 @@ public class PlayerSessionObject extends SessionObjectBase{
 
 		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, a_id);
 	}
-	
+
 	/**
 	 * Should take this opportunity to mark in the user trail that they have
 	 * logged out.
@@ -1538,24 +1631,25 @@ public class PlayerSessionObject extends SessionObjectBase{
 	 */
 	public void logout(HttpServletRequest request) {
 
-		if (loggedin){
+		if (loggedin) {
 			Logger.getRootLogger().warn("TODO: record the user's logout in their trail.");
-		
-			if (myUserAssignmentId != null){
+
+			if (myUserAssignmentId != null) {
 				UserAssignment.saveHighAlertNumber(schema, myUserAssignmentId, myHighestAlertNumber);
 			}
 		}
 	}
-	
+
 	/**
-	 * Pulls the name of the image file out of the cache, or loads it if not found.
+	 * Pulls the name of the image file out of the cache, or loads it if not
+	 * found.
 	 * 
 	 * @param request
 	 * @param a_id
 	 * @return
 	 */
 	public String getActorThumbImage(HttpServletRequest request, Long a_id) {
-		
+
 		String a_thumb = USIP_OSP_Cache.getActorThumbImage(request, schema, running_sim_id, a_id, sim_id);
 
 		return a_thumb;
@@ -1599,6 +1693,5 @@ public class PlayerSessionObject extends SessionObjectBase{
 			}
 		}
 	}
-
 
 }

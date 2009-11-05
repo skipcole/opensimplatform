@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.SimActorAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -76,6 +77,8 @@ public class EmailRecipients {
 	/** Type of receipt (from, to, cc, or bcc) */
 	private int recipient_type;
 	
+	private boolean hasBeenRead = false;
+	
 	/**
 	 * Saves this object back to the database.
 	 * 
@@ -118,6 +121,43 @@ public class EmailRecipients {
 
 		return email_rep;
 
+	}
+	
+	/**
+	 * Returns the Email Recipient line for a particular email to a particular actor in a particular simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @param actor_id
+	 * @return
+	 */
+	public static EmailRecipients getEmailRecipientsLine(String schema, Long email_id, Long running_sim_id, Long actor_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String hqlString = "from EmailRecipients where " +
+				"running_sim_id = :rsid and actor_id = :aid and email_id = :eid";
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hqlString)
+			.setString("rsid", running_sim_id.toString())
+			.setString("aid", actor_id.toString())
+			.setString("eid", email_id.toString())
+			.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		if ((returnList == null) || (returnList.size() == 0)) {
+			return null;
+		} else if (returnList.size() > 1){
+			
+			Logger.getRootLogger().warn("Have multiple email recipient lines for email with id of " + email_id); //$NON-NLS-1$
+			return (EmailRecipients) returnList.get(0);
+			
+		} else {
+			return (EmailRecipients) returnList.get(0);
+		}
+	
 	}
 
 	public Long getId() {
@@ -182,6 +222,14 @@ public class EmailRecipients {
 
 	public void setRecipient_type(int recipient_type) {
 		this.recipient_type = recipient_type;
+	}
+
+	public boolean isHasBeenRead() {
+		return hasBeenRead;
+	}
+
+	public void setHasBeenRead(boolean hasBeenRead) {
+		this.hasBeenRead = hasBeenRead;
 	}
 	
 }

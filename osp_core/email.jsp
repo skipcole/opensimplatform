@@ -23,12 +23,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
-<meta http-equiv="refresh" content="20" />
+<meta http-equiv="refresh" content="120" />
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <h1>Email</h1>
-<p><a href="write_email.jsp">Compose New Email</a></p>
+<p align="right"><a href="write_email.jsp">Compose New Email</a></p>
 <h2>Inbox for <%= pso.actor_name %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
@@ -41,10 +41,22 @@
 	// Get email list
 	for (ListIterator li = Email.getAllTo(pso.schema, pso.running_sim_id, pso.actor_id).listIterator(); li.hasNext();) {
 		Email email = (Email) li.next();
+		
+		EmailRecipients er = 
+		EmailRecipients.getEmailRecipientsLine(pso.schema, email.getId(), pso.running_sim_id, pso.actor_id);
+
+		String boldStart = "";
+		String boldEnd = "";
+		
+		if ((!er.isHasBeenRead())) {
+			boldStart = "<B>";
+			boldEnd = "</B>";
+		}
+		
 %>
   <tr>
     <td>&nbsp;</td>
-    <td><%= email.getSubjectLine() %></td>
+    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldStart %></td>
     <td><%= email.getFromActorName() %></td>
     <td><%= email.getMsgDate() %></td>
   </tr>
@@ -55,20 +67,20 @@
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td width="4%">&nbsp;</td>
-    <td width="46%">Subject</td>
-    <td width="25%">To</td>
-    <td width="25%">Date</td>
+    <td width="46%"><strong>Subject</strong></td>
+    <td width="25%"><strong>To</strong></td>
+    <td width="25%"><strong>Date</strong></td>
   </tr>
   <%
 	// Get email list
-	{
-	Email email = new Email();
-%>
+	for (ListIterator li = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, true).listIterator(); li.hasNext();) {
+		Email email = (Email) li.next();
+     %>
   <tr>
     <td>&nbsp;</td>
-    <td><%= email.getSubjectLine() %></td>
+    <td><a href="view_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td><%= email.getMsgDate() %></td>
   </tr>
   <% } %>
 </table>
@@ -77,20 +89,20 @@
 <table width="80%" border="1" cellpadding="0" cellspacing="0">
   <tr>
     <td width="4%">&nbsp;</td>
-    <td width="46%">Subject</td>
-    <td width="25%">From</td>
-    <td width="25%">Date</td>
+    <td width="46%"><strong>Subject</strong></td>
+    <td width="25%"><strong>To</strong></td>
+    <td width="25%"><strong>Date</strong></td>
   </tr>
   <%
 	// Get email list
-	{
-	Email email = new Email();
+	for (ListIterator li = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, false).listIterator(); li.hasNext();) {
+		Email email = (Email) li.next();
      %>
   <tr>
     <td>&nbsp;</td>
-    <td><%= email.getSubjectLine() %></td>
+    <td><a href="write_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td><%= email.getMsgDate() %></td>
   </tr>
     <% } %>
 </table>

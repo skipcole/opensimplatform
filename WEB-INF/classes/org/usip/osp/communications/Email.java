@@ -115,6 +115,17 @@ public class Email {
 	public void setHasBeenSent(boolean hasBeenSent) {
 		this.hasBeenSent = hasBeenSent;
 	}
+	
+	/** Indicates if this email has been deleted. */
+	private boolean email_deleted;
+
+	public boolean isEmail_deleted() {
+		return email_deleted;
+	}
+
+	public void setEmail_deleted(boolean email_deleted) {
+		this.email_deleted = email_deleted;
+	}
 
 	public Long getId() {
 		return id;
@@ -224,15 +235,51 @@ public class Email {
 		for (ListIterator<EmailRecipients> li = tempList.listIterator(); li.hasNext();) {
 			EmailRecipients this_er = li.next();
 			
-			Email x = Email.getMe(schema, this_er.getEmail_id());
+			Email email = Email.getMe(schema, this_er.getEmail_id());
 			
-			returnList.add(x);
+			if (email.hasBeenSent()){
+				returnList.add(email);
+			}
 			
 		}
 		
 		return returnList;
 	
 	}
+	
+	/**
+	 * Returns all of the email directed to an actor during a simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @param actor_id
+	 * @return
+	 */
+	public static List getDraftsOrSent(String schema, Long running_sim_id, Long actor_id, boolean getSent){
+		
+		String getDrafts = "0";
+		
+		if (getSent){
+			getDrafts = "1";
+		}
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String hqlString = "from Email where " +
+				"running_sim_id = :rsid and fromActor = :aid and hasbeenSent = '" + getDrafts + "' and email_deleted = '0'";
+		
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hqlString)
+			.setString("rsid", running_sim_id.toString())
+			.setString("aid", actor_id.toString())
+			.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	
+	}
+	
 	
 	/**
 	 * Returns all of the email directed to an actor during a simulation.
@@ -261,8 +308,32 @@ public class Email {
 	
 	}
 	
-	public List getAllForActor(String schema, Long running_sim_id, Long actor_id){
-		return null;
+	/**
+	 * Returns all of the email directed to an actor during a simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @param actor_id
+	 * @return
+	 */
+	public static List getRecipientsOfSpecifiedType(String schema, Long email_id, int e_type){
+		
+		List starterList = getRecipientsOfAnEmail(schema, email_id);
+
+		List returnList = new ArrayList();
+		
+		for (ListIterator<EmailRecipients> li = starterList.listIterator(); li.hasNext();) {
+			EmailRecipients this_er = li.next();
+			
+			if (this_er.getRecipient_type() == e_type){
+				returnList.add(this_er);
+			}
+		}
+		
+		return returnList;
+	
 	}
+	
+	
 	
 }
