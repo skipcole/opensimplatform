@@ -105,6 +105,26 @@ public class Email {
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
 
+	private boolean reply_email = false;
+	
+	private boolean forward_email = false;
+	
+	public boolean isReply_email() {
+		return reply_email;
+	}
+
+	public void setReply_email(boolean reply_email) {
+		this.reply_email = reply_email;
+	}
+
+	public boolean isForward_email() {
+		return forward_email;
+	}
+
+	public void setForward_email(boolean forward_email) {
+		this.forward_email = forward_email;
+	}
+
 	/** Indicates if message is a draft, or if it has been actually sent. */
 	private boolean hasBeenSent = false;
 

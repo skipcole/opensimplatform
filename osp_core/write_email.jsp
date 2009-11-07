@@ -45,7 +45,7 @@
   <input type="hidden" name="draft_email_id" value="<%= pso.draft_email_id %>" />
 
 <br>
-<table width="80%" border="1" cellspacing="0" cellpadding="0">
+<table width="710" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td valign="top">Subject: </td>
     <td colspan="2" valign="top"><label>
@@ -55,15 +55,21 @@
   <tr>
     <td width="6%" valign="top">To:</td>
     <td width="51%" valign="top">
-    <%
+          <select name="removed_email" id="removed_email">
+        <%
   		for (ListIterator li =  pso.emailRecipients.listIterator(); li.hasNext();) {
 			EmailRecipients er = (EmailRecipients) li.next();
+			
 			%>
-    <%= er.getActorName() %>
+        <option value="<%= er.getId() %>"><%= er.getActorName() %></option>
+        <% 
+			}  // end of loop over email recipients
+		%>
+      </select>
+
       <label>
       <input type="submit" name="remove_recipient" id="remove_recipient" value="Remove">
-      </label><br />
-    	<% } %>  
+      </label>
       
       </td>
     <td width="43%" valign="top"><label>
@@ -92,7 +98,7 @@
   			generate_wysiwyg('email_text');
 		</script>
 		  </p>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="710" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="50%"><input type="submit" name="email_save" id="email_save" value="Save Email"></td>
     <td width="50%"><div align="right">
@@ -100,6 +106,10 @@
       <input type="submit" name="email_clear" id="email_clear" value="Clear">
       </label>
     </div></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td><input type="submit" name="email_send" value="Send Email"></td>
