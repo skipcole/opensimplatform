@@ -1017,11 +1017,18 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		String queue_up = request.getParameter("queue_up");
 		String email_clear = request.getParameter("email_clear");
-
+		String email_delete_draft = request.getParameter("email_delete_draft");
+		
 		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))) {
 			String email_id = request.getParameter("email_id");
 			draft_email_id = new Long(email_id);
 		} else if (email_clear != null) {
+			draft_email_id = null;
+		} else if ((email_delete_draft != null) && (draft_email_id != null)){
+			email = Email.getMe(schema, draft_email_id);
+			email.setEmail_deleted(true);
+			email.saveMe(schema);
+			email = new Email();
 			draft_email_id = null;
 		}
 
@@ -1034,9 +1041,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 			String add_recipient = request.getParameter("add_recipient");
 			String email_save = request.getParameter("email_save");
 			String email_send = request.getParameter("email_send");
+			String remove_recipient = request.getParameter("remove_recipient");
 
 			boolean doSave = false;
-			if ((add_recipient != null) || (email_save != null) || (email_send != null)) {
+			if ((remove_recipient != null) || (add_recipient != null) || (email_save != null) || (email_send != null)) {
 
 				doSave = true;
 
@@ -1073,6 +1081,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 					@SuppressWarnings("unused")
 					EmailRecipients er = new EmailRecipients(schema, draft_email_id, running_sim_id, sim_id, new Long(
 							email_rep), getActorName(request, email_rep), EmailRecipients.RECIPIENT_TO);
+				}
+				
+				if (remove_recipient != null) {
+					String removed_email = request.getParameter("removed_email");
+					if (removed_email != null){
+						EmailRecipients.removeMe(schema, new Long(removed_email));
+					}
 				}
 			} // end of if saving.
 		} // end of if returning from this same page.

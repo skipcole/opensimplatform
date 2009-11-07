@@ -28,7 +28,7 @@
 </head>
 <body>
 <h1>Email</h1>
-<p align="right"><a href="write_email.jsp">Compose New Email</a></p>
+<p align="center"><a href="write_email.jsp">Compose New Email</a></p>
 <h2>Inbox for <%= pso.actor_name %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
@@ -49,14 +49,14 @@
 		String boldEnd = "";
 		
 		if ((!er.isHasBeenRead())) {
-			boldStart = "<B>";
-			boldEnd = "</B>";
+			boldStart = "<strong>";
+			boldEnd = "</strong>";
 		}
 		
 %>
   <tr>
     <td>&nbsp;</td>
-    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldStart %></td>
+    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
     <td><%= email.getFromActorName() %></td>
     <td><%= email.getMsgDate() %></td>
   </tr>
