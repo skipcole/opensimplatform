@@ -2317,5 +2317,99 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			}
 		}
 	}
+	
+	public Long draft_event_id;
+	
+	public static String getEventsForPhase(String schema, Long sim_id, Long phase_id){
+		
+		if (sim_id == null){
+			return "";
+		} else if (phase_id == null){
+			Simulation sim = Simulation.getMe(schema, sim_id);
+			phase_id = sim.getFirstPhaseId(schema);
+		}
+		
+		return Event.packupArray(Event.getAllForSim(sim_id, phase_id, schema));
+		
+	}
+	
+	/**
+	 * Handles the creation of timeline events.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Event handleTimeLineCreator(HttpServletRequest request){
+
+		Event event = new Event();
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("timeline_creator") ) ){
+			
+			String command = (String) request.getParameter("command");
+			
+			if (command.equalsIgnoreCase("Update")){
+				String event_id = (String) request.getParameter("event_id");
+				
+				event.setId(new Long(event_id));
+				draft_event_id = event.getId();
+				
+			}
+			
+			if (command.equalsIgnoreCase("Clear")){
+				draft_event_id = null;
+			} else  {    // coming here as update or as create.
+				event.setEventTitle( (String) request.getParameter("event_title") );
+				event.setEventMsgBody((String) request.getParameter("event_text"));
+			
+				String event_hour = (String) request.getParameter("event_hour");
+				String event_minute = (String) request.getParameter("event_minute");
+			
+				int event_hour_int = 0;
+				int event_minute_int = 0;
+			
+				try {
+					event_hour_int = new Long(event_hour).intValue();
+					event_minute_int = new Long(event_minute).intValue();
+				
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			
+				// For now arbitrarily set date to 1/1/2001.
+				Calendar cal = new GregorianCalendar();
+				cal.setTimeZone(TimeZone.getDefault());
+			
+				// Year, month, day, hour, minute, second
+				cal.set(2001, 0, 1, event_hour_int, event_minute_int, 0);
+			
+				event.setEventStartTime(cal.getTime());
+
+				event.setSimId(sim_id);
+				event.setPhaseId(phase_id);
+			
+				event.saveMe(schema);
+			}
+			
+		}
+		
+		String remove_event = (String) request.getParameter("remove_event");
+		String edit_event = (String) request.getParameter("edit_event");
+		
+		String event_id = (String) request.getParameter("event_id");
+		
+		if ((remove_event != null) && (remove_event.equalsIgnoreCase("true") ) ){
+			Event.removeMe(schema, new Long(event_id));
+			draft_event_id = null;
+		}
+		
+		if ((edit_event != null) && (edit_event.equalsIgnoreCase("true") ) ){
+			event = Event.getMe(schema, new Long(event_id));
+			draft_event_id = event.getId();
+		}
+		
+		return event;
+	}
 
 } // End of class

@@ -78,14 +78,18 @@
     <br></td>
   </tr>
   <tr>
-    <td><form name="form1" method="post" action="">
+    <td><form name="form1" method="post" action="write_email.jsp">
+    <input type="hidden" name="reply_to" value="true">
+    <input type="hidden" name="reply_id" value="<%= email.getId() %>">
       <label>
         <div align="center">
           <input type="submit" name="email_reply" id="email_reply" value="Reply">
         </div>
       </label>
     </form>    </td>
-    <td><form name="form2" method="post" action="">
+    <td><form name="form2" method="post" action="write_email.jsp">
+        <input type="hidden" name="forward_to" value="true">
+    <input type="hidden" name="forward_id" value="<%= email.getId() %>">
       <label>
         <div align="center">
           <input type="submit" name="email_forward" id="email_forward" value="Forward">

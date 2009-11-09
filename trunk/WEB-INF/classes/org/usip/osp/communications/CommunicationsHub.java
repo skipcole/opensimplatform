@@ -97,26 +97,14 @@ public class CommunicationsHub {
 			
 			Alert a = (Alert) MultiSchemaHibernateUtil.getSession("test").get(this_sp.getMsgClass(), this_sp.getMsgId());
 
-			System.out.println(packageEvent(a));
+			//System.out.println(Event.packageEvent(a));
 			
 			MultiSchemaHibernateUtil.commitAndCloseTransaction("test");
 		}
 		
 	}
 	
-	public static String packageEvent(Alert a){
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
-		
-		String returnString = "<event start=\"" 
-			+ sdf.format(a.getTimeOfAlert()) + "\" title=\"" + a.getAlertPopupMessage() 
-			+ "\">";
-		
-		returnString += USIP_OSP_Util.htmlToCode(a.getAlertMessage());
-		
-		returnString += "</event>";
-		return returnString;
-	}
+
 
 	public Long getId() {
 		return id;

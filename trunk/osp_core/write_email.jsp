@@ -16,7 +16,34 @@
 		return;
 	}
 	
-	Email email = pso.handleEmailWrite(request);
+	Email email = new Email();
+
+	String reply_to = request.getParameter("reply_to");
+	String forward_to = request.getParameter("forward_to");
+	
+	if (reply_to != null)  {
+		String reply_id = request.getParameter("reply_id");
+		Email emailIAmReplyingTo = Email.getMe(pso.schema, new Long(reply_id));
+		
+		email.setSubjectLine("Re: " + emailIAmReplyingTo.getSubjectLine());
+		email.setMsgtext(Email.markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
+		email.setReply_email(true);
+		email.setThread_id(emailIAmReplyingTo.getId());
+		email.saveMe(pso.schema);
+		
+	} else if (forward_to != null)  {
+		String forward_id = request.getParameter("forward_id");
+		Email emailIAmReplyingTo = Email.getMe(pso.schema, new Long(forward_id));
+		
+		email.setSubjectLine("Fwd: " + emailIAmReplyingTo.getSubjectLine());
+		email.setMsgtext(Email.markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
+		email.setReply_email(true);
+		email.setThread_id(emailIAmReplyingTo.getId());
+		email.saveMe(pso.schema);
+		
+	} else {
+		email = pso.handleEmailWrite(request);
+	}
 	
 	// mail has been sent. remove draft id, and return to email page.
 	if (pso.forward_on){
@@ -115,7 +142,7 @@
     <td><input type="submit" name="email_send" value="Send Email"></td>
     <td><div align="right">
       <label>
-      <input type="submit" name="email_delete_draft" id="email_delete_draft" value="Delete Draft">
+      <input type="submit" name="email_delete_draft" id="email_delete_draft" value="Delete Draft"  onClick="return confirm('Are you sure you want to delete this draft?');">
       </label>
     </div></td>
   </tr>
