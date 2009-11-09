@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.Conversation;
+import org.usip.osp.communications.Event;
 import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.*;
@@ -13,8 +14,8 @@ import org.apache.log4j.*;
 
 /**
  * This class represents a simulation.
- * 
- * 
+ */
+/* 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
@@ -494,6 +495,19 @@ public class Simulation {
 		}
 
 	}
+	
+	/** Returns the start date for the simulation phase.
+	 * 
+	 * @param schema
+	 * @param phase_id
+	 * @return
+	 */
+	public Date getPhaseStartTime(String schema, Long phase_id){
+		SimulationPhase sp = SimulationPhase.getMe(schema, phase_id);
+		
+		return sp.getPhaseStartDate();
+		
+	}
 
 	/** Returns the id of the first phase in a simulation. */
 	public Long getFirstPhaseId(String schema) {
@@ -675,5 +689,7 @@ public class Simulation {
 	public void setListingKeyWords(String listingKeyWords) {
 		this.listingKeyWords = listingKeyWords;
 	}
+	
+
 
 } // End of Simulation

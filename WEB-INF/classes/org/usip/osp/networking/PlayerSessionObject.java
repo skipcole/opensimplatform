@@ -1708,5 +1708,30 @@ public class PlayerSessionObject extends SessionObjectBase {
 			}
 		}
 	}
+	
+	private ArrayList <Event> setOfEvents = new ArrayList();
+
+	{
+		
+		Event e1 = new Event();
+
+		e1.setEventTitle("bring it on");
+		e1.setEventMsgBody("here are the words");
+		e1.setEventStartTime(new java.util.Date());
+		
+		setOfEvents.add(e1);
+	}
+	
+	public ArrayList<Event> getSetOfEvents() {
+		return setOfEvents;
+	}
+
+	public void setSetOfEvents(ArrayList<Event> setOfEvents) {
+		this.setOfEvents = setOfEvents;
+	}
+	
+	public String getSimilieEvents(){
+		return Event.packupArray(setOfEvents);
+	}
 
 }

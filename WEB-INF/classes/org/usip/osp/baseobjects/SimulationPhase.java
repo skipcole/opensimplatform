@@ -1,5 +1,8 @@
 package org.usip.osp.baseobjects;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.*;
@@ -35,6 +38,16 @@ public class SimulationPhase implements Comparable{
 	
 	public static final int PSEUDOTIME_BASED = 3;
 	
+	public SimulationPhase(){
+		// For now arbitrarily set date to 1/1/2001.
+		Calendar cal = new GregorianCalendar();
+		
+		// Year, month, day, hour, minute
+		cal.set(2001, 0, 1, 9, 0);
+		
+		phaseStartDate = cal.getTime();
+		
+	}
 
 	/** Database id of this Phase. */
 	@Id
@@ -62,10 +75,22 @@ public class SimulationPhase implements Comparable{
 	@Lob
 	private String notes = ""; //$NON-NLS-1$
 	
+	/** Flag to indicate that this is the first phase. */
 	private boolean firstPhase = false;
 	
+	/** Flag to indicate that this is the larst phase. */
 	private boolean lastPhase = false;
 	
+	private Date phaseStartDate = new Date();
+	
+	public Date getPhaseStartDate() {
+		return phaseStartDate;
+	}
+
+	public void setPhaseStartDate(Date phaseStartDate) {
+		this.phaseStartDate = phaseStartDate;
+	}
+
 	/** Indicates if time (in the form of round or calendar) is tracked during this phase. */
 	private boolean timePasses = false;
 	

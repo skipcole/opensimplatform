@@ -353,6 +353,24 @@ public class Email {
 		return returnList;
 	
 	}
+	/**
+	 * Puts the ">" symbol in front of each line of an email that is being replied to or forwarded.
+	 * @param text
+	 * @return
+	 */
+	public static String markTextAsReplyOrForwardText(String text){
+		
+		String returnString = "";
+		
+		String[] lines = text.split("\n");
+
+        for (String this_line : lines) {
+            System.out.println("Count is: " + this_line);
+            returnString += ">" + this_line;
+        }
+
+		return returnString;
+	}
 	
 	
 	
