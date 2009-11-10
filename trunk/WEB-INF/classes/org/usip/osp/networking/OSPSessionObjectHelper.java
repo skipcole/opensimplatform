@@ -9,8 +9,9 @@ import org.usip.osp.persistence.BaseUser;
 /**
  * This object contains methods to help the main session objects (
  * AuthorFacilitatorSessionObject and PlayerSessionObject) do their work.
- * 
- * 
+ */
+
+/* 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
