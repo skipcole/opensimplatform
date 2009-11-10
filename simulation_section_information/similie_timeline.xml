@@ -5,8 +5,8 @@
   <contents/>
   <pageTitle></pageTitle>
   <bigString></bigString>
-  <hasCustomizer>false</hasCustomizer>
-  <customizerClassName></customizerClassName>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.SimilieTimelineCustomizer</customizerClassName>
   <numDependentObjects>0</numDependentObjects>
   <creatingOrganization>USIP</creatingOrganization>
   <uniqueName>similie_timeline</uniqueName>

@@ -19,27 +19,26 @@ import org.apache.log4j.*;
  *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
-public class CastCustomizer extends Customizer{
+public class SimilieTimelineCustomizer extends Customizer{
 
-	public static final String KEY_FOR_DISPLAY_CONTROL = "display_control"; //$NON-NLS-1$
-	public static final String KEY_FOR_CONTROL_ON_BOTTOM = "control_on_bottom"; //$NON-NLS-1$
+	public static final String KEY_FOR_DISPLAY = "timeline_to_show"; //$NON-NLS-1$
 
 	public void handleCustomizeSection(HttpServletRequest request, 
 			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
 
-		Logger.getRootLogger().debug("CastCustomizeableSection.handleCustomizeSection"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("SimilieTimelineCustomizer.handleCustomizeSection"); //$NON-NLS-1$
 		
 		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
 		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) { //$NON-NLS-1$
 			
-			Logger.getRootLogger().debug("CastCustomizeableSection.handleCustomizeSection.save_results"); //$NON-NLS-1$
+			Logger.getRootLogger().debug("SimilieTimelineCustomizer.handleCustomizeSection.save_results"); //$NON-NLS-1$
 
 			cs.setBigString(request.getParameter("cs_bigstring"));
 			
-			String display_control = request.getParameter("display_control"); //$NON-NLS-1$
+			String timeline_to_show = request.getParameter("timeline_to_show"); //$NON-NLS-1$
 
-			cs.getContents().put(KEY_FOR_DISPLAY_CONTROL, display_control);
+			cs.getContents().put(KEY_FOR_DISPLAY, timeline_to_show);
 
 			cs.save(pso.schema);
 
