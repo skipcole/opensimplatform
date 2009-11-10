@@ -200,8 +200,11 @@ public class PSO_SectionMgmt {
 
 			if (this.customizableSectionOnScratchPad.isHasCustomizer()) {
 				try {
+					System.out.println("getting class for " + this.customizableSectionOnScratchPad.getCustomizerClassName());
+					
 					Class classDefinition = Class.forName(this.customizableSectionOnScratchPad.getCustomizerClassName());
 					this.customizableSectionOnScratchPad.setMyCustomizer((Customizer) classDefinition.newInstance());
+					
 				} catch (InstantiationException er) {
 					Logger.getRootLogger().debug(er);
 				} catch (IllegalAccessException er) {

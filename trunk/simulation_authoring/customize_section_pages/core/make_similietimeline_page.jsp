@@ -18,15 +18,15 @@
 		return;
 	}
 	
-	String selected_display_control_yes = "";
-	String selected_display_control_no = "";
+	String selected_display_plan = "";
+	String selected_display_actual = "";
 	
-	String stored_value = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_CONTROL);
+	String stored_value = (String) cs.getContents().get(SimilieTimelineCustomizer.KEY_FOR_DISPLAY);
 	
-	if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
-		selected_display_control_yes = "checked";
+	if ((stored_value != null) && (stored_value.equalsIgnoreCase("show_plan"))){
+		selected_display_plan = "checked";
 	} else {
-		selected_display_control_no = "checked";
+		selected_display_actual = "checked";
 	}
 	
 	
@@ -52,7 +52,7 @@
 		<tr>
 			<td width="120"><img src="../../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Customize Cast Page</h1>
+              <h1>Customize Similie Timeline Page</h1>
               <br />
       <form action="make_cast_page.jsp" method="post" name="form2" id="form2">
         <% if (cs.getId() != null) {
@@ -60,28 +60,21 @@
 	   %>
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %>
-        <blockquote> 
-          <p>&nbsp;</p>
-        </blockquote>
         
         <blockquote>
           <p>Tab Heading: 
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
-            <table width="100%" border="1" cellspacing="0">
-              <tr>
-                <td valign="top">&nbsp;</td>
-                <td valign="top">&nbsp;</td>
-              </tr>
-              <tr>
-                <td valign="top">Page Introduction</td>
-                <td valign="top"><label>
-                  <textarea name="textarea" id="textarea" cols="45" rows="5"><%= cs.getBigString() %></textarea>
-                  </label></td>
-              </tr>
-              </table>
-            <p>------------Ignore this stuff. it is work in progress-------------</p>
-            <%
+          <p>
+            <label>
+            <input type="radio" name="timeline_to_show" id="show_plan" value="show_plan" <%= selected_display_plan %> />
+            Show Planned Events            </label>
+            <br />
+            <label>
+            <input type="radio" name="timeline_to_show" id="show_actual" value="show_actual" <%= selected_display_actual %> />
+            Show Actual Events</label>
+          </p>
+          <%
 			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
 			
@@ -96,18 +89,20 @@
 			}
 			%>
             <% if (!(hasItAlready)) { %>
-		    	<p><input type="checkbox" name="checkbox" id="checkbox" /> Add this to actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %>              </p>
+		    	<p> 
+		    	  <input type="submit" name="save_and_add" value="Save and Add Section" />
+		    	  Add this to actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %>              </p>
             <% } else { %>
-            	<p>This section has already been added to actor <%= afso.actor_being_worked_on_id %> for phase <%= afso.phase_id %>.</p>
+            	<p>
+            	  <input type="submit" name="save_page" value="Save" />
+            	  This section has already been added to actor <%= afso.actor_being_worked_on_id %> for phase <%= afso.phase_id %>.</p>
             <% } %>
 
             <p> 
               <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="save_results" value="true" />
               <input type="hidden" name="sending_page" value="make_cast_page" />
-              <input type="submit" name="save_page" value="Save" />
-              <input type="submit" name="save_and_add" value="Save and Add Section" />
-              </p>
+            </p>
             <p>&nbsp;</p>
           </blockquote>
       </form>      <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>

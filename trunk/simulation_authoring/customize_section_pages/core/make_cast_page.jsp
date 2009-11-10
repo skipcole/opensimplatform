@@ -82,12 +82,15 @@
               <tr>
                 <td valign="top">Page Introduction</td>
                 <td valign="top"><label>
-                  <textarea name="textarea" id="textarea" cols="45" rows="5"><%= cs.getBigString() %></textarea>
+                  <textarea name="cs_bigstring" id="textarea" cols="45" rows="5"><%= cs.getBigString() %></textarea>
                   </label></td>
               </tr>
               </table>
-            <p>------------Ignore this stuff. it is work in progress-------------</p>
             <%
+			
+			System.out.println(afso.schema + ", " + 
+				afso.sim_id + ", " + afso.actor_being_worked_on_id + ", " + afso.phase_id + ", " + cs.getId() );
+				
 			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
 			
@@ -95,25 +98,28 @@
 			
 			String actors_name_string = "fill it in from cache";
 			
-			if (afso.actor_being_worked_on_id.equals(0)) {
+			if (afso.actor_being_worked_on_id.equals(new Long(0))) {
 				actors_name_string = " every actor ";
 			} else {
-				
+				System.out.println("actor id : " + afso.actor_being_worked_on_id);
+				actors_name_string = " [insert code here] ";
 			}
 			%>
             <% if (!(hasItAlready)) { %>
-		    	<p><input type="checkbox" name="checkbox" id="checkbox" /> Add this to actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %>              </p>
+		    	<p> 
+		    	  <input type="submit" name="save_and_add" value="Save and Add Section" />
+		    	  Add this to <%= actors_name_string %> in phase <%= afso.phase_id %>              </p>
             <% } else { %>
-            	<p>This section has already been added to actor <%= afso.actor_being_worked_on_id %> for phase <%= afso.phase_id %>.</p>
+            	<p>
+            	  <input type="submit" name="save_page" value="Save" />
+            	  This section has already been added to <%= actors_name_string %> for phase <%= afso.phase_id %>.</p>
             <% } %>
 
             <p> 
               <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="save_results" value="true" />
               <input type="hidden" name="sending_page" value="make_cast_page" />
-              <input type="submit" name="save_page" value="Save" />
-              <input type="submit" name="save_and_add" value="Save and Add Section" />
-              </p>
+            </p>
             <p>&nbsp;</p>
           </blockquote>
       </form>      <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
