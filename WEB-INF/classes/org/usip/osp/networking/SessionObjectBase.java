@@ -2,6 +2,8 @@ package org.usip.osp.networking;
 
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.RunningSimulation;
+import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.communications.Event;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /*
@@ -67,5 +69,26 @@ public class SessionObjectBase {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return rs;
+	}
+	
+	/**
+	 * Returns all of the planned events for a phase.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param phase_id
+	 * @return
+	 */
+	public static String getEventsForPhase(String schema, Long sim_id, Long phase_id){
+		
+		if (sim_id == null){
+			return "";
+		} else if (phase_id == null){
+			Simulation sim = Simulation.getMe(schema, sim_id);
+			phase_id = sim.getFirstPhaseId(schema);
+		}
+		
+		return Event.packupArray(Event.getAllForSim(sim_id, phase_id, schema));
+		
 	}
 }

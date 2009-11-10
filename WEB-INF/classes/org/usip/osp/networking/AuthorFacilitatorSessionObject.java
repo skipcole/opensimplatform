@@ -2317,21 +2317,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			}
 		}
 	}
-	
+
+	/** An event that is being worked on. */
 	public Long draft_event_id;
-	
-	public static String getEventsForPhase(String schema, Long sim_id, Long phase_id){
-		
-		if (sim_id == null){
-			return "";
-		} else if (phase_id == null){
-			Simulation sim = Simulation.getMe(schema, sim_id);
-			phase_id = sim.getFirstPhaseId(schema);
-		}
-		
-		return Event.packupArray(Event.getAllForSim(sim_id, phase_id, schema));
-		
-	}
 	
 	/**
 	 * Handles the creation of timeline events.

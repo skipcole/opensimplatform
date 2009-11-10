@@ -54,7 +54,7 @@
 			<td width="100%"><br />
               <h1>Customize Similie Timeline Page</h1>
               <br />
-      <form action="make_cast_page.jsp" method="post" name="form2" id="form2">
+      <form action="make_similietimeline_page.jsp" method="post" name="form2" id="form2">
         <% if (cs.getId() != null) {
 	  	System.out.println("cs id was :" + cs.getId());
 	   %>
@@ -82,20 +82,20 @@
 			
 			String actors_name_string = "fill it in from cache";
 			
-			if (afso.actor_being_worked_on_id.equals(0)) {
+			if (afso.actor_being_worked_on_id.equals(new Long(0))) {
 				actors_name_string = " every actor ";
 			} else {
-				
+				actors_name_string = " [insert code here] ";
 			}
 			%>
             <% if (!(hasItAlready)) { %>
 		    	<p> 
 		    	  <input type="submit" name="save_and_add" value="Save and Add Section" />
-		    	  Add this to actor <%= afso.actor_being_worked_on_id %> in phase <%= afso.phase_id %>              </p>
+		    	  Add this to <%= actors_name_string %> in phase <%= afso.phase_id %>              </p>
             <% } else { %>
             	<p>
             	  <input type="submit" name="save_page" value="Save" />
-            	  This section has already been added to actor <%= afso.actor_being_worked_on_id %> for phase <%= afso.phase_id %>.</p>
+            	  This section has already been added to <%= actors_name_string %> for phase <%= afso.phase_id %>.</p>
             <% } %>
 
             <p> 
