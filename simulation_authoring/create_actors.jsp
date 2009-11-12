@@ -183,12 +183,11 @@
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>
               <td valign="top">
-  <input type="hidden" name="actorid" value="<%= afso.actor_being_worked_on_id %>" /> 
-                
-                <%
-				if (afso.actor_being_worked_on_id == null) {
+  <input type="hidden" name="actorid" value="<%= afso.actor_being_worked_on_id %>" />
+  <%
+				if ((afso.actor_being_worked_on_id == null) || (afso.actor_being_worked_on_id.equals(new Long(0))) ) {
 				%>
-                <input type="submit" name="create_actor" value="Create Actor" />
+  <input type="submit" name="create_actor" value="Create Actor" />
                 <%
 				} else {
 				%>

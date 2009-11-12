@@ -16,7 +16,7 @@
 		return;
 	}
 	
-		String bodyText = "";
+	String bodyText = "";
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	
