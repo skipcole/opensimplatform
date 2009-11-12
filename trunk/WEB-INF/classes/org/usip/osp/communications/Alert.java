@@ -28,7 +28,7 @@ import java.util.StringTokenizer;
 @Entity
 @Table(name = "ALERTS")
 @Proxy(lazy = false)
-public class Alert {
+public class Alert implements EventInterface{
 
 	/** This alert is of an undefined type. */
 	public static final int TYPE_UNDEFINED = 0;
@@ -300,6 +300,30 @@ public class Alert {
 
 	public Long getSim_id() {
 		return sim_id;
+	}
+
+	@Override
+	public Date getEventEndTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getEventMsgBody() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Date getEventStartTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getEventTitle() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

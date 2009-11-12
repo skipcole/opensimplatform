@@ -58,7 +58,7 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td width="50%">From: <%= email.getFromActorName() %></td>
-    <td width="50%">To: </td>
+    <td width="50%">To: <%= email.getToActors() %></td>
   </tr>
   <tr>
     <td>&nbsp;</td>

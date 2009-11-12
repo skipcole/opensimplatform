@@ -90,9 +90,19 @@ public class Email {
     /** Id of the actor making this chat line. */
 	private Long fromActor;
 	
+	/** Name of the sending actor. */
 	private String fromActorName = ""; //$NON_NSL-1$
-    
-    /** Id of the user making this chat line. */
+	
+	/** String list of actors to whom this email has been sent to. */
+	private String toActors = "";
+	
+	/** String list of actors to whom this email has been cc'd to. */
+	private String ccActors = "";
+	
+	/** String list of actors to whom this email has been bcc'd to. */
+	private String bccActors = "";
+	
+    /** Id of the user making this email. */
     private Long fromUser;
     
     /** Subject line of this email. */
@@ -105,8 +115,10 @@ public class Email {
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
 
+	/** Indicates if this email is a reply to another email. */
 	private boolean reply_email = false;
 	
+	/** Indicates if this email is a forward of another email. */
 	private boolean forward_email = false;
 	
 	public boolean isReply_email() {
@@ -353,6 +365,30 @@ public class Email {
 		return returnList;
 	
 	}
+	public String getToActors() {
+		return toActors;
+	}
+
+	public void setToActors(String toActors) {
+		this.toActors = toActors;
+	}
+
+	public String getCcActors() {
+		return ccActors;
+	}
+
+	public void setCcActors(String ccActors) {
+		this.ccActors = ccActors;
+	}
+
+	public String getBccActors() {
+		return bccActors;
+	}
+
+	public void setBccActors(String bccActors) {
+		this.bccActors = bccActors;
+	}
+
 	/**
 	 * Puts the ">" symbol in front of each line of an email that is being replied to or forwarded.
 	 * @param text
