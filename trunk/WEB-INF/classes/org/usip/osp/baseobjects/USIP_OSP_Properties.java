@@ -54,13 +54,13 @@ public class USIP_OSP_Properties {
 
 	static {
         
-    	String os_name = System.getProperty("os.name"); //$NON-NLS-1$
+    	//String os_name = System.getProperty("os.name"); //$NON-NLS-1$
     	
-    	Logger.getRootLogger().debug(os_name);
+    	//Logger.getRootLogger().debug(os_name);
     	
-    	String file_loc = System.getProperty("user.home"); //$NON-NLS-1$
+    	//String file_loc = System.getProperty("user.home"); //$NON-NLS-1$
     	
-    	Logger.getRootLogger().debug("user.home is" + file_loc); //$NON-NLS-1$
+    	//Logger.getRootLogger().debug("user.home is" + file_loc); //$NON-NLS-1$
     	
         try {
             resourceBundle = ResourceBundle.getBundle("USIP_OSP_Properties", new Locale("en", "US")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

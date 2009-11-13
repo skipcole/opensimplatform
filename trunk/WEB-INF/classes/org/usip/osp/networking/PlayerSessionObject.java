@@ -1018,13 +1018,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 		String queue_up = request.getParameter("queue_up");
 		String email_clear = request.getParameter("email_clear");
 		String email_delete_draft = request.getParameter("email_delete_draft");
-		
+
 		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))) {
 			String email_id = request.getParameter("email_id");
 			draft_email_id = new Long(email_id);
 		} else if (email_clear != null) {
 			draft_email_id = null;
-		} else if ((email_delete_draft != null) && (draft_email_id != null)){
+		} else if ((email_delete_draft != null) && (draft_email_id != null)) {
 			email = Email.getMe(schema, draft_email_id);
 			email.setEmail_deleted(true);
 			email.saveMe(schema);
@@ -1035,7 +1035,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		forward_on = false;
 
 		String sending_page = request.getParameter("sending_page");
-		
+
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("writing_email"))) {
 
 			String add_recipient = request.getParameter("add_recipient");
@@ -1053,13 +1053,15 @@ public class PlayerSessionObject extends SessionObjectBase {
 			if (doSave) {
 
 				String form_email_id = request.getParameter("draft_email_id");
-				if ((form_email_id != null) && (!(form_email_id.equalsIgnoreCase("null"))) ){
+				if ((form_email_id != null) && (!(form_email_id.equalsIgnoreCase("null")))) {
 					draft_email_id = new Long(form_email_id);
 					email.setId(draft_email_id);
 				}
-				
+
 				if (email_send != null) {
 					email.setHasBeenSent(true);
+					email.setToActors(Email.generateListOfRecipients(schema, email.getId(),
+							EmailRecipients.RECIPIENT_TO));
 					forward_on = true;
 				}
 
@@ -1077,15 +1079,15 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				if (add_recipient != null) {
 					String email_rep = request.getParameter("email_recipient");
-					
+
 					@SuppressWarnings("unused")
 					EmailRecipients er = new EmailRecipients(schema, draft_email_id, running_sim_id, sim_id, new Long(
 							email_rep), getActorName(request, email_rep), EmailRecipients.RECIPIENT_TO);
 				}
-				
+
 				if (remove_recipient != null) {
 					String removed_email = request.getParameter("removed_email");
-					if (removed_email != null){
+					if (removed_email != null) {
 						EmailRecipients.removeMe(schema, new Long(removed_email));
 					}
 				}
@@ -1098,15 +1100,34 @@ public class PlayerSessionObject extends SessionObjectBase {
 		} else {
 			emailRecipients = new ArrayList();
 		}
-		
+
 		Simulation simulation = new Simulation();
 
 		if (sim_id != null) {
 			simulation = giveMeSim();
-			eligibleActors = simulation.getActors(schema);
-			
-			//TODO remove actors that have already been added.
-			
+			eligibleActors = new ArrayList();
+
+			for (ListIterator<Actor> lia = simulation.getActors(schema).listIterator(); lia.hasNext();) {
+				Actor act = lia.next();
+				System.out.println("checking actor: " + act.getName());
+
+				// Add to the eligible actor lists actors that are not already
+				// marked as recipients
+				boolean foundName = false;
+				for (ListIterator<EmailRecipients> lie = emailRecipients.listIterator(); lie.hasNext();) {
+					EmailRecipients er = lie.next();
+
+					if (act.getName().equalsIgnoreCase(er.getActorName())) {
+						foundName = true;
+					}
+
+				}
+
+				if (!(foundName)) {
+					eligibleActors.add(act);
+				}
+			}
+
 		}
 
 		return email;
@@ -1708,20 +1729,20 @@ public class PlayerSessionObject extends SessionObjectBase {
 			}
 		}
 	}
-	
-	private ArrayList <Event> setOfEvents = new ArrayList();
+
+	private ArrayList<Event> setOfEvents = new ArrayList();
 
 	{
-		
+
 		Event e1 = new Event();
 
 		e1.setEventTitle("bring it on");
 		e1.setEventMsgBody("here are the words");
 		e1.setEventStartTime(new java.util.Date());
-		
+
 		setOfEvents.add(e1);
 	}
-	
+
 	public ArrayList<Event> getSetOfEvents() {
 		return setOfEvents;
 	}
@@ -1729,8 +1750,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public void setSetOfEvents(ArrayList<Event> setOfEvents) {
 		this.setOfEvents = setOfEvents;
 	}
-	
-	public String getSimilieEvents(){
+
+	public String getSimilieEvents() {
 		return Event.packupArray(setOfEvents);
 	}
 

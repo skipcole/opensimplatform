@@ -36,14 +36,35 @@
 
 	Event event = afso.handleTimeLineCreator(request);
 			
+	String Timeline_ajax_url = "";
+	String Timeline_urlPrefix = "http://static.simile.mit.edu/timeline/api-2.3.0/";
+	String timeLineSrc = "http://static.simile.mit.edu/timeline/api-2.3.0/timeline-api.js?bundle=true";
+	
+	//Timeline_ajax_url = USIP_OSP_Properties.getValue("base_sim_url") + "third_party_libraries/timeline_2.3.0/timeline_ajax/simile-ajax-api.js";
+	//Timeline_urlPrefix = USIP_OSP_Properties.getValue("base_sim_url") + "third_party_libraries/timeline_2.3.0/timeline_js/";
+	//timeLineSrc = USIP_OSP_Properties.getValue("base_sim_url") + "third_party_libraries/timeline_2.3.0/timeline_js/timeline-api.js";
+	
+	System.out.println("ajax url: " + Timeline_ajax_url);
+	System.out.println("timeline url: " + Timeline_urlPrefix);
+	System.out.println("src: " + timeLineSrc);
+
 	
 %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-        <script>Timeline_urlPrefix = "http://static.simile.mit.edu/timeline/api-2.3.0/";;</script>
-        <script src="http://static.simile.mit.edu/timeline/api-2.3.0/timeline-api.js?bundle=true" type="text/javascript"></script>
+       <!-- script>
+ 			Timeline_ajax_url="<  %= Timeline_ajax_url % >";
+ 			Timeline_urlPrefix='< % = Timeline_urlPrefix % >';       
+ 			Timeline_parameters='bundle=true';
+ 		</script>
+ 		<script src="< % = timeLineSrc % >" type="text/javascript">
+ 		</script -->
+        
+        <script>Timeline_urlPrefix = "<%= Timeline_urlPrefix %>";</script>
+        <script src="<%= timeLineSrc %>" type="text/javascript"></script>
         <script>
+
         var tl;
         function onLoad() {
         var eventSource = new Timeline.DefaultEventSource();
