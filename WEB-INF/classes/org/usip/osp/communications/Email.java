@@ -365,6 +365,29 @@ public class Email {
 		return returnList;
 	
 	}
+	
+	public static String generateListOfRecipients(String schema, Long email_id, int e_type){
+		
+		String returnString = "  ";
+		
+		List starterList = getRecipientsOfSpecifiedType(schema, email_id, e_type);
+		
+		for (ListIterator<EmailRecipients> li = starterList.listIterator(); li.hasNext();) {
+			EmailRecipients this_er = li.next();
+		
+			returnString += this_er.getActorName() + ", ";
+			
+		}
+		
+		// Remove final 2 characters.
+		returnString = (String) returnString.subSequence(0, returnString.length() - 2);
+		
+		// Remove final 2 spaces.
+		returnString = returnString.trim();
+		
+		return returnString;
+		
+	}
 	public String getToActors() {
 		return toActors;
 	}

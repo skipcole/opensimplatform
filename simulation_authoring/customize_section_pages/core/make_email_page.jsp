@@ -77,7 +77,7 @@
                   </label></td>
               </tr>
               </table>
-            <p>------------Ignore this stuff. it is work in progress-------------</p>
+
             <%
 			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
