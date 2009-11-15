@@ -58,8 +58,10 @@
   <tr>
     <td valign="top" width="200"><img src="images/actors/<%= this_actor.getImageFilename() %>" width="200"  ><br><%= this_actor.getName() %></td>
     <td valign="top">
+    <% if (this_actor.getRole(pso.schema, pso.sim_id) != null) { %>
     <p><strong>Your Role</strong><br />
     	<%= this_actor.getRole(pso.schema, pso.sim_id) %></p>
+    <% } %>
     <p><strong>Public Description</strong><br />
         <%= this_actor.getPublic_description() %></p>
     <p><strong>Semi-public Description</strong><br />

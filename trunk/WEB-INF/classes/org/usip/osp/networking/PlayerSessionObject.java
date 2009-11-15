@@ -1059,10 +1059,20 @@ public class PlayerSessionObject extends SessionObjectBase {
 				}
 
 				if (email_send != null) {
-					email.setHasBeenSent(true);
-					email.setToActors(Email.generateListOfRecipients(schema, email.getId(),
-							EmailRecipients.RECIPIENT_TO));
-					forward_on = true;
+					
+					// must have gotten a draft id when adding a recipient for the email.
+					if (draft_email_id != null) {
+
+						emailRecipients = Email.getRecipientsOfAnEmail(schema, draft_email_id);
+
+						if ((emailRecipients != null) && (emailRecipients.size() > 0)) {
+
+							email.setHasBeenSent(true);
+							email.setToActors(Email.generateListOfRecipients(schema, email.getId(),
+									EmailRecipients.RECIPIENT_TO));
+							forward_on = true;
+						}
+					}
 				}
 
 				email.setFromActor(actor_id);

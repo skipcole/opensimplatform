@@ -31,6 +31,13 @@
 		email.setThread_id(emailIAmReplyingTo.getId());
 		email.saveMe(pso.schema);
 		
+		String reply_to_actor_id = request.getParameter("reply_to_actor_id");
+		
+		EmailRecipients er = new EmailRecipients(
+			pso.schema, email.getId(), pso.running_sim_id, pso.sim_id, reply_to_actor_id, pso.actor_name, EmailRecipients.RECIPIENT_TO);
+		
+		
+		
 	} else if (forward_to != null)  {
 		String forward_id = request.getParameter("forward_id");
 		Email emailIAmReplyingTo = Email.getMe(pso.schema, new Long(forward_id));
@@ -72,7 +79,7 @@
   <input type="hidden" name="draft_email_id" value="<%= pso.draft_email_id %>" />
 
 <br>
-<table width="710" border="1" cellspacing="0" cellpadding="0">
+<table width="360" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td valign="top">Subject: </td>
     <td colspan="2" valign="top"><label>
@@ -119,13 +126,15 @@
 </table>
 <br>
 <p>
-		  <textarea id="email_text" name="email_text" style="height: 310px; width: 710px;"><%= email.getMsgtext() %>
+		  <textarea id="email_text" name="email_text" style="height: 310px; width: 360px;"><%= email.getMsgtext() %>
 		  </textarea>
 		<script language="javascript1.2">
+			wysiwygWidth = 360;
+			wysiwygHeight = 310;
   			generate_wysiwyg('email_text');
 		</script>
 		  </p>
-<table width="710" border="0" cellspacing="0" cellpadding="0">
+<table width="360" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="50%"><input type="submit" name="email_save" id="email_save" value="Save Email"></td>
     <td width="50%"><div align="right">

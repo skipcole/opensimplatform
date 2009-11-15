@@ -505,7 +505,16 @@ public class Simulation {
 	public Date getPhaseStartTime(String schema, Long phase_id){
 		SimulationPhase sp = SimulationPhase.getMe(schema, phase_id);
 		
-		return sp.getPhaseStartDate();
+		// For now arbitrarily set date to 1/1/2001.
+		Calendar cal = new GregorianCalendar();
+		
+		// Year, month, day, hour, minute
+		cal.set(2001, 0, 1, 9, 0);
+		
+		java.util.Date phaseStartDate = cal.getTime();
+		
+		return phaseStartDate;
+		//return sp.getPhaseStartDate();
 		
 	}
 
