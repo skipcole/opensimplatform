@@ -53,8 +53,11 @@
 	  <form action="make_conference_room.jsp" method="post" name="form2" id="form2">
 	    <blockquote><strong>Tab Heading</strong>: 
 	      <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
-	      <p>Select the Actors to be included in this meeting room, and if desired, assign them a designated role <a href="actors_chat_role_help.jsp" target="helpinright">(?)</a>. </p>
-          <p><%
+	      <table border="1"><tr><td><p>Conversation to be Included</p>
+	        <p align="right">TODO: include a pulldown to allow people to select existing conversation.</p></td></tr>
+          <tr><td>
+	      <p>Select the Actors to be included in this conversation, and if desired, assign them a designated role <a href="actors_chat_role_help.jsp" target="helpinright">(?)</a>. </p>
+	      <p><%
 				
 			for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
@@ -80,6 +83,8 @@
             <% } // End of loop over Actors 
 		
 			%></p>
+            
+            </td></tr></table>
           <p>Title that will appear for this room.</p>
           <p><input type="text" name="page_title" id="page_title" value="<%= cs.getPageTitle() %>" />
           </p>

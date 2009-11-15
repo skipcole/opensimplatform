@@ -264,7 +264,7 @@ overflow:scroll;
 <TR>
     <TD width="25%"><form name="form1" method="post" action="">
   <p>Text to send: 
-          <input name="chattexttosend" type="text" id="chattexttosend" size="40" maxlength="255" />
+          <input name="chattexttosend" type="text" id="chattexttosend" size="20" maxlength="255" />
           <BR>
 	<input type="submit" name="Submit" value="Submit" onClick="sendText();return false;">
   </p>

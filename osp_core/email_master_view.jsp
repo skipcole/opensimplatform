@@ -16,6 +16,12 @@
 		return;
 	}
 	
+	Simulation simulation = new Simulation();	
+	
+	if (pso.sim_id != null){
+		simulation = pso.giveMeSim();
+	}
+	
 %>
 <html>
 <head>
@@ -30,8 +36,8 @@
 <h1>Email Master View</h1>
 <p align="center">&nbsp;</p>
 <%
-  		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
-			Actor act = (Actor) li.next();			
+  		for (ListIterator lia = simulation.getActors(pso.schema).listIterator(); lia.hasNext();) {
+			Actor act = (Actor) lia.next();			
 %>	
 <h2>Inbox for <%= act.getName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
