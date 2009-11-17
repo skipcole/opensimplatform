@@ -40,6 +40,9 @@ public interface SimSectionDependentObject {
 	 */
 	public void setId(Long theId);
 	
+	/** Sets the original simulation id to be the new simulation id. */
+	public void setSimId(Long theId);
+	
 	/**
 	 * Returns the transit id of the object when moving it across databases.
 	 * @return

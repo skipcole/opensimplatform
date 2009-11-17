@@ -81,7 +81,7 @@
     <td><form name="form1" method="post" action="write_email.jsp">
     <input type="hidden" name="reply_to" value="true">
     <input type="hidden" name="reply_id" value="<%= email.getId() %>">
-    <input type="hidden" name="reply_to_actor_id" value="<%= email.fromActor() %>">
+    <input type="hidden" name="reply_to_actor_id" value="<%= email.getFromActor() %>">
       <label>
         <div align="center">
           <input type="submit" name="email_reply" id="email_reply" value="Reply">

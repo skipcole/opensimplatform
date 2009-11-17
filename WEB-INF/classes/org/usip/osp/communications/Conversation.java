@@ -483,4 +483,10 @@ public class Conversation implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 
+	@Override
+	public void setSimId(Long theId) {
+		setSim_id(theId);
+		
+	}
+
 }

@@ -28,7 +28,7 @@
 </head>
 <body>
 <h1>Email</h1>
-<p align="center"><a href="write_email.jsp">Compose New Email</a></p>
+<p align="center"><a href="write_email.jsp">Compose New Email</a> | <a href="email.jsp">Check for New Email</a></p>
 <h2>Inbox for <%= pso.actor_name %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
@@ -79,7 +79,7 @@
   <tr>
     <td>&nbsp;</td>
     <td><a href="view_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
-    <td>&nbsp;</td>
+    <td><%= email.getToActors() %></td>
     <td><%= email.getMsgDate() %></td>
   </tr>
   <% } %>

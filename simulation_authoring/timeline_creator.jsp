@@ -113,6 +113,7 @@
         <% 
 			if (afso.sim_id != null) {
 		%>
+        <p> Must allow users to select phase id. If phase id is 0, does that mean that it applies to all phases? Maybe should allow timelines not tied to any particular phase</p>
         <div id="my-timeline" style="height: 300px; border: 1px solid #aaa"></div>
         <hr>
         <h2>Add Event
