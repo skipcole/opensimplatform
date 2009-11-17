@@ -523,6 +523,9 @@ public class ObjectPackager {
 
 				SimSectionDependentObject this_dos = (SimSectionDependentObject) xstream.fromXML(sd_string);
 
+				// map sim id back to the new sim id.
+				this_dos.setSimId(sim_id);
+				
 				// Save object, map its new id to the transit id
 				this_dos.saveMe(schema);
 				dependentObjectMappings.put(this_dos.getTransit_id(), this_dos.getId());
@@ -770,6 +773,9 @@ public class ObjectPackager {
 			String act_string = li_i.next();
 
 			Actor this_act = (Actor) xstream.fromXML(act_string);
+			
+			// Set the id of the simulation associated with this actor to be the new simulation id.
+			this_act.setSim_id(sim_id);
 
 			String originalName = this_act.getName();
 

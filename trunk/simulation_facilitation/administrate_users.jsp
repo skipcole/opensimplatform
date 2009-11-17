@@ -11,11 +11,14 @@
 		return;
 	}
 	
-	String rs_id = 
+	RunningSimulation running_simulation = new RunningSimulation();
 	
-	if (afso.running_sim_id != null){
-		running_simulation = afso.giveMeRunningSim();
-	}
+	String rs_id = request.getParameter("rs_id");
+	
+	afso.running_sim_id = new Long(rs_id);
+	
+	
+	running_simulation = RunningSimulation.getMe(afso.schema, afso.running_sim_id);
 	//////////////////////////////////////////////////////
 	
 %>
@@ -39,7 +42,18 @@
 			<td width="100%"><br />
               <h1>Administrate Users </h1>
               <br />
-      <p>Functionality to come.</p>
+      <p>Users for Running Simulation: <%= running_simulation.getName() %></p>
+      <%
+	  			for (ListIterator li = UserAssignment.getAllForRunningSim(afso.schema, new Long (rs_id)).listIterator(); li.hasNext();) {
+					UserAssignment ua = (UserAssignment) li.next();
+					User user = User.getMe(afso.schema, ua.getUser_id());
+		%>
+        	user email: <%= user.getUser_name() %>, Actor Name:<br/>
+        <%
+			
+	  
+	  	}
+	  %>
       <p>Instructors will probably want to look up users associated with their classes, and other such things.</p>
       <p align="center"><a href="create_user.jsp">Next Step: Create User</a></p>      <p align="left">&nbsp;</p>			</td>
 		</tr>

@@ -68,6 +68,7 @@ public class RunningSimulation {
 	private boolean completed = false;
 
 	@Column(name = "ENABLED_DATE", columnDefinition = "datetime")
+	@GeneratedValue
 	private Date enabledDate;
 	
 	public Date getEnabledDate() {

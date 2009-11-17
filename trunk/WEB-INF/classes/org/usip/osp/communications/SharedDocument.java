@@ -418,4 +418,10 @@ public class SharedDocument implements SimSectionDependentObject {
 
 	}
 
+	@Override
+	public void setSimId(Long theId) {
+		setSim_id(theId);
+		
+	}
+
 }

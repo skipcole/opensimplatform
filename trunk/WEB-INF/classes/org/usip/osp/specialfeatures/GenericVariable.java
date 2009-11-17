@@ -314,6 +314,12 @@ public class GenericVariable implements SimSectionDependentObject{
 		return gv.getId();
 	}
 
+	@Override
+	public void setSimId(Long theId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	
 }

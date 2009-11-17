@@ -34,9 +34,9 @@
 		String reply_to_actor_id = request.getParameter("reply_to_actor_id");
 		
 		EmailRecipients er = new EmailRecipients(
-			pso.schema, email.getId(), pso.running_sim_id, pso.sim_id, reply_to_actor_id, pso.actor_name, EmailRecipients.RECIPIENT_TO);
+			pso.schema, email.getId(), pso.running_sim_id, pso.sim_id, new Long(reply_to_actor_id), pso.actor_name, EmailRecipients.RECIPIENT_TO);
 		
-		
+		pso.draft_email_id = email.getId();
 		
 	} else if (forward_to != null)  {
 		String forward_id = request.getParameter("forward_id");
@@ -48,9 +48,12 @@
 		email.setThread_id(emailIAmReplyingTo.getId());
 		email.saveMe(pso.schema);
 		
-	} else {
-		email = pso.handleEmailWrite(request);
+		pso.draft_email_id = email.getId();
+		
 	}
+	
+	email = pso.handleEmailWrite(request);
+	
 	
 	// mail has been sent. remove draft id, and return to email page.
 	if (pso.forward_on){
