@@ -3,6 +3,7 @@ package org.usip.osp.networking;
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.communications.Event;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -90,5 +91,9 @@ public class SessionObjectBase {
 		
 		return Event.packupArray(Event.getAllForSim(sim_id, phase_id, schema));
 		
+	}
+	
+	public String getBaseSimURL() {
+		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
 }

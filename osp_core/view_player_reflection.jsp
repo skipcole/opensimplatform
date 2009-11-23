@@ -45,7 +45,7 @@
 			
 		%>
   <tr>
-    <td valign="top"><%= pso.getActorName(request, pr.getA_id()) %></td>
+    <td valign="top"><%= USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, caa.getActor_id()) %></td>
     <td valign="top"><%= sp.getName() %></td>
     <td valign="top"><%= pr.getBigString() %></td>
   </tr>

@@ -960,7 +960,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 					// user id.
 					BaseUser bu = BaseUser.getByUserId(key);
 
-					// String actor_name = getActorName(request, u)
+					// String actor_name = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, caa.getActor_id());
 
 					String subject = "Simulation Phase Change";
 					String message = "Simulation phase has changed.";
@@ -1089,10 +1089,12 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				if (add_recipient != null) {
 					String email_rep = request.getParameter("email_recipient");
+					
+					String aname = USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(email_rep));
 
 					@SuppressWarnings("unused")
 					EmailRecipients er = new EmailRecipients(schema, draft_email_id, running_sim_id, sim_id, new Long(
-							email_rep), getActorName(request, email_rep), EmailRecipients.RECIPIENT_TO);
+							email_rep), aname, EmailRecipients.RECIPIENT_TO);
 				}
 
 				if (remove_recipient != null) {
@@ -1643,31 +1645,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 	}
 
-	/**
-	 * Pulls an actor's name out of the cache, or out of the database if
-	 * necessary.
-	 * 
-	 * @param request
-	 * @param a_id
-	 * @return
-	 */
-	public String getActorName(HttpServletRequest request, String a_id) {
-
-		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(a_id));
-	}
-
-	/**
-	 * Pulls an actor's name out of the cache, or out of the database if
-	 * necessary.
-	 * 
-	 * @param request
-	 * @param a_id
-	 * @return
-	 */
-	public String getActorName(HttpServletRequest request, Long a_id) {
-
-		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, a_id);
-	}
 
 	/**
 	 * Should take this opportunity to mark in the user trail that they have

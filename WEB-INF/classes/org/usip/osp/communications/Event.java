@@ -44,7 +44,7 @@ public class Event implements EventInterface{
 	public static SimpleDateFormat similie_sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 
 	
-	/** Database id of this Simulation. */
+	/** Database id of this Event. */
 	@Id
 	@GeneratedValue
 	private Long id;
