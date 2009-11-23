@@ -42,20 +42,25 @@
 			<td width="100%"><br />
               <h1>Administrate Users </h1>
               <br />
-      <p>Users for Running Simulation: <%= running_simulation.getName() %></p>
+      <p>Users for Running Simulation: <strong><%= running_simulation.getName() %></strong></p>
+      <table border="1"><tr><td><strong>Actor</strong></td>
+      <td><strong>User Email</strong></td>
+      </tr>
       <%
 	  			for (ListIterator li = UserAssignment.getAllForRunningSim(afso.schema, new Long (rs_id)).listIterator(); li.hasNext();) {
 					UserAssignment ua = (UserAssignment) li.next();
 					User user = User.getMe(afso.schema, ua.getUser_id());
+					
+					String act_name = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.running_sim_id, request, ua.getActor_id());
 		%>
-        	user email: <%= user.getUser_name() %>, Actor Name:<br/>
+        	<tr><td> <%= act_name %></td><td> <%= user.getUser_name() %></td></tr>
         <%
 			
-	  
-	  	}
+	  	} // End of loop over user assignments.
 	  %>
-      <p>Instructors will probably want to look up users associated with their classes, and other such things.</p>
-      <p align="center"><a href="create_user.jsp">Next Step: Create User</a></p>      <p align="left">&nbsp;</p>			</td>
+      </table>
+      <p></p>
+      <p align="center"></p>      <p align="left">&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

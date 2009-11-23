@@ -2211,9 +2211,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		}
 	}
 
-	public String getBaseSimURL() {
-		return USIP_OSP_Properties.getValue("base_sim_url");
-	}
 
 	public boolean handleResetWebCache(HttpServletRequest request) {
 

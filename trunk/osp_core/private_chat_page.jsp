@@ -211,7 +211,7 @@ width:100%;
 			if (!(caa.getActor_id().equals(pso.actor_id))) {
 			
 			String this_a_id = caa.getActor_id().toString();
-			String this_a_name = pso.getActorName(request, caa.getActor_id());
+			String this_a_name = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, caa.getActor_id());
 			
 			String this_a_thumb = "images/actors/" + pso.getActorThumbImage(request, caa.getActor_id());
 			
