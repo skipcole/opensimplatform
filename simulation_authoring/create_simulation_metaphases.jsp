@@ -41,7 +41,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  <h1>Create Simulation Phase</h1>
+			  <h1>Create Simulation MetaPhase</h1>
 			  <br />
             <blockquote> 
               <% 
@@ -75,10 +75,16 @@
                     </label></td>
                 </tr>
                 <tr>
+                  <td valign="top">Meta Phase</td>
+                  <td valign="top"><label>
+<select name="metaphase" id="metaphase">
+  <option value="none">None</option>
+</select>                  
+(Create Meta Phase)</label></td>
+                </tr>
+                <tr>
                   <td valign="top">Advanced <a href="helptext/advanced_phase_features.jsp" target="helpinright">(?)</a></td>
-                  <td valign="top"><% if (spOnScratchPad.getId() == null) { %>
-                  One has to create a phase first before adding advanced features to it.<% } else { %>
-                    <a href="advanced_phase_features.jsp?sp_id=<%= spOnScratchPad.getId() %>">Click here</a> to add advanced features to this phase.<% } %>                    </td>
+                  <td valign="top">&nbsp;</td>
                 </tr>
                 <tr> 
                   <td valign="top">&nbsp;</td>
@@ -135,11 +141,7 @@
 	}
 %>
               </table>
-            <p>For a more printable list, <a href="print_simulation_phases.jsp">click here</a>.</p>
-              
-          <div align="center"><a href="create_actors.jsp">Next Step: Create Actors 
-            </a></div>
-          </blockquote>
+              </blockquote>
             </blockquote>
             <% } else { // End of if have set simulation id. %>
             <blockquote>

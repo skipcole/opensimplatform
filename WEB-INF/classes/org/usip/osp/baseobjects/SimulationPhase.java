@@ -14,7 +14,8 @@ import org.usip.osp.persistence.*;
 /**
  * This class represents a phase of a simulation.
  *
- * 
+ */
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can
@@ -103,6 +104,16 @@ public class SimulationPhase implements Comparable{
 	/** Possible order of this Phase in relation to the others.. */
 	@Column(name = "PHASE_ORDER")
 	private int order;
+	
+	private Long metaPhaseId = null;
+
+	public Long getMetaPhaseId() {
+		return metaPhaseId;
+	}
+
+	public void setMetaPhaseId(Long metaPhaseId) {
+		this.metaPhaseId = metaPhaseId;
+	}
 
 	public Long getId() {
 		return this.id;
