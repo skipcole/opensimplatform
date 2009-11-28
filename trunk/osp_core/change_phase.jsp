@@ -98,11 +98,16 @@
               <td valign="top"><%= sp.getName() %>  <%= flagNotes %></td>
               <td valign="top"><%= sp.getNotes() %></td> 
               <td valign="top"><%= sp.getOrder() + "" %></td>
+              <% if (!(sp.getId().equals(pso.phase_id))) { %>
               <td valign="top">
               	<input type="hidden" name="phase_id" value="<%= sp.getId().toString() %>" />
                 <input type="submit" name="command" value="Change Phase"  onClick="return confirm('Are you sure you want to change phase?');" />
               </td>
               <td valign="top"><input type="checkbox" name="notify_via_email" id="notify_via_email" value="true"/></td>
+              <% } else { %>
+              <td>&nbsp;</td><td>&nbsp;</td>
+              <% } %>
+              
             </tr>
             </form>
             <%
