@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -36,66 +37,22 @@ public class SimulationMetaPhase {
 	private Long id;
 	
 	/** Image associated with this meta phase.  */
-    private String phaseImageFilename = ""; //$NON-NLS-1$
+    private String metaPhaseImageFilename = ""; //$NON-NLS-1$
     
     /** Color associated with this phase. */
-    private String phaseColor = "FFFFFF"; //$NON-NLS-1$
+    private String metaPhaseColor = "FFFFFF"; //$NON-NLS-1$
     
+    /** Name of the Meta Phase */
     private String metaPhaseName = "";
-
-	public String getMetaPhaseName() {
-		return metaPhaseName;
-	}
-
-	public void setMetaPhaseName(String metaPhaseName) {
-		this.metaPhaseName = metaPhaseName;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+    
+    @Lob
+    private String metaPhaseNotes = "";
 	
 	/** Id of the simulation that this meta phase belongs in. */
 	private Long sim_id;
-	
-	public Long getSim_id() {
-		return sim_id;
-	}
-
-	public void setSim_id(Long sim_id) {
-		this.sim_id = sim_id;
-	}
 
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
-
-	public Long getTransit_id() {
-		return this.transit_id;
-	}
-
-	public void setTransit_id(Long transit_id) {
-		this.transit_id = transit_id;
-	}
-
-	public String getPhaseImageFilename() {
-		return phaseImageFilename;
-	}
-
-	public void setPhaseImageFilename(String phaseImageFilename) {
-		this.phaseImageFilename = phaseImageFilename;
-	}
-
-	public String getPhaseColor() {
-		return phaseColor;
-	}
-
-	public void setPhaseColor(String phaseColor) {
-		this.phaseColor = phaseColor;
-	}
 
 	/** Saves a meta phase. */
 	public void saveMe(String schema) {
@@ -161,4 +118,60 @@ public class SimulationMetaPhase {
 
 		return returnList;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getMetaPhaseImageFilename() {
+		return metaPhaseImageFilename;
+	}
+
+	public void setMetaPhaseImageFilename(String metaPhaseImageFilename) {
+		this.metaPhaseImageFilename = metaPhaseImageFilename;
+	}
+
+	public String getMetaPhaseColor() {
+		return metaPhaseColor;
+	}
+
+	public void setMetaPhaseColor(String metaPhaseColor) {
+		this.metaPhaseColor = metaPhaseColor;
+	}
+
+	public String getMetaPhaseName() {
+		return metaPhaseName;
+	}
+
+	public void setMetaPhaseName(String metaPhaseName) {
+		this.metaPhaseName = metaPhaseName;
+	}
+
+	public String getMetaPhaseNotes() {
+		return metaPhaseNotes;
+	}
+
+	public void setMetaPhaseNotes(String metaPhaseNotes) {
+		this.metaPhaseNotes = metaPhaseNotes;
+	}
+
+	public Long getSim_id() {
+		return sim_id;
+	}
+
+	public void setSim_id(Long sim_id) {
+		this.sim_id = sim_id;
+	}
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
 }

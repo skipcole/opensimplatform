@@ -14,7 +14,8 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents a generic variable associated with a simulation.
- *
+ */
+/*
  * 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
@@ -59,9 +60,38 @@ public class GenericVariable implements SimSectionDependentObject{
     @Column(name = "RS_ID")
     private Long rs_id;
     
-    @Lob
     private String value = ""; //$NON-NLS-1$
     
+    private String startingValue = ""; //$NON-NLS-1$
+    
+    private String maxValue = "";
+    
+    private String minValue = "";
+    
+	public String getStartingValue() {
+		return startingValue;
+	}
+
+	public void setStartingValue(String startingValue) {
+		this.startingValue = startingValue;
+	}
+
+	public String getMaxValue() {
+		return maxValue;
+	}
+
+	public void setMaxValue(String maxValue) {
+		this.maxValue = maxValue;
+	}
+
+	public String getMinValue() {
+		return minValue;
+	}
+
+	public void setMinValue(String minValue) {
+		this.minValue = minValue;
+	}
+
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
@@ -316,10 +346,9 @@ public class GenericVariable implements SimSectionDependentObject{
 
 	@Override
 	public void setSimId(Long theId) {
-		// TODO Auto-generated method stub
+		this.sim_id = theId;
 		
 	}
-
 
 	
 }

@@ -28,6 +28,10 @@ import org.apache.log4j.*;
 @Proxy(lazy=false)
 public class Actor {
 
+	public Actor (){
+		
+	}
+	
     /** Unique id of this actor. */
 	@Id @GeneratedValue
     @Column(name = "ACTOR_ID")
@@ -86,6 +90,39 @@ public class Actor {
      */
     private boolean isShown = true;
     
+    @Transient
+    private String schema = "";
+    
+    public String getSchema() {
+		return schema;
+	}
+
+	public void setSchema(String schema) {
+		this.schema = schema;
+	}
+
+	/** Flag to indicate if this actor's information is temporarily taken */
+    private boolean assumedIdentity = false;
+
+	/** Id of the identity that this actor has assumed. */
+    private Long assumedIdentityId;
+    
+    public boolean isAssumedIdentity() {
+		return assumedIdentity;
+	}
+
+	public void setAssumedIdentity(boolean assumedIdentity) {
+		this.assumedIdentity = assumedIdentity;
+	}
+
+	public Long getAssumedIdentityId() {
+		return assumedIdentityId;
+	}
+
+	public void setAssumedIdentityId(Long assumedIdentityId) {
+		this.assumedIdentityId = assumedIdentityId;
+	}
+	
     /**
      * Returns all of the actors found in a schema.
      * 
@@ -152,6 +189,8 @@ public class Actor {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Actor act = (Actor) MultiSchemaHibernateUtil
 				.getSession(schema).get(Actor.class, actor_id);
+		
+		act.schema = schema;
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -295,7 +334,13 @@ public class Actor {
 	 * @return Returns the name.
 	 */
 	public String getName() {
-		return this.name;
+		
+		if (!assumedIdentity){
+			return this.name;
+		} else {
+			ActorAssumedIdentity aai = ActorAssumedIdentity.getMe(schema, this.assumedIdentityId);
+			return aai.getAssumedName();
+		}
 	}
 
 	/**

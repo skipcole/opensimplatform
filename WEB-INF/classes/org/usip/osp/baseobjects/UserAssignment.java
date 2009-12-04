@@ -295,5 +295,18 @@ public class UserAssignment{
 
 	}
     
+    /** Flag to indicate if this actor's information is temporarily taken */
+    private boolean assumedIdentity = false;
+
+	/** Id of the identity that this actor has assumed. */
+    private Long assumedIdentityId;
+
+	public boolean isAssumedIdentity() {
+		return assumedIdentity;
+	}
+
+	public void setAssumedIdentity(boolean assumedIdentity) {
+		this.assumedIdentity = assumedIdentity;
+	}
 	
 }
