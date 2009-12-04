@@ -13,7 +13,38 @@
 	
 	String sp_id = (String) request.getParameter("sp_id");
 	
-	SimulationPhase spOnScratchPad = SimulationPhase.getMe(afso.schema, new Long(sp_id));
+	SimulationPhase spOnScratchPad = new SimulationPhase();
+	
+	if (sp_id != null) {
+		spOnScratchPad = SimulationPhase.getMe(afso.schema, new Long(sp_id));
+		afso.phase_id = new Long(sp_id);
+	} else {
+		spOnScratchPad = SimulationPhase.getMe(afso.schema, afso.phase_id);
+	}
+	
+	String sending_page = (String) request.getParameter("sending_page");
+	
+	System.out.println("sending page: " + sending_page);
+	
+	
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("advanced_phase_features"))){
+		String metaphase = (String) request.getParameter("metaphase");
+		
+		System.out.println("metaphase id: " + metaphase);
+		
+		if (metaphase.equalsIgnoreCase("0")){
+			spOnScratchPad.setMetaPhaseId(null);
+		} else {
+			spOnScratchPad.setMetaPhaseId(new Long(metaphase));
+		}
+		
+		spOnScratchPad.saveMe(afso.schema);
+		
+		
+	}
+	
+	
+
 	
 
 %>
@@ -40,17 +71,30 @@
             <blockquote> 
 
               <blockquote>
-                <form action="create_simulation_phases.jsp" method="post" name="form1" id="form1">
+                <form action="advanced_phase_features.jsp" method="post" name="form1" id="form1">
               <table width="80%" border="0" cellspacing="2" cellpadding="2">
                 <tr> 
                   <td valign="top">Phase Name:</td>
-                  <td valign="top"><input type="text" name="phase_name" value="<%= spOnScratchPad.getName() %>" /></td>
+                  <td valign="top"><%= spOnScratchPad.getName() %></td>
                 </tr>
                 <tr>
                   <td valign="top">Meta Phase</td>
                   <td valign="top"><label>
 <select name="metaphase" id="metaphase">
-  <option value="none">None</option>
+  <option value="0">None</option>
+                <%
+			  
+		for (ListIterator li = SimulationMetaPhase.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+			SimulationMetaPhase smp = (SimulationMetaPhase) li.next();	
+			String selected = "";
+			
+			if (smp.getId().equals(spOnScratchPad.getMetaPhaseId()) ) {
+				selected = " selected ";
+			}
+					
+		%>
+        <option value="<%= smp.getId() %>" <%= selected %>><%= smp.getMetaPhaseName() %></option>
+        <% } %>
 </select>                  
 (<a href="create_simulation_metaphases.jsp">Create Meta Phase</a>)</label></td>
                 </tr>
@@ -66,6 +110,8 @@
                   <td valign="top">&nbsp;</td>
                   <td valign="top">
   
+  					<input type="hidden" name="sim_id" value="<%= afso.sim_id %>" />
+  					<input type="hidden" name="sending_page" value="advanced_phase_features" />
                     <input type="hidden" name="sp_id" value="<%= spOnScratchPad.getId() %>" />
                     <input type="submit" name="command" value="Update" />                </td>
                 </tr>

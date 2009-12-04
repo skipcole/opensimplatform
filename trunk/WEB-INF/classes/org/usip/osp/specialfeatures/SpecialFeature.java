@@ -10,8 +10,8 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * This is the base class of all of the 'special features' one can add to a simulation.
  * Essentially, it makes sure that the mechanics of storing and loading the object into
  * the archetypal, and also runs specific, tables gets taken care of.
- *
- *
+ */
+ /*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or

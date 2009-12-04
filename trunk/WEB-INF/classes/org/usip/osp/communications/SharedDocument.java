@@ -53,12 +53,23 @@ public class SharedDocument implements SimSectionDependentObject {
 
 	/** Indicates if this document can still be edited. */
 	private boolean editable = true;
+	
+	private boolean deleted = false;
+	
+	private Long version;
+	
+	private Long phase;
+	
+	/** If documents are indexed on a display, this holds the value for this document. */
+	private Long docIndex;
+	
+	private String internalControlNumber = ""; //$NON-NLS-1$
 
 	/** Contents of this document. */
 	@Lob
 	private String bigString = ""; //$NON-NLS-1$
 
-	/** Title of this document. */
+	/** Unique identifier of this document. */
 	private String uniqueDocTitle = ""; //$NON-NLS-1$
 
 	/** Title of this document to be displayed to the players. */
@@ -422,6 +433,46 @@ public class SharedDocument implements SimSectionDependentObject {
 	public void setSimId(Long theId) {
 		setSim_id(theId);
 		
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	public Long getPhase() {
+		return phase;
+	}
+
+	public void setPhase(Long phase) {
+		this.phase = phase;
+	}
+
+	public Long getDocIndex() {
+		return docIndex;
+	}
+
+	public void setDocIndex(Long docIndex) {
+		this.docIndex = docIndex;
+	}
+
+	public String getInternalControlNumber() {
+		return internalControlNumber;
+	}
+
+	public void setInternalControlNumber(String internalControlNumber) {
+		this.internalControlNumber = internalControlNumber;
 	}
 
 }

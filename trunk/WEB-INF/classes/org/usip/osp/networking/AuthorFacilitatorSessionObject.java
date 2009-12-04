@@ -179,6 +179,47 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		}
 		return returnSP;
 	}
+	
+	/**
+	 * 
+	 * @param sim
+	 * @param request
+	 * @return
+	 */
+	public SimulationMetaPhase handleCreateOrUpdateMetaPhase(HttpServletRequest request) {
+
+		SimulationMetaPhase returnMP = new SimulationMetaPhase();
+
+		String command = request.getParameter("command"); //$NON-NLS-1$
+		String meta_phase_name = request.getParameter("meta_phase_name"); //$NON-NLS-1$
+		String meta_phase_notes = request.getParameter("meta_phase_notes"); //$NON-NLS-1$
+		String meta_phase_color = request.getParameter("meta_phase_color"); //$NON-NLS-1$
+			
+		String mp_id = request.getParameter("mp_id"); //$NON-NLS-1$
+		String sim_id = request.getParameter("sim_id"); //$NON-NLS-1$
+		
+		if (command != null) {
+			if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
+				returnMP.setMetaPhaseName(meta_phase_name);
+				returnMP.setMetaPhaseNotes(meta_phase_notes);
+				returnMP.setMetaPhaseColor(meta_phase_color);
+				returnMP.setSim_id(new Long(sim_id));
+				returnMP.saveMe(this.schema);
+			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
+				returnMP = SimulationMetaPhase.getMe(this.schema, new Long(mp_id));
+			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
+				returnMP = SimulationMetaPhase.getMe(this.schema, new Long(mp_id));
+				returnMP.setMetaPhaseName(meta_phase_name);
+				returnMP.setMetaPhaseNotes(meta_phase_notes);
+				returnMP.setMetaPhaseColor(meta_phase_color);
+				returnMP.setSim_id(new Long(sim_id));
+				returnMP.saveMe(this.schema);
+			} else if (command.equalsIgnoreCase("Clear")) { //  //$NON-NLS-1$
+				// returning new simulation phase will clear fields.
+			}
+		}
+		return returnMP;
+	}
 
 	/** Turns a string into an int. */
 	public int string2Int(String input) {
