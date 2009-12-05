@@ -60,7 +60,9 @@ public class GenericVariable implements SimSectionDependentObject{
     @Column(name = "RS_ID")
     private Long rs_id;
     
-    private String value = ""; //$NON-NLS-1$
+    private String name = ""; //$NON-NLS-1$
+
+	private String value = ""; //$NON-NLS-1$
     
     private String startingValue = ""; //$NON-NLS-1$
     
@@ -68,6 +70,14 @@ public class GenericVariable implements SimSectionDependentObject{
     
     private String minValue = "";
     
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getStartingValue() {
 		return startingValue;
 	}

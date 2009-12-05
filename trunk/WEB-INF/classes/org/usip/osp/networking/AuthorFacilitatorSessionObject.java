@@ -1339,7 +1339,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 					SimActorAssignment saa;
 
-					if (!(SimActorAssignment.getActorsForSim(schema, sim_id).contains(actorOnScratchPad))) {
+					// Don't add actor to sim, if he or she has already been added.
+					boolean simHasActor = false;
+					for (ListIterator<Actor> li = SimActorAssignment.getActorsForSim(schema, sim_id).listIterator(); li.hasNext();) {
+						Actor act = li.next();
+						
+						if (act.getId().equals(actorOnScratchPad.getId())){
+							simHasActor = true;
+						}
+					}
+					
+					//if (!(SimActorAssignment.getActorsForSim(schema, sim_id).contains(actorOnScratchPad))) {
+					if (!(simHasActor)){
 						saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad.getId());
 					} else {
 						saa = SimActorAssignment.getMe(schema, sim_id, actorOnScratchPad.getId());

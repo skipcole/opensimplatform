@@ -1,7 +1,11 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.specialfeatures.*,
+	org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -90,10 +94,10 @@
         <%
 			  		int ii = 0;
 					for (ListIterator li = GenericVariable.getAllBaseGenericVariablesForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
-						GenericVariable gv = (GenericVariable) li.next();
+						GenericVariable gv_l = (GenericVariable) li.next();
 				%>
         
-          <tr><td><a href="make_create_document_page.jsp?shared_doc_id=<%= gv.getId() %>"><%= gv.getUniqueDocTitle() %></a></td>
+          <tr><td><a href="make_create_document_page.jsp?shared_doc_id=<%= gv_l.getId() %>"><%= gv_l.getName() %></a></td>
                 </tr>
           
                 <%
