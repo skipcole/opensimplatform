@@ -42,7 +42,7 @@
 	
 	//Timeline_ajax_url = USIP_OSP_Properties.getValue("base_sim_url") + "third_party_libraries/timeline_2.3.0/timeline_ajax/simile-ajax-api.js";
 	//Timeline_urlPrefix = USIP_OSP_Properties.getValue("base_sim_url") + "third_party_libraries/timeline_2.3.0/timeline_js/";
-	//timeLineSrc = USIP_OSP_Properties.getValue("base_sim_url") + "third_party_libraries/timeline_2.3.0/timeline_js/timeline-api.js";
+	//timeLineSrc = USIP_OSP_Properties.getValue("base_sim_url") + "third_party_libraries/timeline_2.3.0/timeline_js/timeline-api.js?bundle=false";
 	
 	System.out.println("ajax url: " + Timeline_ajax_url);
 	System.out.println("timeline url: " + Timeline_urlPrefix);
@@ -63,6 +63,11 @@
         
         <script>Timeline_urlPrefix = "<%= Timeline_urlPrefix %>";</script>
         <script src="<%= timeLineSrc %>" type="text/javascript"></script>
+        
+   		<!-- script type="text/javascript">var Timeline_ajax_url = "../third_party_libraries/timeline_2.3.0/timeline_ajax/simile-ajax-api.js?bundle=false";</script -->
+		<!-- script src="../third_party_libraries/timeline_2.3.0/timeline_js/timeline-api.js?bundle=false" type="text/javascript"></script -->
+
+        
         <script>
 
         var tl;
