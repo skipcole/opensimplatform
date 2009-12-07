@@ -93,7 +93,7 @@
                 <input type="submit" name="addactortosim" value="Submit" /></td>
             </tr>
             <tr><td>&nbsp;</td><td></td><td></td>
-              <td colspan="3"><a href="#">add actor from other simulation</a> (?)</td>
+              <td colspan="3">Add actor from other simulation<a href="helptext/copy_actor_from_other_sim.jsp" target="helpinright">(?)</a></td>
             </tr>
             <tr><td colspan="6"><hr /></td>
             </tr>

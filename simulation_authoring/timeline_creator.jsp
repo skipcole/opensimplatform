@@ -68,7 +68,7 @@
 		<!-- script src="../third_party_libraries/timeline_2.3.0/timeline_js/timeline-api.js?bundle=false" type="text/javascript"></script -->
 
         
-        <script>
+    <script>
 
         var tl;
         function onLoad() {
@@ -109,50 +109,55 @@
         }
         </script>     
         
-    <link href="../usip_osp.css" rel="stylesheet" type="text/css" />  
-    
-    
-    </head>
+    <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+</head>
 
     <body onLoad="onLoad();" onResize="onResize();">
         <% 
 			if (afso.sim_id != null) {
 		%>
-        <p> Must allow users to select phase id. If phase id is 0, does that mean that it applies to all phases? Maybe should allow timelines not tied to any particular phase</p>
-        <div id="my-timeline" style="height: 300px; border: 1px solid #aaa"></div>
+        
+    <div id="my-timeline" style="height: 300px; border: 1px solid #aaa"></div>
         <hr>
-        <h2>Add Event
-        </h2>
-        <blockquote>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="50%">Timeline Name <a href="helptext/timeline_name.jsp" target="helpinright">(?)</a>: <strong>Default Simulation Timeline</strong></td>
+            <td>Timeline Phase (if applicable): <strong>All</strong></td>
+          </tr>
+    </table>
+        <h2>&nbsp;</h2>
+        Add Event
+        
+    <blockquote>
 <form name="form1" method="post" action="timeline_creator.jsp">
         <input type="hidden" name="sending_page" value="timeline_creator">
         
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td valign="top">Title</td>
+            <td valign="top"><strong>Title</strong></td>
             <td valign="top">
               <label>
                 <input type="text" name="event_title" id="event_title" value="<%= event.getEventTitle() %>">
               </label>            </td>
           </tr>
           <tr>
-            <td valign="top">Text</td>
+            <td valign="top"><strong>Text</strong></td>
             <td valign="top"><label>
               <textarea name="event_text" id="event_text" cols="45" rows="2"><%= event.getEventMsgBody() %></textarea>
             </label></td>
           </tr>
           <tr>
-            <td valign="top">Date</td>
+            <td valign="top"><strong>Date</strong></td>
             <td valign="top">for now will be 1 Jan 2009</td>
           </tr>
           <tr>
-            <td valign="top">Hour</td>
+            <td valign="top"><strong>Hour</strong></td>
             <td valign="top"><label>
               <input type="text" name="event_hour" id="event_hour">
             </label></td>
           </tr>
           <tr>
-            <td valign="top">Minute</td>
+            <td valign="top"><strong>Minute</strong></td>
             <td valign="top"><label>
               <input type="text" name="event_minute" id="event_minute">
             </label></td>
