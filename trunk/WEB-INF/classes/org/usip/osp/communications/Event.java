@@ -71,6 +71,9 @@ public class Event implements EventInterface{
 	private Long simId;
 	private Long runningSimId;
 	private Long phaseId;
+
+	/** If this event is associated with a particular timeline, record that here. */
+	private Long timelineId;
 	
 	public Date getEventStartTime() {
 		return eventStartTime;
@@ -190,6 +193,14 @@ public class Event implements EventInterface{
 
 	public void setPhaseId(Long phaseId) {
 		this.phaseId = phaseId;
+	}
+	
+	public Long getTimelineId() {
+		return timelineId;
+	}
+
+	public void setTimelineId(Long timelineId) {
+		this.timelineId = timelineId;
 	}
 
 	/**
