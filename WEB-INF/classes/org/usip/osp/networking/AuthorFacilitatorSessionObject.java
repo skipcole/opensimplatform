@@ -2075,8 +2075,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	 * 
 	 * @param request
 	 */
-	public CustomizeableSection handleMakeSplitPageVertical(HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMakeSplitPageVertical(request));
+	public CustomizeableSection handleMakeSplitPage(HttpServletRequest request, int numSections) {
+		return (getMyPSO_SectionMgmt().handleMakeSplitPage(request, numSections));
 	}
 
 	/**

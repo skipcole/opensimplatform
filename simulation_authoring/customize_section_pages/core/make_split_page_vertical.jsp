@@ -6,7 +6,7 @@
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakeSplitPageVertical(request);
+	CustomizeableSection cs = afso.handleMakeSplitPage(request, 2);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;

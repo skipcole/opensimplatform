@@ -840,7 +840,7 @@ public class PSO_SectionMgmt {
 	 * 
 	 * @param request
 	 */
-	public CustomizeableSection handleMakeSplitPageVertical(HttpServletRequest request) {
+	public CustomizeableSection handleMakeSplitPage(HttpServletRequest request, int numSections) {
 
 		this.getSimSectionsInternalVariables(request);
 
@@ -869,7 +869,7 @@ public class PSO_SectionMgmt {
 			SimulationSectionAssignment leftSect = SimulationSectionAssignment.getMe(afso.schema, new Long(select_left));
 			SimulationSectionAssignment rightSect = SimulationSectionAssignment.getMe(afso.schema,
 					new Long(select_right));
-
+			
 			// Need to set them as sub sections
 			leftSect.setSimSubSection(true);
 			leftSect.setSimSubSectionIndex(1);
@@ -880,6 +880,17 @@ public class PSO_SectionMgmt {
 			rightSect.setSimSubSectionIndex(2);
 			rightSect.setDisplaySectionId(customizableSectionOnScratchPad.getId());
 			rightSect.save(afso.schema);
+			
+			if (numSections == 3){
+				String select_bottom = (String) request.getParameter("select_bottom");
+				Logger.getRootLogger().debug("select bottom is " + select_bottom);
+				SimulationSectionAssignment bottomSect = SimulationSectionAssignment.getMe(afso.schema, new Long(select_bottom));
+				
+				bottomSect.setSimSubSection(true);
+				bottomSect.setSimSubSectionIndex(3);
+				bottomSect.setDisplaySectionId(customizableSectionOnScratchPad.getId());
+				bottomSect.save(afso.schema);
+			}
 
 			// Need to reorder the list
 			SimulationSectionAssignment.reorder(afso.schema, afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id);
