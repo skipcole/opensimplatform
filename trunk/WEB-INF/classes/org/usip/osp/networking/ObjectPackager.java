@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.usip.osp.baseobjects.*;
+import org.usip.osp.communications.ConvActorAssignment;
+import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.Inject;
 import org.usip.osp.communications.InjectGroup;
 import com.thoughtworks.xstream.XStream;
@@ -20,30 +22,30 @@ import org.apache.log4j.*;
 /**
  * Packages and unpackages objects to XML using the opensource software library
  * XStream.
- *
  * 
- *         This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
+ * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  * 
  */
 public class ObjectPackager {
 
 	public static final String lineTerminator = "\r\n"; //$NON-NLS-1$
-	
+
 	/** Creates an opening tag for the XML surrounding an object. */
-	public static String makeOpenTag(Class thisClass){
+	public static String makeOpenTag(Class thisClass) {
 		return "<" + thisClass.getName() + ">";
 	}
-	
+
 	/** Creates a closing tag for the XML surrounding an object. */
-	public static String makeCloseTag(Class thisClass){
+	public static String makeCloseTag(Class thisClass) {
 		return "</" + thisClass.getName() + ">";
 	}
 
@@ -115,7 +117,8 @@ public class ObjectPackager {
 
 		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + lineTerminator; //$NON-NLS-1$ //$NON-NLS-2$
 
-		// This packages the values directly associate with the simulation such as objectives and audience.
+		// This packages the values directly associate with the simulation such
+		// as objectives and audience.
 		returnString += xstream.toXML(sim);
 
 		returnString += packageActors(schema, sim.getTransit_id(), xstream) + lineTerminator;
@@ -190,16 +193,16 @@ public class ObjectPackager {
 			SimSectionDependentObject depObj = BaseSimSectionDepObjectAssignment.pullOutObject(schema, bssdoa);
 			Logger.getRootLogger().debug(depObj.getClass());
 			Logger.getRootLogger().debug(depObj.getId());
-			
+
 			String hash_key_string = depObj.getClass() + "_" + depObj.getId(); //$NON-NLS-1$
 
 			String checkString = (String) previouslyStoredObjects.get(hash_key_string);
-			
+
 			Logger.getRootLogger().debug("hash_key_string was: " + hash_key_string); //$NON-NLS-1$
 			Logger.getRootLogger().debug("check string was: " + checkString); //$NON-NLS-1$
 
 			if (checkString == null) {
-				
+
 				previouslyStoredObjects.put(hash_key_string, "set"); //$NON-NLS-1$
 				Logger.getRootLogger().debug("put hash_key_string: " + hash_key_string); //$NON-NLS-1$
 
@@ -207,6 +210,18 @@ public class ObjectPackager {
 				depObj.setId(null);
 
 				returnString += xstream.toXML(depObj) + lineTerminator;
+
+				// Some dependent objects (such as conversations) have sub
+				// objects.
+				if (depObj.getClass().equals(Conversation.class)) {
+					// Get list of conversation actors
+					for (ListIterator<ConvActorAssignment> lcaa = ConvActorAssignment.getAllForConversation(schema,
+							depObj.getTransit_id()).listIterator(); lcaa.hasNext();) {
+						ConvActorAssignment caa = lcaa.next();
+						returnString += xstream.toXML(caa) + lineTerminator;
+					}
+
+				}
 			}
 
 		}
@@ -232,11 +247,11 @@ public class ObjectPackager {
 
 			BaseSimSection bss = BaseSimSection.getMe(schema, thisBaseId.toString());
 
-			if (bss.getClass().getName().equalsIgnoreCase(BaseSimSection.class.getName())) { 
+			if (bss.getClass().getName().equalsIgnoreCase(BaseSimSection.class.getName())) {
 				bss.setTransit_id(bss.getId());
 				bss.setId(null);
 				returnString += xstream.toXML(bss) + lineTerminator;
-			} else if (bss.getClass().getName().equalsIgnoreCase(CustomizeableSection.class.getName())) { 
+			} else if (bss.getClass().getName().equalsIgnoreCase(CustomizeableSection.class.getName())) {
 
 				bss = null;
 				CustomizeableSection cbss = CustomizeableSection.getMe(schema, thisBaseId.toString());
@@ -330,7 +345,7 @@ public class ObjectPackager {
 		}
 		return returnString;
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
@@ -354,9 +369,11 @@ public class ObjectPackager {
 	}
 
 	/**
-	 * This method pulls out a bit of information about the simulation to show to the person about
-	 * to import it. Most importantly it pulls out the name and version of the simulation to be extracted
-	 * to display that to the person doing the import to allow them to change it if they desire to do so.
+	 * This method pulls out a bit of information about the simulation to show
+	 * to the person about to import it. Most importantly it pulls out the name
+	 * and version of the simulation to be extracted to display that to the
+	 * person doing the import to allow them to change it if they desire to do
+	 * so.
 	 * 
 	 * @param fileloc
 	 * @param schema
@@ -373,8 +390,7 @@ public class ObjectPackager {
 
 		String fullString = FileIO.getFileContents(new File(fileLocation));
 
-		String simString = getObjectFromFile(fullString, makeOpenTag(Simulation.class), 
-				makeCloseTag(Simulation.class)); //$NON-NLS-1$
+		String simString = getObjectFromFile(fullString, makeOpenTag(Simulation.class), makeCloseTag(Simulation.class)); //$NON-NLS-1$
 
 		Simulation simRead = (Simulation) xstream.fromXML(simString);
 
@@ -394,9 +410,7 @@ public class ObjectPackager {
 		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
 
 		Hashtable actorIdMappings = new Hashtable();
-		// We use the actor id of 0 in the sections table to indicate that it is
-		// a 'universal' section
-		// TODO we might want to revisit that practice.
+		// We use the actor id of 0 in the sections table to indicate that it is a 'universal' section
 		actorIdMappings.put(new Long(0), new Long(0));
 
 		Hashtable phaseIdMappings = new Hashtable();
@@ -465,11 +479,12 @@ public class ObjectPackager {
 		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
 		unpackInformationString += "<b>Unpacking Simulation Objects</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
-		unpackInformationString += unpackageSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings);
+		unpackInformationString += unpackageSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings, actorIdMappings);
 		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
 		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
 
+		
 		// ? documents, variables, conversations, etc.
 
 	}
@@ -486,7 +501,7 @@ public class ObjectPackager {
 	 * @param xstream
 	 */
 	public static String unpackageSimObjects(String schema, String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings) {
+			Hashtable bssIdMappings, Hashtable actorIdMappings) {
 
 		// Get object dependencies
 		String returnString = "Getting Dependent Object Assignments <BR />"; //$NON-NLS-1$
@@ -525,7 +540,7 @@ public class ObjectPackager {
 
 				// map sim id back to the new sim id.
 				this_dos.setSimId(sim_id);
-				
+
 				// Save object, map its new id to the transit id
 				this_dos.saveMe(schema);
 				dependentObjectMappings.put(this_dos.getTransit_id(), this_dos.getId());
@@ -533,8 +548,16 @@ public class ObjectPackager {
 				returnString += "Found Dependent Object of class " + key + " and it had a transit id of "
 						+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId() + "<BR />";
 
-				Logger.getRootLogger().debug("Found Dependent Object of class " + key + " and it had a transit id of "
-						+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId() + "<BR />");
+				Logger.getRootLogger().debug(
+						"Found Dependent Object of class " + key + " and it had a transit id of "
+								+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId()
+								+ "<BR />");
+				
+				// Conversations have conversation actor assignments associated with them.
+				if (this_dos.getClass().equals(Conversation.class)){
+					returnString += unpackConversationActorAssignments(
+							schema, fullString, this_dos.getTransit_id(), this_dos.getId(), xstream, actorIdMappings);
+				}
 			}
 		}
 
@@ -551,8 +574,6 @@ public class ObjectPackager {
 
 			this_bssdoa.setSim_id(sim_id);
 
-			// This is the line that is dying
-			// TODO
 			try {
 				Long thisMappedId = (Long) bssIdMappings.get(this_bssdoa.getBss_id());
 				this_bssdoa.setBss_id(thisMappedId);
@@ -571,6 +592,37 @@ public class ObjectPackager {
 		return returnString;
 
 	}
+	
+	public static String unpackConversationActorAssignments(
+			String schema, String fullString, Long orig_id, Long new_id, XStream xstream, Hashtable actorIdMappings){
+		
+		String returnString = "... unpacking conversation actor assignments.<br />";
+		
+		List<String> caa_list = getSetOfObjectFromFile(fullString,
+				makeOpenTag(ConvActorAssignment.class),
+				makeCloseTag(ConvActorAssignment.class));
+		
+		for (ListIterator<String> li_i = caa_list.listIterator(); li_i.hasNext();) {
+			String caa_string = li_i.next();
+
+			ConvActorAssignment this_caa = (ConvActorAssignment) xstream
+					.fromXML(caa_string);
+			
+			if (this_caa.getConv_id().equals(orig_id)){
+				this_caa.setConv_id(new_id);
+				
+				Long newActorId = (Long) actorIdMappings.get(this_caa.getActor_id());
+				
+				this_caa.setActor_id(newActorId);
+				
+				returnString += "...... added actor id" + newActorId + ".<br />";
+				
+				this_caa.save(schema);
+			}
+		}
+		
+		return returnString;
+	}
 
 	/**
 	 * Pulls the base sim sections out of the packaged file.
@@ -584,13 +636,7 @@ public class ObjectPackager {
 			XStream xstream, Hashtable actorIdMappings, Hashtable phaseIdMappings, Hashtable bssIdMappings) {
 
 		String returnString = "";
-		
-		// Sub section ids will change, but since this set of ids point back into the same table
-		// its a bit more difficult to get them right the first time. So we keep a list of all the ones that
-		// will need changed after the first pass.
-		List subSectionIdsToClean = new ArrayList();
-		Hashtable ssidsHash = new Hashtable();
-		
+
 		List bsss = getSetOfObjectFromFile(fullString, makeOpenTag(SimulationSectionAssignment.class),
 				makeCloseTag(SimulationSectionAssignment.class));
 		for (ListIterator<String> li_i = bsss.listIterator(); li_i.hasNext();) {
@@ -602,32 +648,27 @@ public class ObjectPackager {
 			this_ss.setActor_id((Long) actorIdMappings.get(this_ss.getActor_id()));
 			this_ss.setPhase_id((Long) phaseIdMappings.get(this_ss.getPhase_id()));
 			this_ss.setBase_sec_id((Long) bssIdMappings.get(this_ss.getBase_sec_id()));
-			
+
 			this_ss.save(schema);
-			
-			if (this_ss.isSimSubSection()){
-				subSectionIdsToClean.add(this_ss.getId());
+
+			if (this_ss.isSimSubSection()) {
+				Long x = this_ss.getDisplaySectionId();
+				if (x == null) {
+					System.out.println("The display section of a sub section should not be null.");
+				} else {
+					Long y = (Long) bssIdMappings.get(x);
+					if (y == null) {
+						System.out.println("got null back from the hash table.");
+					} else {
+						this_ss.setDisplaySectionId(y);
+						this_ss.save(schema);
+					}
+				}
+
 			}
-			
-			ssidsHash.put(this_ss.getTransit_id(), this_ss.getId());
 
 			returnString += "Found " + this_ss.getTab_heading() + " and it had id " + this_ss.getId() + "<br />";
 
-		}
-		
-		// Loop over the saved sim section assignments and correct the sim sub section pointers to the ids in
-		// the new database.
-		for (ListIterator<Long> li_i = subSectionIdsToClean.listIterator(); li_i.hasNext();){
-			Long li_id = li_i.next();
-			
-			SimulationSectionAssignment this_ssa = SimulationSectionAssignment.getMe(schema, li_id);
-			
-			returnString += "<font color=green>Remapped " +  this_ssa.getDisplaySectionId() + " to " + 
-				ssidsHash.get(this_ssa.getDisplaySectionId()) + "</font><br />";
-			
-			this_ssa.setDisplaySectionId((Long) ssidsHash.get(this_ssa.getDisplaySectionId()));
-			this_ssa.save(schema);
-			
 		}
 
 		return returnString;
@@ -767,14 +808,14 @@ public class ObjectPackager {
 
 		ArrayList actorNames = Actor.getAllActorNames(schema);
 
-		List actors = getSetOfObjectFromFile(fullString, makeOpenTag(Actor.class),
-				makeCloseTag(Actor.class));
+		List actors = getSetOfObjectFromFile(fullString, makeOpenTag(Actor.class), makeCloseTag(Actor.class));
 		for (ListIterator<String> li_i = actors.listIterator(); li_i.hasNext();) {
 			String act_string = li_i.next();
 
 			Actor this_act = (Actor) xstream.fromXML(act_string);
-			
-			// Set the id of the simulation associated with this actor to be the new simulation id.
+
+			// Set the id of the simulation associated with this actor to be the
+			// new simulation id.
 			this_act.setSim_id(sim_id);
 
 			String originalName = this_act.getName();
@@ -855,8 +896,7 @@ public class ObjectPackager {
 
 		}
 
-		List injects = getSetOfObjectFromFile(fullString, makeOpenTag(Inject.class),
-				makeCloseTag(Inject.class));
+		List injects = getSetOfObjectFromFile(fullString, makeOpenTag(Inject.class), makeCloseTag(Inject.class));
 
 		for (ListIterator<String> li_i = injects.listIterator(); li_i.hasNext();) {
 			String inject_string = li_i.next();
@@ -948,26 +988,27 @@ public class ObjectPackager {
 		return returnList;
 
 	}
-	
+
 	/**
 	 * This works with the method 'compare' to create xml return string.
+	 * 
 	 * @param startTag
 	 * @param endTag
 	 * @param value
 	 * @return
 	 */
-	public static String addResultsToXML(String startTag, String endTag, boolean value){
-		
+	public static String addResultsToXML(String startTag, String endTag, boolean value) {
+
 		String returnString = startTag;
-		
-		if (value){
+
+		if (value) {
 			returnString += "Same";
 		} else {
 			returnString += "Different";
 		}
-		
+
 		returnString += endTag;
-		
+
 		return returnString;
 	}
 }

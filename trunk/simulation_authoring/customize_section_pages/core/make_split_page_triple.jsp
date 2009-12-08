@@ -6,7 +6,7 @@
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakeSplitPageVertical(request);
+	CustomizeableSection cs = afso.handleMakeSplitPage(request, 3);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
@@ -35,7 +35,7 @@
 			<td width="100%"><br />
               <h1>Create Split Page</h1>
               <br />
-      <form action="make_split_page_vertical.jsp" method="post" name="form1" id="form1">
+      <form action="make_split_page_triple.jsp" method="post" name="form1" id="form1">
         <table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr> 
             <td>&nbsp;</td>
