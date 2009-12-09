@@ -347,7 +347,7 @@ public class Conversation implements SimSectionDependentObject {
 			caa.setActor_id(a_id);
 			caa.setRole(role);
 			caa.setConv_id(this.id);
-			caa.save(schema);
+			caa.saveMe(schema);
 			this.getConv_actor_assigns(schema).add(caa);
 			this.save(schema, sim_id);
 		}
@@ -440,7 +440,7 @@ public class Conversation implements SimSectionDependentObject {
 			new_conv_ass.setRole(conv_ass.getRole());
 			new_conv_ass.setRoom_owner(conv_ass.isRoom_owner());
 
-			new_conv_ass.save(schema);
+			new_conv_ass.saveMe(schema);
 
 			modifiedAssignments.add(new_conv_ass);
 		}

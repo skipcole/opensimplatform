@@ -1125,12 +1125,12 @@ public class PSO_SectionMgmt {
 						ConvActorAssignment caa = new ConvActorAssignment();
 						caa.setActor_id(actorWithChat);
 						caa.setConv_id(conv.getId());
-						caa.save(afso.schema);
+						caa.saveMe(afso.schema);
 
 						ConvActorAssignment caa2 = new ConvActorAssignment();
 						caa2.setActor_id(actorWithChat2);
 						caa2.setConv_id(conv.getId());
-						caa2.save(afso.schema);
+						caa2.saveMe(afso.schema);
 
 						// Create and save the assignment obect
 						@SuppressWarnings("unused")

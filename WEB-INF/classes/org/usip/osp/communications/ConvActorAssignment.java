@@ -107,11 +107,17 @@ public class ConvActorAssignment {
 		this.can_be_added_removed = can_be_added_removed;
 	}
 
-	public void save(String schema){
-        MultiSchemaHibernateUtil.beginTransaction(schema);
-        MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);        
-        MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	/**
+	 * Saves this object to the database.
+	 * 
+	 * @param schema
+	 */
+	public void saveMe(String schema) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
+	
 	
 	public static void removeCAA(String schema, ConvActorAssignment caa){
         MultiSchemaHibernateUtil.beginTransaction(schema);

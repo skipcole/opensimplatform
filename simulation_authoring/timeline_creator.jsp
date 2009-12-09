@@ -131,8 +131,8 @@
     <blockquote>
 <form name="form1" method="post" action="timeline_creator.jsp">
         <input type="hidden" name="sending_page" value="timeline_creator">
-        
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <input type="hidden" name="timeline_id" value="<%= event.getTimelineId() %>">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td valign="top"><strong>Title</strong></td>
             <td valign="top">
@@ -154,7 +154,7 @@
             <td valign="top"><strong>Hour</strong></td>
             <td valign="top"><label>
               <input type="text" name="event_hour" id="event_hour">
-            </label></td>
+            (24 Hour Clock)</label></td>
           </tr>
           <tr>
             <td valign="top"><strong>Minute</strong></td>

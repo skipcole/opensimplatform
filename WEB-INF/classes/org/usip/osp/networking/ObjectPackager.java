@@ -13,8 +13,11 @@ import java.util.ListIterator;
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.communications.Conversation;
+import org.usip.osp.communications.Event;
 import org.usip.osp.communications.Inject;
 import org.usip.osp.communications.InjectGroup;
+import org.usip.osp.communications.TimeLine;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.*;
@@ -128,6 +131,7 @@ public class ObjectPackager {
 		returnString += packageBaseSimSectionInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageSimSectionAssignmentInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageSimObjectInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packageMiscSimObjectInformation(schema, sim.getTransit_id(), xstream) + lineTerminator;
 
 		returnString += "</SIM_PACKAGE_OBJECT>"; //$NON-NLS-1$
 
@@ -156,6 +160,36 @@ public class ObjectPackager {
 			returnString += xstream.toXML(thisSection) + lineTerminator;
 		}
 
+		return returnString;
+	}
+	
+	/**
+	 * I'm adding this right now to package up the TimeLine object, which may or may not be associated with 
+	 * a base sim section, and seems pertinent to only one simulation. 
+	 * There will be a better way to package these things up later, I'm sure.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param xstream
+	 * @return
+	 */
+	public static String packageMiscSimObjectInformation(String schema, Long sim_id, XStream xstream) {
+		
+		TimeLine tl = TimeLine.getMasterPlan(schema, sim_id.toString());
+		
+		String returnString = "";
+		
+		returnString += xstream.toXML(tl) + lineTerminator;
+		
+		List<Event> allEvents = Event.getAllForTimeLine(tl.getId(), schema);
+		
+		for (ListIterator<Event> li = allEvents.listIterator(); li.hasNext();) {
+			Event thisEvent = li.next();
+		
+			returnString += xstream.toXML(thisEvent) + lineTerminator;
+			
+		}
+		
 		return returnString;
 	}
 
@@ -481,12 +515,76 @@ public class ObjectPackager {
 		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
 		unpackInformationString += unpackageSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings, actorIdMappings);
 		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
-		unpackInformationString += "<b>Simulation Sections Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Simulation Objects Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+
+		
+		unpackInformationString += "<b>Unpacking Misc Simulation Objects</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
+		unpackInformationString += unpackageMiscSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings, actorIdMappings);
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Misc Simulation Objects Unpacked</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
 
 		
 		// ? documents, variables, conversations, etc.
 
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param sim_id
+	 * @param xstream
+	 * @param bssIdMappings
+	 * @param actorIdMappings
+	 * @return
+	 */
+	public static String unpackageMiscSimObjects(String schema, String fullString, Long sim_id, XStream xstream,
+			Hashtable bssIdMappings, Hashtable actorIdMappings) {
+		
+		String returnString = "";
+		
+		String timelineString = getObjectFromFile(fullString,
+				makeOpenTag(TimeLine.class),
+				makeCloseTag(TimeLine.class));
+		
+		TimeLine timeline = (TimeLine) xstream.fromXML(timelineString);
+		
+		if (timeline == null){
+			timeline = new TimeLine();
+		}
+		
+		Long timeline_orig_id = timeline.getId();
+		
+		TimeLine thisMaster = TimeLine.getMasterPlan(schema, sim_id.toString());
+		
+		timeline.setId(thisMaster.getId());
+		timeline.setSimId(sim_id);
+		timeline.saveMe(schema);
+		
+		List<String> event_list = getSetOfObjectFromFile(fullString,
+				makeOpenTag(Event.class), makeCloseTag(Event.class));
+		
+		for (ListIterator<String> li_i = event_list.listIterator(); li_i.hasNext();) {
+			String e_string = li_i.next();
+			
+			Event event = (Event) xstream.fromXML(e_string);
+			
+			if (event.getTimelineId().equals(timeline_orig_id)){
+				
+				returnString += "got event: " + event.getEventTitle() + "<br />";
+				
+				// The id this had on the system it was exported from bears no relationship to the id where its being imported.
+				event.setId(null);
+				event.setTimelineId(timeline.getId());
+				event.setSimId(sim_id);
+				event.saveMe(schema);
+			}
+		}
+		
+		return returnString;
 	}
 
 	/**
@@ -543,6 +641,7 @@ public class ObjectPackager {
 
 				// Save object, map its new id to the transit id
 				this_dos.saveMe(schema);
+				
 				dependentObjectMappings.put(this_dos.getTransit_id(), this_dos.getId());
 
 				returnString += "Found Dependent Object of class " + key + " and it had a transit id of "
@@ -593,6 +692,17 @@ public class ObjectPackager {
 
 	}
 	
+	/**
+	 * Unpacks these 'sub' objects. Eventually need to find a way to do this with all such objects.
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param orig_id
+	 * @param new_id
+	 * @param xstream
+	 * @param actorIdMappings
+	 * @return
+	 */
 	public static String unpackConversationActorAssignments(
 			String schema, String fullString, Long orig_id, Long new_id, XStream xstream, Hashtable actorIdMappings){
 		
@@ -602,6 +712,7 @@ public class ObjectPackager {
 				makeOpenTag(ConvActorAssignment.class),
 				makeCloseTag(ConvActorAssignment.class));
 		
+		/* Get full set of conversations. Only save the ones we are adding for this conversation. */
 		for (ListIterator<String> li_i = caa_list.listIterator(); li_i.hasNext();) {
 			String caa_string = li_i.next();
 
@@ -609,16 +720,23 @@ public class ObjectPackager {
 					.fromXML(caa_string);
 			
 			if (this_caa.getConv_id().equals(orig_id)){
+				
+				// The id this had on the system it was exported from bears no relationship to the id where its being imported.
+				this_caa.setId(null);
+				
 				this_caa.setConv_id(new_id);
 				
 				Long newActorId = (Long) actorIdMappings.get(this_caa.getActor_id());
 				
 				this_caa.setActor_id(newActorId);
 				
-				returnString += "...... added actor id" + newActorId + ".<br />";
+				returnString += "...... added actor id " + newActorId + ".<br />";
+			
+				System.out.println("Trying to save to schema: " + schema);
+				this_caa.saveMe(schema);
 				
-				this_caa.save(schema);
 			}
+			
 		}
 		
 		return returnString;
