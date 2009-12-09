@@ -261,6 +261,27 @@ public class Event implements EventInterface{
 	}
 	
 	/**
+	 * Returns a list of all events created for a simulation.
+	 * 
+	 * @param simid
+	 * @param schema
+	 * @return
+	 */
+	public static List<Event> getAllForTimeLine(Long timelineid, String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<Event> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Event where timelineId = :timelineId")
+				.setString("timelineId", timelineid.toString())
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	/**
 	 * Saves event to the database. 
 	 * 
 	 * @param schema

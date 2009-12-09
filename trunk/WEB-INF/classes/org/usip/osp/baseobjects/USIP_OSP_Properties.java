@@ -76,7 +76,7 @@ public class USIP_OSP_Properties {
 	 * @return
 	 */
 	public static String getRelease(){
-		return "0.0.10";
+		return "0.0.11";
 	}
     
     /**

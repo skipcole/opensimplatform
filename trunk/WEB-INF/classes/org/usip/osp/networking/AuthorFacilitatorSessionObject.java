@@ -2378,6 +2378,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	 */
 	public Event handleTimeLineCreator(HttpServletRequest request){
 
+		TimeLine timeline = TimeLine.getMasterPlan(schema, sim_id.toString());
+		
 		Event event = new Event();
 		
 		String sending_page = (String) request.getParameter("sending_page");
@@ -2425,6 +2427,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 				event.setSimId(sim_id);
 				event.setPhaseId(phase_id);
+				event.setTimelineId(timeline.getId());
 			
 				event.saveMe(schema);
 			}
