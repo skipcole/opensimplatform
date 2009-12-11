@@ -15,6 +15,18 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	pso.backPage = "email.jsp";
+	
+	List emailToList = new ArrayList();
+	List sentList = new ArrayList();
+	List draftList = new ArrayList();
+	
+	if (!(pso.preview_mode)) {
+		emailToList = Email.getAllTo(pso.schema, pso.running_sim_id, pso.actor_id);
+		sentList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, true);
+		draftList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, false);
+	}
 		
 %>
 <html>
@@ -39,7 +51,7 @@
   </tr>
 <%
 	// Get email list
-	for (ListIterator li = Email.getAllTo(pso.schema, pso.running_sim_id, pso.actor_id).listIterator(); li.hasNext();) {
+	for (ListIterator li = emailToList.listIterator(); li.hasNext();) {
 		Email email = (Email) li.next();
 		
 		EmailRecipients er = 
@@ -73,7 +85,7 @@
   </tr>
   <%
 	// Get email list
-	for (ListIterator li = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, true).listIterator(); li.hasNext();) {
+	for (ListIterator li = sentList.listIterator(); li.hasNext();) {
 		Email email = (Email) li.next();
      %>
   <tr>
@@ -95,7 +107,7 @@
   </tr>
   <%
 	// Get email list
-	for (ListIterator li = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, false).listIterator(); li.hasNext();) {
+	for (ListIterator li = draftList.listIterator(); li.hasNext();) {
 		Email email = (Email) li.next();
      %>
   <tr>
@@ -109,6 +121,3 @@
 <p>&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

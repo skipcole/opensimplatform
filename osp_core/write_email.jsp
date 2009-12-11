@@ -16,50 +16,13 @@
 		return;
 	}
 	
-	Email email = new Email();
-
-	String reply_to = request.getParameter("reply_to");
-	String forward_to = request.getParameter("forward_to");
-	
-	if (reply_to != null)  {
-		String reply_id = request.getParameter("reply_id");
-		Email emailIAmReplyingTo = Email.getMe(pso.schema, new Long(reply_id));
-		
-		email.setSubjectLine("Re: " + emailIAmReplyingTo.getSubjectLine());
-		email.setMsgtext(Email.markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
-		email.setReply_email(true);
-		email.setThread_id(emailIAmReplyingTo.getId());
-		email.saveMe(pso.schema);
-		
-		String reply_to_actor_id = request.getParameter("reply_to_actor_id");
-		
-		EmailRecipients er = new EmailRecipients(
-			pso.schema, email.getId(), pso.running_sim_id, pso.sim_id, new Long(reply_to_actor_id), pso.actor_name, EmailRecipients.RECIPIENT_TO);
-		
-		pso.draft_email_id = email.getId();
-		
-	} else if (forward_to != null)  {
-		String forward_id = request.getParameter("forward_id");
-		Email emailIAmReplyingTo = Email.getMe(pso.schema, new Long(forward_id));
-		
-		email.setSubjectLine("Fwd: " + emailIAmReplyingTo.getSubjectLine());
-		email.setMsgtext(Email.markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
-		email.setReply_email(true);
-		email.setThread_id(emailIAmReplyingTo.getId());
-		email.saveMe(pso.schema);
-		
-		pso.draft_email_id = email.getId();
-		
-	}
-	
-	email = pso.handleEmailWrite(request);
-	
+	Email email = pso.handleEmailWrite(request);
 	
 	// mail has been sent. remove draft id, and return to email page.
 	if (pso.forward_on){
 		pso.forward_on = false;
 		pso.draft_email_id = null;
-		response.sendRedirect("email.jsp");
+		response.sendRedirect(pso.backPage);
 		return;
 	}
 		

@@ -115,8 +115,8 @@
             <tr> 
               <td><a href="create_simulation.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
               <td>&nbsp;</td>
-              <td><a href="delete_object.jsp?object_type=simulation&objid=<%= sim.getId().toString() %>&object_info=<%= nameToSend %>"> 
-                (Remove) <%= sim.getName() %> : <%= sim.getVersion() %> </a></td>
+              <td><!-- a href="delete_object.jsp?object_type=simulation&objid=<%= sim.getId().toString() %>&object_info=<%= nameToSend %>"> 
+                (Remove) <%= sim.getName() %> : <%= sim.getVersion() %> </a --></td>
             </tr>
             <%
 	}

@@ -4,7 +4,7 @@ java.text.*
 ,java.sql.*,
 org.usip.osp.baseobjects.*,
 org.usip.osp.networking.*,
-org.usip.osp.persistence.*" errorPage="../error.jsp" %>
+org.usip.osp.persistence.*" errorPage="" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	

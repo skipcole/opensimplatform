@@ -795,7 +795,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		error_msg = "database_created";
 
 		this.forward_on = true;
-		this.backPage = "install_confirmation.jsp";
+		this.backPage = "install_confirmation.jsp?schema=" + schema;
 		
 		return error_msg;
 

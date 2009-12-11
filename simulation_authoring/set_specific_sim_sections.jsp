@@ -86,6 +86,15 @@ function loadInfo(dropdownlist){
 //-->
 </script>
 <!-- TemplateParam name="theBodyInfo" type="text" value="" -->
+<style type="text/css">
+<!--
+.customized_section {background-color:#CCFFCC}
+.player_customized_section {background-color:#99FFFF}
+
+.style_cs {color: #FF0000}
+-->
+</style>
+
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="loadFirstInfo();">
@@ -258,25 +267,37 @@ function loadInfo(dropdownlist){
                                   <%
 							
 		for (ListIterator li = new BaseSimSection().getAll(afso.schema).listIterator(); li.hasNext();) {
-			BaseSimSection bss = (BaseSimSection) li.next();
-			%>
-                                  <option value="<%= bss.getId() %>"><%= bss.getRec_tab_heading() %></option>
-                                  <% } %>
-                                  <option value="new_section">* Create an Entirely 
-                                    New Section</option>
-                                  <% 
-								List uc = CustomizeableSection.getAllUncustomized(afso.schema);
+			BaseSimSection bss = (BaseSimSection) li.next();  %>
+            <option value="<%= bss.getId() %>"><%= bss.getRec_tab_heading() %></option>
+        <% }  // End of loop over base sim sections. %>
+        
+            <option value="new_section">* Create an Entirely New Section</option>
+            
+		<% 
+		List uc = CustomizeableSection.getAllUncustomized(afso.schema);
 								
-								if (uc != null) {
-							%>
-                                  <% 
+		if (uc != null) {
+ 
 			for (ListIterator li = uc.listIterator(); li.hasNext();) {
 				CustomizeableSection cs = (CustomizeableSection) li.next();
-			%>
-                                  <option value="<%= cs.getId().toString() %>"><%= cs.getRec_tab_heading() %></option>
-                                  <% } %>
-                                  <% } // End of loop over customizable sections	
-							  %>
+				
+				//////////////////////////////////////////////////////////
+				// Don't list sections the actor already has at this phase.
+				boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
+					afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
+			
+				if (!(hasItAlready) ) {
+				
+					String cs_class = "customized_section";
+				
+					if (cs.isThisIsACustomizedSection()){
+						cs_class = "player_customized_section";
+					}
+					%>
+            		<option value="<%= cs.getId().toString() %>" class="<%= cs_class %>" ><%= cs.getRec_tab_heading() %></option>
+            	<% }  // End of if they don't have this section already at this phase         %>
+            <% } // End of loop over customizable sections %>
+           <% } // End of if list not null %>
                                   </select>
                                 </blockquote>                          </td>
                           <td valign="top"> <label> Tab Heading: 
