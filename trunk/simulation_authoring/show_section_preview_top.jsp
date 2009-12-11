@@ -26,7 +26,7 @@
 </head>
 
 <body>
-Below is a sample of what this page make look like during a simulation for <%= actors_name_string %> in phase <%= afso.phase_id %> .<br />
-TODO: List out all actors and phases that have this simulation section.
+Below is a sample of what this page make look like during a simulation for <%= actors_name_string %> in phase 
+<%= USIP_OSP_Cache.getPhaseNameById(request, pso.schema, pso.phase_id) %>.<br />
 </body>
 </html>

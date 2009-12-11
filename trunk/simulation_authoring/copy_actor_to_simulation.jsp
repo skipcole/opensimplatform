@@ -23,7 +23,8 @@
 	} // End of if coming from this page and have removed actor
 	
 
-	Simulation sim = afso.giveMeSim();
+	//////////////////////////////////
+	List simList = Simulation.getAll(afso.schema);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,59 +44,46 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Assign 
+              <h1>Copy 
                 Actor to a Simulation</h1>
+              <p>On this page you can select an actor from a different simulation and have them copied into this simulation.</p>
               <br />
       <table width="100%" border="0" cellspacing="2" cellpadding="2">
         <tr valign="top">
           <td width="1%">&nbsp;</td>
             <td width="37%"> <h2>Simulation/Version</h2></td>
-            <td width="26%"> <h2>Current Actors</h2></td>
-            <td width="15%"><h2>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></h2></td>
-            <td width="7%"> <h2>Actor</h2></td>
-            <td width="14%"> <h2>Assign</h2></td>
-          </tr>
+            <td width="26%"> <h2>Actors</h2></td>
+            </tr>
+        <%
+		
+		for (ListIterator li = simList.listIterator(); li.hasNext();) {
+			Simulation sim = (Simulation) li.next();
+			
+		%>
         <form action="assign_actor_to_simulation.jsp" method="post" name="form1" id="form1">
           <tr valign="top">
             <td>&nbsp;</td>
-              <td><%= sim.getName() %>:<%= sim.getVersion() %></td>
+              <td><%= sim.getName() %> : <%= sim.getVersion() %></td>
               <td><%
 			
-			for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
+			for (ListIterator la = Actor.getAllForSim(afso.schema, sim.getId()).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 
 			%> 
-                <A href="assign_actor_to_sim_see_role.jsp?actor_being_worked_on_id=<%= act.getId() %>&sim_id=<%= sim.getId() %>"> <%= act.getName() %> </A>
-                <A href="assign_actor_to_simulation.jsp?remove=true&actor_being_worked_on_id=<%= act.getId().toString() %>&sim_id=<%= sim.getId().toString() %>"> (remove) </A><br/>
+                Copy in:  <%= act.getName() %> <br/>
                 <% } // End of loop over Actors %>                </td>
-              <td><label>
-                <select name="select" id="select">
-                  <option value="required" selected="selected">Required</option>
-                  <option value="optional">Optional</option>
-                                                </select>
-              </label></td>
-              <td><select name="actor_being_worked_on_id">
-                <% 
-                for (ListIterator la = sim.getAvailableActorsForSim(afso.schema).listIterator(); la.hasNext();) {
-					Actor aa = (Actor) la.next();
-		%>
-                <option value="<%= aa.getId().toString() %>"><%= aa.getName() %></option>
-                <% } %>
-                </select></td>
-              <td> <input type="hidden" name="sending_page" value="assign_actor" /> 
-                <input type="hidden" name="sim_id" value="<%= sim.getId().toString() %>" /> 
-                <input type="submit" name="addactortosim" value="Submit" /></td>
-            </tr>
-            <tr><td>&nbsp;</td><td></td><td></td>
-              <td colspan="3"><a href="copy_actor_to_simulation.jsp">Add actor from other simulation </a><a href="helptext/copy_actor_from_other_sim.jsp" target="helpinright">(?)</a></td>
-            </tr>
-            <tr><td colspan="6"><hr /></td>
+              </tr>
+            
+            <tr><td colspan="3"><hr /></td>
             </tr>
           </form>
+          <%
+  	} // End of loop over simulations
+  %>
       </table>
       <p>&nbsp;</p>
-      <div align="center"><a href="create_injects.jsp">Next Step: Create Injects</a></div>
-      <a href="create_actors.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+      <div align="center"></div>
+      <a href="assign_actor_to_simulation.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

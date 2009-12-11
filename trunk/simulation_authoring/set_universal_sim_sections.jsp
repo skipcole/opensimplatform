@@ -273,8 +273,6 @@ function loadInfo(dropdownlist){
 				boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 					afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
 			
-				System.out.println("already has it is " + 	hasItAlready);
-			
 				if (!(hasItAlready) ) {
 				
 				String cs_class = "customized_section";

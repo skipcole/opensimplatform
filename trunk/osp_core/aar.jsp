@@ -11,8 +11,16 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
+		
+	String textToShow = "";
 	
-	RunningSimulation rs = pso.giveMeRunningSim();
+	if (!(pso.preview_mode)) {
+		RunningSimulation rs = pso.giveMeRunningSim();
+		textToShow = rs.getAar_text();
+	} else {
+		Simulation sim = pso.giveMeSim();
+		textToShow = sim.getAar_starter_text();
+	}
 	
 %>
 <html>
@@ -24,10 +32,7 @@
 
 <body>
 <h1>After Action Report</h1>
-<p><%= rs.getAar_text() %></p>
+<p><%= textToShow %></p>
 <p>&nbsp; </p>
 </body>
 </html>
-<%
-	
-%>

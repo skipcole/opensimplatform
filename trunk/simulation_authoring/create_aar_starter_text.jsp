@@ -8,7 +8,8 @@
 	
 	afso.backPage = "create_simulation_introduction.jsp";
 	
-	Simulation simulation = new Simulation();	if (afso.sim_id != null){
+	Simulation simulation = new Simulation();	
+	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
 	}
 	

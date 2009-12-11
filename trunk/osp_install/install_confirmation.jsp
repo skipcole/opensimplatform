@@ -8,6 +8,12 @@ import="java.sql.*,java.util.*,
 errorPage=""
 
  %>
+<%
+	String schema = (String) request.getParameter("schema");
+	
+	int num_bss = BaseSimSection.getAllBaseAndCustomizable(schema).size();
+	
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -52,13 +58,10 @@ body {
     <td width="20%" align="right" valign="top">&nbsp;</td>
   </tr>
 </table>
-<p>&nbsp;</p>
+<p align="center">Schema <%= schema %> installed with an initial catalog of <%= " " + num_bss %> Simulation Sections.</p>
 <p align="center">You may now<a href="../login.jsp"> login as the root user</a> with the password that you provided.</p>
-<p>Functionality To Come:</p>
-<ul>
-  <li>(<em><strong>Functionality To Come</strong></em>) Installation Confirmed</li>
-  <li>(<em><strong>Functionality To Come</strong></em>) There were X number of simulation sections installed.</li>
-  <li>(<em><strong>Functionality To Come</strong></em>) A test email has been sent to your admin email address using the email paramaters that you entered. If you don't find it, please look in your junk email. If you still can't find it you may want to verify the email parameters that you entered in the Admistration section.</li>
+<p>&nbsp;</p>
+<ul><li>(<em><strong>Functionality To Come</strong></em>) A test email has been sent to your admin email address using the email paramaters that you entered. If you don't find it, please look in your junk email. If you still can't find it you may want to verify the email parameters that you entered in the Admistration section.</li>
 </ul>
 <p><br>
 </p>

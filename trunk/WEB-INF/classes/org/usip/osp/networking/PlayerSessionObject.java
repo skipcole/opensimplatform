@@ -58,6 +58,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public boolean isLoggedin() {
 		return loggedin;
 	}
+	
+	public boolean preview_mode = false;
 
 	/** Organization of the schema that the user is working in. */
 	public String schemaOrg = ""; //$NON-NLS-1$
@@ -238,6 +240,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 		this.actor_id = afso.actor_being_worked_on_id;
 		this.phase_id = afso.phase_id;
 
+		this.preview_mode = true;
+		
 	}
 
 	/**
@@ -1014,6 +1018,40 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public Email handleEmailWrite(HttpServletRequest request) {
 
 		Email email = new Email();
+		
+		String reply_to = request.getParameter("reply_to");
+		String forward_to = request.getParameter("forward_to");
+		
+		if (reply_to != null)  {
+			String reply_id = request.getParameter("reply_id");
+			Email emailIAmReplyingTo = Email.getMe(schema, new Long(reply_id));
+			
+			email.setSubjectLine("Re: " + emailIAmReplyingTo.getSubjectLine());
+			email.setMsgtext(Email.markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
+			email.setReply_email(true);
+			email.setThread_id(emailIAmReplyingTo.getId());
+			email.saveMe(schema);
+			
+			String reply_to_actor_id = request.getParameter("reply_to_actor_id");
+			
+			EmailRecipients er = new EmailRecipients(
+				schema, email.getId(), running_sim_id, sim_id, new Long(reply_to_actor_id), actor_name, EmailRecipients.RECIPIENT_TO);
+			
+			draft_email_id = email.getId();
+			
+		} else if (forward_to != null)  {
+			String forward_id = request.getParameter("forward_id");
+			Email emailIAmReplyingTo = Email.getMe(schema, new Long(forward_id));
+			
+			email.setSubjectLine("Fwd: " + emailIAmReplyingTo.getSubjectLine());
+			email.setMsgtext(Email.markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
+			email.setReply_email(true);
+			email.setThread_id(emailIAmReplyingTo.getId());
+			email.saveMe(schema);
+			
+			draft_email_id = email.getId();
+			
+		}
 
 		String queue_up = request.getParameter("queue_up");
 		String email_clear = request.getParameter("email_clear");
@@ -1623,6 +1661,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				pso.user_name = bu.getUsername();
 
 				pso.loggedin = true;
+				pso.preview_mode = false;
 
 				user.setLastLogin(new Date());
 				user.saveMe(pso.schema);

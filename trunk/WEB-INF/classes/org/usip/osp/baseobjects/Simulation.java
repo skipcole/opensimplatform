@@ -321,7 +321,7 @@ public class Simulation {
 
 		// Add the after action review section to the set of universal sections.
 		// Maybe should look this up in some other way, but I'll save that for another day.
-		BaseSimSection aarSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction"); //$NON-NLS-1$
+		BaseSimSection aarSection = BaseSimSection.getByRecommendedTagHeading(schema, "AAR"); //$NON-NLS-1$
 
 		// Add the introduction as the first tab to all players.
 		@SuppressWarnings("unused")
