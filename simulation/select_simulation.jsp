@@ -156,9 +156,9 @@ body {
 			
 		%>
         
-          <tr> 
+          <!-- tr> 
             <td><a href="../simulation_facilitation/sim_blurb_information.jsp?sim_id=<%= sim.getId().toString() %>" target="_top"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
-          </tr>
+          </tr -->
            
 <%	} // End of loop over auto-reg sims    %>
         </table>

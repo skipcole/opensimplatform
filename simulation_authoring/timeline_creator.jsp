@@ -147,6 +147,31 @@
             </label></td>
           </tr>
           <tr>
+            <td valign="top"><strong>Color</strong></td>
+            <td valign="top"><label>
+            
+            <%
+				String selected_red = "";
+				String selected_blue = "";
+				String selected_green = "";
+				
+				if (event.getEventType() == 3) {
+					selected_red = " selected ";
+				} else if (event.getEventType() == 2) {
+					selected_green = " selected ";
+				} else {
+					selected_blue = " selected ";
+				}
+			%>
+            
+              <select name="event_type" id="event_type">
+                <option value="1" <%= selected_blue %>>Planned (Blue)</option>
+                <option value="2" <%= selected_green %>>Possible (Green)</option>
+                <option value="3" <%= selected_red %>>Conditional (Red)</option>
+            </select>
+            </label></td>
+          </tr>
+          <tr>
             <td valign="top"><strong>Date</strong></td>
             <td valign="top">for now will be 1 Jan 2009</td>
           </tr>
