@@ -326,4 +326,10 @@ public class Alert implements EventInterface{
 		return null;
 	}
 
+	@Override
+	public int getEventType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

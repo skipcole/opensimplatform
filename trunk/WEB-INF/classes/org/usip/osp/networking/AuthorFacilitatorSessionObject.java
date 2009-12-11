@@ -2399,6 +2399,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			if (command.equalsIgnoreCase("Clear")){
 				draft_event_id = null;
 			} else  {    // coming here as update or as create.
+				
+				String event_type = (String) request.getParameter("event_type");
+				
+				int eventTypeInt = 1;
+				
+				try {
+					eventTypeInt = new Long(event_type).intValue();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				event.setEventType(eventTypeInt);
 				event.setEventTitle( (String) request.getParameter("event_title") );
 				event.setEventMsgBody((String) request.getParameter("event_text"));
 			

@@ -17,6 +17,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.SimPhaseAssignment;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -43,7 +44,26 @@ public class Event implements EventInterface{
 	
 	public static SimpleDateFormat similie_sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 
+	/** Events of this type will normally happen.  */
+	public static final int TYPE_PLANNED = 1;
 	
+	/** Events of this type may occur depending on how the facilitator decides. */
+	public static final int TYPE_POSSIBLE = 2;
+	
+	/** Events of this type may occur based on the player's choices. */
+	public static final int TYPE_CONDITIONAL = 3;
+	
+	/** Rough categorization of this event: we may have to go to bit mask later to adequately categorize events. */
+	private int eventType;
+	
+	public int getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(int eventType) {
+		this.eventType = eventType;
+	}
+
 	/** Database id of this Event. */
 	@Id
 	@GeneratedValue
@@ -160,10 +180,22 @@ public class Event implements EventInterface{
 	 */
 	public static String packageEvent(EventInterface ei){
 		
+		String icon_name = "  icon=\"" + USIP_OSP_Properties.getValue("base_sim_url") ;
+		
+		
+		if (ei.getEventType() == 3){
+			icon_name += "/third_party_libraries/timeline_2.3.0/timeline_js/images/red-circle.png\"";
+		} else if (ei.getEventType() == 2){
+			icon_name += "/third_party_libraries/timeline_2.3.0/timeline_js/images/green-circle.png\"";
+		} else {
+			icon_name = "";
+		}
 		
 		String returnString = "<event start=\"" 
-			+ similie_sdf.format(ei.getEventStartTime()) + "\" title=\"" + ei.getEventTitle() 
-			+ "\">";
+			+ similie_sdf.format(ei.getEventStartTime()) + 
+			"\" title=\"" + ei.getEventTitle() +
+			"\" " + icon_name 
+			+ ">";
 		
 		returnString += USIP_OSP_Util.htmlToCode(ei.getEventMsgBody());
 		
@@ -296,32 +328,4 @@ public class Event implements EventInterface{
 
 	}
 	
-	/*
-	  <event start="Nov 02 2009  07:00:00 GMT"
-	         end="Nov 02 2009  09:00:00 GMT"
-	         isDuration="true"
-	         title="Writing Timeline documentation"
-	         image="http://simile.mit.edu/images/csail-logo.gif">
-	    A few days to write some documentation for 
-	    &lt;a href="http://simile.mit.edu/timeline/"&gt;Timeline&lt;/a&gt;.
-	  </event>
-	  <event start="Oct 15 2009  00:00:00 GMT"
-	         end="Oct 15 2009  00:00:00 GMT"
-	         title="Friend's wedding">
-	     I'm not sure precisely when my friend's wedding is.
-	  </event>
-	    <event start="Nov 02 2009 17:08:02 EST"
-	         title="Text of an inject"
-	         link="http://travel.yahoo.com/">
-	To: Uzzdwaadi JRTF &lt;br/&gt; 
-	From: IC Staff           
-	Re: Letter from TRIBAL Leaders     
-
-	We have received a letter from a group of 15 tribal leaders in the Uzzdwaadi region. The letter reads in part: "When the rest of our community is suffering deprivation and hardship, it is unacceptable that any resources should be given to those that left our community and created havoc in our country." It appears that the letter has also been released to the media.
-	  </event>
-	<event start="Nov 02 2009 17:08:02 EST" end="Nov 02 2009 17:08:02 EST" title="bicyle recycle  ...">
-	bicyle recycle&lt;br&gt;
-	</event>
-	<event start="Nov 02 2009 17:09:54 EST" title="There is a new announcement: the city  ...">the city&lt;br&gt;</event>
-*/
 }

@@ -20,6 +20,8 @@ public interface EventInterface {
 	
 	public String getEventTitle();
 	
+	public int getEventType();
+	
 	public String getEventMsgBody();
 	
 }
