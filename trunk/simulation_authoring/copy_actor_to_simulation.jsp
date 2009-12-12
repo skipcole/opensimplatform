@@ -6,21 +6,26 @@
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 
-	String sending_page = (String) request.getParameter("sending_page");
-	String addactortosim = (String) request.getParameter("addactortosim");
-	String remove = (String) request.getParameter("remove");
+	if (!(afso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
 	
-	String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
-	String sim_id = (String) request.getParameter("sim_id");
+	String copyin = (String) request.getParameter("copyin");
 	
-	if ( (sending_page != null) && (addactortosim != null) && (sending_page.equalsIgnoreCase("assign_actor"))){
-		afso.addActorToSim(sim_id, actor_being_worked_on_id);
+	String actor_id = (String) request.getParameter("actor_id");
+	
+	if ( (copyin != null) && (copyin.equalsIgnoreCase("true"))){
+		Actor act = Actor.getMe(afso.schema, new Long(actor_id));
+		
+		act.setId(null);
+		act.setSim_id(afso.sim_id);
+		act.saveMe(afso.schema);
+		
+		response.sendRedirect("assign_actor_to_simulation.jsp");
+		return;
+		
 	} // End of if coming from this page and have assigned actor
-	
-	if ( (remove != null) &&  (remove.equalsIgnoreCase("true"))){
-		afso.removeActorFromSim(sim_id, actor_being_worked_on_id);
-		     
-	} // End of if coming from this page and have removed actor
 	
 
 	//////////////////////////////////
@@ -70,7 +75,7 @@
 				Actor act = (Actor) la.next();
 
 			%> 
-                Copy in:  <%= act.getName() %> <br/>
+                <a href="copy_actor_to_simulation.jsp?copyin=true&actor_id=<%= act.getId() %>">Copy in:  <%= act.getName() %></a> <br/>
                 <% } // End of loop over Actors %>                </td>
               </tr>
             
