@@ -35,7 +35,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "CHAT_LINES")
 @Proxy(lazy=false)
-public class ChatLine {
+public class ChatLine implements Comparable{
 
     /** Unique id of this chat line. Also used for indexing (thus assuming ids only go up). */
 	@Id 
@@ -218,6 +218,15 @@ public class ChatLine {
 
 	public void setHasBeenRead(boolean hasBeenRead) {
 		this.hasBeenRead = hasBeenRead;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		
+		ChatLine cl = (ChatLine) arg0;
+		
+		return cl.id.compareTo(this.id);
+		
 	}
     
 }

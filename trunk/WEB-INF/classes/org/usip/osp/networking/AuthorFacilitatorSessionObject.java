@@ -1151,6 +1151,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			} else if (command.equalsIgnoreCase("Edit")) {
 				String sim_id = (String) request.getParameter("sim_id");
 				simulation = Simulation.getMe(schema, new Long(sim_id));
+				// Clean up any items that could be queued up for editing
+				actor_being_worked_on_id = null;
+				
 			} else if (command.equalsIgnoreCase("Clear")) { // 
 				// returning new simulation will clear fields.
 			}

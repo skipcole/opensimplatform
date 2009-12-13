@@ -20,16 +20,26 @@
 	Email email = new Email();
 	
 	String queue_up = request.getParameter("queue_up");
+	
+	String inbox_page = "email.jsp";
+	
 	if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))){
 		
 		String email_id = request.getParameter("email_id");
 		email = Email.getMe(pso.schema, new Long(email_id));
+		
+		String comingfrom = request.getParameter("comingfrom");
+		
+		if ((comingfrom != null) && (comingfrom.equalsIgnoreCase("emv"))){
+			inbox_page = "email_master_view.jsp";
+		}
 	}
 	
 	EmailRecipients er = 
 		EmailRecipients.getEmailRecipientsLine(pso.schema, email.getId(), pso.running_sim_id, pso.actor_id);
 	
 	System.out.println(pso.schema + ", " +  email.getId() + ", " +   pso.running_sim_id + ", " +   pso.actor_id);
+	
 	if (er != null) {
 		er.setHasBeenRead(true);
 		er.saveMe(pso.schema);
@@ -99,6 +109,6 @@
     </form>    </td>
   </tr>
 </table>
-<p><a href="email.jsp">Back to Inbox</a></p>
+<p><a href="<%= inbox_page %>">Back to Inbox</a></p>
 </body>
 </html>

@@ -36,7 +36,9 @@
 	
 	if ((select_sim != null) && (select_sim.equalsIgnoreCase("true"))){
 		
+		// Need to move this to method, and make sure all is done clean when switching between simulations.
 		afso.sim_id = new Long(   (String) request.getParameter("sim_id")   );
+		afso.actor_being_worked_on_id = null;
 		
 		simulation = afso.giveMeSim();
 		

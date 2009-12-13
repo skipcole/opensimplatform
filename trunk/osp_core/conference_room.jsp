@@ -149,10 +149,10 @@ function ajaxFunction()
 		
 			var formattedHTML = formatString(returnedText);
 			
-			chat_text = chat_text + formattedHTML;
+			chat_text =  formattedHTML + chat_text;
 			document.getElementById('foo').innerHTML = chat_text;
 			var objDiv = document.getElementById("foo");
-			objDiv.scrollTop = objDiv.scrollHeight;
+			//objDiv.scrollTop = objDiv.scrollHeight;
 		
 		}
 		
@@ -231,7 +231,8 @@ height:100%; /* works only if parent container is assigned a height value */
 color:#FFFFFF;
 background:#FFFFFF;
 border:1px solid #333;
-overflow:scroll;
+overflow:auto;
+
 }
 .actor_ffffff {
 	background-color: #FFFFFF;

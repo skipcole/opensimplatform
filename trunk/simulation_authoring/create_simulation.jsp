@@ -103,7 +103,7 @@
       </form>
       <blockquote>
         <p>&nbsp;</p>
-          <p>Below are listed alphabetically all of the current Simulations.</p>
+          <p>Below are listed alphabetically all simulations in your database.</p>
           <table>
             <%
 		
