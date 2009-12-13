@@ -11,12 +11,12 @@
 <%
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
-	pso.backPage = "email_master_view.jsp";
-	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	pso.backPage = "email_master_view.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
@@ -68,9 +68,9 @@
 %>
   <tr>
     <td>&nbsp;</td>
-    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
+    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
     <td><%= email.getFromActorName() %></td>
-    <td><%= email.getMsgDate() %></td>
+    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
 <% } %>
 </table>
@@ -89,9 +89,9 @@
      %>
   <tr>
     <td>&nbsp;</td>
-    <td><a href="view_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
-    <td>&nbsp;</td>
-    <td><%= email.getMsgDate() %></td>
+    <td><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
+    <td><%= email.getToActors() %></td>
+    <td><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
   <% } %>
 </table>
@@ -110,17 +110,16 @@
      %>
   <tr>
     <td>&nbsp;</td>
-    <td><a href="write_email.jsp?queue_up=true&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
-    <td>&nbsp;</td>
-    <td><%= email.getMsgDate() %></td>
+    <td><a href="write_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
+    <td><%= email.getToActors() %></td>
+    <td><a href="write_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
     <% } %>
 </table>
+<hr>
+<p>&nbsp;</p>
 <% }  // End of loop over all actors %>
 
 <p>&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

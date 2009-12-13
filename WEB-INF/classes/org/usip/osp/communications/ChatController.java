@@ -217,7 +217,7 @@ public class ChatController {
 	public static String getConversation(String user_id, String actor_id,
 			String start_index, String newtext, String conv_id,
 			Vector<ChatLine> this_conv, Long rsid, String schema) {
-
+		
 		if (start_index == null) {
 			start_index = "0"; //$NON-NLS-1$
 		}
@@ -231,6 +231,9 @@ public class ChatController {
 			this_conv.add(cl);
 		}
 
+		Collections.sort(this_conv);
+		//Collections.reverse(this_conv);
+		
 		String convLinesToReturn = ""; //$NON-NLS-1$
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
 			ChatLine bcl = (ChatLine) e.nextElement();

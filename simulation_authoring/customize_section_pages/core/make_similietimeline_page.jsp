@@ -85,17 +85,17 @@
 			if (afso.actor_being_worked_on_id.equals(new Long(0))) {
 				actors_name_string = " every actor ";
 			} else {
-				actors_name_string = " [insert code here] ";
+				actors_name_string = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, new Long(0), request, afso.actor_being_worked_on_id);
 			}
 			%>
             <% if (!(hasItAlready)) { %>
 		    	<p> 
 		    	  <input type="submit" name="save_and_add" value="Save and Add Section" />
-		    	  Add this to <%= actors_name_string %> in phase <%= afso.phase_id %>              </p>
+		    	  Add this to <%= actors_name_string %> in phase <%= USIP_OSP_Cache.getPhaseNameById(request, afso.schema, afso.phase_id) %>              </p>
             <% } else { %>
             	<p>
             	  <input type="submit" name="save_page" value="Save" />
-            	  This section has already been added to <%= actors_name_string %> for phase <%= afso.phase_id %>.</p>
+            	  This section has already been added to <%= actors_name_string %> for phase <%= USIP_OSP_Cache.getPhaseNameById(request, afso.schema, afso.phase_id) %>.</p>
             <% } %>
 
             <p> 

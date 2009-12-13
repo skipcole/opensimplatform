@@ -92,11 +92,11 @@
 </table>
 <br>
 <p>
-		  <textarea id="email_text" name="email_text" style="height: 310px; width: 360px;"><%= email.getMsgtext() %>
+		  <textarea id="email_text" name="email_text" style="height: 240px; width: 360px;"><%= email.getMsgtext() %>
 		  </textarea>
 		<script language="javascript1.2">
 			wysiwygWidth = 360;
-			wysiwygHeight = 310;
+			wysiwygHeight = 240;
   			generate_wysiwyg('email_text');
 		</script>
 		  </p>
