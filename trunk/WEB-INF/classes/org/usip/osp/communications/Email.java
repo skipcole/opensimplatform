@@ -249,6 +249,12 @@ public class Email {
 	 */
 	public static List getAllTo(String schema, Long running_sim_id, Long actor_id){
 		
+		ArrayList returnList = new ArrayList();
+		
+		if ((running_sim_id == null) || (actor_id == null)){
+			return returnList;
+			
+		}
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String hqlString = "from EmailRecipients where " +
@@ -261,8 +267,6 @@ public class Email {
 			.list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		ArrayList returnList = new ArrayList();
 		
 		for (ListIterator<EmailRecipients> li = tempList.listIterator(); li.hasNext();) {
 			EmailRecipients this_er = li.next();

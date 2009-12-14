@@ -85,6 +85,17 @@ public class RunningSimulation {
 
 	@Column(name = "RS_ROUND")
 	private int round = 0;
+	
+	@Lob
+	private String schedule = ""; //$NON-NLS-1$
+
+	public String getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
+	}
 
 	@Column(name = "RS_AAR")
 	@Lob

@@ -16,11 +16,6 @@
 	
 	RunningSimulation rs = afso.giveMeRunningSim();
 	
-	SharedDocument sd = new SharedDocument();
-	
-	if (rs != null) {
-		sd = SharedDocument.getScheduleDocument(afso.schema, simulation.getId(), rs.getId());
-	}
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -81,7 +76,7 @@
                   <form action="create_schedule_page.jsp" method="post" name="form2" id="form2">
                     <blockquote>
                       <p>
-                        <textarea id="sim_schedule" name="sim_schedule" style="height: 120px; width: 480px;"><%= sd.getBigString() %></textarea>
+                        <textarea id="sim_schedule" name="sim_schedule" style="height: 120px; width: 480px;"><%= rs.getSchedule() %></textarea>
             
         <script language="javascript1.2">
 			wysiwygWidth = 480;

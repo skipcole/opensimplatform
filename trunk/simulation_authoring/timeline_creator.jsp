@@ -178,13 +178,13 @@
           <tr>
             <td valign="top"><strong>Hour</strong></td>
             <td valign="top"><label>
-              <input type="text" name="event_hour" id="event_hour">
-            (24 Hour Clock)</label></td>
+<input type="text" name="event_hour" id="event_hour" value="<%= event.getEventStartHour() %>">            
+(24 Hour Clock)</label></td>
           </tr>
           <tr>
             <td valign="top"><strong>Minute</strong></td>
             <td valign="top"><label>
-              <input type="text" name="event_minute" id="event_minute">
+              <input type="text" name="event_minute" id="event_minute" value="<%= event.getEventStartMinute() %>">
             </label></td>
           </tr>
           <tr>
