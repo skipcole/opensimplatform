@@ -1,0 +1,325 @@
+<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*" errorPage="" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/javadocPageTemplate.dwt.htm" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>USIP Open Simulation Platform</title>
+<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<link href="../usip_osp.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+<!--
+body {
+	background-color: #FFFFFF;
+}
+-->
+</style></head>
+
+<body>
+<!-- InstanceBeginEditable name="pageBody" -->
+<h1>Overview</h1>
+<p>A simulation may have special features such as shared documents, tracked variables 
+  or other features. The archetypal information on these objects is stored in 
+  one table, the 'special features' table. The particular information on these 
+  objects for any given running simulation is stored in table particular for that 
+  sim and version, and referenced by the 'running sim id.'</p>
+<h2>Tables Involved</h2>
+<p>There are <strong>three main tables</strong> intimitaly involved in the maintaining 
+  of information for special features. These are described below:</p>
+<table width="100%" border="0" cellspacing="2" cellpadding="1">
+  <tr valign="top"> 
+    <td width="1%">1</td>
+    <td width="17%">SPECIAL_FEATURES</td>
+    <td width="10%">sf_id: PK<br />
+      sim_id<br />
+      details</td>
+    <td width="72%">The details on every special feature (shared documents, simulation 
+      variables, etc.) are stored in this table. The mapping between the special 
+      feature objects and the fields in this table are described below.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>2</td>
+    <td>SIM_[TABLE]</td>
+    <td>sim_id: PK<br />
+      sf_id: FK</td>
+    <td><p>Each Game/Version has its own table to contain its own values. This 
+        table, which is automatically generated when a simulation creator enters 
+        the name and version, has a structure similar to the 'special_features' 
+        discussed above. This makes the mapping of objects to the fields in these 
+        two tables as straight forward as possible.</p>
+      <p>A very important field in this table is the 'sim_id' field. Since each 
+        record in this table represents a particular special feature for a particular 
+        running game. The sim_id can be used to quickly zero in on something (like 
+        the value of a simulation variable) for a particular running game.</p></td>
+  </tr>
+  <tr valign="top"> 
+    <td>3</td>
+    <td>GAME_SECTIONS_BASE</td>
+    <td>&nbsp;</td>
+    <td>This table contains information on the sim sections that the simulation 
+      can add to every player. When a special feature is added to a game, and 
+      entry is placed in this table to allow one to add it into sections for that 
+      game. </td>
+  </tr>
+</table>
+<p>There are numerous auxilliary tables</p>
+<table width="100%" border="0" cellpadding="1" cellspacing="2">
+  <tr valign="top"> 
+    <td>1</td>
+    <td>Charts</td>
+    <td>This table contains information on the sim sections that the simulation 
+      can add to every player.</td>
+  </tr>
+  <tr valign="top">
+    <td>2</td>
+    <td>SIM_[TABLE]_VALUES</td>
+    <td>The values for a particular sim variable. There is no primary key, but 
+      essentially a composite key. Each record has a 'sim_id' and a game_round.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<h2>Special Feature Creation</h2>
+<p>When a special feature is created the following events occurr.</p>
+<ol>
+  <li>a record is made in the 'special_features' table, </li>
+  <li>a record is made in the 'game_sections_base' table. This entry allows the 
+    simulation creator to add this special feature to the sections available to 
+    a particular user.</li>
+  <li>a record is put into any other necessary tables, such as 'Charts.'</li>
+</ol>
+<h2>Special Feature Section Added to a User</h2>
+<ol>
+  <li>The record in the 'game_sections_base' table is copied into the 'game_sections' 
+    table for the Actor.</li>
+</ol>
+<h2>Running Simulation Creation</h2>
+<p>When a running simulation is created, the following things occur:</p>
+<ol>
+  <li>A new running sim entry is created in the table of running games and its 
+    specific id ('running_sim_id') is assigned.</li>
+  <li>A copy of the sim sections are copied back into the 'game_sections,' but 
+    with the 'running_sim_id' for this session.</li>
+</ol>
+<p>&nbsp;</p>
+<p>A copy of the 'special features' table entry for each special feature is copied 
+  into the table specifically for this game/version and referenced by 'running 
+  sim id.' This makes it possible for the players to change some information 
+  (such as the contents of a shared document) and have those changes stored in 
+  the specific record for that special feature in the database.</p>
+<h2>Table / Special Feature Mappings</h2>
+<ul>
+  <li><a href="#shared_document">Shared Document</a></li>
+  <li><a href="#sim_var">Simulation Variable</a></li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table width="80%" border="0" cellspacing="2" cellpadding="1">
+  <tr valign="top"> 
+    <td colspan="2"> <h2 align="center">Shared Document<a name="shared_document" id="shared_document"></a></h2></td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%"><strong>Table Field</strong></td>
+    <td><strong>Object Field</strong></td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sf_id</td>
+    <td>sf_id</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sim_id</td>
+    <td>sim_id</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sf_label</td>
+    <td>'shared_document'</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label1</td>
+    <td>tab title</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label2</td>
+    <td>doc title</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label3</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float1</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float2</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float3</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text1</td>
+    <td>doc desc</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text2</td>
+    <td>doc starter text</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text3</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<br />
+<table width="80%" border="0" cellspacing="2" cellpadding="1">
+  <tr valign="top"> 
+    <td colspan="2"> <h2 align="center">Simulation Variable<a name="sim_var" id="sim_var"></a></h2></td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%"><strong>Table Field</strong></td>
+    <td><strong>Object Field</strong></td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sf_id</td>
+    <td>sf_id</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sim_id</td>
+    <td>sim_id</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sf_label</td>
+    <td>'sim_variable'</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label1</td>
+    <td>name</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label2</td>
+    <td>type (integer, boolean, etc.)</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label3</td>
+    <td>propagation type (how it is changed from round to round.</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float1</td>
+    <td>initial value</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float2</td>
+    <td>minimum</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float3</td>
+    <td>maximum</td>
+  </tr>
+  <tr valign="top"> 
+    <td>value_int1</td>
+    <td>id of the chart associated with this variable (if any)</td>
+  </tr>
+  <tr valign="top"> 
+    <td>value_int2</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td>value_int3</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text1</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text2</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text3</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table width="80%" border="0" cellpadding="1" cellspacing="2">
+  <tr valign="top"> 
+    <td colspan="2"> <h2 align="center">Player Control<a name="sim_var" id="sim_var"></a></h2></td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%"><strong>Table Field</strong></td>
+    <td><strong>Object Field</strong></td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sf_id</td>
+    <td>sf_id</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sim_id</td>
+    <td>sim_id</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">sf_label</td>
+    <td>sim_player_control</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label1</td>
+    <td>name</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label2</td>
+    <td>sf_id of the associated simulation variable that this control has direct 
+      effect upon.</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_label3</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float1</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float2</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_float3</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td>value_int1</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td>value_int2</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td>value_int3</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text1</td>
+    <td>description</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text2</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="50%">value_text3</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<!-- InstanceEndEditable -->
+<p>&nbsp;</p>
+<p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
+</body>
+<!-- InstanceEnd --></html>

@@ -1,0 +1,18 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Create Document(s)</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_create_document_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A section to allow a player to create and edit a document or set of documents.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>create_document.jsp</page__file__name>
+  <rec__tab__heading>Create Document</rec__tab__heading>
+  <sample__image>create_document.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>true</confers__read__ability>
+  <confers__write__ability>true</confers__write__ability>
+</org.usip.osp.baseobjects.CustomizeableSection>

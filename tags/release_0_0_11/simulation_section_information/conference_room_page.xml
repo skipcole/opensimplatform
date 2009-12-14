@@ -1,0 +1,19 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.ConferenceRoom</customizerClassName>
+  <creatingOrganization>org.usip.osp.baseobjects</creatingOrganization>
+  <uniqueName>Conference Room</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_conference_room.jsp</specificMakePage>
+  <pageTitle>Conference Room Title</pageTitle>
+  <bigString>In this room you may communicate with the actors listed.</bigString>
+  <description>A page to allow several actors to communicate privately.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>conference_room.jsp</page__file__name>
+  <rec__tab__heading>Meeting</rec__tab__heading>
+  <sample__image>conference_room.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.CustomizeableSection>

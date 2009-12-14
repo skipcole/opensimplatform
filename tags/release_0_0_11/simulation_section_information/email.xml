@@ -1,0 +1,25 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_email_page.jsp</specificMakePage>
+  <contents/>
+  <pageTitle></pageTitle>
+  <bigString></bigString>
+  <hasCustomizer>false</hasCustomizer>
+  <customizerClassName></customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <creatingOrganization>USIP</creatingOrganization>
+  <uniqueName>email</uniqueName>
+  <version>1</version>
+  <description></description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>email.jsp</page__file__name>
+  <rec__tab__heading>Email</rec__tab__heading>
+  <sample__image>no_sample_image.png</sample__image>
+  <control__section>false</control__section>
+  <cust__lib__name></cust__lib__name>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>
