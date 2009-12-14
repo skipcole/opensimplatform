@@ -328,4 +328,28 @@ public class Event implements EventInterface{
 
 	}
 	
+	public String getEventStartHour(){
+		
+		SimpleDateFormat hour_sdf = new SimpleDateFormat("HH");
+		
+		if (this.getEventStartTime() != null){
+			return hour_sdf.format(this.getEventStartTime());
+		} else {
+			return "";
+		}
+		
+	}
+	
+	public String getEventStartMinute(){
+		
+		SimpleDateFormat minute_sdf = new SimpleDateFormat("mm");
+		
+		if (this.getEventStartTime() != null){
+			return minute_sdf.format(this.getEventStartTime());
+		} else {
+			return "";
+		}
+		
+	}
+	
 }

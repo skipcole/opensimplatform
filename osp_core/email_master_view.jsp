@@ -39,7 +39,18 @@
 <p align="center"><a href="write_email.jsp">Compose New Email</a> | <a href="email_master_view.jsp">Check for New Email</a></p>
 <%
   		for (ListIterator lia = simulation.getActors(pso.schema).listIterator(); lia.hasNext();) {
-			Actor act = (Actor) lia.next();			
+			Actor act = (Actor) lia.next();		
+			
+			List emailToList = new ArrayList();
+			List sentList = new ArrayList();
+			List draftList = new ArrayList();
+	
+			if (!(pso.preview_mode)) {
+				emailToList = Email.getAllTo(pso.schema, pso.running_sim_id, act.getId());
+				sentList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, act.getId(), true);
+				draftList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, false);
+			}
+				
 %>	
 <h2>Inbox for <%= act.getName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
@@ -51,7 +62,7 @@
   </tr>
 <%
 	// Get email list
-	for (ListIterator li = Email.getAllTo(pso.schema, pso.running_sim_id, act.getId()).listIterator(); li.hasNext();) {
+	for (ListIterator li = emailToList.listIterator(); li.hasNext();) {
 		Email email = (Email) li.next();
 		
 		EmailRecipients er = 
@@ -84,7 +95,7 @@
   </tr>
   <%
 	// Get email list
-	for (ListIterator li = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, act.getId(), true).listIterator(); li.hasNext();) {
+	for (ListIterator li = sentList.listIterator(); li.hasNext();) {
 		Email email = (Email) li.next();
      %>
   <tr>
@@ -105,7 +116,7 @@
   </tr>
   <%
 	// Get email list
-	for (ListIterator li = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, act.getId(), false).listIterator(); li.hasNext();) {
+	for (ListIterator li = draftList.listIterator(); li.hasNext();) {
 		Email email = (Email) li.next();
      %>
   <tr>

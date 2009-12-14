@@ -1259,12 +1259,8 @@ public class PSO_SectionMgmt {
 				Logger.getRootLogger().debug("good to here now.");
 				RunningSimulation rs = afso.giveMeRunningSim();
 
-				SharedDocument sd = SharedDocument.getScheduleDocument(afso.schema, simulation.getId(), rs.getId());
-
-				Logger.getRootLogger().debug("shared doc id is : " + sd.getId() + "");
-				String sim_schedule = (String) request.getParameter("sim_schedule");
-				sd.setBigString(sim_schedule);
-				sd.saveMe(afso.schema);
+				rs.setSchedule((String) request.getParameter("sim_schedule"));
+				rs.saveMe(afso.schema);
 
 			}
 		}

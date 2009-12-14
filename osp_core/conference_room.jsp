@@ -18,12 +18,22 @@
 	
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
-	SimSectionRSDepOjbectAssignment ssrsdoa = SimSectionRSDepOjbectAssignment.getOneForRunningSimSection
-		(pso.schema, pso.running_sim_id, new Long(cs_id), 0);
+	SimSectionRSDepOjbectAssignment ssrsdoa = new SimSectionRSDepOjbectAssignment();
 	
-	Vector this_set_of_actors = pso.getActorsForConversation(ssrsdoa.getObjectId(), request);
+	Vector this_set_of_actors = new Vector();
 	
-	System.out.println("id of conv is theoretically: " + ssrsdoa.getObjectId().toString());
+	String ssrsdoa_id = "0";
+	
+	if (!(pso.preview_mode)){
+		ssrsdoa = SimSectionRSDepOjbectAssignment.getOneForRunningSimSection
+			(pso.schema, pso.running_sim_id, new Long(cs_id), 0);
+			
+		ssrsdoa_id = ssrsdoa.getObjectId().toString();
+	
+		this_set_of_actors = pso.getActorsForConversation(ssrsdoa.getObjectId(), request);
+	}
+	
+	
 %>
 <html>
 <head>
@@ -158,7 +168,7 @@ function ajaxFunction()
 		
         }
       }
-    xmlHttp.open("GET","broadcast_chat_server.jsp?conv_id=<%= ssrsdoa.getObjectId().toString() %>&actor_id=" + <%= pso.actor_id %> + "&start_index=" + start_index,true);
+    xmlHttp.open("GET","broadcast_chat_server.jsp?conv_id=<%= ssrsdoa_id %>&actor_id=" + <%= pso.actor_id %> + "&start_index=" + start_index,true);
     xmlHttp.send(null);
   }
   
@@ -206,7 +216,7 @@ function sendText(){
       }
     }
 
-	var dataToSend = "conv_id=<%= ssrsdoa.getObjectId().toString() %>&actor_id=" + <%= pso.actor_id %> + "&user_id=" + <%= pso.user_id %> + "&newtext=" + send_text;
+	var dataToSend = "conv_id=<%= ssrsdoa_id %>&actor_id=" + <%= pso.actor_id %> + "&user_id=" + <%= pso.user_id %> + "&newtext=" + send_text;
 	
 	xmlHttp.open("POST","broadcast_chat_server.jsp",true);
 	xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

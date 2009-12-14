@@ -22,7 +22,11 @@
 		return;
 	}
 		
-	RunningSimulation rs = pso. giveMeRunningSim();
+	RunningSimulation rs = new RunningSimulation();
+	
+	if (!(pso.preview_mode)){
+		rs = pso. giveMeRunningSim();
+	}
 	
 %>
 <html>
@@ -36,7 +40,7 @@
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<h2>Write After Action Report (AAR) and End Simulation</h2>
+<h2>Write After Action Report (AAR)</h2>
 <p> The 'After Action Report' text shown below will be seen </p>
 
 <form name="form1" method="post" action="write_aar.jsp">

@@ -319,6 +319,17 @@ public class Simulation {
 		SimulationSectionAssignment ss_intro = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
 				.getId(), introSection.getId(), "Introduction", 1); //$NON-NLS-1$
 
+		
+		// Add the schedule section to the set of universal sections.
+		// Maybe should look this up in some other way, but I'll save that for another day.
+		BaseSimSection scheduleSection = BaseSimSection.getByRecommendedTagHeading(schema, "Schedule"); //$NON-NLS-1$
+
+		// Add the schedule as the first tab to all players.
+		@SuppressWarnings("unused")
+		SimulationSectionAssignment ss_sched = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
+				.getId(), scheduleSection.getId(), "Schedule", 2); //$NON-NLS-1$
+		
+		
 		// Add the after action review section to the set of universal sections.
 		// Maybe should look this up in some other way, but I'll save that for another day.
 		BaseSimSection aarSection = BaseSimSection.getByRecommendedTagHeading(schema, "AAR"); //$NON-NLS-1$
@@ -327,37 +338,11 @@ public class Simulation {
 		@SuppressWarnings("unused")
 		SimulationSectionAssignment ss_aar = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_last
 				.getId(), aarSection.getId(), "AAR", 1); //$NON-NLS-1$
+
 		
-		// Create a schedule page and add it as the second section for all
-		// players in the first phase
-		CustomizeableSection scheduleSectionBase = (CustomizeableSection) BaseSimSection.getByRecommendedTagHeading(
-				schema, "Read Document"); //$NON-NLS-1$
-		// need to get the schedule customized section
-
-		CustomizeableSection scheduleSection = scheduleSectionBase.makeCopy(schema);
-
-		scheduleSection.setUniqueName("Schedule"); //$NON-NLS-1$
-		scheduleSection.setDescription("A place for the players to read the schedule."); //$NON-NLS-1$
-		scheduleSection.setRec_tab_heading("Schedule"); //$NON-NLS-1$
-		scheduleSection.save(schema);
-
-		// Add the schedule page
-		SharedDocument sd = new SharedDocument("schedule", "Schedule for this Simulation", this.getId()); //$NON-NLS-1$ //$NON-NLS-2$
-		sd.saveMe(schema);
-
-		// need to associate with it the schedule document
-		@SuppressWarnings("unused")
-		BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(scheduleSection.getId(),
-				"org.usip.osp.communications.SharedDocument", 1, sd.getId(), this.getId(), //$NON-NLS-1$
-				schema);
-
-		// Add the schedule as the second tab to all players.
-		@SuppressWarnings("unused")
-		SimulationSectionAssignment ss1 = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
-				.getId(), scheduleSection.getId(), "Schedule", 2); //$NON-NLS-1$
-
+		// TODO: Not sure this is actually necessary at this point
 		SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(schema, this.getId(), sp_first.getId());
-		// /////////
+		
 
 		this.saveMe(schema);
 	}

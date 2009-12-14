@@ -946,6 +946,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			// Entering the correct key is equivalent to having logged in.
 			this.loggedin = true;
 			
+			// If the user/developer has been editing simulations, remove reference to old simulations.
+			this.sim_id = null;
 			
 			this.forward_on = true;
 			this.backPage = "install_db.jsp";
