@@ -36,7 +36,7 @@
 </head>
 <body>
 <h1>Email Master View</h1>
-<p align="center"><a href="write_email.jsp">Compose New Email</a> | <a href="email_master_view.jsp">Check for New Email</a></p>
+<p align="center"><a href="write_email.jsp?comingfrom=emv">Compose New Email</a> | <a href="email_master_view.jsp">Check for New Email</a></p>
 <%
   		for (ListIterator lia = simulation.getActors(pso.schema).listIterator(); lia.hasNext();) {
 			Actor act = (Actor) lia.next();		

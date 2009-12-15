@@ -11,9 +11,12 @@
 		return;
 	}
 	
+	// Need to put this back in
+	// AuthorFacilitatorSessionObject.getEventsForPhase(afso.schema, afso.sim_id, afso.phase_id)
+	
 	response.setContentType("text/xml");
 	
 %><?xml version="1.0" encoding="utf-8"?>
 <data>
-<%= AuthorFacilitatorSessionObject.getEventsForPhase(afso.schema, afso.sim_id, afso.phase_id) %>
+<%= AuthorFacilitatorSessionObject.getEventsForPhase(afso.schema, afso.sim_id, new Long(1)) %>
 </data>

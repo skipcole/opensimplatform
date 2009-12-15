@@ -25,6 +25,13 @@
 		response.sendRedirect(pso.backPage);
 		return;
 	}
+	
+		String inbox_page = "email.jsp";	
+		String comingfrom = request.getParameter("comingfrom");
+		
+		if ((comingfrom != null) && (comingfrom.equalsIgnoreCase("emv"))){
+			inbox_page = "email_master_view.jsp";
+		}
 		
 %>
 <html>
@@ -92,11 +99,11 @@
 </table>
 <br>
 <p>
-		  <textarea id="email_text" name="email_text" style="height: 240px; width: 360px;"><%= email.getMsgtext() %>
+		  <textarea id="email_text" name="email_text" style="height: 120px; width: 410px;"><%= email.getMsgtext() %>
 		  </textarea>
 		<script language="javascript1.2">
-			wysiwygWidth = 360;
-			wysiwygHeight = 240;
+			wysiwygWidth = 410;
+			wysiwygHeight = 120;
   			generate_wysiwyg('email_text');
 		</script>
 		  </p>
@@ -122,10 +129,8 @@
     </div></td>
   </tr>
 </table>
-<p>&nbsp;</p>
-<p>
-  <label></label>
-</p>
+<p><a href="<%= inbox_page %>">Back to Inbox</a></p>
+
 <p>&nbsp;</p>
 <p>
     <label></label>

@@ -16,7 +16,9 @@
 	String textToShow = "";
 	
 	if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("show_plan")  ) ){
-		textToShow = AuthorFacilitatorSessionObject.getEventsForPhase(pso.schema, pso.sim_id, pso.phase_id);
+		//textToShow = AuthorFacilitatorSessionObject.getEventsForPhase(pso.schema, pso.sim_id, pso.phase_id);
+		// Make this work for more than just one timeline
+		textToShow = AuthorFacilitatorSessionObject.getEventsForPhase(pso.schema, pso.sim_id, new Long(1));
 	} else {
 		textToShow = pso.getSimilieEvents();
 	}

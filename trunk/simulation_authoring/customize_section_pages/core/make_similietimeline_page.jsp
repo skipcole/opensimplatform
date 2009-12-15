@@ -101,7 +101,7 @@
             <p> 
               <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="save_results" value="true" />
-              <input type="hidden" name="sending_page" value="make_cast_page" />
+              <input type="hidden" name="sending_page" value="make_similietimeline_page" />
             </p>
             <p>&nbsp;</p>
           </blockquote>

@@ -550,6 +550,10 @@ public class ObjectPackager {
 				makeOpenTag(TimeLine.class),
 				makeCloseTag(TimeLine.class));
 		
+		if (timelineString.length() == 0){
+			return "Timeline not found in import file.";
+		}
+		
 		TimeLine timeline = (TimeLine) xstream.fromXML(timelineString);
 		
 		if (timeline == null){
@@ -1065,9 +1069,21 @@ public class ObjectPackager {
 	public static String getObjectFromFile(String fullContents, String startString, String endString) {
 
 		int findStartOfMatch = fullContents.lastIndexOf(startString);
-		int findEndOfMatch = fullContents.lastIndexOf(endString) + endString.length();
+		
+		int endOfString = fullContents.lastIndexOf(endString);
+		
+		if ((findStartOfMatch != -1) && (endOfString != -1)){
+			
+			int findEndOfMatch = endOfString + endString.length();
 
-		return fullContents.substring(findStartOfMatch, findEndOfMatch);
+			return fullContents.substring(findStartOfMatch, findEndOfMatch);
+		
+		} else {
+		
+			return "";
+		
+		}
+		
 
 	}
 
