@@ -2443,7 +2443,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				event.setEventStartTime(cal.getTime());
 
 				event.setSimId(sim_id);
+				
+				// TODO add ability to create multiple timelines
 				event.setPhaseId(phase_id);
+				event.setPhaseId(new Long(1));
+				
+				////////////////////////////////////////////
 				event.setTimelineId(timeline.getId());
 			
 				event.saveMe(schema);

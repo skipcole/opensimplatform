@@ -15,15 +15,20 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
-	RunningSimulation rs = pso.giveMeRunningSim();
+	RunningSimulation rs = new RunningSimulation();
+	List setOfDocs = new ArrayList();
+	SharedDocument sd = new SharedDocument(); 
+	
+	if (!(pso.preview_mode)) {
+		rs = pso.giveMeRunningSim();
 
-	List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), rs.getId());
+		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), rs.getId());
 
-	SharedDocument sd = (SharedDocument) setOfDocs.get(0);
+		sd = (SharedDocument) setOfDocs.get(0);
 	
-	pso.handleMemoPage(sd, request, cs);
-	
-	
+		pso.handleMemoPage(sd, request, cs);
+	}
+
 %>
 <html>
 <head>
