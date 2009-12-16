@@ -11,12 +11,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.usip.osp.baseobjects.*;
-import org.usip.osp.communications.ConvActorAssignment;
-import org.usip.osp.communications.Conversation;
-import org.usip.osp.communications.Event;
-import org.usip.osp.communications.Inject;
-import org.usip.osp.communications.InjectGroup;
-import org.usip.osp.communications.TimeLine;
+import org.usip.osp.communications.*;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -253,6 +248,15 @@ public class ObjectPackager {
 							depObj.getTransit_id()).listIterator(); lcaa.hasNext();) {
 						ConvActorAssignment caa = lcaa.next();
 						returnString += xstream.toXML(caa) + lineTerminator;
+					}
+
+				} else if (depObj.getClass().equals(SharedDocument.class)) {
+					// Get list of shared document actor notification objects.
+					for (ListIterator<SharedDocActorNotificAssignObj> lcaa = 
+						SharedDocActorNotificAssignObj.getAllAssignmentsForDocument(schema,
+							depObj.getTransit_id()).listIterator(); lcaa.hasNext();) {
+						SharedDocActorNotificAssignObj sdano = lcaa.next();
+						returnString += xstream.toXML(sdano) + lineTerminator;
 					}
 
 				}
@@ -660,6 +664,9 @@ public class ObjectPackager {
 				if (this_dos.getClass().equals(Conversation.class)){
 					returnString += unpackConversationActorAssignments(
 							schema, fullString, this_dos.getTransit_id(), this_dos.getId(), xstream, actorIdMappings);
+				} else if (this_dos.getClass().equals(SharedDocument.class)){
+					returnString += unpackSDANAO(
+							schema, sim_id, fullString, this_dos.getTransit_id(), this_dos.getId(), xstream, actorIdMappings);
 				}
 			}
 		}
@@ -694,6 +701,56 @@ public class ObjectPackager {
 
 		return returnString;
 
+	}
+	
+	/**
+	 * Unpacks these 'sub' objects. Eventually need to find a way to do this with all such objects.
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param orig_id
+	 * @param new_id
+	 * @param xstream
+	 * @param actorIdMappings
+	 * @return
+	 */
+	public static String unpackSDANAO(
+			String schema, Long sim_id, String fullString, Long orig_id, Long new_id, XStream xstream, Hashtable actorIdMappings){
+
+		String returnString = "... unpacking shared document actor notification assignment objects.<br />";
+		
+		List<String> sdanao_list = getSetOfObjectFromFile(fullString,
+				makeOpenTag(SharedDocActorNotificAssignObj.class),
+				makeCloseTag(SharedDocActorNotificAssignObj.class));
+		
+		/* Get full set of conversations. Only save the ones we are adding for this conversation. */
+		for (ListIterator<String> li_i = sdanao_list.listIterator(); li_i.hasNext();) {
+			String sdanao_string = li_i.next();
+
+			SharedDocActorNotificAssignObj this_sdanao = (SharedDocActorNotificAssignObj) xstream
+					.fromXML(sdanao_string);
+			
+			if (this_sdanao.getSd_id().equals(orig_id)){
+				
+				// The id this had on the system it was exported from bears no relationship to the id where its being imported.
+				this_sdanao.setId(null);
+				
+				this_sdanao.setSd_id(new_id);
+				
+				Long newActorId = (Long) actorIdMappings.get(this_sdanao.getActor_id());
+				
+				this_sdanao.setSim_id(sim_id);
+				this_sdanao.setActor_id(newActorId);
+				
+				returnString += "...... added shared document actor notification object to actor id " + newActorId + ".<br />";
+			
+				System.out.println("Trying to save to schema: " + schema);
+				this_sdanao.saveMe(schema);
+			}
+		}
+		
+		return returnString;
+		
 	}
 	
 	/**
