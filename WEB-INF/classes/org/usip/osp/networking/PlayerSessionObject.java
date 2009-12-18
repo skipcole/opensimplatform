@@ -1022,27 +1022,38 @@ public class PlayerSessionObject extends SessionObjectBase {
 		String reply_to = request.getParameter("reply_to");
 		String forward_to = request.getParameter("forward_to");
 		
-		if (reply_to != null)  {
+		if ((reply_to != null) && (reply_to.equalsIgnoreCase("true")))  {
 			String reply_id = request.getParameter("reply_id");
+			String reply_to_actor_id = request.getParameter("reply_to_actor_id");
+			
 			Email emailIAmReplyingTo = Email.getMe(schema, new Long(reply_id));
 			
+			email.setId(null);
+			email.setFromActor(actor_id);
+			
+			email.setFromActorName(this.actor_name);
+			email.setHasBeenSent(false);
 			email.setSubjectLine("Re: " + emailIAmReplyingTo.getSubjectLine());
-			email.setMsgtext(Email.markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
+			email.setMsgtext(" \n" + markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
 			email.setReply_email(true);
 			email.setThread_id(emailIAmReplyingTo.getId());
 			email.saveMe(schema);
 			
-			String reply_to_actor_id = request.getParameter("reply_to_actor_id");
+			String reply_to_name = USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(reply_to_actor_id));
 			
 			EmailRecipients er = new EmailRecipients(
-				schema, email.getId(), running_sim_id, sim_id, new Long(reply_to_actor_id), actor_name, EmailRecipients.RECIPIENT_TO);
+				schema, email.getId(), running_sim_id, sim_id, new Long(reply_to_actor_id), reply_to_name, EmailRecipients.RECIPIENT_TO);
 			
 			draft_email_id = email.getId();
 			
-		} else if (forward_to != null)  {
+		} else if ((forward_to != null)&& (forward_to.equalsIgnoreCase("true")))  {
 			String forward_id = request.getParameter("forward_id");
 			Email emailIAmReplyingTo = Email.getMe(schema, new Long(forward_id));
 			
+			email.setId(null);
+			email.setFromActor(actor_id);
+			email.setFromActorName(this.actor_name);
+			email.setHasBeenSent(false);
 			email.setSubjectLine("Fwd: " + emailIAmReplyingTo.getSubjectLine());
 			email.setMsgtext(Email.markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
 			email.setReply_email(true);
@@ -1181,6 +1192,24 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 
 		return email;
+	}
+	
+	/**
+	 * Puts the ">" symbol in front of each line of an email that is being replied to or forwarded.
+	 * @param text
+	 * @return
+	 */
+	public static String markTextAsReplyOrForwardText(String text){
+		
+		String returnString = "";
+		
+		String[] lines = text.split("<br>");
+
+        for (String this_line : lines) {
+            returnString += ">" + this_line + "<br>";
+        }
+
+		return returnString;
 	}
 
 	/**
