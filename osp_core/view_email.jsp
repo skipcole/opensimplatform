@@ -70,11 +70,12 @@
     <td width="50%">From: <%= email.getFromActorName() %></td>
     <td width="50%">To: <%= email.getToActors() %></td>
   </tr>
+  <% if (false) { %>
   <tr>
     <td>&nbsp;</td>
     <td>CC: </td>
   </tr>
-  <% if (false) { %>
+  
   <tr>
     <td>&nbsp;</td>
     <td><span class="style1">You were bcc'ed.</span></td>

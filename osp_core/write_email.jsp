@@ -55,13 +55,13 @@
 <table width="360" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td valign="top">Subject: </td>
-    <td colspan="2" valign="top"><label>
+    <td valign="top"><label>
 <input name="email_subject" type="text" id="email_subject" size="60" value="<%= email.getSubjectLine() %>">
 </label></td>
     </tr>
   <tr>
     <td width="6%" valign="top">To:</td>
-    <td width="51%" valign="top">
+    <td valign="top">
           <select name="removed_email" id="removed_email">
         <%
   		for (ListIterator li =  pso.emailRecipients.listIterator(); li.hasNext();) {
@@ -75,12 +75,13 @@
       </select>
 
       <label>
-      <input type="submit" name="remove_recipient" id="remove_recipient" value="Remove">
-      </label>
-      
-      </td>
-    <td width="43%" valign="top"><label>
-      <select name="email_recipient" id="email_recipient">
+      <input type="submit" name="remove_recipient" id="remove_recipient" value="Remove Recipient">
+      </label>      <label>
+      </label></td>
+    </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><select name="email_recipient" id="email_recipient">
         <%
   		for (ListIterator li =  pso.eligibleActors.listIterator(); li.hasNext();) {
 			Actor act = (Actor) li.next();
@@ -93,9 +94,8 @@
 			}  // end of loop over emails
 		%>
       </select>
-      <input type="submit" name="add_recipient" id="add_recipient" value="Add Selected">
-    </label></td>
-  </tr>
+      <input type="submit" name="add_recipient" id="add_recipient" value="Add Recipient">    </td>
+    </tr>
 </table>
 <br>
 <p>

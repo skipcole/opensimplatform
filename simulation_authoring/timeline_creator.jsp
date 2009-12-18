@@ -80,7 +80,7 @@
             date:           "<%= run_start %>",
             width:          "80%", 
             intervalUnit:   Timeline.DateTime.HOUR, 
-            intervalPixels: 100
+            intervalPixels: 400
         }),
         Timeline.createBandInfo({
 			timeZone:       -5,
@@ -89,7 +89,7 @@
             date:           "<%= run_start %>",
             width:          "20%", 
             intervalUnit:   Timeline.DateTime.DAY, 
-            intervalPixels: 200
+            intervalPixels: 800
         })
         ];
         bandInfos[1].syncWith = 0;
@@ -212,7 +212,10 @@
         <blockquote>
         <table width="80%">
         <%
-		for (ListIterator li = Event.getAllForSim(afso.sim_id, afso.phase_id, afso.schema).listIterator(); li.hasNext();) {
+		
+		// TODO: make replace new Long(1) with afso.phase_id 
+		
+		for (ListIterator li = Event.getAllForSim(afso.sim_id, new Long(1), afso.schema).listIterator(); li.hasNext();) {
 			Event event_l = (Event) li.next();
 			%>
             <tr>

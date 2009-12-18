@@ -44,10 +44,10 @@
 <h2>Inbox for <%= pso.actor_name %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="4%">&nbsp;</td>
-    <td width="46%"><strong>Subject</strong></td>
-    <td width="25%"><strong>From</strong></td>
-    <td width="25%"><strong>Date</strong></td>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>From</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
   </tr>
 <%
 	// Get email list
@@ -67,10 +67,10 @@
 		
 %>
   <tr>
-    <td>&nbsp;</td>
-    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
-    <td><%= email.getFromActorName() %></td>
-    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
+    <td valign="top"><%= email.getFromActorName() %></td>
+    <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
 <% } %>
 </table>
@@ -78,10 +78,10 @@
 <h2>Sent Messages From <%= pso.actor_name %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="4%">&nbsp;</td>
-    <td width="46%"><strong>Subject</strong></td>
-    <td width="25%"><strong>To</strong></td>
-    <td width="25%"><strong>Date</strong></td>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>To</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
   </tr>
   <%
 	// Get email list
@@ -89,10 +89,10 @@
 		Email email = (Email) li.next();
      %>
   <tr>
-    <td>&nbsp;</td>
-    <td><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
-    <td><%= email.getToActors() %></td>
-    <td><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %><%= email.getMsgDate() %></a></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
+    <td valign="top"><%= email.getToActors() %></td>
+    <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
   <% } %>
 </table>
@@ -100,10 +100,10 @@
 <h2>Draft Messages</h2>
 <table width="80%" border="1" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="4%">&nbsp;</td>
-    <td width="46%"><strong>Subject</strong></td>
-    <td width="25%"><strong>To</strong></td>
-    <td width="25%"><strong>Date</strong></td>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>To</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
   </tr>
   <%
 	// Get email list
@@ -111,10 +111,10 @@
 		Email email = (Email) li.next();
      %>
   <tr>
-    <td>&nbsp;</td>
-    <td><a href="write_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
-    <td>&nbsp;</td>
-    <td><a href="write_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="write_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="write_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
     <% } %>
 </table>
