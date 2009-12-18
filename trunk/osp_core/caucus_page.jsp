@@ -284,6 +284,7 @@ overflow:scroll;
 	  <option value="<%= this_a_id %>_ffdddd">Red</option>
 	  <option value="<%= this_a_id %>_ddffdd">Green</option>
 	  <option value="<%= this_a_id %>_ddddff">Blue</option>
+      <option value="<%= this_a_id %>_ffff66">Yellow</option>
 	  
     </select> </form></LI>
 	<%	

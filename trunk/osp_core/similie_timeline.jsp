@@ -67,7 +67,7 @@
             date:           "<%= run_start %>",
             width:          "80%", 
             intervalUnit:   Timeline.DateTime.HOUR, 
-            intervalPixels: 100
+            intervalPixels: 500
         }),
         Timeline.createBandInfo({
 			timeZone:       -5,
@@ -76,7 +76,7 @@
             date:           "<%= run_start %>",
             width:          "20%", 
             intervalUnit:   Timeline.DateTime.DAY, 
-            intervalPixels: 200
+            intervalPixels: 1000
         })
         ];
         bandInfos[1].syncWith = 0;

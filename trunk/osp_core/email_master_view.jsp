@@ -24,6 +24,16 @@
 		simulation = pso.giveMeSim();
 	}
 	
+	List emailToList = new ArrayList();
+	List sentList = new ArrayList();
+	List draftList = new ArrayList();
+	
+	if (!(pso.preview_mode)) {
+		emailToList = Email.getAllTo(pso.schema, pso.running_sim_id, pso.actor_id);
+		sentList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, true);
+		draftList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, false);
+	}
+	
 %>
 <html>
 <head>
@@ -37,13 +47,97 @@
 <body>
 <h1>Email Master View</h1>
 <p align="center"><a href="write_email.jsp?comingfrom=emv">Compose New Email</a> | <a href="email_master_view.jsp">Check for New Email</a></p>
+
+<h2>Inbox for <%= pso.actor_name %></h2>
+<table width="80%" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>From</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
+  </tr>
+<%
+	// Get email list
+	for (ListIterator li = emailToList.listIterator(); li.hasNext();) {
+		Email email = (Email) li.next();
+		
+		EmailRecipients er = 
+		EmailRecipients.getEmailRecipientsLine(pso.schema, email.getId(), pso.running_sim_id, pso.actor_id);
+
+		String boldStart = "";
+		String boldEnd = "";
+		
+		if ((!er.isHasBeenRead())) {
+			boldStart = "<strong>";
+			boldEnd = "</strong>";
+		}
+		
+%>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
+    <td valign="top"><%= email.getFromActorName() %></td>
+    <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+  </tr>
+<% } %>
+</table>
+<p>&nbsp;</p>
+<h2>Sent Messages From <%= pso.actor_name %></h2>
+<table width="80%" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>To</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
+  </tr>
+  <%
+	// Get email list
+	for (ListIterator li = sentList.listIterator(); li.hasNext();) {
+		Email email = (Email) li.next();
+     %>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
+    <td valign="top"><%= email.getToActors() %></td>
+    <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+  </tr>
+  <% } %>
+</table>
+<p>&nbsp;</p>
+<h2>Draft Messages</h2>
+<table width="80%" border="1" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>To</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
+  </tr>
+  <%
+	// Get email list
+	for (ListIterator li = draftList.listIterator(); li.hasNext();) {
+		Email email = (Email) li.next();
+     %>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="write_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="write_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+  </tr>
+    <% } %>
+</table>
+<p>&nbsp;</p>
+<hr>
+<h1>Other Actor's Mail Boxes</h1>
+
 <%
   		for (ListIterator lia = simulation.getActors(pso.schema).listIterator(); lia.hasNext();) {
 			Actor act = (Actor) lia.next();		
 			
-			List emailToList = new ArrayList();
-			List sentList = new ArrayList();
-			List draftList = new ArrayList();
+			if (!(act.getId().equals(pso.actor_id))) {
+			
+			emailToList = new ArrayList();
+			sentList = new ArrayList();
+			draftList = new ArrayList();
 	
 			if (!(pso.preview_mode)) {
 				emailToList = Email.getAllTo(pso.schema, pso.running_sim_id, act.getId());
@@ -52,13 +146,15 @@
 			}
 				
 %>	
+
+
 <h2>Inbox for <%= act.getName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="4%">&nbsp;</td>
-    <td width="46%"><strong>Subject</strong></td>
-    <td width="25%"><strong>From</strong></td>
-    <td width="25%"><strong>Date</strong></td>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>From</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
   </tr>
 <%
 	// Get email list
@@ -78,20 +174,20 @@
 		
 %>
   <tr>
-    <td>&nbsp;</td>
-    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
-    <td><%= email.getFromActorName() %></td>
-    <td><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
+    <td valign="top"><%= email.getFromActorName() %></td>
+    <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
 <% } %>
 </table>
 <h2>Sent Messages From <%= act.getName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="4%">&nbsp;</td>
-    <td width="46%"><strong>Subject</strong></td>
-    <td width="25%"><strong>To</strong></td>
-    <td width="25%"><strong>Date</strong></td>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>To</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
   </tr>
   <%
 	// Get email list
@@ -99,20 +195,20 @@
 		Email email = (Email) li.next();
      %>
   <tr>
-    <td>&nbsp;</td>
-    <td><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
-    <td><%= email.getToActors() %></td>
-    <td><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
+    <td valign="top"><%= email.getToActors() %></td>
+    <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
   <% } %>
 </table>
 <h2>Draft Messages</h2>
 <table width="80%" border="1" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="4%">&nbsp;</td>
-    <td width="46%"><strong>Subject</strong></td>
-    <td width="25%"><strong>To</strong></td>
-    <td width="25%"><strong>Date</strong></td>
+    <td width="4%" valign="top">&nbsp;</td>
+    <td width="46%" valign="top"><strong>Subject</strong></td>
+    <td width="25%" valign="top"><strong>To</strong></td>
+    <td width="25%" valign="top"><strong>Date</strong></td>
   </tr>
   <%
 	// Get email list
@@ -120,16 +216,19 @@
 		Email email = (Email) li.next();
      %>
   <tr>
-    <td>&nbsp;</td>
-    <td><a href="write_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
-    <td><%= email.getToActors() %></td>
-    <td><a href="write_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="write_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
+    <td valign="top"><%= email.getToActors() %></td>
+    <td valign="top"><a href="write_email.jsp?queue_up=true&comingfrom=emv&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
   </tr>
     <% } %>
 </table>
 <hr>
 <p>&nbsp;</p>
-<% }  // End of loop over all actors %>
+
+<% 
+		} // End of if this is not the same actor as is logged in.
+	}  // End of loop over all actors %>
 
 <p>&nbsp;</p>
 </body>
