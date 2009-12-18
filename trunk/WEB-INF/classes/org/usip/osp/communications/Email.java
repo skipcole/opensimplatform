@@ -417,6 +417,8 @@ public class Email {
 	}
 
 	/**
+	 * TODO: this is defunct.
+	 * 
 	 * Puts the ">" symbol in front of each line of an email that is being replied to or forwarded.
 	 * @param text
 	 * @return
