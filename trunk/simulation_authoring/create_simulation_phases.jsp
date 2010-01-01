@@ -101,8 +101,19 @@
               <p>&nbsp;</p>
             </form>
             <p>Below are listed all of the current simulation phases for this simulation:</p>
+            
+            <% 
+			boolean showMetaPhases = false;
+			if (true) { 
+				showMetaPhases = true;
+			}
+			%>
+            
             <table width="100%" border="1" cellspacing="2" cellpadding="2">
               <tr> 
+              	<% if (showMetaPhases) { %>
+                	<td width="20%" valign="top"><h2>MetaPhase</h2></td>
+                <% } %>
                 <td width="20%" valign="top"><h2>Phase Name</h2></td>
                 <td width="80%" valign="top"><h2>Phase Notes</h2></td>
                 <td width="40" valign="top"><h2>N.O.</h2></td>
@@ -123,6 +134,9 @@
 			
 		%>
               <tr>
+              <% if (showMetaPhases) { %>
+                	<td width="20%" valign="top"><%= sp.getMetaPhaseId() %></td>
+                <% } %>
                 <td valign="top"><a href="create_simulation_phases.jsp?command=Edit&sp_id=<%= sp.getId().toString() %>"><%= sp.getName() %></a>  <%= flagNotes %></td>
                 <td valign="top"><%= sp.getNotes() %></td> 
                 <td valign="top"><%= sp.getOrder() + "" %></td>
@@ -135,9 +149,11 @@
 	}
 %>
               </table>
+              <% if (SimulationMetaPhase.simHasMetaPhases(afso.schema, afso.sim_id)) { %>
+            <p>hide/display metaphases</p>
+            <% } %>
             <p>For a more printable list, <a href="print_simulation_phases.jsp">click here</a>.</p>
-              
-          <div align="center"><a href="create_actors.jsp">Next Step: Create Actors 
+            <div align="center"><a href="create_actors.jsp">Next Step: Create Actors 
             </a></div>
           </blockquote>
             </blockquote>

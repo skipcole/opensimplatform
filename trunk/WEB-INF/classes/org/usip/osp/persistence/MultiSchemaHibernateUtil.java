@@ -410,6 +410,10 @@ public class MultiSchemaHibernateUtil {
 	 */
 	public static void addSchemaClasses(AnnotationConfiguration ac) {
 
+		// Development objects
+		ac.addAnnotatedClass(org.usip.osp.bishops.BishopsLinkObject.class);
+		ac.addAnnotatedClass(org.usip.osp.bishops.BishopsPartyInfo.class);
+		
 		// BaseObjects
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.Actor.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.ActorAssumedIdentity.class);

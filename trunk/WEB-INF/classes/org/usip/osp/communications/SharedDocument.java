@@ -56,6 +56,19 @@ public class SharedDocument implements SimSectionDependentObject {
 	
 	private boolean deleted = false;
 	
+	/** If a document is just for copying from, and a separate version does not need to be copied for each 
+	 * running sim, it can be marked as a template.
+	 */
+	private boolean templateDoc = false;
+	
+	public boolean isTemplateDoc() {
+		return templateDoc;
+	}
+
+	public void setTemplateDoc(boolean templateDoc) {
+		this.templateDoc = templateDoc;
+	}
+
 	private Long version;
 	
 	private Long phase;
