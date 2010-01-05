@@ -20,23 +20,42 @@
 	String sending_page = (String) request.getParameter("sending_page");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("add_party"))){
+	
+		String command = (String) request.getParameter("command");
 		
-		String party_name = (String) request.getParameter("party_name");
-		String party_needs = (String) request.getParameter("party_needs");
-		String party_fears = (String) request.getParameter("party_fears");
+		if (command.equalsIgnoreCase("Clear")){
+			
+		}
 		
-				
-		bpi.setName(party_name);
-		bpi.setNeedsDoc(party_needs);
-		bpi.setFearsDoc(party_fears);
-		bpi.setRunning_sim_id(pso.running_sim_id);
-		bpi.setSim_id(pso.sim_id);
-		bpi.saveMe(pso.schema);
+		if (command.equalsIgnoreCase("Update")){
+			String bpi_id = (String) request.getParameter("bpi_id");
+			bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
+		}
 		
+		if ((command.equalsIgnoreCase("Update")) || (command.equalsIgnoreCase("Update"))){
+			String party_name = (String) request.getParameter("party_name");
+			String party_needs = (String) request.getParameter("party_needs");
+			String party_fears = (String) request.getParameter("party_fears");
+			
+			bpi.setName(party_name);
+			bpi.setNeedsDoc(party_needs);
+			bpi.setFearsDoc(party_fears);
+			bpi.setRunning_sim_id(pso.running_sim_id);
+			bpi.setSim_id(pso.sim_id);
+			bpi.saveMe(pso.schema);	
+		}		
 		
 	}
-
 	
+	String queueu_up = (String) request.getParameter("queueu_up");
+	
+	if ((queueu_up != null) && (queueu_up.equalsIgnoreCase("true"))) {
+		
+		String bpi_id = (String) request.getParameter("bpi_id");
+		
+		bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
+	
+	}
 %>
 <html>
 <head>
@@ -54,9 +73,7 @@
     <td valign="top">
       <label>
         <input type="text" name="party_name" id="party_name" value="<%= bpi.getName() %>">
-        </label>
-    
-    </td>
+        </label>    </td>
   </tr>
   <tr>
     <td valign="top">Index</td>
@@ -77,6 +94,12 @@
     <td valign="top"><label>
       <textarea name="party_fears" id="party_fears" cols="45" rows="5"><%= bpi.getFearsDoc() %></textarea>
     </label></td>
+  </tr>
+  <tr>
+    <td valign="top">Status</td>
+    <td valign="top"><label>
+      <input type="checkbox" name="checkbox" id="checkbox">
+    Mark Inactive</label></td>
   </tr>
   <tr>
     <td valign="top">&nbsp;</td>

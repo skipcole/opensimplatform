@@ -29,13 +29,14 @@
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
 <p align="center"><a href="add_party.jsp">Add a Party</a></p>
-<table width="95%" border="0" cellspacing="2" cellpadding="2">
+<table width="100%" border="1" cellspacing="0" cellpadding="2">
   <tr valign="top">
   <% if ((partyList != null) && (partyList.size() >= 1)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(0);
   %>
-    <td><p>Party 1: <%= bpi.getName() %> (edit/delete)</p>
-      <h2>Need</h2>
+    <td width="33%"><h2>Party 1: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+    </h2>
+      <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
       <p>&nbsp;</p>
       <h2>Fears</h2>
@@ -43,43 +44,109 @@
       <p>&nbsp;</p>
       </td> 
     <% } %>
-    <td><p>Party 2: _____ (edit/delete)</p>
-        <p>Needs: ______</p>
-      <p>Fears: _______</p>
-      <p>&nbsp;</p></td>
-    <td><p>Party 3: _____ (edit/delete)</p>
-        <p>Needs: ______</p>
-      <p>Fears: _______</p>
-      <p>&nbsp;</p></td>
+<% if ((partyList != null) && (partyList.size() >= 2)) { 
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(1);
+  %>
+    <td width="33%"><h2>Party 2: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+    </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+      <p>&nbsp;</p>
+    </td> 
+    <% } %>
+    
+    <% if ((partyList != null) && (partyList.size() >= 3)) { 
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(2);
+  %>
+    <td width="33%"><h2>Party 3: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+    </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+      <p>&nbsp;</p>
+    </td> 
+    <% } %>
   </tr>
   <tr valign="top">
-    <td><p>Party 3: _____ (edit/delete)</p>
-        <p>Needs: ______</p>
-      <p>Fears: _______</p>
-      <p>&nbsp;</p></td>
-    <td>Conflict info</td>
-    <td><p>Party: _____ (edit/delete)</p>
-        <p>Needs: ______</p>
-      <p>Fears: _______</p>
-      <p>&nbsp;</p></td>
+<% if ((partyList != null) && (partyList.size() >= 4)) { 
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(3);
+  %>
+    <td><h2>Party 4: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+    </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+      <p>&nbsp;</p>
+    </td> 
+    <% } %>
+    <td width="33%" bgcolor="#FFEEEE"><h2>Conflict info</h2></td>
+<% if ((partyList != null) && (partyList.size() >= 5)) { 
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(4);
+  %>
+    <td><h2>Party 5: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+    </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+      <p>&nbsp;</p>
+    </td> 
+    <% } %>
   </tr>
   <tr valign="top">
-    <td><p>Party: _____ (edit/delete)</p>
-        <p>Needs: ______</p>
-      <p>Fears: _______</p>
-      <p>&nbsp;</p></td>
-    <td><p>Party: _____ (edit/delete)</p>
-        <p>Needs: ______</p>
-      <p>Fears: _______</p>
-      <p>&nbsp;</p></td>
-    <td><p>Party: _____ (edit/delete)</p>
-        <p>Needs: ______</p>
-      <p>Fears: _______</p>
-      <p>&nbsp;</p></td>
+<% if ((partyList != null) && (partyList.size() >= 6)) { 
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(5);
+  %>
+    <td><h2>Party 6: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+    </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+      <p>&nbsp;</p>
+    </td> 
+    <% } %>
+    <% if ((partyList != null) && (partyList.size() >= 7)) { 
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(6);
+  %>
+    <td><h2>Party 7: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+    </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+      <p>&nbsp;</p>
+    </td> 
+    <% } %>
+<% if ((partyList != null) && (partyList.size() >= 8)) { 
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(7);
+  %>
+    <td><h2>Party 8: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+    </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+      <p>&nbsp;</p>
+    </td> 
+    <% } %>
   </tr>
 </table>
 <p>&nbsp;</p>
-<p>x</p>
-<p>Below here are shown excess actors</p>
+<p>Additional Actors</p>
+<p>&nbsp;</p>
+<p>Inactive Actors</p>
+<p>&nbsp;</p>
 </body>
 </html>
