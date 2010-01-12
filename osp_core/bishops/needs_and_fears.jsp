@@ -16,9 +16,11 @@
 	}
 	
 	List partyList = new ArrayList();
+	List inactivePartyList = new ArrayList();
 	
 	if (!(pso.preview_mode)) {	
-		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id);
+		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, false);
+		inactivePartyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, true);
 	}
 %>
 <html>
@@ -42,7 +44,7 @@
       <h2>Fears</h2>
       <p><%= bpi.getFearsDoc() %>      </p>
       <p>&nbsp;</p>
-      </td> 
+    </td> 
     <% } %>
 <% if ((partyList != null) && (partyList.size() >= 2)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(1);
@@ -144,9 +146,47 @@
   </tr>
 </table>
 <p>&nbsp;</p>
-<p>Additional Actors</p>
-<p>&nbsp;</p>
-<p>Inactive Actors</p>
-<p>&nbsp;</p>
+<h2>Additional Actors</h2>
+<% if ((partyList != null) && (partyList.size() > 8)) {
+
+	for (int ii = 8; ii <  partyList.size(); ++ii) {
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(ii);
+  %>
+<blockquote>
+  <h2>Party <%= ii+1 %>: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+  </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+  <p>&nbsp;</p>
+      <hr>
+</blockquote>
+  <%	} %>
+    <%	} %>
+<hr>  
+<h2>Inactive Actors</h2>
+<% if ((inactivePartyList != null) && (inactivePartyList.size() > 0)) {
+
+	for (int ii = 0; ii <  inactivePartyList.size(); ++ii) {
+  		BishopsPartyInfo bpi = (BishopsPartyInfo) inactivePartyList.get(ii);
+  %>
+<blockquote>
+  <h2>Party <%= ii+1 %>: <%= bpi.getName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit/delete</a>)<br>
+  </h2>
+      <h2>Needs</h2>
+      <p><%= bpi.getNeedsDoc() %>      </p>
+      <p>&nbsp;</p>
+      <h2>Fears</h2>
+      <p><%= bpi.getFearsDoc() %>      </p>
+  <p>&nbsp;</p>
+      <hr>
+</blockquote>
+  <%	} 
+  	}
+  %>
+
+x
 </body>
 </html>

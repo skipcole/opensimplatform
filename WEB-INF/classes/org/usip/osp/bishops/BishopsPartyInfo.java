@@ -44,10 +44,10 @@ public class BishopsPartyInfo {
 	private boolean inActive = false;
 
 	@Lob
-	private String needsDoc;
+	private String needsDoc = "";
 
 	@Lob
-	private String fearsDoc;
+	private String fearsDoc = "";
 
 	public Long getId() {
 		return id;
@@ -104,6 +104,32 @@ public class BishopsPartyInfo {
 	public void setFearsDoc(String fearsDoc) {
 		this.fearsDoc = fearsDoc;
 	}
+	
+	public boolean isInActive() {
+		return inActive;
+	}
+
+	public void setInActive(boolean inActive) {
+		this.inActive = inActive;
+	}
+
+	/**
+	 * Returns the number of parties involved.
+	 * 
+	 * @param schema
+	 * @param rs_id
+	 * @return
+	 */
+	public static int numberOfParties(String schema, Long rs_id){
+		
+		List partyList = getAllForRunningSim(schema, rs_id, false);
+		
+		if (partyList == null){
+			return 0;
+		} else {
+			return partyList.size();
+		}
+	}
 
 	/**
 	 * Returns a list of all party info associated with a particular running
@@ -111,7 +137,7 @@ public class BishopsPartyInfo {
 	 */
 	public static List getAllForRunningSim(String schema, Long rs_id, boolean inAct) {
 
-		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id order by partyIndex";
+		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id and inActive = '0' order by partyIndex";
 
 		if (inAct) {
 			getString = "from BishopsPartyInfo where running_sim_id = :rs_id and inActive = '1'";
@@ -138,6 +164,7 @@ public class BishopsPartyInfo {
 	 */
 	public static void insertIndex(String schema, Long rs_id, Long bpi_id, int newIndex) {
 
+		
 		// Make sure list is in good shape to begin with.
 		reorder(schema, rs_id);
 
@@ -145,6 +172,7 @@ public class BishopsPartyInfo {
 		BishopsPartyInfo bpi_bumper = BishopsPartyInfo.getMe(schema, bpi_id);
 
 		int oldIndex = bpi_bumper.getPartyIndex();
+		System.out.println("oldIndex is " + oldIndex + ", newIndex is " + newIndex);
 
 		List survivors = getAllForRunningSim(schema, rs_id, false);
 
@@ -157,17 +185,29 @@ public class BishopsPartyInfo {
 			// Get the id of the bpi being bumped
 			BishopsPartyInfo bpi_getting_bumped = getByPosition(schema, rs_id, newIndex);
 
+			System.out.println("bpi_getting_bumped is " + bpi_getting_bumped.getId());
 			if (bpi_getting_bumped != null) {
 				bpi_getting_bumped.setPartyIndex(oldIndex);
+				bpi_getting_bumped.saveMe(schema);
+				
 				bpi_bumper.setPartyIndex(newIndex);
+				bpi_bumper.saveMe(schema);
 			}
 		}
 
 	}
 
+	/**
+	 * Gets a party information object by its index.
+	 * 
+	 * @param schema
+	 * @param rs_id
+	 * @param pIndex
+	 * @return
+	 */
 	public static BishopsPartyInfo getByPosition(String schema, Long rs_id, int pIndex) {
 
-		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id and partyIndex := partyIndex " +
+		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id and partyIndex = :partyIndex " +
 				"and inActive = '0'";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -187,6 +227,11 @@ public class BishopsPartyInfo {
 		return returnBPI;
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @param rs_id
+	 */
 	public static void reorder(String schema, Long rs_id) {
 
 		List survivors = getAllForRunningSim(schema, rs_id, false);
