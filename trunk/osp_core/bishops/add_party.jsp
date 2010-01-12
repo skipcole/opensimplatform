@@ -32,10 +32,25 @@
 			bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
 		}
 		
-		if ((command.equalsIgnoreCase("Update")) || (command.equalsIgnoreCase("Update"))){
+		if ((command.equalsIgnoreCase("Create")) || (command.equalsIgnoreCase("Update"))){
 			String party_name = (String) request.getParameter("party_name");
 			String party_needs = (String) request.getParameter("party_needs");
 			String party_fears = (String) request.getParameter("party_fears");
+			
+			String party_index = (String) request.getParameter("party_index");
+			
+			String marked_inactive = (String) request.getParameter("marked_inactive");
+			
+			System.out.println("marked_inactive is " + marked_inactive);
+			
+			if ((marked_inactive != null) && (marked_inactive.equalsIgnoreCase("on") ) ) {
+				System.out.println("setting inactive");
+				bpi.setInActive(true);
+			} else {
+				bpi.setInActive(false);
+			}
+			
+			int newPI = new Long(party_index).intValue();
 			
 			bpi.setName(party_name);
 			bpi.setNeedsDoc(party_needs);
@@ -43,6 +58,13 @@
 			bpi.setRunning_sim_id(pso.running_sim_id);
 			bpi.setSim_id(pso.sim_id);
 			bpi.saveMe(pso.schema);	
+			
+			System.out.println("bpi.getPartyIndex() is " + bpi.getPartyIndex() + ", newPI was: " + newPI);
+			
+			if (bpi.getPartyIndex() != newPI){
+				System.out.println("bpi.getPartyIndex() was " + bpi.getPartyIndex() + ", newPI was: " + newPI);
+				BishopsPartyInfo.insertIndex(pso.schema, pso.running_sim_id, bpi.getId(), newPI);
+			}
 		}		
 		
 	}
@@ -56,6 +78,13 @@
 		bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
 	
 	}
+	
+	int numParties = 9;
+	
+	if (!(pso.preview_mode)) {
+		numParties = BishopsPartyInfo.numberOfParties(pso.schema, pso.running_sim_id) + 1;
+	}
+	
 %>
 <html>
 <head>
@@ -64,7 +93,7 @@
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<h2 align="left">Add a Party</h2>
+<h2 align="left">Add/Edit a Party</h2>
 <form name="form1" method="post" action="">
 <input type="hidden" name="sending_page" value="add_party">
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
@@ -79,7 +108,27 @@
     <td valign="top">Index</td>
     <td valign="top"><label>
       <select name="party_index" id="party_index">
-        <option value="1">1</option>
+      	<% 
+		
+		
+		boolean foundIndex = false;
+		
+		for (int ii = 1; ii <= numParties ; ++ii) {
+        	String selected_ii = "";
+            
+            if (ii == bpi.getPartyIndex()) {
+            	selected_ii = " selected ";
+				foundIndex = true;
+            }
+			
+			if ((ii == numParties) && (!foundIndex)) {
+				selected_ii = " selected ";
+			}
+			
+		%>
+        
+        		<option value="<%= ii %>" <%= selected_ii %> ><%= ii %></option>
+        <% } %>
       </select>
     </label></td>
   </tr>
@@ -97,8 +146,17 @@
   </tr>
   <tr>
     <td valign="top">Status</td>
-    <td valign="top"><label>
-      <input type="checkbox" name="checkbox" id="checkbox">
+    <td valign="top">
+    <%
+		String checked_inactive = "";
+		
+		if (bpi.isInActive()) {
+			checked_inactive = " checked ";
+		}
+		
+	%>
+    <label>
+      <input type="checkbox" name="marked_inactive" id="checkbox" <%= checked_inactive %>>
     Mark Inactive</label></td>
   </tr>
   <tr>
