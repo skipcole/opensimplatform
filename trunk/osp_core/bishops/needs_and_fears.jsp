@@ -146,9 +146,9 @@
   </tr>
 </table>
 <p>&nbsp;</p>
+<% if ((partyList != null) && (partyList.size() > 8)) { %>
 <h2>Additional Actors</h2>
-<% if ((partyList != null) && (partyList.size() > 8)) {
-
+<%
 	for (int ii = 8; ii <  partyList.size(); ++ii) {
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(ii);
   %>
@@ -164,8 +164,9 @@
       <hr>
 </blockquote>
   <%	} %>
-    <%	} %>
-<hr>  
+  <hr>  
+    <%	}  // End of if there are additional actors. %>
+
 <h2>Inactive Actors</h2>
 <% if ((inactivePartyList != null) && (inactivePartyList.size() > 0)) {
 

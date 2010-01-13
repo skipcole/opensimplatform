@@ -38,6 +38,15 @@
 			spOnScratchPad.setMetaPhaseId(new Long(metaphase));
 		}
 		
+		String copy_objects = (String) request.getParameter("copy_objects");
+		
+		if ((copy_objects != null) && (copy_objects.equalsIgnoreCase("on"))){
+			spOnScratchPad.setCopyInObjects(true);
+		} else {
+			spOnScratchPad.setCopyInObjects(false);
+		}
+		
+		
 		spOnScratchPad.saveMe(afso.schema);
 		
 		
@@ -74,8 +83,8 @@
                 <form action="advanced_phase_features.jsp" method="post" name="form1" id="form1">
               <table width="80%" border="0" cellspacing="2" cellpadding="2">
                 <tr> 
-                  <td valign="top">Phase Name:</td>
-                  <td valign="top"><%= spOnScratchPad.getName() %></td>
+                  <td width="29%" valign="top">Phase Name:</td>
+                  <td width="71%" valign="top"><%= spOnScratchPad.getName() %></td>
                 </tr>
                 <tr>
                   <td valign="top">Meta Phase</td>
@@ -99,8 +108,17 @@
 (<a href="create_simulation_metaphases.jsp">Create Meta Phase</a>)</label></td>
                 </tr>
                 <tr>
-                  <td valign="top">&nbsp;</td>
-                  <td valign="top">place holder to create copies of objects</td>
+                  <td valign="top">Copy Objects <a href="helptext/copy_object_on_entry.jsp" target="helpinright">(?)</a></td>
+                  <td valign="top"><label>
+                  	<% 
+					
+					   String checked = "";
+					   if (spOnScratchPad.isCopyInObjects()) {
+					   		checked = "checked=\"checked\"";
+					   }
+					%>
+                    <input name="copy_objects" type="checkbox" id="checkbox" <%= checked %> />
+                  </label></td>
                 </tr>
                 <tr>
                   <td valign="top">&nbsp;</td>

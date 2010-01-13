@@ -79,8 +79,11 @@ public class SimulationPhase implements Comparable{
 	/** Flag to indicate that this is the first phase. */
 	private boolean firstPhase = false;
 	
-	/** Flag to indicate that this is the larst phase. */
+	/** Flag to indicate that this is the last phase. */
 	private boolean lastPhase = false;
+	
+	/** If we are copying objects created in a previous phase, flag this here. */
+	private boolean copyInObjects = false;
 	
 	private Date phaseStartDate = new Date();
 	
@@ -154,6 +157,14 @@ public class SimulationPhase implements Comparable{
 
 	public void setLastPhase(boolean lastPhase) {
 		this.lastPhase = lastPhase;
+	}
+
+	public boolean isCopyInObjects() {
+		return copyInObjects;
+	}
+
+	public void setCopyInObjects(boolean copyInObjects) {
+		this.copyInObjects = copyInObjects;
 	}
 
 	public int getOrder() {

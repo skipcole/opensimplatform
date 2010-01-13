@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.ListIterator;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
+import org.usip.osp.baseobjects.CopiedObject;
 import org.usip.osp.baseobjects.SimulationSectionAssignment;
 import org.usip.osp.communications.Conversation;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /* 
@@ -26,7 +29,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 @Entity
 @Proxy(lazy = false)
-public class BishopsPartyInfo {
+public class BishopsPartyInfo implements CopiedObject{
 
 	/** Database id of this Party Info. */
 	@Id
@@ -36,6 +39,10 @@ public class BishopsPartyInfo {
 	private Long sim_id;
 
 	private Long running_sim_id;
+	
+	private Long phaseId;
+	
+	private Long parentId;
 
 	private String name = "";
 
@@ -73,6 +80,22 @@ public class BishopsPartyInfo {
 		this.running_sim_id = running_sim_id;
 	}
 
+	public Long getPhaseId() {
+		return phaseId;
+	}
+
+	public void setPhaseId(Long phaseId) {
+		this.phaseId = phaseId;
+	}
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -104,7 +127,7 @@ public class BishopsPartyInfo {
 	public void setFearsDoc(String fearsDoc) {
 		this.fearsDoc = fearsDoc;
 	}
-	
+
 	public boolean isInActive() {
 		return inActive;
 	}
@@ -120,11 +143,11 @@ public class BishopsPartyInfo {
 	 * @param rs_id
 	 * @return
 	 */
-	public static int numberOfParties(String schema, Long rs_id){
-		
+	public static int numberOfParties(String schema, Long rs_id) {
+
 		List partyList = getAllForRunningSim(schema, rs_id, false);
-		
-		if (partyList == null){
+
+		if (partyList == null) {
 			return 0;
 		} else {
 			return partyList.size();
@@ -164,7 +187,6 @@ public class BishopsPartyInfo {
 	 */
 	public static void insertIndex(String schema, Long rs_id, Long bpi_id, int newIndex) {
 
-		
 		// Make sure list is in good shape to begin with.
 		reorder(schema, rs_id);
 
@@ -189,7 +211,7 @@ public class BishopsPartyInfo {
 			if (bpi_getting_bumped != null) {
 				bpi_getting_bumped.setPartyIndex(oldIndex);
 				bpi_getting_bumped.saveMe(schema);
-				
+
 				bpi_bumper.setPartyIndex(newIndex);
 				bpi_bumper.saveMe(schema);
 			}
@@ -207,8 +229,8 @@ public class BishopsPartyInfo {
 	 */
 	public static BishopsPartyInfo getByPosition(String schema, Long rs_id, int pIndex) {
 
-		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id and partyIndex = :partyIndex " +
-				"and inActive = '0'";
+		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id and partyIndex = :partyIndex "
+				+ "and inActive = '0'";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -280,6 +302,100 @@ public class BishopsPartyInfo {
 
 		return bpi;
 
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param pso
+	 * @return
+	 */
+	public static BishopsPartyInfo handelAdd(HttpServletRequest request, PlayerSessionObject pso) {
+
+		BishopsPartyInfo bpi = new BishopsPartyInfo();
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String queueu_up = (String) request.getParameter("queueu_up");
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_party"))) {
+
+			String command = (String) request.getParameter("command");
+
+			if (command.equalsIgnoreCase("Clear")) {
+
+			}
+
+			if (command.equalsIgnoreCase("Update")) {
+				String bpi_id = (String) request.getParameter("bpi_id");
+				bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
+			}
+
+			if ((command.equalsIgnoreCase("Create")) || (command.equalsIgnoreCase("Update"))) {
+				String party_name = (String) request.getParameter("party_name");
+				String party_needs = (String) request.getParameter("party_needs");
+				String party_fears = (String) request.getParameter("party_fears");
+
+				String party_index = (String) request.getParameter("party_index");
+
+				String marked_inactive = (String) request.getParameter("marked_inactive");
+
+				System.out.println("marked_inactive is " + marked_inactive);
+
+				if ((marked_inactive != null) && (marked_inactive.equalsIgnoreCase("on"))) {
+					System.out.println("setting inactive");
+					bpi.setInActive(true);
+				} else {
+					bpi.setInActive(false);
+				}
+
+				int newPI = new Long(party_index).intValue();
+
+				bpi.setName(party_name);
+				bpi.setNeedsDoc(party_needs);
+				bpi.setFearsDoc(party_fears);
+				bpi.setRunning_sim_id(pso.running_sim_id);
+				bpi.setSim_id(pso.sim_id);
+				bpi.saveMe(pso.schema);
+
+				System.out.println("bpi.getPartyIndex() is " + bpi.getPartyIndex() + ", newPI was: " + newPI);
+
+				if (bpi.getPartyIndex() != newPI) {
+					System.out.println("bpi.getPartyIndex() was " + bpi.getPartyIndex() + ", newPI was: " + newPI);
+					BishopsPartyInfo.insertIndex(pso.schema, pso.running_sim_id, bpi.getId(), newPI);
+				}
+			}
+
+		} else if ((queueu_up != null) && (queueu_up.equalsIgnoreCase("true"))) {
+
+			String bpi_id = (String) request.getParameter("bpi_id");
+
+			bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
+
+		}
+
+		return bpi;
+	}
+
+	@Override
+	public void copyToNewVersion() {
+		
+		BishopsPartyInfo newCopy = new BishopsPartyInfo();
+		
+		newCopy.setParentId(this.getId());
+		
+		
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

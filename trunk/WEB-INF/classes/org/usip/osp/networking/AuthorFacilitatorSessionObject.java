@@ -2472,5 +2472,15 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		
 		return event;
 	}
+	
+	public String getMetaPhaseName(HttpServletRequest request, Long metaPhaseId){
+		
+		if (metaPhaseId == null){
+			return "";
+		} else {
+			return USIP_OSP_Cache.getMetaPhaseNameById(request, schema, metaPhaseId);
+		}
+
+	}
 
 } // End of class

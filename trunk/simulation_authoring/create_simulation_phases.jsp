@@ -104,7 +104,7 @@
             
             <% 
 			boolean showMetaPhases = false;
-			if (true) { 
+			if (SimulationMetaPhase.simHasMetaPhases(afso.schema, afso.sim_id)) { 
 				showMetaPhases = true;
 			}
 			%>
@@ -135,7 +135,7 @@
 		%>
               <tr>
               <% if (showMetaPhases) { %>
-                	<td width="20%" valign="top"><%= sp.getMetaPhaseId() %></td>
+                	<td width="20%" valign="top"><%= afso.getMetaPhaseName(request, sp.getMetaPhaseId()) %></td>
                 <% } %>
                 <td valign="top"><a href="create_simulation_phases.jsp?command=Edit&sp_id=<%= sp.getId().toString() %>"><%= sp.getName() %></a>  <%= flagNotes %></td>
                 <td valign="top"><%= sp.getNotes() %></td> 
