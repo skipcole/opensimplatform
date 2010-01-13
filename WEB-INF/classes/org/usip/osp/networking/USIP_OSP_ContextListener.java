@@ -71,6 +71,8 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	
 	public static final String CACHEON_L_S_PHASE_NAMES_BY_ID = "phaseNamesById"; //$NON-NLS-1$
 	
+	public static final String CACHEON_L_S_METAPHASE_NAMES_BY_ID = "metaPhaseNamesById"; //$NON-NLS-1$
+	
 	/** The id of the running simulation is used to find the round name. */
 	public static final String CACHEON_L_S_ROUND_NAMES = "roundNames"; //$NON-NLS-1$
 	

@@ -15,69 +15,9 @@
 		return;
 	}
 		
-	BishopsPartyInfo bpi = new BishopsPartyInfo();
+	BishopsPartyInfo bpi = BishopsPartyInfo.handelAdd(request, pso);
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("add_party"))){
-	
-		String command = (String) request.getParameter("command");
-		
-		if (command.equalsIgnoreCase("Clear")){
-			
-		}
-		
-		if (command.equalsIgnoreCase("Update")){
-			String bpi_id = (String) request.getParameter("bpi_id");
-			bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
-		}
-		
-		if ((command.equalsIgnoreCase("Create")) || (command.equalsIgnoreCase("Update"))){
-			String party_name = (String) request.getParameter("party_name");
-			String party_needs = (String) request.getParameter("party_needs");
-			String party_fears = (String) request.getParameter("party_fears");
-			
-			String party_index = (String) request.getParameter("party_index");
-			
-			String marked_inactive = (String) request.getParameter("marked_inactive");
-			
-			System.out.println("marked_inactive is " + marked_inactive);
-			
-			if ((marked_inactive != null) && (marked_inactive.equalsIgnoreCase("on") ) ) {
-				System.out.println("setting inactive");
-				bpi.setInActive(true);
-			} else {
-				bpi.setInActive(false);
-			}
-			
-			int newPI = new Long(party_index).intValue();
-			
-			bpi.setName(party_name);
-			bpi.setNeedsDoc(party_needs);
-			bpi.setFearsDoc(party_fears);
-			bpi.setRunning_sim_id(pso.running_sim_id);
-			bpi.setSim_id(pso.sim_id);
-			bpi.saveMe(pso.schema);	
-			
-			System.out.println("bpi.getPartyIndex() is " + bpi.getPartyIndex() + ", newPI was: " + newPI);
-			
-			if (bpi.getPartyIndex() != newPI){
-				System.out.println("bpi.getPartyIndex() was " + bpi.getPartyIndex() + ", newPI was: " + newPI);
-				BishopsPartyInfo.insertIndex(pso.schema, pso.running_sim_id, bpi.getId(), newPI);
-			}
-		}		
-		
-	}
-	
-	String queueu_up = (String) request.getParameter("queueu_up");
-	
-	if ((queueu_up != null) && (queueu_up.equalsIgnoreCase("true"))) {
-		
-		String bpi_id = (String) request.getParameter("bpi_id");
-		
-		bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
-	
-	}
+
 	
 	int numParties = 9;
 	

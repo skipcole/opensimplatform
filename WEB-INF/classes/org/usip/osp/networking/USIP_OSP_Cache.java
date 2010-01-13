@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.SimulationMetaPhase;
 import org.usip.osp.baseobjects.SimulationPhase;
 
 /*
@@ -66,6 +67,42 @@ public class USIP_OSP_Cache {
 		return USIP_OSP_Cache.getPhaseNameById(request, schema, new Long(phase_id));
 
 	}
+	
+	/** Returns the phase name (looked up from the cache) by it ID.
+	 * 
+	 * @param request
+	 * @param phase_id
+	 * @return
+	 */
+	public static String getMetaPhaseNameById(HttpServletRequest request, String schema, Long phase_id) {
+
+		// /////////////////////////////////////////////////////
+		// The conversation is pulled out of the context Hashtable
+		Hashtable <Long, String> meta_phase_name_by_id_cache = (Hashtable)  request.getSession()
+				.getServletContext().getAttribute(USIP_OSP_ContextListener.CACHEON_L_S_METAPHASE_NAMES_BY_ID);
+
+		if (meta_phase_name_by_id_cache == null){
+			meta_phase_name_by_id_cache = new Hashtable();
+		}
+		String metaPhaseName = meta_phase_name_by_id_cache.get(phase_id);
+		
+		if (metaPhaseName == null){
+			
+			// Get phase name
+			SimulationMetaPhase sp = SimulationMetaPhase.getMe(schema, phase_id);
+			
+			metaPhaseName = sp.getMetaPhaseName();
+			
+			// Store it in the cache
+			meta_phase_name_by_id_cache.put(phase_id, metaPhaseName);
+		}
+		
+		request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_L_S_METAPHASE_NAMES_BY_ID, meta_phase_name_by_id_cache);
+		
+		return metaPhaseName;
+	}
+
+	
 	
 	/**
 	 * 
