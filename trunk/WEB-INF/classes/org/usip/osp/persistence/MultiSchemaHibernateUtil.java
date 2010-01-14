@@ -413,6 +413,7 @@ public class MultiSchemaHibernateUtil {
 		// Development objects
 		ac.addAnnotatedClass(org.usip.osp.bishops.BishopsLinkObject.class);
 		ac.addAnnotatedClass(org.usip.osp.bishops.BishopsPartyInfo.class);
+		ac.addAnnotatedClass(org.usip.osp.bishops.BishopsRoleVotes.class);
 		
 		// BaseObjects
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.Actor.class);
