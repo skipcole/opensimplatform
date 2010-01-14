@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.*;
+import org.usip.osp.bishops.BishopsPartyInfo;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
 import org.usip.osp.specialfeatures.PlayerReflection;
@@ -979,6 +980,17 @@ public class PlayerSessionObject extends SessionObjectBase {
 			}
 
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			
+			if (sp.isCopyInObjects()){
+				// Should move this to work via an interface.
+				List objectToCopy = BishopsPartyInfo.getAllForRunningSim(schema, running_sim_id, false);
+				
+				for (ListIterator<BishopsPartyInfo> li = objectToCopy.listIterator(); li.hasNext();) {
+					BishopsPartyInfo bpi = li.next();
+					
+					bpi.copyToNewVersion(schema);
+				}
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

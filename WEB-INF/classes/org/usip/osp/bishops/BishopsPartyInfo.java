@@ -42,7 +42,11 @@ public class BishopsPartyInfo implements CopiedObject{
 	
 	private Long phaseId;
 	
+	private Long childId;
+	
 	private Long parentId;
+	
+	private int version;
 
 	private String name = "";
 
@@ -86,6 +90,14 @@ public class BishopsPartyInfo implements CopiedObject{
 
 	public void setPhaseId(Long phaseId) {
 		this.phaseId = phaseId;
+	}
+
+	public Long getChildId() {
+		return childId;
+	}
+
+	public void setChildId(Long childId) {
+		this.childId = childId;
 	}
 
 	public Long getParentId() {
@@ -160,10 +172,10 @@ public class BishopsPartyInfo implements CopiedObject{
 	 */
 	public static List getAllForRunningSim(String schema, Long rs_id, boolean inAct) {
 
-		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id and inActive = '0' order by partyIndex";
+		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id and inActive = '0' and childId is null order by partyIndex";
 
 		if (inAct) {
-			getString = "from BishopsPartyInfo where running_sim_id = :rs_id and inActive = '1'";
+			getString = "from BishopsPartyInfo where running_sim_id = :rs_id and inActive = '1' and childId is null";
 		}
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -230,7 +242,7 @@ public class BishopsPartyInfo implements CopiedObject{
 	public static BishopsPartyInfo getByPosition(String schema, Long rs_id, int pIndex) {
 
 		String getString = "from BishopsPartyInfo where running_sim_id = :rs_id and partyIndex = :partyIndex "
-				+ "and inActive = '0'";
+				+ "and inActive = '0' and childId is null";
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -355,6 +367,7 @@ public class BishopsPartyInfo implements CopiedObject{
 				bpi.setFearsDoc(party_fears);
 				bpi.setRunning_sim_id(pso.running_sim_id);
 				bpi.setSim_id(pso.sim_id);
+				bpi.setPhaseId(pso.phase_id);
 				bpi.saveMe(pso.schema);
 
 				System.out.println("bpi.getPartyIndex() is " + bpi.getPartyIndex() + ", newPI was: " + newPI);
@@ -377,24 +390,37 @@ public class BishopsPartyInfo implements CopiedObject{
 	}
 
 	@Override
-	public void copyToNewVersion() {
+	public void copyToNewVersion(String schema) {
 		
 		BishopsPartyInfo newCopy = new BishopsPartyInfo();
 		
 		newCopy.setParentId(this.getId());
 		
+		newCopy.setFearsDoc(this.getFearsDoc());
+		newCopy.setInActive(this.isInActive());
+		newCopy.setName(name);
+		newCopy.setNeedsDoc(needsDoc);
+		newCopy.setPartyIndex(partyIndex);
+
+		newCopy.setRunning_sim_id(running_sim_id);
+		newCopy.setSim_id(sim_id);
+		newCopy.setVersion(version + 1);
+		
+		newCopy.saveMe(schema);
+		
+		this.setChildId(newCopy.getId());
+		this.saveMe(schema);
 		
 	}
 
 	@Override
 	public int getVersion() {
-		// TODO Auto-generated method stub
-		return 0;
+		return version;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// TODO Auto-generated method stub
+		this.version = version;
 		
 	}
 

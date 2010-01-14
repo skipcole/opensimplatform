@@ -157,11 +157,12 @@ public class ObjectPackager {
 
 		return returnString;
 	}
-	
+
 	/**
-	 * I'm adding this right now to package up the TimeLine object, which may or may not be associated with 
-	 * a base sim section, and seems pertinent to only one simulation. 
-	 * There will be a better way to package these things up later, I'm sure.
+	 * I'm adding this right now to package up the TimeLine object, which may or
+	 * may not be associated with a base sim section, and seems pertinent to
+	 * only one simulation. There will be a better way to package these things
+	 * up later, I'm sure.
 	 * 
 	 * @param schema
 	 * @param sim_id
@@ -169,22 +170,22 @@ public class ObjectPackager {
 	 * @return
 	 */
 	public static String packageMiscSimObjectInformation(String schema, Long sim_id, XStream xstream) {
-		
+
 		TimeLine tl = TimeLine.getMasterPlan(schema, sim_id.toString());
-		
+
 		String returnString = "";
-		
+
 		returnString += xstream.toXML(tl) + lineTerminator;
-		
+
 		List<Event> allEvents = Event.getAllForTimeLine(tl.getId(), schema);
-		
+
 		for (ListIterator<Event> li = allEvents.listIterator(); li.hasNext();) {
 			Event thisEvent = li.next();
-		
+
 			returnString += xstream.toXML(thisEvent) + lineTerminator;
-			
+
 		}
-		
+
 		return returnString;
 	}
 
@@ -252,9 +253,9 @@ public class ObjectPackager {
 
 				} else if (depObj.getClass().equals(SharedDocument.class)) {
 					// Get list of shared document actor notification objects.
-					for (ListIterator<SharedDocActorNotificAssignObj> lcaa = 
-						SharedDocActorNotificAssignObj.getAllAssignmentsForDocument(schema,
-							depObj.getTransit_id()).listIterator(); lcaa.hasNext();) {
+					for (ListIterator<SharedDocActorNotificAssignObj> lcaa = SharedDocActorNotificAssignObj
+							.getAllAssignmentsForDocument(schema, depObj.getTransit_id()).listIterator(); lcaa
+							.hasNext();) {
 						SharedDocActorNotificAssignObj sdano = lcaa.next();
 						returnString += xstream.toXML(sdano) + lineTerminator;
 					}
@@ -283,21 +284,23 @@ public class ObjectPackager {
 		for (ListIterator<Long> li = setOfBaseSections.listIterator(); li.hasNext();) {
 			Long thisBaseId = li.next();
 
-			BaseSimSection bss = BaseSimSection.getMe(schema, thisBaseId.toString());
+			if (thisBaseId != null) {
+				BaseSimSection bss = BaseSimSection.getMe(schema, thisBaseId.toString());
 
-			if (bss.getClass().getName().equalsIgnoreCase(BaseSimSection.class.getName())) {
-				bss.setTransit_id(bss.getId());
-				bss.setId(null);
-				returnString += xstream.toXML(bss) + lineTerminator;
-			} else if (bss.getClass().getName().equalsIgnoreCase(CustomizeableSection.class.getName())) {
+				if (bss.getClass().getName().equalsIgnoreCase(BaseSimSection.class.getName())) {
+					bss.setTransit_id(bss.getId());
+					bss.setId(null);
+					returnString += xstream.toXML(bss) + lineTerminator;
+				} else if (bss.getClass().getName().equalsIgnoreCase(CustomizeableSection.class.getName())) {
 
-				bss = null;
-				CustomizeableSection cbss = CustomizeableSection.getMe(schema, thisBaseId.toString());
-				cbss.setTransit_id(cbss.getId());
-				cbss.setId(null);
-				returnString += xstream.toXML(cbss) + lineTerminator;
-			} else {
-				Logger.getRootLogger().debug("Warning in Object Packager. Unknown object."); //$NON-NLS-1$
+					bss = null;
+					CustomizeableSection cbss = CustomizeableSection.getMe(schema, thisBaseId.toString());
+					cbss.setTransit_id(cbss.getId());
+					cbss.setId(null);
+					returnString += xstream.toXML(cbss) + lineTerminator;
+				} else {
+					Logger.getRootLogger().debug("Warning in Object Packager. Unknown object."); //$NON-NLS-1$
+				}
 			}
 
 		}
@@ -448,7 +451,8 @@ public class ObjectPackager {
 		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
 
 		Hashtable actorIdMappings = new Hashtable();
-		// We use the actor id of 0 in the sections table to indicate that it is a 'universal' section
+		// We use the actor id of 0 in the sections table to indicate that it is
+		// a 'universal' section
 		actorIdMappings.put(new Long(0), new Long(0));
 
 		Hashtable phaseIdMappings = new Hashtable();
@@ -517,24 +521,24 @@ public class ObjectPackager {
 		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
 		unpackInformationString += "<b>Unpacking Simulation Objects</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
-		unpackInformationString += unpackageSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings, actorIdMappings);
+		unpackInformationString += unpackageSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings,
+				actorIdMappings);
 		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
 		unpackInformationString += "<b>Simulation Objects Unpacked</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
 
-		
 		unpackInformationString += "<b>Unpacking Misc Simulation Objects</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
-		unpackInformationString += unpackageMiscSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings, actorIdMappings);
+		unpackInformationString += unpackageMiscSimObjects(schema, fullString, simRead.getId(), xstream, bssIdMappings,
+				actorIdMappings);
 		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
 		unpackInformationString += "<b>Misc Simulation Objects Unpacked</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
 
-		
 		// ? documents, variables, conversations, etc.
 
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
@@ -547,51 +551,50 @@ public class ObjectPackager {
 	 */
 	public static String unpackageMiscSimObjects(String schema, String fullString, Long sim_id, XStream xstream,
 			Hashtable bssIdMappings, Hashtable actorIdMappings) {
-		
+
 		String returnString = "";
-		
-		String timelineString = getObjectFromFile(fullString,
-				makeOpenTag(TimeLine.class),
-				makeCloseTag(TimeLine.class));
-		
-		if (timelineString.length() == 0){
+
+		String timelineString = getObjectFromFile(fullString, makeOpenTag(TimeLine.class), makeCloseTag(TimeLine.class));
+
+		if (timelineString.length() == 0) {
 			return "Timeline not found in import file.";
 		}
-		
+
 		TimeLine timeline = (TimeLine) xstream.fromXML(timelineString);
-		
-		if (timeline == null){
+
+		if (timeline == null) {
 			timeline = new TimeLine();
 		}
-		
+
 		Long timeline_orig_id = timeline.getId();
-		
+
 		TimeLine thisMaster = TimeLine.getMasterPlan(schema, sim_id.toString());
-		
+
 		timeline.setId(thisMaster.getId());
 		timeline.setSimId(sim_id);
 		timeline.saveMe(schema);
-		
-		List<String> event_list = getSetOfObjectFromFile(fullString,
-				makeOpenTag(Event.class), makeCloseTag(Event.class));
-		
+
+		List<String> event_list = getSetOfObjectFromFile(fullString, makeOpenTag(Event.class),
+				makeCloseTag(Event.class));
+
 		for (ListIterator<String> li_i = event_list.listIterator(); li_i.hasNext();) {
 			String e_string = li_i.next();
-			
+
 			Event event = (Event) xstream.fromXML(e_string);
-			
-			if (event.getTimelineId().equals(timeline_orig_id)){
-				
+
+			if (event.getTimelineId().equals(timeline_orig_id)) {
+
 				returnString += "got event: " + event.getEventTitle() + "<br />";
-				
-				// The id this had on the system it was exported from bears no relationship to the id where its being imported.
+
+				// The id this had on the system it was exported from bears no
+				// relationship to the id where its being imported.
 				event.setId(null);
 				event.setTimelineId(timeline.getId());
 				event.setSimId(sim_id);
 				event.saveMe(schema);
 			}
 		}
-		
+
 		return returnString;
 	}
 
@@ -649,7 +652,7 @@ public class ObjectPackager {
 
 				// Save object, map its new id to the transit id
 				this_dos.saveMe(schema);
-				
+
 				dependentObjectMappings.put(this_dos.getTransit_id(), this_dos.getId());
 
 				returnString += "Found Dependent Object of class " + key + " and it had a transit id of "
@@ -659,14 +662,15 @@ public class ObjectPackager {
 						"Found Dependent Object of class " + key + " and it had a transit id of "
 								+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId()
 								+ "<BR />");
-				
-				// Conversations have conversation actor assignments associated with them.
-				if (this_dos.getClass().equals(Conversation.class)){
-					returnString += unpackConversationActorAssignments(
-							schema, fullString, this_dos.getTransit_id(), this_dos.getId(), xstream, actorIdMappings);
-				} else if (this_dos.getClass().equals(SharedDocument.class)){
-					returnString += unpackSDANAO(
-							schema, sim_id, fullString, this_dos.getTransit_id(), this_dos.getId(), xstream, actorIdMappings);
+
+				// Conversations have conversation actor assignments associated
+				// with them.
+				if (this_dos.getClass().equals(Conversation.class)) {
+					returnString += unpackConversationActorAssignments(schema, fullString, this_dos.getTransit_id(),
+							this_dos.getId(), xstream, actorIdMappings);
+				} else if (this_dos.getClass().equals(SharedDocument.class)) {
+					returnString += unpackSDANAO(schema, sim_id, fullString, this_dos.getTransit_id(),
+							this_dos.getId(), xstream, actorIdMappings);
 				}
 			}
 		}
@@ -702,9 +706,10 @@ public class ObjectPackager {
 		return returnString;
 
 	}
-	
+
 	/**
-	 * Unpacks these 'sub' objects. Eventually need to find a way to do this with all such objects.
+	 * Unpacks these 'sub' objects. Eventually need to find a way to do this
+	 * with all such objects.
 	 * 
 	 * @param schema
 	 * @param fullString
@@ -714,47 +719,52 @@ public class ObjectPackager {
 	 * @param actorIdMappings
 	 * @return
 	 */
-	public static String unpackSDANAO(
-			String schema, Long sim_id, String fullString, Long orig_id, Long new_id, XStream xstream, Hashtable actorIdMappings){
+	public static String unpackSDANAO(String schema, Long sim_id, String fullString, Long orig_id, Long new_id,
+			XStream xstream, Hashtable actorIdMappings) {
 
 		String returnString = "... unpacking shared document actor notification assignment objects.<br />";
-		
+
 		List<String> sdanao_list = getSetOfObjectFromFile(fullString,
-				makeOpenTag(SharedDocActorNotificAssignObj.class),
-				makeCloseTag(SharedDocActorNotificAssignObj.class));
-		
-		/* Get full set of conversations. Only save the ones we are adding for this conversation. */
+				makeOpenTag(SharedDocActorNotificAssignObj.class), makeCloseTag(SharedDocActorNotificAssignObj.class));
+
+		/*
+		 * Get full set of conversations. Only save the ones we are adding for
+		 * this conversation.
+		 */
 		for (ListIterator<String> li_i = sdanao_list.listIterator(); li_i.hasNext();) {
 			String sdanao_string = li_i.next();
 
 			SharedDocActorNotificAssignObj this_sdanao = (SharedDocActorNotificAssignObj) xstream
 					.fromXML(sdanao_string);
-			
-			if (this_sdanao.getSd_id().equals(orig_id)){
-				
-				// The id this had on the system it was exported from bears no relationship to the id where its being imported.
+
+			if (this_sdanao.getSd_id().equals(orig_id)) {
+
+				// The id this had on the system it was exported from bears no
+				// relationship to the id where its being imported.
 				this_sdanao.setId(null);
-				
+
 				this_sdanao.setSd_id(new_id);
-				
+
 				Long newActorId = (Long) actorIdMappings.get(this_sdanao.getActor_id());
-				
+
 				this_sdanao.setSim_id(sim_id);
 				this_sdanao.setActor_id(newActorId);
-				
-				returnString += "...... added shared document actor notification object to actor id " + newActorId + ".<br />";
-			
+
+				returnString += "...... added shared document actor notification object to actor id " + newActorId
+						+ ".<br />";
+
 				System.out.println("Trying to save to schema: " + schema);
 				this_sdanao.saveMe(schema);
 			}
 		}
-		
+
 		return returnString;
-		
+
 	}
-	
+
 	/**
-	 * Unpacks these 'sub' objects. Eventually need to find a way to do this with all such objects.
+	 * Unpacks these 'sub' objects. Eventually need to find a way to do this
+	 * with all such objects.
 	 * 
 	 * @param schema
 	 * @param fullString
@@ -764,42 +774,44 @@ public class ObjectPackager {
 	 * @param actorIdMappings
 	 * @return
 	 */
-	public static String unpackConversationActorAssignments(
-			String schema, String fullString, Long orig_id, Long new_id, XStream xstream, Hashtable actorIdMappings){
-		
+	public static String unpackConversationActorAssignments(String schema, String fullString, Long orig_id,
+			Long new_id, XStream xstream, Hashtable actorIdMappings) {
+
 		String returnString = "... unpacking conversation actor assignments.<br />";
-		
-		List<String> caa_list = getSetOfObjectFromFile(fullString,
-				makeOpenTag(ConvActorAssignment.class),
+
+		List<String> caa_list = getSetOfObjectFromFile(fullString, makeOpenTag(ConvActorAssignment.class),
 				makeCloseTag(ConvActorAssignment.class));
-		
-		/* Get full set of conversations. Only save the ones we are adding for this conversation. */
+
+		/*
+		 * Get full set of conversations. Only save the ones we are adding for
+		 * this conversation.
+		 */
 		for (ListIterator<String> li_i = caa_list.listIterator(); li_i.hasNext();) {
 			String caa_string = li_i.next();
 
-			ConvActorAssignment this_caa = (ConvActorAssignment) xstream
-					.fromXML(caa_string);
-			
-			if (this_caa.getConv_id().equals(orig_id)){
-				
-				// The id this had on the system it was exported from bears no relationship to the id where its being imported.
+			ConvActorAssignment this_caa = (ConvActorAssignment) xstream.fromXML(caa_string);
+
+			if (this_caa.getConv_id().equals(orig_id)) {
+
+				// The id this had on the system it was exported from bears no
+				// relationship to the id where its being imported.
 				this_caa.setId(null);
-				
+
 				this_caa.setConv_id(new_id);
-				
+
 				Long newActorId = (Long) actorIdMappings.get(this_caa.getActor_id());
-				
+
 				this_caa.setActor_id(newActorId);
-				
+
 				returnString += "...... added actor id " + newActorId + ".<br />";
-			
+
 				System.out.println("Trying to save to schema: " + schema);
 				this_caa.saveMe(schema);
-				
+
 			}
-			
+
 		}
-		
+
 		return returnString;
 	}
 
@@ -826,8 +838,11 @@ public class ObjectPackager {
 			this_ss.setSim_id(sim_id);
 			this_ss.setActor_id((Long) actorIdMappings.get(this_ss.getActor_id()));
 			this_ss.setPhase_id((Long) phaseIdMappings.get(this_ss.getPhase_id()));
-			this_ss.setBase_sec_id((Long) bssIdMappings.get(this_ss.getBase_sec_id()));
-
+			
+			if (this_ss.getBase_sec_id() != null) {
+				this_ss.setBase_sec_id((Long) bssIdMappings.get(this_ss.getBase_sec_id()));
+			}
+			
 			this_ss.save(schema);
 
 			if (this_ss.isSimSubSection()) {
@@ -1126,21 +1141,20 @@ public class ObjectPackager {
 	public static String getObjectFromFile(String fullContents, String startString, String endString) {
 
 		int findStartOfMatch = fullContents.lastIndexOf(startString);
-		
+
 		int endOfString = fullContents.lastIndexOf(endString);
-		
-		if ((findStartOfMatch != -1) && (endOfString != -1)){
-			
+
+		if ((findStartOfMatch != -1) && (endOfString != -1)) {
+
 			int findEndOfMatch = endOfString + endString.length();
 
 			return fullContents.substring(findStartOfMatch, findEndOfMatch);
-		
+
 		} else {
-		
+
 			return "";
-		
+
 		}
-		
 
 	}
 

@@ -120,10 +120,6 @@
                     <input name="copy_objects" type="checkbox" id="checkbox" <%= checked %> />
                   </label></td>
                 </tr>
-                <tr>
-                  <td valign="top">&nbsp;</td>
-                  <td valign="top">place holder to creatre new simulation sections based on player objects</td>
-                </tr>
                 <tr> 
                   <td valign="top">&nbsp;</td>
                   <td valign="top">

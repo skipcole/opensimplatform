@@ -29,6 +29,8 @@
 <html>
 <head>
 <title>Add Party Page</title>
+<script language="JavaScript" type="text/javascript" src="../../wysiwyg_files/wysiwyg.js">
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
@@ -75,13 +77,23 @@
   <tr>
     <td valign="top">Needs</td>
     <td valign="top"><label>
-      <textarea name="party_needs" id="party_needs" cols="45" rows="5"><%= bpi.getNeedsDoc() %></textarea>
+    <textarea name="party_needs" id="party_needs" cols="45" rows="5"  style="height: 120px; width: 480px;"><%= bpi.getNeedsDoc() %></textarea>
+    	<script language="javascript1.2">
+			wysiwygWidth = 480;
+			wysiwygHeight = 120;
+  			generate_wysiwyg('party_needs');
+		</script>
     </label></td>
   </tr>
   <tr>
     <td valign="top">Fears</td>
     <td valign="top"><label>
-      <textarea name="party_fears" id="party_fears" cols="45" rows="5"><%= bpi.getFearsDoc() %></textarea>
+      <textarea name="party_fears" id="party_fears"  style="height: 120px; width: 480px;"><%= bpi.getFearsDoc() %></textarea>
+          	<script language="javascript1.2">
+			wysiwygWidth = 480;
+			wysiwygHeight = 120;
+  			generate_wysiwyg('party_fears');
+		</script>
     </label></td>
   </tr>
   <tr>

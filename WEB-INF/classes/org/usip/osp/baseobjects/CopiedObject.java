@@ -16,13 +16,13 @@ import java.util.Hashtable;
  */
 public interface CopiedObject {
 
-	public static Hashtable allObjects = new Hashtable();
+	public static Hashtable allObjects = new Hashtable ();
 	
 	public void setVersion(int version);
 	
 	public int getVersion();
 	
-	public void copyToNewVersion();
+	public void copyToNewVersion(String schema);
 	
 	
 	
