@@ -13,6 +13,10 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	////////////////////////////
+	BishopsRoleVotes.handleSetVotes(request, pso);
+	////////////////////////////
 		
 	List partyList = new ArrayList();
 	
@@ -40,7 +44,7 @@
 	
 	}
 	
-	
+
 	
 %>
 <html>
@@ -52,11 +56,19 @@
 <body>
 <p>&nbsp;</p>
 <p>Select your choices for the role you would like to play, then press submit.</p>
-<form name="form1" method="post" action="">
+<form name="form1" method="post" action="select_role_page.jsp">
+<input type="hidden" name="sending_page" value="select_role_page">
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td width="33%" valign="top">First Choice:<br>
     <select name="first_choice" id="select">
+    <%
+		String selected1None = "";
+		if (selectedFirst == null) {
+			selected1None = " selected ";
+		}
+	%>
+    <option value="0">None Selected</option>
 	<%
 	
 	for (int ii = 0; ii <  partyList.size(); ++ii) {
@@ -74,10 +86,16 @@
     <td valign="top" width="33%">Second Choice:<br>
       <label>
           <select name="second_choice" id="select">
+          <option value="0">None Selected</option>
 	<%
 	
 	for (int ii = 0; ii <  partyList.size(); ++ii) {
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(ii);
+		
+		String selected = "";
+		if (bpi.getId().equals(selectedSecond)){
+			selected = "selected";
+		}
   	%>
 <option value="<%= bpi.getId() %>"><%= bpi.getName() %></option>
       <% } %>
@@ -86,6 +104,7 @@
     <td width="33%" valign="top">Third Choice:<br>
       <label>
           <select name="third_choice" id="select">
+          <option value="0">None Selected</option>
 	<%
 	
 	for (int ii = 0; ii <  partyList.size(); ++ii) {

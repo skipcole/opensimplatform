@@ -91,8 +91,8 @@
               <td valign="top"><input type="text" name="actor_name" value="<%= actorOnScratchPad.getName() %>" tabindex="1" />
                 <% if (actorOnScratchPad.getId() != null) { %>
                 	<% if (actorOnScratchPad.isControl_actor()) { %>
-                    	<B><I>Control Character</I></B>
-                    <% } // end of if this is a control character %>
+                    	<B><I>Control Character <a href="helptext/control_actor.jsp"  target="helpinright">(?)</a></I></B>
+                        <% } // end of if this is a control character %>
                 <% } %>            </td>
             </tr>
             <!-- tr>
@@ -142,7 +142,7 @@
 					}
 				%>
 			    <input name="control_actor" type="checkbox" value="true" <%= isControl %> />
-			    Control</label></td>
+			    Control <a href="helptext/control_actor.jsp"  target="helpinright">(?)</a></label></td>
               <td valign="top">This actor is a control character.</td>
             </tr>
             <tr>

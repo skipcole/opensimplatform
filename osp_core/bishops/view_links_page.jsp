@@ -15,11 +15,6 @@
 		return;
 	}
 		
-	Simulation simulation = new Simulation();	
-	
-	if (pso.sim_id != null){
-		simulation = pso.giveMeSim();
-	}
 	
 %>
 <html>
