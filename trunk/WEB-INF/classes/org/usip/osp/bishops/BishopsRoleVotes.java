@@ -5,9 +5,11 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /* 
@@ -42,6 +44,8 @@ public class BishopsRoleVotes {
 	private int choice = 0;
 
 	private Long actorId;
+	
+	private String actorName;
 
 	/** Id of the user making this selection. */
 	private Long userId;
@@ -96,6 +100,14 @@ public class BishopsRoleVotes {
 		this.actorId = actorId;
 	}
 
+	public String getActorName() {
+		return actorName;
+	}
+
+	public void setActorName(String actorName) {
+		this.actorName = actorName;
+	}
+
 	public Long getUserId() {
 		return userId;
 	}
@@ -127,6 +139,8 @@ public class BishopsRoleVotes {
 
 		String getString = "from BishopsRoleVotes where running_sim_id = :rs_id and userId = :user_id and choice = :choiceNum ";
 
+		System.out.println(getString);
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<BishopsRoleVotes> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString)
@@ -141,9 +155,82 @@ public class BishopsRoleVotes {
 		if ((returnList != null) && (returnList.size() == 1)) {
 			returnBPI = (BishopsRoleVotes) returnList.get(0);
 		} else {
-			Logger.getRootLogger().warn("failed to find Bishops Party Info object by running sim and index"); //$NON-NLS-1$
+			Logger.getRootLogger().warn("failed to find BishopsRoleVotes object by running sim and index"); //$NON-NLS-1$
 		}
 		return returnBPI;
+	}
+	
+	/**
+	 * Handles the setting of votes.
+	 * 
+	 * @param request
+	 * @param pso
+	 */
+	public static void handleSetVotes(HttpServletRequest request, PlayerSessionObject pso){
+		
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("select_role_page"))) {
+			
+			String first_choice = (String) request.getParameter("first_choice");
+			String second_choice = (String) request.getParameter("second_choice");
+			String third_choice = (String) request.getParameter("third_choice");
+			
+			if (first_choice != null){
+				
+				BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 1);
+				
+				if (firstChoice == null) {
+					firstChoice = new BishopsRoleVotes();
+					firstChoice.setRunning_sim_id(pso.running_sim_id);
+					firstChoice.setUserId(pso.user_id);
+					firstChoice.setBishopsPartyInfoId(new Long(first_choice));
+					firstChoice.setUsersName(pso.user_Display_Name);
+					firstChoice.setSim_id(pso.sim_id);
+					firstChoice.setActorId(pso.actor_id);
+					firstChoice.setActorName(pso.actor_name);
+					firstChoice.setChoice(1);
+					firstChoice.saveMe(pso.schema);
+				}
+			}
+			
+			if (second_choice != null){
+				
+				BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 2);
+				
+				if (secondChoice == null) {
+					secondChoice = new BishopsRoleVotes();
+					secondChoice.setRunning_sim_id(pso.running_sim_id);
+					secondChoice.setUserId(pso.user_id);
+					secondChoice.setBishopsPartyInfoId(new Long(second_choice));
+					secondChoice.setUsersName(pso.user_Display_Name);
+					secondChoice.setSim_id(pso.sim_id);
+					secondChoice.setActorId(pso.actor_id);
+					secondChoice.setActorName(pso.actor_name);
+					secondChoice.setChoice(2);
+					secondChoice.saveMe(pso.schema);
+				}
+			}
+			
+			if (third_choice != null){
+				
+				BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 3);
+				
+				if (thirdChoice == null) {
+					thirdChoice = new BishopsRoleVotes();
+					thirdChoice.setRunning_sim_id(pso.running_sim_id);
+					thirdChoice.setUserId(pso.user_id);
+					thirdChoice.setBishopsPartyInfoId(new Long(third_choice));
+					thirdChoice.setUsersName(pso.user_Display_Name);
+					thirdChoice.setSim_id(pso.sim_id);
+					thirdChoice.setActorId(pso.actor_id);
+					thirdChoice.setActorName(pso.actor_name);
+					thirdChoice.setChoice(3);
+					thirdChoice.saveMe(pso.schema);
+				}
+			}
+		}
+		
 	}
 
 }

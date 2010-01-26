@@ -58,7 +58,7 @@
 	  <% 
 			if (afso.sim_id != null) {
 		%>
-	    <p>Enter the planned play ideas <a href="helptext/create_simulation_help.jsp" target="helpinright">(?)</a> for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
+	    <p>Enter the planned play ideas <a href="helptext/planned_play_ideas.jsp" target="helpinright">(?)</a> for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
 	      (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
 	        here</a>.)</p>
 	<form action="create_simulation_planned_play_ideas.jsp" method="post" name="form2" id="form2">
