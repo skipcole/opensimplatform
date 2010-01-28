@@ -79,7 +79,7 @@ body {
           
           <tr> 
             <td>&nbsp;</td>
-            <td> <input type="submit" name="Submit" value="Submit"> </td>
+            <td> <input type="submit" name="Submit" value="Submit" > </td>
           </tr>
           <tr> 
             <td colspan="2"><font color="#FF0000"><%= errorMsg %></font></td>

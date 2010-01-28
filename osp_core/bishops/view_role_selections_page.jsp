@@ -52,6 +52,32 @@
 <body>
 <p>&nbsp;</p>
 <p>A Place to see what the players chose.</p>
+<p>&nbsp;</p>
+
+<table width="100%" border="1" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><strong>Player</strong></td>
+    <td><strong>Choice 1</strong></td>
+    <td><strong>Choice 2</strong></td>
+    <td><strong>Choice 3</strong></td>
+  </tr>
+  <%
+  		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
+			Actor aa = (Actor) li.next();
+			
+			UserAssignment ua = UserAssignment.getUserAssignment (pso.schema, pso.running_sim_id, aa.getId());
+%>
+  <tr>
+    <td><%= ua.getUser_id() %></td>
+    <td>Actor 3</td>
+    <td>Actor 1</td>
+    <td>Actor 5</td>
+  </tr>
+<% }
+
+%>
+</table>
+<hr>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td><strong>Player</strong></td>

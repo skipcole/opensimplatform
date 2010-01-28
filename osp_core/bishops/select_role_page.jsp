@@ -31,15 +31,19 @@
 		BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 3);
 	
 		if (firstChoice != null){
-			selectedFirst = firstChoice.getId();
+			selectedFirst = firstChoice.getBishopsPartyInfoId();
+			System.out.println("first was: " + selectedFirst);
+			
 		}
 		
 		if (secondChoice != null){
-			selectedSecond = secondChoice.getId();
+			selectedSecond = secondChoice.getBishopsPartyInfoId();
+			System.out.println("2 was: " + selectedSecond);
 		}
 		
 		if (thirdChoice != null){
-			selectedSecond = thirdChoice.getId();
+			selectedThird = thirdChoice.getBishopsPartyInfoId();
+			System.out.println("3 was: " + selectedThird);
 		}		
 	
 	}
@@ -68,7 +72,7 @@
 			selected1None = " selected ";
 		}
 	%>
-    <option value="0">None Selected</option>
+    <option value="0" <%= selected1None %>>None Selected</option>
 	<%
 	
 	for (int ii = 0; ii <  partyList.size(); ++ii) {
@@ -86,7 +90,13 @@
     <td valign="top" width="33%">Second Choice:<br>
       <label>
           <select name="second_choice" id="select">
-          <option value="0">None Selected</option>
+          <%
+			String selected2None = "";
+			if (selectedSecond == null) {
+				selected2None = " selected ";
+			}
+		%>
+    <option value="0" <%= selected2None %>>None Selected</option>
 	<%
 	
 	for (int ii = 0; ii <  partyList.size(); ++ii) {
@@ -97,20 +107,32 @@
 			selected = "selected";
 		}
   	%>
-<option value="<%= bpi.getId() %>"><%= bpi.getName() %></option>
+<option value="<%= bpi.getId() %>" <%= selected %>><%= bpi.getName() %></option>
       <% } %>
       </select>
       </label></td>
     <td width="33%" valign="top">Third Choice:<br>
       <label>
           <select name="third_choice" id="select">
-          <option value="0">None Selected</option>
+          <%
+			String selected3None = "";
+			if (selectedThird == null) {
+				selected3None = " selected ";
+			}
+		%>
+    <option value="0" <%= selected3None %>>None Selected</option>
 	<%
 	
 	for (int ii = 0; ii <  partyList.size(); ++ii) {
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(ii);
+		
+		
+		String selected = "";
+		if (bpi.getId().equals(selectedThird)){
+			selected = "selected";
+		}
   	%>
-<option value="<%= bpi.getId() %>"><%= bpi.getName() %></option>
+<option value="<%= bpi.getId() %>" <%= selected %>><%= bpi.getName() %></option>
       <% } %>
       </select>
       </label></td>
