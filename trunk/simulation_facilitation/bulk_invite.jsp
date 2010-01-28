@@ -25,6 +25,11 @@
 
 <title>Open Simulation Platform Control Page</title>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -39,10 +44,11 @@
               <br />
       <blockquote> 
         
+        <p><span class="style1">This functionality temporarily disabled </span>- until we get a 'captcha' in place to prevent Spam Registrations.</p>
         <p>Please enter a set of emails below, separated by spaces, commas or carriage returns. Then modify the message text as you see fit, and hit send. The users will 
           receive an email inviting them to autoregister on the system. You will 
           then be able to add them as players in one of your simulations.</p>
-    <form action="bulk_invite.jsp" method="post" name="form1" id="form1">
+        <form action="bulk_invite.jsp" method="post" name="form1" id="form1">
       <input type="hidden" name="sending_page" value="bulk_invite" />
       <table width="100%" border="0" cellspacing="2" cellpadding="2">
         <tr valign="top"> 
@@ -65,7 +71,8 @@
         </tr>
         <tr valign="top"> 
           <td>&nbsp;</td>
-                <td> <input type="submit" name="command" value="Send Invite Email" /></td>
+                <td> <input type="submit" name="command" value="Send Invite Email" disabled="disabled" /> 
+                (Disabled: 1/28/10)</td>
               </tr>
         </table>
     </form>

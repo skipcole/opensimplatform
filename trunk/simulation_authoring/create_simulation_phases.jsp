@@ -131,6 +131,8 @@
 				flagNotes = "<I><small>(Last Phase)</small></I>";
 			}
 			
+			// Need a way to look at next phase, and see if it is the same meta-phase, if so, increase the 'col span'
+			// and mark it as shown so that the next phase doesn't create a cell to show its meta phase in.
 			
 		%>
               <tr>

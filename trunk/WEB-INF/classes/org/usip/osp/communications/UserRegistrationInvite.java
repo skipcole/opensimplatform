@@ -20,14 +20,11 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  * 
- * 
-Moved these out since object not being used.
+ */
+
 @Entity
 @Table(name = "USER_REG_INVITE")
 @Proxy(lazy = false)
-
- */
-
 public class UserRegistrationInvite {
 
 	/** Database id of this User. */
