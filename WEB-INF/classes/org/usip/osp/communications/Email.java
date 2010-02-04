@@ -239,6 +239,9 @@ public class Email {
 		this.msgDate = msgDate;
 	}
 	
+	
+	private static String orderByDesc = " order by id desc " ;
+	
 	/**
 	 * Returns all of the email directed to an actor during a simulation.
 	 * 
@@ -258,7 +261,7 @@ public class Email {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String hqlString = "from EmailRecipients where " +
-				"running_sim_id = :rsid and actor_id = :aid";
+				"running_sim_id = :rsid and actor_id = :aid" + orderByDesc;
 		
 		List tempList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)
@@ -302,7 +305,8 @@ public class Email {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String hqlString = "from Email where " +
-				"running_sim_id = :rsid and fromActor = :aid and hasbeenSent = '" + getDrafts + "' and email_deleted = '0'";
+				"running_sim_id = :rsid and fromActor = :aid and hasbeenSent = '" + getDrafts 
+				+ "' and email_deleted = '0'" + orderByDesc;
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)

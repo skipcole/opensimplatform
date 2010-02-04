@@ -120,6 +120,7 @@ public class ObjectPackager {
 		returnString += xstream.toXML(sim);
 
 		returnString += packageActors(schema, sim.getTransit_id(), xstream) + lineTerminator;
+		returnString += packageMetaPhases(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packagePhases(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packagePhaseAssignments(schema, sim.getTransit_id(), xstream) + lineTerminator;
 		returnString += packageInjects(schema, sim.getTransit_id(), xstream) + lineTerminator;
@@ -384,6 +385,31 @@ public class ObjectPackager {
 
 			returnString += xstream.toXML(thisPhase) + lineTerminator;
 		}
+		
+		return returnString;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param xstream
+	 * @return
+	 */
+	public static String packageMetaPhases(String schema, long sim_id, XStream xstream){
+		
+		String returnString = ""; //$NON-NLS-1$
+		
+		List <SimulationMetaPhase> allMetaPhases = SimulationMetaPhase.getAllForSim(schema, sim_id);
+		for (ListIterator<SimulationMetaPhase> li = allMetaPhases.listIterator(); li.hasNext();) {
+			SimulationMetaPhase thisMetaPhase = li.next();
+
+			thisMetaPhase.setTransit_id(thisMetaPhase.getId());
+			thisMetaPhase.setId(null);
+
+			returnString += xstream.toXML(thisMetaPhase) + lineTerminator;
+		}
+		
 		return returnString;
 	}
 
@@ -455,6 +481,7 @@ public class ObjectPackager {
 		// a 'universal' section
 		actorIdMappings.put(new Long(0), new Long(0));
 
+		Hashtable metaPhaseIdMappings = new Hashtable();
 		Hashtable phaseIdMappings = new Hashtable();
 		Hashtable bssIdMappings = new Hashtable();
 
@@ -480,9 +507,15 @@ public class ObjectPackager {
 		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
 		unpackInformationString += "<b>Actors Unpacked</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
+		unpackInformationString += "<b>Unpacking MetaPhases</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
+		unpackInformationString += unpackageMetaPhases(schema, fullString, simRead.getId(), xstream, metaPhaseIdMappings);
+		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
+		unpackInformationString += "<b>Meta Phases Unpacked</b><br />"; //$NON-NLS-1$
+		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
 		unpackInformationString += "<b>Unpacking Phases</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
-		unpackInformationString += unpackagePhases(schema, fullString, simRead.getId(), xstream, phaseIdMappings);
+		unpackInformationString += unpackagePhases(schema, fullString, simRead.getId(), xstream, metaPhaseIdMappings, phaseIdMappings);
 		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
 		unpackInformationString += "<b>Phases Unpacked</b><br />"; //$NON-NLS-1$
 		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
@@ -970,11 +1003,23 @@ public class ObjectPackager {
 					.getCreatingOrganization(), this_bss.getUniqueName(), this_bss.getVersion());
 
 			if (correspondingSimSection == null) {
-				String warnString = "<font color=\"red\"> Warning. Base simulation section "
+				
+				// Check to see if this is an author generated simulation section (essentially a URL)
+				// if it is, there will not be a corresponding simulation section
+				if (this_bss.isAuthorGeneratedSimulationSection()){
+					this_bss.saveMe(schema);
+					bssIdMappings.put(this_bss.getTransit_id(), this_bss.getId());
+					returnString += "Found author generated section " + this_bss.getRec_tab_heading() 
+					+ " and it was given id "
+					+ this_bss.getId() + "<br />";
+				} else {
+					String warnString = "<font color=\"red\"> Warning. Base simulation section "
 						+ this_bss.getVersionInformation() + " ( id : " + this_bss.getTransit_id()
 						+ ") not found.<br /></font>";
-				Logger.getRootLogger().debug(warnString);
-				returnString += warnString;
+					Logger.getRootLogger().debug(warnString);
+				
+					returnString += warnString;
+				}
 			} else {
 				returnString += "Found " + this_bss.getUniqueName() + " and it had id "
 						+ correspondingSimSection.getId() + "<br />";
@@ -1030,6 +1075,38 @@ public class ObjectPackager {
 	}
 
 	/**
+	 * 
+	 * @param schema
+	 * @param fullString
+	 * @param sim_id
+	 * @param xstream
+	 * @param metaPhaseIdMappings
+	 * @return
+	 */
+	public static String unpackageMetaPhases(String schema, String fullString, Long sim_id, XStream xstream,
+			Hashtable metaPhaseIdMappings) {
+
+		String returnString = "";
+		List phases = getSetOfObjectFromFile(fullString, makeOpenTag(SimulationMetaPhase.class),
+				makeCloseTag(SimulationMetaPhase.class));
+		for (ListIterator<String> li_i = phases.listIterator(); li_i.hasNext();) {
+			String phase_string = li_i.next();
+
+			SimulationMetaPhase this_meta_phase = (SimulationMetaPhase) xstream.fromXML(phase_string);
+			
+			this_meta_phase.setSim_id(sim_id);
+			this_meta_phase.saveMe(schema);
+
+			returnString += "MetaPhase " + this_meta_phase.getMetaPhaseName() + " added to simulation";
+
+			metaPhaseIdMappings.put(this_meta_phase.getTransit_id(), this_meta_phase.getId());
+
+		}
+
+		return returnString;
+
+	}
+	/**
 	 * Pulls the actors out of the packaged file.
 	 * 
 	 * @param schema
@@ -1038,7 +1115,7 @@ public class ObjectPackager {
 	 * @param xstream
 	 */
 	public static String unpackagePhases(String schema, String fullString, Long sim_id, XStream xstream,
-			Hashtable phaseIdMappings) {
+			Hashtable metaPhaseIdMappings, Hashtable phaseIdMappings) {
 
 		String returnString = "";
 		List phases = getSetOfObjectFromFile(fullString, makeOpenTag(SimulationPhase.class),
@@ -1048,6 +1125,16 @@ public class ObjectPackager {
 
 			SimulationPhase this_phase = (SimulationPhase) xstream.fromXML(phase_string);
 
+			if (this_phase.getMetaPhaseId() != null){
+				
+				Long newMetaPhaseId = (Long)metaPhaseIdMappings.get(this_phase.getMetaPhaseId());
+				if (newMetaPhaseId != null){
+					this_phase.setMetaPhaseId(newMetaPhaseId);
+				} else {
+					Logger.getRootLogger().debug("No MetaPhase mapped to id " + this_phase.getMetaPhaseId());
+				}
+			}
+			
 			this_phase.saveMe(schema);
 
 			returnString += "Phase " + this_phase.getName() + " added to simulation";

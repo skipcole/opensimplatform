@@ -47,26 +47,13 @@ public class User {
 	@Column(name = "ADMIN")
 	private boolean admin = false;
 	
+	/** Date of last login */
 	private Date lastLogin;
 	
-	public Date getLastLogin() {
-		return lastLogin;
-	}
-
-	public void setLastLogin(Date lastLogin) {
-		this.lastLogin = lastLogin;
-	}
+	private Long lastSimEdited = null;
 
 	/** Used to keep track of time zone of users. */
 	private int timeZoneOffset;
-
-	public int getTimeZoneOffset() {
-		return this.timeZoneOffset;
-	}
-
-	public void setTimeZoneOffset(int timeZoneOffset) {
-		this.timeZoneOffset = timeZoneOffset;
-	}
 
 	@Transient
 	private Long trail_id;
@@ -568,6 +555,30 @@ public class User {
 
 	public void setBu_password(String bu_password) {
 		this.bu_password = bu_password;
+	}
+	
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+	
+	public Long getLastSimEdited() {
+		return lastSimEdited;
+	}
+
+	public void setLastSimEdited(Long lastSimEdited) {
+		this.lastSimEdited = lastSimEdited;
+	}
+
+	public int getTimeZoneOffset() {
+		return this.timeZoneOffset;
+	}
+
+	public void setTimeZoneOffset(int timeZoneOffset) {
+		this.timeZoneOffset = timeZoneOffset;
 	}
 	
 	

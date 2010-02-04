@@ -11,7 +11,7 @@
   <creatingOrganization>USIP</creatingOrganization>
   <uniqueName>email</uniqueName>
   <version>1</version>
-  <description></description>
+  <description>A section where players can get and receive emails. </description>
   <url></url>
   <directory>../osp_core/</directory>
   <page__file__name>email.jsp</page__file__name>

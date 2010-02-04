@@ -100,27 +100,14 @@ public class Actor {
 	public void setSchema(String schema) {
 		this.schema = schema;
 	}
-
-	/** Flag to indicate if this actor's information is temporarily taken */
-    private boolean assumedIdentity = false;
-
-	/** Id of the identity that this actor has assumed. */
-    private Long assumedIdentityId;
-    
-    public boolean isAssumedIdentity() {
-		return assumedIdentity;
-	}
-
-	public void setAssumedIdentity(boolean assumedIdentity) {
-		this.assumedIdentity = assumedIdentity;
-	}
-
-	public Long getAssumedIdentityId() {
-		return assumedIdentityId;
-	}
-
-	public void setAssumedIdentityId(Long assumedIdentityId) {
-		this.assumedIdentityId = assumedIdentityId;
+	
+	public void createAssumedIdentity(String schema, String newName, Long running_sim_id){
+		
+		// Check to see if identity exists
+		if (true) {
+			ActorAssumedIdentity aai = ActorAssumedIdentity.getAssumedIdentity(schema, id, running_sim_id);
+		}
+		// set name TODO
 	}
 	
     /**
@@ -140,27 +127,10 @@ public class Actor {
 
 		return returnList;
     }
+   
     
     /**
      * Returns all of the actors found in a schema for a particular simulation
-     * 
-     * @param schema
-     * @return
-     */
-    public static List getAllForSim(String schema, Long sim_id){
-        
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Actor where sim_id = :sim_id order by actor_name").setLong("sim_id", sim_id).list(); //$NON-NLS-1$
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return returnList;
-    }
-    
-    /**
-     * Returns all of the actors found in a schema.
      * 
      * @param schema
      * @return
@@ -170,7 +140,8 @@ public class Actor {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Actor where sim_id = '" + sim_id + "' order by actor_name").list(); //$NON-NLS-1$
+				"from Actor where sim_id = :sim_id order by actor_name")
+				.setLong("sim_id", sim_id).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -335,11 +306,20 @@ public class Actor {
 	 */
 	public String getName() {
 		
-		if (!assumedIdentity){
+			return this.name;
+		}
+	/**
+	 * @return Returns the name.
+	 */
+	public String getName(Long running_sim_id) {
+		
+		//if (!assumedIdentity){
+		if (false){
 			return this.name;
 		} else {
-			ActorAssumedIdentity aai = ActorAssumedIdentity.getMe(schema, this.assumedIdentityId);
-			return aai.getAssumedName();
+			//ActorAssumedIdentity aai = ActorAssumedIdentity.getMe(schema, this.id, running_sim_id);
+			//return aai.getAssumedName();
+			return null;
 		}
 	}
 

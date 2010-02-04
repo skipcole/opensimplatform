@@ -13,32 +13,15 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-		
+	
+	Simulation simulation = new Simulation();	
+	
+	if (pso.sim_id != null){
+		simulation = pso.giveMeSim();
+	}
+	
 	List partyList = new ArrayList();
 	
-	Long selectedFirst = null;
-	Long selectedSecond = null;
-	Long selectedThird = null;
-	
-	if (!(pso.preview_mode)) {	
-		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, false);
-		BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 1);
-		BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 2);
-		BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 3);
-	
-		if (firstChoice != null){
-			selectedFirst = firstChoice.getId();
-		}
-		
-		if (secondChoice != null){
-			selectedSecond = secondChoice.getId();
-		}
-		
-		if (thirdChoice != null){
-			selectedSecond = thirdChoice.getId();
-		}		
-	
-	}
 	
 	
 	
@@ -50,7 +33,6 @@
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<p>&nbsp;</p>
 <p>A Place to see what the players chose.</p>
 <p>&nbsp;</p>
 
@@ -66,64 +48,41 @@
 			Actor aa = (Actor) li.next();
 			
 			UserAssignment ua = UserAssignment.getUserAssignment (pso.schema, pso.running_sim_id, aa.getId());
+			BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 1);
+			BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 2);
+			BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 3);
+			
+			Long bpi_id_1 = null;
+			Long bpi_id_2 = null;
+			Long bpi_id_3 = null;
+			
+			if (firstChoice != null) {
+				bpi_id_1 = firstChoice.getBishopsPartyInfoId();
+			}
+			if (secondChoice != null) {
+				bpi_id_2 = secondChoice.getBishopsPartyInfoId();
+			}
+			if (thirdChoice != null) {
+				bpi_id_3 = thirdChoice.getBishopsPartyInfoId();
+			}
+			
+			String uName = USIP_OSP_Cache.getUSERName(pso.schema, request, ua.getUser_id());
 %>
   <tr>
-    <td><%= ua.getUser_id() %></td>
-    <td>Actor 3</td>
-    <td>Actor 1</td>
-    <td>Actor 5</td>
+    <td><%= uName %></td>
+    <td><%= BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_1)  %></td>
+    <td><%= BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_2)  %></td>
+    <td><%= BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_3)  %></td>
   </tr>
 <% }
 
 %>
 </table>
-<hr>
-<table width="100%" border="1" cellspacing="0" cellpadding="0">
-  <tr>
-    <td><strong>Player</strong></td>
-    <td><strong>Choice 1</strong></td>
-    <td><strong>Choice 2</strong></td>
-    <td><strong>Choice 3</strong></td>
-  </tr>
-  <tr>
-    <td>Player 1</td>
-    <td>Actor 3</td>
-    <td>Actor 1</td>
-    <td>Actor 5</td>
-  </tr>
-  <tr>
-    <td>Player 2</td>
-    <td>Actor 1</td>
-    <td>Actor 3</td>
-    <td>Actor 5</td>
-  </tr>
-  <tr>
-    <td>Player 3</td>
-    <td>Actor 2</td>
-    <td>Actor 3</td>
-    <td>Actor 4</td>
-  </tr>
-  <tr>
-    <td>Player 4</td>
-    <td>Actor 3</td>
-    <td>Actor 4</td>
-    <td>Actor 5</td>
-  </tr>
-  <tr>
-    <td>Player 5</td>
-    <td>Actor 4</td>
-    <td>Actor 5</td>
-    <td>Actor 3</td>
-  </tr>
-</table>
+
 <hr>
 <p>A place to decide how it will be</p>
 <ul>
   <li>Player 1 --&gt; Actor 3</li>
-  <li>Player 2 --&gt; Actor 1</li>
-  <li>Player 3 --&gt; Actor 2</li>
-  <li>Player 4 --&gt; Actor 4</li>
-  <li>Player 5 --&gt; Actor 5</li>
 </ul>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

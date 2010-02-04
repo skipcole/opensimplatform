@@ -11,6 +11,8 @@ import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.SimulationMetaPhase;
 import org.usip.osp.baseobjects.SimulationPhase;
+import org.usip.osp.bishops.BishopsPartyInfo;
+import org.usip.osp.persistence.BaseUser;
 
 /*
  * 
@@ -249,6 +251,41 @@ public class USIP_OSP_Cache {
 			}
 
 		}
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
+	public static String getUSERName(String schema,  HttpServletRequest request, Long user_id) {
+
+		if (user_id == null){
+			return "";
+		}
+		
+		ServletContext context = request.getSession().getServletContext();
+
+		Hashtable<String, String> user_names_hash = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.CACHEON_USER_NAMES);
+
+		if (user_names_hash == null) {
+			user_names_hash = new Hashtable<String, String>();
+			context.setAttribute(USIP_OSP_ContextListener.CACHEON_USER_NAMES, user_names_hash);
+		}
+
+		String user_name = user_names_hash.get(schema + "_" +  user_id);
+		
+		if (user_name == null) {
+			BaseUser user = BaseUser.getByUserId(user_id);
+			
+			user_name = user.getFull_name();
+			user_names_hash.put(schema + "_" +  user_id, user_name);
+			
+			context.setAttribute(USIP_OSP_ContextListener.CACHEON_USER_NAMES, user_names_hash);
+		}
+
+		return user_name;
 	}
 
 }

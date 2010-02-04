@@ -1,5 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" 
-import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="../error.jsp" %>
+import="java.io.*,java.util.*,java.text.*,
+	java.sql.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.baseobjects.*" 
+errorPage="../error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
@@ -7,6 +11,9 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	afso.backPage = "intro_text.jsp";
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -17,6 +24,14 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 
+<style type="text/css">
+<!--
+.style1 {
+	font-family: "Courier New", Courier, monospace;
+	font-weight: bold;
+}
+-->
+</style>
 </head>
 <body>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -27,7 +42,29 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  <h1 align="center"> Welcome! </h1>
+            <% 
+				boolean returningAuthor = false;
+				String backString = ""; 
+				String simName = "";
+				
+				Long storedSimId = afso.editedBefore();
+				
+				if (storedSimId != null){
+					returningAuthor = true;
+					backString = " Back ";
+					
+					Simulation sim = Simulation.getMe(afso.schema, storedSimId);
+					simName = sim.getName();
+					
+					afso.sim_id = sim.getId();
+					
+				}
+			%>
+			  <h1 align="center"> Welcome <%= backString %> <%= afso.user_Display_Name %> ! </h1>
+              <% if (returningAuthor) { %>
+              	<p>You are working on simulation <span class="style1"><%= simName %></span>.</p>
+                <p>To select/create a different simulation, <a href="select_simulation.jsp">click here</a>.</p>
+              <% } %>
 			  <br />            <table  background="../Templates/images/page_bg.png" align="center" cellpadding="0" cellspacing="0">
               <tr> 
                 <td width="80%"> 

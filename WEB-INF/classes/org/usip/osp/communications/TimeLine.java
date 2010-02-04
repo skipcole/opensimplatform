@@ -1,14 +1,13 @@
 package org.usip.osp.communications;
 
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
+import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -29,20 +28,35 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 @Entity
 @Proxy(lazy = false)
-public class TimeLine {
+public class TimeLine  implements SimSectionDependentObject {
 	
 	/** If this timeline represents a plan of events to happen, it will be of this category. */
 	public static final int CATEGORY_MASTERPLAN = 1;
 	
 	/** If this timeline represents what actually transpired, it will be of this category. */
 	public static final int CATEGORY_ACTUAL_EVENTS = 2;
+	
+	/** If this timeline represents a plan, it will be of this category. */
+	public static final int CATEGORY_PLAN = 3;
 
 	/** Database id of this TimeLine. */
 	@Id
 	@GeneratedValue
 	private Long id;
 	
+	private String name;
 	
+	private boolean adjustToRunningSimStartTime = false;
+	
+	
+	public boolean isAdjustToRunningSimStartTime() {
+		return adjustToRunningSimStartTime;
+	}
+
+	public void setAdjustToRunningSimStartTime(boolean adjustToRunningSimStartTime) {
+		this.adjustToRunningSimStartTime = adjustToRunningSimStartTime;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -51,13 +65,31 @@ public class TimeLine {
 		this.id = id;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private Long simId;
 	private Long runningSimId;
 	private Long phaseId;
 	
 	private int timeline_category;
 	
+	private Date timeline_start_date;
 	
+	
+	public Date getTimeline_start_date() {
+		return timeline_start_date;
+	}
+
+	public void setTimeline_start_date(Date timeline_start_date) {
+		this.timeline_start_date = timeline_start_date;
+	}
+
 	public int getTimeline_category() {
 		return timeline_category;
 	}
@@ -160,6 +192,55 @@ public class TimeLine {
 
 		return returnTimeLine;
     }
+    
+    /**
+     * Returns all of the actors found in a schema for a particular simulation
+     * 
+     * @param schema
+     * @return
+     */
+    public static List getAllForSimulation(String schema, Long sim_id){
+        
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from TimeLine where simId = :sim_id ")
+				.setLong("sim_id", sim_id).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+    }
+
+	@Override
+	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
+		
+		TimeLine templateTimeLine = (TimeLine) templateObject;
+
+		// Pull it out clean from the database
+		templateTimeLine = TimeLine.getMe(schema, templateTimeLine.getId());
+		
+		TimeLine newTimeLine = new TimeLine();
+		newTimeLine.setAdjustToRunningSimStartTime(templateTimeLine.isAdjustToRunningSimStartTime());
+		newTimeLine.saveMe(schema);
+		
+		// to copy events.
+		
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
+
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return this.transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
 
 
 }

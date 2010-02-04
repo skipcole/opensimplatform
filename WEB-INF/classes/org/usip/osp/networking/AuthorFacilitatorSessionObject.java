@@ -66,9 +66,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	/** Records if user is authorized to facilitate simulations. */
 	private boolean isFacilitator = false;
 
-	/** Records the display name of this user. */
-	public String user_Display_Name = ""; //$NON-NLS-1$
-
 	/** Records the email of this user. */
 	public String user_email = ""; //$NON-NLS-1$
 
@@ -991,6 +988,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			BaseSimSection bss = new BaseSimSection(schema, request.getParameter("url"), request
 					.getParameter("directory"), request.getParameter("filename"), request
 					.getParameter("rec_tab_heading"), request.getParameter("description"));
+			
+			bss.setAuthorGeneratedSimulationSection(true);
 
 			String send_rsid_info = (String) request.getParameter("send_rsid_info");
 			String send_actor_info = (String) request.getParameter("send_actor_info");
@@ -1161,6 +1160,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		}
 
 		this.sim_id = simulation.getId();
+		
+		saveSimEdited();
 
 		return simulation;
 	}
@@ -1425,6 +1426,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		}
 	}
 
+	/**
+	 * Returns the simulation based on what sim_id is currently stored in this AuthorFacilitatorSessionObject.
+	 * 
+	 * @return
+	 */
 	public Simulation giveMeSim() {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
@@ -2481,6 +2487,61 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			return USIP_OSP_Cache.getMetaPhaseNameById(request, schema, metaPhaseId);
 		}
 
+	}
+	
+	public void handleSelectSimulation (HttpServletRequest request) {
+
+		String select_sim = (String) request.getParameter("select_sim");
+		
+		if ((select_sim != null) && (select_sim.equalsIgnoreCase("true"))){
+			
+			// Need to move this to method, and make sure all is done clean when switching between simulations.
+			sim_id = new Long(   (String) request.getParameter("sim_id")   );
+			
+			// Clean up things that might be on the scratch pad.
+			actor_being_worked_on_id = null;
+			draft_event_id = null;
+			phase_id = null;
+			phaseSelected = false;
+			
+			Simulation sim = Simulation.getMe(schema, sim_id);
+			this.simulation_name = sim.getName();
+			this.simulation_org = sim.getCreation_org();
+			this.simulation_version = sim.getVersion();
+			
+			saveSimEdited();
+			
+			this.forward_on = true;
+				
+		}
+		
+	}
+	
+	/**
+	 * Saves which sim the user last edited to the database. 
+	 */
+	public void saveSimEdited(){
+		if ((user_id != null) && (sim_id != null)){
+			User user = User.getMe(schema, user_id);
+			user.setLastSimEdited(sim_id);
+			user.saveMe(schema);
+		} else {
+			Logger.getRootLogger().warn("attempted to save non-existant sim or user, user/sim:" + user_id + "/" + sim_id);
+		}
+	}
+	
+	/** Gets the id of the simulation last edited. 
+	 * 
+	 * @return
+	 */
+	public Long editedBefore(){
+		
+		if (user_id != null){
+			User user = User.getMe(schema, user_id);
+			return user.getLastSimEdited();
+		} else {
+			return null;
+		}
 	}
 
 } // End of class

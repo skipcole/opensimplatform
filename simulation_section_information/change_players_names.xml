@@ -4,7 +4,7 @@
   <version>1</version>
   <description>This page will allow the control player to change the names of the various actors.</description>
   <url></url>
-  <directory>../osp_core/</directory>
+  <directory>../osp_core/bishops/</directory>
   <page__file__name>change_names.jsp</page__file__name>
   <rec__tab__heading>Change Names</rec__tab__heading>
   <sample__image>introduction.png</sample__image>

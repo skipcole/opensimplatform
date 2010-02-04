@@ -1,5 +1,7 @@
 package org.usip.osp.baseobjects;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,9 +38,12 @@ public class ActorAssumedIdentity {
 	@GeneratedValue
     private Long id;
 	
+	/** Id of the original actor who is taking on this assumed role. */
+	private Long actorId;
+	
 	/** Id of the simulation that this actor is 'associated' with. They may be associated, but not assigned
 	 * to a simulation. */
-	private Long sim_id;
+	private Long running_sim_id;
 	
     /** The display name of this actor. */
     private String assumedName = ""; //$NON-NLS-1$
@@ -71,12 +76,20 @@ public class ActorAssumedIdentity {
 		this.id = id;
 	}
 
-	public Long getSim_id() {
-		return sim_id;
+	public Long getActorId() {
+		return actorId;
 	}
 
-	public void setSim_id(Long sim_id) {
-		this.sim_id = sim_id;
+	public void setActorId(Long actorId) {
+		this.actorId = actorId;
+	}
+
+	public Long getRunning_sim_id() {
+		return running_sim_id;
+	}
+
+	public void setRunning_sim_id(Long running_sim_id) {
+		this.running_sim_id = running_sim_id;
 	}
 
 	public String getAssumedName() {
@@ -145,6 +158,27 @@ public class ActorAssumedIdentity {
 
 		return aai;
 
+	}
+	
+	public static ActorAssumedIdentity getAssumedIdentity(String schema, Long a_id, Long rs_id){
+		String getHQL = "from ActorAssumedIdentity where ACTOR_ID = " + a_id //$NON-NLS-1$
+		+ " AND PHASE_ID = " + rs_id; //$NON-NLS-1$ //$NON-NLS-2$
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		if ((returnList == null) || (returnList.size() == 0)) {
+			return null;
+		} else if (returnList.size() == 0){
+			ActorAssumedIdentity aai = (ActorAssumedIdentity) returnList.get(0);
+			return aai;
+		} else {
+			// TODO kick out a warning
+			return null;
+		}
 	}
     
 }

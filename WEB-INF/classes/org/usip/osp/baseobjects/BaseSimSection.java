@@ -417,6 +417,19 @@ public class BaseSimSection implements Comparable {
 	protected String cust_lib_name = ""; //$NON-NLS-1$
 
 	/**
+	 * Flag to indicate if this is not an installed section, but one an author has created. 
+	 */
+	protected boolean authorGeneratedSimulationSection = false;
+	
+	public boolean isAuthorGeneratedSimulationSection() {
+		return authorGeneratedSimulationSection;
+	}
+
+	public void setAuthorGeneratedSimulationSection(boolean authorGeneratedSimulationSection) {
+		this.authorGeneratedSimulationSection = authorGeneratedSimulationSection;
+	}
+
+	/**
 	 * Indicates if having this section allows a player to read a document
 	 * associated with this section.
 	 */

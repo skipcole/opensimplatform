@@ -585,7 +585,7 @@ public class Simulation {
 	/** Gets list of actors not previously assigned to this simulation. */
 	public List<Actor> getAvailableActorsForSim(String schema) {
 
-		List fullList = Actor.getAllForSim(schema, this.getId());
+		List fullList = Actor.getAllForSimulation(schema, this.getId());
 
 		for (ListIterator la = this.getActors(schema).listIterator(); la.hasNext();) {
 			Actor act = (Actor) la.next();
