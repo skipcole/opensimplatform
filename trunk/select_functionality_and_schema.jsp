@@ -10,8 +10,6 @@
 		return;
 	}
 	
-	System.out.println("user id is " + osp_soh.getUserid());
-	
 	BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
 	
 	List ghostList = BaseUser.getAuthorizedSchemas(osp_soh.getUserid());
@@ -129,6 +127,3 @@ body {
 <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
 </body>
 </html>
-<%
-	
-%>

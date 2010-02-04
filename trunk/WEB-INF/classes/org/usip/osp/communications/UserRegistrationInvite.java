@@ -53,7 +53,7 @@ public class UserRegistrationInvite {
 	/** Used to help keep track of a set of students invited all at one time. */
 	private String invitationSet;
 
-	private String schema;
+	private String schemaInvitedTo;
 
 	public UserRegistrationInvite() {
 
@@ -74,7 +74,7 @@ public class UserRegistrationInvite {
 		this.invitingInstructor = invitingInstructor;
 		this.originalInviteEmailAddress = originalInviteEmailAddress;
 		this.invitationSet = invitationSet;
-		this.schema = schemaInvitedTo;
+		this.schemaInvitedTo = schemaInvitedTo;
 		
 		this.registrationDate = new java.util.Date();
 
@@ -137,11 +137,11 @@ public class UserRegistrationInvite {
 	}
 
 	public String getSchema() {
-		return this.schema;
+		return this.schemaInvitedTo;
 	}
 
 	public void setSchema(String schemaInvitedTo) {
-		this.schema = schemaInvitedTo;
+		this.schemaInvitedTo = schemaInvitedTo;
 	}
 
 	/**
@@ -149,9 +149,9 @@ public class UserRegistrationInvite {
 	 */
 	public void saveMe() {
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		MultiSchemaHibernateUtil.beginTransaction(schemaInvitedTo);
+		MultiSchemaHibernateUtil.getSession(schemaInvitedTo).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schemaInvitedTo);
 
 	}
 

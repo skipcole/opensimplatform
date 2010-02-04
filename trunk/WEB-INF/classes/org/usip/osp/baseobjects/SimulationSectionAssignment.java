@@ -377,7 +377,7 @@ public class SimulationSectionAssignment {
 
 		if (sid == null) {
 
-			Logger.getRootLogger().debug("sid: " + sid); //$NON-NLS-1$
+			Logger.getRootLogger().warn("sid: " + sid); //$NON-NLS-1$
 			return new ArrayList<Long>();
 		} else {
 

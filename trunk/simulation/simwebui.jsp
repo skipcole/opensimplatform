@@ -37,7 +37,7 @@
 </head>
 <frameset rows="0,164,*,40" frameborder="yes" border="0" framespacing="0">
   <frame src="hiddenframe.jsp" name="hiddenframe" noresize="noresize">
-  <frame src="frame_top.jsp?tabposition=<%= pso.tabposition %>" name="topFrame" noresize="resize" scrolling="no">
+  <frame src="frame_top.jsp?tabposition=<%= pso.tabposition %>" name="topFrame" noresize="resize">
   <frame src="<%= pso.bottomFrame %>" name="mainFrame"  noresize="resize">
   <frame src="frame_footer.jsp" name="footerFrame"  noresize="resize">
 </frameset>

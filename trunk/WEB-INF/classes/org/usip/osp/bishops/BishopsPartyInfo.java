@@ -1,9 +1,11 @@
 package org.usip.osp.bishops;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 
 import javax.persistence.*;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -13,6 +15,7 @@ import org.usip.osp.baseobjects.CopiedObject;
 import org.usip.osp.baseobjects.SimulationSectionAssignment;
 import org.usip.osp.communications.Conversation;
 import org.usip.osp.networking.PlayerSessionObject;
+import org.usip.osp.networking.USIP_OSP_ContextListener;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /* 
@@ -370,7 +373,7 @@ public class BishopsPartyInfo implements CopiedObject{
 				bpi.setPhaseId(pso.phase_id);
 				bpi.saveMe(pso.schema);
 
-				System.out.println("bpi.getPartyIndex() is " + bpi.getPartyIndex() + ", newPI was: " + newPI);
+				storeNameInCache(pso.schema, request, bpi.getId(), bpi.getName());
 
 				if (bpi.getPartyIndex() != newPI) {
 					System.out.println("bpi.getPartyIndex() was " + bpi.getPartyIndex() + ", newPI was: " + newPI);
@@ -422,6 +425,51 @@ public class BishopsPartyInfo implements CopiedObject{
 	public void setVersion(int version) {
 		this.version = version;
 		
+	}
+	
+	public static void storeNameInCache(String schema,  HttpServletRequest request, Long bpi_id, String bpi_name){
+		ServletContext context = request.getSession().getServletContext();
+
+		Hashtable<String, String> bpi_names_hash = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES);
+
+		bpi_names_hash.put(schema + "_" +  bpi_id, bpi_name);
+		
+		context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
+	public static String getBPIName(String schema,  HttpServletRequest request, Long bpi_id) {
+
+		if (bpi_id == null){
+			return "";
+		}
+		
+		ServletContext context = request.getSession().getServletContext();
+
+		Hashtable<String, String> bpi_names_hash = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES);
+
+		if (bpi_names_hash == null) {
+			bpi_names_hash = new Hashtable<String, String>();
+			context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
+		}
+
+		String bpi_name = bpi_names_hash.get(schema + "_" +  bpi_id);
+		
+		if (bpi_name == null) {
+			BishopsPartyInfo bpi = BishopsPartyInfo.getMe(schema, bpi_id);
+			
+			bpi_name = bpi.getName();
+			bpi_names_hash.put(schema + "_" +  bpi_id, bpi.getName());
+			
+			context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
+		}
+
+		return bpi_name;
 	}
 
 }

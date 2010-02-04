@@ -48,7 +48,7 @@
                 <li><a href="make_create_document_page.jsp">Add Document</a> - Add a document to the simulation that the players and instructors will be able to read and/or modify.</li>
                 <li><a href="make_create_parameter_page.jsp">Add Parameter</a> - Add a value that can be adjusted during a simulation.</li>
                 <li>(<span class="style1">Coming Someday</span>) <a href="incorporate_underlying_model.jsp">Incorporate Underlying Model</a> </li>
-                <li><a href="timeline_creator.jsp">Timeline Creator</a></li>
+                <li><a href="timeline_editor.jsp">Timeline Creator</a></li>
               </ul>
               <p>&nbsp;</p>
               <br />

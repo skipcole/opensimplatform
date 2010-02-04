@@ -48,6 +48,9 @@ public class SessionObjectBase {
 	/** Name of the running simulation session. */
 	public String run_sim_name = ""; //$NON-NLS-1$
 	
+	/** Records the display name of this user. */
+	public String user_Display_Name = ""; //$NON-NLS-1$
+	
 	/**
 	 * Pulls the running sim whose id is being stored out of the database.
 	 * 
