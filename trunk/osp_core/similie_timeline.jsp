@@ -48,6 +48,13 @@
 			run_start = sdf.format(running_sim.getEnabledDate());
 		}
 	}
+	
+	// TODO - temporarily overriding this until customization is in place
+	
+	run_start = "Jan 01 2001 13:00:03 EST";
+	
+	int shortIntervalPixelDistance = 125;
+	int longIntervalPixelDistance = 250;
 		
 	
 %>
@@ -67,7 +74,7 @@
             date:           "<%= run_start %>",
             width:          "80%", 
             intervalUnit:   Timeline.DateTime.HOUR, 
-            intervalPixels: 500
+            intervalPixels: <%= shortIntervalPixelDistance %>
         }),
         Timeline.createBandInfo({
 			timeZone:       -5,
@@ -76,7 +83,7 @@
             date:           "<%= run_start %>",
             width:          "20%", 
             intervalUnit:   Timeline.DateTime.DAY, 
-            intervalPixels: 1000
+            intervalPixels: <%= longIntervalPixelDistance %>
         })
         ];
         bandInfos[1].syncWith = 0;

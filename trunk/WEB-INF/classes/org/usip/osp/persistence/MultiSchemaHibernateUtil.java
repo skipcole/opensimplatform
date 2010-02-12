@@ -458,6 +458,9 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelDefinitionObject.class);
 		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelVariableDependencies.class);
 		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelVariables.class);
+		
+		// Networking
+		ac.addAnnotatedClass(org.usip.osp.networking.UserConfigObject.class);
 
 		// Special Features
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.AllowableResponse.class);
