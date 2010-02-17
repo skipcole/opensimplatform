@@ -45,6 +45,7 @@
 			  <br />
               <h1>Add Simulation Object</h1>
               <ul>
+                <li><a href="make_create_conversation_page.jsp">Add Conversation</a> - Add a place for players to communicate. Note, for them to talk, you will need to add a chat room as a simulation section.</li>
                 <li><a href="make_create_document_page.jsp">Add Document</a> - Add a document to the simulation that the players and instructors will be able to read and/or modify.</li>
                 <li><a href="make_create_parameter_page.jsp">Add Parameter</a> - Add a value that can be adjusted during a simulation.</li>
                 <li>(<span class="style1">Coming Someday</span>) <a href="incorporate_underlying_model.jsp">Incorporate Underlying Model</a> </li>

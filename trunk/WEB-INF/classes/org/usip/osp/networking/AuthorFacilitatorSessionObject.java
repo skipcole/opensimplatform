@@ -599,6 +599,162 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		return (getMyPSO_SectionMgmt().handleCustomizeSection(request));
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public GenericVariable handleCreateGenericVariable(HttpServletRequest request){
+		
+		GenericVariable genericVariable = new GenericVariable();
+		
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return genericVariable;
+		}
+		
+		// If we got passed in a doc id, use it to retrieve the doc we are working on.
+		String gv_id = (String) request.getParameter("gv_id");
+		
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (gv_id != null) && (gv_id.trim().length() > 0)) {
+			genericVariable = GenericVariable.getMe(schema, new Long(gv_id));
+			return genericVariable;
+		}
+		
+		// If player just entered this page from a different form, just return
+		// the blank object
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_parameter_page")))) {
+			return genericVariable;
+		}
+		
+		// If we got down to here, we must be doing some real work on a document.
+		String uniq_param_name = (String) request.getParameter("uniq_param_name");
+		String param_notes = (String) request.getParameter("param_notes");
+		String start_value = (String) request.getParameter("start_value");
+		
+		// TODO - Enable the features below.
+		//String has_max_value = (String) request.getParameter("has_max_value");
+		//String has_min_value = (String) request.getParameter("has_min_value");
+		//String prop_type = (String) request.getParameter("prop_type");
+		
+		// Do create if called.
+		String create_param = (String) request.getParameter("create_param");
+		if ((create_param != null)) {
+			Logger.getRootLogger().debug("creating param of uniq name: " + uniq_param_name);
+			genericVariable = new GenericVariable(uniq_param_name, sim_id);
+			genericVariable.setNotes(param_notes);
+			genericVariable.setStartingValue(start_value);
+			genericVariable.saveMe(schema);
+		}
+		
+		// Do update if called.
+		String update_param = (String) request.getParameter("update_param");
+		if ((update_param != null)) {
+			Logger.getRootLogger().debug("updating param of uniq title: " + uniq_param_name);
+			genericVariable = GenericVariable.getMe(schema, new Long(gv_id));
+			genericVariable.setName(uniq_param_name);
+			genericVariable.setNotes(param_notes);
+			genericVariable.setStartingValue(start_value);
+			genericVariable.setSim_id(sim_id);
+			genericVariable.saveMe(schema);
+
+		}
+		
+		return genericVariable;
+		
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Conversation handleCreateConversation(HttpServletRequest request){
+		
+		Conversation conv = new Conversation();
+		
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return conv;
+		}
+		
+		// If we got passed in a doc id, use it to retrieve the doc we are working on.
+		String conv_id = (String) request.getParameter("conv_id");
+		
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (conv_id != null) && (conv_id.trim().length() > 0)) {
+			conv = Conversation.getMe(schema, new Long(conv_id));
+			return conv;
+		}
+		
+		// If player just entered this page from a different form, just return
+		// the blank document
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_conversation_page")))) {
+			return conv;
+		}
+		
+		// If we got down to here, we must be doing some real work on a document.
+		String uniq_conv_name = (String) request.getParameter("uniq_conv_name");
+		String conv_notes = (String) request.getParameter("conv_notes");
+		
+		// Do create if called.
+		String create_conv = (String) request.getParameter("create_conv");
+		if ((create_conv != null)) {
+			Logger.getRootLogger().debug("creating conv of uniq name: " + uniq_conv_name);
+			conv = new Conversation(uniq_conv_name, conv_notes, sim_id);
+			conv.saveMe(schema);
+		}
+		
+		// Do update if called.
+		String update_conv = (String) request.getParameter("update_conv");
+		if ((update_conv != null)) {
+			Logger.getRootLogger().debug("updating conv of uniq title: " + uniq_conv_name);
+			conv = Conversation.getMe(schema, new Long(conv_id));
+			conv.setUniqueConvName(uniq_conv_name);
+			conv.setConversationNotes(conv_notes);
+			conv.setSim_id(sim_id);
+			conv.saveMe(schema);
+
+		}
+		
+		// Need to clean out current actor assignments for this conversation
+		ConvActorAssignment.removeAllForConversation(schema, conv.getId());
+
+		Hashtable setOfUserRoles = new Hashtable();
+
+		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+			String param_name = (String) e.nextElement();
+
+			if (param_name.startsWith("role_")) {
+				String this_a_id = param_name.replaceFirst("role_", "");
+
+				setOfUserRoles.put(this_a_id, (String) request.getParameter(param_name));
+
+			}
+		}
+
+		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+			String param_name = (String) e.nextElement();
+
+			if (param_name.startsWith("actor_cb_")) {
+				if ((request.getParameter(param_name) != null)
+						&& (request.getParameter(param_name).equalsIgnoreCase("true"))) {
+					String this_a_id = param_name.replaceFirst("actor_cb_", "");
+					Logger.getRootLogger().debug("adding " + this_a_id + " in schema" + schema + " to sim_id "
+							+ sim_id);
+					conv.addActor(this_a_id, schema, sim_id, (String) setOfUserRoles.get(this_a_id));
+				}
+			}
+
+		}
+		return conv;
+	}
 
 	/**
 	 * Handles the creation of documents to be added to the simulation. This
@@ -623,17 +779,15 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			return this_sd;
 		}
 
-		// If we got passed in a doc id, use it to retrieve the doc we are
-		// working on.
+		// If we got passed in a doc id, use it to retrieve the doc we are working on.
 		String shared_doc_id = (String) request.getParameter("shared_doc_id");
 		if ((shared_doc_id != null) && (shared_doc_id.trim().length() > 0)) {
 			this_sd = SharedDocument.getMe(schema, new Long(shared_doc_id));
+			// Probably could return this_sd and exit out at this point
 		}
 
 		// If player just entered this page from a different form, just return
 		// the blank document
-		// (This will also return the doc queued up for editing, if it was
-		// selected.)
 		String sending_page = (String) request.getParameter("sending_page");
 		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_document_page")))) {
 			return this_sd;
@@ -1162,6 +1316,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				simulation.createDefaultObjects(schema);
 
 				simulation.saveMe(schema);
+				this.phase_id = simulation.getFirstPhaseId(schema);
+				
 			} else if (command.equalsIgnoreCase("Update")) { // 
 				String sim_id = (String) request.getParameter("sim_id");
 				simulation = Simulation.getMe(schema, new Long(sim_id));
@@ -2188,6 +2344,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	 */
 	public Conversation handleMakeMeetingRoomPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakeMeetingRoomPage(request));
+	}
+	
+	/**
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakeSetParameter(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMakeSetParameter(request));
 	}
 
 	/**

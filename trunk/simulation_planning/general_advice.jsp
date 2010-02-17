@@ -1,3 +1,17 @@
+<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.io.*,
+	java.util.*,
+	java.text.*,
+	java.sql.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*" errorPage="" %>
+<%
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	
+	if (!(afso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
+%>
 <head>
 </head>
 <body>
@@ -34,6 +48,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

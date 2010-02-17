@@ -12,7 +12,9 @@
 		return;
 	}
 	
-	Simulation simulation = new Simulation();	if (afso.sim_id != null){
+	Simulation simulation = new Simulation();	
+	
+	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
 	}
 	

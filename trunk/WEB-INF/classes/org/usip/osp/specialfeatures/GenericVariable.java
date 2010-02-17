@@ -40,6 +40,12 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 	}
 	
+	public GenericVariable(String name, Long sim_id){
+		this.name = name;
+		this.sim_id = sim_id;
+		
+	}
+	
 	/** Key to pull id out if stored in Hashtable */
 	public static final String GEN_VAR_KEY = "gen_var_key"; //$NON-NLS-1$
 
@@ -61,6 +67,8 @@ public class GenericVariable implements SimSectionDependentObject{
     private Long rs_id;
     
     private String name = ""; //$NON-NLS-1$
+    
+    private String notes = ""; //$NON-NLS-1$
 
 	private String value = ""; //$NON-NLS-1$
     
@@ -70,7 +78,27 @@ public class GenericVariable implements SimSectionDependentObject{
     
     private String minValue = "";
     
-    public String getName() {
+    private boolean hasMaxValue = false;
+    
+    private boolean hasMinValue = false;
+    
+    public boolean isHasMaxValue() {
+		return hasMaxValue;
+	}
+
+	public void setHasMaxValue(boolean hasMaxValue) {
+		this.hasMaxValue = hasMaxValue;
+	}
+
+	public boolean isHasMinValue() {
+		return hasMinValue;
+	}
+
+	public void setHasMinValue(boolean hasMinValue) {
+		this.hasMinValue = hasMinValue;
+	}
+
+	public String getName() {
 		return name;
 	}
 
@@ -78,6 +106,14 @@ public class GenericVariable implements SimSectionDependentObject{
 		this.name = name;
 	}
 	
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
 	public String getStartingValue() {
 		return startingValue;
 	}
@@ -253,7 +289,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	public static List getAllBaseGenericVariablesForSim(String schema, Long the_sim_id) {
 		
 		String hql_string = "from GenericVariable where SIM_ID = " + the_sim_id.toString()  //$NON-NLS-1$
-			+ " AND BASE_ID is null"; //$NON-NLS-1$
+			+ " AND RS_ID is null"; //$NON-NLS-1$
 	
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
@@ -346,8 +382,16 @@ public class GenericVariable implements SimSectionDependentObject{
 		GenericVariable templateGV = (GenericVariable) templateObject;
 
 		GenericVariable gv = new GenericVariable();
+		gv.setName(templateGV.getName());
+		gv.setNotes(templateGV.getNotes());
+		gv.setSim_id(templateGV.getSim_id());
 		
-		gv.setValue(templateGV.getValue());
+		// Set value to starting value
+		gv.setValue(templateGV.getStartingValue());
+		
+		gv.setMaxValue(templateGV.getMaxValue());
+		gv.setMinValue(templateGV.getMinValue());
+		gv.setRs_id(rs_id);
 		
 		gv.saveMe(schema);
 		

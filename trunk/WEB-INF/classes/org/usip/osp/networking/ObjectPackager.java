@@ -21,10 +21,9 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.*;
 
 /**
- * Packages and unpackages objects to XML using the opensource software library
- * XStream.
- * 
- * 
+ * Packages and unpackages objects to XML using the opensource software library XStream.
+ */
+/* 
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
@@ -841,6 +840,7 @@ public class ObjectPackager {
 				this_bssdoa.setBss_id(thisMappedId);
 			} catch (Exception e) {
 				e.printStackTrace();
+				returnString += "<p>Problem unpacking: <br/><pre>" + USIP_OSP_Util.htmlToCode(sd_string) + "</pre><br/>";
 			}
 
 			this_bssdoa.setObjectId((Long) dependentObjectMappings.get(this_bssdoa.getObjectId()));
