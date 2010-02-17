@@ -4,7 +4,7 @@
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>make_player_set_parameter.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_player_set_parameter.jsp</specificMakePage>
   <bigString></bigString>
   <description>A section to allow a player to set a parameter to any value the choose.</description>
   <url></url>

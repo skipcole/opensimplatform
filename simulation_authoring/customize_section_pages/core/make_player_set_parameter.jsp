@@ -10,18 +10,13 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakePlayerDiscreteChoice(request);
+	CustomizeableSection cs = afso.handleMakeSetParameter(request);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
 		response.sendRedirect(afso.backPage);
 		return;
 	}
-	
-	// Get list of allowable responses
-	List allowableResponses = AllowableResponse.pullOutArs(cs, afso.schema);
-	
-	Hashtable answersSelected = afso.selectedChoices(cs, true);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -47,30 +42,43 @@
               <h1>Set Parameter</h1>
               <br />
 			 
-      <form action="../../make_player_discrete_choice.jsp" method="post" name="form2" id="form2">
-        <input type="hidden" name="num_ars" value="<%= allowableResponses.size() %>" />
+      <form action="make_player_set_parameter.jsp" method="post" name="form2" id="form2">
         <blockquote>
-          <p>Tab Heading: 
+          <p><strong>Tab Heading:</strong> 
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             <br />
             </p>
             <p><strong>Enter the choice that the player will need to make on this page.            </strong></p>
             <p>
-              <textarea id="make_player_discrete_choice_text" name="make_player_discrete_choice_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
+              <textarea id="make_player_discrete_choice_text" name="make_player_discrete_choice_text" style="height: 120px; width: 480px;"><%= cs.getBigString() %></textarea>
               
               <script language="javascript1.2">
+					wysiwygWidth = 480;
+					wysiwygHeight = 120;
   			generate_wysiwyg('make_write_document_page_text');
 		</script>
               </p>
-            <p>&nbsp;</p>
+            <p>Select Parameter here:</p>
             <p>
-              <label></label>
-              Put changes made here into the After Action Report? 
+              <select name="gv_id" id="select">
+                <%
+			  		int ii = 0;
+					for (ListIterator li = GenericVariable.getAllBaseGenericVariablesForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+						GenericVariable gv_l = (GenericVariable) li.next();
+				%>
+                <option value="<%= gv_l.getId() %>"><%= gv_l.getName() %></option>
+                <%
+					}
+				%>
+              </select>
+            </p>
+            <p>
+              Put changes made here into the After Action Report*? 
               <label>
-                <input type="radio" name="add_final_value_text_to_aar" id="add_final_value_text_to_aar_false" value="false" /> No                </label> 
+                <input type="radio" name="add_final_value_text_to_aar" id="add_final_value_text_to_aar_false" value="false" disabled="disabled" /> No                </label> 
               / 
               <label>
-                <input type="radio" name="add_final_value_text_to_aar" id="add_final_value_text_to_aar" value="true" /> Yes                </label> 
+                <input type="radio" name="add_final_value_text_to_aar" id="add_final_value_text_to_aar" value="true" disabled="disabled" /> Yes                </label> 
   </p>
             <p>&nbsp;</p>
             <p> 
@@ -79,13 +87,11 @@
               <input type="submit" name="save_page" value="Save" />
               <input type="submit" name="save_and_add" value="Save and Add Section" />
               </p>
-            <p>&nbsp;</p>
+            <p>* This feature not implemented.</p>
           </blockquote>
       </form>
       <form action="../../make_player_discrete_choice.jsp" method="post" name="add_choice_form" id="add_choice_form">
-        <label>
-          <input type="submit" name="add_choice" id="add_choice" value="Add New Choice" />
-          </label>
+        <label></label>
         <input type="hidden" name="author_adds_choice" value="true" />
       </form>
       <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
@@ -104,6 +110,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

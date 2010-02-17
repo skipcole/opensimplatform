@@ -80,7 +80,7 @@ public class PSO_SectionMgmt {
 	private String _page_id = ""; //$NON-NLS-1$
 
 	/** Value for phase id passed in from form. */
-	private String _phase_id = ""; //$NON-NLS-1$
+	//private String _phase_id = ""; //$NON-NLS-1$
 
 	/** Tab heading of the simulation section being added. */
 	public String _tab_heading = ""; //$NON-NLS-1$
@@ -119,12 +119,24 @@ public class PSO_SectionMgmt {
 	 * @param request
 	 */
 	public void getSimSectionsInternalVariables(HttpServletRequest request) {
+		
+		String originalPhaseId = "";
+		
+		if (afso.phase_id != null){
+			originalPhaseId = afso.phase_id.toString();
+		}
+		
+		String pString = setIfPassedIn(originalPhaseId, request, "phase_id");
+		
+		if ((pString != null) && (pString.length() > 0)){
+			afso.phase_id = new Long(pString);
+		}
 
 		this._actor_index = setIfPassedIn(this._actor_index, request, "actor_index"); //$NON-NLS-1$
 		this._bss_id = setIfPassedIn(this._bss_id, request, "bss_id"); //$NON-NLS-1$
 		this._custom_section_id = setIfPassedIn(this._custom_section_id, request, "custom_page"); //$NON-NLS-1$
 		this._page_id = setIfPassedIn(this._page_id, request, "page_id"); //$NON-NLS-1$
-		this._phase_id = setIfPassedIn(this._phase_id, request, "phase_id"); //$NON-NLS-1$
+		//(setIfPassedIn(originalPhaseId, request, "phase_id")); //$NON-NLS-1$
 		this._tab_heading = setIfPassedIn(this._tab_heading, request, "tab_heading"); //$NON-NLS-1$
 		this._tab_pos = setIfPassedIn(this._tab_pos, request, "tab_pos"); //$NON-NLS-1$
 		this._universal = setIfPassedIn(this._universal, request, "universal"); //$NON-NLS-1$
@@ -165,14 +177,14 @@ public class PSO_SectionMgmt {
 	 */
 	public void determinePhase(Simulation simulation) {
 
-		Logger.getRootLogger().debug("Determining Phase and _phase_id is " + this._phase_id); //$NON-NLS-1$
+		Logger.getRootLogger().debug("Determining Phase and _phase_id is " + afso.phase_id); //$NON-NLS-1$
 
-		if ((this._phase_id != null) && (this._phase_id.length() > 0)) {
-			this.phase_being_worked_on_id = new Long(this._phase_id);
+		if ((afso.phase_id != null)) {
+			this.phase_being_worked_on_id = afso.phase_id;
 		} else {
-			if (this.phase_being_worked_on_id == null) {
+			//if (this.phase_being_worked_on_id == null) {
 				this.phase_being_worked_on_id = simulation.getFirstPhaseId(this.afso.schema);
-			}
+			//}
 		}
 
 		this.afso.phase_id = this.phase_being_worked_on_id;
@@ -937,20 +949,43 @@ public class PSO_SectionMgmt {
 		_custom_section_id = request.getParameter("custom_page");
 		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
 
+		// Get conversation id passed in.
+		String conversation_id = request.getParameter("conversation_id");
+		if ((conversation_id != null) && (conversation_id.trim().length() > 0) 
+				&& (!(conversation_id.equalsIgnoreCase("0")))){
+			
+			conv = Conversation.getMe(afso.schema, new Long(conversation_id));
+			
+		} else {
+		
+			
+			List convForThisSection = BaseSimSectionDepObjectAssignment.getObjectsForSection(afso.schema,
+					customizableSectionOnScratchPad.getId());
+
+			if ((convForThisSection != null) && (convForThisSection.size() > 0)){
+				BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) convForThisSection.get(0);
+				
+				if (bssdoa != null) {
+					conv = Conversation.getMe(afso.schema, bssdoa.getObjectId());
+					if (conv == null){
+						conv = new Conversation();
+					}
+				}
+			}
+			
+		
+		}
+		
 		// ////////////////////////////////////////////////////////////
 		// if we are saving this page
 		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 				&& (sending_page.equalsIgnoreCase("make_caucus_page"))) {
+			
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				Logger.getRootLogger().debug("making copy");
 				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
-
-				conv = new Conversation();
-				conv.setSim_id(afso.sim_id);
-				conv.setConversation_name(_tab_heading);
-				conv.save(afso.schema, afso.sim_id);
 
 				// Create and save the assignment obect
 				@SuppressWarnings("unused")
@@ -967,10 +1002,10 @@ public class PSO_SectionMgmt {
 
 				BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) convForThisSection
 						.get(0);
+				
+				bssdoa.setObjectId(conv.getId());
 
-				conv = Conversation.getMe(afso.schema, bssdoa.getObjectId());
-				// If this is a customized page, but belongs to a different sim,
-				// then make a copy ?
+				// TODO: If this is a customized page, but belongs to a different sim, then make a copy ?
 
 			}
 
@@ -981,46 +1016,10 @@ public class PSO_SectionMgmt {
 
 			String page_title = (String) request.getParameter("page_title");
 			customizableSectionOnScratchPad.setPageTitle(page_title);
-
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-
-			// Need to clean out current actor assignments for this conversation
-			ConvActorAssignment.removeAllForConversation(afso.schema, conv.getId());
-
-			Hashtable setOfUserRoles = new Hashtable();
-
-			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
-				String param_name = (String) e.nextElement();
-
-				if (param_name.startsWith("role_")) {
-					String this_a_id = param_name.replaceFirst("role_", "");
-
-					setOfUserRoles.put(this_a_id, (String) request.getParameter(param_name));
-
-				}
-			}
-
-			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
-				String param_name = (String) e.nextElement();
-
-				if (param_name.startsWith("actor_cb_")) {
-					if ((request.getParameter(param_name) != null)
-							&& (request.getParameter(param_name).equalsIgnoreCase("true"))) {
-						String this_a_id = param_name.replaceFirst("actor_cb_", "");
-						Logger.getRootLogger().debug("adding " + this_a_id + " in schema" + afso.schema + " to sim_id "
-								+ afso.sim_id);
-						conv.addActor(this_a_id, afso.schema, afso.sim_id, (String) setOfUserRoles.get(this_a_id));
-					}
-				}
-
-			}
-
-			conv.saveMe(afso.schema);
-
 			customizableSectionOnScratchPad.save(afso.schema);
 
 			if (save_and_add != null) {
-
 				// add section to the applicable actors
 				SimulationSectionAssignment.applySectionsToSomeActors(afso.schema, sim, this.phase_being_worked_on_id,
 						customizableSectionOnScratchPad.getId(), _tab_heading, conv.getConv_actor_assigns(afso.schema));
@@ -1028,22 +1027,6 @@ public class PSO_SectionMgmt {
 				afso.forward_on = true;
 				return null;
 			}
-		} else { // We are not saving. Get the conversation for this section, or
-			// created it.
-			List convForThisSection = BaseSimSectionDepObjectAssignment.getObjectsForSection(afso.schema,
-					customizableSectionOnScratchPad.getId());
-
-			if ((convForThisSection != null) && (convForThisSection.size() > 0)) {
-
-				BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) convForThisSection
-						.get(0);
-
-				conv = Conversation.getMe(afso.schema, bssdoa.getObjectId());
-			} else {
-				conv = new Conversation();
-			}
-			// If this is a customized page, but belongs to a different sim,
-			// then make a copy ?
 		}
 
 		return conv;
@@ -1116,8 +1099,8 @@ public class PSO_SectionMgmt {
 
 						Conversation conv = new Conversation();
 						conv.setSim_id(afso.sim_id);
-						conv.setConversation_type(Conversation.TYPE_PRIVATE);
-						conv.setConversation_name("One on One");
+						conv.setConversationType(Conversation.TYPE_PRIVATE);
+						conv.setUniqueConvName("One on One: " + f_actor + " and " + s_actor);
 						conv.saveMe(afso.schema);
 
 						ConvActorAssignment caa = new ConvActorAssignment();
@@ -1265,6 +1248,64 @@ public class PSO_SectionMgmt {
 
 		return simulation;
 
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public CustomizeableSection handleMakeSetParameter(HttpServletRequest request) {
+
+		// Read in possible parameters
+		getSimSectionsInternalVariables(request);
+
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+
+		// If making changes, do the following.
+		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
+				&& (sending_page.equalsIgnoreCase("make_player_discrete_choice"))) {
+
+			// If this is the original custom page, make a new page
+			makeCopyOfCustomizedSectionIfNeeded();
+
+			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, customizableSectionOnScratchPad.getId());
+			
+			//Need to create bssdoa
+			try {
+				String gv_id_string = (String) request.getParameter("gv_id");
+				
+				Long gv_id = new Long(gv_id_string);
+
+				BaseSimSectionDepObjectAssignment bssdoa = BaseSimSectionDepObjectAssignment.getIfExistsElseCreateIt(
+						afso.schema, customizableSectionOnScratchPad.getId(),
+						"org.usip.osp.specialfeatures.GenericVariable", gv_id, afso.sim_id);
+
+				bssdoa.setDepObjIndex(1);
+
+				bssdoa.saveMe(afso.schema);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			// Update values based on those passed in
+			customizableSectionOnScratchPad.setBigString((String) request
+					.getParameter("make_player_discrete_choice_text"));
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.save(afso.schema);
+
+		}
+
+		// If adding page, then add it and forward them on.
+		if (save_and_add != null) {
+			addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request,
+					_universal);
+			afso.forward_on = true;
+		}
+
+		return customizableSectionOnScratchPad;
+		
 	}
 
 	/**

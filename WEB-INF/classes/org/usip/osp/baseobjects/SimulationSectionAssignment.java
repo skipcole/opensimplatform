@@ -652,6 +652,9 @@ public class SimulationSectionAssignment {
 			SimulationSectionAssignment s_gone = lr.next();
 
 			SimulationSectionAssignment.remove(schema, s_gone);
+			
+			Logger.getRootLogger().warn("Removed: " + s_gone); //$NON-NLS-1$
+			
 
 		}
 
@@ -661,6 +664,8 @@ public class SimulationSectionAssignment {
 			ConvActorAssignment caa = (ConvActorAssignment) lia.next();
 
 			Long a_id = caa.getActor_id();
+			
+			Logger.getRootLogger().warn("Added: " + a_id); //$NON-NLS-1$
 
 			// If this doesn't work, try the getBySimAndActorAndPhase
 			int highestTab = Actor.getHighestTabPosForPhase(schema, sim.getId(), pid, a_id);

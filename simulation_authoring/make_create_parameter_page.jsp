@@ -10,7 +10,13 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	GenericVariable gv = new GenericVariable();
+	String gv_id = (String) request.getParameter("gv_id");
+		
+	String queueup = (String) request.getParameter("queueup");
+	
+	System.out.println("g q" + gv_id + "/" + queueup);
+	
+	GenericVariable gv  = afso.handleCreateGenericVariable(request);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -26,7 +32,7 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
@@ -35,28 +41,34 @@
     <p>Parameters associated with a simulation can have their values modified during play.<form action="make_create_parameter_page.jsp" method="post" name="form2" id="form2">
       
       <h2>Create New Parameter</h2>
-            <table>
+            <table width="100%">
               <tr>
-                <td valign="top">Unique Parameter Name  <a href="helptext/uniq_doc_identifer_help.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top"><input type="text" name="uniq_doc_title" value="<%= gv.getValue() %>" /></td></tr>
+                <td valign="top">Parameter Name  <a href="helptext/uniq_doc_identifer_help.jsp" target="helpinright">(?)</a>:</td>
+              <td valign="top"><input type="text" name="uniq_param_name" value="<%= gv.getName() %>" /></td></tr>
+              <tr valign="top">
+                <td>Parameter Notes</td>
+                <td><label>
+                  <textarea name="param_notes" id="textarea" cols="45" rows="5"><%= gv.getNotes() %></textarea>
+                </label></td>
+              </tr>
               <tr valign="top">
                 <td>Starting Value</td>
                 <td><input type="text" name="start_value" value="<%= gv.getStartingValue() %>" /></td>
               </tr>
               <tr valign="top">
-                <td>Max Value</td>
+                <td>Max Value*</td>
                 <td><input name="has_max_value" type="checkbox" value="checkbox" checked="checked" />
                   None or
-                  <input type="text" name="max_value" value="<%= gv.getMaxValue() %>" /></td>
+                  <input type="text" name="max_value" value="<%= gv.getMaxValue() %>" disabled="disabled" /></td>
               </tr>
               <tr valign="top">
-                <td>Min Value</td>
+                <td>Min Value *</td>
                 <td><input name="has_min_value" type="checkbox" value="checkbox" checked="checked" />
                   None or
-                  <input type="text" name="min_value" value="<%= gv.getMinValue() %>" /></td>
+                  <input type="text" name="min_value" value="<%= gv.getMinValue() %>" disabled="disabled" /></td>
               </tr>
               <tr valign="top">
-                <td>Propagation Means</td>
+                <td>Propagation Means * (?)</td>
                 <td><select name="prop_type">
                     <option value="player_set">Player Set</option>
                 </select></td>
@@ -69,14 +81,14 @@
               
               <% if (gv.getId() == null) { %>
               
-              <input type="submit" name="create_doc" value="Create" />
+              <input type="submit" name="create_param" value="Create" />
               
               <%
 				} else {
 				%>
                 <input type="hidden" name="gv_id" value="<%= gv.getId() %>" />
                 <input type="submit" name="clear_button" value="Clear" />
-                <input type="submit"  name="update_doc" value="Update Parameter" /> 
+                <input type="submit"  name="update_param" value="Update Parameter" /> 
                 <%
 					}
 				%>
@@ -86,10 +98,11 @@
               <input type="hidden" name="sending_page" value="make_create_parameter_page" />
       </p>
     </form>
-      <p>&nbsp;</p>
+      <p>* Feature not implemented</p>
       <p>Below are listed all of the parameters currently associated with this simulation. </p>
-      <table border="1">
-  <tr><td><strong>Uniq Identifier</strong></td>
+      <table border="1" width="100%">
+  <tr>
+    <td><strong>Uniq Parameter Identifier</strong></td>
   </tr>
         <%
 			  		int ii = 0;
@@ -97,7 +110,7 @@
 						GenericVariable gv_l = (GenericVariable) li.next();
 				%>
         
-          <tr><td><a href="make_create_document_page.jsp?shared_doc_id=<%= gv_l.getId() %>"><%= gv_l.getName() %></a></td>
+          <tr><td><a href="make_create_parameter_page.jsp?gv_id=<%= gv_l.getId() %>&queueup=true"><%= gv_l.getName() %></a></td>
                 </tr>
           
                 <%
@@ -121,6 +134,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

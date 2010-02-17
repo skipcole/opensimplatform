@@ -10,6 +10,8 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
+	String custom_page = request.getParameter("custom_page");
+	
 	Conversation conv = afso.handleMakeMeetingRoomPage(request);
 	
 	if (afso.forward_on){
@@ -17,7 +19,7 @@
 		response.sendRedirect(afso.backPage);
 		return;
 	}
-	
+		
 	CustomizeableSection cs = afso.getMyPSO_SectionMgmt().getCustomizableSectionOnScratchPad();
 	
 	Simulation sim = new Simulation();	
@@ -53,57 +55,55 @@
 	  <form action="make_conference_room.jsp" method="post" name="form2" id="form2">
 	    <blockquote><strong>Tab Heading</strong>: 
 	      <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
-	      <table border="1"><tr><td><p>Conversation to be Included</p>
-	        <p align="right">TODO: include a pulldown to allow people to select existing conversation.</p></td></tr>
-          <tr><td>
-	      <p>Select the Actors to be included in this conversation, and if desired, assign them a designated role <a href="actors_chat_role_help.jsp" target="helpinright">(?)</a>. </p>
-	      <p><%
-				
-			for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
-				Actor act = (Actor) la.next();
-				String checked = "";
-				String role = "";
-				
-				ConvActorAssignment caa = ConvActorAssignment.getSpecificCAA(afso.schema, act.getId(), conv.getId());
-				
-				if (caa != null){
-					checked = " checked ";
-					role = caa.getRole();
-				} 
-				
-			%>
-            <label><input type="checkbox" name="actor_cb_<%= act.getId().toString() %>" value="true" <%= checked %> /> 
-              <%= act.getActorName() %></label>
-            , 
-            <strong>role</strong> (<em>optional</em>):
-            <label>
-              <input type="text" name="role_<%= act.getId().toString() %>" value="<%= role %>" />
-              </label>
-            <br/>	 
-            <% } // End of loop over Actors 
-		
-			%></p>
-            
-            </td></tr></table>
+	      <table border="1" width="100%"><tr><td>
+          <%
+		  		String none_selected = "";
+				if ((conv == null) || (conv.getId() == null)) {
+					none_selected = "selected";
+				}
+		  %>
+          <p>Select Conversation: 
+	              <select name="conversation_id">
+                  <option value="0" <%= none_selected %> >None Selected</option>
+                  	<% for (ListIterator li = Conversation.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+						Conversation this_conv = (Conversation) li.next(); 
+						
+						String selected = "";		
+						System.out.println("this conv / conv " + this_conv.getId() + "/" + conv.getId());
+						
+						if ((conv.getId() != null) && (this_conv.getId().equals(conv.getId()))) {
+							selected = "selected=\"selected\"";
+						}
+						
+						%>
+	          <option value="<%= this_conv.getId() %>" <%= selected %>><%= this_conv.getUniqueConvName() %></option>
+	        		<% } %>
+                  </select>
+	              Or <a href="../../make_create_conversation_page.jsp"> create a new</a> conversation.</p>
+	        </td></tr>
+          </table>
           <p>Title that will appear for this room.</p>
           <p><input type="text" name="page_title" id="page_title" value="<%= cs.getPageTitle() %>" />
           </p>
           <p>Enter any text that will appear on this page. <br>
           </p>
           <p>
-              <textarea id="text_page_text" name="text_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
-              
-              <script language="javascript1.2">
-  			generate_wysiwyg('text_page_text');
-		</script>
+              <textarea id="text_page_text" name="text_page_text" style="height: 120px; width: 480px;"><%= cs.getBigString() %></textarea>
+             	<script language="javascript1.2">
+					wysiwygWidth = 480;
+					wysiwygHeight = 120;
+  					generate_wysiwyg('text_page_text');
+				</script>
               </p>
             <p> 
               <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="sending_page" value="make_caucus_page" />
               <input type="submit" name="save_page" value="Save" />
+              </p>
+            <p>
               <input type="submit" name="save_and_add" value="Save and Add Section" />
-            </p>
-            </blockquote>
+            (This will apply this section to all actors assigned to this conversation.)</p>
+	    </blockquote>
       </form>	  <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>

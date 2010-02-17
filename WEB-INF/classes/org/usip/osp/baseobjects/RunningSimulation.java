@@ -283,7 +283,7 @@ public class RunningSimulation {
 		for (ListIterator<Conversation> lc = sim.getConversations(schema).listIterator(); lc.hasNext();) {
 			Conversation conv = lc.next();
 
-			if ((conv.getConversation_name() != null) && (conv.getConversation_name().equalsIgnoreCase("broadcast"))) { //$NON-NLS-1$
+			if ((conv.getUniqueConvName()!= null) && (conv.getUniqueConvName().equalsIgnoreCase("broadcast"))) { //$NON-NLS-1$
 
 				MultiSchemaHibernateUtil.beginTransaction(schema);
 

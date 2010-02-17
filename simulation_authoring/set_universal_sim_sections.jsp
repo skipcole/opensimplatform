@@ -23,7 +23,7 @@
 		
 	SimulationPhase spp = new SimulationPhase();
 	
-	if ((afso.sim_id != null) && (afso.sim_id != null)){
+	if ((afso.sim_id != null)){
 		simulation = afso.handleSetUniversalSimSectionsPage(request);	
 	
 		if (afso.phase_id != null) {
@@ -75,10 +75,10 @@ function MM_swapImage() { //v3.0
 	
 	<%	
 	for (ListIterator li = new BaseSimSection().getAllAndChildren(afso.schema).listIterator(); li.hasNext();) {
-			BaseSimSection bss = (BaseSimSection) li.next(); %>
-	tab_headings["<%= bss.getId() %>"] = "<%= bss.getRec_tab_heading() %>";
-	sec_descs["<%= bss.getId() %>"] = "<%= bss.getDescription() %>";
-	the_sample_images["<%= bss.getId() %>"] = "<%= bss.getSample_image() %>";
+		BaseSimSection bss = (BaseSimSection) li.next(); %>
+		tab_headings["<%= bss.getId() %>"] = "<%= bss.getRec_tab_heading() %>";
+		sec_descs["<%= bss.getId() %>"] = "<%= bss.getDescription() %>";
+		the_sample_images["<%= bss.getId() %>"] = "<%= bss.getSample_image() %>";
 	<% 
 	   } 
 	%>	

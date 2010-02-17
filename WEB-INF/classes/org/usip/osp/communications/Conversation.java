@@ -37,6 +37,12 @@ public class Conversation implements SimSectionDependentObject {
 	public Conversation() {
 
 	}
+	
+	public Conversation(String uniqName, String docNotes, Long _sim_id) {
+		this.uniqueConvName = uniqName;
+		this.conversationNotes = docNotes;
+		this.sim_id = _sim_id;
+	}
 
 	/** This conversation is of an undefined type. */
 	public static final int TYPE_UNDEFINED = 0;
@@ -55,6 +61,9 @@ public class Conversation implements SimSectionDependentObject {
 
 	/** This is a chat room that the player can invite people to leave or enter. */
 	public static final int TYPE_RS_USER_CONTROLLED_CAUCUS = 5;
+	
+	/** Unique identifier of this name. */
+	private String uniqueConvName = ""; //$NON-NLS-1$
 
 	/**
 	 * Saves the conversation and makes sure it is affiliated with the
@@ -89,11 +98,11 @@ public class Conversation implements SimSectionDependentObject {
 	@Column(name = "RS_ID")
 	private Long rs_id;
 
-	@Column(name = "CONV_NAME")
-	private String conversation_name;
-
 	@Column(name = "CONV_TYPE")
-	private int conversation_type = TYPE_UNDEFINED;
+	private int conversationType = TYPE_UNDEFINED;
+	
+	@Lob
+	private String conversationNotes = "";
 
 	@Transient
 	private List<ConvActorAssignment> conv_actor_assigns = null;
@@ -107,6 +116,28 @@ public class Conversation implements SimSectionDependentObject {
 
 	public void setTransit_id(Long transit_id) {
 		this.transit_id = transit_id;
+	}
+	
+	/**
+	 * Returns a list of all conversations associated with a particular
+	 * simulation.
+	 */
+	public static List getAllForSim(String schema, Long simid) {
+
+		if (simid == null){
+			return new ArrayList();
+		}
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Conversation where sim_id = :simid and rs_id is null")
+				.setLong("simid", simid)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
 	}
 
 	/**
@@ -385,16 +416,8 @@ public class Conversation implements SimSectionDependentObject {
 		this.rs_id = rs_id;
 	}
 
-	public String getConversation_name() {
-		return this.conversation_name;
-	}
-
-	public void setConversation_name(String conversation_name) {
-		this.conversation_name = conversation_name;
-	}
-
 	public List<ConvActorAssignment> getConv_actor_assigns(String schema) {
-		if (this.conv_actor_assigns == null) {
+		if ((this.conv_actor_assigns == null) || (this.conv_actor_assigns.size() == 0)){
 			this.conv_actor_assigns = ConvActorAssignment.getAllForConversation(schema, this.getId());
 		}
 		return this.conv_actor_assigns;
@@ -404,12 +427,20 @@ public class Conversation implements SimSectionDependentObject {
 		this.conv_actor_assigns = conv_actor_assigns;
 	}
 
-	public int getConversation_type() {
-		return this.conversation_type;
+	public int getConversationType() {
+		return this.conversationType;
 	}
 
-	public void setConversation_type(int conversation_type) {
-		this.conversation_type = conversation_type;
+	public void setConversationType(int conversation_type) {
+		this.conversationType = conversation_type;
+	}
+
+	public String getConversationNotes() {
+		return conversationNotes;
+	}
+
+	public void setConversationNotes(String conversationNotes) {
+		this.conversationNotes = conversationNotes;
 	}
 
 	@Override
@@ -422,7 +453,10 @@ public class Conversation implements SimSectionDependentObject {
 
 		// Create the new conversation.
 		Conversation new_conv = new Conversation();
-		new_conv.setConversation_name(templateConv.getConversation_name());
+		new_conv.setUniqueConvName(templateConv.getUniqueConvName());
+		new_conv.setConversationNotes(templateConv.getConversationNotes());
+		new_conv.setConversationType(templateConv.getConversationType());
+		
 		new_conv.saveMe(schema);
 
 		List<ConvActorAssignment> modifiedAssignments = new ArrayList<ConvActorAssignment>();
@@ -446,7 +480,7 @@ public class Conversation implements SimSectionDependentObject {
 		}
 		new_conv.setConv_actor_assigns(modifiedAssignments);
 
-		new_conv.setConversation_type(templateConv.getConversation_type());
+		new_conv.setConversationType(templateConv.getConversationType());
 
 		new_conv.setRs_id(rs_id);
 		new_conv.setSim_id(sim_id);
@@ -487,6 +521,14 @@ public class Conversation implements SimSectionDependentObject {
 	public void setSimId(Long theId) {
 		setSim_id(theId);
 		
+	}
+
+	public String getUniqueConvName() {
+		return uniqueConvName;
+	}
+
+	public void setUniqueConvName(String uniqueConvName) {
+		this.uniqueConvName = uniqueConvName;
 	}
 
 }
