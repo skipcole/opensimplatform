@@ -23,6 +23,7 @@
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("set_parameter"))){
 		String gv_value = request.getParameter("gv_value");
 		gv.setValue(gv_value);
+		gv.saveMe(pso.schema);
 		
 	}
 		
