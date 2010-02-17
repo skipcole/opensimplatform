@@ -10,12 +10,6 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	String gv_id = (String) request.getParameter("gv_id");
-		
-	String queueup = (String) request.getParameter("queueup");
-	
-	System.out.println("g q" + gv_id + "/" + queueup);
-	
 	GenericVariable gv  = afso.handleCreateGenericVariable(request);
 	
 %>
@@ -38,21 +32,23 @@
 			<td width="100%"><br />
               <h1>Create/Edit Parameters Page</h1>
               <br />
-    <p>Parameters associated with a simulation can have their values modified during play.<form action="make_create_parameter_page.jsp" method="post" name="form2" id="form2">
+    <p>Parameters associated with a simulation can have their values modified during play. For example the amount of money being spent  on
+trash pick up may be represented as a parameter. Frequently something being tracked by the player, such as the number of rats in the city, is not something that can be directly 
+controlled by them. But they can control other items, such as the budget of the 'rat extermination department', which may then influence the base parameter.<form action="make_create_parameter_page.jsp" method="post" name="form2" id="form2">
       
       <h2>Create New Parameter</h2>
             <table width="100%">
               <tr>
-                <td valign="top">Parameter Name  <a href="helptext/uniq_doc_identifer_help.jsp" target="helpinright">(?)</a>:</td>
+                <td valign="top">Parameter Name  <a href="helptext/parameter_name.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top"><input type="text" name="uniq_param_name" value="<%= gv.getName() %>" /></td></tr>
               <tr valign="top">
-                <td>Parameter Notes</td>
+                <td>Parameter Notes <a href="helptext/parameter_notes.jsp" target="helpinright">(?)</a>:</td>
                 <td><label>
                   <textarea name="param_notes" id="textarea" cols="45" rows="5"><%= gv.getNotes() %></textarea>
                 </label></td>
               </tr>
               <tr valign="top">
-                <td>Starting Value</td>
+                <td>Starting Value <a href="helptext/starting_value.jsp" target="helpinright">(?)</a>:</td>
                 <td><input type="text" name="start_value" value="<%= gv.getStartingValue() %>" /></td>
               </tr>
               <tr valign="top">
@@ -68,7 +64,7 @@
                   <input type="text" name="min_value" value="<%= gv.getMinValue() %>" disabled="disabled" /></td>
               </tr>
               <tr valign="top">
-                <td>Propagation Means * (?)</td>
+                <td>Propagation Means *</td>
                 <td><select name="prop_type">
                     <option value="player_set">Player Set</option>
                 </select></td>
@@ -105,17 +101,11 @@
     <td><strong>Uniq Parameter Identifier</strong></td>
   </tr>
         <%
-			  		int ii = 0;
 					for (ListIterator li = GenericVariable.getAllBaseGenericVariablesForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 						GenericVariable gv_l = (GenericVariable) li.next();
-				%>
-        
-          <tr><td><a href="make_create_parameter_page.jsp?gv_id=<%= gv_l.getId() %>&queueup=true"><%= gv_l.getName() %></a></td>
-                </tr>
-          
-                <%
-					}
-				%>
+		%>
+          <tr><td><a href="make_create_parameter_page.jsp?gv_id=<%= gv_l.getId() %>&queueup=true"><%= gv_l.getName() %></a></td></tr>
+        <% } %>
       </table>
       <p>&nbsp;</p>
       <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
