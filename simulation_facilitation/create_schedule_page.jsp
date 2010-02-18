@@ -58,7 +58,7 @@
                             </p>
                   <blockquote>
                     <p><strong>Simulation</strong>: <%= simulation.getDisplayName() %> (To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
-		  <p><strong>Running Simulation</strong>: <%= rs.getName() %> (To select a different running simulation, <a href="../simulation_authoring/create_running_sim.jsp">click here</a>.)</p>
+		  <p><strong>Running Simulation</strong>: <%= rs.getRunningSimulationName() %> (To select a different running simulation, <a href="../simulation_authoring/create_running_sim.jsp">click here</a>.)</p>
                     </blockquote>
                   <p> Below are notes from the simulation author on how he or she felt this simulation would be conducted.</p>
                   <p>Below that is a place where you can enter the specific schedule page for your students. This page will give them important information on when they can and should login and any other details. You will be able to give the players announcements during the simulation, but this page will set the initial expectations.</p>

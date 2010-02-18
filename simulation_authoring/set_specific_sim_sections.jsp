@@ -121,8 +121,8 @@ function loadInfo(dropdownlist){
           <td> <table width="100%" border="0">
             <tr> 
               <td width="71%"> <h2> 
-                Actor <strong>'<%= actor.getName() %>'</strong> 
-                in Phase <strong>'<%= spp.getName() %>' </strong> </h2></td>
+                Actor <strong>'<%= actor.getActorName() %>'</strong> 
+                in Phase <strong>'<%= spp.getPhaseName() %>' </strong> </h2></td>
                     <td width="29%">
                       <form id="form2" name="form2" method="post" action="set_specific_sim_sections.jsp">
                         <select name="phase_id">
@@ -139,7 +139,7 @@ function loadInfo(dropdownlist){
 							
 							
 				%>
-                          <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getName() %></option>
+                          <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getPhaseName() %></option>
                           <% } 	%>
                           </select>
                         <label>
@@ -328,7 +328,7 @@ function loadInfo(dropdownlist){
 							Actor daActor = (Actor) li.next();
 			
 			%>
-              - <a href="set_specific_sim_sections.jsp?actor_index=<%= aIndex + "" %>&phase_id=<%= spp.getId().toString() %>"><%= daActor.getName() %></a>
+              - <a href="set_specific_sim_sections.jsp?actor_index=<%= aIndex + "" %>&phase_id=<%= spp.getId().toString() %>"><%= daActor.getActorName() %></a>
               <% 
 				aIndex += 1;
 			} %>
@@ -347,7 +347,7 @@ function loadInfo(dropdownlist){
 	
 %>
         <a href="set_specific_sim_sections.jsp?actor_index=<%= nextIndex %>&phase_id=<%= spp.getId().toString() %>"> 
-          Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a> 
+          Next Step: Customize Sections for the Actor <strong><%= nextActor.getActorName() %></strong> </a> 
         <% } else { %>
         <a href="create_aar_starter_text.jsp"> Next Step: Enter 'After Action Report' Starter Text </a> 
         <% } %>

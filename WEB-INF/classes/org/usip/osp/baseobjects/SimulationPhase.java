@@ -126,7 +126,7 @@ public class SimulationPhase implements Comparable{
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getPhaseName() {
 		return this.name;
 	}
 
@@ -302,7 +302,7 @@ public class SimulationPhase implements Comparable{
 		String differenceString = "<PHASE_COMPARE>\r\n";
 		
 		// Compare Objectives
-		if (phase_a.getName().equals(phase_b.getName())){
+		if (phase_a.getPhaseName().equals(phase_b.getPhaseName())){
 			differenceString += ObjectPackager.addResultsToXML("     <PHASE_NAME>", "</PHASE_NAME>\r\n", true);
 		} else {
 			differenceString += ObjectPackager.addResultsToXML("     <PHASE_NAME>", "</PHASE_NAME>\r\n", false);

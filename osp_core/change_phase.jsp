@@ -95,7 +95,7 @@
         <form id="form2" name="form2" method="post" action="change_phase.jsp">
 <input type="hidden" name="sending_page" value="control" />
             <tr>
-              <td valign="top"><%= sp.getName() %>  <%= flagNotes %></td>
+              <td valign="top"><%= sp.getPhaseName() %>  <%= flagNotes %></td>
               <td valign="top"><%= sp.getNotes() %></td> 
               <td valign="top"><%= sp.getOrder() + "" %></td>
               <% if (!(sp.getId().equals(pso.phase_id))) { %>

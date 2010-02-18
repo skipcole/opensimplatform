@@ -51,9 +51,9 @@ public class PSO_SectionMgmt {
 
 	AuthorFacilitatorSessionObject afso;
 
-	PSO_SectionMgmt(AuthorFacilitatorSessionObject pso) {
-		this.afso = pso;
-		this.phase_being_worked_on_id = pso.phase_id;
+	PSO_SectionMgmt(AuthorFacilitatorSessionObject afso) {
+		this.afso = afso;
+		this.phase_being_worked_on_id = afso.phase_id;
 	}
 
 	/** Index of the actor, 1 to n, that we are working on. */
@@ -232,6 +232,7 @@ public class PSO_SectionMgmt {
 
 			}
 
+			Simulation.updateSimsLastEditDate(afso.sim_id, afso.schema);
 		} // End of if this is the make_write_news_page
 
 		return this.customizableSectionOnScratchPad;
@@ -427,23 +428,20 @@ public class PSO_SectionMgmt {
 
 		if (this.command.equalsIgnoreCase("Add Section")) {
 
+			Simulation.updateSimsLastEditDate(afso.sim_id, afso.schema);
+			
 			if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.BaseSimSection")) {
 				// Here we add the class straight away.
 				addSectionFromRouter(request);
-
 				return this.afso.backPage;
 
 			} else if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.CustomizeableSection")) {
 
 				this._custom_section_id = this._bss_id;
-
 				bss = null;
-
 				CustomizeableSection cbss = CustomizeableSection.getMe(this.afso.schema, this._bss_id);
-
 				return cbss.getMakePage();
 				
-
 			}
 		}
 

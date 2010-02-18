@@ -123,7 +123,7 @@
 			}
 			%>
         <tr valign="top"> 
-          <td><%= sim.getName() %> : <%= sim.getVersion() %></td>
+          <td><%= sim.getSimulationName() %> : <%= sim.getVersion() %></td>
             <td><%= ready %></td>
             <td><%= sim.getCreator() %></td>
             <td><%= sim.getListingKeyWords() %></td>

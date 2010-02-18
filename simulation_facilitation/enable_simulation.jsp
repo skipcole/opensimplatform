@@ -77,10 +77,10 @@
           Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
 		  
 		<% } else if (running_sim.isReady_to_begin()) { %>
-        <p><strong>Running simulation <%= running_sim.getName() %> </strong> <span class="style1">has  been enabled.</span><br />
+        <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  been enabled.</span><br />
           To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
 		  <% } else { %>
-        <p>Enabling <strong>running simulation <%= running_sim.getName() %></strong><br />
+        <p>Enabling <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
           To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
   
   <p>&nbsp;</p>

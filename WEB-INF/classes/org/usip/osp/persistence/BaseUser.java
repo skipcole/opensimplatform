@@ -34,7 +34,7 @@ public class BaseUser {
     @Column(name = "BU_ID")
     private Long id;
 
-    @Column(name = "USERNAME", unique = true)
+	@Column(name = "USERNAME", unique = true)
     private String username = ""; //$NON-NLS-1$
 
     @Column(name = "PASSWORD")
@@ -203,6 +203,10 @@ public class BaseUser {
     public Long getId() {
         return this.id;
     }
+    
+    public void setId(Long id) {
+		this.id = id;
+	}
 
 
     /**
@@ -411,6 +415,17 @@ public class BaseUser {
 
 	public void setRegistered(boolean registered) {
 		this.registered = registered;
+	}
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return this.transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
 	}
 
 }

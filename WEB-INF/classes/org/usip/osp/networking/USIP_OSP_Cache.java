@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.Actor;
+import org.usip.osp.baseobjects.ActorAssumedIdentity;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.SimulationMetaPhase;
 import org.usip.osp.baseobjects.SimulationPhase;
@@ -52,7 +53,7 @@ public class USIP_OSP_Cache {
 			// Get phase name
 			SimulationPhase sp = SimulationPhase.getMe(schema, phase_id);
 			
-			phaseName = sp.getName();
+			phaseName = sp.getPhaseName();
 			
 			// Store it in the cache
 			phase_name_by_id_cache.put(phase_id, phaseName);
@@ -124,6 +125,8 @@ public class USIP_OSP_Cache {
 		}
 
 		String a_name = actor_names.get(schema + "_" + running_sim_id + " " + a_id);
+		
+		// If we did not find a name in the hashtable for this actor, we will load it for all actors.
 		if (a_name == null) {
 			loadActorNamesInHashtable(schema, sim_id, running_sim_id, actor_names);
 			a_name = actor_names.get(schema + "_" + running_sim_id + " " + a_id);
@@ -131,6 +134,21 @@ public class USIP_OSP_Cache {
 		}
 
 		return a_name;
+	}
+	
+	public static void setActorName(String newName, String schema, Long sim_id, Long running_sim_id, HttpServletRequest request, Long a_id) {
+
+		ServletContext context = request.getSession().getServletContext();
+
+		Hashtable<String, String> actor_names = (Hashtable<String, String>) context.getAttribute("actor_names");
+
+		if (actor_names == null) {
+			actor_names = new Hashtable<String, String>();
+			context.setAttribute("actor_names", actor_names);
+		}
+
+		actor_names.put(schema + "_" + running_sim_id + " " + a_id, newName);
+
 	}
 
 	/**
@@ -140,16 +158,22 @@ public class USIP_OSP_Cache {
 	 * @param actor_names
 	 */
 	public static void loadActorNamesInHashtable(String schema, Long sim_id, Long running_sim_id, Hashtable actor_names) {
-
-		Logger.getRootLogger().debug("storing names in hashtable. ");
+		
 		Simulation sim = Simulation.getMe(schema, sim_id);
 
 		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
 			Actor act = li.next();
-
-			actor_names.put(schema + "_" + running_sim_id + " " + act.getId(), act.getName());
-
+			
+			ActorAssumedIdentity aai = ActorAssumedIdentity.getAssumedIdentity(schema, act.getId(), running_sim_id);
+			
+			// Check for the existence of an assumed identity
+			if (aai != null){
+				actor_names.put(schema + "_" + running_sim_id + " " + act.getId(), aai.getAssumedName());
+			} else {
+				actor_names.put(schema + "_" + running_sim_id + " " + act.getId(), act.getInitialActorName());
+			}
 		}
+		
 	}
 	
 	/**

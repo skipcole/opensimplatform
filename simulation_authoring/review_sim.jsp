@@ -157,7 +157,7 @@ h3.trigger a:hover { color: #ccc; }
 			
 		%>
 			      
-			      <%= sp.getName() %><br />
+			      <%= sp.getPhaseName() %><br />
 			      <%
 	}
 %>
@@ -179,7 +179,7 @@ h3.trigger a:hover { color: #ccc; }
 					
 			  %>
 		    
-<h3 class="trigger"><a href="#"><%= act.getName() %></a></h2>
+<h3 class="trigger"><a href="#"><%= act.getActorName() %></a></h2>
 <div class="toggle_container">
 	<div class="block">
 		<blockquote>
@@ -219,7 +219,7 @@ h3.trigger a:hover { color: #ccc; }
 		            <TD width="30%">
 		              
 		              <table>
-		                <tr valign="top"><td valign="top" bgcolor="#44AAFF"> <%= sp.getName() %></td></tr>
+		                <tr valign="top"><td valign="top" bgcolor="#44AAFF"> <%= sp.getPhaseName() %></td></tr>
 		                
 		                <%
 					List secsList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id, new Long(0), sp.getId());

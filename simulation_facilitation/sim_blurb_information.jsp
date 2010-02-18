@@ -53,7 +53,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Simulation: <%= sim.getName() %> : <%= sim.getVersion() %>  </h1>
+              <h1>Simulation: <%= sim.getSimulationName() %> : <%= sim.getVersion() %>  </h1>
               <br />
       <blockquote>
         <p><%= sim.getBlurb() %></p>
@@ -67,7 +67,7 @@
         
         <tr> 
           <td>Enter Simulation as: </td>
-              <td><%= act.getName() %></td>
+              <td><%= act.getActorName() %></td>
               <td>
                 <form id="form_<%= sim.getId() %><%= act.getId() %>" name="form_<%= sim.getId() %><%= act.getId() %>" method="post" action="sim_blurb_information.jsp">
                   <input type="hidden" name="sim_id" value="<%= sim.getId() %>" />

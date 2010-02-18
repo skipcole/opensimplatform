@@ -68,7 +68,7 @@
         it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
       <% } else { %>
       <p>Assign users to play the role of actors in the <strong>running simulation 
-        <%= running_simulation.getName() %></strong><br/>
+        <%= running_simulation.getRunningSimulationName() %></strong><br/>
         To select a different running simulation, <a href="select_running_simulation.jsp">click 
           here</a>.      </p>
       <table border="1">
@@ -96,7 +96,7 @@
 					%>
         <tr valign="top"> 
           <form action="assign_user_to_simulation.jsp" method="post" name="form3" id="form3">
-            <td><%= act.getName() %></td>
+            <td><%= act.getActorName() %></td>
               <td><%= user_assigned.getBu_username() %></td>
               <td>
                 <% String nameToSend = " this user assignment "; %> 

@@ -59,7 +59,7 @@
               <table width="80%" border="0" cellspacing="2" cellpadding="2">
                 <tr> 
                   <td valign="top">Phase Name:</td>
-                  <td valign="top"><input type="text" name="phase_name" value="<%= spOnScratchPad.getName() %>" /></td>
+                  <td valign="top"><input type="text" name="phase_name" value="<%= spOnScratchPad.getPhaseName() %>" /></td>
                 </tr>
                 <tr>
                   <td valign="top">Phase Notes:</td>
@@ -139,12 +139,12 @@
               <% if (showMetaPhases) { %>
                 	<td width="20%" valign="top"><%= afso.getMetaPhaseName(request, sp.getMetaPhaseId()) %></td>
                 <% } %>
-                <td valign="top"><a href="create_simulation_phases.jsp?command=Edit&sp_id=<%= sp.getId().toString() %>"><%= sp.getName() %></a>  <%= flagNotes %></td>
+                <td valign="top"><a href="create_simulation_phases.jsp?command=Edit&sp_id=<%= sp.getId().toString() %>"><%= sp.getPhaseName() %></a>  <%= flagNotes %></td>
                 <td valign="top"><%= sp.getNotes() %></td> 
                 <td valign="top"><%= sp.getOrder() + "" %></td>
                 <td valign="top">
                   <% if (flagNotes.length() == 0){ %>
-                  <a href="delete_object.jsp?phase_sim_id=<%= afso.sim_id %>&object_type=phase&objid=<%= sp.getId().toString() %>&object_info=<%= sp.getName() %>">remove</a>
+                  <a href="delete_object.jsp?phase_sim_id=<%= afso.sim_id %>&object_type=phase&objid=<%= sp.getId().toString() %>&object_info=<%= sp.getPhaseName() %>">remove</a>
                   <% } %>                  </td>
               </tr>
               <%

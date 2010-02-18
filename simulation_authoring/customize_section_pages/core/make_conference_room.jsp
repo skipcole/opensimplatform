@@ -73,7 +73,7 @@
 				
 			%>
             <label><input type="checkbox" name="actor_cb_<%= act.getId().toString() %>" value="true" <%= checked %> /> 
-              <%= act.getName() %></label>
+              <%= act.getActorName() %></label>
             , 
             <strong>role</strong> (<em>optional</em>):
             <label>

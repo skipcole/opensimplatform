@@ -353,7 +353,7 @@ public class ChatController {
 			MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(pso.schema)
 					.get(Actor.class, a_id);
-			Logger.getRootLogger().debug("actor name is " + act.getName()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("actor name is " + act.getActorName()); //$NON-NLS-1$
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 			
 			ActorGhost ag = new ActorGhost(act);

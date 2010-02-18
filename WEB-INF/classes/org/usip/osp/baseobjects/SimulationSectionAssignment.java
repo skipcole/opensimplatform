@@ -806,7 +806,7 @@ public class SimulationSectionAssignment {
 		for (ListIterator lia = actorList.listIterator(); lia.hasNext();) {
 			Actor act = (Actor) lia.next();
 
-			Logger.getRootLogger().debug("checking universals on " + act.getName()); //$NON-NLS-1$
+			Logger.getRootLogger().debug("checking universals on " + act.getActorName()); //$NON-NLS-1$
 
 			applyUniversalsToActor(schema, sid, universalList, act.getId(), pid);
 

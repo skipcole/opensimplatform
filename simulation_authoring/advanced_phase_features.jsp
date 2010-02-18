@@ -84,7 +84,7 @@
               <table width="80%" border="0" cellspacing="2" cellpadding="2">
                 <tr> 
                   <td width="29%" valign="top">Phase Name:</td>
-                  <td width="71%" valign="top"><%= spOnScratchPad.getName() %></td>
+                  <td width="71%" valign="top"><%= spOnScratchPad.getPhaseName() %></td>
                 </tr>
                 <tr>
                   <td valign="top">Meta Phase</td>

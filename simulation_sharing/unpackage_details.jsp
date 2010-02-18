@@ -56,7 +56,7 @@
   <table>
   <tr><td>Name:</td>
     <td><label>
-      <input type="text" name="sim_name" id="sim_name" value="<%= sim.getName() %>" />
+      <input type="text" name="sim_name" id="sim_name" value="<%= sim.getSimulationName() %>" />
       </label></td>
     </tr>
   <tr>

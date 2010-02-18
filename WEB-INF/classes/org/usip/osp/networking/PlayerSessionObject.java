@@ -905,7 +905,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(schema).get(
 					SimulationPhase.class, phase_id);
 
-			this.phaseName = sp.getName();
+			this.phaseName = sp.getPhaseName();
 
 			// Store new phase name in web cache.
 			Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) request.getSession().getServletContext()
@@ -1182,7 +1182,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			for (ListIterator<Actor> lia = simulation.getActors(schema).listIterator(); lia.hasNext();) {
 				Actor act = lia.next();
-				System.out.println("checking actor: " + act.getName());
+				System.out.println("checking actor: " + act.getActorName());
 
 				// Add to the eligible actor lists actors that are not already
 				// marked as recipients
@@ -1190,7 +1190,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				for (ListIterator<EmailRecipients> lie = emailRecipients.listIterator(); lie.hasNext();) {
 					EmailRecipients er = lie.next();
 
-					if (act.getName().equalsIgnoreCase(er.getActorName())) {
+					if (act.getActorName().equalsIgnoreCase(er.getActorName())) {
 						foundName = true;
 					}
 
@@ -1460,18 +1460,18 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	public void loadSimInfoForDisplay(HttpServletRequest request, Simulation simulation, RunningSimulation running_sim,
 			Actor actor, SimulationPhase sp) {
-		this.simulation_name = simulation.getName();
+		this.simulation_name = simulation.getSimulationName();
 		this.sim_copyright_info = simulation.getCopyright_string();
 		this.simulation_version = simulation.getVersion();
 		this.simulation_org = simulation.getCreation_org();
 
-		this.run_sim_name = running_sim.getName();
+		this.run_sim_name = running_sim.getRunningSimulationName();
 		this.simulation_round = running_sim.getRound() + "";
 		this.phase_id = running_sim.getPhase_id();
 
-		this.actor_name = actor.getName();
+		this.actor_name = actor.getActorName(schema, running_sim.getId(), request);
 
-		this.phaseName = sp.getName();
+		this.phaseName = sp.getPhaseName();
 
 		loadPhaseNameInWebCache(request, sp);
 
@@ -1558,11 +1558,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 		System.out.println("cachedPhaseName is " + cachedPhaseName);
 
 		if (cachedPhaseName == null) {
-			phaseNames.put(this.running_sim_id, sp.getName());
+			phaseNames.put(this.running_sim_id, sp.getPhaseName());
 			request.getSession().getServletContext().setAttribute(
 					USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID, phaseNames);
 
-			System.out.println("cachedPhaseName is " + sp.getName());
+			System.out.println("cachedPhaseName is " + sp.getPhaseName());
 
 		}
 	}
@@ -1820,6 +1820,15 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	public String getSimilieEvents() {
 		return Event.packupArray(setOfEvents);
+	}
+	
+	public String checkDatesOnSim(Simulation sim, RunningSimulation rs){
+		
+		if (rs.getEnabledDate().before(sim.getLastEditDate())){
+			return "Warning. This Running Simulation may be invalid.";
+		} else {
+			return "";
+		}
 	}
 
 }

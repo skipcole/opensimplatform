@@ -68,7 +68,7 @@
 			EmailRecipients er = (EmailRecipients) li.next();
 			
 			%>
-        <option value="<%= er.getId() %>"><%= er.getActorName() %></option>
+        <option value="<%= er.getId() %>"><%= er.getActorName(pso.schema, pso.running_sim_id, request) %></option>
         <% 
 			}  // end of loop over email recipients
 		%>
@@ -88,7 +88,7 @@
 			
 			if (!(act.getId().equals(pso.actor_id))) {
 			%>
-        <option value="<%= act.getId() %>"><%= act.getName() %></option>
+        <option value="<%= act.getId() %>"><%= act.getActorName(pso.schema, pso.running_sim_id, request) %></option>
         <% 
 			} // end of if this is not the same actor
 			}  // end of loop over emails

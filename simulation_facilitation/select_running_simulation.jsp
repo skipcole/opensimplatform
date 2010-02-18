@@ -30,7 +30,7 @@
 		
 		RunningSimulation rs = afso.giveMeRunningSim();
 		
-		afso.run_sim_name = rs.getName();
+		afso.run_sim_name = rs.getRunningSimulationName();
 		response.sendRedirect(afso.backPage);
 		return;
 			
@@ -79,7 +79,7 @@
 			if (rs != null) {
 		%>
             <tr> 
-              <td><a href="select_running_simulation.jsp?select_running_sim=true&amp;backpage=<%= afso.backPage %>&amp;r_sim_id=<%= rs.getId() %>"><%= rs.getName() %></a></td>
+              <td><a href="select_running_simulation.jsp?select_running_sim=true&amp;backpage=<%= afso.backPage %>&amp;r_sim_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
             </tr>
             <%
 	}

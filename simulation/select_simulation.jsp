@@ -2,7 +2,7 @@
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 <%
 
 	PlayerSessionObject.handleInitialEntry(request);
@@ -46,6 +46,11 @@ body {
 	background-color: #FFFFFF;
 	background-image: url(images/page_bg.png);
 	background-repeat: repeat-x;
+}
+.style1 {
+	color: #FF0000;
+	font-weight: bold;
+	font-style: italic;
 }
 -->
 </style>
@@ -98,29 +103,27 @@ body {
 		SchemaGhost sg = (SchemaGhost) lias.next();
 		
 		pso.schema = sg.getSchema_name();
-			
-  		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
   
-  		List uaList = new UserAssignment().getAllForUser(pso.user_id, MultiSchemaHibernateUtil.getSession(pso.schema));
-	
+  		List uaList = UserAssignment.getAllForUser(pso.schema, pso.user_id);
 	
 		for (ListIterator li = uaList.listIterator(); li.hasNext();) {
 			UserAssignment ua = (UserAssignment) li.next();
 			
-			Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(Simulation.class,ua.getSim_id());
-			RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(pso.schema).get(RunningSimulation.class,ua.getRunning_sim_id());
-			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(pso.schema).get(Actor.class,ua.getActor_id());
+			Simulation sim = Simulation.getMe(pso.schema, ua.getSim_id());
+			RunningSimulation rs = RunningSimulation.getMe(pso.schema,ua.getRunning_sim_id());
+			Actor act = Actor.getMe(pso.schema, ua.getActor_id());
 			
-			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.getSession(pso.schema).get(SimulationPhase.class,rs.getPhase_id());
+			SimulationPhase sp = SimulationPhase.getMe(pso.schema, rs.getPhase_id());
 			
-			// Must check to see that running sim has been enabled (TODO and not marked inactive.)
-			if (rs.isReady_to_begin()) {
+			// Must check to see that running sim has been enabled, and has not been inactivated.
+			if ((rs.isReady_to_begin()) && (!(rs.isInactivated()))) {
   %>
               <tr valign="top">
                 <td><%= sg.getSchema_organization() %></td>
-      <td><%= sim.getDisplayName() %></td>
-      <td><%= rs.getName() %></td>
-      <td><%= act.getName() %></td>
+      <td><%= sim.getDisplayName() %>
+        <span class="style1"><%= pso.checkDatesOnSim(sim, rs) %>        </span></td>
+      <td><%= rs.getRunningSimulationName() %></td>
+      <td><%= act.getActorName(pso.schema, rs.getId(), request) %></td>
       <td> <form action="select_simulation.jsp" method="post" name="form1" id="form1">
         <input type="submit" name="Submit" value="Play" />
         <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
@@ -128,15 +131,13 @@ body {
         <input type="hidden" name="schema_org" value="<%= sg.getSchema_organization() %>" />
         <input type="hidden" name="sending_page" value="select_simulation" />
         </form></td>
-      <td><%= sp.getName() %></td>
+      <td><%= sp.getPhaseName() %></td>
     </tr>
               <%
 			  
 			  } // End of if running simulation has been enabled.
 			  
   		} // End of loop over User Assignments
-		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 		
 		}
 		
@@ -152,12 +153,12 @@ body {
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
-			String nameToSend = java.net.URLEncoder.encode(sim.getName());
+			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName());
 			
 		%>
         
           <!-- tr> 
-            <td><a href="../simulation_facilitation/sim_blurb_information.jsp?sim_id=<%= sim.getId().toString() %>" target="_top"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
+            <td><a href="../simulation_facilitation/sim_blurb_information.jsp?sim_id=<%= sim.getId().toString() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
           </tr -->
            
 <%	} // End of loop over auto-reg sims    %>

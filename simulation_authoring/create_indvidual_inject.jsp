@@ -18,7 +18,6 @@
 	String inj_id = (String) request.getParameter("inj_id");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_ind_inject"))){
-		System.out.println("doing inject creation");
 		afso.handleCreateInject(request);
 		response.sendRedirect("create_injects.jsp");
 		return;

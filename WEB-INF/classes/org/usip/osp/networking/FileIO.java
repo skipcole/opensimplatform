@@ -23,6 +23,7 @@ import org.apache.log4j.*;
  */
 public class FileIO {
 
+	private static String archives_dir = "";
 	private static String actor_image_dir = ""; //$NON-NLS-1$
 	private static String base_section_web_dir = ""; //$NON-NLS-1$
 	private static String model_dir = ""; //$NON-NLS-1$
@@ -31,16 +32,14 @@ public class FileIO {
 	private static String sim_image_dir = ""; //$NON-NLS-1$
 
 	static {
+		
 		base_web_dir = USIP_OSP_Properties.getValue("base_web_dir"); //$NON-NLS-1$
 		
+		archives_dir = base_web_dir + "simulation_admin" + File.separator + "database_archives" + File.separator;
 		base_section_web_dir = base_web_dir + "simulation_section_information" + File.separator;
-		
 		model_dir = base_web_dir + "simulation_model_information" + File.separator;
-		
 		actor_image_dir = base_web_dir + "osp_core" + File.separator + "images" + File.separator + "actors" + File.separator;
-		
 		packaged_sim_dir = base_web_dir + "simulation_sharing" + File.separator + "packaged_simulations" + File.separator;
-		
 		sim_image_dir = base_web_dir + "simulation" + File.separator + "images" + File.separator;
 
 	}
@@ -125,6 +124,29 @@ public class FileIO {
 	}
 
 	/**
+	 * Saves an archive of the users in this schema.
+	 * 
+	 * @param fileContents
+	 * @param fileName
+	 * @return
+	 */
+	public static boolean saveUserArchiveXMLFile(String fileContents, String fileName){
+		try {
+			File outFile = new File(archives_dir + fileName);
+
+			FileWriter outFW = new FileWriter(outFile);
+
+			outFW.write(fileContents);
+
+			outFW.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+	/**
 	 * 
 	 * @param fileContents
 	 * @param fileName
@@ -148,13 +170,25 @@ public class FileIO {
 		return false;
 	}
 
+	public static List getListOfSavedSims() {
+		
+		return getListOfFiles(packaged_sim_dir);
+		
+	}
 
+	public static List getListOfUserArchives() {
+		
+		return getListOfFiles(archives_dir);
+		
+	}
+	
 	/**
 	 * 
 	 * @return
 	 */
-	public static List getListOfSavedSims() {
-		File locDir = new File(packaged_sim_dir);
+	public static List getListOfFiles(String fileLocation) {
+		
+		File locDir = new File(fileLocation);
 
 		ArrayList returnList = new ArrayList();
 

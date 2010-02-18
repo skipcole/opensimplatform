@@ -2,10 +2,13 @@ package org.usip.osp.baseobjects;
 
 import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.*;
 
 /**
@@ -89,17 +92,6 @@ public class Actor {
      * for example, may be invisible to them.
      */
     private boolean isShown = true;
-    
-    @Transient
-    private String schema = "";
-    
-    public String getSchema() {
-		return schema;
-	}
-
-	public void setSchema(String schema) {
-		this.schema = schema;
-	}
 	
 	public void createAssumedIdentity(String schema, String newName, Long running_sim_id){
 		
@@ -160,8 +152,6 @@ public class Actor {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Actor act = (Actor) MultiSchemaHibernateUtil
 				.getSession(schema).get(Actor.class, actor_id);
-		
-		act.schema = schema;
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -194,7 +184,7 @@ public class Actor {
     	for (ListIterator<Actor> li = getAll(schema).listIterator(); li.hasNext();) {
     		Actor act = li.next();
     		
-    		returnList.add(act.getName());		
+    		returnList.add(act.getActorName());		
     	}
     
     	return returnList;
@@ -304,14 +294,24 @@ public class Actor {
 	/**
 	 * @return Returns the name.
 	 */
-	public String getName() {
+	public String getActorName() {
 		
 			return this.name;
-		}
+	}
+	
+	
+	public String getActorName(String schema, Long running_sim_id, HttpServletRequest request){
+		
+		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, id);
+	}
+	
+	public String getInitialActorName(){
+		return this.name;
+	}
 	/**
 	 * @return Returns the name.
 	 */
-	public String getName(Long running_sim_id) {
+	public String getDepricatedName(Long running_sim_id) {
 		
 		//if (!assumedIdentity){
 		if (false){

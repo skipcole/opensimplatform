@@ -97,7 +97,7 @@ body {
         <p>&nbsp;</p>
         <blockquote>
           <blockquote> 
-            <table  border="0" cellspacing="2" cellpadding="1">
+            <table width="100%" border="0" cellspacing="2" cellpadding="1">
               <tr> 
                 <td><strong>Database Login</strong></td>
                 <td>&nbsp;</td>
@@ -152,7 +152,7 @@ body {
                  <td valign="top">&nbsp;</td>
                </tr>
               <tr> 
-                <td valign="top"><strong>Email Settings</strong></td>
+                <td valign="top"><strong>Email Settings (optional)</strong></td>
                 <td valign="top">&nbsp;</td>
               </tr>
               <tr> 
@@ -162,15 +162,15 @@ body {
                   </label></td>
               </tr>
               <tr> 
-                <td valign="top">email user </td>
+                <td valign="top">email user (?)</td>
                 <td valign="top"><input type="text" name="email_user" value="<%= email_user %>" /></td>
               </tr>
               <tr> 
-                <td valign="top">email password </td>
+                <td valign="top">email password (?)</td>
                 <td valign="top"><input type="text" name="email_pass" value="<%= email_pass %>" /></td>
               </tr>
               <tr> 
-                <td valign="top">email user address </td>
+                <td valign="top">email archive user address (?)</td>
                 <td valign="top"><input type="text" name="email_user_address"  value="<%= email_user_address %>" /></td>
               </tr>
               <tr>
@@ -210,6 +210,3 @@ body {
   Open Source Software Project</a>. </p>
 </body>
 </html>
-<%
-	
-%>

@@ -88,7 +88,7 @@
               <td valign="top">&nbsp;</td>
               <td valign="top">Actor 
                 Name</font><a href="helptext/actor_name.jsp" target="helpinright">(?)</a>: </td>
-              <td valign="top"><input type="text" name="actor_name" value="<%= actorOnScratchPad.getName() %>" tabindex="1" />
+              <td valign="top"><input type="text" name="actor_name" value="<%= actorOnScratchPad.getActorName() %>" tabindex="1" />
                 <% if (actorOnScratchPad.getId() != null) { %>
                 	<% if (actorOnScratchPad.isControl_actor()) { %>
                     	<B><I>Control Character <a href="helptext/control_actor.jsp"  target="helpinright">(?)</a></I></B>
@@ -216,16 +216,16 @@ if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.ge
       <table>
         <%
 		for (ListIterator li = actorL.listIterator(); li.hasNext();) {
-			Actor aa = (Actor) li.next();
+			Actor act = (Actor) li.next();
 			
 		%>
         <tr>
-          <td><a href="create_actors.jsp?editmode=true&actorid=<%= aa.getId() %>" ><%= aa.getName() %></td>
+          <td><a href="create_actors.jsp?editmode=true&actorid=<%= act.getId() %>" ><%= act.getActorName() %></td>
         <td>&nbsp;</td>
         <td>
-          <% if ((aa.getName() != null) && (!(aa.getName().equalsIgnoreCase("control")))) { %>
-          <a href="delete_object.jsp?object_type=actor&objid=<%= aa.getId().toString() %>&object_info=<%= aa.getName() %>"> 
-            Remove <%= aa.getName() %> </a>
+          <% if ((act.getActorName() != null) && (!(act.getActorName().equalsIgnoreCase("control")))) { %>
+          <a href="delete_object.jsp?object_type=actor&objid=<%= act.getId().toString() %>&object_info=<%= act.getActorName() %>"> 
+            Remove <%= act.getActorName() %> </a>
           <% } %>          </td>
       </tr>
         <%

@@ -111,7 +111,7 @@ public class BishopsPartyInfo implements CopiedObject{
 		this.parentId = parentId;
 	}
 
-	public String getName() {
+	public String getBPIName() {
 		return name;
 	}
 
@@ -373,7 +373,7 @@ public class BishopsPartyInfo implements CopiedObject{
 				bpi.setPhaseId(pso.phase_id);
 				bpi.saveMe(pso.schema);
 
-				storeNameInCache(pso.schema, request, bpi.getId(), bpi.getName());
+				storeNameInCache(pso.schema, request, bpi.getId(), bpi.getBPIName());
 
 				if (bpi.getPartyIndex() != newPI) {
 					System.out.println("bpi.getPartyIndex() was " + bpi.getPartyIndex() + ", newPI was: " + newPI);
@@ -463,8 +463,8 @@ public class BishopsPartyInfo implements CopiedObject{
 		if (bpi_name == null) {
 			BishopsPartyInfo bpi = BishopsPartyInfo.getMe(schema, bpi_id);
 			
-			bpi_name = bpi.getName();
-			bpi_names_hash.put(schema + "_" +  bpi_id, bpi.getName());
+			bpi_name = bpi.getBPIName();
+			bpi_names_hash.put(schema + "_" +  bpi_id, bpi.getBPIName());
 			
 			context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
 		}

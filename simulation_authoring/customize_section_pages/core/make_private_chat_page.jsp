@@ -58,7 +58,7 @@
 				Actor act = (Actor) la.next();
 				String checked = "";
 			%>
-            <td><strong><%= act.getName() %></strong></td>
+            <td><strong><%= act.getActorName() %></strong></td>
 		  <% } // End of loop over Actors %>
             </tr>
             <%
@@ -67,7 +67,7 @@
 				Actor act = (Actor) la.next();
 				index_row += 1;
 			%>
-            <tr><td><strong><%= act.getName() %></strong></td>
+            <tr><td><strong><%= act.getActorName() %></strong></td>
 				  <%
 				// Get this from pso
 				Hashtable setConversations = afso.setOfConversationForASection(cs.getId());
@@ -78,7 +78,7 @@
 					index_col += 1;
 				
 					String checked = "";	
-					if ((!(act2.getName().equalsIgnoreCase(act.getName()))) && (index_col > index_row)){
+					if ((!(act2.getActorName().equalsIgnoreCase(act.getActorName()))) && (index_col > index_row)){
 						
 						String getKey = act.getId() + "_" + act2.getId();
 						

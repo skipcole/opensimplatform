@@ -408,5 +408,27 @@ public class SchemaInformationObject {
 			this.setSmtp_auth_user("");
 		}
 	}
+	
+	/**
+	 * This simply checks to see if informtion has provided to send emails. (It doesn't check to see if this
+	 * information is correct.)
+	 * One side affect of this 
+	 * @return
+	 */
+	public boolean checkReqEmailInfoAndMaybeMarkDown(){
+		
+		if (   ((email_smtp != null) && (email_smtp.trim().length() > 0)) &&
+				((smtp_auth_user != null) && (smtp_auth_user.trim().length() > 0)) &&
+				((smtp_auth_password != null) && (smtp_auth_password.trim().length() > 0)) &&
+				((email_archive_address != null) && (email_archive_address.trim().length() > 0))
+			)
+		{
+			return true;
+		} else {
+			this.setEmailState(EMAIL_STATE_DOWN);
+			return false;
+		}
+		
+	}
 
 }

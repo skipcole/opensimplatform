@@ -20,15 +20,33 @@
 
 	String sending_page = (String) request.getParameter("sending_page");
 	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("change_names"))){
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("change_name"))){
           
 		String new_name = (String) request.getParameter("new_name");
+		
+		System.out.println("creating assumed id " + new_name);
 
-		act.setAssumedIdentity(true);
+		ActorAssumedIdentity aai = ActorAssumedIdentity.getAssumedIdentity(pso.schema, pso.actor_id, pso.running_sim_id);
+		if (aai == null){
+			aai = new ActorAssumedIdentity();
+		}
+		
+		aai.setAssumedName(new_name);
+		aai.setActorId(pso.actor_id);
+		aai.setRunning_sim_id(pso.running_sim_id);
+		aai.saveMe(pso.schema);
+
+		pso.actor_name = new_name;		
+		USIP_OSP_Cache.setActorName(new_name, pso.schema, pso.sim_id, pso.running_sim_id, request, pso.actor_id);
+		
 		   
-	} // End of if coming from this page and have added simulation.
+	} // End of if coming from this page and have added identity.
 	
+	String oldName = "Previous Name";
 	
+	if (!(pso.preview_mode)) {
+		oldName = act.getActorName(pso.schema, pso.running_sim_id, request);
+	}
 
 	
 %>
@@ -41,11 +59,11 @@
 <body>
 <p>Assume Identity</p>
 <form name="form1" method="post" action="change_names.jsp">
-
+<input type="hidden" name="sending_page" value="change_name">
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td>Old Name</td>
-    <td><%= act.getName() %></td>
+    <td><%= oldName %></td>
   </tr>
   <tr>
     <td>New Name</td>

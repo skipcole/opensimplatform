@@ -72,8 +72,12 @@
             <td><a href="../simulation/index.jsp?schema=<%= afso.schema %>" target="_top">Enter Simulation</a> <a href="helptext/enter_sim_help.jsp" target="helpinright">(?)</a> </td>
             </tr>
       </table>
-      <p></p>
-      <p align="center"><a href="library.jsp">Go to the Library</a> </p>      <p align="center"></p>			</td>
+      <p>Other Activities</p>
+      <ul>
+        <li><a href="library.jsp" align="left">Go to the Library</a> </li>
+        <li><a href="inactivate_running_sim.jsp">Inactivate Running Simulations</a></li>
+      </ul>      
+      <p align="center"></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

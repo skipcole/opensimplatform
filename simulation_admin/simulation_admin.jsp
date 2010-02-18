@@ -55,6 +55,14 @@
                       <td><a href="email_test.jsp">Test Email</a></td>
                       <td>Allows you to test the functionality of the email system.</td>
                     </tr>
+                    <tr valign="top">
+                      <td><a href="archive.jsp">Archive  Database</a></td>
+                      <td>Allows you to archive an entire database or compenents of it (users, simulation sections, running simulations. simulations, etc.) to prepare to move to a new database.</td>
+                    </tr>
+                    <tr valign="top">
+                      <td><a href="restore.jsp">Restore Database</a></td>
+                      <td>Allows you to import an archived database or components of it.</td>
+                    </tr>
                   </table>
                   <p>&nbsp;</p>
                   <p>&nbsp;</p></td>
