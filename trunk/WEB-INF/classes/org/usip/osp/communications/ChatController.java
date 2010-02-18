@@ -357,6 +357,8 @@ public class ChatController {
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 			
 			ActorGhost ag = new ActorGhost(act);
+			
+			ag.setName(act.getActorName(pso.schema, pso.running_sim_id, request));
 
 			returnVector.add(ag);
 		}
