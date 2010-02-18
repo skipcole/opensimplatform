@@ -27,6 +27,9 @@
 	
 	pso.handleSimWeb(request);
 	
+	int topFrameHeight = 180;
+	int bottomFrameHeight = 40;
+	
 %>
 <html>
 <head>
@@ -35,11 +38,11 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>
-<frameset rows="0,164,*,40" frameborder="yes" border="0" framespacing="0">
-  <frame src="hiddenframe.jsp" name="hiddenframe" noresize="noresize">
-  <frame src="frame_top.jsp?tabposition=<%= pso.tabposition %>" name="topFrame" noresize="resize">
-  <frame src="<%= pso.bottomFrame %>" name="mainFrame"  noresize="resize">
-  <frame src="frame_footer.jsp" name="footerFrame"  noresize="resize">
+<frameset rows="0,<%= topFrameHeight %>,*,<%= bottomFrameHeight %>" frameborder="yes" border="0" framespacing="0">
+  <frame src="hiddenframe.jsp" name="hiddenframe" noresize>
+  <frame src="frame_top.jsp?tabposition=<%= pso.tabposition %>" name="topFrame" >
+  <frame src="<%= pso.bottomFrame %>" name="mainFrame" >
+  <frame src="frame_footer.jsp" name="footerFrame" >
 </frameset>
 <noframes>
 <body>

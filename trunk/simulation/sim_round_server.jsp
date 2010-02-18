@@ -13,6 +13,7 @@
 	}
 	
 	response.setContentType("text/xml");
+	response.setHeader("Cache-Control", "no-cache");
 
 %><?xml version="1.0"?>
 <response>

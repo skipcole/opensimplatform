@@ -42,7 +42,9 @@ function getSimEvent()
 				alert(sim_event_text);
 			}  else if (sim_event_type == "memo"){
 				alert(sim_event_text);
-			}
+			} else if (sim_event_type == "multiple"){
+				alert(sim_event_text);
+			} 
 		
 		}, 'xml');
 
@@ -67,4 +69,7 @@ function timedCount()
 </head>
 <body onLoad="timedCount();">
 </body>
+<HEAD>
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+</HEAD>
 </html>

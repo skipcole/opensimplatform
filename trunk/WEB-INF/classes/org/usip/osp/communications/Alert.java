@@ -13,7 +13,7 @@ import java.util.StringTokenizer;
  * This class represents an alert, which can be of many different types, sent to
  * a player or players.
  */
-/* 
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
@@ -23,18 +23,17 @@ import java.util.StringTokenizer;
  * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
- * 
  */
 @Entity
 @Table(name = "ALERTS")
 @Proxy(lazy = false)
-public class Alert implements EventInterface{
+public class Alert implements EventInterface {
 
 	/** This alert is of an undefined type. */
 	public static final int TYPE_UNDEFINED = 0;
-	
+
 	/** An announcement has been made and may be seen on the announcement page. */
-	public static final int TYPE_RUN_ENABLED = 101;
+	public static final int TYPE_RUN_ENABLED = 1;
 
 	/** An announcement has been made and may be seen on the announcement page. */
 	public static final int TYPE_ANNOUNCEMENT = 2;
@@ -46,10 +45,16 @@ public class Alert implements EventInterface{
 	public static final int TYPE_EVENT = 4;
 
 	/** The phase of the simulation has changed. */
-	public static final int TYPE_PHASECHANGE = 102;
+	public static final int TYPE_PHASECHANGE = 5;
 
 	/** An incoming for the player. */
-	public static final int TYPE_MEMO = 105;
+	public static final int TYPE_MEMO = 6;
+
+	/**
+	 * Multiple events have occured for the user. (Don't pester with continuous
+	 * pop-up windows.
+	 */
+	public static final int TYPE_MULTIPLE = 99;
 
 	/** Database id of this Alert. */
 	@Id
@@ -82,7 +87,7 @@ public class Alert implements EventInterface{
 	private String the_specific_targets = ""; //$NON-NLS-1$
 
 	private Long sim_id;
-	
+
 	private Long running_sim_id;
 
 	public Long getRunning_sim_id() {
@@ -145,7 +150,19 @@ public class Alert implements EventInterface{
 	 * @return
 	 */
 	public String getTypeText() {
-		switch (this.type) {
+		
+		return getTypeText(this.type);
+
+	}
+	
+	/**
+	 * 
+	 * @param a_type
+	 * @return
+	 */
+	public static String getTypeText(int a_type){
+		switch (a_type) {
+		
 		case TYPE_ANNOUNCEMENT:
 			return "announcement";
 		case TYPE_EVENT:
@@ -156,7 +173,8 @@ public class Alert implements EventInterface{
 			return "news";
 		case TYPE_PHASECHANGE:
 			return "phase_change";
-
+		case Alert.TYPE_MULTIPLE:
+			return "multiple";
 		}
 
 		return "unknown";
@@ -243,38 +261,38 @@ public class Alert implements EventInterface{
 
 		return returnList;
 	}
-	
-	public static void main(String args[]){
+
+	public static void main(String args[]) {
 		System.out.println("Hello World");
 		System.out.println(getHighestAlertNumber("test", new Long(1)));
-		
+
 	}
-	
+
 	/**
 	 * Get the highest Alert number for a running simulation
 	 */
-	public static Long getHighestAlertNumber(String schema, Long running_sim_id){
-		
+	public static Long getHighestAlertNumber(String schema, Long running_sim_id) {
+
 		Long returnLong = new Long(0);
-		
+
 		String query = "select max(id) from Alert where running_sim_id = " + running_sim_id;
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<Long> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(query).list();
-		
-		if (returnList != null){
+
+		if (returnList != null) {
 			returnLong = (Long) returnList.get(0);
-			
+
 		}
-		
+
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 		return returnLong;
 	}
 
 	/**
-	 * 
+	 * Gets all Alerts for a running simulation above the alert number passed in. 
 	 * @param schema
 	 * @param running_sim_id
 	 * @param myHighestChangeNumber
@@ -285,9 +303,10 @@ public class Alert implements EventInterface{
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<Alert> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Alert where running_sim_id = " + running_sim_id
-						+ " AND ALERT_ID > " + myHighestAlertNumber).list(); //$NON-NLS-1$
+		List<Alert> returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(
+						"from Alert where running_sim_id = " + running_sim_id
+								+ " AND ALERT_ID > " + myHighestAlertNumber).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -330,6 +349,11 @@ public class Alert implements EventInterface{
 	public int getEventType() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public static String getMultipleAlertText() {
+		
+		return "Multiple Events have occured. Please check your environment carefully.";
 	}
 
 }
