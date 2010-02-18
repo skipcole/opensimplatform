@@ -10,6 +10,7 @@ import org.usip.osp.baseobjects.*;
 import org.usip.osp.bishops.BishopsPartyInfo;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
+import org.usip.osp.specialfeatures.AllowableResponse;
 import org.usip.osp.specialfeatures.PlayerReflection;
 
 /**
@@ -470,72 +471,39 @@ public class PlayerSessionObject extends SessionObjectBase {
 		// Get from the cache the highest change number for this simulation.
 		Long runningSimHighestChange = getHighestAlertNumberForRunningSim(request);
 
-		if (runningSimHighestChange == null) {
-			return "";
-		}
-
 		boolean doDatabaseCheck = false;
 
-		// compare the highest running sim change number with what this user has
-		// seen.
+		// Compare the highest running sim change number with what this user has seen.
 		if (runningSimHighestChange.intValue() > myHighestAlertNumber.intValue()) {
-
 			doDatabaseCheck = true;
 		}
-
-		// //////////////////////////////////////////////////////
-		// Every two minutes (assuming polling is being done every second) do a
-		// database check anyway, and store myHighest Alert Number
-		myCount += 1;
-
-		if (myCount == 120) {
-
-			if (!(myHighestAlertNumber.equals(prevMyHighestAlertNumber))) {
-				UserAssignment.saveHighAlertNumber(schema, this.myUserAssignmentId, myHighestAlertNumber);
-			}
-
-			prevMyHighestAlertNumber = new Long(myHighestAlertNumber);
-
-			doDatabaseCheck = true;
-			myCount = 0;
-		}
-		// ////////////////////////////////////////////////////////
 
 		String alarmXML = "<response>";
 
 		if ((running_sim_id != null) && (doDatabaseCheck)) {
 
 			// Get a list of alarms
-			List<Alert> alerts = Alert.getAllForRunningSimAboveNumber(schema, running_sim_id, myHighestAlertNumber);
+			List<Alert> alerts_raw = Alert.getAllForRunningSimAboveNumber(schema, running_sim_id, myHighestAlertNumber);
+			
+			List<Alert> my_alerts = filterForUserAlerts(alerts_raw);
 
-			if (alerts.size() == 0) {
+			if (my_alerts.size() == 0) {
 				alarmXML += "<numAlarms>0</numAlarms>";
 
+			} else if (my_alerts.size() > 2){
+				alarmXML += "<numAlarms>1</numAlarms>";
+				alarmXML += "<sim_event_type>" + Alert.getTypeText(Alert.TYPE_MULTIPLE) + "</sim_event_type>";
+				alarmXML += "<sim_event_text>" + Alert.getMultipleAlertText() + "</sim_event_text>";
+				myHighestAlertNumber = runningSimHighestChange;
+				System.out.println(alarmXML);
 			} else {
 
-				Alert this_alert = alerts.get(0);
+				Alert this_alert = my_alerts.get(0);
+				alarmXML += "<numAlarms>1</numAlarms>";
+				alarmXML += "<sim_event_type>" + this_alert.getTypeText() + "</sim_event_type>";
+				alarmXML += "<sim_event_text>" + this_alert.getAlertPopupMessage() + "</sim_event_text>";
 
-				boolean thisUserApplicable = false;
-
-				if (!(this_alert.isSpecific_targets())) {
-					thisUserApplicable = true;
-				} else {
-					thisUserApplicable = this_alert.checkActor(this.actor_id);
-				}
-
-				// Check to see if its applicable, if so, add it to output.
-				if (thisUserApplicable) {
-					alarmXML += "<numAlarms>1</numAlarms>";
-
-					alarmXML += "<sim_event_type>" + this_alert.getTypeText() + "</sim_event_type>";
-
-					alarmXML += "<sim_event_text>" + this_alert.getAlertPopupMessage() + "</sim_event_text>";
-				} else { // Not applicable to this actor
-					alarmXML += "<numAlarms>0</numAlarms>";
-				}
-
-				// Either way, mark this one as checked by setting the highest
-				// alert number
+				// Either way, mark this one as checked by setting the highest alert number
 				myHighestAlertNumber = new Long(this_alert.getId());
 			}
 
@@ -545,6 +513,35 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		return alarmXML;
 
+	}
+	
+	/**
+	 * Takes a list of alerts and only returns the ones applicable to this user.
+	 * @param alerts_raw
+	 * @return
+	 */
+	public List filterForUserAlerts(List <Alert>alerts_raw){
+		
+		ArrayList returnList = new ArrayList();
+		
+		for (ListIterator li = alerts_raw.listIterator(); li.hasNext();) {
+			Alert alert = (Alert) li.next();
+			
+			boolean thisUserApplicable = false;
+
+			if (!(alert.isSpecific_targets())) {
+				thisUserApplicable = true;
+			} else {
+				thisUserApplicable = alert.checkActor(this.actor_id);
+			}
+
+			// Check to see if its applicable, if so, add it to output.
+			if (thisUserApplicable) {
+				returnList.add(alert);
+			}		
+		}
+		
+		return returnList;
 	}
 
 	public static String DEFAULTMEMOTEXT = "To: <BR />From:<BR />Topic:<BR />Message:"; //$NON-NLS-1$
@@ -787,8 +784,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public Long getHighestAlertNumberForRunningSim(HttpServletRequest request) {
 
 		if (running_sim_id == null) {
-			Logger.getRootLogger().debug("returning null for highest change number. ");
-			return null;
+			Logger.getRootLogger().warn("PSO: Running sim id is 0. Returning 0 for highest change number. ");
+			return new Long(0);
 		}
 
 		// Get cache of alert numbers

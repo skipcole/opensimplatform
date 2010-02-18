@@ -280,7 +280,10 @@ h3.trigger a:hover { color: #ccc; }
 		        <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
-		      <h2>12. Simulation 'After Action Report' Starter Text </h2>
+              <h2>12. Sections by Player </h2>
+		      <blockquote>
+              <a href="sections_by_player.jsp">Click here</a> to see all of the sections for the player of your choice.              </blockquote>
+		      <h2>13. Simulation 'After Action Report' Starter Text </h2>
 		      <blockquote>
 		        <p><%= simulation.getAar_starter_text() %></p>
 		        <p><% if (afso.isAuthor()) { %>(<a href="create_aar_starter_text.jsp">edit</a>)<% } %></p>

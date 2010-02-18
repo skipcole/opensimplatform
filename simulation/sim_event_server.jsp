@@ -14,6 +14,8 @@
 	String alarmXML = pso.alarmXML(request, response);
 	
 	response.setContentType("text/xml");
+	response.setHeader("Cache-Control", "no-cache");
+
 
 %><?xml version="1.0" encoding="UTF-8"?>
 <%= alarmXML %>
