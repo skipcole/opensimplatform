@@ -108,6 +108,20 @@ public class UserAssignment{
 				userid.toString()).list());
 	}
 	
+	public static List getAllForUser(String schema, Long userid) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery("from UserAssignment where user_id = :user_id")
+			.setLong("user_id", userid).list();
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+
+	}
+	
 	/**
 	 * 
 	 * @param schema

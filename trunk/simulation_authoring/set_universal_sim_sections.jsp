@@ -147,7 +147,7 @@ function loadInfo(dropdownlist){
           <td> <table width="100%" border="0">
             <tr> 
               <td width="71%"> <h2> 
-                Every Actor in Phase <strong>'<%= spp.getName() %>' </strong> </h2></td>
+                Every Actor in Phase <strong>'<%= spp.getPhaseName() %>' </strong> </h2></td>
                     <td width="29%">
                       <form id="form2" name="form2" method="post" action="set_universal_sim_sections.jsp">
                         <select name="phase_id">
@@ -162,7 +162,7 @@ function loadInfo(dropdownlist){
 								selected_p = "selected";
 							}	
 				%>
-                          <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getName() %></option>
+                          <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getPhaseName() %></option>
                           <% } %>
                           </select>
                         <label>
@@ -319,7 +319,7 @@ function loadInfo(dropdownlist){
 				Actor nextActor = (Actor) setOfActors.get(0);
 %>
         <a href="set_specific_sim_sections.jsp?actor_index=1&amp;phase_id=<%= spp.getId().toString() %>"> 
-          Next Step: Customize Sections for the Actor <strong><%= nextActor.getName() %></strong> </a>      </p>
+          Next Step: Customize Sections for the Actor <strong><%= nextActor.getActorName() %></strong> </a>      </p>
       <% 
 	  
 	  		} // end of if set of actors not 0.

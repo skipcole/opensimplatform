@@ -159,7 +159,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 					sim.addControlSectionsToAllPhasesOfControl(this.schema, this_act);
 				}
 
+				// I'm not really sure why we are saving the simulation here (this may be a relic), 
+				// but it does update the last edit time.
 				sim.saveMe(this.schema);
+				
 			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
 				String sp_id = request.getParameter("sp_id"); //$NON-NLS-1$
 				returnSP = SimulationPhase.getMe(this.schema, sp_id);
@@ -170,6 +173,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				returnSP.setNotes(phase_notes);
 				returnSP.setOrder(string2Int(nominal_order));
 				returnSP.saveMe(this.schema);
+				Simulation.updateSimsLastEditDate(sim_id, schema);
 			} else if (command.equalsIgnoreCase("Clear")) { //  //$NON-NLS-1$
 				// returning new simulation phase will clear fields.
 			}
@@ -201,6 +205,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				returnMP.setMetaPhaseColor(meta_phase_color);
 				returnMP.setSim_id(sim_id);
 				returnMP.saveMe(this.schema);
+				Simulation.updateSimsLastEditDate(sim_id, schema);
 			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
 				returnMP = SimulationMetaPhase.getMe(this.schema, new Long(mp_id));
 			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
@@ -210,6 +215,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				returnMP.setMetaPhaseColor(meta_phase_color);
 				returnMP.setSim_id(sim_id);
 				returnMP.saveMe(this.schema);
+				Simulation.updateSimsLastEditDate(sim_id, schema);
 			} else if (command.equalsIgnoreCase("Clear")) { //  //$NON-NLS-1$
 				// returning new simulation phase will clear fields.
 			}
@@ -790,6 +796,29 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		error_msg = "database_created";
 
+		/////////////////////////////////////////////
+		// Test email functionality if SMTP information has been entered.
+		if (sio.checkReqEmailInfoAndMaybeMarkDown()){
+			
+			String message = "This email is coming from your newly installed OSP Installation. Live long and prosper." ;
+
+			Vector ccs = new Vector();
+			Vector bccs = new Vector();
+			
+			if (sio != null) {
+				bccs.add(sio.getEmail_archive_address());
+				Emailer.postMail(sio, sio.getEmail_archive_address(), "USIP OSP Installation Message", message, sio.getEmail_archive_address(), ccs, bccs);
+				error_msg += " : email_sent";
+			} else {
+				Logger.getRootLogger().warn("Problem sending test email.");
+				error_msg += " : problem sending email";
+			}
+			
+		} else {
+			error_msg += " : email_not_sent";
+		}
+		/////////////////////////////////////////////
+		
 		this.forward_on = true;
 		this.backPage = "install_confirmation.jsp?schema=" + schema;
 		
@@ -1045,11 +1074,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		ig.setSim_id(sim_id);
 
 		ig.saveMe(schema);
+		
+		Simulation.updateSimsLastEditDate(sim_id, schema);
 
 	}
 
 	/**
-	 * Handles the creation of Injects.
+	 * Handles the creation of Injects. We only get here if the author has edited an inject.
+	 * (Hence we automatically update the simulation last edit date.)
 	 * 
 	 * @param request
 	 */
@@ -1064,12 +1096,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		String inj_id = (String) request.getParameter("inj_id");
 
 		if ((edit != null) && (edit.equalsIgnoreCase("true"))) {
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-			Inject inject = (Inject) MultiSchemaHibernateUtil.getSession(schema).get(Inject.class, new Long(inj_id));
+			Inject inject = Inject.getMe(schema, new Long(inj_id));
 			inject.setInject_name(inject_name);
 			inject.setInject_text(inject_text);
 			inject.setInject_Notes(inject_notes);
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			inject.saveMe(schema);
 		} else {
 			Inject inject = new Inject();
 			inject.setInject_name(inject_name);
@@ -1079,6 +1110,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			inject.setGroup_id(new Long(inject_group_id));
 			inject.saveMe(schema);
 		}
+		
+		Simulation.updateSimsLastEditDate(sim_id, schema);
 
 	}
 
@@ -1254,6 +1287,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				makeUploadDir();
 
 				String _sim_id = (String) mpr.getParameter("sim_id");
+				Simulation sim = Simulation.getMe(schema, sim_id);
+				sim.updateLastEditDate(schema);
+				
 				actorOnScratchPad.setSim_id(new Long(_sim_id));
 
 				actorOnScratchPad.setPublic_description((String) mpr.getParameter("public_description"));
@@ -1274,7 +1310,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 						MultiSchemaHibernateUtil.getSession(schema).flush();
 						MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-						Simulation sim = Simulation.getMe(schema, this.sim_id);
+						
 						sim.addControlSectionsToAllPhasesOfControl(this.schema, actorOnScratchPad);
 					}
 
@@ -1370,7 +1406,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 				}
 
-				this.actor_name = actorOnScratchPad.getName();
+				this.actor_name = actorOnScratchPad.getActorName();
 				this.actor_being_worked_on_id = actorOnScratchPad.getId();
 
 			}
@@ -1706,7 +1742,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		 * (Actor) alist.next();
 		 * 
 		 * Logger.getRootLogger().debug("checking read write on " +
-		 * act.getName()); List setOfSections =
+		 * act.getActorName()); List setOfSections =
 		 * SimulationSectionAssignment.getBySimAndActorAndPhase(schema,
 		 * this.sim_id, act.getId(), sp .getId());
 		 * 
@@ -1754,6 +1790,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		 */
 	}
 
+	SimpleDateFormat savedFilesDateFormat = new SimpleDateFormat("ddMMMyyyy");
+	
 	/**
 	 * Puts the name of the sim and the date into a string to use for xml export
 	 * file name.
@@ -1762,9 +1800,21 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		Date saveDate = new java.util.Date();
 
-		SimpleDateFormat sdf = new SimpleDateFormat("ddMMMyyyy");
+		String fileName = simulation.getSimulationName() + "_" + simulation.getVersion() + "_" + savedFilesDateFormat.format(saveDate);
 
-		String fileName = simulation.getName() + "_" + simulation.getVersion() + "_" + sdf.format(saveDate);
+		fileName = cleanName(fileName);
+
+		fileName += ".xml";
+
+		return fileName;
+
+	}
+	
+	public String getDefaultUserArchiveXMLFileName() {
+
+		Date saveDate = new java.util.Date();
+
+		String fileName =  "UserArchive_" + schema + "_" + savedFilesDateFormat.format(saveDate);
 
 		fileName = cleanName(fileName);
 
@@ -1781,11 +1831,22 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	 */
 	public String handlePackageSim(String _sim_id, String fileName) {
 
-		// Simulation simulation = Simulation.getMe(schema, new Long(_sim_id));
-
 		FileIO.saveSimulationXMLFile(ObjectPackager.packageSimulation(schema, new Long(_sim_id)), fileName);
 
 		return fileName;
+	}
+	
+	/**
+	 * Turns the simulation into an xml representation.
+	 * 
+	 * @return
+	 */
+	public String handlePackageUsers() {
+
+		String savedFileName = getDefaultUserArchiveXMLFileName();
+		FileIO.saveUserArchiveXMLFile(ObjectPackager.packageUsers(schema), savedFileName);
+
+		return savedFileName;
 	}
 
 	public static String cleanName(String name) {
@@ -2505,7 +2566,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			phaseSelected = false;
 			
 			Simulation sim = Simulation.getMe(schema, sim_id);
-			this.simulation_name = sim.getName();
+			this.simulation_name = sim.getSimulationName();
 			this.simulation_org = sim.getCreation_org();
 			this.simulation_version = sim.getVersion();
 			

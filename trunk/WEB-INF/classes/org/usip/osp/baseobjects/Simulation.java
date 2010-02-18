@@ -136,6 +136,35 @@ public class Simulation {
 	@Column(name = "LISTINGKEYWORDS")
 	private String listingKeyWords = ""; //$NON-NLS-1$
 	
+	/** Flag to indicate that simulation has been lastEdited. */
+	private Date lastEditDate;
+
+	public Date getLastEditDate() {
+		return lastEditDate;
+	}
+
+	public void setLastEditDate(Date lastEditDate) {
+		this.lastEditDate = lastEditDate;
+	}
+	
+	public void updateLastEditDate(String schema) {
+		
+		this.lastEditDate = new Date();
+		this.saveMe(schema);
+	}
+	
+	/**
+	 * Updates the last time a simulation was edited.
+	 * 
+	 * @param sim_id
+	 * @param schema
+	 */
+	public static void updateSimsLastEditDate(Long sim_id, String schema){
+		Simulation sim = Simulation.getMe(schema, sim_id);
+		sim.updateLastEditDate(schema);
+	}
+	
+	
 	/** Flag to indicate that simulation has been published. */
 	private Date publishDate;
 
@@ -163,7 +192,7 @@ public class Simulation {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getSimulationName() {
 		return this.name;
 	}
 
@@ -392,7 +421,10 @@ public class Simulation {
 
 	/** Saves a simulation. */
 	public void saveMe(String schema) {
-
+		
+		// Save the last updated date each time this simulaiton is saved.
+		this.setLastEditDate(new Date());
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
@@ -524,7 +556,7 @@ public class Simulation {
 		for (ListIterator li = this.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 
-			if (sp.getName().equalsIgnoreCase("Completed")) { //$NON-NLS-1$
+			if (sp.getPhaseName().equalsIgnoreCase("Completed")) { //$NON-NLS-1$
 				return sp.getId();
 			}
 

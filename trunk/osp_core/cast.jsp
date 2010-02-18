@@ -56,7 +56,8 @@
 </tr>
 
   <tr>
-    <td valign="top" width="200"><img src="images/actors/<%= this_actor.getImageFilename() %>" width="200"  ><br><%= this_actor.getName() %></td>
+    <td valign="top" width="200"><img src="images/actors/<%= this_actor.getImageFilename() %>" width="200"  >
+    <br><%= this_actor.getActorName(pso.schema, pso.running_sim_id, request) %></td>
     <td valign="top">
     <% if (this_actor.getRole(pso.schema, pso.sim_id) != null) { %>
     <p><strong>Your Role</strong><br />
@@ -81,7 +82,7 @@
 </tr>
   <%
   		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
-			Actor aa = (Actor) li.next();
+			Actor act = (Actor) li.next();
 			
 			boolean showRole = false;
 			boolean showSemiPublic = false;
@@ -93,27 +94,27 @@
 				showPrivate = true;
 			}
 			
-			if (!(aa.getId().equals(pso.actor_id))) {
+			if (!(act.getId().equals(pso.actor_id))) {
 			
-			if ((showControl) || (!(aa.isControl_actor()))) {
+			if ((showControl) || (!(act.isControl_actor()))) {
 		%>
   <tr>
-    <td valign="top" width="200"><img src="images/actors/<%= aa.getImageFilename() %>" width="200"  ><br><%= aa.getName() %></td>
+    <td valign="top" width="200"><img src="images/actors/<%= act.getImageFilename() %>" width="200"  ><br><%= act.getActorName(pso.schema, pso.running_sim_id, request) %></td>
     <td valign="top"><% if (showRole) { %>
         <p><strong>Their Role</strong><br />
-    	<%= aa.getRole(pso.schema, pso.sim_id) %></p>   <% } %>
+    	<%= act.getRole(pso.schema, pso.sim_id) %></p>   <% } %>
         
     	<p><strong>Public Description</strong>
-    	<%= aa.getPublic_description() %></p>
+    	<%= act.getPublic_description() %></p>
     
     <% if (showSemiPublic) { %>
     	<p><strong>Semi-public Description</strong><br>
-		<%= aa.getSemi_public_description() %></p>
+		<%= act.getSemi_public_description() %></p>
 	<% } %>
     
     <% if (showPrivate) { %>
 		<p><strong>Private Description</strong> <br>
-		<%= aa.getPrivate_description() %>  
+		<%= act.getPrivate_description() %>  
     <% } %>
     </td>
   </tr>

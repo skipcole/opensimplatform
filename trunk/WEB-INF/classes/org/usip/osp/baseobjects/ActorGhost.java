@@ -76,6 +76,6 @@ public class ActorGhost {
     	this.setId(act.getId());
     	
     	this.setDefaultColorChatBubble(act.getDefaultColorChatBubble());
-    	this.setName(act.getName());
+    	this.setName(act.getActorName());
     }
 }

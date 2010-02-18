@@ -52,7 +52,7 @@
                 <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
               <p><% if (afso.running_sim_id != null) { %>You are currently working on runnign simulation <%= afso.run_sim_name %>.<% } %>
               If you would like to select a running simulation already created,  <a href="select_running_simulation.jsp">click here.</a></p>
-              Below are the running simulation currently associated with <b> <%= simulation.getName() %> </b>. <br />
+              Below are the running simulation currently associated with <b> <%= simulation.getSimulationName() %> </b>. <br />
               <table width="80%" border = "1">
                 <tr> 
                   <td><h2>Running Simulation</h2></td>
@@ -70,8 +70,8 @@
 				}
 		%>
                 <tr> 
-                  <td><a href="administrate_users.jsp?rs_id=<%= rs.getId() %>"><%= rs.getName() %></a></td>
-              <td><%= sp.getName() %></td>
+                  <td><a href="administrate_users.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
+              <td><%= sp.getPhaseName() %></td>
             </tr>
                 <%
 			}

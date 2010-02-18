@@ -116,7 +116,7 @@ org.usip.osp.persistence.*" errorPage="" %>
         <% 
 			if (afso.sim_id != null) {
 			
-				String gameNameDisplay = simulation.getName() + " version " + simulation.getVersion();
+				String gameNameDisplay = simulation.getSimulationName() + " version " + simulation.getVersion();
 
 		%>
         You are currently working on the simulation <strong><%= gameNameDisplay %></strong>.<br />

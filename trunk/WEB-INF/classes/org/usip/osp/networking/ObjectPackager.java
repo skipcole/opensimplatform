@@ -12,6 +12,7 @@ import java.util.ListIterator;
 
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
+import org.usip.osp.persistence.BaseUser;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -51,8 +52,10 @@ public class ObjectPackager {
 
 		// Logger.getRootLogger().debug(packageSimulation("test", new Long(1)));
 
-		play();
+		//play();
 
+			//ObjectPackager.packageUsers("test");
+			System.out.println(ObjectPackager.packageUsers("test"));
 	}
 
 	public static void play() {
@@ -69,11 +72,6 @@ public class ObjectPackager {
 
 		Logger.getRootLogger().debug(xstream.toXML(bss_intro));
 
-	}
-
-	public static Object unpackageXML() {
-
-		return null;
 	}
 
 	/**
@@ -365,6 +363,68 @@ public class ObjectPackager {
 		}
 		return returnString;
 	}
+	
+
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param xstream
+	 * @return
+	 */
+	public static String packageUsers(String schema) {
+		
+		// Need to get base users,
+		// Need to get hashtable of their ids ...
+		String returnString = ""; //$NON-NLS-1$
+		
+		XStream xstream = new XStream();
+		
+		List<User> allUsers = User.getAll(schema);
+		
+		for (ListIterator<User> li = allUsers.listIterator(); li.hasNext();) {
+			User thisUser = li.next();
+			BaseUser bu = BaseUser.getByUserId(thisUser.getId());
+			
+			thisUser.setTransit_id(thisUser.getId());
+			thisUser.setId(null);
+			bu.setTransit_id(bu.getId());
+			bu.setId(null);
+			
+			returnString += xstream.toXML(bu) + lineTerminator;
+			returnString += xstream.toXML(thisUser) + lineTerminator;
+		}
+		return returnString;
+	}
+	
+	public static String unpackageUsers(String schema, String fullString, Long sim_id, XStream xstream) {
+
+		String returnString = "";
+		List users = getSetOfObjectFromFile(fullString, makeOpenTag(User.class),
+				makeCloseTag(User.class));
+		List base_users = getSetOfObjectFromFile(fullString, makeOpenTag(BaseUser.class),
+				makeCloseTag(BaseUser.class));
+		
+		// TODO
+		/**
+		for (ListIterator<String> li_i = phases.listIterator(); li_i.hasNext();) {
+			String phase_string = li_i.next();
+
+			SimulationMetaPhase this_meta_phase = (SimulationMetaPhase) xstream.fromXML(phase_string);
+			
+			this_meta_phase.setSim_id(sim_id);
+			this_meta_phase.saveMe(schema);
+
+			returnString += "MetaPhase " + this_meta_phase.getMetaPhaseName() + " added to simulation";
+
+			metaPhaseIdMappings.put(this_meta_phase.getTransit_id(), this_meta_phase.getId());
+
+		}
+		*/
+		return returnString;
+
+	}
+
 
 	/**
 	 * 
@@ -1057,12 +1117,12 @@ public class ObjectPackager {
 			// new simulation id.
 			this_act.setSim_id(sim_id);
 
-			String originalName = this_act.getName();
+			String originalName = this_act.getActorName();
 
-			this_act.setName(getUniqueUsersName(actorNames, this_act.getName()));
+			this_act.setName(getUniqueUsersName(actorNames, this_act.getActorName()));
 
 			this_act.saveMe(schema);
-			returnString += "Actor " + originalName + " addes as " + this_act.getName();
+			returnString += "Actor " + originalName + " addes as " + this_act.getActorName();
 
 			actorIdMappings.put(this_act.getTransit_id(), this_act.getId());
 
@@ -1106,6 +1166,8 @@ public class ObjectPackager {
 		return returnString;
 
 	}
+	
+	
 	/**
 	 * Pulls the actors out of the packaged file.
 	 * 
@@ -1137,7 +1199,7 @@ public class ObjectPackager {
 			
 			this_phase.saveMe(schema);
 
-			returnString += "Phase " + this_phase.getName() + " added to simulation";
+			returnString += "Phase " + this_phase.getPhaseName() + " added to simulation";
 
 			phaseIdMappings.put(this_phase.getTransit_id(), this_phase.getId());
 

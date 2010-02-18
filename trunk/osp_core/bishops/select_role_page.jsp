@@ -83,7 +83,7 @@
 			selected = "selected";
 		}
   	%>
-<option value="<%= bpi.getId() %>" <%= selected %>><%= bpi.getName() %></option>
+<option value="<%= bpi.getId() %>" <%= selected %>><%= bpi.getBPIName() %></option>
       <% } %>
       </select>
       </td>
@@ -107,7 +107,7 @@
 			selected = "selected";
 		}
   	%>
-<option value="<%= bpi.getId() %>" <%= selected %>><%= bpi.getName() %></option>
+<option value="<%= bpi.getId() %>" <%= selected %>><%= bpi.getBPIName() %></option>
       <% } %>
       </select>
       </label></td>
@@ -132,7 +132,7 @@
 			selected = "selected";
 		}
   	%>
-<option value="<%= bpi.getId() %>" <%= selected %>><%= bpi.getName() %></option>
+<option value="<%= bpi.getId() %>" <%= selected %>><%= bpi.getBPIName() %></option>
       <% } %>
       </select>
       </label></td>

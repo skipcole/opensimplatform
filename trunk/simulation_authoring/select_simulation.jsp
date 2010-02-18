@@ -59,11 +59,11 @@
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
-			String nameToSend = java.net.URLEncoder.encode(sim.getName());
+			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName());
 			
 		%>
             <tr> 
-              <td><a href="select_simulation.jsp?select_sim=true&backpage=<%= afso.backPage %>&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> version <%= sim.getVersion() %></a></td>
+              <td><a href="select_simulation.jsp?select_sim=true&backpage=<%= afso.backPage %>&sim_id=<%= sim.getId().toString() %>"><%= sim.getSimulationName() %> version <%= sim.getVersion() %></a></td>
             </tr>
             <%
 	}

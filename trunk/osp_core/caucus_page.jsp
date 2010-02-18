@@ -46,7 +46,7 @@
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();
 			String this_a_id = act.getId().toString();
-			String this_a_name = act.getName();
+			String this_a_name = act.getActorName(pso.schema, pso.running_sim_id, request);
 	%>
 		actor_names["<%= this_a_id %>"] = "<%= this_a_name %>"
 		actor_colors["<%= this_a_id %>"] = "ffffff"
@@ -277,7 +277,7 @@ overflow:scroll;
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();
 			String this_a_id = act.getId().toString();
-			String this_a_name = act.getName();
+			String this_a_name = act.getActorName(pso.schema, pso.running_sim_id, request);
 	%>
 		<LI><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
       <option value="<%= this_a_id %>_ffffff">White</option>

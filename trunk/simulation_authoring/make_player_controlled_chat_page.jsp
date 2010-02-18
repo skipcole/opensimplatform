@@ -75,7 +75,7 @@
 					checked = " checked ";
 				}
 			%>
-          <tr><td><%= act.getName() %></td><td><label>
+          <tr><td><%= act.getActorName() %></td><td><label>
             <input type="text" name="textfield" />
           </label></td>
             <td><label>

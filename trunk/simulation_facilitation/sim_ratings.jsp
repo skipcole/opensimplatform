@@ -48,7 +48,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Ratings for Simulation: <%= sim.getName() %> : <%= sim.getVersion() %>  </h1>
+              <h1>Ratings for Simulation: <%= sim.getSimulationName() %> : <%= sim.getVersion() %>  </h1>
               <br />      <blockquote>
         <p>Below is the <strong>Simulation Blurb</strong></p>
         <table border="1" cellspacing="0" cellpadding="0">

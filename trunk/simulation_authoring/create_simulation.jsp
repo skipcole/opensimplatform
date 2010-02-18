@@ -47,7 +47,7 @@
             <td>&nbsp;</td>
               <td valign="top">Simulation Name <a href="helptext/sim_name.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top">
-  <input type="text" name="simulation_name" value="<%= simulation.getName() %>" tabindex="1" /></td>
+  <input type="text" name="simulation_name" value="<%= simulation.getSimulationName() %>" tabindex="1" /></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -109,14 +109,14 @@
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
-			String nameToSend = java.net.URLEncoder.encode(sim.getName());
+			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName());
 			
 		%>
             <tr> 
-              <td><a href="create_simulation.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
+              <td><a href="create_simulation.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
               <td>&nbsp;</td>
               <td><!-- a href="delete_object.jsp?object_type=simulation&objid=<%= sim.getId().toString() %>&object_info=<%= nameToSend %>"> 
-                (Remove) <%= sim.getName() %> : <%= sim.getVersion() %> </a --></td>
+                (Remove) <%= sim.getSimulationName() %> : <%= sim.getVersion() %> </a --></td>
             </tr>
             <%
 	}

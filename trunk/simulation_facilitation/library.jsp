@@ -87,7 +87,7 @@
 			Simulation sim = (Simulation) li.next();
 			%>
           <tr valign="top"> 
-            <td><a href="facilitateweb.jsp?loadSim=true&sim_id=<%= sim.getId() %>" target="_top"><%= sim.getName() %> : <%= sim.getVersion() %></a></td>
+            <td><a href="facilitateweb.jsp?loadSim=true&sim_id=<%= sim.getId() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
             <td>ETCD</td>
             <td><%= sim.getListingKeyWords() %></td>
             <td>1/2009</td>

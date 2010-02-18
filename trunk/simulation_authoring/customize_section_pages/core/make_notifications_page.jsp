@@ -90,7 +90,7 @@
                 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
                 <input type="hidden" name="actor_being_worked_on_id" value="<%= act.getId() %>" />
                         <tr>
-                          <td colspan="4"><%= act.getName() %> </td>
+                          <td colspan="4"><%= act.getActorName() %> </td>
                           </tr>
                         <tr>
                           <td width="8%" valign="top">&nbsp;</td>

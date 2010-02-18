@@ -148,7 +148,7 @@
 %>	
 
 
-<h2>Inbox for <%= act.getName() %></h2>
+<h2>Inbox for <%= act.getActorName(pso.schema, pso.running_sim_id, request) %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td width="4%" valign="top">&nbsp;</td>
@@ -181,7 +181,7 @@
   </tr>
 <% } %>
 </table>
-<h2>Sent Messages From <%= act.getName() %></h2>
+<h2>Sent Messages From <%= act.getActorName(pso.schema, pso.running_sim_id, request) %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td width="4%" valign="top">&nbsp;</td>

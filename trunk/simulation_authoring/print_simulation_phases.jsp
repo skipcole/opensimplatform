@@ -72,7 +72,7 @@
 			
 		%>
               <tr>
-                <td valign="top"><a href="create_simulation_phases.jsp?command=Edit&sp_id=<%= sp.getId().toString() %>"><%= sp.getName() %></a>  <%= flagNotes %></td>
+                <td valign="top"><a href="create_simulation_phases.jsp?command=Edit&sp_id=<%= sp.getId().toString() %>"><%= sp.getPhaseName() %></a>  <%= flagNotes %></td>
                 <td valign="top"><%= sp.getNotes() %></td> 
                 <td valign="top"><%= sp.getOrder() + "" %></td>
                 </tr>

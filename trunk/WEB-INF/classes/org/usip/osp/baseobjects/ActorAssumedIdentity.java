@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -161,8 +162,8 @@ public class ActorAssumedIdentity {
 	}
 	
 	public static ActorAssumedIdentity getAssumedIdentity(String schema, Long a_id, Long rs_id){
-		String getHQL = "from ActorAssumedIdentity where ACTOR_ID = " + a_id //$NON-NLS-1$
-		+ " AND PHASE_ID = " + rs_id; //$NON-NLS-1$ //$NON-NLS-2$
+		String getHQL = "from ActorAssumedIdentity where actorId = " + a_id //$NON-NLS-1$
+		+ " AND running_sim_id = " + rs_id; //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -172,13 +173,24 @@ public class ActorAssumedIdentity {
 
 		if ((returnList == null) || (returnList.size() == 0)) {
 			return null;
-		} else if (returnList.size() == 0){
+		} else if (returnList.size() == 1){
 			ActorAssumedIdentity aai = (ActorAssumedIdentity) returnList.get(0);
 			return aai;
 		} else {
-			// TODO kick out a warning
+			Logger.getRootLogger().warn("Found multiple assumed identities for actor " + a_id + " in running sim " + rs_id);
 			return null;
 		}
+	}
+	
+	/**
+	 * Saves this object back to the database.
+	 * 
+	 * @param schema
+	 */
+	public void saveMe(String schema) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
     
 }

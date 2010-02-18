@@ -36,7 +36,7 @@
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td valign="top" width="50%"><p>Previous</p>
-      <h2>Party <%= bpi_parent.getPartyIndex() %>: <%= bpi_parent.getName() %><br>
+      <h2>Party <%= bpi_parent.getPartyIndex() %>: <%= bpi_parent.getBPIName() %><br>
       </h2>
       <h2>Needs</h2>
       <p><%= bpi_parent.getNeedsDoc() %> </p>
@@ -44,7 +44,7 @@
       <h2>Fears</h2>
     <p><%= bpi_parent.getFearsDoc() %> </p>      <p>&nbsp;</p></td>
     <td valign="top" width="50%"><p>Current</p>
-    <h2>Party <%= bpi.getPartyIndex() %>: <%= bpi.getName() %><br>
+    <h2>Party <%= bpi.getPartyIndex() %>: <%= bpi.getBPIName() %><br>
       </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %> </p>

@@ -66,6 +66,28 @@ public class RunningSimulation {
 
 	@Column(name = "RS_DONE")
 	private boolean completed = false;
+	
+	private boolean inactivated = false;
+	
+	@Column(name = "INACTIVATED_DATE", columnDefinition = "datetime")
+	@GeneratedValue
+	private Date inactivatedDate;
+	
+	public boolean isInactivated() {
+		return inactivated;
+	}
+
+	public void setInactivated(boolean inactivated) {
+		this.inactivated = inactivated;
+	}
+
+	public Date getInactivatedDate() {
+		return inactivatedDate;
+	}
+
+	public void setInactivatedDate(Date inactivatedDate) {
+		this.inactivatedDate = inactivatedDate;
+	}
 
 	@Column(name = "ENABLED_DATE", columnDefinition = "datetime")
 	@GeneratedValue
@@ -383,7 +405,7 @@ public class RunningSimulation {
 		this.creator_id = creator_id;
 	}
 
-	public String getName() {
+	public String getRunningSimulationName() {
 		return this.name;
 	}
 

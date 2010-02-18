@@ -58,14 +58,14 @@
         <form action="assign_actor_to_simulation.jsp" method="post" name="form1" id="form1">
           <tr valign="top">
             <td>&nbsp;</td>
-              <td><%= sim.getName() %>:<%= sim.getVersion() %></td>
+              <td><%= sim.getSimulationName() %>:<%= sim.getVersion() %></td>
               <td><%
 			
 			for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 
 			%> 
-                <A href="assign_actor_to_sim_see_role.jsp?actor_being_worked_on_id=<%= act.getId() %>&sim_id=<%= sim.getId() %>"> <%= act.getName() %> </A>
+                <A href="assign_actor_to_sim_see_role.jsp?actor_being_worked_on_id=<%= act.getId() %>&sim_id=<%= sim.getId() %>"> <%= act.getActorName() %> </A>
                 <A href="assign_actor_to_simulation.jsp?remove=true&actor_being_worked_on_id=<%= act.getId().toString() %>&sim_id=<%= sim.getId().toString() %>"> (remove) </A><br/>
                 <% } // End of loop over Actors %>                </td>
               <td><label>
@@ -77,9 +77,9 @@
               <td><select name="actor_being_worked_on_id">
                 <% 
                 for (ListIterator la = sim.getAvailableActorsForSim(afso.schema).listIterator(); la.hasNext();) {
-					Actor aa = (Actor) la.next();
+					Actor act = (Actor) la.next();
 		%>
-                <option value="<%= aa.getId().toString() %>"><%= aa.getName() %></option>
+                <option value="<%= act.getId().toString() %>"><%= act.getActorName() %></option>
                 <% } %>
                 </select></td>
               <td> <input type="hidden" name="sending_page" value="assign_actor" /> 

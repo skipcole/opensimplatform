@@ -58,7 +58,7 @@
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
-			String nameToSend = java.net.URLEncoder.encode(sim.getName());
+			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName());
 			
 		%>
             <tr> 
@@ -66,7 +66,7 @@
                 <td>
                   <input type="hidden" name="sending_page" value="package" />
                   <input type="hidden" name="sim_id" value="<%= sim.getId().toString() %>" />
-                  <%= sim.getName() %> : <%= sim.getVersion() %>                  </td>
+                  <%= sim.getSimulationName() %> : <%= sim.getVersion() %>                  </td>
               <td>
                 <input name="filename" type="text" id="textfield" value="<%= afso.getDefaultSimXMLFileName(sim) %>" size="60" />                </td>
               <td><label>

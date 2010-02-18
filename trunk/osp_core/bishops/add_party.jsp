@@ -43,7 +43,7 @@
     <td valign="top">Party</td>
     <td valign="top">
       <label>
-        <input type="text" name="party_name" id="party_name" value="<%= bpi.getName() %>">
+        <input type="text" name="party_name" id="party_name" value="<%= bpi.getBPIName() %>">
         </label>    </td>
   </tr>
   <tr>

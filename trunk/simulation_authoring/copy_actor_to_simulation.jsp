@@ -68,14 +68,14 @@
         <form action="assign_actor_to_simulation.jsp" method="post" name="form1" id="form1">
           <tr valign="top">
             <td>&nbsp;</td>
-              <td><%= sim.getName() %> : <%= sim.getVersion() %></td>
+              <td><%= sim.getSimulationName() %> : <%= sim.getVersion() %></td>
               <td><%
 			
 			for (ListIterator la = Actor.getAllForSim(afso.schema, sim.getId()).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 
 			%> 
-                <a href="copy_actor_to_simulation.jsp?copyin=true&actor_id=<%= act.getId() %>">Copy in:  <%= act.getName() %></a> <br/>
+                <a href="copy_actor_to_simulation.jsp?copyin=true&actor_id=<%= act.getId() %>">Copy in:  <%= act.getActorName() %></a> <br/>
                 <% } // End of loop over Actors %>                </td>
               </tr>
             

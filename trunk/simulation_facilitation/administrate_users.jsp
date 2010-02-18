@@ -42,7 +42,7 @@
 			<td width="100%"><br />
               <h1>Administrate Users </h1>
               <br />
-      <p>Users for Running Simulation: <strong><%= running_simulation.getName() %></strong></p>
+      <p>Users for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></p>
       <table border="1"><tr><td><strong>Actor</strong></td>
       <td><strong>User Email</strong></td>
       </tr>

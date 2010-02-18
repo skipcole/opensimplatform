@@ -40,13 +40,13 @@
 </tr>
   <%
   		for (ListIterator li = simulation.getActors().listIterator(); li.hasNext();) {
-			Actor aa = (Actor) li.next();
+			Actor act = (Actor) li.next();
 			
 			User user = UserAssignment.getUserAssigned(pso.schema, pso.running_sim_id, pso.actor_id);
 		%>
   <tr>
     <td valign="top"><%= user.getBu_full_name() %></td>
-    <td valign="top"><%= aa.getName() %></td><td valign="top">&nbsp;</td>
+    <td valign="top"><%= act.getActorName(pso.schema, pso.running_sim_id, request) %></td><td valign="top">&nbsp;</td>
   </tr>
 
   <%

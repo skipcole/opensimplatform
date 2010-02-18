@@ -54,7 +54,7 @@ errorPage="../error.jsp" %>
 					backString = " Back ";
 					
 					Simulation sim = Simulation.getMe(afso.schema, storedSimId);
-					simName = sim.getName();
+					simName = sim.getSimulationName();
 					
 					afso.sim_id = sim.getId();
 					
