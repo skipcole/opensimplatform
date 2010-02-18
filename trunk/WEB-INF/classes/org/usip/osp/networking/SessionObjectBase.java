@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.baseobjects.User;
 import org.usip.osp.communications.Event;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -98,5 +99,19 @@ public class SessionObjectBase {
 	
 	public String getBaseSimURL() {
 		return USIP_OSP_Properties.getValue("base_sim_url");
+	}
+	
+	/** Id of User that is logged on. */
+	public Long user_id;
+	
+	/**
+	 * Returns the user associated with this session.
+	 * 
+	 * @return
+	 */
+	public User giveMeUser() {
+
+		return User.getUser(schema, this.user_id);
+
 	}
 }

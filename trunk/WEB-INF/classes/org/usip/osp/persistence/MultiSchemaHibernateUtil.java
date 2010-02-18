@@ -399,6 +399,8 @@ public class MultiSchemaHibernateUtil {
 	 */
 	public static void addRootSchemaClasses(AnnotationConfiguration ac) {
 		ac.addAnnotatedClass(org.usip.osp.persistence.BaseUser.class);
+		ac.addAnnotatedClass(org.usip.osp.persistence.RestoreEvents.class);
+		ac.addAnnotatedClass(org.usip.osp.persistence.RestoreResults.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.SchemaInformationObject.class);
 	}
 

@@ -13,6 +13,21 @@ errorPage=""
 	
 	int num_bss = BaseSimSection.getAllBaseAndCustomizable(schema).size();
 	
+	String emailstatus = request.getParameter("emailstatus");
+	
+	
+	int email_msg = 0;
+	
+	if (emailstatus != null) {
+		
+		if (emailstatus.equalsIgnoreCase("email_sent")){
+			email_msg = 1;	
+		} else if (emailstatus.equalsIgnoreCase("email_not_sent")){
+			email_msg = 2;
+		}
+	
+	}
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -58,13 +73,20 @@ body {
     <td width="20%" align="right" valign="top">&nbsp;</td>
   </tr>
 </table>
-<p align="center">Schema <%= schema %> installed with an initial catalog of <%= " " + num_bss %> Simulation Sections.</p>
-<p align="center">You may now<a href="../login.jsp"> login as the root user</a> with the password that you provided.</p>
-<p>&nbsp;</p>
-<ul><li>(<em><strong>Functionality To Come</strong></em>) A test email has been sent to your admin email address using the email paramaters that you entered. If you don't find it, please look in your junk email. If you still can't find it you may want to verify the email parameters that you entered in the Admistration section.</li>
+<blockquote>
+<p align="left">Schema <%= schema %> installed with an initial catalog of <%= " " + num_bss %> Simulation Sections.</p>
+<p align="left">You may now<a href="../login.jsp"> login as the root user</a> with the password that you provided.</p>
+<% if (email_msg == 1) { %>
+<ul><li>A test email has been sent to your admin email address using the email paramaters that you entered. If you don't find it, please look in your junk email. If you still can't find it you may want to verify the email parameters that you entered in the Admistration section.</li>
 </ul>
+<% } else if (email_msg == 2) { %>
+<ul><li>
+Email has not been yet enabled for this installation. 
+</li></ul>
+<% } %>
 <p><br>
 </p>
+</blockquote>
 
 <p><strong>Any questions? Contact our community at <a href="http://docs.opensimplatform.org">docs.opensimplatform.org</a></strong></p>
 <p><a href="mailto:scole@usip.org"></a></p>

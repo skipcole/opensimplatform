@@ -79,6 +79,7 @@ public class RunningSimulation {
 
 	public void setInactivated(boolean inactivated) {
 		this.inactivated = inactivated;
+		this.setInactivatedDate(new Date());
 	}
 
 	public Date getInactivatedDate() {

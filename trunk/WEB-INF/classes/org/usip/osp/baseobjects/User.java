@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.*;
@@ -607,4 +608,30 @@ public class User {
 		this.transit_id = transit_id;
 	}
 
+	/*
+     * 
+     * @param the_username
+     * @return
+     */
+    public static User getByUsername(String schema, String the_username) {
+
+    	User bu = null;
+    	
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+        try {
+            List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+                    "from User where user_name = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
+        	
+        	if ((returnList != null) && (returnList.size() > 0)){
+        		bu = (User) returnList.get(0);
+        	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+        return bu;
+    }
 }
