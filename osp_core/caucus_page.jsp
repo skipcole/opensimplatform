@@ -46,7 +46,7 @@
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();
 			String this_a_id = act.getId().toString();
-			String this_a_name = act.getActorName(pso.schema, pso.running_sim_id, request);
+			String this_a_name = act.getActorName();
 	%>
 		actor_names["<%= this_a_id %>"] = "<%= this_a_name %>"
 		actor_colors["<%= this_a_id %>"] = "ffffff"

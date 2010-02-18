@@ -34,7 +34,12 @@ public class ActorGhost {
 		this.id = id;
 	}
 
+	@Deprecated
 	public String getName() {
+		return this.name;
+	}
+	
+	public String getActorName() {
 		return this.name;
 	}
 
