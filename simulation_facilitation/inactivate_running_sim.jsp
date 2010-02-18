@@ -18,7 +18,29 @@
 		simulation = afso.giveMeSim();
 	}
 	
-	afso.handleAddRunningSimulation(request, simulation);
+	String sending_page = (String) request.getParameter("sending_page");
+	
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("change_name"))){
+	
+		String action = (String) request.getParameter("action");
+		String rsid = (String) request.getParameter("rsid");
+		
+		System.out.println("a/r " + action + "/" + rsid);
+		
+		if (action != null) {
+		
+			RunningSimulation rs = RunningSimulation.getMe(afso.schema, new Long(rsid));
+		
+			if (action.equalsIgnoreCase("Inactivate")) {
+				rs.setInactivated(true);
+			} else if (action.equalsIgnoreCase("Activate")) {
+				rs.setInactivated(false);
+			}
+			
+			rs.saveMe(afso.schema);
+		}
+	
+	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -37,7 +59,7 @@
               <tr>
                 <td width="120"><img src="../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><h1> <br />
-                    Inactivate Running Simulation</h1>
+                    Inactivate/Activate Running Simulation</h1>
                   <br />
                   <blockquote>
                     <%
@@ -56,7 +78,7 @@
                         <td><h2>Running Simulation</h2></td>
                         <td><h2>Phase</h2></td>
                         <td><h2>Last Login</h2></td>
-                        <td><h2>Inactivate</h2></td>
+                        <td><h2>Inactivate /Activate</h2></td>
                       </tr>
                       <%
 		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id.toString(), afso.schema);
@@ -68,12 +90,23 @@
 				if (rs.getPhase_id() != null){
 					sp = SimulationPhase.getMe(afso.schema, rs.getPhase_id().toString());
 				}
+				
+				String actionTitle = "Inactivate";
+				if (rs.isInactivated()){
+					actionTitle = "Activate";
+				}
 		%>
                       <tr>
                         <td><%= rs.getRunningSimulationName() %></td>
                         <td><%= sp.getPhaseName() %></td>
                         <td>&nbsp;</td>
-                        <td>&nbsp;</td>
+                        <td>
+                        <form id="form<%= rs.getId() %>" name="form<%= rs.getId() %>" method="post" action="inactivate_running_sim.jsp?rsid=<%= rs.getId() %>&action=<%= actionTitle %>">
+                        <input type="hidden" name="sending_page" value="change_name">  
+                            <input type="submit" name="button" id="button" value="<%= actionTitle %>" />
+                            
+                        </form>
+                        </td>
                       </tr>
                       <%
 			}

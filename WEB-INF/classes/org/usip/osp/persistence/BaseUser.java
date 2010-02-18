@@ -11,9 +11,8 @@ import org.apache.log4j.*;
 
 /**
  * This class holds all of the personal information (name, email address, etc.) on players.
- *
- * 
- * This file is part of the USIP Open Simulation Platform.<br>
+ */
+/* This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can
  * redistribute it and/or modify it under the terms of the new BSD Style license
@@ -63,6 +62,7 @@ public class BaseUser {
         
     }
 
+    /** Creates a new base user with the username and password passed in. */
     public BaseUser (String the_username, String the_password){
         
         this.setUsername(the_username);
@@ -260,11 +260,6 @@ public class BaseUser {
             List returnList = s.createQuery(
                     "from BaseUser where username = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
         	
-            /*
-             *             List returnList = MultiSchemaHibernateUtil.getSession(
-                    MultiSchemaHibernateUtil.principalschema, true).createQuery(
-                    "from BaseUser where username = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
-             */
         	if ((returnList != null) && (returnList.size() > 0)){
         		bu = (BaseUser) returnList.get(0);
         	}
@@ -339,9 +334,6 @@ public class BaseUser {
         BaseUser bu = (BaseUser) MultiSchemaHibernateUtil.getSession(
                 MultiSchemaHibernateUtil.principalschema, true).get(
                 BaseUser.class, user_id);
-
-        //MultiSchemaHibernateUtil.getSession(
-        //        MultiSchemaHibernateUtil.principalschema, true).evict(bu);
 
         MultiSchemaHibernateUtil
                 .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);

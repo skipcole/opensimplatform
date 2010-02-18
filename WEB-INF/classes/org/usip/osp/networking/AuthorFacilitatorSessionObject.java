@@ -48,9 +48,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	/** The page to take them back to if needed. */
 	public String backPage = "index.jsp"; //$NON-NLS-1$
 
-	/** Id of User that is logged on. */
-	public Long user_id;
-
 	/**
 	 * Username/ Email address of user that is logged in and using this
 	 * AuthorFacilitatorSessionObject.
@@ -117,7 +114,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
-		ObjectPackager.unpackSim(filename, this.schema, sim_name, sim_version);
+		ObjectPackager.unpackageSim(filename, this.schema, sim_name, sim_version);
 
 	}
 
@@ -722,7 +719,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		String email_status = checkEmailStatus(email_smtp, email_user, email_pass, email_user_address);
 
-		String error_msg = "";
 		String ps = MultiSchemaHibernateUtil.principalschema;
 
 		if ((sending_page != null) && (cleandb != null) && (sending_page.equalsIgnoreCase("clean_db"))) {
@@ -760,8 +756,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		Logger.getRootLogger().debug(sio.toString());
 
 		if (!(MultiSchemaHibernateUtil.testConn())) {
-			error_msg += "<BR> Failed to create database connection to the database " + db_schema + ".";
-			return error_msg;
+			return ("<BR> Failed to create database connection to the database " + db_schema + ".");
 		}
 
 		// Store SIO if schema object of this name already exist, return
@@ -773,12 +768,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(ps);
 		} catch (Exception e) {
 
-			error_msg = "Warning. Unable to create the database entry for this schema. <br />"
-					+ "This may indicate that it already has been created.";
-
 			e.printStackTrace();
 
-			return error_msg;
+			return ("Warning. Unable to create the database entry for this schema. <br />"
+			+ "This may indicate that it already has been created.");
 		}
 
 		MultiSchemaHibernateUtil.recreateDatabase(sio);
@@ -794,10 +787,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
 		}
 
-		error_msg = "database_created";
-
 		/////////////////////////////////////////////
 		// Test email functionality if SMTP information has been entered.
+		String email_msg = "";
+		
 		if (sio.checkReqEmailInfoAndMaybeMarkDown()){
 			
 			String message = "This email is coming from your newly installed OSP Installation. Live long and prosper." ;
@@ -808,21 +801,21 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			if (sio != null) {
 				bccs.add(sio.getEmail_archive_address());
 				Emailer.postMail(sio, sio.getEmail_archive_address(), "USIP OSP Installation Message", message, sio.getEmail_archive_address(), ccs, bccs);
-				error_msg += " : email_sent";
+				email_msg = "email_sent";
 			} else {
 				Logger.getRootLogger().warn("Problem sending test email.");
-				error_msg += " : problem sending email";
+				email_msg = "sio_null";
 			}
 			
 		} else {
-			error_msg += " : email_not_sent";
+			email_msg += "email_not_sent";
 		}
 		/////////////////////////////////////////////
 		
 		this.forward_on = true;
-		this.backPage = "install_confirmation.jsp?schema=" + schema;
+		this.backPage = "install_confirmation.jsp?schema=" + schema + "&emailstatus=" + email_msg;
 		
-		return error_msg;
+		return email_msg;
 
 	}
 
@@ -1515,17 +1508,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return phase;
-	}
-
-	/**
-	 * Returns the user associated with this session.
-	 * 
-	 * @return
-	 */
-	public User giveMeUser() {
-
-		return User.getUser(schema, this.user_id);
-
 	}
 
 	/**
@@ -2602,6 +2584,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			return user.getLastSimEdited();
 		} else {
 			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleRestore(HttpServletRequest request){
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("restore"))){
+	          
+			String restore_filename = (String) request.getParameter("restore_filename");
+			
+			ObjectPackager.unpackageUsers(restore_filename, schema);
+			
 		}
 	}
 

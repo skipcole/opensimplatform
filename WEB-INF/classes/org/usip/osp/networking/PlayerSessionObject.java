@@ -80,9 +80,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 	/** Name of phase being conducted or worked on. */
 	private String phaseName = ""; //$NON-NLS-1$
 
-	/** Id of User that is logged on. */
-	public Long user_id;
-
 	/** Records the display name of this user. */
 	public String user_Display_Name = ""; //$NON-NLS-1$
 
@@ -1426,17 +1423,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 
 		return actor;
-	}
-
-	/**
-	 * Returns the user associated with this session.
-	 * 
-	 * @return
-	 */
-	public User giveMeUser() {
-
-		return User.getUser(schema, this.user_id);
-
 	}
 
 	public RunningSimulation giveMeRunningSim() {

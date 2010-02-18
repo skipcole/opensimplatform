@@ -13,6 +13,8 @@ import java.util.ListIterator;
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.BaseUser;
+import org.usip.osp.persistence.RestoreEvents;
+import org.usip.osp.persistence.RestoreResults;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -374,9 +376,7 @@ public class ObjectPackager {
 	 */
 	public static String packageUsers(String schema) {
 		
-		// Need to get base users,
-		// Need to get hashtable of their ids ...
-		String returnString = ""; //$NON-NLS-1$
+		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + lineTerminator; //$NON-NLS-1$
 		
 		XStream xstream = new XStream();
 		
@@ -397,32 +397,87 @@ public class ObjectPackager {
 		return returnString;
 	}
 	
-	public static String unpackageUsers(String schema, String fullString, Long sim_id, XStream xstream) {
-
-		String returnString = "";
-		List users = getSetOfObjectFromFile(fullString, makeOpenTag(User.class),
-				makeCloseTag(User.class));
-		List base_users = getSetOfObjectFromFile(fullString, makeOpenTag(BaseUser.class),
-				makeCloseTag(BaseUser.class));
+	/**
+	 * 
+	 * @param fileloc
+	 * @param schema
+	 * @return
+	 */
+	public static Long unpackageUsers(String fileloc, String schema) {
 		
-		// TODO
-		/**
-		for (ListIterator<String> li_i = phases.listIterator(); li_i.hasNext();) {
-			String phase_string = li_i.next();
+		String fileLocation = FileIO.archives_dir + File.separator + fileloc;
+		
+		RestoreEvents re = new RestoreEvents();
+		re.setRestoreDate(new Date());
+		re.setSchema(schema);
+		re.setFileName(fileloc);
+		re.saveMe();
+		
+		XStream xstream = new XStream(new DomDriver());
 
-			SimulationMetaPhase this_meta_phase = (SimulationMetaPhase) xstream.fromXML(phase_string);
+		Logger.getRootLogger().debug("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
+
+		String fullString = FileIO.getFileContents(new File(fileLocation));
+
+		// Import base users, create a hashtable of their ids ...
+		Hashtable baseuserIds = new Hashtable();
+				
+		List baseusers = getSetOfObjectFromFile(fullString, makeOpenTag(BaseUser.class), makeCloseTag(BaseUser.class));
+		for (ListIterator<String> li_i = baseusers.listIterator(); li_i.hasNext();) {
+			String bu_string = li_i.next();
+
+			BaseUser bu = (BaseUser) xstream.fromXML(bu_string);
+		
+			// Check to see if base user email exists in database.
+			BaseUser buExisting = BaseUser.getByUsername(bu.getUsername());
 			
-			this_meta_phase.setSim_id(sim_id);
-			this_meta_phase.saveMe(schema);
-
-			returnString += "MetaPhase " + this_meta_phase.getMetaPhaseName() + " added to simulation";
-
-			metaPhaseIdMappings.put(this_meta_phase.getTransit_id(), this_meta_phase.getId());
-
+			RestoreResults rr = new RestoreResults();
+			rr.setRestoreId(re.getId());
+			rr.setObjectClass(BaseUser.class.getName());
+			rr.setObjectName(bu.getUsername());
+			
+			// if exists, create warning. Grab its id number for the hashtable
+			if (buExisting != null){
+				baseuserIds.put(bu.getTransit_id(), buExisting.getId());
+				// Store record that base user already existed, and so was not imported.
+				rr.setNotes("Base Username existed. Did not import record.");
+			} else {
+				bu.saveMe();
+				baseuserIds.put(bu.getTransit_id(), bu.getId());
+				// Store record of user save.
+				rr.setNotes("Imported user.");
+			}
+			
+			rr.saveMe();
 		}
-		*/
-		return returnString;
+		
+		List users = getSetOfObjectFromFile(fullString, makeOpenTag(User.class), makeCloseTag(User.class));
+		for (ListIterator<String> li_i = users.listIterator(); li_i.hasNext();) {
+			String u_string = li_i.next();
 
+			User user = (User) xstream.fromXML(u_string);
+		
+			User existingUser = User.getByUsername(schema, user.getUser_name());
+			
+			RestoreResults rr = new RestoreResults();
+			rr.setRestoreId(re.getId());
+			rr.setObjectClass(User.class.getName());
+			rr.setObjectName(user.getUser_name());
+			
+			if (existingUser != null){
+				rr.setNotes("Username existed. Did not import record.");
+			} else {
+				user.setId((Long)baseuserIds.get(user.getTransit_id()));
+				user.saveMe(schema);
+				rr.setNotes("Imported user.");
+			}
+			
+			rr.saveMe();
+			
+		}
+		
+		return re.getId();
+		
 	}
 
 
@@ -531,7 +586,7 @@ public class ObjectPackager {
 	 * @param fileloc
 	 * @param schema
 	 */
-	public static void unpackSim(String fileloc, String schema, String sim_name, String sim_version) {
+	public static void unpackageSim(String fileloc, String schema, String sim_name, String sim_version) {
 
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
@@ -759,7 +814,7 @@ public class ObjectPackager {
 				// Conversations have conversation actor assignments associated
 				// with them.
 				if (this_dos.getClass().equals(Conversation.class)) {
-					returnString += unpackConversationActorAssignments(schema, fullString, this_dos.getTransit_id(),
+					returnString += unpackageConversationActorAssignments(schema, fullString, this_dos.getTransit_id(),
 							this_dos.getId(), xstream, actorIdMappings);
 				} else if (this_dos.getClass().equals(SharedDocument.class)) {
 					returnString += unpackSDANAO(schema, sim_id, fullString, this_dos.getTransit_id(),
@@ -867,7 +922,7 @@ public class ObjectPackager {
 	 * @param actorIdMappings
 	 * @return
 	 */
-	public static String unpackConversationActorAssignments(String schema, String fullString, Long orig_id,
+	public static String unpackageConversationActorAssignments(String schema, String fullString, Long orig_id,
 			Long new_id, XStream xstream, Hashtable actorIdMappings) {
 
 		String returnString = "... unpacking conversation actor assignments.<br />";

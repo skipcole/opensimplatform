@@ -23,7 +23,7 @@ import org.apache.log4j.*;
  */
 public class FileIO {
 
-	private static String archives_dir = "";
+	protected static String archives_dir = "";
 	private static String actor_image_dir = ""; //$NON-NLS-1$
 	private static String base_section_web_dir = ""; //$NON-NLS-1$
 	private static String model_dir = ""; //$NON-NLS-1$
