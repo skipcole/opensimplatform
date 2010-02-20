@@ -2,7 +2,7 @@ package org.usip.osp.baseobjects.core;
 
 import javax.servlet.http.HttpServletRequest;
 import org.usip.osp.baseobjects.CustomizeableSection;
-import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.SessionObjectBase;
 import org.apache.log4j.*;
 
 
@@ -24,7 +24,7 @@ public class SimilieTimelineCustomizer extends Customizer{
 	public static final String KEY_FOR_DISPLAY = "timeline_to_show"; //$NON-NLS-1$
 
 	public void handleCustomizeSection(HttpServletRequest request, 
-			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
+			SessionObjectBase pso, CustomizeableSection cs) {
 
 		Logger.getRootLogger().debug("SimilieTimelineCustomizer.handleCustomizeSection"); //$NON-NLS-1$
 		
@@ -47,7 +47,7 @@ public class SimilieTimelineCustomizer extends Customizer{
 	}
 
 	public void loadSimCustomizeSection(HttpServletRequest request, 
-			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
+			SessionObjectBase pso, CustomizeableSection cs) {
 		// TODO Auto-generated method stub
 
 	}

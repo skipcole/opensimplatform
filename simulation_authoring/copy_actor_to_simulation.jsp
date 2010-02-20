@@ -71,7 +71,7 @@
               <td><%= sim.getSimulationName() %> : <%= sim.getVersion() %></td>
               <td><%
 			
-			for (ListIterator la = Actor.getAllForSim(afso.schema, sim.getId()).listIterator(); la.hasNext();) {
+			for (ListIterator la = Actor.getAllForSimulation(afso.schema, sim.getId()).listIterator(); la.hasNext();) {
 				Actor act = (Actor) la.next();
 
 			%> 

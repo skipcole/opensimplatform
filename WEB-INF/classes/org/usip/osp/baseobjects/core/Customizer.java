@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.SessionObjectBase;
 
 public abstract class Customizer {
 
@@ -33,15 +34,15 @@ public abstract class Customizer {
 	 * @return
 	 */
 	public abstract void handleCustomizeSection(HttpServletRequest request, 
-			AuthorFacilitatorSessionObject pso, CustomizeableSection cs);
+			SessionObjectBase afso, CustomizeableSection cs);
 	
 	/**
-	 * This method is called by the simulation section during play.
+	 * This method is called by the simulation section during play to load the values stored in the hashtable.
 	 * 
 	 * @param request
 	 * @param cs
 	 * @return
 	 */
 	public abstract void loadSimCustomizeSection(HttpServletRequest request, 
-			AuthorFacilitatorSessionObject pso, CustomizeableSection cs);
+			SessionObjectBase pso, CustomizeableSection cs);
 }
