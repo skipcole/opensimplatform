@@ -47,32 +47,49 @@
   		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 			Actor aa = (Actor) li.next();
 			
-			UserAssignment ua = UserAssignment.getUserAssignment (pso.schema, pso.running_sim_id, aa.getId());
-			BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 1);
-			BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 2);
-			BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 3);
+			String uName = "user name";
+			String c_1 = "tbd";
+			String c_2 = "tbd";
+			String c_3 = "tbd";
 			
-			Long bpi_id_1 = null;
-			Long bpi_id_2 = null;
-			Long bpi_id_3 = null;
+			if (pso.running_sim_id != null){
 			
-			if (firstChoice != null) {
-				bpi_id_1 = firstChoice.getBishopsPartyInfoId();
-			}
-			if (secondChoice != null) {
-				bpi_id_2 = secondChoice.getBishopsPartyInfoId();
-			}
-			if (thirdChoice != null) {
-				bpi_id_3 = thirdChoice.getBishopsPartyInfoId();
-			}
+				UserAssignment ua = UserAssignment.getUserAssignment (pso.schema, pso.running_sim_id, aa.getId());
 			
-			String uName = USIP_OSP_Cache.getUSERName(pso.schema, request, ua.getUser_id());
+				if ((ua != null) && (ua.getUser_id() != null)) {
+					BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 1);
+					BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 2);
+					BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 3);
+			
+					Long bpi_id_1 = null;
+					Long bpi_id_2 = null;
+					Long bpi_id_3 = null;
+			
+					if (firstChoice != null) {
+						bpi_id_1 = firstChoice.getBishopsPartyInfoId();
+					}
+					if (secondChoice != null) {
+						bpi_id_2 = secondChoice.getBishopsPartyInfoId();
+					}
+					if (thirdChoice != null) {
+						bpi_id_3 = thirdChoice.getBishopsPartyInfoId();
+					}
+			
+					uName = USIP_OSP_Cache.getUSERName(pso.schema, request, ua.getUser_id());
+					c_1 = BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_1);
+					c_2 = BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_2);
+					c_3 = BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_3);
+			
+			
+			}  // End of ua id not null
+			}  // End of if running sim not null
+			
 %>
   <tr>
     <td><%= uName %></td>
-    <td><%= BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_1)  %></td>
-    <td><%= BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_2)  %></td>
-    <td><%= BishopsPartyInfo.getBPIName(pso.schema, request, bpi_id_3)  %></td>
+    <td><%= c_1 %></td>
+    <td><%= c_2 %></td>
+    <td><%= c_3 %></td>
   </tr>
 <% }
 
@@ -80,11 +97,6 @@
 </table>
 
 <hr>
-<p>A place to decide how it will be</p>
-<ul>
-  <li>Player 1 --&gt; Actor 3</li>
-</ul>
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

@@ -110,6 +110,7 @@ public class CustomizeableSection extends BaseSimSection {
     /**
      * This hashtable holds specific content information for this simulation.
      */
+    @Lob
 	private Hashtable contents = new Hashtable();
     
 	private String pageTitle = ""; //$NON-NLS-1$

@@ -3,6 +3,7 @@ package org.usip.osp.baseobjects.core;
 import javax.servlet.http.HttpServletRequest;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.SessionObjectBase;
 import org.apache.log4j.*;
 
 
@@ -25,7 +26,7 @@ public class CastCustomizer extends Customizer{
 	public static final String KEY_FOR_CONTROL_ON_BOTTOM = "control_on_bottom"; //$NON-NLS-1$
 
 	public void handleCustomizeSection(HttpServletRequest request, 
-			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
+			SessionObjectBase afso, CustomizeableSection cs) {
 
 		Logger.getRootLogger().debug("CastCustomizeableSection.handleCustomizeSection"); //$NON-NLS-1$
 		
@@ -41,14 +42,14 @@ public class CastCustomizer extends Customizer{
 
 			cs.getContents().put(KEY_FOR_DISPLAY_CONTROL, display_control);
 
-			cs.save(pso.schema);
+			cs.save(afso.schema);
 
 		}
 
 	}
 
 	public void loadSimCustomizeSection(HttpServletRequest request, 
-			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
+			SessionObjectBase pso, CustomizeableSection cs) {
 		// TODO Auto-generated method stub
 
 	}

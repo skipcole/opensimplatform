@@ -67,11 +67,11 @@
 		List simList = Simulation.getAll(afso.schema);
 		
 		for (ListIterator lis = simList.listIterator(); lis.hasNext();) {
-			Simulation sim = (Simulation) lis.next();
+			Simulation this_sim = (Simulation) lis.next();
 		%>
-                    <p>Simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
+                    <p>Simulation <strong><%= this_sim.getDisplayName() %></strong>.<br>
                     </p>
-                    <p>Below are the running simulation currently associated with <b> <%= simulation.getSimulationName() %> </b>. <br />
+                    <p>Below are the running simulation currently associated with <b> <%= this_sim.getSimulationName() %> </b>. <br />
                     </p>
                     <table width="100%" border = "1">
                       <tr>
@@ -81,7 +81,7 @@
                         <td><h2>Inactivate /Activate</h2></td>
                       </tr>
                       <%
-		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id.toString(), afso.schema);
+		  	List rsList = RunningSimulation.getAllForSim(this_sim.getId().toString(), afso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();
@@ -112,10 +112,12 @@
 			}
 		%>
                     </table>
-                  </blockquote>
-                  <p>&nbsp;</p>
+                  
                   
                  <% } // End of loop over sims. %>
+                 
+                 </blockquote>
+                  <p>&nbsp;</p>
                   </td>
               </tr>
             </table></td>

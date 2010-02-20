@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.usip.osp.networking.USIP_OSP_Cache;
 
 /*
@@ -113,6 +114,18 @@ public class USIP_OSP_Util {
 		}
 	}
 	
+	public static String matchSelected(Long a, Long b, String matchText) {
+		if ((a == null) || (b == null)) {
+			return "";
+		}
+
+		if (a.equals(b)) {
+			return matchText;
+		} else {
+			return "";
+		}
+	}
+	
 	public static String htmlToCode(String htmlString){
 		
 		htmlString = htmlString.replaceAll("\\r\\n", "<br />");
@@ -133,5 +146,20 @@ public class USIP_OSP_Util {
 		} else {
 			return input;
 		}
+	}
+	
+	public static Long stringToLong(String inputString){
+		
+		Long returnLong = null;
+		
+		if (inputString != null){
+			try {
+				returnLong = new Long(inputString);
+			} catch (Exception e) {
+				Logger.getRootLogger().warn("problem converting string to Long: " + inputString);
+			}	
+		}
+		
+		return returnLong;
 	}
 }

@@ -4,6 +4,7 @@
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.bishops.*,
+	org.usip.osp.baseobjects.core.*,
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 
@@ -15,13 +16,22 @@
 		return;
 	}
 	
+	String cs_id = (String) request.getParameter("cs_id");
+	
+	BishopsCustomizer bc = new BishopsCustomizer();
 	List partyList = new ArrayList();
 	List inactivePartyList = new ArrayList();
 	
 	if (!(pso.preview_mode)) {	
+		CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+		bc = new BishopsCustomizer(request, pso, cs);
 		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, false);
 		inactivePartyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, true);
+		
+		System.out.println("doc id was " + bc.getParameterId());
 	}
+	
+	
 %>
 <html>
 <head>

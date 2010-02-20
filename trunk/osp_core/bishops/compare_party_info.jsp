@@ -54,5 +54,17 @@
   </tr>
 </table>
 <p>&nbsp;</p>
+<style type="text/css" media="print">
+.printbutton {
+  visibility: hidden;
+  display: none;
+}
+</style>
+<script>
+document.write("<input type='button' " +
+"onClick='window.print()' " +
+"class='printbutton' " +
+"value='Print This Page'/>");
+</script>
 </body>
 </html>

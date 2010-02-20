@@ -3,7 +3,7 @@ package org.usip.osp.baseobjects.core;
 import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.CustomizeableSection;
-import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.SessionObjectBase;
 
 /*
  * 
@@ -22,7 +22,7 @@ public class TextPageCustomizer extends Customizer{
 
 
 	public void handleCustomizeSection(HttpServletRequest request, 
-			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
+			SessionObjectBase afso, CustomizeableSection cs) {
 		
 		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
@@ -32,14 +32,14 @@ public class TextPageCustomizer extends Customizer{
 			
 			cs.setBigString(text_page_text);
 
-			cs.save(pso.schema);
+			cs.save(afso.schema);
 
 		}
 
 	}
 
 	public void loadSimCustomizeSection(HttpServletRequest request, 
-			AuthorFacilitatorSessionObject pso, CustomizeableSection cs) {
+			SessionObjectBase pso, CustomizeableSection cs) {
 		// TODO Auto-generated method stub
 
 	}
