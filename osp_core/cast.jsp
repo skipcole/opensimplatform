@@ -22,17 +22,22 @@
 		simulation = pso.giveMeSim();
 	}
 	
-	Actor this_actor = pso.giveMeActor();
 	
 	String cs_id = (String) request.getParameter("cs_id");
-	
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
-    
-	String stored_value = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_CONTROL);
 	
+	Actor this_actor = new Actor();
 	boolean showControl = false;
-	if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
-		showControl = true;
+	
+	if (!(pso.preview_mode)) {
+	
+		this_actor = pso.giveMeActor();
+    
+		String stored_value = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_CONTROL);
+	
+		if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
+			showControl = true;
+		}
 	}
 	
 %>

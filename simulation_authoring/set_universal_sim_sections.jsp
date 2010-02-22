@@ -91,6 +91,7 @@ function loadFirstInfo(){
 
 	window.document.section_form.tab_heading.value = tab_headings["1"];
 	window.document.section_form.sec_desc.value = sec_descs["1"];
+	//document.getElementById('sec_desc').innerHTML = sec_descs["1"];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images["1"];
 	
 }
@@ -103,6 +104,7 @@ function loadInfo(dropdownlist){
 	
 	window.document.section_form.tab_heading.value = tab_headings[passedvalue];
 	window.document.section_form.sec_desc.value = sec_descs[passedvalue];
+	//document.getElementById('sec_desc').innerHTML = sec_descs[passedvalue];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images[passedvalue];
 	
 	return true;
@@ -290,18 +292,17 @@ function loadInfo(dropdownlist){
                                 </p>
                               <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a>   </p>
                             </blockquote>                          </td>
-                          <td valign="top"> <label> Tab Heading: 
-                            <input type="text" name="tab_heading" />      
-                            </label> 
-                            <p> 
-                              <label> 
+                          <td valign="top"><label>Tab Heading: 
+                            <input type="text" name="tab_heading" /></label>      
+                            <br /> 
+                               <!-- div style="width:auto; background-color:#DDDDFF; padding:2; border:#000000" id="sec_desc">Section Description</div -->
                                 <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
                                 <input type="hidden" name="phase_id" value="<%= afso.phase_id.toString() %>">
                                 <input type="hidden" name="universal" value="true">
                                 <br />
                                 <input type="submit" name="command" value="Add Section">
-                                </label>
-                              </p></td>
+                                
+                              </td>
                         </tr>
                         </form>
                     </table></td>

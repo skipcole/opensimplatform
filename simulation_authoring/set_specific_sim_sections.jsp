@@ -64,7 +64,7 @@ var tab_headings = new Array();
 function loadFirstInfo(){
 
 	window.document.section_form.tab_heading.value = tab_headings["1"];
-	window.document.section_form.sec_desc.value = sec_descs["1"];
+	document.getElementById('sec_desc').innerHTML = sec_descs["1"];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images["1"];
 	
 }
@@ -76,7 +76,7 @@ function loadInfo(dropdownlist){
 	var passedvalue = dropdownlist.options[myindex].value;
 	
 	window.document.section_form.tab_heading.value = tab_headings[passedvalue];
-	window.document.section_form.sec_desc.value = sec_descs[passedvalue];
+	document.getElementById('sec_desc').innerHTML = sec_descs[passedvalue];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images[passedvalue];
 	
 	return true;
@@ -300,19 +300,18 @@ function loadInfo(dropdownlist){
            <% } // End of if list not null %>
                                   </select>
                                 </blockquote>                          </td>
-                          <td valign="top"> <label> Tab Heading: 
+                          <td valign="top">Tab Heading: 
                             <input type="text" name="tab_heading" />
                             <input type="hidden" name="tab_pos" value="<%= afso.tempSimSecList.size() + 1 %>">
-                            </label> <p> 
-                              <label> 
-                                <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
+                            <br /> 
+                              
+                                <div style="width:auto; background-color:#DDDDFF; padding:2; border:#000000" id="sec_desc">Section Description</div>
                                 <input type="hidden" name="actor_index" value="<%= afso.getMyPSO_SectionMgmt().getCurrentActorIndex() %>">
                                 <input type="hidden" name="actor_being_worked_on_id" value="<%= actor.getId() %>">
                                 <input type="hidden" name="phase_id" value="<%= afso.phase_id.toString() %>">
                                 <br />
                                 <input type="submit" name="command" value="Add Section">
-                                </label>
-                              </p></td>
+                                </td>
                         </tr>
                           </form>
                     </table></td>

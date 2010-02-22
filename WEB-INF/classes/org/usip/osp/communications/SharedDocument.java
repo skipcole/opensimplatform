@@ -15,8 +15,8 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents a document that is shared amongst the players.
- *
- * 
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can

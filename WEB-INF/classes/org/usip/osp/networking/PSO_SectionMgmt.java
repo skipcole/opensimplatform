@@ -79,11 +79,10 @@ public class PSO_SectionMgmt {
 	/** id of the page being sought. */
 	private String _page_id = ""; //$NON-NLS-1$
 
-	/** Value for phase id passed in from form. */
-	//private String _phase_id = ""; //$NON-NLS-1$
-
 	/** Tab heading of the simulation section being added. */
-	public String _tab_heading = ""; //$NON-NLS-1$
+	private String _tab_heading = ""; //$NON-NLS-1$
+	
+	private String _cs_description = "";
 
 	public String get_tab_heading() {
 		return this._tab_heading;
@@ -138,6 +137,13 @@ public class PSO_SectionMgmt {
 		this._page_id = setIfPassedIn(this._page_id, request, "page_id"); //$NON-NLS-1$
 		//(setIfPassedIn(originalPhaseId, request, "phase_id")); //$NON-NLS-1$
 		this._tab_heading = setIfPassedIn(this._tab_heading, request, "tab_heading"); //$NON-NLS-1$
+		this._cs_description = setIfPassedIn(this._tab_heading, request, "cs_description"); //$NON-NLS-1$
+		
+		// TODO move below to utility function
+		this._cs_description = this._cs_description.replaceAll("\r\n", "<br />");
+		this._cs_description = this._cs_description.replaceAll("\r", " ");
+		this._cs_description = this._cs_description.replaceAll("\n", " ");
+		
 		this._tab_pos = setIfPassedIn(this._tab_pos, request, "tab_pos"); //$NON-NLS-1$
 		this._universal = setIfPassedIn(this._universal, request, "universal"); //$NON-NLS-1$
 
@@ -205,6 +211,7 @@ public class PSO_SectionMgmt {
 
 		this.customizableSectionOnScratchPad = CustomizeableSection.getMe(this.afso.schema, this._custom_section_id);
 
+		// We are saving this page.
 		if ((this.sending_page != null) && ((this.save_page != null) || (this.save_and_add != null))) {
 			// If this is the original custom page, make a new page
 
@@ -232,6 +239,9 @@ public class PSO_SectionMgmt {
 
 			// Update page values
 			this.customizableSectionOnScratchPad.setRec_tab_heading(this._tab_heading);
+			
+			this.customizableSectionOnScratchPad.setDescription(_cs_description);
+			
 			this.customizableSectionOnScratchPad.save(this.afso.schema);
 
 			if (this.save_and_add != null) {
@@ -497,6 +507,9 @@ public class PSO_SectionMgmt {
 			SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(this.afso.schema, simulation.getId(),
 					this.phase_being_worked_on_id);
 		}
+		
+		// Reset web cache
+		USIP_OSP_ContextListener.resetWebCache(request);
 
 	}
 
@@ -546,6 +559,9 @@ public class PSO_SectionMgmt {
 			SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(this.afso.schema, this.afso.sim_id,
 					this.phase_being_worked_on_id);
 		}
+		
+		// Reset web cache
+		USIP_OSP_ContextListener.resetWebCache(request);
 
 	}
 
@@ -1023,6 +1039,10 @@ public class PSO_SectionMgmt {
 				// add section to the applicable actors
 				SimulationSectionAssignment.applySectionsToSomeActors(afso.schema, sim, this.phase_being_worked_on_id,
 						customizableSectionOnScratchPad.getId(), _tab_heading, conv.getConv_actor_assigns(afso.schema));
+				
+				// Reset web cache
+				USIP_OSP_ContextListener.resetWebCache(request);
+				
 				// send them back
 				afso.forward_on = true;
 				return null;

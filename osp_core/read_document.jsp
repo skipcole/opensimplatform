@@ -14,9 +14,6 @@
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
-	
-	//RunningSimulation rs = pso.giveMeRunningSim();
-	//System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
 
 	List setOfDocs = new ArrayList();
 	

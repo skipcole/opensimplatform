@@ -17,8 +17,6 @@
 	
 	RunningSimulation rs = pso.giveMeRunningSim();
 	
-	System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
-	
 	SharedDocument sd = new SharedDocument();
 	
 	List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), rs.getId());
