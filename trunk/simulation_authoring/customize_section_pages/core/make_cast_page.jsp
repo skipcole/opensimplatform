@@ -86,10 +86,14 @@
                   </label></td>
               </tr>
               </table>
+              
+          <p><strong>Modify Section Description</strong></p>
+          <blockquote>
+            <p>
+              <textarea name="cs_description" cols="80" rows="3" id="cs_description"><%= cs.getDescription() %></textarea>
+          </blockquote>
+
             <%
-			
-			System.out.println(afso.schema + ", " + 
-				afso.sim_id + ", " + afso.actor_being_worked_on_id + ", " + afso.phase_id + ", " + cs.getId() );
 				
 			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());

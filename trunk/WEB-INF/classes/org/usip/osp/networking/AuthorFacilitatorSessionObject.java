@@ -424,6 +424,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 				SimulationSectionAssignment.removeAndReorder(this.schema, ss);
+				
+				// Clean web cache out
+				USIP_OSP_ContextListener.resetWebCache(request);
 
 			} else if (objectType.equalsIgnoreCase("user_assignment")) {
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);

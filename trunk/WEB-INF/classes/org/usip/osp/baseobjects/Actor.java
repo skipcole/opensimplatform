@@ -302,6 +302,10 @@ public class Actor {
 	
 	public String getActorName(String schema, Long running_sim_id, HttpServletRequest request){
 		
+		if (running_sim_id == null){
+			return this.name;
+		}
+		
 		return USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, id);
 	}
 	

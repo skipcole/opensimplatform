@@ -3,6 +3,8 @@
 	language="java" 
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
+	org.usip.osp.communications.*,
+	org.usip.osp.specialfeatures.*,
 	org.usip.osp.bishops.*,
 	org.usip.osp.baseobjects.core.*,
 	org.usip.osp.baseobjects.*" 
@@ -22,13 +24,20 @@
 	List partyList = new ArrayList();
 	List inactivePartyList = new ArrayList();
 	
+	List setOfDocs = new ArrayList();
+	
+	SharedDocument conflictDoc = new SharedDocument();
+	
 	if (!(pso.preview_mode)) {	
 		CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 		bc = new BishopsCustomizer(request, pso, cs);
 		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, false);
 		inactivePartyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, true);
 		
-		System.out.println("doc id was " + bc.getParameterId());
+		if (bc.isAllowConflictDocumentEdit()) {
+			setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+			conflictDoc = (SharedDocument) setOfDocs.get(0);
+		}
 	}
 	
 	
@@ -110,7 +119,12 @@
 	  <% } %>
     </td> 
     <% } %>
-    <td width="33%" bgcolor="#FFEEEE"><h2>Conflict info</h2></td>
+    <td width="33%" bgcolor="#FFEEEE"><h2>Conflict info
+    <% if (bc.isAllowConflictDocumentEdit()) { %>
+    (<a href="write_conflict_document.jsp?doc_id=<%= conflictDoc.getId() %>">edit</a>)
+    <% } %>
+    </h2>
+    <p><%= conflictDoc.getBigString() %></p></td>
 <% if ((partyList != null) && (partyList.size() >= 5)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(4);
   %>
