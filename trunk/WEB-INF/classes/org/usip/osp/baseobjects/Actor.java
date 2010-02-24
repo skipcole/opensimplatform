@@ -29,7 +29,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "ACTORS")
 @Proxy(lazy=false)
-public class Actor {
+public class Actor implements ExportableObject{
 
 	public Actor (){
 		

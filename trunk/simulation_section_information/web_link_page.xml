@@ -1,7 +1,13 @@
-<org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.BishopsCustomizer</customizerClassName>
   <creatingOrganization>org.usip.osp.</creatingOrganization>
   <uniqueName>Web Link Page</uniqueName>
   <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_weblink_page.jsp</specificMakePage>
+  <bigString></bigString>
   <description>A set of web links, which could be interesting things like google maps, will be presented to the players on this page.</description>
   <url></url>
   <directory>../osp_core/</directory>
@@ -9,4 +15,4 @@
   <rec__tab__heading>Web Links</rec__tab__heading>
   <sample__image>introduction.png</sample__image>
   <control__section>false</control__section>
-</org.usip.osp.baseobjects.BaseSimSection>
+</org.usip.osp.baseobjects.CustomizeableSection>

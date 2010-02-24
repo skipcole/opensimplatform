@@ -34,7 +34,7 @@ import org.apache.log4j.*;
 @Table(name = "BASE_SIM_SECTIONS")
 @Proxy(lazy = false)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class BaseSimSection implements Comparable {
+public class BaseSimSection implements Comparable, ExportableObject {
 
 	/**
 	 * Just used for occasional debugging.
