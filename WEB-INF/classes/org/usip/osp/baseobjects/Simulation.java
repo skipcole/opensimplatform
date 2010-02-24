@@ -30,7 +30,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "SIMULATIONS")
 @Proxy(lazy = false)
-public class Simulation {
+public class Simulation implements ExportableObject{
 
 
 	/** Database id of this Simulation. */
