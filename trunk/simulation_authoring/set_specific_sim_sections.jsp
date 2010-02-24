@@ -252,8 +252,12 @@ function loadInfo(dropdownlist){
                 <% } else { %> <div align="center">No simulation sections for this 
                   actor in this phase. </div>
                 <% } // end of if no sim sections %> 
-            <p align="center">
-              <img name="sample_image" id="sample_image" src="../simulation_section_information/images/sample.png" width="300" height="240" />              </p>
+            <p align="center"><table align="center">
+              <tr><td valign="top"><img name="sample_image" id="sample_image" src="../simulation_section_information/images/sample.png" width="300" height="240" /></td>
+              <td width="300" valign="top"><strong>Section Description:</strong><br />
+              <div style="width:auto; background-color:#DDDDFF; padding:2; border:#000000" id="sec_desc">Section Description</div>
+               </td></tr></table>                 
+               </p>
                 <table width="100%" border="0" cellspacing="2" cellpadding="1">
                   <tr>
                     <td colspan="2" valign="top"> 
@@ -304,8 +308,6 @@ function loadInfo(dropdownlist){
                             <input type="text" name="tab_heading" />
                             <input type="hidden" name="tab_pos" value="<%= afso.tempSimSecList.size() + 1 %>">
                             <br /> 
-                              
-                                <div style="width:auto; background-color:#DDDDFF; padding:2; border:#000000" id="sec_desc">Section Description</div>
                                 <input type="hidden" name="actor_index" value="<%= afso.getMyPSO_SectionMgmt().getCurrentActorIndex() %>">
                                 <input type="hidden" name="actor_being_worked_on_id" value="<%= actor.getId() %>">
                                 <input type="hidden" name="phase_id" value="<%= afso.phase_id.toString() %>">
