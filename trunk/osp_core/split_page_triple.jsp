@@ -14,10 +14,7 @@
 		return;
 	}
 	
-	//SimulationSectionAssignment ss = (SimulationSectionAssignment) simSecList.get(tabpos - 1);
-	//String leftFrame = ss.generateURLforBottomFrame(running_sim_id, actor_id, user_id);
 	String cs_id = (String) request.getParameter("cs_id");
-	System.out.println("cs id was : " + cs_id);
 	
 	SimulationSectionAssignment sLeft =  SimulationSectionAssignment.getSubSection(pso.schema, new Long (cs_id), 1 , pso.sim_id,
 			pso.actor_id, pso.phase_id);

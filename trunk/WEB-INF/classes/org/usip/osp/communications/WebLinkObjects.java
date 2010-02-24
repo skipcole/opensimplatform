@@ -1,8 +1,12 @@
 package org.usip.osp.communications;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.RunningSimulation;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This object represents a web page that the players are being directed to look at.
@@ -22,7 +26,6 @@ import org.hibernate.annotations.Proxy;
  */
 @Entity
 @Proxy(lazy = false)
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class WebLinkObjects implements WebObject{
 
 
@@ -37,11 +40,36 @@ public class WebLinkObjects implements WebObject{
 	@Column(name = "RS_ID")
 	private Long rs_id;
 	
+	@Column(name = "CS_ID")
+	private Long cs_id;
+	
 	private String weblinkName = "";
 	
 	private String weblinkDescription = "";
 	
 	private String weblinkURL = "";
+	
+	
+	public WebLinkObjects(){
+		
+	}
+	
+	/**
+	 * Utility constructor. 
+	 * @param schema
+	 * @param name
+	 * @param desc
+	 * @param url
+	 */
+	public WebLinkObjects(String schema, String name, String desc, String url, Long rsId, Long csId){
+		this.weblinkName = name;
+		this.weblinkDescription = desc;
+		this.weblinkURL = url;
+		this.rs_id = rsId;
+		this.cs_id = csId;
+		
+		this.saveMe(schema);
+	}
 
 	public Long getId() {
 		return id;
@@ -65,6 +93,14 @@ public class WebLinkObjects implements WebObject{
 
 	public void setRs_id(Long rs_id) {
 		this.rs_id = rs_id;
+	}
+
+	public Long getCs_id() {
+		return cs_id;
+	}
+
+	public void setCs_id(Long cs_id) {
+		this.cs_id = cs_id;
 	}
 
 	public String getWeblinkName() {
@@ -104,5 +140,55 @@ public class WebLinkObjects implements WebObject{
 	public void setSendString(String sendString) {
 		this.sendString = sendString;
 	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static WebLinkObjects getMe(String schema, Long wlo_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		WebLinkObjects this_wlo = (WebLinkObjects) MultiSchemaHibernateUtil.getSession(schema).get(
+				WebLinkObjects.class, wlo_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return this_wlo;
+
+	}
+	/**
+	 * Saves the object to the database.
+	 * 
+	 * @param schema
+	 */
+	public void saveMe(String schema) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+    /**
+     * Returns all of the actors found in a schema for a particular simulation
+     * 
+     * @param schema
+     * @return
+     */
+    public static List getAllForRunningSimulationAndSection(String schema, Long rs_id, Long cs_id){
+        
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from WebLinkObjects where rs_id = :rs_id and cs_id = :cs_id order by id")
+				.setLong("rs_id", rs_id)
+				.setLong("cs_id", cs_id)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+    }
+	
 	
 }

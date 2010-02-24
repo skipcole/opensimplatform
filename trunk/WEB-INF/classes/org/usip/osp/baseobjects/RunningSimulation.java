@@ -153,7 +153,7 @@ public class RunningSimulation {
 	/**
 	 * 
 	 * @param schema
-	 * @param sim_id
+	 * @param rs_id
 	 * @return
 	 */
 	public static RunningSimulation getMe(String schema, Long rs_id) {

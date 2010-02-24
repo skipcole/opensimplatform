@@ -1,6 +1,6 @@
 <org.usip.osp.baseobjects.CustomizeableSection>
   <hasCustomizer>true</hasCustomizer>
-  <customizerClassName>org.usip.osp.baseobjects.core.BishopsCustomizer</customizerClassName>
+  <customizerClassName>org.usip.osp.baseobjects.core.WebLinksCustomizer</customizerClassName>
   <creatingOrganization>org.usip.osp.</creatingOrganization>
   <uniqueName>Web Link Page</uniqueName>
   <version>1</version>

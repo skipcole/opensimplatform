@@ -75,7 +75,6 @@ function timedCount()
 {
 	getSimRound()
 	setTimeout("timedCount()", 1000)
-	System.out.println("getting timed count");
 }
 </script>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">
