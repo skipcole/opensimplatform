@@ -467,7 +467,7 @@ public class ObjectPackager {
 				rr.setNotes("Username existed. Did not import record.");
 			} else {
 				user.setId((Long)baseuserIds.get(user.getTransit_id()));
-				user.saveMe(schema);
+				user.saveJustUser(schema);
 				rr.setNotes("Imported user.");
 			}
 			
@@ -587,6 +587,8 @@ public class ObjectPackager {
 	 */
 	public static void unpackageSim(String fileloc, String schema, String sim_name, String sim_version) {
 
+		unpackInformationString = "";
+		
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
 
