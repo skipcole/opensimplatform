@@ -90,8 +90,7 @@ function MM_swapImage() { //v3.0
 function loadFirstInfo(){
 
 	window.document.section_form.tab_heading.value = tab_headings["1"];
-	window.document.section_form.sec_desc.value = sec_descs["1"];
-	//document.getElementById('sec_desc').innerHTML = sec_descs["1"];
+	document.getElementById('sec_desc').innerHTML = sec_descs["1"];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images["1"];
 	
 }
@@ -103,8 +102,7 @@ function loadInfo(dropdownlist){
 	var passedvalue = dropdownlist.options[myindex].value;
 	
 	window.document.section_form.tab_heading.value = tab_headings[passedvalue];
-	window.document.section_form.sec_desc.value = sec_descs[passedvalue];
-	//document.getElementById('sec_desc').innerHTML = sec_descs[passedvalue];
+	document.getElementById('sec_desc').innerHTML = sec_descs[passedvalue];
 	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images[passedvalue];
 	
 	return true;
@@ -241,7 +239,12 @@ function loadInfo(dropdownlist){
               actors in this phase. </div>
                 <% } // end of if no sim sections %> 
             <p align="center">
-              <img name="sample_image" id="sample_image" src="../simulation_section_information/images/sample.png" width="300" height="240" />              </p>
+            <table align="center">
+              <tr><td valign="top"><img name="sample_image" id="sample_image" src="../simulation_section_information/images/sample.png" width="300" height="240" /></td>
+            	<td width="300" valign="top"><strong>Section Description:</strong><br />
+            	  <div style="width:auto; background-color:#DDDDFF; padding:2; border:#000000" id="sec_desc">Section Description</div></td></tr></table>
+            
+            </p>
                 <table width="100%" border="0" cellspacing="2" cellpadding="1">
                   <tr>
                     <td colspan="2" valign="top"> <table border="1" width="100%">
@@ -294,15 +297,11 @@ function loadInfo(dropdownlist){
                             </blockquote>                          </td>
                           <td valign="top"><label>Tab Heading: 
                             <input type="text" name="tab_heading" /></label>      
-                            <br /> 
-                               <!-- div style="width:auto; background-color:#DDDDFF; padding:2; border:#000000" id="sec_desc">Section Description</div -->
-                                <textarea name="sec_desc" id="sec_desc" cols="40" rows="4" disabled="disabled">Section Description</textarea>
-                                <input type="hidden" name="phase_id" value="<%= afso.phase_id.toString() %>">
+                            <br />
+                               <input type="hidden" name="phase_id" value="<%= afso.phase_id.toString() %>">
                                 <input type="hidden" name="universal" value="true">
                                 <br />
-                                <input type="submit" name="command" value="Add Section">
-                                
-                              </td>
+                                <input type="submit" name="command" value="Add Section">                              </td>
                         </tr>
                         </form>
                     </table></td>

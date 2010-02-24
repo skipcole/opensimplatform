@@ -2,13 +2,10 @@ package org.usip.osp.baseobjects;
 
 import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.communications.ConvActorAssignment;
+import org.usip.osp.communications.*;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 /**
@@ -31,25 +28,8 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "SIM_SEC_ASSIGNMENTS")
 @Proxy(lazy = false)
-public class SimulationSectionAssignment {
-
-	/**
-	 * Position in binary string of bit indicating if running simulation id
-	 * should be sent.
-	 */
-	public static final int POS_RS_ID = 0;
-
-	/**
-	 * Position in binary string of bit indicating if running actor id should be
-	 * sent.
-	 */
-	public static final int POS_A_ID = 1;
-
-	/**
-	 * Position in binary string of bit indicating if running user id should be
-	 * sent.
-	 */
-	public static final int POS_U_ID = 2;
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+public class SimulationSectionAssignment implements WebObject {
 
 	@Id
 	@GeneratedValue
@@ -69,12 +49,6 @@ public class SimulationSectionAssignment {
 
 	@Column(name = "SIM_ID")
 	private Long sim_id;
-
-	/**
-	 * Indicates elements of information should be sent in a URL string to an
-	 * external page.
-	 */
-	private String sendString = ""; //$NON-NLS-1$
 
 	@Column(name = "ACTOR_ID")
 	private Long actor_id;
@@ -1005,14 +979,6 @@ public class SimulationSectionAssignment {
 		this.addedAsUniversalSection = addedAsUniversalSection;
 	}
 
-	public String getSendString() {
-		return sendString;
-	}
-
-	public void setSendString(String sendString) {
-		this.sendString = sendString;
-	}
-
 	public Long getBase_sec_id() {
 		return base_sec_id;
 	}
@@ -1035,6 +1001,20 @@ public class SimulationSectionAssignment {
 
 	public void setBaseVersion(String base_version) {
 		this.baseVersion = base_version;
+	}
+	
+	/**
+	 * Indicates elements of information should be sent in a URL string to an
+	 * external page.
+	 */
+	private String sendString = ""; //$NON-NLS-1$
+	
+	public String getSendString() {
+		return sendString;
+	}
+
+	public void setSendString(String sendString) {
+		this.sendString = sendString;
 	}
 
 }
