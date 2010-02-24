@@ -401,6 +401,16 @@ public class User {
 
 	}
 	
+	public void saveJustUser(String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+	}
+	
 	/**
 	 * Loads info inside the Base user into this user.
 	 * @param bu
