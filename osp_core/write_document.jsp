@@ -12,17 +12,24 @@
 		return;
 	}
 	
-	String cs_id = (String) request.getParameter("cs_id");
-	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
-	
-	RunningSimulation rs = pso.giveMeRunningSim();
-	
 	SharedDocument sd = new SharedDocument();
+	String editInstructions = "";
 	
-	List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), rs.getId());
+	String sendingDocId = (String) request.getParameter("sendingDocId");
 	
-	if ((setOfDocs != null) && (setOfDocs.size() > 0) ){
-		sd = (SharedDocument) setOfDocs.get(0);
+	if ((sendingDocId != null) && (sendingDocId.equalsIgnoreCase("true"))){
+		String doc_id = (String) request.getParameter("doc_id");
+		sd = SharedDocument.getMe(pso.schema, new Long(doc_id);
+	} else {
+		String cs_id = (String) request.getParameter("cs_id");
+		CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+		editInstructions = cs.getBigString();
+	
+		List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+	
+		if ((setOfDocs != null) && (setOfDocs.size() > 0) ){
+			sd = (SharedDocument) setOfDocs.get(0);
+		}
 	}
 	
 	pso.handleWriteDocument(request, sd);
@@ -40,13 +47,15 @@
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<p><%= cs.getBigString() %></p>
+<p><%= editInstructions %></p>
 
 <form name="form1" method="post" action="write_document.jsp">
 <input type="submit" name="update_text" value="Submit">
 <input type="hidden" name="sending_page" value="write_document" />
 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
-  
+<input type="hidden" name="sendingDocId" value="<%= sendingDocId %>" />
+<input type="hidden" name="doc_id" value="<%= doc_id %>" />
+
 <p>
 		  <textarea id="write_document_text" name="write_document_text" style="height: 310px; width: 710px;">
 		  <%= sd.getBigString() %>
@@ -55,14 +64,7 @@
   			generate_wysiwyg('write_document_text');
 		</script>
 		  </p>
-  <p>
-    <label></label>
-  </p>
 </form>
 
-<p>&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

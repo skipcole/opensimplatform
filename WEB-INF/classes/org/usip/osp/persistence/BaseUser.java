@@ -1,5 +1,6 @@
 package org.usip.osp.persistence;
 
+import java.security.MessageDigest;
 import java.util.*;
 
 import javax.persistence.*;
@@ -8,6 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.User;
 import org.apache.log4j.*;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * This class holds all of the personal information (name, email address, etc.) on players.
@@ -88,6 +91,23 @@ public class BaseUser {
         MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
     }
     
+    public String hashedPassword (String rawPassword){
+    	
+    	try {
+    		
+    		MessageDigest md = MessageDigest.getInstance("SHA");
+    		md.update(rawPassword.getBytes("UTF-8"));
+    		byte raw[] = md.digest();
+    	    //String hash = new String(raw, raw[], 0, raw.length);
+    	    //return hash;
+    	    
+    	} catch (Exception e){
+    		e.printStackTrace();
+    	}
+    	
+    	return null;
+    }
+    
     /**
      * 
      * @param u
@@ -98,6 +118,8 @@ public class BaseUser {
         
         // Looks to see if username exists.
         BaseUser bu = getByUsername(u);
+        
+        //String password = 
         
         if (bu == null){
             

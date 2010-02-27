@@ -98,11 +98,6 @@
             <% } // End of loop over Actor Rows! %>
             </table>
         
-          <p>
-            <script language="javascript1.2">
-  			generate_wysiwyg('text_page_text');
-		</script>
-            </p>
             <p> 
               <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="sending_page" value="make_private_chat_page" />

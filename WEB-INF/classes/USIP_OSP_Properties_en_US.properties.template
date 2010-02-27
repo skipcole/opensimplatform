@@ -7,6 +7,7 @@
 #	Section 1 - General
 #	Section 2 - File system Related
 #	Section 3 - Database Related
+#	Section 4 - Security Related
 ################################################################################
 
 
@@ -106,3 +107,9 @@ dialect=org.hibernate.dialect.MySQLInnoDBDialect
 #
 driver_class=com.mysql.jdbc.Driver
 
+###########
+# Section 4 - Security Related
+###########
+#################################################################
+# The Encryption Algorithm you wish to use.
+#

@@ -2077,7 +2077,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				afso.loggedin = true;
 
 				user.setLastLogin(new Date());
-				user.saveMe(afso.schema);
+				user.saveJustUser(afso.schema);
 
 				sio.setLastLogin(new Date());
 				sio.saveMe();
@@ -2337,6 +2337,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentPage(request));
 	}
+	
+	/**
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public CustomizeableSection handleMakeWriteDocumentListPage(HttpServletRequest request) {
+
+		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentListPage(request));
+	}
+	
+	
 
 	/**
 	 * A wrapper that passes the request through to the associated
@@ -2394,6 +2408,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	public CustomizeableSection handleMakePrivateChatPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakePrivateChatPage(request));
 	}
+	
+	
+	/**
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakeChatHelpPage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMakeChatHelpPage(request));
+	}
+	
 
 	/**
 	 * A wrapper that passes the request through to the associated
@@ -2736,7 +2762,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		if ((user_id != null) && (sim_id != null)){
 			User user = User.getMe(schema, user_id);
 			user.setLastSimEdited(sim_id);
-			user.saveMe(schema);
+			user.saveJustUser(schema);
 		} else {
 			Logger.getRootLogger().warn("attempted to save non-existant sim or user, user/sim:" + user_id + "/" + sim_id);
 		}

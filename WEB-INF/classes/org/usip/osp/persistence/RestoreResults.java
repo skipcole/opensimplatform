@@ -28,14 +28,33 @@ public class RestoreResults {
     @GeneratedValue
     private Long id;
     
+	@GeneratedValue
+    private Date restoreTime = new Date();
+    
     private Long restoreId;
     
     private String objectClass;
+    
+    private String objectId;
     
     private String objectName;
     
     @Lob
     private String notes;
+    
+    public RestoreResults() {
+    	
+    }
+    
+    public RestoreResults(Long reId){
+    	this.restoreId = reId;
+    }
+    
+    public static void createAndSaveNotes(Long reId, String notes){
+    	RestoreResults rr = new RestoreResults(reId);
+    	rr.setNotes(notes);
+    	rr.saveMe();
+    }
     
     
     public void saveMe(){
@@ -75,6 +94,18 @@ public class RestoreResults {
 
 
 
+	public Date getRestoreTime() {
+		return restoreTime;
+	}
+
+
+
+	public void setRestoreTime(Date restoreTime) {
+		this.restoreTime = restoreTime;
+	}
+
+
+
 	public Long getRestoreId() {
 		return restoreId;
 	}
@@ -98,6 +129,14 @@ public class RestoreResults {
 	}
 
 
+
+	public String getObjectId() {
+		return objectId;
+	}
+
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
 
 	public String getObjectName() {
 		return objectName;
