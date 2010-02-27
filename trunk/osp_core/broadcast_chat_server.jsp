@@ -28,4 +28,6 @@
 	
 	String convLinesToReturn = ChatController.getConversation(request, pso);
 	
+	response.setHeader("Cache-Control", "no-cache");
+	
 %><%= convLinesToReturn %>

@@ -34,6 +34,9 @@
 		nowShowingInt = nowShowingId.intValue();
 		nowShowingWLO = WebLinkObjects.getMe(pso.schema, nowShowingId);
 	}
+	
+	// TODO: We should make this customizable, so it can indicate the kind of URL's being added.
+	String noneSelectedString = "Add New Page";
 		
 %>
 <html>
@@ -59,7 +62,7 @@
 		selected = " selected ";
 	}
   %>
-  <option value="0" <%= selected %>>None Selected</option>
+  <option value="0" <%= selected %>><%= noneSelectedString %></option>
   	<% for (ListIterator li = wloList.listIterator(); li.hasNext();) {
 			WebLinkObjects wlo = (WebLinkObjects) li.next();
 			

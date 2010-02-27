@@ -1688,7 +1688,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				pso.preview_mode = false;
 
 				user.setLastLogin(new Date());
-				user.saveMe(pso.schema);
+				user.saveJustUser(pso.schema);
 
 				pso.myUserTrailGhost.setTrail_id(user.getTrail_id());
 				pso.myUserTrailGhost.setUser_id(pso.user_id);

@@ -691,6 +691,76 @@ public class PSO_SectionMgmt {
 
 		return customizableSectionOnScratchPad;
 	}
+	
+	/**
+	 * This method is called at the top of the make_write_document_page jsp.
+	 * This jsp can be reached from 2 places: the sim_section_router and by
+	 * calling itself.
+	 * 
+	 * When the router is called the parameter _custom_section_id will be set.
+	 * 
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakeWriteDocumentListPage(HttpServletRequest request) {
+
+		this.getSimSectionsInternalVariables(request);
+
+		this.customizableSectionOnScratchPad = CustomizeableSection.getMe(this.afso.schema, this._custom_section_id);
+
+		if ((this.sending_page != null) && ((this.save_page != null) || (this.save_and_add != null))
+				&& (this.sending_page.equalsIgnoreCase("make_write_document_list_page"))) {
+
+			// If this is the original custom page, make a new page
+			if (!(this.customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
+				Logger.getRootLogger().debug("making copy");
+				this.customizableSectionOnScratchPad = this.customizableSectionOnScratchPad.makeCopy(afso.schema);
+				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
+			}
+
+			// Update values based on those passed in
+			String make_write_document_page_text = request.getParameter("make_write_document_page_text");
+			customizableSectionOnScratchPad.setBigString(make_write_document_page_text);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.save(afso.schema);
+
+			// Get the number of documents passed in
+			
+			// loop over the documents and get ids and positions
+			
+			String _doc_string = request.getParameter("doc_id");
+
+			// Get the document associated with this customized section
+			try {
+				Long doc_id = new Long(_doc_string);
+
+				BaseSimSectionDepObjectAssignment bssdoa = BaseSimSectionDepObjectAssignment.getIfExistsElseCreateIt(
+						afso.schema, customizableSectionOnScratchPad.getId(),
+						"org.usip.osp.communications.SharedDocument", doc_id, afso.sim_id);
+
+				bssdoa.setDepObjIndex(1);
+
+				bssdoa.saveMe(afso.schema);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			customizableSectionOnScratchPad.save(afso.schema);
+
+			if (save_and_add != null) {
+				// add section
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
+						request, _universal);
+				// send them back
+				afso.forward_on = true;
+			}
+
+		} // End of if we are coming from the make_write_document_list_page
+
+		return customizableSectionOnScratchPad;
+	}
+
 
 	/**
 	 * This method handles the creation of the page to allow player access to
@@ -1052,6 +1122,68 @@ public class PSO_SectionMgmt {
 		return conv;
 
 	}
+	
+	public CustomizeableSection handleMakeChatHelpPage(HttpServletRequest request) {
+		// ///////////////////////////////////////////////////////////////
+		// Read in possible parameters
+		getSimSectionsInternalVariables(request);
+
+		// /////////////////////////////////////////////////////////
+		// Pull this custom page out of the database based on its id.
+		_custom_section_id = request.getParameter("custom_page");
+		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+
+		// If this is the original custom page, make a new section for this
+		// simulation
+		if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
+
+			customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
+
+		}
+
+		customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_chat_help_page"))) {
+
+			// Delete all private conversations for this section since we
+			// recreate them below.
+			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, customizableSectionOnScratchPad.getId());
+
+			int numConstant = 0;
+			int numVisiting = 0;
+			
+			for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+				String pname = (String) e.nextElement();
+
+				String vname = (String) request.getParameter(pname);
+				
+				
+				if (pname.startsWith("constant_actor_")) {
+					pname = pname.replaceAll("constant_actor_", "");
+					
+					if ((vname != null) && (vname.equalsIgnoreCase("on"))){
+						customizableSectionOnScratchPad.getContents().put("constant_actor_" + numConstant, pname);
+						System.out.println("stored c: " + numConstant + "/" + pname);
+					}
+				}
+				
+				if (pname.startsWith("visiting_actor_")) {
+					pname = pname.replaceAll("visiting_actor_", "");
+					
+					if ((vname != null) && (vname.equalsIgnoreCase("on"))){
+						customizableSectionOnScratchPad.getContents().put("visiting_actor_" + numConstant, pname);
+						System.out.println("stored v: " + numConstant + "/" + pname);
+					}
+				}
+			}
+		}
+		
+		return customizableSectionOnScratchPad;
+		
+	}
+	
 
 	/**
 	 * Gets the variables passed in and uses them to create the chat page and

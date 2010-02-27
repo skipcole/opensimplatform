@@ -582,10 +582,10 @@ public class ObjectPackager {
 
 	/**
 	 * 
-	 * @param fileloc
+	 * @param fileName
 	 * @param schema
 	 */
-	public static void unpackageSim(String fileloc, String schema, String sim_name, String sim_version) {
+	public static void unpackageSim(String fileName, String schema, String sim_name, String sim_version) {
 
 		unpackInformationString = "";
 		
@@ -601,9 +601,15 @@ public class ObjectPackager {
 		Hashtable phaseIdMappings = new Hashtable();
 		Hashtable bssIdMappings = new Hashtable();
 
-		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileloc;
+		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileName;
 
 		Logger.getRootLogger().debug("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
+		
+		RestoreEvents re = new RestoreEvents();
+		re.setRestoreDate(new Date());
+		re.setSchema(schema);
+		re.setFileName(fileName);
+		re.saveMe();
 
 		String fullString = FileIO.getFileContents(new File(fileLocation));
 
@@ -617,14 +623,10 @@ public class ObjectPackager {
 
 		simRead.saveMe(schema);
 
-		unpackInformationString += "<b>Unpacking Actors</b><br />"; //$NON-NLS-1$
-		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
+		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Actors");
 		unpackInformationString += unpackageActors(schema, fullString, simRead.getId(), xstream, actorIdMappings);
-		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
-		unpackInformationString += "<b>Actors Unpacked</b><br />"; //$NON-NLS-1$
-		unpackInformationString += "--------------------------------------------------------------------<br />"; //$NON-NLS-1$
-		unpackInformationString += "<b>Unpacking MetaPhases</b><br />"; //$NON-NLS-1$
-		unpackInformationString += "<blockquote>"; //$NON-NLS-1$
+		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking MetaPhases"); //$NON-NLS-1$
+
 		unpackInformationString += unpackageMetaPhases(schema, fullString, simRead.getId(), xstream, metaPhaseIdMappings);
 		unpackInformationString += "</blockquote>"; //$NON-NLS-1$
 		unpackInformationString += "<b>Meta Phases Unpacked</b><br />"; //$NON-NLS-1$
