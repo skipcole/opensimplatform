@@ -28,18 +28,16 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Unpackage Results</h1>
               <br />
     <p>&nbsp;</p>
-    <p>Below are the details of your simulation import:.</p>
-    <p>&nbsp;</p>
-    <%= ObjectPackager.unpackInformationString %>
-    <p>&nbsp;</p>
-    <% ObjectPackager.unpackInformationString = ""; %>    <p>&nbsp;</p>			</td>
+    <p>Import Complete.</p>
+    <p>Import details are currently stored in the database - we will be adding the ability for you to see them soon.</p>
+    <p>&nbsp;</p>		</td>
 		</tr>
 		</table>	</td>
   </tr>

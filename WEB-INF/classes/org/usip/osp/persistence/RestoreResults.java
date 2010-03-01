@@ -23,7 +23,13 @@ import org.hibernate.annotations.Proxy;
 @Entity
 @Proxy(lazy = false)
 public class RestoreResults {
+	
+	public static final int RESTORE_OKAY = 1;
 
+	public static final int RESTORE_WARN = 2;
+	
+	public static final int RESTORE_ERROR = 3;
+	
     @Id
     @GeneratedValue
     private Long id;
@@ -42,7 +48,9 @@ public class RestoreResults {
     @Lob
     private String notes;
     
-    public RestoreResults() {
+    private int restoreStatus = RESTORE_OKAY;
+
+	public RestoreResults() {
     	
     }
     
@@ -56,6 +64,21 @@ public class RestoreResults {
     	rr.saveMe();
     }
     
+    public static void createAndSaveObject(Long reId, String objectId, String objectClass, String objectName, String notes){
+    	RestoreResults rr = new RestoreResults(reId);
+    	rr.setObjectId(objectId);
+    	rr.setObjectClass(objectClass);
+    	rr.setObjectName(objectName);
+    	rr.setNotes(notes);
+    	rr.saveMe();
+    }
+
+    public static void createAndSaveWarning(Long reId, int errorCode, String notes){
+    	RestoreResults rr = new RestoreResults(reId);
+    	rr.setRestoreStatus(errorCode);
+    	rr.setNotes(notes);
+    	rr.saveMe();
+    }
     
     public void saveMe(){
         MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
@@ -93,6 +116,13 @@ public class RestoreResults {
 	}
 
 
+	public int getRestoreStatus() {
+		return restoreStatus;
+	}
+
+	public void setRestoreStatus(int restoreStatus) {
+		this.restoreStatus = restoreStatus;
+	}
 
 	public Date getRestoreTime() {
 		return restoreTime;
