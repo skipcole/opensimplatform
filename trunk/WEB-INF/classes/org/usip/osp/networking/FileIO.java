@@ -226,27 +226,55 @@ public class FileIO {
 	 */
 	public static String getFileContents(File thisFile) {
 
-		String fullString = ""; //$NON-NLS-1$
+		StringBuilder tempBuffer = new StringBuilder();
 		try {
-			FileReader fr = new FileReader(thisFile);
-			BufferedReader br = new BufferedReader(fr);
+
+			BufferedReader br = new BufferedReader(new FileReader(thisFile));
 
 			String daLine = br.readLine();
 
 			while (daLine != null) {
-				fullString += daLine;
-
+				tempBuffer.append(daLine);
 				daLine = br.readLine();
-				//Logger.getRootLogger().debug(daLine);
 			}
 
 			br.close();
-			fr.close();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return fullString;
+		return new String(tempBuffer);
+	}
+	
+	public static String getPartialFileContents(File thisFile, String endString) {
+
+		StringBuilder tempBuffer = new StringBuilder();
+		try {
+
+			BufferedReader br = new BufferedReader(new FileReader(thisFile));
+
+			String daLine = br.readLine();
+
+			boolean continueOn = true;
+			
+			while ((daLine != null) && (continueOn)) {
+				tempBuffer.append(daLine);
+				daLine = br.readLine();
+				
+				if (daLine.indexOf(endString) != -1){
+					tempBuffer.append(daLine);
+					continueOn = false;
+				}
+			}
+
+			br.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new String(tempBuffer);
 	}
 
 }

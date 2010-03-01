@@ -37,13 +37,13 @@
             <table>
               <tr>
                 <td valign="top">Unique Internal Document Title  <a href="helptext/uniq_doc_identifer_help.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top"><input type="text" name="uniq_doc_title" value="<%= this_sd.getUniqueDocTitle() %>" /></td></tr>
+              <td valign="top"><input type="text" name="uniq_doc_title" value="<%= this_sd.getUniqueDocTitle() %>" tabindex="1" /></td></tr>
               <tr><td valign="top">Document Display Title <a href="helptext/document_display_title_help.jsp" target="helpinright">(?)</a>:</td>
-            <td valign="top"><input name="doc_display_title" type="text" size="60" value="<%= this_sd.getDisplayTitle() %>" /></td></tr>
+            <td valign="top"><input name="doc_display_title" type="text" size="60" value="<%= this_sd.getDisplayTitle() %>" tabindex="2" /></td></tr>
               <tr>
                 <td valign="top">Document Starter Text (?):</td>
                 <td valign="top">
-                <textarea id="doc_starter_text" name="doc_starter_text" style="height: 300px; width: 400px;"><%= this_sd.getBigString() %></textarea>
+                <textarea id="doc_starter_text" name="doc_starter_text" style="height: 300px; width: 400px;" tabindex="3"><%= this_sd.getBigString() %></textarea>
                           <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
 		<script language="javascript1.2">
@@ -59,14 +59,14 @@
               
               <% if (this_sd.getId() == null) { %>
               
-              <input type="submit" name="create_doc" value="Create" />
+              <input type="submit" name="create_doc" value="Create" tabindex="4" />
               
               <%
 				} else {
 				%>
-                <input type="hidden" name="shared_doc_id" value="<%= this_sd.getId() %>" />
-                <input type="submit" name="clear_button" value="Clear" />
-                <input type="submit"  name="update_doc" value="Update Document" /> 
+                <input type="hidden" name="shared_doc_id" value="<%= this_sd.getId() %>" tabindex="5" />
+                <input type="submit" name="clear_button" value="Clear" tabindex="6" />
+                <input type="submit"  name="update_doc" value="Update Document" tabindex="7" /> 
                 <%
 					}
 				%>

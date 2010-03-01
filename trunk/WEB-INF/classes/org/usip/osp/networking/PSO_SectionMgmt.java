@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.*;
+import org.usip.osp.baseobjects.core.ChatHelpCustomizer;
 import org.usip.osp.baseobjects.core.Customizer;
 import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.communications.Conversation;
@@ -723,28 +724,11 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setBigString(make_write_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.save(afso.schema);
-
-			// Get the number of documents passed in
 			
-			// loop over the documents and get ids and positions
+			ChatHelpCustomizer chc = new ChatHelpCustomizer();
 			
-			String _doc_string = request.getParameter("doc_id");
-
-			// Get the document associated with this customized section
-			try {
-				Long doc_id = new Long(_doc_string);
-
-				BaseSimSectionDepObjectAssignment bssdoa = BaseSimSectionDepObjectAssignment.getIfExistsElseCreateIt(
-						afso.schema, customizableSectionOnScratchPad.getId(),
-						"org.usip.osp.communications.SharedDocument", doc_id, afso.sim_id);
-
-				bssdoa.setDepObjIndex(1);
-
-				bssdoa.saveMe(afso.schema);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			// Load the values into the hashtable, and create bssdoa's
+			chc.handleCustomizeSection(request, afso, customizableSectionOnScratchPad);
 
 			customizableSectionOnScratchPad.save(afso.schema);
 
@@ -755,6 +739,7 @@ public class PSO_SectionMgmt {
 				// send them back
 				afso.forward_on = true;
 			}
+			
 
 		} // End of if we are coming from the make_write_document_list_page
 
