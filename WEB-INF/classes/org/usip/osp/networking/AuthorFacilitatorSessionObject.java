@@ -1158,55 +1158,55 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	 * 
 	 * @param request
 	 */
-	public void handleCreateSimulationSection(HttpServletRequest request) {
+	public BaseSimSection handleCreateSimulationSection(HttpServletRequest request) {
+		
+		BaseSimSection bss = new BaseSimSection();
+		
 		String sending_page = (String) request.getParameter("sending_page");
-		String createsection = (String) request.getParameter("createsection");
 
-		if ((sending_page != null) && (createsection != null) && (sending_page.equalsIgnoreCase("create_section"))) {
-
-			BaseSimSection bss = new BaseSimSection(schema, request.getParameter("url"), request
-					.getParameter("directory"), request.getParameter("filename"), request
-					.getParameter("rec_tab_heading"), request.getParameter("description"));
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("create_section"))) {
 			
-			bss.setAuthorGeneratedSimulationSection(true);
+			//////////////////////////////////////////////////////////
+			String command = (String) request.getParameter("command");
 
+			String u = request.getParameter("url");
+			String d = request.getParameter("directory");
+			String f = request.getParameter("filename");
+			String r = request.getParameter("rec_tab_heading");
+			String desc = request.getParameter("description");
+			String bss_id = request.getParameter("bss_id");
 			String send_rsid_info = (String) request.getParameter("send_rsid_info");
 			String send_actor_info = (String) request.getParameter("send_actor_info");
 			String send_user_info = (String) request.getParameter("send_user_info");
 
-			Logger.getRootLogger().debug("rsid / actor /user: " + send_rsid_info + send_actor_info + send_user_info);
+			if (command != null) {
+				if (command.equalsIgnoreCase("Create")) {
+					bss = new BaseSimSection(schema, u, d, f, r, desc);
+					bss.setSendFields(send_rsid_info, send_actor_info, send_user_info);
+					bss.setAuthorGeneratedSimulationSection(true);
+					bss.saveMe(schema);
+				} else if (command.equalsIgnoreCase("Update")) { // 
+					bss = BaseSimSection.getMe(schema, bss_id);
+					bss.setUrl(u);
+					bss.setDirectory(d);
+					bss.setPage_file_name(f);
+					bss.setRec_tab_heading(r);
+					bss.setDescription(desc);
+					bss.setSendFields(send_rsid_info, send_actor_info, send_user_info);
+					bss.setAuthorGeneratedSimulationSection(true);
+					bss.saveMe(schema);
+				} else if (command.equalsIgnoreCase("Edit")) {
+					bss = BaseSimSection.getMe(schema, bss_id);
+					return bss;
+				} else if (command.equalsIgnoreCase("Clear")) { // 
+					return bss;
+					// returning bss will clear field
+				}
+			}	
 
-			String sendStringWork = "";
-
-			if ((send_rsid_info != null) && (send_rsid_info.equalsIgnoreCase("true"))) {
-				sendStringWork = "1";
-			} else {
-				sendStringWork = "0";
-			}
-
-			if ((send_actor_info != null) && (send_actor_info.equalsIgnoreCase("true"))) {
-				sendStringWork += "1";
-			} else {
-				sendStringWork += "0";
-			}
-
-			if ((send_user_info != null) && (send_user_info.equalsIgnoreCase("true"))) {
-				sendStringWork += "1";
-			} else {
-				sendStringWork += "0";
-			}
-
-			Logger.getRootLogger().debug("send string was: " + sendStringWork);
-			bss.setSendString(sendStringWork);
-
-			bss.saveMe(schema);
-
-		} // End of if coming from this page and have added simulation section.
-
-		String create_defaults = (String) request.getParameter("create_defaults");
-		if ((create_defaults != null) && (create_defaults.equalsIgnoreCase("Create Defaults"))) {
-			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
-		}
+		} 
+		
+		return bss;
 	}
 
 	/**

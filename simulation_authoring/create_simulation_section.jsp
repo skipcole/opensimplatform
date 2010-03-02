@@ -11,9 +11,9 @@
 		return;
 	}
 	
-	afso.handleCreateSimulationSection(request);
+	BaseSimSection bss = afso.handleCreateSimulationSection(request);
 
-	List baseList = BaseSimSection.getAll(afso.schema);
+	List baseList = BaseSimSection.getAllAuthorGenerated(afso.schema);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -31,7 +31,7 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
@@ -40,64 +40,76 @@
 			
 
       <form action="create_simulation_section.jsp" method="post" name="form1" id="form1">
-  <input type="hidden" name="sending_page" value="create_section" />
-        
-        <table width="80%" border="0" cellspacing="2" cellpadding="2">
+  <input type="hidden" name="sending_page" value="create_section" />   
+        <table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr> 
-            <td>URL:</td>
-              <td><input type="text" name="url" tabindex="1" /></td>
+            <td>Web Address (URL) <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+              <td><input type="text" name="url" tabindex="1" value="<%= bss.getUrl() %>" /></td>
             </tr>
           <tr> 
-            <td>Directory:</td>
-              <td><input type="text" name="directory" tabindex="2" /></td>
+            <td>Directory  <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+              <td><input type="text" name="directory" tabindex="2" value="<%= bss.getDirectory() %>" /></td>
             </tr>
           <tr> 
-            <td>Filename:</td>
-              <td><input type="text" name="filename" tabindex="3" /></td>
+            <td>Filename  <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+              <td><input type="text" name="filename" tabindex="3" value="<%= bss.getPage_file_name() %>" /></td>
             </tr>
           <tr> 
-            <td>Recommended Tab Heading:</td>
-              <td><input type="text" name="rec_tab_heading" tabindex="4" /></td>
+            <td>Recommended Tab Heading  <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+              <td><input type="text" name="rec_tab_heading" tabindex="4" value="<%= bss.getRec_tab_heading() %>" /></td>
             </tr>
           <tr> 
-            <td>Description:</td>
-              <td><textarea name="description"></textarea></td>
-            </tr>
-          <tr> 
-            <td>&nbsp;</td>
-              <td><label>
-                <input name="send_rsid_info" type="checkbox" value="true" />
-                Send Running Simulation Information</label></td>
+            <td>Description <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+              <td><textarea name="description" tabindex="5" ><%= bss.getDescription() %></textarea></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
               <td><label>
-                <input name="send_actor_info" type="checkbox" value="true" />
-                Send Actor Information</label></td>
+                <input name="send_rsid_info" type="checkbox" value="true" tabindex="6" />
+                Send Running Simulation Information </label> <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a></td>
+            </tr>
+          <tr> 
+            <td>&nbsp;</td>
+              <td><label>
+                <input name="send_actor_info" type="checkbox" value="true" tabindex="7" />
+                Send Actor Information</label> 
+              <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a></td>
             </tr>
           <tr>
             <td>&nbsp;</td>
-              <td><input name="send_user_info" type="checkbox" value="true" />
-                Send User Information</td>
+              <td><input name="send_user_info" type="checkbox" value="true" tabindex="8" />
+                Send User Information <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
-              <td><input type="submit" name="createsection" value="Submit" tabindex="7" /> 
-                <label> 
-                  <input type="submit" name="clear_button" value="Clear" tabindex="8" />
-                  </label></td>
+              <td><%
+				if (bss.getId() == null) {
+				%>
+                <input type="submit" name="command" value="Create" tabindex="9" />
+                <%
+				} else {
+				%>
+                <input type="hidden" name="bss_id" value="<%= bss.getId() %>"  />
+                <input type="submit" name="command" value="Clear" tabindex="10" />
+                <input type="submit" name="command" value="Update" tabindex="11" />
+                <%
+					}
+				%>
+                  
+                  </td>
             </tr>
           </table>
     <p>&nbsp;</p>
     <p></p>
         </form>
       <p>&nbsp;</p>
-      <p>Below are listed alphabetically all of the current Base Simulation Sections.</p>
+      <p>Below are listed alphabetically all of the Simulation Sections created by authors.</p>
       <table width="80%" border="0" cellspacing="2" cellpadding="2">
         <tr> 
           <td><h2>Recommended Tab Heading</h2></td>
       <td><h2>File Name</h2></td>
-    </tr>
+      <td><h2>Delete</h2></td>
+        </tr>
         <%
 		for (ListIterator li = baseList.listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next();		
@@ -105,11 +117,13 @@
         <tr> 
           <td><%= bss.getRec_tab_heading() %></td>
       <td><%= bss.getPage_file_name() %></td>
-    </tr>
+      <td>&nbsp;</td>
+        </tr>
         <%
 	}
 %>
-      </table>      <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      </table>      
+      <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>
