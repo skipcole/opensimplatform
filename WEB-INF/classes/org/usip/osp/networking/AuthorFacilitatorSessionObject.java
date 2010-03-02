@@ -434,6 +434,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 						UserAssignment.class, o_id);
 				MultiSchemaHibernateUtil.getSession(this.schema).delete(ua);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
+				
+			}  else if (objectType.equalsIgnoreCase("section")) {
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(this.schema).get(
+						BaseSimSection.class, o_id);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(bss);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 			}
 
 			return true;

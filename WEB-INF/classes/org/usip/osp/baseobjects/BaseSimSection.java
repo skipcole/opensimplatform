@@ -903,5 +903,11 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		
 		this.sendString = sendStringWork;
 	}
+	
+	public String getFullPath(){
+		String returnString = this.getUrl() + this.getDirectory() + this.getPage_file_name();
+		
+		return returnString;
+	}
 
 }

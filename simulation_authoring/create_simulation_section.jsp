@@ -5,11 +5,13 @@
 	errorPage="../error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-
+	//afso.backPage = afso.getBaseSimURL() + "/simulation_authoring/create_simulation_section.jsp";
+	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
 	
 	BaseSimSection bss = afso.handleCreateSimulationSection(request);
 
@@ -43,42 +45,42 @@
   <input type="hidden" name="sending_page" value="create_section" />   
         <table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr> 
-            <td>Web Address (URL) <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+            <td>Web Address (URL)* <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
               <td><input type="text" name="url" tabindex="1" value="<%= bss.getUrl() %>" /></td>
             </tr>
           <tr> 
-            <td>Directory  <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+            <td>Directory  <a href="helptext/create_simsection_directory.jsp" target="helpinright">(?)</a>:</td>
               <td><input type="text" name="directory" tabindex="2" value="<%= bss.getDirectory() %>" /></td>
             </tr>
           <tr> 
-            <td>Filename  <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+            <td>Filename  <a href="helptext/create_simsection_filename.jsp" target="helpinright">(?)</a>:</td>
               <td><input type="text" name="filename" tabindex="3" value="<%= bss.getPage_file_name() %>" /></td>
             </tr>
           <tr> 
-            <td>Recommended Tab Heading  <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+            <td>Recommended Tab Heading*  <a href="helptext/create_simsection_rec_tab.jsp" target="helpinright">(?)</a>:</td>
               <td><input type="text" name="rec_tab_heading" tabindex="4" value="<%= bss.getRec_tab_heading() %>" /></td>
             </tr>
           <tr> 
-            <td>Description <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a>:</td>
+            <td>Description <a href="helptext/create_simsection_description.jsp" target="helpinright">(?)</a>:</td>
               <td><textarea name="description" tabindex="5" ><%= bss.getDescription() %></textarea></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
               <td><label>
                 <input name="send_rsid_info" type="checkbox" value="true" tabindex="6" />
-                Send Running Simulation Information </label> <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a></td>
+                Send Running Simulation Information </label> <a href="helptext/create_simsection_sendrsinfo.jsp" target="helpinright">(?)</a></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
               <td><label>
                 <input name="send_actor_info" type="checkbox" value="true" tabindex="7" />
                 Send Actor Information</label> 
-              <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a></td>
+              <a href="helptext/create_simsection_sendactorinfo.jsp" target="helpinright">(?)</a></td>
             </tr>
           <tr>
             <td>&nbsp;</td>
               <td><input name="send_user_info" type="checkbox" value="true" tabindex="8" />
-                Send User Information <a href="helptext/create_simsection_webaddress.jsp" target="helpinright">(?)</a></td>
+                Send User Information <a href="helptext/create_simsection_userinfo.jsp" target="helpinright">(?)</a></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -99,7 +101,7 @@
                   </td>
             </tr>
           </table>
-    <p>&nbsp;</p>
+    <p>* Required Fields</p>
     <p></p>
         </form>
       <p>&nbsp;</p>
@@ -107,17 +109,17 @@
       <table width="80%" border="0" cellspacing="2" cellpadding="2">
         <tr> 
           <td><h2>Recommended Tab Heading</h2></td>
-      <td><h2>File Name</h2></td>
+      <td><h2>Full Path</h2></td>
       <td><h2>Delete</h2></td>
         </tr>
         <%
 		for (ListIterator li = baseList.listIterator(); li.hasNext();) {
-			BaseSimSection bss = (BaseSimSection) li.next();		
+			BaseSimSection this_bss = (BaseSimSection) li.next();		
 		%>
         <tr> 
-          <td><%= bss.getRec_tab_heading() %></td>
-      <td><%= bss.getPage_file_name() %></td>
-      <td>&nbsp;</td>
+          <td><a href="create_simulation_section.jsp?bss_id=<%= this_bss.getId() %>&command=Edit&sending_page=create_section"><%= this_bss.getRec_tab_heading() %></a></td>
+      <td><%= this_bss.getFullPath() %></td>
+      <td><a href="delete_object.jsp?object_type=section&objid=<%= this_bss.getId() %>">Remove</a></td>
         </tr>
         <%
 	}
