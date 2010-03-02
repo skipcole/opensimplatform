@@ -428,6 +428,30 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	public void setAuthorGeneratedSimulationSection(boolean authorGeneratedSimulationSection) {
 		this.authorGeneratedSimulationSection = authorGeneratedSimulationSection;
 	}
+	
+	/**
+	 * Returns all control base sim sections.
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public static List<BaseSimSection> getAllAuthorGenerated(String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from BaseSimSection where authorGeneratedSimulationSection = '1' ").list(); //$NON-NLS-1$
+
+		if (returnList == null) {
+			returnList = new ArrayList<BaseSimSection>();
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		Collections.sort(returnList);
+
+		return returnList;
+	}
 
 	/**
 	 * Indicates if having this section allows a player to read a document
@@ -448,6 +472,40 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * send the actor id, don't send the user id.
 	 */
 	protected String sendString = ""; //$NON-NLS-1$
+	
+	/** Indicates if we should specifically send the Running Simulation Id to this external section. */
+	protected boolean sendRsId = false;
+	
+	/** Indicates if we should specifically send the Actor Id to this external section. */
+	protected boolean sendActorId = false;
+	
+	/** Indicates if we should specifically send the User Id to this external section. */
+	protected boolean sendUserId = false;
+	
+
+	public boolean isSendRsId() {
+		return sendRsId;
+	}
+
+	public void setSendRsId(boolean sendRsId) {
+		this.sendRsId = sendRsId;
+	}
+
+	public boolean isSendActorId() {
+		return sendActorId;
+	}
+
+	public void setSendActorId(boolean sendActorId) {
+		this.sendActorId = sendActorId;
+	}
+
+	public boolean isSendUserId() {
+		return sendUserId;
+	}
+
+	public void setSendUserId(boolean sendUserId) {
+		this.sendUserId = sendUserId;
+	}
 
 	/**
 	 * Zero argument constructor needed by Hibernate.
@@ -795,6 +853,55 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 	public String getVersionInformation() {
 		return this.creatingOrganization + this.uniqueName + " version: " + this.version; //$NON-NLS-1$
+	}
+
+	public void setSendFields(String send_rsid_info, String send_actor_info, String send_user_info) {
+		
+
+		if ((send_rsid_info != null) && (send_rsid_info.equalsIgnoreCase("true"))) {
+			this.sendRsId = true;
+		} else {
+			this.sendRsId = false;
+		}
+
+		if ((send_actor_info != null) && (send_actor_info.equalsIgnoreCase("true"))) {
+			this.sendActorId = true;
+		} else {
+			this.sendActorId = false;
+		}
+
+		if ((send_user_info != null) && (send_user_info.equalsIgnoreCase("true"))) {
+			this.sendUserId = true;
+		} else {
+			this.sendUserId = false;
+		}
+
+		setSendString();
+		
+	}
+	
+	public void setSendString(){
+		String sendStringWork = "";
+
+		if (this.sendRsId) {
+			sendStringWork = "1";
+		} else {
+			sendStringWork = "0";
+		}
+
+		if (this.sendActorId) {
+			sendStringWork += "1";
+		} else {
+			sendStringWork += "0";
+		}
+
+		if (this.sendUserId) {
+			sendStringWork += "1";
+		} else {
+			sendStringWork += "0";
+		}
+		
+		this.sendString = sendStringWork;
 	}
 
 }
