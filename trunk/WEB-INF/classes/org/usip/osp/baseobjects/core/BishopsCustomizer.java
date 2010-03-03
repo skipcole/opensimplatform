@@ -33,6 +33,8 @@ public class BishopsCustomizer  extends Customizer{
 	
 	public static final String GET_CONFLICT_DOC2_KEY = "GET_CONFLICT_DOC2_KEY"; //$NON-NLS-1$
 	
+	public static final String GET_DOC_TO_SHOW_KEY = "GET_DOC_TO_SHOW_KEY"; //$NON-NLS-1$
+	
 	 public BishopsCustomizer(){}
 	 
 	 /** Creates and loads the info.
@@ -66,6 +68,8 @@ public class BishopsCustomizer  extends Customizer{
 			String gv_id = request.getParameter("gv_id");
 			String conflict_doc_1 = request.getParameter("conflict_doc_1");
 			String conflict_doc_2 = request.getParameter("conflict_doc_2");
+			String doc_to_show = request.getParameter("doc_to_show");
+			
 			
 			if ((selected_allow_edit != null) && (selected_allow_edit.equalsIgnoreCase("true"))) {
 				cs.getContents().put(ALLOW_EDIT_KEY, selected_allow_edit);
@@ -83,10 +87,12 @@ public class BishopsCustomizer  extends Customizer{
 			Long gvId = USIP_OSP_Util.stringToLong(gv_id);
 			Long cd1Id = USIP_OSP_Util.stringToLong(conflict_doc_1);
 			Long cd2Id = USIP_OSP_Util.stringToLong(conflict_doc_2);
+			Long d2show = USIP_OSP_Util.stringToLong(doc_to_show);
 			
 			cs.getContents().put(GET_PARAMETER_KEY, gvId);
 			cs.getContents().put(GET_CONFLICT_DOC1_KEY, cd1Id);
 			cs.getContents().put(GET_CONFLICT_DOC2_KEY, cd2Id);
+			cs.getContents().put(GET_DOC_TO_SHOW_KEY, d2show);
 
 			cs.save(afso.schema);
 			
@@ -136,6 +142,11 @@ public class BishopsCustomizer  extends Customizer{
 		parameterId = (Long) cs.getContents().get(GET_PARAMETER_KEY);
 		doc1Id = (Long) cs.getContents().get(GET_CONFLICT_DOC1_KEY);
 		doc2Id = (Long) cs.getContents().get(GET_CONFLICT_DOC2_KEY);
+		Long documentToShowRaw = (Long) cs.getContents().get(GET_CONFLICT_DOC2_KEY);
+		
+		if (documentToShowRaw != null){
+			documentToShow = documentToShowRaw.intValue();
+		}
 		
 	}
 	
@@ -184,6 +195,14 @@ public class BishopsCustomizer  extends Customizer{
 
 	public void setDoc2Id(Long doc2Id) {
 		this.doc2Id = doc2Id;
+	}
+
+	public void setDocumentToShow(int documentToShow) {
+		this.documentToShow = documentToShow;
+	}
+
+	public int getDocumentToShow() {
+		return documentToShow;
 	}
 	
 	

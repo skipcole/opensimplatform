@@ -27,6 +27,8 @@
 	List setOfDocs = new ArrayList();
 	
 	SharedDocument conflictDoc = new SharedDocument();
+	SharedDocument conflictDoc1 = new SharedDocument();
+	SharedDocument conflictDoc2 = new SharedDocument();
 	
 	if (!(pso.preview_mode)) {	
 		CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
@@ -34,10 +36,16 @@
 		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, false);
 		inactivePartyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, true);
 		
-		if (bc.isAllowConflictDocumentEdit()) {
-			setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
-			conflictDoc = (SharedDocument) setOfDocs.get(0);
+		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+		conflictDoc1 = (SharedDocument) setOfDocs.get(0);
+		conflictDoc2 = (SharedDocument) setOfDocs.get(1);
+		
+		if(bc.getDocumentToShow() == 2) { 
+			conflictDoc = conflictDoc2;
+		} else {
+			conflictDoc = conflictDoc1;
 		}
+		
 	}
 	
 	
@@ -124,7 +132,13 @@
     (<a href="write_conflict_document.jsp?doc_id=<%= conflictDoc.getId() %>">edit</a>)
     <% } %>
     </h2>
-    <p><%= conflictDoc.getBigString() %></p></td>
+    <p><%= conflictDoc.getBigString() %></p>
+    <p>&nbsp;</p>
+    
+   	<% if(bc.getDocumentToShow() == 2) { %> 
+    <p><a href="../compare_document.jsp?doc_1=<%= conflictDoc1.getId() %>&doc_2=<%= conflictDoc2.getId() %>">compare with previous version</a></p>
+    <% } %>
+    </td>
 <% if ((partyList != null) && (partyList.size() >= 5)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(4);
   %>

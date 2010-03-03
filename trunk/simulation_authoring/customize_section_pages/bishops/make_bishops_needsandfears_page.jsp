@@ -144,27 +144,14 @@
           <blockquote>
             <p>
               <label>
-              <input type="radio" name="radio" id="radio" value="radio" />
+              <input type="radio" name="doc_to_show" id="doc_to_show_1" value="1" />
               </label>
             Document 1</p>
             <p>
               <label>
-              <input type="radio" name="radio2" id="radio2" value="radio2" />
+              <input type="radio" name="doc_to_show" id="doc_to_show_2" value="2" />
               </label>
             Document 2</p>
-          </blockquote>
-          <p><strong>Show Compare</strong></p>
-          <blockquote>
-            <p>
-              <label>
-              <input type="radio" name="radio3" id="radio3" value="radio3" />
-              </label>
-            True</p>
-            <p>
-              <label>
-              <input type="radio" name="radio4" id="radio4" value="radio4" />
-              </label>
-            False</p>
           </blockquote>
           <p><strong>Modify Section Description</strong></p>
           <blockquote>

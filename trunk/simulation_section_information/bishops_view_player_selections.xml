@@ -7,6 +7,6 @@
   <directory>../osp_core/bishops/</directory>
   <page__file__name>view_role_selections_page.jsp</page__file__name>
   <rec__tab__heading>View Player Selections</rec__tab__heading>
-  <sample__image>introduction.png</sample__image>
+  <sample__image>view_role_selections_page.png</sample__image>
   <control__section>false</control__section>
 </org.usip.osp.baseobjects.BaseSimSection>

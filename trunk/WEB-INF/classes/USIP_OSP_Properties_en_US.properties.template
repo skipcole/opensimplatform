@@ -112,4 +112,16 @@ driver_class=com.mysql.jdbc.Driver
 ###########
 #################################################################
 # The Encryption Algorithm you wish to use.
-#
+# Note: This is a training system and was not originally designed for high security.
+encryptionstrategy=””
+
+#################################################################
+# The Salt Key you wish to use.
+# Note: This is a training system and was not originally designed for high security.
+salt=""
+
+#################################################################
+# The salt strategy (fixed, variable, both or none) you wish to use.
+# Note: This is a training system and was not originally designed for high security.
+saltstrategy="none"
+
