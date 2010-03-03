@@ -26,12 +26,18 @@
 			return;
 		}
 	}
+	
+	response.setHeader("Cache-Control", "no-cache"); //$NON-NLS-1$ //$NON-NLS-2$
+    response.setHeader("Pragma", "no-cache"); //$NON-NLS-1$ //$NON-NLS-2$
+    response.setHeader("Expires", "-1"); //$NON-NLS-1$ //$NON-NLS-2$
 		
 %>
 <html>
 <head>
 <title>USIP Open Simulation Platform Login</title>
 <link href="usip_osp.css" rel="stylesheet" type="text/css">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
 <style type="text/css">
 <!--
 .style1 {font-size: small}

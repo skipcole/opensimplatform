@@ -13,6 +13,6 @@
   <directory>../osp_core/bishops/</directory>
   <page__file__name>needs_and_fears.jsp</page__file__name>
   <rec__tab__heading>Needs and Fears</rec__tab__heading>
-  <sample__image>introduction.png</sample__image>
+  <sample__image>needs_and_fears.png</sample__image>
   <control__section>false</control__section>
 </org.usip.osp.baseobjects.CustomizeableSection>

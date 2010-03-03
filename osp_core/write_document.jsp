@@ -15,13 +15,14 @@
 	SharedDocument sd = new SharedDocument();
 	String editInstructions = "";
 	
+	String cs_id = (String) request.getParameter("cs_id");
 	String sendingDocId = (String) request.getParameter("sendingDocId");
+	String doc_id = (String) request.getParameter("doc_id");
 	
 	if ((sendingDocId != null) && (sendingDocId.equalsIgnoreCase("true"))){
-		String doc_id = (String) request.getParameter("doc_id");
-		sd = SharedDocument.getMe(pso.schema, new Long(doc_id);
+		sd = SharedDocument.getMe(pso.schema, new Long(doc_id));
 	} else {
-		String cs_id = (String) request.getParameter("cs_id");
+		
 		CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 		editInstructions = cs.getBigString();
 	

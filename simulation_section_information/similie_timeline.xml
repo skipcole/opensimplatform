@@ -16,7 +16,7 @@
   <directory>../osp_core/</directory>
   <page__file__name>similie_timeline.jsp</page__file__name>
   <rec__tab__heading>Timeline</rec__tab__heading>
-  <sample__image>no_sample_image.png</sample__image>
+  <sample__image>similie_timeline.png</sample__image>
   <control__section>false</control__section>
   <cust__lib__name></cust__lib__name>
   <confers__read__ability>false</confers__read__ability>
