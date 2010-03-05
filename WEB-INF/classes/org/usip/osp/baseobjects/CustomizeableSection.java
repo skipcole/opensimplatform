@@ -261,8 +261,10 @@ public class CustomizeableSection extends BaseSimSection {
 		return fullfilename;
 		
 	}
+
     
-    public void save(String schema){
+    @Override
+    public void saveMe(String schema){
         MultiSchemaHibernateUtil.beginTransaction(schema);
         MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
         MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

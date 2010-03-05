@@ -32,7 +32,7 @@ public class TextPageCustomizer extends Customizer{
 			
 			cs.setBigString(text_page_text);
 
-			cs.save(afso.schema);
+			cs.saveMe(afso.schema);
 
 		}
 

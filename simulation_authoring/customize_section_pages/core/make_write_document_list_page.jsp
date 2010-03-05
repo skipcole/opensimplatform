@@ -11,7 +11,7 @@
 	
 	CustomizeableSection cs = afso.handleMakeWriteDocumentListPage(request);
 	
-	ChatHelpCustomizer chc = new ChatHelpCustomizer(request, afso, cs);
+	WriteDocumentListCustomizer wdl = new WriteDocumentListCustomizer(request, afso, cs);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
@@ -54,7 +54,7 @@
           <p>Currently Listed Documents</p>
           <blockquote>
             <p><%
-					for (ListIterator li = chc.docs.listIterator(); li.hasNext();) {
+					for (ListIterator li = wdl.docs.listIterator(); li.hasNext();) {
 						Long this_id = (Long) li.next();
 						SharedDocument sd = SharedDocument.getMe(afso.schema, this_id);
 					%>

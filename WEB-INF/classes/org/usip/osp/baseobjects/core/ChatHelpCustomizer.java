@@ -3,6 +3,7 @@ package org.usip.osp.baseobjects.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.ListIterator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,9 @@ import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimulationSectionAssignment;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
+import org.usip.osp.communications.ConvActorAssignment;
+import org.usip.osp.communications.Conversation;
 import org.usip.osp.networking.SessionObjectBase;
 
 /*
@@ -28,6 +32,8 @@ import org.usip.osp.networking.SessionObjectBase;
  */
 public class ChatHelpCustomizer extends Customizer {
 
+	public static final String E_FOR_EVERYONE = "E_FOR_EVERYONE"; //$NON-NLS-1$
+
 	public ChatHelpCustomizer() {
 
 	}
@@ -41,119 +47,164 @@ public class ChatHelpCustomizer extends Customizer {
 	@Override
 	public void handleCustomizeSection(HttpServletRequest request, SessionObjectBase afso, CustomizeableSection cs) {
 
-		// Remove all dependent object assignments currently associated with this page.
+		cs.setContents(new Hashtable());
+
+		constantActors = new ArrayList();
+		visitingActors = new ArrayList();
+
+		String e_for_everyone = request.getParameter("e_for_everyone");
+
+		if ((e_for_everyone != null) && (e_for_everyone.equalsIgnoreCase("true"))) {
+			cs.getContents().put(E_FOR_EVERYONE, e_for_everyone);
+		} else {
+			cs.getContents().put(E_FOR_EVERYONE, "false");
+		}
+
+		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+			String pname = (String) e.nextElement();
+			String vname = (String) request.getParameter(pname);
+
+			System.out.println("p/v: " + pname + "/" + vname);
+
+			if (pname.startsWith("constant_actor_")) {
+				pname = pname.replaceAll("constant_actor_", "");
+
+				if ((vname != null) && (vname.equalsIgnoreCase("on"))) {
+					cs.getContents().put(pname, "constant");
+					addToList(constantActors, pname);
+				}
+			}
+
+			if (pname.startsWith("visiting_actor_")) {
+				pname = pname.replaceAll("visiting_actor_", "");
+
+				if ((vname != null) && (vname.equalsIgnoreCase("on"))) {
+					cs.getContents().put(pname, "visiting");
+					addToList(visitingActors, pname);
+				}
+			}
+		}
+
+		// Establish the base conversation for this chat help section.
+
+		// Should clean out any conversation for this section that existed.
 		BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, cs.getId());
 
-		try {
+		// For each constact actor/ visiting actor pair set up a conversation.
+		for (ListIterator<Long> li = constantActors.listIterator(); li.hasNext();) {
+			Long cAct = li.next();
 
-			for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
-				String pname = (String) e.nextElement();
+			if (cAct != null) {
 
-				String vname = (String) request.getParameter(pname);
+				for (ListIterator<Long> liv = visitingActors.listIterator(); liv.hasNext();) {
+					Long vAct = liv.next();
 
-				if (pname.startsWith("doc_id_")) {
-					cs.getContents().put(pname, vname);
-					System.out.println("p/v: " + pname + "/" + vname);
-					
-					pname = pname.replaceAll("doc_id_", "");
-					
-					BaseSimSectionDepObjectAssignment bssdoa = BaseSimSectionDepObjectAssignment.getIfExistsElseCreateIt(
-							afso.schema, cs.getId(),
-							"org.usip.osp.communications.SharedDocument", new Long(pname), afso.sim_id);
+					if ((vAct != null) && (vAct.intValue() != cAct.intValue())) {
+						Conversation conv = new Conversation();
+						conv.setSim_id(afso.sim_id);
+						conv.setConversationType(Conversation.TYPE_CHAT_HELP);
+						conv.setUniqueConvName("Chat Help: " + cAct.toString() + " and " + vAct.toString());
+						conv.saveMe(afso.schema);
 
-					bssdoa.setDepObjIndex(1);
+						ConvActorAssignment caa = new ConvActorAssignment();
+						caa.setActor_id(cAct);
+						caa.setConv_id(conv.getId());
+						caa.saveMe(afso.schema);
 
-					bssdoa.saveMe(afso.schema);
+						ConvActorAssignment caa2 = new ConvActorAssignment();
+						caa2.setActor_id(vAct);
+						caa2.setConv_id(conv.getId());
+						caa2.saveMe(afso.schema);
+
+						// Create and save the assignment obect
+						@SuppressWarnings("unused")
+						BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(cs.getId(),
+								"org.usip.osp.communications.Conversation", 1, conv.getId(), afso.sim_id, afso.schema);
+
+					}
 				}
-
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			} // End of cAct != null
 		}
-		
-		
+		// Create conversations for constant-visitor
 	}
 
-	public ArrayList docs = new ArrayList();
+	private ArrayList constantActors = new ArrayList();
+	private ArrayList visitingActors = new ArrayList();
+	private boolean eForEveryone = false;
+
+	public ArrayList getConstantActors() {
+		return constantActors;
+	}
+
+	public void setConstantActors(ArrayList constantActors) {
+		this.constantActors = constantActors;
+	}
+
+	public ArrayList getVisitingActors() {
+		return visitingActors;
+	}
+
+	public void setVisitingActors(ArrayList visitingActors) {
+		this.visitingActors = visitingActors;
+	}
+
+	public boolean isEForEveryone() {
+		return eForEveryone;
+	}
+
+	public void setEForEveryone(boolean forEveryone) {
+		eForEveryone = forEveryone;
+	}
 
 	@Override
 	public void loadSimCustomizeSection(HttpServletRequest request, SessionObjectBase pso, CustomizeableSection cs) {
 
-		ArrayList tempList = new ArrayList();
-		docs = new ArrayList();
+		constantActors = new ArrayList();
+		visitingActors = new ArrayList();
 
 		for (Enumeration e = cs.getContents().keys(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
 
-			Logger.getRootLogger().warn("      checking against key: " + key); //$NON-NLS-1$
+			String value = (String) cs.getContents().get(key);
 
-			if (key.startsWith("doc_id_")) {
+			if (value != null) {
+				if (value.equalsIgnoreCase("constant")) {
+					addToList(constantActors, key);
+				}
 
-				String position = (String) cs.getContents().get(key);
-
-				if ((position != null) && (!(position.equalsIgnoreCase("0")))) {
-
-					key = key.replaceAll("doc_id_", "");
-
-					// Need to create an anonymous inner class to do the sorting
-					ListSorter ls = new ListSorter(new Long(key), new Long(position));
-					tempList.add(ls);
+				if (value.equalsIgnoreCase("visiting")) {
+					addToList(visitingActors, key);
 				}
 
 			}
+		}
 
-			Collections.sort(tempList);
+		String eString = (String) cs.getContents().get(E_FOR_EVERYONE);
 
-			// Now loop over sorted list, pull out the longs, and add them to
-			// the final list of longs,
-			// and store it back
-
-			for (ListIterator<ListSorter> li = tempList.listIterator(); li.hasNext();) {
-				ListSorter ls = li.next();
-				docs.add(ls.getDataField());
-			}
+		if ((eString != null) && (eString.equalsIgnoreCase("true"))) {
+			this.eForEveryone = true;
+		} else {
+			this.eForEveryone = false;
 		}
 
 	}
 
-	private class ListSorter implements Comparable {
+	public void addToList(ArrayList array, String key) {
 
-		public ListSorter() {
-
+		try {
+			Long lKey = new Long(key);
+			array.add(lKey);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+	}
 
-		public ListSorter(Long d, Long o) {
-			this.dataField = d;
-			this.orderField = o;
-		}
+	public boolean thisActorIsConstant(Long actor_id) {
+		return USIP_OSP_Util.findMatchingLong(constantActors, actor_id);
+	}
 
-		private Long dataField = null;
-		private Long orderField = null;
-
-		public Long getDataField() {
-			return dataField;
-		}
-
-		public void setDataField(Long dataField) {
-			this.dataField = dataField;
-		}
-
-		public Long getOrderField() {
-			return orderField;
-		}
-
-		public void setOrderField(Long orderField) {
-			this.orderField = orderField;
-		}
-
-		@Override
-		public int compareTo(Object arg0) {
-			ListSorter ls = (ListSorter) arg0;
-
-			return  this.orderField.intValue() - ls.orderField.intValue();
-		}
-
+	public boolean thisActorIsVisiting(Long actor_id) {
+		return USIP_OSP_Util.findMatchingLong(visitingActors, actor_id);
 	}
 
 }

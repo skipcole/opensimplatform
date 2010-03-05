@@ -243,7 +243,7 @@ public class PSO_SectionMgmt {
 			
 			this.customizableSectionOnScratchPad.setDescription(_cs_description);
 			
-			this.customizableSectionOnScratchPad.save(this.afso.schema);
+			this.customizableSectionOnScratchPad.saveMe(this.afso.schema);
 
 			if (this.save_and_add != null) {
 				// add section
@@ -600,7 +600,7 @@ public class PSO_SectionMgmt {
 			String make_reflection_page_text = request.getParameter("make_reflection_page_text");
 			this.customizableSectionOnScratchPad.setBigString(make_reflection_page_text);
 			this.customizableSectionOnScratchPad.setRec_tab_heading(this._tab_heading);
-			this.customizableSectionOnScratchPad.save(this.afso.schema);
+			this.customizableSectionOnScratchPad.saveMe(this.afso.schema);
 
 			if (this.save_and_add != null) {
 				// add section
@@ -658,7 +658,7 @@ public class PSO_SectionMgmt {
 			String make_write_document_page_text = request.getParameter("make_write_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_write_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			String _doc_string = request.getParameter("doc_id");
 
@@ -678,7 +678,7 @@ public class PSO_SectionMgmt {
 				e.printStackTrace();
 			}
 
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			if (save_and_add != null) {
 				// add section
@@ -723,14 +723,14 @@ public class PSO_SectionMgmt {
 			String make_write_document_page_text = request.getParameter("make_write_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_write_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 			
 			ChatHelpCustomizer chc = new ChatHelpCustomizer();
 			
 			// Load the values into the hashtable, and create bssdoa's
 			chc.handleCustomizeSection(request, afso, customizableSectionOnScratchPad);
 
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			if (save_and_add != null) {
 				// add section
@@ -801,7 +801,7 @@ public class PSO_SectionMgmt {
 			String make_memos_page_text = (String) request.getParameter("make_memos_page_text");
 			customizableSectionOnScratchPad.setBigString(make_memos_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			if (save_and_add != null) {
 				// add section
@@ -859,7 +859,7 @@ public class PSO_SectionMgmt {
 			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			return customizableSectionOnScratchPad;
 		}
@@ -900,7 +900,7 @@ public class PSO_SectionMgmt {
 			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			if (save_and_add != null) {
 				// add section
@@ -978,7 +978,7 @@ public class PSO_SectionMgmt {
 
 			// Update page values
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			if (save_and_add != null) {
 				@SuppressWarnings("unused")
@@ -1088,7 +1088,7 @@ public class PSO_SectionMgmt {
 			String page_title = (String) request.getParameter("page_title");
 			customizableSectionOnScratchPad.setPageTitle(page_title);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			if (save_and_add != null) {
 				// add section to the applicable actors
@@ -1106,67 +1106,6 @@ public class PSO_SectionMgmt {
 
 		return conv;
 
-	}
-	
-	public CustomizeableSection handleMakeChatHelpPage(HttpServletRequest request) {
-		// ///////////////////////////////////////////////////////////////
-		// Read in possible parameters
-		getSimSectionsInternalVariables(request);
-
-		// /////////////////////////////////////////////////////////
-		// Pull this custom page out of the database based on its id.
-		_custom_section_id = request.getParameter("custom_page");
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
-
-		// If this is the original custom page, make a new section for this
-		// simulation
-		if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-
-			customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
-
-		}
-
-		customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-
-		String sending_page = (String) request.getParameter("sending_page");
-		
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("make_chat_help_page"))) {
-
-			// Delete all private conversations for this section since we
-			// recreate them below.
-			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, customizableSectionOnScratchPad.getId());
-
-			int numConstant = 0;
-			int numVisiting = 0;
-			
-			for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
-				String pname = (String) e.nextElement();
-
-				String vname = (String) request.getParameter(pname);
-				
-				
-				if (pname.startsWith("constant_actor_")) {
-					pname = pname.replaceAll("constant_actor_", "");
-					
-					if ((vname != null) && (vname.equalsIgnoreCase("on"))){
-						customizableSectionOnScratchPad.getContents().put("constant_actor_" + numConstant, pname);
-						System.out.println("stored c: " + numConstant + "/" + pname);
-					}
-				}
-				
-				if (pname.startsWith("visiting_actor_")) {
-					pname = pname.replaceAll("visiting_actor_", "");
-					
-					if ((vname != null) && (vname.equalsIgnoreCase("on"))){
-						customizableSectionOnScratchPad.getContents().put("visiting_actor_" + numConstant, pname);
-						System.out.println("stored v: " + numConstant + "/" + pname);
-					}
-				}
-			}
-		}
-		
-		return customizableSectionOnScratchPad;
-		
 	}
 	
 
@@ -1332,7 +1271,7 @@ public class PSO_SectionMgmt {
 					// End of file upload piece
 					// /////////////////////////////////
 
-					customizableSectionOnScratchPad.save(afso.schema);
+					customizableSectionOnScratchPad.saveMe(afso.schema);
 
 				} // End of if user took action
 
@@ -1430,7 +1369,7 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setBigString((String) request
 					.getParameter("make_player_discrete_choice_text"));
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 		}
 
@@ -1479,7 +1418,7 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setBigString((String) request
 					.getParameter("make_player_discrete_choice_text"));
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.save(afso.schema);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			handleCreationOrUpdateOfAllowableResponse(customizableSectionOnScratchPad, request, afso.schema);
 

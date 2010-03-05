@@ -1,6 +1,8 @@
 package org.usip.osp.baseobjects;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,6 +54,26 @@ public class UserTrail {
 	private Date loggedInDate;
 	
 	private Date endSessionDate;
+	
+	private Date loggedOut;
+	
+	private boolean actuallyLoggedOut;
+
+	public Date getLoggedOut() {
+		return loggedOut;
+	}
+
+	public void setLoggedOut(Date loggedOut) {
+		this.loggedOut = loggedOut;
+	}
+
+	public boolean isActuallyLoggedOut() {
+		return actuallyLoggedOut;
+	}
+
+	public void setActuallyLoggedOut(boolean actuallyLoggedOut) {
+		this.actuallyLoggedOut = actuallyLoggedOut;
+	}
 	
 	public UserTrail() {
 		
@@ -133,5 +155,28 @@ public class UserTrail {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
+	
+    /**
+     * Returns all of the actors found in a schema for a particular simulation
+     * 
+     * @param schema
+     * @return
+     */
+    public static List getAllForUser(String schema, Long user_id){
+    	
+    	if (user_id == null){
+    		return new ArrayList();
+    	}
+        
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from UserTrail where user_id = :user_id order by loggedInDate")
+				.setLong("user_id", user_id).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+    }
 	
 }

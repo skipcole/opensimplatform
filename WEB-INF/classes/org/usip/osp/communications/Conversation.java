@@ -54,13 +54,16 @@ public class Conversation implements SimSectionDependentObject {
 	public static final int TYPE_PRIVATE = 2;
 
 	/** This is a caucus conversation. */
-	public static final int TYPE_CAUCUS = 3;
+	public static final int TYPE_CHAT_HELP = 3;
+	
+	/** This is a caucus conversation. */
+	public static final int TYPE_CAUCUS = 4;
 
 	/** This is a chat room that the player can invite people to leave or enter. */
-	public static final int TYPE_BASE_USER_CONTROLLED_CAUCUS = 4;
+	public static final int TYPE_BASE_USER_CONTROLLED_CAUCUS = 5;
 
 	/** This is a chat room that the player can invite people to leave or enter. */
-	public static final int TYPE_RS_USER_CONTROLLED_CAUCUS = 5;
+	public static final int TYPE_RS_USER_CONTROLLED_CAUCUS = 6;
 	
 	/** Unique identifier of this name. */
 	private String uniqueConvName = ""; //$NON-NLS-1$

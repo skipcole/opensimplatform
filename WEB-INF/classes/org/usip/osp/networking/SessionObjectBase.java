@@ -5,6 +5,7 @@ import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.User;
+import org.usip.osp.baseobjects.UserTrailGhost;
 import org.usip.osp.communications.Event;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -51,6 +52,9 @@ public class SessionObjectBase {
 	
 	/** Records the display name of this user. */
 	public String user_Display_Name = ""; //$NON-NLS-1$
+	
+	/** User trail ghost of this user. */
+	public UserTrailGhost myUserTrailGhost = new UserTrailGhost();
 	
 	/**
 	 * Pulls the running sim whose id is being stored out of the database.

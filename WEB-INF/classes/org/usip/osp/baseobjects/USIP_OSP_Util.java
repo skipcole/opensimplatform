@@ -1,5 +1,7 @@
 package org.usip.osp.baseobjects;
 
+import java.util.ArrayList;
+import java.util.ListIterator;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -161,5 +163,21 @@ public class USIP_OSP_Util {
 		}
 		
 		return returnLong;
+	}
+
+	public static boolean findMatchingLong(ArrayList list, Long longLookedFor){
+		
+		if (longLookedFor == null){
+			return false;
+		}
+		
+		for (ListIterator li = list.listIterator(); li.hasNext();){
+			Long listLong = (Long) li.next();
+			if (longLookedFor.intValue() == listLong.intValue()){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

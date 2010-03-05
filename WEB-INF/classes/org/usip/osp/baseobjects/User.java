@@ -182,11 +182,11 @@ public class User {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		// Store user logged in information in database
-		UserTrailGhost lit = new UserTrailGhost();
-		lit.setUser_id(user.getId());
+		UserTrailGhost utg = new UserTrailGhost();
+		utg.setUser_id(user.getId());
 
 		// trail id gets passed up to the pso, to keep track of this login activities
-		user.trail_id = lit.storeLoginInformationGetTrailID(schema);
+		user.trail_id = utg.storeLoginInformationGetTrailID(schema);
 
 		return user;
 	}

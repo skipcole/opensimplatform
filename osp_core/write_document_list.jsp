@@ -19,7 +19,7 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
 	
-	ChatHelpCustomizer chc = new ChatHelpCustomizer(request, pso, cs);
+	WriteDocumentListCustomizer wdl = new WriteDocumentListCustomizer(request, pso, cs);
 	
 %>
 <html>
@@ -32,7 +32,7 @@
 
 <%= cs.getBigString() %><br />
             <p><%
-					for (ListIterator li = chc.docs.listIterator(); li.hasNext();) {
+					for (ListIterator li = wdl.docs.listIterator(); li.hasNext();) {
 						Long this_id = (Long) li.next();
 						SharedDocument sd = SharedDocument.getMe(pso.schema, this_id);
 					%>

@@ -42,7 +42,7 @@ public class CastCustomizer extends Customizer{
 
 			cs.getContents().put(KEY_FOR_DISPLAY_CONTROL, display_control);
 
-			cs.save(afso.schema);
+			cs.saveMe(afso.schema);
 
 		}
 

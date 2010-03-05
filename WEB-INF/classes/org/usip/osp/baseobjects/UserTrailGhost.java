@@ -10,8 +10,8 @@ import org.apache.log4j.*;
  * record when players log onto the system. The 'LoggedInTicket' is not
  * persisted to the database. It recieves The 'UserTrail' object is persisted to
  * the database.
- * 
- * This file is part of the USIP Open Simulation Platform.<br>
+ */ 
+ /* This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
  * and/or modify it under the terms of the new BSD Style license associated with
@@ -184,6 +184,18 @@ public class UserTrailGhost {
 
 	public void setTrail_id(Long trail_id) {
 		this.trail_id = trail_id;
+	}
+
+	public void recordLogout(String schema) {
+		
+		UserTrail ut = UserTrail.getMe(schema, this.trail_id);
+
+		java.util.Date today = new java.util.Date();
+		ut.setEndSessionDate(today);
+		ut.setLoggedOut(today);
+		ut.setActuallyLoggedOut(true);
+		ut.saveMe(schema);
+		
 	}
 
 }

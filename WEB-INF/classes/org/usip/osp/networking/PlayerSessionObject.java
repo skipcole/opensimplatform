@@ -123,9 +123,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 	 */
 	public boolean hasSelectedRunningSim = false;
 
-	/** User trail ghost of this user. */
-	public UserTrailGhost myUserTrailGhost = new UserTrailGhost();
-
 	/**
 	 * This is called from the top of the players frame to determine where they
 	 * should go.
@@ -1718,11 +1715,12 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public void logout(HttpServletRequest request) {
 
 		if (loggedin) {
-			Logger.getRootLogger().warn("TODO: record the user's logout in their trail.");
 
 			if (myUserAssignmentId != null) {
 				UserAssignment.saveHighAlertNumber(schema, myUserAssignmentId, myHighestAlertNumber);
 			}
+			
+			myUserTrailGhost.recordLogout(schema);
 		}
 	}
 
