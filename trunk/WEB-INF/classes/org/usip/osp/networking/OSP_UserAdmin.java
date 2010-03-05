@@ -135,7 +135,7 @@ public class OSP_UserAdmin {
 						user.setBu_last_name(this._last_name);
 						user.setBu_middle_name(this._middle_name);
 						
-						user.saveJustUser(schema);
+						user.saveMe(schema);
 
 					} catch (Exception e) {
 						e.printStackTrace();

@@ -4,13 +4,13 @@
 	import="java.sql.*,java.util.*,
 		org.usip.osp.communications.*,
 		org.usip.osp.networking.*,
-		org.usip.osp.persistence.*,
+		org.usip.osp.baseobjects.core.*,
 		org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakeChatHelpPage(request);
+	CustomizeableSection cs = afso.handleCustomizeSection(request);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
@@ -18,9 +18,17 @@
 		return;
 	}
 	
-	// Get from cs hashtable the constant actors
+	// Get from cs the values
+	ChatHelpCustomizer chc = new ChatHelpCustomizer(request, afso, cs);
 	
-	// Get from cs hashtable the visiting actors
+	String e_on = "";
+	String e_not_on = "checked=\"checked\"";
+	
+	if (chc.isEForEveryone()){
+		e_on = "checked=\"checked\"";
+		e_not_on = "";
+	}
+
 			
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -39,7 +47,7 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
@@ -49,7 +57,6 @@
 	  <form action="make_chat_help_page.jsp" method="post" name="form2" >
 	    <blockquote><strong>Tab Heading</strong>: 
 	      <input type="text" name="tab_heading" value="<%= cs.getRec_tab_heading() %>"/>
-	      <p>Fill out the top right part of the grid below to determine the sets of characters that will have a private chat window. </p>
 	      <p><strong>Constant Actor(s)</strong></p>
 	      <blockquote>
 	      	<%
@@ -57,7 +64,7 @@
 					Actor act = (Actor) la.next();
 					String checked = "";
 					
-					if (something) {
+					if (chc.thisActorIsConstant(act.getId())) {
 						checked = "checked=\"checked\"";
 					}
 			%>
@@ -67,14 +74,26 @@
             <%= act.getActorName() %></label><br />
 		  <% } // End of loop over Actors %>
 	        </blockquote>
-	      <p><strong>Actors with Access to this Chat</strong></p>
+	      <p><strong>Give Everyone This Chat Section</strong></p>
+	      <blockquote>
+	        <label>
+            <input type="radio" name="e_for_everyone" id="e_for_everyone_true" value="true" <%= e_on %> /> 
+            True
+</label>
+	        <br />
+            <label>
+            <input name="e_for_everyone" type="radio" id="e_for_everyone_false" value="false" <%= e_not_on %> /> 
+            False
+</label>
+	      </blockquote>
+	      <p><strong>Or Select Actors with Access to this Chat</strong></p>
 	      <blockquote>
 	      	<%
 				for (ListIterator la = SimActorAssignment.getActorsForSim(afso.schema, afso.sim_id).listIterator(); la.hasNext();) {
 					Actor act = (Actor) la.next();
 					String checked = "";
 					
-					if (something) {
+					if (chc.thisActorIsVisiting(act.getId())) {
 						checked = "checked=\"checked\"";
 					}
 			%>

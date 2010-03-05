@@ -94,7 +94,7 @@ public class BishopsCustomizer  extends Customizer{
 			cs.getContents().put(GET_CONFLICT_DOC2_KEY, cd2Id);
 			cs.getContents().put(GET_DOC_TO_SHOW_KEY, d2show);
 
-			cs.save(afso.schema);
+			cs.saveMe(afso.schema);
 			
 			// Need to create Base Sim Section Dependent Objects to signal these objects (params and docs)
 			// are needed for this, section.

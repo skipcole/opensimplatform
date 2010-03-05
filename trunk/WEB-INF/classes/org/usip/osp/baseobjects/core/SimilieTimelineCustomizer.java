@@ -40,7 +40,7 @@ public class SimilieTimelineCustomizer extends Customizer{
 
 			cs.getContents().put(KEY_FOR_DISPLAY, timeline_to_show);
 
-			cs.save(pso.schema);
+			cs.saveMe(pso.schema);
 
 		}
 

@@ -1,20 +1,28 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.communications.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.baseobjects.core.*,
+	org.usip.osp.communications.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="" 
 %>
 <%
 
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
-	// Get the id for this conversation
-	String cs_id = (String) request.getParameter("cs_id");
-	
 	if (!(pso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	// Get the id for this conversation
+	String cs_id = (String) request.getParameter("cs_id");
+	
+	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	ChatHelpCustomizer chc = new ChatHelpCustomizer(request, pso, cs);
+	
 	
 %>
 <html>
@@ -240,6 +248,3 @@ width:100%;
 	</P>
 </body>
 </html>
-<%
-	
-%>

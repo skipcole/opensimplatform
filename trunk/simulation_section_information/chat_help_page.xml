@@ -1,4 +1,6 @@
 <org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.ChatHelpCustomizer</customizerClassName>
   <creatingOrganization>org.usip.osp.</creatingOrganization>
   <uniqueName>Chat Help Page</uniqueName>
   <version>1</version>
