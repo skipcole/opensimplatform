@@ -11,11 +11,21 @@
 	}
 	
 	String resultsOfUserSave = "";
+	String resultsOfUserAndSimSave = "";
+	String resultsOfSimSave = "";
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("archive_users"))){
 		resultsOfUserSave = afso.handlePackageUsers();
+	}
+	
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("archive_all"))){
+		resultsOfUserAndSimSave = afso.handlePackageUsersAndSimulations();
+	}
+	
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("archive_sims"))){
+		resultsOfSimSave = afso.handlePackageSimulations();
 	}
 
 	
@@ -38,32 +48,40 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="828"><br />
               <h1>Archive Database</h1>
-              <p>&nbsp;</p>
+              <p>This top button is all you should need to select to save all of the users and simulations.</p>
+              <table><tr><td valign="top">
               <form id="form1" name="form1" method="post" action="archive.jsp">
                 <input type="hidden" name="sending_page" value="archive_all" />
-                <label>
-                <input type="submit" name="button" id="button" value="Archive Entire Database" disabled="disabled" />
-                </label>
-                <em><strong>functionality not 
-                  yet implemented
-                </p>
-                </strong></em>
+                <input type="submit" name="button" id="button" value="Archive Users and Simulations" />
                 </form>
+                </td><td valign="top"><em><strong><%= resultsOfUserAndSimSave %></strong></em></td></tr></table>
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
                 <p>&nbsp;                </p>
-                <form id="form1" name="form1" method="post" action="archive.jsp">
+                
+                <table><tr><td valign="top">
+                <form id="form2" name="form2" method="post" action="archive.jsp">
                 <input type="hidden" name="sending_page" value="archive_users" />
                                 <label>
                                 <input type="submit" name="button2" id="button2" value="Archive Users" />
                 </label>
-                                <em><strong><%= resultsOfUserSave %></strong></em>
+                                
                 </form>
+                </td>
+                <td valign="top"><em><strong><%= resultsOfUserSave %></strong></em></td></tr>
+                </table>
                 <p>&nbsp;                </p>
                 <label></label>
-                <em><strong>
-                <input type="submit" name="button3" id="button3" value="Archive Simulations" disabled="disabled" />
-                </strong>functionality not 
-                yet implemented </em>
-                <p></p>
+  
+  				<table><tr><td valign="top">
+                <form id="form3" name="form3" method="post" action="archive.jsp">
+                <input type="hidden" name="sending_page" value="archive_sims" />
+                <input type="submit" name="button3" id="button3" value="Archive Simulations" />
+                </form>
+                </td>
+                <td valign="top"><em><strong><%= resultsOfSimSave %></strong></em></td></tr>
+                </table>
+                         
                 <p>&nbsp;                </p>
                                 <label>
                 <input type="submit" name="button" id="button" value="Archive Running Simulations" disabled="disabled" />

@@ -1985,6 +1985,41 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	}
 	
 	/**
+	 * 
+	 * @return
+	 */
+	public String handlePackageUsersAndSimulations() {
+
+		String returnString = "Packaged<br />";
+		
+		String savedFileName = getDefaultUserArchiveXMLFileName();
+		FileIO.saveUserArchiveXMLFile(ObjectPackager.packageUsers(schema), savedFileName);
+
+		returnString += "     Users to: " + savedFileName + "<br />";
+		
+		returnString += handlePackageSimulations();
+		
+		return returnString;
+	}
+	
+	public String handlePackageSimulations() {
+		
+		String returnString = "";
+
+		for (ListIterator<Simulation> li = Simulation.getAll(schema).listIterator(); li.hasNext();){
+			Simulation sim = li.next();
+			
+			String fileName = getDefaultSimXMLFileName(sim) + ".autoarchive.xml";
+			handlePackageSim(sim.getId().toString(),fileName);
+			
+			returnString += "     Saved Simulation to: " + fileName + "<br />";
+			
+		}
+
+		return returnString;
+	}
+	
+	/**
 	 * Turns the simulation into an xml representation.
 	 * 
 	 * @return
