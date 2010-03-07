@@ -242,14 +242,19 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		if (command != null) {
 			if ((command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
-				String user_id = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
-				String actor_id = request.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
-				String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
-				String running_sim_id = request.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
+				String user_to_add_to_simulation = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
+				
+				Long user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema, request, user_to_add_to_simulation);
+				
+				if (user_to_add_id != null) {
+					String actor_id = request.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
+					String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
+					String running_sim_id = request.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
 
-				@SuppressWarnings("unused")
-				UserAssignment ua = UserAssignment.getUniqueUserAssignment(this.schema, new Long(sim_id), new Long(
-						running_sim_id), new Long(actor_id), new Long(user_id));
+					@SuppressWarnings("unused")
+					UserAssignment ua = UserAssignment.getUniqueUserAssignment(this.schema, new Long(sim_id), new Long(
+						running_sim_id), new Long(actor_id), new Long(user_to_add_id));
+				}
 			}
 		}
 	}
@@ -1221,18 +1226,28 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	 * 
 	 * @param request
 	 */
-	public void handleCreateInjectGroup(HttpServletRequest request) {
-		String inject_group_name = (String) request.getParameter("inject_group_name");
-		String inject_group_description = (String) request.getParameter("inject_group_description");
-
-		InjectGroup ig = new InjectGroup();
-		ig.setName(inject_group_name);
-		ig.setDescription(inject_group_description);
-		ig.setSim_id(sim_id);
-
-		ig.saveMe(schema);
+	public InjectGroup handleCreateInjectGroup(HttpServletRequest request) {
 		
-		Simulation.updateSimsLastEditDate(sim_id, schema);
+		InjectGroup ig = new InjectGroup();
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_inject_group"))){
+			
+			String inject_group_name = (String) request.getParameter("inject_group_name");
+			String inject_group_description = (String) request.getParameter("inject_group_description");
+	
+			ig.setName(inject_group_name);
+			ig.setDescription(inject_group_description);
+			ig.setSim_id(sim_id);
+
+			ig.saveMe(schema);
+			
+			Simulation.updateSimsLastEditDate(sim_id, schema);
+		}
+
+		
+		return ig;
 
 	}
 
@@ -2115,6 +2130,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 				afso.user_Display_Name = bu.getFull_name();
 				afso.user_email = bu.getUsername();
+				afso.user_name = afso.user_email;
 
 				afso.loggedin = true;
 

@@ -109,10 +109,6 @@
               </table>
           </form>
           <p>&nbsp;</p>
-          <p> 
-            <!-- jsp:include page="snippet.jsp" flush="true" -->
-            </p>
-          <p>&nbsp;</p>
       </blockquote>
       <p align="center">&nbsp;</p>
       <% } else { // End of if have set simulation id. %>

@@ -9,17 +9,8 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	String sending_page = (String) request.getParameter("sending_page");
 	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_inject_group"))){
-		afso.handleCreateInjectGroup(request);
-		response.sendRedirect("create_injects.jsp");
-		return;
-	}
-	
-	InjectGroup ig = new InjectGroup();
-	ig.setDescription("none");
-	
+	InjectGroup ig = afso.handleCreateInjectGroup(request);
 	
 	
 %>
@@ -37,7 +28,7 @@
 </style>
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-</head>
+
 <body>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
@@ -53,8 +44,7 @@
         <% 
 			if (afso.sim_id != null) {
 		%>
-        <p>Creating Inject Group</p>
-          <form id="form2" name="form2" method="post" action="">
+        <form id="form2" name="form2" method="post" action="">
             <input type="hidden" name="sending_page" value="create_inject_group" />
             <table width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
@@ -72,15 +62,32 @@
             </tr>
               <tr>
                 <td>&nbsp;</td>
-              <td><input type="submit" name="button" id="button" value="Create Inject Group" /></td>
-            </tr>
+                <td><%
+				if (ig.getId() == null) {
+				%>
+                  <input type="submit" name="command" value="Create" />
+                  <%
+				} else {
+				%>
+                  <input type="hidden" name="sim_id" value="<%= ig.getId() %>" />
+                  <input type="submit" name="command" value="Clear" tabindex="6" />
+                  <input type="submit" name="command" value="Update" />
+                  <%
+					}
+				%></td>
+              </tr>
               </table>
           </form>
+          
           <p>&nbsp;</p>
-          <p> 
-            <!-- jsp:include page="snippet.jsp" flush="true" -->
-            </p>
-          <p>&nbsp;</p>
+          <p>Below are listed all of the Inject Groups in this Simulation</p>
+          
+        <%
+			for (ListIterator li = InjectGroup.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+			InjectGroup ig = (InjectGroup) li.next();
+		%>
+        <%= ig.getName() %><br />
+        <% } %>
       </blockquote>
       <p align="center">&nbsp;</p>
       <% } else { // End of if have set simulation id. %>
