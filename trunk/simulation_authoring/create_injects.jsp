@@ -112,6 +112,8 @@
           <p> 
             <!-- jsp:include page="snippet.jsp" flush="true" -->
             </p>
+          <p>Current Injects in this Group</p>
+          <p>&nbsp;</p>
           <p>&nbsp;</p>
       </blockquote>
       <p align="center"><a href="add_objects.jsp">Next Step: Add Objects</a><a href="set_universal_sim_sections.jsp?actor_index=0"></a></p>

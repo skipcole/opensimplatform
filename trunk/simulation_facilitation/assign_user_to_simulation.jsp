@@ -37,7 +37,9 @@
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-</head>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery.autocomplete.js"></script>
+<link rel="stylesheet" href="../third_party_libraries/jquery/jquery.autocomplete.css" type="text/css" /></head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
@@ -71,15 +73,24 @@
         <%= running_simulation.getRunningSimulationName() %></strong><br/>
         To select a different running simulation, <a href="select_running_simulation.jsp">click 
           here</a>.      </p>
+      <p>To assign players to a simulation, <strong>you must follow these steps</strong></p>
+      <ol>
+        <li>Find the user by starting to type their name in the User's Email field</li>
+        <li>Click on the button 'Assign User'</li>
+        <li>Repeat until all actors have been assigned users to play them</li>
+      </ol>
       <table border="1">
         <tr valign="top"> 
           <td ><strong>Actor</strong></td>
             <td ><strong>User Assigned</strong></td>
             <td >&nbsp;</td>
-            <td ><strong>Available Users</strong></td>
+            <td ><strong>Enter User's Email</strong></td>
             <td ><strong>Assign User</strong></td>
           </tr>
         <%
+		
+		int ii = 5;
+		
 			for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
 				User user_assigned = UserAssignment.getUserAssigned(afso.schema, running_simulation.getId(), act.getId());
@@ -104,26 +115,18 @@
                 <a href="delete_object.jsp?object_type=user_assignment&objid=<%= ua.getId() %>&object_info=<%= nameToSend %>">
                   <% } %>
                   <img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a></td>
-              <td> <select name="user_to_add_to_simulation">
-                <% // loop over something potential users for this actor roll.
-					
-					for (ListIterator lusers = User.getAll(afso.schema, true).listIterator(); lusers.hasNext();) {
-					User user = (User) lusers.next();
-
-				  %>
-                <option value="<%= user.getId() %>" selected="selected"><%= user.getBu_username() %></option>
-                <%
-				  	} // End of loop over potentail users.
-				  %>
-                </select> </td>
+              <td>
+              <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>
+              </td>
               <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
                 <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 
                 <input type="hidden" name="simulation_adding_to" value="<%= simulation.getId() %>" /> 
                 <input type="hidden" name="running_simulation_adding_to" value="<%= running_simulation.getId() %>" /> 
-                <input type="submit" name="command" value="Assign User" /></td>
+                <input type="submit" name="command" value="Assign User" tabindex="<%= ii + 1 %>" /></td>
             </form>
           </tr>
         <%
+				ii += 2;
 		  	}
 			// End of loop over results set of Actors
 		%>
@@ -150,8 +153,58 @@
 <p>&nbsp;</p>
 
 <p align="center">&nbsp;</p>
+<script type="text/javascript">
+function findValue(li) {
+	if( li == null ) return alert("No match!");
+
+	// if coming from an AJAX call, let's use the CityId as the value
+	if( !!li.extra ) var sValue = li.extra[0];
+
+	// otherwise, display the value in the text box
+	else var sValue = li.selectValue;
+
+}
+
+function selectItem(li) {
+	findValue(li);
+}
+
+function formatItem(row) {
+	return row[1] + ", " + row[0];
+}
+
+<%
+	for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
+		Actor act = (Actor) li.next();
+		
+		/*
+function lookupAjax(){
+	var oSuggest = $("#userNameAjax< % = act.getId() % > ")[0].autocompleter;
+	oSuggest.findValue();
+	return false;
+}
+
+*/
+%>
+
+
+
+$("#userNameAjax<%= act.getId() %>").autocomplete(
+	"autocomplete.jsp",
+	{
+delay:10,
+minChars:2,
+matchSubset:1,
+matchContains:1,
+cacheLength:10,
+onItemSelect:selectItem,
+onFindValue:findValue,
+formatItem:formatItem,
+autoFill:true
+	}
+);
+
+<% } // End of loop over actor ids %>
+</script>
 </body>
 </html>
-<%
-	
-%>

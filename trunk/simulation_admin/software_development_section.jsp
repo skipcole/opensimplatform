@@ -55,6 +55,12 @@
             <td>This should only be necessary if values have changed since the sim 
               began.</td>
           </tr>
+        <tr valign="top">
+          <td>&nbsp;</td>
+          <td><a href="view_caches.jsp">View Simulation Caches</a></td>
+          <td>&nbsp;</td>
+          <td>A window onto seeing cached information</td>
+        </tr>
         <tr valign="top"> 
           <td>&nbsp;</td>
             <td><a href="../simulation_diagnostics/run_test_suite.jsp">Run Test Suite</a></td>

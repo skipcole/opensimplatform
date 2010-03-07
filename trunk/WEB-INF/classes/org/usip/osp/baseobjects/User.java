@@ -291,15 +291,12 @@ public class User {
 	 */
 	public static List getAll(String schema, boolean getDetails) {
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from User").list(); //$NON-NLS-1$
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		List starterList = getAll(schema);
+		
+		List returnList = starterList;
 
 		if (getDetails) {
-			returnList = getDetails(returnList, schema);
+			returnList = getDetails(starterList, schema);
 		}
 
 		return returnList;
