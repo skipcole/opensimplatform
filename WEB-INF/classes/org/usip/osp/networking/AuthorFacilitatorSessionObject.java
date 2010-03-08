@@ -2396,18 +2396,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentPage(request));
 	}
 	
-	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public CustomizeableSection handleMakeWriteDocumentListPage(HttpServletRequest request) {
-
-		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentListPage(request));
-	}
-	
 	
 
 	/**

@@ -9,7 +9,7 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakeWriteDocumentListPage(request);
+	CustomizeableSection cs = afso.handleCustomizeSection(request);
 	
 	WriteDocumentListCustomizer wdl = new WriteDocumentListCustomizer(request, afso, cs);
 	
@@ -51,24 +51,44 @@
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
           <p>To allow access to a player to write a document, you must first have created it. To create a new document associated with this simulation <a href="../../make_create_document_page.jsp">click here</a>.          </p>
-          <p>Currently Listed Documents</p>
-          <blockquote>
-            <p><%
-					for (ListIterator li = wdl.docs.listIterator(); li.hasNext();) {
-						Long this_id = (Long) li.next();
-						SharedDocument sd = SharedDocument.getMe(afso.schema, this_id);
-					%>
-                    <%= sd.getDisplayTitle() %> (<%= sd.getUniqueDocTitle() %>)<br />
-                    <% } %>
-            
-            </p>
-          </blockquote>
+          
           <p>Documents to Add</p>
           <table width="100%" border="0">
               <tr>
                 <td width="75%" valign="top">
                   <%
 		  	List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id);
+			
+			List thisSetOfBSSDOA = BaseSimSectionDepObjectAssignment.getObjectsForSection(afso.schema, cs.getId());
+			
+			Hashtable selectedHash = new Hashtable();
+			
+			// Loop over docsAvailable
+			if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
+
+				for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
+					
+					SharedDocument sd = (SharedDocument) li.next();
+			
+					for (ListIterator lit = thisSetOfBSSDOA.listIterator(); lit.hasNext();) {
+					
+						BaseSimSectionDepObjectAssignment this_bssdoa = (BaseSimSectionDepObjectAssignment) lit.next();
+						
+						if (sd.getId().intValue() == this_bssdoa.getObjectId().intValue()){
+							selectedHash.put(sd.getId() + "_" + this_bssdoa.getDep_obj_index(), " selected=\"selected\" ");
+						}
+					
+					}
+				
+				}
+			}
+			
+			// Loop over bssdoas
+			
+			// if bssdoa found, mark index as selected.
+			// Need to create hashtable to pull from
+			// Get list of currently added documents (bssdoa's)
+			// sdid_index, selected
 			
 			int numSelect = docsAvailable.size();
 			
@@ -79,9 +99,17 @@
 					SharedDocument sd = (SharedDocument) li.next(); %>
 
                   <select name="doc_id_<%= sd.getId() %>" id="doc_id_<%= sd.getId() %>">
-                  	<option value="0">Not Present</option>
-                   <% for (int ii = 1; ii <= numSelect; ++ii){ %>
-                   	<option value="<%= ii %>"><%= ii %></option>
+                  	<option value="0" >Not Present</option>
+                   <% for (int ii = 1; ii <= numSelect; ++ii){ 
+						
+						String selected = "";
+						String selectedRaw = (String) selectedHash.get(sd.getId() + "_" + ii);
+						if (selectedRaw != null){
+							selected = selectedRaw;
+						}
+						
+				   %>
+                   	<option value="<%= ii %>" <%= selected %>><%= ii %></option>
                    <% } %>
                   </select>
 

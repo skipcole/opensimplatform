@@ -333,13 +333,14 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	/**
-	 * 
+	 * I hate this method. There has to be a better way, and to not hit the database so much.
+	 * I will rid the world of this method! SC
 	 * @param schema
 	 * @param bss_id
 	 * @param this_id
 	 * @return
 	 */
-	public static String getBaseDocsForBaseSimSection(String schema, Long bss_id, Long this_id) {
+	public static String getSelectedIfFoundBaseDocsForBaseSimSection(String schema, Long bss_id, Long this_id) {
 
 		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id + "' and " + //$NON-NLS-1$ //$NON-NLS-2$
 			" className = '" + SharedDocument.class.getName() + "'"; //$NON-NLS-1$
@@ -369,6 +370,18 @@ public class SharedDocument implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		return " "; //$NON-NLS-1$
 
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param section_id
+	 * @return
+	 */
+	public static List <SharedDocument> getSetOfBaseDocsForSection(String schema, Long section_id){
+		
+		return BaseSimSectionDepObjectAssignment.getSharedDocumentsForSection(schema, section_id);
+		
 	}
 
 	/**

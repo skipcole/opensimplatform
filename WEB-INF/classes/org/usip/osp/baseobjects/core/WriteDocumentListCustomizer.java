@@ -25,35 +25,34 @@ import org.usip.osp.networking.SessionObjectBase;
  *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
-public class WriteDocumentListCustomizer  extends Customizer{
-	
+public class WriteDocumentListCustomizer extends Customizer {
+
 	/*
-	 * We store here how many documents are stored on this page.
-	 * The actual docs are s
+	 * We store here how many documents are stored on this page. The actual docs
+	 * are s
 	 */
 	public static final String NUM_DOCS = "NUM_DOCS"; //$NON-NLS-1$
-	
+
 	/**
-	 * The docs are stored in the hashtable in the order in which they are appear on the page. 
-	 * For example, if key/value pair is 'doc_id_1/37' then document 37 will be the first document displayed.
+	 * The docs are stored in the hashtable in the order in which they are
+	 * appear on the page. For example, if key/value pair is 'doc_id_1/37' then
+	 * document 37 will be the first document displayed.
 	 */
 	public static final String DOC_ID_PREFIX = "doc_id_";
 
-	public WriteDocumentListCustomizer(){
-		
+	public WriteDocumentListCustomizer() {
+
 	}
-	
-	public WriteDocumentListCustomizer(HttpServletRequest request, SessionObjectBase pso, CustomizeableSection cs){
+
+	public WriteDocumentListCustomizer(HttpServletRequest request, SessionObjectBase pso, CustomizeableSection cs) {
 		loadSimCustomizeSection(request, pso, cs);
 	}
-	
-	
-	
-	
+
 	@Override
 	public void handleCustomizeSection(HttpServletRequest request, SessionObjectBase afso, CustomizeableSection cs) {
 
-		// Remove all dependent object assignments currently associated with this page.
+		// Remove all dependent object assignments currently associated with
+		// this page.
 		BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, cs.getId());
 
 		try {
@@ -64,29 +63,29 @@ public class WriteDocumentListCustomizer  extends Customizer{
 				String vname = (String) request.getParameter(pname);
 
 				if (pname.startsWith("doc_id_")) {
-					cs.getContents().put(pname, vname);
-					System.out.println("p/v: " + pname + "/" + vname);
-					
-					pname = pname.replaceAll("doc_id_", "");
-					
-					BaseSimSectionDepObjectAssignment bssdoa = BaseSimSectionDepObjectAssignment.getIfExistsElseCreateIt(
-							afso.schema, cs.getId(),
-							"org.usip.osp.communications.SharedDocument", new Long(pname), afso.sim_id);
+					if ((vname != null) && (!(vname.equalsIgnoreCase("0")))) {
+						System.out.println("p/v: " + pname + "/" + vname);
 
-					bssdoa.setDepObjIndex(1);
+						pname = pname.replaceAll("doc_id_", "");
 
-					bssdoa.saveMe(afso.schema);
+						BaseSimSectionDepObjectAssignment bssdoa = BaseSimSectionDepObjectAssignment
+								.getIfExistsElseCreateIt(afso.schema, cs.getId(),
+										"org.usip.osp.communications.SharedDocument", new Long(pname), afso.sim_id);
+
+						bssdoa.setDepObjIndex(new Long(vname).intValue());
+						bssdoa.setUniqueTagName("doclist: " + cs.getId() + ", doc: " + pname + ", order: " + vname);
+
+						bssdoa.saveMe(afso.schema);
+					}
 				}
-
 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		
 	}
-	
+
 	public ArrayList docs = new ArrayList();
 
 	@Override
@@ -125,7 +124,7 @@ public class WriteDocumentListCustomizer  extends Customizer{
 				docs.add(ls.getDataField());
 			}
 		}
-		
+
 	}
 
 }

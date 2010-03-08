@@ -64,7 +64,7 @@
 					
 						SharedDocument sd = (SharedDocument) li.next();
 				%>
-                      <option value="<%= sd.getId() %>" <%= SharedDocument.getBaseDocsForBaseSimSection(afso.schema, cs.getId(), sd.getId()) %>><%= sd.getUniqueDocTitle() %></option>
+                      <option value="<%= sd.getId() %>" <%= SharedDocument.getSelectedIfFoundBaseDocsForBaseSimSection(afso.schema, cs.getId(), sd.getId()) %>><%= sd.getUniqueDocTitle() %></option>
                       <%
 					}
 				%>
