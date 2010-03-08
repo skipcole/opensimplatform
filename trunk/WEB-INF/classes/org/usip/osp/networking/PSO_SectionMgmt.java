@@ -207,7 +207,7 @@ public class PSO_SectionMgmt {
 	 * @return
 	 */
 	public CustomizeableSection handleCustomizeSection(HttpServletRequest request) {
-
+		
 		getSimSectionsInternalVariables(request);
 
 		this.customizableSectionOnScratchPad = CustomizeableSection.getMe(this.afso.schema, this._custom_section_id);
@@ -689,59 +689,6 @@ public class PSO_SectionMgmt {
 			}
 
 		} // End of if we are coming from the make_write_document_page
-
-		return customizableSectionOnScratchPad;
-	}
-	
-	/**
-	 * This method is called at the top of the make_write_document_page jsp.
-	 * This jsp can be reached from 2 places: the sim_section_router and by
-	 * calling itself.
-	 * 
-	 * When the router is called the parameter _custom_section_id will be set.
-	 * 
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeWriteDocumentListPage(HttpServletRequest request) {
-
-		this.getSimSectionsInternalVariables(request);
-
-		this.customizableSectionOnScratchPad = CustomizeableSection.getMe(this.afso.schema, this._custom_section_id);
-
-		if ((this.sending_page != null) && ((this.save_page != null) || (this.save_and_add != null))
-				&& (this.sending_page.equalsIgnoreCase("make_write_document_list_page"))) {
-
-			// If this is the original custom page, make a new page
-			if (!(this.customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				Logger.getRootLogger().debug("making copy");
-				this.customizableSectionOnScratchPad = this.customizableSectionOnScratchPad.makeCopy(afso.schema);
-				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
-			}
-
-			// Update values based on those passed in
-			String make_write_document_page_text = request.getParameter("make_write_document_page_text");
-			customizableSectionOnScratchPad.setBigString(make_write_document_page_text);
-			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
-			customizableSectionOnScratchPad.saveMe(afso.schema);
-			
-			ChatHelpCustomizer chc = new ChatHelpCustomizer();
-			
-			// Load the values into the hashtable, and create bssdoa's
-			chc.handleCustomizeSection(request, afso, customizableSectionOnScratchPad);
-
-			customizableSectionOnScratchPad.saveMe(afso.schema);
-
-			if (save_and_add != null) {
-				// add section
-				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
-						request, _universal);
-				// send them back
-				afso.forward_on = true;
-			}
-			
-
-		} // End of if we are coming from the make_write_document_list_page
 
 		return customizableSectionOnScratchPad;
 	}

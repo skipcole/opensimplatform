@@ -19,16 +19,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <title>Open Simulation Platform Create Inject Group Page</title>
-
-
-<style type="text/css">
-<!--
-.style1 {color: #FF0000}
--->
-</style>
-
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-
 <body>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
@@ -48,16 +39,16 @@
             <input type="hidden" name="sending_page" value="create_inject_group" />
             <table width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
-                <td>Group Name</td>
-              <td>
+                <td valign="top">Group Name</td>
+              <td valign="top">
                 <label>
-                  <input type="text" name="inject_group_name" id="inject_group_name" />
+                  <input type="text" name="inject_group_name" id="inject_group_name" value="<%= ig.getName() %>" />
                   </label>            </td>
             </tr>
               <tr>
-                <td>Group Description</td>
-              <td><label>
-                <textarea name="inject_group_description" id="textarea" cols="45" rows="5"></textarea>
+                <td valign="top">Group Description</td>
+              <td valign="top"><label>
+                <textarea name="inject_group_description" id="textarea" cols="45" rows="5"><% ig.getDescription() %></textarea>
                 </label></td>
             </tr>
               <tr>
@@ -82,12 +73,16 @@
           <p>&nbsp;</p>
           <p>Below are listed all of the Inject Groups in this Simulation</p>
           
+          <table width="100%"><tr><td><strong>Select to Edit</strong></td>
+          <td><strong>Select to remove</strong></td>
+          </tr>
         <%
 			for (ListIterator li = InjectGroup.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
-			InjectGroup ig = (InjectGroup) li.next();
+			InjectGroup this_ig = (InjectGroup) li.next();
 		%>
-        <%= ig.getName() %><br />
+        <tr><td><%= this_ig.getName() %></td><td><%= this_ig.getName() %></td></tr>
         <% } %>
+        </table>
       </blockquote>
       <p align="center">&nbsp;</p>
       <% } else { // End of if have set simulation id. %>
@@ -95,7 +90,7 @@
         <p>
           <%@ include file="select_message.jsp" %></p>
       </blockquote>
-      <% } // End of if have not set simulation for edits. %>      <a href="create_injects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+      <% } // End of if have not set simulation for edits. %>      <a href="injects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

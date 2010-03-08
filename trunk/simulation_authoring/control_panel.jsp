@@ -81,34 +81,30 @@ org.usip.osp.persistence.*" errorPage="" %>
           <td>8.</td>
             <td><a href="assign_actor_to_simulation.jsp">Assign Actors </a><a href="helptext/assign_actors_help.jsp" target="helpinright">(?)</a></td>
             </tr>
-        <tr valign="top">
-          <td>9.</td>
-            <td><a href="create_injects.jsp">Create Injects </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_injects_help.jsp" target="helpinright">(?)</a></td>
-            </tr>
         <tr valign="top"> 
-              <td>10.</td>
+              <td>9.</td>
             <td><a href="add_objects.jsp">Add Objects</a>   (?)</td>
             </tr>
         <tr valign="top"> 
-              <td>11.</td>
+              <td>10.</td>
             <td><a href="set_universal_sim_sections.jsp?actor_index=0">Set Universal 
-              Sections</a><a href="create_aar_starter_text.jsp"> </a><a href="create_injects.jsp"> </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_univ_sections_help.jsp" target="helpinright">(?)</a></td>
+              Sections</a><a href="create_aar_starter_text.jsp"> </a><a href="injects.jsp"> </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_univ_sections_help.jsp" target="helpinright">(?)</a></td>
             </tr>
         <tr valign="top"> 
-          <td>12.</td>
+          <td>11.</td>
             <td><a href="set_specific_sim_sections.jsp">Assign Specific Sections </a><a href="helptext/create_individual_sections_help.jsp" target="helpinright">(?)</a></td>
             </tr>
         <tr valign="top"> 
-          <td>13</td>
+          <td>12</td>
             <td><a href="create_aar_starter_text.jsp">Enter 'After Action Report' 
-              Start Text </a><a href="create_injects.jsp"> </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_aar_help.jsp" target="helpinright">(?)</a></td>
+              Start Text </a><a href="injects.jsp"> </a><a href="create_simulation_objectives.jsp"> </a><a href="helptext/create_aar_help.jsp" target="helpinright">(?)</a></td>
             </tr>
         <tr valign="top"> 
-          <td>14.</td>
+          <td>13.</td>
             <td><a href="review_sim.jsp">Review Simulation</a></td>
             </tr>
         <tr valign="top">
-          <td>15.</td>
+          <td>14.</td>
             <td><a href="publish_sim.jsp">Publish Simulation</a></td>
             </tr>
       </table>

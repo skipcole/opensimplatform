@@ -36,18 +36,13 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%">
             <blockquote> 
-              <h1>Create Injects</h1>
-        <% 
+              <h1>View Injects for <strong><%= simulation.getDisplayName() %></strong></h1>
+              <% 
 			if (afso.sim_id != null) {
 		%>
           <table width="100%" border="0" cellspacing="0" cellpadding="4">
             <tr>
-              <td colspan="4">Creating injects for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br />
-(If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-            here</a>.)</td>
-            </tr>
-            <tr>
-              <td colspan="4">Injects are arranged into groups. You must first <a href="create_inject_group.jsp">create an inject group</a> before creating any injects. </td>
+              <td colspan="4">&nbsp;</td>
             </tr>
             <tr>
               <td colspan="4"><strong><u>Current Inject Groups and Injects</u></strong></td>
@@ -60,8 +55,7 @@
               <td width="25%" valign="top"><strong><%= ig.getName() %></strong></td>
               <td width="13%" valign="top">&nbsp;</td>
               <td width="27%" valign="top">&nbsp;</td>
-              <td width="35%" valign="top"><a href="create_indvidual_inject.jsp?inject_group_id=<%= ig.getId() %>">Create Inject in Group <%= ig.getName() %>
-                </a></td>
+              <td width="35%" valign="top">&nbsp;</td>
             </tr>
             <tr>
               <td valign="top">&nbsp;</td>
@@ -93,7 +87,7 @@
             <tr>
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>
-              <td colspan="2" valign="top"><a href="create_indvidual_inject.jsp?edit=true&inj_id=<%= da_inject.getId() %>">update</a> / 
+              <td colspan="2" valign="top"><a href="inject_create.jsp?edit=true&inj_id=<%= da_inject.getId() %>">update</a> / 
                 <a href="delete_object.jsp?object_type=inject&objid=<%= da_inject.getId() %>&object_info=<%= da_inject.getInject_name() %>"> 
                   delete</a></td>
             </tr>
@@ -109,14 +103,9 @@
             <p>&nbsp;</p>
           <% } // end of loop over inject groups %>
             </table>
-          <p> 
-            <!-- jsp:include page="snippet.jsp" flush="true" -->
-            </p>
-          <p>Current Injects in this Group</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
       </blockquote>
-      <p align="center"><a href="add_objects.jsp">Next Step: Add Objects</a><a href="set_universal_sim_sections.jsp?actor_index=0"></a></p>
       <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>
@@ -124,7 +113,7 @@
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
       
-            <a href="assign_actor_to_simulation.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+            <a href="injects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

@@ -94,7 +94,7 @@
           </form>
       </table>
       <p>&nbsp;</p>
-      <div align="center"><a href="create_injects.jsp">Next Step: Create Injects</a></div>
+      <div align="center"><a href="add_objects.jsp">Next Step: Add Objects</a></div>
       <a href="create_actors.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>

@@ -1,5 +1,6 @@
 package org.usip.osp.baseobjects;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
@@ -226,6 +227,37 @@ public class BaseSimSectionDepObjectAssignment {
 			
 			return sd;
 		}
+
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param bss_id
+	 * @return
+	 */
+	public static List getSharedDocumentsForSection(String schema, Long bss_id) {
+		
+		List returnList = new ArrayList();
+		
+		if (bss_id == null){
+			return returnList;
+		}
+		
+		List startList = getObjectsForSection(schema, bss_id);
+		
+		if ((startList == null) || (startList.size() == 0)){
+			return returnList;
+		} else {
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment)startList.get(0);
+			
+			if (bssdoa.className.equalsIgnoreCase(SharedDocument.class.toString())){
+				SharedDocument sd = SharedDocument.getMe(schema, bssdoa.getObjectId());
+				returnList.add(sd);
+			}
+		}
+		
+		return returnList;
 
 	}
 
