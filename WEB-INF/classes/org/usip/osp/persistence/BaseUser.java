@@ -363,6 +363,35 @@ public class BaseUser {
         return bu;
     }
     
+    public String getInitials(){
+    	
+    	String returnString = "";
+    	
+    	boolean foundInitial = false;
+    	
+    	if ((first_name != null) && (first_name.length() > 0)){
+    		returnString += this.first_name.substring(0, 1).toUpperCase();
+    		foundInitial = true;
+    	}
+    	
+    	if ((middle_name != null) && (middle_name.length() > 0)){
+    		returnString += this.middle_name.substring(0, 1).toUpperCase();
+    		foundInitial = true;
+    	}
+    	
+    	if ((last_name != null) && (last_name.length() > 0)){
+    		returnString += this.last_name.substring(0, 1).toUpperCase();
+    		foundInitial = true;
+    	}
+    	
+    	if (foundInitial){
+    		return returnString;
+    	} else {
+    		return "unknown";
+    	}
+    	
+    }
+    
     /**
      * @return Returns the real_name.
      */

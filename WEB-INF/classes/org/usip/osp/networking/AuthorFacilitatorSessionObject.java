@@ -284,6 +284,80 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	/**
 	 * 
 	 * @param request
+	 * @return
+	 */
+	public String handleSetUpBetaTests(HttpServletRequest request) {
+
+		String returnString = "";
+		
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("launch_beta")))) {
+			return "";
+		}
+
+		String sim_id_s = request.getParameter("sim_id"); //$NON-NLS-1$
+		if (sim_id_s == null) {
+			return "Must select a simulation.<br />";
+		}
+		
+		Simulation sim = Simulation.getMe(schema, new Long(sim_id_s));
+		
+		String send_emails = request.getParameter("send_emails"); //$NON-NLS-1$
+		
+		String email_users = "false";
+		if ((send_emails != null) && (send_emails.equalsIgnoreCase("on"))){
+			email_users = "true";
+		}
+		
+		String users_emails = request.getParameter("users_emails"); //$NON-NLS-1$
+		String email_text = request.getParameter("email_text"); //$NON-NLS-1$
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mma");
+		String timeStart = sdf.format(new Date());
+
+		for (ListIterator<String> li = getSetOfEmails(users_emails).listIterator(); li.hasNext();) {
+			String this_email = li.next();
+
+			BaseUser bu = BaseUser.getByUsername(this_email);
+			
+			if (bu != null) {
+				returnString += "found user:" + this_email + "<br />";
+				
+				String rsn = "BetaTest " + timeStart + " " + bu.getInitials();
+			
+				System.out.println("rsn is " + rsn);
+				// Create Running Simulation
+				RunningSimulation rs = sim.addNewRunningSimulation(rsn, schema, this.user_id, this.user_Display_Name);
+				// Assign this user to all roles in the simulation.
+				for (ListIterator<Actor> lia = SimActorAssignment.getActorsForSim(schema, sim.getId()) .listIterator(); lia.hasNext();) {
+					Actor act = lia.next();
+
+					@SuppressWarnings("unused")
+					UserAssignment ua = UserAssignment.getUniqueUserAssignment(this.schema, sim.getId(), 
+							rs.getId(), act.getId(), bu.getId());
+					
+					returnString += "          added user as " + act.getActorName();
+					
+				}
+				
+				rs.enableAndPrep(this.schema, sim.getId().toString(), bu.getUsername(), email_users, email_text);
+				
+
+			} else {
+
+				returnString += "<font color=\"red\">Warning: did not find user:" + this_email  + "</font><br />";
+
+			}
+		}
+		
+		return returnString;
+	}
+
+
+	/**
+	 * 
+	 * @param request
 	 */
 	public void handleBulkInvite(HttpServletRequest request) {
 

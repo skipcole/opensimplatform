@@ -59,37 +59,8 @@
                   <%
 		  	List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id);
 			
-			List thisSetOfBSSDOA = BaseSimSectionDepObjectAssignment.getObjectsForSection(afso.schema, cs.getId());
-			
-			Hashtable selectedHash = new Hashtable();
-			
-			// Loop over docsAvailable
-			if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
+			Hashtable selectedHash = wdl.getDocsOnListHashtable(docsAvailable, cs, afso.schema);
 
-				for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
-					
-					SharedDocument sd = (SharedDocument) li.next();
-			
-					for (ListIterator lit = thisSetOfBSSDOA.listIterator(); lit.hasNext();) {
-					
-						BaseSimSectionDepObjectAssignment this_bssdoa = (BaseSimSectionDepObjectAssignment) lit.next();
-						
-						if (sd.getId().intValue() == this_bssdoa.getObjectId().intValue()){
-							selectedHash.put(sd.getId() + "_" + this_bssdoa.getDep_obj_index(), " selected=\"selected\" ");
-						}
-					
-					}
-				
-				}
-			}
-			
-			// Loop over bssdoas
-			
-			// if bssdoa found, mark index as selected.
-			// Need to create hashtable to pull from
-			// Get list of currently added documents (bssdoa's)
-			// sdid_index, selected
-			
 			int numSelect = docsAvailable.size();
 			
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){

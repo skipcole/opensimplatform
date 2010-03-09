@@ -1,15 +1,13 @@
 package org.usip.osp.baseobjects.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.ListIterator;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.CustomizeableSection;
+import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.networking.SessionObjectBase;
 
 /*
@@ -86,45 +84,82 @@ public class WriteDocumentListCustomizer extends Customizer {
 
 	}
 
-	public ArrayList docs = new ArrayList();
+	private List docs = new ArrayList();
+
+	public List getDocs() {
+		return docs;
+	}
+
+	public void setDocs(List docs) {
+		this.docs = docs;
+	}
 
 	@Override
 	public void loadSimCustomizeSection(HttpServletRequest request, SessionObjectBase pso, CustomizeableSection cs) {
-		ArrayList tempList = new ArrayList();
+
+		if (pso.running_sim_id != null){
+			docs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+		} else {
+			loadSimCustomSectionForEditing(request, pso, cs);
+		}
+
+	}
+
+	@Override
+	public void loadSimCustomSectionForEditing(HttpServletRequest request, SessionObjectBase pso,
+			CustomizeableSection cs) {
+
+		List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(pso.schema, pso.sim_id);
+		getDocsOnListHashtable(docsAvailable, cs, pso.schema);
+		// This functionality is really done by getDocsOnListHashtable. 
+
+	}
+
+	/**
+	 * 
+	 * @param docsAvailable
+	 * @param cs
+	 * @param schema
+	 * @return
+	 */
+	public Hashtable getDocsOnListHashtable(List docsAvailable, CustomizeableSection cs, String schema) {
+
 		docs = new ArrayList();
+		
+		Hashtable returnHash = new Hashtable();
+		List thisSetOfBSSDOA = BaseSimSectionDepObjectAssignment.getObjectsForSection(schema, cs.getId());
 
-		for (Enumeration e = cs.getContents().keys(); e.hasMoreElements();) {
-			String key = (String) e.nextElement();
+		// Loop over docsAvailable
+		if (!((docsAvailable == null) || (docsAvailable.size() == 0))) {
 
-			Logger.getRootLogger().warn("      checking against key: " + key); //$NON-NLS-1$
+			for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 
-			if (key.startsWith("doc_id_")) {
+				SharedDocument sd = (SharedDocument) li.next();
+				System.out.println(sd.getId() + " " + sd.getDisplayTitle());
 
-				String position = (String) cs.getContents().get(key);
+				for (ListIterator lit = thisSetOfBSSDOA.listIterator(); lit.hasNext();) {
 
-				if ((position != null) && (!(position.equalsIgnoreCase("0")))) {
+					BaseSimSectionDepObjectAssignment this_bssdoa = (BaseSimSectionDepObjectAssignment) lit.next();
 
-					key = key.replaceAll("doc_id_", "");
+					String classOfSD = SharedDocument.class.toString();
+					classOfSD = classOfSD.replace("class ", "");
+					
+					System.out.println(this_bssdoa.getClassName() + " and |" + classOfSD + "|");
+					
+					if (this_bssdoa.getClassName().equalsIgnoreCase(classOfSD)) {
 
-					// Need to create an anonymous inner class to do the sorting
-					ListSorter ls = new ListSorter(new Long(key), new Long(position));
-					tempList.add(ls);
+						if (sd.getId().intValue() == this_bssdoa.getObjectId().intValue()) {
+							docs.add(sd);
+							returnHash
+									.put(sd.getId() + "_" + this_bssdoa.getDep_obj_index(), " selected=\"selected\" ");
+						}
+					}
+
 				}
-
-			}
-
-			Collections.sort(tempList);
-
-			// Now loop over sorted list, pull out the longs, and add them to
-			// the final list of longs,
-			// and store it back
-
-			for (ListIterator<ListSorter> li = tempList.listIterator(); li.hasNext();) {
-				ListSorter ls = li.next();
-				docs.add(ls.getDataField());
 			}
 		}
 
+		return returnHash;
 	}
 
 }

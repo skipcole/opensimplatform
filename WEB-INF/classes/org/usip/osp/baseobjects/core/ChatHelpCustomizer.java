@@ -207,4 +207,11 @@ public class ChatHelpCustomizer extends Customizer {
 		return USIP_OSP_Util.findMatchingLong(visitingActors, actor_id);
 	}
 
+	@Override
+	public void loadSimCustomSectionForEditing(HttpServletRequest request, SessionObjectBase pso,
+			CustomizeableSection cs) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
