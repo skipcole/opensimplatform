@@ -1720,7 +1720,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 				UserAssignment.saveHighAlertNumber(schema, myUserAssignmentId, myHighestAlertNumber);
 			}
 			
-			myUserTrailGhost.recordLogout(schema);
+			if ((myUserTrailGhost != null) && (myUserTrailGhost.getTrail_id() != null)){
+				myUserTrailGhost.recordLogout(schema);
+			}
+			
 		}
 	}
 

@@ -20,7 +20,7 @@
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("change_name"))){
+	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("inactivate_rs"))){
 	
 		String action = (String) request.getParameter("action");
 		String rsid = (String) request.getParameter("rsid");
@@ -102,7 +102,7 @@
                         <td>&nbsp;</td>
                         <td>
                         <form id="form<%= rs.getId() %>" name="form<%= rs.getId() %>" method="post" action="inactivate_running_sim.jsp?rsid=<%= rs.getId() %>&action=<%= actionTitle %>">
-                        <input type="hidden" name="sending_page" value="change_name">  
+                        <input type="hidden" name="sending_page" value="inactivate_rs">  
                             <input type="submit" name="button" id="button" value="<%= actionTitle %>" />
                             
                         </form>

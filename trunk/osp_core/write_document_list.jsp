@@ -32,9 +32,8 @@
 
 <%= cs.getBigString() %><br />
             <p><%
-					for (ListIterator li = wdl.docs.listIterator(); li.hasNext();) {
-						Long this_id = (Long) li.next();
-						SharedDocument sd = SharedDocument.getMe(pso.schema, this_id);
+					for (ListIterator li = wdl.getDocs().listIterator(); li.hasNext();) {
+						SharedDocument sd = (SharedDocument) li.next();
 					%>
                     <a href="write_document.jsp?sendingDocId=true&doc_id=<%= sd.getId() %>"><%= sd.getDisplayTitle() %> (<%= sd.getUniqueDocTitle() %>)</a><br />
                     <% } %>

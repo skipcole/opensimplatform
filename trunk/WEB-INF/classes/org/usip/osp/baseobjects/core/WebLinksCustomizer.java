@@ -34,4 +34,11 @@ public class WebLinksCustomizer extends Customizer {
 		
 	}
 
+	@Override
+	public void loadSimCustomSectionForEditing(HttpServletRequest request, SessionObjectBase pso,
+			CustomizeableSection cs) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -45,4 +45,16 @@ public abstract class Customizer {
 	 */
 	public abstract void loadSimCustomizeSection(HttpServletRequest request, 
 			SessionObjectBase pso, CustomizeableSection cs);
+	
+	/**
+	 * This loads the items for editing, which might be different than those actually used in a simulation run.
+	 * For example, document references when editing what documents exist on a page point to bssdoas, but 
+	 * during a game the document references will point to ssrdoas.
+	 * 
+	 * @param request
+	 * @param pso
+	 * @param cs
+	 */
+	public abstract void loadSimCustomSectionForEditing(HttpServletRequest request, 
+			SessionObjectBase pso, CustomizeableSection cs);
 }

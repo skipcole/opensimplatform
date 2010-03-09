@@ -204,6 +204,13 @@ public class BishopsCustomizer  extends Customizer{
 	public int getDocumentToShow() {
 		return documentToShow;
 	}
+
+	@Override
+	public void loadSimCustomSectionForEditing(HttpServletRequest request, SessionObjectBase pso,
+			CustomizeableSection cs) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

@@ -53,4 +53,11 @@ public class CastCustomizer extends Customizer{
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void loadSimCustomSectionForEditing(HttpServletRequest request, SessionObjectBase pso,
+			CustomizeableSection cs) {
+		// TODO Auto-generated method stub
+		
+	}
 }
