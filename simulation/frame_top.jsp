@@ -83,7 +83,7 @@ function timedCount()
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><a href="about.jsp" target="_top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header"><%= pso.simulation_org %> </h1>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header"><%= pso.simulation_org %></h1>
     
     <table width="80%" border="0" cellspacing="2" cellpadding="2">
         <tr> 
@@ -91,6 +91,11 @@ function timedCount()
           <td>Session</td>
           <td>Your Role</td>
           <td>Phase</td>
+          <td rowspan="2" align="left" valign="middle"><span class="header"><img src="../Templates/images/resize.gif" width="23" height="22" border="0" usemap="#Map"></span>
+            <map name="Map">
+              <area shape="rect" coords="1,1,23,11" href="simwebui.jsp?lessten=true" target="_top" alt="resize smaller">
+              <area shape="rect" coords="1,12,23,22" href="simwebui.jsp?addten=true" target="_top" alt="resize smaller">
+            </map></td>
           <!-- td>Round</td -->
         </tr>
         <tr> 
@@ -152,6 +157,7 @@ function timedCount()
 		%>
   	</tr>
 	</table>
+
 </body>
 <HEAD>
 <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">

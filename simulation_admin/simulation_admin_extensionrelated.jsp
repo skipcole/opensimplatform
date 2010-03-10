@@ -24,30 +24,17 @@
               <tr>
                 <td width="120"><img src="../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><br />
-                  <h1>Simulation Software Admininstration</h1>
+                  <h1>Simulation Software Admininstration Extensions</h1>
+                  <p>Tasks in this section help you to increase the functionality of your USIP OSP installation.</p>
                   <br />
                   <table width="100%" border="1" cellspacing="2" cellpadding="1">
                     <tr valign="top">
-                      <td><a href="simulation_admin_backuprelated.jsp">Backup/Restore Tasks</a></td>
-                      <td>Allows you to archive and restore database components  (users, simulation sections, running simulations. simulations, etc.) for archival or transport purposes.</td>
+                      <td width="24%"><a href="install_simulation_sections.jsp">Install Simulation Sections</a></td>
+                      <td width="72%">Install sections that can be added to simulations.</td>
                     </tr>
                     <tr valign="top">
-                      <td><a href="simulation_admin_extensionrelated.jsp">Extension Tasks</a></td>
-                      <td>Allows you to add new simulation sections or models to your USIP OSP installation</td>
-                    </tr>
-                    <tr valign="top">
-                      <td><a href="install_edit_db.jsp">Maintenance Tasks</a></td>
-                      <td><p>Allows one to see all of the installed databases and the last time someone has logged into them. Also allows one to edit or install a new database. <br />
-                      Also here one can send test the email system and set the next planned down time.</p>                      </td>
-                    </tr>
-                    <tr valign="top">
-                      <td><a href="software_development_section.jsp">Software Development Tasks</a></td>
-                      <td>Section useful to developers only.</td>
-                    </tr>
-                    
-                    <tr valign="top">
-                      <td width="24%"><a href="simulation_admin_userrelated.jsp">User Tasks</a></td>
-                      <td width="72%">Allows you to add administrative users and see last login times.</td>
+                      <td><a href="install_models.jsp">Install Model</a></td>
+                      <td>Allows you to install a model whose definition file has been found on this system.</td>
                     </tr>
                   </table>
                   <p>&nbsp;</p>
