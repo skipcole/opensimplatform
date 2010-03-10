@@ -91,6 +91,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public String user_name;
 
 	public Long draft_email_id;
+	
+	public int topFrameHeight = 200;
+	public int bottomFrameHeight = 40;
 
 	public String bottomFrame = ""; //$NON-NLS-1$
 

@@ -25,10 +25,16 @@
 		return;
 	}
 	
-	pso.handleSimWeb(request);
+	String lessten = request.getParameter("lessten");
+	String addten = request.getParameter("addten");
 	
-	int topFrameHeight = 180;
-	int bottomFrameHeight = 40;
+	if ((lessten != null) && (lessten.equalsIgnoreCase("true"))){
+		pso.topFrameHeight -= 10;
+	} else if ((addten != null) && (addten.equalsIgnoreCase("true"))){
+		pso.topFrameHeight += 10;
+	} else {
+		pso.handleSimWeb(request);
+	}
 	
 %>
 <html>
@@ -38,7 +44,7 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>
-<frameset rows="0,<%= topFrameHeight %>,*,<%= bottomFrameHeight %>" frameborder="yes" border="0" framespacing="0">
+<frameset rows="0,<%= pso.topFrameHeight %>,*,<%= pso.bottomFrameHeight %>" frameborder="yes" border="0" framespacing="0">
   <frame src="hiddenframe.jsp" name="hiddenframe" noresize>
   <frame src="frame_top.jsp?tabposition=<%= pso.tabposition %>" name="topFrame" >
   <frame src="<%= pso.bottomFrame %>" name="mainFrame" >
