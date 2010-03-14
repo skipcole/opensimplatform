@@ -224,7 +224,7 @@ function loadInfo(dropdownlist){
                       <% if (ii > 0) { %>
                       <td>&nbsp;</td>
                     <% } %>
-                      <td><a href="delete_object.jsp?object_type=sim_section&amp;objid=<%= ss.getId().toString() %>&amp;backpage=set_universal_sim_sections.jsp&amp;object_info=<%= ss.getTab_heading() %>">Remove </a></td>
+                      <td><a href="delete_object.jsp?object_type=sim_section&objid=<%= ss.getId().toString() %>&backpage=set_universal_sim_sections.jsp&amp;object_info=<%= ss.getTab_heading() %>">Remove </a></td>
                     <% if (ii < (afso.tempSimSecList.size() - 1)) { %>
                       <td>&nbsp;</td>
                     <% } %>
@@ -294,6 +294,7 @@ function loadInfo(dropdownlist){
                                   </select>
                                 </p>
                               <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a>   </p>
+                              <p><a href="catalog_of_customized_sections.jsp">View Catalog of Customized Section</a></p>
                             </blockquote>                          </td>
                           <td valign="top"><label>Tab Heading: 
                             <input type="text" name="tab_heading" /></label>      

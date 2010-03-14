@@ -21,9 +21,10 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.*;
 
 /**
- * Packages and unpackages objects to XML using the opensource software library XStream.
+ * Packages and unpackages objects to XML using the opensource software library
+ * XStream.
  */
-/* 
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
@@ -33,7 +34,6 @@ import org.apache.log4j.*;
  * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
- * 
  */
 public class ObjectPackager {
 
@@ -53,10 +53,10 @@ public class ObjectPackager {
 
 		// Logger.getRootLogger().debug(packageSimulation("test", new Long(1)));
 
-		//play();
+		// play();
 
-			//ObjectPackager.packageUsers("test");
-			System.out.println(ObjectPackager.packageUsers("test"));
+		// ObjectPackager.packageUsers("test");
+		System.out.println(ObjectPackager.packageUsers("test"));
 	}
 
 	public static void play() {
@@ -364,7 +364,6 @@ public class ObjectPackager {
 		}
 		return returnString;
 	}
-	
 
 	/**
 	 * 
@@ -374,28 +373,28 @@ public class ObjectPackager {
 	 * @return
 	 */
 	public static String packageUsers(String schema) {
-		
+
 		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + lineTerminator; //$NON-NLS-1$
-		
+
 		XStream xstream = new XStream();
-		
+
 		List<User> allUsers = User.getAll(schema);
-		
+
 		for (ListIterator<User> li = allUsers.listIterator(); li.hasNext();) {
 			User thisUser = li.next();
 			BaseUser bu = BaseUser.getByUserId(thisUser.getId());
-			
+
 			thisUser.setTransit_id(thisUser.getId());
 			thisUser.setId(null);
 			bu.setTransit_id(bu.getId());
 			bu.setId(null);
-			
+
 			returnString += xstream.toXML(bu) + lineTerminator;
 			returnString += xstream.toXML(thisUser) + lineTerminator;
 		}
 		return returnString;
 	}
-	
+
 	/**
 	 * 
 	 * @param fileloc
@@ -403,15 +402,15 @@ public class ObjectPackager {
 	 * @return
 	 */
 	public static Long unpackageUsers(String fileloc, String schema) {
-		
+
 		String fileLocation = FileIO.archives_dir + File.separator + fileloc;
-		
+
 		RestoreEvents re = new RestoreEvents();
 		re.setRestoreDate(new Date());
 		re.setSchema(schema);
 		re.setFileName(fileloc);
 		re.saveMe();
-		
+
 		XStream xstream = new XStream(new DomDriver());
 
 		Logger.getRootLogger().debug("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
@@ -420,25 +419,26 @@ public class ObjectPackager {
 
 		// Import base users, create a hashtable of their ids ...
 		Hashtable baseuserIds = new Hashtable();
-				
+
 		List baseusers = getSetOfObjectFromFile(fullString, makeOpenTag(BaseUser.class), makeCloseTag(BaseUser.class));
 		for (ListIterator<String> li_i = baseusers.listIterator(); li_i.hasNext();) {
 			String bu_string = li_i.next();
 
 			BaseUser bu = (BaseUser) xstream.fromXML(bu_string);
-		
+
 			// Check to see if base user email exists in database.
 			BaseUser buExisting = BaseUser.getByUsername(bu.getUsername());
-			
+
 			RestoreResults rr = new RestoreResults();
 			rr.setRestoreId(re.getId());
 			rr.setObjectClass(BaseUser.class.getName());
 			rr.setObjectName(bu.getUsername());
-			
+
 			// if exists, create warning. Grab its id number for the hashtable
-			if (buExisting != null){
+			if (buExisting != null) {
 				baseuserIds.put(bu.getTransit_id(), buExisting.getId());
-				// Store record that base user already existed, and so was not imported.
+				// Store record that base user already existed, and so was not
+				// imported.
 				rr.setNotes("Base Username existed. Did not import record.");
 			} else {
 				bu.saveMe();
@@ -446,39 +446,38 @@ public class ObjectPackager {
 				// Store record of user save.
 				rr.setNotes("Imported user.");
 			}
-			
+
 			rr.saveMe();
 		}
-		
+
 		List users = getSetOfObjectFromFile(fullString, makeOpenTag(User.class), makeCloseTag(User.class));
 		for (ListIterator<String> li_i = users.listIterator(); li_i.hasNext();) {
 			String u_string = li_i.next();
 
 			User user = (User) xstream.fromXML(u_string);
-		
+
 			User existingUser = User.getByUsername(schema, user.getUser_name());
-			
+
 			RestoreResults rr = new RestoreResults();
 			rr.setRestoreId(re.getId());
 			rr.setObjectClass(User.class.getName());
 			rr.setObjectName(user.getUser_name());
-			
-			if (existingUser != null){
+
+			if (existingUser != null) {
 				rr.setNotes("Username existed. Did not import record.");
 			} else {
-				user.setId((Long)baseuserIds.get(user.getTransit_id()));
+				user.setId((Long) baseuserIds.get(user.getTransit_id()));
 				user.saveJustUser(schema);
 				rr.setNotes("Imported user.");
 			}
-			
-			rr.saveMe();
-			
-		}
-		
-		return re.getId();
-		
-	}
 
+			rr.saveMe();
+
+		}
+
+		return re.getId();
+
+	}
 
 	/**
 	 * 
@@ -499,10 +498,10 @@ public class ObjectPackager {
 
 			returnString += xstream.toXML(thisPhase) + lineTerminator;
 		}
-		
+
 		return returnString;
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
@@ -510,11 +509,11 @@ public class ObjectPackager {
 	 * @param xstream
 	 * @return
 	 */
-	public static String packageMetaPhases(String schema, long sim_id, XStream xstream){
-		
+	public static String packageMetaPhases(String schema, long sim_id, XStream xstream) {
+
 		String returnString = ""; //$NON-NLS-1$
-		
-		List <SimulationMetaPhase> allMetaPhases = SimulationMetaPhase.getAllForSim(schema, sim_id);
+
+		List<SimulationMetaPhase> allMetaPhases = SimulationMetaPhase.getAllForSim(schema, sim_id);
 		for (ListIterator<SimulationMetaPhase> li = allMetaPhases.listIterator(); li.hasNext();) {
 			SimulationMetaPhase thisMetaPhase = li.next();
 
@@ -523,7 +522,7 @@ public class ObjectPackager {
 
 			returnString += xstream.toXML(thisMetaPhase) + lineTerminator;
 		}
-		
+
 		return returnString;
 	}
 
@@ -571,7 +570,8 @@ public class ObjectPackager {
 
 		String fullString = FileIO.getPartialFileContents(new File(fileLocation), makeCloseTag(Simulation.class));
 
-		String simString = getFirstObjectFromFile(fullString, makeOpenTag(Simulation.class), makeCloseTag(Simulation.class)); //$NON-NLS-1$
+		String simString = getFirstObjectFromFile(fullString, makeOpenTag(Simulation.class),
+				makeCloseTag(Simulation.class)); //$NON-NLS-1$
 
 		Simulation simRead = (Simulation) xstream.fromXML(simString);
 
@@ -588,7 +588,7 @@ public class ObjectPackager {
 	public static void unpackageSim(String fileName, String schema, String sim_name, String sim_version) {
 
 		unpackInformationString = "";
-		
+
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
 
@@ -604,7 +604,7 @@ public class ObjectPackager {
 		String fileLocation = FileIO.packaged_sim_dir + File.separator + fileName;
 
 		Logger.getRootLogger().debug("looking for file to unpack at " + fileLocation); //$NON-NLS-1$
-		
+
 		RestoreEvents re = new RestoreEvents();
 		re.setRestoreDate(new Date());
 		re.setSchema(schema);
@@ -624,41 +624,38 @@ public class ObjectPackager {
 		simRead.saveMe(schema);
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Actors");
-		unpackageActors(schema, re.getId(),fullString, simRead.getId(), xstream, actorIdMappings);
-		
+		unpackageActors(schema, re.getId(), fullString, simRead.getId(), xstream, actorIdMappings);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking MetaPhases"); //$NON-NLS-1$
-		unpackageMetaPhases(schema, re.getId(),fullString, simRead.getId(), xstream, metaPhaseIdMappings);
-		
+		unpackageMetaPhases(schema, re.getId(), fullString, simRead.getId(), xstream, metaPhaseIdMappings);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Phases");
-		unpackagePhases(schema, re.getId(),fullString, simRead.getId(), xstream, metaPhaseIdMappings, phaseIdMappings);
-		
+		unpackagePhases(schema, re.getId(), fullString, simRead.getId(), xstream, metaPhaseIdMappings, phaseIdMappings);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Injects");
-		unpackageInjects(schema, re.getId(),fullString, simRead.getId(), xstream);
-		
+		unpackageInjects(schema, re.getId(), fullString, simRead.getId(), xstream);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Base Simulation Sections");
-		unpackageBaseSimSections(schema, re.getId(),fullString, simRead.getId(), xstream, bssIdMappings);
-		
+		unpackageBaseSimSections(schema, re.getId(), fullString, simRead.getId(), xstream, bssIdMappings);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Customizeable Sim Sections");
-		unpackageCustomizeableSimSections(schema, re.getId(),fullString, simRead.getId(), xstream, bssIdMappings);
-		
+		unpackageCustomizeableSimSections(schema, re.getId(), fullString, simRead.getId(), xstream, bssIdMappings);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Customized Sim Sections");
-		unpackageCustomizedSimSections(schema, re.getId(),fullString, simRead.getId(), xstream, bssIdMappings);
-		
+		unpackageCustomizedSimSections(schema, re.getId(), fullString, simRead.getId(), xstream, bssIdMappings);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Simulation Section Assignments");
-		unpackageSimSectionAssignmentss(schema, re.getId(),fullString, simRead.getId(), xstream,
-				actorIdMappings, phaseIdMappings, bssIdMappings);
-		
+		unpackageSimSectionAssignmentss(schema, re.getId(), fullString, simRead.getId(), xstream, actorIdMappings,
+				phaseIdMappings, bssIdMappings);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Simulation Objects");
-		unpackageSimObjects(schema, re.getId(),fullString, simRead.getId(), xstream, bssIdMappings,
-				actorIdMappings);
-		
+		unpackageSimObjects(schema, re.getId(), fullString, simRead.getId(), xstream, bssIdMappings, actorIdMappings);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Misc Simulation Objects");
-		unpackageMiscSimObjects(schema, re.getId(),fullString, simRead.getId(), xstream, bssIdMappings,
+		unpackageMiscSimObjects(schema, re.getId(), fullString, simRead.getId(), xstream, bssIdMappings,
 				actorIdMappings);
-		
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Import Complete");
-
 
 	}
 
@@ -672,8 +669,8 @@ public class ObjectPackager {
 	 * @param actorIdMappings
 	 * @return
 	 */
-	public static void unpackageMiscSimObjects(String schema, Long reId, String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings, Hashtable actorIdMappings) {
+	public static void unpackageMiscSimObjects(String schema, Long reId, String fullString, Long sim_id,
+			XStream xstream, Hashtable bssIdMappings, Hashtable actorIdMappings) {
 
 		String timelineString = getObjectFromFile(fullString, makeOpenTag(TimeLine.class), makeCloseTag(TimeLine.class));
 
@@ -712,10 +709,10 @@ public class ObjectPackager {
 				event.setTimelineId(timeline.getId());
 				event.setSimId(sim_id);
 				event.saveMe(schema);
-				
-				RestoreResults.createAndSaveObject(reId, event.getId().toString(), 
-						event.getClass().toString(), event.getEventTitle(), "Event Added");
-				
+
+				RestoreResults.createAndSaveObject(reId, event.getId().toString(), event.getClass().toString(), event
+						.getEventTitle(), "Event Added");
+
 			}
 		}
 	}
@@ -773,20 +770,19 @@ public class ObjectPackager {
 				this_dos.saveMe(schema);
 
 				dependentObjectMappings.put(this_dos.getTransit_id(), this_dos.getId());
-		
-				RestoreResults.createAndSaveObject(reId, this_dos.getId().toString(), 
-						this_dos.getClass().toString(), "", "Found Dependent Object of class " + key + " and it had a transit id of "
-						+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId());
-				
+
+				RestoreResults.createAndSaveObject(reId, this_dos.getId().toString(), this_dos.getClass().toString(),
+						"", "Found Dependent Object of class " + key + " and it had a transit id of "
+								+ this_dos.getTransit_id() + " which was mapped to an id of " + this_dos.getId());
 
 				// Conversations have conversation actor assignments associated
 				// with them.
 				if (this_dos.getClass().equals(Conversation.class)) {
-					unpackageConversationActorAssignments(schema, reId, fullString, this_dos.getTransit_id(),
-							this_dos.getId(), xstream, actorIdMappings);
+					unpackageConversationActorAssignments(schema, reId, fullString, this_dos.getTransit_id(), this_dos
+							.getId(), xstream, actorIdMappings);
 				} else if (this_dos.getClass().equals(SharedDocument.class)) {
-					unpackSDANAO(schema, reId, sim_id, fullString, this_dos.getTransit_id(),
-							this_dos.getId(), xstream, actorIdMappings);
+					unpackSDANAO(schema, reId, sim_id, fullString, this_dos.getTransit_id(), this_dos.getId(), xstream,
+							actorIdMappings);
 				}
 			}
 		}
@@ -809,17 +805,19 @@ public class ObjectPackager {
 				this_bssdoa.setBss_id(thisMappedId);
 			} catch (Exception e) {
 				e.printStackTrace();
-				RestoreResults.createAndSaveWarning(reId, RestoreResults.RESTORE_ERROR, "Problem unpacking: " + sd_string);
+				RestoreResults.createAndSaveWarning(reId, RestoreResults.RESTORE_ERROR, "Problem unpacking: "
+						+ sd_string);
 			}
 
 			this_bssdoa.setObjectId((Long) dependentObjectMappings.get(this_bssdoa.getObjectId()));
 
 			this_bssdoa.saveMe(schema);
 
-			RestoreResults.createAndSaveObject(reId, this_bssdoa.getId().toString(), 
-					this_bssdoa.getClass().toString(), this_bssdoa.getUniqueTagName(), "Found bssdoa. Sim id / bss id / obj id: " + this_bssdoa.getSim_id() + " / "
-					+ this_bssdoa.getBss_id() + " / " + this_bssdoa.getObjectId());
-			
+			RestoreResults.createAndSaveObject(reId, this_bssdoa.getId().toString(), this_bssdoa.getClass().toString(),
+					this_bssdoa.getUniqueTagName(), "Found bssdoa. Sim id / bss id / obj id: "
+							+ this_bssdoa.getSim_id() + " / " + this_bssdoa.getBss_id() + " / "
+							+ this_bssdoa.getObjectId());
+
 		}
 
 	}
@@ -836,8 +834,8 @@ public class ObjectPackager {
 	 * @param actorIdMappings
 	 * @return
 	 */
-	public static void unpackSDANAO(String schema, Long reId, Long sim_id, String fullString, Long orig_id, Long new_id,
-			XStream xstream, Hashtable actorIdMappings) {
+	public static void unpackSDANAO(String schema, Long reId, Long sim_id, String fullString, Long orig_id,
+			Long new_id, XStream xstream, Hashtable actorIdMappings) {
 
 		List<String> sdanao_list = getSetOfObjectFromFile(fullString,
 				makeOpenTag(SharedDocActorNotificAssignObj.class), makeCloseTag(SharedDocActorNotificAssignObj.class));
@@ -867,9 +865,9 @@ public class ObjectPackager {
 
 				this_sdanao.saveMe(schema);
 
-				RestoreResults.createAndSaveObject(reId, this_sdanao.getId().toString(), 
-						this_sdanao.getClass().toString(), "", "Notification text: " + this_sdanao.getNotificationText());
-				
+				RestoreResults.createAndSaveObject(reId, this_sdanao.getId().toString(), this_sdanao.getClass()
+						.toString(), "", "Notification text: " + this_sdanao.getNotificationText());
+
 			}
 		}
 	}
@@ -914,9 +912,8 @@ public class ObjectPackager {
 				this_caa.setActor_id(newActorId);
 
 				this_caa.saveMe(schema);
-				RestoreResults.createAndSaveObject(reId, this_caa.getId().toString(), 
-						this_caa.getClass().toString(), this_caa.getRole(), "added actor id " + newActorId + " to conversation.");
-				
+				RestoreResults.createAndSaveObject(reId, this_caa.getId().toString(), this_caa.getClass().toString(),
+						this_caa.getRole(), "added actor id " + newActorId + " to conversation.");
 
 			}
 		}
@@ -940,36 +937,37 @@ public class ObjectPackager {
 
 			SimulationSectionAssignment this_ss = (SimulationSectionAssignment) xstream.fromXML(act_string);
 
-			this_ss.setSim_id(sim_id);
-			this_ss.setActor_id((Long) actorIdMappings.get(this_ss.getActor_id()));
-			this_ss.setPhase_id((Long) phaseIdMappings.get(this_ss.getPhase_id()));
-			
-			if (this_ss.getBase_sec_id() != null) {
-				this_ss.setBase_sec_id((Long) bssIdMappings.get(this_ss.getBase_sec_id()));
-			}
-			
-			this_ss.save(schema);
+			if (this_ss.getActor_id() != null) {
+				this_ss.setSim_id(sim_id);
+				this_ss.setActor_id((Long) actorIdMappings.get(this_ss.getActor_id()));
+				this_ss.setPhase_id((Long) phaseIdMappings.get(this_ss.getPhase_id()));
 
-			if (this_ss.isSimSubSection()) {
-				Long x = this_ss.getDisplaySectionId();
-				if (x == null) {
-					System.out.println("The display section of a sub section should not be null.");
-				} else {
-					Long y = (Long) bssIdMappings.get(x);
-					if (y == null) {
-						System.out.println("got null back from the hash table.");
-					} else {
-						this_ss.setDisplaySectionId(y);
-						this_ss.save(schema);
-					}
+				if (this_ss.getBase_sec_id() != null) {
+					this_ss.setBase_sec_id((Long) bssIdMappings.get(this_ss.getBase_sec_id()));
 				}
 
+				this_ss.save(schema);
+
+				if (this_ss.isSimSubSection()) {
+					Long x = this_ss.getDisplaySectionId();
+					if (x == null) {
+						System.out.println("The display section of a sub section should not be null.");
+					} else {
+						Long y = (Long) bssIdMappings.get(x);
+						if (y == null) {
+							System.out.println("got null back from the hash table.");
+						} else {
+							this_ss.setDisplaySectionId(y);
+							this_ss.save(schema);
+						}
+					}
+
+				}
+
+				RestoreResults.createAndSaveObject(reId, this_ss.getId().toString(), this_ss.getClass().toString(),
+						this_ss.getTab_heading(), "");
+
 			}
-
-			RestoreResults.createAndSaveObject(reId, this_ss.getId().toString(), 
-					this_ss.getClass().toString(), this_ss.getTab_heading(), "");
-			
-
 		}
 
 	}
@@ -1018,8 +1016,8 @@ public class ObjectPackager {
 	 * @param sim_id
 	 * @param xstream
 	 */
-	public static void unpackageCustomizedSimSections(String schema, Long reId, String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings) {
+	public static void unpackageCustomizedSimSections(String schema, Long reId, String fullString, Long sim_id,
+			XStream xstream, Hashtable bssIdMappings) {
 
 		List bsss = getSetOfObjectFromFile(fullString, makeOpenTag(CustomizeableSection.class),
 				makeCloseTag(CustomizeableSection.class));
@@ -1032,10 +1030,10 @@ public class ObjectPackager {
 
 				this_bss.saveMe(schema);
 
-				RestoreResults.createAndSaveObject(reId, this_bss.getId().toString(), 
-						this_bss.getClass().toString(), this_bss.getUniqueName(), 
-						"Found " + this_bss.getUniqueName() + " and gave it id " + this_bss.getId());
-				
+				RestoreResults.createAndSaveObject(reId, this_bss.getId().toString(), this_bss.getClass().toString(),
+						this_bss.getUniqueName(), "Found " + this_bss.getUniqueName() + " and gave it id "
+								+ this_bss.getId());
+
 				bssIdMappings.put(this_bss.getTransit_id(), this_bss.getId());
 
 			}
@@ -1050,8 +1048,8 @@ public class ObjectPackager {
 	 * @param sim_id
 	 * @param xstream
 	 */
-	public static void unpackageBaseSimSections(String schema, Long reId, String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings) {
+	public static void unpackageBaseSimSections(String schema, Long reId, String fullString, Long sim_id,
+			XStream xstream, Hashtable bssIdMappings) {
 
 		List bsss = getSetOfObjectFromFile(fullString, makeOpenTag(BaseSimSection.class),
 				makeCloseTag(BaseSimSection.class));
@@ -1065,31 +1063,29 @@ public class ObjectPackager {
 					.getCreatingOrganization(), this_bss.getUniqueName(), this_bss.getVersion());
 
 			if (correspondingSimSection == null) {
-				
-				// Check to see if this is an author generated simulation section (essentially a URL)
-				// if it is, there will not be a corresponding simulation section
-				if (this_bss.isAuthorGeneratedSimulationSection()){
+
+				// Check to see if this is an author generated simulation
+				// section (essentially a URL)
+				// if it is, there will not be a corresponding simulation
+				// section
+				if (this_bss.isAuthorGeneratedSimulationSection()) {
 					this_bss.saveMe(schema);
 					bssIdMappings.put(this_bss.getTransit_id(), this_bss.getId());
-					
-					RestoreResults.createAndSaveObject(reId, this_bss.getId().toString(), 
-							this_bss.getClass().toString(), this_bss.getRec_tab_heading(), 
-							"Found author generated section " + this_bss.getRec_tab_heading() 
-							+ " and it was given id "
-							+ this_bss.getId());
+
+					RestoreResults.createAndSaveObject(reId, this_bss.getId().toString(), this_bss.getClass()
+							.toString(), this_bss.getRec_tab_heading(), "Found author generated section "
+							+ this_bss.getRec_tab_heading() + " and it was given id " + this_bss.getId());
 
 				} else {
-					RestoreResults.createAndSaveWarning(reId, RestoreResults.RESTORE_WARN, 
-							"Warning. Base simulation section "
-						+ this_bss.getVersionInformation() + " ( id : " + this_bss.getTransit_id()
-						+ ") not found.");
+					RestoreResults.createAndSaveWarning(reId, RestoreResults.RESTORE_WARN,
+							"Warning. Base simulation section " + this_bss.getVersionInformation() + " ( id : "
+									+ this_bss.getTransit_id() + ") not found.");
 				}
 			} else {
-				RestoreResults.createAndSaveObject(reId, correspondingSimSection.getId().toString(), 
-						this_bss.getClass().toString(), this_bss.getUniqueName(), 
-						"Found " + this_bss.getRec_tab_heading() + " and it had id "
-						+ correspondingSimSection.getId());
-				
+				RestoreResults.createAndSaveObject(reId, correspondingSimSection.getId().toString(), this_bss
+						.getClass().toString(), this_bss.getUniqueName(), "Found " + this_bss.getRec_tab_heading()
+						+ " and it had id " + correspondingSimSection.getId());
+
 				bssIdMappings.put(this_bss.getTransit_id(), correspondingSimSection.getId());
 			}
 
@@ -1124,9 +1120,9 @@ public class ObjectPackager {
 			this_act.setName(getUniqueUsersName(actorNames, this_act.getActorName()));
 
 			this_act.saveMe(schema);
-			RestoreResults.createAndSaveObject(reId, this_act.getId().toString(), 
-					this_act.getClass().toString(), this_act.getActorName(), "unpacked Actor with originalName: " + originalName);
-			
+			RestoreResults.createAndSaveObject(reId, this_act.getId().toString(), this_act.getClass().toString(),
+					this_act.getActorName(), "unpacked Actor with originalName: " + originalName);
+
 			actorIdMappings.put(this_act.getTransit_id(), this_act.getId());
 
 			@SuppressWarnings("unused")
@@ -1153,19 +1149,18 @@ public class ObjectPackager {
 			String phase_string = li_i.next();
 
 			SimulationMetaPhase this_meta_phase = (SimulationMetaPhase) xstream.fromXML(phase_string);
-			
+
 			this_meta_phase.setSim_id(sim_id);
 			this_meta_phase.saveMe(schema);
-			RestoreResults.createAndSaveObject(reId, this_meta_phase.getId().toString(), 
-					this_meta_phase.getClass().toString(), this_meta_phase.getMetaPhaseName(), "unpacked MetaPhase");
-			
+			RestoreResults.createAndSaveObject(reId, this_meta_phase.getId().toString(), this_meta_phase.getClass()
+					.toString(), this_meta_phase.getMetaPhaseName(), "unpacked MetaPhase");
+
 			metaPhaseIdMappings.put(this_meta_phase.getTransit_id(), this_meta_phase.getId());
 
 		}
 
 	}
-	
-	
+
 	/**
 	 * Pulls the actors out of the packaged file.
 	 * 
@@ -1184,20 +1179,20 @@ public class ObjectPackager {
 
 			SimulationPhase this_phase = (SimulationPhase) xstream.fromXML(phase_string);
 
-			if (this_phase.getMetaPhaseId() != null){
-				
-				Long newMetaPhaseId = (Long)metaPhaseIdMappings.get(this_phase.getMetaPhaseId());
-				if (newMetaPhaseId != null){
+			if (this_phase.getMetaPhaseId() != null) {
+
+				Long newMetaPhaseId = (Long) metaPhaseIdMappings.get(this_phase.getMetaPhaseId());
+				if (newMetaPhaseId != null) {
 					this_phase.setMetaPhaseId(newMetaPhaseId);
 				} else {
 					Logger.getRootLogger().debug("No MetaPhase mapped to id " + this_phase.getMetaPhaseId());
 				}
 			}
-			
+
 			this_phase.saveMe(schema);
 
-			RestoreResults.createAndSaveObject(reId, this_phase.getId().toString(), 
-					this_phase.getClass().toString(), this_phase.getPhaseName(), "Phase added to simulation");
+			RestoreResults.createAndSaveObject(reId, this_phase.getId().toString(), this_phase.getClass().toString(),
+					this_phase.getPhaseName(), "Phase added to simulation");
 
 			phaseIdMappings.put(this_phase.getTransit_id(), this_phase.getId());
 
@@ -1227,8 +1222,8 @@ public class ObjectPackager {
 
 			ig.setSim_id(sim_id);
 			ig.saveMe(schema);
-			RestoreResults.createAndSaveObject(reId, ig.getId().toString(), 
-					ig.getClass().toString(), ig.getName(), "Inject Group added to simulation");
+			RestoreResults.createAndSaveObject(reId, ig.getId().toString(), ig.getClass().toString(), ig.getName(),
+					"Inject Group added to simulation");
 
 			injectGroupIds.put(ig.getTransit_id(), ig.getId());
 
@@ -1244,8 +1239,8 @@ public class ObjectPackager {
 			ig.setGroup_id((Long) injectGroupIds.get(ig.getGroup_id()));
 			ig.setSim_id(sim_id);
 			ig.saveMe(schema);
-			RestoreResults.createAndSaveObject(reId, ig.getId().toString(), 
-					ig.getClass().toString(), ig.getInject_name(), "Inject added to simulation");
+			RestoreResults.createAndSaveObject(reId, ig.getId().toString(), ig.getClass().toString(), ig
+					.getInject_name(), "Inject added to simulation");
 
 		}
 	}
@@ -1301,7 +1296,7 @@ public class ObjectPackager {
 		}
 
 	}
-	
+
 	public static String getFirstObjectFromFile(String fullContents, String startString, String endString) {
 
 		int findStartOfMatch = fullContents.indexOf(startString);

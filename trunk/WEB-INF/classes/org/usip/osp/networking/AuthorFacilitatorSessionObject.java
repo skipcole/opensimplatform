@@ -34,7 +34,7 @@ import com.oreilly.servlet.MultipartRequest;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
  */
-public class AuthorFacilitatorSessionObject extends SessionObjectBase{
+public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
@@ -156,10 +156,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 					sim.addControlSectionsToAllPhasesOfControl(this.schema, this_act);
 				}
 
-				// I'm not really sure why we are saving the simulation here (this may be a relic), 
+				// I'm not really sure why we are saving the simulation here
+				// (this may be a relic),
 				// but it does update the last edit time.
 				sim.saveMe(this.schema);
-				
+
 			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
 				String sp_id = request.getParameter("sp_id"); //$NON-NLS-1$
 				returnSP = SimulationPhase.getMe(this.schema, sp_id);
@@ -177,7 +178,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		}
 		return returnSP;
 	}
-	
+
 	/**
 	 * 
 	 * @param sim
@@ -192,9 +193,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		String meta_phase_name = request.getParameter("meta_phase_name"); //$NON-NLS-1$
 		String meta_phase_notes = request.getParameter("meta_phase_notes"); //$NON-NLS-1$
 		String meta_phase_color = request.getParameter("meta_phase_color"); //$NON-NLS-1$
-			
+
 		String mp_id = request.getParameter("mp_id"); //$NON-NLS-1$
-		
+
 		if (command != null) {
 			if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
 				returnMP.setMetaPhaseName(meta_phase_name);
@@ -243,9 +244,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			if ((command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
 				String user_to_add_to_simulation = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
-				
+
 				Long user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema, request, user_to_add_to_simulation);
-				
+
 				if (user_to_add_id != null) {
 					String actor_id = request.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
 					String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
@@ -253,7 +254,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 					@SuppressWarnings("unused")
 					UserAssignment ua = UserAssignment.getUniqueUserAssignment(this.schema, new Long(sim_id), new Long(
-						running_sim_id), new Long(actor_id), new Long(user_to_add_id));
+							running_sim_id), new Long(actor_id), new Long(user_to_add_id));
 				}
 			}
 		}
@@ -289,7 +290,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	public String handleSetUpBetaTests(HttpServletRequest request) {
 
 		String returnString = "";
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 
 		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("launch_beta")))) {
@@ -300,19 +301,19 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		if (sim_id_s == null) {
 			return "Must select a simulation.<br />";
 		}
-		
+
 		Simulation sim = Simulation.getMe(schema, new Long(sim_id_s));
-		
+
 		String send_emails = request.getParameter("send_emails"); //$NON-NLS-1$
-		
+
 		String email_users = "false";
-		if ((send_emails != null) && (send_emails.equalsIgnoreCase("on"))){
+		if ((send_emails != null) && (send_emails.equalsIgnoreCase("on"))) {
 			email_users = "true";
 		}
-		
+
 		String users_emails = request.getParameter("users_emails"); //$NON-NLS-1$
 		String email_text = request.getParameter("email_text"); //$NON-NLS-1$
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mma");
 		String timeStart = sdf.format(new Date());
 
@@ -320,40 +321,39 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			String this_email = li.next();
 
 			BaseUser bu = BaseUser.getByUsername(this_email);
-			
+
 			if (bu != null) {
 				returnString += "found user:" + this_email + "<br />";
-				
+
 				String rsn = "BetaTest " + timeStart + " " + bu.getInitials();
-			
+
 				System.out.println("rsn is " + rsn);
 				// Create Running Simulation
 				RunningSimulation rs = sim.addNewRunningSimulation(rsn, schema, this.user_id, this.user_Display_Name);
 				// Assign this user to all roles in the simulation.
-				for (ListIterator<Actor> lia = SimActorAssignment.getActorsForSim(schema, sim.getId()) .listIterator(); lia.hasNext();) {
+				for (ListIterator<Actor> lia = SimActorAssignment.getActorsForSim(schema, sim.getId()).listIterator(); lia
+						.hasNext();) {
 					Actor act = lia.next();
 
 					@SuppressWarnings("unused")
-					UserAssignment ua = UserAssignment.getUniqueUserAssignment(this.schema, sim.getId(), 
-							rs.getId(), act.getId(), bu.getId());
-					
+					UserAssignment ua = UserAssignment.getUniqueUserAssignment(this.schema, sim.getId(), rs.getId(),
+							act.getId(), bu.getId());
+
 					returnString += "          added user as " + act.getActorName();
-					
+
 				}
-				
+
 				rs.enableAndPrep(this.schema, sim.getId().toString(), bu.getUsername(), email_users, email_text);
-				
 
 			} else {
 
-				returnString += "<font color=\"red\">Warning: did not find user:" + this_email  + "</font><br />";
+				returnString += "<font color=\"red\">Warning: did not find user:" + this_email + "</font><br />";
 
 			}
 		}
-		
+
 		return returnString;
 	}
-
 
 	/**
 	 * 
@@ -503,7 +503,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 				SimulationSectionAssignment.removeAndReorder(this.schema, ss);
-				
+
 				// Clean web cache out
 				USIP_OSP_ContextListener.resetWebCache(request);
 
@@ -513,13 +513,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 						UserAssignment.class, o_id);
 				MultiSchemaHibernateUtil.getSession(this.schema).delete(ua);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
-				
-			}  else if (objectType.equalsIgnoreCase("section")) {
+
+			} else if (objectType.equalsIgnoreCase("section")) {
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
 				BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(this.schema).get(
 						BaseSimSection.class, o_id);
 				MultiSchemaHibernateUtil.getSession(this.schema).delete(bss);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
+			} else if (objectType.equalsIgnoreCase("shareddocument")) {
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				SharedDocument sd = (SharedDocument) MultiSchemaHibernateUtil.getSession(this.schema).get(
+						SharedDocument.class, o_id);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(sd);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
+
 			}
 
 			return true;
@@ -688,48 +695,52 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		return (getMyPSO_SectionMgmt().handleCustomizeSection(request));
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public GenericVariable handleCreateGenericVariable(HttpServletRequest request){
-		
+	public GenericVariable handleCreateGenericVariable(HttpServletRequest request) {
+
 		GenericVariable genericVariable = new GenericVariable();
-		
+
 		// If the player cleared the form, return the blank document.
 		String clear_button = (String) request.getParameter("clear_button");
 		if (clear_button != null) {
 			return genericVariable;
 		}
-		
-		// If we got passed in a doc id, use it to retrieve the doc we are working on.
+
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
 		String gv_id = (String) request.getParameter("gv_id");
-		
+
 		String queueup = (String) request.getParameter("queueup");
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (gv_id != null) && (gv_id.trim().length() > 0)) {
 			genericVariable = GenericVariable.getMe(schema, new Long(gv_id));
 			return genericVariable;
 		}
-		
+
 		// If player just entered this page from a different form, just return
 		// the blank object
 		String sending_page = (String) request.getParameter("sending_page");
 		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_parameter_page")))) {
 			return genericVariable;
 		}
-		
-		// If we got down to here, we must be doing some real work on a document.
+
+		// If we got down to here, we must be doing some real work on a
+		// document.
 		String uniq_param_name = (String) request.getParameter("uniq_param_name");
 		String param_notes = (String) request.getParameter("param_notes");
 		String start_value = (String) request.getParameter("start_value");
-		
+
 		// TODO - Enable the features below.
-		//String has_max_value = (String) request.getParameter("has_max_value");
-		//String has_min_value = (String) request.getParameter("has_min_value");
-		//String prop_type = (String) request.getParameter("prop_type");
-		
+		// String has_max_value = (String)
+		// request.getParameter("has_max_value");
+		// String has_min_value = (String)
+		// request.getParameter("has_min_value");
+		// String prop_type = (String) request.getParameter("prop_type");
+
 		// Do create if called.
 		String create_param = (String) request.getParameter("create_param");
 		if ((create_param != null)) {
@@ -739,7 +750,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			genericVariable.setStartingValue(start_value);
 			genericVariable.saveMe(schema);
 		}
-		
+
 		// Do update if called.
 		String update_param = (String) request.getParameter("update_param");
 		if ((update_param != null)) {
@@ -752,46 +763,113 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			genericVariable.saveMe(schema);
 
 		}
-		
+
 		return genericVariable;
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public Conversation handleCreateConversation(HttpServletRequest request){
-		
+	public TimeLine handleCreateTimeLine(HttpServletRequest request) {
+
+		TimeLine timeline = new TimeLine();
+
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return timeline;
+		}
+
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
+		String t_id = (String) request.getParameter("t_id");
+
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (t_id != null) && (t_id.trim().length() > 0)) {
+			timeline = TimeLine.getMe(schema, new Long(t_id));
+			return timeline;
+		}
+
+		// If player just entered this page from a different form, just return
+		// the blank object
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_timeline_page")))) {
+			return timeline;
+		}
+
+		// If we got down to here, we must be doing some real work on a
+		// document.
+		String timeline_name = (String) request.getParameter("timeline_name");
+		String param_notes = (String) request.getParameter("param_notes");
+		String start_value = (String) request.getParameter("start_value");
+
+		// Do create if called.
+		String create_timeline = (String) request.getParameter("create_timeline");
+		if ((create_timeline != null)) {
+			Logger.getRootLogger().debug("creating param of uniq name: " + timeline_name);
+			// timeline = new TimeLine(uniq_param_name, sim_id);
+			timeline.setName(timeline_name);
+			// timeline.saveMe(schema);
+		}
+
+		// Do update if called.
+		String update_timeline = (String) request.getParameter("update_timeline");
+		if ((update_timeline != null)) {
+			Logger.getRootLogger().debug("updating param of uniq title: " + timeline_name);
+			timeline = TimeLine.getMe(schema, new Long(t_id));
+			timeline.setName(timeline_name);
+			// timeline.setNotes(param_notes);
+			// timeline.setStartingValue(start_value);
+			timeline.setSimId(sim_id);
+			timeline.saveMe(schema);
+
+		}
+
+		return timeline;
+
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Conversation handleCreateConversation(HttpServletRequest request) {
+
 		Conversation conv = new Conversation();
-		
+
 		// If the player cleared the form, return the blank document.
 		String clear_button = (String) request.getParameter("clear_button");
 		if (clear_button != null) {
 			return conv;
 		}
-		
-		// If we got passed in a doc id, use it to retrieve the doc we are working on.
+
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
 		String conv_id = (String) request.getParameter("conv_id");
-		
+
 		String queueup = (String) request.getParameter("queueup");
-		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (conv_id != null) && (conv_id.trim().length() > 0)) {
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (conv_id != null)
+				&& (conv_id.trim().length() > 0)) {
 			conv = Conversation.getMe(schema, new Long(conv_id));
 			return conv;
 		}
-		
+
 		// If player just entered this page from a different form, just return
 		// the blank document
 		String sending_page = (String) request.getParameter("sending_page");
 		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_conversation_page")))) {
 			return conv;
 		}
-		
-		// If we got down to here, we must be doing some real work on a document.
+
+		// If we got down to here, we must be doing some real work on a
+		// document.
 		String uniq_conv_name = (String) request.getParameter("uniq_conv_name");
 		String conv_notes = (String) request.getParameter("conv_notes");
-		
+
 		// Do create if called.
 		String create_conv = (String) request.getParameter("create_conv");
 		if ((create_conv != null)) {
@@ -799,7 +877,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			conv = new Conversation(uniq_conv_name, conv_notes, sim_id);
 			conv.saveMe(schema);
 		}
-		
+
 		// Do update if called.
 		String update_conv = (String) request.getParameter("update_conv");
 		if ((update_conv != null)) {
@@ -811,7 +889,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			conv.saveMe(schema);
 
 		}
-		
+
 		// Need to clean out current actor assignments for this conversation
 		ConvActorAssignment.removeAllForConversation(schema, conv.getId());
 
@@ -835,8 +913,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				if ((request.getParameter(param_name) != null)
 						&& (request.getParameter(param_name).equalsIgnoreCase("true"))) {
 					String this_a_id = param_name.replaceFirst("actor_cb_", "");
-					Logger.getRootLogger().debug("adding " + this_a_id + " in schema" + schema + " to sim_id "
-							+ sim_id);
+					Logger.getRootLogger()
+							.debug("adding " + this_a_id + " in schema" + schema + " to sim_id " + sim_id);
 					conv.addActor(this_a_id, schema, sim_id, (String) setOfUserRoles.get(this_a_id));
 				}
 			}
@@ -868,7 +946,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			return this_sd;
 		}
 
-		// If we got passed in a doc id, use it to retrieve the doc we are working on.
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
 		String shared_doc_id = (String) request.getParameter("shared_doc_id");
 		if ((shared_doc_id != null) && (shared_doc_id.trim().length() > 0)) {
 			this_sd = SharedDocument.getMe(schema, new Long(shared_doc_id));
@@ -1014,7 +1093,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			e.printStackTrace();
 
 			return ("Warning. Unable to create the database entry for this schema. <br />"
-			+ "This may indicate that it already has been created.");
+					+ "This may indicate that it already has been created.");
 		}
 
 		MultiSchemaHibernateUtil.recreateDatabase(sio);
@@ -1030,34 +1109,35 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
 		}
 
-		/////////////////////////////////////////////
+		// ///////////////////////////////////////////
 		// Test email functionality if SMTP information has been entered.
 		String email_msg = "";
-		
-		if (sio.checkReqEmailInfoAndMaybeMarkDown()){
-			
-			String message = "This email is coming from your newly installed OSP Installation. Live long and prosper." ;
+
+		if (sio.checkReqEmailInfoAndMaybeMarkDown()) {
+
+			String message = "This email is coming from your newly installed OSP Installation. Live long and prosper.";
 
 			Vector ccs = new Vector();
 			Vector bccs = new Vector();
-			
+
 			if (sio != null) {
 				bccs.add(sio.getEmail_archive_address());
-				Emailer.postMail(sio, sio.getEmail_archive_address(), "USIP OSP Installation Message", message, sio.getEmail_archive_address(), ccs, bccs);
+				Emailer.postMail(sio, sio.getEmail_archive_address(), "USIP OSP Installation Message", message, sio
+						.getEmail_archive_address(), ccs, bccs);
 				email_msg = "email_sent";
 			} else {
 				Logger.getRootLogger().warn("Problem sending test email.");
 				email_msg = "sio_null";
 			}
-			
+
 		} else {
 			email_msg += "email_not_sent";
 		}
-		/////////////////////////////////////////////
-		
+		// ///////////////////////////////////////////
+
 		this.forward_on = true;
 		this.backPage = "install_confirmation.jsp?schema=" + schema + "&emailstatus=" + email_msg;
-		
+
 		return email_msg;
 
 	}
@@ -1072,7 +1152,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	public static String handleCreateOrUpdateDB(HttpServletRequest request, Long adminUserId) {
 
 		String error_msg = "";
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String command = (String) request.getParameter("command");
 
@@ -1141,7 +1221,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			// recreate the database.
 			if (command.equalsIgnoreCase("Create")) {
 				MultiSchemaHibernateUtil.recreateDatabase(sio);
-				
+
 				String loadss = (String) request.getParameter("loadss");
 
 				if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
@@ -1206,13 +1286,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 			// Entering the correct key is equivalent to having logged in.
 			this.loggedin = true;
-			
-			// If the user/developer has been editing simulations, remove reference to old simulations.
+
+			// If the user/developer has been editing simulations, remove
+			// reference to old simulations.
 			this.sim_id = null;
-			
+
 			this.forward_on = true;
 			this.backPage = "install_db.jsp";
-			
+
 			return returnMsg;
 
 		} else if ((sending_page != null) && (sending_page.equalsIgnoreCase("install_root_db"))) {
@@ -1222,20 +1303,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		return returnMsg;
 
 	}
-	
+
 	public static final int INSTALL_ERROR_NO_PROP = 1;
 	public static final int INSTALL_ERROR_NO_CONN = 2;
-	
-	public static int checkInstall (HttpServletRequest request){
-		
-		if (!(USIP_OSP_Properties.isFoundPropertiesFile())){
+
+	public static int checkInstall(HttpServletRequest request) {
+
+		if (!(USIP_OSP_Properties.isFoundPropertiesFile())) {
 			return INSTALL_ERROR_NO_PROP;
 		}
-		
-		if (!MultiSchemaHibernateUtil.testConn()){
+
+		if (!MultiSchemaHibernateUtil.testConn()) {
 			return INSTALL_ERROR_NO_CONN;
 		}
-		
+
 		return 0;
 	}
 
@@ -1245,14 +1326,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	 * @param request
 	 */
 	public BaseSimSection handleCreateSimulationSection(HttpServletRequest request) {
-		
+
 		BaseSimSection bss = new BaseSimSection();
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("create_section"))) {
-			
-			//////////////////////////////////////////////////////////
+
+			// ////////////////////////////////////////////////////////
 			String command = (String) request.getParameter("command");
 
 			String u = request.getParameter("url");
@@ -1288,10 +1369,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 					return bss;
 					// returning bss will clear field
 				}
-			}	
+			}
 
-		} 
-		
+		}
+
 		return bss;
 	}
 
@@ -1301,33 +1382,70 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	 * @param request
 	 */
 	public InjectGroup handleCreateInjectGroup(HttpServletRequest request) {
-		
-		InjectGroup ig = new InjectGroup();
-		
-		String sending_page = (String) request.getParameter("sending_page");
-		
-		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_inject_group"))){
-			
-			String inject_group_name = (String) request.getParameter("inject_group_name");
-			String inject_group_description = (String) request.getParameter("inject_group_description");
-	
-			ig.setName(inject_group_name);
-			ig.setDescription(inject_group_description);
-			ig.setSim_id(sim_id);
 
-			ig.saveMe(schema);
-			
-			Simulation.updateSimsLastEditDate(sim_id, schema);
+		InjectGroup ig = new InjectGroup();
+
+		GenericVariable genericVariable = new GenericVariable();
+
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return ig;
 		}
 
-		
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
+		String ig_id = (String) request.getParameter("ig_id");
+
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (ig_id != null) && (ig_id.trim().length() > 0)) {
+			ig = InjectGroup.getMe(schema, ig_id);
+			return ig;
+		}
+
+		// If player just entered this page from a different form, just return
+		// the blank object
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("create_inject_group")))) {
+			return ig;
+		}
+
+		String inject_group_name = (String) request.getParameter("inject_group_name");
+		String inject_group_description = (String) request.getParameter("inject_group_description");
+
+		// Do create if called.
+		String command = (String) request.getParameter("command");
+		if (command != null) {
+			
+			if (command.equalsIgnoreCase("Clear")) { //$NON-NLS-1$
+				return ig;
+			} else if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
+				ig.setName(inject_group_name);
+				ig.setDescription(inject_group_description);
+				ig.setSim_id(sim_id);
+
+				ig.saveMe(schema);
+			} else if (command.equalsIgnoreCase("Update")) {
+				ig = InjectGroup.getMe(schema, ig_id);
+				ig.setName(inject_group_name);
+				ig.setDescription(inject_group_description);
+				ig.setSim_id(sim_id);
+
+				ig.saveMe(schema);
+
+			}
+			
+			Simulation.updateSimsLastEditDate(sim_id, schema);
+		}		
+
 		return ig;
 
 	}
 
 	/**
-	 * Handles the creation of Injects. We only get here if the author has edited an inject.
-	 * (Hence we automatically update the simulation last edit date.)
+	 * Handles the creation of Injects. We only get here if the author has
+	 * edited an inject. (Hence we automatically update the simulation last edit
+	 * date.)
 	 * 
 	 * @param request
 	 */
@@ -1356,7 +1474,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 			inject.setGroup_id(new Long(inject_group_id));
 			inject.saveMe(schema);
 		}
-		
+
 		Simulation.updateSimsLastEditDate(sim_id, schema);
 
 	}
@@ -1416,7 +1534,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 				simulation.saveMe(schema);
 				this.phase_id = simulation.getFirstPhaseId(schema);
-				
+
 			} else if (command.equalsIgnoreCase("Update")) { // 
 				String sim_id = (String) request.getParameter("sim_id");
 				simulation = Simulation.getMe(schema, new Long(sim_id));
@@ -1434,14 +1552,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				simulation = Simulation.getMe(schema, new Long(sim_id));
 				// Clean up any items that could be queued up for editing
 				actor_being_worked_on_id = null;
-				
+
 			} else if (command.equalsIgnoreCase("Clear")) { // 
 				// returning new simulation will clear fields.
 			}
 		}
 
 		this.sim_id = simulation.getId();
-		
+
 		saveSimEdited();
 
 		return simulation;
@@ -1537,7 +1655,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 				String _sim_id = (String) mpr.getParameter("sim_id");
 				Simulation sim = Simulation.getMe(schema, sim_id);
 				sim.updateLastEditDate(schema);
-				
+
 				actorOnScratchPad.setSim_id(new Long(_sim_id));
 
 				actorOnScratchPad.setPublic_description((String) mpr.getParameter("public_description"));
@@ -1558,7 +1676,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 						MultiSchemaHibernateUtil.getSession(schema).flush();
 						MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-						
 						sim.addControlSectionsToAllPhasesOfControl(this.schema, actorOnScratchPad);
 					}
 
@@ -1628,18 +1745,21 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 					SimActorAssignment saa;
 
-					// Don't add actor to sim, if he or she has already been added.
+					// Don't add actor to sim, if he or she has already been
+					// added.
 					boolean simHasActor = false;
-					for (ListIterator<Actor> li = SimActorAssignment.getActorsForSim(schema, sim_id).listIterator(); li.hasNext();) {
+					for (ListIterator<Actor> li = SimActorAssignment.getActorsForSim(schema, sim_id).listIterator(); li
+							.hasNext();) {
 						Actor act = li.next();
-						
-						if (act.getId().equals(actorOnScratchPad.getId())){
+
+						if (act.getId().equals(actorOnScratchPad.getId())) {
 							simHasActor = true;
 						}
 					}
-					
-					//if (!(SimActorAssignment.getActorsForSim(schema, sim_id).contains(actorOnScratchPad))) {
-					if (!(simHasActor)){
+
+					// if (!(SimActorAssignment.getActorsForSim(schema,
+					// sim_id).contains(actorOnScratchPad))) {
+					if (!(simHasActor)) {
 						saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad.getId());
 					} else {
 						saa = SimActorAssignment.getMe(schema, sim_id, actorOnScratchPad.getId());
@@ -1711,7 +1831,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	}
 
 	/**
-	 * Returns the simulation based on what sim_id is currently stored in this AuthorFacilitatorSessionObject.
+	 * Returns the simulation based on what sim_id is currently stored in this
+	 * AuthorFacilitatorSessionObject.
 	 * 
 	 * @return
 	 */
@@ -1774,15 +1895,15 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		Long s_id = new Long(sim_id);
 		Long a_id = new Long(actor_id);
-		
+
 		Actor this_act = Actor.getMe(schema, a_id);
-		
-		if (!(this_act.getSim_id().equals(s_id))){
-			
+
+		if (!(this_act.getSim_id().equals(s_id))) {
+
 			this_act = Actor.cloneMe(schema, a_id);
 			this_act.setSim_id(s_id);
 			this_act.saveMe(schema);
-			
+
 		}
 
 		@SuppressWarnings("unused")
@@ -2028,7 +2149,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	}
 
 	SimpleDateFormat savedFilesDateFormat = new SimpleDateFormat("ddMMMyyyy");
-	
+
 	/**
 	 * Puts the name of the sim and the date into a string to use for xml export
 	 * file name.
@@ -2037,7 +2158,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		Date saveDate = new java.util.Date();
 
-		String fileName = simulation.getSimulationName() + "_" + simulation.getVersion() + "_" + savedFilesDateFormat.format(saveDate);
+		String fileName = simulation.getSimulationName() + "_" + simulation.getVersion() + "_"
+				+ savedFilesDateFormat.format(saveDate);
 
 		fileName = cleanName(fileName);
 
@@ -2046,12 +2168,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		return fileName;
 
 	}
-	
+
 	public String getDefaultUserArchiveXMLFileName() {
 
 		Date saveDate = new java.util.Date();
 
-		String fileName =  "UserArchive_" + schema + "_" + savedFilesDateFormat.format(saveDate);
+		String fileName = "UserArchive_" + schema + "_" + savedFilesDateFormat.format(saveDate);
 
 		fileName = cleanName(fileName);
 
@@ -2072,7 +2194,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		return fileName;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -2080,34 +2202,34 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	public String handlePackageUsersAndSimulations() {
 
 		String returnString = "Packaged<br />";
-		
+
 		String savedFileName = getDefaultUserArchiveXMLFileName();
 		FileIO.saveUserArchiveXMLFile(ObjectPackager.packageUsers(schema), savedFileName);
 
 		returnString += "     Users to: " + savedFileName + "<br />";
-		
+
 		returnString += handlePackageSimulations();
-		
+
 		return returnString;
 	}
-	
+
 	public String handlePackageSimulations() {
-		
+
 		String returnString = "";
 
-		for (ListIterator<Simulation> li = Simulation.getAll(schema).listIterator(); li.hasNext();){
+		for (ListIterator<Simulation> li = Simulation.getAll(schema).listIterator(); li.hasNext();) {
 			Simulation sim = li.next();
-			
+
 			String fileName = getDefaultSimXMLFileName(sim) + ".autoarchive.xml";
-			handlePackageSim(sim.getId().toString(),fileName);
-			
+			handlePackageSim(sim.getId().toString(), fileName);
+
 			returnString += "     Saved Simulation to: " + fileName + "<br />";
-			
+
 		}
 
 		return returnString;
 	}
-	
+
 	/**
 	 * Turns the simulation into an xml representation.
 	 * 
@@ -2469,8 +2591,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentPage(request));
 	}
-	
-	
 
 	/**
 	 * A wrapper that passes the request through to the associated
@@ -2482,7 +2602,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	public Conversation handleMakeMeetingRoomPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakeMeetingRoomPage(request));
 	}
-	
+
 	/**
 	 * A wrapper that passes the request through to the associated
 	 * PSO_SectionMgmt object.
@@ -2528,7 +2648,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 	public CustomizeableSection handleMakePrivateChatPage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleMakePrivateChatPage(request));
 	}
-	
 
 	/**
 	 * A wrapper that passes the request through to the associated
@@ -2620,7 +2739,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		}
 	}
 
-
 	public boolean handleResetWebCache(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
@@ -2657,8 +2775,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 		}
 
 	}
-
-
 
 	/**
 	 * 
@@ -2726,185 +2842,188 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase{
 
 	/** An event that is being worked on. */
 	public Long draft_event_id;
-	
+
 	/**
 	 * Handles the creation of timeline events.
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public Event handleTimeLineCreator(HttpServletRequest request){
+	public Event handleTimeLineCreator(HttpServletRequest request) {
 
 		TimeLine timeline = TimeLine.getMasterPlan(schema, sim_id.toString());
-		
+
 		Event event = new Event();
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
-		
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("timeline_creator") ) ){
-			
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("timeline_creator"))) {
+
 			String command = (String) request.getParameter("command");
-			
-			if (command.equalsIgnoreCase("Update")){
+
+			if (command.equalsIgnoreCase("Update")) {
 				String event_id = (String) request.getParameter("event_id");
-				
+
 				event.setId(new Long(event_id));
 				draft_event_id = event.getId();
-				
+
 			}
-			
-			if (command.equalsIgnoreCase("Clear")){
+
+			if (command.equalsIgnoreCase("Clear")) {
 				draft_event_id = null;
-			} else  {    // coming here as update or as create.
-				
+			} else { // coming here as update or as create.
+
 				String event_type = (String) request.getParameter("event_type");
-				
+
 				int eventTypeInt = 1;
-				
+
 				try {
 					eventTypeInt = new Long(event_type).intValue();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 				event.setEventType(eventTypeInt);
-				event.setEventTitle( (String) request.getParameter("event_title") );
+				event.setEventTitle((String) request.getParameter("event_title"));
 				event.setEventMsgBody((String) request.getParameter("event_text"));
-			
+
 				String event_hour = (String) request.getParameter("event_hour");
 				String event_minute = (String) request.getParameter("event_minute");
-			
+
 				int event_hour_int = 0;
 				int event_minute_int = 0;
-			
+
 				try {
 					event_hour_int = new Long(event_hour).intValue();
 					event_minute_int = new Long(event_minute).intValue();
-				
-				} catch (Exception e){
+
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			
+
 				// For now arbitrarily set date to 1/1/2001.
 				Calendar cal = new GregorianCalendar();
 				cal.setTimeZone(TimeZone.getDefault());
-			
+
 				// Year, month, day, hour, minute, second
 				cal.set(2001, 0, 1, event_hour_int, event_minute_int, 0);
-			
+
 				event.setEventStartTime(cal.getTime());
 
 				event.setSimId(sim_id);
-				
+
 				// TODO add ability to create multiple timelines
 				event.setPhaseId(phase_id);
 				event.setPhaseId(new Long(1));
-				
-				////////////////////////////////////////////
+
+				// //////////////////////////////////////////
 				event.setTimelineId(timeline.getId());
-			
+
 				event.saveMe(schema);
 			}
-			
+
 		}
-		
+
 		String remove_event = (String) request.getParameter("remove_event");
 		String edit_event = (String) request.getParameter("edit_event");
-		
+
 		String event_id = (String) request.getParameter("event_id");
-		
-		if ((remove_event != null) && (remove_event.equalsIgnoreCase("true") ) ){
+
+		if ((remove_event != null) && (remove_event.equalsIgnoreCase("true"))) {
 			Event.removeMe(schema, new Long(event_id));
 			draft_event_id = null;
 		}
-		
-		if ((edit_event != null) && (edit_event.equalsIgnoreCase("true") ) ){
+
+		if ((edit_event != null) && (edit_event.equalsIgnoreCase("true"))) {
 			event = Event.getMe(schema, new Long(event_id));
 			draft_event_id = event.getId();
 		}
-		
+
 		return event;
 	}
-	
-	public String getMetaPhaseName(HttpServletRequest request, Long metaPhaseId){
-		
-		if (metaPhaseId == null){
+
+	public String getMetaPhaseName(HttpServletRequest request, Long metaPhaseId) {
+
+		if (metaPhaseId == null) {
 			return "";
 		} else {
 			return USIP_OSP_Cache.getMetaPhaseNameById(request, schema, metaPhaseId);
 		}
 
 	}
-	
-	public void handleSelectSimulation (HttpServletRequest request) {
+
+	public void handleSelectSimulation(HttpServletRequest request) {
 
 		String select_sim = (String) request.getParameter("select_sim");
-		
-		if ((select_sim != null) && (select_sim.equalsIgnoreCase("true"))){
-			
-			// Need to move this to method, and make sure all is done clean when switching between simulations.
-			sim_id = new Long(   (String) request.getParameter("sim_id")   );
-			
+
+		if ((select_sim != null) && (select_sim.equalsIgnoreCase("true"))) {
+
+			// Need to move this to method, and make sure all is done clean when
+			// switching between simulations.
+			sim_id = new Long((String) request.getParameter("sim_id"));
+
 			// Clean up things that might be on the scratch pad.
 			actor_being_worked_on_id = null;
 			draft_event_id = null;
 			phase_id = null;
 			phaseSelected = false;
-			
+
 			Simulation sim = Simulation.getMe(schema, sim_id);
 			this.simulation_name = sim.getSimulationName();
 			this.simulation_org = sim.getCreation_org();
 			this.simulation_version = sim.getVersion();
-			
+
 			saveSimEdited();
-			
+
 			this.forward_on = true;
-				
+
 		}
-		
+
 	}
-	
+
 	/**
-	 * Saves which sim the user last edited to the database. 
+	 * Saves which sim the user last edited to the database.
 	 */
-	public void saveSimEdited(){
-		if ((user_id != null) && (sim_id != null)){
+	public void saveSimEdited() {
+		if ((user_id != null) && (sim_id != null)) {
 			User user = User.getMe(schema, user_id);
 			user.setLastSimEdited(sim_id);
 			user.saveJustUser(schema);
 		} else {
-			Logger.getRootLogger().warn("attempted to save non-existant sim or user, user/sim:" + user_id + "/" + sim_id);
+			Logger.getRootLogger().warn(
+					"attempted to save non-existant sim or user, user/sim:" + user_id + "/" + sim_id);
 		}
 	}
-	
-	/** Gets the id of the simulation last edited. 
+
+	/**
+	 * Gets the id of the simulation last edited.
 	 * 
 	 * @return
 	 */
-	public Long editedBefore(){
-		
-		if (user_id != null){
+	public Long editedBefore() {
+
+		if (user_id != null) {
 			User user = User.getMe(schema, user_id);
 			return user.getLastSimEdited();
 		} else {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
-	public void handleRestore(HttpServletRequest request){
-		
+	public void handleRestore(HttpServletRequest request) {
+
 		String sending_page = (String) request.getParameter("sending_page");
-		
-		if ( (sending_page != null) && (sending_page.equalsIgnoreCase("restore"))){
-	          
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("restore"))) {
+
 			String restore_filename = (String) request.getParameter("restore_filename");
-			
+
 			ObjectPackager.unpackageUsers(restore_filename, schema);
-			
+
 		}
 	}
 

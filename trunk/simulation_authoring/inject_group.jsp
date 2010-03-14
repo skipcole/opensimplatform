@@ -9,10 +9,8 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	
 	InjectGroup ig = afso.handleCreateInjectGroup(request);
-	
-	
+
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -35,7 +33,7 @@
         <% 
 			if (afso.sim_id != null) {
 		%>
-        <form id="form2" name="form2" method="post" action="">
+        <form id="form2" name="form2" method="post" action="inject_group.jsp">
             <input type="hidden" name="sending_page" value="create_inject_group" />
             <table width="100%" border="0" cellspacing="0" cellpadding="4">
               <tr>
@@ -48,7 +46,7 @@
               <tr>
                 <td valign="top">Group Description</td>
               <td valign="top"><label>
-                <textarea name="inject_group_description" id="textarea" cols="45" rows="5"><% ig.getDescription() %></textarea>
+                <textarea name="inject_group_description" id="textarea" cols="45" rows="5"><%= ig.getDescription() %></textarea>
                 </label></td>
             </tr>
               <tr>
@@ -60,7 +58,7 @@
                   <%
 				} else {
 				%>
-                  <input type="hidden" name="sim_id" value="<%= ig.getId() %>" />
+                  <input type="hidden" name="ig_id" value="<%= ig.getId() %>" />
                   <input type="submit" name="command" value="Clear" tabindex="6" />
                   <input type="submit" name="command" value="Update" />
                   <%
@@ -79,8 +77,15 @@
         <%
 			for (ListIterator li = InjectGroup.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 			InjectGroup this_ig = (InjectGroup) li.next();
+			
+			String removeString = "Group has injects";
+			System.out.println("doing check");
+			if (!(InjectGroup.checkIfInUse(afso.schema, afso.sim_id, this_ig.getId()))){
+				removeString = "Delete";
+			}
 		%>
-        <tr><td><%= this_ig.getName() %></td><td><%= this_ig.getName() %></td></tr>
+        <tr><td><a href="inject_group.jsp?ig_id=<%= this_ig.getId() %>&queueup=true"><%= this_ig.getName() %></a></td>
+        <td><%= removeString %></td></tr>
         <% } %>
         </table>
       </blockquote>

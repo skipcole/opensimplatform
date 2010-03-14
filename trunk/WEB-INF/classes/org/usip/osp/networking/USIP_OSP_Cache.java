@@ -139,6 +139,36 @@ public class USIP_OSP_Cache {
 
 		return a_name;
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param a_id
+	 * @return
+	 */
+	public static String getActorBaseName(String schema, Long sim_id, HttpServletRequest request, Long a_id) {
+
+		ServletContext context = request.getSession().getServletContext();
+
+		Hashtable<String, String> actor_names = (Hashtable<String, String>) context.getAttribute("actor_names");
+
+		if (actor_names == null) {
+			actor_names = new Hashtable<String, String>();
+			context.setAttribute("actor_names", actor_names);
+		}
+
+		String a_name = actor_names.get(schema + "_base_" + a_id);
+
+		// If we did not find a name in the hashtable for this actor, we will
+		// load it for all actors.
+		if (a_name == null) {
+			loadActorBaseNamesInHashtable(schema, sim_id, actor_names);
+			a_name = actor_names.get(schema + "_base_" + a_id);
+			context.setAttribute("actor_names", actor_names);
+		}
+
+		return a_name;
+	}
 
 	public static void setActorName(String newName, String schema, Long sim_id, Long running_sim_id,
 			HttpServletRequest request, Long a_id) {
@@ -177,6 +207,17 @@ public class USIP_OSP_Cache {
 			} else {
 				actor_names.put(schema + "_" + running_sim_id + " " + act.getId(), act.getInitialActorName());
 			}
+		}
+
+	}
+	
+	public static void loadActorBaseNamesInHashtable(String schema, Long sim_id, Hashtable actor_names) {
+
+		Simulation sim = Simulation.getMe(schema, sim_id);
+
+		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
+			Actor act = li.next();
+			actor_names.put(schema + "_base_" + act.getId(), act.getInitialActorName());
 		}
 
 	}

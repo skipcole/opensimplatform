@@ -82,6 +82,11 @@ function timedCount()
 <body bgcolor="#FFFFFF" onLoad="timedCount();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
+    <td width="23" valign="top" background="../Templates/images/top_fade.png"><span class="header"><img src="../Templates/images/resize.gif" width="23" height="22" border="0" usemap="#Map"></span>
+            <map name="Map">
+              <area shape="rect" coords="1,1,23,11" href="simwebui.jsp?lessten=true" target="_top" alt="resize smaller">
+              <area shape="rect" coords="1,12,23,22" href="simwebui.jsp?addten=true" target="_top" alt="resize smaller">
+            </map></td>
     <td width="120" valign="top"><a href="about.jsp" target="_top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
     <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header"><%= pso.simulation_org %></h1>
     
@@ -91,11 +96,6 @@ function timedCount()
           <td>Session</td>
           <td>Your Role</td>
           <td>Phase</td>
-          <td rowspan="2" align="left" valign="middle"><span class="header"><img src="../Templates/images/resize.gif" width="23" height="22" border="0" usemap="#Map"></span>
-            <map name="Map">
-              <area shape="rect" coords="1,1,23,11" href="simwebui.jsp?lessten=true" target="_top" alt="resize smaller">
-              <area shape="rect" coords="1,12,23,22" href="simwebui.jsp?addten=true" target="_top" alt="resize smaller">
-            </map></td>
           <!-- td>Round</td -->
         </tr>
         <tr> 
@@ -105,9 +105,7 @@ function timedCount()
           <td><strong><div id="sim_phase_div">Loading...</div></strong></td>
           <!-- td><strong><div id="sim_round_div">Loading...</div></strong></td -->
         </tr>
-      </table> 
-    
-    </td>
+      </table>    </td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center">
@@ -120,15 +118,15 @@ function timedCount()
           <td><div align="center"><a href="../logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
       </table>	  
-	  </div>
-    </td>
+	  </div>    </td>
   </tr>
   <tr>
+    <td width="120" valign="top" bgcolor="#475DB0">&nbsp;</td>
     <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
     <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
   </tr>
 </table>
-         </td>
+</td>
 	<td align="right">
     </td>
   </tr>
