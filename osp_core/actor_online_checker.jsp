@@ -17,7 +17,6 @@
 		status = ChatController.checkIfUserOnline(pso.schema, pso.running_sim_id.toString(), checking_actor, checked_actor);
 	}
 	
-	System.out.println("Hit the actor online checker");
 	
 %>
 <?xml version="1.0"?>

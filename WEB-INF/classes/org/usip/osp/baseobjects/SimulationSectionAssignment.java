@@ -8,27 +8,27 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
+
 /**
  * This class represents a section assigned to an actor at a particular phase. A
  * better name for the class might be 'SimulationSectionAssignment.'
  * 
  */
 /*
- *         This file is part of the USIP Open Simulation Platform.<br>
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
- * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  */
 @Entity
 @Table(name = "SIM_SEC_ASSIGNMENTS")
 @Proxy(lazy = false)
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class SimulationSectionAssignment implements WebObject {
 
 	@Id
@@ -58,7 +58,7 @@ public class SimulationSectionAssignment implements WebObject {
 
 	@Column(name = "TAB_POS")
 	private int tab_position = 0;
-	
+
 	/** Color of this tab heading. */
 	@Column(name = "TAB_COLOR")
 	private String tabColor = "FFFFFF"; //$NON-NLS-1$
@@ -70,9 +70,9 @@ public class SimulationSectionAssignment implements WebObject {
 	/** The id of the base section that this section was 'cast' from. */
 	@Column(name = "BASE_SEC_ID")
 	private Long base_sec_id;
-	
+
 	private String baseUniqueName = ""; //$NON-NLS-1$
-	
+
 	private String baseVersion = ""; //$NON-NLS-1$
 
 	/** URL of this section */
@@ -242,9 +242,11 @@ public class SimulationSectionAssignment implements WebObject {
 		this.setDirectory(bss.getDirectory());
 
 		this.setPage_file_name(bss.getPage_file_name());
-		
-		// These variables are not strictly needed, but it is convenient to keep them to help sanity check a 
-		// simulation that has been imported. The 'id' of a base simulation section may easily change, but its name and version
+
+		// These variables are not strictly needed, but it is convenient to keep
+		// them to help sanity check a
+		// simulation that has been imported. The 'id' of a base simulation
+		// section may easily change, but its name and version
 		// should be similar.
 		this.setBaseUniqueName(bss.getUniqueName());
 		this.setBaseVersion(bss.getVersion());
@@ -293,7 +295,6 @@ public class SimulationSectionAssignment implements WebObject {
 		copy.setTabColor(this.getTabColor());
 		copy.setTab_position(this.getTab_position());
 		copy.setUrl(this.getUrl());
-		
 
 		return copy;
 	}
@@ -512,11 +513,8 @@ public class SimulationSectionAssignment implements WebObject {
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL)
-				.setString("sim_id", sid.toString())
-				.setString("act_id", aid.toString())
-				.setString("p_id", pid.toString())
-				.list();
+			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).setString("sim_id",
+					sid.toString()).setString("act_id", aid.toString()).setString("p_id", pid.toString()).list();
 
 			if (returnList == null) {
 				returnList = new ArrayList();
@@ -594,7 +592,8 @@ public class SimulationSectionAssignment implements WebObject {
 
 			if ((returnList == null) || (returnList.size() != 1)) {
 
-				Logger.getRootLogger().debug("Still have got the wrong number of sections after reordering. Returning null."); //$NON-NLS-1$
+				Logger.getRootLogger().debug(
+						"Still have got the wrong number of sections after reordering. Returning null."); //$NON-NLS-1$
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 				return null;
@@ -626,9 +625,8 @@ public class SimulationSectionAssignment implements WebObject {
 			SimulationSectionAssignment s_gone = lr.next();
 
 			SimulationSectionAssignment.remove(schema, s_gone);
-			
+
 			Logger.getRootLogger().warn("Removed: " + s_gone); //$NON-NLS-1$
-			
 
 		}
 
@@ -638,7 +636,7 @@ public class SimulationSectionAssignment implements WebObject {
 			ConvActorAssignment caa = (ConvActorAssignment) lia.next();
 
 			Long a_id = caa.getActor_id();
-			
+
 			Logger.getRootLogger().warn("Added: " + a_id); //$NON-NLS-1$
 
 			// If this doesn't work, try the getBySimAndActorAndPhase
@@ -652,7 +650,8 @@ public class SimulationSectionAssignment implements WebObject {
 
 	}
 
-	/** Applies this section to a list of Actors 
+	/**
+	 * Applies this section to a list of Actors
 	 * 
 	 * @param schema
 	 * @param sim_id
@@ -711,6 +710,41 @@ public class SimulationSectionAssignment implements WebObject {
 
 		List<SimulationSectionAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL)
 				.list();
+
+		if (returnList == null) {
+			returnList = new ArrayList<SimulationSectionAssignment>();
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		return returnList;
+
+	}
+	
+	public static boolean checkUsage(String schema, Long bss_id) {
+		
+		List allUses = getUsage(schema, bss_id);
+		
+		if (allUses.size() == 0){
+			return false;
+		} else {
+			return true;
+		}
+		
+	}
+
+	public static void main(String args[]) {
+		getUsage("test", new Long(3));
+	}
+	
+	public static List getUsage(String schema, Long bss_id) {
+		String getHQL = "FROM SimulationSectionAssignment WHERE base_sec_id = :bss_id order by sim_id, actor_id, phase_id";
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<SimulationSectionAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(getHQL)
+			.setLong("bss_id", bss_id)
+			.list();
 
 		if (returnList == null) {
 			returnList = new ArrayList<SimulationSectionAssignment>();
@@ -809,26 +843,28 @@ public class SimulationSectionAssignment implements WebObject {
 
 			Logger.getRootLogger().debug("     checking universalList on " + ss.getTab_heading()); //$NON-NLS-1$
 
-			boolean foundThisSection = determineIfActorHasThisSectionAtThisPhase(schema, 
-					s_id, a_id, p_id, ss.getBase_sec_id());
+			boolean foundThisSection = determineIfActorHasThisSectionAtThisPhase(schema, s_id, a_id, p_id, ss
+					.getBase_sec_id());
 
 			/*
-			for (ListIterator listOld = currentActorsList.listIterator(); listOld.hasNext();) {
-				SimulationSectionAssignment ss_old = (SimulationSectionAssignment) listOld.next();
+			 * for (ListIterator listOld = currentActorsList.listIterator();
+			 * listOld.hasNext();) { SimulationSectionAssignment ss_old =
+			 * (SimulationSectionAssignment) listOld.next();
+			 * 
+			 * Logger.getRootLogger().debug("             comparing " +
+			 * ss_old.getBase_section_id() + " and " //$NON-NLS-1$ //$NON-NLS-2$
+			 * + ss.getBase_section_id()); if
+			 * (ss_old.getBase_section_id().equals(ss.getBase_section_id())) {
+			 * Logger.getRootLogger().debug("             found match!");
+			 * //$NON-NLS-1$ foundThisSection = true; }
+			 * 
+			 * }
+			 */
 
-				Logger.getRootLogger().debug("             comparing " + ss_old.getBase_section_id() + " and " //$NON-NLS-1$ //$NON-NLS-2$
-						+ ss.getBase_section_id());
-				if (ss_old.getBase_section_id().equals(ss.getBase_section_id())) {
-					Logger.getRootLogger().debug("             found match!"); //$NON-NLS-1$
-					foundThisSection = true;
-				}
-
-			} */
-			
 			if (!foundThisSection) {
-				
+
 				List currentActorsList = getBySimAndActorAndPhase(schema, s_id, a_id, p_id);
-				
+
 				MultiSchemaHibernateUtil.beginTransaction(schema);
 
 				SimulationSectionAssignment ss_new = ss.createCopy();
@@ -844,16 +880,16 @@ public class SimulationSectionAssignment implements WebObject {
 
 		}
 	}
-	
-	public static boolean determineIfActorHasThisSectionAtThisPhase(String schema, 
-			Long s_id, Long a_id, Long p_id, Long ssa_base_id){
-		
+
+	public static boolean determineIfActorHasThisSectionAtThisPhase(String schema, Long s_id, Long a_id, Long p_id,
+			Long ssa_base_id) {
+
 		boolean foundThisSection = false;
 
 		List currentActorsList = getBySimAndActorAndPhase(schema, s_id, a_id, p_id);
 
 		for (ListIterator listOld = currentActorsList.listIterator(); listOld.hasNext();) {
-			
+
 			SimulationSectionAssignment ss_old = (SimulationSectionAssignment) listOld.next();
 
 			Logger.getRootLogger().debug("             comparing " + ss_old.getBase_sec_id() + " and " //$NON-NLS-1$ //$NON-NLS-2$
@@ -930,7 +966,7 @@ public class SimulationSectionAssignment implements WebObject {
 	public void setTab_position(int tab_position) {
 		this.tab_position = tab_position;
 	}
-	
+
 	public String getTabColor() {
 		return this.tabColor;
 	}
@@ -1002,13 +1038,13 @@ public class SimulationSectionAssignment implements WebObject {
 	public void setBaseVersion(String base_version) {
 		this.baseVersion = base_version;
 	}
-	
+
 	/**
 	 * Indicates elements of information should be sent in a URL string to an
 	 * external page.
 	 */
 	private String sendString = ""; //$NON-NLS-1$
-	
+
 	public String getSendString() {
 		return sendString;
 	}

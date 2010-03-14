@@ -12,20 +12,10 @@
 		return;
 	}
 		
-	String objectType = request.getParameter("object_type");
-    String objectInfo = request.getParameter("object_info");
-    String objid = request.getParameter("objid");
-    String cancel_action = request.getParameter("cancel_action");
-	String phase_sim_id = request.getParameter("phase_sim_id");
+
+    String obj_id = request.getParameter("obj_id");
+    String obj_class = request.getParameter("obj_class");
         
-    String debug = "";
-	
-	boolean doneWithThis = afso.handleDeleteObject(request);
-	
-	if (doneWithThis) {
-		response.sendRedirect(afso.backPage);
-		return;
-	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,31 +33,29 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Confirm Deletion</h1>
+              <h1>This Object is used in These Sections</h1>
               <br />
       <blockquote>
-        <h1>&nbsp;</h1>
-          <p>Confirm deletion of <%= objectType %> <%= objectInfo %></p>
-      </blockquote>
-      <form action="delete_object.jsp" method="post" name="form1" id="form1">
-        <blockquote>
           <p>
-            <input type="hidden" name="object_type" value="<%= objectType %>" />
-            <input type="hidden" name="phase_sim_id" value="<%= phase_sim_id %>" />
-            <input type="hidden" name="object_info" value="<%= objectInfo %>" />
-            <input type="hidden" name="objid" value="<%= objid %>" />
-            <input type="submit" name="deletion_confirm" value="Submit" />
-            <input type="submit" name="cancel_action" value="Cancel" />
-            </p>
-          </blockquote>
-      </form>
-      <blockquote> 
-        <p>&nbsp;</p>
-          <p><a href="<%= afso.backPage %>">Back</a></p>
+		  <% 
+		  List theBss = BaseSimSectionDepObjectAssignment.getObjectUsages(afso.schema, new Long(obj_id), obj_class);
+		  
+		  for (ListIterator li = theBss.listIterator(); li.hasNext();) {
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) li.next();
+			
+		  %>
+          <%= bssdoa.getId() %><br />
+          <%
+		 }
+		  %>
+          </p>
+      </blockquote>
+      <blockquote>
+        <p><a href="<%= afso.backPage %>">Back</a></p>
       </blockquote>
 			</td>
 		</tr>

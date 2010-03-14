@@ -8,7 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.BaseSimSection;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -98,6 +100,17 @@ public class InjectGroup {
 		
 	}
 	
+	public static InjectGroup getMe(String schema, String the_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		InjectGroup ig = (InjectGroup) MultiSchemaHibernateUtil.getSession(schema).get(InjectGroup.class,
+				new Long(the_id));
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return ig;
+
+	}
+	
 	public static List getAllForSim(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -108,6 +121,18 @@ public class InjectGroup {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
+	}
+	
+	public static boolean checkIfInUse(String schema, Long sim_id, Long group_id) {
+		
+		List uses = Inject.getAllForSimAndGroup(schema, sim_id, group_id);
+		
+		if (uses.size() > 0){
+			System.out.println("size is " + uses.size());
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }

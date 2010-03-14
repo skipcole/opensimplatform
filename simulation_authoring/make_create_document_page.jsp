@@ -1,14 +1,18 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.communications.*" 
 	errorPage="" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
+	afso.backPage = "make_create_document_page.jsp";
+	
 	SharedDocument this_sd = afso.handleCreateDocument(request);
 	
-	afso.fillReadWriteLists();
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -78,33 +82,37 @@
     </form>
       <p>&nbsp;</p>
       <p>Below are listed all of the documents currently associated with this simulation. </p>
-      <table border="1">
+      <table border="1" width="100%">
   <tr><td><strong>Uniq Identifier</strong></td>
   <td><strong>Display Title Seen to Players</strong></td>
   <td><strong>Delete</strong></td>
-  <td><strong>Read*</strong></td>
-  <td><strong>Write*</strong></td>
   </tr>
         <%
 			  		int ii = 0;
 					for (ListIterator li = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 						SharedDocument sd = (SharedDocument) li.next();
+						String nameToSend = java.net.URLEncoder.encode(sd.getDisplayTitle());
+						boolean checkObjectInUse = BaseSimSectionDepObjectAssignment.checkObjectInUse(afso.schema, sd.getId(), "org.usip.osp.communications.SharedDocument");
+				
+						
 				%>
         
           <tr><td><a href="make_create_document_page.jsp?shared_doc_id=<%= sd.getId() %>"><%= sd.getUniqueDocTitle() %></a></td>
                 <td><%= sd.getDisplayTitle() %></td>
-                <td>delete**</td>
-                <td><%= USIP_OSP_Util.stringListToNames(afso.schema, afso.sim_id, afso.running_sim_id, request, (String) afso.ActorsWithReadAccess.get(sd.getId().toString()), "<br />") %>**</td>
-                <td>**</td>
+                <td>
+                <% 
+				if (checkObjectInUse) { %> <a href="view_sections_using_object.jsp?obj_class=org.usip.osp.communications.SharedDocument&obj_id=<%= sd.getId().toString() %>">object in use</a> 
+                <% } else { %> 
+                	<a href="delete_object.jsp?object_type=shareddocument&objid=<%= sd.getId().toString() %>&object_info=<%= nameToSend %>">delete</a>
+                <% } %>                </td>
                 </tr>
           
                 <%
 					}
 				%>
       </table>
-      <p>* Read/Write access simply means that at some point in the simulation an actor has access to read or write to this document.<br />
-      ** This feature has not yet been implemented.</p>
-      <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      <p>&nbsp;</p>
+      <p><a href="add_objects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

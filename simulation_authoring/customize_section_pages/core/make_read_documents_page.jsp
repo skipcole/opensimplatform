@@ -63,6 +63,7 @@
 		  %>
                             <label>Select Document
                             <select name="doc_<%= ii %>" size="1">
+                            <option value="0">Non Selected</option>
                               <%
 					for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 					

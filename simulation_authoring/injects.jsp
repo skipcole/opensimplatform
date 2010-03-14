@@ -54,7 +54,7 @@
              <tr>
                <td valign="top">2.</td>
                <td valign="top">Create an inject in group 
-                  <form id="form1" name="form1" method="post" action="">
+                  <form id="form1" name="form1" method="post" action="injects.jsp">
                  <select name="select" id="select">
                     <%
 					boolean foundIg = false;

@@ -34,7 +34,9 @@
               <br />
     <p>Parameters associated with a simulation can have their values modified during play. For example the amount of money being spent  on
 trash pick up may be represented as a parameter. Frequently something being tracked by the player, such as the number of rats in the city, is not something that can be directly 
-controlled by them. But they can control other items, such as the budget of the 'rat extermination department', which may then influence the base parameter.<form action="make_create_parameter_page.jsp" method="post" name="form2" id="form2">
+controlled by them. But they can control other items, such as the budget of the 'rat extermination department', which may then influence the base parameter.
+
+<form action="make_create_parameter_page.jsp" method="post" name="form2" id="form2">
       
       <h2>Create New Parameter</h2>
             <table width="100%">

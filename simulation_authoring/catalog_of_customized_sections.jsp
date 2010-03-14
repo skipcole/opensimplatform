@@ -5,7 +5,7 @@
 		org.usip.osp.baseobjects.*,
 		org.usip.osp.networking.*,
 		org.usip.osp.persistence.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -52,27 +52,39 @@ body {
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Catalog of Sections </h1>
+              <h1>Catalog of Customized Sections </h1>
               <br />
     <blockquote> 
-      <p>This page shows all of the sections that have been loaded on your system 
-        that are availabe to a Simulation Creator to add to a simulation. These sections 
-        are divided into two parts: off of the shelf and custom made. The off the 
-        shelf sections are those that just come with the latest version of the tool. 
-        The custom made have been created by a programmer and placed in a library.</p>
-    <table border="1"><tr><td>
-      <table border="0" cellspacing="1">
+      <p>This page shows all of the sections that have been customized on this database.</p>
+    <table border="1" width="100%"><tr><td>
+      <table border="0" width="100%" cellspacing="1">
+        <tr align="left" valign="top">
+          <td><strong>Tab Heading</strong></td>
+          <td><strong>Description</strong></td>
+          <td><strong>Usage/Remove</strong></td>
+        </tr>
+
         <%
 
 		for (ListIterator li = BaseSimSection.getAllBase(afso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next(); 
 			
-			if (!(bss.isAuthorGeneratedSimulationSection())){
+			String nameToSend = java.net.URLEncoder.encode(bss.getRec_tab_heading());
+			
+			if ((bss.isAuthorGeneratedSimulationSection())){
+			
+				boolean checkSectionInUse = SimulationSectionAssignment.checkUsage(afso.schema, bss.getId());
 			%>
+
         <tr align="left" valign="top"> 
           <td><strong><%= bss.getRec_tab_heading() %></strong></td>
         <td><%= bss.getDescription() %></td>
-        <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
+        <td><% 
+				if (checkSectionInUse) { %>
+          <a href="view_customized_section_usage.jsp?bss_id=<%= bss.getId().toString() %>">view usage</a>
+          <% } else { %>
+          <a href="delete_object.jsp?object_type=bss&objid=<%= bss.getId().toString() %>&object_info=<%= nameToSend %>">delete</a>
+          <% } %></td>
       </tr>
         <%  
 			} // End of if not customized.
@@ -84,13 +96,22 @@ body {
 		for (ListIterator li = new CustomizeableSection().getAllCustomizable(afso.schema).listIterator(); li.hasNext();) {
 			CustomizeableSection bss = (CustomizeableSection) li.next(); 
 			
-			if (!(bss.isAuthorGeneratedSimulationSection()) && (!(bss.isThisIsACustomizedSection()))){ 
+			if ((bss.isAuthorGeneratedSimulationSection()) || ((bss.isThisIsACustomizedSection()))){ 
+			
+			String nameToSend = java.net.URLEncoder.encode(bss.getRec_tab_heading());
+			
+			boolean checkSectionInUse = SimulationSectionAssignment.checkUsage(afso.schema, bss.getId());
 			%>
         <tr align="left" valign="top"> 
           <td><strong><%= bss.getRec_tab_heading() %></strong><br />
             <span class="style1">(Customization Required)</span></td>
         <td><%= bss.getDescription() %></td>
-        <td><img src="../simulation_section_information/images/<%= bss.getSample_image() %>" width="300" height="240" /></td>
+        <td><% 
+				if (checkSectionInUse) { %>
+          <a href="view_customized_section_usage.jsp?bss_id=<%= bss.getId().toString() %>">view usage</a>
+          <% } else { %>
+          <a href="delete_object.jsp?object_type=bss&objid=<%= bss.getId().toString() %>&object_info=<%= nameToSend %>">delete</a>
+          <% } %></td>
       </tr>
         <%  
 			} // End of if not customized or author generated.

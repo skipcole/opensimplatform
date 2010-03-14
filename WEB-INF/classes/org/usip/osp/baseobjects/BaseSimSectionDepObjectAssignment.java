@@ -195,6 +195,53 @@ public class BaseSimSectionDepObjectAssignment {
 
 	}
 	
+	public static void main(String args[]){
+		
+		boolean b = BaseSimSectionDepObjectAssignment.checkObjectInUse("test", new Long(2), "org.usip.osp.communications.SharedDocument");
+	
+
+			System.out.println(b);
+		
+	}
+	
+	public static boolean checkObjectInUse (String schema, Long obj_id, String obj_class){
+		
+		List x = BaseSimSectionDepObjectAssignment.getObjectUsages(schema, obj_id, obj_class);
+		
+		if ((x == null) || (x.size() == 0)){
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Gets all of the base sim section objects where a particular object has been added.
+	 * (Used to find out if an object is in use.
+	 * 
+	 * @param schema
+	 * @param bss_id
+	 * @return
+	 */
+	public static List <BaseSimSectionDepObjectAssignment> getObjectUsages(String schema, Long obj_id, String obj_class) {
+
+		String getString = "from BaseSimSectionDepObjectAssignment where objectId = :obj_id and "
+				+ "className = :obj_class "; //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List <BaseSimSectionDepObjectAssignment> returnList = 
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(getString)
+			.setLong("obj_id", obj_id)
+			.setString("obj_class", obj_class)
+			.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+
+	}
+	
 	/**
 	 * Gets a single shared document for a simulation section. 
 	 * @param schema
