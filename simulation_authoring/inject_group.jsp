@@ -23,7 +23,7 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
@@ -78,18 +78,20 @@
 			for (ListIterator li = InjectGroup.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 			InjectGroup this_ig = (InjectGroup) li.next();
 			
-			String removeString = "Group has injects";
-			System.out.println("doing check");
-			if (!(InjectGroup.checkIfInUse(afso.schema, afso.sim_id, this_ig.getId()))){
-				removeString = "Delete";
-			}
 		%>
         <tr><td><a href="inject_group.jsp?ig_id=<%= this_ig.getId() %>&queueup=true"><%= this_ig.getName() %></a></td>
-        <td><%= removeString %></td></tr>
+        <td>
+		<% if (!(InjectGroup.checkIfInUse(afso.schema, afso.sim_id, this_ig.getId()))){ 
+				String nameToSend = java.net.URLEncoder.encode(this_ig.getName());
+		%>
+				<a href="delete_object.jsp?object_type=injectgroup&objid=<%= this_ig.getId() %>&object_info=<%= nameToSend %>">Delete</a>
+		<%	} else { %>
+        		Group has Injects*
+        <% } %>        </td></tr>
         <% } %>
         </table>
+          <p align="left">* Groups with Injects cannot be deleted. All injects must be removed or reassigned to other groups first.</p>
       </blockquote>
-      <p align="center">&nbsp;</p>
       <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>

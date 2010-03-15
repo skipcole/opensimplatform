@@ -527,8 +527,25 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				MultiSchemaHibernateUtil.getSession(this.schema).delete(sd);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
+			} else if (objectType.equalsIgnoreCase("bss")) {
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(this.schema).get(
+						BaseSimSection.class, o_id);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(bss);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
+			} else if (objectType.equalsIgnoreCase("injectgroup")) {
+				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				InjectGroup ig = (InjectGroup) MultiSchemaHibernateUtil.getSession(this.schema).get(
+						InjectGroup.class, o_id);
+				MultiSchemaHibernateUtil.getSession(this.schema).delete(ig);
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
+			} else {
+				Logger.getRootLogger().warn("Warning: Tried to delete object, but no delete function implemented for: " 
+						+ objectType);
 			}
 
+			Simulation.updateSimsLastEditDate(sim_id, schema);
+			
 			return true;
 		}
 
@@ -1385,8 +1402,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		InjectGroup ig = new InjectGroup();
 
-		GenericVariable genericVariable = new GenericVariable();
-
 		// If the player cleared the form, return the blank document.
 		String clear_button = (String) request.getParameter("clear_button");
 		if (clear_button != null) {
@@ -1449,33 +1464,58 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public void handleCreateInject(HttpServletRequest request) {
+	public Inject handleCreateInject(HttpServletRequest request) {
 
+		Inject inject = new Inject();
+		
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return inject;
+		}
+
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
+		String inj_id = (String) request.getParameter("inj_id");
+		String queueup = (String) request.getParameter("queueup");
+		
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (inj_id != null) && (inj_id.trim().length() > 0)) {
+			inject = Inject.getMe(schema, new Long(inj_id));
+			return inject;
+		}
+		
 		String inject_name = (String) request.getParameter("inject_name");
 		String inject_text = (String) request.getParameter("inject_text");
 		String inject_notes = (String) request.getParameter("inject_notes");
-		String inject_group_id = (String) request.getParameter("inject_group_id");
+		String ig_id = (String) request.getParameter("ig_id");
 
-		String edit = (String) request.getParameter("edit");
-		String inj_id = (String) request.getParameter("inj_id");
+		// Do create if called.
+		String command = (String) request.getParameter("command");
+		if (command != null) {
+			
+			if (command.equalsIgnoreCase("Clear")) { //$NON-NLS-1$
+				return inject;
+			} else if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
+				inject.setInject_name(inject_name);
+				inject.setInject_text(inject_text);
+				inject.setInject_Notes(inject_notes);
+				inject.setSim_id(sim_id);
+				inject.setGroup_id(new Long(ig_id));
+				inject.saveMe(schema);
+			} else if (command.equalsIgnoreCase("Update")) {
+				inject = Inject.getMe(schema, new Long(inj_id));
+				inject.setInject_name(inject_name);
+				inject.setInject_text(inject_text);
+				inject.setInject_Notes(inject_notes);
+				inject.setGroup_id(new Long(ig_id));
+				inject.saveMe(schema);
 
-		if ((edit != null) && (edit.equalsIgnoreCase("true"))) {
-			Inject inject = Inject.getMe(schema, new Long(inj_id));
-			inject.setInject_name(inject_name);
-			inject.setInject_text(inject_text);
-			inject.setInject_Notes(inject_notes);
-			inject.saveMe(schema);
-		} else {
-			Inject inject = new Inject();
-			inject.setInject_name(inject_name);
-			inject.setInject_text(inject_text);
-			inject.setInject_Notes(inject_notes);
-			inject.setSim_id(sim_id);
-			inject.setGroup_id(new Long(inject_group_id));
-			inject.saveMe(schema);
+			}
+			
+			Simulation.updateSimsLastEditDate(sim_id, schema);
 		}
-
-		Simulation.updateSimsLastEditDate(sim_id, schema);
+		
+		return inject;
 
 	}
 

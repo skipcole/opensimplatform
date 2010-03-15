@@ -8,7 +8,6 @@
 	errorPage="../error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	afso.backPage = "create_injects.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
@@ -27,23 +26,15 @@
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
-<table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
-<tr> 
-    <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+<blockquote>
+              <h1>View Injects for <strong><%= simulation.getDisplayName() %></strong></h1>
+</blockquote>
+           <% if (afso.sim_id != null) {%>
+		<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" valign="top">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
-			<td width="100%">
-            <blockquote> 
-              <h1>View Injects for <strong><%= simulation.getDisplayName() %></strong></h1>
-              <% 
-			if (afso.sim_id != null) {
-		%>
-          <table width="100%" border="0" cellspacing="0" cellpadding="4">
-            <tr>
-              <td colspan="4">&nbsp;</td>
-            </tr>
+			<td width="100%" valign="top">
+          <table width="100%" border="0" cellspacing="0" cellpadding="4" valign="top">
             <tr>
               <td colspan="4"><strong><u>Current Inject Groups and Injects</u></strong></td>
               </tr>
@@ -87,25 +78,24 @@
             <tr>
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>
-              <td colspan="2" valign="top"><a href="inject_create.jsp?edit=true&inj_id=<%= da_inject.getId() %>">update</a> / 
+              <td colspan="2" valign="top"><a href="inject_create.jsp?sending_page=view&queueup=true&inj_id=<%= da_inject.getId() %>">update</a> / 
                 <a href="delete_object.jsp?object_type=inject&objid=<%= da_inject.getId() %>&object_info=<%= da_inject.getInject_name() %>"> 
                   delete</a></td>
             </tr>
-            <% }  // End of loop.  
-		  } else { %>
+            <% }  // End of loop over injects.  %>
+		  <% } else { %>
             <tr>
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>
               <td colspan="2" valign="top">No injects in this group yet. </td>
             </tr>
             <% } %>
-            
-            <p>&nbsp;</p>
+            <tr>
+              <td colspan="4" valign="top"><hr/></td>
+            </tr>
           <% } // end of loop over inject groups %>
             </table>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-      </blockquote>
+            </td></tr></table>
       <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>
@@ -113,22 +103,15 @@
       </blockquote>
       <% } // End of if have not set simulation for edits. %>
       
-            <a href="injects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
-		</tr>
-		</table>	</td>
-  </tr>
-  <tr> 
-    <td>
+    <p>  
+            <a href="injects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
+</p>
+
     <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>.</p></td>
-  </tr>
-</table>
-</td></tr></table>
+
 
 <p>&nbsp;</p>
 
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

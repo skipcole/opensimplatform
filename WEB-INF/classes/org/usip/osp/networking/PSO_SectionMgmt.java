@@ -786,6 +786,19 @@ public class PSO_SectionMgmt {
 
 		String add_document = (String) request.getParameter("add_document");
 		
+		String remove_documents = (String) request.getParameter("remove_documents");
+		
+		if (remove_documents != null) {
+			
+			// Remove all dependent object assignments currently associated with
+			// this page.
+			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, customizableSectionOnScratchPad.getId());
+			customizableSectionOnScratchPad.setNumDependentObjects(0);
+			customizableSectionOnScratchPad.saveMe(afso.schema);
+			Simulation.updateSimsLastEditDate(afso.sim_id, afso.schema);
+			return customizableSectionOnScratchPad;
+		}
+		
 		// If adding a document, just increase the number and return.
 		if (add_document != null) {
 			Logger.getRootLogger().debug("adding document!");
@@ -834,13 +847,16 @@ public class PSO_SectionMgmt {
 				String doc_id = (String) request.getParameter(req_key);
 
 				Logger.getRootLogger().debug("adding doc: " + doc_id);
+				
+				if ((doc_id != null) && (!(doc_id.equalsIgnoreCase("0")))){
 
-				// Create and save the assignment object
-				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
-						customizableSectionOnScratchPad.getId(), "org.usip.osp.communications.SharedDocument", ii,
-						new Long(doc_id), afso.sim_id, afso.schema);
+					// Create and save the assignment object
+					BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
+							customizableSectionOnScratchPad.getId(), "org.usip.osp.communications.SharedDocument", ii,
+							new Long(doc_id), afso.sim_id, afso.schema);
 
-				bssdoa.saveMe(afso.schema);
+					bssdoa.saveMe(afso.schema);
+				}
 			}
 
 			// Update page values
@@ -856,6 +872,8 @@ public class PSO_SectionMgmt {
 				// send them back
 				afso.forward_on = true;
 			}
+			
+			Simulation.updateSimsLastEditDate(afso.sim_id, afso.schema);
 
 		} // End of if this is the make_read_document_page
 

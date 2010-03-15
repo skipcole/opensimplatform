@@ -267,17 +267,18 @@ function loadInfo(dropdownlist){
                             <td width="50%" valign="top"><p>Select a section 
                               below to add to this actor at this phase in the simulation.
                               <blockquote> 
-                                <select name="bss_id"  onChange="loadInfo(window.document.section_form.bss_id);">
-                                  <%
+                                <p>
+                                  <select name="bss_id"  onChange="loadInfo(window.document.section_form.bss_id);">
+                                    <%
 							
 		for (ListIterator li = new BaseSimSection().getAll(afso.schema).listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next();  %>
-            <option value="<%= bss.getId() %>"><%= bss.getRec_tab_heading() %></option>
-        <% }  // End of loop over base sim sections. %>
-        
-            <option value="new_section">* Create an Entirely New Section</option>
-            
-		<% 
+                                                          <option value="<%= bss.getId() %>"><%= bss.getRec_tab_heading() %></option>
+                                            <% }  // End of loop over base sim sections. %>
+                                    
+                                                          <option value="new_section">* Create an Entirely New Section</option>
+                                    
+                                            <% 
 		List uc = CustomizeableSection.getAllUncustomized(afso.schema);
 								
 		if (uc != null) {
@@ -298,12 +299,15 @@ function loadInfo(dropdownlist){
 						cs_class = "player_customized_section";
 					}
 					%>
-            		<option value="<%= cs.getId().toString() %>" class="<%= cs_class %>" ><%= cs.getRec_tab_heading() %></option>
-            	<% }  // End of if they don't have this section already at this phase         %>
-            <% } // End of loop over customizable sections %>
-           <% } // End of if list not null %>
+                                                  <option value="<%= cs.getId().toString() %>" class="<%= cs_class %>" ><%= cs.getRec_tab_heading() %></option>
+                                            <% }  // End of if they don't have this section already at this phase         %>
+                                            <% } // End of loop over customizable sections %>
+                                            <% } // End of if list not null %>
                                   </select>
-                                </blockquote>                          </td>
+                                </p>
+                                <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a> </p>
+                                <p><a href="catalog_of_customized_sections.jsp">View Catalog of Customized Section</a></p>
+                              </blockquote>                          </td>
                           <td valign="top">Tab Heading: 
                             <input type="text" name="tab_heading" />
                             <input type="hidden" name="tab_pos" value="<%= afso.tempSimSecList.size() + 1 %>">
