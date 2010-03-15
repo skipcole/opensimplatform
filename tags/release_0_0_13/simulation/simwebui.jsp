@@ -1,0 +1,57 @@
+<%@ page 
+	contentType="text/html; charset=UTF-8" 
+	language="java" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*" 
+	errorPage="" %>
+<%
+
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	
+	pso.handleEndSim(request);
+	
+	if (pso.forward_on){
+		pso.forward_on = false;
+		response.sendRedirect(pso.backPage);
+		pso.backPage = "index.jsp";
+		return;
+	}
+	
+	if (  (!(pso.isLoggedin()))){
+		response.sendRedirect("index.jsp");
+		pso.forward_on = false;
+		return;
+	}
+	
+	String lessten = request.getParameter("lessten");
+	String addten = request.getParameter("addten");
+	
+	if ((lessten != null) && (lessten.equalsIgnoreCase("true"))){
+		pso.topFrameHeight -= 10;
+	} else if ((addten != null) && (addten.equalsIgnoreCase("true"))){
+		pso.topFrameHeight += 10;
+	} else {
+		pso.handleSimWeb(request);
+	}
+	
+%>
+<html>
+<head>
+<title>OSP Simulation <%= pso.simulation_name %>, Session <%= pso.run_sim_name %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
+</head>
+<frameset rows="0,<%= pso.topFrameHeight %>,*,<%= pso.bottomFrameHeight %>" frameborder="yes" border="0" framespacing="0">
+  <frame src="hiddenframe.jsp" name="hiddenframe" noresize>
+  <frame src="frame_top.jsp?tabposition=<%= pso.tabposition %>" name="topFrame" >
+  <frame src="<%= pso.bottomFrame %>" name="mainFrame" >
+  <frame src="frame_footer.jsp" name="footerFrame" >
+</frameset>
+<noframes>
+<body>
+</body>
+</noframes>
+</html>

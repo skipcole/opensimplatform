@@ -1,0 +1,12 @@
+<org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp</creatingOrganization>
+  <uniqueName>Finger</uniqueName>
+  <version>1</version>
+  <description>A section to display who is logged in, and when their last login was.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>finger.jsp</page__file__name>
+  <rec__tab__heading>Finger</rec__tab__heading>
+  <sample__image>finger.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.BaseSimSection>

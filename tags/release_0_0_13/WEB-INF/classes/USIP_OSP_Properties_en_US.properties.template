@@ -1,0 +1,127 @@
+################################################################################
+#	This file contains basic system information for the
+#	USIP Open Simulation Platform (OSP)to function.
+#
+#	It is divided into the following sections.
+#
+#	Section 1 - General
+#	Section 2 - File system Related
+#	Section 3 - Database Related
+#	Section 4 - Security Related
+################################################################################
+
+
+###########
+# Section 1 - General
+###########
+################################################################
+# If you know when the system is planned on being brought down for service
+# (a specific date, or an a repeating basis) you can put this information here and it 
+# will appear on the main login page.
+# 
+# It is probably fine to just leave this to the default value.
+#
+next_planned_outage=None Currently Planned
+
+################################################################################
+# URL of the apache/tomcat server
+#
+base_sim_url=http://dev.opensimplatform.org/
+
+################################################################################
+# URL of the OSP on this server
+#
+simulation_url=http://dev.opensimplatform.org/simulation/
+
+
+###########
+# Section 2 - File System Related
+###########
+##################################################################
+# The base_web_dir is the location where the website files are located on your system.
+# This will probably need to be changed to match exactly your own system requirements.
+#
+# The directory should end with the directory separator ('/' or '\\' appropriate to your system.)
+# On a windows system, this might look something like  "base_web_dir=C:\\apache\\tomcat\\webapps\\usip_osp\\"
+base_web_dir=/usr/local/etc/httpd/sites/opensimplatform/htdocs/simulation_dev/
+
+##################################################################
+# The uploads directory is the location where the files may be uploaded to on your Apache/Tomcat server.
+# This will probably need to be changed to match exactly your own system requirements.
+# On a windows system, this might look something like  "uploads=C:\\apache\\tomcat\\work\\Catalina\\bin\\uploads\\"
+uploads=/usr/local/etc/httpd/sites/opensimplatform/catalina/bin/uploads
+
+###########
+# Section 3 - Database Related
+###########
+#################################################################
+# This key is use when reseting the root database.
+# You will want to set it to a secrent random key to prevent someone 
+# from accidentally or maliciously removing your data.
+#
+wipe_database_key=local
+
+################################################################################
+# Location of the database server
+#     (If the database is running on the same machine, 
+#      this probably will not need changed.)
+#
+loc=jdbc:mysql://localhost:
+
+################################################################################
+# Port of the database server
+#     (This probably will not need changed.)
+#
+port=3306
+
+################################################################################
+# Name of the root (also referred to as the principal) database schema
+#
+principalschema=usiposp
+
+################################################################################
+# UserName when connecting to the database
+#
+username=peacepla
+
+################################################################################
+# Password when connecting to the database
+#
+password=password
+
+################################################################################
+# Overall connection string used when connecting to the database
+# (This is used when we make a direct connection to the database. 
+#  Normally we go through hibernate.)
+conn_string=jdbc:mysql://localhost:3306/test?user=peacepla&password=password
+
+################################################################################
+# Dialect of communication between the database and hibernate
+#     (This probably will not need changed.)
+#
+dialect=org.hibernate.dialect.MySQLInnoDBDialect
+
+################################################################################
+# Driver class for communication between the database and hibernate
+#     (This probably will not need changed.)
+#
+driver_class=com.mysql.jdbc.Driver
+
+###########
+# Section 4 - Security Related
+###########
+#################################################################
+# The Encryption Algorithm you wish to use.
+# Note: This is a training system and was not originally designed for high security.
+encryptionstrategy=””
+
+#################################################################
+# The Salt Key you wish to use.
+# Note: This is a training system and was not originally designed for high security.
+salt=""
+
+#################################################################
+# The salt strategy (fixed, variable, both or none) you wish to use.
+# Note: This is a training system and was not originally designed for high security.
+saltstrategy="none"
+
