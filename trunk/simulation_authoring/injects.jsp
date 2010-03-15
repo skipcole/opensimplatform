@@ -8,7 +8,7 @@
 	errorPage="../error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	afso.backPage = "create_injects.jsp";
+	afso.backPage = "injects.jsp";
 	
 	Simulation simulation = new Simulation();	
 	
@@ -31,32 +31,38 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%">
             <blockquote> 
               <h1>Create Injects</h1>
-        <% 
+              <p>Injects are events that can happen to the players. For example, they may receive news that the people in their town are having a protest parade, or they may receive an important memo from their headquarters. Injects are arranged into groups, and before creating an actual inject, you must first create a group to contain it.</p>
+              <% 
 			if (afso.sim_id != null) {
 		%>
-        <p>
-        Creating injects for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br />
-(If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-            here</a>.)           </p> 
-           <p>
-             Injects are arranged into groups.</p>
-           <table width="100%" border="1" cellspacing="0" cellpadding="0">
+              <blockquote>
+                <p>
+                  Creating injects for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br />
+                  (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
+                    here</a>.)           </p>
+              </blockquote>
+              <p>&nbsp;</p>
+           <table width="100%" border="0" cellspacing="0" cellpadding="0">
              <tr>
                <td width="8%" valign="top">1.</td>
-               <td width="92%" valign="top"><a href="inject_group.jsp">Create an inject group</a>.</td>
+               <td width="92%" valign="top"><form id="form3" name="form3" method="post" action="inject_group.jsp">
+                       <input type="submit" name="button3" id="button3" value="Create or Edit Groups" />
+
+                     <p>&nbsp;    </p>
+               </form>                 </td>
              </tr>
              <tr>
                <td valign="top">2.</td>
-               <td valign="top">Create an inject in group 
-                  <form id="form1" name="form1" method="post" action="injects.jsp">
-                 <select name="select" id="select">
-                    <%
+               <td valign="top"><form id="form1" name="form1" method="post" action="inject_create.jsp">
+                    <input type="hidden" name="sending_page" value="injects" />
+                     <select name="ig_id" id="select">
+                       <%
 					boolean foundIg = false;
 					String createInjectButtonDisabled = "disabled=\"disabled\"";
 					
@@ -64,20 +70,24 @@
 						InjectGroup ig = (InjectGroup) li.next();
 						foundIg = true;
 					%>
-                   <option value="<%= ig.getId() %>"><%= ig.getName() %></option>
-                 	<% } %>
-                 </select>
-                 <% if (foundIg == true) {
+                        <option value="<%= ig.getId() %>"><%= ig.getName() %></option>
+                       <% } %>
+                      </select>
+                     <% if (foundIg == true) {
 				 	createInjectButtonDisabled = "";
 					}
 				%>
-                 <input type="submit" name="button" id="button" value="Submit" <%= createInjectButtonDisabled %>  />
-                 
-                 </form>                 </td>
+                     <input type="submit" name="button" id="button" value="Create Inject in Group" <%= createInjectButtonDisabled %>  />
+                  <p>&nbsp; </p>
+               </form>                 </td>
              </tr>
              <tr>
                <td valign="top">3.</td>
-               <td valign="top"><a href="inject_view.jsp">View all Injects</a></td>
+               <td valign="top">
+                 <form id="form2" name="form2" method="post" action="inject_view.jsp">
+                       <input type="submit" name="button2" id="button2" value="View all Injects for Simulation" />
+                     <p>&nbsp;    </p>
+                 </form>                 </td>
              </tr>
            </table>
              <p>

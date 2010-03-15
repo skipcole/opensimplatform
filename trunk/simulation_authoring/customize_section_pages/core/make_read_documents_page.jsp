@@ -38,7 +38,6 @@
                   <br />
                   <form action="make_read_documents_page.jsp" method="post" name="form2" id="form2">
                     <blockquote>
-                      <p>Number of Documents to be Shown: </p>
                       <p>Tab Heading:
                         <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
                       </p>
@@ -56,14 +55,14 @@
                         
 						%>
                         <tr>
-                          <td width="75%" valign="top">Document <%= ii %> <a href="helptext/make_read_documents_help.jsp" target="helpInRight">(?)</a></td>
+                          <td width="75%" valign="top">Document <%= ii %> <a href="helptext/make_read_documents_help.jsp" target="helpinright">(?)</a></td>
                           <td width="75%" valign="top"><%
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
 
 		  %>
                             <label>Select Document
                             <select name="doc_<%= ii %>" size="1">
-                            <option value="0">Non Selected</option>
+                            <option value="0">None Selected</option>
                               <%
 					for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 					
@@ -76,9 +75,6 @@
                                                         </select>
 </label>
                             <% } // end of if no documents have been created. %></td>
-                          <td><label>
-                            <input type="submit" name="button2" id="button2" value="Remove this Document" />
-                            </label></td>
                         </tr>
                         <% } %>
                         <tr>
@@ -86,7 +82,10 @@
                           <input type="submit" name="add_document" id="button" value="Add An Additional Document" />
                           </label></td>
                           <td valign="top">&nbsp;</td>
-                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td valign="top">&nbsp;</td>
+                          <td valign="top"><input type="submit" name="remove_documents" id="remove_documents" value="Remove All Documents"  onClick="return confirm('Are you sure you want to remove all documents for this section?');" /></td>
                         </tr>
                       </table>
                       <p>Enter the introductory text that will appear on this page.

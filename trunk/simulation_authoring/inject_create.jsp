@@ -6,32 +6,22 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	
-	String inject_group_id = (String) request.getParameter("inject_group_id");
 	String sending_page = (String) request.getParameter("sending_page");
 	
-	String edit = (String) request.getParameter("edit");
-	String inj_id = (String) request.getParameter("inj_id");
-	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_ind_inject"))){
-		afso.handleCreateInject(request);
-		response.sendRedirect("create_injects.jsp");
-		return;
-	}
-	
 	Inject inj = new Inject();
-	boolean in_edit_mode = false;
 	
+	if (sending_page != null) {
 	
-	if ( (edit != null) && (edit.equalsIgnoreCase("true"))){
-		
-		inj = Inject.getMe(afso.schema, new Long(inj_id));
-		in_edit_mode = true;
-		
+		if ((sending_page.equalsIgnoreCase("create_ind_inject")) || (sending_page.equalsIgnoreCase("view")) ){
+			inj = afso.handleCreateInject(request);
+		} else if (sending_page.equalsIgnoreCase("injects")) {
+			String ig_id = (String) request.getParameter("ig_id");
+			inj.setGroup_id(new Long(ig_id));
+		}
 	}
 	
 %>
@@ -56,7 +46,7 @@
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table border="0" width="100%" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
@@ -68,8 +58,7 @@
 		%>
         <p>          </p>
           <form id="form2" name="form2" method="post" action="inject_create.jsp">
-            <input type="hidden" name="inj_id" value="<%= inj_id %>" />
-            <input type="hidden" name="edit" value="<%= edit %>"  />
+            <input type="hidden" name="inj_id" value="<%= inj.getId() %>" />
             <input type="hidden" name="sending_page" value="create_ind_inject" />
             <table width="100%" border="1" cellspacing="0" cellpadding="4">
               <tr>
@@ -80,6 +69,29 @@
                   </label>            </td>
             </tr>
               <tr>
+                <td valign="top">Inject Group:</td>
+                <td valign="top">
+                <select name="ig_id" id="select">
+                       <%
+					boolean foundIg = false;
+					String createInjectButtonDisabled = "disabled=\"disabled\"";
+					
+					for (ListIterator li = InjectGroup.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+						InjectGroup ig = (InjectGroup) li.next();
+						
+						String selected = "";
+						
+						if (inj.getGroup_id() != null) {
+							if (inj.getGroup_id().intValue() == ig.getId().intValue()) {
+								selected = " selected ";
+							}
+						}
+					%>
+                        <option value="<%= ig.getId() %>" <%= selected %>><%= ig.getName() %></option>
+                       <% } %>
+                      </select></td>
+              </tr>
+              <tr>
                 <td valign="top">Inject Text:</td>
               <td valign="top">
                 <textarea id="inject_text" name="inject_text" cols="45" rows="5"><%= inj.getInject_text() %></textarea>
@@ -89,22 +101,26 @@
             </tr>
               
               <tr>
-                <td valign="top">Inject Notes:<br />
-                  (Notes direct the simulation facilitator on how to use this inject.)</td>
+                <td valign="top">Inject Notes <a href="helptext/inject_notes.jsp" target="helpinright">(?)</a>:<br /></td>
               <td valign="top"><label>
                 <textarea name="inject_notes" id="inject_notes" cols="45" rows="5"><%= inj.getInject_Notes() %></textarea>
                 </label></td>
             </tr>
               <tr>
                 <td>&nbsp;</td>
-              <td>
-                <input type="hidden" name="inject_group_id" value="<%= inject_group_id %>" />
-                
-                <% if (in_edit_mode) { %>
-                <input type="submit" name="button" id="button" value="Save Changes" />
-                <% } else { %>
-                <input type="submit" name="button" id="button" value="Create Inject" />
-                <% } %>                </td>
+              <td>              
+                <%
+				if (inj.getId() == null) {
+				%>
+                <input type="submit" name="command" value="Create" />
+                <%
+				} else {
+				%>
+                <input type="submit" name="command" value="Clear" tabindex="6" />
+                <input type="submit" name="command" value="Update" />
+                <%
+					}
+				%></td>
             </tr>
               </table>
           </form>
