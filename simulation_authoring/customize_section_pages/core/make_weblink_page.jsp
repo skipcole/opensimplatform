@@ -89,10 +89,8 @@
             <p><strong>Actors Who Can Add To This Set of Links</strong></p>
             <blockquote>
               <p>
-                <label>
-                <input type="checkbox" name="checkbox" id="checkbox" />
-                </label>
-              Racer X</p>
+                <label><em><strong>Control over who can add to this page has not yet been implemented.</strong></em></label>
+              </p>
             </blockquote>
             <%
 				

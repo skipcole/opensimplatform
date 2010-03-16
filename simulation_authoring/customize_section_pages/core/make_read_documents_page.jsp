@@ -60,7 +60,7 @@
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
 
 		  %>
-                            <label>Select Document
+                            <label>* Select Document
                             <select name="doc_<%= ii %>" size="1">
                             <option value="0">None Selected</option>
                               <%
@@ -97,7 +97,11 @@
                       <p>
                         <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                         <input type="hidden" name="sending_page" value="make_read_document_page" />
+                        * 
                         <input type="submit" name="save_page" value="Save" />
+                      </p>
+                      <p>* After adding each new document, please hit the 'Save' button.</p>
+                      <p>
                         <input type="submit" name="save_and_add" value="Save and Add Section" />
                       </p>
                       <p>&nbsp;</p>
