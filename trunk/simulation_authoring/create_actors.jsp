@@ -73,6 +73,7 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Create / Edit Actor</h1>
+              <p>On this page you will enter the basic information regarding the actors in your simulation. If you have several actors that will have the exact same simulation sections, you may want to  create an actor category.</p>
               <br />
     <form enctype="multipart/form-data" action="create_actors.jsp" method="post">
     

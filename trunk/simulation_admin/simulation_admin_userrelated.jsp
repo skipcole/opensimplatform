@@ -32,6 +32,10 @@
                       <td width="72%">Allows you to add a user who can administrate or create or facilitate simulations.</td>
                     </tr>
                     <tr valign="top">
+                      <td><a href="import_student_csv_file.jsp">Import CSV File</a></td>
+                      <td>Allows you to import a comma separated file of student information.</td>
+                    </tr>
+                    <tr valign="top">
                       <td><a href="simulation_admin_lastlogins.jsp">Last Login Times</a></td>
                       <td>Allows one to see when users have logged on the system.</td>
                     </tr>
