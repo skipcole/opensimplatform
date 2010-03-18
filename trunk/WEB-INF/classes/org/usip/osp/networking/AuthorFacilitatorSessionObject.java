@@ -712,9 +712,132 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return (getMyPSO_SectionMgmt().handleCustomizeSection(request));
 	}
+	
+	/**
+	 * Handles CRUD operations on Generic Variables.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public ActorCategory handleCreateActorCategory(HttpServletRequest request) {
+
+		ActorCategory actorCategory = new ActorCategory();
+
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return actorCategory;
+		}
+
+		// If we got passed in an actor category id, use it to retrieve the ac we are
+		// working on.
+		String ac_id = (String) request.getParameter("ac_id");
+
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (ac_id != null) && (ac_id.trim().length() > 0)) {
+			actorCategory = ActorCategory.getMe(schema, new Long(ac_id));
+			return actorCategory;
+		}
+
+		// If user just entered this page from a different form, just return the blank object
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("create_actor_category")))) {
+			return actorCategory;
+		}
+
+		// If we got down to here, we must be doing some real work on a category
+		String ac_name = (String) request.getParameter("ac_name");
+		String exemplar_id = (String) request.getParameter("exemplar_id");
+
+		// Do create if called.
+		String create_ac = (String) request.getParameter("create_ac");
+		if ((create_ac != null)) {
+			Logger.getRootLogger().debug("creating ac: " + ac_name);
+			actorCategory = new ActorCategory(ac_name, sim_id, new Long(exemplar_id), schema);
+		}
+
+		// Do update if called.
+		String update_ac = (String) request.getParameter("update_ac");
+		if ((update_ac != null)) {
+			Logger.getRootLogger().debug("updating ac: " + ac_name);
+			actorCategory = ActorCategory.getMe(schema, new Long(ac_id));
+			actorCategory.setCategoryName(ac_name);
+			actorCategory.setSim_id(sim_id);
+			actorCategory.saveMe(schema);
+		}
+
+		return actorCategory;
+
+	}
 
 	/**
+	 * Handles CRUD operations on Generic Variables.
 	 * 
+	 * @param request
+	 * @return
+	 */
+	public OneLink handleCreateOneLink(HttpServletRequest request) {
+
+		OneLink oneLink = new OneLink();
+
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return oneLink;
+		}
+
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
+		String ol_id = (String) request.getParameter("ol_id");
+
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (ol_id != null) && (ol_id.trim().length() > 0)) {
+			oneLink = OneLink.getMe(schema, new Long(ol_id));
+			return oneLink;
+		}
+
+		// If player just entered this page from a different form, just return
+		// the blank object
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_create_onelink_page")))) {
+			return oneLink;
+		}
+
+		// If we got down to here, we must be doing some real work on a
+		// document.
+		String onelink_name = (String) request.getParameter("onelink_name");
+		String onelink_notes = (String) request.getParameter("onelink_notes");
+		String start_value = (String) request.getParameter("start_value");
+
+
+		// Do create if called.
+		String create_onelink = (String) request.getParameter("create_onelink");
+		if ((create_onelink != null)) {
+			Logger.getRootLogger().debug("creating onelink of uniq name: " + onelink_name);
+			oneLink = new OneLink(onelink_name, sim_id);
+			oneLink.setNotes(onelink_notes);
+			oneLink.setStartingValue(start_value);
+			oneLink.saveMe(schema);
+		}
+
+		// Do update if called.
+		String update_onelink = (String) request.getParameter("update_onelink");
+		if ((update_onelink != null)) {
+			Logger.getRootLogger().debug("updating onelink of uniq title: " + onelink_name);
+			oneLink = OneLink.getMe(schema, new Long(ol_id));
+			oneLink.setName(onelink_name);
+			oneLink.setNotes(onelink_notes);
+			oneLink.setStartingValue(start_value);
+			oneLink.setSim_id(sim_id);
+			oneLink.saveMe(schema);
+
+		}
+
+		return oneLink;
+
+	}
+	/**
+	 * Handles CRUD operations on Generic Variables.
 	 * @param request
 	 * @return
 	 */

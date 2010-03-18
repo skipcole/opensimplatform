@@ -48,6 +48,7 @@
                 <li><a href="make_create_conversation_page.jsp">Add Conversation</a> - Add a place for players to communicate. Note, for them to talk, you will need to add a chat room as a simulation section.</li>
                 <li><a href="make_create_document_page.jsp">Add Document</a> - Add a document to the simulation that the players and instructors will be able to read and/or modify.</li>
                 <li><a href="injects.jsp">Add Inject</a> <a href="helptext/create_injects_help.jsp" target="helpinright">(?)</a> - Add events that can happen to students during the simulation.</li>
+                <li><a href="make_create_onelink_page.jsp">Add One Link</a> - Add a 'one link' to a web address that can altered during the simulation.</li>
                 <li><a href="make_create_parameter_page.jsp">Add Parameter</a> - Add a value that can be adjusted during a simulation.</li>
                 <li>(<span class="style1">Coming Someday</span>) <a href="incorporate_underlying_model.jsp">Incorporate Underlying Model</a> </li>
                 <li><a href="timeline_editor.jsp">Timeline Creator</a></li>

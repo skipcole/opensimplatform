@@ -14,7 +14,7 @@
 			return;
 		}
 		
-		String importResults = CSVInterpreter.importCSV(request);
+		String importResults = CSVInterpreter.importCSV(request, afso.schema);
 
 
 %>
@@ -54,8 +54,8 @@
               <p>The following statements about the file you import must be true:</p>
               <ol>
                 <li>Any line not meant to be imported should be commented out with a '#' symbol in the first position of the line.</li>
-                <li>The first line should list the fields that are contained in the file. (username, firstname, lastname, etc.)</li>
-                <li></li>
+                <li>The first line should list the fields that are contained in the file. (Email, First Name, Last Name, etc.)</li>
+                <li>The first field of the first non-commented line </li>
               </ol>
 
             
