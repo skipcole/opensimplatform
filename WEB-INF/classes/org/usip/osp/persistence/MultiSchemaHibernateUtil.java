@@ -419,6 +419,8 @@ public class MultiSchemaHibernateUtil {
 		
 		// BaseObjects
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.Actor.class);
+		ac.addAnnotatedClass(org.usip.osp.baseobjects.ActorCategory.class);
+		ac.addAnnotatedClass(org.usip.osp.baseobjects.ActorCategoryAssignments.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.ActorAssumedIdentity.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSection.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment.class);
@@ -466,6 +468,7 @@ public class MultiSchemaHibernateUtil {
 		// Special Features
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.AllowableResponse.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.GenericVariable.class);
+		ac.addAnnotatedClass(org.usip.osp.specialfeatures.OneLink.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.OSPObjectHistory.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.PlayerReflection.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
