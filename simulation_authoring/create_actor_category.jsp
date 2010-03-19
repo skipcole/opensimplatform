@@ -15,6 +15,7 @@
 		return;
 	}
 
+	String applyActorCategoryResults = afso.applyActorCategory(request);
 	ActorCategory actorCategory = afso.handleCreateActorCategory(request);
 	
 	
@@ -56,7 +57,6 @@
         <p><span class="style1">Note!</span>: When you apply the sections of the exemplar to the actors in the category, it will remove all previous sections added to that actor.</p>
         <p>          </p>
           <form id="form2" name="form2" method="post" action="create_actor_category.jsp">
-            <input type="hidden" name="inj_id" value="<%= actorCategory.getId() %>" />
             <input type="hidden" name="sending_page" value="create_actor_category" />
             <table width="100%" border="1" cellspacing="0" cellpadding="4">
               <tr>
@@ -75,21 +75,41 @@
 
                 for (ListIterator la = SimActorAssignment.getActorsForSim(afso.schema, afso.sim_id).listIterator(); la.hasNext();) {
 					Actor act = (Actor) la.next();
+					
+					String selected = "";
+					
+					if ((actorCategory.getExemplar_id() != null) &&(actorCategory.getExemplar_id().intValue() == act.getId())){
+						selected = " selected ";
+					
+					}
 		%>
-                <option value="<%= act.getId().toString() %>"><%= act.getActorName() %></option>
+                <option value="<%= act.getId().toString() %>" <%= selected %>><%= act.getActorName() %></option>
                 <% } %>
                 </select></td>
               </tr>
 
               <% 
-
+				
+				List acActorIds = new ArrayList();
+				
+				if (actorCategory.getId() != null) {
+				  acActorIds = actorCategory.getMyActorIds(afso.schema);
+				}
                 for (ListIterator la = SimActorAssignment.getActorsForSim(afso.schema, afso.sim_id).listIterator(); la.hasNext();) {
-					Actor act = (Actor) la.next(); %>
+					Actor act = (Actor) la.next(); 
+					
+					String checked = " ";
+					
+					if (acActorIds.contains(act.getId())) {
+						checked = " checked=\"checked\" ";
+					}
+					
+					%>
                                   <tr>
                 <td width="6%">&nbsp;</td>
                 <td width="29%">Include Actor:</td>
                 <td>
-					<label><input type="checkbox" name="actor_<%= act.getId().toString() %>" id="checkbox" /><%= act.getActorName() %></label>				     </td>
+					<label><input type="checkbox" name="actor_<%= act.getId().toString() %>" id="checkbox" <%= checked %> /><%= act.getActorName() %></label>				     </td>
               </tr>
 				<% } %>
               <tr>
@@ -122,13 +142,15 @@
 					for (ListIterator li = ActorCategory.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 						ActorCategory this_ac = (ActorCategory) li.next();
 		%>
-        <form id="form1" name="form1" method="post" action="">
+        <form id="form1" name="form1" method="post" action="create_actor_category.jsp">
+        <input type="hidden" name="sending_page" value="create_actor_category2" />
+        <input type="hidden" name="ac_id" value="<%= this_ac.getId() %>" />
             <tr>
               <td><a href="create_actor_category.jsp?ac_id=<%= this_ac.getId() %>&queueup=true"><%= this_ac.getCategoryName() %></a></td>
               <td>&nbsp;</td>
               <td>
                 <label>
-                  <input type="submit" name="button" id="button" value="Submit" />
+                  <input type="submit" name="apply_ac" id="button" value="Apply" onClick="return confirm('Are you sure you want to do this?');" />
                   </label>
               
               </td>
@@ -136,6 +158,7 @@
             </form>
             <% } %>
           </table>
+          <p><%= applyActorCategoryResults %></p>
           <p>* Feature not yet implemented</p>
       </blockquote>
       <p align="center">&nbsp;</p>
@@ -144,7 +167,7 @@
         <p>
           <%@ include file="select_message.jsp" %></p>
       </blockquote>
-      <% } // End of if have not set simulation for edits. %>      <a href="injects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+      <% } // End of if have not set simulation for edits. %>      <a href="create_actors.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

@@ -526,6 +526,41 @@ public class SimulationSectionAssignment implements WebObject {
 		}
 
 	}
+	
+	public static void removeBySimAndActorAndPhase(String schema, Long sid, Long aid,
+			Long pid) {
+		
+		List removeList1 = SimulationSectionAssignment.getBySimAndActorAndPhase(schema, sid, aid, pid, true);
+		
+		for (ListIterator<SimulationSectionAssignment> li = removeList1.listIterator(); li.hasNext();) {
+			SimulationSectionAssignment this_ssa = li.next();
+
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			MultiSchemaHibernateUtil.getSession(schema).delete(this_ssa);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		}
+				
+		
+	}
+	
+	public static void applyBySimAndActorAndPhase(String schema, Long sid, Long pid, Long actor_exemplar_id,
+			Long actor_receiving_id){
+		
+		removeBySimAndActorAndPhase(schema, sid, actor_receiving_id, pid);
+		
+		List addList1 = SimulationSectionAssignment.getBySimAndActorAndPhase(schema, sid, actor_exemplar_id, pid, true);
+		
+		for (ListIterator<SimulationSectionAssignment> li = addList1.listIterator(); li.hasNext();) {
+			SimulationSectionAssignment this_ssa = li.next();
+
+			this_ssa.setId(null);
+			this_ssa.setActor_id(actor_receiving_id);
+			this_ssa.save(schema);
+		}
+		
+		
+		
+	}
 
 	/**
 	 * Gets the highest tab position for the set of sections assigned to a

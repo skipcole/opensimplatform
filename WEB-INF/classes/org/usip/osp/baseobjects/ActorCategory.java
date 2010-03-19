@@ -112,6 +112,7 @@ public class ActorCategory {
 		return this_ac;
 
 	}
+	
 
 	/**
 	 * Returns all of the Actor Categories associated with a simulation. 
@@ -150,7 +151,22 @@ public class ActorCategory {
 		
 	}
 	
-	public void applySectionsAcrossCategory(String schema, Long sim_id, Long exemplar_id){
+	public void removeMyActorIds(String schema){
+		
+		List rawList = ActorCategoryAssignments.getAllForActorCategory(schema, this.id);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		for (ListIterator<ActorCategoryAssignments> li = rawList.listIterator(); li.hasNext();) {
+			ActorCategoryAssignments this_aca = li.next();
+
+			MultiSchemaHibernateUtil.getSession(schema).delete(this_aca);
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+	}
+	
+	public void applySectionsAcrossCategory(String schema){
 		
 		// Loop over all actors with this category
 		for (ListIterator<Long> li = getMyActorIds(schema).listIterator(); li.hasNext();) {
@@ -160,7 +176,15 @@ public class ActorCategory {
 			if ((act_id != null) && (act_id.intValue() != exemplar_id.intValue()))  {
 				
 				// Loop over all phases in this sim
-				
+				   List phaseList = SimulationPhase.getAllForSim(schema, sim_id);
+				   
+					for (ListIterator lip = phaseList.listIterator(); lip.hasNext();) {
+						SimulationPhase sp = (SimulationPhase) lip.next();
+						
+						SimulationSectionAssignment.applyBySimAndActorAndPhase(schema, sim_id, sp.getId(), 
+								exemplar_id, act_id);
+						
+					}
 				
 				
 				
