@@ -899,22 +899,30 @@ public class ObjectPackager {
 
 			ConvActorAssignment this_caa = (ConvActorAssignment) xstream.fromXML(caa_string);
 
-			if (this_caa.getConv_id().equals(orig_id)) {
+			if ((this_caa.getConv_id().equals(orig_id)) && (this_caa.getActor_id() != null)) {
 
-				// The id this had on the system it was exported from bears no
-				// relationship to the id where its being imported.
-				this_caa.setId(null);
+				try {
 
-				this_caa.setConv_id(new_id);
+					Long newActorId = (Long) actorIdMappings.get(this_caa.getActor_id());
 
-				Long newActorId = (Long) actorIdMappings.get(this_caa.getActor_id());
+					if (newActorId != null) {
+						// The id this had on the system it was exported from
+						// bears no
+						// relationship to the id where its being imported.
+						this_caa.setId(null);
 
-				this_caa.setActor_id(newActorId);
+						this_caa.setConv_id(new_id);
 
-				this_caa.saveMe(schema);
-				RestoreResults.createAndSaveObject(reId, this_caa.getId().toString(), this_caa.getClass().toString(),
-						this_caa.getRole(), "added actor id " + newActorId + " to conversation.");
+						this_caa.setActor_id(newActorId);
 
+						this_caa.saveMe(schema);
+						RestoreResults.createAndSaveObject(reId, this_caa.getId().toString(), this_caa.getClass()
+								.toString(), this_caa.getRole(), "added actor id " + newActorId + " to conversation.");
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

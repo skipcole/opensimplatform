@@ -713,6 +713,30 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return (getMyPSO_SectionMgmt().handleCustomizeSection(request));
 	}
 	
+	public String applyActorCategory(HttpServletRequest request){
+		
+		String returnString = "";
+		
+		// Leave if just entered page from somewhere else.
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("create_actor_category2")))) {
+			return returnString;
+		}
+		
+		String ac_id = (String) request.getParameter("ac_id");
+	
+		ActorCategory actorCategory = new ActorCategory ();
+		
+		String apply_ac = (String) request.getParameter("apply_ac");
+		if ((apply_ac != null)) {
+			actorCategory = ActorCategory.getMe(schema, new Long(ac_id));
+			actorCategory.applySectionsAcrossCategory(schema);
+			returnString += "applied ActorCategory " + actorCategory.getCategoryName();
+		}
+		
+		return returnString;
+	}
+	
 	/**
 	 * Handles CRUD operations on Generic Variables.
 	 * 
@@ -754,6 +778,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((create_ac != null)) {
 			Logger.getRootLogger().debug("creating ac: " + ac_name);
 			actorCategory = new ActorCategory(ac_name, sim_id, new Long(exemplar_id), schema);
+			setCategoryMembers(actorCategory, request);
 		}
 
 		// Do update if called.
@@ -762,12 +787,38 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			Logger.getRootLogger().debug("updating ac: " + ac_name);
 			actorCategory = ActorCategory.getMe(schema, new Long(ac_id));
 			actorCategory.setCategoryName(ac_name);
+			actorCategory.setExemplar_id(new Long(exemplar_id));
 			actorCategory.setSim_id(sim_id);
 			actorCategory.saveMe(schema);
+			setCategoryMembers(actorCategory, request);
 		}
 
 		return actorCategory;
 
+	}
+	
+	public void setCategoryMembers(ActorCategory actorCategory, HttpServletRequest request) {
+		
+		actorCategory.removeMyActorIds(schema);
+		
+		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+			String pname = (String) e.nextElement();
+			String vname = (String) request.getParameter(pname);
+
+			System.out.println("p/v: " + pname + "/" + vname);
+
+			if (pname.startsWith("actor_")) {
+				pname = pname.replaceAll("actor_", "");
+
+				if ((vname != null) && (vname.equalsIgnoreCase("on"))) {
+					ActorCategoryAssignments aca = new ActorCategoryAssignments();
+					aca.setAc_id(actorCategory.getId());
+					aca.setActor_id(new Long (pname));
+					aca.setSim_id(sim_id);
+					aca.saveMe(schema);
+				}
+			}
+		}
 	}
 
 	/**
