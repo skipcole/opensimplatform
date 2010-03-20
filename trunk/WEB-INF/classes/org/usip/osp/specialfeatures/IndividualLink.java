@@ -156,17 +156,4 @@ public class IndividualLink {
 		return returnList;
 	}
 	
-	public static void main(String args[]){
-		
-		List linkList = IndividualLink.getAllForSetOfLinks("test", new Long(1));
-		
-		for (ListIterator<IndividualLink> li = linkList.listIterator(); li.hasNext();) {
-			IndividualLink this_link = li.next();
-			
-			this_link.getLinkTitle();
-			this_link.getLinkString();
-			this_link.getDescription();
-		}
-		
-	}
 }
