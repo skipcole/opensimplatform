@@ -1,0 +1,18 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.SetOfLinksCustomizer</customizerClassName>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Set of Links Page</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_setoflinks_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A set of links, which another actor can set from a different section, will be presented to the players on this page.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>setoflinks.jsp</page__file__name>
+  <rec__tab__heading>Set of Links</rec__tab__heading>
+  <sample__image>one_link_page.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.CustomizeableSection>
