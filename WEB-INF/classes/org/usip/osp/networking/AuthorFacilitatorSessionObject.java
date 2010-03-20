@@ -117,6 +117,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		ObjectPackager.unpackageSim(filename, this.schema, sim_name, sim_version);
 
 	}
+	
+	public IndividualLink handleCreateorUpdateIndividualLink(HttpServletRequest request){
+		return null;
+	}
 
 	/**
 	 * This responds to one of threee commands:
