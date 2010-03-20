@@ -29,7 +29,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy=false)
 public class ActorCategory {
 
-    /** Unique id of this actor. */
+    /** Unique id of this actor category. */
 	@Id @GeneratedValue
     private Long id;
 	
@@ -135,6 +135,12 @@ public class ActorCategory {
 		return returnList;
 	}
 	
+	/**
+	 * Gets all of the Actor Ids that belong to this category.
+	 * 
+	 * @param schema
+	 * @return
+	 */
 	public List getMyActorIds(String schema){
 		
 		List returnList = new ArrayList();
@@ -151,6 +157,11 @@ public class ActorCategory {
 		
 	}
 	
+	/**
+	 * Removes the actor ids associated with this actor category.
+	 * 
+	 * @param schema
+	 */
 	public void removeMyActorIds(String schema){
 		
 		List rawList = ActorCategoryAssignments.getAllForActorCategory(schema, this.id);
@@ -166,6 +177,12 @@ public class ActorCategory {
 		
 	}
 	
+	/**
+	 * Removes all sections of the actors in this catetory and then applies the sections of the exemplar, for 
+	 * every phase.
+	 * 
+	 * @param schema
+	 */
 	public void applySectionsAcrossCategory(String schema){
 		
 		// Loop over all actors with this category

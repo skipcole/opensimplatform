@@ -468,9 +468,11 @@ public class MultiSchemaHibernateUtil {
 		// Special Features
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.AllowableResponse.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.GenericVariable.class);
+		ac.addAnnotatedClass(org.usip.osp.specialfeatures.IndividualLink.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.OneLink.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.OSPObjectHistory.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.PlayerReflection.class);
+		ac.addAnnotatedClass(org.usip.osp.specialfeatures.SetOfLinks.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
 
 		Logger.getRootLogger().debug("classes added"); //$NON-NLS-1$
