@@ -19,25 +19,16 @@
 	
 	WebLinkObjects wlo = new WebLinkObjects();
 	
-	
-	String sending_page = request.getParameter("sending_page");
 	String cs_id = request.getParameter("cs_id");
 	
-	if ((cs_id != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("add_wlo"))){
+	String editMode = request.getParameter("editMode");
 	
-		Long csId = new Long (cs_id);
-		
-		String wlo_name = request.getParameter("wlo_name");
-		String wlo_description = request.getParameter("wlo_description");
-		String wlo_url = request.getParameter("wlo_url");
-		
-		wlo = new WebLinkObjects(pso.schema, wlo_name, wlo_description, wlo_url, pso.running_sim_id, csId);
+	if ((editMode != null) && (editMode.equalsIgnoreCase("true"))){
+		String wlo_id = (String) request.getParameter("wlo_id");
+		wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));
 	}
-	// If adding, add it to the list, and then put them back to where they were
-	if (false) {
-		response.sendRedirect("simwebui.jsp?tabposition=" + pso.tabposition);
-		return;
-	}
+	
+
 %>
 <html>
 <head>
@@ -48,8 +39,8 @@
 <body>
 <% if (canEdit) { %>
 <h2>Add Web Link</h2>
-<blockquote><form name="form1" method="post" action="web_link_page_bottom.jsp">
-	<input type="hidden" name="sending_page" value="add_wlo">
+<blockquote><form name="form1" method="post" action="web_link_page.jsp" target="mainFrame">
+	<input type="hidden" name="sending_page" value="web_link_page_bottom">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
   <table width="80%" border="0" cellpadding="2" cellspacing="2">
     <tr>

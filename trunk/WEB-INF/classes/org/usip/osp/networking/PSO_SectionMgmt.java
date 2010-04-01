@@ -350,6 +350,9 @@ public class PSO_SectionMgmt {
 		Actor this_actor;
 
 		if (simulation.getActors(this.afso.schema).size() > 0) {
+			if (this.currentActorIndex <= 0){
+				this.currentActorIndex = 1;
+			}
 			this_actor = simulation.getActors(this.afso.schema).get(this.currentActorIndex - 1);
 			this.afso.actor_being_worked_on_id = this_actor.getId();
 		} else {

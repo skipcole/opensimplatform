@@ -260,6 +260,9 @@ overflow:auto;
 	background-color: #FFFFDD;
 	background-position: left top;
 }
+.actor_class {
+	
+}
 </style>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
@@ -280,24 +283,18 @@ overflow:auto;
 </table>
 Actors in this conversation:
 <P>
-	<UL>
-	<% 
+	<UL><% 
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();
 			String this_a_id = act.getId().toString();
 			String this_a_name = act.getActorName();
-	%>
-		<LI><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
+	%><LI class="actor_class"><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
       <option value="<%= this_a_id %>_ffffff" <%= USIP_OSP_Util.matchSelected("ffffff", act.getDefaultColorChatBubble(), " selected ") %>>White</option>
 	  <option value="<%= this_a_id %>_ffdddd" <%= USIP_OSP_Util.matchSelected("ffdddd", act.getDefaultColorChatBubble(), " selected ") %>>Red</option>
 	  <option value="<%= this_a_id %>_ddffdd" <%= USIP_OSP_Util.matchSelected("ddffdd", act.getDefaultColorChatBubble(), " selected ") %>>Green</option>
 	  <option value="<%= this_a_id %>_ddddff" <%= USIP_OSP_Util.matchSelected("ddddff", act.getDefaultColorChatBubble(), " selected ") %>>Blue</option>
 	  <option value="<%= this_a_id %>_ffff66" <%= USIP_OSP_Util.matchSelected("ffff66", act.getDefaultColorChatBubble(), " selected ") %>>Yellow</option>
-	  
-        </select> </form></LI>
-	<%	
-		}
-	%>
+        </select> </form></LI><% } %>
 	</UL>
 	</P>
 <div id="foo" >Chat Text</div>

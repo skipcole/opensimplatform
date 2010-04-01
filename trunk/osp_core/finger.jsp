@@ -47,13 +47,15 @@
   		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 			Actor act = (Actor) li.next();
 			
-			User user = UserAssignment.getUserAssigned(pso.schema, pso.running_sim_id, pso.actor_id);
+			User user = UserAssignment.getUserAssigned(pso.schema, pso.running_sim_id, act.getId());
 			String uName = "";
-			String uTime = "";
+			String uTime = "Never";
 			Long uId = null;
 			if (user != null) {
 				uName = user.getBu_full_name();
-				uTime = sdf.format(user.getLastLogin());
+				if (user.getLastLogin() != null) {
+					uTime = sdf.format(user.getLastLogin());
+				}
 				uId = user.getId();
 			}
 		%>
@@ -73,6 +75,3 @@
 <p></p>
 </body>
 </html>
-<%
-	
-%>

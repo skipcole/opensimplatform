@@ -70,18 +70,29 @@
         <form id="form1" name="form1" method="post" action="sections_by_player.jsp">
         <input type="hidden" name="sending_page" value="sections_by_player" />
 Select Player<select name="actor_id">
+	<option value="0">None Selected</option>
 	<% for (ListIterator la = simulation.getActors(afso.schema).listIterator(); la.hasNext();) {
-		Actor act = (Actor) la.next(); %>
-  	<option value="<%= act.getId() %>"><%= act.getActorName() %></option>
+		Actor act = (Actor) la.next(); 
+		
+		String selected = "";
+		
+		if ((afso.actor_being_worked_on_id != null) && 
+		(act.getId().intValue() == afso.actor_being_worked_on_id.intValue()) ){
+			selected = " selected ";
+		}
+		
+		%>
+  	<option value="<%= act.getId() %>" <%= selected %>><%= act.getActorName() %></option>
   	<% } %>
 </select>
         <input type="submit" name="button" id="button" value="Submit" />
         </form>
-<br/>  
-<h1>Player <%= displayActor.getActorName() %> </h1>        
+<br/>    
 <%
-
-	if (afso.actor_being_worked_on_id != null) {
+	if ((afso.actor_being_worked_on_id != null) && (displayActor != null)) {
+%>
+<h1>Player <%= displayActor.getActorName() %> </h1>  
+<% 
 		for (ListIterator li = phaseList.listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 %>
@@ -111,7 +122,7 @@ See all sections.
 <br/>
             <% } // End of if have not set simulation for edits. %>
             <% if (afso.isAuthor()) { %>
-            <a href="create_aar_starter_text.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
+            <a href="review_sim.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
             <% } else { %>
 	  	    <a href="../simulation_facilitation/instructor_home.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
 		    <% } %>			</td>
@@ -130,6 +141,3 @@ See all sections.
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>
