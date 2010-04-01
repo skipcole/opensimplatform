@@ -76,7 +76,12 @@ public class CSVInterpreter {
 								} else {
 								
 									User u = readInLine(daLine, importMappings);
-									returnString += saveUser(u, schema);
+									if (User.getByUsername(schema, u.getUser_name()) == null) {
+										returnString += saveUser(u, schema);
+									} else {
+										returnString += "<BR />User already existed: " + u.getUser_name();
+									}
+									
 
 								}
 							}
@@ -135,6 +140,7 @@ public class CSVInterpreter {
 		
 		return returnString;
 	}
+	
 	public static void readInFileHeadings(String daLine, Hashtable importMapping) {
 
 		StringTokenizer str = new StringTokenizer(daLine, ",");

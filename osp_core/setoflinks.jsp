@@ -40,8 +40,8 @@
 <p><%= cs.getBigString() %></p>
 <p><%= sol.getName() %></p>
 <ul>
-  <li><strong>Librarian's Page: <a href="http://fc.bishops.com/~lucys/html_files/drukerpeace2009.htm">http://fc.bishops.com/~lucys/html_files/drukerpeace2009.htm</a></strong></li>
-  <li><strong>Scholarly Resources: <a href="http://ezproxy.bishops.com:2048/login/">http://ezproxy.bishops.com:2048/login/</a></strong></li>
+  <li><strong>Librarian's Page: <a href="http://fc.bishops.com/~lucys/html_files/drukerpeace2010.htm" target="_new">http://fc.bishops.com/~lucys/html_files/drukerpeace2010.htm</a></strong></li>
+  <li><strong>Scholarly Resources: <a href="http://ezproxy.bishops.com:2048/login/" target="_new">http://ezproxy.bishops.com:2048/login/</a></strong></li>
 </ul>
 <p><strong>Quick Links</strong></p>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">

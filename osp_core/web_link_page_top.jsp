@@ -58,8 +58,12 @@
   <select name="wlo_id" id="select">
   <%
   	String selected = "";
+	
+	boolean showNewWindowLink = true;
+	
   	if(nowShowingWLO.getId() == null) {
 		selected = " selected ";
+		showNewWindowLink = false;
 	}
   %>
   <option value="0" <%= selected %>><%= noneSelectedString %></option>
@@ -74,9 +78,16 @@
     <option value="<%= wlo.getId() %>" <%= selected %>><%= wlo.getWeblinkName() %></option>
     <% } %>
     </select>
-  <input type="submit" name="button" id="button" value="Go!">
+  <input type="submit" name="go_button" id="go_button" value="Go!">
+  <label>
+  <input type="submit" name="edit_button" id="edit_button" value="Edit">
+  </label>
 </form>
-</td><td valign="top" width="50%"><div id="wlo_desc"><%= nowShowingWLO.getWeblinkDescription() %></div></td></tr>
+</td><td valign="top" ><div id="wlo_desc"><%= nowShowingWLO.getWeblinkDescription() %>
+<% if (showNewWindowLink) { %>
+<BR><a href="<%= nowShowingWLO.getWeblinkURL() %>" target="_new"> Open in new Window </a>
+<% } %>
+</div></td></tr>
 </table>
 <p>&nbsp;</p>
 </body>

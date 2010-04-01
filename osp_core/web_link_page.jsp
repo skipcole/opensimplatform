@@ -15,16 +15,61 @@
 		return;
 	}
 	
+	WebLinkObjects wlo = new WebLinkObjects();
+	
+	System.out.println("hit top");
+		
 	String cs_id = (String) request.getParameter("cs_id");
-	
-	String topPage = "web_link_page_top.jsp?cs_id=" + cs_id;
-	
-	String bottomPage = "web_link_page_bottom.jsp?cs_id=" + cs_id;
-	
+	String sending_page = (String) request.getParameter("sending_page");
+	String command = (String) request.getParameter("command");
 	String wlo_id = (String) request.getParameter("wlo_id");
 	
-	if ((wlo_id != null) && (!(wlo_id.equalsIgnoreCase(""))) && (!(wlo_id.equalsIgnoreCase("0")))){
-		WebLinkObjects wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));
+	System.out.println(command);
+	
+	if ((cs_id != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("web_link_page_bottom"))){
+	
+		if (command != null) {
+		
+			Long csId = new Long (cs_id);
+		
+			String wlo_name = request.getParameter("wlo_name");
+			String wlo_description = request.getParameter("wlo_description");
+			String wlo_url = request.getParameter("wlo_url");
+			
+			if (command.equalsIgnoreCase("Create")){
+				wlo = new WebLinkObjects(pso.schema, wlo_name, wlo_description, wlo_url, pso.running_sim_id, csId);
+			} else if (command.equalsIgnoreCase("Update")) {
+				wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));
+				
+				System.out.println("updatin");
+				
+				wlo.setWeblinkDescription(wlo_description);
+				wlo.setWeblinkName(wlo_name);
+				wlo.setWeblinkURL(wlo_url);
+				wlo.saveMe(pso.schema);
+			}
+		}
+	
+	} else  {
+		if (wlo.getId() != null) {
+			wlo_id = wlo.getId() + "";
+		}
+	}
+	////////////////////////
+	
+	String topPage = "web_link_page_top.jsp?cs_id=" + cs_id;
+	String bottomPage = "web_link_page_bottom.jsp?cs_id=" + cs_id;
+	
+	String edit_button = (String) request.getParameter("edit_button");
+	
+	if ((edit_button != null) && (edit_button.equalsIgnoreCase("Edit")) && (wlo_id != null) && 
+		(!(wlo_id.equalsIgnoreCase("0")))
+	) {
+		System.out.println("edit button hit: " + wlo_id);
+		bottomPage += "&wlo_id=" + wlo_id + "&editMode=true";
+	} else	if ((wlo_id != null) && (!(wlo_id.equalsIgnoreCase(""))) && (!(wlo_id.equalsIgnoreCase("0")))){
+		wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));
+		
 		bottomPage = wlo.getWeblinkURL();
 		
 		topPage += "&wlo_id=" + wlo_id;
@@ -40,8 +85,8 @@
 </head>
 
 <frameset rows="58,*">
-  <frame src="<%= topPage %>">
-  <frame src="<%= bottomPage %>">
+  <frame src="<%= topPage %>" name="wlo_top">
+  <frame src="<%= bottomPage %>" name="wlo_bottom">
 </frameset>
 <noframes><body>
 </body>

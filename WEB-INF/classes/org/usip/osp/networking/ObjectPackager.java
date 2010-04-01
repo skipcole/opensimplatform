@@ -384,6 +384,7 @@ public class ObjectPackager {
 			User thisUser = li.next();
 			BaseUser bu = BaseUser.getByUserId(thisUser.getId());
 
+			if (bu != null) {
 			thisUser.setTransit_id(thisUser.getId());
 			thisUser.setId(null);
 			bu.setTransit_id(bu.getId());
@@ -391,6 +392,9 @@ public class ObjectPackager {
 
 			returnString += xstream.toXML(bu) + lineTerminator;
 			returnString += xstream.toXML(thisUser) + lineTerminator;
+			} else {
+				Logger.getRootLogger().warn("Back Up User Null for " +  thisUser.getUser_name());
+			}
 		}
 		return returnString;
 	}

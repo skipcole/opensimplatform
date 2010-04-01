@@ -192,10 +192,10 @@ function lookupAjax(){
 $("#userNameAjax<%= act.getId() %>").autocomplete(
 	"autocomplete.jsp",
 	{
-delay:10,
-minChars:2,
-matchSubset:1,
-matchContains:1,
+delay:3,
+minChars:3,
+matchSubset:3,
+matchContains:3,
 cacheLength:10,
 onItemSelect:selectItem,
 onFindValue:findValue,

@@ -25,7 +25,7 @@
 	                  WYSIWYG Height, Width, and CSS Directory.
 \* ---------------------------------------------------------------------- */
 
-rootDir = "/usip_osp/wysiwyg_files/";
+rootDir = "/wysiwyg_files/";
 
 // Images Directory
 imagesDir = rootDir + "icons/";

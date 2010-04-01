@@ -272,24 +272,18 @@ overflow:scroll;
   </TR>
 </table>
 <P>
-	<UL>
-	<% 
+	<UL><% 
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();
 			String this_a_id = act.getId().toString();
 			String this_a_name = act.getActorName(pso.schema, pso.running_sim_id, request);
-	%>
-		<LI><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
+	%><LI class="actor_class"><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
       <option value="<%= this_a_id %>_ffffff">White</option>
 	  <option value="<%= this_a_id %>_ffdddd">Red</option>
 	  <option value="<%= this_a_id %>_ddffdd">Green</option>
 	  <option value="<%= this_a_id %>_ddddff">Blue</option>
       <option value="<%= this_a_id %>_ffff66">Yellow</option>
-	  
-    </select> </form></LI>
-	<%	
-		}
-	%>
+    </select> </form></LI><% } %>
 	</UL>
 	</P>
 <div id="foo" >Chat Text</div>
