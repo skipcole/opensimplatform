@@ -63,7 +63,7 @@
   <% if ((partyList != null) && (partyList.size() >= 1)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(0);
   %>
-    <td width="33%"><h2>Party 1: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
+    <td width="33%"><div style="width:100%; overflow: auto"><h2>Party 1: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
     </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
@@ -74,12 +74,12 @@
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
 	  <% } %>
-    </td> 
+    </div></td> 
     <% } %>
 <% if ((partyList != null) && (partyList.size() >= 2)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(1);
   %>
-    <td width="33%"><h2>Party 2: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
+    <td width="33%"><div style="width:100%; overflow: auto"><h2>Party 2: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
     </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
@@ -90,13 +90,13 @@
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
 	  <% } %>
-    </td> 
+    </div></td> 
     <% } %>
     
     <% if ((partyList != null) && (partyList.size() >= 3)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(2);
   %>
-    <td width="33%"><h2>Party 3: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
+    <td width="33%"><div style="width:100%; overflow: auto"><h2>Party 3: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
     </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
@@ -107,14 +107,14 @@
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
 	  <% } %>
-    </td> 
+    </div></td> 
     <% } %>
   </tr>
   <tr valign="top">
 <% if ((partyList != null) && (partyList.size() >= 4)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(3);
   %>
-    <td><h2>Party 4: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
+    <td width="33%"><div style="width:100%; overflow: auto"><h2>Party 4: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
     </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
@@ -125,9 +125,9 @@
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
 	  <% } %>
-    </td> 
+    </div></td> 
     <% } %>
-    <td width="33%" bgcolor="#FFEEEE"><h2>Conflict info
+    <td width="33%" bgcolor="#FFEEEE"><div style="width:100%; overflow: auto"><h2>Conflict info
     <% if (bc.isAllowConflictDocumentEdit()) { %>
     (<a href="write_conflict_document.jsp?doc_id=<%= conflictDoc.getId() %>">edit</a>)
     <% } %>
@@ -138,11 +138,11 @@
    	<% if(bc.getDocumentToShow() == 2) { %> 
     <p><a href="../compare_document.jsp?doc_1=<%= conflictDoc1.getId() %>&doc_2=<%= conflictDoc2.getId() %>">compare with previous version</a></p>
     <% } %>
-    </td>
+    </div></td>
 <% if ((partyList != null) && (partyList.size() >= 5)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(4);
   %>
-    <td><h2>Party 5: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
+    <td><div style="width:100%; overflow: auto"><h2>Party 5: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
     </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
@@ -153,14 +153,14 @@
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
 	  <% } %>
-    </td> 
+    </div></td> 
     <% } %>
   </tr>
   <tr valign="top">
 <% if ((partyList != null) && (partyList.size() >= 6)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(5);
   %>
-    <td><h2>Party 6: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
+    <td width="33%"><div style="width:100%; overflow: auto"><h2>Party 6: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
     </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
@@ -171,12 +171,12 @@
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
 	  <% } %>
-    </td> 
+    </div></td> 
     <% } %>
     <% if ((partyList != null) && (partyList.size() >= 7)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(6);
   %>
-    <td><h2>Party 7: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
+    <td width="33%"><div style="width:100%; overflow: auto"><h2>Party 7: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
     </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
@@ -187,12 +187,12 @@
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
 	  <% } %>
-    </td> 
+    </div></td> 
     <% } %>
 <% if ((partyList != null) && (partyList.size() >= 8)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(7);
   %>
-    <td><h2>Party 8: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
+    <td width="33%"><div style="width:100%; overflow: auto"><h2>Party 8: <%= bpi.getBPIName() %> (<a href="add_party.jsp?queueu_up=true&bpi_id=<%= bpi.getId() %>">edit</a>)<br>
     </h2>
       <h2>Needs</h2>
       <p><%= bpi.getNeedsDoc() %>      </p>
@@ -203,7 +203,7 @@
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
 	  <% } %>
-    </td> 
+    </div></td> 
     <% } %>
   </tr>
 </table>
