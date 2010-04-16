@@ -426,6 +426,8 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.CustomizeableSection.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.Alert.class);
+		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimSet.class);
+		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimSetAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimulation.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimActorAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimConversationAssignment.class);
@@ -450,6 +452,8 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.communications.EmailRecipients.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.Event.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.Inject.class);
+		ac.addAnnotatedClass(org.usip.osp.communications.InjectActorAssignments.class);
+		ac.addAnnotatedClass(org.usip.osp.communications.InjectFiringHistory.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.InjectGroup.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocument.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocActorNotificAssignObj.class);

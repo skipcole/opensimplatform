@@ -142,7 +142,7 @@
 			if (!(pso.preview_mode)) {
 				emailToList = Email.getAllTo(pso.schema, pso.running_sim_id, act.getId());
 				sentList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, act.getId(), true);
-				draftList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, false);
+				draftList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, act.getId(), false);
 			}
 				
 %>	
