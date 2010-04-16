@@ -15,8 +15,8 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 /**
  * This class represents a simulation in play.
- *
- * 
+ */
+/* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can

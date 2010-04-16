@@ -68,7 +68,7 @@
 			EmailRecipients er = (EmailRecipients) li.next();
 			
 			%>
-        <option value="<%= er.getId() %>"><%= er.getActorName(pso.schema, pso.running_sim_id, request) %></option>
+        <option value="<%= er.getId() %>"><%= er.getActorName() %></option>
         <% 
 			}  // end of loop over email recipients
 		%>
