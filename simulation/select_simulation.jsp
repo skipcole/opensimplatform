@@ -96,8 +96,8 @@ body {
       <td width="30%"><h2>Simulation</h2></td>
       <td width="35%"><h2>Session</h2></td>
       <td width="15%"><h2>Your Role</h2></td>
-      <td width="10%"><h2>Play</h2></td>
       <td width="10%"><h2>Phase</h2></td>
+      <td width="10%"><h2>Play</h2></td>
     </tr>
               <%
 
@@ -129,14 +129,14 @@ body {
         <span class="style1"><%= pso.checkDatesOnSim(sim, rs) %>        </span></td>
       <td><%= rs.getRunningSimulationName() %></td>
       <td><%= act.getActorName(pso.schema, rs.getId(), request) %></td>
+      <td><%= sp.getPhaseName() %></td>
       <td> <form action="select_simulation.jsp" method="post" name="form1" id="form1">
-        <input type="submit" name="Submit" value="Play" />
+        <input type="submit" name="Submit" value="Play > " />
         <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
         <input type="hidden" name="schema" value="<%= sg.getSchema_name() %>" />
         <input type="hidden" name="schema_org" value="<%= sg.getSchema_organization() %>" />
         <input type="hidden" name="sending_page" value="select_simulation" />
         </form></td>
-      <td><%= sp.getPhaseName() %></td>
     </tr>
               <%
 			  
