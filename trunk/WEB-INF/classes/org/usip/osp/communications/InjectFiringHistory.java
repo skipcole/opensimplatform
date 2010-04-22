@@ -44,8 +44,11 @@ public class InjectFiringHistory {
 	/** Id of the actor that fired this inject. */
 	private Long actor_id;
 	
-	/** comma separated list of actors this was fired to. */
-	private String actorsFiredTo;
+	/** comma separated list of actors ids this was fired to. */
+	private String actorIdsFiredTo;
+	
+	/** comma separated list of actor Names this was fired to. */
+	private String actorNamessFiredTo;
 	
 	@Column(name = "FIRED_DATE", columnDefinition = "datetime")
 	@GeneratedValue
@@ -75,12 +78,20 @@ public class InjectFiringHistory {
 		this.actor_id = actor_id;
 	}
 
-	public String getActorsFiredTo() {
-		return actorsFiredTo;
+	public String getActorIdsFiredTo() {
+		return actorIdsFiredTo;
 	}
 
-	public void setActorsFiredTo(String actorsFiredTo) {
-		this.actorsFiredTo = actorsFiredTo;
+	public void setActorIdsFiredTo(String actorIdsFiredTo) {
+		this.actorIdsFiredTo = actorIdsFiredTo;
+	}
+
+	public String getActorNamessFiredTo() {
+		return actorNamessFiredTo;
+	}
+
+	public void setActorNamessFiredTo(String actorNamessFiredTo) {
+		this.actorNamessFiredTo = actorNamessFiredTo;
 	}
 
 	public Date getFiredDate() {

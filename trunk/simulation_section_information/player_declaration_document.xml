@@ -1,0 +1,21 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.PlayerDeclarationDocumentCustomizer</customizerClassName>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Player Declaration Document</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/player_declaration_document_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A section to allow a player(s) to write a document(s) that only they can work on. The other players will 
+  only be able to read what the owning player has written.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_declaration_document.jsp</page__file__name>
+  <rec__tab__heading>Player Declaration Document</rec__tab__heading>
+  <sample__image>player_declaration_document.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>true</confers__read__ability>
+  <confers__write__ability>true</confers__write__ability>
+</org.usip.osp.baseobjects.CustomizeableSection>

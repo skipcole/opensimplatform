@@ -2,7 +2,7 @@
   <creatingOrganization>org.usip.osp.</creatingOrganization>
   <uniqueName>Show Announcements</uniqueName>
   <version>1</version>
-  <description>A section to display announcments to the players.</description>
+  <description>A section to display announcements to the players.</description>
   <url></url>
   <directory>../osp_core/</directory>
   <page__file__name>show_announcements.jsp</page__file__name>
