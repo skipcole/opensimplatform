@@ -189,16 +189,6 @@ public class ChatHelpCustomizer extends Customizer {
 
 	}
 
-	public void addToList(ArrayList array, String key) {
-
-		try {
-			Long lKey = new Long(key);
-			array.add(lKey);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	public boolean thisActorIsConstant(Long actor_id) {
 		return USIP_OSP_Util.findMatchingLong(constantActors, actor_id);
 	}

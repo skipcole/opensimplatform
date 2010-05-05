@@ -1,7 +1,11 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.baseobjects.core.*,
+	org.usip.osp.communications.*" 
 	errorPage="" %>
 
 <%
@@ -14,11 +18,28 @@
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	
+	// Get from cs the values
+	PlayerDeclarationDocumentCustomizer pdc = new PlayerDeclarationDocumentCustomizer(request, pso, cs);
 
 	List setOfDocs = new ArrayList();
 	
+	SharedDocument templateDoc = new SharedDocument();
+	
 	if (!(pso.preview_mode)) {
 		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+		if (setOfDocs != null) {
+			templateDoc = (SharedDocument) setOfDocs.get(0);
+		}
+	}
+	
+	String a_id = (String) request.getParameter("a_id");
+	String b_id = (String) request.getParameter("b_id");
+	
+	boolean showDoc = false;
+	
+	if (a_id != null) {
+		showDoc = true;
 	}
 
 
@@ -39,25 +60,27 @@
     <td width="24%">view/hide list of player docs</td>
     <td width="76%">&nbsp;</td>
   </tr>
+  <%
+	for (ListIterator la = SimActorAssignment.getActorsForSim(pso.schema, pso.sim_id).listIterator(); la.hasNext();) {
+		Actor act = (Actor) la.next();
+		String checked = "";
+					
+		if (pdc.thisActorHasDocument(act.getId())) {  %>
   <tr>
     <td>&nbsp;</td>
-    <td>doc1</td>
+    <td><a href="player_declaration_document.jsp?a_id=<%= act.getId() %>&b_id=<%= templateDoc.getId() %>&cs_id=<%= cs_id %>"><%= act.getActorName() %></a></td>
   </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>doc 2</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>doc 3</td>
-  </tr>
-</table>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<%		
-		for (ListIterator<SharedDocument> li = setOfDocs.listIterator(); li.hasNext();) {
+            
+        <%  }
+		
+	}
+%>
 
-			SharedDocument sd = (SharedDocument) li.next();
+</table>
+<%		
+	if (showDoc) {
+	
+		SharedDocument sd = SharedDocument.getPlayerDocument(pso.schema, new Long (b_id), pso.sim_id, pso.running_sim_id, new Long (a_id));
 			
 %>
 <hr>

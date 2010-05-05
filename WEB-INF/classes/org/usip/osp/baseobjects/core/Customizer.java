@@ -17,6 +17,8 @@ package org.usip.osp.baseobjects.core;
  *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
  * 
  */
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.CustomizeableSection;
@@ -57,4 +59,20 @@ public abstract class Customizer {
 	 */
 	public abstract void loadSimCustomSectionForEditing(HttpServletRequest request, 
 			SessionObjectBase pso, CustomizeableSection cs);
+	
+	/**
+	 * Turns the long into a key and adds it to the list.
+	 * 
+	 * @param array
+	 * @param key
+	 */
+	public void addToList(ArrayList array, String key) {
+
+		try {
+			Long lKey = new Long(key);
+			array.add(lKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
