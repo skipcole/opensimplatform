@@ -1,0 +1,16 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Grid Document</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_grid_doc_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A grid that players can fill in.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>grid_doc.jsp</page__file__name>
+  <rec__tab__heading>Grid Doc</rec__tab__heading>
+  <sample__image>schedule.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.CustomizeableSection>

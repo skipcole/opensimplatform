@@ -12,8 +12,8 @@ import org.hibernate.annotations.Proxy;
  * if the formula for a particular value 'x' is "x = y + z", then it is not possible to know x without
  * providing y and z. This information is important to provide to the simulation author(s) as they create 
  * their model based simulations.
- *
- * 
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can

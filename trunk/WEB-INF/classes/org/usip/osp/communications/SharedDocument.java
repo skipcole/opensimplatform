@@ -68,6 +68,8 @@ public class SharedDocument implements SimSectionDependentObject {
 	public void setTemplateDoc(boolean templateDoc) {
 		this.templateDoc = templateDoc;
 	}
+	
+	private Long primaryAuthorId;
 
 	private Long version;
 	
@@ -234,29 +236,38 @@ public class SharedDocument implements SimSectionDependentObject {
 	}
 
 	/**
+	 * This will attempt to get the document for this player in this running simulation for this section.
+	 * If that is not found, it will create one by copying the template document.
 	 * 
 	 * @param schema
 	 * @param sim_id
 	 * @param rs_id
 	 * @return Returns the 'schedule' document for this simulation.
 	 */
-	public static SharedDocument getScheduleDocument(String schema, Long sim_id, Long rs_id) {
+	public static SharedDocument getPlayerDocument(String schema, Long b_id, Long sim_id, Long rs_id, Long a_id) {
 
 		SharedDocument sd = new SharedDocument();
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String hql_string = "from SharedDocument where SIM_ID = " + sim_id + " AND RS_ID = " + rs_id //$NON-NLS-1$ //$NON-NLS-2$
-				+ " AND uniqueDocTitle = 'schedule'"; //$NON-NLS-1$
+		String hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID = :rs_id " +   //$NON-NLS-1$ //$NON-NLS-2$
+				" AND primaryAuthorId = :a_id AND base_id = :b_id"; //$NON-NLS-1$
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hql_string)
+			.setLong("sim_id", sim_id)
+			.setLong("rs_id", rs_id)
+			.setLong("a_id", a_id)
+			.setLong("b_id", b_id)
+			.list();
 
 		if ((returnList == null) || (returnList.size() == 0)) {
-			// original should have been copied in the 'enable' sim phase.
-			// We do it there to keep from two people doing it at the same time.
-			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); //$NON-NLS-1$
-			Logger.getRootLogger().warn("No shared document found. It should have be created at the enable step."); //$NON-NLS-1$
-			Logger.getRootLogger().warn("Warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"); //$NON-NLS-1$
+			Logger.getRootLogger().warn("No player doucment found, creating new one."); //$NON-NLS-1$
+
+			SharedDocument baseSD = SharedDocument.getMe(schema, b_id);
+			sd = baseSD.createCopy(rs_id, sim_id, schema);
+			sd.setPrimaryAuthorId(a_id);
+			sd.saveMe(schema);
 
 		} else {
 			sd = (SharedDocument) returnList.get(0);
@@ -266,6 +277,7 @@ public class SharedDocument implements SimSectionDependentObject {
 
 		return sd;
 	}
+
 
 	/**
 	 * Creates, and saves to the database, a copy of this shared document. This
@@ -281,19 +293,27 @@ public class SharedDocument implements SimSectionDependentObject {
 	 * @return The shared document object created.
 	 * 
 	 */
-	public SharedDocument createCopy(Long rsid, org.hibernate.Session hibernate_session) {
+	public SharedDocument createCopy(Long rsid, Long sid, String schema) {
+		
 		SharedDocument sd = new SharedDocument();
 
-		sd.setBase_id(this.getBase_id());
+		sd.setBase_id(this.getId());
 		sd.setBigString(this.getBigString());
+		sd.setDisplayTitle(this.getDisplayTitle());
 		sd.setDocDesc(this.getDocDesc());
 		sd.setEditable(this.isEditable());
 		sd.setRs_id(rsid);
 		sd.setSim_id(this.getSim_id());
-		sd.setUniqueDocTitle(this.getUniqueDocTitle());
-
-		hibernate_session.saveOrUpdate(sd);
-
+			
+		sd.setRs_id(rsid);
+		sd.setSim_id(sid);
+		
+		sd.saveMe(schema);
+		
+		sd.setUniqueDocTitle(this.getUniqueDocTitle() + "copy: " + sd.getId());
+		
+		sd.saveMe(schema);
+		
 		return sd;
 	}
 
@@ -304,16 +324,7 @@ public class SharedDocument implements SimSectionDependentObject {
 
 		SharedDocument templateSD = (SharedDocument) templateObject;
 
-		SharedDocument sd = new SharedDocument();
-
-		sd.setBigString(templateSD.getBigString());
-		sd.setDisplayTitle(templateSD.getDisplayTitle());
-		sd.setDocDesc(templateSD.getDocDesc());
-		sd.setRs_id(rs_id);
-		sd.setSim_id(sim_id);
-		sd.setUniqueDocTitle(templateSD.getUniqueDocTitle());
-
-		sd.saveMe(schema);
+		SharedDocument sd = templateSD.createCopy(rs_id, sim_id, schema);
 		
 		// If this document has notification objects associated with it, create copies of those:
 		//Copy the SharedDocumentActorNotificationAssignmentObjects into a new set for this doc.
@@ -331,6 +342,7 @@ public class SharedDocument implements SimSectionDependentObject {
 		
 		return sd.getId();
 	}
+	
 
 	/**
 	 * I hate this method. There has to be a better way, and to not hit the database so much.
@@ -483,6 +495,14 @@ public class SharedDocument implements SimSectionDependentObject {
 
 	public void setPhase(Long phase) {
 		this.phase = phase;
+	}
+
+	public Long getPrimaryAuthorId() {
+		return primaryAuthorId;
+	}
+
+	public void setPrimaryAuthorId(Long primaryAuthorId) {
+		this.primaryAuthorId = primaryAuthorId;
 	}
 
 	public Long getDocIndex() {

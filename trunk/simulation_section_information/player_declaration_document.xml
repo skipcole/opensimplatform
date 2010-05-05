@@ -6,7 +6,7 @@
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>customize_section_pages/core/player_declaration_document_page.jsp</specificMakePage>
+  <specificMakePage>customize_section_pages/core/make_player_declaration_document_page.jsp</specificMakePage>
   <bigString></bigString>
   <description>A section to allow a player(s) to write a document(s) that only they can work on. The other players will 
   only be able to read what the owning player has written.</description>
