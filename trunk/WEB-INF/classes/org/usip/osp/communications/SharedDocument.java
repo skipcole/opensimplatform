@@ -262,7 +262,7 @@ public class SharedDocument implements SimSectionDependentObject {
 			.list();
 
 		if ((returnList == null) || (returnList.size() == 0)) {
-			Logger.getRootLogger().warn("No player doucment found, creating new one."); //$NON-NLS-1$
+			Logger.getRootLogger().warn("No player document found, creating new one."); //$NON-NLS-1$
 
 			SharedDocument baseSD = SharedDocument.getMe(schema, b_id);
 			sd = baseSD.createCopy(rs_id, sim_id, schema);
@@ -299,6 +299,7 @@ public class SharedDocument implements SimSectionDependentObject {
 
 		sd.setBase_id(this.getId());
 		sd.setBigString(this.getBigString());
+		sd.setPrimaryAuthorId(this.getPrimaryAuthorId());
 		sd.setDisplayTitle(this.getDisplayTitle());
 		sd.setDocDesc(this.getDocDesc());
 		sd.setEditable(this.isEditable());

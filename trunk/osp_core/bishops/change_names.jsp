@@ -24,7 +24,7 @@
           
 		String new_name = (String) request.getParameter("new_name");
 		
-		System.out.println("creating assumed id " + new_name);
+		//System.out.println("creating assumed id " + new_name);
 
 		ActorAssumedIdentity aai = ActorAssumedIdentity.getAssumedIdentity(pso.schema, pso.actor_id, pso.running_sim_id);
 		if (aai == null){

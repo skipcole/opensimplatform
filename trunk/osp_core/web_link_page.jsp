@@ -17,14 +17,14 @@
 	
 	WebLinkObjects wlo = new WebLinkObjects();
 	
-	System.out.println("hit top");
+	//System.out.println("hit top");
 		
 	String cs_id = (String) request.getParameter("cs_id");
 	String sending_page = (String) request.getParameter("sending_page");
 	String command = (String) request.getParameter("command");
 	String wlo_id = (String) request.getParameter("wlo_id");
 	
-	System.out.println(command);
+	//System.out.println(command);
 	
 	if ((cs_id != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("web_link_page_bottom"))){
 	
@@ -41,7 +41,7 @@
 			} else if (command.equalsIgnoreCase("Update")) {
 				wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));
 				
-				System.out.println("updatin");
+				//System.out.println("updatin");
 				
 				wlo.setWeblinkDescription(wlo_description);
 				wlo.setWeblinkName(wlo_name);
@@ -65,7 +65,7 @@
 	if ((edit_button != null) && (edit_button.equalsIgnoreCase("Edit")) && (wlo_id != null) && 
 		(!(wlo_id.equalsIgnoreCase("0")))
 	) {
-		System.out.println("edit button hit: " + wlo_id);
+		//System.out.println("edit button hit: " + wlo_id);
 		bottomPage += "&wlo_id=" + wlo_id + "&editMode=true";
 	} else	if ((wlo_id != null) && (!(wlo_id.equalsIgnoreCase(""))) && (!(wlo_id.equalsIgnoreCase("0")))){
 		wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));

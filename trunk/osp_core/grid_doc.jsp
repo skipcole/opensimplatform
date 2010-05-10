@@ -25,22 +25,22 @@
 	String myNumRows = (String) contents.get("myNumRows_" + pso.running_sim_id);
 	
 	if (myNumCols == null){
-		System.out.println("putting in 0");
+		//System.out.println("putting in 0");
 		contents.put("myNumCols_" + pso.running_sim_id, "0");
 		cs.saveMe(pso.schema);
 	} else {
 		numCols = new Long(myNumCols).intValue();
-		System.out.println("nc is " + numCols);
+		//System.out.println("nc is " + numCols);
 	}
 	
 	/////////////////////////////
 	if (myNumRows == null){
-		System.out.println("putting in 0");
+		//System.out.println("putting in 0");
 		contents.put("myNumRows_" + pso.running_sim_id, "0");
 		cs.saveMe(pso.schema);
 	} else {
 		numRows = new Long(myNumRows).intValue();
-		System.out.println("nr is " + numRows);
+		//System.out.println("nr is " + numRows);
 	}
 	
 	
@@ -48,7 +48,7 @@
 	String do_add_row = (String) request.getParameter("do_add_row");
 	
 	if (do_add_col != null) {
-		System.out.println("do add col");
+		//System.out.println("do add col");
 		numCols += 1;	
 		contents.put("myNumCols_" + pso.running_sim_id, numCols + "");
 		
@@ -59,7 +59,7 @@
 	}
 	
 	if (do_add_row != null) {
-		System.out.println("do add row");
+		//System.out.println("do add row");
 		numRows += 1;	
 		contents.put("myNumRows_" + pso.running_sim_id, numRows + "");
 		
