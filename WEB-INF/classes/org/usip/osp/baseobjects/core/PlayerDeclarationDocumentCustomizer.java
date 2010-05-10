@@ -57,6 +57,11 @@ public class PlayerDeclarationDocumentCustomizer extends Customizer {
 		}
 		
 		String doc_id = request.getParameter("doc_id");
+		
+		if (doc_id == null) {
+			doc_id = "";
+		}
+		
 		cs.getContents().put(TEMPLATE_DOC_KEY, doc_id);
 		
 		Long templateDocId = USIP_OSP_Util.stringToLong(doc_id);

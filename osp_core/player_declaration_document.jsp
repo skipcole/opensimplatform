@@ -87,9 +87,15 @@
 	<h1><%= sd.getDisplayTitle() %></h1>
 	<%= sd.getBigString() %>
 <p>&nbsp;</p>
+<% if ( sd.getPrimaryAuthorId().intValue() == pso.actor_id.intValue() ) { %>
+you can edit this.
+<% } %>
 <%
-	}
+	} // if showDoc
 %>
+
+
+ok
 </body>
 </html>
 <%
