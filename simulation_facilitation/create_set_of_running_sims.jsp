@@ -37,6 +37,12 @@
     	String rss_id = (String) request.getParameter("rss_id");
 		rssQueued = RunningSimSet.getMe(afso.schema, new Long(rss_id));
     }
+	
+	String sending_page = (String) request.getParameter("sending_page");
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("set_of_running_sims"))) {
+    	String rss_id = (String) request.getParameter("rss_id");
+		rssQueued = RunningSimSet.getMe(afso.schema, new Long(rss_id));
+    }	
     
 	/////////////////
 
@@ -91,6 +97,8 @@
               <blockquote>
                 <p>
                 <form id="form2" name="form2" method="post" action="create_set_of_running_sims.jsp">
+                <input type="hidden" name="sending_page" value="set_of_running_sims" />
+                <input type="hidden" name="rss_id" value="<%= rssQueued.getId() %>" />
 <table width="80%" border = "1">
                 <tr> 
                   <td><h2>Running Simulation</h2></td>
@@ -102,12 +110,18 @@
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();
 				
+				String checked = "";
+				
+				if (rsInSet.contains(rs.getId()){
+					checked = "checked=\"checked\"";
+				}
+				
 		%>
                 <tr> 
                   <td><%= rs.getRunningSimulationName() %></td>
                   <td>
                     <label>
-                      <input type="checkbox" name="rsid_<%= rs.getId() %>" id="checkbox" />
+                      <input type="checkbox" name="rsid_<%= rs.getId() %>" id="checkbox" <%= checked %> />
                       </label>
                   </td>
                 </tr>

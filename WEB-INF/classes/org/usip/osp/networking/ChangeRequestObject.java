@@ -7,8 +7,8 @@ import org.hibernate.annotations.Proxy;
 
 /**
  * This class represents a change request packet sent to the simulation.
- *
- * 
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
