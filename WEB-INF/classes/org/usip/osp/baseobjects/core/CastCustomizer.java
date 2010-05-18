@@ -23,6 +23,7 @@ import org.apache.log4j.*;
 public class CastCustomizer extends Customizer{
 
 	public static final String KEY_FOR_DISPLAY_CONTROL = "display_control"; //$NON-NLS-1$
+	public static final String KEY_FOR_DISPLAY_UNASSIGNED = "display_unassigned"; //$NON-NLS-1$
 	public static final String KEY_FOR_CONTROL_ON_BOTTOM = "control_on_bottom"; //$NON-NLS-1$
 
 	public void handleCustomizeSection(HttpServletRequest request, 

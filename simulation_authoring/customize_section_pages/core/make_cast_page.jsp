@@ -21,12 +21,23 @@
 	String selected_display_control_yes = "";
 	String selected_display_control_no = "";
 	
-	String stored_value = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_CONTROL);
+	String stored_value_control = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_CONTROL);
 	
-	if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
+	if ((stored_value_control != null) && (stored_value_control.equalsIgnoreCase("true"))){
 		selected_display_control_yes = "checked";
 	} else {
 		selected_display_control_no = "checked";
+	}
+	
+	String selected_display_unassigned_yes = "";
+	String selected_display_unassigned_no = "";
+	
+	String stored_value_unassigned = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_UNASSIGNED);
+	
+	if ((stored_value_unassigned != null) && (stored_value_unassigned.equalsIgnoreCase("true"))){
+		selected_display_unassigned_yes = "checked";
+	} else {
+		selected_display_unassigned_no = "checked";
 	}
 	
 	
@@ -67,6 +78,13 @@
               Yes</label>
             / 
             <input type="radio" name="display_control" id="display_control_no" value="false" <%= selected_display_control_no %> />
+            No          </p>
+          <p>Cast page will display unassigned actors? 
+          <label>
+              <input type="radio" name="display_unassigned" id="display_unassigned_yes" value="true" <%= selected_display_unassigned_yes %> />
+              Yes</label>
+            / 
+            <input type="radio" name="display_unassigned" id="display_unassigned_no" value="false" <%= selected_display_unassigned_no %> />
             No          </p>
         </blockquote>
         

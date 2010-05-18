@@ -28,6 +28,7 @@
 	
 	Actor this_actor = new Actor();
 	boolean showControl = false;
+	boolean showUnAssigned = true;
 	
 	if (!(pso.preview_mode)) {
 	
@@ -38,6 +39,13 @@
 		if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
 			showControl = true;
 		}
+		
+		String stored_value_unassinged = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_UNASSIGNED);
+		if ((stored_value_unassinged != null) && (stored_value_unassinged.equalsIgnoreCase("true"))){
+			showUnAssigned = true;
+		}
+		
+		//
 	}
 	
 %>
@@ -100,6 +108,10 @@
 			}
 			
 			if (!(act.getId().equals(pso.actor_id))) {
+			
+			//if (showUnAssigned) {
+				System.out.println(USIP_OSP_Cache.getUserAssigned(pso.schema, pso.running_sim_id, act.getId(), request));
+			//}
 			
 			if ((showControl) || (!(act.isControl_actor()))) {
 		%>

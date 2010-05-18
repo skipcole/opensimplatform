@@ -88,6 +88,8 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	
 	public static final String CACHEON_LOGGED_IN_USERS = "loggedInUsers"; //$NON-NLS-1$
 	
+	public static final String CACHEON_USER_ASSIGNMENTS = "user_assignments"; //$NON-NLS-1$
+	
 	public static final String CACHEON_USER_NAMES = "user_names"; //$NON-NLS-1$
 	
 	public static final String CACHEON_USER_IDS = "user_ids"; //$NON-NLS-1$
