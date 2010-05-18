@@ -1,6 +1,7 @@
 package org.usip.osp.networking;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.ListIterator;
 
 import javax.servlet.ServletContext;
@@ -9,12 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.ActorAssumedIdentity;
+import org.usip.osp.baseobjects.RunningSimulation;
+import org.usip.osp.baseobjects.SimActorAssignment;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.SimulationMetaPhase;
 import org.usip.osp.baseobjects.SimulationPhase;
 import org.usip.osp.baseobjects.User;
+import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.bishops.BishopsPartyInfo;
 import org.usip.osp.persistence.BaseUser;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /*
  * 
@@ -354,6 +359,63 @@ public class USIP_OSP_Cache {
 		}
 
 		return user_name;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param rs_id
+	 * @param a_id
+	 * @param request
+	 * @return
+	 */
+	public static String getUserAssigned(String schema, Long rs_id, Long a_id, HttpServletRequest request){
+		
+		if ((rs_id == null) || (a_id == null) ) {
+			return UNASSIGNED;
+		}
+		
+		Hashtable<String, String> user_assignments_hash = getCachedHashtable(request,
+				USIP_OSP_ContextListener.CACHEON_USER_ASSIGNMENTS, "string");
+
+		String user_id = user_assignments_hash.get(schema + "_" + rs_id + "_" + a_id);
+		
+		if (user_id == null) {
+			loadRunningSimsUserAssignments(schema, rs_id, user_assignments_hash);
+			
+			user_id = user_assignments_hash.get(schema + "_" + rs_id + "_" + a_id);
+		}
+		
+		return user_id;
+		
+	}
+	
+	public static final String UNASSIGNED = "unassigned";
+	/*
+	 * Loop over the actors for this running simulation and load all.
+		If user is not assigned to actor, put string 'unassigned' into hashtable
+		We should Not leave the user_id null, or else we will keep hitting the database.
+	 */
+	public static void loadRunningSimsUserAssignments(String schema, Long rs_id, Hashtable user_assignments_hash){
+		
+		System.out.println("doing loadRunningSimsUserAssignments");
+		
+		RunningSimulation rs = RunningSimulation.getMe(schema, rs_id);
+		List actors_in_sim = SimActorAssignment.getActorsAssignmentsForSim(schema, rs.getSim_id());
+		
+		// Loop over all of the actors that should be assigned.
+		for (ListIterator<SimActorAssignment> li = actors_in_sim.listIterator(); li.hasNext();) {
+			SimActorAssignment this_saa = li.next();
+			
+			User user = UserAssignment.getUserAssigned(schema, rs_id, this_saa.getActor_id());
+			
+			if (user != null){ // If found, enter their user_id into the hashtable
+				user_assignments_hash.put(schema + "_" + rs_id + "_" + this_saa.getActor_id(), user.getId().toString());
+			} else { // If not found, enter 'unassigned'
+				user_assignments_hash.put(schema + "_" + rs_id + "_" + this_saa.getActor_id(), UNASSIGNED);
+			}
+		}
+		
 	}
 
 	/**
