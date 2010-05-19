@@ -54,13 +54,19 @@ public class PlayerSessionObject extends SessionObjectBase {
 		return pso;
 	}
 
+	/**
+	 * We use a language code to indicate what language to show the interface
+	 * in. It can be set by the simulation, or over ridden by the player.
+	 */
+	public int languageCode = UILanguageObject.ENGLISH_LANGUAGE_CODE;
+
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
 
 	public boolean isLoggedin() {
 		return loggedin;
 	}
-	
+
 	public boolean preview_mode = false;
 
 	/** Organization of the schema that the user is working in. */
@@ -91,7 +97,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public String user_name;
 
 	public Long draft_email_id;
-	
+
 	public int topFrameHeight = 200;
 	public int bottomFrameHeight = 40;
 
@@ -134,30 +140,32 @@ public class PlayerSessionObject extends SessionObjectBase {
 	 */
 	public void handleSimWeb(HttpServletRequest request) {
 
-		this.tabposition = request.getParameter("tabposition"); //$NON-NLS-1$
+		if (request.getParameter("tabposition") != null) {
+			this.tabposition = request.getParameter("tabposition"); //$NON-NLS-1$
 
-		this.bottomFrame = "frame_bottom.jsp"; //$NON-NLS-1$
+			this.bottomFrame = "frame_bottom.jsp"; //$NON-NLS-1$
 
-		int tabpos = 1;
+			int tabpos = 1;
 
-		try {
-			tabpos = new Integer(this.tabposition).intValue();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			List simSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(this.schema, this.sim_id,
-					this.actor_id, this.phase_id);
-
-			if (tabpos <= simSecList.size()) {
-				SimulationSectionAssignment ss = (SimulationSectionAssignment) simSecList.get(tabpos - 1);
-				this.bottomFrame = ss.generateURLforBottomFrame(this.running_sim_id, this.actor_id, this.user_id);
+			try {
+				tabpos = new Integer(this.tabposition).intValue();
+			} catch (Exception e) {
+				Logger.getRootLogger().warn("Return to sim page with tab position not an integer.");
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.forward_on = true;
+			try {
+				List simSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(this.schema, this.sim_id,
+						this.actor_id, this.phase_id);
+
+				if (tabpos <= simSecList.size()) {
+					SimulationSectionAssignment ss = (SimulationSectionAssignment) simSecList.get(tabpos - 1);
+					this.bottomFrame = ss.generateURLforBottomFrame(this.running_sim_id, this.actor_id, this.user_id);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.forward_on = true;
+			}
 		}
 
 	}
@@ -240,7 +248,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		this.phase_id = afso.phase_id;
 
 		this.preview_mode = true;
-		
+
 	}
 
 	/**
@@ -473,7 +481,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		boolean doDatabaseCheck = false;
 
-		// Compare the highest running sim change number with what this user has seen.
+		// Compare the highest running sim change number with what this user has
+		// seen.
 		if (runningSimHighestChange.intValue() > myHighestAlertNumber.intValue()) {
 			doDatabaseCheck = true;
 		}
@@ -484,13 +493,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			// Get a list of alarms
 			List<Alert> alerts_raw = Alert.getAllForRunningSimAboveNumber(schema, running_sim_id, myHighestAlertNumber);
-			
+
 			List<Alert> my_alerts = filterForUserAlerts(alerts_raw);
 
 			if (my_alerts.size() == 0) {
 				alarmXML += "<numAlarms>0</numAlarms>";
 
-			} else if (my_alerts.size() > 2){
+			} else if (my_alerts.size() > 2) {
 				alarmXML += "<numAlarms>1</numAlarms>";
 				alarmXML += "<sim_event_type>" + Alert.getTypeText(Alert.TYPE_MULTIPLE) + "</sim_event_type>";
 				alarmXML += "<sim_event_text>" + Alert.getMultipleAlertText() + "</sim_event_text>";
@@ -503,7 +512,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 				alarmXML += "<sim_event_type>" + this_alert.getTypeText() + "</sim_event_type>";
 				alarmXML += "<sim_event_text>" + this_alert.getAlertPopupMessage() + "</sim_event_text>";
 
-				// Either way, mark this one as checked by setting the highest alert number
+				// Either way, mark this one as checked by setting the highest
+				// alert number
 				myHighestAlertNumber = new Long(this_alert.getId());
 			}
 
@@ -514,19 +524,20 @@ public class PlayerSessionObject extends SessionObjectBase {
 		return alarmXML;
 
 	}
-	
+
 	/**
 	 * Takes a list of alerts and only returns the ones applicable to this user.
+	 * 
 	 * @param alerts_raw
 	 * @return
 	 */
-	public List filterForUserAlerts(List <Alert>alerts_raw){
-		
+	public List filterForUserAlerts(List<Alert> alerts_raw) {
+
 		ArrayList returnList = new ArrayList();
-		
+
 		for (ListIterator li = alerts_raw.listIterator(); li.hasNext();) {
 			Alert alert = (Alert) li.next();
-			
+
 			boolean thisUserApplicable = false;
 
 			if (!(alert.isSpecific_targets())) {
@@ -538,9 +549,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 			// Check to see if its applicable, if so, add it to output.
 			if (thisUserApplicable) {
 				returnList.add(alert);
-			}		
+			}
 		}
-		
+
 		return returnList;
 	}
 
@@ -959,7 +970,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 					// user id.
 					BaseUser bu = BaseUser.getByUserId(key);
 
-					// String actor_name = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, caa.getActor_id());
+					// String actor_name =
+					// USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id,
+					// pso.running_sim_id, request, caa.getActor_id());
 
 					String subject = "Simulation Phase Change";
 					String message = "Simulation phase has changed.";
@@ -974,14 +987,14 @@ public class PlayerSessionObject extends SessionObjectBase {
 			}
 
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			
-			if (sp.isCopyInObjects()){
+
+			if (sp.isCopyInObjects()) {
 				// Should move this to work via an interface.
 				List objectToCopy = BishopsPartyInfo.getAllForRunningSim(schema, running_sim_id, false);
-				
+
 				for (ListIterator<BishopsPartyInfo> li = objectToCopy.listIterator(); li.hasNext();) {
 					BishopsPartyInfo bpi = li.next();
-					
+
 					bpi.copyToNewVersion(schema);
 				}
 			}
@@ -1024,19 +1037,19 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public Email handleEmailWrite(HttpServletRequest request) {
 
 		Email email = new Email();
-		
+
 		String reply_to = request.getParameter("reply_to");
 		String forward_to = request.getParameter("forward_to");
-		
-		if ((reply_to != null) && (reply_to.equalsIgnoreCase("true")))  {
+
+		if ((reply_to != null) && (reply_to.equalsIgnoreCase("true"))) {
 			String reply_id = request.getParameter("reply_id");
 			String reply_to_actor_id = request.getParameter("reply_to_actor_id");
-			
+
 			Email emailIAmReplyingTo = Email.getMe(schema, new Long(reply_id));
-			
+
 			email.setId(null);
 			email.setFromActor(actor_id);
-			
+
 			email.setFromActorName(this.actor_name);
 			email.setHasBeenSent(false);
 			email.setSubjectLine("Re: " + emailIAmReplyingTo.getSubjectLine());
@@ -1044,18 +1057,19 @@ public class PlayerSessionObject extends SessionObjectBase {
 			email.setReply_email(true);
 			email.setThread_id(emailIAmReplyingTo.getId());
 			email.saveMe(schema);
-			
-			String reply_to_name = USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(reply_to_actor_id));
-			
-			EmailRecipients er = new EmailRecipients(
-				schema, email.getId(), running_sim_id, sim_id, new Long(reply_to_actor_id), reply_to_name, EmailRecipients.RECIPIENT_TO);
-			
+
+			String reply_to_name = USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(
+					reply_to_actor_id));
+
+			EmailRecipients er = new EmailRecipients(schema, email.getId(), running_sim_id, sim_id, new Long(
+					reply_to_actor_id), reply_to_name, EmailRecipients.RECIPIENT_TO);
+
 			draft_email_id = email.getId();
-			
-		} else if ((forward_to != null)&& (forward_to.equalsIgnoreCase("true")))  {
+
+		} else if ((forward_to != null) && (forward_to.equalsIgnoreCase("true"))) {
 			String forward_id = request.getParameter("forward_id");
 			Email emailIAmReplyingTo = Email.getMe(schema, new Long(forward_id));
-			
+
 			email.setId(null);
 			email.setFromActor(actor_id);
 			email.setFromActorName(this.actor_name);
@@ -1065,9 +1079,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 			email.setReply_email(true);
 			email.setThread_id(emailIAmReplyingTo.getId());
 			email.saveMe(schema);
-			
+
 			draft_email_id = email.getId();
-			
+
 		}
 
 		String queue_up = request.getParameter("queue_up");
@@ -1114,8 +1128,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 				}
 
 				if (email_send != null) {
-					
-					// must have gotten a draft id when adding a recipient for the email.
+
+					// must have gotten a draft id when adding a recipient for
+					// the email.
 					if (draft_email_id != null) {
 
 						emailRecipients = Email.getRecipientsOfAnEmail(schema, draft_email_id);
@@ -1144,8 +1159,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				if (add_recipient != null) {
 					String email_rep = request.getParameter("email_recipient");
-					
-					String aname = USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(email_rep));
+
+					String aname = USIP_OSP_Cache.getActorName(schema, sim_id, running_sim_id, request, new Long(
+							email_rep));
 
 					@SuppressWarnings("unused")
 					EmailRecipients er = new EmailRecipients(schema, draft_email_id, running_sim_id, sim_id, new Long(
@@ -1199,21 +1215,23 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		return email;
 	}
-	
+
 	/**
-	 * Puts the ">" symbol in front of each line of an email that is being replied to or forwarded.
+	 * Puts the ">" symbol in front of each line of an email that is being
+	 * replied to or forwarded.
+	 * 
 	 * @param text
 	 * @return
 	 */
-	public static String markTextAsReplyOrForwardText(String text){
-		
+	public static String markTextAsReplyOrForwardText(String text) {
+
 		String returnString = "";
-		
+
 		String[] lines = text.split("<br>");
 
-        for (String this_line : lines) {
-            returnString += ">" + this_line + "<br>";
-        }
+		for (String this_line : lines) {
+			returnString += ">" + this_line + "<br>";
+		}
 
 		return returnString;
 	}
@@ -1708,7 +1726,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 	}
 
-
 	/**
 	 * Should take this opportunity to mark in the user trail that they have
 	 * logged out.
@@ -1722,11 +1739,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 			if (myUserAssignmentId != null) {
 				UserAssignment.saveHighAlertNumber(schema, myUserAssignmentId, myHighestAlertNumber);
 			}
-			
-			if ((myUserTrailGhost != null) && (myUserTrailGhost.getTrail_id() != null)){
+
+			if ((myUserTrailGhost != null) && (myUserTrailGhost.getTrail_id() != null)) {
 				myUserTrailGhost.recordLogout(schema);
 			}
-			
+
 		}
 	}
 
@@ -1808,10 +1825,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public String getSimilieEvents() {
 		return Event.packupArray(setOfEvents);
 	}
-	
-	public String checkDatesOnSim(Simulation sim, RunningSimulation rs){
-		
-		if (rs.getEnabledDate().before(sim.getLastEditDate())){
+
+	public String checkDatesOnSim(Simulation sim, RunningSimulation rs) {
+
+		if (rs.getEnabledDate().before(sim.getLastEditDate())) {
 			return "Warning. This Running Simulation may be invalid.";
 		} else {
 			return "";

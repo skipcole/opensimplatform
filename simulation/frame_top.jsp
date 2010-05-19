@@ -92,10 +92,11 @@ function timedCount()
     
     <table width="80%" border="0" cellspacing="2" cellpadding="2">
         <tr> 
-          <td>Scenario</td>
-          <td>Session</td>
-          <td>Your Role</td>
-          <td>Phase</td>
+          <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "scenario") %></td>
+          <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "session") %></td>
+          <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "your_role") %></td>
+          <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "phase") %>
+		</td>
           <!-- td>Round</td -->
         </tr>
         <tr> 

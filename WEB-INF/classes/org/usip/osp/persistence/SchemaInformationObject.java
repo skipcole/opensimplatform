@@ -1,25 +1,14 @@
 package org.usip.osp.persistence;
 
-import java.sql.Connection;
-import java.util.Date;
-import java.util.List;
-import java.util.ListIterator;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import java.util.*;
+import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.apache.log4j.*;
 
 /**
  * This class represents a schema database that has been created to hold simulation data.
- * 
- *         This file is part of the USIP Open Simulation Platform.<br>
+ */ 
+ /*         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
  *         redistribute it and/or modify it under the terms of the new BSD Style
