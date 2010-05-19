@@ -20,6 +20,7 @@ import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.bishops.BishopsPartyInfo;
 import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.UILanguageObject;
 
 /*
  * 
@@ -36,6 +37,35 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 public class USIP_OSP_Cache {
 
+	
+	public static String getInterfaceText(HttpServletRequest request, int languageCode, String textKey){
+		
+		Hashtable allLangHash = (Hashtable) request.getSession().getServletContext()
+				.getAttribute(USIP_OSP_ContextListener.CACHEON_UI_LOCALIZED_LANGUAGE);
+
+		if ((allLangHash == null) || (allLangHash.size() == 0)){
+			System.out.println("all lang was null");
+			allLangHash = new Hashtable();
+			// load languages
+			UILanguageObject.loadLanguages();
+			allLangHash.put(new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE), UILanguageObject.getEngHash());
+			allLangHash.put(new Long(UILanguageObject.SPANISH_LANGUAGE_CODE), UILanguageObject.getSpanHash());
+			
+			// put it back in
+			request.getSession().getServletContext().setAttribute(USIP_OSP_ContextListener.CACHEON_UI_LOCALIZED_LANGUAGE,
+					allLangHash);
+			
+		}
+		
+		Hashtable langHash = (Hashtable) allLangHash.get(new Long (languageCode));
+		
+		if (langHash != null){
+			return (String) langHash.get(textKey);
+		} else {
+			return "unknown language";
+		}
+		
+	}
 	/**
 	 * Returns the phase name (looked up from the cache) by it ID.
 	 * 

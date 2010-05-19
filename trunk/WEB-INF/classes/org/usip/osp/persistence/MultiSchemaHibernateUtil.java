@@ -261,7 +261,7 @@ public class MultiSchemaHibernateUtil {
 
 	/**
 	 * The root schema (which has its own set of tables) is created from values
-	 * taken from the properities file.
+	 * taken from the properties file, and loads languages into the UI Language table.
 	 */
 	public static void recreateRootDatabase() {
 
@@ -270,6 +270,9 @@ public class MultiSchemaHibernateUtil {
 		Configuration config = MultiSchemaHibernateUtil.getInitializedConfiguration(principalschema, true);
 
 		new SchemaExport(config).create(true, true);
+		
+		// Load languages found.
+		//UILanguageObject.loadLanguages();
 	}
 
 	/**
@@ -398,10 +401,13 @@ public class MultiSchemaHibernateUtil {
 	 * @param ac
 	 */
 	public static void addRootSchemaClasses(AnnotationConfiguration ac) {
+		
+		ac.addAnnotatedClass(org.usip.osp.persistence.UILanguageObject.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.BaseUser.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.RestoreEvents.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.RestoreResults.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.SchemaInformationObject.class);
+		
 	}
 
 	/**
@@ -438,7 +444,6 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimulationPhase.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimulationRatings.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimulationSectionAssignment.class);
-		ac.addAnnotatedClass(org.usip.osp.baseobjects.UILanguageObject.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.User.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.UserAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.UserTrail.class);

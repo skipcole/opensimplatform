@@ -22,6 +22,9 @@ import org.apache.log4j.*;
  * 
  */
 public class USIP_OSP_ContextListener implements ServletContextListener {
+	
+	/** Key to get hashtable with localized language strings. */
+	public static final String CACHEON_UI_LOCALIZED_LANGUAGE = "local_lang";
 
 	/** Name of the actors stored by schema and rs_id and actor_id */
 	public static final String CACHEON_ACTOR_NAMES = "actor_names"; //$NON-NLS-1$

@@ -14,6 +14,14 @@
 	
 	User user = pso.giveMeUser();
 	
+	String sending_page = request.getParameter("sending_page");
+	
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("my_profile_language"))) {
+		String language_id = request.getParameter("language_id");
+		pso.languageCode = new Long(language_id).intValue();
+		
+	}
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -72,7 +80,7 @@ body {
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
-		<table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+		<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
@@ -108,8 +116,36 @@ body {
       <td valign="top"><%= pso.user_name %></td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
-      <td></td>
+      <td valign="top">Language:</td>
+      <td valign="top">
+      <%
+		
+		String checkedEnglish = "";
+		String checkedSpanish = "";
+		
+		if (pso.languageCode == UILanguageObject.ENGLISH_LANGUAGE_CODE){
+			System.out.println("its in english");
+			checkedEnglish = " selected=\"selected\" ";
+		} else if (pso.languageCode == UILanguageObject.SPANISH_LANGUAGE_CODE) {
+			checkedSpanish = " selected=\"selected\" ";
+			System.out.println("its in spanish");
+		} else {
+			System.out.println("its in unknown");
+		}
+	  %>
+      <form id="form1" name="form1" method="post" action="my_player_profile.jsp">
+      <input type="hidden" name="sending_page" value="my_profile_language" />
+        <label>
+          <select name="language_id" id="select">
+            <option value="1" <%= checkedEnglish %>>English</option>
+            <option value="2" <%= checkedSpanish %>>Spanish</option>
+          </select>
+          </label>
+        <label>
+        <input type="submit" name="button" id="button" value="Change Language" />
+        </label>
+      </form>
+      </td>
     </tr>
   </table>
       <p><a href="../simulation/simwebui.jsp" target="_top">Back</a></p>
