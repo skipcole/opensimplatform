@@ -25,7 +25,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;USIP Open Simulation Platform </h1></td>
     <td align="right" background="Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
@@ -43,7 +43,7 @@ body {
 <BR />
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr><td>
-<h1>Welcome to the Open Simulation Platform</h1>
+<h1>Welcome to the USIP Open Simulation Platform</h1>
 <p>More information on this project can be found at docs.opensimplatform.org</p>
 <h2>Login to the System</h2>
 <ul>

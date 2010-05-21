@@ -8,6 +8,7 @@ import org.usip.osp.baseobjects.User;
 import org.usip.osp.baseobjects.UserTrailGhost;
 import org.usip.osp.communications.Event;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.UILanguageObject;
 
 /*
  * 
@@ -25,6 +26,12 @@ public class SessionObjectBase {
 
 	/** Schema of the database that the user is working in. */
 	public String schema = ""; //$NON-NLS-1$
+	
+	/**
+	 * We use a language code to indicate what language to show the interface
+	 * in. It can be set by the simulation, or over ridden by the player.
+	 */
+	public int languageCode = UILanguageObject.ENGLISH_LANGUAGE_CODE;
 	
 	/** ID of Simulation being conducted or worked on. */
 	public Long sim_id;

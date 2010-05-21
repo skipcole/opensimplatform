@@ -1,14 +1,28 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" 
 import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.baseobjects.*" errorPage="" %>
 <%
-	
-	
 	String errorMsg = "";
+	
+	String select_language = request.getParameter("select_language");
+	
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	
+	if (select_language != null) {
+		pso.languageCode = new Long(select_language).intValue();
+	}
+	
+	String selectedEnglish = " selected=\"selected\" ";
+	String selectedSpanish = "";
+	
+	if (pso.languageCode == 2) {
+		selectedSpanish = " selected=\"selected\" ";
+		selectedEnglish = "";
+	}
 	
 	String results = OSPSessionObjectHelper.handleLoginAttempt(request);
 	
 	if (results.equalsIgnoreCase("forward_on")){
-		response.sendRedirect("select_functionality_and_schema.jsp");
+		response.sendRedirect("select_functionality_and_schema.jsp?pageLanguage=" + pso.languageCode);
 		return;
 	} else if (results.equalsIgnoreCase("error")){
 		errorMsg = "Incorrect username/password combination.";
@@ -39,7 +53,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform Login Page</h1></td>
+    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "USIP_OSP_HEADER") %></h1></td>
     <td align="right" background="Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
@@ -59,21 +73,25 @@ body {
 
   <tr> 
     <td colspan="3" background="Templates/images/page_bg.png" ><P>&nbsp;</P>
-      <h1 align="center">&nbsp;&nbsp;&nbsp;USIP Open Simulation Platform <br>
+      <h1 align="center">&nbsp;&nbsp;&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "USIP_OSP_HEADER") %> <br>
         &nbsp;&nbsp;&nbsp;(Release <%= USIP_OSP_Properties.getRelease() %>)<br> 
         <br>
       </h1>
       <form name="form1" method="post" action="login.jsp" target="_top">
-         
+        <input type="hidden" name="pageLanguage" value=<%= pso.languageCode %>>
         <input type="hidden" name="attempting_login" value="true">
         </font> 
         <table width="58%" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+            <td>&nbsp;</td>
+            <td><h1><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "login") %></h1></td>
+          </tr>
           <tr> 
-            <td>user name</font></td>
+            <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "username") %></td>
             <td> <input type="text" name="username"></td>
           </tr>
           <tr> 
-            <td>password</font></td>
+            <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "password") %></td>
             <td> <input type="password" name="password"> </td>
           </tr>
           
@@ -85,7 +103,7 @@ body {
             <td colspan="2"><font color="#FF0000"><%= errorMsg %></font></td>
           </tr>
           <tr>
-            <td colspan="2"><div align="right"><span class="style1"><a href="simulation_user_admin/retrieve_password.jsp">Forgot Password? </a></span></div></td>
+            <td colspan="2"><div align="right"><span class="style1"><a href="simulation_user_admin/retrieve_password.jsp"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "forgot_password") %></a></span></div></td>
           </tr>
           <tr>
             <td colspan="2"><div align="right"><a href="simulation_user_admin/auto_registration_form.jsp" class="style1">Register</a></div></td>
@@ -94,6 +112,20 @@ body {
       </form>
 	  <center>
         <table width="50%" border="0" cellspacing="2" cellpadding="1">
+           <tr>
+             <td align="center">
+             <form name="form2" method="post" action="login.jsp">
+             <select name="select_language" id="selectlanguage">
+               <option value="1" <%= selectedEnglish %>>English</option>
+               <option value="2" <%= selectedSpanish %>>epanol</option>
+             </select>
+               
+                 <label>
+                   <input type="submit" name="button" id="button" value="Submit">
+                 </label>
+               </form>
+             </td>
+           </tr>
            <tr>
             <td>Upcoming Planned Outage:<br /> <%= USIP_OSP_Properties.getNextPlannedDowntime() %></td>
           </tr>

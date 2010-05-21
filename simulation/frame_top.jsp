@@ -78,6 +78,11 @@ function timedCount()
 }
 </script>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+<!--
+.style1 {font-size: 9pt}
+-->
+</style>
 </head>
 <body bgcolor="#FFFFFF" onLoad="timedCount();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -113,10 +118,13 @@ function timedCount()
 	    <table border="0" cellspacing="1" cellpadding="0">
 
         <tr>
-          <td><div align="center"><a href="../simulation_user_admin/my_player_profile.jsp" class="menu_item" target="_top"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
-        </tr>
-        <tr>
-          <td><div align="center"><a href="../logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><table bgcolor="#475DB0" cellspacing="0" cellpadding="2" border="1"><tr><td align="center"><a href="../simulation_user_admin/my_player_profile.jsp" target="_top" class="menu_item style1"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "my_profile") %></a></td>
+          </tr>
+                <tr>
+                  <td align="center"><a href="../logout.jsp" target="_top" class="menu_item style1"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "logout") %></a></td>
+                </tr>
+          </table>
+          </div></td>
         </tr>
       </table>	  
 	  </div>    </td>
