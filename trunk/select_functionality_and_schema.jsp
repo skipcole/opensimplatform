@@ -3,6 +3,8 @@
 
 	String attempting_select = (String) request.getParameter("attempting_select");
 	
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	
 	OSPSessionObjectHelper osp_soh = OSPSessionObjectHelper.getOSP_SOH(request.getSession(true));
 
 	if (osp_soh.getUserid() == null){
@@ -11,6 +13,11 @@
 	}
 	
 	BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
+	
+	// If still in English, and the players normal language is another, switch it into their preffered lang.
+	if (pso.languageCode == 1){
+		pso.languageCode = bu.getPreferredLanguageCode().intValue();
+	}
 	
 	List ghostList = BaseUser.getAuthorizedSchemas(osp_soh.getUserid());
 	
@@ -57,9 +64,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform -<br>
-    &nbsp;Select Program Section
-    </h1></td>
+    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "USIP_OSP_HEADER") %>    </h1></td>
     <td align="right" background="Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
@@ -83,7 +88,7 @@ body {
   <tr> 
     <td colspan="3">
       <blockquote> 
-          <h2>Select from the Following</h2>
+          <h2><span class="header"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "select_from") %></span></h2>
             <%
 			  	for (ListIterator<SchemaGhost> li = ghostList.listIterator(); li.hasNext();) {
             		SchemaGhost this_sg = (SchemaGhost) li.next();

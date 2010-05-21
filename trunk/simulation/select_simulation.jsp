@@ -64,7 +64,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "USIP_OSP_HEADER") %></h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><a href="../logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div>  </td>
@@ -88,16 +88,16 @@ body {
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%">
-            <h1>Welcome <%= bu.getFull_name() %>!</h1>
-            <p>Below are simulations assigned to you by an instructor: </p>
+            <h1><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "welcome") %> <%= bu.getFull_name() %>!</h1>
+            <p><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "below_are") %></p>
             <table width="80%" border="2" cellspacing="2" cellpadding="2">
               <tr valign="top">
-                <td width="30%"><h2>Organization</h2></td>
-      <td width="30%"><h2>Simulation</h2></td>
-      <td width="35%"><h2>Session</h2></td>
-      <td width="15%"><h2>Your Role</h2></td>
-      <td width="10%"><h2>Phase</h2></td>
-      <td width="10%"><h2>Play</h2></td>
+                <td width="30%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "organization") %></h2></td>
+      <td width="30%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "simulation") %></h2></td>
+      <td width="35%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "session") %></h2></td>
+      <td width="15%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "your_role") %></h2></td>
+      <td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "phase") %></h2></td>
+      <td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "play") %></h2></td>
     </tr>
               <%
 
@@ -131,7 +131,8 @@ body {
       <td><%= act.getActorName(pso.schema, rs.getId(), request) %></td>
       <td><%= sp.getPhaseName() %></td>
       <td> <form action="select_simulation.jsp" method="post" name="form1" id="form1">
-        <input type="submit" name="Submit" value="Play > " />
+      
+        <input type="submit" name="Submit" value="<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "play") %> > " />
         <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
         <input type="hidden" name="schema" value="<%= sg.getSchema_name() %>" />
         <input type="hidden" name="schema_org" value="<%= sg.getSchema_organization() %>" />

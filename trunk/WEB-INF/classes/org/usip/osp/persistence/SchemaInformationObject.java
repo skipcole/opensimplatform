@@ -54,6 +54,16 @@ public class SchemaInformationObject {
 	
 	public static final String EMAIL_STATE_DOWN = "down";
 	
+    private Long preferredLanguageCode = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
+    
+    public Long getPreferredLanguageCode() {
+		return preferredLanguageCode;
+	}
+
+	public void setPreferredLanguageCode(Long preferredLanguageCode) {
+		this.preferredLanguageCode = preferredLanguageCode;
+	}
+	
 	private Date creationDate;
 	
 	public Date getCreationDate() {

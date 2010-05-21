@@ -57,7 +57,17 @@ public class BaseUser {
     @Column(name = "REGISTERED")
     private boolean registered = false;    
     
-    /**
+    private Long preferredLanguageCode = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
+    
+    public Long getPreferredLanguageCode() {
+		return preferredLanguageCode;
+	}
+
+	public void setPreferredLanguageCode(Long preferredLanguageCode) {
+		this.preferredLanguageCode = preferredLanguageCode;
+	}
+
+	/**
      * Zero argument constructed needed by hibernate and other programs.
      *
      */
