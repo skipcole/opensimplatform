@@ -54,12 +54,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		return pso;
 	}
 
-	/**
-	 * We use a language code to indicate what language to show the interface
-	 * in. It can be set by the simulation, or over ridden by the player.
-	 */
-	public int languageCode = UILanguageObject.ENGLISH_LANGUAGE_CODE;
-
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
 

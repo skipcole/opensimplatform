@@ -2589,7 +2589,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((initial_entry != null) && (initial_entry.equalsIgnoreCase("true"))) {
 
 			AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-
+			
+			PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+			
+			afso.setLanguageCode(pso.getLanguageCode());
+			
 			String schema_id = (String) request.getParameter("schema_id");
 
 			SchemaInformationObject sio = SchemaInformationObject.getMe(new Long(schema_id));
