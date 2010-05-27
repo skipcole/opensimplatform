@@ -32,6 +32,22 @@ public class SessionObjectBase {
 	 * in. It can be set by the simulation, or over ridden by the player.
 	 */
 	public int languageCode = UILanguageObject.ENGLISH_LANGUAGE_CODE;
+
+
+	public int getLanguageCode() {
+		return languageCode;
+	}
+
+	public void setLanguageCode(int languageCode) {
+		this.languageCode = languageCode;
+	}
+
+	/** Determines if actor is logged in. */
+	private boolean loggedin = false;
+
+	public boolean isLoggedin() {
+		return loggedin;
+	}
 	
 	/** ID of Simulation being conducted or worked on. */
 	public Long sim_id;
