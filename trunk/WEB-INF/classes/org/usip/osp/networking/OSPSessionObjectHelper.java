@@ -80,7 +80,7 @@ public class OSPSessionObjectHelper {
 	 * @param request
 	 * @return
 	 */
-	public static String handleLoginAttempt(HttpServletRequest request) {
+	public static BaseUser handleLoginAttempt(HttpServletRequest request) {
 
 		String returnString = "";
 
@@ -90,15 +90,11 @@ public class OSPSessionObjectHelper {
 
 			BaseUser bu = validate(request);
 
-			if (bu != null) {
-				returnString = "forward_on";
-			} else {
-				returnString = "error";
-			}
+			return bu;
 
 		}
 
-		return returnString;
+		return null;
 
 	}
 }

@@ -6,37 +6,8 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 		
-	//////////////////////////////////
-	// Get list of all simulations for pull down
-	List simList = Simulation.getAll(afso.hibernate_session);
-	
-	// Determine if setting sim to edit.
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	String selected_sim_id = null;
-	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("create_game_details"))){
-		selected_sim_id = (String) request.getParameter("selected_sim_id");
-		if (selected_sim_id != null) {
-			afso.simulation.id = selected_sim_id;
-			afso.simulation.load();
-		}
-	} // End of if changing sim to set text for.
-	
-	///////////////////////////////////////
-	// 
 
-	
-	String game_intro = (String) request.getParameter("game_intro");
-	String commit_edits = (String) request.getParameter("commit_edits");
-	
-	if ( (sending_page != null) && (commit_edits != null) && (sending_page.equalsIgnoreCase("create_game_details2"))){
-		
-		afso.simulation.id = afso.simulation.id;
-		afso.simulation.load();
-		afso.simulation.setIntroductionInDB(game_intro);
-		selected_sim_id = afso.simulation.id;
-	}
+
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -58,13 +29,18 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Upload/Download Simulations</h1>
-              <br />
-    <form action="unpackage_simulation.jsp" method="post" name="form1" id="form1">
-      <p>&nbsp;</p>
-    </form>
-    <p>This functionality is in the works!</p>
-    <p>&nbsp;</p>
+              <h1>Download Simulations</h1>
+              <p>Select a simulation from below      </p>
+              <p> 
+              <ul>
+        <% for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
+			String sim = (String) li.next(); %>
+        <li><a href="./packaged_simulations/<%= sim %>" target="_blank"><%= sim %></a></li>
+	  <% } %>
+          </ul>
+        </p>
+        <p>&nbsp;</p>        <p>&nbsp;</p>		
+              <p>&nbsp;</p>
     <p>&nbsp;</p>    <p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>

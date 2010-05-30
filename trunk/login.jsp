@@ -1,5 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" 
-import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.baseobjects.*" errorPage="" %>
+import="java.io.*,java.util.*,java.text.*,
+java.sql.*,
+org.usip.osp.networking.*,
+org.usip.osp.persistence.*,
+org.usip.osp.baseobjects.*" errorPage="" %>
 <%
 	String errorMsg = "";
 	
@@ -19,12 +23,17 @@ import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,o
 		selectedEnglish = "";
 	}
 	
-	String results = OSPSessionObjectHelper.handleLoginAttempt(request);
+	BaseUser bu = OSPSessionObjectHelper.handleLoginAttempt(request);
 	
-	if (results.equalsIgnoreCase("forward_on")){
-		response.sendRedirect("select_functionality_and_schema.jsp?pageLanguage=" + pso.languageCode);
+	if (bu != null){
+		pso.languageCode = bu.getPreferredLanguageCode().intValue();
+		response.sendRedirect("select_functionality_and_schema.jsp");
 		return;
-	} else if (results.equalsIgnoreCase("error")){
+	}
+	
+	String attempting_login = (String) request.getParameter("attempting_login");
+	// If we got here, the login attempt failed.
+	if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))) {
 		errorMsg = "Incorrect username/password combination.";
 	}	
 	

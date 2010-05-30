@@ -1698,6 +1698,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				pso.loggedin = true;
 				pso.preview_mode = false;
+				
+				pso.languageCode = bu.getPreferredLanguageCode().intValue();
 
 				user.setLastLogin(new Date());
 				user.saveJustUser(pso.schema);

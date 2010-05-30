@@ -70,6 +70,26 @@
           </label></td>
     </tr>
           <tr>
+            <td>Language:</td>
+            <td>
+            <%
+				String checkedEng = " selected=\"selected\" ";
+				String checkedSpan = "";
+				
+				if (userOnScratchPad.getBu_language().intValue() == 2) {
+					checkedEng = "";
+					checkedSpan = " selected=\"selected\" ";
+				}
+			%>
+            
+            <label for="select">
+              <select name="preferred_language" id="preferred_language">
+                <option value="1" <%= checkedEng %>>English</option>
+                <option value="2" <%= checkedSpan %>>Spanish</option>
+              </select>
+            </label></td>
+          </tr>
+          <tr>
             <td>&nbsp;</td>
               <td><input type="hidden" name="sending_page" value="create_users" />
                 <input type="submit" name="command" value="Save" tabindex="6" />

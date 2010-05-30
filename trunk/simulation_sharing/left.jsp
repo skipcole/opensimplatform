@@ -27,7 +27,7 @@
                   <br />
                   <table width="100%" border="1" cellspacing="2" cellpadding="1">
                     <tr valign="top">
-                      <td width="36%">Package A Simulation</td>
+                      <td width="36%">Package a Simulation <a href="helptext/package_simulation_help.jsp" target="helpinright">(?)</a></td>
                       <td width="1%">&nbsp;</td>
                       <td width="61%"><p>Creates a file that contains all of the information in your simulation.</p>
                         <ul>
@@ -35,17 +35,17 @@
                         </ul></td>
                     </tr>
                     <tr valign="top">
-                      <td>Upload / Download</td>
+                      <td>Upload / Download (?)</td>
                       <td>&nbsp;</td>
-                      <td><p>Upload or download a packaged simulation from an OSP fileserver.</p>
+                      <td><p>Upload or download a packaged simulation to/from this USIP OSP installation..</p>
                         <ul>
-                          <li>Upload</li>
-                          <li>Download<br />
+                          <li><a href="upload_simulation.jsp">Upload</a></li>
+                          <li><a href="download_simulation.jsp">Download</a><br />
                           </li>
                         </ul></td>
                     </tr>
                     <tr valign="top">
-                      <td>Unpackage A Simulation</td>
+                      <td>Unpackage a Simulation</td>
                       <td>&nbsp;</td>
                       <td><p>Unpackage a file containing a simulation</p>
                         <ul>

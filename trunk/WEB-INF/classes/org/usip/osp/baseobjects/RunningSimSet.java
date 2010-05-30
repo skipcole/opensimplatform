@@ -141,25 +141,6 @@ public class RunningSimSet {
 	}
 	
     /**
-     * Returns all of the actors found in a schema for a particular simulation
-     * 
-     * @param schema
-     * @return
-     */
-    public static List getAllForRunningSimulation(String schema, Long rs_set_id){
-        
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from RunningSimSetAssignment where rs_set_id = :rs_set_id")
-				.setLong("rs_set_id", rs_set_id).list(); //$NON-NLS-1$
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return returnList;
-    }
-    
-    /**
      * 
      * @param schema
      * @param rs_set_id
@@ -169,16 +150,36 @@ public class RunningSimSet {
     	
     	Hashtable returnHashtable = new Hashtable();
     	
-    	List returnList = getAllForRunningSimulation(schema, rs_set_id);
+    	List returnList = RunningSimSetAssignment.getAllForRunningSimulationSet(schema, rs_set_id);
     	
     	for (ListIterator li = returnList.listIterator(); li.hasNext();) {
     		RunningSimSetAssignment rss = (RunningSimSetAssignment) li.next();
 			
+    		System.out.println("xxxxxxxxxxxxxxxxxx: " + rss.getRs_id());
 			returnHashtable.put(rss.getRs_id(), "set");
 			
     	}
     	
     	return returnHashtable;
     }
+    
+	/**
+	 * Returns all of the sets for a particular running simulation
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public static List getAllForRunningSimulation(String schema, Long rs_id){
+	    
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+	
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from RunningSimSet where rs_id = :rs_id")
+				.setLong("rs_id", rs_id).list(); //$NON-NLS-1$
+	
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	
+		return returnList;
+	}
 	
 }

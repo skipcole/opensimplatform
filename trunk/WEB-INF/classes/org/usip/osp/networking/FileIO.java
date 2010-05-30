@@ -8,17 +8,17 @@ import org.apache.log4j.*;
 
 /**
  * Utility class that provides static methods to handle file input and output.
- *
  * 
- *         This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
+ * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  * 
  */
 public class FileIO {
@@ -32,15 +32,21 @@ public class FileIO {
 	private static String sim_image_dir = ""; //$NON-NLS-1$
 
 	static {
-		
+
 		base_web_dir = USIP_OSP_Properties.getValue("base_web_dir"); //$NON-NLS-1$
-		
-		archives_dir = base_web_dir + "simulation_admin" + File.separator + "database_archives" + File.separator;
-		base_section_web_dir = base_web_dir + "simulation_section_information" + File.separator;
-		model_dir = base_web_dir + "simulation_model_information" + File.separator;
-		actor_image_dir = base_web_dir + "osp_core" + File.separator + "images" + File.separator + "actors" + File.separator;
-		packaged_sim_dir = base_web_dir + "simulation_sharing" + File.separator + "packaged_simulations" + File.separator;
-		sim_image_dir = base_web_dir + "simulation" + File.separator + "images" + File.separator;
+
+		archives_dir = base_web_dir + "simulation_admin" + File.separator
+				+ "database_archives" + File.separator;
+		base_section_web_dir = base_web_dir + "simulation_section_information"
+				+ File.separator;
+		model_dir = base_web_dir + "simulation_model_information"
+				+ File.separator;
+		actor_image_dir = base_web_dir + "osp_core" + File.separator + "images"
+				+ File.separator + "actors" + File.separator;
+		packaged_sim_dir = base_web_dir + "simulation_sharing" + File.separator
+				+ "packaged_simulations" + File.separator;
+		sim_image_dir = base_web_dir + "simulation" + File.separator + "images"
+				+ File.separator;
 
 	}
 
@@ -50,17 +56,20 @@ public class FileIO {
 	 * @param fileName
 	 * @param fileData
 	 */
-	public static void saveImageFile(String saveType, String fileName, File fileData) {
+	public static void saveImageFile(String saveType, String fileName,
+			File fileData) {
 
 		String saveDir = ""; //$NON-NLS-1$
 
 		if (saveType.equalsIgnoreCase("actorImage")) { //$NON-NLS-1$
 			saveDir = actor_image_dir;
 		} else if (saveType.equalsIgnoreCase("simImage")) { //$NON-NLS-1$
-			Logger.getRootLogger().debug("saving file " + fileName + " to " + sim_image_dir); //$NON-NLS-1$ //$NON-NLS-2$
+			Logger.getRootLogger().debug(
+					"saving file " + fileName + " to " + sim_image_dir); //$NON-NLS-1$ //$NON-NLS-2$
 			saveDir = sim_image_dir;
 		} else {
-			Logger.getRootLogger().debug("Warning. Don't know where to save " + fileName); //$NON-NLS-1$
+			Logger.getRootLogger().debug(
+					"Warning. Don't know where to save " + fileName); //$NON-NLS-1$
 		}
 
 		try {
@@ -130,7 +139,8 @@ public class FileIO {
 	 * @param fileName
 	 * @return
 	 */
-	public static boolean saveUserArchiveXMLFile(String fileContents, String fileName){
+	public static boolean saveUserArchiveXMLFile(String fileContents,
+			String fileName) {
 		try {
 			File outFile = new File(archives_dir + fileName);
 
@@ -146,13 +156,15 @@ public class FileIO {
 
 		return false;
 	}
+
 	/**
 	 * 
 	 * @param fileContents
 	 * @param fileName
 	 * @return
 	 */
-	public static boolean saveSimulationXMLFile(String fileContents, String fileName) {
+	public static boolean saveSimulationXMLFile(String fileContents,
+			String fileName) {
 
 		try {
 			File outFile = new File(packaged_sim_dir + fileName);
@@ -170,36 +182,68 @@ public class FileIO {
 		return false;
 	}
 
+	public static boolean saveSimulationXMLFile(File uploadedFile,
+			String fileName) {
+
+		try {
+			File outFile = new File(packaged_sim_dir + fileName);
+
+			//FileWriter outFW = new FileWriter(outFile);
+
+			byte[] readData = new byte[1024];
+			FileInputStream fis = new FileInputStream(uploadedFile);
+
+			FileOutputStream fos = new FileOutputStream(outFile);
+			int i = fis.read(readData);
+
+			while (i != -1) {
+				fos.write(readData, 0, i);
+				i = fis.read(readData);
+			}
+			fis.close();
+			fos.close();
+			
+			return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
 	public static List getListOfSavedSims() {
-		
+
 		return getListOfFiles(packaged_sim_dir);
-		
+
 	}
 
 	public static List getListOfUserArchives() {
-		
+
 		return getListOfFiles(archives_dir);
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public static List getListOfFiles(String fileLocation) {
-		
+
 		File locDir = new File(fileLocation);
 
 		ArrayList returnList = new ArrayList();
 
 		if (locDir == null) {
-			Logger.getRootLogger().debug("Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
+			Logger.getRootLogger().debug(
+					"Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				Logger.getRootLogger().debug("Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
+				Logger.getRootLogger().debug(
+						"Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
@@ -216,7 +260,6 @@ public class FileIO {
 		return returnList;
 
 	}
-
 
 	/**
 	 * Gets the contents of a file (such as an xml file) as a string.
@@ -246,7 +289,7 @@ public class FileIO {
 
 		return new String(tempBuffer);
 	}
-	
+
 	public static String getPartialFileContents(File thisFile, String endString) {
 
 		StringBuilder tempBuffer = new StringBuilder();
@@ -257,12 +300,12 @@ public class FileIO {
 			String daLine = br.readLine();
 
 			boolean continueOn = true;
-			
+
 			while ((daLine != null) && (continueOn)) {
 				tempBuffer.append(daLine);
 				daLine = br.readLine();
-				
-				if (daLine.indexOf(endString) != -1){
+
+				if (daLine.indexOf(endString) != -1) {
 					tempBuffer.append(daLine);
 					continueOn = false;
 				}

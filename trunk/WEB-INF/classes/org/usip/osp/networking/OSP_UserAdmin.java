@@ -177,6 +177,8 @@ public class OSP_UserAdmin {
 		User user = new User();
 		
 		String command = request.getParameter("command"); //$NON-NLS-1$
+		
+		
 
 		if (command != null) {
 
@@ -193,7 +195,13 @@ public class OSP_UserAdmin {
 
 						user = new User(schema, this._email, this._password, "", "", //$NON-NLS-1$ //$NON-NLS-2$
 								"", this._full_name, this._email, false, false, false); //$NON-NLS-1$
-
+						
+						String preferred_language = request.getParameter("preferred_language");
+						
+						BaseUser bu = BaseUser.getByUserId(user.getId());
+						bu.setPreferredLanguageCode(new Long(preferred_language));
+						bu.saveMe();
+						
 					} catch (Exception e) {
 						this.pso.errorMsg = e.getMessage();
 					}
