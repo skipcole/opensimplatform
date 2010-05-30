@@ -5,7 +5,7 @@
 	errorPage="" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	afso.backPage = "../simulation_facilitation/create_running_sim.jsp";
+	afso.backPage = "../simulation_facilitation/create_set_of_running_sims.jsp";
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
@@ -18,31 +18,7 @@
 		simulation = afso.giveMeSim();
 	}
 	
-	///////////////
-	String create_set = (String) request.getParameter("create_set");
-	
-	if (create_set != null) {
-		String set_name = (String) request.getParameter("set_name");
-		RunningSimSet rss = new RunningSimSet();
-		rss.setRunningSimSetName(set_name);
-		rss.setSim_id(afso.sim_id);
-		rss.saveMe(afso.schema);
-	}
-	
-	
-	RunningSimSet rssQueued = new RunningSimSet();
-    String display_rss = (String) request.getParameter("display_rss");
-	
-	if ((display_rss != null) && (display_rss.equalsIgnoreCase("true"))) {
-    	String rss_id = (String) request.getParameter("rss_id");
-		rssQueued = RunningSimSet.getMe(afso.schema, new Long(rss_id));
-    }
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	if ((sending_page != null) && (sending_page.equalsIgnoreCase("set_of_running_sims"))) {
-    	String rss_id = (String) request.getParameter("rss_id");
-		rssQueued = RunningSimSet.getMe(afso.schema, new Long(rss_id));
-    }	
+	RunningSimSet rssQueued = afso.handleRunningSimSet(request);	
     
 	/////////////////
 
@@ -93,13 +69,19 @@
 			  Hashtable rsInSet = RunningSimSet.getHashSetOfRunningSims(afso.schema, rssQueued.getId());
 				
 			  %>
-              <p>Below are the running simulations currently in the set  <b> <%= rssQueued.getRunningSimSetName() %> </b>. </p>
+              <p>Below are all running simulations. Those in  set <b><%= rssQueued.getRunningSimSetName() %></b> will have a check mark in the 'In Set' column.</p>
               <blockquote>
                 <p>
                 <form id="form2" name="form2" method="post" action="create_set_of_running_sims.jsp">
-                <input type="hidden" name="sending_page" value="set_of_running_sims" />
+                <input type="hidden" name="sending_page" value="edit_set" />
                 <input type="hidden" name="rss_id" value="<%= rssQueued.getId() %>" />
-<table width="80%" border = "1">
+<table width="100%" border = "1">
+                <tr>
+                  <td colspan="2"><h2>Set 
+                    <label for="textfield"></label>
+                    <input type="text" name="set_name" id="set_name" value="<%= rssQueued.getRunningSimSetName() %>" />
+                  </h2></td>
+                  </tr>
                 <tr> 
                   <td><h2>Running Simulation</h2></td>
                   <td><h2>In Set</h2></td>
@@ -112,7 +94,7 @@
 				
 				String checked = "";
 				
-				if (rsInSet.contains(rs.getId()){
+				if (rsInSet.containsKey(rs.getId())){
 					checked = "checked=\"checked\"";
 				}
 				
@@ -125,9 +107,14 @@
                       </label>
                   </td>
                 </tr>
+
                 <%
 			}
 		%>
+                        <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="submit" name="button" id="button" value="Submit" /></td>
+                </tr>
                 </table>
                 </form>
                 </p>

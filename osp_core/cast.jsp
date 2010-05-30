@@ -28,7 +28,7 @@
 	
 	Actor this_actor = new Actor();
 	boolean showControl = false;
-	boolean showUnAssigned = true;
+	boolean showUnAssigned = false;
 	
 	if (!(pso.preview_mode)) {
 	
@@ -109,11 +109,20 @@
 			
 			if (!(act.getId().equals(pso.actor_id))) {
 			
-			//if (showUnAssigned) {
+			String userAssigned = USIP_OSP_Cache.getUserAssigned(pso.schema, pso.running_sim_id, act.getId(), request);
+			
+			boolean thisActorAssignedToUser = true;
+			if (userAssigned.equalsIgnoreCase("unassigned")) {
+				thisActorAssignedToUser = false;
+			}
 				System.out.println(USIP_OSP_Cache.getUserAssigned(pso.schema, pso.running_sim_id, act.getId(), request));
 			//}
 			
 			if ((showControl) || (!(act.isControl_actor()))) {
+			
+			if ((showUnAssigned) || (thisActorAssignedToUser)) {
+
+
 		%>
   <tr>
     <td valign="top" width="200"><img src="images/actors/<%= act.getImageFilename() %>" width="200"  ><br><%= act.getActorName(pso.schema, pso.running_sim_id, request) %></td>
@@ -132,7 +141,9 @@
     <% if (showPrivate) { %>
 		<p><strong>Private Description</strong> <br>
 		<%= act.getPrivate_description() %>  
-    <% } %>
+    <% } // end of if showing unassigned.
+			} // end of if showing control.
+	%>
     </td>
   </tr>
 

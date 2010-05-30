@@ -76,6 +76,9 @@ public class User {
 	
 	@Transient
 	private String bu_password = ""; //$NON-NLS-1$
+	
+	@Transient
+	private Long bu_language = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
 
 	public User() {
 
@@ -421,6 +424,9 @@ public class User {
 		
 		this.setBu_username(bu.getUsername());
 		this.setBu_password(bu.getPassword());
+		
+		this.setBu_language(bu.getPreferredLanguageCode());
+		
 	}
 
 	public Long getTrail_id() {
@@ -487,12 +493,8 @@ public class User {
 				org.usip.osp.persistence.BaseUser.class, this.getId());
 
 		if (bu != null) {
-			this.setBu_first_name(bu.getFirst_name());
-			this.setBu_full_name(bu.getFull_name());
-			this.setBu_last_name(bu.getLast_name());
-			this.setBu_middle_name(bu.getMiddle_name());
 
-			this.setBu_username(bu.getUsername());
+			this.loadBUInfo(bu);
 
 		} else {
 			Logger.getRootLogger().debug("warning. user found without base user component."); //$NON-NLS-1$
@@ -565,6 +567,14 @@ public class User {
 		this.bu_password = bu_password;
 	}
 	
+	public Long getBu_language() {
+		return bu_language;
+	}
+
+	public void setBu_language(Long buLanguage) {
+		bu_language = buLanguage;
+	}
+
 	public Date getLastLogin() {
 		return lastLogin;
 	}

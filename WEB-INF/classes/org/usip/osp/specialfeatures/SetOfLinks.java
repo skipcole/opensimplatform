@@ -64,6 +64,12 @@ public class SetOfLinks implements SimSectionDependentObject{
     @Column(name = "RS_ID")
     private Long rs_id;
     
+    private boolean isAssociatedWithSetOfRunningSims = false;
+    
+    /** Running simulation id. */
+    @Column(name = "RS_SET_ID")
+    private Long rs_set_id;
+    
     private String name = ""; //$NON-NLS-1$
     
     private String notes = ""; //$NON-NLS-1$  
@@ -95,18 +101,6 @@ public class SetOfLinks implements SimSectionDependentObject{
 		this.transit_id = transit_id;
 	}
     
-    /** If a value has been set for this variable, this is the id allowable response holding the answer. */
-    private Long currentlySelectedResponse;
-	
-
-	public Long getCurrentlySelectedResponse() {
-		return this.currentlySelectedResponse;
-	}
-
-	public void setCurrentlySelectedResponse(Long currentlySelectedResponse) {
-		this.currentlySelectedResponse = currentlySelectedResponse;
-	}
-
 	public Long getId() {
 		return this.id;
 	}
@@ -137,6 +131,23 @@ public class SetOfLinks implements SimSectionDependentObject{
 
 	public void setRs_id(Long rs_id) {
 		this.rs_id = rs_id;
+	}
+
+	public boolean isAssociatedWithSetOfRunningSims() {
+		return isAssociatedWithSetOfRunningSims;
+	}
+
+	public void setAssociatedWithSetOfRunningSims(
+			boolean isAssociatedWithSetOfRunningSims) {
+		this.isAssociatedWithSetOfRunningSims = isAssociatedWithSetOfRunningSims;
+	}
+
+	public Long getRs_set_id() {
+		return rs_set_id;
+	}
+
+	public void setRs_set_id(Long rsSetId) {
+		rs_set_id = rsSetId;
 	}
 
 	/**

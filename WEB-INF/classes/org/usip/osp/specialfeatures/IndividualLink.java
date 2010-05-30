@@ -24,7 +24,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy=false)
 public class IndividualLink {
 	
-    /** Unique id of this actor. */
+    /** Unique id of this link. */
 	@Id @GeneratedValue
     private Long id;
 	

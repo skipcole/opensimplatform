@@ -94,26 +94,47 @@
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="13%">Title:</td>
-    <td width="87%"><label>
+    <td width="13%" valign="top">Title:</td>
+    <td width="87%" valign="top"><label>
       <input type="text" name="link_title" id="link_title" value="<%= individualLink.getLinkTitle() %>">
     </label></td>
   </tr>
   <tr>
-    <td>Link:</td>
-    <td><label>
+    <td valign="top">Link:</td>
+    <td valign="top"><label>
       <input name="link_string" type="text" id="link_string" size="80" value="<%= individualLink.getLinkString() %>">
     </label></td>
   </tr>
   <tr>
-    <td>Description:</td>
-    <td><label>
+    <td valign="top">Description:</td>
+    <td valign="top"><label>
       <textarea name="link_desc" id="link_desc" cols="80" rows="4"><%= individualLink.getDescription() %></textarea>
     </label>    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td><%
+    <td valign="top">Set ():</td>
+    <td valign="top"><p>This link is associated with a set of simulations?</p>
+      <p>yes
+        <input type="radio" name="link_of_a_set" id="radio2" value="yes">
+/ no
+<input type="radio" name="link_of_a_set" id="radio" value="no">
+      </p>
+      <select name="select" id="select">
+      <option value="0">None</option>
+      <p><%   List rssList = RunningSimSet.getAllForSim(afso.sim_id.toString(), afso.schema);
+			
+				for (ListIterator li = rssList.listIterator(); li.hasNext();) {
+					RunningSimSet rss = (RunningSimSet) li.next();
+			  
+			  %>
+              <option value="<%= rss.getId() %>"><%= rss.getRunningSimSetName() %></option>
+              <% } %>
+        </select>
+      </td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><%
 				if (individualLink.getId() == null) {
 				%>
       <input type="submit" name="create_il" value="Create" />
@@ -130,7 +151,42 @@
 </table>
 </form>
 </blockquote>
+<p>as a first step, show all of the sets that this running simulation is associated with:</p>
+<p><%
+	List mySets = RunningSimSetAssignment.getAllForRunningSimulation(pso.schema, pso.running_sim_id);
+	
+					for (ListIterator li = mySets.listIterator(); li.hasNext();) {
+					RunningSimSetAssignment rss = (RunningSimSetAssignment) li.next();
+					%>
+                    found one with set id of <%= rss.getRs_set_id() %>
+<%
+					}
+
+%></p>
+<p>for each set, display all links in thatt set of links</p>
+<p>get set of links that are associated with this running simulation</p>
+<p></p>
+<h2>Quick Links for 'running simulation set name'.</h2>
+<table width="100%" border="1" cellspacing="0" cellpadding="0">
+  <%
+		List linkList = IndividualLink.getAllForSetOfLinks(pso.schema, sol.getId());
+		
+		for (ListIterator<IndividualLink> li = linkList.listIterator(); li.hasNext();) {
+			IndividualLink this_link = li.next();   %>
+  <tr>
+    <td colspan="2"><strong><%= this_link.getLinkTitle() %> (<a href="setoflinks_control.jsp?cs_id=<%= cs_id %>&il_id=<%= this_link.getId() %>&queueup=true">Click here to Edit</a>)</strong></td>
+  </tr>
+    <td width="17%">&nbsp;</td>
+    <td><a href="<%= this_link.getLinkString() %>" target="_new"><%= this_link.getLinkString() %></a></td>
+  </tr>
+    <td width="17%">&nbsp;</td>
+    <td><%= this_link.getDescription() %></td>
+  </tr>
+  <% 	} %>
+</table>
+<p></p>
 <p>&nbsp;</p>
+<h2>Below are the Quick Links for 'running simulation name'.</h2>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
 <%
 		List linkList = IndividualLink.getAllForSetOfLinks(pso.schema, sol.getId());
