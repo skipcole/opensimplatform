@@ -1830,5 +1830,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			return "";
 		}
 	}
+	
+	public WebLinkObjects wloOnScratchPad = new WebLinkObjects();
 
 }

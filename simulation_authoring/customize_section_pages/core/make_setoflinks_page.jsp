@@ -53,19 +53,19 @@
           <p>Tab Heading: 
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
-<p><strong>Set of  Links  that points to web address.</strong></p>
+<p><strong>Set of  Links  Page being controlled.</strong></p>
           <blockquote>
             <p>
-            <select name="sol_id" id="sol_id">
+            <select name="cs_link_page_id" id="cs_link_page_id">
             <option value="0">None Selected</option>
-            <%
-					for (ListIterator li = SetOfLinks.getAllBaseSetOfLinkssForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
-						SetOfLinks sol_l = (SetOfLinks) li.next();
-						
-						String selected = USIP_OSP_Util.matchSelected(sol_l.getId(), solc.getSolId(), " selected ");
+            <%  List uc = CustomizeableSection.getAllUncustomized(afso.schema);
+
+			for (ListIterator li = uc.listIterator(); li.hasNext();) {
+				CustomizeableSection cs_link_page = (CustomizeableSection) li.next();
 			%>
-            <option value="<%= sol_l.getId() %>" <%= selected %>><%= sol_l.getName() %></option>
-        	<% } %>  
+            <option value="<%= cs_link_page.getId().toString() %>" ><%= cs_link_page.getRec_tab_heading() %></option>
+               					  
+			<% }  // End of loop over customizeable sections         %>  
             </select>  
             </p>
           </blockquote>

@@ -2,6 +2,7 @@ package org.usip.osp.baseobjects.core;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.networking.SessionObjectBase;
 
@@ -20,11 +21,28 @@ import org.usip.osp.networking.SessionObjectBase;
  */
 public class WebLinksCustomizer extends Customizer {
 	
-	
+	public static final String KEY_FOR_LINK_NAME = "link_name"; //$NON-NLS-1$
 
 	@Override
 	public void handleCustomizeSection(HttpServletRequest request, SessionObjectBase afso, CustomizeableSection cs) {
-		// TODO Auto-generated method stub
+		
+		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
+
+		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) { //$NON-NLS-1$
+			
+			Logger.getRootLogger().debug("CastCustomizeableSection.handleCustomizeSection.save_results"); //$NON-NLS-1$
+
+			cs.setBigString(request.getParameter("cs_bigstring"));
+			
+			String weblink_descriptor = request.getParameter("weblink_descriptor"); //$NON-NLS-1$
+
+			cs.getContents().put(KEY_FOR_LINK_NAME, weblink_descriptor);
+
+			cs.saveMe(afso.schema);
+
+		}
+		
+		
 		
 	}
 
