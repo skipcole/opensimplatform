@@ -16,6 +16,7 @@
 		return;
 	}
 	
+	
 	String cs_id = (String) request.getParameter("cs_id");
 	
 	SetOfLinksCustomizer solc = new SetOfLinksCustomizer();
@@ -25,59 +26,16 @@
 	solc = new SetOfLinksCustomizer(request, pso, cs);
 	
 	SetOfLinks sol = SetOfLinks.getMe(pso.schema, solc.getSolId());
+
+	//IndividualLink individualLink = new IndividualLink();
+	IndividualLink individualLink = new IndividualLink();
 	
 	if (!(pso.preview_mode)) {	
 		sol = SetOfLinks.getSetOfLinksForRunningSim(pso.schema, solc.getSolId(), pso.running_sim_id);
+		individualLink = IndividualLink.handleEdit (request, pso, sol.getId());
 	}
 	
-	IndividualLink individualLink = new IndividualLink();
-	individualLink.setDescription("");
-	individualLink.setLinkString("");
-	individualLink.setLinkTitle("");
-	
-	String queueup = request.getParameter("queueup");
-	String il_id = request.getParameter("il_id"); 
-	
-	if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (il_id != null) && (il_id.trim().length() > 0)) {		
-		individualLink = IndividualLink.getMe(pso.schema, new Long(il_id));
-	}
 		
-	String sending_page = request.getParameter("sending_page"); 
-	
-	
-	if ((sending_page != null) && (sending_page.equalsIgnoreCase("setoflinks_control"))){
-		
-		String create_il = request.getParameter("create_il");
-		String clear_il = request.getParameter("clear_il");
-		String update_il = request.getParameter("update_il");
-		
-		if (clear_il != null) {
-			// Do nothing
-		} else {
-
-			if (update_il != null) {
-				individualLink = IndividualLink.getMe(pso.schema, new Long(il_id));
-			}
-			
-			if 	((update_il != null)  || (create_il != null) ) {	
-				String link_title = request.getParameter("link_title"); 
-				String link_string = request.getParameter("link_string");
-				String link_desc = request.getParameter("link_desc");
-		
-				individualLink.setActor_id(pso.actor_id);
-				individualLink.setDescription(link_desc);
-				individualLink.setLinkString(link_string);
-				individualLink.setLinkTitle(link_title);
-				individualLink.setRunning_sim_id(pso.running_sim_id);
-				individualLink.setSet_of_links_id(sol.getId());
-				individualLink.setSim_id(pso.sim_id);
-		
-				individualLink.saveMe(pso.schema);
-		
-			}
-		} // end of 'else'
-	}
-	
 %>
 <html>
 <head>
@@ -112,6 +70,12 @@
     </label>    </td>
   </tr>
   <tr>
+    <td valign="top">Set of Links Page</td>
+    <td valign="top"><p>Here we must loop over the sets of links pages created for this simulation.</p>
+      <p>We allow them to select the 'cs_id' essentially.</p>
+      <p>They should have created a set of links page before creating this control page.</p></td>
+  </tr>
+  <tr>
     <td valign="top">Set ():</td>
     <td valign="top"><p>This link is associated with a set of simulations?</p>
       <p>yes
@@ -121,7 +85,7 @@
       </p>
       <select name="select" id="select">
       <option value="0">None</option>
-      <p><%   List rssList = RunningSimSet.getAllForSim(afso.sim_id.toString(), afso.schema);
+      <p><%   List rssList = RunningSimSet.getAllForSim(pso.sim_id.toString(), pso.schema);
 			
 				for (ListIterator li = rssList.listIterator(); li.hasNext();) {
 					RunningSimSet rss = (RunningSimSet) li.next();
@@ -150,26 +114,20 @@
   </tr>
 </table>
 </form>
-</blockquote>
-<p>as a first step, show all of the sets that this running simulation is associated with:</p>
+
 <p><%
 	List mySets = RunningSimSetAssignment.getAllForRunningSimulation(pso.schema, pso.running_sim_id);
 	
-					for (ListIterator li = mySets.listIterator(); li.hasNext();) {
-					RunningSimSetAssignment rss = (RunningSimSetAssignment) li.next();
+					for (ListIterator lim = mySets.listIterator(); lim.hasNext();) {
+					RunningSimSetAssignment rssa = (RunningSimSetAssignment) lim.next();
+					
+					RunningSimSet rss = RunningSimSet.getMe(pso.schema, rssa.getRs_set_id());
 					%>
-                    found one with set id of <%= rss.getRs_set_id() %>
-<%
-					}
-
-%></p>
-<p>for each set, display all links in thatt set of links</p>
-<p>get set of links that are associated with this running simulation</p>
-<p></p>
-<h2>Quick Links for 'running simulation set name'.</h2>
+                    
+<h2>Quick Links for <%= rss.getRunningSimSetName() %></h2>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <%
-		List linkList = IndividualLink.getAllForSetOfLinks(pso.schema, sol.getId());
+		List linkList = IndividualLink.getAllForSetOfRunningSims(pso.schema, rss.getId(), new Long(cs_id));
 		
 		for (ListIterator<IndividualLink> li = linkList.listIterator(); li.hasNext();) {
 			IndividualLink this_link = li.next();   %>
@@ -182,16 +140,22 @@
     <td width="17%">&nbsp;</td>
     <td><%= this_link.getDescription() %></td>
   </tr>
-  <% 	} %>
+  <% 	} // End of links in this set %>
 </table>
-<p></p>
+<% } // end of loop over sets %>
 <p>&nbsp;</p>
-<h2>Below are the Quick Links for 'running simulation name'.</h2>
+
+
+
+
+
+
+<h2>Below are the Quick Links for running simulation:<%= pso.run_sim_name %>.</h2>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
 <%
-		List linkList = IndividualLink.getAllForSetOfLinks(pso.schema, sol.getId());
+		List thisRSLinkList = IndividualLink.getAllForSetOfLinks(pso.schema, sol.getId());
 		
-		for (ListIterator<IndividualLink> li = linkList.listIterator(); li.hasNext();) {
+		for (ListIterator<IndividualLink> li = thisRSLinkList.listIterator(); li.hasNext();) {
 			IndividualLink this_link = li.next();   %>
 		
         <tr>
@@ -202,7 +166,9 @@
 			<td width="17%">&nbsp;</td><td><%= this_link.getDescription() %></td></tr>
        <% 	} %>
 </table>
-       
+</blockquote>
+
+
 <p>&nbsp;</p>
 </body>
 </html>

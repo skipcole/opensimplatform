@@ -4,6 +4,7 @@
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.communications.*,
+	org.usip.osp.baseobjects.core.*,
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 
@@ -35,13 +36,17 @@
 		nowShowingWLO = WebLinkObjects.getMe(pso.schema, nowShowingId);
 	}
 	
+	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	
+	String linkName = (String) cs.getContents().get(WebLinksCustomizer.KEY_FOR_LINK_NAME);
+	
 	// TODO: We should make this customizable, so it can indicate the kind of URL's being added.
-	String noneSelectedString = "Add New Page";
+	String noneSelectedString = "Add " + linkName;
 		
 %>
 <html>
 <head>
-<title>Introduction Page</title>
+<title>Web Link Page Top</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
 <!--
@@ -54,6 +59,7 @@
 <table width="100%">
   <tr><td valign="top">
 <form name="wlo_form" method="post" action="web_link_page.jsp" target="mainFrame">
+<input type="hidden" name="sending_page" value="web_link_page_top">
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
   <select name="wlo_id" id="select">
   <%
@@ -78,9 +84,9 @@
     <option value="<%= wlo.getId() %>" <%= selected %>><%= wlo.getWeblinkName() %></option>
     <% } %>
     </select>
-  <input type="submit" name="go_button" id="go_button" value="Go!">
+  <input type="submit" name="command" id="go_button" value="Go!">
   <label>
-  <input type="submit" name="edit_button" id="edit_button" value="Edit">
+  <input type="submit" name="command" id="edit_button" value="Edit">
   </label>
 </form>
 </td><td valign="top" ><div id="wlo_desc"><%= nowShowingWLO.getWeblinkDescription() %>
