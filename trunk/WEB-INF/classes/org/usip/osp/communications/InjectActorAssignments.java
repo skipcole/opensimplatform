@@ -1,11 +1,15 @@
 package org.usip.osp.communications;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * Keeps list of actors to whom inject is targeted to by default.
@@ -60,6 +64,23 @@ public class InjectActorAssignments {
 		this.actor_id = actor_id;
 	}
 	
-	
+	public static List getAllForInject(String schema, Long inject_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = 
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from InjectActorAssignments where inject_id = :inject_id ")
+				.setLong("inject_id", inject_id)
+				.list(); //$NON-NLS-1$
+		
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		if (returnList == null){
+			returnList = new ArrayList();
+		}
+		return returnList;
+	}
 	
 }

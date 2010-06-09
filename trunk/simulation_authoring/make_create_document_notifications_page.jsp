@@ -7,24 +7,7 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 
-	String cs_id = (String)  request.getParameter("cs_id");
-	
-	SharedDocument sd = BaseSimSectionDepObjectAssignment.getSharedDocumentForSection(afso.schema, cs_id);
-	
-	if (afso.forward_on){
-		afso.forward_on = false;
-		response.sendRedirect(afso.backPage);
-		return;
-	}
-	
-	Simulation sim = new Simulation();
-	
-	if (afso.sim_id != null){
-		sim = afso.giveMeSim();
-	}
-	
-
-	afso.handleMakeNotifications(request, sd);
+	SharedDocument sd = afso.handleMakeNotifications(request);
 
 	
 %>
@@ -33,9 +16,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Open Simulation Platform Control Page</title>
-<script language="JavaScript" type="text/javascript" src="../../../wysiwyg_files/wysiwyg.js">
+<script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
 </script>
-<link href="../../../usip_osp.css" rel="stylesheet" type="text/css" />
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
@@ -44,24 +27,48 @@
         <tr>
           <td><table border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
               <tr>
-                <td width="120"><img src="../../../Templates/images/white_block_120.png" /></td>
+                <td width="120"><img src="../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><br />
-                  <h1>Set Notifications for this Document</h1>
+                  <h1>Set Notifications for Document</h1>
                   <br />
                   
                   <blockquote>
-                    <%
-						if (sd == null) { 
+                  <p>You must first set the document before you can set popup notifications to be sent to the players when this memo is submitted. </p>
+                      <form id="form1" name="form1" method="post" action="">
+                        <label for="select">Document</label>
+                        <select name="sd_id" id="sd_id">
+                        <%
+							String selectedNone = "";
+							
+							if (sd.getId() == null) {
+								selectedNone =  "selected=\"selected\"";
+							}
+						%>
+                        <option value="0" <%= selectedNone %>>None</option>
+                        <%
+						
+						for (ListIterator li = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+						SharedDocument sd_l = (SharedDocument) li.next(); 
+						
+						String selected = "";
+						if ((sd.getId() != null) && (sd_l.getId().intValue() == sd.getId().intValue())){
+							selected = "selected=\"selected\"";
+						}
+						%>
+                          <option value="<%= sd_l.getId() %>" <%= selected %>><%= sd_l.getUniqueDocTitle() %></option>
+                        <% } %>
+                        </select>
+                        <input type="submit" name="button" id="button" value="Submit" />
+                      </form>
+                      
+                  <%
+						if (sd.getId() != null) { 
 					%>
-                      <p>You must first set the document before you can set popup notifications to be sent to the players when this memo is submitted. </p>
-                    <%
-						} else {
-					%>
-                      <p>When the document x is submitted, the following actors will receive notification: </p>
+                      <p>When the document <%= sd.getUniqueDocTitle() %> is submitted, the following actors will receive notification: </p>
                       <blockquote>
                       <table width="80%" border="0" cellspacing="0">
                 <%
-                      for (ListIterator la = sim.getActors(afso.schema).listIterator(); la.hasNext();) {
+                      for (ListIterator la = SimActorAssignment.getActorsForSim(afso.schema, afso.sim_id).listIterator(); la.hasNext();) {
 						Actor act = (Actor) la.next();
 						
 						// Get the SDANAO object for this actor and this document
@@ -86,8 +93,8 @@
 						
 						
                 %>
-                <form action="make_notifications_page.jsp" method="post" name="form2" id="form2">
-                <input type="hidden" name="cs_id" value="<%= cs_id %>" />
+                <form action="make_create_document_notifications_page.jsp" method="post" name="form2" id="form2">
+                <input type="hidden" name="sd_id" value="<%= sd.getId() %>" />
                 <input type="hidden" name="actor_being_worked_on_id" value="<%= act.getId() %>" />
                         <tr>
                           <td colspan="4"><%= act.getActorName() %> </td>
@@ -110,7 +117,7 @@ Text::
                     <p>&nbsp;</p>
                     </blockquote>
                   
-                  <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a> </td>
+                  <a href="add_objects.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a> </td>
               </tr>
             </table></td>
         </tr>

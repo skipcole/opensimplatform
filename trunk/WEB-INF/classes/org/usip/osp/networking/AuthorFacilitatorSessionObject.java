@@ -3271,10 +3271,17 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public void handleMakeNotifications(HttpServletRequest request,
-			SharedDocument sd) {
+	public SharedDocument handleMakeNotifications(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
+		
+		String sd_id = (String)  request.getParameter("sd_id");
+		
+		SharedDocument sd = new SharedDocument();
+		
+		if (sd_id != null){
+			sd = SharedDocument.getMe(schema, new Long(sd_id));
+		}
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("make_notifications_page"))) {
@@ -3303,10 +3310,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				sdanao = sdanao.replaceAll("remove_", "");
 
 				System.out.println("removing " + sdanao);
-				SharedDocActorNotificAssignObj.removeSdanao(schema, sdanao);
+				if ((sdanao != null) && (!(sdanao.equalsIgnoreCase("null")))){
+					SharedDocActorNotificAssignObj.removeSdanao(schema, sdanao);
+				}
 
 			}
 		}
+		
+		return sd;
 	}
 
 	/** An event that is being worked on. */
