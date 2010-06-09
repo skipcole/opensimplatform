@@ -97,8 +97,7 @@
                       </p>
                       <p>
                       
-                      <p>Set <a href="make_notifications_page.jsp?cs_id=<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>">Notifications for this Document</a>.
-                      <p>&nbsp;</p>
+                      <p>Notifications for this document can be set in the 'Add Objects' page.<p>&nbsp;</p>
                       <p>
                         <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                         <input type="hidden" name="sending_page" value="make_memos_page" />

@@ -108,12 +108,22 @@
   <tr>
     <td valign="top">&nbsp;</td>
     <td colspan="3" valign="top"><%= da_inject.getInject_name() %></td>
-    <td width="33%" rowspan="3" valign="top"><label>
-      <input name="player_target" type="radio" value="all" checked>
+    <td width="33%" rowspan="3" valign="top">
+    <%
+		String selected_all = " checked ";
+		String selected_some = "";
+		
+		if (InjectActorAssignments.getAllForInject(pso.schema, da_inject.getId()).size() > 0 ){
+			String selected_all = "";
+			String selected_some = " checked ";
+		}
+	%>
+    <label>
+      <input name="player_target" type="radio" value="all" <%= selected_all %>>
       To All Players </label>
   <br>
   <label>
-  <input name="player_target" type="radio" value="some">
+  <input name="player_target" type="radio" value="some"  <%= selected_some %>>
     To Some Players<BR />
     <I>(Select to who after hitting submit.)</I></label> 
   <br>

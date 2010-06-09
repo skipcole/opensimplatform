@@ -10,6 +10,16 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
+	String select_recipients = (String) request.getParameter("select_recipients");
+	System.out.println("select_recipients was: " + select_recipients);
+	
+		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+			String pname = (String) e.nextElement();
+			String vname = (String) request.getParameter(pname);
+
+			System.out.println("p/v: " + pname + "/" + vname);
+		}
+	
 	String sending_page = (String) request.getParameter("sending_page");
 	
 	Inject inj = new Inject();
@@ -107,8 +117,39 @@
                 </label></td>
             </tr>
               <tr>
-                <td>&nbsp;</td>
-              <td>              
+                <td valign="top">Inject Target(s) (?):</td>
+                <td valign="top">
+                <%
+					List actorL = Actor.getAll(afso.schema);
+					///////////////////////////////////////////////////////////////////
+					Simulation simulation = new Simulation();
+					if (afso.sim_id != null) {
+						simulation = afso.giveMeSim();
+						actorL = Actor.getAllForSimulation(afso.schema, afso.sim_id);
+					}
+					
+					String allSelected = "selected=\"selected\"";
+					
+					if (InjectActorAssignments.getAllForInject(afso.schema, inj.getId()).size() > 0 ) {
+					allSelected = "";
+					}
+				%>
+                <select name="select_recipients" size="3" multiple="multiple" id="select_recipients">
+                  <option value="0" <%= allSelected %>>Everyone</option>
+                  <% 
+				  int ii = 0;
+				  for (ListIterator li = actorL.listIterator(); li.hasNext();) {
+					Actor act = (Actor) li.next();
+					ii += 1;
+				  %>
+                  <option name=<%= "target_name_" + ii %> value="<%= act.getId().toString() %>"><%= act.getActorName() %></option>
+          		<% } %>
+                </select>
+                  (Hold the Control Key to select multiple default recipients.)</td>
+              </tr>
+              <tr>
+                <td valign="top">&nbsp;</td>
+              <td valign="top">              
                 <%
 				if (inj.getId() == null) {
 				%>
