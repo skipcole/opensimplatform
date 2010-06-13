@@ -146,7 +146,8 @@ public class PlayerReflection implements Comparable{
 	 * @param a_id
 	 * @return
 	 */
-	public static PlayerReflection getPlayerReflection(String schema, Long cs_id, Long rs_id, Long a_id){
+	public static PlayerReflection getPlayerReflection(String schema, Long cs_id, Long rs_id, Long a_id,
+			Long phase_id){
 		
 		PlayerReflection playerReflection = new PlayerReflection();
 		
@@ -163,6 +164,7 @@ public class PlayerReflection implements Comparable{
 			playerReflection.setCs_id(cs_id);
 			playerReflection.setRs_id(rs_id);
 			playerReflection.setA_id(a_id);
+			playerReflection.setPhase_id(phase_id);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(playerReflection);
 			
 		} else {

@@ -1773,7 +1773,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public Inject handleCreateInject(HttpServletRequest request) {
+	public Inject handleCreateInject(String schema, HttpServletRequest request) {
 
 		Inject inject = new Inject();
 
@@ -1798,6 +1798,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String inject_text = (String) request.getParameter("inject_text");
 		String inject_notes = (String) request.getParameter("inject_notes");
 		String ig_id = (String) request.getParameter("ig_id");
+		
+		ArrayList <Long> targettedPeople = new ArrayList();
+		
+		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+			String pname = (String) e.nextElement();
+			String vname = (String) request.getParameter(pname);
+			if (pname.startsWith("target_")){
+				pname = pname.replace("target_", "");
+				
+				if (vname.equalsIgnoreCase("on"));
+				
+				Long thisTarget = USIP_OSP_Util.stringToLong(pname);
+				if (thisTarget != null){
+					targettedPeople.add(thisTarget);
+				}
+			}
+		}
 
 		// Do create if called.
 		String command = (String) request.getParameter("command");
@@ -1812,6 +1829,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				inject.setSim_id(sim_id);
 				inject.setGroup_id(new Long(ig_id));
 				inject.saveMe(schema);
+				
+				addInjectDefaultRecipients(schema, targettedPeople, inject, false);
+				
 			} else if (command.equalsIgnoreCase("Update")) {
 				inject = Inject.getMe(schema, new Long(inj_id));
 				inject.setInject_name(inject_name);
@@ -1819,6 +1839,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				inject.setInject_Notes(inject_notes);
 				inject.setGroup_id(new Long(ig_id));
 				inject.saveMe(schema);
+				
+				addInjectDefaultRecipients(schema, targettedPeople, inject, true);
 
 			}
 
@@ -1827,6 +1849,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return inject;
 
+	}
+	
+	public static void addInjectDefaultRecipients(String schema, List peopleToAdd, Inject inject, boolean cleanOld){
+		
+		if (cleanOld){
+			InjectActorAssignments.removeAllForInject(schema, inject.getId());
+		}
+		
+		for (ListIterator <Long> li = peopleToAdd.listIterator(); li.hasNext();) {
+			
+			Long this_iaa = li.next();
+			
+			InjectActorAssignments iaa = new InjectActorAssignments(schema, this_iaa, inject.getId());
+		}
 	}
 
 	/**
@@ -3274,12 +3310,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public SharedDocument handleMakeNotifications(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
-		
-		String sd_id = (String)  request.getParameter("sd_id");
-		
+
+		String sd_id = (String) request.getParameter("sd_id");
+
 		SharedDocument sd = new SharedDocument();
-		
-		if (sd_id != null){
+
+		if (sd_id != null) {
 			sd = SharedDocument.getMe(schema, new Long(sd_id));
 		}
 
@@ -3300,23 +3336,35 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				Long from_actor_being_worked_on_id = null;
 				Long from_phase_id = null;
 
+				@SuppressWarnings("unused")
 				SharedDocActorNotificAssignObj sdanao_new = new SharedDocActorNotificAssignObj(
 						schema, sim_id, sd.getId(), new Long(
 								actor_being_worked_on_id),
 						from_actor_being_worked_on_id, from_phase_id,
 						sdanao_text);
+			} else if (sdanao.startsWith("create_")) {
+
+				sdanao = sdanao.replaceAll("create_", "");
+				if ((sdanao != null) && (!(sdanao.equalsIgnoreCase("null")))) {
+					
+					SharedDocActorNotificAssignObj sdanao_edited = 
+						SharedDocActorNotificAssignObj.getMe(schema, new Long(sdanao));
+					
+					sdanao_edited.setNotificationText(sdanao_text);
+					sdanao_edited.saveMe(schema);
+					
+				}
 			} else if (sdanao.startsWith("remove_")) {
 
 				sdanao = sdanao.replaceAll("remove_", "");
 
-				System.out.println("removing " + sdanao);
-				if ((sdanao != null) && (!(sdanao.equalsIgnoreCase("null")))){
+				if ((sdanao != null) && (!(sdanao.equalsIgnoreCase("null")))) {
 					SharedDocActorNotificAssignObj.removeSdanao(schema, sdanao);
 				}
 
 			}
 		}
-		
+
 		return sd;
 	}
 
@@ -3543,7 +3591,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String rss_id = (String) request.getParameter("rss_id");
-		
+
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("set_of_running_sims"))) {
 			rssQueued = RunningSimSet.getMe(schema, new Long(rss_id));
@@ -3551,15 +3599,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("edit_set"))) {
-			
+
 			rssQueued = RunningSimSet.getMe(schema, new Long(rss_id));
-			
+
 			String set_name = (String) request.getParameter("set_name");
 			rssQueued.setRunningSimSetName(set_name);
 			rssQueued.saveMe(schema);
-			
-			RunningSimSetAssignment.removeAllForRunningSimSet(schema, rssQueued.getId());
-			
+
+			RunningSimSetAssignment.removeAllForRunningSimSet(schema, rssQueued
+					.getId());
+
 			for (Enumeration<String> e = request.getParameterNames(); e
 					.hasMoreElements();) {
 				String pname = (String) e.nextElement();
@@ -3570,10 +3619,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 					if ((vname != null) && (vname.equalsIgnoreCase("on"))) {
 						System.out.println(pname + " will be added to set.");
-						
+
 						@SuppressWarnings("unused")
-						RunningSimSetAssignment rssa = 
-							new RunningSimSetAssignment(schema, new Long(pname), rssQueued.getId());
+						RunningSimSetAssignment rssa = new RunningSimSetAssignment(
+								schema, new Long(pname), rssQueued.getId());
 					}
 				}
 			}

@@ -2,6 +2,7 @@ package org.usip.osp.communications;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,6 +40,24 @@ public class InjectActorAssignments {
 	private Long inject_id;
 	
 	private Long actor_id;
+	
+	public InjectActorAssignments(){
+		
+	}
+	
+	public InjectActorAssignments(String schema, Long actor_id, Long inject_id){
+		this.actor_id = actor_id;
+		this.inject_id = inject_id;
+		
+		this.saveMe(schema);
+	}
+	
+	public void saveMe(String schema) {	
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+	}
 
 	public Long getId() {
 		return id;
@@ -64,8 +83,28 @@ public class InjectActorAssignments {
 		this.actor_id = actor_id;
 	}
 	
+	public static void removeAllForInject(String schema, Long inject_id){
+		
+		List removeList = getAllForInject(schema, inject_id); 
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		for (ListIterator <InjectActorAssignments> li = removeList.listIterator(); li.hasNext();) {
+			
+			InjectActorAssignments this_iaa = li.next();
+			MultiSchemaHibernateUtil.getSession(schema).delete(this_iaa);	
+		}
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+	}
+	
 	public static List getAllForInject(String schema, Long inject_id) {
 
+		if (inject_id == null) {
+			return new ArrayList();
+			
+		}
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = 

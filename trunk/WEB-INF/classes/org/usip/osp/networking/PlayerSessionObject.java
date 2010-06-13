@@ -1316,7 +1316,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 
 		PlayerReflection playerReflection = PlayerReflection.getPlayerReflection(schema, cs_id, running_sim_id,
-				actor_id);
+				actor_id, phase_id);
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String update_text = (String) request.getParameter("update_text");
