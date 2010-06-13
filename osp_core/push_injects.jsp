@@ -114,8 +114,8 @@
 		String selected_some = "";
 		
 		if (InjectActorAssignments.getAllForInject(pso.schema, da_inject.getId()).size() > 0 ){
-			String selected_all = "";
-			String selected_some = " checked ";
+			selected_all = "";
+			selected_some = " checked ";
 		}
 	%>
     <label>
