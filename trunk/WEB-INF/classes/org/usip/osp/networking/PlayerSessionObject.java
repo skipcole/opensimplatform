@@ -1048,6 +1048,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 			email.setHasBeenSent(false);
 			email.setSubjectLine("Re: " + emailIAmReplyingTo.getSubjectLine());
 			email.setMsgtext(" \n" + markTextAsReplyOrForwardText(emailIAmReplyingTo.getMsgtext()));
+			
+			email.setSim_id(emailIAmReplyingTo.getSim_id());
+			email.setRunning_sim_id(emailIAmReplyingTo.getRunning_sim_id());
+			
 			email.setReply_email(true);
 			email.setThread_id(emailIAmReplyingTo.getId());
 			email.saveMe(schema);

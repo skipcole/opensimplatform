@@ -101,8 +101,20 @@
               <input type="submit" name="save_page" value="Save" />
               </p>
             <p>
-              <input type="submit" name="save_and_add" value="Save and Add Section" />
+              <input type="submit" name="save_and_add" value="Save and Add Section to Conversants" />
             (This will apply this section to all actors assigned to this conversation.)</p>
+			
+			<%
+							boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
+				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
+			
+			System.out.println("already has it is " + 	hasItAlready);
+			%>
+            <p>
+              <label>
+              <input type="submit" name="save_and_add_to_this_actor" value="Save and Add" />
+              </label>
+            (This will apply this section to this actor.) </p>
 	    </blockquote>
       </form>	  <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>

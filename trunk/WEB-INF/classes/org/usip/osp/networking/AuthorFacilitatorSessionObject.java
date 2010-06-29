@@ -2109,7 +2109,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							.debug("File is " + fileData.length());
 
 					if (fileData.length() <= max_file_longvalue) {
-						FileIO.saveImageFile("actorImage", actorOnScratchPad
+						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE, actorOnScratchPad
 								.getImageFilename(), mpr
 								.getFile("uploadedfile"));
 					} else {
@@ -2137,7 +2137,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							.debug("File is " + fileData.length());
 
 					if (fileData.length() <= max_file_longvalue) {
-						FileIO.saveImageFile("actorImage", actorOnScratchPad
+						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE, actorOnScratchPad
 								.getImageThumbFilename(), mpr
 								.getFile("uploaded_thumb_file"));
 					} else {

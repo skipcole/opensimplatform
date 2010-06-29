@@ -78,7 +78,9 @@
         <%
 					}
 				%>      </td>
-      <td valign="top" align="right"><%	if (wlo.getId() != null) { %><input type="submit" name="command" value="Delete" tabindex="7" /><% } %></td>
+      <td valign="top" align="right"><%	if (wlo.getId() != null) { %>
+        <input type="submit" name="command2" value="Delete" tabindex="7"  onClick="return confirm('Are you sure you want to delete this item?');" />
+        <% } %></td>
     </tr>
   </table>
   </form>

@@ -8,8 +8,8 @@ import org.apache.log4j.*;
 
 /**
  * Utility class that provides static methods to handle file input and output.
- * 
- * 
+ */
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
@@ -19,7 +19,6 @@ import org.apache.log4j.*;
  * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
- * 
  */
 public class FileIO {
 
@@ -50,45 +49,146 @@ public class FileIO {
 
 	}
 
+	public static byte[] getImageFile(String saveType, String fileName) {
+
+		byte[] returnByte = null;
+
+		String fileDir = ""; //$NON-NLS-1$
+
+		if (saveType.equalsIgnoreCase("actorImage")) { //$NON-NLS-1$
+			fileDir = actor_image_dir;
+		} else {
+			return null;
+		}
+		try {
+			File imageFile = new File(fileDir + fileName);
+
+			FileInputStream is = new FileInputStream(imageFile);
+
+			long length = imageFile.length();
+
+			if (length > Integer.MAX_VALUE) {
+				throw new IOException("The file is too big");
+			}
+
+			returnByte = new byte[(int) length];
+
+			// Read in the bytes
+			int offset = 0;
+			int numRead = 0;
+			while (offset < returnByte.length
+					&& (numRead = is.read(returnByte, offset, returnByte.length
+							- offset)) >= 0) {
+				offset += numRead;
+			}
+
+			if (offset < returnByte.length) {
+				throw new IOException("The file was not completely read: "
+						+ fileName);
+			}
+
+			is.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return returnByte;
+
+	}
+
+	public static String getSaveDirectory(int saveType) {
+
+		String saveDir = null;
+
+		if (saveType == OSPSimMedia.ACTOR_IMAGE) {
+			saveDir = actor_image_dir;
+		} else if (saveType == OSPSimMedia.SIM_IMAGE) {
+			saveDir = sim_image_dir;
+		} else {
+			Logger.getRootLogger().debug(
+					"Warning. Don't understand saveType: " + saveType);
+		}
+
+		return saveDir;
+	}
+	
+	public static void saveImageFile(int saveType, String fileName,
+			byte [] fileData) {
+
+		String saveDir = getSaveDirectory(saveType);
+		
+		System.out.println("saveDir was " + saveDir);
+
+		if (saveDir != null) {
+			try {
+				
+				String filePathAndName = saveDir + fileName;
+				
+				System.out.println(filePathAndName);
+				
+				File outFile = new File(filePathAndName);
+				
+				if (outFile.exists()){
+					System.out.println("getting new outfile name");
+					
+					outFile = getCleanFileName(filePathAndName);
+				}
+				FileOutputStream fos = new FileOutputStream(outFile);
+				
+				fos.write(fileData);
+
+				fos.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static File getCleanFileName(String filePathAndName){
+		
+		File outFile = new File(filePathAndName);
+		
+		int ii = 0;
+		
+		while(outFile.exists()){
+			ii += 1;
+			outFile = new File(filePathAndName + "_" + ii);
+		}
+		
+		return outFile;
+	}
+
 	/**
 	 * 
 	 * @param saveType
 	 * @param fileName
 	 * @param fileData
 	 */
-	public static void saveImageFile(String saveType, String fileName,
+	public static void saveImageFile(int saveType, String fileName,
 			File fileData) {
 
-		String saveDir = ""; //$NON-NLS-1$
+		String saveDir = getSaveDirectory(saveType);
 
-		if (saveType.equalsIgnoreCase("actorImage")) { //$NON-NLS-1$
-			saveDir = actor_image_dir;
-		} else if (saveType.equalsIgnoreCase("simImage")) { //$NON-NLS-1$
-			Logger.getRootLogger().debug(
-					"saving file " + fileName + " to " + sim_image_dir); //$NON-NLS-1$ //$NON-NLS-2$
-			saveDir = sim_image_dir;
-		} else {
-			Logger.getRootLogger().debug(
-					"Warning. Don't know where to save " + fileName); //$NON-NLS-1$
-		}
+		if (saveDir != null) {
+			try {
+				File outFile = new File(saveDir + fileName);
 
-		try {
-			File outFile = new File(saveDir + fileName);
+				byte[] readData = new byte[1024];
+				FileInputStream fis = new FileInputStream(fileData);
 
-			byte[] readData = new byte[1024];
-			FileInputStream fis = new FileInputStream(fileData);
+				FileOutputStream fos = new FileOutputStream(outFile);
+				int i = fis.read(readData);
 
-			FileOutputStream fos = new FileOutputStream(outFile);
-			int i = fis.read(readData);
-
-			while (i != -1) {
-				fos.write(readData, 0, i);
-				i = fis.read(readData);
+				while (i != -1) {
+					fos.write(readData, 0, i);
+					i = fis.read(readData);
+				}
+				fis.close();
+				fos.close();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			fis.close();
-			fos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -188,7 +288,7 @@ public class FileIO {
 		try {
 			File outFile = new File(packaged_sim_dir + fileName);
 
-			//FileWriter outFW = new FileWriter(outFile);
+			// FileWriter outFW = new FileWriter(outFile);
 
 			byte[] readData = new byte[1024];
 			FileInputStream fis = new FileInputStream(uploadedFile);
@@ -202,7 +302,7 @@ public class FileIO {
 			}
 			fis.close();
 			fos.close();
-			
+
 			return true;
 
 		} catch (Exception e) {
@@ -290,7 +390,16 @@ public class FileIO {
 		return new String(tempBuffer);
 	}
 
-	public static String getPartialFileContents(File thisFile, String endString) {
+	/**
+	 * This method either reads everything that comes before a delimiter, or
+	 * everything that comes after.
+	 * 
+	 * @param thisFile
+	 * @param delimiter
+	 * @return
+	 */
+	public static String getPartialFileContents(File thisFile,
+			String delimiter, boolean readUptoDelimiter) {
 
 		StringBuilder tempBuffer = new StringBuilder();
 		try {
@@ -300,15 +409,35 @@ public class FileIO {
 			String daLine = br.readLine();
 
 			boolean continueOn = true;
+			boolean foundDelimiter = false;
 
 			while ((daLine != null) && (continueOn)) {
-				tempBuffer.append(daLine);
+
+				// If reading up to delimiter, and havent found it,
+				// or if reading after the delimeter and have found it,
+				// the append line.
+				if (((readUptoDelimiter) && (!(foundDelimiter)))
+						|| ((!(readUptoDelimiter)) && (foundDelimiter))) {
+					tempBuffer.append(daLine);
+				}
+
 				daLine = br.readLine();
 
-				if (daLine.indexOf(endString) != -1) {
-					tempBuffer.append(daLine);
+				// If we have found the delimiter, add the line and change the
+				// state
+				if ((daLine != null) && (daLine.indexOf(delimiter) != -1)) {
+					if (readUptoDelimiter) {
+						tempBuffer.append(daLine);
+					}
+					foundDelimiter = true;
+				}
+
+				// If we are only reading up to the delimiter, and we have found
+				// it, then stop reading
+				if ((readUptoDelimiter) && (foundDelimiter)) {
 					continueOn = false;
 				}
+
 			}
 
 			br.close();

@@ -130,7 +130,7 @@ body {
       <td><%= rs.getRunningSimulationName() %></td>
       <td><%= act.getActorName(pso.schema, rs.getId(), request) %></td>
       <td><%= sp.getPhaseName() %></td>
-      <td> <form action="select_simulation.jsp" method="post" name="form1" id="form1">
+      <td> <form action="select_simulation_to_play.jsp" method="post" name="form1" id="form1">
       
         <input type="submit" name="Submit" value="<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "play") %> > " />
         <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />

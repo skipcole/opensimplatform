@@ -56,7 +56,15 @@ body {
   </tr>
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0">
+		<table border="0" cellpadding="0" cellspacing="0" >
+		   <tr>
+		<td bgcolor="#475DB0"><a href="library.jsp" target="bodyinleft" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+				<td bgcolor="#475DB0"><a href="play_panel.jsp" target="bodyinleft" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;FACILITATE&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+				<td bgcolor="#475DB0"><a href="view_running_sims.jsp" target="bodyinleft" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;MY SIMS&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		<td>&nbsp;</td></tr></table>
+	
+	</td>
   </tr>
   <tr>
   	<td width="120" align="right" valign="top"></td>
