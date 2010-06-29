@@ -78,6 +78,7 @@
         <li><a href="inactivate_running_sim.jsp">Inactivate Running Simulations</a></li>
         <li><a href="launch_beta_test.jsp">Launch Beta Test</a></li>
         <li><a href="create_set_of_running_sims.jsp">Create Set of Running Simulations</a></li>
+        <li><a href="export_import_experience.jsp">Export / Import Simulation Experience</a> </li>
       </ul>      
       <p align="center"></p>			</td>
 		</tr>

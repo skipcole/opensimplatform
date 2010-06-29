@@ -114,7 +114,7 @@ body {
                 <p>Use this section to create running simulations, invite students and perform other common instructor tasks.</p></td>
               <% } // end of if is instructor. %>
                 
-              <td width="25%" valign="top"><p align="center"><a href="simulation/select_simulation.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/players.png" alt="Player Login" width="140" height="120"></a></p>
+              <td width="25%" valign="top"><p align="center"><a href="simulation/select_simulation_to_play.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/players.png" alt="Player Login" width="140" height="120"></a></p>
                 <p>Use this section to enter into a simulated world either as a student or a control character.</p></td>
             </tr>
           </table>

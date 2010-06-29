@@ -241,7 +241,49 @@ public class Email {
 	
 	
 	private static String orderByDesc = " order by id desc " ;
+
 	
+	/**
+	 * Returns all of the email directed to an actor during a simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @param actor_id
+	 * @return
+	 */
+	public static List getAllForRunningSim(String schema, Long running_sim_id){
+		
+		ArrayList returnList = new ArrayList();
+		
+		if (running_sim_id == null){
+			return returnList;
+			
+		}
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String hqlString = "from Email where " +
+				"running_sim_id = :rsid order by id";
+		
+		List tempList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hqlString)
+			.setString("rsid", running_sim_id.toString())
+			.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		for (ListIterator<Email> li = tempList.listIterator(); li.hasNext();) {
+			Email this_er = li.next();
+			
+			if (this_er.hasBeenSent()){
+				returnList.add(this_er);
+			}
+			
+		}
+		
+		return returnList;
+	
+	}
+
 	/**
 	 * Returns all of the email directed to an actor during a simulation.
 	 * 

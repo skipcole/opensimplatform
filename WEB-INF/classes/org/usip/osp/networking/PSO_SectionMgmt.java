@@ -1015,9 +1015,12 @@ public class PSO_SectionMgmt {
 		
 		}
 		
+		String save_and_add_to_this_actor = request.getParameter("save_and_add_to_this_actor");
+		
 		// ////////////////////////////////////////////////////////////
 		// if we are saving this page
-		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
+		if ((sending_page != null) && 
+				((save_page != null) || (save_and_add != null)  || (save_and_add_to_this_actor != null))
 				&& (sending_page.equalsIgnoreCase("make_caucus_page"))) {
 			
 
@@ -1070,6 +1073,18 @@ public class PSO_SectionMgmt {
 				afso.forward_on = true;
 				return null;
 			}
+
+			// 6/16/10
+			if (save_and_add_to_this_actor != null) {
+				// add section to the applicable actors
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request,
+						_universal);
+				afso.forward_on = true;				// Reset web cache
+				USIP_OSP_ContextListener.resetWebCache(request);
+				
+				return null;
+			}
+
 		}
 
 		return conv;
@@ -1233,7 +1248,7 @@ public class PSO_SectionMgmt {
 						for (Enumeration e = mpr.getFileNames(); e.hasMoreElements();) {
 							String fn = (String) e.nextElement();
 
-							FileIO.saveImageFile("simImage", initFileName, mpr.getFile(fn));
+							FileIO.saveImageFile(OSPSimMedia.SIM_IMAGE, initFileName, mpr.getFile(fn));
 						}
 					}
 					// End of file upload piece

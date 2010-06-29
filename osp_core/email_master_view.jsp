@@ -230,6 +230,6 @@
 		} // End of if this is not the same actor as is logged in.
 	}  // End of loop over all actors %>
 
-<p>&nbsp;</p>
+<p><a href="email_chronology.jsp">Email Chronologic View</a></p>
 </body>
 </html>
