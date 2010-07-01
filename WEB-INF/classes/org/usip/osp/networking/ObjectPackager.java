@@ -764,7 +764,7 @@ public class ObjectPackager {
 				osm.setMediaType(OSPSimMedia.ACTOR_IMAGE);
 				osm.setMediaName(actorImageFile);
 				osm.setMediaString(new sun.misc.BASE64Encoder().encode(FileIO
-						.getImageFile("actorImage", actorImageFile)));
+						.getImageFile(OSPSimMedia.ACTOR_IMAGE, actorImageFile)));
 
 				returnString += xstream.toXML(osm) + lineTerminator;
 			}
@@ -774,13 +774,8 @@ public class ObjectPackager {
 					&& (actorThumbImageFile.length() > 0)
 					&& (!(actorThumbImageFile
 							.equalsIgnoreCase("no_image_default.jpg")))) {
-				OSPSimMedia osm = new OSPSimMedia();
-				osm.setMediaType(OSPSimMedia.ACTOR_IMAGE);
-				osm.setMediaName(actorThumbImageFile);
-				osm.setMediaString(new sun.misc.BASE64Encoder().encode(FileIO
-						.getImageFile("actorImage", actorThumbImageFile)));
 
-				returnString += xstream.toXML(osm) + lineTerminator;
+				returnString += packageMedia(OSPSimMedia.ACTOR_IMAGE, actorThumbImageFile, xstream);
 
 			}
 		}
@@ -789,6 +784,18 @@ public class ObjectPackager {
 
 		return returnString;
 
+	}
+	
+	public static String packageMedia(int mediaType, String mediaName, XStream xstream){
+		
+		OSPSimMedia osm = new OSPSimMedia();
+		osm.setMediaType(mediaType);
+		osm.setMediaName(mediaName);
+		osm.setMediaString(new sun.misc.BASE64Encoder().encode(FileIO
+				.getImageFile(mediaType,  mediaName)));
+
+		return ( xstream.toXML(osm) + lineTerminator);
+		
 	}
 
 	public static void unpackageSimMedia(String schema, Long reId,
