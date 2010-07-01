@@ -2395,7 +2395,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		// Check to see if this is already a customized copy
 		if (!(cs.isThisIsACustomizedSection())) {
-			cs = cs.makeCopy(schema);
+			cs = cs.makeCopy(schema, sim_id);
 		}
 
 		cs.setRec_tab_heading(request.getParameter("tab_heading"));

@@ -49,13 +49,13 @@ public class FileIO {
 
 	}
 
-	public static byte[] getImageFile(String saveType, String fileName) {
+	public static byte[] getImageFile(int saveType, String fileName) {
 
 		byte[] returnByte = null;
 
-		String fileDir = ""; //$NON-NLS-1$
+		String fileDir = null;
 
-		if (saveType.equalsIgnoreCase("actorImage")) { //$NON-NLS-1$
+		if (saveType == OSPSimMedia.ACTOR_IMAGE) {
 			fileDir = actor_image_dir;
 		} else {
 			return null;

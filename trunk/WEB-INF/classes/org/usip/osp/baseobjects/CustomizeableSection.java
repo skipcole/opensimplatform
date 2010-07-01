@@ -98,6 +98,12 @@ public class CustomizeableSection extends BaseSimSection {
     private Long idOfOrigCustSection;
     
     /**
+     * Custom sections created for one simulation can be copied into other simulations, but they should
+     * remain unique: otherwise editing a custom section for sim A will change things in sim B.
+     */
+    private Long simId;
+
+	/**
      * If this
      */
     private boolean hasASpecificMakePage = false;
@@ -166,6 +172,14 @@ public class CustomizeableSection extends BaseSimSection {
 	public void setCustomizerClassName(String customizerClassName) {
 		this.customizerClassName = customizerClassName;
 	}
+	
+    public Long getSimId() {
+		return simId;
+	}
+
+	public void setSimId(Long simId) {
+		this.simId = simId;
+	}
 
 	public static void main(String args[]) {
 
@@ -187,9 +201,11 @@ public class CustomizeableSection extends BaseSimSection {
      * @param schema
      * @return
      */
-	public CustomizeableSection makeCopy(String schema){
+	public CustomizeableSection makeCopy(String schema, Long simId){
 		
 		CustomizeableSection cs = new CustomizeableSection();
+		
+		cs.setSimId(simId);
 		
         cs.setBigString(this.getBigString());
 		cs.setContents(this.getContents());

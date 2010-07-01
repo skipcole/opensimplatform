@@ -652,7 +652,7 @@ public class PSO_SectionMgmt {
 			// If this is the original custom page, make a new page
 			if (!(this.customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				Logger.getRootLogger().debug("making copy");
-				this.customizableSectionOnScratchPad = this.customizableSectionOnScratchPad.makeCopy(afso.schema);
+				this.customizableSectionOnScratchPad = this.customizableSectionOnScratchPad.makeCopy(afso.schema, afso.sim_id);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
 			}
@@ -723,7 +723,7 @@ public class PSO_SectionMgmt {
 
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema, afso.sim_id);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
 			}
@@ -809,7 +809,7 @@ public class PSO_SectionMgmt {
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				Logger.getRootLogger().debug("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema, afso.sim_id);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
 			}
@@ -834,7 +834,7 @@ public class PSO_SectionMgmt {
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				Logger.getRootLogger().debug("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema, afso.sim_id);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 				sharedDocument = new SharedDocument();
 			}
@@ -902,7 +902,7 @@ public class PSO_SectionMgmt {
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				Logger.getRootLogger().debug("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema, afso.sim_id);
 				_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 			}
 
@@ -1027,7 +1027,7 @@ public class PSO_SectionMgmt {
 			// If this is the original custom page, make a new page
 			if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 				Logger.getRootLogger().debug("making copy");
-				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
+				customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema, afso.sim_id);
 
 				// Create and save the assignment obect
 				@SuppressWarnings("unused")
@@ -1113,7 +1113,7 @@ public class PSO_SectionMgmt {
 		// simulation
 		if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
 
-			customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
+			customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema, afso.sim_id);
 
 		}
 
@@ -1510,7 +1510,7 @@ public class PSO_SectionMgmt {
 	public void makeCopyOfCustomizedSectionIfNeeded() {
 
 		if (!(customizableSectionOnScratchPad.isThisIsACustomizedSection())) {
-			customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema);
+			customizableSectionOnScratchPad = customizableSectionOnScratchPad.makeCopy(afso.schema, this.afso.sim_id);
 			_custom_section_id = customizableSectionOnScratchPad.getId() + "";
 
 		}
