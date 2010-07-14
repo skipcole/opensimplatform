@@ -100,18 +100,45 @@ public class Tips {
 		return returnList;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static Tips getBySimActorPhaseSection(Long s_id, Long a_id, Long p_id, Long cs_id, String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<Tips> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Tips where simId = :s_id and actorId = :a_id and phaseId = :p_id and csId = :cs_id")
+				.setLong("s_id", s_id)
+				.setLong("a_id", a_id)
+				.setLong("p_id", p_id)
+				.setLong("cs_id", cs_id)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		if ((returnList == null) || (returnList.size() == 0)){
+			return null;
+		} else {
+			return returnList.get(0);
+		}
+
+	}
+	
 	private Long parentTipTextId;
 	private Long simId;
 	private Long runningSimId;
 	private Long actorId;
 	private Long phaseId;
+	private Long csId;	
 	
-	private boolean isInstructorAdded;
+	private boolean allowInstructorAdditions = false;
+	private boolean isInstructorAdded = false;
+	private boolean isShared = false;
 	
 	private String instructorsName;
 	private String instructorsId;
 	private String instructorsEmail;
 	
+	private String tipName;
 	private String tipText;
 	
 	private Date tipLastEditDate;
@@ -155,6 +182,14 @@ public class Tips {
 
 	public void setPhaseId(Long phaseId) {
 		this.phaseId = phaseId;
+	}
+
+	public Long getCsId() {
+		return csId;
+	}
+
+	public void setCsId(Long csId) {
+		this.csId = csId;
 	}
 
 	public boolean isInstructorAdded() {
@@ -203,6 +238,30 @@ public class Tips {
 
 	public void setTipLastEditDate(Date tipLastEditDate) {
 		this.tipLastEditDate = tipLastEditDate;
+	}
+
+	public boolean isAllowInstructorAdditions() {
+		return allowInstructorAdditions;
+	}
+
+	public void setAllowInstructorAdditions(boolean allowInstructorAdditions) {
+		this.allowInstructorAdditions = allowInstructorAdditions;
+	}
+
+	public boolean isShared() {
+		return isShared;
+	}
+
+	public void setShared(boolean isShared) {
+		this.isShared = isShared;
+	}
+
+	public String getTipName() {
+		return tipName;
+	}
+
+	public void setTipName(String tipName) {
+		this.tipName = tipName;
 	}
 	
 	
