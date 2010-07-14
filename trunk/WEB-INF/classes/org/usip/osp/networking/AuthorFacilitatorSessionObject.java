@@ -516,6 +516,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						new Long(phase_sim_id), phase_removed_id);
 
 			} else if (objectType.equalsIgnoreCase("actor")) {
+				
+				// Removing actor assignments first
+				SimActorAssignment.removeActorAssignments(schema, o_id);
+				
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
 				Actor act = (Actor) MultiSchemaHibernateUtil.getSession(
 						this.schema).get(Actor.class, o_id);
@@ -529,6 +533,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				MultiSchemaHibernateUtil.getSession(this.schema).delete(act);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
+				
 			} else if (objectType.equalsIgnoreCase("inject")) {
 
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);

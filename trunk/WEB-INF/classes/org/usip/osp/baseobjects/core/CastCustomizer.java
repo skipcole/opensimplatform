@@ -26,6 +26,7 @@ public class CastCustomizer extends Customizer{
 	public static final String KEY_FOR_DISPLAY_UNASSIGNED = "display_unassigned"; //$NON-NLS-1$
 	public static final String KEY_FOR_CONTROL_ON_BOTTOM = "control_on_bottom"; //$NON-NLS-1$
 
+	@SuppressWarnings("unchecked")
 	public void handleCustomizeSection(HttpServletRequest request, 
 			SessionObjectBase afso, CustomizeableSection cs) {
 
@@ -39,9 +40,9 @@ public class CastCustomizer extends Customizer{
 
 			cs.setBigString(request.getParameter("cs_bigstring"));
 			
-			String display_control = request.getParameter("display_control"); //$NON-NLS-1$
-
-			cs.getContents().put(KEY_FOR_DISPLAY_CONTROL, display_control);
+			cs.getContents().put(KEY_FOR_DISPLAY_CONTROL, request.getParameter(KEY_FOR_DISPLAY_CONTROL));
+			
+			cs.getContents().put(KEY_FOR_DISPLAY_UNASSIGNED, request.getParameter(KEY_FOR_DISPLAY_UNASSIGNED));
 
 			cs.saveMe(afso.schema);
 

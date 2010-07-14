@@ -75,4 +75,25 @@ public abstract class Customizer {
 			e.printStackTrace();
 		}
 	}
+	
+	public static String storedValueTrueToChecked(CustomizeableSection cs, String storedKey, boolean checkForTrue){
+		
+		String stored_value = (String) cs.getContents().get(storedKey);
+		
+		if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
+			if (checkForTrue){
+				return "checked";
+			} else {
+				return "";
+			}
+		}
+		
+		if (!checkForTrue){
+			return "checked";
+		} else {
+			return "";
+		}
+		
+	}
+	
 }

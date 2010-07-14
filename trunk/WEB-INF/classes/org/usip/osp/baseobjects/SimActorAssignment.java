@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -162,6 +163,39 @@ public class SimActorAssignment {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return returnList;
+		
+	}
+	
+	/**
+	 * Removes all actor assignments for the given actor.
+	 * 
+	 * @param schema
+	 * @param a_id
+	 */
+	@SuppressWarnings("unchecked")
+	public static void removeActorAssignments(String schema, Long a_id){
+
+		if (a_id == null){
+			Logger.getRootLogger().debug("Null actor id sent to SimActorAssignment.removeActorAssignments");
+			return;
+		}
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List<SimActorAssignment> removeList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from SimActorAssignment where actor_id = :a_id order by id")
+				.setString("a_id", a_id.toString())
+				.list(); //$NON-NLS-1$ //$NON-NLS-2$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		for (ListIterator<SimActorAssignment> li = removeList.listIterator(); li.hasNext();) {
+			SimActorAssignment this_saa = li.next();
+			
+			SimActorAssignment.removeMe(schema, this_saa.getSim_id(), this_saa.getActor_id());
+			
+		}
+		
 		
 	}
 	

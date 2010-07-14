@@ -18,28 +18,6 @@
 		return;
 	}
 	
-	String selected_display_control_yes = "";
-	String selected_display_control_no = "";
-	
-	String stored_value_control = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_CONTROL);
-	
-	if ((stored_value_control != null) && (stored_value_control.equalsIgnoreCase("true"))){
-		selected_display_control_yes = "checked";
-	} else {
-		selected_display_control_no = "checked";
-	}
-	
-	String selected_display_unassigned_yes = "";
-	String selected_display_unassigned_no = "";
-	
-	String stored_value_unassigned = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_UNASSIGNED);
-	
-	if ((stored_value_unassigned != null) && (stored_value_unassigned.equalsIgnoreCase("true"))){
-		selected_display_unassigned_yes = "checked";
-	} else {
-		selected_display_unassigned_no = "checked";
-	}
-	
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -74,17 +52,19 @@
         <blockquote> 
           <p>Cast page will display control characters? 
             <label>
-              <input type="radio" name="display_control" id="display_control_yes" value="true" <%= selected_display_control_yes %> />
+              <input type="radio" name="display_control" id="display_control_yes" value="true" <%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_CONTROL, true) %> />
               Yes</label>
             / 
-            <input type="radio" name="display_control" id="display_control_no" value="false" <%= selected_display_control_no %> />
+            <input type="radio" name="display_control" id="display_control_no" value="false" <%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_CONTROL, false) %> />
             No          </p>
           <p>Cast page will display unassigned actors? 
           <label>
-              <input type="radio" name="display_unassigned" id="display_unassigned_yes" value="true" <%= selected_display_unassigned_yes %> />
+              <input type="radio" name="display_unassigned" id="display_unassigned_yes" value="true" 
+			  <%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_UNASSIGNED, true) %> />
               Yes</label>
             / 
-            <input type="radio" name="display_unassigned" id="display_unassigned_no" value="false" <%= selected_display_unassigned_no %> />
+            <input type="radio" name="display_unassigned" id="display_unassigned_no" value="false" 
+			<%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_UNASSIGNED, false) %> />
             No          </p>
         </blockquote>
         
