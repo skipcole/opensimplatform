@@ -77,7 +77,7 @@ public class Conversation implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-		Simulation sim = Simulation.getMe(schema, sim_id);
+		Simulation sim = Simulation.getById(schema, sim_id);
 		sim.addConversation(schema, this);
 		sim.saveMe(schema);
 
@@ -452,7 +452,7 @@ public class Conversation implements SimSectionDependentObject {
 		Conversation templateConv = (Conversation) templateObject;
 
 		// Pull it out clean from the database
-		templateConv = Conversation.getMe(schema, templateConv.getId());
+		templateConv = Conversation.getById(schema, templateConv.getId());
 
 		// Create the new conversation.
 		Conversation new_conv = new Conversation();
@@ -499,7 +499,7 @@ public class Conversation implements SimSectionDependentObject {
 	 * @param id2
 	 * @return
 	 */
-	public static Conversation getMe(String schema, Long id2) {
+	public static Conversation getById(String schema, Long id2) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(schema).get(Conversation.class, id2);

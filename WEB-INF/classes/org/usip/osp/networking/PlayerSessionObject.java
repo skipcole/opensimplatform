@@ -332,7 +332,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			storeUserInfoInSessionInformation(request);
 
-			UserTrail ut = UserTrail.getMe(schema, myUserTrailGhost.getTrail_id());
+			UserTrail ut = UserTrail.getById(schema, myUserTrailGhost.getTrail_id());
 			ut.setActor_id(actor_id);
 			ut.setRunning_sim_id(running_sim_id);
 			ut.saveMe(schema);
@@ -1039,7 +1039,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			String reply_id = request.getParameter("reply_id");
 			String reply_to_actor_id = request.getParameter("reply_to_actor_id");
 
-			Email emailIAmReplyingTo = Email.getMe(schema, new Long(reply_id));
+			Email emailIAmReplyingTo = Email.getById(schema, new Long(reply_id));
 
 			email.setId(null);
 			email.setFromActor(actor_id);
@@ -1066,7 +1066,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		} else if ((forward_to != null) && (forward_to.equalsIgnoreCase("true"))) {
 			String forward_id = request.getParameter("forward_id");
-			Email emailIAmReplyingTo = Email.getMe(schema, new Long(forward_id));
+			Email emailIAmReplyingTo = Email.getById(schema, new Long(forward_id));
 
 			email.setId(null);
 			email.setFromActor(actor_id);
@@ -1092,7 +1092,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		} else if (email_clear != null) {
 			draft_email_id = null;
 		} else if ((email_delete_draft != null) && (draft_email_id != null)) {
-			email = Email.getMe(schema, draft_email_id);
+			email = Email.getById(schema, draft_email_id);
 			email.setEmail_deleted(true);
 			email.saveMe(schema);
 			email = new Email();
@@ -1176,7 +1176,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		} // end of if returning from this same page.
 
 		if (draft_email_id != null) {
-			email = Email.getMe(schema, draft_email_id);
+			email = Email.getById(schema, draft_email_id);
 			emailRecipients = Email.getRecipientsOfAnEmail(schema, draft_email_id);
 		} else {
 			emailRecipients = new ArrayList();
@@ -1684,14 +1684,14 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			String schema_id = (String) request.getParameter("schema_id");
 
-			SchemaInformationObject sio = SchemaInformationObject.getMe(new Long(schema_id));
+			SchemaInformationObject sio = SchemaInformationObject.getById(new Long(schema_id));
 
 			pso.schema = sio.getSchema_name();
 			pso.schemaOrg = sio.getSchema_organization();
 
 			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request.getSession(true).getAttribute("osp_soh");
 
-			User user = User.getMe(pso.schema, osp_soh.getUserid());
+			User user = User.getById(pso.schema, osp_soh.getUserid());
 			BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
 
 			if (user != null) {

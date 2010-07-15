@@ -20,10 +20,10 @@
 	String doc_id = (String) request.getParameter("doc_id");
 	
 	if ((sendingDocId != null) && (sendingDocId.equalsIgnoreCase("true"))){
-		sd = SharedDocument.getMe(pso.schema, new Long(doc_id));
+		sd = SharedDocument.getById(pso.schema, new Long(doc_id));
 	} else {
 		
-		CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+		CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 		editInstructions = cs.getBigString();
 	
 		List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);

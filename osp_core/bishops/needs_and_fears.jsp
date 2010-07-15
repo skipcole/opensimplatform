@@ -31,7 +31,7 @@
 	SharedDocument conflictDoc2 = new SharedDocument();
 	
 	if (!(pso.preview_mode)) {	
-		CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+		CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 		bc = new BishopsCustomizer(request, pso, cs);
 		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, false);
 		inactivePartyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, true);

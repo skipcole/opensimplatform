@@ -11,12 +11,12 @@
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	String cs_id = (String) request.getParameter("cs_id");
-	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
 	SimSectionRSDepOjbectAssignment ssrsdoa = 
 		SimSectionRSDepOjbectAssignment.getOneForRunningSimSection(pso.schema, pso.running_sim_id, cs.getId(), 0);
 		
-	GenericVariable gv = GenericVariable.getMe(pso.schema, ssrsdoa.getObjectId());
+	GenericVariable gv = GenericVariable.getById(pso.schema, ssrsdoa.getObjectId());
 	
 	String sending_page = request.getParameter("sending_page");
 	

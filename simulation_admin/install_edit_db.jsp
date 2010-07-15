@@ -23,7 +23,7 @@
 		String sio_id = (String) request.getParameter("sio_id");
 		
 		Long schema_id = new Long(sio_id);
-		sio = SchemaInformationObject.getMe(schema_id);
+		sio = SchemaInformationObject.getById(schema_id);
 	}
 	
 	sio.cleanForPresentation();

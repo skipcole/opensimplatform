@@ -143,7 +143,7 @@ public class OSP_UserAdmin {
 					}
 				}
 			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
-				user = User.getMe(schema, new Long(u_id));
+				user = User.getById(schema, new Long(u_id));
 				user.setAdmin(this._makeAdmin);
 				user.setBu_first_name(this._first_name);
 				user.setBu_full_name(this._full_name);
@@ -157,7 +157,7 @@ public class OSP_UserAdmin {
 				user.saveMe(schema);
 				
 			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
-				user = User.getMe(schema, new Long(u_id));
+				user = User.getById(schema, new Long(u_id));
 			} else if (command.equalsIgnoreCase("Clear")) { //  //$NON-NLS-1$
 				// returning new simulation will clear fields.
 			}

@@ -114,11 +114,11 @@ body {
 		for (ListIterator li = uaList.listIterator(); li.hasNext();) {
 			UserAssignment ua = (UserAssignment) li.next();
 			
-			Simulation sim = Simulation.getMe(pso.schema, ua.getSim_id());
-			RunningSimulation rs = RunningSimulation.getMe(pso.schema,ua.getRunning_sim_id());
-			Actor act = Actor.getMe(pso.schema, ua.getActor_id());
+			Simulation sim = Simulation.getById(pso.schema, ua.getSim_id());
+			RunningSimulation rs = RunningSimulation.getById(pso.schema,ua.getRunning_sim_id());
+			Actor act = Actor.getById(pso.schema, ua.getActor_id());
 			
-			SimulationPhase sp = SimulationPhase.getMe(pso.schema, rs.getPhase_id());
+			SimulationPhase sp = SimulationPhase.getById(pso.schema, rs.getPhase_id());
 			
 			// Must check to see that running sim has been enabled, and has not been inactivated.
 			if ((rs.isReady_to_begin()) && (!(rs.isInactivated()))) {

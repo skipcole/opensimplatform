@@ -18,8 +18,8 @@
 	String parent_id = (String) request.getParameter("parent_id");
 	String my_id = (String) request.getParameter("my_id");
 	
-	BishopsPartyInfo bpi = BishopsPartyInfo.getMe(pso.schema, new Long(my_id));
-	BishopsPartyInfo bpi_parent = BishopsPartyInfo.getMe(pso.schema, new Long(parent_id));
+	BishopsPartyInfo bpi = BishopsPartyInfo.getById(pso.schema, new Long(my_id));
+	BishopsPartyInfo bpi_parent = BishopsPartyInfo.getById(pso.schema, new Long(parent_id));
 	
 		
 	

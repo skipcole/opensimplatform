@@ -15,7 +15,7 @@
 	Actor act = new Actor();
 	
 	if (!(pso.preview_mode)) {
-		act = Actor.getMe(pso.schema, pso.actor_id);
+		act = Actor.getById(pso.schema, pso.actor_id);
 	}
 
 	String sending_page = (String) request.getParameter("sending_page");

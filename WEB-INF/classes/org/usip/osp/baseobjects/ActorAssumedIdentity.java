@@ -149,7 +149,7 @@ public class ActorAssumedIdentity {
 		this.assumedDefaultColorChatBubble = assumedDefaultColorChatBubble;
 	}
 
-	public static ActorAssumedIdentity getMe(String schema, Long aa_id) {
+	public static ActorAssumedIdentity getById(String schema, Long aa_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		ActorAssumedIdentity aai = (ActorAssumedIdentity) MultiSchemaHibernateUtil

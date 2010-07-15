@@ -254,13 +254,13 @@ public class SimulationPhase implements Comparable{
 	 * @param the_id
 	 * @return
 	 */
-	public static SimulationPhase getMe(String schema, String the_id){
+	public static SimulationPhase getById(String schema, String the_id){
 		
 		if (the_id == null){
 			return null;
 		}
 		
-		return getMe(schema, new Long(the_id));
+		return getById(schema, new Long(the_id));
 	}
 	
 	/**
@@ -270,7 +270,7 @@ public class SimulationPhase implements Comparable{
 	 * @param the_id
 	 * @return
 	 */
-	public static SimulationPhase getMe(String schema, Long the_id){
+	public static SimulationPhase getById(String schema, Long the_id){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil.

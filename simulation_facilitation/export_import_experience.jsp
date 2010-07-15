@@ -29,7 +29,7 @@
 		
 		if (action != null) {
 		
-			RunningSimulation rs = RunningSimulation.getMe(afso.schema, new Long(rsid));
+			RunningSimulation rs = RunningSimulation.getById(afso.schema, new Long(rsid));
 		
 			if (action.equalsIgnoreCase("Inactivate")) {
 				rs.setInactivated(true);
@@ -99,7 +99,7 @@
 				
 				SimulationPhase sp = new SimulationPhase();
 				if (rs.getPhase_id() != null){
-					sp = SimulationPhase.getMe(afso.schema, rs.getPhase_id().toString());
+					sp = SimulationPhase.getById(afso.schema, rs.getPhase_id().toString());
 				}
 				
 				String actionTitle = "Inactivate";

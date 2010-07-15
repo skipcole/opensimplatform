@@ -160,7 +160,7 @@ public class Simulation implements ExportableObject{
 	 * @param schema
 	 */
 	public static void updateSimsLastEditDate(Long sim_id, String schema){
-		Simulation sim = Simulation.getMe(schema, sim_id);
+		Simulation sim = Simulation.getById(schema, sim_id);
 		sim.updateLastEditDate(schema);
 	}
 	
@@ -440,7 +440,7 @@ public class Simulation implements ExportableObject{
 	 * @param sim_id
 	 * @return
 	 */
-	public static Simulation getMe(String schema, Long sim_id) {
+	public static Simulation getById(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
@@ -520,7 +520,7 @@ public class Simulation implements ExportableObject{
 	 * @return
 	 */
 	public Date getPhaseStartTime(String schema, Long phase_id){
-		SimulationPhase sp = SimulationPhase.getMe(schema, phase_id);
+		SimulationPhase sp = SimulationPhase.getById(schema, phase_id);
 		
 		// For now arbitrarily set date to 1/1/2001.
 		Calendar cal = new GregorianCalendar();

@@ -120,7 +120,7 @@ public class ResetPasswordObject {
         MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
     }
 	
-	public static ResetPasswordObject getMe(Long rpo_id) {
+	public static ResetPasswordObject getById(Long rpo_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
 		ResetPasswordObject rpo = (ResetPasswordObject) 
@@ -151,7 +151,7 @@ public class ResetPasswordObject {
 
 		if (rpo != null) {
 			
-			this_rpo = ResetPasswordObject.getMe(new Long(rpo));
+			this_rpo = ResetPasswordObject.getById(new Long(rpo));
 			
 			request.getSession().setAttribute("this_rpo", this_rpo);
 			request.getSession().setAttribute("changeMode", new Boolean(true));

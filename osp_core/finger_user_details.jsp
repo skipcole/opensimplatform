@@ -16,7 +16,7 @@
 	
 	User user = new User();
 	if (user_id != null) {
-		user = User.getMe(pso.schema, new Long(user_id));
+		user = User.getById(pso.schema, new Long(user_id));
 	}
 	
 	

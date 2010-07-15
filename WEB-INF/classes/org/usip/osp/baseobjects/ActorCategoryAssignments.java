@@ -100,7 +100,7 @@ public class ActorCategoryAssignments {
 	 * @param ac_id
 	 * @return
 	 */
-	public static ActorCategoryAssignments getMe(String schema, Long aca_id) {
+	public static ActorCategoryAssignments getById(String schema, Long aca_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		ActorCategoryAssignments this_aca  = 

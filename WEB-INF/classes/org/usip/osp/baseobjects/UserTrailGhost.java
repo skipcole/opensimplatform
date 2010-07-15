@@ -66,7 +66,7 @@ public class UserTrailGhost {
 			if (this.getTrail_id() != null) {
 				Logger.getRootLogger().debug("time  saved: " + timeNow.getTime()); //$NON-NLS-1$
 
-				UserTrail ut = UserTrail.getMe(schema, this.getTrail_id());
+				UserTrail ut = UserTrail.getById(schema, this.getTrail_id());
 				ut.setEndSessionDate(timeNow);
 				ut.saveMe(schema);
 			} else {
@@ -188,7 +188,7 @@ public class UserTrailGhost {
 
 	public void recordLogout(String schema) {
 		
-		UserTrail ut = UserTrail.getMe(schema, this.trail_id);
+		UserTrail ut = UserTrail.getById(schema, this.trail_id);
 
 		java.util.Date today = new java.util.Date();
 		ut.setEndSessionDate(today);

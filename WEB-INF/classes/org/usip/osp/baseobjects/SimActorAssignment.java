@@ -75,7 +75,7 @@ public class SimActorAssignment {
 	public SimActorAssignment(String schema, Long sim_id, Long actor_id){
 		this.sim_id = sim_id;
 		this.actor_id = actor_id;
-		if (SimActorAssignment.getMe(schema, sim_id, actor_id) == null){
+		if (SimActorAssignment.getById(schema, sim_id, actor_id) == null){
 			this.saveMe(schema);
 		}
 	}
@@ -104,7 +104,7 @@ public class SimActorAssignment {
 		this.id = id;
 	}
 
-	public static SimActorAssignment getMe(String schema, Long sim_id, Long actor_id){
+	public static SimActorAssignment getById(String schema, Long sim_id, Long actor_id){
 		
 		String hqlQuery = "from SimActorAssignment where sim_id = " + sim_id + " AND actor_id = " + actor_id; //$NON-NLS-1$ //$NON-NLS-2$
 		
@@ -125,7 +125,7 @@ public class SimActorAssignment {
 	
 	public static void removeMe(String schema, Long sim_id, Long actor_id){
 		
-		SimActorAssignment saa = SimActorAssignment.getMe(schema, sim_id, actor_id);
+		SimActorAssignment saa = SimActorAssignment.getById(schema, sim_id, actor_id);
 		
 		if (saa != null){
 			MultiSchemaHibernateUtil.beginTransaction(schema);

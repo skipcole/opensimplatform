@@ -210,7 +210,7 @@ public class PSO_SectionMgmt {
 		
 		getSimSectionsInternalVariables(request);
 
-		this.customizableSectionOnScratchPad = CustomizeableSection.getMe(this.afso.schema, this._custom_section_id);
+		this.customizableSectionOnScratchPad = CustomizeableSection.getById(this.afso.schema, this._custom_section_id);
 
 		// We are saving this page.
 		if ((this.sending_page != null) && ((this.save_page != null) || (this.save_and_add != null))) {
@@ -450,7 +450,7 @@ public class PSO_SectionMgmt {
 		}
 
 		// Base sim section is retrieved by ID
-		BaseSimSection bss = BaseSimSection.getMe(this.afso.schema, this._bss_id);
+		BaseSimSection bss = BaseSimSection.getById(this.afso.schema, this._bss_id);
 
 		if (this.command.equalsIgnoreCase("Add Section")) {
 
@@ -465,7 +465,7 @@ public class PSO_SectionMgmt {
 
 				this._custom_section_id = this._bss_id;
 				bss = null;
-				CustomizeableSection cbss = CustomizeableSection.getMe(this.afso.schema, this._bss_id);
+				CustomizeableSection cbss = CustomizeableSection.getById(this.afso.schema, this._bss_id);
 				return cbss.getMakePage();
 				
 			}
@@ -644,7 +644,7 @@ public class PSO_SectionMgmt {
 
 		this.getSimSectionsInternalVariables(request);
 
-		this.customizableSectionOnScratchPad = CustomizeableSection.getMe(this.afso.schema, this._custom_section_id);
+		this.customizableSectionOnScratchPad = CustomizeableSection.getById(this.afso.schema, this._custom_section_id);
 
 		if ((this.sending_page != null) && ((this.save_page != null) || (this.save_and_add != null))
 				&& (this.sending_page.equalsIgnoreCase("make_write_document_page"))) {
@@ -707,7 +707,7 @@ public class PSO_SectionMgmt {
 
 		this.getSimSectionsInternalVariables(request);
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		// Ever read document page should have one (and only one) document associated with it.
 		if (customizableSectionOnScratchPad.getNumDependentObjects() < 1) {
@@ -780,7 +780,7 @@ public class PSO_SectionMgmt {
 		this.getSimSectionsInternalVariables(request);
 		Logger.getRootLogger().debug("making read document page");
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		// Ever read document page should have at least one document associated with it.
 		if (customizableSectionOnScratchPad.getNumDependentObjects() < 1) {
@@ -893,7 +893,7 @@ public class PSO_SectionMgmt {
 
 		this.getSimSectionsInternalVariables(request);
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
 
@@ -915,8 +915,8 @@ public class PSO_SectionMgmt {
 			// Need to get the simulation section referenced, mark it as a
 			// subsection
 
-			SimulationSectionAssignment leftSect = SimulationSectionAssignment.getMe(afso.schema, new Long(select_left));
-			SimulationSectionAssignment rightSect = SimulationSectionAssignment.getMe(afso.schema,
+			SimulationSectionAssignment leftSect = SimulationSectionAssignment.getById(afso.schema, new Long(select_left));
+			SimulationSectionAssignment rightSect = SimulationSectionAssignment.getById(afso.schema,
 					new Long(select_right));
 			
 			// Need to set them as sub sections
@@ -933,7 +933,7 @@ public class PSO_SectionMgmt {
 			if (numSections == 3){
 				String select_bottom = (String) request.getParameter("select_bottom");
 				Logger.getRootLogger().debug("select bottom is " + select_bottom);
-				SimulationSectionAssignment bottomSect = SimulationSectionAssignment.getMe(afso.schema, new Long(select_bottom));
+				SimulationSectionAssignment bottomSect = SimulationSectionAssignment.getById(afso.schema, new Long(select_bottom));
 				
 				bottomSect.setSimSubSection(true);
 				bottomSect.setSimSubSectionIndex(3);
@@ -986,14 +986,14 @@ public class PSO_SectionMgmt {
 		// /////////////////////////////////////////////////////////
 		// Pull this custom page out of the database based on its id.
 		_custom_section_id = request.getParameter("custom_page");
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		// Get conversation id passed in.
 		String conversation_id = request.getParameter("conversation_id");
 		if ((conversation_id != null) && (conversation_id.trim().length() > 0) 
 				&& (!(conversation_id.equalsIgnoreCase("0")))){
 			
-			conv = Conversation.getMe(afso.schema, new Long(conversation_id));
+			conv = Conversation.getById(afso.schema, new Long(conversation_id));
 			
 		} else {
 		
@@ -1005,7 +1005,7 @@ public class PSO_SectionMgmt {
 				BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) convForThisSection.get(0);
 				
 				if (bssdoa != null) {
-					conv = Conversation.getMe(afso.schema, bssdoa.getObjectId());
+					conv = Conversation.getById(afso.schema, bssdoa.getObjectId());
 					if (conv == null){
 						conv = new Conversation();
 					}
@@ -1107,7 +1107,7 @@ public class PSO_SectionMgmt {
 		// /////////////////////////////////////////////////////////
 		// Pull this custom page out of the database based on its id.
 		_custom_section_id = request.getParameter("custom_page");
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		// If this is the original custom page, make a new section for this
 		// simulation
@@ -1216,7 +1216,7 @@ public class PSO_SectionMgmt {
 
 			if (mpr != null) {
 				_custom_section_id = (String) mpr.getParameter("custom_page");
-				customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+				customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 				_tab_heading = (String) mpr.getParameter("tab_heading");
 
@@ -1270,7 +1270,7 @@ public class PSO_SectionMgmt {
 		} catch (Exception mpr_e) {
 			Logger.getRootLogger().debug("error : " + mpr_e.getMessage());
 			_custom_section_id = (String) request.getParameter("custom_page");
-			customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+			customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		}
 
@@ -1319,7 +1319,7 @@ public class PSO_SectionMgmt {
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		// If making changes, do the following.
 		if ((sending_page != null) && ((save_page != null) || (save_and_add != null))
@@ -1377,7 +1377,7 @@ public class PSO_SectionMgmt {
 		// Read in possible parameters
 		getSimSectionsInternalVariables(request);
 
-		customizableSectionOnScratchPad = CustomizeableSection.getMe(afso.schema, _custom_section_id);
+		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		// If adding an allowable response, do that.
 		String author_adds_choice = (String) request.getParameter("author_adds_choice");
@@ -1449,7 +1449,7 @@ public class PSO_SectionMgmt {
 			if ((ar_id != null) && (!(ar_id.equalsIgnoreCase("null"))) && (ar_id.length() > 0)) {
 				try {
 					Long thisResponseID = new Long(ar_id);
-					thisResponse = AllowableResponse.getMe(schema, thisResponseID);
+					thisResponse = AllowableResponse.getById(schema, thisResponseID);
 
 					if ((ar_selected != null) && (ar_selected.equalsIgnoreCase("true"))) {
 						// Mark it in the generic variable

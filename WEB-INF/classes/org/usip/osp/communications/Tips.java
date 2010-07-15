@@ -49,7 +49,7 @@ public class Tips {
 	 * @param sim_id
 	 * @return
 	 */
-	public static Tips getMe(String schema, Long sim_id) {
+	public static Tips getById(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Tips tips = (Tips) MultiSchemaHibernateUtil.getSession(schema).get(Tips.class, sim_id);

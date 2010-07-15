@@ -223,7 +223,7 @@ public class OneLink implements SimSectionDependentObject{
 	 * @param gv_id
 	 * @return
 	 */
-	public static OneLink getMe(String schema, Long gv_id) {
+	public static OneLink getById(String schema, Long gv_id) {
 
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);

@@ -153,7 +153,7 @@ public class IndividualLink {
 	 * @param ac_id
 	 * @return
 	 */
-	public static IndividualLink getMe(String schema, Long il_id) {
+	public static IndividualLink getById(String schema, Long il_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		IndividualLink this_ac  = (IndividualLink) 
@@ -207,7 +207,7 @@ public class IndividualLink {
 		String il_id = request.getParameter("il_id"); 
 		
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true")) && (il_id != null) && (il_id.trim().length() > 0)) {		
-			individualLink = IndividualLink.getMe(pso.schema, new Long(il_id));
+			individualLink = IndividualLink.getById(pso.schema, new Long(il_id));
 		}
 			
 		String sending_page = request.getParameter("sending_page"); 
@@ -224,7 +224,7 @@ public class IndividualLink {
 			} else {
 
 				if (update_il != null) {
-					individualLink = IndividualLink.getMe(pso.schema, new Long(il_id));
+					individualLink = IndividualLink.getById(pso.schema, new Long(il_id));
 				}
 				
 				if 	((update_il != null)  || (create_il != null) ) {	

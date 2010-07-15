@@ -150,7 +150,7 @@ public class TimeLine  implements SimSectionDependentObject {
      * @param Timeline_id
      * @return
      */
-	public static TimeLine getMe(String schema, Long timeline_id) {
+	public static TimeLine getById(String schema, Long timeline_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		TimeLine act = (TimeLine) MultiSchemaHibernateUtil
@@ -218,7 +218,7 @@ public class TimeLine  implements SimSectionDependentObject {
 		TimeLine templateTimeLine = (TimeLine) templateObject;
 
 		// Pull it out clean from the database
-		templateTimeLine = TimeLine.getMe(schema, templateTimeLine.getId());
+		templateTimeLine = TimeLine.getById(schema, templateTimeLine.getId());
 		
 		TimeLine newTimeLine = new TimeLine();
 		newTimeLine.setAdjustToRunningSimStartTime(templateTimeLine.isAdjustToRunningSimStartTime());

@@ -206,7 +206,7 @@ public class BishopsPartyInfo implements CopiedObject{
 		reorder(schema, rs_id);
 
 		// Get the current index
-		BishopsPartyInfo bpi_bumper = BishopsPartyInfo.getMe(schema, bpi_id);
+		BishopsPartyInfo bpi_bumper = BishopsPartyInfo.getById(schema, bpi_id);
 
 		int oldIndex = bpi_bumper.getPartyIndex();
 		System.out.println("oldIndex is " + oldIndex + ", newIndex is " + newIndex);
@@ -307,7 +307,7 @@ public class BishopsPartyInfo implements CopiedObject{
 	 * @param actor_id
 	 * @return
 	 */
-	public static BishopsPartyInfo getMe(String schema, Long bpi_id) {
+	public static BishopsPartyInfo getById(String schema, Long bpi_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		BishopsPartyInfo bpi = (BishopsPartyInfo) MultiSchemaHibernateUtil.getSession(schema).get(
@@ -342,7 +342,7 @@ public class BishopsPartyInfo implements CopiedObject{
 
 			if (command.equalsIgnoreCase("Update")) {
 				String bpi_id = (String) request.getParameter("bpi_id");
-				bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
+				bpi = BishopsPartyInfo.getById(pso.schema, new Long(bpi_id));
 			}
 
 			if ((command.equalsIgnoreCase("Create")) || (command.equalsIgnoreCase("Update"))) {
@@ -385,7 +385,7 @@ public class BishopsPartyInfo implements CopiedObject{
 
 			String bpi_id = (String) request.getParameter("bpi_id");
 
-			bpi = BishopsPartyInfo.getMe(pso.schema, new Long(bpi_id));
+			bpi = BishopsPartyInfo.getById(pso.schema, new Long(bpi_id));
 
 		}
 
@@ -461,7 +461,7 @@ public class BishopsPartyInfo implements CopiedObject{
 		String bpi_name = bpi_names_hash.get(schema + "_" +  bpi_id);
 		
 		if (bpi_name == null) {
-			BishopsPartyInfo bpi = BishopsPartyInfo.getMe(schema, bpi_id);
+			BishopsPartyInfo bpi = BishopsPartyInfo.getById(schema, bpi_id);
 			
 			bpi_name = bpi.getBPIName();
 			bpi_names_hash.put(schema + "_" +  bpi_id, bpi.getBPIName());

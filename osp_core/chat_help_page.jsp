@@ -20,7 +20,7 @@
 	// Get the id for this conversation
 	String cs_id = (String) request.getParameter("cs_id");
 	
-	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	ChatHelpCustomizer chc = new ChatHelpCustomizer(request, pso, cs);
 	
 	

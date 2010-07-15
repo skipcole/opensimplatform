@@ -147,7 +147,7 @@ public class Actor implements ExportableObject{
      * @param actor_id
      * @return
      */
-	public static Actor getMe(String schema, Long actor_id) {
+	public static Actor getById(String schema, Long actor_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Actor act = (Actor) MultiSchemaHibernateUtil
@@ -165,7 +165,7 @@ public class Actor implements ExportableObject{
 		clone.saveMe(schema);
 		Long clone_id = clone.getId();
 		
-		Actor act = Actor.getMe(schema, actor_id);
+		Actor act = Actor.getById(schema, actor_id);
 		act.setId(clone_id);
 		act.saveMe(schema);
 	
@@ -312,20 +312,6 @@ public class Actor implements ExportableObject{
 	public String getInitialActorName(){
 		return this.name;
 	}
-	/**
-	 * @return Returns the name.
-	 */
-	public String getDepricatedName(Long running_sim_id) {
-		
-		//if (!assumedIdentity){
-		if (false){
-			return this.name;
-		} else {
-			//ActorAssumedIdentity aai = ActorAssumedIdentity.getMe(schema, this.id, running_sim_id);
-			//return aai.getAssumedName();
-			return null;
-		}
-	}
 
 	/**
 	 * @param name The name to set.
@@ -451,7 +437,7 @@ public class Actor implements ExportableObject{
     
 	public String getRole(String schema, Long sim_id){
 		
-		SimActorAssignment saa = SimActorAssignment.getMe(schema, sim_id, this.id);
+		SimActorAssignment saa = SimActorAssignment.getById(schema, sim_id, this.id);
 		
 		if ((sim_id == null) || (saa == null)){
 			return "Actor has not been assigned to this simulation."; //$NON-NLS-1$

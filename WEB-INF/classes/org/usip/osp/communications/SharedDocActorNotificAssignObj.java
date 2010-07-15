@@ -178,7 +178,7 @@ public class SharedDocActorNotificAssignObj {
 	 * @param sim_id
 	 * @return
 	 */
-	public static SharedDocActorNotificAssignObj getMe(String schema, Long sim_id) {
+	public static SharedDocActorNotificAssignObj getById(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		SharedDocActorNotificAssignObj sdanao = (SharedDocActorNotificAssignObj) MultiSchemaHibernateUtil
@@ -220,7 +220,7 @@ public class SharedDocActorNotificAssignObj {
 			Logger.getRootLogger().warn("Warning! problem converting id :" + remove_id + " passed in to Long."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		
-		SharedDocActorNotificAssignObj sdanao = SharedDocActorNotificAssignObj.getMe(schema, sdanao_id);
+		SharedDocActorNotificAssignObj sdanao = SharedDocActorNotificAssignObj.getById(schema, sdanao_id);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).delete(sdanao);

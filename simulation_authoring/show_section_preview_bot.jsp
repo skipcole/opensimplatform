@@ -11,7 +11,7 @@
 	String base_sec_id = request.getParameter("base_sec_id");
 	
 	System.out.println("base secid is " + base_sec_id);
-	SimulationSectionAssignment ssa = SimulationSectionAssignment.getMe(afso.schema, new Long(ssa_sec_id));
+	SimulationSectionAssignment ssa = SimulationSectionAssignment.getById(afso.schema, new Long(ssa_sec_id));
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -29,7 +29,7 @@
 <%
 	if (base_sec_id != null) {
 	
-		BaseSimSection bss = BaseSimSection.getMe(afso.schema, base_sec_id);
+		BaseSimSection bss = BaseSimSection.getById(afso.schema, base_sec_id);
 		
 		if (bss.getClass().getName().equalsIgnoreCase("org.usip.osp.baseobjects.CustomizeableSection")) {	// if it can be customized
 

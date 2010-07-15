@@ -88,7 +88,7 @@ public class USIP_OSP_Cache {
 		if (phaseName == null) {
 
 			// Get phase name
-			SimulationPhase sp = SimulationPhase.getMe(schema, phase_id);
+			SimulationPhase sp = SimulationPhase.getById(schema, phase_id);
 
 			phaseName = sp.getPhaseName();
 
@@ -130,7 +130,7 @@ public class USIP_OSP_Cache {
 		if (metaPhaseName == null) {
 
 			// Get phase name
-			SimulationMetaPhase sp = SimulationMetaPhase.getMe(schema, phase_id);
+			SimulationMetaPhase sp = SimulationMetaPhase.getById(schema, phase_id);
 
 			metaPhaseName = sp.getMetaPhaseName();
 
@@ -229,7 +229,7 @@ public class USIP_OSP_Cache {
 	 */
 	public static void loadActorNamesInHashtable(String schema, Long sim_id, Long running_sim_id, Hashtable actor_names) {
 
-		Simulation sim = Simulation.getMe(schema, sim_id);
+		Simulation sim = Simulation.getById(schema, sim_id);
 
 		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
 			Actor act = li.next();
@@ -248,7 +248,7 @@ public class USIP_OSP_Cache {
 	
 	public static void loadActorBaseNamesInHashtable(String schema, Long sim_id, Hashtable actor_names) {
 
-		Simulation sim = Simulation.getMe(schema, sim_id);
+		Simulation sim = Simulation.getById(schema, sim_id);
 
 		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
 			Actor act = li.next();
@@ -348,7 +348,7 @@ public class USIP_OSP_Cache {
 			Long sim_id) {
 
 		Logger.getRootLogger().debug("storing namges actor thumb nail images in hashtable. ");
-		Simulation sim = Simulation.getMe(schema, sim_id);
+		Simulation sim = Simulation.getById(schema, sim_id);
 
 		for (ListIterator<Actor> li = sim.getActors(schema).listIterator(); li.hasNext();) {
 			Actor act = li.next();
@@ -430,7 +430,7 @@ public class USIP_OSP_Cache {
 		
 		System.out.println("doing loadRunningSimsUserAssignments");
 		
-		RunningSimulation rs = RunningSimulation.getMe(schema, rs_id);
+		RunningSimulation rs = RunningSimulation.getById(schema, rs_id);
 		List actors_in_sim = SimActorAssignment.getActorsAssignmentsForSim(schema, rs.getSim_id());
 		
 		// Loop over all of the actors that should be assigned.

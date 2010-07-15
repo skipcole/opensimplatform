@@ -46,7 +46,7 @@ public class SimConversationAssignment {
 	public SimConversationAssignment(String schema, Long sim_id, Long conversation_id){
 		this.sim_id = sim_id;
 		this.conversation_id = conversation_id;
-		if (SimConversationAssignment.getMe(schema, sim_id, conversation_id) == null){
+		if (SimConversationAssignment.getBySimAndConv(schema, sim_id, conversation_id) == null){
 			this.saveMe(schema);
 		}
 	}
@@ -75,14 +75,18 @@ public class SimConversationAssignment {
 		this.id = id;
 	}
 
-	public static SimConversationAssignment getMe(String schema, Long sim_id, Long conversation_id){
+	@SuppressWarnings("unchecked")
+	public static SimConversationAssignment getBySimAndConv(String schema, Long sim_id, Long conversation_id){
 		
-		String hqlQuery = "from SimConversationAssignment where sim_id = " + sim_id + " AND conversation_id = " + conversation_id; //$NON-NLS-1$ //$NON-NLS-2$
+		String hqlQuery = "from SimConversationAssignment where sim_id = :sim_id AND conversation_id = :conversation_id"; //$NON-NLS-1$
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		List<SimConversationAssignment> returnList = 
-			MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlQuery).list();
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlQuery)
+			.setLong("sim_id", sim_id)
+			.setLong("conversation_id", conversation_id)
+			.list();
 		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
@@ -96,7 +100,7 @@ public class SimConversationAssignment {
 	
 	public static void removeMe(String schema, Long sim_id, Long conversation_id){
 		
-		SimConversationAssignment saa = SimConversationAssignment.getMe(schema, sim_id, conversation_id);
+		SimConversationAssignment saa = SimConversationAssignment.getBySimAndConv(schema, sim_id, conversation_id);
 		
 		if (saa != null){
 			MultiSchemaHibernateUtil.beginTransaction(schema);

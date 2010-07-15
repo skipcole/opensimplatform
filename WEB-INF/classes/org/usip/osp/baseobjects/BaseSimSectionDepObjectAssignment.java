@@ -270,7 +270,7 @@ public class BaseSimSectionDepObjectAssignment {
 		} else {
 			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment)startList.get(0);
 			
-			SharedDocument sd = SharedDocument.getMe(schema, bssdoa.getObjectId());
+			SharedDocument sd = SharedDocument.getById(schema, bssdoa.getObjectId());
 			
 			return sd;
 		}
@@ -299,7 +299,7 @@ public class BaseSimSectionDepObjectAssignment {
 			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment)startList.get(0);
 			
 			if (bssdoa.className.equalsIgnoreCase(SharedDocument.class.toString())){
-				SharedDocument sd = SharedDocument.getMe(schema, bssdoa.getObjectId());
+				SharedDocument sd = SharedDocument.getById(schema, bssdoa.getObjectId());
 				returnList.add(sd);
 			}
 		}
@@ -469,7 +469,7 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param sim_id
 	 * @return
 	 */
-	public static BaseSimSectionDepObjectAssignment getMe(String schema, Long bssdoa_id) {
+	public static BaseSimSectionDepObjectAssignment getById(String schema, Long bssdoa_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) MultiSchemaHibernateUtil

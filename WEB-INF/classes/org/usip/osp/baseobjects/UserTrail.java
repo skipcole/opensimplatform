@@ -133,7 +133,7 @@ public class UserTrail {
 	 * @param sim_id
 	 * @return
 	 */
-	public static UserTrail getMe(String schema, Long ut_id) {
+	public static UserTrail getById(String schema, Long ut_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		UserTrail ut = (UserTrail) MultiSchemaHibernateUtil

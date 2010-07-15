@@ -103,7 +103,7 @@ public class ActorCategory {
 	 * @param ac_id
 	 * @return
 	 */
-	public static ActorCategory getMe(String schema, Long ac_id) {
+	public static ActorCategory getById(String schema, Long ac_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		ActorCategory this_ac  = (ActorCategory) MultiSchemaHibernateUtil.getSession(schema).get(ActorCategory.class, ac_id);

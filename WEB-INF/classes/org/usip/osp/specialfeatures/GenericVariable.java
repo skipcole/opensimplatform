@@ -260,7 +260,7 @@ public class GenericVariable implements SimSectionDependentObject{
 	 * @param gv_id
 	 * @return
 	 */
-	public static GenericVariable getMe(String schema, Long gv_id) {
+	public static GenericVariable getById(String schema, Long gv_id) {
 
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -344,7 +344,7 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 		Logger.getRootLogger().debug("The gv_id found inside of this custom section is " + gv_id); //$NON-NLS-1$
 		
-		return getMe(schema, gv_id);
+		return getById(schema, gv_id);
 		
 	}
 	

@@ -181,7 +181,7 @@ public class WebLinkObjects implements WebObject {
 	 * @param sim_id
 	 * @return
 	 */
-	public static WebLinkObjects getMe(String schema, Long wlo_id) {
+	public static WebLinkObjects getById(String schema, Long wlo_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		WebLinkObjects this_wlo = (WebLinkObjects) MultiSchemaHibernateUtil
@@ -228,7 +228,7 @@ public class WebLinkObjects implements WebObject {
 
 	public static void removeMe(String schema, Long wlo_id) {
 
-		WebLinkObjects wlo = WebLinkObjects.getMe(schema, wlo_id);
+		WebLinkObjects wlo = WebLinkObjects.getById(schema, wlo_id);
 
 		if (wlo != null) {
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -290,7 +290,7 @@ public class WebLinkObjects implements WebObject {
 					return;
 					
 				} else if (command.equalsIgnoreCase("Update")) {
-					wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));
+					wlo = WebLinkObjects.getById(pso.schema, new Long(wlo_id));
 
 					if ((wlo_url != null) && (wlo_url.length() > 0)) {
 						wlo.setWeblinkDescription(wlo_description);
@@ -339,7 +339,7 @@ public class WebLinkObjects implements WebObject {
 
 		if ((wlo_id != null) && (!(wlo_id.equalsIgnoreCase("")))
 				&& (!(wlo_id.equalsIgnoreCase("0")))) {
-			wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));
+			wlo = WebLinkObjects.getById(pso.schema, new Long(wlo_id));
 
 			wlo.setWloBottomPage(wlo.getWeblinkURL());
 

@@ -36,7 +36,7 @@
 		String actor_id = (String) request.getParameter("actor_id");
 		afso.actor_being_worked_on_id = new Long (actor_id);
 		
-		displayActor = Actor.getMe(afso.schema, afso.actor_being_worked_on_id);
+		displayActor = Actor.getById(afso.schema, afso.actor_being_worked_on_id);
 	
 	}
 

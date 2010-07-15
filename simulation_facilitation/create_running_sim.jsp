@@ -66,7 +66,7 @@
 				
 				SimulationPhase sp = new SimulationPhase();
 				if (rs.getPhase_id() != null){
-					sp = SimulationPhase.getMe(afso.schema, rs.getPhase_id().toString());
+					sp = SimulationPhase.getById(afso.schema, rs.getPhase_id().toString());
 				}
 		%>
                 <tr> 

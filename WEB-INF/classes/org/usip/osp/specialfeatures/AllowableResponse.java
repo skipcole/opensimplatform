@@ -226,7 +226,7 @@ public class AllowableResponse implements Comparable{
 	 * @param sim_id
 	 * @return
 	 */
-	public static AllowableResponse getMe(String schema, Long ar_id) {
+	public static AllowableResponse getById(String schema, Long ar_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		AllowableResponse this_ar = (AllowableResponse) MultiSchemaHibernateUtil

@@ -100,7 +100,7 @@ public class InjectGroup {
 		
 	}
 	
-	public static InjectGroup getMe(String schema, String the_id) {
+	public static InjectGroup getById(String schema, String the_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		InjectGroup ig = (InjectGroup) MultiSchemaHibernateUtil.getSession(schema).get(InjectGroup.class,

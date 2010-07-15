@@ -20,12 +20,12 @@
 		
 	OneLinkCustomizer olc = new OneLinkCustomizer();
 	
-	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	olc = new OneLinkCustomizer(request, pso, cs);
 	
 	String forwardOnString = "";
 	
-	OneLink ol = OneLink.getMe(pso.schema, olc.getOlId());
+	OneLink ol = OneLink.getById(pso.schema, olc.getOlId());
 	
 	if (!(pso.preview_mode)) {	
 		ol = OneLink.getOneLinkForRunningSim(pso.schema, olc.getOlId(), pso.running_sim_id);

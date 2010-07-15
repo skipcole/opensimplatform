@@ -97,7 +97,7 @@ public class EmailRecipients {
 	 */
 	public static void removeMe(String schema, Long er_id){
 		
-		EmailRecipients saa = EmailRecipients.getMe(schema, er_id);
+		EmailRecipients saa = EmailRecipients.getById(schema, er_id);
 		
 		if (saa != null){
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -113,7 +113,7 @@ public class EmailRecipients {
 	 * @param sim_id
 	 * @return
 	 */
-	public static EmailRecipients getMe(String schema, Long email_id) {
+	public static EmailRecipients getById(String schema, Long email_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		EmailRecipients email_rep = (EmailRecipients) MultiSchemaHibernateUtil.getSession(schema).get(EmailRecipients.class, email_id);

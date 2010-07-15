@@ -143,7 +143,7 @@ public class Chart{
 	 * @param sim_id
 	 * @return
 	 */
-	public static Chart getMe(String schema, Long _chart_id) {
+	public static Chart getById(String schema, Long _chart_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Chart chart = (Chart) MultiSchemaHibernateUtil.getSession(schema).get(Chart.class, _chart_id);
