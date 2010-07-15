@@ -71,7 +71,7 @@ public class SimulationMetaPhase {
 	 * @param sim_id
 	 * @return
 	 */
-	public static SimulationMetaPhase getMe(String schema, Long smp_id) {
+	public static SimulationMetaPhase getById(String schema, Long smp_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		SimulationMetaPhase this_smp = (SimulationMetaPhase) MultiSchemaHibernateUtil.getSession(schema).get(

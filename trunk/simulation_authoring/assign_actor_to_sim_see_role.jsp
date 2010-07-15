@@ -9,7 +9,7 @@
 	String sim_id = (String) request.getParameter("sim_id");
 	String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
 	
-	SimActorAssignment saa = SimActorAssignment.getMe(afso.schema, new Long(sim_id), new Long(actor_being_worked_on_id));
+	SimActorAssignment saa = SimActorAssignment.getById(afso.schema, new Long(sim_id), new Long(actor_being_worked_on_id));
 	
 
 %>

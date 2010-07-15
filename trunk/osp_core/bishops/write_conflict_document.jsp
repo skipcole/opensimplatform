@@ -14,7 +14,7 @@
 	
 	String doc_id = (String) request.getParameter("doc_id");
 	
-	SharedDocument conflictDoc = SharedDocument.getMe(pso.schema, new Long(doc_id));
+	SharedDocument conflictDoc = SharedDocument.getById(pso.schema, new Long(doc_id));
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	

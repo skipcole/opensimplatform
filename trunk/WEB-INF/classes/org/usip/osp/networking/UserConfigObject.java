@@ -62,7 +62,7 @@ public class UserConfigObject {
      * @param actor_id
      * @return
      */
-	public static UserConfigObject getMe(String schema, Long uco_id) {
+	public static UserConfigObject getById(String schema, Long uco_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		UserConfigObject uco = (UserConfigObject) MultiSchemaHibernateUtil

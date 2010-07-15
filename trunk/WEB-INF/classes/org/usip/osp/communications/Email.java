@@ -63,7 +63,7 @@ public class Email {
 	 * @param email_id
 	 * @return
 	 */
-	public static Email getMe(String schema, Long email_id) {
+	public static Email getById(String schema, Long email_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Email email = (Email) MultiSchemaHibernateUtil.getSession(schema).get(Email.class, email_id);
@@ -316,7 +316,7 @@ public class Email {
 		for (ListIterator<EmailRecipients> li = tempList.listIterator(); li.hasNext();) {
 			EmailRecipients this_er = li.next();
 			
-			Email email = Email.getMe(schema, this_er.getEmail_id());
+			Email email = Email.getById(schema, this_er.getEmail_id());
 			
 			if (email.hasBeenSent()){
 				returnList.add(email);

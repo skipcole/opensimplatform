@@ -15,7 +15,7 @@
 	String sec_id = request.getParameter("sec_id");
 	System.out.println("sec id is: " + sec_id);
 	
-	SimulationSectionAssignment ssa = SimulationSectionAssignment.getMe(afso.schema, new Long(sec_id));
+	SimulationSectionAssignment ssa = SimulationSectionAssignment.getById(afso.schema, new Long(sec_id));
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">

@@ -95,7 +95,7 @@ public class ObjectPackager {
 
 		XStream xstream = new XStream();
 
-		Simulation sim = Simulation.getMe(schema, sim_id);
+		Simulation sim = Simulation.getById(schema, sim_id);
 		sim.setTransit_id(sim.getId());
 		sim.setId(null);
 
@@ -309,7 +309,7 @@ public class ObjectPackager {
 			Long thisBaseId = li.next();
 
 			if (thisBaseId != null) {
-				BaseSimSection bss = BaseSimSection.getMe(schema, thisBaseId
+				BaseSimSection bss = BaseSimSection.getById(schema, thisBaseId
 						.toString());
 
 				if (bss.getClass().getName().equalsIgnoreCase(
@@ -321,7 +321,7 @@ public class ObjectPackager {
 						CustomizeableSection.class.getName())) {
 
 					bss = null;
-					CustomizeableSection cbss = CustomizeableSection.getMe(
+					CustomizeableSection cbss = CustomizeableSection.getById(
 							schema, thisBaseId.toString());
 					cbss.setTransit_id(cbss.getId());
 					cbss.setId(null);

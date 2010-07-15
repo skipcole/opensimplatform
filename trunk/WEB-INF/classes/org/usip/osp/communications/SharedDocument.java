@@ -264,7 +264,7 @@ public class SharedDocument implements SimSectionDependentObject {
 		if ((returnList == null) || (returnList.size() == 0)) {
 			Logger.getRootLogger().warn("No player document found, creating new one."); //$NON-NLS-1$
 
-			SharedDocument baseSD = SharedDocument.getMe(schema, b_id);
+			SharedDocument baseSD = SharedDocument.getById(schema, b_id);
 			sd = baseSD.createCopy(rs_id, sim_id, schema);
 			sd.setPrimaryAuthorId(a_id);
 			sd.saveMe(schema);
@@ -456,7 +456,7 @@ public class SharedDocument implements SimSectionDependentObject {
 	 * @param sim_id
 	 * @return
 	 */
-	public static SharedDocument getMe(String schema, Long sim_id) {
+	public static SharedDocument getById(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		SharedDocument sd = (SharedDocument) MultiSchemaHibernateUtil

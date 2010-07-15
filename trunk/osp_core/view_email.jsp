@@ -26,7 +26,7 @@
 	if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))){
 		
 		String email_id = request.getParameter("email_id");
-		email = Email.getMe(pso.schema, new Long(email_id));
+		email = Email.getById(pso.schema, new Long(email_id));
 		
 		String comingfrom = request.getParameter("comingfrom");
 		

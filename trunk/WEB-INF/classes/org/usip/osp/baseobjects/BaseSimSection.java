@@ -243,7 +243,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 */
 	public static void removeBSS(String schema, String the_id) {
 		
-		BaseSimSection bss = BaseSimSection.getMe(schema, the_id);
+		BaseSimSection bss = BaseSimSection.getById(schema, the_id);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).delete(bss);
@@ -567,7 +567,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * @param the_id
 	 * @return
 	 */
-	public static BaseSimSection getMe(String schema, String the_id) {
+	public static BaseSimSection getById(String schema, String the_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(schema).get(BaseSimSection.class,

@@ -66,7 +66,7 @@ public class SimPhaseAssignment {
 	public SimPhaseAssignment(String schema, Long sim_id, Long phase_id){
 		this.sim_id = sim_id;
 		this.phase_id = phase_id;
-		if (SimPhaseAssignment.getMe(schema, sim_id, phase_id) == null){
+		if (SimPhaseAssignment.getBySimAndPhase(schema, sim_id, phase_id) == null){
 			this.saveMe(schema);
 		}
 	}
@@ -95,7 +95,7 @@ public class SimPhaseAssignment {
 		this.id = id;
 	}
 
-	public static SimPhaseAssignment getMe(String schema, Long sim_id, Long phase_id){
+	public static SimPhaseAssignment getBySimAndPhase(String schema, Long sim_id, Long phase_id){
 		
 		String hqlQuery = "from SimPhaseAssignment where sim_id = " + sim_id + " AND phase_id = " + phase_id; //$NON-NLS-1$ //$NON-NLS-2$
 		
@@ -122,7 +122,7 @@ public class SimPhaseAssignment {
 	 */
 	public static void removeMe(String schema, Long sim_id, Long phase_id){
 		
-		SimPhaseAssignment spa = SimPhaseAssignment.getMe(schema, sim_id, phase_id);
+		SimPhaseAssignment spa = SimPhaseAssignment.getBySimAndPhase(schema, sim_id, phase_id);
 		
 		if (spa != null){
 			MultiSchemaHibernateUtil.beginTransaction(schema);

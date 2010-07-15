@@ -329,7 +329,7 @@ public class SchemaInformationObject {
 	 * @param sim_id
 	 * @return
 	 */
-	public static SchemaInformationObject getMe(Long schema_id) {
+	public static SchemaInformationObject getById(Long schema_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
 		SchemaInformationObject sio = (SchemaInformationObject) 

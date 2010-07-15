@@ -133,7 +133,7 @@ public class SimSectionRSDepOjbectAssignment {
 	 * @param sim_id
 	 * @return
 	 */
-	public static SimSectionRSDepOjbectAssignment getMe(String schema, Long ssrsdoa_id) {
+	public static SimSectionRSDepOjbectAssignment getById(String schema, Long ssrsdoa_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		SimSectionRSDepOjbectAssignment ssrsdoa = (SimSectionRSDepOjbectAssignment) MultiSchemaHibernateUtil

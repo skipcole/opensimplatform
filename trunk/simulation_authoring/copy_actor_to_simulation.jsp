@@ -16,7 +16,7 @@
 	String actor_id = (String) request.getParameter("actor_id");
 	
 	if ( (copyin != null) && (copyin.equalsIgnoreCase("true"))){
-		Actor act = Actor.getMe(afso.schema, new Long(actor_id));
+		Actor act = Actor.getById(afso.schema, new Long(actor_id));
 		
 		act.setId(null);
 		act.setSim_id(afso.sim_id);

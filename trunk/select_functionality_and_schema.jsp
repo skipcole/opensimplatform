@@ -26,7 +26,7 @@
 	if ((ghostList != null) && (ghostList.size() == 1)){
 	
 		SchemaGhost this_sg = (SchemaGhost) ghostList.get(0);
-		User user_in_this_schema = User.getMe(this_sg.getSchema_name() , osp_soh.getUserid());
+		User user_in_this_schema = User.getById(this_sg.getSchema_name() , osp_soh.getUserid());
 	
 		if (user_in_this_schema.isJustPlayer()){
 			response.sendRedirect("simulation/select_simulation.jsp?initial_entry=true&schema_id=" + this_sg.getId());
@@ -92,7 +92,7 @@ body {
             <%
 			  	for (ListIterator<SchemaGhost> li = ghostList.listIterator(); li.hasNext();) {
             		SchemaGhost this_sg = (SchemaGhost) li.next();
-					User user_in_this_schema = User.getMe(this_sg.getSchema_name() , osp_soh.getUserid());
+					User user_in_this_schema = User.getById(this_sg.getSchema_name() , osp_soh.getUserid());
 		  %>
         <table align="center"><tr><td><h3>Database: <%= this_sg.getSchema_organization() %></h3></td></tr>
           <tr><td>

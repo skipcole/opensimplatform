@@ -122,7 +122,7 @@ public class RunningSimSet {
 	 * @param rs_id
 	 * @return
 	 */
-	public static RunningSimSet getMe(String schema, Long rs_id) {
+	public static RunningSimSet getById(String schema, Long rs_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		RunningSimSet this_rs = (RunningSimSet) MultiSchemaHibernateUtil.getSession(schema).get(

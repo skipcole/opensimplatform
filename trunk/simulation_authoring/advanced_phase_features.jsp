@@ -16,10 +16,10 @@
 	SimulationPhase spOnScratchPad = new SimulationPhase();
 	
 	if (sp_id != null) {
-		spOnScratchPad = SimulationPhase.getMe(afso.schema, new Long(sp_id));
+		spOnScratchPad = SimulationPhase.getById(afso.schema, new Long(sp_id));
 		afso.phase_id = new Long(sp_id);
 	} else {
-		spOnScratchPad = SimulationPhase.getMe(afso.schema, afso.phase_id);
+		spOnScratchPad = SimulationPhase.getById(afso.schema, afso.phase_id);
 	}
 	
 	String sending_page = (String) request.getParameter("sending_page");

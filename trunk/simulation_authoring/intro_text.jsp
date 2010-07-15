@@ -53,7 +53,7 @@ errorPage="../error.jsp" %>
 					returningAuthor = true;
 					backString = " Back ";
 					
-					Simulation sim = Simulation.getMe(afso.schema, storedSimId);
+					Simulation sim = Simulation.getById(afso.schema, storedSimId);
 					simName = sim.getSimulationName();
 					
 					afso.sim_id = sim.getId();

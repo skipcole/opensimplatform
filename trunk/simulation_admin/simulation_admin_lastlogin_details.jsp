@@ -16,7 +16,7 @@
 	
 	User user = new User();
 	if (user_id != null) {
-		user = User.getMe(afso.schema, new Long(user_id));
+		user = User.getById(afso.schema, new Long(user_id));
 	}
 	
 	

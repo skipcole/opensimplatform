@@ -18,8 +18,8 @@
 	String doc_1 = (String) request.getParameter("doc_1");
 	String doc_2 = (String) request.getParameter("doc_2");
 	
-	SharedDocument doc1 = SharedDocument.getMe(pso.schema, new Long(doc_1));
-	SharedDocument doc2 = SharedDocument.getMe(pso.schema, new Long(doc_2));
+	SharedDocument doc1 = SharedDocument.getById(pso.schema, new Long(doc_1));
+	SharedDocument doc2 = SharedDocument.getById(pso.schema, new Long(doc_2));
 	
 	
 %>

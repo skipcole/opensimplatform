@@ -20,10 +20,10 @@
 		
 	SetOfLinksCustomizer solc = new SetOfLinksCustomizer();
 	
-	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	solc = new SetOfLinksCustomizer(request, pso, cs);
 	
-	SetOfLinks sol = SetOfLinks.getMe(pso.schema, solc.getSolId());
+	SetOfLinks sol = SetOfLinks.getById(pso.schema, solc.getSolId());
 	
 	if (!(pso.preview_mode)) {	
 		sol = SetOfLinks.getSetOfLinksForRunningSim(pso.schema, solc.getSolId(), pso.running_sim_id);

@@ -174,10 +174,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
 				String sp_id = request.getParameter("sp_id"); //$NON-NLS-1$
-				returnSP = SimulationPhase.getMe(this.schema, sp_id);
+				returnSP = SimulationPhase.getById(this.schema, sp_id);
 			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
 				String sp_id = request.getParameter("sp_id"); //$NON-NLS-1$
-				returnSP = SimulationPhase.getMe(this.schema, sp_id);
+				returnSP = SimulationPhase.getById(this.schema, sp_id);
 				returnSP.setName(phase_name);
 				returnSP.setNotes(phase_notes);
 				returnSP.setOrder(string2Int(nominal_order));
@@ -217,10 +217,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				returnMP.saveMe(this.schema);
 				Simulation.updateSimsLastEditDate(sim_id, schema);
 			} else if (command.equalsIgnoreCase("Edit")) { //$NON-NLS-1$
-				returnMP = SimulationMetaPhase.getMe(this.schema, new Long(
+				returnMP = SimulationMetaPhase.getById(this.schema, new Long(
 						mp_id));
 			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
-				returnMP = SimulationMetaPhase.getMe(this.schema, new Long(
+				returnMP = SimulationMetaPhase.getById(this.schema, new Long(
 						mp_id));
 				returnMP.setMetaPhaseName(meta_phase_name);
 				returnMP.setMetaPhaseNotes(meta_phase_notes);
@@ -324,7 +324,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			return "Must select a simulation.<br />";
 		}
 
-		Simulation sim = Simulation.getMe(schema, new Long(sim_id_s));
+		Simulation sim = Simulation.getById(schema, new Long(sim_id_s));
 
 		String send_emails = request.getParameter("send_emails"); //$NON-NLS-1$
 
@@ -796,7 +796,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		String apply_ac = (String) request.getParameter("apply_ac");
 		if ((apply_ac != null)) {
-			actorCategory = ActorCategory.getMe(schema, new Long(ac_id));
+			actorCategory = ActorCategory.getById(schema, new Long(ac_id));
 			actorCategory.applySectionsAcrossCategory(schema);
 			returnString += "applied ActorCategory "
 					+ actorCategory.getCategoryName();
@@ -829,7 +829,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String queueup = (String) request.getParameter("queueup");
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
 				&& (ac_id != null) && (ac_id.trim().length() > 0)) {
-			actorCategory = ActorCategory.getMe(schema, new Long(ac_id));
+			actorCategory = ActorCategory.getById(schema, new Long(ac_id));
 			return actorCategory;
 		}
 
@@ -858,7 +858,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String update_ac = (String) request.getParameter("update_ac");
 		if ((update_ac != null)) {
 			Logger.getRootLogger().debug("updating ac: " + ac_name);
-			actorCategory = ActorCategory.getMe(schema, new Long(ac_id));
+			actorCategory = ActorCategory.getById(schema, new Long(ac_id));
 			actorCategory.setCategoryName(ac_name);
 			actorCategory.setExemplar_id(new Long(exemplar_id));
 			actorCategory.setSim_id(sim_id);
@@ -919,7 +919,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String queueup = (String) request.getParameter("queueup");
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
 				&& (ol_id != null) && (ol_id.trim().length() > 0)) {
-			oneLink = OneLink.getMe(schema, new Long(ol_id));
+			oneLink = OneLink.getById(schema, new Long(ol_id));
 			return oneLink;
 		}
 
@@ -953,7 +953,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((update_onelink != null)) {
 			Logger.getRootLogger().debug(
 					"updating onelink of uniq title: " + onelink_name);
-			oneLink = OneLink.getMe(schema, new Long(ol_id));
+			oneLink = OneLink.getById(schema, new Long(ol_id));
 			oneLink.setName(onelink_name);
 			oneLink.setNotes(onelink_notes);
 			oneLink.setStartingValue(start_value);
@@ -990,7 +990,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String queueup = (String) request.getParameter("queueup");
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
 				&& (gv_id != null) && (gv_id.trim().length() > 0)) {
-			genericVariable = GenericVariable.getMe(schema, new Long(gv_id));
+			genericVariable = GenericVariable.getById(schema, new Long(gv_id));
 			return genericVariable;
 		}
 
@@ -1033,7 +1033,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((update_param != null)) {
 			Logger.getRootLogger().debug(
 					"updating param of uniq title: " + uniq_param_name);
-			genericVariable = GenericVariable.getMe(schema, new Long(gv_id));
+			genericVariable = GenericVariable.getById(schema, new Long(gv_id));
 			genericVariable.setName(uniq_param_name);
 			genericVariable.setNotes(param_notes);
 			genericVariable.setStartingValue(start_value);
@@ -1068,7 +1068,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String queueup = (String) request.getParameter("queueup");
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
 				&& (t_id != null) && (t_id.trim().length() > 0)) {
-			timeline = TimeLine.getMe(schema, new Long(t_id));
+			timeline = TimeLine.getById(schema, new Long(t_id));
 			return timeline;
 		}
 
@@ -1104,7 +1104,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((update_timeline != null)) {
 			Logger.getRootLogger().debug(
 					"updating param of uniq title: " + timeline_name);
-			timeline = TimeLine.getMe(schema, new Long(t_id));
+			timeline = TimeLine.getById(schema, new Long(t_id));
 			timeline.setName(timeline_name);
 			// timeline.setNotes(param_notes);
 			// timeline.setStartingValue(start_value);
@@ -1139,7 +1139,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String queueup = (String) request.getParameter("queueup");
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
 				&& (conv_id != null) && (conv_id.trim().length() > 0)) {
-			conv = Conversation.getMe(schema, new Long(conv_id));
+			conv = Conversation.getById(schema, new Long(conv_id));
 			return conv;
 		}
 
@@ -1171,7 +1171,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((update_conv != null)) {
 			Logger.getRootLogger().debug(
 					"updating conv of uniq title: " + uniq_conv_name);
-			conv = Conversation.getMe(schema, new Long(conv_id));
+			conv = Conversation.getById(schema, new Long(conv_id));
 			conv.setUniqueConvName(uniq_conv_name);
 			conv.setConversationNotes(conv_notes);
 			conv.setSim_id(sim_id);
@@ -1243,7 +1243,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		// working on.
 		String shared_doc_id = (String) request.getParameter("shared_doc_id");
 		if ((shared_doc_id != null) && (shared_doc_id.trim().length() > 0)) {
-			this_sd = SharedDocument.getMe(schema, new Long(shared_doc_id));
+			this_sd = SharedDocument.getById(schema, new Long(shared_doc_id));
 			// Probably could return this_sd and exit out at this point
 		}
 
@@ -1477,7 +1477,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		SchemaInformationObject sio = new SchemaInformationObject();
 		if (command.equalsIgnoreCase("Update")) {
 			String sio_id = (String) request.getParameter("sio_id");
-			sio = SchemaInformationObject.getMe(new Long(sio_id));
+			sio = SchemaInformationObject.getById(new Long(sio_id));
 		}
 
 		if ((command.equalsIgnoreCase("Update"))
@@ -1679,7 +1679,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					bss.setAuthorGeneratedSimulationSection(true);
 					bss.saveMe(schema);
 				} else if (command.equalsIgnoreCase("Update")) { // 
-					bss = BaseSimSection.getMe(schema, bss_id);
+					bss = BaseSimSection.getById(schema, bss_id);
 					bss.setUrl(u);
 					bss.setDirectory(d);
 					bss.setPage_file_name(f);
@@ -1690,7 +1690,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					bss.setAuthorGeneratedSimulationSection(true);
 					bss.saveMe(schema);
 				} else if (command.equalsIgnoreCase("Edit")) {
-					bss = BaseSimSection.getMe(schema, bss_id);
+					bss = BaseSimSection.getById(schema, bss_id);
 					return bss;
 				} else if (command.equalsIgnoreCase("Clear")) { // 
 					return bss;
@@ -1725,7 +1725,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String queueup = (String) request.getParameter("queueup");
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
 				&& (ig_id != null) && (ig_id.trim().length() > 0)) {
-			ig = InjectGroup.getMe(schema, ig_id);
+			ig = InjectGroup.getById(schema, ig_id);
 			return ig;
 		}
 
@@ -1755,7 +1755,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				ig.saveMe(schema);
 			} else if (command.equalsIgnoreCase("Update")) {
-				ig = InjectGroup.getMe(schema, ig_id);
+				ig = InjectGroup.getById(schema, ig_id);
 				ig.setName(inject_group_name);
 				ig.setDescription(inject_group_description);
 				ig.setSim_id(sim_id);
@@ -1795,7 +1795,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
 				&& (inj_id != null) && (inj_id.trim().length() > 0)) {
-			inject = Inject.getMe(schema, new Long(inj_id));
+			inject = Inject.getById(schema, new Long(inj_id));
 			return inject;
 		}
 
@@ -1838,7 +1838,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				addInjectDefaultRecipients(schema, targettedPeople, inject, false);
 				
 			} else if (command.equalsIgnoreCase("Update")) {
-				inject = Inject.getMe(schema, new Long(inj_id));
+				inject = Inject.getById(schema, new Long(inj_id));
 				inject.setInject_name(inject_name);
 				inject.setInject_text(inject_text);
 				inject.setInject_Notes(inject_notes);
@@ -1932,7 +1932,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			} else if (command.equalsIgnoreCase("Update")) { // 
 				String sim_id = (String) request.getParameter("sim_id");
-				simulation = Simulation.getMe(schema, new Long(sim_id));
+				simulation = Simulation.getById(schema, new Long(sim_id));
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation
@@ -1945,7 +1945,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation.saveMe(schema);
 			} else if (command.equalsIgnoreCase("Edit")) {
 				String sim_id = (String) request.getParameter("sim_id");
-				simulation = Simulation.getMe(schema, new Long(sim_id));
+				simulation = Simulation.getById(schema, new Long(sim_id));
 				// Clean up any items that could be queued up for editing
 				actor_being_worked_on_id = null;
 
@@ -1993,7 +1993,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				actor_being_worked_on_id = new Long((String) mpr
 						.getParameter("actorid"));
 
-				Actor actorOnScratchPad = Actor.getMe(schema,
+				Actor actorOnScratchPad = Actor.getById(schema,
 						actor_being_worked_on_id);
 
 				createActor(mpr, actorOnScratchPad);
@@ -2058,7 +2058,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				makeUploadDir();
 
 				String _sim_id = (String) mpr.getParameter("sim_id");
-				Simulation sim = Simulation.getMe(schema, sim_id);
+				Simulation sim = Simulation.getById(schema, sim_id);
 				sim.updateLastEditDate(schema);
 
 				actorOnScratchPad.setSim_id(new Long(_sim_id));
@@ -2194,7 +2194,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						saa = new SimActorAssignment(schema, sim_id,
 								actorOnScratchPad.getId());
 					} else {
-						saa = SimActorAssignment.getMe(schema, sim_id,
+						saa = SimActorAssignment.getById(schema, sim_id,
 								actorOnScratchPad.getId());
 					}
 
@@ -2338,7 +2338,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		Long s_id = new Long(sim_id);
 		Long a_id = new Long(actor_id);
 
-		Actor this_act = Actor.getMe(schema, a_id);
+		Actor this_act = Actor.getById(schema, a_id);
 
 		if (!(this_act.getSim_id().equals(s_id))) {
 
@@ -2560,7 +2560,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		 * slist.hasNext();) { SimulationSectionAssignment ss =
 		 * (SimulationSectionAssignment) slist.next();
 		 * 
-		 * CustomizeableSection custSec = CustomizeableSection.getMe(schema,
+		 * CustomizeableSection custSec = CustomizeableSection.getById(schema,
 		 * ss.getBase_section_id() + "");
 		 * 
 		 * if (custSec != null) { Logger.getRootLogger().debug("cs id: " +
@@ -2777,7 +2777,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String schema_id = (String) request.getParameter("schema_id");
 
 			SchemaInformationObject sio = SchemaInformationObject
-					.getMe(new Long(schema_id));
+					.getById(new Long(schema_id));
 
 			afso.schema = sio.getSchema_name();
 			afso.schemaOrg = sio.getSchema_organization();
@@ -2785,7 +2785,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request
 					.getSession(true).getAttribute("osp_soh");
 
-			User user = User.getMe(afso.schema, osp_soh.getUserid());
+			User user = User.getById(afso.schema, osp_soh.getUserid());
 			BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
 
 			if (user != null) {
@@ -3278,7 +3278,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String new_color = (String) request.getParameter("new_color");
 
 			SimulationSectionAssignment ssa = SimulationSectionAssignment
-					.getMe(schema, new Long(ss_id));
+					.getById(schema, new Long(ss_id));
 
 			if (ssa != null) {
 				ssa.setTabColor(new_color);
@@ -3331,7 +3331,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		SharedDocument sd = new SharedDocument();
 
 		if (sd_id != null) {
-			sd = SharedDocument.getMe(schema, new Long(sd_id));
+			sd = SharedDocument.getById(schema, new Long(sd_id));
 		}
 
 		if ((sending_page != null)
@@ -3363,7 +3363,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				if ((sdanao != null) && (!(sdanao.equalsIgnoreCase("null")))) {
 					
 					SharedDocActorNotificAssignObj sdanao_edited = 
-						SharedDocActorNotificAssignObj.getMe(schema, new Long(sdanao));
+						SharedDocActorNotificAssignObj.getById(schema, new Long(sdanao));
 					
 					sdanao_edited.setNotificationText(sdanao_text);
 					sdanao_edited.saveMe(schema);
@@ -3482,7 +3482,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		if ((edit_event != null) && (edit_event.equalsIgnoreCase("true"))) {
-			event = Event.getMe(schema, new Long(event_id));
+			event = Event.getById(schema, new Long(event_id));
 			draft_event_id = event.getId();
 		}
 
@@ -3516,7 +3516,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			phase_id = null;
 			phaseSelected = false;
 
-			Simulation sim = Simulation.getMe(schema, sim_id);
+			Simulation sim = Simulation.getById(schema, sim_id);
 			this.simulation_name = sim.getSimulationName();
 			this.simulation_org = sim.getCreation_org();
 			this.simulation_version = sim.getVersion();
@@ -3534,7 +3534,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 */
 	public void saveSimEdited() {
 		if ((user_id != null) && (sim_id != null)) {
-			User user = User.getMe(schema, user_id);
+			User user = User.getById(schema, user_id);
 			user.setLastSimEdited(sim_id);
 			user.saveJustUser(schema);
 		} else {
@@ -3552,7 +3552,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public Long editedBefore() {
 
 		if (user_id != null) {
-			User user = User.getMe(schema, user_id);
+			User user = User.getById(schema, user_id);
 			return user.getLastSimEdited();
 		} else {
 			return null;
@@ -3601,7 +3601,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		if ((display_rss != null) && (display_rss.equalsIgnoreCase("true"))) {
 			String rss_id = (String) request.getParameter("rss_id");
-			rssQueued = RunningSimSet.getMe(schema, new Long(rss_id));
+			rssQueued = RunningSimSet.getById(schema, new Long(rss_id));
 		}
 
 		String sending_page = (String) request.getParameter("sending_page");
@@ -3609,13 +3609,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("set_of_running_sims"))) {
-			rssQueued = RunningSimSet.getMe(schema, new Long(rss_id));
+			rssQueued = RunningSimSet.getById(schema, new Long(rss_id));
 		}
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("edit_set"))) {
 
-			rssQueued = RunningSimSet.getMe(schema, new Long(rss_id));
+			rssQueued = RunningSimSet.getById(schema, new Long(rss_id));
 
 			String set_name = (String) request.getParameter("set_name");
 			rssQueued.setRunningSimSetName(set_name);

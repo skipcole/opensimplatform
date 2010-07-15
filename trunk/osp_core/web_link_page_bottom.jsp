@@ -22,7 +22,7 @@
 	
 	String cs_id = request.getParameter("cs_id");
 	
-	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
 	String linkName = (String) cs.getContents().get(WebLinksCustomizer.KEY_FOR_LINK_NAME);
 	
@@ -33,7 +33,7 @@
 		
 		if (((wlo_id != null) && (wlo_id.length() > 0))
 			&& (!(wlo_id.equalsIgnoreCase("0"))) ) {
-			wlo = WebLinkObjects.getMe(pso.schema, new Long(wlo_id));
+			wlo = WebLinkObjects.getById(pso.schema, new Long(wlo_id));
 		}
 	}
 	

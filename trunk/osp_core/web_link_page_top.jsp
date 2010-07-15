@@ -33,10 +33,10 @@
 	if (wlo_id != null) {
 		nowShowingId = new Long(wlo_id);
 		nowShowingInt = nowShowingId.intValue();
-		nowShowingWLO = WebLinkObjects.getMe(pso.schema, nowShowingId);
+		nowShowingWLO = WebLinkObjects.getById(pso.schema, nowShowingId);
 	}
 	
-	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
 	String linkName = (String) cs.getContents().get(WebLinksCustomizer.KEY_FOR_LINK_NAME);
 	

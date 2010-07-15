@@ -156,7 +156,7 @@ public class RunningSimulation {
 	 * @param rs_id
 	 * @return
 	 */
-	public static RunningSimulation getMe(String schema, Long rs_id) {
+	public static RunningSimulation getById(String schema, Long rs_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		RunningSimulation this_rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
@@ -179,7 +179,7 @@ public class RunningSimulation {
 
 		Logger.getRootLogger().debug("Enabling Sim."); //$NON-NLS-1$
 
-		Simulation sim = Simulation.getMe(schema, new Long(sid));
+		Simulation sim = Simulation.getById(schema, new Long(sid));
 
 
 		doFinalChecksOnSim(sim, schema);

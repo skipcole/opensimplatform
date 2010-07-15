@@ -116,7 +116,7 @@ public class SessionObjectBase {
 		if (sim_id == null){
 			return "";
 		} else if (phase_id == null){
-			Simulation sim = Simulation.getMe(schema, sim_id);
+			Simulation sim = Simulation.getById(schema, sim_id);
 			phase_id = sim.getFirstPhaseId(schema);
 		}
 		

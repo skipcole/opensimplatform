@@ -242,7 +242,7 @@ public class Event implements EventInterface{
 	 * @param sim_id
 	 * @return
 	 */
-	public static Event getMe(String schema, Long sim_id) {
+	public static Event getById(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Event event = (Event) MultiSchemaHibernateUtil.getSession(schema).get(Event.class, sim_id);
@@ -261,7 +261,7 @@ public class Event implements EventInterface{
 	 */
 	public static void removeMe(String schema, Long event_id){
 		
-		Event event = Event.getMe(schema, event_id);
+		Event event = Event.getById(schema, event_id);
 		
 		if (event != null){
 			MultiSchemaHibernateUtil.beginTransaction(schema);

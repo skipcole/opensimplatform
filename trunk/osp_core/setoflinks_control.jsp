@@ -21,11 +21,11 @@
 	
 	SetOfLinksCustomizer solc = new SetOfLinksCustomizer();
 	
-	CustomizeableSection cs = CustomizeableSection.getMe(pso.schema, cs_id);
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
 	solc = new SetOfLinksCustomizer(request, pso, cs);
 	
-	SetOfLinks sol = SetOfLinks.getMe(pso.schema, solc.getSolId());
+	SetOfLinks sol = SetOfLinks.getById(pso.schema, solc.getSolId());
 
 	//IndividualLink individualLink = new IndividualLink();
 	IndividualLink individualLink = new IndividualLink();
@@ -121,7 +121,7 @@
 					for (ListIterator lim = mySets.listIterator(); lim.hasNext();) {
 					RunningSimSetAssignment rssa = (RunningSimSetAssignment) lim.next();
 					
-					RunningSimSet rss = RunningSimSet.getMe(pso.schema, rssa.getRs_set_id());
+					RunningSimSet rss = RunningSimSet.getById(pso.schema, rssa.getRs_set_id());
 					%>
                     
 <h2>Quick Links for <%= rss.getRunningSimSetName() %></h2>

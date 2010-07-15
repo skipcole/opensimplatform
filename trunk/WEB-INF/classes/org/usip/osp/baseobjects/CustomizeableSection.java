@@ -255,7 +255,7 @@ public class CustomizeableSection extends BaseSimSection {
 	 * @param the_id
 	 * @return
 	 */
-	public static CustomizeableSection getMe(String schema, String the_id){
+	public static CustomizeableSection getById(String schema, String the_id){
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.

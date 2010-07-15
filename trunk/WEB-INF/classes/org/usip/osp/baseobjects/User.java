@@ -357,7 +357,7 @@ public class User {
 	 * @param u_id
 	 * @return
 	 */
-	public static User getMe(String schema, Long u_id){
+	public static User getById(String schema, Long u_id){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, u_id);

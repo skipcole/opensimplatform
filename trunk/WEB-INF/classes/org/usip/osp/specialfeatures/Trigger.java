@@ -130,7 +130,7 @@ public class Trigger {
 	 * @param sim_id
 	 * @return
 	 */
-	public static Trigger getMe(String schema, Long t_id) {
+	public static Trigger getById(String schema, Long t_id) {
 
 		if (t_id == null) {
 			return null;
@@ -150,7 +150,7 @@ public class Trigger {
 
 		Long t_id = (Long) cust.getContents().get(TRIGGER_KEY);
 
-		return getMe(schema, t_id);
+		return getById(schema, t_id);
 
 	}
 
@@ -165,10 +165,10 @@ public class Trigger {
 			GenericVariable gv = GenericVariable.getGVForRunningSim(pso.schema, this.var_id, pso.running_sim_id);
 			Logger.getRootLogger().warn("gv id: " + gv.getId()); //$NON-NLS-1$
 
-			RunningSimulation rs = RunningSimulation.getMe(pso.schema, pso.running_sim_id);
+			RunningSimulation rs = RunningSimulation.getById(pso.schema, pso.running_sim_id);
 			Logger.getRootLogger().warn("rs id: " + rs.getId()); //$NON-NLS-1$
 
-			AllowableResponse ar = AllowableResponse.getMe(pso.schema, gv.getCurrentlySelectedResponse());
+			AllowableResponse ar = AllowableResponse.getById(pso.schema, gv.getCurrentlySelectedResponse());
 			Logger.getRootLogger().warn("ar id: " + ar.getId()); //$NON-NLS-1$
 
 			rs.setAar_text(rs.getAar_text() + ar.getSpecificWordsForAAR());

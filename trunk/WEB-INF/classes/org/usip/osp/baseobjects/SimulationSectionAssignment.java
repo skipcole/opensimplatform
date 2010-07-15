@@ -142,7 +142,7 @@ public class SimulationSectionAssignment implements WebObject {
 	 * @param sim_id
 	 * @return
 	 */
-	public static SimulationSectionAssignment getMe(String schema, Long sec_id) {
+	public static SimulationSectionAssignment getById(String schema, Long sec_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		SimulationSectionAssignment simsec = (SimulationSectionAssignment) MultiSchemaHibernateUtil.getSession(schema)
@@ -224,7 +224,7 @@ public class SimulationSectionAssignment implements WebObject {
 
 		BaseSimSection bss = null;
 		if (bss_id != null) {
-			bss = BaseSimSection.getMe(schema, bss_id.toString());
+			bss = BaseSimSection.getById(schema, bss_id.toString());
 		} else {
 			Logger.getRootLogger().debug("Warning bss_id at simulation section creation was null."); //$NON-NLS-1$
 			return;

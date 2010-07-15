@@ -116,7 +116,7 @@ public class Inject implements LearningEvent{
 		this.inject_name = inject_name;
 	}
 	
-	public static Inject getMe(String schema, Long id) {
+	public static Inject getById(String schema, Long id) {
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		

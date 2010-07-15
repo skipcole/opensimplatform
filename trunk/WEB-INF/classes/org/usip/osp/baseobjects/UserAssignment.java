@@ -268,7 +268,7 @@ public class UserAssignment{
 	 * @param ua_id
 	 * @return
 	 */
-	public static UserAssignment getMe(String schema, Long ua_id) {
+	public static UserAssignment getById(String schema, Long ua_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil.getSession(schema).get(UserAssignment.class, ua_id);
@@ -287,7 +287,7 @@ public class UserAssignment{
 	 */
 	public static void saveHighAlertNumber(String schema, Long ua_id, Long myHighestAlertNumber) {
 
-		UserAssignment ua = UserAssignment.getMe(schema, ua_id);
+		UserAssignment ua = UserAssignment.getById(schema, ua_id);
 		ua.setHighestAlertNumberRecieved(myHighestAlertNumber);
 		ua.saveMe(schema);
 
