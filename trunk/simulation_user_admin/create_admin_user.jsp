@@ -67,7 +67,7 @@
           </tr>
           <tr> 
             <td>password<a href="helptext/user_password.jsp" target="helpinright">(?)</a></td>
-            <td><input type="text" name="password" tabindex="2" value="<%= userOnScratchPad.getBu_password() %>" /></td>
+            <td><input type="text" name="password" tabindex="2" /></td>
           </tr>
     <tr>
     <td>First Name:</td>

@@ -75,9 +75,6 @@ public class User {
 	private String bu_username = ""; //$NON-NLS-1$
 	
 	@Transient
-	private String bu_password = ""; //$NON-NLS-1$
-	
-	@Transient
 	private Long bu_language = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
 
 	public User() {
@@ -390,8 +387,6 @@ public class User {
 		BaseUser bu = BaseUser.getByUserId(this.getId());
 		
 		bu.setUsername(this.getBu_username());
-		bu.setPassword(this.getBu_password());
-		
 		bu.setFirst_name(this.getBu_first_name());
 		bu.setFull_name(this.getBu_full_name());
 		bu.setLast_name(this.getBu_last_name());
@@ -423,7 +418,6 @@ public class User {
 		this.setBu_middle_name(bu.getMiddle_name());
 		
 		this.setBu_username(bu.getUsername());
-		this.setBu_password(bu.getPassword());
 		
 		this.setBu_language(bu.getPreferredLanguageCode());
 		
@@ -557,14 +551,6 @@ public class User {
 
 	public void setBu_username(String bu_username) {
 		this.bu_username = bu_username;
-	}
-
-	public String getBu_password() {
-		return this.bu_password;
-	}
-
-	public void setBu_password(String bu_password) {
-		this.bu_password = bu_password;
 	}
 	
 	public Long getBu_language() {

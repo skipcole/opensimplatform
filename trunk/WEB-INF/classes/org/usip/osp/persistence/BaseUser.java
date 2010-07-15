@@ -109,7 +109,7 @@ public class BaseUser {
      * @param rawPassword
      * @return
      */
-    public String hashedPassword (String rawPassword){
+    public static String hashPassword (String rawPassword){
     	
     	String hash = null;
     	
@@ -152,6 +152,8 @@ public class BaseUser {
             Logger.getRootLogger().debug("username or password was null."); //$NON-NLS-1$
             return null;
         }
+        
+        password = BaseUser.hashPassword(password);
 
         MultiSchemaHibernateUtil.beginTransaction(
                 MultiSchemaHibernateUtil.principalschema, true);
@@ -189,7 +191,15 @@ public class BaseUser {
         return this.password;
     }
 
+    /**
+     * 
+     * @param password
+     */
     public void setPassword(String password) {
+        this.password = BaseUser.hashPassword(password);
+    }
+    
+    public void setPasswordAlreadyHashed(String password) {
         this.password = password;
     }
 
