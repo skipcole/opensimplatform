@@ -19,7 +19,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>Open Simulation Platform Control Page</title>
+<title>USIP Open Simulation Platform Change Password Page</title>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="">

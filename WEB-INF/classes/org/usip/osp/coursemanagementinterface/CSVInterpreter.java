@@ -23,14 +23,22 @@ public class CSVInterpreter {
 		return null;
 	}
 
+	/**
+	 * Imports the CSV file full of user information..
+	 * 
+	 * @param request
+	 * @param schema
+	 * @return
+	 */
 	public static String importCSV(HttpServletRequest request, String schema) {
 
 		String returnString = "";
-		
+
 		Hashtable importMappings = new Hashtable();
 
 		try {
-			MultipartRequest mpr = new MultipartRequest(request, USIP_OSP_Properties.getValue("uploads"));
+			MultipartRequest mpr = new MultipartRequest(request,
+					USIP_OSP_Properties.getValue("uploads"));
 
 			String sending_page = (String) mpr.getParameter("sending_page");
 
@@ -38,23 +46,28 @@ public class CSVInterpreter {
 
 			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
 
-			if ((sending_page != null) && (sending_page.equalsIgnoreCase("import_csv"))) {
+			if ((sending_page != null)
+					&& (sending_page.equalsIgnoreCase("import_csv"))) {
 
 				returnString = "Importing CSV File ";
 
 				String initFileName = mpr.getOriginalFileName("uploadedfile");
 
-				if ((initFileName != null) && (initFileName.trim().length() > 0)) {
+				if ((initFileName != null)
+						&& (initFileName.trim().length() > 0)) {
 
-					returnString += mpr.getOriginalFileName("uploadedfile") + "<br />";
+					returnString += mpr.getOriginalFileName("uploadedfile")
+							+ "<br />";
 
 					File fileData = mpr.getFile("uploadedfile");
 
-					Logger.getRootLogger().debug("File is " + fileData.length());
+					Logger.getRootLogger()
+							.debug("File is " + fileData.length());
 
 					if (fileData.length() <= max_file_longvalue) {
 
-						BufferedReader br = new BufferedReader(new FileReader(fileData));
+						BufferedReader br = new BufferedReader(new FileReader(
+								fileData));
 
 						String daLine = br.readLine();
 
@@ -70,19 +83,13 @@ public class CSVInterpreter {
 										returnString += " File does not seem to be in the correct format";
 										return returnString;
 									} else {
-										readInFileHeadings(daLine, importMappings);
+										readInFileHeadings(daLine,
+												importMappings);
 										foundFirstLine = true;
 									}
 								} else {
-								
-									User u = readInLine(daLine, importMappings);
-									if (User.getByUsername(schema, u.getUser_name()) == null) {
-										returnString += saveUser(u, schema);
-									} else {
-										returnString += "<BR />User already existed: " + u.getUser_name();
-									}
-									
-
+									returnString += readInLineOfUserData(
+											schema, daLine, importMappings);
 								}
 							}
 
@@ -98,7 +105,8 @@ public class CSVInterpreter {
 				}
 			}
 		} catch (java.io.IOException ioe) {
-			Logger.getRootLogger().warn("Entered Import Page: " + ioe.getMessage());
+			Logger.getRootLogger().warn(
+					"Entered Import Page: " + ioe.getMessage());
 		} catch (Exception e) {
 			Logger.getRootLogger().debug(e.getMessage());
 			e.printStackTrace();
@@ -107,40 +115,6 @@ public class CSVInterpreter {
 		return returnString;
 	}
 
-	/**
-	 * Saves a copy of the user back to the database, and notes any problems.
-	 * 
-	 * @param u
-	 * @param schema
-	 * @return
-	 */
-	private static String saveUser(User u, String schema) {
-
-		String returnString = "";
-		
-		try {
-			BaseUser bu = new BaseUser();
-			
-			bu.setFirst_name(u.getBu_first_name());
-			bu.setLast_name(u.getBu_last_name());
-			bu.setMiddle_name(u.getBu_middle_name());
-			bu.setUsername(u.getUser_name());
-			bu.setPassword(u.getBu_password());
-			bu.setFull_name(u.getBu_full_name());
-			
-			bu.saveMe();
-			
-			u.setId(bu.getId());
-			
-			u.saveJustUser(schema);
-			
-		} catch (Exception e){
-			returnString += "problem saving user " + u.getBu_username() + ", " + e.getMessage();
-		}
-		
-		return returnString;
-	}
-	
 	public static void readInFileHeadings(String daLine, Hashtable importMapping) {
 
 		StringTokenizer str = new StringTokenizer(daLine, ",");
@@ -154,57 +128,80 @@ public class CSVInterpreter {
 		}
 	}
 
-	public static User readInLine(String daLine, Hashtable importMapping) {
+	public static String readInLineOfUserData(String schema, String daLine,
+			Hashtable importMapping) {
+
+		String returnString = "";
 
 		StringTokenizer str = new StringTokenizer(daLine, ",");
 
 		User user = new User();
+		BaseUser bu = new BaseUser();
 
 		boolean pullPasswordFromName = false;
 		int ii = 1;
+		/* Looping over all of the fields that have been read in. */
 		while (str.hasMoreTokens()) {
 			Long mapKey = new Long(ii);
 
-			String fieldName = (String) importMapping.get(mapKey);		
+			String fieldName = (String) importMapping.get(mapKey);
 			String fieldValue = str.nextToken().trim();
-			
+
 			if (fieldName != null) {
 				if (fieldName.equalsIgnoreCase("Email")) {
+					bu.setUsername(fieldValue);
 					user.setBu_username(fieldValue);
 					user.setUser_name(user.getBu_username());
-					System.out.println(user.getBu_username());
+
+					if (!(User.getByUsername(schema, fieldValue) == null)) {
+						returnString += "<BR />User already existed: "
+								+ fieldValue;
+						return returnString;
+					}
+
 				} else if (fieldName.equalsIgnoreCase("First Name")) {
 					user.setBu_first_name(fieldValue);
 				} else if (fieldName.equalsIgnoreCase("Last Name")) {
 					user.setBu_last_name(fieldValue);
 				} else if (fieldName.equalsIgnoreCase("Password")) {
-					
-					if (fieldValue.equalsIgnoreCase("Initials")){
+
+					if (fieldValue.equalsIgnoreCase("Initials")) {
 						pullPasswordFromName = true;
 					} else {
-						user.setBu_password(fieldValue);
-					}					
-					
+						bu.setPasswordAlreadyHashed(fieldValue);
+					}
+
 				} else {
 					System.out.println("unaccounted for field: " + fieldValue);
 				}
 			} else {
-				System.out.println("field null for ii = " + ii + ", field:" + str.nextToken().trim());
+				System.out.println("field null for ii = " + ii + ", field:"
+						+ str.nextToken().trim());
 			}
-			
+
 			++ii;
-		}
-		
-		if (pullPasswordFromName){
-			BaseUser bu = new BaseUser();
-			bu.setFirst_name(user.getBu_first_name());
-			bu.setMiddle_name(user.getBu_middle_name());
-			bu.setLast_name(user.getBu_last_name());
-			user.setBu_password(bu.getInitials());
+		} // End of loop over tokens. All data should be loaded by now.
+
+		bu.setFirst_name(user.getBu_first_name());
+		bu.setMiddle_name(user.getBu_middle_name());
+		bu.setLast_name(user.getBu_last_name());
+
+		if (pullPasswordFromName) {
+			bu.setPassword(bu.getInitials());
 		}
 
-		user.setBu_full_name(user.getBu_first_name() + " " + user.getBu_last_name());
-		
-		return user;
+		user.setBu_full_name(user.getBu_first_name() + " "
+				+ user.getBu_last_name());
+		bu.setFull_name(user.getBu_full_name());
+
+		bu.saveMe();
+
+		user.setId(bu.getId());
+
+		user.saveJustUser(schema);
+
+		returnString += "<br /> saved user " + user.getUser_name();
+
+		return returnString;
 	}
 }

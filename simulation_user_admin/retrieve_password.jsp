@@ -1,7 +1,8 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
 	
@@ -23,7 +24,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>Open Simulation Platform Control Page</title>
+<title>USIP Open Simulation Platform Request Change Password Email</title>
 
 
 <style type="text/css">

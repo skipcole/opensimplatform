@@ -128,7 +128,6 @@ public class OSP_UserAdmin {
 								this._full_name, this._email, this._makeAuthor, this._makeInstructor,
 								this._makeAdmin);
 						
-						user.setBu_password(this._password);
 						user.setBu_username(this._email);
 						user.setBu_first_name(this._first_name);
 						user.setBu_full_name(this._full_name);
@@ -150,7 +149,6 @@ public class OSP_UserAdmin {
 				user.setBu_last_name(this._last_name);
 				user.setBu_middle_name(this._middle_name);
 				user.setBu_username(this._email);
-				user.setBu_password(this._password);
 				user.setSim_author(this._makeAuthor);
 				user.setSim_instructor(this._makeInstructor);
 				
