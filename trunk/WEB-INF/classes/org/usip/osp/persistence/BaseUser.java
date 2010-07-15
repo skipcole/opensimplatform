@@ -11,6 +11,7 @@ import org.usip.osp.baseobjects.User;
 import org.apache.log4j.*;
 
 import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 /**
  * This class holds all of the personal information (name, email address, etc.) on players.
@@ -101,61 +102,29 @@ public class BaseUser {
         MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
     }
     
+    
+    /**
+     * Takes a password and hashes it.
+     * 
+     * @param rawPassword
+     * @return
+     */
     public String hashedPassword (String rawPassword){
+    	
+    	String hash = null;
     	
     	try {
     		
     		MessageDigest md = MessageDigest.getInstance("SHA");
     		md.update(rawPassword.getBytes("UTF-8"));
-    		byte raw[] = md.digest();
-    	    //String hash = new String(raw, raw[], 0, raw.length);
-    	    //return hash;
+    	    byte raw[] = md.digest();
+    	    hash = (new BASE64Encoder()).encode(raw);
     	    
     	} catch (Exception e){
     		e.printStackTrace();
     	}
     	
-    	return null;
-    }
-    
-    /**
-     * 
-     * @param u
-     * @param p
-     * @param f
-     */
-    public BaseUser (String u, String p, String f, String s){
-        
-        // Looks to see if username exists.
-        BaseUser bu = getByUsername(u);
-        
-        //String password = 
-        
-        if (bu == null){
-            
-            Logger.getRootLogger().debug("Base user " + u + " not found."); //$NON-NLS-1$ //$NON-NLS-2$
-            
-            bu = new BaseUser();
-            bu.setUsername(u);
-            bu.setPassword(p);
-            bu.setFull_name(f);
-            
-            MultiSchemaHibernateUtil.beginTransaction(
-                    MultiSchemaHibernateUtil.principalschema, true);
-            
-            MultiSchemaHibernateUtil.getSession(
-                    MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(bu);
-            MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-        } else {
-            Logger.getRootLogger().debug("Base user " + u + " already exists."); //$NON-NLS-1$ //$NON-NLS-2$
-        }
-        
-        this.id = bu.getId();
-        this.setUsername(bu.getUsername());
-        this.setPassword(bu.getPassword());
-        
-        Logger.getRootLogger().debug(bu.getUsername());
-        
+    	return hash;
     }
     
 
