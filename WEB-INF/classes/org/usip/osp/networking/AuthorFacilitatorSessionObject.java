@@ -2822,7 +2822,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param request
 	 * @return
 	 */
-	public static boolean handleRetrievePassword(HttpServletRequest request) {
+	public static boolean handleSendResetPasswordEmail(HttpServletRequest request) {
 
 		boolean returnValue = true;
 
@@ -2835,17 +2835,26 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		Logger.getRootLogger().debug("emailing " + email);
+		
+		ResetPasswordObject rpo = new ResetPasswordObject();
+		rpo.setUserEmail(email);
+		rpo.saveMe();
+		
+		String reset_url = USIP_OSP_Properties.getCachedValue("base_sim_url") + 
+		"simulation_user_admin/reset_password.jsp?rpo=" + rpo.getId() + "&rnd=" + rpo.getTextRepresentation();
+			
+			
 
-		String message = "A request for your password has been received. Your password is "
-				+ bu.getPassword();
+		String message = "Dear USIP OSP Friend,<br/><br/>A request to change your password has been submitted.<br />";
+		
+		message += "Follow this link to the <A HREF=\"" + reset_url + "\"> reset password page </A>, ";
+		message += "or just copy and paste this link " + reset_url + " into your web browser.";
 
-		// String admin_email = USIP_OSP_Properties.getValue("osp_admin_email");
-		// Logger.getRootLogger().debug("Logger.getRootLogger().debug(admin_email); "
-		// + admin_email);
-
+		System.out.println(message);
+		
 		Vector ccs = new Vector();
 		Vector bccs = new Vector();
-		// bccs.add(admin_email);
+
 
 		try {
 			SchemaInformationObject sio = SchemaInformationObject
@@ -2868,6 +2877,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnValue;
 
 	}
+	
 
 	/**
 	 * Checks for authorization, and then passes the request to the

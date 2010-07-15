@@ -343,8 +343,6 @@ public class RunningSimulation {
 
 			this_guys_emailText = this_guys_emailText.replace("[username]", bu.getUsername()); //$NON-NLS-1$
 
-			this_guys_emailText = this_guys_emailText.replace("[password]", bu.getPassword()); //$NON-NLS-1$
-
 			String fullEmail;
 
 			if ((bu.getFull_name() != null) && (bu.getFull_name().trim().length() > 0)) {

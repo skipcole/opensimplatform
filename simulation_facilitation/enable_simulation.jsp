@@ -98,7 +98,7 @@
                   <textarea name="email_text" cols="60" rows="5">
      You are invited to enter a simulation. 
      Please go to the website [web_site_location] to enter. 
-     Your username is [username], and your password is [password].
+     Your username is [username]. Your password is either the one you entered when registering on the system, or the one that your instructor has assigned you.
 Enjoy!
 </textarea>
                   </p>

@@ -404,6 +404,7 @@ public class MultiSchemaHibernateUtil {
 		
 		ac.addAnnotatedClass(org.usip.osp.persistence.UILanguageObject.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.BaseUser.class);
+		ac.addAnnotatedClass(org.usip.osp.persistence.ResetPasswordObject.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.RestoreEvents.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.RestoreResults.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.SchemaInformationObject.class);

@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 import org.apache.log4j.*;
 /**
  * This class handles reading of properties out of the properties file for the program and making them available.
- *
- *
+ */
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or
