@@ -24,7 +24,7 @@
 	
 	if (update != null) {
 		String grid_text = (String) request.getParameter("grid_text");
-		contents.put("rowData_" + pso.running_sim_id + "_" + col + "_ " + row, grid_text);
+		contents.put("rowData_" + pso.getRunningSimId() + "_" + col + "_ " + row, grid_text);
 		cs.saveMe(pso.schema);
 		
 		response.sendRedirect("grid_doc.jsp?cs_id=" + cs_id);
@@ -49,7 +49,7 @@
 <input type="hidden" name="col" value="<%= col %>">
 <input type="hidden" name="row" value="<%= row %>">
 <%
-	String gridText = (String) contents.get("rowData_" + pso.running_sim_id + "_" + col + "_ " + row);
+	String gridText = (String) contents.get("rowData_" + pso.getRunningSimId() + "_" + col + "_ " + row);
 	
 	if (gridText == null) {
 		gridText = "";

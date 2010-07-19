@@ -22,7 +22,7 @@
 	
 	/////////////////////////////////////////////////////
 	RunningSimulation running_sim = new RunningSimulation();
-	if (afso.running_sim_id != null){
+	if (afso.getRunningSimId() != null){
 		afso.handleEnableSim(request);
 		running_sim = (RunningSimulation) afso.giveMeRunningSim();
 	}
@@ -70,7 +70,7 @@
         <p>Enabling <strong>simulation: <%= simulation.getDisplayName() %></strong>. <br />
           To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.</p>
           <%
-			if (afso.running_sim_id == null) {
+			if (afso.getRunningSimId() == null) {
 		%>
         <p>You must select the running simulation for which you will be enabling.<br />
           

@@ -48,7 +48,7 @@
 <% for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
 	Actor act = (Actor) la.next(); %>
 
-	<label><input type="checkbox" name="actor_cb_<%= act.getId().toString() %>" value="true" /> <%= act.getActorName(pso.schema, pso.running_sim_id, request) %></label> <br/>	 
+	<label><input type="checkbox" name="actor_cb_<%= act.getId().toString() %>" value="true" /> <%= act.getActorName(pso.schema, pso.getRunningSimId(), request) %></label> <br/>	 
 		<% } // End of loop over Actors %>
     <label>
     <input type="submit" name="add_news" value="Submit">

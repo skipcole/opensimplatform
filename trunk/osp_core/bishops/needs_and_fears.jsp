@@ -33,10 +33,10 @@
 	if (!(pso.preview_mode)) {	
 		CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 		bc = new BishopsCustomizer(request, pso, cs);
-		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, false);
-		inactivePartyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, true);
+		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.getRunningSimId(), false);
+		inactivePartyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.getRunningSimId(), true);
 		
-		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.getRunningSimId());
 		conflictDoc1 = (SharedDocument) setOfDocs.get(0);
 		conflictDoc2 = (SharedDocument) setOfDocs.get(1);
 		

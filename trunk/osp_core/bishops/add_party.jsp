@@ -22,7 +22,7 @@
 	int numParties = 9;
 	
 	if (!(pso.preview_mode)) {
-		numParties = BishopsPartyInfo.numberOfParties(pso.schema, pso.running_sim_id) + 1;
+		numParties = BishopsPartyInfo.numberOfParties(pso.schema, pso.getRunningSimId()) + 1;
 	}
 	
 %>

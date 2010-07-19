@@ -248,7 +248,7 @@ public class Email {
 	 * 
 	 * @param schema
 	 * @param running_sim_id
-	 * @param actor_id
+	 * @param actorId
 	 * @return
 	 */
 	public static List getAllForRunningSim(String schema, Long running_sim_id){
@@ -367,8 +367,8 @@ public class Email {
 	 * Returns all of the email directed to an actor during a simulation.
 	 * 
 	 * @param schema
-	 * @param running_sim_id
-	 * @param actor_id
+	 * @param runningSimId
+	 * @param actorId
 	 * @return
 	 */
 	public static List getRecipientsOfAnEmail(String schema, Long email_id){
@@ -394,8 +394,8 @@ public class Email {
 	 * Returns all of the email directed to an actor during a simulation.
 	 * 
 	 * @param schema
-	 * @param running_sim_id
-	 * @param actor_id
+	 * @param runningSimId
+	 * @param actorId
 	 * @return
 	 */
 	public static List getRecipientsOfSpecifiedType(String schema, Long email_id, int e_type){

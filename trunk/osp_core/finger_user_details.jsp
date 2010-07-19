@@ -51,7 +51,7 @@
   	for (ListIterator li = uLogins.listIterator(); li.hasNext();) {
 		UserTrail ut = (UserTrail) li.next();
 		
-		String aName = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, ut.getActor_id());
+		String aName = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.getRunningSimId(), request, ut.getActor_id());
 
 			
 		%>

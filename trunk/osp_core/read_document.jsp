@@ -18,7 +18,7 @@
 	List setOfDocs = new ArrayList();
 	
 	if (!(pso.preview_mode)) {
-		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.getRunningSimId());
 	}
 
 

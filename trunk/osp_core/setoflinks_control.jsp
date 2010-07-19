@@ -31,7 +31,7 @@
 	IndividualLink individualLink = new IndividualLink();
 	
 	if (!(pso.preview_mode)) {	
-		sol = SetOfLinks.getSetOfLinksForRunningSim(pso.schema, solc.getSolId(), pso.running_sim_id);
+		sol = SetOfLinks.getSetOfLinksForRunningSim(pso.schema, solc.getSolId(), pso.getRunningSimId());
 		individualLink = IndividualLink.handleEdit (request, pso, sol.getId());
 	}
 	
@@ -116,7 +116,7 @@
 </form>
 
 <p><%
-	List mySets = RunningSimSetAssignment.getAllForRunningSimulation(pso.schema, pso.running_sim_id);
+	List mySets = RunningSimSetAssignment.getAllForRunningSimulation(pso.schema, pso.getRunningSimId());
 	
 					for (ListIterator lim = mySets.listIterator(); lim.hasNext();) {
 					RunningSimSetAssignment rssa = (RunningSimSetAssignment) lim.next();

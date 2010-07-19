@@ -186,19 +186,19 @@ public class BishopsRoleVotes {
 
 			if ((first_choice != null) && (!(first_choice.equalsIgnoreCase("0")))) {
 
-				BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id,
+				BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(),
 						pso.user_id, 1);
 
 				if (firstChoice == null) {
 					firstChoice = new BishopsRoleVotes();
 				}
-				firstChoice.setRunning_sim_id(pso.running_sim_id);
+				firstChoice.setRunning_sim_id(pso.getRunningSimId());
 				firstChoice.setUserId(pso.user_id);
 				firstChoice.setBishopsPartyInfoId(new Long(first_choice));		
 				firstChoice.setUsersName(pso.user_Display_Name);
 				firstChoice.setSim_id(pso.sim_id);
-				firstChoice.setActorId(pso.actor_id);
-				firstChoice.setActorName(pso.actor_name);
+				firstChoice.setActorId(pso.getActorId());
+				firstChoice.setActorName(pso.getActorName());
 				firstChoice.setChoice(1);
 				firstChoice.saveMe(pso.schema);
 
@@ -206,19 +206,19 @@ public class BishopsRoleVotes {
 
 			if ((second_choice != null) && (!(second_choice.equalsIgnoreCase("0")))) {
 
-				BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id,
+				BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(),
 						pso.user_id, 2);
 
 				if (secondChoice == null) {
 					secondChoice = new BishopsRoleVotes();
 				}
-				secondChoice.setRunning_sim_id(pso.running_sim_id);
+				secondChoice.setRunning_sim_id(pso.getRunningSimId());
 				secondChoice.setUserId(pso.user_id);
 				secondChoice.setBishopsPartyInfoId(new Long(second_choice));
 				secondChoice.setUsersName(pso.user_Display_Name);
 				secondChoice.setSim_id(pso.sim_id);
-				secondChoice.setActorId(pso.actor_id);
-				secondChoice.setActorName(pso.actor_name);
+				secondChoice.setActorId(pso.getActorId());
+				secondChoice.setActorName(pso.getActorName());
 				secondChoice.setChoice(2);
 				secondChoice.saveMe(pso.schema);
 
@@ -226,19 +226,19 @@ public class BishopsRoleVotes {
 
 			if ((third_choice != null) && (!(third_choice.equalsIgnoreCase("0")))) {
 
-				BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id,
+				BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(),
 						pso.user_id, 3);
 
 				if (thirdChoice == null) {
 					thirdChoice = new BishopsRoleVotes();
 				}
-				thirdChoice.setRunning_sim_id(pso.running_sim_id);
+				thirdChoice.setRunning_sim_id(pso.getRunningSimId());
 				thirdChoice.setUserId(pso.user_id);
 				thirdChoice.setBishopsPartyInfoId(new Long(third_choice));
 				thirdChoice.setUsersName(pso.user_Display_Name);
 				thirdChoice.setSim_id(pso.sim_id);
-				thirdChoice.setActorId(pso.actor_id);
-				thirdChoice.setActorName(pso.actor_name);
+				thirdChoice.setActorId(pso.getActorId());
+				thirdChoice.setActorName(pso.getActorName());
 				thirdChoice.setChoice(3);
 				thirdChoice.saveMe(pso.schema);
 

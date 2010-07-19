@@ -25,10 +25,10 @@
 	Long selectedThird = null;
 	
 	if (!(pso.preview_mode)) {	
-		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.running_sim_id, false);
-		BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 1);
-		BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 2);
-		BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, pso.user_id, 3);
+		partyList = BishopsPartyInfo.getAllForRunningSim(pso.schema, pso.getRunningSimId(), false);
+		BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(), pso.user_id, 1);
+		BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(), pso.user_id, 2);
+		BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(), pso.user_id, 3);
 	
 		if (firstChoice != null){
 			selectedFirst = firstChoice.getBishopsPartyInfoId();

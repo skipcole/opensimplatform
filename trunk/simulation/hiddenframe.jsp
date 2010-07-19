@@ -25,7 +25,7 @@
 function getSimEvent()
   {
 
-  	$.get('sim_event_server.jsp', {'running_sim_id': "<%= pso.running_sim_id %>"}, 
+  	$.get('sim_event_server.jsp', {'running_sim_id': "<%= pso.getRunningSimId() %>"}, 
 	
 		function(myFunction){
 		

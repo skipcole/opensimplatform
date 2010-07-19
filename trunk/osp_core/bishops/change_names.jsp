@@ -15,7 +15,7 @@
 	Actor act = new Actor();
 	
 	if (!(pso.preview_mode)) {
-		act = Actor.getById(pso.schema, pso.actor_id);
+		act = Actor.getById(pso.schema, pso.getActorId());
 	}
 
 	String sending_page = (String) request.getParameter("sending_page");
@@ -26,18 +26,18 @@
 		
 		//System.out.println("creating assumed id " + new_name);
 
-		ActorAssumedIdentity aai = ActorAssumedIdentity.getAssumedIdentity(pso.schema, pso.actor_id, pso.running_sim_id);
+		ActorAssumedIdentity aai = ActorAssumedIdentity.getAssumedIdentity(pso.schema, pso.getActorId(), pso.getRunningSimId());
 		if (aai == null){
 			aai = new ActorAssumedIdentity();
 		}
 		
 		aai.setAssumedName(new_name);
-		aai.setActorId(pso.actor_id);
-		aai.setRunning_sim_id(pso.running_sim_id);
+		aai.setActorId(pso.getActorId());
+		aai.setRunning_sim_id(pso.getRunningSimId());
 		aai.saveMe(pso.schema);
 
-		pso.actor_name = new_name;		
-		USIP_OSP_Cache.setActorName(new_name, pso.schema, pso.sim_id, pso.running_sim_id, request, pso.actor_id);
+		pso.getActorName() = new_name;		
+		USIP_OSP_Cache.setActorName(new_name, pso.schema, pso.sim_id, pso.getRunningSimId(), request, pso.getActorId());
 		
 		   
 	} // End of if coming from this page and have added identity.
@@ -45,7 +45,7 @@
 	String oldName = "Previous Name";
 	
 	if (!(pso.preview_mode)) {
-		oldName = act.getActorName(pso.schema, pso.running_sim_id, request);
+		oldName = act.getActorName(pso.schema, pso.getRunningSimId(), request);
 	}
 
 	

@@ -25,6 +25,8 @@
 		return;
 	}
 	
+	pso.handleBecomePlayer(request);
+	
 	String lessten = request.getParameter("lessten");
 	String addten = request.getParameter("addten");
 	
@@ -45,10 +47,10 @@
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>
 <frameset rows="0,<%= pso.topFrameHeight %>,*,<%= pso.bottomFrameHeight %>" frameborder="yes" border="0" framespacing="0">
-  <frame src="hiddenframe.jsp" name="hiddenframe" noresize>
-  <frame src="frame_top.jsp?tabposition=<%= pso.tabposition %>" name="topFrame" >
-  <frame src="<%= pso.bottomFrame %>" name="mainFrame" >
-  <frame src="frame_footer.jsp" name="footerFrame" >
+  <frame src="hiddenframe.jsp" name="hiddenframe" noresize />
+  <frame src="frame_top.jsp?tabposition=<%= pso.tabposition %>" name="topFrame" />
+  <frame src="<%= pso.getBottomFrame() %>" name="mainFrame" />
+  <frame src="frame_footer.jsp" name="footerFrame" />
 </frameset>
 <noframes>
 <body>

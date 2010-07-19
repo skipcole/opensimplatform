@@ -49,8 +49,8 @@ function getSimRound()
   {
 
   	$.get('sim_round_server.jsp', {
-		'running_sim_id': "<%= pso.running_sim_id %>", 
-		'from_actor': "<%= pso.actor_id %>", 
+		'running_sim_id': "<%= pso.getRunningSimId() %>", 
+		'from_actor': "<%= pso.getActorId() %>", 
 		'from_tab': "<%= tabposition %>"}, 
 		
 		function(myFunction){
@@ -107,7 +107,7 @@ function timedCount()
         <tr> 
           <td><strong><%= pso.simulation_name %></strong></td>
           <td><strong><%= pso.run_sim_name %></strong></td>
-          <td><strong><%= pso.actor_name %></strong></td>
+          <td><strong><%= pso.getActorName() %></strong></td>
           <td><strong><div id="sim_phase_div">Loading...</div></strong></td>
           <!-- td><strong><div id="sim_round_div">Loading...</div></strong></td -->
         </tr>

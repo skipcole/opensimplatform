@@ -70,7 +70,7 @@
 
   <tr>
     <td valign="top" width="200"><img src="images/actors/<%= this_actor.getImageFilename() %>" width="200"  >
-    <br><%= this_actor.getActorName(pso.schema, pso.running_sim_id, request) %></td>
+    <br><%= this_actor.getActorName(pso.schema, pso.getRunningSimId(), request) %></td>
     <td valign="top">
     <% if (this_actor.getRole(pso.schema, pso.sim_id) != null) { %>
     <p><strong>Your Role</strong><br />
@@ -107,15 +107,15 @@
 				showPrivate = true;
 			}
 			
-			if (!(act.getId().equals(pso.actor_id))) {
+			if (!(act.getId().equals(pso.getActorId()))) {
 			
-			String userAssigned = USIP_OSP_Cache.getUserAssigned(pso.schema, pso.running_sim_id, act.getId(), request);
+			String userAssigned = USIP_OSP_Cache.getUserAssigned(pso.schema, pso.getRunningSimId(), act.getId(), request);
 			
 			boolean thisActorAssignedToUser = true;
 			if (userAssigned.equalsIgnoreCase("unassigned")) {
 				thisActorAssignedToUser = false;
 			}
-				System.out.println(USIP_OSP_Cache.getUserAssigned(pso.schema, pso.running_sim_id, act.getId(), request));
+				System.out.println(USIP_OSP_Cache.getUserAssigned(pso.schema, pso.getRunningSimId(), act.getId(), request));
 			//}
 			
 			if ((showControl) || (!(act.isControl_actor()))) {
@@ -125,7 +125,7 @@
 
 		%>
   <tr>
-    <td valign="top" width="200"><img src="images/actors/<%= act.getImageFilename() %>" width="200"  ><br><%= act.getActorName(pso.schema, pso.running_sim_id, request) %></td>
+    <td valign="top" width="200"><img src="images/actors/<%= act.getImageFilename() %>" width="200"  ><br><%= act.getActorName(pso.schema, pso.getRunningSimId(), request) %></td>
     <td valign="top"><% if (showRole) { %>
         <p><strong>Their Role</strong><br />
     	<%= act.getRole(pso.schema, pso.sim_id) %></p>   <% } %>

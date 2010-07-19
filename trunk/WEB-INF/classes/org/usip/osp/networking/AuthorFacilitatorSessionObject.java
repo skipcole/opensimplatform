@@ -625,7 +625,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil
 						.getSession(this.schema).get(RunningSimulation.class,
-								this.running_sim_id);
+								this.runningSimId);
 
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
@@ -2260,8 +2260,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.getAttribute(
 						USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
 
-		if (running_sim_id != null) {
-			phaseName = phaseNames.get(running_sim_id);
+		if (runningSimId != null) {
+			phaseName = phaseNames.get(runningSimId);
 
 			return phaseName;
 		} else {
@@ -3129,7 +3129,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
 					schema, this.user_id, this.user_Display_Name);
 
-			running_sim_id = rs.getId();
+			runningSimId = rs.getId();
 
 		} // End of if coming from this page and have added running simulation
 	}
@@ -3194,7 +3194,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			gv = GenericVariable.pullOutBaseGV(schema, cs);
 		} else {
 			gv = GenericVariable.getGVForRunningSim(schema, varId,
-					this.running_sim_id);
+					this.runningSimId);
 		}
 
 		// Get list of allowable responses
@@ -3240,7 +3240,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			// Save the answer currently selected in the generic variable
 			// itself.
 			GenericVariable gv = GenericVariable.pullMeOut(schema, cs,
-					this.running_sim_id);
+					this.runningSimId);
 			gv.setCurrentlySelectedResponse(answer_chosen);
 
 			gv.checkMyTriggers(this, Trigger.FIRE_ON_WHEN_CALLED);

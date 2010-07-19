@@ -163,7 +163,7 @@ function ajaxFunction()
 		
         }
       }
-    xmlHttp.open("GET","broadcast_chat_server.jsp?conv_id=<%= sim_conv_id %>&actor_id=" + <%= pso.actor_id %> + "&start_index=" + start_index,true);
+    xmlHttp.open("GET","broadcast_chat_server.jsp?conv_id=<%= sim_conv_id %>&actor_id=" + <%= pso.getActorId() %> + "&start_index=" + start_index,true);
     xmlHttp.send(null);
   }
   
@@ -211,7 +211,7 @@ function sendText(){
       }
     }
 
-	var dataToSend = "conv_id=<%= sim_conv_id %>&actor_id=" + <%= pso.actor_id %> + "&user_id=" + <%= pso.user_id %> + "&newtext=" + send_text;
+	var dataToSend = "conv_id=<%= sim_conv_id %>&actor_id=" + <%= pso.getActorId() %> + "&user_id=" + <%= pso.user_id %> + "&newtext=" + send_text;
 	
 	xmlHttp.open("POST","broadcast_chat_server.jsp",true);
 	xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -276,7 +276,7 @@ overflow:scroll;
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();
 			String this_a_id = act.getId().toString();
-			String this_a_name = act.getActorName(pso.schema, pso.running_sim_id, request);
+			String this_a_name = act.getActorName(pso.schema, pso.getRunningSimId(), request);
 	%><LI class="actor_class"><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
       <option value="<%= this_a_id %>_ffffff">White</option>
 	  <option value="<%= this_a_id %>_ffdddd">Red</option>

@@ -368,7 +368,7 @@ public class BishopsPartyInfo implements CopiedObject{
 				bpi.setName(party_name);
 				bpi.setNeedsDoc(party_needs);
 				bpi.setFearsDoc(party_fears);
-				bpi.setRunning_sim_id(pso.running_sim_id);
+				bpi.setRunning_sim_id(pso.getRunningSimId());
 				bpi.setSim_id(pso.sim_id);
 				bpi.setPhaseId(pso.phase_id);
 				bpi.saveMe(pso.schema);
@@ -377,7 +377,7 @@ public class BishopsPartyInfo implements CopiedObject{
 
 				if (bpi.getPartyIndex() != newPI) {
 					System.out.println("bpi.getPartyIndex() was " + bpi.getPartyIndex() + ", newPI was: " + newPI);
-					BishopsPartyInfo.insertIndex(pso.schema, pso.running_sim_id, bpi.getId(), newPI);
+					BishopsPartyInfo.insertIndex(pso.schema, pso.getRunningSimId(), bpi.getId(), newPI);
 				}
 			}
 

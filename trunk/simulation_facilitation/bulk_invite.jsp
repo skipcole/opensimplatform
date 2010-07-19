@@ -44,7 +44,6 @@
               <br />
       <blockquote> 
         
-        <p><span class="style1">This functionality temporarily disabled </span>- until we get a 'captcha' in place to prevent Spam Registrations.</p>
         <p>Please enter a set of emails below, separated by spaces, commas or carriage returns. Then modify the message text as you see fit, and hit send. The users will 
           receive an email inviting them to autoregister on the system. You will 
           then be able to add them as players in one of your simulations.</p>
@@ -71,8 +70,7 @@
         </tr>
         <tr valign="top"> 
           <td>&nbsp;</td>
-                <td> <input type="submit" name="command" value="Send Invite Email" disabled="disabled" /> 
-                (Disabled: 1/28/10)</td>
+                <td> <input type="submit" name="command" value="Send Invite Email" /> </td>
               </tr>
         </table>
     </form>

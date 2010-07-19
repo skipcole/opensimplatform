@@ -97,8 +97,8 @@ public class WriteDocumentListCustomizer extends Customizer {
 	@Override
 	public void loadSimCustomizeSection(HttpServletRequest request, SessionObjectBase pso, CustomizeableSection cs) {
 
-		if (pso.running_sim_id != null){
-			docs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+		if (pso.getRunningSimId() != null){
+			docs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.getRunningSimId());
 		} else {
 			loadSimCustomSectionForEditing(request, pso, cs);
 		}

@@ -21,12 +21,12 @@
 	Hashtable contents = cs.getContents();
 	
 	// Get num cols/rows from hashtable
-	String myNumCols = (String) contents.get("myNumCols_" + pso.running_sim_id);
-	String myNumRows = (String) contents.get("myNumRows_" + pso.running_sim_id);
+	String myNumCols = (String) contents.get("myNumCols_" + pso.getRunningSimId());
+	String myNumRows = (String) contents.get("myNumRows_" + pso.getRunningSimId());
 	
 	if (myNumCols == null){
 		//System.out.println("putting in 0");
-		contents.put("myNumCols_" + pso.running_sim_id, "0");
+		contents.put("myNumCols_" + pso.getRunningSimId(), "0");
 		cs.saveMe(pso.schema);
 	} else {
 		numCols = new Long(myNumCols).intValue();
@@ -36,7 +36,7 @@
 	/////////////////////////////
 	if (myNumRows == null){
 		//System.out.println("putting in 0");
-		contents.put("myNumRows_" + pso.running_sim_id, "0");
+		contents.put("myNumRows_" + pso.getRunningSimId(), "0");
 		cs.saveMe(pso.schema);
 	} else {
 		numRows = new Long(myNumRows).intValue();
@@ -50,10 +50,10 @@
 	if (do_add_col != null) {
 		//System.out.println("do add col");
 		numCols += 1;	
-		contents.put("myNumCols_" + pso.running_sim_id, numCols + "");
+		contents.put("myNumCols_" + pso.getRunningSimId(), numCols + "");
 		
 		String col_name = (String) request.getParameter("col_name");
-		contents.put("colname_" + pso.running_sim_id + "_" + numCols, col_name);
+		contents.put("colname_" + pso.getRunningSimId() + "_" + numCols, col_name);
 		
 		cs.saveMe(pso.schema);
 	}
@@ -61,10 +61,10 @@
 	if (do_add_row != null) {
 		//System.out.println("do add row");
 		numRows += 1;	
-		contents.put("myNumRows_" + pso.running_sim_id, numRows + "");
+		contents.put("myNumRows_" + pso.getRunningSimId(), numRows + "");
 		
 		String row_name = (String) request.getParameter("row_name");
-		contents.put("rowname_" + pso.running_sim_id + "_" + numRows, row_name);		
+		contents.put("rowname_" + pso.getRunningSimId() + "_" + numRows, row_name);		
 		cs.saveMe(pso.schema);
 	}
 	
@@ -74,14 +74,14 @@
 		String col = (String) request.getParameter("col");
 		
 		numCols -= 1;	
-		contents.put("myNumCols_" + pso.running_sim_id, numCols + "");
+		contents.put("myNumCols_" + pso.getRunningSimId(), numCols + "");
 		
 		// Loop over keys
 		for (Enumeration e = contents.keys(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
 			String value = (String) cs.getContents().get(key);
 			
-			if (key.startsWith("rowData_" + pso.running_sim_id + "_" + col)){
+			if (key.startsWith("rowData_" + pso.getRunningSimId() + "_" + col)){
 				contents.remove(key);
 			}
 		}
@@ -95,7 +95,7 @@
 		String row = (String) request.getParameter("row");
 		
 		numRows -= 1;	
-		contents.put("myNumRows_" + pso.running_sim_id, numRows + "");
+		contents.put("myNumRows_" + pso.getRunningSimId(), numRows + "");
 		
 		// Loop over keys
 		for (Enumeration e = contents.keys(); e.hasMoreElements();) {
@@ -104,7 +104,7 @@
 			
 			if (
 			
-			(key.startsWith("rowData_" + pso.running_sim_id + "_" )) && (key.endsWith("_" + row))
+			(key.startsWith("rowData_" + pso.getRunningSimId() + "_" )) && (key.endsWith("_" + row))
 			
 			){
 				contents.remove(key);
@@ -133,7 +133,7 @@
 <% for (int ii = 1 ; ii <= numCols ; ++ii) { 
 
 	// loop over cols and get names
-	String thisColName = (String) contents.get("colname_" + pso.running_sim_id + "_" + ii); %>
+	String thisColName = (String) contents.get("colname_" + pso.getRunningSimId() + "_" + ii); %>
 
 <td valign="top"><strong><%= thisColName %></strong>
 	<% if (ii == numCols) { %>
@@ -150,7 +150,7 @@
 
 <% for (int jj = 1 ; jj <= numRows ; ++jj) { 
 
-	String thisRowName = (String) contents.get("rowname_" + pso.running_sim_id + "_" + jj); %>
+	String thisRowName = (String) contents.get("rowname_" + pso.getRunningSimId() + "_" + jj); %>
 
 <tr>
 <td valign="top"><strong><%= thisRowName %></strong>
@@ -164,10 +164,10 @@
 </td>
 <% for (int ii = 1 ; ii <= numCols ; ++ii) { 
 
-	String rowData = (String) contents.get("rowData_" + pso.running_sim_id + "_" + ii + "_ " + jj);
+	String rowData = (String) contents.get("rowData_" + pso.getRunningSimId() + "_" + ii + "_ " + jj);
 	if (rowData == null) {
 		rowData = "";
-		contents.put("rowData_" + pso.running_sim_id + "_" + ii + "_ " + jj, rowData);
+		contents.put("rowData_" + pso.getRunningSimId() + "_" + ii + "_ " + jj, rowData);
 	}
 %> 
 

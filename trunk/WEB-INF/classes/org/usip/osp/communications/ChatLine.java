@@ -96,7 +96,7 @@ public class ChatLine implements Comparable{
     	
     	String returnString = "<message>"; //$NON-NLS-1$
     	
-    	String actorName = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.running_sim_id, request, this.fromActor);
+    	String actorName = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.getRunningSimId(), request, this.fromActor);
     	
     	returnString += "     <conversation>" + this.conversation_id + "</conversation>"; //$NON-NLS-1$ //$NON-NLS-2$
     	returnString += "     <time>" + time_string + "</time>"; //$NON-NLS-1$ //$NON-NLS-2$

@@ -52,14 +52,14 @@
 			String c_2 = "tbd";
 			String c_3 = "tbd";
 			
-			if (pso.running_sim_id != null){
+			if (pso.getRunningSimId() != null){
 			
-				UserAssignment ua = UserAssignment.getUserAssignment (pso.schema, pso.running_sim_id, aa.getId());
+				UserAssignment ua = UserAssignment.getUserAssignment (pso.schema, pso.getRunningSimId(), aa.getId());
 			
 				if ((ua != null) && (ua.getUser_id() != null)) {
-					BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 1);
-					BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 2);
-					BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.running_sim_id, ua.getUser_id(), 3);
+					BishopsRoleVotes firstChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(), ua.getUser_id(), 1);
+					BishopsRoleVotes secondChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(), ua.getUser_id(), 2);
+					BishopsRoleVotes thirdChoice = BishopsRoleVotes.getBPIIDForPosition(pso.schema, pso.getRunningSimId(), ua.getUser_id(), 3);
 			
 					Long bpi_id_1 = null;
 					Long bpi_id_2 = null;

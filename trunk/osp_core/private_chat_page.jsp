@@ -44,7 +44,7 @@
 		%>
 			
 		<%  // Loop over the conversations for this Actor
-		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id)).listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id)).listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next(); %>
 		
 			updateMsg<%= conv.getId() %>();
@@ -68,7 +68,7 @@
 		}); // End of loop over if ready
 		
 		<%  // Loop over the conversations for this Actor
-		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id)).listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id)).listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next(); %>
 			
 		function addMessages<%= conv.getId() %>(xml) {
@@ -112,7 +112,7 @@
 				function checkOnlineActor<%= key %> (){
 				
 					$.post("actor_online_checker.jsp", { 
-						checking_actor: "<%= pso.actor_id %>", 
+						checking_actor: "<%= pso.getActorId() %>", 
 						checked_actor: "<%= key %>"
 						}, 
 						function(xml){
@@ -147,7 +147,7 @@ width:100%;
 } 
 <%
 	// Loop over the conversations for this Actor
-	for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id)).listIterator(); li.hasNext();) {
+	for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id)).listIterator(); li.hasNext();) {
 		Conversation conv = (Conversation) li.next();
 %>	
 		#messagewindow<%= conv.getId() %> {
@@ -185,12 +185,12 @@ width:100%;
 <P>
 
 <%
-	List listOfConversations = Conversation.getActorsConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id));
+	List listOfConversations = Conversation.getActorsConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id));
 	
 	Actor this_actor = pso.giveMeActor();
 	/*
 	if (this_actor.isControl_actor()){
-		listOfConversations = Conversation.getAllConversationsForSimSection(pso.schema, pso.actor_id, pso.running_sim_id, new Long(cs_id));
+		listOfConversations = Conversation.getAllConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id));
 	}
 	*/
 	
@@ -208,10 +208,10 @@ width:100%;
 			ConvActorAssignment caa = (ConvActorAssignment) liii.next();
 			
 			// Don't do the chat with the actor and his or her self.
-			if (!(caa.getActor_id().equals(pso.actor_id))) {
+			if (!(caa.getActor_id().equals(pso.getActorId()))) {
 			
 			String this_a_id = caa.getActor_id().toString();
-			String this_a_name = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, caa.getActor_id());
+			String this_a_name = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.getRunningSimId(), request, caa.getActor_id());
 			
 			String this_a_thumb = "images/actors/" + pso.getActorThumbImage(request, caa.getActor_id());
 			
