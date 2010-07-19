@@ -68,7 +68,15 @@ public class SessionObjectBase {
 	public String sim_copyright_info = ""; //$NON-NLS-1$
 
 	/** ID of the Running Simulation being conducted or worked on. */
-	public Long running_sim_id;
+	protected Long runningSimId;
+
+	public Long getRunningSimId() {
+		return runningSimId;
+	}
+
+	public void setRunningSimId(Long runningSimId) {
+		this.runningSimId = runningSimId;
+	}
 
 	/** Name of the running simulation session. */
 	public String run_sim_name = ""; //$NON-NLS-1$
@@ -86,7 +94,7 @@ public class SessionObjectBase {
 	 */
 	public RunningSimulation giveMeRunningSim() {
 
-		if (running_sim_id == null) {
+		if (runningSimId == null) {
 			Logger.getRootLogger().warn("Warning RunningSimId is null in pso.giveMeRunningSim");
 
 			return null;
@@ -94,7 +102,7 @@ public class SessionObjectBase {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
-				RunningSimulation.class, running_sim_id);
+				RunningSimulation.class, runningSimId);
 
 		MultiSchemaHibernateUtil.getSession(schema).evict(rs);
 

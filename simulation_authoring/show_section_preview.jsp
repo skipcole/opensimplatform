@@ -27,7 +27,7 @@
 
 <frameset rows="50,90%,50" cols="*">
   <frame src="show_section_preview_top.jsp">
-  <frame src="<%= ssa.generateURLforBottomFrame(new Long(0), pso.actor_id, new Long(0)) %>">
+  <frame src="<%= ssa.generateURLforBottomFrame(new Long(0), pso.getActorId(), new Long(0)) %>">
   <frame src="show_section_preview_bot.jsp?base_sec_id=<%= ssa.getBase_sec_id() %>&ssa_sec_id=<%= sec_id %>">
 </frameset>
 <noframes><body>

@@ -118,7 +118,7 @@ public class ChatController {
 	public static String getConversation(HttpServletRequest request,
 			PlayerSessionObject pso) {
 
-		if ((pso == null) || (pso.running_sim_id == null)) {
+		if ((pso == null) || (pso.getRunningSimId() == null)) {
 			return ""; //$NON-NLS-1$
 		}
 
@@ -140,13 +140,13 @@ public class ChatController {
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
 
 		return getConversation(user_id, actor_id, start_index, newtext,
-				conv_id, this_conv, pso.running_sim_id, pso.schema);
+				conv_id, this_conv, pso.getRunningSimId(), pso.schema);
 	}
 
 	/** Returns a key for the conversation based on schema, running sim id and conversation id. */
 	public static String getConvKey(PlayerSessionObject pso, String conv_id) {
 
-		return (pso.schema + "_" + pso.running_sim_id + "_" + conv_id); //$NON-NLS-1$ //$NON-NLS-2$
+		return (pso.schema + "_" + pso.getRunningSimId() + "_" + conv_id); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -168,7 +168,7 @@ public class ChatController {
 			this_conv = new Vector();
 
 			this_conv = getRunningSimConveration(pso.schema,
-					pso.running_sim_id, conv_id);
+					pso.getRunningSimId(), conv_id);
 
 			conversation_cache.put(conversationKey, this_conv);
 		}
@@ -193,7 +193,7 @@ public class ChatController {
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
 			ChatLine bcl = (ChatLine) e.nextElement();
 			
-			String fromAName = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, bcl.getFromActor());
+			String fromAName = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.getRunningSimId(), request, bcl.getFromActor());
 			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy HH:mm a"); //$NON-NLS-1$
 
 			// Check to see were are above the start index sent.
@@ -256,7 +256,7 @@ public class ChatController {
 
 		// If a line of new text has been passed, tack it on the end.
 		if (newtext != null) {
-			ChatLine cl = new ChatLine(user_id.toString(), pso.running_sim_id
+			ChatLine cl = new ChatLine(user_id.toString(), pso.getRunningSimId()
 					.toString(), actor_id.toString(), conv_id, newtext);
 			cl.saveMe(pso.schema);
 			this_conv.add(cl);
@@ -358,7 +358,7 @@ public class ChatController {
 			
 			ActorGhost ag = new ActorGhost(act);
 			
-			ag.setName(act.getActorName(pso.schema, pso.running_sim_id, request));
+			ag.setName(act.getActorName(pso.schema, pso.getRunningSimId(), request));
 
 			returnVector.add(ag);
 		}

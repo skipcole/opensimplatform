@@ -27,7 +27,7 @@
 	SharedDocument templateDoc = new SharedDocument();
 	
 	if (!(pso.preview_mode)) {
-		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.getRunningSimId());
 		if (setOfDocs != null) {
 			templateDoc = (SharedDocument) setOfDocs.get(0);
 		}
@@ -80,14 +80,14 @@
 <%		
 	if (showDoc) {
 	
-		SharedDocument sd = SharedDocument.getPlayerDocument(pso.schema, new Long (b_id), pso.sim_id, pso.running_sim_id, new Long (a_id));
+		SharedDocument sd = SharedDocument.getPlayerDocument(pso.schema, new Long (b_id), pso.sim_id, pso.getRunningSimId(), new Long (a_id));
 			
 %>
 <hr>
 	<h1><%= sd.getDisplayTitle() %></h1>
 	<%= sd.getBigString() %>
 <p>&nbsp;</p>
-<% if ( sd.getPrimaryAuthorId().intValue() == pso.actor_id.intValue() ) { %>
+<% if ( sd.getPrimaryAuthorId().intValue() == pso.getActorId().intValue() ) { %>
 you can edit this.
 <% } %>
 <%

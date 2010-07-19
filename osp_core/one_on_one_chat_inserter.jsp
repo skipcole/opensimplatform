@@ -21,7 +21,7 @@
 	
 	String xml_msgs = "";
 							
-	ChatController.insertChatLine(pso.user_id, pso.actor_id, 
+	ChatController.insertChatLine(pso.user_id, pso.getActorId(), 
 				start_index, message, conversation, pso, request);
 	
 %>

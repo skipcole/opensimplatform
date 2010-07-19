@@ -26,7 +26,7 @@
 	SetOfLinks sol = SetOfLinks.getById(pso.schema, solc.getSolId());
 	
 	if (!(pso.preview_mode)) {	
-		sol = SetOfLinks.getSetOfLinksForRunningSim(pso.schema, solc.getSolId(), pso.running_sim_id);
+		sol = SetOfLinks.getSetOfLinksForRunningSim(pso.schema, solc.getSolId(), pso.getRunningSimId());
 	}
 	
 %>

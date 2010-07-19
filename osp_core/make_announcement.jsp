@@ -76,7 +76,7 @@ To All Players </label>
 %>
   <tr>
   	<td valign="top"><% if ((!al.isSpecific_targets())) { %>All<% } else { %>
-  	  <%= USIP_OSP_Util.stringListToNames(pso.schema, pso.sim_id, pso.running_sim_id, request, al.getThe_specific_targets(), ", ")%>
+  	  <%= USIP_OSP_Util.stringListToNames(pso.schema, pso.sim_id, pso.getRunningSimId(), request, al.getThe_specific_targets(), ", ")%>
     <% } %>	</td>
     <td valign="top"><%= al.getTimeOfAlert() %></td>
     <td valign="top"><%= al.getAlertMessage() %></td>

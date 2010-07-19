@@ -23,9 +23,9 @@
 	List draftList = new ArrayList();
 	
 	if (!(pso.preview_mode)) {
-		emailToList = Email.getAllTo(pso.schema, pso.running_sim_id, pso.actor_id);
-		sentList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, true);
-		draftList = Email.getDraftsOrSent(pso.schema, pso.running_sim_id, pso.actor_id, false);
+		emailToList = Email.getAllTo(pso.schema, pso.getRunningSimId(), pso.getActorId());
+		sentList = Email.getDraftsOrSent(pso.schema, pso.getRunningSimId(), pso.getActorId(), true);
+		draftList = Email.getDraftsOrSent(pso.schema, pso.getRunningSimId(), pso.getActorId(), false);
 	}
 		
 %>
@@ -41,7 +41,7 @@
 <body>
 <h1>Email</h1>
 <p align="center"><a href="write_email.jsp">Compose New Email</a> | <a href="email.jsp">Check for New Email</a></p>
-<h2>Inbox for <%= pso.actor_name %></h2>
+<h2>Inbox for <%= pso.getActorName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td width="4%" valign="top">&nbsp;</td>
@@ -55,7 +55,7 @@
 		Email email = (Email) li.next();
 		
 		EmailRecipients er = 
-		EmailRecipients.getEmailRecipientsLine(pso.schema, email.getId(), pso.running_sim_id, pso.actor_id);
+		EmailRecipients.getEmailRecipientsLine(pso.schema, email.getId(), pso.getRunningSimId(), pso.getActorId());
 
 		String boldStart = "";
 		String boldEnd = "";
@@ -75,7 +75,7 @@
 <% } %>
 </table>
 <hr>
-<h2>Sent Messages From <%= pso.actor_name %></h2>
+<h2>Sent Messages From <%= pso.getActorName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td width="4%" valign="top">&nbsp;</td>

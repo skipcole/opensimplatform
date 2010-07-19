@@ -234,11 +234,11 @@ public class IndividualLink {
 					String cs_id = request.getParameter("cs_id");
 					String rss_id = request.getParameter("rss_id");
 			
-					individualLink.setActor_id(pso.actor_id);
+					individualLink.setActor_id(pso.getActorId());
 					individualLink.setDescription(link_desc);
 					individualLink.setLinkString(link_string);
 					individualLink.setLinkTitle(link_title);
-					individualLink.setRunning_sim_id(pso.running_sim_id);
+					individualLink.setRunning_sim_id(pso.getRunningSimId());
 					individualLink.setCs_id(USIP_OSP_Util.stringToLong(cs_id));
 					individualLink.setRunning_sim_set_id(USIP_OSP_Util.stringToLong(rss_id));
 					

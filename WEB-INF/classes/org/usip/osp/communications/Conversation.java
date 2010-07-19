@@ -173,7 +173,7 @@ public class Conversation implements SimSectionDependentObject {
 		for (ListIterator<ConvActorAssignment> bi = cca_list.listIterator(); bi.hasNext();) {
 			ConvActorAssignment caa = bi.next();
 			
-			String a_name = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.running_sim_id, request, caa.getActor_id());
+			String a_name = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.getRunningSimId(), request, caa.getActor_id());
 
 			returnString += a_name + "-"; //$NON-NLS-1$
 		}

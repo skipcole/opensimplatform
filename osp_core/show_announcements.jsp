@@ -27,7 +27,7 @@
 </h2>
 <table width="95%" border="0" cellspacing="2" cellpadding="2">
   <tr valign="top"> 
-    <td><p><%= RunningSimulation.getActorAlertText(pso.schema, pso.running_sim_id, pso.actor_id) %></p>
+    <td><p><%= RunningSimulation.getActorAlertText(pso.schema, pso.getRunningSimId(), pso.getActorId()) %></p>
     </td>
   </tr>
 </table>

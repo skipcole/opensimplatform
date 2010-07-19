@@ -28,7 +28,7 @@
 	OneLink ol = OneLink.getById(pso.schema, olc.getOlId());
 	
 	if (!(pso.preview_mode)) {	
-		ol = OneLink.getOneLinkForRunningSim(pso.schema, olc.getOlId(), pso.running_sim_id);
+		ol = OneLink.getOneLinkForRunningSim(pso.schema, olc.getOlId(), pso.getRunningSimId());
 		forwardOnString = ol.generateForwardOnTag();
 	}
 	

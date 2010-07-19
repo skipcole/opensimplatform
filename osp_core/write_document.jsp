@@ -26,7 +26,7 @@
 		CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 		editInstructions = cs.getBigString();
 	
-		List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.running_sim_id);
+		List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.getRunningSimId());
 	
 		if ((setOfDocs != null) && (setOfDocs.size() > 0) ){
 			sd = (SharedDocument) setOfDocs.get(0);

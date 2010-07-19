@@ -14,7 +14,7 @@
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
 	SimSectionRSDepOjbectAssignment ssrsdoa = 
-		SimSectionRSDepOjbectAssignment.getOneForRunningSimSection(pso.schema, pso.running_sim_id, cs.getId(), 0);
+		SimSectionRSDepOjbectAssignment.getOneForRunningSimSection(pso.schema, pso.getRunningSimId(), cs.getId(), 0);
 		
 	GenericVariable gv = GenericVariable.getById(pso.schema, ssrsdoa.getObjectId());
 	

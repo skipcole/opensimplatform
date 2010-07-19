@@ -50,7 +50,7 @@
               <p>Create running simulations for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
                 (If you would like to create running simulations for a different simulation, 
                 <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
-              <p><% if (afso.running_sim_id != null) { %>You are currently working on runnign simulation <%= afso.run_sim_name %>.<% } %>
+              <p><% if (afso.getRunningSimId() != null) { %>You are currently working on runnign simulation <%= afso.run_sim_name %>.<% } %>
               If you would like to select a running simulation already created,  <a href="select_running_simulation.jsp">click here.</a></p>
               Below are the running simulation currently associated with <b> <%= simulation.getSimulationName() %> </b>. <br />
               <table width="80%" border = "1">

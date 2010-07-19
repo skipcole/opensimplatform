@@ -48,7 +48,7 @@
                   Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring/create_simulation.jsp">create a new one</a>.</p>
                   <% } else { 
 		
-			if ((afso.running_sim_id == null)) {
+			if ((afso.getRunningSimId() == null)) {
 		%>
                   <p>You must select the running simulation for which you will be creating a schedule.<br />
                       

@@ -86,9 +86,9 @@
   		for (ListIterator li =  pso.eligibleActors.listIterator(); li.hasNext();) {
 			Actor act = (Actor) li.next();
 			
-			if (!(act.getId().equals(pso.actor_id))) {
+			if (!(act.getId().equals(pso.getActorId()))) {
 			%>
-        <option value="<%= act.getId() %>"><%= act.getActorName(pso.schema, pso.running_sim_id, request) %></option>
+        <option value="<%= act.getId() %>"><%= act.getActorName(pso.schema, pso.getRunningSimId(), request) %></option>
         <% 
 			} // end of if this is not the same actor
 			}  // end of loop over emails

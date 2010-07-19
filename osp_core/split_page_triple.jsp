@@ -17,27 +17,27 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	
 	SimulationSectionAssignment sLeft =  SimulationSectionAssignment.getSubSection(pso.schema, new Long (cs_id), 1 , pso.sim_id,
-			pso.actor_id, pso.phase_id);
+			pso.getActorId(), pso.phase_id);
 			
 		
 	SimulationSectionAssignment sRight =  SimulationSectionAssignment.getSubSection(pso.schema, new Long (cs_id), 2 , pso.sim_id,
-			pso.actor_id, pso.phase_id);
+			pso.getActorId(), pso.phase_id);
 			
 	SimulationSectionAssignment sBottom =  SimulationSectionAssignment.getSubSection(pso.schema, new Long (cs_id), 3 , pso.sim_id,
-			pso.actor_id, pso.phase_id);
+			pso.getActorId(), pso.phase_id);
 	
 	String leftFrame = "../simulation/frame_bottom.jsp";
 	String rightFrame = "../simulation/frame_bottom.jsp";
 	String bottomFrame = "../simulation/frame_bottom.jsp";
 	
 	if (sLeft != null){
-		leftFrame = sLeft.generateURLforBottomFrame(pso.running_sim_id, pso.actor_id, pso.user_id);
+		leftFrame = sLeft.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId(), pso.user_id);
 	}
 	if (sRight != null) {
-		rightFrame = sRight.generateURLforBottomFrame(pso.running_sim_id, pso.actor_id, pso.user_id);
+		rightFrame = sRight.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId(), pso.user_id);
 	}
 	if (sBottom != null) {
-		bottomFrame = sBottom.generateURLforBottomFrame(pso.running_sim_id, pso.actor_id, pso.user_id);
+		bottomFrame = sBottom.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId(), pso.user_id);
 	}
     %>
     

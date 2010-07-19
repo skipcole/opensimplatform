@@ -44,7 +44,7 @@
 			List emailToList = new ArrayList();
 	
 			if (!(pso.preview_mode)) {
-				emailToList = Email.getAllForRunningSim(pso.schema, pso.running_sim_id);
+				emailToList = Email.getAllForRunningSim(pso.schema, pso.getRunningSimId());
 			}
 				
 %>	

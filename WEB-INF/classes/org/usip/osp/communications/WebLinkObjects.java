@@ -275,7 +275,7 @@ public class WebLinkObjects implements WebObject {
 					
 					if ((wlo_url != null) && (wlo_url.length() > 0)) {
 						wlo = new WebLinkObjects(pso.schema, wlo_name,
-							wlo_description, wlo_url, pso.running_sim_id, csId);
+							wlo_description, wlo_url, pso.getRunningSimId(), csId);
 					} else {
 						wlo.setWloError("Not enough Information provided");
 						wlo.setWeblinkDescription(wlo_description);

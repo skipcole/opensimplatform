@@ -18,7 +18,7 @@
 	List ref_list = new ArrayList();
 	
 	if (!(pso.preview_mode)) {
-		ref_list = PlayerReflection.getReflections(pso.schema, pso.running_sim_id);
+		ref_list = PlayerReflection.getReflections(pso.schema, pso.getRunningSimId());
 	}
 	
 %>
@@ -49,7 +49,7 @@
 			
 		%>
   <tr>
-    <td valign="top"><%= USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.running_sim_id, request, pr.getA_id()) %></td>
+    <td valign="top"><%= USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.getRunningSimId(), request, pr.getA_id()) %></td>
     <td valign="top"><%= sp.getPhaseName() %></td>
     <td valign="top"><%= pr.getBigString() %></td>
   </tr>

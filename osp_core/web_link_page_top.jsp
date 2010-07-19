@@ -22,7 +22,7 @@
 	List wloList = new ArrayList();
 	
 	if (cs_id != null) {
-		wloList = WebLinkObjects.getAllForRunningSimulationAndSection(pso.schema, pso.running_sim_id, new Long(cs_id));	
+		wloList = WebLinkObjects.getAllForRunningSimulationAndSection(pso.schema, pso.getRunningSimId(), new Long(cs_id));	
 	}
 	
 	Long nowShowingId = new Long(0);

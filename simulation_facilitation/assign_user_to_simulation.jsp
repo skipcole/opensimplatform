@@ -23,7 +23,7 @@
 	}
 	/////////////////////////////////////////////////////
 	RunningSimulation running_simulation = new RunningSimulation();
-	if (afso.running_sim_id != null){
+	if (afso.getRunningSimId() != null){
 		running_simulation = afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
@@ -62,7 +62,7 @@
         To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click 
           here</a>. 
         <%
-			if (afso.running_sim_id == null) {
+			if (afso.getRunningSimId() == null) {
 		%>
       <p>You must select the running simulation for which you will be assigning 
         users.<br />
@@ -101,7 +101,7 @@
 					user_assigned = new User();
 					user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
 					
-					ua = UserAssignment.getUserAssignment (afso.schema, afso.running_sim_id, act.getId());
+					ua = UserAssignment.getUserAssignment (afso.schema, afso.getRunningSimId(), act.getId());
 				}
 
 					%>

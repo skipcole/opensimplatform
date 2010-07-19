@@ -162,10 +162,10 @@ public class Trigger {
 		case ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR: {
 			Logger.getRootLogger().warn("ACT_TYPE_FINAL_VALUE_TEXT_TO_AAR"); //$NON-NLS-1$
 
-			GenericVariable gv = GenericVariable.getGVForRunningSim(pso.schema, this.var_id, pso.running_sim_id);
+			GenericVariable gv = GenericVariable.getGVForRunningSim(pso.schema, this.var_id, pso.getRunningSimId());
 			Logger.getRootLogger().warn("gv id: " + gv.getId()); //$NON-NLS-1$
 
-			RunningSimulation rs = RunningSimulation.getById(pso.schema, pso.running_sim_id);
+			RunningSimulation rs = RunningSimulation.getById(pso.schema, pso.getRunningSimId());
 			Logger.getRootLogger().warn("rs id: " + rs.getId()); //$NON-NLS-1$
 
 			AllowableResponse ar = AllowableResponse.getById(pso.schema, gv.getCurrentlySelectedResponse());

@@ -43,7 +43,7 @@
 			run_start = sdf.format(simulation.getPhaseStartTime(pso.schema, simulation.getFirstPhaseId(pso.schema)));
 		}
 	} else {
-		if (pso.running_sim_id != null){
+		if (pso.getRunningSimId() != null){
 			running_sim = (RunningSimulation) pso.giveMeRunningSim();
 			run_start = sdf.format(running_sim.getEnabledDate());
 		}

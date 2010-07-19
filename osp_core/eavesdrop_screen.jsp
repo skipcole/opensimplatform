@@ -52,7 +52,7 @@ width:100%;
 	Conversation: <select name="conv_id">
 	
 	<%
-		for (ListIterator li = Conversation.getAllForRunningSim(pso.schema, pso.sim_id, pso.running_sim_id).listIterator(); li.hasNext();) {
+		for (ListIterator li = Conversation.getAllForRunningSim(pso.schema, pso.sim_id, pso.getRunningSimId()).listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next();
 			
 			String selected = "";

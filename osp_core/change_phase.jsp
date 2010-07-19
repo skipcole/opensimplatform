@@ -57,6 +57,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
 <title>Simulation Master Control Page</title>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
@@ -101,6 +103,8 @@
               <% if (!(sp.getId().equals(pso.phase_id))) { %>
               <td valign="top">
               	<input type="hidden" name="phase_id" value="<%= sp.getId().toString() %>" />
+				<input type="hidden" name="phase_id" value="1" />
+				<input type="hidden" name="tabposition" value="1" />
                 <input type="submit" name="command" value="Change Phase"  onClick="return confirm('Are you sure you want to change phase?');" />
               </td>
               <td valign="top"><input type="checkbox" name="notify_via_email" id="notify_via_email" value="true"/></td>
