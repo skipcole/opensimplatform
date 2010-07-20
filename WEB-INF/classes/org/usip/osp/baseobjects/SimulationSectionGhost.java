@@ -23,6 +23,8 @@ public class SimulationSectionGhost {
 	
 	private String tabHeading = ""; //$NON-NLS-1$
 	
+	private String tabURL = "";
+	
 	public String getTabColor() {
 		return this.tabColor;
 	}
@@ -37,6 +39,14 @@ public class SimulationSectionGhost {
 
 	public void setTabHeading(String tabHeading) {
 		this.tabHeading = tabHeading;
+	}
+
+	public String getTabURL() {
+		return tabURL;
+	}
+
+	public void setTabURL(String tabURL) {
+		this.tabURL = tabURL;
 	}
 	
 }
