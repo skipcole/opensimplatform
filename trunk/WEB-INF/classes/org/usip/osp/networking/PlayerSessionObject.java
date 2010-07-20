@@ -179,16 +179,17 @@ public class PlayerSessionObject extends SessionObjectBase {
 						"Return to sim page with tab position not an integer.");
 			}
 
+			List simSecList = getSimSecList(request);
+			
 			try {
-				List simSecList = SimulationSectionAssignment
-						.getBySimAndActorAndPhase(this.schema, this.sim_id,
-								this.actorId, this.phase_id);
+				//List simSecList = SimulationSectionAssignment
+					//	.getBySimAndActorAndPhase(this.schema, this.sim_id,
+						//		this.actorId, this.phase_id);
 
 				if (tabpos <= simSecList.size()) {
-					SimulationSectionAssignment ss = (SimulationSectionAssignment) simSecList
+					SimulationSectionGhost ss = (SimulationSectionGhost) simSecList
 							.get(tabpos - 1);
-					this.bottomFrame = ss.generateURLforBottomFrame(
-							this.runningSimId, this.actorId, this.user_id);
+					this.bottomFrame = ss.getTabURL();
 				}
 
 			} catch (Exception e) {
@@ -249,6 +250,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				ssg.setTabHeading(ss.getTab_heading());
 				ssg.setTabColor(ss.getTabColor());
+				ssg.setTabURL(ss.generateURLforBottomFrame(actorId));
+				
 
 				returnList.add(ssg);
 
@@ -259,9 +262,18 @@ public class PlayerSessionObject extends SessionObjectBase {
 			session.getServletContext().setAttribute(
 					USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO,
 					sim_section_info);
+			
+			if (this.isControlCharacter()){
+				SimulationSectionGhost ssg = new SimulationSectionGhost();
+				ssg.setTabHeading("Control");
+				ssg.setTabColor("FFCCCC");
+				ssg.setTabURL("../osp_core/control.jsp");
+
+				returnList.add(ssg);
+			}
 
 		}
-
+		
 		return returnList;
 	}
 

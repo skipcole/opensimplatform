@@ -59,7 +59,7 @@
 		
 			for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
-				User user_assigned = UserAssignment.getUserAssigned(pso.schema, pso.running_simulation, act.getId());
+				User user_assigned = UserAssignment.getUserAssigned(pso.schema, pso.getRunningSimId(), act.getId());
 				
 				UserAssignment ua = new UserAssignment();
 				
@@ -87,7 +87,7 @@
               <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
                 <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 
                 <input type="hidden" name="simulation_adding_to" value="<%= simulation.getId() %>" /> 
-                <input type="hidden" name="running_simulation_adding_to" value="<%= running_simulation.getId() %>" /> 
+                <input type="hidden" name="running_simulation_adding_to" value="<%= pso.getRunningSimId() %>" /> 
                 <input type="submit" name="command" value="Assign User" tabindex="<%= ii + 1 %>" /></td>
             </form>
           </tr>

@@ -305,7 +305,7 @@ public class SimulationSectionAssignment implements WebObject {
 	 * 
 	 * @return Returns the entire URL for the bottom frame.
 	 */
-	public String generateURLforBottomFrame(Long rs_id, Long actor_id, Long user_id) {
+	public String generateURLforBottomFrame(Long actor_id) {
 
 		String returnString = this.getUrl() + this.getDirectory() + this.getPage_file_name();
 
@@ -319,20 +319,25 @@ public class SimulationSectionAssignment implements WebObject {
 		String thisSep = subsequentSep;
 
 		if ((this.sendString != null) && (this.sendString.length() > 0)) {
+			
+			/*
 			if (this.sendString.charAt(POS_RS_ID) == '1') {
 				returnString += (thisSep + "running_sim_id=" + rs_id); //$NON-NLS-1$
 				thisSep = subsequentSep;
 			}
+			*/
 
 			if (this.sendString.charAt(POS_A_ID) == '1') {
 				returnString += (thisSep + "actor_id=" + actor_id); //$NON-NLS-1$
 				thisSep = subsequentSep;
 			}
 
+			/*  Never really found much of a use for this.
 			if (this.sendString.charAt(POS_U_ID) == '1') {
 				returnString += (thisSep + "user_id=" + user_id); //$NON-NLS-1$
 				thisSep = subsequentSep;
 			}
+			*/
 		}
 
 		Logger.getRootLogger().debug("returnString: " + returnString); //$NON-NLS-1$
@@ -498,7 +503,7 @@ public class SimulationSectionAssignment implements WebObject {
 
 		if ((sid == null) || (aid == null) || (pid == null)) {
 
-			Logger.getRootLogger().debug("sid/aid/pid: " + sid + "/" + aid + "/" + pid); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			Logger.getRootLogger().warn("sid/aid/pid: " + sid + "/" + aid + "/" + pid); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			return new ArrayList<SimulationSectionAssignment>();
 		} else {
 

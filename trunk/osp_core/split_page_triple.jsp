@@ -31,13 +31,13 @@
 	String bottomFrame = "../simulation/frame_bottom.jsp";
 	
 	if (sLeft != null){
-		leftFrame = sLeft.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId(), pso.user_id);
+		leftFrame = sLeft.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId());
 	}
 	if (sRight != null) {
-		rightFrame = sRight.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId(), pso.user_id);
+		rightFrame = sRight.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId());
 	}
 	if (sBottom != null) {
-		bottomFrame = sBottom.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId(), pso.user_id);
+		bottomFrame = sBottom.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId());
 	}
     %>
     
