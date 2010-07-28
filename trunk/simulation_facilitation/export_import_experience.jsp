@@ -73,51 +73,28 @@
                   </ul>
                   <br />
                   <blockquote>
-                    <%
-		
-		List simList = Simulation.getAll(afso.schema);
-		
-		for (ListIterator lis = simList.listIterator(); lis.hasNext();) {
-			Simulation this_sim = (Simulation) lis.next();
-		%>
-                    <p>Simulation <strong><%= this_sim.getDisplayName() %></strong>.<br>
-                    </p>
-                    <p>Below are the running simulation currently associated with <b> <%= this_sim.getSimulationName() %> </b>. <br />
-                    </p>
+                    <p>Export</p>
                     <table width="100%" border = "1">
                       <tr>
-                        <td><h2>Running Simulation</h2></td>
-                        <td><h2>Phase</h2></td>
-                        <td><h2>Last Login</h2></td>
-                        <td><h2>Export</h2></td>
+                        <td width="29%" valign="top"><h2>Simulation</h2></td>
+                        <td width="26%" valign="top"><h2>File Name </h2></td>
+                        <td width="26%" valign="top"><h2>Export</h2></td>
                       </tr>
-                      <%
-		  	List rsList = RunningSimulation.getAllForSim(this_sim.getId().toString(), afso.schema);
-			
-			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
-				RunningSimulation rs = (RunningSimulation) li.next();
-				
-				SimulationPhase sp = new SimulationPhase();
-				if (rs.getPhase_id() != null){
-					sp = SimulationPhase.getById(afso.schema, rs.getPhase_id().toString());
-				}
-				
-				String actionTitle = "Inactivate";
-				if (rs.isInactivated()){
-					actionTitle = "Activate";
-				}
-		%>
+                      <% List simList = Simulation.getAll(afso.schema);
+		
+						for (ListIterator lis = simList.listIterator(); lis.hasNext();) {
+							Simulation this_sim = (Simulation) lis.next();
+
+						%>
                       <tr>
-                        <td><%= rs.getRunningSimulationName() %></td>
-                        <td><%= sp.getPhaseName() %></td>
-                        <td>&nbsp;</td>
-                        <td>
+                        <td valign="top"><%= this_sim.getName() %></td>
+                        <td valign="top">[sim]_ver-[version]_[scema]_runs_[number]_[date].xml<br />
+                        <br /></td>
+                        <td valign="top">
                         <form id="form<%= rs.getId() %>" name="form<%= rs.getId() %>" method="post" action="">
                         <input type="hidden" name="sending_page" value="inactivate_rs">  
                             <input type="submit" name="button" id="button" value="<%= actionTitle %>" />
-                            
-                        </form>
-                        </td>
+                        </form>                        </td>
                       </tr>
                       <%
 			}

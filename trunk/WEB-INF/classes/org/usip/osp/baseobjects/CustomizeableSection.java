@@ -2,9 +2,7 @@ package org.usip.osp.baseobjects;
 
 import java.util.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Query;
@@ -117,6 +115,7 @@ public class CustomizeableSection extends BaseSimSection {
      * This hashtable holds specific content information for this simulation.
      */
     @Lob
+    @Column(length=16777216)  // Enough to create LONGBLOB
 	private Hashtable contents = new Hashtable();
     
 	private String pageTitle = ""; //$NON-NLS-1$

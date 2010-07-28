@@ -61,6 +61,12 @@ public class SessionObjectBase {
 	/** Organization that created the simulation. */
 	public String simulation_org = ""; //$NON-NLS-1$
 
+	/** Id of the actor being developed */
+	public Long actor_being_worked_on_id;
+	
+	/** ID of Phase being worked on. */
+	public Long phase_id;
+	
 	/**
 	 * Copyright string to display at the bottom of every page in the
 	 * simulation.

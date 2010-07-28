@@ -11,7 +11,7 @@
   <description>Tips left by the author or other instructors will be left here.</description>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>text_page.jsp</page__file__name>
+  <page__file__name>tips.jsp</page__file__name>
   <rec__tab__heading>Tips</rec__tab__heading>
   <sample__image>text_page.png</sample__image>
   <control__section>false</control__section>
