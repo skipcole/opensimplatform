@@ -66,8 +66,8 @@ public class Tips {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<Tips> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Tips where parentTipTextId = :sim_id ")
-				.setString("sim_id", parentId.toString())
+				"from Tips where parentTipId = :parentId ")
+				.setString("parentId", parentId.toString())
 				.list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -101,12 +101,22 @@ public class Tips {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static Tips getBySimActorPhaseSection(Long s_id, Long a_id, Long p_id, Long cs_id, String schema) {
+	public static Tips getBySimActorPhaseSection
+		(Long s_id, Long a_id, Long p_id, Long cs_id, String schema, boolean justBase) {
 
+		if (cs_id == null) {
+			return new Tips();
+		}
+		
+		String getJustBaseTip = "";
+		if (justBase){
+			getJustBaseTip = " and baseTip = '1'";
+		}
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<Tips> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Tips where simId = :s_id and actorId = :a_id and phaseId = :p_id and csId = :cs_id")
+				"from Tips where simId = :s_id and actorId = :a_id and phaseId = :p_id and csId = :cs_id" + getJustBaseTip)
 				.setLong("s_id", s_id)
 				.setLong("a_id", a_id)
 				.setLong("p_id", p_id)
@@ -116,21 +126,26 @@ public class Tips {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		if ((returnList == null) || (returnList.size() == 0)){
-			return null;
+			return new Tips();
 		} else {
 			return returnList.get(0);
 		}
 
 	}
 	
-	private Long parentTipTextId;
+	private Long parentTipId;
 	private Long simId;
 	private Long runningSimId;
 	private Long actorId;
 	private Long phaseId;
 	private Long csId;	
 	
-	private boolean allowInstructorAdditions = false;
+	private Long userId;
+	private String userName;
+	private String userEmail;
+	
+	private boolean baseTip = true;
+
 	private boolean isInstructorAdded = false;
 	private boolean isShared = false;
 	
@@ -139,17 +154,17 @@ public class Tips {
 	private String instructorsEmail;
 	
 	private String tipName;
-	private String tipText;
+	private String tipText = "";
 	
 	private Date tipLastEditDate;
 
 
-	public Long getParentTipTextId() {
-		return parentTipTextId;
+	public Long getParentTipId() {
+		return parentTipId;
 	}
 
-	public void setParentTipTextId(Long parentTipTextId) {
-		this.parentTipTextId = parentTipTextId;
+	public void setParentTipId(Long parentTipId) {
+		this.parentTipId = parentTipId;
 	}
 
 	public Long getSimId() {
@@ -240,12 +255,12 @@ public class Tips {
 		this.tipLastEditDate = tipLastEditDate;
 	}
 
-	public boolean isAllowInstructorAdditions() {
-		return allowInstructorAdditions;
+	public boolean isBaseTip() {
+		return baseTip;
 	}
 
-	public void setAllowInstructorAdditions(boolean allowInstructorAdditions) {
-		this.allowInstructorAdditions = allowInstructorAdditions;
+	public void setBaseTip(boolean baseTip) {
+		this.baseTip = baseTip;
 	}
 
 	public boolean isShared() {
@@ -263,6 +278,29 @@ public class Tips {
 	public void setTipName(String tipName) {
 		this.tipName = tipName;
 	}
-	
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
 	
 }

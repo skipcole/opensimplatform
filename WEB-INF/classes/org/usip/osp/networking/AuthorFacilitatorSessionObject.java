@@ -69,9 +69,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	/** Name of the actor being played or worked on. */
 	public String actor_name = ""; //$NON-NLS-1$
 
-	/** ID of Phase being worked on. */
-	public Long phase_id;
-
 	/** Indicates if user has selected a phase. */
 	public boolean phaseSelected = false;
 
@@ -2937,8 +2934,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	// /////////////////////////////////////////////////////////////////////////
 
-	/** Id of the actor being developed */
-	public Long actor_being_worked_on_id;
 
 	/**
 	 * A helper object to contain the work done in creating a section.

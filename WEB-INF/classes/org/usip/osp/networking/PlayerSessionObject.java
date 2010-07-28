@@ -95,9 +95,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		this.actorName = actorName;
 	}
 
-	/** ID of Phase being conducted. */
-	public Long phase_id;
-
 	/** Indicates if user has selected a phase. */
 	public boolean phaseSelected = false;
 
