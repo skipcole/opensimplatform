@@ -39,7 +39,7 @@
               <h2>&nbsp;</h2>
               <h2>&nbsp;</h2>
               <h2>User Id Cache</h2>
-              <p>Id  for <%= afso.user_Display_Name %> is: <%= USIP_OSP_Cache.getUserIdByName(afso.schema, request, afso.user_name) %></p>
+              <p>Id  for <%= afso.userDisplayName %> is: <%= USIP_OSP_Cache.getUserIdByName(afso.schema, request, afso.user_name) %></p>
               <form id="form1" name="form1" method="post" action="view_cache.jsp">
                 <label>
                 <input type="hidden" name="sending_page" value="reset" />

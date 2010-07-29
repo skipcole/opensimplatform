@@ -195,7 +195,7 @@ public class BishopsRoleVotes {
 				firstChoice.setRunning_sim_id(pso.getRunningSimId());
 				firstChoice.setUserId(pso.user_id);
 				firstChoice.setBishopsPartyInfoId(new Long(first_choice));		
-				firstChoice.setUsersName(pso.user_Display_Name);
+				firstChoice.setUsersName(pso.userDisplayName);
 				firstChoice.setSim_id(pso.sim_id);
 				firstChoice.setActorId(pso.getActorId());
 				firstChoice.setActorName(pso.getActorName());
@@ -215,7 +215,7 @@ public class BishopsRoleVotes {
 				secondChoice.setRunning_sim_id(pso.getRunningSimId());
 				secondChoice.setUserId(pso.user_id);
 				secondChoice.setBishopsPartyInfoId(new Long(second_choice));
-				secondChoice.setUsersName(pso.user_Display_Name);
+				secondChoice.setUsersName(pso.userDisplayName);
 				secondChoice.setSim_id(pso.sim_id);
 				secondChoice.setActorId(pso.getActorId());
 				secondChoice.setActorName(pso.getActorName());
@@ -235,7 +235,7 @@ public class BishopsRoleVotes {
 				thirdChoice.setRunning_sim_id(pso.getRunningSimId());
 				thirdChoice.setUserId(pso.user_id);
 				thirdChoice.setBishopsPartyInfoId(new Long(third_choice));
-				thirdChoice.setUsersName(pso.user_Display_Name);
+				thirdChoice.setUsersName(pso.userDisplayName);
 				thirdChoice.setSim_id(pso.sim_id);
 				thirdChoice.setActorId(pso.getActorId());
 				thirdChoice.setActorName(pso.getActorName());

@@ -8,7 +8,7 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 
 	Simulation simulation = new Simulation();
-	simulation.setCreator(afso.user_Display_Name);
+	simulation.setCreator(afso.userDisplayName);
 	
 	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
