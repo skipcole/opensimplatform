@@ -101,9 +101,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 	/** Name of phase being conducted or worked on. */
 	private String phaseName = ""; //$NON-NLS-1$
 
-	/** Records the display name of this user. */
-	public String user_Display_Name = ""; //$NON-NLS-1$
-
 	/**
 	 * Username/ Email address of user that is logged in and using this
 	 * PlayerSessionObject.
@@ -429,7 +426,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		if (user != null) {
 			this.user_id = user.getId();
-			this.user_Display_Name = bu.getFull_name();
+			this.userDisplayName = bu.getFull_name();
 
 			// Username is also email address
 			this.user_name = bu.getUsername();
@@ -1894,7 +1891,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			if (user != null) {
 				pso.user_id = user.getId();
 
-				pso.user_Display_Name = bu.getFull_name();
+				pso.userDisplayName = bu.getFull_name();
 				pso.user_name = bu.getUsername();
 
 				pso.loggedin = true;

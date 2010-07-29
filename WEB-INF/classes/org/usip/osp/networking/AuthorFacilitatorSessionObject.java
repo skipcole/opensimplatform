@@ -294,7 +294,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		defaultInviteEmailMsg += " and register yourself.\r\n\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += "Thank you,\r\n"; //$NON-NLS-1$
-		defaultInviteEmailMsg += this.user_Display_Name;
+		defaultInviteEmailMsg += this.userDisplayName;
 
 		return defaultInviteEmailMsg;
 
@@ -350,7 +350,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				System.out.println("rsn is " + rsn);
 				// Create Running Simulation
 				RunningSimulation rs = sim.addNewRunningSimulation(rsn, schema,
-						this.user_id, this.user_Display_Name);
+						this.user_id, this.userDisplayName);
 				// Assign this user to all roles in the simulation.
 				for (ListIterator<Actor> lia = SimActorAssignment
 						.getActorsForSim(schema, sim.getId()).listIterator(); lia
@@ -2791,7 +2791,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				afso.isSimAuthor = user.isSim_author();
 				afso.isFacilitator = user.isSim_instructor();
 
-				afso.user_Display_Name = bu.getFull_name();
+				afso.userDisplayName = bu.getFull_name();
 				afso.user_email = bu.getUsername();
 				afso.user_name = afso.user_email;
 
@@ -3122,7 +3122,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			String rsn = (String) request.getParameter("running_sim_name");
 			RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
-					schema, this.user_id, this.user_Display_Name);
+					schema, this.user_id, this.userDisplayName);
 
 			runningSimId = rs.getId();
 

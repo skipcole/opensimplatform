@@ -65,7 +65,7 @@
             <td>&nbsp;</td>
               <td valign="top">Simulation Creator <a href="helptext/sim_banner.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top">
-  <input type="hidden" name="simcreator" value="<%= afso.user_Display_Name %>"> 
+  <input type="hidden" name="simcreator" value="<%= afso.userDisplayName %>"> 
                 <%= simulation.getCreator() %></td>
             </tr>
           <tr>

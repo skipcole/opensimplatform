@@ -30,7 +30,7 @@
 		Tips tip = new Tips();
 	
 		String tip_id = (String) request.getParameter("tip_id");
-		if (tip_id != null){
+		if ((tip_id != null) && (!(tip_id.equalsIgnoreCase("null")))   ){
 			tip.setId(new Long(tip_id));
 		}
 		String tip_page_text = request.getParameter("tip_page_text");
@@ -41,7 +41,10 @@
 		tip.setSimId(pso.sim_id);
 		tip.setTipLastEditDate(new java.util.Date());
 		tip.setBaseTip(false);
-		tip.setParentTipTextId(tc.getTip().getId());
+		tip.setParentTipId(tc.getTip().getId());
+		tip.setUserId(pso.user_id);
+		tip.setUserName(pso.userDisplayName);
+		tip.setUserEmail(pso.user_name);
 
 		tip.saveMe(pso.schema);
 
@@ -59,32 +62,39 @@
 <% if (tc.getCanLeaveTip() ) { %>
 <hr>
 <p>Tips left by Others</p>
-peace
-<p>
+
 <%
+
 	List tl = Tips.getChildren(tc.getTip().getId(), pso.schema);
 
+    Tips this_users_tip = new Tips();
+	
 	for (ListIterator li = tl.listIterator(); li.hasNext();) {
 		Tips this_tip = (Tips) li.next();
 
+%><p>	<% if ( (pso.user_id != null) && (pso.user_id.equals(this_tip.getUserId())) ) { 
+	this_users_tip = this_tip;
 %>
-<%= this_tip.getId() %>
-<% } %>
+		<% } else { %>
+		<p><%= this_tip.getTipText() %><br /></p>
+		<% } %>
 </p>
-<p> <% if (true) { %>
+<% } // End of loop over other people's tips.  %>
+
+You can leave your tip here.
+
 <form name="form1" method="post" action="tips.jsp">
   <label>
-  <textarea name="tip_page_text"></textarea>
+  <textarea name="tip_page_text"><%= this_users_tip.getTipText()%></textarea>
 </label>
 
   <label>
   <input type="submit" name="Submit" value="Submit">
   </label>
   <input type="hidden" name="cs_id" value="<%= cs_id %>" >
+  <input type="hidden" name="tip_id" value="<%= this_users_tip.getId() %>" >
   <input type="hidden" name="sending_page" value="tips" >
 </form>
-<p>
-  <% } // End of %>
   <% } // End of if can leave tip. %>
 </body>
 </html>

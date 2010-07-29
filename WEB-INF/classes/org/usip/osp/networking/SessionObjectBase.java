@@ -88,7 +88,7 @@ public class SessionObjectBase {
 	public String run_sim_name = ""; //$NON-NLS-1$
 	
 	/** Records the display name of this user. */
-	public String user_Display_Name = ""; //$NON-NLS-1$
+	public String userDisplayName = ""; //$NON-NLS-1$
 	
 	/** User trail ghost of this user. */
 	public UserTrailGhost myUserTrailGhost = new UserTrailGhost();

@@ -60,7 +60,7 @@ errorPage="../error.jsp" %>
 					
 				}
 			%>
-			  <h1 align="center"> Welcome <%= backString %> <%= afso.user_Display_Name %> ! </h1>
+			  <h1 align="center"> Welcome <%= backString %> <%= afso.userDisplayName %> ! </h1>
               <% if (returningAuthor) { %>
               	<p>You are working on simulation <span class="style1"><%= simName %></span>.</p>
                 <p>To select/create a different simulation, <a href="select_simulation.jsp">click here</a>.</p>
