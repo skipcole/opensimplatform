@@ -19,7 +19,7 @@
 		textToShow = rs.getAar_text();
 	} else {
 		Simulation sim = pso.giveMeSim();
-		textToShow = sim.getAar_starter_text();
+		textToShow = sim.getAarStarterText();
 	}
 	
 %>

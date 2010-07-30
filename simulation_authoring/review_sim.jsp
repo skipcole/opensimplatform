@@ -142,7 +142,7 @@ h3.trigger a:hover { color: #ccc; }
 			  
 		<h2>5. Simulation Planned Play Ideas </h2>
 			  <blockquote>
-			    <p><%= simulation.getPlanned_play_ideas() %></p>
+			    <p><%= simulation.getPlannedPlayIdeas() %></p>
 			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_planned_play_ideas.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
@@ -285,7 +285,7 @@ h3.trigger a:hover { color: #ccc; }
               <a href="sections_by_player.jsp">Click here</a> to see all of the sections for the player of your choice.              </blockquote>
 		      <h2>13. Simulation 'After Action Report' Starter Text </h2>
 		      <blockquote>
-		        <p><%= simulation.getAar_starter_text() %></p>
+		        <p><%= simulation.getAarStarterText() %></p>
 		        <p><% if (afso.isAuthor()) { %>(<a href="create_aar_starter_text.jsp">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>

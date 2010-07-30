@@ -68,7 +68,7 @@
                       Notes from the Simulation Author
                       </caption>
 	    <tr>
-	      <td><%= simulation.getPlanned_play_ideas() %></td>
+	      <td><%= simulation.getPlannedPlayIdeas() %></td>
 	      </tr>
                     </table>
 	                  </div>
