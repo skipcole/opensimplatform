@@ -21,7 +21,7 @@
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("enter_sim_planned_play_ideas"))){
 		
-		simulation.setPlanned_play_ideas(sim_planned_play_ideas);
+		simulation.setPlannedPlayIdeas(sim_planned_play_ideas);
 		simulation.saveMe(afso.schema);
 
 	}
@@ -64,7 +64,7 @@
 	<form action="create_simulation_planned_play_ideas.jsp" method="post" name="form2" id="form2">
 	  <blockquote>
 	    <p>
-	      <textarea id="sim_planned_play_ideas" name="sim_planned_play_ideas" style="height: 710px; width: 710px;"><%= simulation.getPlanned_play_ideas() %></textarea>
+	      <textarea id="sim_planned_play_ideas" name="sim_planned_play_ideas" style="height: 710px; width: 710px;"><%= simulation.getPlannedPlayIdeas() %></textarea>
 	      
 	      <script language="javascript1.2">
   			generate_wysiwyg('sim_planned_play_ideas');

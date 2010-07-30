@@ -139,7 +139,7 @@ public class RunningSimulation {
 	public RunningSimulation(String name, Simulation sim, String schema, Long creator_id, String creator_name) {
 
 		this.name = name;
-		this.aar_text = sim.getAar_starter_text();
+		this.aar_text = sim.getAarStarterText();
 		this.phase_id = sim.getFirstPhaseId(schema);
 		this.sim_id = sim.getId();
 

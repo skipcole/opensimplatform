@@ -1916,7 +1916,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation
-						.setSoftware_version(USIP_OSP_Properties.getRelease());
+						.setSoftwareVersion(USIP_OSP_Properties.getRelease());
 				simulation.setCreation_org(creation_org);
 				simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
@@ -1933,7 +1933,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation.setName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation
-						.setSoftware_version(USIP_OSP_Properties.getRelease());
+						.setSoftwareVersion(USIP_OSP_Properties.getRelease());
 				simulation.setCreation_org(creation_org);
 				// simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);

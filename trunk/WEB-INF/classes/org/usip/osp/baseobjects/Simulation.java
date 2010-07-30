@@ -59,7 +59,7 @@ public class Simulation implements ExportableObject{
 	private String version = ""; //$NON-NLS-1$
 
 	/** Version of the software this simulation was made with. */
-	private String software_version = ""; //$NON-NLS-1$
+	private String softwareVersion = ""; //$NON-NLS-1$
 
 	/** A paragraph introducing what this simulation is all about. */
 	@Lob
@@ -74,14 +74,14 @@ public class Simulation implements ExportableObject{
 	}
 
 	/** Indicates if Players can register themselves to play in the simulation. */
-	private boolean allow_player_autoreg = false;
+	private boolean allowPlayerAutoreg = false;
 
 	public boolean isAllow_player_autoreg() {
-		return this.allow_player_autoreg;
+		return this.allowPlayerAutoreg;
 	}
 
 	public void setAllow_player_autoreg(boolean allow_player_autoreg) {
-		this.allow_player_autoreg = allow_player_autoreg;
+		this.allowPlayerAutoreg = allow_player_autoreg;
 	}
 
 	/** Introduction to this Simulation. */
@@ -92,7 +92,7 @@ public class Simulation implements ExportableObject{
 	/** Learning Objectives of this Simulation. */
 	@Column(name = "SIM_LEARN_OBJVS")
 	@Lob
-	private String learning_objvs = ""; //$NON-NLS-1$
+	private String learningObjvs = ""; //$NON-NLS-1$
 
 	/** Planned audience of this Simulation. */
 	@Column(name = "SIM_AUDIENCE")
@@ -102,24 +102,24 @@ public class Simulation implements ExportableObject{
 	/** Thoughts on how this sim should be conducted. */
 	@Column(name = "SIM_PLAY_IDEAS")
 	@Lob
-	private String planned_play_ideas = ""; //$NON-NLS-1$
+	private String plannedPlayIdeas = ""; //$NON-NLS-1$
 
-	public String getPlanned_play_ideas() {
-		return this.planned_play_ideas;
+	public String getPlannedPlayIdeas() {
+		return this.plannedPlayIdeas;
 	}
 
-	public void setPlanned_play_ideas(String planned_play_ideas) {
-		this.planned_play_ideas = planned_play_ideas;
+	public void setPlannedPlayIdeas(String planned_play_ideas) {
+		this.plannedPlayIdeas = planned_play_ideas;
 	}
 
 	/** AAR starter text for this Simulation. */
 	@Column(name = "SIM_AAR")
 	@Lob
-	private String aar_starter_text = ""; //$NON-NLS-1$
+	private String aarStarterText = ""; //$NON-NLS-1$
 
 	/** Creating Organization of this Simulation. */
 	@Column(name = "SIM_CREATION_ORG")
-	private String creation_org = ""; //$NON-NLS-1$
+	private String creationOrg = ""; //$NON-NLS-1$
 
 	/** Author of this Simulation. */
 	@Column(name = "SIM_CREATOR")
@@ -127,7 +127,7 @@ public class Simulation implements ExportableObject{
 
 	/** Copyright information to be shown on every page footer. */
 	@Column(name = "COPYRIGHTSTRING")
-	private String copyright_string = ""; //$NON-NLS-1$
+	private String copyrightString = ""; //$NON-NLS-1$
 
 	/** Flag to let instructors know it can be used. */
 	@Column(name = "READYFORLISTING")
@@ -177,11 +177,11 @@ public class Simulation implements ExportableObject{
 	}
 
 	public String getLearning_objvs() {
-		return this.learning_objvs;
+		return this.learningObjvs;
 	}
 
 	public void setLearning_objvs(String learning_objvs) {
-		this.learning_objvs = learning_objvs;
+		this.learningObjvs = learning_objvs;
 	}
 
 	public Long getId() {
@@ -208,12 +208,13 @@ public class Simulation implements ExportableObject{
 		this.version = version;
 	}
 
-	public String getSoftware_version() {
-		return this.software_version;
+	
+	public String getSoftwareVersion() {
+		return softwareVersion;
 	}
 
-	public void setSoftware_version(String software_version) {
-		this.software_version = software_version;
+	public void setSoftwareVersion(String softwareVersion) {
+		this.softwareVersion = softwareVersion;
 	}
 
 	public Simulation() {
@@ -271,7 +272,7 @@ public class Simulation implements ExportableObject{
 		}
 		
 		// Compare Planned Play Ideas
-		if (sim_a.getPlanned_play_ideas().equals(sim_b.getPlanned_play_ideas())){
+		if (sim_a.getPlannedPlayIdeas().equals(sim_b.getPlannedPlayIdeas())){
 			differenceString += ObjectPackager.addResultsToXML("     <PLANNED_PLAY_IDEAS>", "</PLANNED_PLAY_IDEAS>\r\n", true);
 		} else {
 			differenceString += ObjectPackager.addResultsToXML("     <PLANNED_PLAY_IDEAS>", "</PLANNED_PLAY_IDEAS>\r\n", false);
@@ -653,11 +654,11 @@ public class Simulation implements ExportableObject{
 	}
 
 	public String getCreation_org() {
-		return this.creation_org;
+		return this.creationOrg;
 	}
 
 	public void setCreation_org(String creation_org) {
-		this.creation_org = creation_org;
+		this.creationOrg = creation_org;
 	}
 
 	public String getCreator() {
@@ -668,12 +669,12 @@ public class Simulation implements ExportableObject{
 		this.creator = creator;
 	}
 
-	public String getAar_starter_text() {
-		return this.aar_starter_text;
+	public String getAarStarterText() {
+		return this.aarStarterText;
 	}
 
-	public void setAar_starter_text(String aar_starter_text) {
-		this.aar_starter_text = aar_starter_text;
+	public void setAarStarterText(String aar_starter_text) {
+		this.aarStarterText = aar_starter_text;
 	}
 
 	public List<Conversation> getConversations(String schema) {
@@ -693,11 +694,11 @@ public class Simulation implements ExportableObject{
 	}
 
 	public String getCopyright_string() {
-		return this.copyright_string;
+		return this.copyrightString;
 	}
 
 	public void setCopyright_string(String copyright_string) {
-		this.copyright_string = copyright_string;
+		this.copyrightString = copyright_string;
 	}
 
 	public boolean isReadyForPublicListing() {

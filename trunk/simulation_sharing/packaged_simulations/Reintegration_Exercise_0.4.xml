@@ -6,7 +6,7 @@
   <transit__id>3</transit__id>
   <name>Reintegration Exercise</name>
   <version>0.4</version>
-  <software__version>0.0.5</software__version>
+  <softwareVersion>0.0.5</softwareVersion>
   <blurb>A simulation to teach leadership in conflict environments.</blurb>
   <allow__player__autoreg>false</allow__player__autoreg>
   <introduction>&lt;span style=&quot;font-weight: bold;&quot; bold;\=&quot;&quot;&gt;Welcome!&lt;/span&gt;&lt;br&gt;&lt;br&gt;Please take a look around this web site and learn more about your characters and the other characters in the simulation. At this point, you should just be familiarizing yourself with this virtual world.&lt;br&gt;&lt;br&gt;The schedule page (and/or your instructor) will alert you when the simulation moves into the next phase where you will be able to see and do more things.&lt;br&gt;&lt;br&gt;Enjoy!&lt;br&gt;</introduction>

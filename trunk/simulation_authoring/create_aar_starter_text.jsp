@@ -21,7 +21,7 @@
 	
 	if ( (sending_page != null) && (enter_intro != null) && (sending_page.equalsIgnoreCase("create_sim_aar"))){
 		
-		simulation.setAar_starter_text(sim_aar);
+		simulation.setAarStarterText(sim_aar);
 		simulation.saveMe(afso.schema);
 
 	}
@@ -66,7 +66,7 @@
 	  <form action="create_aar_starter_text.jsp" method="post" name="form2" id="form2">
 	    <blockquote>
 	      <p>
-	        <textarea id="sim_aar" name="sim_aar" style="height: 240px; width: 710px;"><%= simulation.getAar_starter_text() %></textarea>
+	        <textarea id="sim_aar" name="sim_aar" style="height: 240px; width: 710px;"><%= simulation.getAarStarterText() %></textarea>
 	        <script language="javascript1.2">
 				wysiwygWidth = 710;
 				wysiwygHeight = 240;

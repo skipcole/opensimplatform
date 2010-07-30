@@ -39,6 +39,14 @@
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.style1 {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -53,9 +61,9 @@
               <br />
     <p>Enter information concerning this import.</p>
     <form id="form1" name="form1" method="post" action="">
-  <table>
-  <tr><td>Name:</td>
-    <td><label>
+  <table width="100%">
+  <tr><td width="23%">Name:</td>
+    <td width="77%"><label>
       <input type="text" name="sim_name" id="sim_name" value="<%= sim.getSimulationName() %>" />
       </label></td>
     </tr>
@@ -66,10 +74,70 @@
       </label></td>
   </tr>
   <tr>
+    <td>Simulation <br />
+      USIP OSP Version </td>
+    <td><%= sim.getSoftwareVersion() %></td>
+  </tr>
+  <tr>
+    <td>Your <br />
+      USIP OSP Version </td>
+    <td><%= USIP_OSP_Properties.getRelease() %></td>
+  </tr>
+  
+  <% int release_relation = USIP_OSP_Properties.compareRelease(sim.getSoftwareVersion()); 
+  
+  	boolean showSubmitButton = true;
+  %>
+
+  <% if (release_relation == USIP_OSP_Properties.FUTURE_SOFTWARE_VERSION_MAJOR) { 
+  
+  	showSubmitButton = false;
+	
+  %>
+    <tr>
+    <td>&nbsp;</td>
+    <td><span class="style1">This simulation was created using a future major release of the USIP OSP software. You must upgrade this server installation Before importing this simulation.</span></td>
+  </tr>
+  <% } // End of if trying to import simulation from future major release  %>
+  <tr>
+    <td>&nbsp;</td>
+    <td><span class="style1">This simulation was created using a future minor release of the USIP OSP software. You must upgrade this server installation Before importing this simulation.</span></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>This simulation was created using a future micro release of the USIP OSP software. This should not cause any compatibilitity issues. </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>This simulation was created using an earlier micro release of the USIP OSP software. This should not cause any compatibilitity issues. </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>This simulation was created with an earlier minor release, and the update file [insert name here] was found. This simulation will be updated to your current version of the USIP OSP. </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><span class="style1">This simulation was created with an earlier minor release, and the update file [insert name here] was not found. Obtain this update file before continuing. It can be found at ... </span></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>This simulation was created with an earlier major release, and the update file [insert name here] was found. This simulation will be updated to your current version of the USIP OSP. </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><span class="style1">This simulation was created with an earlier major release, and the update file [insert name here] was not found. Obtain this update file before continuing. It can be found at ... </span></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
     <td>&nbsp;</td>
     <td><label>
       <input type="hidden" name="unpack" value="true" />
+	  <% if (showSubmitButton) { %>
       <input type="submit" name="button" id="button" value="Submit" />
+	  <% } // end of if show submit button.  %>
       </label></td>
   </tr>
     </table>

@@ -6,7 +6,7 @@
   <transit__id>1</transit__id>
   <name>Peaceconferencing</name>
   <version>1</version>
-  <software__version>0.0.13</software__version>
+  <softwareVersion>0.0.13</softwareVersion>
   <blurb>Mediation / Negotiation tool for secondary students to resolve international conflicts.</blurb>
   <allow__player__autoreg>false</allow__player__autoreg>
   <introduction>Welcome to this Peace Conferencing Simulation.&lt;br&gt;&lt;br&gt;At this portion of the simulation, you will be &lt;br&gt;</introduction>
