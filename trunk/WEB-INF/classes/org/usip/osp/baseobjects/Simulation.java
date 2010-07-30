@@ -30,36 +30,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "SIMULATIONS")
 @Proxy(lazy = false)
-public class Simulation implements ExportableObject{
-
-
-	/** Database id of this Simulation. */
-	@Id
-	@GeneratedValue
-	@Column(name = "SIM_ID")
-	private Long id;
-
-	/** Id used when objects are exported and imported moving across databases. */
-	private Long transit_id;
-
-	public Long getTransit_id() {
-		return this.transit_id;
-	}
-
-	public void setTransit_id(Long transit_id) {
-		this.transit_id = transit_id;
-	}
-
-	/** Name of this Simulation. */
-	@Column(name = "SIM_NAME")
-	private String name = ""; //$NON-NLS-1$
-
-	/** Version of this Simulation. */
-	@Column(name = "SIM_VERSION")
-	private String version = ""; //$NON-NLS-1$
-
-	/** Version of the software this simulation was made with. */
-	private String softwareVersion = ""; //$NON-NLS-1$
+public class Simulation extends SimulationBase implements ExportableObject{
 
 	/** A paragraph introducing what this simulation is all about. */
 	@Lob
@@ -192,30 +163,6 @@ public class Simulation implements ExportableObject{
 		this.id = id;
 	}
 
-	public String getSimulationName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getVersion() {
-		return this.version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	
-	public String getSoftwareVersion() {
-		return softwareVersion;
-	}
-
-	public void setSoftwareVersion(String softwareVersion) {
-		this.softwareVersion = softwareVersion;
-	}
 
 	public Simulation() {
 

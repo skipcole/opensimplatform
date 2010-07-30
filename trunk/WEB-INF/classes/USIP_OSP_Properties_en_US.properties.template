@@ -90,12 +90,6 @@ username=peacepla
 password=password
 
 ################################################################################
-# Overall connection string used when connecting to the database
-# (This is used when we make a direct connection to the database. 
-#  Normally we go through hibernate.)
-conn_string=jdbc:mysql://localhost:3306/test?user=peacepla&password=password
-
-################################################################################
 # Dialect of communication between the database and hibernate
 #     (This probably will not need changed.)
 #

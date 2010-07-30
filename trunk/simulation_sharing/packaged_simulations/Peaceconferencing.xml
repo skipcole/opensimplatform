@@ -8,15 +8,15 @@
   <version>1</version>
   <softwareVersion>0.0.13</softwareVersion>
   <blurb>Mediation / Negotiation tool for secondary students to resolve international conflicts.</blurb>
-  <allow__player__autoreg>false</allow__player__autoreg>
+  <allowPlayerAutoreg>false</allowPlayerAutoreg>
   <introduction>Welcome to this Peace Conferencing Simulation.&lt;br&gt;&lt;br&gt;At this portion of the simulation, you will be &lt;br&gt;</introduction>
-  <learning__objvs>This template is used in creating the Bishop&apos;s School Peaceconferencing Unit connected to freshman world history classes.&lt;br&gt;</learning__objvs>
+  <learningObjvs>This template is used in creating the Bishop&apos;s School Peaceconferencing Unit connected to freshman world history classes.&lt;br&gt;</learningObjvs>
   <audience>Instructors, Librarians and Students in High Schools interested in conflict resolution in the global arena.&lt;br&gt;</audience>
-  <planned__play__ideas>We see this playing out in the course of a school quarter.&lt;br&gt;&lt;br&gt;The intense portion of this simulation transpires over approximately 3 weeks.&lt;br&gt;&lt;br&gt;</planned__play__ideas>
-  <aar__starter__text></aar__starter__text>
-  <creation__org>Bishop&apos;s School</creation__org>
+  <plannedPlayIdeas>We see this playing out in the course of a school quarter.&lt;br&gt;&lt;br&gt;The intense portion of this simulation transpires over approximately 3 weeks.&lt;br&gt;&lt;br&gt;</plannedPlayIdeas>
+  <aarStarterText></aarStarterText>
+  <creationOrg>Bishop&apos;s School</creationOrg>
   <creator>Skip Cole</creator>
-  <copyright__string>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;http://demo.opensimplatform.org/docs/index.php/Bishops_FAQ&quot; target=&quot;_new&quot;&gt;Help! &amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Copyright 2009-2010 The Bishop&apos;s School&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</copyright__string>
+  <copyrightString>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;http://demo.opensimplatform.org/docs/index.php/Bishops_FAQ&quot; target=&quot;_new&quot;&gt;Help! &amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Copyright 2009-2010 The Bishop&apos;s School&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</copyrightString>
   <isReadyForPublicListing>false</isReadyForPublicListing>
   <listingKeyWords></listingKeyWords>
   <lastEditDate class="sql-timestamp">2010-03-21 05:16:54.0</lastEditDate>
