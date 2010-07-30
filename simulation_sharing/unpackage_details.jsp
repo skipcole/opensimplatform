@@ -86,6 +86,17 @@
   
   <% int release_relation = USIP_OSP_Properties.compareRelease(sim.getSoftwareVersion()); 
   
+    String sim_software_code = sim.getSoftwareVersion().replaceAll("\\.","_");
+    String this_software_code = USIP_OSP_Properties.getRelease().replaceAll("\\.","_");
+	
+  	String upgradeFileName = "USIP_OSP_Upgrade_";
+	
+	upgradeFileName += sim_software_code;
+	upgradeFileName += "_to_";
+	
+	upgradeFileName += this_software_code;
+	upgradeFileName += ".xml";
+  
   	boolean showSubmitButton = true;
   %>
 
@@ -98,35 +109,62 @@
     <td>&nbsp;</td>
     <td><span class="style1">This simulation was created using a future major release of the USIP OSP software. You must upgrade this server installation Before importing this simulation.</span></td>
   </tr>
-  <% } // End of if trying to import simulation from future major release  %>
+  <% } // End of if trying to import simulation from future major release   
+  
+  	else if (release_relation == USIP_OSP_Properties.FUTURE_SOFTWARE_VERSION_MINOR) { 
+  
+  		showSubmitButton = false;
+	
+  %>
   <tr>
     <td>&nbsp;</td>
     <td><span class="style1">This simulation was created using a future minor release of the USIP OSP software. You must upgrade this server installation Before importing this simulation.</span></td>
   </tr>
+	  <% } // End of if trying to import simulation from future minor release   
+  
+  	else if (release_relation == USIP_OSP_Properties.FUTURE_SOFTWARE_VERSION_MICRO) { 
+	
+  %>
   <tr>
     <td>&nbsp;</td>
     <td>This simulation was created using a future micro release of the USIP OSP software. This should not cause any compatibilitity issues. </td>
   </tr>
+  <% } // End of if trying to import simulation from future micro release
+    	else if (release_relation == USIP_OSP_Properties.EARLIER_SOFTWARE_VERSION_MICRO) { 
+  %>
   <tr>
     <td>&nbsp;</td>
     <td>This simulation was created using an earlier micro release of the USIP OSP software. This should not cause any compatibilitity issues. </td>
   </tr>
+    <% } // End of if trying to import simulation from earlier micro release
+    	else if (release_relation == USIP_OSP_Properties.EARLIER_SOFTWARE_VERSION_MINOR) { 
+  %>
   <tr>
     <td>&nbsp;</td>
-    <td>This simulation was created with an earlier minor release, and the update file [insert name here] was found. This simulation will be updated to your current version of the USIP OSP. </td>
+    <td>This simulation was created with an earlier minor release, and the update file <%= upgradeFileName %> was found. This simulation will be updated to your current version of the USIP OSP. </td>
+  </tr>
+  
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td><span class="style1">This simulation was created with an earlier minor release, and the update file <%= upgradeFileName %> was not found. Obtain this update file before continuing. It can be found at ... </span></td>
+  </tr>
+  
+    <% } // End of if trying to import simulation from earlier minor release
+    	else if (release_relation == USIP_OSP_Properties.EARLIER_SOFTWARE_VERSION_MAJOR) { 
+  %>
+  
+  <tr>
+    <td>&nbsp;</td>
+    <td>This simulation was created with an earlier major release, and the update file <%= upgradeFileName %> was found. This simulation will be updated to your current version of the USIP OSP. </td>
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td><span class="style1">This simulation was created with an earlier minor release, and the update file [insert name here] was not found. Obtain this update file before continuing. It can be found at ... </span></td>
+    <td><span class="style1">This simulation was created with an earlier major release, and the update file <%= upgradeFileName %> was not found. Obtain this update file before continuing. It can be found at ... </span></td>
   </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>This simulation was created with an earlier major release, and the update file [insert name here] was found. This simulation will be updated to your current version of the USIP OSP. </td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td><span class="style1">This simulation was created with an earlier major release, and the update file [insert name here] was not found. Obtain this update file before continuing. It can be found at ... </span></td>
-  </tr>
+  
+    <% } // End of if trying to import simulation from earlier major release
+  %>
   <tr>
     <td>&nbsp;</td>
     <td>&nbsp;</td>

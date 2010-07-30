@@ -11,10 +11,10 @@ import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.apache.log4j.*;
 
 /**
- * @author original HibernateUtil from Cameron McKenzie
- * @author Multi-schema material by Skip Cole
+ * Handles multiple hibernate schemas.
  * 
- *         This file is part of the USIP Open Simulation Platform.<br>
+ */ 
+ /*         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
  *         redistribute it and/or modify it under the terms of the new BSD Style
@@ -441,6 +441,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimPhaseAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.Simulation.class);
+		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimulationBase.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimulationMetaPhase.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimulationPhase.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.SimulationRatings.class);
