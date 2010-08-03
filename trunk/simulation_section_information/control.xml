@@ -1,0 +1,12 @@
+<org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Control</uniqueName>
+  <version>1</version>
+  <description>Simulation Controls. This section is added automatically to anyone who has the'Control' role.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>control.jsp</page__file__name>
+  <rec__tab__heading>Control</rec__tab__heading>
+  <sample__image>change_phase.png</sample__image>
+  <control__section>true</control__section>
+</org.usip.osp.baseobjects.BaseSimSection>

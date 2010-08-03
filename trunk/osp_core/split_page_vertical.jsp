@@ -30,10 +30,10 @@
 	String rightFrame = "../simulation/frame_bottom.jsp";
 	
 	if (sLeft != null){
-		leftFrame = sLeft.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId());
+		leftFrame = sLeft.generateURLforBottomFrame(pso.getActorId());
 	}
 	if (sRight != null) {
-		rightFrame = sRight.generateURLforBottomFrame(pso.getRunningSimId(), pso.getActorId());
+		rightFrame = sRight.generateURLforBottomFrame(pso.getActorId());
 	}
     %>
     

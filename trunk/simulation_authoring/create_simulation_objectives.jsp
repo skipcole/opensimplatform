@@ -106,6 +106,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>
