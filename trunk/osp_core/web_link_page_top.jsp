@@ -21,7 +21,7 @@
 	
 	List wloList = new ArrayList();
 	
-	if (cs_id != null) {
+	if ((cs_id != null) && (pso.getRunningSimId() != null)) {
 		wloList = WebLinkObjects.getAllForRunningSimulationAndSection(pso.schema, pso.getRunningSimId(), new Long(cs_id));	
 	}
 	

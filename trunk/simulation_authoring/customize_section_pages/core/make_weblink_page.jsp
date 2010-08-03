@@ -12,12 +12,13 @@
 	
 	CustomizeableSection cs = afso.handleCustomizeSection(request);
 	
-	
 	if (afso.forward_on){
 		afso.forward_on = false;
 		response.sendRedirect(afso.backPage);
 		return;
 	}
+	
+	WebLinksCustomizer wlc = new WebLinksCustomizer(request, afso, cs);
 	
 	String selected_display_control_yes = "";
 	String selected_display_control_no = "";
@@ -68,7 +69,7 @@
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
           <p>Weblink Descriptor:
-            <input type="text" name="weblink_descriptor" id="weblink_descriptor" />
+            <input type="text" name="weblink_descriptor" id="weblink_descriptor" value="<%= wlc.getLinkName() %>" />
           </p>
             <table width="100%" border="1" cellspacing="0">
               <tr>

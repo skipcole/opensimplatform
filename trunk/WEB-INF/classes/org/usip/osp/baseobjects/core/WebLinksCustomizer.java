@@ -22,9 +22,22 @@ import org.usip.osp.networking.SessionObjectBase;
 public class WebLinksCustomizer extends Customizer {
 	
 	public static final String KEY_FOR_LINK_NAME = "link_name"; //$NON-NLS-1$
+	
+	private CustomizeableSection cs;
+	
+	public WebLinksCustomizer(){
+	 }
+	
+	public WebLinksCustomizer(HttpServletRequest request, SessionObjectBase pso,
+			CustomizeableSection cs){
+		 
+		this.cs = cs;
+	 }
 
 	@Override
 	public void handleCustomizeSection(HttpServletRequest request, SessionObjectBase afso, CustomizeableSection cs) {
+		
+		this.cs = cs;
 		
 		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
@@ -42,21 +55,31 @@ public class WebLinksCustomizer extends Customizer {
 
 		}
 		
+	}
+	
+	public String getLinkName(){
 		
+		String returnString = "";
 		
+		if (cs != null){
+			try {
+				returnString = (String) cs.getContents().get(KEY_FOR_LINK_NAME);
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		return returnString;
 	}
 
 	@Override
 	public void loadSimCustomizeSection(HttpServletRequest request, SessionObjectBase pso, CustomizeableSection cs) {
-		// TODO Auto-generated method stub
-		
+		this.cs = cs;
 	}
 
 	@Override
 	public void loadSimCustomSectionForEditing(HttpServletRequest request, SessionObjectBase pso,
 			CustomizeableSection cs) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
