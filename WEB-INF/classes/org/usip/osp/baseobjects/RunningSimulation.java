@@ -217,13 +217,13 @@ public class RunningSimulation {
 	public void createRunningSimObjects(String schema, Simulation sim) {
 
 		// Get all of the dependent object assignments for this simulation
-		List doAss = BaseSimSectionDepObjectAssignment.getSimDependencies(schema, sim.getId());
+		List depObjectAssignments = BaseSimSectionDepObjectAssignment.getSimDependencies(schema, sim.getId());
 
 		// Create a table to list all of the objects we have created.
 		Hashtable uniqueSimObjects = new Hashtable();
 
 		// Loop over dependent object assignments found for this simulation
-		for (ListIterator<BaseSimSectionDepObjectAssignment> lc = doAss.listIterator(); lc.hasNext();) {
+		for (ListIterator<BaseSimSectionDepObjectAssignment> lc = depObjectAssignments.listIterator(); lc.hasNext();) {
 			BaseSimSectionDepObjectAssignment bssdoa = lc.next();
 			
 			// The unique key is to prevent us from creating multiple objects for one object.
@@ -254,10 +254,13 @@ public class RunningSimulation {
 					er.printStackTrace();
 				}
 				
-				// Add the objects to a hashtable based on the base template object
-				// (so template object shared by multiple sections only contribute one new object).
-				uniqueSimObjects.put(uniqueKey,thisRSVersionsId);
-				
+				if (thisRSVersionsId == null){
+					System.out.println("bad add on: " + uniqueKey);
+				} else {
+					// Add the objects to a hashtable based on the base template object
+					// (so template object shared by multiple sections only contribute one new object).
+					uniqueSimObjects.put(uniqueKey,thisRSVersionsId);
+				}
 			} else {
 				thisRSVersionsId = createdObjId;
 			}

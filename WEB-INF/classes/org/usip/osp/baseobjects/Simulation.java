@@ -410,7 +410,7 @@ public class Simulation implements ExportableObject{
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Simulation where READYFORLISTING = '1' and allow_player_autoreg = '1'") //$NON-NLS-1$
+				"from Simulation where READYFORLISTING = '1' and allowPlayerAutoreg = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
