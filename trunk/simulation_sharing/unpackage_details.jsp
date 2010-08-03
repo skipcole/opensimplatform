@@ -14,8 +14,9 @@
 	
 	String loaddetails = (String) request.getParameter("loaddetails");
 	Simulation sim = new Simulation();
+	
 	if ((loaddetails != null) && (loaddetails.equalsIgnoreCase("true"))){
-		sim = afso.handleUnpackDetails(request);
+		sim = afso.handleUnpackSimulationVersion(request);
 	}
 	
 	String unpack = (String) request.getParameter("unpack");
@@ -138,18 +139,19 @@
   </tr>
     <% } // End of if trying to import simulation from earlier micro release
     	else if (release_relation == USIP_OSP_Properties.EARLIER_SOFTWARE_VERSION_MINOR) { 
+		
+		if(afso.foundUpgradeFile(upgradeFileName)) {
   %>
   <tr>
     <td>&nbsp;</td>
-    <td>This simulation was created with an earlier minor release, and the update file <%= upgradeFileName %> was found. This simulation will be updated to your current version of the USIP OSP. </td>
+    <td><input type="hidden" name="upgrade_file_name" value="<%= upgradeFileName %>"  />This simulation was created with an earlier minor release, and the update file <%= upgradeFileName %> was found. This simulation will be updated to your current version of the USIP OSP. </td>
   </tr>
-  
-  
+  <% } else { %>
   <tr>
     <td>&nbsp;</td>
     <td><span class="style1">This simulation was created with an earlier minor release, and the update file <%= upgradeFileName %> was not found. Obtain this update file before continuing. It can be found at ... </span></td>
   </tr>
-  
+  <% } // end of if upgradeFileName not found %>
     <% } // End of if trying to import simulation from earlier minor release
     	else if (release_relation == USIP_OSP_Properties.EARLIER_SOFTWARE_VERSION_MAJOR) { 
   %>

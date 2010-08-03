@@ -30,8 +30,68 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "SIMULATIONS")
 @Proxy(lazy = false)
-public class Simulation extends SimulationBase implements ExportableObject{
+public class Simulation implements ExportableObject{
 
+	/** Database id of this Simulation. */
+	@Id
+	@GeneratedValue
+	@Column(name = "SIM_ID")
+	protected Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transitId;
+
+	public Long getTransitId() {
+		return this.transitId;
+	}
+
+	public void setTransitId(Long transitId) {
+		this.transitId = transitId;
+	}
+	
+	/** Name of this Simulation. */
+	@Column(name = "SIM_NAME")
+	private String name = ""; //$NON-NLS-1$
+
+	/** Version of this Simulation. */
+	@Column(name = "SIM_VERSION")
+	private String version = ""; //$NON-NLS-1$
+
+	/** Version of the software this simulation was made with. */
+	private String softwareVersion = ""; //$NON-NLS-1$
+
+	public String getSimulationName() {
+		return this.name;
+	}
+
+	public void setSimulationName(String name) {
+		this.name = name;
+	}
+
+	public String getVersion() {
+		return this.version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+	
+	public String getSoftwareVersion() {
+		return softwareVersion;
+	}
+
+	public void setSoftwareVersion(String softwareVersion) {
+		this.softwareVersion = softwareVersion;
+	}
+	
 	/** A paragraph introducing what this simulation is all about. */
 	@Lob
 	private String blurb = ""; //$NON-NLS-1$
@@ -154,15 +214,6 @@ public class Simulation extends SimulationBase implements ExportableObject{
 	public void setLearning_objvs(String learning_objvs) {
 		this.learningObjvs = learning_objvs;
 	}
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 
 	public Simulation() {
 

@@ -88,13 +88,21 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public Simulation handleUnpackDetails(HttpServletRequest request) {
+	public Simulation handleUnpackSimulationVersion(HttpServletRequest request) {
 
+		Simulation sim = new Simulation();
+		
 		String filename = request.getParameter("filename"); //$NON-NLS-1$
 
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
-		return ObjectPackager.unpackSimDetails(filename, this.schema);
+		SimulationVersion simBase = ObjectPackager.unpackSimBase(filename, this.schema);
+		
+		sim.setSimulationName(simBase.getSimulationName());
+		sim.setSoftwareVersion(simBase.getSoftwareVersion());
+		sim.setVersion(simBase.getVersion());
+		
+		return sim;
 
 	}
 
@@ -108,11 +116,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String filename = request.getParameter("filename"); //$NON-NLS-1$
 		String sim_name = request.getParameter("sim_name"); //$NON-NLS-1$
 		String sim_version = request.getParameter("sim_version"); //$NON-NLS-1$
-
+		String upgrade_file_name = request.getParameter("upgrade_file_name"); //$NON-NLS-1$
+		
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
 		ObjectPackager.unpackageSim(filename, this.schema, sim_name,
-				sim_version);
+				sim_version, upgrade_file_name);
 
 	}
 
@@ -1913,7 +1922,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if (command != null) {
 			if (command.equalsIgnoreCase("Create")) {
 
-				simulation.setName(simulation_name);
+				simulation.setSimulationName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation
 						.setSoftwareVersion(USIP_OSP_Properties.getRelease());
@@ -1930,7 +1939,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			} else if (command.equalsIgnoreCase("Update")) { // 
 				String sim_id = (String) request.getParameter("sim_id");
 				simulation = Simulation.getById(schema, new Long(sim_id));
-				simulation.setName(simulation_name);
+				simulation.setSimulationName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation
 						.setSoftwareVersion(USIP_OSP_Properties.getRelease());
@@ -3638,6 +3647,22 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			}
 		}
 		return rssQueued;
+	}
+	
+	public boolean foundUpgradeFile (String fileName){
+		
+		String fileLocation = FileIO.upgrade_files_dir + File.separator
+		+ fileName;
+		
+		File upgradeFile = new File(fileLocation);
+		
+		if (upgradeFile.exists() && upgradeFile.canRead()){
+			return true;
+		} else {
+			return false;
+		}
+
+		
 	}
 
 } // End of class
