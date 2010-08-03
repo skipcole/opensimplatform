@@ -47,11 +47,11 @@ public class Actor implements ExportableObject{
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
-	public Long getTransit_id() {
+	public Long getTransitId() {
 		return this.transit_id;
 	}
 
-	public void setTransit_id(Long transit_id) {
+	public void setTransitId(Long transit_id) {
 		this.transit_id = transit_id;
 	}
 

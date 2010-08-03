@@ -105,14 +105,14 @@ public class MasterTester{
     public static String testSimCreation(){
         String returnString = makeHeader("Making Simulations 'Test1' and 'Test2'"); //$NON-NLS-1$
         
-        testSim1.setName("Test1"); //$NON-NLS-1$
+        testSim1.setSimulationName("Test1"); //$NON-NLS-1$
         testSim1.setVersion("1"); //$NON-NLS-1$
         //testGame1.layout.bannertitle = "Banner Heading Unit 1";
         //testGame1.store();
         
         returnString += b + "Created Simulation Test1 version 1"; //$NON-NLS-1$
         
-        testSim2.setName("Test2"); //$NON-NLS-1$
+        testSim2.setSimulationName("Test2"); //$NON-NLS-1$
         testSim2.setVersion("1"); //$NON-NLS-1$
         //testGame2.layout.bannertitle = "Banner Heading Unit 2";
         //testGame2.store();

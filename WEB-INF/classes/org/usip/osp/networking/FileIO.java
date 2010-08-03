@@ -28,6 +28,7 @@ public class FileIO {
 	private static String model_dir = ""; //$NON-NLS-1$
 	private static String base_web_dir = ""; //$NON-NLS-1$
 	protected static String packaged_sim_dir = ""; //$NON-NLS-1$
+	protected static String upgrade_files_dir = ""; //$NON-NLS-1$
 	private static String sim_image_dir = ""; //$NON-NLS-1$
 
 	static {
@@ -44,6 +45,7 @@ public class FileIO {
 				+ File.separator + "actors" + File.separator;
 		packaged_sim_dir = base_web_dir + "simulation_sharing" + File.separator
 				+ "packaged_simulations" + File.separator;
+		upgrade_files_dir = base_web_dir + "software_upgrade_files" + File.separator;
 		sim_image_dir = base_web_dir + "simulation" + File.separator + "images"
 				+ File.separator;
 

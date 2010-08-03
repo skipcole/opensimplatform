@@ -14,8 +14,8 @@ package org.usip.osp.baseobjects;
  */
 public interface ExportableObject {
 
-	public Long getTransit_id();
+	public Long getTransitId();
 
-	public void setTransit_id(Long transit_id);
+	public void setTransitId(Long transit_id);
 	
 }

@@ -1,9 +1,5 @@
 package org.usip.osp.baseobjects;
 
-import javax.persistence.*;
-
-import org.hibernate.annotations.Proxy;
-
 /**
  * This class contains only version information on the simulation and the software underwhich it
  * was created. The idea is that the import process will begin by reading this, and since this NEVER
@@ -25,43 +21,45 @@ import org.hibernate.annotations.Proxy;
  * PARTICULAR PURPOSE. <BR>
  * 
  */
-@Entity
-@Proxy(lazy = false)
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class SimulationBase {
-
-	/** Database id of this Simulation. */
-	@Id
-	@GeneratedValue
-	@Column(name = "SIM_ID")
-	protected Long id;
-
-	/** Id used when objects are exported and imported moving across databases. */
-	protected Long transit_id;
-
-	public Long getTransit_id() {
-		return this.transit_id;
+public class SimulationVersion {
+	
+	private Long transitId;
+	
+	public Long getTransitId() {
+		return transitId;
 	}
 
-	public void setTransit_id(Long transit_id) {
-		this.transit_id = transit_id;
+	public void setTransitId(Long transitId) {
+		this.transitId = transitId;
 	}
+
 	/** Name of this Simulation. */
-	@Column(name = "SIM_NAME")
-	protected String name = ""; //$NON-NLS-1$
+	private String name = ""; //$NON-NLS-1$
 
 	/** Version of this Simulation. */
-	@Column(name = "SIM_VERSION")
-	protected String version = ""; //$NON-NLS-1$
+	private String version = ""; //$NON-NLS-1$
 
 	/** Version of the software this simulation was made with. */
-	protected String softwareVersion = ""; //$NON-NLS-1$
+	private String softwareVersion = ""; //$NON-NLS-1$
 	
+	/** Not to put too fine a point on it, this is an unused field. But since the SimBase is the first thing read on import, and since
+	 * changes to its structure may cause major compatibility issues between versions, we are including
+	 * it here so future programmers can leverage it if necessary. */
+	private String finePoints = "";
+
+	public String getFinePoints() {
+		return finePoints;
+	}
+
+	public void setFinePoints(String finePoints) {
+		this.finePoints = finePoints;
+	}
+
 	public String getSimulationName() {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public void setSimulationName(String name) {
 		this.name = name;
 	}
 

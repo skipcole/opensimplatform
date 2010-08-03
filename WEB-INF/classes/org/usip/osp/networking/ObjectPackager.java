@@ -96,8 +96,14 @@ public class ObjectPackager {
 		XStream xstream = new XStream();
 
 		Simulation sim = Simulation.getById(schema, sim_id);
-		sim.setTransit_id(sim.getId());
+		sim.setTransitId(sim.getId());
 		sim.setId(null);
+		
+		SimulationVersion simBase = new SimulationVersion();
+		simBase.setSimulationName(sim.getSimulationName());
+		simBase.setSoftwareVersion(sim.getSoftwareVersion());
+		simBase.setVersion(sim.getVersion());
+		simBase.setTransitId(sim.getTransitId());
 
 		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>" + lineTerminator; //$NON-NLS-1$
 
@@ -109,35 +115,37 @@ public class ObjectPackager {
 
 		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + lineTerminator; //$NON-NLS-1$ //$NON-NLS-2$
 
+		returnString += xstream.toXML(simBase) + lineTerminator;;
+		
 		// This packages the values directly associate with the simulation such
 		// as objectives and audience.
-		returnString += xstream.toXML(sim);
+		returnString += xstream.toXML(sim) + lineTerminator;;
 
-		returnString += packageActors(schema, sim.getTransit_id(), xstream)
+		returnString += packageActors(schema, sim.getTransitId(), xstream)
 				+ lineTerminator;
-		returnString += packageMetaPhases(schema, sim.getTransit_id(), xstream)
+		returnString += packageMetaPhases(schema, sim.getTransitId(), xstream)
 				+ lineTerminator;
-		returnString += packagePhases(schema, sim.getTransit_id(), xstream)
+		returnString += packagePhases(schema, sim.getTransitId(), xstream)
 				+ lineTerminator;
-		returnString += packagePhaseAssignments(schema, sim.getTransit_id(),
+		returnString += packagePhaseAssignments(schema, sim.getTransitId(),
 				xstream)
 				+ lineTerminator;
-		returnString += packageInjects(schema, sim.getTransit_id(), xstream)
+		returnString += packageInjects(schema, sim.getTransitId(), xstream)
 				+ lineTerminator;
 		returnString += packageBaseSimSectionInformation(schema, sim
-				.getTransit_id(), xstream)
+				.getTransitId(), xstream)
 				+ lineTerminator;
 		returnString += packageSimSectionAssignmentInformation(schema, sim
-				.getTransit_id(), xstream)
+				.getTransitId(), xstream)
 				+ lineTerminator;
 		returnString += packageSimObjectInformation(schema,
-				sim.getTransit_id(), xstream)
+				sim.getTransitId(), xstream)
 				+ lineTerminator;
 		returnString += packageMiscSimObjectInformation(schema, sim
-				.getTransit_id(), xstream)
+				.getTransitId(), xstream)
 				+ lineTerminator;
 
-		returnString += packageSimMedia(schema, sim.getTransit_id(), xstream);
+		returnString += packageSimMedia(schema, sim.getTransitId(), xstream);
 		returnString += "</SIM_PACKAGE_OBJECT>"; //$NON-NLS-1$
 
 		return returnString;
@@ -314,7 +322,7 @@ public class ObjectPackager {
 
 				if (bss.getClass().getName().equalsIgnoreCase(
 						BaseSimSection.class.getName())) {
-					bss.setTransit_id(bss.getId());
+					bss.setTransitId(bss.getId());
 					bss.setId(null);
 					returnString += xstream.toXML(bss) + lineTerminator;
 				} else if (bss.getClass().getName().equalsIgnoreCase(
@@ -323,7 +331,7 @@ public class ObjectPackager {
 					bss = null;
 					CustomizeableSection cbss = CustomizeableSection.getById(
 							schema, thisBaseId.toString());
-					cbss.setTransit_id(cbss.getId());
+					cbss.setTransitId(cbss.getId());
 					cbss.setId(null);
 					returnString += xstream.toXML(cbss) + lineTerminator;
 				} else {
@@ -393,7 +401,7 @@ public class ObjectPackager {
 		for (ListIterator<Actor> li = allActors.listIterator(); li.hasNext();) {
 			Actor thisActor = li.next();
 
-			thisActor.setTransit_id(thisActor.getId());
+			thisActor.setTransitId(thisActor.getId());
 			thisActor.setId(null);
 
 			returnString += xstream.toXML(thisActor) + lineTerminator;
@@ -613,10 +621,10 @@ public class ObjectPackager {
 	 * @param schema
 	 * @return
 	 */
-	public static Simulation unpackSimDetails(String fileloc, String schema) {
+	public static SimulationVersion unpackSimBase(String fileloc, String schema) {
 
 		XStream xstream = new XStream(new DomDriver());
-		xstream.alias("sim", Simulation.class); //$NON-NLS-1$
+		xstream.alias("sim", SimulationVersion.class); //$NON-NLS-1$
 
 		String fileLocation = FileIO.packaged_sim_dir + File.separator
 				+ fileloc;
@@ -625,25 +633,38 @@ public class ObjectPackager {
 				"looking for file to unpack at " + fileLocation); //$NON-NLS-1$
 
 		String fullString = FileIO.getPartialFileContents(
-				new File(fileLocation), makeCloseTag(Simulation.class), true);
+				new File(fileLocation), makeCloseTag(SimulationVersion.class), true);
 
-		String simString = getFirstObjectFromFile(fullString,
-				makeOpenTag(Simulation.class), makeCloseTag(Simulation.class)); //$NON-NLS-1$
+		String simBaseString = getFirstObjectFromFile(fullString,
+				makeOpenTag(SimulationVersion.class), makeCloseTag(SimulationVersion.class)); //$NON-NLS-1$
 
-		Simulation simRead = (Simulation) xstream.fromXML(simString);
+		SimulationVersion simBaseRead = (SimulationVersion) xstream.fromXML(simBaseString);
 
-		return simRead;
+		return simBaseRead;
 	}
 
 	public static String unpackInformationString = ""; //$NON-NLS-1$
 
+	
+	public static String processUpgradeChanges(String xmlText, String upgradeFileName){
+		
+		String fileLocation = FileIO.upgrade_files_dir + File.separator
+		+ upgradeFileName;
+		
+		File upgradeFile = new File(fileLocation);
+		
+		
+		// Loop over changes found in upgrade file and make changes.
+		
+		return xmlText;
+	}
 	/**
 	 * 
 	 * @param fileName
 	 * @param schema
 	 */
 	public static void unpackageSim(String fileName, String schema,
-			String sim_name, String sim_version) {
+			String sim_name, String sim_version, String upgradeFileName) {
 
 		unpackInformationString = "";
 
@@ -671,14 +692,15 @@ public class ObjectPackager {
 		re.setFileName(fileName);
 		re.saveMe();
 
-		String fullString = FileIO.getFileContents(new File(fileLocation));
-
 		String xmlText = FileIO.getPartialFileContents(new File(fileLocation),
 				"<SIM_MEDIA_OBJECTS>", true);
+		
+		xmlText = processUpgradeChanges(xmlText, upgradeFileName);
+		
 		String xmlMedia = FileIO.getPartialFileContents(new File(fileLocation),
 				"<SIM_MEDIA_OBJECTS>", false);
 		
-		System.out.println(xmlMedia);
+		xmlMedia = processUpgradeChanges(xmlMedia, upgradeFileName);
 
 		String simString = getObjectFromFile(xmlText,
 				makeOpenTag(Simulation.class), //$NON-NLS-1$
@@ -686,7 +708,7 @@ public class ObjectPackager {
 
 		Simulation simRead = (Simulation) xstream.fromXML(simString);
 
-		simRead.setName(sim_name);
+		simRead.setSimulationName(sim_name);
 		simRead.setVersion(sim_version);
 
 		simRead.saveMe(schema);
@@ -1239,7 +1261,7 @@ public class ObjectPackager {
 					RestoreResults.createAndSaveWarning(reId,
 							RestoreResults.RESTORE_WARN, warnString);
 				} else {
-					bssIdMappings.put(this_bss.getTransit_id(),
+					bssIdMappings.put(this_bss.getTransitId(),
 							correspondingSimSection.getId());
 					RestoreResults.createAndSaveNotes(reId, "Found "
 							+ this_bss.getUniqueName() + " and it had id "
@@ -1279,7 +1301,7 @@ public class ObjectPackager {
 						.getUniqueName(), "Found " + this_bss.getUniqueName()
 						+ " and gave it id " + this_bss.getId());
 
-				bssIdMappings.put(this_bss.getTransit_id(), this_bss.getId());
+				bssIdMappings.put(this_bss.getTransitId(), this_bss.getId());
 
 			}
 		}
@@ -1319,7 +1341,7 @@ public class ObjectPackager {
 				// section
 				if (this_bss.isAuthorGeneratedSimulationSection()) {
 					this_bss.saveMe(schema);
-					bssIdMappings.put(this_bss.getTransit_id(), this_bss
+					bssIdMappings.put(this_bss.getTransitId(), this_bss
 							.getId());
 
 					RestoreResults.createAndSaveObject(reId, this_bss.getId()
@@ -1335,7 +1357,7 @@ public class ObjectPackager {
 							RestoreResults.RESTORE_WARN,
 							"Warning. Base simulation section "
 									+ this_bss.getVersionInformation()
-									+ " ( id : " + this_bss.getTransit_id()
+									+ " ( id : " + this_bss.getTransitId()
 									+ ") not found.");
 				}
 			} else {
@@ -1347,7 +1369,7 @@ public class ObjectPackager {
 								+ " and it had id "
 								+ correspondingSimSection.getId());
 
-				bssIdMappings.put(this_bss.getTransit_id(),
+				bssIdMappings.put(this_bss.getTransitId(),
 						correspondingSimSection.getId());
 			}
 
@@ -1390,7 +1412,7 @@ public class ObjectPackager {
 					.getActorName(), "unpacked Actor with originalName: "
 					+ originalName);
 
-			actorIdMappings.put(this_act.getTransit_id(), this_act.getId());
+			actorIdMappings.put(this_act.getTransitId(), this_act.getId());
 
 			@SuppressWarnings("unused")
 			SimActorAssignment saa = new SimActorAssignment(schema, sim_id,
