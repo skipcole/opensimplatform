@@ -101,6 +101,21 @@ public class Tips {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public static List<Tips> getAllForBaseSim(Long simid, String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<Tips> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Tips where simId = :sim_id and parentTipId is null")
+				.setString("sim_id", simid.toString())
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public static Tips getBySimActorPhaseSection
 		(Long s_id, Long a_id, Long p_id, Long cs_id, String schema, boolean justBase) {
 
@@ -149,6 +164,8 @@ public class Tips {
 	private boolean isInstructorAdded = false;
 	private boolean isShared = false;
 	
+	private boolean isReconciled = false;
+
 	private String instructorsName;
 	private String instructorsId;
 	private String instructorsEmail;
@@ -261,6 +278,14 @@ public class Tips {
 
 	public void setBaseTip(boolean baseTip) {
 		this.baseTip = baseTip;
+	}
+	
+	public boolean isReconciled() {
+		return isReconciled;
+	}
+
+	public void setReconciled(boolean isReconciled) {
+		this.isReconciled = isReconciled;
 	}
 
 	public boolean isShared() {

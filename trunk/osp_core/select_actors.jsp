@@ -15,10 +15,10 @@
 	Simulation sim = new Simulation();	
 	
 	String sending_page = (String) request.getParameter("sending_page");
+	String inject_id = (String) request.getParameter("inject_id");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("select_actors"))){
 	
-		System.out.println("do something");
 		pso.makeTargettedAnnouncement(request);
 		response.sendRedirect(pso.backPage);
 		return;		
@@ -42,8 +42,9 @@
 </head>
 
 <body>
-<h2>Select Actors to Receive this </h2>
+<h2>Select Actors to Receive This </h2>
 <form name="form1" method="post" action="select_actors.jsp">
+<input type="hidden" name="inject_id" value="<%= inject_id %>">
 <input type="hidden" name="sending_page" value="select_actors" />
 <% for (ListIterator la = sim.getActors(pso.schema).listIterator(); la.hasNext();) {
 	Actor act = (Actor) la.next(); %>

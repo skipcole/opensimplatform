@@ -174,11 +174,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 			}
 
 			List simSecList = getSimSecList(request);
-			
+
 			try {
-				//List simSecList = SimulationSectionAssignment
-					//	.getBySimAndActorAndPhase(this.schema, this.sim_id,
-						//		this.actorId, this.phase_id);
+				// List simSecList = SimulationSectionAssignment
+				// .getBySimAndActorAndPhase(this.schema, this.sim_id,
+				// this.actorId, this.phase_id);
 
 				if (tabpos <= simSecList.size()) {
 					SimulationSectionGhost ss = (SimulationSectionGhost) simSecList
@@ -245,7 +245,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 				ssg.setTabHeading(ss.getTab_heading());
 				ssg.setTabColor(ss.getTabColor());
 				ssg.setTabURL(ss.generateURLforBottomFrame(actorId));
-				
 
 				returnList.add(ssg);
 
@@ -256,8 +255,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 			session.getServletContext().setAttribute(
 					USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO,
 					sim_section_info);
-			
-			if (this.isControlCharacter()){
+
+			if (this.isControlCharacter()) {
 				SimulationSectionGhost ssg = new SimulationSectionGhost();
 				ssg.setTabHeading("Control");
 				ssg.setTabColor("FFCCCC");
@@ -267,7 +266,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			}
 
 		}
-		
+
 		return returnList;
 	}
 
@@ -391,8 +390,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-			recordLoginToSchema(user_id, schema, actorId, runningSimId,
-					request);
+			recordLoginToSchema(user_id, schema, actorId, runningSimId, request);
 
 			storeUserInfoInSessionInformation(request);
 
@@ -699,8 +697,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		// Loop over the conversations for this Actor
 		for (ListIterator<Conversation> li = Conversation
 				.getActorsConversationsForSimSection(schema, actorId,
-						runningSimId, section_id).listIterator(); li
-				.hasNext();) {
+						runningSimId, section_id).listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next();
 
 			returnString += "var start_index" + conv.getId() + " = 0 \r\n";
@@ -738,8 +735,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil
-				.getSession(schema)
-				.get(RunningSimulation.class, runningSimId);
+				.getSession(schema).get(RunningSimulation.class, runningSimId);
 
 		Alert al = new Alert();
 		al.setType(Alert.TYPE_ANNOUNCEMENT);
@@ -748,8 +744,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		al.setSim_id(sim_id);
 
 		String shortIntro = USIP_OSP_Util.cleanAndShorten(news, 20) + " ...";
-
-		System.out.println(shortIntro);
 
 		al.setAlertPopupMessage("There is a new announcement: " + shortIntro);
 
@@ -772,7 +766,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public void makeTargettedAnnouncement(HttpServletRequest request) {
+	public void makeTargettedAnnouncement(HttpServletRequest request,
+			String inject_id) {
 
 		String targets = list2String(getIdsOfCheckBoxes("actor_cb_", request));
 
@@ -790,6 +785,19 @@ public class PlayerSessionObject extends SessionObjectBase {
 		al.saveMe(schema);
 
 		makeTargettedAnnouncement(al, targets, request);
+
+		if (inject_id != null) {
+			InjectFiringHistory ifh = new InjectFiringHistory(
+					this.runningSimId, this.actorId);
+			ifh.setActorIdsFiredTo(targets);
+			ifh.setActualFiredText(alertInQueueText);
+			ifh.setTargets("some");
+			ifh.saveMe(schema);
+
+			USIP_OSP_Cache
+					.addFiredInjectsToCache(schema, request, this.runningSimId,
+							this.actorId, new Long(inject_id), "all");
+		}
 
 	}
 
@@ -955,8 +963,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil
-				.getSession(schema)
-				.get(RunningSimulation.class, runningSimId);
+				.getSession(schema).get(RunningSimulation.class, runningSimId);
 
 		running_sim.setRound(running_sim.getRound() + 1);
 
@@ -1419,8 +1426,12 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	}
 
-	public Hashtable pushedInjects = new Hashtable();
-
+	/**
+	 * Handles the pushing of the inject out to the players.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public boolean handlePushInject(HttpServletRequest request) {
 
 		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
@@ -1431,12 +1442,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 			String announcement_text = request
 					.getParameter("announcement_text"); //$NON-NLS-1$
 			String inject_action = request.getParameter("inject_action"); //$NON-NLS-1$
-			String inject_id_string = request.getParameter("inject_id"); //$NON-NLS-1$
-
-			if (inject_id_string != null) {
-				Long inject_id = new Long(inject_id_string);
-				this.pushedInjects.put(inject_id, "set"); //$NON-NLS-1$
-			}
 
 			if ((inject_action != null)
 					&& (inject_action.equalsIgnoreCase("2"))) { //$NON-NLS-1$
@@ -1446,6 +1451,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			String player_target = request.getParameter("player_target"); //$NON-NLS-1$
 
+			String inject_id = request.getParameter("inject_id"); //$NON-NLS-1$
+
 			if ((player_target != null)
 					&& (player_target.equalsIgnoreCase("some"))) { //$NON-NLS-1$
 				this.alertInQueueText = announcement_text;
@@ -1453,6 +1460,19 @@ public class PlayerSessionObject extends SessionObjectBase {
 				return true;
 			} else {
 				makeGeneralAnnouncement(announcement_text, request);
+
+				if (inject_id != null) {
+					InjectFiringHistory ifh = new InjectFiringHistory(
+							this.runningSimId, this.actorId);
+					ifh.setActorNamessFiredTo("all");
+					ifh.setActualFiredText(announcement_text);
+					ifh.setTargets("all");
+					ifh.saveMe(schema);
+
+					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
+							this.runningSimId, this.actorId,
+							new Long(inject_id), "all");
+				}
 				return false;
 			}
 
@@ -1628,8 +1648,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil
-				.getSession(schema)
-				.get(RunningSimulation.class, runningSimId);
+				.getSession(schema).get(RunningSimulation.class, runningSimId);
 
 		MultiSchemaHibernateUtil.getSession(schema).evict(rs);
 
@@ -1759,25 +1778,32 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	/**
 	 * Returns the color of an inject, which are colored if they have already
-	 * been used during this play session. TODO - persist the information that
-	 * they have been used back to the database.
+	 * been used during this play session.
 	 * 
 	 * @param injectId
 	 * @return
 	 */
-	public String getInjectColor(Long injectId) {
+	public String getInjectColor(HttpServletRequest request, Long injectId) {
 
 		String unshotColor = "#FFFFFF"; //$NON-NLS-1$
 		String shotColor = "#FFCCCC"; //$NON-NLS-1$
+		String partialShotColor = "#CCFFCC"; //$NON-NLS-1$
 
-		String hashValue = (String) this.pushedInjects.get(injectId);
+		// Get hashtable for this rsid/actorid combo
+		Hashtable cachedInjectInfo = USIP_OSP_Cache.getInjectsFired(schema,
+				request, this.runningSimId, this.actorId);
+
+		String hashValue = (String) cachedInjectInfo.get(injectId);
 
 		if (hashValue == null) {
 			return unshotColor;
 		} else {
-			return shotColor;
+			if (hashValue.equalsIgnoreCase("all")) {
+				return shotColor;
+			} else {
+				return partialShotColor;
+			}
 		}
-
 	}
 
 	/**
@@ -2042,6 +2068,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	/**
 	 * Called when a player 'becomes' another player.
+	 * 
 	 * @param request
 	 */
 	public void handleBecomePlayer(HttpServletRequest request) {
@@ -2058,5 +2085,60 @@ public class PlayerSessionObject extends SessionObjectBase {
 				tabposition = "1";
 			}
 		}
+	}
+
+	public SharedDocument bneeds = new SharedDocument();
+
+	public void handleTempBrainstorm() {
+		// /////////////////////////////////////////////////////////
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID = :rs_id " + //$NON-NLS-1$ //$NON-NLS-2$
+				" AND base_id = -1"; //$NON-NLS-1$
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(hql_string).setLong("sim_id", sim_id).setLong(
+						"rs_id", runningSimId).list();
+
+		if ((returnList == null) || (returnList.size() == 0)) {
+			//System.out.println("No player document found, creating new one."); //$NON-NLS-1$
+
+			bneeds.setBase_id(new Long(-1));
+			bneeds.setRs_id(runningSimId);
+			bneeds.setSim_id(sim_id);
+			bneeds.saveMe(schema);
+
+		} else {
+			bneeds = (SharedDocument) returnList.get(0);
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		// //////////////////////////////////////
+
+		SharedDocument bsolutions = new SharedDocument();
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID = :rs_id " + //$NON-NLS-1$ //$NON-NLS-2$
+				" AND base_id = -2"; //$NON-NLS-1$
+
+		returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				hql_string).setLong("sim_id", sim_id).setLong("rs_id",
+				runningSimId).list();
+
+		if ((returnList == null) || (returnList.size() == 0)) {
+			//System.out.println("No player document found, creating new one."); //$NON-NLS-1$
+
+			bsolutions.setBase_id(new Long(-2));
+			bsolutions.setRs_id(runningSimId);
+			bsolutions.setSim_id(sim_id);
+			bsolutions.saveMe(schema);
+
+		} else {
+			bsolutions = (SharedDocument) returnList.get(0);
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		// ////////////////////////////////
 	}
 }

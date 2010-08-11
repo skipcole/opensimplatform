@@ -1,13 +1,12 @@
 package org.usip.osp.communications;
 
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * History of which injects have been fired, to whom and to when.
@@ -44,11 +43,48 @@ public class InjectFiringHistory {
 	/** Id of the actor that fired this inject. */
 	private Long actor_id;
 	
+	/** Id of the inject that has been fired. */
+	private Long injectId;
+	
+	private String targets = "";
+	
 	/** comma separated list of actors ids this was fired to. */
 	private String actorIdsFiredTo;
 	
 	/** comma separated list of actor Names this was fired to. */
 	private String actorNamessFiredTo;
+	
+	private boolean modifiedByInstructor = false;
+	
+	public boolean isModifiedByInstructor() {
+		return modifiedByInstructor;
+	}
+
+	public void setModifiedByInstructor(boolean modifiedByInstructor) {
+		this.modifiedByInstructor = modifiedByInstructor;
+	}
+	
+	@Lob
+	private String actualFiredText = "";
+
+	public String getActualFiredText() {
+		return actualFiredText;
+	}
+
+	public void setActualFiredText(String actualFiredText) {
+		this.actualFiredText = actualFiredText;
+	}
+
+	public InjectFiringHistory(){
+		
+	}
+	
+	public InjectFiringHistory(Long running_sim_id, Long actor_id){
+		
+		this.running_sim_id = running_sim_id;
+		this.actor_id = actor_id;
+		
+	}
 	
 	@Column(name = "FIRED_DATE", columnDefinition = "datetime")
 	@GeneratedValue
@@ -77,6 +113,22 @@ public class InjectFiringHistory {
 	public void setActor_id(Long actor_id) {
 		this.actor_id = actor_id;
 	}
+	
+	public Long getInjectId() {
+		return injectId;
+	}
+
+	public void setInjectId(Long injectId) {
+		this.injectId = injectId;
+	}
+
+	public String getTargets() {
+		return targets;
+	}
+
+	public void setTargets(String targets) {
+		this.targets = targets;
+	}
 
 	public String getActorIdsFiredTo() {
 		return actorIdsFiredTo;
@@ -102,6 +154,64 @@ public class InjectFiringHistory {
 		this.firedDate = firedDate;
 	}
 	
+	/**
+	 * Returns all of the alerts for this running simulation.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<InjectFiringHistory> getAllForRunningSim(String schema, Long running_sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InjectFiringHistory> returnList = 
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from InjectFiringHistory where running_sim_id = :running_sim_id")
+				.setLong("running_sim_id", running_sim_id)		
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	/**
+	 * Returns all of the injects fired for a particular running sim/actor combo.
+	 * @param schema
+	 * @param running_sim_id
+	 * @param actor_id
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<InjectFiringHistory> getAllForRunningSimAndActor
+		(String schema, Long running_sim_id, Long actor_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InjectFiringHistory> returnList = 
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from InjectFiringHistory where running_sim_id = :running_sim_id and actor_id = :actor_id")
+				.setLong("running_sim_id", running_sim_id)
+				.setLong("actor_id", actor_id)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	/** Saves to database. */
+	public void saveMe(String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+	}
 	
 	
 }
