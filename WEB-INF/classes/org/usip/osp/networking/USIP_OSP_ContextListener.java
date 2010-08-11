@@ -101,10 +101,9 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	
 	public static final String CACHEON_AUTOCOMPLETE_USERNAMES = "bpi_names"; //$NON-NLS-1$
 
-	public static void main(String args[]) {
-		Logger.getRootLogger().debug("Hello World"); //$NON-NLS-1$
+	/** Used to keep track of which injects have been fired during a game. */
+	public static final String CACHEON_INJECTS_FIRED = "injects_fired"; //$NON-NLS-1$
 
-	}
 
 	/**
 	 * Utility method that ultimately leads on to resetWebCache(ServletContext)

@@ -40,6 +40,10 @@
     <td valign="top">This page allows you to become another player in the current simulation. (You will be able to change back, since the 'control' page will follow you.) </td>
   </tr>
   <tr valign="top">
+    <td valign="top"><a href="make_announcement.jsp">Make Announcement</a> </td>
+    <td valign="top">Push Annoucements out to your players. </td>
+  </tr>
+  <tr valign="top">
     <td valign="top"><a href="change_player.jsp">Swap/Remove/Add Players</a> </td>
     <td valign="top">This page allows you to change who is playing. </td>
   </tr>

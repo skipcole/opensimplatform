@@ -21,61 +21,61 @@
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	
-	///////////////////////////////////////////////////////////
-	SharedDocument bneeds = new SharedDocument();
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
+			///////////////////////////////////////////////////////////
+		SharedDocument bneeds = new SharedDocument();
+		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 
-	String hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID = :rs_id " +   //$NON-NLS-1$ //$NON-NLS-2$
-				" AND base_id = -1"; //$NON-NLS-1$
+		String hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID = :rs_id " +   //$NON-NLS-1$ //$NON-NLS-2$
+					" AND base_id = -1"; //$NON-NLS-1$
 
-	List returnList = MultiSchemaHibernateUtil.getSession(pso.schema)
-			.createQuery(hql_string)
-			.setLong("sim_id", pso.sim_id)
-			.setLong("rs_id", pso.running_sim_id)
-			.list();
+		List returnList = MultiSchemaHibernateUtil.getSession(pso.schema)
+				.createQuery(hql_string)
+				.setLong("sim_id", pso.sim_id)
+				.setLong("rs_id", pso.getRunningSimId())
+				.list();
 
-		if ((returnList == null) || (returnList.size() == 0)) {
-			//System.out.println("No player document found, creating new one."); //$NON-NLS-1$
+			if ((returnList == null) || (returnList.size() == 0)) {
+				//System.out.println("No player document found, creating new one."); //$NON-NLS-1$
 
-			bneeds.setBase_id(new Long(-1));
-			bneeds.setRs_id(pso.running_sim_id);
-			bneeds.setSim_id(pso.sim_id);
-			bneeds.saveMe(pso.schema);
+				bneeds.setBase_id(new Long(-1));
+				bneeds.setRs_id(pso.getRunningSimId());
+				bneeds.setSim_id(pso.sim_id);
+				bneeds.saveMe(pso.schema);
 
-		} else {
-			bneeds = (SharedDocument) returnList.get(0);
-		}
+			} else {
+				bneeds = (SharedDocument) returnList.get(0);
+			}
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-		////////////////////////////////////////
-	
-	SharedDocument bsolutions = new SharedDocument();
-	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+			////////////////////////////////////////
+		
+		SharedDocument bsolutions = new SharedDocument();
+		
+		MultiSchemaHibernateUtil.beginTransaction(pso.schema);
 
-	hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID = :rs_id " +   //$NON-NLS-1$ //$NON-NLS-2$
-				" AND base_id = -2"; //$NON-NLS-1$
+		hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID = :rs_id " +   //$NON-NLS-1$ //$NON-NLS-2$
+					" AND base_id = -2"; //$NON-NLS-1$
 
-	returnList = MultiSchemaHibernateUtil.getSession(pso.schema)
-			.createQuery(hql_string)
-			.setLong("sim_id", pso.sim_id)
-			.setLong("rs_id", pso.running_sim_id)
-			.list();
+		returnList = MultiSchemaHibernateUtil.getSession(pso.schema)
+				.createQuery(hql_string)
+				.setLong("sim_id", pso.sim_id)
+				.setLong("rs_id", pso.getRunningSimId())
+				.list();
 
-		if ((returnList == null) || (returnList.size() == 0)) {
-			//System.out.println("No player document found, creating new one."); //$NON-NLS-1$
+			if ((returnList == null) || (returnList.size() == 0)) {
+				//System.out.println("No player document found, creating new one."); //$NON-NLS-1$
 
-			bsolutions.setBase_id(new Long(-2));
-			bsolutions.setRs_id(pso.running_sim_id);
-			bsolutions.setSim_id(pso.sim_id);
-			bsolutions.saveMe(pso.schema);
+				bsolutions.setBase_id(new Long(-2));
+				bsolutions.setRs_id(pso.getRunningSimId());
+				bsolutions.setSim_id(pso.sim_id);
+				bsolutions.saveMe(pso.schema);
 
-		} else {
-			bsolutions = (SharedDocument) returnList.get(0);
-		}
+			} else {
+				bsolutions = (SharedDocument) returnList.get(0);
+			}
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
-		//////////////////////////////////
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+			//////////////////////////////////
 		
 %>
 <html>

@@ -134,7 +134,7 @@
   <%
   	String injectLineColor = "#FFCCCC";
   %>
-  <tr bgcolor="<%= pso.getInjectColor(da_inject.getId())%>">
+  <tr bgcolor="<%= pso.getInjectColor(request, da_inject.getId())%>">
     <td valign="top">&nbsp;</td>
     <td width="4%" valign="top">&nbsp;</td>
     <td colspan="2" valign="top">

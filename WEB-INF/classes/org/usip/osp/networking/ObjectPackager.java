@@ -198,13 +198,21 @@ public class ObjectPackager {
 		returnString += xstream.toXML(tl) + lineTerminator;
 
 		List<Event> allEvents = Event.getAllForTimeLine(tl.getId(), schema);
-
 		for (ListIterator<Event> li = allEvents.listIterator(); li.hasNext();) {
 			Event thisEvent = li.next();
 
 			returnString += xstream.toXML(thisEvent) + lineTerminator;
 
 		}
+		
+		List<Tips> allTips = Tips.getAllForBaseSim(sim_id, schema);
+		for (ListIterator<Tips> lit = allTips.listIterator(); lit.hasNext();) {
+			Tips thisTip = lit.next();
+
+			returnString += xstream.toXML(thisTip) + lineTerminator;
+
+		}
+		
 
 		return returnString;
 	}
@@ -914,6 +922,44 @@ public class ObjectPackager {
 						.getEventTitle(), "Event Added");
 
 			}
+		}
+		
+		unpackageTips(schema, reId,
+				fullString, sim_id, xstream,
+				bssIdMappings, actorIdMappings);
+	}
+	
+	public static void unpackageTips(String schema, Long reId,
+			String fullString, Long sim_id, XStream xstream,
+			Hashtable bssIdMappings, Hashtable actorIdMappings){
+		
+		List<String> tips_list = getSetOfObjectFromFile(fullString,
+				makeOpenTag(Tips.class), makeCloseTag(Tips.class));
+
+		for (ListIterator<String> li_i = tips_list.listIterator(); li_i
+				.hasNext();) {
+			String e_string = li_i.next();
+
+			Tips tip = (Tips) xstream.fromXML(e_string);
+
+
+				// The id this had on the system it was exported from bears no
+				// relationship to the id where its being imported.
+				tip.setId(null);
+				tip.setSimId(sim_id);
+				
+				Long newCsId = (Long) bssIdMappings.get(tip.getCsId());
+				Long newActorId = (Long) actorIdMappings.get(tip.getActorId());
+				tip.setCsId(newCsId);
+				tip.setActorId(newActorId);
+				
+				tip.setTipName("tip: " + newCsId + "_" + newActorId);
+				tip.saveMe(schema);
+
+				RestoreResults.createAndSaveObject(reId, tip.getId()
+						.toString(), tip.getClass().toString(), tip
+						.getTipName(), "Event Added");
+
 		}
 	}
 
