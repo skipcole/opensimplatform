@@ -19,7 +19,8 @@
 	}
 	
 	if (pso.handlePushInject(request)){
-		response.sendRedirect("select_actors.jsp");
+		String inject_id = (String) request.getParameter("inject_id");
+		response.sendRedirect("select_actors.jsp?inject_id=" + inject_id);
 		return;
 	}
 		
@@ -134,7 +135,7 @@
   <%
   	String injectLineColor = "#FFCCCC";
   %>
-  <tr bgcolor="<%= pso.getInjectColor(request, da_inject.getId())%>">
+  <tr bgcolor="<%= pso.getInjectColor(request, da_inject.getId()) %>">
     <td valign="top">&nbsp;</td>
     <td width="4%" valign="top">&nbsp;</td>
     <td colspan="2" valign="top">
