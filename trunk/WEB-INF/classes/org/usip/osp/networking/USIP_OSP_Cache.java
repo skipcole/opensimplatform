@@ -650,7 +650,7 @@ public class USIP_OSP_Cache {
 		
 		thisSetOfTables.put(keyForRsAndActor, returnTable);
 
-		return null;
+		return returnTable;
 	}
 	
 	/**

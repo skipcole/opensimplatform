@@ -792,6 +792,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			ifh.setActorIdsFiredTo(targets);
 			ifh.setActualFiredText(alertInQueueText);
 			ifh.setTargets("some");
+			ifh.setInjectId(new Long(inject_id));
 			ifh.saveMe(schema);
 
 			USIP_OSP_Cache
@@ -1467,6 +1468,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 					ifh.setActorNamessFiredTo("all");
 					ifh.setActualFiredText(announcement_text);
 					ifh.setTargets("all");
+					ifh.setInjectId(new Long(inject_id));
 					ifh.saveMe(schema);
 
 					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
