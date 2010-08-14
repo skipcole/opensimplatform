@@ -356,4 +356,28 @@ public class Alert implements EventInterface {
 		return "Multiple Events have occured. Please check your environment carefully.";
 	}
 
+	@Override
+	public String getEventClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventParentClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventParentId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

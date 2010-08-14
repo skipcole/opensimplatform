@@ -24,4 +24,12 @@ public interface EventInterface {
 	
 	public String getEventMsgBody();
 	
+	public Long getEventId();
+	
+	public String getEventClass();
+	
+	public Long getEventParentId();
+	
+	public Long getEventParentClass();
+	
 }
