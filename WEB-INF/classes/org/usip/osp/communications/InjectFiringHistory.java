@@ -26,7 +26,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 */
 @Entity
 @Proxy(lazy = false)
-public class InjectFiringHistory {
+public class InjectFiringHistory implements EventInterface {
 
 	public static final int FIRED_TO_ALL = 1;
 	
@@ -212,6 +212,59 @@ public class InjectFiringHistory {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
+
+	@Override
+	public String getEventClass() {
+		return this.getClass().toString();
+	}
+
+	@Override
+	public Date getEventEndTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventId() {
+		return this.getInjectId();
+	}
+
+	@Override
+	public String getEventMsgBody() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventParentClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventParentId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Date getEventStartTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getEventTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getEventType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	
 	
 }

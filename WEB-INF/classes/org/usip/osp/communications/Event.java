@@ -44,6 +44,10 @@ public class Event implements EventInterface{
 	
 	public static SimpleDateFormat similie_sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 
+	public Event() {
+		
+	}
+	
 	/** Events of this type will normally happen.  */
 	public static final int TYPE_PLANNED = 1;
 	
@@ -143,14 +147,6 @@ public class Event implements EventInterface{
 		this.eventMsgBody = text;
 	}
 
-	public static void main(String args[]){
-		Event e = new Event();
-		
-		e.eventTitle = "a title";
-		System.out.println(ObjectPackager.getObjectXML(e));
-		//similie_sdf.setTimeZone(TimeZone.getDefault());
-		
-	}
 	
 	/**
 	 * returns an XML string containing the packaged objects. 
@@ -350,6 +346,30 @@ public class Event implements EventInterface{
 			return "";
 		}
 		
+	}
+
+	@Override
+	public String getEventClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventParentClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long getEventParentId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -58,7 +58,8 @@ public class Inject implements LearningEvent{
     private Long group_id;
 	
     /** Name of this inject. */
-	private String inject_name = ""; //$NON-NLS-1$
+    @Column(name = "inject_name")
+	private String injectName = ""; //$NON-NLS-1$
 	
 	/** Name of this group of injects. */
 	@Lob
@@ -109,11 +110,11 @@ public class Inject implements LearningEvent{
 	}
 
 	public String getInject_name() {
-		return this.inject_name;
+		return this.injectName;
 	}
 
 	public void setInject_name(String inject_name) {
-		this.inject_name = inject_name;
+		this.injectName = inject_name;
 	}
 	
 	public static Inject getById(String schema, Long id) {

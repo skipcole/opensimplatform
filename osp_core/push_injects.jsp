@@ -108,7 +108,7 @@
 <input type="hidden" name="sending_page" value="push_injects">
   <tr>
     <td valign="top">&nbsp;</td>
-    <td colspan="3" valign="top"><%= da_inject.getInject_name() %></td>
+    <td colspan="3" valign="top"><%= da_inject.getInject_name() %><a href="inject_history.jsp?inject_id=<%= da_inject.getId() %>">Inject History </a></td>
     <td width="33%" rowspan="3" valign="top">
     <%
 		String selected_all = " checked ";

@@ -68,6 +68,7 @@
                   <p>This section allows one to pull in information from previous runs, or to export information that one has obtained. Specific information saved in an 'experience extract' will include</p>
                   <ul>
                     <li>Instructor Tips</li>
+                    <li>Instructor Injects </li>
                     <li>Player Responses to Injects</li>
                     <li>Student Reflections </li>
                   </ul>
