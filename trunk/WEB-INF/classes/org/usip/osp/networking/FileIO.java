@@ -22,13 +22,13 @@ import org.apache.log4j.*;
  */
 public class FileIO {
 
-	protected static String archives_dir = "";
+	public static String archives_dir = "";
 	private static String actor_image_dir = ""; //$NON-NLS-1$
 	private static String base_section_web_dir = ""; //$NON-NLS-1$
 	private static String model_dir = ""; //$NON-NLS-1$
 	private static String base_web_dir = ""; //$NON-NLS-1$
-	protected static String packaged_sim_dir = ""; //$NON-NLS-1$
-	protected static String upgrade_files_dir = ""; //$NON-NLS-1$
+	public static String packaged_sim_dir = ""; //$NON-NLS-1$
+	public static String upgrade_files_dir = ""; //$NON-NLS-1$
 	private static String sim_image_dir = ""; //$NON-NLS-1$
 
 	static {

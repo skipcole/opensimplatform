@@ -23,6 +23,10 @@ package org.usip.osp.baseobjects;
  */
 public class SimulationVersion {
 	
+	public SimulationVersion(){
+		
+	}
+	
 	private Long transitId;
 	
 	public Long getTransitId() {

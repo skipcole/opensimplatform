@@ -19,8 +19,8 @@ import org.usip.osp.baseobjects.SimPhaseAssignment;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
-import org.usip.osp.networking.ObjectPackager;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ObjectPackager;
 
 /**
  * This class represents an event.

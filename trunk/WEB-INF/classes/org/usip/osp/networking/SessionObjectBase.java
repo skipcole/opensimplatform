@@ -138,7 +138,7 @@ public class SessionObjectBase {
 		
 	}
 	
-	public String getBaseSimURL() {
+	public static String getBaseSimURL() {
 		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
 	

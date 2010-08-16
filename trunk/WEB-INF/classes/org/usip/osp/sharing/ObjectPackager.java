@@ -1,4 +1,4 @@
-package org.usip.osp.networking;
+package org.usip.osp.sharing;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -6,6 +6,7 @@ import java.util.*;
 
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
+import org.usip.osp.networking.*;
 import org.usip.osp.persistence.*;
 
 import sun.misc.*;
