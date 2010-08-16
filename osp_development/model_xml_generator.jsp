@@ -5,6 +5,7 @@
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
 	org.usip.osp.modelinterface.*,
+	org.usip.osp.sharing.*,
 	org.usip.osp.persistence.*" 
 	errorPage="" %>
 <%

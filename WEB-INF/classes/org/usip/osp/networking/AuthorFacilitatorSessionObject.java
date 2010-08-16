@@ -13,6 +13,7 @@ import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.Logger;
+import org.usip.osp.sharing.ObjectPackager;
 import org.usip.osp.specialfeatures.*;
 
 import com.oreilly.servlet.MultipartRequest;

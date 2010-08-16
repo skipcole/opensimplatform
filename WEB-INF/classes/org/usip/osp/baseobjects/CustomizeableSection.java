@@ -10,6 +10,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.core.Customizer;
 import org.usip.osp.networking.*;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ObjectPackager;
 import org.apache.log4j.*;
 /**
  * This class represents a simulation section that has been customized.
