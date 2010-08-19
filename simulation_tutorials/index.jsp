@@ -20,7 +20,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorials</h1></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;USIP OSP Tutorials</h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><a href="help.jsp">Help!</a></div>	  </td>
@@ -38,12 +38,21 @@ body {
 <br />
 <h1>Welcome!</h1>
 <p>This pages leads to the OSP tutorials. Below are listed the tutorials  in  the order in which they should be taken.</p>
-<p>Good luck in completing them. I you have any questions while taking them, you can use the 'Help!' link in the upper right hand corner to get directed to someone who can help you.</p>
+<p>If you have any questions while taking them, you can use the 'Help!' link in the upper right hand corner to get directed to someone who can help you.</p>
+
 <ol>
+  <li><a href="sim_concepts/index.jsp">Simulation Concepts</a> - This 'tutorial' simply introduces you to a few core concepts.<br />
+    <strong>Requirements:</strong>
+    <ol>
+      <li>About 15 Minutes and a good night's sleep.<br />
+        <br />
+      </li>
+    </ol>
+  </li>
   <li><a href="sim_author_1/index.jsp">Simulation Authoring 1</a> - This tutorial introduces you to many core concepts and is the foundation for doing the other tutorials. In it you create a very basic simulation into which two participants can enter into to learn a simple but fundamental concept of negotiation.<br />
-    Requirements:
-      <ol>
-      <li>A simulation authoring account. If you need one of these, please contact scole@usip.org for assistance.</li>
+    <strong>Requirements:</strong>
+    <ol>
+      <li>A simulation authoring account. If you need one of these, please contact osp@usip.org for assistance.</li>
       <li>About 1 hour of time.<br />
         <br />
       </li>
