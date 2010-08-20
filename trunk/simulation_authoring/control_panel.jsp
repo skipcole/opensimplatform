@@ -43,7 +43,27 @@ org.usip.osp.persistence.*" errorPage="" %>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Simulation Author Control Panel</h1>
-              <br />
+              <p align="center">
+                <% 
+			if (afso.sim_id != null) {
+			
+				String gameNameDisplay = simulation.getSimulationName() + " version " + simulation.getVersion();
+
+		%>
+                You are currently working on the simulation <strong><%= gameNameDisplay %></strong>.<br />
+                (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
+                  here</a>.)
+                <% } else { // End of if have set simulation id. %>
+              </p>
+              <div align="center">
+                <blockquote>&nbsp; </blockquote>
+              </div>
+              <blockquote>
+                <p align="center"> No simulation currently selected for editing. </p>
+              </blockquote>
+              <% } // End of if have not set simulation for edits. %>
+              </p>
+<br />
       <table width="100%" border="0" cellspacing="2" cellpadding="1">
         <tr valign="top"> 
           <td colspan="2"><h2>Step</h2></td>
@@ -108,27 +128,7 @@ org.usip.osp.persistence.*" errorPage="" %>
             <td><a href="publish_sim.jsp">Publish Simulation</a></td>
             </tr>
       </table>
-      <p align="center">
-        <% 
-			if (afso.sim_id != null) {
-			
-				String gameNameDisplay = simulation.getSimulationName() + " version " + simulation.getVersion();
-
-		%>
-        You are currently working on the simulation <strong><%= gameNameDisplay %></strong>.<br />
-        (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-          here</a>.)
-        <% } else { // End of if have set simulation id. %>
-      </p>
-      <div align="center">
-        <blockquote>&nbsp; </blockquote>
-      </div>
-      <blockquote><p align="center">
-        No simulation currently selected for editing. </p>
-      </blockquote>
-      <% } // End of if have not set simulation for edits. %>
-		 
-      </p>      <p>&nbsp;</p>			</td>
+      <p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

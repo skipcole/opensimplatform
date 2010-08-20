@@ -1,7 +1,9 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,
+	import="java.sql.*,
+	java.text.*,
+	java.util.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.communications.*,
 	org.usip.osp.baseobjects.core.*,
@@ -36,11 +38,21 @@
 			wlo = WebLinkObjects.getById(pso.schema, new Long(wlo_id));
 		}
 	}
-	
 
 %>
 <html>
 <head>
+	<link type="text/css" href="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/themes/cupertino/jquery.ui.all.css" rel="stylesheet" />
+	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.datepicker.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$("#datepicker").datepicker();
+	});
+	</script>
+
 <title>USIP OSP Web Links Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
@@ -51,11 +63,23 @@
 <blockquote><form name="form1" method="post" action="web_link_page.jsp" target="mainFrame">
 	<input type="hidden" name="sending_page" value="web_link_page_bottom">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
-  <table width="80%" border="0" cellpadding="2" cellspacing="2">
+  <table border="0" cellpadding="2" cellspacing="2">
     <tr>
-      <td valign="top"><%= linkName %> Name</td>
+      <td width="19%" valign="top"><%= linkName %> Name</td>
       <td colspan="2" valign="top">
           <input name="wlo_name" type="text" id="wlo_name" tabindex="1" value="<%= wlo.getWeblinkName() %>" size="40">      </td>
+    </tr>
+
+	<script type="text/javascript">
+	$(function() {
+		$("#datepicker").datepicker();
+	});
+	</script>
+
+
+    <tr>
+      <td valign="top"><%= linkName %> Date </td>
+      <td colspan="2" valign="top"><input name="wlo_event_date" type="text" id="datepicker"></td>
     </tr>
     <tr>
       <td valign="top"><%= linkName %> Description</td>
@@ -65,9 +89,18 @@
       <td valign="top"><%= linkName %> URL</td>
       <td colspan="2" valign="top"><textarea name="wlo_url" cols="80" rows="4" tabindex="3"><%= wlo.getWeblinkURL() %></textarea></td>
     </tr>
+		<%
+		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy HH:mm:ss z");
+		sdf.setTimeZone(TimeZone.getDefault());
+	%>
+    <tr>
+      <td valign="top">Posting Date </td>
+      <td colspan="2" valign="top"><%= sdf.format(wlo.getPostingDate()) %>
+	  </td>
+    </tr>
     <tr>
       <td valign="top">&nbsp;</td>
-      <td valign="top"><%	if (wlo.getId() == null) { %>
+      <td width="46%" valign="top"><%	if (wlo.getId() == null) { %>
           <input type="submit" name="command" value="Create" tabindex="4" />
           <%
 				} else {
@@ -78,10 +111,11 @@
         <%
 					}
 				%>      </td>
-      <td valign="top" align="right"><%	if (wlo.getId() != null) { %>
-        <input type="submit" name="command2" value="Delete" tabindex="7"  onClick="return confirm('Are you sure you want to delete this item?');" />
+      <td width="35%" align="right" valign="top"><%	if (wlo.getId() != null) { %>
+        <input type="submit" name="command" value="Delete" tabindex="7"  onClick="return confirm('Are you sure you want to delete this item?');" />
         <% } %></td>
     </tr>
+	
   </table>
   </form>
   <p></p>

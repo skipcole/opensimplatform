@@ -9,9 +9,9 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
- * This class represents the assignment of an actor into a simulation.
- *
- * 
+ * This class represents the assignment of a phase to a simulation.
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can

@@ -15,7 +15,7 @@
 	
 	String rs_id = request.getParameter("rs_id");
 	
-	afso.getRunningSimId() = new Long(rs_id);
+	afso.setRunningSimId(new Long(rs_id));
 	
 	
 	running_simulation = RunningSimulation.getById(afso.schema, afso.getRunningSimId());

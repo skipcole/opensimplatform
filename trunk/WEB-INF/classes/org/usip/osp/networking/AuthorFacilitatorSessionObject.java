@@ -1959,11 +1959,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			} else if (command.equalsIgnoreCase("Clear")) { // 
 				// returning new simulation will clear fields.
 			}
+			
+			this.sim_id = simulation.getId();
+
+			saveSimEdited();
+			
+		} else if (this.sim_id != null){
+			simulation = Simulation.getById(schema, this.sim_id);
 		}
-
-		this.sim_id = simulation.getId();
-
-		saveSimEdited();
 
 		return simulation;
 	}

@@ -460,6 +460,7 @@ public class Simulation implements ExportableObject{
 	 */
 	public void addControlSectionsToAllPhasesOfControl(String schema, Actor controlActor) {
 
+		/*
 		// Loop over phases
 		for (ListIterator<SimulationPhase> li = this.getPhases(schema).listIterator(); li.hasNext();) {
 			SimulationPhase this_sp = li.next();
@@ -509,7 +510,7 @@ public class Simulation implements ExportableObject{
 			}
 
 		}
-
+		*/
 	}
 	
 	/** Returns the start date for the simulation phase.

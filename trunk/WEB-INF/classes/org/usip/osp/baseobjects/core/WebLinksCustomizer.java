@@ -57,6 +57,11 @@ public class WebLinksCustomizer extends Customizer {
 		
 	}
 	
+	/**
+	 * Returns the web link name stored in the cache.
+	 * 
+	 * @return
+	 */
 	public String getLinkName(){
 		
 		String returnString = "";
@@ -64,6 +69,11 @@ public class WebLinksCustomizer extends Customizer {
 		if (cs != null){
 			try {
 				returnString = (String) cs.getContents().get(KEY_FOR_LINK_NAME);
+				
+				if (returnString == null){
+					returnString = "";
+				}
+				
 			} catch (Exception e){
 				e.printStackTrace();
 			}

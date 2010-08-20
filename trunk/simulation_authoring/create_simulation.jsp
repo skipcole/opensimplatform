@@ -83,7 +83,7 @@
               <td valign="top">&nbsp;</td>
               <td valign="top">
                 <%
-				if (simulation.getId() == null) {
+				if (afso.sim_id == null) {
 				%>
                 <input type="submit" name="command" value="Create" />
                 <%
@@ -97,32 +97,22 @@
 				%>              </td>
             </tr>
           </table>
+		  <!--      %
+				if (afso.sim_id != null) {
+			%>
           <blockquote>
-            <p>&nbsp;</p>
+            <p align="center">
+              <label>
+              <input type="submit" name="Submit" value="Proceed to Simulation Objectives" />
+              </label>
+            </p>
           </blockquote>
+		  <   % } %   -->
       </form>
       <blockquote>
         <p>&nbsp;</p>
-          <p>Below are listed alphabetically all simulations in your database.</p>
-          <table>
-            <%
-		
-		for (ListIterator li = simList.listIterator(); li.hasNext();) {
-			Simulation sim = (Simulation) li.next();
-			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName());
-			
-		%>
-            <tr> 
-              <td><a href="create_simulation.jsp?command=Edit&sim_id=<%= sim.getId().toString() %>"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
-              <td>&nbsp;</td>
-              <td><!-- a href="delete_object.jsp?object_type=simulation&objid=<%= sim.getId().toString() %>&object_info=<%= nameToSend %>"> 
-                (Remove) <%= sim.getSimulationName() %> : <%= sim.getVersion() %> </a --></td>
-            </tr>
-            <%
-	}
-%>
-            </table>
-      </blockquote>      <p align="center"><a href="create_simulation_objectives.jsp">Next Step: 
+          </blockquote>      
+      <p align="center"><a href="create_simulation_objectives.jsp">Next Step: 
         Simulation Objectives</a></p>			</td>
 		</tr>
 		</table>	</td>
