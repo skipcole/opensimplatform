@@ -17,6 +17,9 @@
 	
 	WebLinkObjects.handleEdit(request, pso);
 	
+	String wlo_event_date = request.getParameter("wlo_event_date");
+
+	System.out.println("event date: " + wlo_event_date);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">

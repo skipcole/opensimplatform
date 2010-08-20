@@ -59,37 +59,37 @@ body {
     4.) Simulation Sections</h2>
   <p>The USIP OSP provides access to things that the players can see and do in distinct sections. As you will see, these appear to the players as different tab headings. The simulation author defines what these sections will be by selecting from a list of available simulation sections. For example, if the author wants some of the players to be able to chat with each other, she would add the 'chat' section to the applicable players. </p>
   <p>&nbsp;</p>
-  <h2>5.) Objects</h2>
-  <p>Some objects have a life outside of any particular simulation section. For example, a document that the players write in one phase may be visible to them, but no longer editable, in another phase. These types of objects (documents, conversations, injects, etc.) sometimes have to de defined on their own. </p>
+  <h2>5.) Simulation Objects</h2>
+  <p>Some objects have a life outside of any particular simulation section. For example, a document that the players write in one phase may be visible to them, but no longer editable, in another phase. The USIP OSP does its best to create some of these objects in the background when an author is adding sections that use them to the actors in a simulation. But often, these types of objects (documents, conversations, injects, etc.) have to de defined by the simulation author. </p>
   <h2><br />
-    Simulation</h2>
+    6.) Simulation</h2>
   <p> A simulation is nothing more than a set   of actors with different things they can see and do (sections) at different   points in time (phases) possibly working on some of the simulation objects.</p>
   <p align="center"><img src="images/simple_sim.png" alt="simple sim" width="943" height="330" /> </p>
   <h2><br />
-    Running   Simulation<br />
-    </h2>
-  <p><br />
-    So, when we say that</p>
+    7.) Running   Simulation</h2>
+	
+  <p>For clarity, a simulation that is in play is referred to as a running simulation. This is just due to the sad fact that the term 'simulation' can refer to both the archetypal simulation and to the process of conducting it.
+ (The word 'game' suffers similarly by having at least two distinct meanings. For example, the phrase 'the game of chess' can be used as in, "The game of chess is ancient." or "The game of chess I played on August 8th with my father was the best one I have ever played.")   </p>
   <p>&nbsp;</p>
   <table align="center" width="70%" border="0" cellspacing="4" cellpadding="4">
   <tr>
     <td bgcolor="#FFFFFF"><h2>One Final Note Before You Begin</h2>
-      <p>It is probably worth noting here that the USIP OSP Assumes that the simulation author comes in with something in mind to work on - just as the blank page assumes that the writer has something to write about. To perform these tutorials, we have created some rather simple content, but the eventual content that you create using this platform will be (should be) much better. </p>
+      <p>It is worth noting here that the USIP OSP Assumes that the simulation author comes in with something in mind to work on - just as the blank page assumes that the writer has something to write about. To perform these tutorials, we have created some rather simple content, but the eventual content that you create using this platform will be (should be) much better. </p>
       <p>We are just creating the platform to allow you to become a virtuouso. If this platform needs improvement to allow your creative vision to come to fruition, send an email to osp@usip.org</p>
     <p>&nbsp; </p></td>
   </tr>
 </table>
   <p>&nbsp;</p>
   <p>This concludes your introduction to the core concepts.</p>
-  <p>To continue on to the next tutorial (Simulation Authoring 1), please <a href="../sim_author_1/index.jsp">click here</a>. </p>
+  <p>To continue on to the next tutorial (Simulation Authoring 1), click the 'next' button below. </p>
 </blockquote>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="#">table of contents</a><!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --> <a href="../sim_author_1/page1.jsp">next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="tocLink" --><a href="../index.jsp">&nbsp; up &nbsp;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --> <a href="../sim_author_1/index.jsp">next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

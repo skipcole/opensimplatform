@@ -42,6 +42,12 @@ public class WebLinkObjects implements WebObject {
 
 	@Column(name = "CS_ID")
 	private Long cs_id;
+	
+	/** This date is automatically generated when the object is posted.  */
+	private java.util.Date postingDate;
+	
+	/** This date can be set by the player. */
+	private java.util.Date webObjectDate;
 
 	private String weblinkName = "";
 
@@ -51,6 +57,8 @@ public class WebLinkObjects implements WebObject {
 
 	public WebLinkObjects() {
 
+		this.postingDate = new java.util.Date();
+		
 	}
 
 	@Transient
@@ -85,6 +93,22 @@ public class WebLinkObjects implements WebObject {
 	public void setWloBottomPage(String wloBottomPage) {
 		this.wloBottomPage = wloBottomPage;
 	}
+	
+	public java.util.Date getPostingDate() {
+		return postingDate;
+	}
+
+	public void setPostingDate(java.util.Date postingDate) {
+		this.postingDate = postingDate;
+	}
+
+	public java.util.Date getWebObjectDate() {
+		return webObjectDate;
+	}
+
+	public void setWebObjectDate(java.util.Date webObjectDate) {
+		this.webObjectDate = webObjectDate;
+	}
 
 	/**
 	 * Utility constructor.
@@ -96,6 +120,8 @@ public class WebLinkObjects implements WebObject {
 	 */
 	public WebLinkObjects(String schema, String name, String desc, String url,
 			Long rsId, Long csId) {
+		
+		this.postingDate = new java.util.Date();
 		this.weblinkName = name;
 		this.weblinkDescription = desc;
 		this.weblinkURL = url;

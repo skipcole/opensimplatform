@@ -32,12 +32,18 @@ public class RunningSimIdentityObject {
 	
 	private String baseUrl = "";
 	private String schema = "";
-	private String dateEnabled = "";
+	private java.util.Date dateEnabled;
 	private String rsName = "";
 	private String rndNumber = "";
 	
-	public setUniqueIdentifier(){
-		SessionObjectBase.getBaseSimURL();
+	public void setUniqueIdentifier(String schema, RunningSimulation rs){
+		this.baseUrl = SessionObjectBase.getBaseSimURL();
+		this.schema = schema;
+		this.dateEnabled = rs.getEnabledDate();
+		this.rsName = rs.getRunningSimulationName();
+		
+		
+		
 	}
 	
 	/** Name of this Simulation. */
