@@ -49,6 +49,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	/** The page to take them back to if needed. */
 	public String backPage = "index.jsp"; //$NON-NLS-1$
 
+	/** The page to move them on to, if needed. */
+	public String nextPage = "index.jsp"; //$NON-NLS-1$
+
 	/**
 	 * Username/ Email address of user that is logged in and using this
 	 * AuthorFacilitatorSessionObject.
@@ -92,17 +95,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public Simulation handleUnpackSimulationVersion(HttpServletRequest request) {
 
 		Simulation sim = new Simulation();
-		
+
 		String filename = request.getParameter("filename"); //$NON-NLS-1$
 
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
-		SimulationVersion simBase = ObjectPackager.unpackSimBase(filename, this.schema);
-		
+		SimulationVersion simBase = ObjectPackager.unpackSimBase(filename,
+				this.schema);
+
 		sim.setSimulationName(simBase.getSimulationName());
 		sim.setSoftwareVersion(simBase.getSoftwareVersion());
 		sim.setVersion(simBase.getVersion());
-		
+
 		return sim;
 
 	}
@@ -118,7 +122,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String sim_name = request.getParameter("sim_name"); //$NON-NLS-1$
 		String sim_version = request.getParameter("sim_version"); //$NON-NLS-1$
 		String upgrade_file_name = request.getParameter("upgrade_file_name"); //$NON-NLS-1$
-		
+
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
 		ObjectPackager.unpackageSim(filename, this.schema, sim_name,
@@ -523,10 +527,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						new Long(phase_sim_id), phase_removed_id);
 
 			} else if (objectType.equalsIgnoreCase("actor")) {
-				
+
 				// Removing actor assignments first
 				SimActorAssignment.removeActorAssignments(schema, o_id);
-				
+
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
 				Actor act = (Actor) MultiSchemaHibernateUtil.getSession(
 						this.schema).get(Actor.class, o_id);
@@ -540,7 +544,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				MultiSchemaHibernateUtil.getSession(this.schema).delete(act);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
-				
+
 			} else if (objectType.equalsIgnoreCase("inject")) {
 
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
@@ -1810,19 +1814,21 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String inject_text = (String) request.getParameter("inject_text");
 		String inject_notes = (String) request.getParameter("inject_notes");
 		String ig_id = (String) request.getParameter("ig_id");
-		
-		ArrayList <Long> targettedPeople = new ArrayList();
-		
-		for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
+
+		ArrayList<Long> targettedPeople = new ArrayList();
+
+		for (Enumeration<String> e = request.getParameterNames(); e
+				.hasMoreElements();) {
 			String pname = (String) e.nextElement();
 			String vname = (String) request.getParameter(pname);
-			if (pname.startsWith("target_")){
+			if (pname.startsWith("target_")) {
 				pname = pname.replace("target_", "");
-				
-				if (vname.equalsIgnoreCase("on"));
-				
+
+				if (vname.equalsIgnoreCase("on"))
+					;
+
 				Long thisTarget = USIP_OSP_Util.stringToLong(pname);
-				if (thisTarget != null){
+				if (thisTarget != null) {
 					targettedPeople.add(thisTarget);
 				}
 			}
@@ -1841,9 +1847,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				inject.setSim_id(sim_id);
 				inject.setGroup_id(new Long(ig_id));
 				inject.saveMe(schema);
-				
-				addInjectDefaultRecipients(schema, targettedPeople, inject, false);
-				
+
+				addInjectDefaultRecipients(schema, targettedPeople, inject,
+						false);
+
 			} else if (command.equalsIgnoreCase("Update")) {
 				inject = Inject.getById(schema, new Long(inj_id));
 				inject.setInject_name(inject_name);
@@ -1851,8 +1858,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				inject.setInject_Notes(inject_notes);
 				inject.setGroup_id(new Long(ig_id));
 				inject.saveMe(schema);
-				
-				addInjectDefaultRecipients(schema, targettedPeople, inject, true);
+
+				addInjectDefaultRecipients(schema, targettedPeople, inject,
+						true);
 
 			}
 
@@ -1862,18 +1870,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return inject;
 
 	}
-	
-	public static void addInjectDefaultRecipients(String schema, List peopleToAdd, Inject inject, boolean cleanOld){
-		
-		if (cleanOld){
+
+	public static void addInjectDefaultRecipients(String schema,
+			List peopleToAdd, Inject inject, boolean cleanOld) {
+
+		if (cleanOld) {
 			InjectActorAssignments.removeAllForInject(schema, inject.getId());
 		}
-		
-		for (ListIterator <Long> li = peopleToAdd.listIterator(); li.hasNext();) {
-			
+
+		for (ListIterator<Long> li = peopleToAdd.listIterator(); li.hasNext();) {
+
 			Long this_iaa = li.next();
-			
-			InjectActorAssignments iaa = new InjectActorAssignments(schema, this_iaa, inject.getId());
+
+			InjectActorAssignments iaa = new InjectActorAssignments(schema,
+					this_iaa, inject.getId());
 		}
 	}
 
@@ -1925,8 +1935,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				simulation.setSimulationName(simulation_name);
 				simulation.setVersion(simulation_version);
-				simulation
-						.setSoftwareVersion(USIP_OSP_Properties.getRelease());
+				simulation.setSoftwareVersion(USIP_OSP_Properties.getRelease());
 				simulation.setCreation_org(creation_org);
 				simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
@@ -1942,8 +1951,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation = Simulation.getById(schema, new Long(sim_id));
 				simulation.setSimulationName(simulation_name);
 				simulation.setVersion(simulation_version);
-				simulation
-						.setSoftwareVersion(USIP_OSP_Properties.getRelease());
+				simulation.setSoftwareVersion(USIP_OSP_Properties.getRelease());
 				simulation.setCreation_org(creation_org);
 				// simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
@@ -1959,12 +1967,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			} else if (command.equalsIgnoreCase("Clear")) { // 
 				// returning new simulation will clear fields.
 			}
-			
+
 			this.sim_id = simulation.getId();
 
 			saveSimEdited();
-			
-		} else if (this.sim_id != null){
+
+		} else if (this.sim_id != null) {
 			simulation = Simulation.getById(schema, this.sim_id);
 		}
 
@@ -2124,9 +2132,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							.debug("File is " + fileData.length());
 
 					if (fileData.length() <= max_file_longvalue) {
-						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE, actorOnScratchPad
-								.getImageFilename(), mpr
-								.getFile("uploadedfile"));
+						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
+								actorOnScratchPad.getImageFilename(), mpr
+										.getFile("uploadedfile"));
 					} else {
 						this.errorMsg = "Selected image file too large.";
 						actorOnScratchPad
@@ -2152,9 +2160,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							.debug("File is " + fileData.length());
 
 					if (fileData.length() <= max_file_longvalue) {
-						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE, actorOnScratchPad
-								.getImageThumbFilename(), mpr
-								.getFile("uploaded_thumb_file"));
+						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
+								actorOnScratchPad.getImageThumbFilename(), mpr
+										.getFile("uploaded_thumb_file"));
 					} else {
 						this.errorMsg += "Selected thumbnail image file too large.";
 						actorOnScratchPad
@@ -2832,7 +2840,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param request
 	 * @return
 	 */
-	public static boolean handleSendResetPasswordEmail(HttpServletRequest request) {
+	public static boolean handleSendResetPasswordEmail(
+			HttpServletRequest request) {
 
 		boolean returnValue = true;
 
@@ -2845,26 +2854,26 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		Logger.getRootLogger().debug("emailing " + email);
-		
+
 		ResetPasswordObject rpo = new ResetPasswordObject();
 		rpo.setUserEmail(email);
 		rpo.saveMe();
-		
-		String reset_url = USIP_OSP_Properties.getCachedValue("base_sim_url") + 
-		"simulation_user_admin/reset_password.jsp?rpo=" + rpo.getId() + "&rnd=" + rpo.getTextRepresentation();
-			
-			
+
+		String reset_url = USIP_OSP_Properties.getCachedValue("base_sim_url")
+				+ "simulation_user_admin/reset_password.jsp?rpo=" + rpo.getId()
+				+ "&rnd=" + rpo.getTextRepresentation();
 
 		String message = "Dear USIP OSP Friend,<br/><br/>A request to change your password has been submitted.<br />";
-		
-		message += "Follow this link to the <A HREF=\"" + reset_url + "\"> reset password page </A>, ";
-		message += "or just copy and paste this link " + reset_url + " into your web browser.";
+
+		message += "Follow this link to the <A HREF=\"" + reset_url
+				+ "\"> reset password page </A>, ";
+		message += "or just copy and paste this link " + reset_url
+				+ " into your web browser.";
 
 		System.out.println(message);
-		
+
 		Vector ccs = new Vector();
 		Vector bccs = new Vector();
-
 
 		try {
 			SchemaInformationObject sio = SchemaInformationObject
@@ -2887,7 +2896,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnValue;
 
 	}
-	
 
 	/**
 	 * Checks for authorization, and then passes the request to the
@@ -2946,7 +2954,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	// /////////////////////////////////////////////////////////////////////////
-
 
 	/**
 	 * A helper object to contain the work done in creating a section.
@@ -3369,13 +3376,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				sdanao = sdanao.replaceAll("create_", "");
 				if ((sdanao != null) && (!(sdanao.equalsIgnoreCase("null")))) {
-					
-					SharedDocActorNotificAssignObj sdanao_edited = 
-						SharedDocActorNotificAssignObj.getById(schema, new Long(sdanao));
-					
+
+					SharedDocActorNotificAssignObj sdanao_edited = SharedDocActorNotificAssignObj
+							.getById(schema, new Long(sdanao));
+
 					sdanao_edited.setNotificationText(sdanao_text);
 					sdanao_edited.saveMe(schema);
-					
+
 				}
 			} else if (sdanao.startsWith("remove_")) {
 
@@ -3652,21 +3659,100 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 		return rssQueued;
 	}
-	
-	public boolean foundUpgradeFile (String fileName){
-		
+
+	public boolean foundUpgradeFile(String fileName) {
+
 		String fileLocation = FileIO.upgrade_files_dir + File.separator
-		+ fileName;
-		
+				+ fileName;
+
 		File upgradeFile = new File(fileLocation);
-		
-		if (upgradeFile.exists() && upgradeFile.canRead()){
+
+		if (upgradeFile.exists() && upgradeFile.canRead()) {
 			return true;
 		} else {
 			return false;
 		}
 
-		
+	}
+
+	private static final String CTRL_PANEL = "control_panel.jsp";
+	public static final int SIM_OBJECTIVES = 1;
+	public static final int SIM_AUDIENCE = 2;
+	public static final int SIM_INTRO = 3;
+	public static final int SIM_PLANNED_PLAY_IDEAS = 4;
+	public static final int SIM_AAR_TEXT = 5;
+
+	/**
+	 * This method handles the call from a wizard page of the wizard.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Simulation handleWizardPage(HttpServletRequest request, int saveType) {
+
+		Simulation simulation = new Simulation();
+
+		String cancel = (String) request.getParameter("cancel");
+		// Clean nulls on sending page to avoid null object error.
+		String sending_page = USIP_OSP_Util.cleanNulls((String) request
+				.getParameter("sending_page"));
+		String sim_text = (String) request.getParameter("sim_text");
+		String save = (String) request.getParameter("save");
+		String save_and_proceed = (String) request
+				.getParameter("save_and_proceed");
+
+		if (cancel != null) {
+			this.forward_on = true;
+			this.nextPage = CTRL_PANEL;
+			return simulation;
+		}
+
+		if (sim_id != null) {
+			simulation = giveMeSim();
+		} else {
+			return simulation;
+		}
+
+		// If doing a save.
+		if (((save != null) || (save_and_proceed != null))
+				&& (sending_page.equalsIgnoreCase("authoring_wizard_page"))) {
+
+			switch (saveType) {
+			case SIM_OBJECTIVES:
+				simulation.setLearning_objvs(sim_text);
+				nextPage = "create_simulation_audience.jsp";
+				break;
+			case SIM_AUDIENCE:
+				simulation.setAudience(sim_text);
+				nextPage = "create_simulation_introduction.jsp";
+				break;
+			case SIM_INTRO:
+				simulation.setIntroduction(sim_text);
+				nextPage = "create_simulation_planned_play_ideas.jsp";
+				break;
+			case SIM_PLANNED_PLAY_IDEAS:
+				simulation.setPlannedPlayIdeas(sim_text);
+				nextPage = "create_simulation_phases.jsp";
+				break;
+			case SIM_AAR_TEXT:
+				simulation.setAarStarterText(sim_text);
+				nextPage = "review_sim.jsp";
+				break;
+				
+			default:
+				Logger.getRootLogger().warn("Unknown wizard save case");
+				break;
+			}
+
+			simulation.saveMe(schema);
+
+			if ((save_and_proceed != null)) {
+				this.forward_on = true;
+			}
+		}
+
+		return simulation;
+
 	}
 
 } // End of class
