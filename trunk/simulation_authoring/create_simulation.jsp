@@ -14,8 +14,6 @@
 	}
 	
     Simulation simulation = afso.handleCreateOrUpdateNewSim(request);  
-	
-	List simList = Simulation.getAll(afso.schema);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -97,23 +95,25 @@
 				%>              </td>
             </tr>
           </table>
-		  <!--      %
+		  
+		  <p>&nbsp;		        </p>
+      </form>
+		  <p>
+		    <%
 				if (afso.sim_id != null) {
 			%>
-          <blockquote>
             <p align="center">
-              <label>
-              <input type="submit" name="Submit" value="Proceed to Simulation Objectives" />
-              </label>
+              <div align="center">
+			  Simulation has been created.
+			    <form action="create_simulation_objectives.jsp" method="post" name="form1" id="form1">
+              <label><input type="submit" name="Submit" value="Proceed to Next Step" /></label>
+			  
+			  </form>
+              </div>
             </p>
-          </blockquote>
-		  <   % } %   -->
-      </form>
-      <blockquote>
-        <p>&nbsp;</p>
-          </blockquote>      
-      <p align="center"><a href="create_simulation_objectives.jsp">Next Step: 
-        Simulation Objectives</a></p>			</td>
+		  <% } %>
+		  </p>  
+      <p align="center"></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

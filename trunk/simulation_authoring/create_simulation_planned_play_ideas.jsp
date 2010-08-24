@@ -6,24 +6,17 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	afso.backPage = "create_simulation_planned_play_ideas.jsp";
-	
-	Simulation simulation = new Simulation();	
-	
-	if (afso.sim_id != null){
-		simulation = afso.giveMeSim();
+	if (!(afso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
 	}
-	
-	// Determine if setting sim to edit.
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	String sim_planned_play_ideas = (String) request.getParameter("sim_planned_play_ideas");
-	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("enter_sim_planned_play_ideas"))){
-		
-		simulation.setPlannedPlayIdeas(sim_planned_play_ideas);
-		simulation.saveMe(afso.schema);
 
+	Simulation simulation = afso.handleWizardPage(request, afso.SIM_PLANNED_PLAY_IDEAS);
+	
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.nextPage);
+		return;
 	}
 	
 %>
@@ -64,24 +57,29 @@
 	<form action="create_simulation_planned_play_ideas.jsp" method="post" name="form2" id="form2">
 	  <blockquote>
 	    <p>
-	      <textarea id="sim_planned_play_ideas" name="sim_planned_play_ideas" style="height: 710px; width: 710px;"><%= simulation.getPlannedPlayIdeas() %></textarea>
+	      <textarea id="sim_text" name="sim_text" style="height: 710px; width: 710px;"><%= simulation.getPlannedPlayIdeas() %></textarea>
 	      
 	      <script language="javascript1.2">
-  			generate_wysiwyg('sim_planned_play_ideas');
+  			generate_wysiwyg('sim_text');
 		</script>
 	      </p>
             <p> 
-              <input type="hidden" name="sending_page" value="enter_sim_planned_play_ideas" />
-              <input type="submit" name="enter_ppi" value="Save" />
+              <input type="hidden" name="sending_page" value="authoring_wizard_page" />
+            <table width="100%" border="0">
+              <tr>
+                <td align="center"><input type="submit" name="save" value="Save" /></td>
+                <td align="center"><input type="submit" name="cancel" value="Cancel"   onClick="return confirm('Are you sure you want to cancel? All changes will be lost.');"  /></td>
+                <td align="center"><label>
+                  <input type="submit" name="save_and_proceed" value="Save and Proceed" />
+                </label></td>
+              </tr>
+            </table>
               </p>
           </blockquote>
       </form>
 	<blockquote>
 	  <p>&nbsp;</p>
       </blockquote>
-	<p align="center"><span class="style1">Please remember to save changes before leaving this page.</span></p>
-	<p align="center"><a href="create_simulation_phases.jsp">Next Step: Create 
-	  Phases </a></p>
 	<% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>

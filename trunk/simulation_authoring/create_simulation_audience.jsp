@@ -5,31 +5,20 @@
 	errorPage="../error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	afso.backPage = "create_simulation_audience.jsp";
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	Simulation simulation = new Simulation();	
+	Simulation simulation = afso.handleWizardPage(request, afso.SIM_AUDIENCE);
 	
-	if (afso.sim_id != null){
-		simulation = afso.giveMeSim();
-	}
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.nextPage);
+		return;
+	}	
 	
-	// Determine if setting sim to edit.
-	String sending_page = (String) request.getParameter("sending_page");
-
-	String sim_audience = (String) request.getParameter("sim_audience");
-	String enter_sim_audience = (String) request.getParameter("enter_sim_audience");
-	
-	if ( (sending_page != null) && (enter_sim_audience != null) && (sending_page.equalsIgnoreCase("enter_sim_audience"))){
-
-		simulation.setAudience(sim_audience);
-		simulation.saveMe(afso.schema);
-		
-	}
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -71,26 +60,32 @@
       <form action="create_simulation_audience.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>
-            <textarea id="sim_audience" name="sim_audience" style="height: 710px; width: 710px;"><%= simulation.getAudience() %></textarea>
+            <textarea id="sim_text" name="sim_text" style="height: 710px; width: 710px;"><%= simulation.getAudience() %></textarea>
             
             <script language="javascript1.2">
-  			generate_wysiwyg('sim_audience');
+  			generate_wysiwyg('sim_text');
 		</script>
             </p>
             <p> 
-              <input type="hidden" name="sending_page" value="enter_sim_audience" />
-              <input type="submit" name="enter_sim_audience" value="Save" />
+              <input type="hidden" name="sending_page" value="authoring_wizard_page" />
+            <table width="100%" border="0">
+              <tr>
+                <td align="center"><input type="submit" name="save" value="Save" /></td>
+                <td align="center"><input type="submit" name="cancel" value="Cancel"   onClick="return confirm('Are you sure you want to cancel? All changes will be lost.');"  /></td>
+                <td align="center"><label>
+                  <input type="submit" name="save_and_proceed" value="Save and Proceed" />
+                </label></td>
+              </tr>
+            </table>
               </p>
           </blockquote>
       </form>
-      <p align="center" class="style1">Please remember to save changes before leaving this page.</p>
-      <p align="center"><a href="create_simulation_introduction.jsp">Next Step: Enter Simulation Introduction </a></p>
       <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>
           <%@ include file="select_message.jsp" %></p>
       </blockquote>
-      <% } // End of if have not set simulation for edits. %>      <p><a href="create_simulation_objectives.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a> </p>			</td>
+      <% } // End of if have not set simulation for edits. %>      <p><a href="create_simulation_objectives.jsp"></a> </p>			</td>
 		</tr>
 		</table>	</td>
   </tr>
