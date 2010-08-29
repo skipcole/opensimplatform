@@ -15,20 +15,23 @@ body {
 -->
 </style>
 <!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+<STYLE TYPE="text/css">
+     P.breakhere {page-break-after: always}
+</STYLE> 
 </head>
 <body onLoad="">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></h1></td>
+    <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="60" height="50" border="0" /></td>
+    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h2 class="header"><font color="#FFFFFF">&nbsp;USIP OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></font></h2></td>
     <td align="right" background="../../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="../help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
   </tr>
   <tr>
-    <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0">
+    <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="60" height="10" /></td>
+    <td height="10" colspan="2" valign="bottom" bgcolor="#475DB0">
 		</td>
   </tr>
   <tr>
@@ -51,8 +54,15 @@ body {
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page1_landingpage.PNG" alt="OSP Landing Page" width="797" height="474" border="1" /></p>
   </blockquote>
-  <p>&nbsp;</p>
-  <p>d.) Click on the link 'CREATE' in the top banner. This will take you to the 'Control Panel' shown below.</p>
+  <P CLASS="breakhere"></P>
+  <p>d.) Across the top you will see the four main sections of the authoring interface.</p>
+  <ul>
+    <li>Think - Here we try to provide you some tips to help you in the hardest part of creating any meaningful and excellent simulation.. </li>
+    <li>Create - This contains the steps you will follow to create your simulation. </li>
+    <li>Play - This is where you can play test your simulation. </li>
+    <li>Share - This is where one can export or import simulations. </li>
+  </ul>
+  <p>e.) Click on the link 'CREATE' in the top banner. This will take you to the 'Control Panel' shown below.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page1_controlpanel.PNG" alt="Control Panel" width="546" height="470" border="1" /></p>
   </blockquote>
@@ -70,5 +80,6 @@ body {
 </table>
 <p>&nbsp;</p>
 <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
+<P CLASS="breakhere"></P>
 </body>
 <!-- InstanceEnd --></html>

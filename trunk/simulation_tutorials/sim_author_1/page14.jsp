@@ -15,20 +15,23 @@ body {
 -->
 </style>
 <!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+<STYLE TYPE="text/css">
+     P.breakhere {page-break-after: always}
+</STYLE> 
 </head>
 <body onLoad="">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></h1></td>
+    <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="60" height="50" border="0" /></td>
+    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h2 class="header"><font color="#FFFFFF">&nbsp;USIP OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></font></h2></td>
     <td align="right" background="../../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="../help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
   </tr>
   <tr>
-    <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0">
+    <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="60" height="10" /></td>
+    <td height="10" colspan="2" valign="bottom" bgcolor="#475DB0">
 		</td>
   </tr>
   <tr>
@@ -62,5 +65,6 @@ body {
 </table>
 <p>&nbsp;</p>
 <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
+<P CLASS="breakhere"></P>
 </body>
 <!-- InstanceEnd --></html>
