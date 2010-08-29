@@ -53,7 +53,8 @@ body {
     <strong>Requirements:</strong>
     <ol>
       <li>A simulation authoring account. If you need one of these, please contact osp@usip.org for assistance.</li>
-      <li>About 1 hour of time.<br />
+      <li>About 1 hour of time.</li>
+      <li>(Optional, but Recommended) You may want to <a href="sim_author_1/tutorial_sim_author_1_for_printing.jsp">Print out The Tutorial</a> to allow you to easily access the USIP OSP and the tutorial at the same time. <br />
         <br />
       </li>
     </ol>

@@ -15,20 +15,23 @@ body {
 -->
 </style>
 <!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+<STYLE TYPE="text/css">
+     P.breakhere {page-break-after: always}
+</STYLE> 
 </head>
 <body onLoad="">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></h1></td>
+    <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="60" height="50" border="0" /></td>
+    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h2 class="header"><font color="#FFFFFF">&nbsp;USIP OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></font></h2></td>
     <td align="right" background="../../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="../help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
   </tr>
   <tr>
-    <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0">
+    <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="60" height="10" /></td>
+    <td height="10" colspan="2" valign="bottom" bgcolor="#475DB0">
 		</td>
   </tr>
   <tr>
@@ -51,12 +54,12 @@ body {
     <p>Tip 2: The path to the image files will depend on where you saved the images in step a. above.</p>
     <p><img src="images/tut_sim_auth_1_page8_createcontrol.PNG" alt="Create Facilitator" width="658" height="692" border="1" /></p>
   </blockquote>
-  <p>c.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
+  <p CLASS="breakhere">c.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
   <p>d.) Create 'Player A' as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page8_create_playerA.PNG" alt="Create Player A" width="626" height="585" border="1" /></p>
     </blockquote>
-  <p>e.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
+  <p CLASS="breakhere">e.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
   <p>f.) Create 'Player B' as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page8_create_playerB.PNG" alt="Create Player B" width="666" height="572" border="1" /></p>
@@ -74,5 +77,6 @@ body {
 </table>
 <p>&nbsp;</p>
 <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
+<P CLASS="breakhere"></P>
 </body>
 <!-- InstanceEnd --></html>

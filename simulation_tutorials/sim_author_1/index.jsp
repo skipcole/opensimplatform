@@ -14,21 +14,32 @@ body {
 }
 -->
 </style>
-<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<script type="text/JavaScript">
+<!--
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+</script>
+<!-- InstanceEndEditable -->
+<STYLE TYPE="text/css">
+     P.breakhere {page-break-after: always}
+</STYLE> 
 </head>
 <body onLoad="">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h1 class="header">&nbsp;OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></h1></td>
+    <td width="120" valign="top"><img src="../../Templates/images/logo_top.png" width="60" height="50" border="0" /></td>
+    <td width="80%" valign="middle"  background="../../Templates/images/top_fade.png"><h2 class="header"><font color="#FFFFFF">&nbsp;USIP OSP Tutorial - <!-- InstanceBeginEditable name="tutorialName" -->Simulation Authoring 1.0<!-- InstanceEndEditable --></font></h2></td>
     <td align="right" background="../../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"><!-- InstanceBeginEditable name="linkToHelp" --><a href="../help.jsp">Help!</a><!-- InstanceEndEditable --></div>	  </td>
   </tr>
   <tr>
-    <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0">
+    <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="60" height="10" /></td>
+    <td height="10" colspan="2" valign="bottom" bgcolor="#475DB0">
 		</td>
   </tr>
   <tr>
@@ -43,6 +54,7 @@ body {
 <blockquote>
   <p>In this tutorial we  are going to set up a very simple simulation where two people can enter into to negotiate over oranges. Along the way we will discuss many core concepts of the OSP. Time to complete this tutorial is  approximately an hour.</p>
   <p>To complete this tutorial you will need access to an authoring account on an OSP server. If you need assistance getting this, please send an email to osp@usip.org.</p>
+  <p><strong>Optional, but Recommended:</strong> You may want to <a href="tutorial_sim_author_1_for_printing.jsp" onclick="MM_openBrWindow('tutorial_sim_author_1_for_printing.jsp','tutorialprint','toolbar=yes,status=yes,scrollbars=yes,resizable=yes')">Print out The Entire Tutorial</a> to allow you to easily access the USIP OSP and the tutorial at the same time.</p>
   <p align="center"><a href="page1.jsp">Begin</a></p>
   <p>&nbsp;</p>
   <p>If you are returning to this tutorial, you many jump ahead to any section below.</p>
@@ -78,5 +90,6 @@ body {
 </table>
 <p>&nbsp;</p>
 <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
+<P CLASS="breakhere"></P>
 </body>
 <!-- InstanceEnd --></html>
