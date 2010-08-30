@@ -1,3 +1,19 @@
+<%@ page 
+	contentType="text/html; charset=UTF-8" 
+	language="java" 
+	import="java.sql.*,java.util.*" 
+	errorPage="" %>
+<%
+
+	String show_print_button = (String) request.getParameter("show_print_button");
+	
+	boolean addPrintButton = false;
+	
+	if ((show_print_button != null) && (show_print_button.equalsIgnoreCase("true") ) ){
+		addPrintButton = true;
+	}
+
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/tutorialTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -40,7 +56,7 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   <tr>
     <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="60" height="10" /></td>
     <td height="10" colspan="2" valign="bottom" bgcolor="#475DB0">
-		</td>
+	</td>
   </tr>
   <tr>
   	<td width="120" align="right" valign="top"></td>
@@ -50,11 +66,16 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Welcome</h1>
+<table width="100%"><tr><td>
+<h1>Welcome</h1></td><td>
+  <div align="center"></div></td></tr></table>
 <blockquote>
   <p>In this tutorial we  are going to set up a very simple simulation where two people can enter into to negotiate over oranges. Along the way we will discuss many core concepts of the OSP. Time to complete this tutorial is  approximately an hour.</p>
   <p>To complete this tutorial you will need access to an authoring account on an OSP server. If you need assistance getting this, please send an email to osp@usip.org.</p>
-  <p><strong>Optional, but Recommended:</strong> You may want to <a href="tutorial_sim_author_1_for_printing.jsp" onclick="MM_openBrWindow('tutorial_sim_author_1_for_printing.jsp','tutorialprint','toolbar=yes,status=yes,scrollbars=yes,resizable=yes')">Print out The Entire Tutorial</a> to allow you to easily access the USIP OSP and the tutorial at the same time.</p>
+  
+  <p>
+  <strong>Optional, but Recommended:</strong> You may want to <a href="tutorial_sim_author_1_for_printing.jsp" onclick="MM_openBrWindow('tutorial_sim_author_1_for_printing.jsp','tutorialprint','toolbar=yes,status=yes,scrollbars=yes,resizable=yes')">Print out The Entire Tutorial</a> to allow you to easily access the USIP OSP and the tutorial at the same time.</p>
+  <p>&nbsp;</p>
   <p align="center"><a href="page1.jsp">Begin</a></p>
   <p>&nbsp;</p>
   <p>If you are returning to this tutorial, you many jump ahead to any section below.</p>

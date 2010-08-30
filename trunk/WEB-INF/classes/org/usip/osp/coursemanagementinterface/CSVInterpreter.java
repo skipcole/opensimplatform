@@ -83,7 +83,7 @@ public class CSVInterpreter {
 										returnString += " File does not seem to be in the correct format";
 										return returnString;
 									} else {
-										readInFileHeadings(daLine,
+										readInFileColumnHeadings(daLine,
 												importMappings);
 										foundFirstLine = true;
 									}
@@ -115,7 +115,13 @@ public class CSVInterpreter {
 		return returnString;
 	}
 
-	public static void readInFileHeadings(String daLine, Hashtable importMapping) {
+	/**
+	 * Reads in a line expecting them to be the titles of the columns.
+	 * 
+	 * @param daLine
+	 * @param importMapping
+	 */
+	public static void readInFileColumnHeadings(String daLine, Hashtable importMapping) {
 
 		StringTokenizer str = new StringTokenizer(daLine, ",");
 
@@ -163,6 +169,14 @@ public class CSVInterpreter {
 					user.setBu_first_name(fieldValue);
 				} else if (fieldName.equalsIgnoreCase("Last Name")) {
 					user.setBu_last_name(fieldValue);
+				}  else if (fieldName.equalsIgnoreCase("Author")) {
+					if (fieldValue.equalsIgnoreCase("true")){
+						user.setSim_author(true);
+					}
+				}  else if (fieldName.equalsIgnoreCase("Instructor")) {
+					if (fieldValue.equalsIgnoreCase("true")){
+						user.setSim_instructor(true);
+					}
 				} else if (fieldName.equalsIgnoreCase("Password")) {
 
 					if (fieldValue.equalsIgnoreCase("Initials")) {

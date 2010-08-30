@@ -323,8 +323,8 @@ public class RunningSimulation {
 	 * @param emailText
 	 */
 	public void sendWelcomeEmail(String schema, String from, String emailText) {
-
-		emailText = emailText.replace("[web_site_location]", Emailer.simulation_url); //$NON-NLS-1$
+		
+		emailText = emailText.replace("[web_site_location]", USIP_OSP_Properties.getValue("simulation_url")); //$NON-NLS-1$
 
 		for (ListIterator<UserAssignment> li = getUser_assignments(schema, this.id).listIterator(); li.hasNext();) {
 			UserAssignment ua = li.next();
