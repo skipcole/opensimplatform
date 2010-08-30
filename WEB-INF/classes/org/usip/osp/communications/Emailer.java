@@ -12,8 +12,8 @@ import org.apache.log4j.*;
 
 /**
  * This utility class provides the methods necessary to send information via email to the players.
- *
- * 
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
@@ -26,78 +26,6 @@ import org.apache.log4j.*;
  * 
  */
 public class Emailer {
-
-	public static String simulation_url = ""; //$NON-NLS-1$
-
-	static {
-		try {
-
-			simulation_url = USIP_OSP_Properties.getValue("simulation_url"); //$NON-NLS-1$
-
-		} catch (Exception e) {
-			Logger.getRootLogger().debug("Problem getting simulation URL to include in email to participants."); //$NON-NLS-1$
-		}
-	}
-
-	public static void main(String args[]) {
-
-		Vector toV = new Vector();
-		toV.add("scole@usip.org"); //$NON-NLS-1$
-
-		String p = "a,b,c,"; //$NON-NLS-1$
-		toV = listToVector(p);
-
-		Logger.getRootLogger().debug(toV.size());
-		// postMail(toV, "test", "words of message", "scole@usip.org", null,
-		// null);
-	}
-
-	public static Vector listToVector(String inputList) {
-
-		Vector returnV = new Vector();
-
-		StringTokenizer st = new StringTokenizer(inputList, ","); //$NON-NLS-1$
-
-		while (st.hasMoreTokens()) {
-			returnV.add(st.nextToken().trim());
-		}
-
-		return returnV;
-
-	}
-
-	/**
-	 * Returns the schema information object (which contains information on
-	 * sending out emails out) from the principal schema.
-	 * 
-	 * @param schema_id
-	 * @return
-	 */
-	public static SchemaInformationObject getSIO(Long schema_id) {
-
-		MultiSchemaHibernateUtil.beginTransaction(
-				MultiSchemaHibernateUtil.principalschema, true);
-
-		SchemaInformationObject sio = (SchemaInformationObject) MultiSchemaHibernateUtil
-				.getSession(MultiSchemaHibernateUtil.principalschema, true)
-				.get(SchemaInformationObject.class, schema_id);
-
-		MultiSchemaHibernateUtil
-				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-
-		return sio;
-	}
-	
-	public static void postMail(String schema, Email email){
-		
-		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
-		
-		Session session = getJavaxMailSessionForSchema(sio, true);
-
-		Message msg = new MimeMessage(session);
-		
-		
-	}
 
 	/**
 	 * 
@@ -161,6 +89,18 @@ public class Emailer {
 		}
 	}
 
+	/**
+	 * Sends the email to indicate that the simulation is ready to play.
+	 * 
+	 * @param schema
+	 * @param to
+	 * @param from
+	 * @param cc
+	 * @param bcc
+	 * @param subject
+	 * @param message
+	 * @return
+	 */
 	public static String postSimReadyMail(String schema, String to,
 			String from, String cc, String bcc, String subject, String message) {
 
@@ -213,68 +153,4 @@ public class Emailer {
 		return session;
 	}
 
-	/**
-	 * 
-	 * @param schema_id
-	 * @param to
-	 * @param from
-	 * @param cc
-	 * @param subject
-	 * @param message
-	 * @return
-	 */
-	public static String OLDpostSimReadyMail(Long schema_id, String to,
-			String from, String cc, String bcc, String subject, String message) {
-
-		final SchemaInformationObject sio = getSIO(schema_id);
-
-		Session session = getJavaxMailSessionForSchema(sio, true);
-
-		Message msg = new MimeMessage(session);
-
-		try {
-			// set the from and to address
-
-			InternetAddress addressFrom = new InternetAddress(from);
-			msg.setFrom(addressFrom);
-
-			// /////////////////////////////////////////////////////////
-			InternetAddress[] addressTo = new InternetAddress[1];
-			addressTo[0] = new InternetAddress(to);
-			msg.setRecipients(Message.RecipientType.TO, addressTo);
-			// /////////////////////////////////////////////////////////
-			if ((cc != null) && (cc.length() > 0)) {
-				InternetAddress[] addressCC = new InternetAddress[1];
-				addressCC[0] = new InternetAddress(cc);
-				msg.setRecipients(Message.RecipientType.CC, addressCC);
-			}
-			// /////////////////////////////////////////////////////////
-			if ((bcc != null) && (bcc.length() > 0)) {
-				InternetAddress[] addressBCC = new InternetAddress[1];
-				addressBCC[0] = new InternetAddress(bcc);
-				msg.setRecipients(Message.RecipientType.BCC, addressBCC);
-			}
-			// /////////////////////////////////////////////////////////
-
-			if (sio.getEmail_archive_address().trim().length() > 0) {
-				InternetAddress[] addressBCCTo = new InternetAddress[1];
-				addressBCCTo[0] = new InternetAddress(sio
-						.getEmail_archive_address().trim());
-				msg.setRecipients(Message.RecipientType.BCC, addressBCCTo);
-			}
-
-			// Setting the Subject and Content Type
-			msg.setSubject(subject);
-			msg.setContent(message, "text/plain"); //$NON-NLS-1$
-
-			// Logger.getRootLogger().debug(message);
-			Transport.send(msg);
-
-		} catch (Exception err) {
-			err.printStackTrace();
-			return err.getMessage();
-		}
-
-		return "okay"; //$NON-NLS-1$
-	}
 }

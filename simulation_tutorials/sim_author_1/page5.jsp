@@ -49,8 +49,7 @@ body {
     <p>Tip: This will probably be the first things that people entering into your simulation will read. You may have to come back and revisit this page many times to get it just right.</p>
     <p><img src="images/tut_sim_auth_1_page5_introduction.PNG" alt="Enter Introduction" width="556" height="463" border="1" /></p>
   </blockquote>
-  <p>b.) Hit the 'Save' button. </p>
-<p>c.) Select the link 'Next Step: Enter Planned Play Ideas' to move on to the next step.</p>
+  <p>b.) Hit the 'Save and Proceed' button to move on to the next step.</p>
 <p>&nbsp;</p>
 </blockquote>
 <!-- InstanceEndEditable -->

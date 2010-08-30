@@ -49,8 +49,7 @@ body {
     <p>Tip: In general you will add much more information in this section. At this stage you are considering who your audience is, and the more you think about who they are, the better you will be able to reach them.</p>
     <p><img src="images/tut_sim_auth_1_page4_audience.PNG" alt="Enter Audience" width="557" height="389" border="1" /></p>
   </blockquote>
-  <p>b.) Hit the 'Save' button. </p>
-  <p>c.) Select the link 'Next Step: Enter Simulation Introduction' to move on to the next step.</p>
+  <p>b.) Hit the 'Save and Proceed' button to move on to the next step.</p>
   <p>&nbsp;</p>
 </blockquote>
 <!-- InstanceEndEditable -->

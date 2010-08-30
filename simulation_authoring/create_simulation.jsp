@@ -68,12 +68,12 @@
             </tr>
           <tr>
             <td>&nbsp;</td>
-              <td valign="top">Simulation Copyright String (?):</td>
+              <td valign="top">Simulation Copyright String <a href="helptext/sim_copyright.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top"> <textarea name="simcopyright" tabindex="4"><%= simulation.getCopyright_string() %></textarea></td>
             </tr>
           <tr>
             <td>&nbsp;</td>
-              <td valign="top">Simulation Blurb (?):</td>
+              <td valign="top">Simulation Blurb <a href="helptext/sim_blurb.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top"><textarea name="simblurb" tabindex="4"><%= simulation.getBlurb() %></textarea></td>
             </tr>
           <tr> 

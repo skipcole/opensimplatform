@@ -52,9 +52,6 @@ body {
 <p align="center"><img src="images/tut_sim_auth_1_page2_createsim.PNG" alt="Create Simulation" width="560" height="379" border="1" /></p>
 <blockquote>
   <p>b.) Hit the 'Create' button at the bottom of the form. You should then see the simulation you just created listed at the bottom of the page.  </p>
-  <blockquote>
-    <p>Tip: Clicking on the link of the name of the simulation below is a way of loading a simulation into the system for editing.</p>
-  </blockquote>
   <p>c.) Select the link at the bottom which states &quot;Next Step: Simulation Objectives&quot; to move on to the next step.</p>
 </blockquote>
 <p>&nbsp;</p>

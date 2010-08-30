@@ -49,8 +49,7 @@ body {
     <p>Tip: Hitting the (?) symbol will give you more information about this task.</p>
     <p><img src="images/tut_sim_auth_1_page6_plannedplayideas.PNG" alt="Planned Play Ideas" width="562" height="398" border="1" /></p>
   </blockquote>
-  <p>b.) Hit the 'Save' button. </p>
-<p>c.) Select the link 'Next Step: Create Phases' to move on to the next step.</p>
+  <p>b.) Hit the 'Save and Proceed' button to move on to the next step.</p>
 <p>&nbsp;</p>
 </blockquote>
 <!-- InstanceEndEditable -->

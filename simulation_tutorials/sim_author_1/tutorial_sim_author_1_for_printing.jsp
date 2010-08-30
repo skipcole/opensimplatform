@@ -11,7 +11,7 @@
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 </head>
 <body>
-  <%@ include file="index.jsp" %>
+  <%@ include file="index2.jsp" %>
   <%@ include file="page1.jsp" %>
   <%@ include file="page2.jsp" %>
   <%@ include file="page3.jsp" %>
