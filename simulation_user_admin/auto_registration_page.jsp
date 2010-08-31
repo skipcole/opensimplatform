@@ -85,31 +85,31 @@ body {
           
           <tr>
             <td valign="top">username/email<a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?)</a></td>
-              <td valign="top"><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>" disabled="disabled"  /></td>
+              <td valign="top"><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"   /></td>
             </tr>
           <tr>
             <td valign="top">password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?)</a></td>
-              <td valign="top"><input type="text" name="password" tabindex="2" disabled="disabled" /></td>
+              <td valign="top"><input type="text" name="password" tabindex="2"  /></td>
             </tr>
           <tr>
             <td valign="top">First Name:</td>
       <td valign="top">
         <label>
-          <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" disabled="disabled"  />
+          <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>"   />
           </label></td>
     </tr>
           <tr>
             <td valign="top">Middle Name:</td>
       <td valign="top">
         <label>
-          <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" disabled="disabled"   />
+          <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>"    />
           </label></td>
     </tr>
           <tr>
             <td valign="top">Last Name:</td>
       <td valign="top">
         <label>
-          <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>" disabled="disabled"    />
+          <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"     />
           </label></td>
     </tr>
     <% if (schema_id == null) { %>

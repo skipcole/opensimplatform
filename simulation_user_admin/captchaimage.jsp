@@ -1,5 +1,14 @@
-<%@ page import="java.util.*, java.io.*,java.awt.*,java.awt.image.*,javax.imageio.*,java.awt.geom.*"%>
+<%@ page import="java.util.*, 
+	java.io.*,
+	java.awt.*,
+	java.awt.image.*,
+	javax.imageio.*,
+	java.awt.geom.*"%>
 <%
+
+	System.setProperty("java.awt.headless", "true");
+
+
  response.setContentType("image/jpg");
   /* Define number characters contains the captcha image, declare global */
   int iTotalChars= 4;
