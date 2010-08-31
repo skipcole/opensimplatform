@@ -299,13 +299,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		String defaultInviteEmailMsg = "Dear Student,\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += "Please go to the web site "; //$NON-NLS-1$
-		defaultInviteEmailMsg += USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
-				+ "/simulation_user_admin/auto_registration_form.jsp";
-
-		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
-
-		defaultInviteEmailMsg += "?schema_id=" + schema_id;
-
+		defaultInviteEmailMsg += "[website]";
 		defaultInviteEmailMsg += " and register yourself.\r\n\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += "Thank you,\r\n"; //$NON-NLS-1$
 		defaultInviteEmailMsg += this.userDisplayName;
@@ -399,13 +393,15 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public void handleBulkInvite(HttpServletRequest request) {
+	public String handleBulkInvite(HttpServletRequest request) {
 
+		String returnString = "";
+		
 		String sending_page = (String) request.getParameter("sending_page");
 
 		if ((sending_page == null)
 				|| (!(sending_page.equalsIgnoreCase("bulk_invite")))) {
-			return;
+			return returnString;
 		}
 
 		this.setOfUsers = request.getParameter("setOfUsers"); //$NON-NLS-1$
@@ -413,13 +409,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.getParameter("defaultInviteEmailMsg"); //$NON-NLS-1$
 		this.invitationCode = request.getParameter("invitationCode"); //$NON-NLS-1$
 
+		String baseURL = 
+			USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
+			+ "/simulation_user_admin/auto_registration_form.jsp";
+
+		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
+
+		baseURL += "?schema_id=" + schema_id;
+		///
+		
 		for (ListIterator<String> li = getSetOfEmails(this.setOfUsers)
 				.listIterator(); li.hasNext();) {
 			String this_email = li.next();
 
 			if (BaseUser.checkIfUserExists(this_email)) {
 				Logger.getRootLogger().debug("exists:" + this_email);
-				// ?? make sure exists in this schema
+				// make sure exists in this schema
+				returnString += "User already registered: " + this_email + "<br />";
 
 			} else {
 
@@ -428,17 +434,26 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				// Add entry into system to all them to register.
 				UserRegistrationInvite uri = new UserRegistrationInvite(
 						this.user_name, this_email, this.invitationCode,
-						this.schema);
+						this.schema, this.user_id);
 
 				uri.saveMe();
+				
+				//Replace [website] with actual URL
+				String fullURL = baseURL + "&uri=" + uri.getId();
+				thisInviteEmailMsg = thisInviteEmailMsg.replace("[website]", fullURL);
 
 				// Send them email directing them to the page to register
 
-				String subject = "Invitation to register on an OSP System";
+				String subject = "Invitation to register on a USIP OSP System";
 				sendBulkInvitationEmail(this_email, subject, thisInviteEmailMsg);
+				
+				returnString += this_email + " sent invitation email. <br />";
 
 			}
 		}
+		
+		return returnString;
+		
 	}
 
 	/**

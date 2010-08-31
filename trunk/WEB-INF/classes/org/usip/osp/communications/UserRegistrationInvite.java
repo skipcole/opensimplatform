@@ -32,6 +32,17 @@ public class UserRegistrationInvite {
 	@GeneratedValue
 	@Column(name = "URI_ID")
 	private Long id;
+	
+	/** ID of the user inviting student's to register. */
+	private Long userId;
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 
 	/** Email of instructor who sent invite to register. */
 	private String invitingInstructor = ""; //$NON-NLS-1$
@@ -69,14 +80,14 @@ public class UserRegistrationInvite {
 	 */
 	public UserRegistrationInvite(String invitingInstructor,
 			String originalInviteEmailAddress, String invitationSet,
-			String schemaInvitedTo) {
+			String schemaInvitedTo, Long userId) {
 
 		this.invitingInstructor = invitingInstructor;
 		this.originalInviteEmailAddress = originalInviteEmailAddress;
 		this.invitationSet = invitationSet;
 		this.schemaInvitedTo = schemaInvitedTo;
-		
-		this.registrationDate = new java.util.Date();
+		this.userId = userId;
+		this.invitationDate = new java.util.Date();
 
 	}
 

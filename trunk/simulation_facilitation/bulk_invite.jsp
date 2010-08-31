@@ -14,7 +14,7 @@
 		return;
 	}
 	
-	afso.handleBulkInvite(request);
+	String results = afso.handleBulkInvite(request);
 	
 	
 
@@ -65,7 +65,7 @@
         <tr valign="top">
           <td>Look Up Code <a href="helptext/bulk_invite_help_lookupcode.jsp" target="helpinright">(?)</a>:</td>
           <td><label>
-            <input type="text" name="textfield" id="textfield" />
+            <input type="text" name="invitationCode" id="invitationCode" />
           </label></td>
         </tr>
         <tr valign="top"> 
@@ -74,7 +74,7 @@
               </tr>
         </table>
     </form>
-    <p>&nbsp;</p>
+    <p align="center"><%= results %></p>
     <p><em><strong>Functionality to Come</strong></em>: Click here to see your previous bulk invitations.</p>
     <p>&nbsp;</p>
       </blockquote>
