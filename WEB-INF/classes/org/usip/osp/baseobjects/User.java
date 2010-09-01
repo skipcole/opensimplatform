@@ -128,7 +128,7 @@ public class User {
 	 */
 	public User(String schema, String username, String password,
 			String first_name, String last_name, String middle_name,
-			String full_name, String email, boolean sim_creator,
+			String full_name, boolean sim_creator,
 			boolean sim_instructor, boolean admin) {
 
 		Logger.getRootLogger().debug("creating user " + username); //$NON-NLS-1$

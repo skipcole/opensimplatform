@@ -5,11 +5,14 @@ import java.util.Date;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
-/*
- * 
- *         This file is part of the USIP Open Simulation Platform.<br>
+/**
+ * This object keeps track of an invitation sent from a facilitator to a student to register on
+ * their system.
+ */
+ /*         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
  *         redistribute it and/or modify it under the terms of the new BSD Style
@@ -67,6 +70,24 @@ public class UserRegistrationInvite {
 	private String schemaInvitedTo;
 
 	public UserRegistrationInvite() {
+
+	}
+	
+	/**
+	 * Pulls the UserRegistrationInvite out of the database base on its id and schema.
+	 * 
+	 * @param schema
+	 * @param uri_id
+	 * @return
+	 */
+	public static UserRegistrationInvite getById(String schema, Long uri_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		UserRegistrationInvite uri = (UserRegistrationInvite) MultiSchemaHibernateUtil.getSession(schema).get(UserRegistrationInvite.class, uri_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return uri;
 
 	}
 

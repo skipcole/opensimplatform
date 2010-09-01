@@ -1,14 +1,17 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.communications.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
 <%
 	
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	User userOnScratchPad = new User();
-	//User userOnScratchPad = afso.handleAutoRegistration(request);
+	User userOnScratchPad = afso.handleAutoRegistration(request);
 	
 	if(afso.forward_on){
 	
@@ -19,6 +22,23 @@
 	
 	// Get the schema id that has been sent in. If there is none, then allow user to select organizational database.
 	String schema_id = (String) request.getParameter("schema_id");
+	String uri_id = (String) request.getParameter("uri");
+	String initial_entry = (String) request.getParameter("initial_entry");
+	
+	SchemaInformationObject sio = new SchemaInformationObject();
+	UserRegistrationInvite uri = new UserRegistrationInvite();
+	
+	if (schema_id != null) {
+		sio = SchemaInformationObject.getById(new Long(schema_id));
+		
+		if (uri_id != null) {
+			uri = UserRegistrationInvite.getById(sio.getSchema_name(), new Long(uri_id));
+		
+			if (initial_entry != null) {
+				userOnScratchPad.setBu_username(uri.getOriginalInviteEmailAddress());
+			}
+		}
+	}
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -44,7 +64,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;USIP Open Simulation Platform </h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
@@ -69,7 +89,7 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <p>&nbsp;</p>
-              <h1>Registration Page</h1>
+              <h1>Registration Page </h1>
               <br />
 			
       <p>To participate in online simulations using this sytem, you will need to be registered in the system.</p>
@@ -112,11 +132,21 @@ body {
           <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"     />
           </label></td>
     </tr>
-    <% if (schema_id == null) { %>
-          <tr>
+    <% if ((schema_id != null) && (!(schema_id.equalsIgnoreCase("null") ) ) ) { %>
+	
+	     	<tr>
             <td valign="top">Organizational Database: (?)</td>
               <td valign="top">
-              <select name="selected_schema">
+              <input type=hidden name="schema_id" value="<%= schema_id %>">
+			  <input type=hidden name="uri" value="<%= uri.getId() %>">
+			<%= sio.getSchema_organization() %></td>
+            </tr>
+            
+     <% } else { %>
+<tr>
+            <td valign="top">Organizational Database: (?)</td>
+              <td valign="top">
+              <select name="selected_schema" tabindex="7">
 			  <%
 			  	
 				List ghostList = SchemaInformationObject.getAll();
@@ -127,17 +157,15 @@ body {
 				<option value="<%= this_sg.getSchema_name() %>"><%= this_sg.getSchema_organization() %></option>
 			<% } %>
               </select>              </td>
-            </tr>
-     <% } else { %>
-     	<tr>
-            <td valign="top">Organizational Database: (?)</td>
-              <td valign="top">
-              <input type=hidden name="selected_schema" value="<%= schema_id %>">
-				look up schema name              </td>
-            </tr>
+			</tr>  
      <% }  // end if if schema_id was null %>
           <tr>
-            <td valign="top"><script>
+            <td valign="top">
+Captcha Code</td>
+            <td valign="top">
+              <input name="captchacode" type="text" size="4" maxlength="4" tabindex="8" />
+            
+			<script>
  function resetCaptcha()
  {
   document.getElementById('imgCaptcha').src = 'captchaimage.aspx?' + Math.random();
@@ -145,11 +173,7 @@ body {
 </script>
 <div>
 <img src="captchaimage.jsp" id="imgCaptcha">
-<img src="refresh.jpeg" border=0 id="imgRefresh" onclick="setTimeout('resetCaptcha()', 300); return false;"> Captcha Code
-</div></td>
-            <td valign="top"><label>
-              <input name="captchacode" type="text" size="4" maxlength="4" />
-            </label></td>
+<img src="refresh.jpeg" border=0 id="imgRefresh" onclick="setTimeout('resetCaptcha()', 300); return false;"></div></td>
           </tr>
           <tr>
             <td valign="top">&nbsp;</td>
@@ -157,7 +181,7 @@ body {
                 
                 <input type="hidden" name="sending_page" value="create_users" /> 
                 
-                <input type="submit" name="command" value="Register" tabindex="6"   />			</td>
+                <input type="submit" name="command" value="Register" tabindex="9"   />			</td>
             </tr>
           </table>
         </form>

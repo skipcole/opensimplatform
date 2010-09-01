@@ -82,6 +82,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	/** The Session object. */
 	private HttpSession session = null;
 
+	public static final int CAPTCHA_WRONG = 1;
+
+	/** Code to indicate what kind of error was returned. */
+	public int errorCode = 0;
+
 	/** Error message to be shown to the user. */
 	public String errorMsg = ""; //$NON-NLS-1$
 
@@ -396,7 +401,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public String handleBulkInvite(HttpServletRequest request) {
 
 		String returnString = "";
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 
 		if ((sending_page == null)
@@ -409,15 +414,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.getParameter("defaultInviteEmailMsg"); //$NON-NLS-1$
 		this.invitationCode = request.getParameter("invitationCode"); //$NON-NLS-1$
 
-		String baseURL = 
-			USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
-			+ "/simulation_user_admin/auto_registration_form.jsp";
+		String baseURL = USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
+				+ "/simulation_user_admin/auto_registration_form.jsp";
 
 		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
 
-		baseURL += "?schema_id=" + schema_id;
-		///
-		
+		baseURL += "?initial_entry=true&schema_id=" + schema_id;
+		// /
+
 		for (ListIterator<String> li = getSetOfEmails(this.setOfUsers)
 				.listIterator(); li.hasNext();) {
 			String this_email = li.next();
@@ -425,7 +429,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if (BaseUser.checkIfUserExists(this_email)) {
 				Logger.getRootLogger().debug("exists:" + this_email);
 				// make sure exists in this schema
-				returnString += "User already registered: " + this_email + "<br />";
+				returnString += "User already registered: " + this_email
+						+ "<br />";
 
 			} else {
 
@@ -437,23 +442,24 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						this.schema, this.user_id);
 
 				uri.saveMe();
-				
-				//Replace [website] with actual URL
+
+				// Replace [website] with actual URL
 				String fullURL = baseURL + "&uri=" + uri.getId();
-				thisInviteEmailMsg = thisInviteEmailMsg.replace("[website]", fullURL);
+				thisInviteEmailMsg = thisInviteEmailMsg.replace("[website]",
+						fullURL);
 
 				// Send them email directing them to the page to register
 
 				String subject = "Invitation to register on a USIP OSP System";
 				sendBulkInvitationEmail(this_email, subject, thisInviteEmailMsg);
-				
+
 				returnString += this_email + " sent invitation email. <br />";
 
 			}
 		}
-		
+
 		return returnString;
-		
+
 	}
 
 	/**
@@ -1433,8 +1439,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		// Must create the new user in this schema
 		@SuppressWarnings("unused")
 		User user = new User(schema, admin_email, admin_pass, admin_first,
-				admin_last, admin_middle, admin_full, admin_email, true, true,
-				true);
+				admin_last, admin_middle, admin_full, true, true, true);
 
 		String loadss = (String) request.getParameter("loadss");
 
@@ -2953,9 +2958,84 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				request, universal);
 	}
 
+	/**
+	 * Handles the auto-registration of players.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public User handleAutoRegistration(HttpServletRequest request) {
-		OSP_UserAdmin pu = new OSP_UserAdmin(this);
-		return pu.handleAutoRegistration(request);
+
+		User user = new User();
+
+		String command = request.getParameter("command"); //$NON-NLS-1$
+
+		if ((command != null) && (command.equalsIgnoreCase("Register"))) {
+
+			String captchacode = USIP_OSP_Util.cleanNulls(request
+					.getParameter("captchacode"));
+			String captcha_code = (String) request.getSession().getAttribute(
+					"captcha_code");
+
+			String schema = request.getParameter("schema_id"); //$NON-NLS-1$
+			String uri_id = (String) request.getParameter("uri");
+			
+			UserRegistrationInvite uri = new UserRegistrationInvite();
+			boolean recordSaveToURI = false;
+			
+			if (uri_id != null) {
+				uri = UserRegistrationInvite.getById(schema, new Long(uri_id));
+				recordSaveToURI = true;
+			}
+
+			OSP_UserAdmin osp_ua = new OSP_UserAdmin(this);
+
+			osp_ua.getUserNameDetails(request);
+
+			user.setBu_first_name(osp_ua.get_first_name());
+			user.setBu_full_name(osp_ua.get_full_name());
+			user.setBu_last_name(osp_ua.get_last_name());
+			user.setBu_middle_name(osp_ua.get_middle_name());
+			user.setUser_name(osp_ua.get_email());
+			String password = request.getParameter("password"); //$NON-NLS-1$
+
+			if (captchacode.equalsIgnoreCase(captcha_code)) {
+
+				if (!(osp_ua.hasEnoughInfoToCreateUser())) {
+					return user;
+				} else {
+
+					try {
+
+						user = new User(schema, user.getUser_name(), password,
+								user.getBu_first_name(),
+								user.getBu_last_name(), 
+								user.getBu_middle_name(), 
+								user.getBu_full_name(), false, false, false);
+						
+						if (recordSaveToURI) {
+							uri.setEmailAddressRegistered(user.getUser_name());
+							uri.setRegistrationDate(new Date());
+							uri.saveMe();
+						}
+					} catch (Exception e) {
+						errorMsg = e.getMessage();
+					}
+
+					// Set so they forward on to the 'Thank You for registering'
+					// page.
+					forward_on = true;
+				}
+
+			} else { // Captcha incorrect
+				errorMsg = "Incorrect Captcha Code";
+				errorCode = CAPTCHA_WRONG;
+
+				return user;
+			}
+		}
+
+		return user;
 	}
 
 	public User handleCreateUser(HttpServletRequest request) {
@@ -3753,7 +3833,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation.setAarStarterText(sim_text);
 				nextPage = "review_sim.jsp";
 				break;
-				
+
 			default:
 				Logger.getRootLogger().warn("Unknown wizard save case");
 				break;
