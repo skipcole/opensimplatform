@@ -1,7 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,
+	import="java.sql.*,
+	java.util.*,
+	java.text.*,
+	org.usip.osp.networking.*,org.usip.osp.persistence.*,
 	org.hibernate.*,
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
@@ -64,9 +67,20 @@
               </tr>
         <tr valign="top">
           <td>Look Up Code <a href="helptext/bulk_invite_help_lookupcode.jsp" target="helpinright">(?)</a>:</td>
-          <td><label>
-            <input type="text" name="invitationCode" id="invitationCode" />
-          </label></td>
+          <td>
+		  <%
+		  
+		  	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss");
+			sdf.setTimeZone(TimeZone.getDefault());
+	
+			String default_lookup_code = sdf.format(new java.util.Date());
+		  
+		  %>
+		  <label>
+            <input type="text" name="invitationCode" id="invitationCode" value="<%= default_lookup_code %>" />
+          </label>
+		  
+		  </td>
         </tr>
         <tr valign="top"> 
           <td>&nbsp;</td>
@@ -76,6 +90,7 @@
     </form>
     <p align="center"><%= results %></p>
     <p><em><strong>Functionality to Come</strong></em>: Click here to see your previous bulk invitations.</p>
+    <p>(? should we give the url where people can go to themselves?) </p>
     <p>&nbsp;</p>
       </blockquote>
       <blockquote>

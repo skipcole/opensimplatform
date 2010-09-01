@@ -48,11 +48,11 @@ public class OSP_UserAdmin {
 	/** Password of the user. */
 	private String _password = ""; //$NON-NLS-1$
 	
-	private AuthorFacilitatorSessionObject pso;
+	private AuthorFacilitatorSessionObject afso;
 	
-	public OSP_UserAdmin(AuthorFacilitatorSessionObject pso){
+	public OSP_UserAdmin(AuthorFacilitatorSessionObject afso){
 		
-		this.pso = pso;
+		this.afso = afso;
 	}
 	
 	
@@ -67,9 +67,8 @@ public class OSP_UserAdmin {
 		
 		this._admin = request.getParameter("admin"); //$NON-NLS-1$
 		this._author = request.getParameter("author"); //$NON-NLS-1$
-		this._email = request.getParameter("email"); //$NON-NLS-1$
 		this._instructor = request.getParameter("instructor"); //$NON-NLS-1$
-		this._password = request.getParameter("password"); //$NON-NLS-1$
+		
 
 		if ((this._admin != null) && (this._admin.equalsIgnoreCase("true"))) { //$NON-NLS-1$
 			this._makeAdmin = true;
@@ -90,7 +89,10 @@ public class OSP_UserAdmin {
 	 * Gets name details about the user from the request.
 	 * @param request
 	 */
-	private void getUserNameDetails(HttpServletRequest request){
+	public void getUserNameDetails(HttpServletRequest request){
+		
+		this._email = request.getParameter("email"); //$NON-NLS-1$
+		this._password = request.getParameter("password"); //$NON-NLS-1$
 		
 		this._first_name = request.getParameter("first_name"); //$NON-NLS-1$
 		this._last_name = request.getParameter("last_name"); //$NON-NLS-1$
@@ -125,7 +127,7 @@ public class OSP_UserAdmin {
 
 					try {
 						user = new User(schema, this._email, this._password, "", "", "", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-								this._full_name, this._email, this._makeAuthor, this._makeInstructor,
+								this._full_name, this._makeAuthor, this._makeInstructor,
 								this._makeAdmin);
 						
 						user.setBu_username(this._email);
@@ -138,7 +140,7 @@ public class OSP_UserAdmin {
 
 					} catch (Exception e) {
 						e.printStackTrace();
-						this.pso.errorMsg = e.getMessage();
+						this.afso.errorMsg = e.getMessage();
 					}
 				}
 			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
@@ -192,7 +194,7 @@ public class OSP_UserAdmin {
 					try {
 
 						user = new User(schema, this._email, this._password, "", "", //$NON-NLS-1$ //$NON-NLS-2$
-								"", this._full_name, this._email, false, false, false); //$NON-NLS-1$
+								"", this._full_name, false, false, false); //$NON-NLS-1$
 						
 						String preferred_language = request.getParameter("preferred_language");
 						
@@ -201,47 +203,7 @@ public class OSP_UserAdmin {
 						bu.saveMe();
 						
 					} catch (Exception e) {
-						this.pso.errorMsg = e.getMessage();
-					}
-				}
-			}
-		}
-		
-		return user;
-	}
-	
-	/**
-	 * 
-	 * @param request
-	 */
-	public User handleAutoRegistration(HttpServletRequest request) {
-
-		User user = new User();
-		
-		String command = request.getParameter("command"); //$NON-NLS-1$
-
-		if (command != null) {
-
-			getBaseUserParamters(request);
-			
-			String schema = request.getParameter("selected_schema"); //$NON-NLS-1$
-
-			// /////////////////////////////////
-			if (command.equalsIgnoreCase("Register")) { //$NON-NLS-1$
-
-				if (!hasEnoughInfoToCreateUser()) {
-					return user;
-				} else {
-
-					try {
-
-						user = new User(schema, this._email, this._password, this._first_name, this._last_name,
-								this._middle_name, this._full_name, this._email, false, false, false);
-						
-						this.pso.forward_on = true;
-						
-					} catch (Exception e) {
-						this.pso.errorMsg = e.getMessage();
+						this.afso.errorMsg = e.getMessage();
 					}
 				}
 			}
@@ -254,20 +216,20 @@ public class OSP_UserAdmin {
 	 * Verifies that the minimal amount of information has been passed in to create a user.
 	 * @return
 	 */
-	private boolean hasEnoughInfoToCreateUser() {
+	protected boolean hasEnoughInfoToCreateUser() {
 
 		Logger.getRootLogger().debug("p is " + this._password); //$NON-NLS-1$
 		Logger.getRootLogger().debug("f is " + this._full_name); //$NON-NLS-1$
 		Logger.getRootLogger().debug("e is " + this._email); //$NON-NLS-1$
 		
 		if (this._password.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
-			this.pso.errorMsg += "Must enter password.<br/>"; //$NON-NLS-1$
+			this.afso.errorMsg += "Must enter password.<br/>"; //$NON-NLS-1$
 			return false;
 		} else if (this._full_name.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
-			this.pso.errorMsg += "Must enter name.<br/>"; //$NON-NLS-1$
+			this.afso.errorMsg += "Must enter name.<br/>"; //$NON-NLS-1$
 			return false;
 		} else if (this._email.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
-			this.pso.errorMsg += "Must enter email address.<br/>"; //$NON-NLS-1$
+			this.afso.errorMsg += "Must enter email address.<br/>"; //$NON-NLS-1$
 			return false;
 		}
 
@@ -288,4 +250,65 @@ public class OSP_UserAdmin {
 		bu.updateMe(this._first_name, this._full_name, this._last_name, this._middle_name);
 	}
 
+
+	public String get_full_name() {
+		return _full_name;
+	}
+
+
+	public void set_full_name(String fullName) {
+		_full_name = fullName;
+	}
+
+
+	public String get_first_name() {
+		return _first_name;
+	}
+
+
+	public void set_first_name(String firstName) {
+		_first_name = firstName;
+	}
+
+
+	public String get_last_name() {
+		return _last_name;
+	}
+
+
+	public void set_last_name(String lastName) {
+		_last_name = lastName;
+	}
+
+
+	public String get_middle_name() {
+		return _middle_name;
+	}
+
+
+	public void set_middle_name(String middleName) {
+		_middle_name = middleName;
+	}
+
+
+	public String get_email() {
+		return _email;
+	}
+
+
+	public void set_email(String email) {
+		_email = email;
+	}
+
+
+	public String get_password() {
+		return _password;
+	}
+
+
+	public void set_password(String password) {
+		_password = password;
+	}
+
+	
 }

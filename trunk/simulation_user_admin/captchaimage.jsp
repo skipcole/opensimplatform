@@ -65,7 +65,7 @@
   /* Dispose function is used destory an image object */
   g2dImage.dispose();
 
-  session.setAttribute("dns_security_code", sImageCode);
+  session.setAttribute("captcha_code", sImageCode);
   
   out.clear();
 
