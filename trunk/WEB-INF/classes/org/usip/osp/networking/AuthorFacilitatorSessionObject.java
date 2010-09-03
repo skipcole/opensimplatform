@@ -83,6 +83,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	private HttpSession session = null;
 
 	public static final int CAPTCHA_WRONG = 1;
+	public static final int USERNAME_MISMATCH = 1;
+	public static final int PASSWORD_MISMATCH = 1;
 
 	/** Code to indicate what kind of error was returned. */
 	public int errorCode = 0;
@@ -394,6 +396,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnString;
 	}
 
+	public String getAutoRegistrationBaseLink(){
+		
+		String baseURL = USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
+		+ "/simulation_user_admin/auto_registration_form.jsp";
+
+		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
+
+		baseURL += "?schema_id=" + schema_id;
+		
+		return baseURL;
+	}
+	
 	/**
 	 * 
 	 * @param request
@@ -407,55 +421,58 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((sending_page == null)
 				|| (!(sending_page.equalsIgnoreCase("bulk_invite")))) {
 			return returnString;
-		}
+		} else {
 
-		this.setOfUsers = request.getParameter("setOfUsers"); //$NON-NLS-1$
-		String thisInviteEmailMsg = request
-				.getParameter("defaultInviteEmailMsg"); //$NON-NLS-1$
-		this.invitationCode = request.getParameter("invitationCode"); //$NON-NLS-1$
+			this.setOfUsers = request.getParameter("setOfUsers"); //$NON-NLS-1$
+			String thisInviteEmailMsg = request
+					.getParameter("defaultInviteEmailMsg"); //$NON-NLS-1$
+			this.invitationCode = request.getParameter("invitationCode"); //$NON-NLS-1$
 
-		String baseURL = USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
-				+ "/simulation_user_admin/auto_registration_form.jsp";
+			String baseURL = this.getAutoRegistrationBaseLink();
 
-		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
+			baseURL += "&initial_entry=true";
+			// /
 
-		baseURL += "?initial_entry=true&schema_id=" + schema_id;
-		// /
+			for (ListIterator<String> li = getSetOfEmails(this.setOfUsers)
+					.listIterator(); li.hasNext();) {
+				String this_email = li.next();
 
-		for (ListIterator<String> li = getSetOfEmails(this.setOfUsers)
-				.listIterator(); li.hasNext();) {
-			String this_email = li.next();
+				if (BaseUser.checkIfUserExists(this_email)) {
+					Logger.getRootLogger().debug("exists:" + this_email);
+					// make sure exists in this schema
+					returnString += "User already registered: " + this_email
+							+ "<br />";
 
-			if (BaseUser.checkIfUserExists(this_email)) {
-				Logger.getRootLogger().debug("exists:" + this_email);
-				// make sure exists in this schema
-				returnString += "User already registered: " + this_email
-						+ "<br />";
+				} else {
 
-			} else {
+					Logger.getRootLogger()
+							.debug("does not exist:" + this_email);
 
-				Logger.getRootLogger().debug("does not exist:" + this_email);
+					// Add entry into system to all them to register.
+					UserRegistrationInvite uri = new UserRegistrationInvite(
+							this.user_name, this_email, this.invitationCode,
+							this.schema, this.user_id);
 
-				// Add entry into system to all them to register.
-				UserRegistrationInvite uri = new UserRegistrationInvite(
-						this.user_name, this_email, this.invitationCode,
-						this.schema, this.user_id);
+					uri.saveMe();
 
-				uri.saveMe();
+					// Replace [website] with actual URL
+					String fullURL = baseURL + "&uri=" + uri.getId();
+					thisInviteEmailMsg = thisInviteEmailMsg.replace(
+							"[website]", fullURL);
 
-				// Replace [website] with actual URL
-				String fullURL = baseURL + "&uri=" + uri.getId();
-				thisInviteEmailMsg = thisInviteEmailMsg.replace("[website]",
-						fullURL);
+					// Send them email directing them to the page to register
 
-				// Send them email directing them to the page to register
+					String subject = "Invitation to register on a USIP OSP System";
+					sendBulkInvitationEmail(this_email, subject,
+							thisInviteEmailMsg);
 
-				String subject = "Invitation to register on a USIP OSP System";
-				sendBulkInvitationEmail(this_email, subject, thisInviteEmailMsg);
+					returnString += this_email
+							+ " sent invitation email. <br />";
 
-				returnString += this_email + " sent invitation email. <br />";
-
+				}
 			}
+			
+			this.setOfUsers = "";
 		}
 
 		return returnString;
@@ -2958,6 +2975,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				request, universal);
 	}
 
+	public String captcha_code = "";
+
 	/**
 	 * Handles the auto-registration of players.
 	 * 
@@ -2974,17 +2993,29 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			String captchacode = USIP_OSP_Util.cleanNulls(request
 					.getParameter("captchacode"));
-			String captcha_code = (String) request.getSession().getAttribute(
-					"captcha_code");
 
-			String schema = request.getParameter("schema_id"); //$NON-NLS-1$
+			System.out.println(captchacode);
+
+			System.out.println(captcha_code);
+
+			/* Must have a schema id to now where to put the registered user. */
+			String schema_id = request.getParameter("schema_id"); //$NON-NLS-1$
+
+			if (schema_id == null) {
+				return user;
+			}
+
+			SchemaInformationObject sio = SchemaInformationObject
+					.getById(new Long(schema_id));
+
 			String uri_id = (String) request.getParameter("uri");
-			
+
 			UserRegistrationInvite uri = new UserRegistrationInvite();
 			boolean recordSaveToURI = false;
-			
-			if (uri_id != null) {
-				uri = UserRegistrationInvite.getById(schema, new Long(uri_id));
+
+			if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
+				uri = UserRegistrationInvite.getById(sio.getSchema_name(),
+						new Long(uri_id));
 				recordSaveToURI = true;
 			}
 
@@ -2996,43 +3027,68 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			user.setBu_full_name(osp_ua.get_full_name());
 			user.setBu_last_name(osp_ua.get_last_name());
 			user.setBu_middle_name(osp_ua.get_middle_name());
+			user.setBu_username(osp_ua.get_email());
 			user.setUser_name(osp_ua.get_email());
+
+			String confirm_email = request.getParameter("confirm_email"); //$NON-NLS-1$
 			String password = request.getParameter("password"); //$NON-NLS-1$
+			String confirm_password = request.getParameter("confirm_password"); //$NON-NLS-1$
 
-			if (captchacode.equalsIgnoreCase(captcha_code)) {
+			boolean returnForLackOfInformation = false;
 
-				if (!(osp_ua.hasEnoughInfoToCreateUser())) {
-					return user;
-				} else {
-
-					try {
-
-						user = new User(schema, user.getUser_name(), password,
-								user.getBu_first_name(),
-								user.getBu_last_name(), 
-								user.getBu_middle_name(), 
-								user.getBu_full_name(), false, false, false);
-						
-						if (recordSaveToURI) {
-							uri.setEmailAddressRegistered(user.getUser_name());
-							uri.setRegistrationDate(new Date());
-							uri.saveMe();
-						}
-					} catch (Exception e) {
-						errorMsg = e.getMessage();
-					}
-
-					// Set so they forward on to the 'Thank You for registering'
-					// page.
-					forward_on = true;
-				}
-
-			} else { // Captcha incorrect
-				errorMsg = "Incorrect Captcha Code";
+			if (!(captchacode.equalsIgnoreCase(captcha_code))) {
+				errorMsg += "Incorrect Captcha Code<br/>";
 				errorCode = CAPTCHA_WRONG;
+				returnForLackOfInformation = true;
+			}
 
+			if (!(user.getUser_name().equalsIgnoreCase(confirm_email))) {
+				errorMsg += "Email Addresses did not match<br/>";
+				errorCode = USERNAME_MISMATCH;
+				returnForLackOfInformation = true;
+			}
+
+			if (!(password.equalsIgnoreCase(confirm_password))) {
+				errorMsg += "Passwords did not match<br/>";
+				errorCode = PASSWORD_MISMATCH;
+				returnForLackOfInformation = true;
+			}
+
+			if (returnForLackOfInformation) {
 				return user;
 			}
+			
+			if (User.getByUsername(sio.getSchema_name(), user.getUser_name()) != null){
+				errorMsg += "This username/email already has been registered. <br/>";
+				return user;
+			}
+
+			if (!(osp_ua.hasEnoughInfoToCreateUser())) {
+				return user;
+			} else {
+
+				try {
+
+					user = new User(sio.getSchema_name(), user.getUser_name(),
+							password, user.getBu_first_name(), user
+									.getBu_last_name(), user
+									.getBu_middle_name(), user
+									.getBu_full_name(), false, false, false);
+
+					if (recordSaveToURI) {
+						uri.setEmailAddressRegistered(user.getUser_name());
+						uri.setRegistrationDate(new Date());
+						uri.saveMe();
+					}
+				} catch (Exception e) {
+					errorMsg = e.getMessage();
+				}
+
+				// Set so they forward on to the 'Thank You for registering'
+				// page.
+				forward_on = true;
+			}
+
 		}
 
 		return user;

@@ -50,6 +50,10 @@
         <p>Please enter a set of emails below, separated by spaces, commas or carriage returns. Then modify the message text as you see fit, and hit send. The users will 
           receive an email inviting them to autoregister on the system. You will 
           then be able to add them as players in one of your simulations.</p>
+        
+		<% if (results.length() > 0) { %>
+		<p><%= results %></p>
+		<% } else { %>
         <form action="bulk_invite.jsp" method="post" name="form1" id="form1">
       <input type="hidden" name="sending_page" value="bulk_invite" />
       <table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -70,7 +74,7 @@
           <td>
 		  <%
 		  
-		  	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss");
+		  	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy hh:mm:ss a");
 			sdf.setTimeZone(TimeZone.getDefault());
 	
 			String default_lookup_code = sdf.format(new java.util.Date());
@@ -88,9 +92,8 @@
               </tr>
         </table>
     </form>
-    <p align="center"><%= results %></p>
+    <% } %>
     <p><em><strong>Functionality to Come</strong></em>: Click here to see your previous bulk invitations.</p>
-    <p>(? should we give the url where people can go to themselves?) </p>
     <p>&nbsp;</p>
       </blockquote>
       <blockquote>

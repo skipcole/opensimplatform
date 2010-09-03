@@ -22,7 +22,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;USIP Open Simulation Platform </h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
@@ -47,9 +47,10 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Thank you for registering.</h1>
-              <p>You should now be able to <a href="../simulation/index.jsp">login to the system</a>, but will not be able to participate in any simulations until you have been assigned a role in one by an instructor.<br />
-                  </p>
-               <!-- 
+              <p>You should now be able to <a href="../simulation/index.jsp">login onto</a> this USIP OSP server.</p>
+              <p>You will not be able to participate in any simulations until you have been assigned a role in one by an instructor.When an instructor does so, you should receive an email informing you that they have. <br />
+              </p>
+              <!-- 
               <p>You should receive an email indicating that you have been registered. </p>
       <p>Note: If you do not find the acknowledgement email, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' </p>
       -->

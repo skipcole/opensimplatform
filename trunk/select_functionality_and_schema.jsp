@@ -28,10 +28,12 @@
 		SchemaGhost this_sg = (SchemaGhost) ghostList.get(0);
 		User user_in_this_schema = User.getById(this_sg.getSchema_name() , osp_soh.getUserid());
 	
+	
 		if (user_in_this_schema.isJustPlayer()){
 			response.sendRedirect("simulation/select_simulation_to_play.jsp?initial_entry=true&schema_id=" + this_sg.getId());
 			return;
 		}
+		
 	}
 	
 	response.setHeader("Cache-Control", "no-cache"); //$NON-NLS-1$ //$NON-NLS-2$

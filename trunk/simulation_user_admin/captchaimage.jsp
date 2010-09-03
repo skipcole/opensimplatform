@@ -2,12 +2,10 @@
 	java.io.*,
 	java.awt.*,
 	java.awt.image.*,
+	org.usip.osp.networking.*,
 	javax.imageio.*,
 	java.awt.geom.*"%>
 <%
-
-	System.setProperty("java.awt.headless", "true");
-
 
  response.setContentType("image/jpg");
   /* Define number characters contains the captcha image, declare global */
@@ -65,7 +63,9 @@
   /* Dispose function is used destory an image object */
   g2dImage.dispose();
 
-  session.setAttribute("captcha_code", sImageCode);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	
+  afso.captcha_code = sImageCode;
   
   out.clear();
 

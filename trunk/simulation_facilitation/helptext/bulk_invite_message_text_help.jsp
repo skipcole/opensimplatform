@@ -1,3 +1,18 @@
+<%@ page 
+	contentType="text/html; charset=UTF-8" 
+	language="java" 
+	import="java.sql.*,
+	java.util.*,
+	java.text.*,
+	org.usip.osp.networking.*,org.usip.osp.persistence.*,
+	org.hibernate.*,
+	org.usip.osp.baseobjects.*" 
+	errorPage=""
+
+%>
+<%
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><!-- InstanceBegin template="/Templates/helpPageTemplate.dwt.jsp" codeOutsideHTMLIsLocked="false" -->
 <head>
@@ -21,9 +36,13 @@ body {
 <h1>Bulk Invite Message </h1>
 <ul>
   <li>You may edit the default message text.</li>
-  <li>But please be careful not to change the URL (web address) in the message. This should be correct for your system.<br>
-  </li>
+  <li>Please be careful not to change the exact phrase '[website]' in the message. This is where the correct link for your system will be inserted into the email.</li>
 </ul>
+<blockquote>
+  <p>
+    If you would rather just put in an email a link for people to go to get registered, here is the link: <%= afso.getAutoRegistrationBaseLink() %>
+  </p>
+</blockquote>
 <!-- InstanceEndEditable --> 
 </body>
 <!-- InstanceEnd --></html>

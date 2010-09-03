@@ -6,18 +6,19 @@ import org.hibernate.annotations.Proxy;
 import org.apache.log4j.*;
 
 /**
- * This class represents a schema database that has been created to hold simulation data.
- */ 
- /*         This file is part of the USIP Open Simulation Platform.<br>
+ * This class represents a schema database that has been created to hold
+ * simulation data.
+ */
+/*
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
- * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  */
 @Entity
 @Table(name = "SCHEMAINFORMATION")
@@ -47,25 +48,26 @@ public class SchemaInformationObject {
 
 	/** Email archive address. */
 	private String email_archive_address;
-	
+
 	public static final String EMAIL_STATE_VERIFIED = "verified";
-	
+
 	public static final String EMAIL_STATE_UNVERIFIED = "unverified";
-	
+
 	public static final String EMAIL_STATE_DOWN = "down";
-	
-    private Long preferredLanguageCode = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
-    
-    public Long getPreferredLanguageCode() {
+
+	private Long preferredLanguageCode = new Long(
+			UILanguageObject.ENGLISH_LANGUAGE_CODE);
+
+	public Long getPreferredLanguageCode() {
 		return preferredLanguageCode;
 	}
 
 	public void setPreferredLanguageCode(Long preferredLanguageCode) {
 		this.preferredLanguageCode = preferredLanguageCode;
 	}
-	
+
 	private Date creationDate;
-	
+
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -73,7 +75,7 @@ public class SchemaInformationObject {
 	@Lob
 	/** notes for this particular installation. */
 	private String notes = "";
-	
+
 	public String getNotes() {
 		return notes;
 	}
@@ -84,7 +86,7 @@ public class SchemaInformationObject {
 
 	/** Indicates if the email system has been verified and if it is up. */
 	private String emailState = "";
-	
+
 	public String getEmailState() {
 		return emailState;
 	}
@@ -92,9 +94,9 @@ public class SchemaInformationObject {
 	public void setEmailState(String emailState) {
 		this.emailState = emailState;
 	}
-	
+
 	private Long emailServerNumber;
-	
+
 	public Long getEmailServerNumber() {
 		return emailServerNumber;
 	}
@@ -103,9 +105,12 @@ public class SchemaInformationObject {
 		this.emailServerNumber = emailServerNumber;
 	}
 
-	/** Keeps track of the last time an author, instructor or admin has logged on. */
+	/**
+	 * Keeps track of the last time an author, instructor or admin has logged
+	 * on.
+	 */
 	private Date lastLogin;
-	
+
 	public Date getLastLogin() {
 		return lastLogin;
 	}
@@ -113,10 +118,9 @@ public class SchemaInformationObject {
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
 	}
-	
+
 	/** Set to indicate that this schema is safe to run unit tests in. */
 	private boolean unitTestSchema = false;
-	
 
 	public boolean isUnitTestSchema() {
 		return unitTestSchema;
@@ -132,20 +136,24 @@ public class SchemaInformationObject {
 	public SchemaInformationObject() {
 
 		this.creationDate = new Date();
-		
+
 	}
 
 	public static void main(String args[]) {
 
 		List x = getAllOrderedByEmailServerNumber();
 
-		Logger.getRootLogger().warn("got all"); //$NON-NLS-1$
+		System.out.println("got all"); //$NON-NLS-1$
 
 		for (ListIterator li = x.listIterator(); li.hasNext();) {
 			SchemaInformationObject sio = (SchemaInformationObject) li.next();
 
-			Logger.getRootLogger().warn(sio.getSchema_name());
+			System.out.println(sio.getSchema_name());
 		}
+
+		SchemaInformationObject sio = SchemaInformationObject.getById(new Long(
+				1));
+		System.out.println(sio.getSchema_name());
 
 	}
 
@@ -168,9 +176,10 @@ public class SchemaInformationObject {
 
 		return returnList;
 	}
-	
+
 	/**
-	 * Returns a list of all of the SchemaInformationObjects (SIOs) found ordered by Email Server Number
+	 * Returns a list of all of the SchemaInformationObjects (SIOs) found
+	 * ordered by Email Server Number
 	 * 
 	 * @return
 	 */
@@ -181,14 +190,14 @@ public class SchemaInformationObject {
 
 		List<SchemaInformationObject> returnList = MultiSchemaHibernateUtil
 				.getSession(MultiSchemaHibernateUtil.principalschema, true)
-				.createQuery("from SchemaInformationObject order by emailServerNumber asc").list(); //$NON-NLS-1$
+				.createQuery(
+						"from SchemaInformationObject order by emailServerNumber asc").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil
 				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
 		return returnList;
 	}
-
 
 	public String getSchema_name() {
 		return this.schema_name;
@@ -197,7 +206,6 @@ public class SchemaInformationObject {
 	public void setSchema_name(String schema_name) {
 		this.schema_name = schema_name;
 	}
-
 
 	public Long getId() {
 		return this.id;
@@ -238,8 +246,7 @@ public class SchemaInformationObject {
 		List sList = MultiSchemaHibernateUtil.getSession(
 				MultiSchemaHibernateUtil.principalschema, true).createQuery(
 				"from SchemaInformationObject where SCHEMANAME = :schemaName ")
-				.setString("schemaName", schemaName)
-				.list(); //$NON-NLS-1$
+				.setString("schemaName", schemaName).list(); //$NON-NLS-1$
 
 		if ((sList != null) && (sList.size() == 1)) {
 			SchemaInformationObject sio = (SchemaInformationObject) sList
@@ -304,8 +311,7 @@ public class SchemaInformationObject {
 		List sList = MultiSchemaHibernateUtil.getSession(
 				MultiSchemaHibernateUtil.principalschema, true).createQuery(
 				"from SchemaInformationObject where SCHEMANAME = :schemaName ")
-				.setString("schemaName", schemaName)	
-				.list(); //$NON-NLS-1$
+				.setString("schemaName", schemaName).list(); //$NON-NLS-1$
 
 		if ((sList != null) && (sList.size() == 1)) {
 			SchemaInformationObject sio = (SchemaInformationObject) sList
@@ -321,9 +327,11 @@ public class SchemaInformationObject {
 
 		return returnSIO;
 	}
-	
+
 	/**
-	 * Pulls the schemainformationobject out of the database base on its id and schema.
+	 * Pulls the schemainformationobject out of the database base on its id and
+	 * schema. 
+	 * Note: we have to set the rootFlag as true to get the object from the rootschema.
 	 * 
 	 * @param schema
 	 * @param sim_id
@@ -331,24 +339,30 @@ public class SchemaInformationObject {
 	 */
 	public static SchemaInformationObject getById(Long schema_id) {
 
-		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
-		SchemaInformationObject sio = (SchemaInformationObject) 
-			MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).get(SchemaInformationObject.class, schema_id);
+		MultiSchemaHibernateUtil
+				.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
+		SchemaInformationObject sio = (SchemaInformationObject) MultiSchemaHibernateUtil
+				.getSession(MultiSchemaHibernateUtil.principalschema, true).get(
+						SchemaInformationObject.class, schema_id);
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
 		return sio;
 
 	}
-	
+
 	/** Saves a schemainformation object. */
 	public void saveMe() {
 
-		MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema);
+		MultiSchemaHibernateUtil
+				.beginTransaction(MultiSchemaHibernateUtil.principalschema);
 
-		MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.getSession(
+				MultiSchemaHibernateUtil.principalschema).saveOrUpdate(this);
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
 	}
 
@@ -358,76 +372,78 @@ public class SchemaInformationObject {
 	 * @return
 	 */
 	public static SchemaInformationObject getFirstUpEmailServer() {
-		
+
 		List fList = getAllOrderedByEmailServerNumber();
-		
+
 		for (ListIterator li = fList.listIterator(); li.hasNext();) {
 			SchemaInformationObject sio = (SchemaInformationObject) li.next();
 
-			// TODOD Should probably select a 'verified' ones first, but for now ...
-			if (!(sio.emailState.equalsIgnoreCase(EMAIL_STATE_DOWN))){
+			// TODOD Should probably select a 'verified' ones first, but for now
+			// ...
+			if (!(sio.emailState.equalsIgnoreCase(EMAIL_STATE_DOWN))) {
 				return sio;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Just cleans fields up for presentation on a web form.
 	 * 
 	 */
-	public void cleanForPresentation(){
-		
+	public void cleanForPresentation() {
+
 		if (this.getSchema_name() == null) {
 			this.setSchema_name("");
 		}
-		
+
 		if (this.getSchema_organization() == null) {
 			this.setSchema_organization("");
 		}
-		
-		if (this.getEmail_archive_address() == null){
+
+		if (this.getEmail_archive_address() == null) {
 			this.setEmail_archive_address("");
 		}
-		
-		if (this.getEmail_smtp() == null){
+
+		if (this.getEmail_smtp() == null) {
 			this.setEmail_smtp("");
 		}
-		
-		if (this.getEmailServerNumber() == null){
+
+		if (this.getEmailServerNumber() == null) {
 			this.setEmailServerNumber(new Long(1));
 		}
-		
-		if (this.getSmtp_auth_password() == null){
+
+		if (this.getSmtp_auth_password() == null) {
 			this.setSmtp_auth_password("");
 		}
-		
-		if (this.getSmtp_auth_user() == null){
+
+		if (this.getSmtp_auth_user() == null) {
 			this.setSmtp_auth_user("");
 		}
 	}
-	
+
 	/**
-	 * This simply checks to see if informtion has provided to send emails. (It doesn't check to see if this
-	 * information is correct.)
-	 * One side affect of this 
+	 * This simply checks to see if informtion has provided to send emails. (It
+	 * doesn't check to see if this information is correct.) One side affect of
+	 * this
+	 * 
 	 * @return
 	 */
-	public boolean checkReqEmailInfoAndMaybeMarkDown(){
-		
-		if (   ((email_smtp != null) && (email_smtp.trim().length() > 0)) &&
-				((smtp_auth_user != null) && (smtp_auth_user.trim().length() > 0)) &&
-				((smtp_auth_password != null) && (smtp_auth_password.trim().length() > 0)) &&
-				((email_archive_address != null) && (email_archive_address.trim().length() > 0))
-			)
-		{
+	public boolean checkReqEmailInfoAndMaybeMarkDown() {
+
+		if (((email_smtp != null) && (email_smtp.trim().length() > 0))
+				&& ((smtp_auth_user != null) && (smtp_auth_user.trim().length() > 0))
+				&& ((smtp_auth_password != null) && (smtp_auth_password.trim()
+						.length() > 0))
+				&& ((email_archive_address != null) && (email_archive_address
+						.trim().length() > 0))) {
 			return true;
 		} else {
 			this.setEmailState(EMAIL_STATE_DOWN);
 			return false;
 		}
-		
+
 	}
 
 }
