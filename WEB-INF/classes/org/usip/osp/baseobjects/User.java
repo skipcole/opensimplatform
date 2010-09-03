@@ -618,7 +618,7 @@ public class User {
      */
     public static User getByUsername(String schema, String the_username) {
 
-    	User bu = null;
+    	User user = null;
     	
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -627,7 +627,7 @@ public class User {
                     "from User where user_name = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
         	
         	if ((returnList != null) && (returnList.size() > 0)){
-        		bu = (User) returnList.get(0);
+        		user = (User) returnList.get(0);
         	}
         } catch (Exception e) {
             e.printStackTrace();
@@ -635,6 +635,6 @@ public class User {
 
         MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-        return bu;
+        return user;
     }
 }

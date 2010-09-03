@@ -25,20 +25,23 @@
 	String uri_id = (String) request.getParameter("uri");
 	String initial_entry = (String) request.getParameter("initial_entry");
 	
+	
 	SchemaInformationObject sio = new SchemaInformationObject();
 	UserRegistrationInvite uri = new UserRegistrationInvite();
 	
-	if (schema_id != null) {
+	if ((schema_id != null) && (!(schema_id.equalsIgnoreCase("null")))) {
 		sio = SchemaInformationObject.getById(new Long(schema_id));
 		
-		if (uri_id != null) {
+		if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
 			uri = UserRegistrationInvite.getById(sio.getSchema_name(), new Long(uri_id));
 		
 			if (initial_entry != null) {
 				userOnScratchPad.setBu_username(uri.getOriginalInviteEmailAddress());
 			}
 		}
+	
 	}
+	
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -57,6 +60,7 @@ body {
 	background-image: url(../Templates/images/page_bg.png);
 	background-repeat: repeat-x;
 }
+.style1 {color: #FF0000}
 -->
 </style>
 </head>
@@ -89,53 +93,61 @@ body {
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <p>&nbsp;</p>
-              <h1>Registration Page </h1>
+              <h1>Self Registration Page </h1>
               <br />
 			
       <p>To participate in online simulations using this sytem, you will need to be registered in the system.</p>
-      <p>Please Note:</p>
-      <ol>
-        <li>Your email address will be your username</li>
-    <li>Registering on the sytem will not give you immediate access to any simulations. An instructor will need to assign you a role in an ongoing simulation before you can participate in one.</li>
-    <li>After registering you will receive an email at the address you give for your email address. If you do not see this email shortly after registering, please look for it in your junk email box (and then we recommend that you white list the sender.)</li>
-        </ol>
-      <p>Please enter your information below. </p>
-      <form action="" method="post" name="form1" id="form1">
+
+      <div align="center"><table width="70%" border="1"><tr><td>
+        <p><strong>Please Note:</strong><br/>
+Registering on the sytem may not give you immediate access to any simulations. An instructor will need to assign you a role in an ongoing simulation before you can participate in one.</p>
+		</td></tr></table></div>
+
+      <p align="center" class="style1"><%= afso.errorMsg %></p>
+      <form action="auto_registration_page.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           
           <tr>
-            <td valign="top">username/email<a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?)</a></td>
-              <td valign="top"><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"   /></td>
+            <td valign="top">Username/Email <a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?):</a></td>
+              <td valign="top"><input name="email" type="text" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>" size="60"   /></td>
             </tr>
           <tr>
-            <td valign="top">password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?)</a></td>
-              <td valign="top"><input type="text" name="password" tabindex="2"  /></td>
+            <td valign="top">Confirm Email <a href="helptext/confirm_email.jsp" target="helpinright">(?)</a>: </td>
+            <td valign="top"><input type="text" name="confirm_email" tabindex="2" value="<%= userOnScratchPad.getBu_username() %>" size="60" ></td>
+          </tr>
+          <tr>
+            <td valign="top">Password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?):</a></td>
+              <td valign="top"><input type="text" name="password" tabindex="3"  size="60"   /></td>
             </tr>
           <tr>
-            <td valign="top">First Name:</td>
+            <td valign="top">Confirm Password <a href="helptext/confirm_password.jsp" target="helpinright">(?)</a>: </td>
+            <td valign="top"><input type="text" name="confirm_password" tabindex="4" size="60" ></td>
+          </tr>
+          <tr>
+            <td valign="top">First Name <a href="helptext/real_name.jsp" target="helpinright">(?)</a>:</td>
       <td valign="top">
         <label>
-          <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>"   />
+          <input type="text" name="first_name" tabindex="5"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>"  size="60"   />
           </label></td>
     </tr>
           <tr>
-            <td valign="top">Middle Name:</td>
+            <td valign="top">Middle Name <a href="helptext/real_name.jsp" target="helpinright">(?)</a>:</td>
       <td valign="top">
         <label>
-          <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>"    />
+          <input type="text" name="middle_name" tabindex="6"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>"    size="60"  />
           </label></td>
     </tr>
           <tr>
-            <td valign="top">Last Name:</td>
+            <td valign="top">Last Name <a href="helptext/real_name.jsp" target="helpinright">(?)</a>:</td>
       <td valign="top">
         <label>
-          <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"     />
+          <input type="text" name="last_name" tabindex="7" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  size="60"     />
           </label></td>
     </tr>
     <% if ((schema_id != null) && (!(schema_id.equalsIgnoreCase("null") ) ) ) { %>
 	
 	     	<tr>
-            <td valign="top">Organizational Database: (?)</td>
+            <td valign="top">Organizational Database: <a href="helptext/org_database.jsp" target="helpinright">(?):</a></td>
               <td valign="top">
               <input type=hidden name="schema_id" value="<%= schema_id %>">
 			  <input type=hidden name="uri" value="<%= uri.getId() %>">
@@ -144,9 +156,9 @@ body {
             
      <% } else { %>
 <tr>
-            <td valign="top">Organizational Database: (?)</td>
+            <td valign="top">Organizational Database <a href="helptext/org_database.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top">
-              <select name="selected_schema" tabindex="7">
+              <select name="schema_id" tabindex="8">
 			  <%
 			  	
 				List ghostList = SchemaInformationObject.getAll();
@@ -154,26 +166,26 @@ body {
 			  	for (ListIterator<SchemaInformationObject> li = ghostList.listIterator(); li.hasNext();) {
             		SchemaInformationObject this_sg = (SchemaInformationObject) li.next();
 				%>
-				<option value="<%= this_sg.getSchema_name() %>"><%= this_sg.getSchema_organization() %></option>
+				<option value="<%= this_sg.getId() %>"><%= this_sg.getSchema_organization() %></option>
 			<% } %>
               </select>              </td>
 			</tr>  
      <% }  // end if if schema_id was null %>
           <tr>
             <td valign="top">
-Captcha Code</td>
+Captcha Code <a href="helptext/captcha_code.jsp"  target="helpinright">(?)</a>: </td>
             <td valign="top">
-              <input name="captchacode" type="text" size="4" maxlength="4" tabindex="8" />
+              <input name="captchacode" type="text" size="4" maxlength="4" tabindex="9" />
             
 			<script>
  function resetCaptcha()
  {
-  document.getElementById('imgCaptcha').src = 'captchaimage.aspx?' + Math.random();
+  document.getElementById('imgCaptcha').src = 'captchaimage.jsp?' + Math.random();
  }
 </script>
 <div>
 <img src="captchaimage.jsp" id="imgCaptcha">
-<img src="refresh.jpeg" border=0 id="imgRefresh" onclick="setTimeout('resetCaptcha()', 300); return false;"></div></td>
+<img src="refresh.jpg" border=0 id="imgRefresh" onclick="setTimeout('resetCaptcha()', 300); return false;"></div></td>
           </tr>
           <tr>
             <td valign="top">&nbsp;</td>
@@ -181,7 +193,7 @@ Captcha Code</td>
                 
                 <input type="hidden" name="sending_page" value="create_users" /> 
                 
-                <input type="submit" name="command" value="Register" tabindex="9"   />			</td>
+                <input type="submit" name="command" value="Register" tabindex="10"   />			</td>
             </tr>
           </table>
         </form>

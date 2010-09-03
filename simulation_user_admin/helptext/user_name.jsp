@@ -20,8 +20,7 @@ body {
 <!-- InstanceBeginEditable name="PageBody" -->
 <h1>User Name</h1>
 <p>The 'username' is the name of that the player will log in with. It is generally 
-  some variant on their real human name. For example, 'John Smith' may be assigned 
-  a user name of 'jsmith'.</p>
+  an email address of their's.</p>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable --> 
 </body>

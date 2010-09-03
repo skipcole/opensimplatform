@@ -19,7 +19,7 @@ body {
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
 <h1>User Password</h1>
-<p>The password that the player will log in with.</p>
+<p>The password that you will log onto the system with.</p>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable --> 
 </body>

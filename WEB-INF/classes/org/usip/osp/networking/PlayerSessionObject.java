@@ -438,7 +438,14 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			Hashtable<Long, UserTrailGhost> loggedInUsers = (Hashtable<Long, UserTrailGhost>) request
 					.getSession().getServletContext().getAttribute(
-							"loggedInUsers");
+							USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS);
+
+			if (loggedInUsers == null) {
+				loggedInUsers = new Hashtable();
+				request.getSession().getServletContext().setAttribute(
+						USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS,
+						loggedInUsers);
+			}
 
 			loggedInUsers.put(user.getId(), myUserTrailGhost);
 
@@ -1934,9 +1941,18 @@ public class PlayerSessionObject extends SessionObjectBase {
 				pso.myUserTrailGhost.setUser_id(pso.user_id);
 
 				Hashtable<Long, UserTrailGhost> loggedInUsers = (Hashtable<Long, UserTrailGhost>) request
-						.getSession().getServletContext().getAttribute(
-								"loggedInUsers");
+						.getSession()
+						.getServletContext()
+						.getAttribute(
+								USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS);
 
+				if (loggedInUsers == null) {
+					loggedInUsers = new Hashtable();
+					request.getSession().getServletContext().setAttribute(
+							USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS,
+							loggedInUsers);
+				}
+				
 				loggedInUsers.put(user.getId(), pso.myUserTrailGhost);
 
 				sio.setLastLogin(new Date());
