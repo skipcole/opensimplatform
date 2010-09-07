@@ -60,7 +60,16 @@
 	  %>
       </table>
       <p></p>
-      <p align="center"></p>      <p align="left">&nbsp;</p>			</td>
+      <p align="center">
+	  <% if (!(running_simulation.isReady_to_begin())) {
+	  %>
+	  This running simulation has not been enabled. To continue the procces, click below to do so.<br />
+	  <a href="create_schedule_page.jsp">Next step: Create Schedule Page</a>
+	  <%
+	  }
+	  %>
+	  
+	  </p>      <p align="left">&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

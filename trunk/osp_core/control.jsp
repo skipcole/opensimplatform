@@ -33,7 +33,7 @@
 <table width="95%" border="0" cellspacing="2" cellpadding="2">
   <tr valign="top">
     <td valign="top"><p><a href="change_phase.jsp">Change Phase </a></p>    </td> 
-    <td valign="top"><p>This page will allow you to </p>      </td>
+    <td valign="top"><p>This page will allow you to change the phase of the simulation. </p>      </td>
   </tr>
   <tr valign="top">
     <td valign="top"><a href="become_player.jsp">Change Your Role </a></td>
@@ -48,8 +48,8 @@
     <td valign="top">This page allows you to change who is playing. </td>
   </tr>
   <tr valign="top">
-    <td valign="top">&nbsp;</td>
-    <td valign="top">&nbsp;</td>
+    <td valign="top"><a href="finger.jsp">View Last Logins </a></td>
+    <td valign="top">This page allows you to see when your players have logged in. </td>
   </tr>
 </table>
 <p>&nbsp;</p>
