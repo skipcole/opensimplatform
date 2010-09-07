@@ -1,10 +1,13 @@
 package org.usip.osp.networking;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.User;
+import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.baseobjects.UserTrailGhost;
 import org.usip.osp.communications.Event;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -26,13 +29,18 @@ public class SessionObjectBase {
 
 	/** Schema of the database that the user is working in. */
 	public String schema = ""; //$NON-NLS-1$
-	
+
+	/** Code to indicate what kind of error was returned. */
+	public int errorCode = 0;
+
+	/** Error message to be shown to the user. */
+	public String errorMsg = ""; //$NON-NLS-1$
+
 	/**
 	 * We use a language code to indicate what language to show the interface
 	 * in. It can be set by the simulation, or over ridden by the player.
 	 */
 	public int languageCode = UILanguageObject.ENGLISH_LANGUAGE_CODE;
-
 
 	public int getLanguageCode() {
 		return languageCode;
@@ -48,7 +56,7 @@ public class SessionObjectBase {
 	public boolean isLoggedin() {
 		return loggedin;
 	}
-	
+
 	/** ID of Simulation being conducted or worked on. */
 	public Long sim_id;
 
@@ -63,10 +71,10 @@ public class SessionObjectBase {
 
 	/** Id of the actor being developed */
 	public Long actor_being_worked_on_id;
-	
+
 	/** ID of Phase being worked on. */
 	public Long phase_id;
-	
+
 	/**
 	 * Copyright string to display at the bottom of every page in the
 	 * simulation.
@@ -86,13 +94,13 @@ public class SessionObjectBase {
 
 	/** Name of the running simulation session. */
 	public String run_sim_name = ""; //$NON-NLS-1$
-	
+
 	/** Records the display name of this user. */
 	public String userDisplayName = ""; //$NON-NLS-1$
-	
+
 	/** User trail ghost of this user. */
 	public UserTrailGhost myUserTrailGhost = new UserTrailGhost();
-	
+
 	/**
 	 * Pulls the running sim whose id is being stored out of the database.
 	 * 
@@ -101,14 +109,15 @@ public class SessionObjectBase {
 	public RunningSimulation giveMeRunningSim() {
 
 		if (runningSimId == null) {
-			Logger.getRootLogger().warn("Warning RunningSimId is null in pso.giveMeRunningSim");
+			Logger.getRootLogger().warn(
+					"Warning RunningSimId is null in pso.giveMeRunningSim");
 
 			return null;
 		}
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil.getSession(schema).get(
-				RunningSimulation.class, runningSimId);
+		RunningSimulation rs = (RunningSimulation) MultiSchemaHibernateUtil
+				.getSession(schema).get(RunningSimulation.class, runningSimId);
 
 		MultiSchemaHibernateUtil.getSession(schema).evict(rs);
 
@@ -116,7 +125,7 @@ public class SessionObjectBase {
 
 		return rs;
 	}
-	
+
 	/**
 	 * Returns all of the planned events for a phase.
 	 * 
@@ -125,26 +134,27 @@ public class SessionObjectBase {
 	 * @param phase_id
 	 * @return
 	 */
-	public static String getEventsForPhase(String schema, Long sim_id, Long phase_id){
-		
-		if (sim_id == null){
+	public static String getEventsForPhase(String schema, Long sim_id,
+			Long phase_id) {
+
+		if (sim_id == null) {
 			return "";
-		} else if (phase_id == null){
+		} else if (phase_id == null) {
 			Simulation sim = Simulation.getById(schema, sim_id);
 			phase_id = sim.getFirstPhaseId(schema);
 		}
-		
+
 		return Event.packupArray(Event.getAllForSim(sim_id, phase_id, schema));
-		
+
 	}
-	
+
 	public static String getBaseSimURL() {
 		return USIP_OSP_Properties.getValue("base_sim_url");
 	}
-	
+
 	/** Id of User that is logged on. */
 	public Long user_id;
-	
+
 	/**
 	 * Returns the user associated with this session.
 	 * 
@@ -154,5 +164,50 @@ public class SessionObjectBase {
 
 		return User.getUser(schema, this.user_id);
 
+	}
+
+	/** Assigns a user to a simulation. */
+	public void handleAssignUser(HttpServletRequest request) {
+
+		String command = request.getParameter("command"); //$NON-NLS-1$
+
+		System.out.println("command was " + command);
+
+		if (command != null) {
+			if ((command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
+
+				String user_to_add_to_simulation = request
+						.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
+
+				Long user_to_add_id = null;
+
+				if ((user_to_add_to_simulation != null)
+						&& (user_to_add_to_simulation
+								.equalsIgnoreCase("remove"))) {
+					errorMsg = "Removed User Assignment";
+				} else {
+					user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
+							request, user_to_add_to_simulation);
+					if (user_to_add_id == null) {
+						errorMsg = "User Not Found: "
+								+ user_to_add_to_simulation;
+						return;
+					}
+				}
+
+				System.out.println("user to add was: " + user_to_add_id);
+
+				String actor_id = request
+						.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
+				String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
+				String running_sim_id = request
+						.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
+
+				@SuppressWarnings("unused")
+				UserAssignment ua = UserAssignment.getUniqueUserAssignment(
+						schema, new Long(sim_id), new Long(running_sim_id),
+						new Long(actor_id), user_to_add_id);
+			}
+		}
 	}
 }

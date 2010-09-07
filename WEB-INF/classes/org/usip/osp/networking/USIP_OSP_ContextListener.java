@@ -85,8 +85,7 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	/** Tickets are used to keep track of who is currently logged in. */
 	public static final String CACHEON_ACTIVE_TICKETS = "activeTickets"; //$NON-NLS-1$
 	
-	
-	//public static final String CACHEON_LOGGED_IN_PLAYERS = "loggedInPlayers"; //$NON-NLS-1$
+	public static final String CACHEON_LOGGED_IN_PLAYERS = "loggedInPlayers"; //$NON-NLS-1$
 	
 	
 	public static final String CACHEON_LOGGED_IN_USERS = "loggedInUsers"; //$NON-NLS-1$
@@ -99,7 +98,9 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	
 	public static final String CACHEON_BPI_NAMES = "bpi_names"; //$NON-NLS-1$
 	
-	public static final String CACHEON_AUTOCOMPLETE_USERNAMES = "bpi_names"; //$NON-NLS-1$
+	public static final String CACHEON_AUTOCOMPLETE_USERNAMES = "acu_names"; //$NON-NLS-1$
+	
+	public static final String CACHEON_AUTOCOMPLETE_PLAYER_USERNAMES = "acup_names"; //$NON-NLS-1$
 
 	/** Used to keep track of which injects have been fired during a game. */
 	public static final String CACHEON_INJECTS_FIRED = "injects_fired"; //$NON-NLS-1$

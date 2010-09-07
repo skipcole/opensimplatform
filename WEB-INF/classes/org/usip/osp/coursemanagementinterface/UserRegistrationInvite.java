@@ -1,6 +1,10 @@
-package org.usip.osp.communications;
+package org.usip.osp.coursemanagementinterface;
 
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.*;
 
@@ -30,6 +34,20 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class UserRegistrationInvite {
 
+	public static void main(String args []){
+		System.out.println("Hello World!");
+		
+		List uriList = getAllSetsForUser("test", new Long(1));
+		
+		for (ListIterator urli = uriList.listIterator(); urli.hasNext();) {
+			String invitationSetName = (String) urli.next();
+			System.out.println("x " + invitationSetName);
+			
+		}
+		
+		List list2 = getAllInASet("test", "a");
+		
+	}
 	/** Database id of this User. */
 	@Id
 	@GeneratedValue
@@ -90,6 +108,48 @@ public class UserRegistrationInvite {
 		return uri;
 
 	}
+	
+	/**
+	 * Gets a distinct list of invitations from a user.
+	 * 
+	 * @param schema
+	 * @param userId
+	 * @return
+	 */
+	public static List getAllSetsForUser(String schema, Long userId){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"select distinct u.invitationSet from UserRegistrationInvite u " +
+				"where userId = :userId")
+				.setLong("userId", userId).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+		
+		
+	}
+	
+    /**
+     * Returns all of the actors found in a schema for a particular simulation
+     * 
+     * @param schema
+     * @return
+     */
+    public static List getAllInASet(String schema, String set_code){
+        
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from UserRegistrationInvite where invitationSet = :invitationSet order by uri_id")
+				.setString("invitationSet", set_code).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+    }
 
 	/**
 	 * Convenience creation method.

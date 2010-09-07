@@ -4,7 +4,9 @@
 	import="java.sql.*,
 	java.util.*,
 	java.text.*,
-	org.usip.osp.networking.*,org.usip.osp.persistence.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.coursemanagementinterface.*,
 	org.hibernate.*,
 	org.usip.osp.baseobjects.*" 
 	errorPage="" %>
@@ -28,11 +30,6 @@
 
 <title>Open Simulation Platform Control Page</title>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-<!--
-.style1 {color: #FF0000}
--->
-</style>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -92,9 +89,29 @@
               </tr>
         </table>
     </form>
-    <% } %>
-    <p><em><strong>Functionality to Come</strong></em>: Click here to see your previous bulk invitations.</p>
-    <p>&nbsp;</p>
+        <h2>
+          <% } %>
+            </h2>
+        <h2>Your Previous Invitations </h2>
+        <%
+			List uriList = UserRegistrationInvite.getAllSetsForUser(afso.schema, afso.user_id);
+			
+			if ((uriList == null) || (uriList.size() == 0)){
+			%>
+			<blockquote>
+			None
+			</blockquote>
+			<%
+			} else {
+		
+				for (ListIterator urli = uriList.listIterator(); urli.hasNext();) {
+					String invitationSetName = (String) urli.next();  
+					String encodedSetName = java.net.URLEncoder.encode(invitationSetName);
+					%>
+        			<p><a href="bulk_invite_show_users.jsp?invitationSetName=<%= encodedSetName %>"><%= invitationSetName %></a></p>
+				<% } // End of loop over User registration Invites
+			} // End of if there were some invites to display
+			%>
       </blockquote>
       <blockquote>
         <div align="center">

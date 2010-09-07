@@ -5,7 +5,7 @@
 	errorPage="" %>
 <%
 	
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	String q = request.getParameter("q");
 	
@@ -15,7 +15,7 @@
 	
 	ArrayList outList = new ArrayList();
 	
-	for (Enumeration e = USIP_OSP_Cache.getAutocompleteUserNames(afso.schema, request).keys(); e.hasMoreElements();) {
+	for (Enumeration e = USIP_OSP_Cache.getPlayerAutocompleteUserNames(pso.schema, request).keys(); e.hasMoreElements();) {
 			String s = (String) e.nextElement();
 			      System.out.println("                " + s);
 			
@@ -26,4 +26,5 @@
 	}
 	
 	for (ListIterator<String> li = outList.listIterator(); li.hasNext();){
-			String s = li.next(); %><%= s %><% } // End of loop over matches %>
+			String s = li.next(); %><%= s %>
+			<% } // End of loop over matches %>

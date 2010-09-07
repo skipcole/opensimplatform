@@ -177,32 +177,31 @@ public class UserAssignment{
 	 */
 	public static UserAssignment getUniqueUserAssignment(String schema, Long sid, Long rid, Long aid, Long uid){
 		
-		removePreviousAssignments(schema, sid, rid, aid);
-		
-		UserAssignment ua = new UserAssignment(schema, sid, rid, aid, uid);
-		
-		return ua;
-
-	}
-	
-	public static void removePreviousAssignments(String schema, Long sid, Long rid, Long aid){
-		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
+		UserAssignment ua = new UserAssignment();
 		
 		String hqlString = "from UserAssignment where RUNNING_SIM_ID = '" + rid +   //$NON-NLS-1$
-			"' and ACTOR_ID = '" + aid + "' AND SIM_ID = '" + sid + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		
-		Logger.getRootLogger().debug(hqlString);
-		
+		"' and ACTOR_ID = '" + aid + "' AND SIM_ID = '" + sid + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+			
 		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString).list();
 
-		for (ListIterator<UserAssignment> li = userList.listIterator(); li.hasNext();) {
-			UserAssignment ua = li.next();
-			MultiSchemaHibernateUtil.getSession(schema).delete(ua);
-			
+		if ((userList == null) || (userList.size() == 0)){
+			ua = new UserAssignment(schema, sid, rid, aid, uid);
+		} else if (userList.size() >= 1){
+			ua = (UserAssignment) userList.get(0);
+			ua.setUser_id(uid);
+			ua.saveMe(schema);
+		}
+		
+		if (userList.size() > 1){
+			Logger.getRootLogger().warn("multiple user assignments for s/rs/a: " + sid + "/" + rid + "/" + aid);
 		}
 		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return ua;
+
 	}
 	
 	
@@ -219,10 +218,13 @@ public class UserAssignment{
 		User returnUser = null;
 		if ((userList != null) && (userList.size() > 0)){
 			UserAssignment ua = userList.get(0);
-			returnUser = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class,ua.getUser_id());
 			
-			returnUser.loadMyDetails();
-			Logger.getRootLogger().debug(returnUser.getBu_username());
+			if (ua.getUser_id() != null){
+				returnUser = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class,ua.getUser_id());
+			
+				returnUser.loadMyDetails();
+				Logger.getRootLogger().debug(returnUser.getBu_username());
+			}
 		} else{
 			Logger.getRootLogger().debug("no user assigned found."); //$NON-NLS-1$
 		}

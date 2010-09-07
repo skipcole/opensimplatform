@@ -86,6 +86,38 @@ public class BaseUser {
         
     }
     
+    public static void main(String args[]){
+    	System.out.println("Hello World!");
+    	
+    	List mList = searchUserByName("test", "ip");
+    	
+    	for (ListIterator li = mList.listIterator(); li.hasNext();) {
+			BaseUser bu = (BaseUser) li.next();
+			System.out.println(bu.getUsername());
+    	}
+    }
+    
+    public static List searchUserByName(String schema, String partialName){
+    	
+    	partialName = "%" + partialName + "%";
+    	
+        MultiSchemaHibernateUtil.beginTransaction(
+                MultiSchemaHibernateUtil.principalschema, true);
+
+        List sList = MultiSchemaHibernateUtil.getSession(
+                MultiSchemaHibernateUtil.principalschema, true).createQuery(
+                "from BaseUser where FULLNAME like :FULLNAME  ")
+                .setString("FULLNAME", partialName)
+                .list(); //$NON-NLS-1$ 
+        
+        MultiSchemaHibernateUtil.getSession(
+                MultiSchemaHibernateUtil.principalschema, true).close();
+        
+        return sList;
+        
+        
+    }
+    
     public void updateMe(String fi, String fu, String la, String mi){
     	this.first_name = fi;
     	this.full_name = fu;
