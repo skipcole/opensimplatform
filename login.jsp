@@ -43,6 +43,7 @@ org.usip.osp.baseobjects.*" errorPage="" %>
 <title>USIP Open Simulation Platform Login</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="usip_osp.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="third_party_libraries/jquery/jquery-1.4.1.js"></script>
 <style type="text/css">
 <!--
 .style1 {font-size: small}
@@ -109,7 +110,14 @@ body {
             <td> <input type="submit" name="Submit" value="Submit" > </td>
           </tr>
           <tr> 
-            <td colspan="2"><font color="#FF0000"><%= errorMsg %></font></td>
+            <td colspan="2"><font color="#FF0000"><%= errorMsg %></font>
+						<script>
+				var browser = jQuery.uaMatch(navigator.userAgent).browser;
+				if (browser != "mozilla"){
+					document.write("<b>Please Note: This software has only been thoroughly tested on Firefox. It may work on other platforms, but you may experience some inconveniences. Our apologies in advance.</b>" );
+				}
+</script>
+			</td>
           </tr>
           <tr>
             <td colspan="2"><div align="right"><span class="style1"><a href="simulation_user_admin/retrieve_password.jsp"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "forgot_password") %></a></span></div></td>
@@ -132,8 +140,7 @@ body {
                  <label>
                    <input type="submit" name="button" id="button" value="Submit">
                  </label>
-               </form>
-             </td>
+               </form>             </td>
            </tr>
            <tr>
             <td>Upcoming Planned Outage:<br /> <%= USIP_OSP_Properties.getNextPlannedDowntime() %></td>

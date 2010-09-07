@@ -56,7 +56,8 @@
               <table width="80%" border = "1">
                 <tr> 
                   <td><h2>Running Simulation</h2></td>
-              <td><h2>Phase</h2></td>
+                  <td><h2>Enabled</h2></td>
+                  <td><h2>Phase</h2></td>
             </tr>
                 <%
 		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id.toString(), afso.schema);
@@ -71,7 +72,10 @@
 		%>
                 <tr> 
                   <td><a href="administrate_users.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
-              <td><%= sp.getPhaseName() %></td>
+                  <td>
+				  <% if (rs.isReady_to_begin()){ %> true <% } else { %>false<% } %>
+				  </td>
+                  <td><%= sp.getPhaseName() %></td>
             </tr>
                 <%
 			}

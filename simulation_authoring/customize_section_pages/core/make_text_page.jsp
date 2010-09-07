@@ -53,12 +53,19 @@
           <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
           <p>
             <textarea id="text_page_text" name="text_page_text" style="height: 710px; width: 710px;"><%= cs.getBigString() %></textarea>
+          </p>
+          <p>
             
             <script language="javascript1.2">
   			generate_wysiwyg('text_page_text');
-		</script>
+		    </script>
+            <strong>Modify Section Description</strong></p>
+          <blockquote>
+            <p>
+              <textarea name="cs_description" cols="80" rows="3" id="cs_description"><%= cs.getDescription() %></textarea>
             </p>
-            <p> 
+          </blockquote>
+          <p> 
               <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
               <input type="hidden" name="universal" value="<%= afso.getMyPSO_SectionMgmt().get_universal() %>">
               <input type="hidden" name="sending_page" value="make_text_page" />
