@@ -23,18 +23,23 @@ import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.UILanguageObject;
 
+/**
+ * This Object maintains the caches uses by the OSP.
+ * 
+ * @author Skip
+ * 
+ */
 /*
  * 
- *         This file is part of the USIP Open Simulation Platform.<br>
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
- * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  */
 public class USIP_OSP_Cache {
 
@@ -505,7 +510,7 @@ public class USIP_OSP_Cache {
 					.getActor_id());
 
 			if (user != null) { // If found, enter their user_id into the
-								// hashtable
+				// hashtable
 				user_assignments_hash.put(schema + "_" + rs_id + "_"
 						+ this_saa.getActor_id(), user.getId().toString());
 			} else { // If not found, enter 'unassigned'
@@ -516,6 +521,8 @@ public class USIP_OSP_Cache {
 
 	}
 
+	public static final String CACHED_TABLE_LONG = "long";
+	
 	/**
 	 * Pulls the hashtable from the context.
 	 * 
@@ -543,6 +550,14 @@ public class USIP_OSP_Cache {
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<String, Hashtable>();
+				context.setAttribute(hashkey, cacheWeWant);
+			}
+		} else if (dType.equalsIgnoreCase("long")) {
+			cacheWeWant = (Hashtable<Long, Hashtable>) context
+					.getAttribute(hashkey);
+
+			if (cacheWeWant == null) {
+				cacheWeWant = new Hashtable<Long, Hashtable>();
 				context.setAttribute(hashkey, cacheWeWant);
 			}
 		} else {
@@ -593,6 +608,34 @@ public class USIP_OSP_Cache {
 		}
 
 	}
+	
+	public static Hashtable getPlayerAutocompleteUserNames(String schema,
+			HttpServletRequest request) {
+
+		Hashtable<String, Hashtable> allUserNameTables = getCachedHashtable(
+				request,
+				USIP_OSP_ContextListener.CACHEON_AUTOCOMPLETE_PLAYER_USERNAMES,
+				"hashtable");
+
+		Hashtable thisUserNameTable = (Hashtable) allUserNameTables.get(schema);
+
+		if (thisUserNameTable == null) {
+			thisUserNameTable = new Hashtable();
+		}
+
+		if (thisUserNameTable.size() == 0) {
+			Logger.getLogger("root").debug(
+					"getAutocompleteUserNames pulling data from database");
+			for (ListIterator<User> li = User.getAllForSchemaAndLoadDetails(
+					schema).listIterator(); li.hasNext();) {
+				User user = li.next();
+				thisUserNameTable.put(user.getUser_name(), user.getId());
+			}
+			allUserNameTables.put(schema, thisUserNameTable);
+		}
+
+		return thisUserNameTable;
+	}
 
 	public static Hashtable getAutocompleteUserNames(String schema,
 			HttpServletRequest request) {
@@ -630,29 +673,31 @@ public class USIP_OSP_Cache {
 				request, USIP_OSP_ContextListener.CACHEON_INJECTS_FIRED,
 				"hashtable");
 
-		Hashtable thisSetOfTables = (Hashtable) allInjectsFiredTable.get(schema);
+		Hashtable thisSetOfTables = (Hashtable) allInjectsFiredTable
+				.get(schema);
 
 		if (thisSetOfTables == null) {
 			thisSetOfTables = new Hashtable();
 		}
-		
+
 		String keyForRsAndActor = getRsActorKey(rs_id, a_id);
-		
-		Hashtable returnTable = (Hashtable) thisSetOfTables.get(keyForRsAndActor);
-		
-		if (returnTable == null){
+
+		Hashtable returnTable = (Hashtable) thisSetOfTables
+				.get(keyForRsAndActor);
+
+		if (returnTable == null) {
 			returnTable = new Hashtable();
 		}
-		
-		if (returnTable.size() == 0){
+
+		if (returnTable.size() == 0) {
 			loadInjectHistoryCache(returnTable, schema, rs_id, a_id);
 		}
-		
+
 		thisSetOfTables.put(keyForRsAndActor, returnTable);
 
 		return returnTable;
 	}
-	
+
 	/**
 	 * This adds an inject into the cache.
 	 * 
@@ -665,48 +710,51 @@ public class USIP_OSP_Cache {
 	 * @return
 	 */
 	public static Hashtable addFiredInjectsToCache(String schema,
-			HttpServletRequest request, Long rs_id, Long a_id, Long inj_id, String targets) {
-		
+			HttpServletRequest request, Long rs_id, Long a_id, Long inj_id,
+			String targets) {
+
 		Hashtable starterTable = getInjectsFired(schema, request, rs_id, a_id);
-		
+
 		starterTable.put(inj_id, targets);
-		
+
 		return starterTable;
-		
+
 	}
-	
-	public static String getRsActorKey(Long rs_id, Long a_id){
+
+	public static String getRsActorKey(Long rs_id, Long a_id) {
 		String returnString = rs_id.toString() + "_" + a_id.toString();
-		
+
 		return returnString;
 	}
-	
+
 	/**
-	 * This loads the injects from the database and puts them in the cached hashtable.
-	 * It also adds one extra (key/value = 0/set) to indicate that this has actually been
-	 * pulled out of the database.
+	 * This loads the injects from the database and puts them in the cached
+	 * hashtable. It also adds one extra (key/value = 0/set) to indicate that
+	 * this has actually been pulled out of the database.
+	 * 
 	 * @param schema
 	 * @param rs_id
 	 * @param a_id
 	 */
-	public static void loadInjectHistoryCache(Hashtable thisTable, String schema, Long rs_id, Long a_id){
-		
-		List<InjectFiringHistory> dbList = 
-			InjectFiringHistory.getAllForRunningSimAndActor(schema, rs_id, a_id);
-		
+	public static void loadInjectHistoryCache(Hashtable thisTable,
+			String schema, Long rs_id, Long a_id) {
+
+		List<InjectFiringHistory> dbList = InjectFiringHistory
+				.getAllForRunningSimAndActor(schema, rs_id, a_id);
+
 		// Loop over all of the actors that should be assigned.
 		for (ListIterator<InjectFiringHistory> li = dbList.listIterator(); li
 				.hasNext();) {
 			InjectFiringHistory ifh = li.next();
-			
+
 			thisTable.put(ifh.getInjectId(), ifh.getTargets());
 
 		}
-		
-		// Add this entry to signal that cache has been loaded from the database.
+
+		// Add this entry to signal that cache has been loaded from the
+		// database.
 		thisTable.put(new Long(0), "all");
 
 	}
-	
 
 }

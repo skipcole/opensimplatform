@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
+import org.usip.osp.coursemanagementinterface.UserRegistrationInvite;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.Logger;
 import org.usip.osp.sharing.ObjectPackager;
@@ -85,12 +86,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public static final int CAPTCHA_WRONG = 1;
 	public static final int USERNAME_MISMATCH = 1;
 	public static final int PASSWORD_MISMATCH = 1;
-
-	/** Code to indicate what kind of error was returned. */
-	public int errorCode = 0;
-
-	/** Error message to be shown to the user. */
-	public String errorMsg = ""; //$NON-NLS-1$
 
 	public List tempSimSecList = new ArrayList();
 
@@ -267,37 +262,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnX;
 	}
 
-	/** Assigns a user to a simulation. */
-	public void handleAssignUser(HttpServletRequest request) {
 
-		String command = request.getParameter("command"); //$NON-NLS-1$
-
-		if (command != null) {
-			if ((command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
-
-				String user_to_add_to_simulation = request
-						.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
-
-				Long user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
-						request, user_to_add_to_simulation);
-
-				if (user_to_add_id != null) {
-					String actor_id = request
-							.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
-					String sim_id = request
-							.getParameter("simulation_adding_to"); //$NON-NLS-1$
-					String running_sim_id = request
-							.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
-
-					@SuppressWarnings("unused")
-					UserAssignment ua = UserAssignment.getUniqueUserAssignment(
-							this.schema, new Long(sim_id), new Long(
-									running_sim_id), new Long(actor_id),
-							new Long(user_to_add_id));
-				}
-			}
-		}
-	}
 
 	public String setOfUsers = ""; //$NON-NLS-1$
 	public String invitationCode = ""; //$NON-NLS-1$
@@ -440,8 +405,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				if (BaseUser.checkIfUserExists(this_email)) {
 					Logger.getRootLogger().debug("exists:" + this_email);
 					// make sure exists in this schema
-					returnString += "User already registered: " + this_email
-							+ "<br />";
+					returnString += "<font color=\"red\">User already registered: " + this_email
+							+ "</font><br />";
 
 				} else {
 
@@ -457,14 +422,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 					// Replace [website] with actual URL
 					String fullURL = baseURL + "&uri=" + uri.getId();
-					thisInviteEmailMsg = thisInviteEmailMsg.replace(
+					String tayloredInviteEmailMsg = thisInviteEmailMsg.replace(
 							"[website]", fullURL);
 
 					// Send them email directing them to the page to register
 
 					String subject = "Invitation to register on a USIP OSP System";
 					sendBulkInvitationEmail(this_email, subject,
-							thisInviteEmailMsg);
+							tayloredInviteEmailMsg);
 
 					returnString += this_email
 							+ " sent invitation email. <br />";

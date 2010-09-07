@@ -484,9 +484,16 @@ public class PlayerSessionObject extends SessionObjectBase {
 	/** Gets called when the user has selected a scenario to play. */
 	public void storeUserInfoInSessionInformation(HttpServletRequest request) {
 
-		Hashtable<Long, Hashtable> loggedInPlayers = (Hashtable<Long, Hashtable>) request
+		Hashtable<Long, Hashtable> loggedInPlayers = 
+			USIP_OSP_Cache.getCachedHashtable(request, 
+					USIP_OSP_ContextListener.CACHEON_LOGGED_IN_PLAYERS, USIP_OSP_Cache.CACHED_TABLE_LONG);
+			
+			
+			
+		/*	(Hashtable<Long, Hashtable>) request
 				.getSession().getServletContext().getAttribute(
 						"loggedInPlayers");
+						*/
 
 		Hashtable thisSetOfPlayers = loggedInPlayers.get(this.runningSimId);
 
@@ -1861,9 +1868,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		// Fire the triggers
 		// Get Triggers
 	}
-
-	/** Error message to be shown to the user. */
-	public String errorMsg = ""; //$NON-NLS-1$
 
 	/**
 	 * 
