@@ -36,7 +36,7 @@
                       <td>Allows you to add new simulation sections or models to your USIP OSP installation</td>
                     </tr>
                     <tr valign="top">
-                      <td><a href="install_edit_db.jsp">Maintenance Tasks</a></td>
+                      <td><a href="simulation_maintenancerelated.jsp">Maintenance Tasks</a></td>
                       <td><p>Allows one to see all of the installed databases and the last time someone has logged into them. Also allows one to edit or install a new database. <br />
                       Also here one can send test the email system and set the next planned down time.</p>                      </td>
                     </tr>

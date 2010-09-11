@@ -78,6 +78,14 @@
                   <input type="radio" name="<%= TipsCustomizer.KEY_FOR_CAN_LEAVE_TIPS %>" id="can_leave_tips_no" value="false" <%= Customizer.storedValueTrueToChecked(cs, TipsCustomizer.KEY_FOR_CAN_LEAVE_TIPS, false) %> />
                   No </label>
               </p>
+              </blockquote>
+            <p><strong>Modify Section Description</strong></p>
+            <blockquote>
+              <p>
+                <textarea name="cs_description" cols="80" rows="3" id="cs_description"><%= cs.getDescription() %></textarea>
+              </p>
+            </blockquote>
+            <blockquote>
               <p> 
                 <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                 <input type="hidden" name="universal" value="<%= afso.getMyPSO_SectionMgmt().get_universal() %>">
@@ -85,7 +93,7 @@
                 <input type="hidden" name="save_results" value="true" />
                 <input type="submit" name="save_page" value="Save" />
                 <input type="submit" name="save_and_add" value="Save and Add Section" />
-                  </p>
+              </p>
               <p>.</p>
             </blockquote>
         </blockquote>

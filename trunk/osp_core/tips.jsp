@@ -65,8 +65,12 @@
 
 <%
 
-	List tl = Tips.getChildren(tc.getTip().getId(), pso.schema);
-
+	List tl = new ArrayList();
+	
+	if ((tc.getTip() != null) && (tc.getTip().getId() != null) ) {
+		tl = Tips.getChildren(tc.getTip().getId(), pso.schema);
+	}
+	
     Tips this_users_tip = new Tips();
 	
 	for (ListIterator li = tl.listIterator(); li.hasNext();) {

@@ -2,17 +2,24 @@
 <SIM_PACKAGE_OBJECT>
 <OSP_VERSION>0.0.13</OSP_VERSION>
 <EXPORT_DATE>4/17/10 10:32 PM</EXPORT_DATE>
+<org.usip.osp.baseobjects.SimulationVersion>
+  <transitId>3</transitId>
+  <name>Reintegration Exercise</name>
+  <version>1</version>
+  <softwareVersion>0.9.0</softwareVersion>
+  <finePoints></finePoints>
+</org.usip.osp.baseobjects.SimulationVersion>
 <org.usip.osp.baseobjects.Simulation>
-  <transit__id>3</transit__id>
+  <transitId>3</transitId>
   <name>Reintegration Exercise</name>
   <version>0.4</version>
   <softwareVersion>0.0.5</softwareVersion>
   <blurb>A simulation to teach leadership in conflict environments.</blurb>
   <allowPlayerAutoreg>false</allowPlayerAutoreg>
-  <introduction>&lt;span style=&quot;font-weight: bold;&quot; bold;\=&quot;&quot;&gt;Welcome!&lt;/span&gt;&lt;br&gt;&lt;br&gt;Please take a look around this web site and learn more about your characters and the other characters in the simulation. At this point, you should just be familiarizing yourself with this virtual world.&lt;br&gt;&lt;br&gt;The schedule page (and/or your instructor) will alert you when the simulation moves into the next phase where you will be able to see and do more things.&lt;br&gt;&lt;br&gt;Enjoy!&lt;br&gt;</introduction>
+  <introduction>&lt;span style=&quot;font-weight: bold;&quot; bold;\=&quot;&gt;Welcome!&lt;/span&gt;&lt;br&gt;&lt;br&gt;Please take a look around this web site and learn more about your characters and the other characters in the simulation. At this point, you should just be familiarizing yourself with this virtual world.&lt;br&gt;&lt;br&gt;The schedule page (and/or your instructor) will alert you when the simulation moves into the next phase where you will be able to see and do more things.&lt;br&gt;&lt;br&gt;Enjoy!&lt;br&gt;</introduction>
   <learningObjvs>&lt;p&gt;The primary objective of the simulation is to provide you a chance to apply concepts and practice skills related to the following course objectives:&lt;/p&gt;&#x0D;&lt;ul&gt;&lt;li&gt;Develop conflict transformation and communication skills necessary to effectively lead aspects of conflict management missions.&lt;/li&gt;&lt;li&gt;Understand the impact of an implementation across sectors and on the overall peace agreement , which learned through scenario decisions.&lt;/li&gt;&lt;li&gt;Establish team principles that will guide your joint actions in the field.&lt;/li&gt;&lt;li&gt;Experience the complexities of managing diverse teams operating in different cultural environments.&lt;br&gt;&lt;/li&gt;&lt;/ul&gt;</learningObjvs>
   <audience>8 to 16 young (college age) leaders.&lt;br&gt;</audience>
-  <plannedPlayIdeas>&lt;span style=&quot;font-weight: bold;&quot;&gt;&#x0D;&#x0D;Instructor and Control Team Resources&lt;br&gt;&lt;br style=&quot;font-weight: bold;&quot;&gt;&lt;/span&gt;During the simulation, the instructor will play the role of&#x0D;Simulation Control, four students will play the role of control team.&#x0D;Simulation Control and the control team will have four primary&#x0D;responsibilities:&#x0D;&#x0D;&lt;br&gt;&lt;br&gt;&#x0D;&#x0D;Actions and Messages: &lt;br&gt;Monitor the&#x0D;actions that the participants are, or should be, taking and the messages they&#x0D;are sending. There are four primary areas the members of the task force need to&#x0D;manage:&lt;br&gt;&lt;ol&gt;&lt;li&gt;Ensure the IC&#x0D;and the reintegration process is running smoothly.&#x0D;&#x0D;Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;Has&#x0D;the team opened the center?&lt;/li&gt;&lt;li&gt;Have&#x0D;they developed a strategy for handling the cash payments? &lt;br&gt;&lt;/li&gt;&lt;li&gt;How&#x0D;are they handling other issues (corruption, security, etc.) being raised by the&#x0D;injects?)&#x0D;&#x0D;&amp;nbsp;&#x0D;&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Manage relationships with key stakeholders&#x0D;in the community.&#x0D;&#x0D;The stakeholder outreach plan from&#x0D;the Kabul&#x0D;meetings should be used a guide. At a minimum, there should be outreach to&#x0D;senior government officials (mayor, governor, etc.), tribal leaders, local&#x0D;community groups, local development organizations working in the region, and&#x0D;others identified in the group?s outreach plan. The type of injects used by&#x0D;Simulation Control and the control team should be closely tied to their&#x0D;activities regarding stakeholder outreach.Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;How&#x0D;quickly are they responding to events on the ground?&lt;/li&gt;&lt;li&gt;Are&#x0D;they being proactive in reaching out to key stakeholders? &lt;br&gt;&lt;/li&gt;&lt;li&gt;Are&#x0D;they implementing the stakeholder outreach plan from the Kabul meeting?&amp;nbsp;&amp;nbsp;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Manage communications with headquarters.&#x0D;&#x0D;Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;How&#x0D;quickly are they responding to demands from HQ and events on the ground in&#x0D;regard to their communication with HQ?&lt;/li&gt;&lt;li&gt;Are&#x0D;they passing on the right amount of information?&lt;/li&gt;&lt;li&gt;Are&#x0D;they passing on information they shouldn?t be?&#x0D;&#x0D;&amp;nbsp;&#x0D;&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Maintain the effectiveness and coherence of&#x0D;the JRTF the team.&lt;/li&gt;&lt;ul&gt;&lt;li&gt;Has&#x0D;the team remained a team or are they working at cross-purposes?&lt;/li&gt;&lt;li&gt;Are&#x0D;they implementing the plan agreed to Kabul&#x0D;regarding how the task force will be organized?&#x0D;&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;/ol&gt;</plannedPlayIdeas>
+  <plannedPlayIdeas>&lt;span style=&quot;font-weight: bold;&quot;&gt;&#x0D;Instructor and Control Team Resources&lt;br&gt;&lt;br style=&quot;font-weight: bold;&quot;&gt;&lt;/span&gt;During the simulation, the instructor will play the role of&#x0D;Simulation Control, four students will play the role of control team.&#x0D;Simulation Control and the control team will have four primary&#x0D;responsibilities:&#x0D;&lt;br&gt;&lt;br&gt;&#x0D;Actions and Messages: &lt;br&gt;Monitor the&#x0D;actions that the participants are, or should be, taking and the messages they&#x0D;are sending. There are four primary areas the members of the task force need to&#x0D;manage:&lt;br&gt;&lt;ol&gt;&lt;li&gt;Ensure the IC&#x0D;and the reintegration process is running smoothly.&#x0D;Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;Has&#x0D;the team opened the center?&lt;/li&gt;&lt;li&gt;Have&#x0D;they developed a strategy for handling the cash payments? &lt;br&gt;&lt;/li&gt;&lt;li&gt;How&#x0D;are they handling other issues (corruption, security, etc.) being raised by the&#x0D;injects?)&#x0D;&amp;nbsp;&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Manage relationships with key stakeholders&#x0D;in the community.&#x0D;The stakeholder outreach plan from&#x0D;the Kabul&#x0D;meetings should be used a guide. At a minimum, there should be outreach to&#x0D;senior government officials (mayor, governor, etc.), tribal leaders, local&#x0D;community groups, local development organizations working in the region, and&#x0D;others identified in the group?s outreach plan. The type of injects used by&#x0D;Simulation Control and the control team should be closely tied to their&#x0D;activities regarding stakeholder outreach.Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;How&#x0D;quickly are they responding to events on the ground?&lt;/li&gt;&lt;li&gt;Are&#x0D;they being proactive in reaching out to key stakeholders? &lt;br&gt;&lt;/li&gt;&lt;li&gt;Are&#x0D;they implementing the stakeholder outreach plan from the Kabul meeting?&amp;nbsp;&amp;nbsp;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Manage communications with headquarters.&#x0D;Key questions:&lt;/li&gt;&lt;ul&gt;&lt;li&gt;How&#x0D;quickly are they responding to demands from HQ and events on the ground in&#x0D;regard to their communication with HQ?&lt;/li&gt;&lt;li&gt;Are&#x0D;they passing on the right amount of information?&lt;/li&gt;&lt;li&gt;Are&#x0D;they passing on information they shouldn?t be?&#x0D;&amp;nbsp;&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;Maintain the effectiveness and coherence of&#x0D;the JRTF the team.&lt;/li&gt;&lt;ul&gt;&lt;li&gt;Has&#x0D;the team remained a team or are they working at cross-purposes?&lt;/li&gt;&lt;li&gt;Are&#x0D;they implementing the plan agreed to Kabul&#x0D;regarding how the task force will be organized?&#x0D;&lt;/li&gt;&lt;/ul&gt;&lt;/ol&gt;</plannedPlayIdeas>
   <aarStarterText>In this last part of the simulation, a&amp;nbsp; joint After Action Report (AAR) &lt;br&gt;will be developed by simulation participants.&lt;br&gt;&lt;br&gt;Each participant will prepare a section reviewing the simulation from the point of view of their actor, and will also contribute to an overview section.&lt;br&gt;&lt;br&gt;From the point of view of your character, try to identify your unforeseen issues, successes, failures and lessons learned.&lt;br&gt;&lt;br&gt;</aarStarterText>
   <creationOrg>USIP</creationOrg>
   <creator></creator>
@@ -469,7 +476,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>32</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-01 Letter from Tribal Leaders</inject__name>
+  <injectName>JRTF-01 Letter from Tribal Leaders</injectName>
   <inject__text>&lt;P&gt;To: Uzzdwaadi JRTF &lt;BR&gt;From: IC Staff &lt;BR&gt;Re: Letter from TRIBAL Leaders &lt;/P&gt;&#x0D;&lt;P&gt;We have received a letter from a group of 15 tribal leaders in the Uzzdwaadi region. The letter reads in part: &quot;When the rest of our community is suffering deprivation and hardship, it is unacceptable that any resources should be given to those that left our community and created havoc in our country.&quot; It appears that the letter has also been released to the media.&lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -477,7 +484,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>33</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-02 Letter from Uzzdwaadi Women&apos;s Rights Organization</inject__name>
+  <injectName>JRTF-02 Letter from Uzzdwaadi Women&apos;s Rights Organization</injectName>
   <inject__text>To: Uzzdwaadi JRTF&lt;BR&gt;From: IC Staff&lt;BR&gt;Re: Letter from Uzzdwaadi Women&apos;s Rights Organization&lt;BR&gt;&lt;BR&gt;The IC has received a letter from a local Women&apos;s Rights Organization demanding that the widows and children of militants killed in the fighting be given the same incentive packages as the demobilized militants. The letter indicates that they have copied the letter to all female parliamentarians in Kabul and released it to the media. </inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -485,15 +492,15 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>34</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-03 Welcome to Uzzdwaadi</inject__name>
+  <injectName>JRTF-03 Welcome to Uzzdwaadi</injectName>
   <inject__text>&lt;P&gt;To: Uzzdwaadi JRTF &lt;BR&gt;From: Joint NATO-UNAMA Reintegration Office (JNAD) - Kabul &lt;BR&gt;Re: Uzzdwaadi reintegration effort. &lt;/P&gt;&#x0D;&lt;P&gt;Your task force arrived in Uzzdwaadi a few days ago. So far the logistics of the operation have run smoothly. You have established an office in a secure compound at the outskirts of the town. You also have obtained space for a small Intake Center (IC) one block away in which the initial contact with militants wishing to demobilize and reintegrate will take place. The office will primarily be staffed by two Afghanis that you brought with you from Kabul. You have also hired two local security guards to work at the IC Your best information indicates that several militants will present themselves at the IC when it is opened. &lt;/P&gt;</inject__text>
-  <inject__notes>Note to Instructor: &#x0D;&#x0D;This opening message should be revised to reflect what was decided in Phase 1 of the simulation, and should be on screen or sent immediately at the beginning of Phase 2, Implementation in Uzzdwaadi</inject__notes>
+  <inject__notes>Note to Instructor: &#x0D;This opening message should be revised to reflect what was decided in Phase 1 of the simulation, and should be on screen or sent immediately at the beginning of Phase 2, Implementation in Uzzdwaadi</inject__notes>
 </org.usip.osp.communications.Inject>
 <org.usip.osp.communications.Inject>
   <transit__id>35</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-04 JRTF Orientation</inject__name>
+  <injectName>JRTF-04 JRTF Orientation</injectName>
   <inject__text>&lt;P&gt;To: Uzzdwaadi JRTF&lt;BR&gt;From: Simulation Control &lt;BR&gt;Re: JRTF Orientation &lt;/P&gt;&#x0D;&lt;P&gt;As a group, the JRTF can send a message from the task force to any external individual or organization. As a group, the JRTF can take any actions it deems appropriate. During the exercise, Simulation Control will review all actions taken. If it is deemed that the JRTF has the capacity to take such an action, it will be approved.&lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -501,7 +508,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>36</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-05 JRTF Individual Responsibilities</inject__name>
+  <injectName>JRTF-05 JRTF Individual Responsibilities</injectName>
   <inject__text>&lt;P&gt;To: Uzzdwaadi JRTF&lt;BR&gt;From: Simulation Control &lt;BR&gt;Re: JRTF Orientation (continued) &lt;/P&gt;&#x0D;&lt;P&gt;Any individual in the task force can send a message from the task force to any external individual or organization. These are sent in the individual&apos;s professional capacity. Task force members can also, at any time, communicate privately with other members of the task force. Any individual in the task force can take any actions it deems appropriate. Simulation control will review all actions taken. If it is deemed that the individual has the capacity to take such an action, it will be approved. When the simulation begins, you will receive an opening message from the control team. At this point you should begin to implement your strategy, as decided on at the Kabul meeting. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -509,7 +516,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>37</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-06 Welcome - Situation Report</inject__name>
+  <injectName>JRTF-06 Welcome - Situation Report</injectName>
   <inject__text>&lt;p&gt;To: Uzzdwaadi JRTF &lt;br&gt;From: Joint NATO-UNAMA Reintegration Office (JNAD) - Kabul &lt;br&gt;Re: Uzzdwaadi reintegration effort. &lt;/p&gt;&#x0D;&lt;p&gt;Initial reports indicate that your logistical start-up has gone smoothly. Please provide immediate updates regarding any problems. Yesterday&apos;s meeting between Kandahar task force members and tribal leaders went poorly. Tribal leaders are demanding the office and Intake Center be shutdown. Recommend begin outreach to community immediately. &lt;/p&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -517,7 +524,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>38</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-07 Magazine Interview - Negative Press</inject__name>
+  <injectName>JRTF-07 Magazine Interview - Negative Press</injectName>
   <inject__text>&lt;P&gt;To:Uzzdwaadi JRTF &lt;BR&gt;From: Joint NATO-UNAMA Reintegration Office (JNAD) - Kabul &lt;BR&gt;Re: Magazine interview &lt;/P&gt;&#x0D;&lt;P&gt;A statement has been released by senior Taliban leadership through the Indian news magazine, Frontline. ?We have seen that some so-called mujahideen in the Uzzdwaadi region are following the example of Karzai and becoming U.S. stooges. This is not going to make life easier for the U.S. or Karzai because thee so-called mujahideens are `paper-tigers&apos;. The real mujahideens will continue to fight Karzai and his master - the U.S. Karzai&apos;s days are numbered. Very soon, our mujahideens, the real mujahideens will get him. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -525,7 +532,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>39</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-08 Militants Killed</inject__name>
+  <injectName>JRTF-08 Militants Killed</injectName>
   <inject__text>&lt;p&gt;To:Uzzdwaadi JRTF &lt;br&gt;From: IC Staff &lt;br&gt;Re: Militants Killed &lt;/p&gt;&#x0D;&lt;p&gt;Reports have arrived at the IC that two militants in the reintegration program have been found murdered in a field just outside of Uzzdwaadi. Afghan National Police are investigating. You have also hired two local security guards to work at the IC. Several militants presented themselves at the IC when it opened. You may begin your reintegration program. Please advise control on how you will proceed.&lt;br&gt; &lt;/p&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -533,7 +540,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>40</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-09 Militants wishing to reintegrate</inject__name>
+  <injectName>JRTF-09 Militants wishing to reintegrate</injectName>
   <inject__text>&lt;p&gt;To:Uzzdwaadi JRTF &lt;br&gt;From: IC Staff &lt;br&gt;Re: Militants wishing to turn themselves in. &lt;/p&gt;&#x0D;&lt;p&gt;We have received the following message signed by six individuals. We will agree to turn ourselves and our weapons in if we receive complete and total amnesty.&lt;br&gt; &lt;/p&gt;</inject__text>
   <inject__notes>Note: Can change the militant&apos;s demands to something else that would violate the task force&apos;s code of conduct.</inject__notes>
 </org.usip.osp.communications.Inject>
@@ -541,7 +548,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>41</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-10 Call from the Mayor</inject__name>
+  <injectName>JRTF-10 Call from the Mayor</injectName>
   <inject__text>&lt;P&gt;To: Uzzdwaadi JRTF &lt;BR&gt;From: Simulation Control &lt;BR&gt;Re: Call from the Mayor of Uzzdwaadi &lt;/P&gt;&#x0D;&lt;P&gt;The JRTF received a call from the Mayor of Uzzdwaddi. He said that the mayor&apos;s office has received numerous reports that the intake officers are demanding a kickback of $50 in order to ensure that former militants be accepted into the program. He is demanding that the staff members be fired and two members of his staff, who he guarantees are trustworthy, be hired to staff the IC. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -549,7 +556,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>42</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-11 Request from the Governor</inject__name>
+  <injectName>JRTF-11 Request from the Governor</injectName>
   <inject__text>&lt;P&gt;To: Uzzdwaadi JRTF &lt;BR&gt;From: Simulation Control &lt;BR&gt;Re: Call from the Office of the Governor of Uzzdwaadi &lt;/P&gt;&#x0D;&lt;P&gt;The JRTF received a call from the governor&apos;s office of Uzzdwaadi. The governor is requesting a meeting with the head of the task force. &lt;/P&gt;</inject__text>
   <inject__notes>Note: initially this is a test of their ability to respond quickly and choose a member of the task force to meet with the governor. Other issues can be raised during this meeting.</inject__notes>
 </org.usip.osp.communications.Inject>
@@ -557,7 +564,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>43</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-12 Message from MRRD</inject__name>
+  <injectName>JRTF-12 Message from MRRD</injectName>
   <inject__text>&lt;p&gt;To: Uzzdwaadi JRTF &lt;br&gt;From: UNAMA - Kabul &lt;br&gt;Re: Message from MRRD &lt;/p&gt;&#x0D;&lt;p&gt;The UNAMA office in Kabuli has received a formal complaint from the Ministry of Rural Reconstruction and Development that [CONTROL INSERT SPECIFIC ACTIVITY] of the JRTF violates the letter and the spirit of the Afghanistan National Development Strategy (ANDS). UNAMA requests that the activities of the JRTF be brought in line with the ANDS. &lt;/p&gt;</inject__text>
   <inject__notes>CONTROL INSERT SPECIFIC ACTIVITY above before sending</inject__notes>
 </org.usip.osp.communications.Inject>
@@ -565,7 +572,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>44</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-13 ISAF operation</inject__name>
+  <injectName>JRTF-13 ISAF operation</injectName>
   <inject__text>&lt;P&gt;To: Uzzdwaadi JRTF &lt;BR&gt;From: NATO-UNAMA Reintegration Office (JNAD) - Kabul &lt;BR&gt;Re: ISAF operation &lt;/P&gt;&#x0D;&lt;P&gt;ISAF forces, led by U.S. Army Rangers, launched a moonlight operation in a village on the Pakistan border 20 miles from Uzzdwaadi. ISAF claims 15 militants on their way back to Pakistan were killed. News organizations are reporting claims that seven civilians in the village were killed including two children. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -573,7 +580,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>45</transit__id>
   <sim__id>3</sim__id>
   <group__id>13</group__id>
-  <inject__name>JRTF-14 Attack on Integration Center</inject__name>
+  <injectName>JRTF-14 Attack on Integration Center</injectName>
   <inject__text>&lt;P&gt;To: Uzzdwaadi JRTF &lt;BR&gt;From: IC Staff &lt;BR&gt;Re: Attack on IC &lt;/P&gt;&#x0D;&lt;P&gt;This afternoon shots were fired from a passing car at the IC. No one was hurt, but one of several of the windows were shattered. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -587,23 +594,23 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>46</transit__id>
   <sim__id>3</sim__id>
   <group__id>14</group__id>
-  <inject__name>UNAMA-01 Funding Delays</inject__name>
-  <inject__text>To: UNAMA Representative - JRTF&lt;br&gt;&#x0D;From: UNAMA - Kabul&lt;br&gt;&#x0D;Re: Funding Delays&lt;br&gt;&lt;br&gt;&#x0D;&#x0D;This is to inform you that the additional $1.5 million in funding committed to the reintegration program will likely be delayed as member countries have been slow to contribute to the reintegration fund.&lt;br&gt;&lt;br&gt;</inject__text>
+  <injectName>UNAMA-01 Funding Delays</injectName>
+  <inject__text>To: UNAMA Representative - JRTF&lt;br&gt;&#x0D;From: UNAMA - Kabul&lt;br&gt;&#x0D;Re: Funding Delays&lt;br&gt;&lt;br&gt;&#x0D;This is to inform you that the additional $1.5 million in funding committed to the reintegration program will likely be delayed as member countries have been slow to contribute to the reintegration fund.&lt;br&gt;&lt;br&gt;</inject__text>
   <inject__notes>Your recent promise of disbursement may take some time.</inject__notes>
 </org.usip.osp.communications.Inject>
 <org.usip.osp.communications.Inject>
   <transit__id>47</transit__id>
   <sim__id>3</sim__id>
   <group__id>14</group__id>
-  <inject__name>UNAMA-02 De-mining operations</inject__name>
-  <inject__text>To: UNAMA Representative - JRTF&lt;br&gt;&#x0D;From: UNAMA - Kabul&lt;br&gt;&#x0D;Re: De-mining operations&lt;br&gt;&lt;br&gt;&#x0D;&#x0D;This is to inform you that regrettably we can no longer support de-mining as an alternative for reintegrated militants. The funding for UNMACA has not been renewed.&#x0D;</inject__text>
+  <injectName>UNAMA-02 De-mining operations</injectName>
+  <inject__text>To: UNAMA Representative - JRTF&lt;br&gt;&#x0D;From: UNAMA - Kabul&lt;br&gt;&#x0D;Re: De-mining operations&lt;br&gt;&lt;br&gt;&#x0D;This is to inform you that regrettably we can no longer support de-mining as an alternative for reintegrated militants. The funding for UNMACA has not been renewed.&#x0D;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
 <org.usip.osp.communications.Inject>
   <transit__id>48</transit__id>
   <sim__id>3</sim__id>
   <group__id>14</group__id>
-  <inject__name>UNAMA-03 NATO Security Procedures</inject__name>
+  <injectName>UNAMA-03 NATO Security Procedures</injectName>
   <inject__text>&lt;P&gt;To: UNAMA Representative - JRTF &lt;BR&gt;From: UNAMA - Kabul &lt;BR&gt;Re: NATO Security Procedures. &lt;/P&gt;&#x0D;&lt;P&gt;We note with great alarm the recent moves of NATO to increase security at the JRTF Intake Center. If this security remains, the program will likely be seen as a military program by the community. Recommend increased community outreach efforts and outreach to NATO to request that security presence be reduced. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -611,7 +618,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>49</transit__id>
   <sim__id>3</sim__id>
   <group__id>14</group__id>
-  <inject__name>UNAMA-04 Pace of reintegration efforts</inject__name>
+  <injectName>UNAMA-04 Pace of reintegration efforts</injectName>
   <inject__text>&lt;P&gt;To: UNAMA Representative - JRTF &lt;BR&gt;From: UNAMA - Kabul &lt;BR&gt;Re: Pace of reintegration efforts. &lt;/P&gt;&#x0D;&lt;P&gt;We recently received a letter from several government officials in the Uzzdwaadi area complaining about the reintegration program. Their primary complaint was that former militants were receiving cash payments of up to US$500. Recommend you slow reintegration process until more community outreach can be done. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -619,7 +626,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>50</transit__id>
   <sim__id>3</sim__id>
   <group__id>14</group__id>
-  <inject__name>UNAMA-05 Funding streams</inject__name>
+  <injectName>UNAMA-05 Funding streams</injectName>
   <inject__text>&lt;P&gt;To:UNAMA Representative - JRTF &lt;BR&gt;From: UNAMA - Kabul &lt;BR&gt;Re: Funding Streams for reintegration program. &lt;/P&gt;&#x0D;&lt;P&gt;The finance director here is concerned that monies from the reintegration program are mixing with DAI and NAC funds from other sources. We request that you alert DAI and NAC that an audit of these funds will be required by UNAMA at the end of the program. &lt;/P&gt;</inject__text>
   <inject__notes>Alternatively: If another group tried to be flexible with finances. HQ sends a stern note, that new monies cannot be applied to the project without proper approvals from UNAMA - Kabul.&#x0D;</inject__notes>
 </org.usip.osp.communications.Inject>
@@ -633,7 +640,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>51</transit__id>
   <sim__id>3</sim__id>
   <group__id>15</group__id>
-  <inject__name>NAC-01 Program Directors&apos; Concerns</inject__name>
+  <injectName>NAC-01 Program Directors&apos; Concerns</injectName>
   <inject__text>&lt;P&gt;To: NAC Representative - JRTF &lt;BR&gt;From: NAC Chief of Party - Kabul &lt;BR&gt;Re: Message from Program Directors &lt;/P&gt;&#x0D;&lt;P&gt;I have received a message from two program directors from important NAC programs in Afghanistan. They are concerned about former militants being integrated into existing programs. There is a real chance that the controversy surrounding the reintegration program will negatively impact existing programs. What can I tell them about the vetting process that may assuage their concerns? &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -641,7 +648,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>52</transit__id>
   <sim__id>3</sim__id>
   <group__id>15</group__id>
-  <inject__name>NAC-02 Board of Director&apos;s Concerns</inject__name>
+  <injectName>NAC-02 Board of Director&apos;s Concerns</injectName>
   <inject__text>&lt;P&gt;To: NAC Representative - JRTF &lt;BR&gt;From: NAC Chief of Party - Kabul &lt;BR&gt;Re: Board of Director&apos;s Concerns &lt;/P&gt;&#x0D;&lt;P&gt;We have received a message from NAC HQ-Oslo that indicates that the Board of Directors is very concerned about NAC&apos;s involvement in a program in which the U.S. military is involved. Please report immediately on the nature of military participation in the program. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -649,7 +656,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>53</transit__id>
   <sim__id>3</sim__id>
   <group__id>15</group__id>
-  <inject__name>NAC-03 Response to NAC HQ-Oslo</inject__name>
+  <injectName>NAC-03 Response to NAC HQ-Oslo</injectName>
   <inject__text>&lt;P&gt;To: NAC Representative - JRTF &lt;BR&gt;From: NAC Chief of Party - Kabul &lt;BR&gt;Re: Msg from NAC HQ-Oslo &lt;/P&gt;&#x0D;&lt;P&gt;We have received a message from NAC HQ- Oslo that indicates the NADC is not happy. The NADC is reporting that several of its implementing partners on various NADC-funded programs in the area are complaining vehemently about the large cash payments that former militants are receiving. Several local NGOs have indicated that they can no longer work with the Norwegian NGOs as a result. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -663,7 +670,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>54</transit__id>
   <sim__id>3</sim__id>
   <group__id>16</group__id>
-  <inject__name>DAI-01 US Congressional Protests</inject__name>
+  <injectName>DAI-01 US Congressional Protests</injectName>
   <inject__text>&lt;P&gt;To: DAI Representative - JRTF &lt;BR&gt;From: DAI Chief of Party Kabul &lt;BR&gt;Re: Message from HQ regarding U.S. Congressmen &lt;/P&gt;&#x0D;&lt;P&gt;We received a message form DAI HQ-Washington indicating that several congressmen have issued letters of protest to USAID regarding the reintegration program in Afghanistan. Their protest indicates that no U.S. money should go to organizations engaged in programs that provide &quot;amnesty to terrorists&quot;. What can I tell them to assuage their concerns?&lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -671,7 +678,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>55</transit__id>
   <sim__id>3</sim__id>
   <group__id>16</group__id>
-  <inject__name>DAI-02 Msg from Tribal Leaders</inject__name>
+  <injectName>DAI-02 Msg from Tribal Leaders</injectName>
   <inject__text>&lt;P&gt;To: DAI Representative - JRTF &lt;BR&gt;From: DAI Program Director - Uzzdwaadi &lt;BR&gt;Re: Message from Tribal Leaders &lt;/P&gt;&#x0D;&lt;P&gt;As you know I am a program director that oversees multiple workforce development and livelihood projects. We have had several contacts with tribal leaders indicating that they will fully support the reintegration program if two community members can enter the training program for every former militant. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -679,7 +686,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>56</transit__id>
   <sim__id>3</sim__id>
   <group__id>16</group__id>
-  <inject__name>DAI-03 Emphasis on Program Packages</inject__name>
+  <injectName>DAI-03 Emphasis on Program Packages</injectName>
   <inject__text>&lt;P&gt;To: DAI Representative - JRTF &lt;BR&gt;From: DAI Chief of Party - Kabul &lt;BR&gt;Re: Emphasis on Program Packages &lt;/P&gt;&#x0D;&lt;P&gt;We have been looking at the numbers from the reintegration program. We want to encourage you to promote the adoption of the demining or vocational training packages by the reintegrates. Both the enterprise support and agricultural packages are far more expensive for DAI to operate. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -687,7 +694,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>57</transit__id>
   <sim__id>3</sim__id>
   <group__id>16</group__id>
-  <inject__name>DAI-04 Reintegration Pace</inject__name>
+  <injectName>DAI-04 Reintegration Pace</injectName>
   <inject__text>&lt;P&gt;To: DAI Representative - JRTF &lt;BR&gt;From: DAI Chief of Party - Kabul &lt;BR&gt;Re: Reintegration Pace &lt;/P&gt;&#x0D;&lt;P&gt;We have been looking at the numbers from the reintegration program. We want to encourage you to increase the numbers of reintegrates. There are relatively high fixed costs for this program so we need to increase the number of militants in the program in order to make it more profitable..&lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -695,7 +702,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>58</transit__id>
   <sim__id>3</sim__id>
   <group__id>16</group__id>
-  <inject__name>DAI-05 New funding</inject__name>
+  <injectName>DAI-05 New funding</injectName>
   <inject__text>&lt;P&gt;To: DAI Representative - JRTF &lt;BR&gt;From: DAI Chief of Party - Kabul &lt;BR&gt;Re: New funding for project. &lt;/P&gt;&#x0D;&lt;P&gt;We have received indications from USAID - Washington that they can release an additional $2 million for the reintegration program through a USDA funding mechanism. Please alert other members of the task force that these monies will be added to the budgets of the DAI reintegration programs which are part of the JRTF project.&lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -709,7 +716,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>59</transit__id>
   <sim__id>3</sim__id>
   <group__id>17</group__id>
-  <inject__name>NATO-01 Taliban Message</inject__name>
+  <injectName>NATO-01 Taliban Message</injectName>
   <inject__text>&lt;P&gt;To: NATO Representative - JRTF &lt;BR&gt;From: ISAF Field Commander &lt;BR&gt;Re: Taliban Message &lt;/P&gt;&#x0D;&lt;P&gt;We have received a message from the Taliban demanding that all reintegration efforts in the region cease. If this is not done, attacks on foreign installations and government offices in Uzzdwaadi will increase. The message has been authenticated as coming from the Taliban. The message has been forwarded to ISAF HQ as well.&lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -717,7 +724,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>60</transit__id>
   <sim__id>3</sim__id>
   <group__id>17</group__id>
-  <inject__name>NATO-02 Security</inject__name>
+  <injectName>NATO-02 Security</injectName>
   <inject__text>&lt;P&gt;To: NATO Representative - JRTF &lt;BR&gt;From: Civil Affairs - ISAF HQ &lt;BR&gt;Re: Security &lt;/P&gt;&#x0D;&lt;P&gt;Given recent events and intelligence reports, we are ordering a contingent of eight NATO soldiers to guard the IC and surrounding areas. The contingent will initially be U.S. soldiers and will eventually be replaced by a French contingent.&lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -725,7 +732,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>61</transit__id>
   <sim__id>3</sim__id>
   <group__id>17</group__id>
-  <inject__name>NATO-03 Capture of Militants</inject__name>
+  <injectName>NATO-03 Capture of Militants</injectName>
   <inject__text>&lt;P&gt;To: NATO Representative - JRTF &lt;BR&gt;From: Civil Affairs - ISAF HQ &lt;BR&gt;Re: Capture of Militants &lt;/P&gt;&#x0D;&lt;P&gt;Be advised that two militants acting as forward scouts for Taliban infiltrators from Pakistan were captured. It has been ascertained that these individuals are participants in the reintegration program. Please report on vetting process and possible improvements to said process. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -733,7 +740,7 @@ representative to the project, you have several key concerns:&#x0D;
   <transit__id>62</transit__id>
   <sim__id>3</sim__id>
   <group__id>17</group__id>
-  <inject__name>NATO-04 Pace of Reintegration Process</inject__name>
+  <injectName>NATO-04 Pace of Reintegration Process</injectName>
   <inject__text>&lt;P&gt;To: NATO Representative - JRTF &lt;BR&gt;From: Civil Affairs - NATO, Kabul &lt;BR&gt;Re: Pace of Reintegration Process &lt;/P&gt;&#x0D;&lt;P&gt;We are concerned about the slow pace of reintegration process. Please make every effort to increase number of militants being reintegrated. &lt;/P&gt;</inject__text>
   <inject__notes></inject__notes>
 </org.usip.osp.communications.Inject>
@@ -953,7 +960,7 @@ representative to the project, you have several key concerns:&#x0D;
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
   <contents/>
-  <bigString>In this phase you will attempt to implement your plans.&lt;br&gt;&lt;br&gt;&#x0D;&#x0D;&lt;p align=&quot;center&quot;&gt;Tip: Don&apos;t Fight the Scenario&lt;/p&gt;&#x0D;&#x0D;&lt;p&gt;Although the simulation&#x0D;is based on real events, it is a fictional situation that has been constructed&#x0D;to support the learning objectives. Accept the scenario as it is and develop&#x0D;your strategy accordingly.&lt;/p&gt;&lt;p&gt;Below are brief explanations of some of the more important tabs you will see in this section.&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Communications - &lt;/span&gt;On this tab you will be able to send emails to your Head Quarters and other parties. You will also be able to chat in your teams chat room.&lt;span style=&quot;font-weight: bold;&quot;&gt; &lt;/span&gt;This can be&#x0D;used to vet ideas with Control as well as document the conversation&#x0D;among team members&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;External Memos - &lt;/span&gt;Formal&#x0D;memo style communication with any external parties (such as indigenous organizations or media outlets) meeting requests, memorandum of understanding, etc. - note that control may respond to your communiques with a simulated reaction the external group&lt;span style=&quot;font-weight: bold;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Announcements&lt;/span&gt; &lt;span style=&quot;font-weight: bold;&quot;&gt;- &lt;/span&gt;Important messages.&lt;span style=&quot;font-weight: bold;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Team Documents&lt;/span&gt;&#x0D;- Team Principles, Strategic Communication Plan, Conflict&#x0D;Transformation Strategy for reference and/or to cut and paste into&#x0D;memos, etc.&lt;br&gt;&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;</bigString>
+  <bigString>In this phase you will attempt to implement your plans.&lt;br&gt;&lt;br&gt;&#x0D;&lt;p align=&quot;center&quot;&gt;Tip: Don&apos;t Fight the Scenario&lt;/p&gt;&#x0D;&lt;p&gt;Although the simulation&#x0D;is based on real events, it is a fictional situation that has been constructed&#x0D;to support the learning objectives. Accept the scenario as it is and develop&#x0D;your strategy accordingly.&lt;/p&gt;&lt;p&gt;Below are brief explanations of some of the more important tabs you will see in this section.&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Communications - &lt;/span&gt;On this tab you will be able to send emails to your Head Quarters and other parties. You will also be able to chat in your teams chat room.&lt;span style=&quot;font-weight: bold;&quot;&gt; &lt;/span&gt;This can be&#x0D;used to vet ideas with Control as well as document the conversation&#x0D;among team members&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;External Memos - &lt;/span&gt;Formal&#x0D;memo style communication with any external parties (such as indigenous organizations or media outlets) meeting requests, memorandum of understanding, etc. - note that control may respond to your communiques with a simulated reaction the external group&lt;span style=&quot;font-weight: bold;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Announcements&lt;/span&gt; &lt;span style=&quot;font-weight: bold;&quot;&gt;- &lt;/span&gt;Important messages.&lt;span style=&quot;font-weight: bold;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Team Documents&lt;/span&gt;&#x0D;- Team Principles, Strategic Communication Plan, Conflict&#x0D;Transformation Strategy for reference and/or to cut and paste into&#x0D;memos, etc.&lt;br&gt;&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;</bigString>
   <hasCustomizer>true</hasCustomizer>
   <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
   <numDependentObjects>0</numDependentObjects>
@@ -4559,4 +4566,7 @@ representative to the project, you have several key concerns:&#x0D;
   <timelineId>3</timelineId>
 </org.usip.osp.communications.Event>
 
+
+<SIM_MEDIA_OBJECTS>
+</SIM_MEDIA_OBJECTS>
 </SIM_PACKAGE_OBJECT>
