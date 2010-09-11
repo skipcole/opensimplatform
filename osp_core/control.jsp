@@ -44,12 +44,20 @@
     <td valign="top">Push Annoucements out to your players. </td>
   </tr>
   <tr valign="top">
+    <td valign="top"><a href="push_injects.jsp">Push Inject </a></td>
+    <td valign="top">Pushes a pre-planned annoucement (in common simulation parlance called an inject) out to the players. </td>
+  </tr>
+  <tr valign="top">
     <td valign="top"><a href="change_player.jsp">Swap/Remove/Add Players</a> </td>
     <td valign="top">This page allows you to change who is playing. </td>
   </tr>
   <tr valign="top">
     <td valign="top"><a href="finger.jsp">View Last Logins </a></td>
-    <td valign="top">This page allows you to see when your players have logged in. </td>
+    <td valign="top"><p>This page allows you to see when your players have logged in. </p>    </td>
+  </tr>
+  <tr valign="top">
+    <td valign="top"><a href="write_aar.jsp">Write AAR</a> </td>
+    <td valign="top">This page allows you to work on the 'After Action Report'. </td>
   </tr>
 </table>
 <p>&nbsp;</p>

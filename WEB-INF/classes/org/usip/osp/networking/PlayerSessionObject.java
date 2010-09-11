@@ -348,36 +348,28 @@ public class PlayerSessionObject extends SessionObjectBase {
 			loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
 
 			// ////////////////////////////////////////////////////////////////////////
-			Hashtable<Long, String> roundNames = new Hashtable();
-			try {
-				roundNames = (Hashtable<Long, String>) session
-						.getServletContext()
-						.getAttribute(
-								USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
-			} catch (Exception e) {
-				e.printStackTrace();
-				roundNames = new Hashtable<Long, String>();
-				session.getServletContext().setAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
-						new Hashtable<Long, String>());
-			}
+			Hashtable<Long, String> roundNames = USIP_OSP_Cache
+					.getCachedHashtable(request,
+							USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
+							USIP_OSP_Cache.CACHED_TABLE_LONG_STRING);
+
 			String cachedRoundName = roundNames.get(runningSimId);
+
 			if (cachedRoundName == null) {
 				roundNames.put(runningSimId, simulation_round);
 				request.getSession().getServletContext().setAttribute(
 						USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
 						roundNames);
 			}
-			// ///////////////////////////////////////////////////////////
 
 			loadPhaseNameInWebCache(request, sp);
 
 			// //////////////////////////////////////////////////////////////////////
 			// Store it in the web cache, if this has not been done already
 			// by another user.
-			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session
-					.getServletContext().getAttribute(
-							USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
+			Hashtable<Long, Long> phaseIds = USIP_OSP_Cache.getCachedHashtable(
+					request, USIP_OSP_ContextListener.CACHEON_PHASE_IDS,
+					USIP_OSP_Cache.CACHED_TABLE_LONG_LONG);
 
 			Long cachedPhaseId = phaseIds.get(runningSimId);
 			if (cachedPhaseId == null) {
@@ -484,9 +476,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 	/** Gets called when the user has selected a scenario to play. */
 	public void storeUserInfoInSessionInformation(HttpServletRequest request) {
 
-		Hashtable<Long, Hashtable> loggedInPlayers = 
-			USIP_OSP_Cache.getCachedHashtable(request, 
-					USIP_OSP_ContextListener.CACHEON_LOGGED_IN_PLAYERS, USIP_OSP_Cache.CACHED_TABLE_LONG);
+		Hashtable<Long, Hashtable> loggedInPlayers = USIP_OSP_Cache
+				.getCachedHashtable(request,
+						USIP_OSP_ContextListener.CACHEON_LOGGED_IN_PLAYERS,
+						USIP_OSP_Cache.CACHED_TABLE_LONG_HASHTABLE);
 
 		Hashtable thisSetOfPlayers = loggedInPlayers.get(this.runningSimId);
 
@@ -1318,14 +1311,19 @@ public class PlayerSessionObject extends SessionObjectBase {
 				if (add_recipient != null) {
 					String email_rep = request.getParameter("email_recipient");
 
-					String aname = USIP_OSP_Cache.getActorName(schema, sim_id,
-							runningSimId, request, new Long(email_rep));
+					if ((email_rep != null)
+							&& (email_rep.toString().length() > 0)) {
 
-					@SuppressWarnings("unused")
-					EmailRecipients er = new EmailRecipients(schema,
-							draft_email_id, runningSimId, sim_id, new Long(
-									email_rep), aname,
-							EmailRecipients.RECIPIENT_TO);
+						String aname = USIP_OSP_Cache.getActorName(schema,
+								sim_id, runningSimId, request, new Long(
+										email_rep));
+
+						@SuppressWarnings("unused")
+						EmailRecipients er = new EmailRecipients(schema,
+								draft_email_id, runningSimId, sim_id, new Long(
+										email_rep), aname,
+								EmailRecipients.RECIPIENT_TO);
+					}
 				}
 
 				if (remove_recipient != null) {
@@ -1765,14 +1763,12 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public void loadPhaseNameInWebCache(HttpServletRequest request,
 			SimulationPhase sp) {
 
-		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) this.session
-				.getServletContext()
-				.getAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
+		Hashtable<Long, String> phaseNames = USIP_OSP_Cache.getCachedHashtable(
+				request,
+				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID,
+				USIP_OSP_Cache.CACHED_TABLE_LONG_STRING);
 
 		String cachedPhaseName = phaseNames.get(this.runningSimId);
-
-		System.out.println("cachedPhaseName is " + cachedPhaseName);
 
 		if (cachedPhaseName == null) {
 			phaseNames.put(this.runningSimId, sp.getPhaseName());
@@ -1949,7 +1945,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 							USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS,
 							loggedInUsers);
 				}
-				
+
 				loggedInUsers.put(user.getId(), pso.myUserTrailGhost);
 
 				sio.setLastLogin(new Date());

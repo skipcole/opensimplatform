@@ -155,8 +155,11 @@ public class ChatController {
 
 		// /////////////////////////////////////////////////////
 		// The conversation is pulled out of the context Hashtable
-		Hashtable conversation_cache = (Hashtable) request.getSession()
-				.getServletContext().getAttribute(USIP_OSP_ContextListener.CACHEON_CONVERSATIONS);
+		Hashtable<String, Vector> conversation_cache = USIP_OSP_Cache.
+			getCachedHashtable(
+					request,
+					USIP_OSP_ContextListener.CACHEON_CONVERSATIONS,
+					USIP_OSP_Cache.CACHED_TABLE_STRING_VECTOR);
 
 		String conversationKey = getConvKey(pso, conv_id);
 

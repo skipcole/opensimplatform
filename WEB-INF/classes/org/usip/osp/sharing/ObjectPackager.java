@@ -99,7 +99,7 @@ public class ObjectPackager {
 		Simulation sim = Simulation.getById(schema, sim_id);
 		sim.setTransitId(sim.getId());
 		sim.setId(null);
-		
+
 		SimulationVersion simBase = new SimulationVersion();
 		simBase.setSimulationName(sim.getSimulationName());
 		simBase.setSoftwareVersion(sim.getSoftwareVersion());
@@ -116,11 +116,13 @@ public class ObjectPackager {
 
 		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + lineTerminator; //$NON-NLS-1$ //$NON-NLS-2$
 
-		returnString += xstream.toXML(simBase) + lineTerminator;;
-		
+		returnString += xstream.toXML(simBase) + lineTerminator;
+		;
+
 		// This packages the values directly associate with the simulation such
 		// as objectives and audience.
-		returnString += xstream.toXML(sim) + lineTerminator;;
+		returnString += xstream.toXML(sim) + lineTerminator;
+		;
 
 		returnString += packageActors(schema, sim.getTransitId(), xstream)
 				+ lineTerminator;
@@ -139,8 +141,8 @@ public class ObjectPackager {
 		returnString += packageSimSectionAssignmentInformation(schema, sim
 				.getTransitId(), xstream)
 				+ lineTerminator;
-		returnString += packageSimObjectInformation(schema,
-				sim.getTransitId(), xstream)
+		returnString += packageSimObjectInformation(schema, sim.getTransitId(),
+				xstream)
 				+ lineTerminator;
 		returnString += packageMiscSimObjectInformation(schema, sim
 				.getTransitId(), xstream)
@@ -205,7 +207,7 @@ public class ObjectPackager {
 			returnString += xstream.toXML(thisEvent) + lineTerminator;
 
 		}
-		
+
 		List<Tips> allTips = Tips.getAllForBaseSim(sim_id, schema);
 		for (ListIterator<Tips> lit = allTips.listIterator(); lit.hasNext();) {
 			Tips thisTip = lit.next();
@@ -213,7 +215,6 @@ public class ObjectPackager {
 			returnString += xstream.toXML(thisTip) + lineTerminator;
 
 		}
-		
 
 		return returnString;
 	}
@@ -642,31 +643,34 @@ public class ObjectPackager {
 				"looking for file to unpack at " + fileLocation); //$NON-NLS-1$
 
 		String fullString = FileIO.getPartialFileContents(
-				new File(fileLocation), makeCloseTag(SimulationVersion.class), true);
+				new File(fileLocation), makeCloseTag(SimulationVersion.class),
+				true);
 
 		String simBaseString = getFirstObjectFromFile(fullString,
-				makeOpenTag(SimulationVersion.class), makeCloseTag(SimulationVersion.class)); //$NON-NLS-1$
+				makeOpenTag(SimulationVersion.class),
+				makeCloseTag(SimulationVersion.class)); //$NON-NLS-1$
 
-		SimulationVersion simBaseRead = (SimulationVersion) xstream.fromXML(simBaseString);
+		SimulationVersion simBaseRead = (SimulationVersion) xstream
+				.fromXML(simBaseString);
 
 		return simBaseRead;
 	}
 
 	public static String unpackInformationString = ""; //$NON-NLS-1$
 
-	
-	public static String processUpgradeChanges(String xmlText, String upgradeFileName){
-		
+	public static String processUpgradeChanges(String xmlText,
+			String upgradeFileName) {
+
 		String fileLocation = FileIO.upgrade_files_dir + File.separator
-		+ upgradeFileName;
-		
+				+ upgradeFileName;
+
 		File upgradeFile = new File(fileLocation);
-		
-		
+
 		// Loop over changes found in upgrade file and make changes.
-		
+
 		return xmlText;
 	}
+
 	/**
 	 * 
 	 * @param fileName
@@ -703,12 +707,12 @@ public class ObjectPackager {
 
 		String xmlText = FileIO.getPartialFileContents(new File(fileLocation),
 				"<SIM_MEDIA_OBJECTS>", true);
-		
+
 		xmlText = processUpgradeChanges(xmlText, upgradeFileName);
-		
+
 		String xmlMedia = FileIO.getPartialFileContents(new File(fileLocation),
 				"<SIM_MEDIA_OBJECTS>", false);
-		
+
 		xmlMedia = processUpgradeChanges(xmlMedia, upgradeFileName);
 
 		String simString = getObjectFromFile(xmlText,
@@ -776,6 +780,13 @@ public class ObjectPackager {
 
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param xstream
+	 * @return
+	 */
 	public static String packageSimMedia(String schema, Long sim_id,
 			XStream xstream) {
 
@@ -794,8 +805,11 @@ public class ObjectPackager {
 				OSPSimMedia osm = new OSPSimMedia();
 				osm.setMediaType(OSPSimMedia.ACTOR_IMAGE);
 				osm.setMediaName(actorImageFile);
-				osm.setMediaString(new sun.misc.BASE64Encoder().encode(FileIO
-						.getImageFile(OSPSimMedia.ACTOR_IMAGE, actorImageFile)));
+				osm
+						.setMediaString(new sun.misc.BASE64Encoder()
+								.encode(FileIO
+										.getImageFile(OSPSimMedia.ACTOR_IMAGE,
+												actorImageFile)));
 
 				returnString += xstream.toXML(osm) + lineTerminator;
 			}
@@ -806,7 +820,8 @@ public class ObjectPackager {
 					&& (!(actorThumbImageFile
 							.equalsIgnoreCase("no_image_default.jpg")))) {
 
-				returnString += packageMedia(OSPSimMedia.ACTOR_IMAGE, actorThumbImageFile, xstream);
+				returnString += packageMedia(OSPSimMedia.ACTOR_IMAGE,
+						actorThumbImageFile, xstream);
 
 			}
 		}
@@ -816,39 +831,52 @@ public class ObjectPackager {
 		return returnString;
 
 	}
-	
-	public static String packageMedia(int mediaType, String mediaName, XStream xstream){
-		
-		OSPSimMedia osm = new OSPSimMedia();
-		osm.setMediaType(mediaType);
-		osm.setMediaName(mediaName);
-		osm.setMediaString(new sun.misc.BASE64Encoder().encode(FileIO
-				.getImageFile(mediaType,  mediaName)));
 
-		return ( xstream.toXML(osm) + lineTerminator);
-		
+	/**
+	 * 
+	 * @param mediaType
+	 * @param mediaName
+	 * @param xstream
+	 * @return
+	 */
+	public static String packageMedia(int mediaType, String mediaName,
+			XStream xstream) {
+
+		try {
+			OSPSimMedia osm = new OSPSimMedia();
+			osm.setMediaType(mediaType);
+			osm.setMediaName(mediaName);
+			osm.setMediaString(new sun.misc.BASE64Encoder().encode(FileIO
+					.getImageFile(mediaType, mediaName)));
+
+			return (xstream.toXML(osm) + lineTerminator);
+		} catch (Exception e) {
+			Logger.getRootLogger().warn("Problem finding object: " + mediaName);
+			return "";
+		}
+
 	}
 
 	public static void unpackageSimMedia(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
 			Hashtable bssIdMappings, Hashtable actorIdMappings) {
-		
+
 		System.out.println("unpacking media");
 
 		List media = getSetOfObjectFromFile(fullString,
-				makeOpenTag(OSPSimMedia.class),
-				makeCloseTag(OSPSimMedia.class));
-		
-		System.out.println("trying to get what starts with " + makeOpenTag(OSPSimMedia.class));
+				makeOpenTag(OSPSimMedia.class), makeCloseTag(OSPSimMedia.class));
+
+		System.out.println("trying to get what starts with "
+				+ makeOpenTag(OSPSimMedia.class));
 
 		for (ListIterator<String> li_i = media.listIterator(); li_i.hasNext();) {
 			String media_string = li_i.next();
-			
+
 			System.out.println("get media_string: " + media_string);
 
 			OSPSimMedia this_media = (OSPSimMedia) xstream
 					.fromXML(media_string);
-			
+
 			System.out.println("unpacking " + this_media.getMediaName());
 
 			try {
@@ -924,16 +952,15 @@ public class ObjectPackager {
 
 			}
 		}
-		
-		unpackageTips(schema, reId,
-				fullString, sim_id, xstream,
-				bssIdMappings, actorIdMappings);
+
+		unpackageTips(schema, reId, fullString, sim_id, xstream, bssIdMappings,
+				actorIdMappings);
 	}
-	
+
 	public static void unpackageTips(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings, Hashtable actorIdMappings){
-		
+			Hashtable bssIdMappings, Hashtable actorIdMappings) {
+
 		List<String> tips_list = getSetOfObjectFromFile(fullString,
 				makeOpenTag(Tips.class), makeCloseTag(Tips.class));
 
@@ -943,23 +970,21 @@ public class ObjectPackager {
 
 			Tips tip = (Tips) xstream.fromXML(e_string);
 
+			// The id this had on the system it was exported from bears no
+			// relationship to the id where its being imported.
+			tip.setId(null);
+			tip.setSimId(sim_id);
 
-				// The id this had on the system it was exported from bears no
-				// relationship to the id where its being imported.
-				tip.setId(null);
-				tip.setSimId(sim_id);
-				
-				Long newCsId = (Long) bssIdMappings.get(tip.getCsId());
-				Long newActorId = (Long) actorIdMappings.get(tip.getActorId());
-				tip.setCsId(newCsId);
-				tip.setActorId(newActorId);
-				
-				tip.setTipName("tip: " + newCsId + "_" + newActorId);
-				tip.saveMe(schema);
+			Long newCsId = (Long) bssIdMappings.get(tip.getCsId());
+			Long newActorId = (Long) actorIdMappings.get(tip.getActorId());
+			tip.setCsId(newCsId);
+			tip.setActorId(newActorId);
 
-				RestoreResults.createAndSaveObject(reId, tip.getId()
-						.toString(), tip.getClass().toString(), tip
-						.getTipName(), "Event Added");
+			tip.setTipName("tip: " + newCsId + "_" + newActorId);
+			tip.saveMe(schema);
+
+			RestoreResults.createAndSaveObject(reId, tip.getId().toString(),
+					tip.getClass().toString(), tip.getTipName(), "Event Added");
 
 		}
 	}
@@ -1388,8 +1413,8 @@ public class ObjectPackager {
 				// section
 				if (this_bss.isAuthorGeneratedSimulationSection()) {
 					this_bss.saveMe(schema);
-					bssIdMappings.put(this_bss.getTransitId(), this_bss
-							.getId());
+					bssIdMappings
+							.put(this_bss.getTransitId(), this_bss.getId());
 
 					RestoreResults.createAndSaveObject(reId, this_bss.getId()
 							.toString(), this_bss.getClass().toString(),

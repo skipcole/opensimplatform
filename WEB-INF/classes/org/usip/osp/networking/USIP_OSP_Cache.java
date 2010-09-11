@@ -1,8 +1,6 @@
 package org.usip.osp.networking;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -521,8 +519,11 @@ public class USIP_OSP_Cache {
 
 	}
 
-	public static final String CACHED_TABLE_LONG = "long";
-	
+	public static final String CACHED_TABLE_LONG_HASHTABLE = "long_hashtable";
+	public static final String CACHED_TABLE_LONG_STRING = "long_string";
+	public static final String CACHED_TABLE_LONG_LONG = "long_long";
+	public static final String CACHED_TABLE_STRING_VECTOR = "string_vector";
+
 	/**
 	 * Pulls the hashtable from the context.
 	 * 
@@ -536,7 +537,15 @@ public class USIP_OSP_Cache {
 		ServletContext context = request.getSession().getServletContext();
 		Hashtable cacheWeWant = new Hashtable();
 
-		if (dType.equalsIgnoreCase("string")) {
+		if (dType.equalsIgnoreCase(CACHED_TABLE_STRING_VECTOR)) {
+			cacheWeWant = (Hashtable<String, Vector>) context
+					.getAttribute(hashkey);
+
+			if (cacheWeWant == null) {
+				cacheWeWant = new Hashtable<String, Vector>();
+				context.setAttribute(hashkey, cacheWeWant);
+			}
+		} else if (dType.equalsIgnoreCase("string")) {
 			cacheWeWant = (Hashtable<String, String>) context
 					.getAttribute(hashkey);
 
@@ -552,12 +561,27 @@ public class USIP_OSP_Cache {
 				cacheWeWant = new Hashtable<String, Hashtable>();
 				context.setAttribute(hashkey, cacheWeWant);
 			}
-		} else if (dType.equalsIgnoreCase("long")) {
+		} else if (dType.equalsIgnoreCase(CACHED_TABLE_LONG_HASHTABLE)) {
 			cacheWeWant = (Hashtable<Long, Hashtable>) context
 					.getAttribute(hashkey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<Long, Hashtable>();
+				context.setAttribute(hashkey, cacheWeWant);
+			}
+		} else if (dType.equalsIgnoreCase(CACHED_TABLE_LONG_STRING)) {
+			cacheWeWant = (Hashtable<Long, String>) context
+					.getAttribute(hashkey);
+
+			if (cacheWeWant == null) {
+				cacheWeWant = new Hashtable<Long, String>();
+				context.setAttribute(hashkey, cacheWeWant);
+			}
+		} else if (dType.equalsIgnoreCase(CACHED_TABLE_LONG_LONG)) {
+			cacheWeWant = (Hashtable<Long, Long>) context.getAttribute(hashkey);
+
+			if (cacheWeWant == null) {
+				cacheWeWant = new Hashtable<Long, Long>();
 				context.setAttribute(hashkey, cacheWeWant);
 			}
 		} else {
@@ -608,7 +632,7 @@ public class USIP_OSP_Cache {
 		}
 
 	}
-	
+
 	public static Hashtable getPlayerAutocompleteUserNames(String schema,
 			HttpServletRequest request) {
 

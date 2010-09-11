@@ -185,6 +185,8 @@ public class UserAssignment{
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 			
 		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString).list();
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		if ((userList == null) || (userList.size() == 0)){
 			ua = new UserAssignment(schema, sid, rid, aid, uid);
@@ -197,8 +199,6 @@ public class UserAssignment{
 		if (userList.size() > 1){
 			Logger.getRootLogger().warn("multiple user assignments for s/rs/a: " + sid + "/" + rid + "/" + aid);
 		}
-		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return ua;
 
