@@ -427,11 +427,24 @@ public class BishopsPartyInfo implements CopiedObject{
 		
 	}
 	
+	/**
+	 * Takes the name of the party, and stores it in cache.
+	 * 
+	 * @param schema
+	 * @param request
+	 * @param bpi_id
+	 * @param bpi_name
+	 */
 	public static void storeNameInCache(String schema,  HttpServletRequest request, Long bpi_id, String bpi_name){
 		ServletContext context = request.getSession().getServletContext();
 
 		Hashtable<String, String> bpi_names_hash = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES);
 
+		if (bpi_names_hash == null){
+			bpi_names_hash = new Hashtable<String, String>();
+			context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
+		}
+		
 		bpi_names_hash.put(schema + "_" +  bpi_id, bpi_name);
 		
 		context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);

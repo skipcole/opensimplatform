@@ -123,7 +123,15 @@
 					
 					String allSelected = "checked=\"checked\"";
 					
-					List targets = InjectActorAssignments.getAllForInject(afso.schema, inj.getId());
+					List targets = new ArrayList();
+					List targetRaw = InjectActorAssignments.getAllForInject(afso.schema, inj.getId());
+					
+					for (ListIterator liInjId = targetRaw.listIterator(); liInjId.hasNext();) {
+						InjectActorAssignments targ = (InjectActorAssignments) liInjId.next();
+						targets.add(targ.getActor_id());	
+					}
+					
+					System.out.println("number targets: " + targets.size());
 					
 					if ((inj.getId() != null) && ( targets.size() > 0 )) {
 						allSelected = "";
@@ -141,12 +149,14 @@
 					
 					String thisActorIsTargetted = "";
 					
+					System.out.println("actor id: " + act.getId());
 					if (targets.contains(act.getId())){
 						thisActorIsTargetted= "checked=\"checked\"";
 					}
 				  %>
+				  <label for="everyone_<%= act.getId().toString() %>">
                   <input type="checkbox" name="target_<%= act.getId().toString() %>" id="target_<%= act.getId().toString() %>" <%= thisActorIsTargetted %> /> 
-				  <label for="everyone_<%= act.getId().toString() %>"><%= act.getActorName() %></label><br />
+				  <%= act.getActorName() %></label><br />
           		<% } %>
                 </td></tr></table>
                   </td>

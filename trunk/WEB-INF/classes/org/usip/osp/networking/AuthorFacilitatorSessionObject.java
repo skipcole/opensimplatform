@@ -1826,12 +1826,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if (pname.startsWith("target_")) {
 				pname = pname.replace("target_", "");
 
-				if (vname.equalsIgnoreCase("on"))
-					;
-
-				Long thisTarget = USIP_OSP_Util.stringToLong(pname);
-				if (thisTarget != null) {
-					targettedPeople.add(thisTarget);
+				if (vname.equalsIgnoreCase("on")){
+					Long thisTarget = USIP_OSP_Util.stringToLong(pname);
+					if (thisTarget != null) {
+						targettedPeople.add(thisTarget);
+						System.out.println("targetted peoples: " + thisTarget);
+					}
 				}
 			}
 		}
