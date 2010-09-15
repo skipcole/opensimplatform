@@ -1,0 +1,2010 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SIM_PACKAGE_OBJECT>
+<OSP_VERSION>0.9.0</OSP_VERSION>
+<EXPORT_DATE>9/15/10 2:50 PM</EXPORT_DATE>
+<org.usip.osp.baseobjects.SimulationVersion>
+  <transitId>1</transitId>
+  <name>USIP OSP Intro</name>
+  <version>1</version>
+  <softwareVersion>0.9.0</softwareVersion>
+  <finePoints></finePoints>
+</org.usip.osp.baseobjects.SimulationVersion>
+<org.usip.osp.baseobjects.Simulation>
+  <transitId>1</transitId>
+  <name>USIP OSP Intro</name>
+  <version>1</version>
+  <softwareVersion>0.9.0</softwareVersion>
+  <blurb>A simulation just to introduce new authors to the player interface.</blurb>
+  <allowPlayerAutoreg>false</allowPlayerAutoreg>
+  <introduction>&lt;span style=&quot;font-weight: bold;&quot;&gt;Welcome!&lt;/span&gt;&lt;br&gt;&lt;br&gt;This is a brief sample simulation to show you what a player&apos;s world will look like to them. There is nothing to do here other than to investigate this interface. We included several of the frequently used tools here, but normally it is not likely that all of them would appear all at once.&lt;br&gt;&lt;br&gt;Across the top of your screen, you will notice information such as the name of the simulation, the phase it is in, and your role in this simulation. Also at the top, you should see a set of tabs. Right now you are reading these words on the &apos;Introduction&apos; tab. These tabs, also referred to as simulation sections, have been defined by the simulation author. These tab headings may change during a simulation providing the players with different things they can see or do, and different players may have completely different set of sections (tab headings.)&lt;br&gt;&lt;br&gt;At the bottom, you will see the copyright information for the simulation. The simulation author has also defined that.&lt;br&gt;&lt;br&gt;Please look at the rest of the tabs to see what the different sections will look like. If you would like to be sure that you have hit everything, you may print out the &apos;Check List&apos; page and use it to check off things as you go.&lt;br&gt;&lt;br&gt;Please note, that a simulation in action involves the deep involvement of the players. They will interact with the computer, and with each other. The simulation really takes place more in their minds than anywhere else. This interface provides the tools (chat, email, information, web sites, etc.) to allow there simulated reality to be constructed.&lt;br&gt;&lt;br&gt;Sincerely,&lt;br&gt;Your USIP OSP Team&lt;br&gt;&lt;br&gt;</introduction>
+  <learningObjvs>To just show people new to the USIP OSP what the player interface looks like.&lt;br&gt;</learningObjvs>
+  <audience>Anyone who wants a quick glimpse at what the USIP OSP can provide.&lt;br&gt;</audience>
+  <plannedPlayIdeas>This is just a place for the people new to the platform to look around in it at their leisure.&lt;br&gt;</plannedPlayIdeas>
+  <aarStarterText></aarStarterText>
+  <creationOrg>USIP</creationOrg>
+  <creator>Skip Cole</creator>
+  <copyrightString>Copyright 2010.</copyrightString>
+  <isReadyForPublicListing>false</isReadyForPublicListing>
+  <listingKeyWords></listingKeyWords>
+  <lastEditDate class="sql-timestamp">2010-09-08 07:27:53.0</lastEditDate>
+</org.usip.osp.baseobjects.Simulation>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>1</sim__id>
+  <transit__id>1</transit__id>
+  <name>Player A</name>
+  <public__description>Stuff everyone knows about Player A.&lt;br&gt;</public__description>
+  <semi__public__description>Stuff everyone only players close to Player A know.&lt;br&gt;</semi__public__description>
+  <private__description>Stuff only Player A knows about themselves: their hidden motives and opinions.&lt;br&gt;</private__description>
+  <imageFilename>no_image_default.jpg</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>1</sim__id>
+  <transit__id>2</transit__id>
+  <name>Player B</name>
+  <public__description>Stuff everyone knows about Player B.</public__description>
+  <semi__public__description>Stuff everyone only players close to Player B know.</semi__public__description>
+  <private__description>Stuff only Player B knows about themselves: their hidden motives and opinions.</private__description>
+  <imageFilename>mr_blue.png</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>1</sim__id>
+  <transit__id>3</transit__id>
+  <name>Control</name>
+  <public__description>Control represents the rest of the world to the players.&lt;br&gt;</public__description>
+  <semi__public__description>&lt;br&gt;</semi__public__description>
+  <private__description>Control may communicate with the students in many ways: email, chat, injects, announcements, etc. &lt;br&gt;</private__description>
+  <imageFilename>c1.jpg</imageFilename>
+  <imageThumbFilename>c1_thumb.jpg</imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>true</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+
+
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>1</transit__id>
+  <name>Started</name>
+  <notes>The first phase of the simulation.</notes>
+  <firstPhase>true</firstPhase>
+  <lastPhase>false</lastPhase>
+  <copyInObjects>false</copyInObjects>
+  <phaseStartDate class="sql-timestamp">2001-01-01 09:00:30.0</phaseStartDate>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>1</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>2</transit__id>
+  <name>Reflection</name>
+  <notes>A place and time for the players to reflect.</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>false</lastPhase>
+  <copyInObjects>false</copyInObjects>
+  <phaseStartDate class="sql-timestamp">2001-01-01 09:00:30.0</phaseStartDate>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>2</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>3</transit__id>
+  <name>Completed</name>
+  <notes>The last phase of the simulation.</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>true</lastPhase>
+  <copyInObjects>false</copyInObjects>
+  <phaseStartDate class="sql-timestamp">2001-01-01 09:00:30.0</phaseStartDate>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>9999</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+
+<org.usip.osp.baseobjects.SimPhaseAssignment>
+  <sim__id>1</sim__id>
+  <phase__id>1</phase__id>
+  <transit__id>1</transit__id>
+</org.usip.osp.baseobjects.SimPhaseAssignment>
+<org.usip.osp.baseobjects.SimPhaseAssignment>
+  <sim__id>1</sim__id>
+  <phase__id>2</phase__id>
+  <transit__id>2</transit__id>
+</org.usip.osp.baseobjects.SimPhaseAssignment>
+<org.usip.osp.baseobjects.SimPhaseAssignment>
+  <sim__id>1</sim__id>
+  <phase__id>3</phase__id>
+  <transit__id>3</transit__id>
+</org.usip.osp.baseobjects.SimPhaseAssignment>
+
+<org.usip.osp.communications.InjectGroup>
+  <transit__id>1</transit__id>
+  <sim__id>1</sim__id>
+  <name>General Injects</name>
+  <description>This is a small sample group to help explain that injects can be divided into groups to help the facilitator pick the correct one correctly, during the heat of the moment in a simulation.</description>
+</org.usip.osp.communications.InjectGroup>
+<org.usip.osp.communications.Inject>
+  <transit__id>1</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <injectName>Inject 1</injectName>
+  <inject__text>Something really spectacular just happened ...&lt;br&gt;</inject__text>
+  <inject__notes>These notes generally explain the inject and when it should be used.</inject__notes>
+  <learningObjectives></learningObjectives>
+  <typicalQuestionsAndResponses></typicalQuestionsAndResponses>
+</org.usip.osp.communications.Inject>
+<org.usip.osp.communications.Inject>
+  <transit__id>2</transit__id>
+  <sim__id>1</sim__id>
+  <group__id>1</group__id>
+  <injectName>Inject 2</injectName>
+  <inject__text>You can now say, &quot;Now that&apos;s something you don&apos;t see every day.&quot;&lt;br&gt;</inject__text>
+  <inject__notes>These notes generally explain the inject and when it should be used. For example, &quot;Inject 2  should be played only after Inject 1.&quot;</inject__notes>
+  <learningObjectives></learningObjectives>
+  <typicalQuestionsAndResponses></typicalQuestionsAndResponses>
+</org.usip.osp.communications.Inject>
+
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>3</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Email Master View</uniqueName>
+  <version>1</version>
+  <description>A section to see all in game emails, and get and receive emails.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>email_master_view.jsp</page__file__name>
+  <rec__tab__heading>Email Master View</rec__tab__heading>
+  <sample__image>email_master_view.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>12</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Introduction</uniqueName>
+  <version>1</version>
+  <description>The introductory text will be shown here.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <rec__tab__heading>Introduction</rec__tab__heading>
+  <sample__image>introduction.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>21</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>View Player Reflection</uniqueName>
+  <version>1</version>
+  <description>A section to view the player reflections.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <rec__tab__heading>View Player Reflection</rec__tab__heading>
+  <sample__image>view_player_reflection.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>37</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>AAR</uniqueName>
+  <version>1</version>
+  <description>An &apos;after action report&apos; (AAR) is a document written after an event describing what happened and what the lessons learned were. Adding this section to a simulation adds a page showing the after action report that the instructor has written. This is generally considered the essential final step of a simulation: to provide feedback to the players on how they have done, and give them thoughts to reflect upon.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <rec__tab__heading>AAR</rec__tab__heading>
+  <sample__image>aar.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>39</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Show Announcements</uniqueName>
+  <version>1</version>
+  <description>A section to display announcements to the players.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <rec__tab__heading>Announcements</rec__tab__heading>
+  <sample__image>announcements.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>45</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Write AAR</uniqueName>
+  <version>1</version>
+  <description>A section to write the after action report.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <rec__tab__heading>Write AAR</rec__tab__heading>
+  <sample__image>write_aar.png</sample__image>
+  <control__section>true</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>1</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>The &apos;Schedule&apos; page is actually something that the instructor will write when initiating a simulation. It can say useful things like:&lt;br&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt;This 6 hour simulation will start on Monday 9/6 at 9:00am and run till 5pm, with breaks and lunch during the day.&lt;/li&gt;&lt;/ul&gt;or&lt;br&gt;&lt;ul&gt;&lt;li&gt;This 6 week simulation will begin on Monday 9/6 and be conducted daily. It is assumed that students will enter the system for at least 15 minutes every week night, unless otherwise told differently by their instructor.&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;Since this is an simulation without any pilot (instructor), and anyone invited to it can go into it at their leisure, we don&apos;t really have much need for a schedule here. But we want you to be familiar with this important way that instructors can communicate their personal expectations to their students.&lt;br&gt;&lt;br&gt;</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>50</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Text Page</uniqueName>
+  <version>1</version>
+  <description>Schedule</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <rec__tab__heading>Schedule</rec__tab__heading>
+  <sample__image>text_page.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>47</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
+  <contents>
+    <entry>
+      <string>display_control</string>
+      <string>true</string>
+    </entry>
+    <entry>
+      <string>display_unassigned</string>
+      <string>true</string>
+    </entry>
+  </contents>
+  <bigString>Below are listed alphabetically all of the current Actors that you can see.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.CastCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>51</transit__id>
+  <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
+  <uniqueName>Customized Cast</uniqueName>
+  <version>1</version>
+  <description>A section to allow players see information about themselves, and public information about the other actors in this simulation.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <rec__tab__heading>Cast</rec__tab__heading>
+  <sample__image>cast.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>19</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_conference_room.jsp</specificMakePage>
+  <contents/>
+  <pageTitle>Chat</pageTitle>
+  <bigString>In this room you may chat with the actors listed.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.ConferenceRoom</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>53</transit__id>
+  <creatingOrganization>org.usip.osp.baseobjects</creatingOrganization>
+  <uniqueName>Conference Room</uniqueName>
+  <version>1</version>
+  <description>A page to allow several actors to communicate privately.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>conference_room.jsp</page__file__name>
+  <rec__tab__heading>Chat</rec__tab__heading>
+  <sample__image>conference_room.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>36</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_email_page.jsp</specificMakePage>
+  <contents/>
+  <pageTitle></pageTitle>
+  <bigString></bigString>
+  <hasCustomizer>false</hasCustomizer>
+  <customizerClassName></customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>54</transit__id>
+  <creatingOrganization>USIP</creatingOrganization>
+  <uniqueName>email</uniqueName>
+  <version>1</version>
+  <description>Email</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>email.jsp</page__file__name>
+  <rec__tab__heading>Email</rec__tab__heading>
+  <sample__image>email.png</sample__image>
+  <control__section>false</control__section>
+  <cust__lib__name></cust__lib__name>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>1</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>In this small sample simulation we just want to introduce you to a few basic sections that are commonly seen by the players and facilitators. To help guide your reading, you may want to print this page out and check off the following sections below as you see them. &lt;br&gt;&lt;br&gt;Hint: To complete this checklist, you will either need to login as each of the three players, or log in as Control, who can switch into any of the other players. Items marked with a &apos;*&apos; are only visible to the Control Player.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items to See in the Started Phase&lt;/span&gt;&lt;br&gt;___ Introduction&lt;br&gt;___ Schedule&lt;br&gt;___ Announcements&lt;br&gt;___ Cast&lt;br&gt;___ Chat&lt;br&gt;___ Background Information (for A)&lt;br&gt;___ Background Information (for B)&lt;br&gt;___ Email&lt;br&gt;___ Email Master *&lt;br&gt;___ Web Links&lt;br&gt;___ Timeline *&lt;br&gt;___ Check List&lt;br&gt;___ Control *&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Change Phase&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Change Your Role&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Make Announcement&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Push Injects&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Swap/Remove/Add Players&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ View Last Logins&lt;br&gt;&lt;br&gt;(As the Control Player, use the &apos;Change Phase&apos; page to move the simulation into the &apos;Reflection&apos; phase.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items to see in the Reflection Phase&lt;/span&gt;&lt;br&gt;___ Reflection&lt;br&gt;___ View Player Reflection*&lt;br&gt;___ Write AAR*&lt;br&gt;&lt;br&gt;(As the Control Player, use the &apos;Change Phase&apos; page to move the simulation into the &apos;Completed&apos; phase.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items to see in the Completed Phase&lt;/span&gt;&lt;br&gt;&#x0D;
+___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&apos;button&apos; &quot; +&quot;onClick=&apos;window.print()&apos; &quot; +&quot;class=&apos;printbutton&apos; &quot; +&quot;value=&apos;Print This Page&apos;/&gt;&quot;);&lt;/script&gt;&lt;input onclick=&quot;window.print()&quot; class=&quot;printbutton&quot; value=&quot;Print This Page&quot; type=&quot;button&quot;&gt;&lt;input onclick=&quot;window.print()&quot; class=&quot;printbutton&quot; value=&quot;Print This Page&quot; type=&quot;button&quot;&gt;</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>55</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Text Page</uniqueName>
+  <version>1</version>
+  <description>Check List</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <rec__tab__heading>Check List</rec__tab__heading>
+  <sample__image>text_page.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>17</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_weblink_page.jsp</specificMakePage>
+  <contents>
+    <entry>
+      <string>link_name</string>
+      <string>Article</string>
+    </entry>
+  </contents>
+  <bigString>On this page you can add a link to a web site that all of the other players can then refer to. These can be maps or articles or any other online resource.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.WebLinksCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>56</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Web Link Page</uniqueName>
+  <version>1</version>
+  <description>A set of web links, which could be interesting things like google maps, will be presented to the players on this page.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>web_link_page.jsp</page__file__name>
+  <rec__tab__heading>Web Links</rec__tab__heading>
+  <sample__image>web_link_page.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>30</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>make_reflection_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>Please reflect on the simulation experience you just had, and answer the following questions:&lt;br&gt;&lt;ul&gt;&lt;li&gt;What were you trying to achieve?&lt;/li&gt;&lt;li&gt;What strategies did you try?&lt;/li&gt;&lt;li&gt;How well did those work?&lt;/li&gt;&lt;li&gt;Would do anything different if you played it again?&lt;/li&gt;&lt;li&gt;Did anything surprise you?&lt;/li&gt;&lt;/ul&gt;In this solo simulation, there is not much to reflect upon. But you may try entering in some reflection notes as a player and then viewing them as Control.&lt;br&gt;&lt;br&gt;&lt;br&gt;</bigString>
+  <hasCustomizer>false</hasCustomizer>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>57</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Player Reflection</uniqueName>
+  <version>1</version>
+  <description>A section to allow the players to express their impressions, reflect upon their experience, etc.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <rec__tab__heading>Reflection</rec__tab__heading>
+  <sample__image>player_reflection.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>1</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>This is A&apos;s Background information. It describes the world from their perspective.&lt;br&gt;</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>58</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Text Page</uniqueName>
+  <version>1</version>
+  <description>Background for A.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <rec__tab__heading>Background Information</rec__tab__heading>
+  <sample__image>text_page.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>1</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
+  <contents/>
+  <bigString>This is B&apos;s Background information. It describes the world from their perspective.</bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>59</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Text Page</uniqueName>
+  <version>1</version>
+  <description>Background for B.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <rec__tab__heading>Background Information</rec__tab__heading>
+  <sample__image>text_page.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>true</thisIsACustomizedSection>
+  <idOfOrigCustSection>25</idOfOrigCustSection>
+  <simId>1</simId>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_similietimeline_page.jsp</specificMakePage>
+  <contents>
+    <entry>
+      <string>timeline_to_show</string>
+      <string>show_plan</string>
+    </entry>
+  </contents>
+  <pageTitle></pageTitle>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.SimilieTimelineCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <transit__id>60</transit__id>
+  <creatingOrganization>USIP</creatingOrganization>
+  <uniqueName>similie_timeline</uniqueName>
+  <version>1</version>
+  <description>Timeline</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>similie_timeline.jsp</page__file__name>
+  <rec__tab__heading>Timeline</rec__tab__heading>
+  <sample__image>similie_timeline.png</sample__image>
+  <control__section>false</control__section>
+  <cust__lib__name></cust__lib__name>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.CustomizeableSection>
+
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>1</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>12</base__sec__id>
+  <baseUniqueName>Introduction</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>2</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>37</base__sec__id>
+  <baseUniqueName>AAR</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>3</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>12</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>4</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>37</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>5</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>12</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>6</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>37</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>7</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>12</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>8</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>3</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>37</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>9</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>50</base__sec__id>
+  <baseUniqueName>Text Page</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>10</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>50</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>11</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>50</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>12</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>50</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>13</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>51</base__sec__id>
+  <baseUniqueName>Customized Cast</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>14</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>51</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>15</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>51</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>16</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Cast</tab__heading>
+  <base__sec__id>51</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>cast.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>17</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>4</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Chat</tab__heading>
+  <base__sec__id>53</base__sec__id>
+  <baseUniqueName>Conference Room</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>conference_room.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>18</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>5</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Chat</tab__heading>
+  <base__sec__id>53</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>conference_room.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>19</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>5</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Chat</tab__heading>
+  <base__sec__id>53</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>conference_room.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>20</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>5</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Chat</tab__heading>
+  <base__sec__id>53</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>conference_room.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>21</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>5</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Email</tab__heading>
+  <base__sec__id>54</base__sec__id>
+  <baseUniqueName>email</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>email.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>22</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>7</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Email</tab__heading>
+  <base__sec__id>54</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>email.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>23</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>7</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Email</tab__heading>
+  <base__sec__id>54</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>email.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>25</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>6</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Email Master View</tab__heading>
+  <base__sec__id>3</base__sec__id>
+  <baseUniqueName>Email Master View</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>email_master_view.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>27</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>5</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Check List</tab__heading>
+  <base__sec__id>55</base__sec__id>
+  <baseUniqueName>Text Page</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>28</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>9</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Check List</tab__heading>
+  <base__sec__id>55</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>29</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>9</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Check List</tab__heading>
+  <base__sec__id>55</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>31</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>9</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Check List</tab__heading>
+  <base__sec__id>55</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>32</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>7</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>39</base__sec__id>
+  <baseUniqueName>Show Announcements</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>33</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>39</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>34</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>39</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>36</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>8</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Web Links</tab__heading>
+  <base__sec__id>56</base__sec__id>
+  <baseUniqueName>Web Link Page</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>web_link_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>37</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>8</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Web Links</tab__heading>
+  <base__sec__id>56</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>web_link_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>38</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>8</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Web Links</tab__heading>
+  <base__sec__id>56</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>web_link_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>39</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>7</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Web Links</tab__heading>
+  <base__sec__id>56</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>web_link_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>40</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>3</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>39</base__sec__id>
+  <baseUniqueName>Show Announcements</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>show_announcements.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>41</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>9</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>57</base__sec__id>
+  <baseUniqueName>Player Reflection</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>42</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>57</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>43</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>57</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>44</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Reflection</tab__heading>
+  <base__sec__id>57</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>45</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>View Player Reflection</tab__heading>
+  <base__sec__id>21</base__sec__id>
+  <baseUniqueName>View Player Reflection</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>view_player_reflection.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>46</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>2</phase__id>
+  <tab__position>3</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>45</base__sec__id>
+  <baseUniqueName>Write AAR</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>47</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>1</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>6</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Background Information</tab__heading>
+  <base__sec__id>58</base__sec__id>
+  <baseUniqueName>Text Page</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>48</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>6</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Background Information</tab__heading>
+  <base__sec__id>59</base__sec__id>
+  <baseUniqueName>Text Page</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>49</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>8</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Timeline</tab__heading>
+  <base__sec__id>60</base__sec__id>
+  <baseUniqueName>similie_timeline</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>similie_timeline.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+
+<org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+  <sim__id>1</sim__id>
+  <bss__id>52</bss__id>
+  <objectId>1</objectId>
+  <actor__dependent>false</actor__dependent>
+  <className>org.usip.osp.communications.Conversation</className>
+  <dep__obj__index>1</dep__obj__index>
+  <transit__id>1</transit__id>
+</org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+<org.usip.osp.communications.Conversation>
+  <uniqueConvName>group_chat</uniqueConvName>
+  <sim__id>1</sim__id>
+  <conversationType>0</conversationType>
+  <conversationNotes>A place to simulation a forum.</conversationNotes>
+  <transit__id>1</transit__id>
+</org.usip.osp.communications.Conversation>
+<org.usip.osp.communications.ConvActorAssignment>
+  <id>1</id>
+  <actor__id>3</actor__id>
+  <conv__id>1</conv__id>
+  <role></role>
+  <room__owner>false</room__owner>
+  <initially__present>false</initially__present>
+  <can__be__added__removed>false</can__be__added__removed>
+</org.usip.osp.communications.ConvActorAssignment>
+<org.usip.osp.communications.ConvActorAssignment>
+  <id>2</id>
+  <actor__id>2</actor__id>
+  <conv__id>1</conv__id>
+  <role></role>
+  <room__owner>false</room__owner>
+  <initially__present>false</initially__present>
+  <can__be__added__removed>false</can__be__added__removed>
+</org.usip.osp.communications.ConvActorAssignment>
+<org.usip.osp.communications.ConvActorAssignment>
+  <id>3</id>
+  <actor__id>1</actor__id>
+  <conv__id>1</conv__id>
+  <role></role>
+  <room__owner>false</room__owner>
+  <initially__present>false</initially__present>
+  <can__be__added__removed>false</can__be__added__removed>
+</org.usip.osp.communications.ConvActorAssignment>
+<org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+  <sim__id>1</sim__id>
+  <bss__id>53</bss__id>
+  <objectId>1</objectId>
+  <actor__dependent>false</actor__dependent>
+  <className>org.usip.osp.communications.Conversation</className>
+  <dep__obj__index>1</dep__obj__index>
+  <transit__id>2</transit__id>
+</org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+
+<org.usip.osp.communications.TimeLine>
+  <id>1</id>
+  <adjustToRunningSimStartTime>false</adjustToRunningSimStartTime>
+  <simId>1</simId>
+  <timeline__category>1</timeline__category>
+  <description></description>
+</org.usip.osp.communications.TimeLine>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>1</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:00:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>Do Inject 1</eventTitle>
+  <eventMsgBody>This is just a sample inject for you to fire. To see its results you and fire it as control, and then log on as Player A or B, and see how they receive it.&lt;br&gt;</eventMsgBody>
+  <simId>1</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>3</eventType>
+  <id>2</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>Do Inject 2</eventTitle>
+  <eventMsgBody>&lt;br&gt;</eventMsgBody>
+  <simId>1</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>3</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 09:34:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF 05</eventTitle>
+  <eventMsgBody></eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>4</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 09:36:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF-11</eventTitle>
+  <eventMsgBody>First Challenge: Who is in Charge?</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>5</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 09:45:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>NATO-02</eventTitle>
+  <eventMsgBody>Part of Second Challenge: Pulling apart by militarization.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>6</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 09:45:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>NAC-02</eventTitle>
+  <eventMsgBody>Part of Second Challenge: Pulling apart by militarization.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>7</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 09:45:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>UNAMA-03</eventTitle>
+  <eventMsgBody>Part of Second Challenge: Pulling apart by militarization.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>8</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:00:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF-13</eventTitle>
+  <eventMsgBody>Generally sobering news.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>9</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:05:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF-14</eventTitle>
+  <eventMsgBody>Generally sobering news.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>2</eventType>
+  <id>10</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:06:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>UNAMA-05</eventTitle>
+  <eventMsgBody>Load them down if desired</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>2</eventType>
+  <id>11</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:06:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>NAC-03</eventTitle>
+  <eventMsgBody>Load them down</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>2</eventType>
+  <id>12</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:06:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>NATO-04</eventTitle>
+  <eventMsgBody>load down Nato</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>2</eventType>
+  <id>13</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:06:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>DAI-05</eventTitle>
+  <eventMsgBody>load down DAI</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>14</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>NATO-03</eventTitle>
+  <eventMsgBody>Challenge: Pull them apart</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>15</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>DAI-04</eventTitle>
+  <eventMsgBody>Pull them apart</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>16</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>NAC-01</eventTitle>
+  <eventMsgBody>Pull them apart</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>17</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>UNAMA-04</eventTitle>
+  <eventMsgBody>pull them apart</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>18</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 11:00:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF-06</eventTitle>
+  <eventMsgBody>reset</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>19</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 11:15:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF-01</eventTitle>
+  <eventMsgBody>Final Challenge: Peace vs. Justice</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>20</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 11:15:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF-02</eventTitle>
+  <eventMsgBody>Final Challenge: Peace vs Justice</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>21</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 11:15:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>New Event</eventTitle>
+  <eventMsgBody>Make up a handmade inject concerning the victim&apos;s groups demanding justice.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>3</eventType>
+  <id>22</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 11:20:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>Escalate 1 - Protesters</eventTitle>
+  <eventMsgBody>Continuing peace vs justice outcome&#x0D;This can be escalated (forcing them to respond) by having a protest march.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>3</eventType>
+  <id>23</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 11:25:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>Escalate 2 - Strike!</eventTitle>
+  <eventMsgBody>Continuing peace vs justice outcome&#x0D;This can be escalated (forcing them to respond) by having a general strike.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>24</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 12:00:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>Reflection Phase</eventTitle>
+  <eventMsgBody>Advance the simulation into the reflection phase and allow the players to write their reflections.</eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>25</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 09:30:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF 03</eventTitle>
+  <eventMsgBody></eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <id>26</id>
+  <eventStartTime class="sql-timestamp">2001-01-01 09:32:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>JRTF 04</eventTitle>
+  <eventMsgBody></eventMsgBody>
+  <simId>2</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+</org.usip.osp.communications.Event>
+
+<SIM_MEDIA_OBJECTS>
+<org.usip.osp.networking.OSPSimMedia>
+  <mediaType>1</mediaType>
+  <mediaName>c1.jpg</mediaName>
+  <mediaString>/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEP
+ERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4e
+Hh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAyADIDASIA
+AhEBAxEB/8QAGwABAAEFAQAAAAAAAAAAAAAAAAcDBQYICQH/xAAtEAABAwMCBAUDBQAAAAAAAAAB
+AAIDBAUGBxEIEjFBEyEiUWFScYEJFEJykf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAA
+AAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwDctEUe8SF+vGM6H5TfLBVGluVLRgwzBoJj5nta5w37
+hpOx7HYoKOpGuWmGAVctBkOTwC4xD1UVKx08zT7ODAQ0/wBiFacL4k9H8qro6ClyltBVSENZHcYX
+U4cT2D3Dk3+OZcyaiaaonkqKiV8s0ji+SR7i5znE7kknqSqaDsu1zXNDmuDmkbgg7gherVX9OrKs
+ivOH5BYbpUzVVts8sAoHyu3MQkD+aIH6RyggduZbVICIiAo14ncVvGZ6H5FYbDI8XCWFksUbXBvj
+eG9rzHufqDSPvspKWKalahYlp5YJ7xlF2gpI42kxwBwM87uzY2dXE/4OpIHmg5JkEEgjYheK8Ztd
+Lfesvu93tVrbaqGtrJJ4KNr+YQMc4kN3+N1bKOWOGrhmliE0ccjXOjJ2DwDuR+UHQrgLwvJcS0rr
+arIYTSR3mrFXR0kkfLKxgYG87+/r2BAPQAHutiVFukWuunOoNopDQXuitdze0Nfaq2dsU0bh/FoO
+wePYt38vbopSBBG4O4QEREHMjO+JXV7LHyMfk8lmpH9Ka0t/bAD25xvIfy5RJW1dVXVL6qtqZqme
+Q7vlmeXvcfck+ZVFEBERAWU4lqJneJyskx3LbzbgzpHFVO8I/dhJafyFiyIJyj4rtbGRtYckpHlo
+A5nW2Dc/J9KKDUQEREBERAREQEREH//Z</mediaString>
+</org.usip.osp.networking.OSPSimMedia>
+<org.usip.osp.networking.OSPSimMedia>
+  <mediaType>1</mediaType>
+  <mediaName>c1_thumb.jpg</mediaName>
+  <mediaString>/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEP
+ERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4e
+Hh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAoACgDASIA
+AhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAcICQUG/8QALxAAAAUDAgMGBgMAAAAAAAAAAAEC
+AwQFBhEHEgghYQkTFTEzghRBUVJxgSKxwf/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAA
+AAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwC5Y8nqjqHa2m9unW7pnlGYUrYy2ktzjy/tQn5n/Q9Y
+KJdpHKbc1GtqIlThuM0pSlpPO0tzp4MuvI8/ggEht8bVlHVDZXaVdRC3YKR3jZrx9TRn/RYLTW/7
+V1DoXjFq1RubHSZJdRja4yoyztWk+ZGMjxbHs2GFKvm65BTNiW6a0k4+fUM3OS/bgy94C84AAAKt
+donQqBK08pNcky4satw5XdxEr9SS0ov5oT0I9qun7EP3zxi6jVpTjVvQqdbsY8knYnv3iLqtREWf
+wkhA133Vcd31TxS5qxLqszbtJyQ5u2l9CLyIuhAOKNHuB63rSpWjUSp0B+PKqdRwurPIVlaXSzht
+X2kkj8upn8xnCOxa10XHa03423K3PpT543KivqRux5biLkf7AbAAM5LP4s9WqG4kqhNhV1gsZRNY
+IlH7kYMAEBAAAAAAAAAA/9k=</mediaString>
+</org.usip.osp.networking.OSPSimMedia>
+<org.usip.osp.networking.OSPSimMedia>
+  <mediaType>1</mediaType>
+  <mediaName>mr_blue.png</mediaName>
+  <mediaString>iVBORw0KGgoAAAANSUhEUgAAAIEAAACBCAIAAABowk4HAAAAFXRFWHRDcmVhdGlvbiBUaW1lAAfX
+DBYQEzITcjNnAAAAB3RJTUUH1wwWEBcBHc90BQAAAAlwSFlzAAALEgAACxIB0t1+/AAAIvRJREFU
+eNrtXQ2QZFV1Pts8mrYd23GcjOO6jOO6WVcgG2qjuBIlBhANGkuNhYQoMZZahpCIqIRSYpAQNCRl
+WcQQpdRQ/hDKHzTEH0QkiIobggZxRbK1bNYVxnEch6Zpm963b9+k6zt8h/Pefd3TM9Mzs2BOdb16
+/X7vPeee/3PvWycyL/8PawrRWjdgsfBDkZtEvicyK5Kg/bFIKtISqYiMiBwr8jyR7SKHr3VT+4V1
+hzAf3CvyfpHrRaZEGsB4TaQNjHuwYZTgp0fKIiWRpsiQyCaR40ReI/L8te5RMRxqNPi6yJtE9gzu
+gRGIob8qGKVDle+udTfzMH8I/D4I1ChUF9+FKgRRP5fZb1Tk5ZBpa973+bWlwQ0ipxBB413wOCly
+gchdS3r+1SJv6E7UCpgjgqTa9ytIgyu6j9aO+L4SOmDgL/0sKNqNRY6B+vmVoME7qUW3QMcajIl8
+cdkPj6GWF7zsRpFTAzKMgkIbRC5+FNPgXEqb4axA+NAKvCuBBZXAiLIjaXDZnSIvdY2JMBQq+H3g
+UUaD7TAWc/r29FUfbvYLifGRQDQpXPEooMEn3RCrrW7HQryn9CEaPNhx9ObcNbvh4oVGwY0r2rYV
+9Q/Wganb7sjlIn+6Yq/rBgfQhhj7KTiyMyAei7/3idwDkkQ0jo8W+SastTYZIobw7GzvX6H2lVbm
+sZ8CAUYdAc4FsVeZAAdFfglvuYVtB9d1YFMJ8L8gQBsHbxe5DvtfE9km8qDITlCrBb6Zxb2dHr11
+JVq5EnxwONq9CfZlG1rupyuM60LYj7e3KH8skjEE46dDiRmcncZOiuO74Susx/D/NVz8t/BOPFRB
+10HCYGnwAIT+Zgy6KRz5uMhrVwzLveEgMNt2mkADTRrmUxshAQH2YaTHiGRswmXT6MXTcc3PRF4M
+RlEYwy2DHLgDpME/iZyNQaTYH4a0PTRhP/CucmkMMrNMeijNIujqfTh+KmTXD+HEeeh4My8ZSGsG
+pQ9eAgLYA08+hAnQgV3A9SgGfgyu1Z82viP691KQTiGgch909Vz2Ia8Sec9AWjMQPngaGm1wk8jv
+rAoqlwDz0AFz2JYonWyrnl2bdlSLKYoNIMargK7niNyK60fxnC1gkWXB8mnwBDC1QYpnHppwAJg1
+RS00WNvU2EqGOKvDVTqNwlLahuH1lyKX4tQIyNDxQL+znGYtUxYdDgJYvHP+ECbAQYfoaDEJxAq0
+wj6k5zq201dELhH5Ak7N4Wzngb+9nJYthwZH0vVV2bpyvt5goUQa5CiRZoe/uOSPAPszUCR3Qdhu
+FLmGfZ+CL330chq0NHgyHJzOQNiKAfLztcVrf2B4LwU0SLpfrGc3QOftBDFugc39LJFv4WwD+vx4
+6MWlwNL0wVPBmyNoXIcD7l5r5PYJB10uOqXubTol3HZuhHAngSy6HWToXHAt7O8t8CEuwZERGLg1
+PKGDjW8vtllL4IN/BQcImCB95BCgA4dBgenvCGCtinFdDtSDsYXxwRwEURWOdKf7N8Ob+zJN231g
+kWmwyLsW26zF8sHdeLfBI0UH9ID9wG8dxlLLRfciau8WJH4F+3sgecaB97uwcwqE0j7QRmEU7ttz
++m/BovjgcxD9dtejgACCKMUIlGqzSFFrZ4dAiQauXE8iTeDvNeCGDkudw+tjWKuLgEXR4FWwDSrM
+gTwS4Ttg/XUIP/wdjjwFSK/D9u8mlGq0AM1qKpMtqiBDx1Q9U+TNONXA9on9t6l/GjweW1Vlt641
+KpcGb4P1otAZ1+eLPAP7h8HMm6XAUTA7NcJ4H8FOGyhuUVFrlGkEGmK3S5UL5NsL+2xWnzR4Cclb
+RSbg2YPGzrs4NlfOxfs8yiZy0FGzf8D9DehdyeExDa7PmbDrgZZRXHkjFPXt7uwNIp/op2X96ORf
+QPkkLMgZcPSclu5GsHYNvVqJdFuOuhqCVriVo+qnOFiHbkgh2Y0eqg+UCVLGmsqwhWaBn01ghZNx
+zRnuRQsL7X74YCsIUAInDpwA7wEBhLJVg8lnIck1QHgLtmVWTmxyQklo0sx30QeaC9ES4yrlkoZn
+GtgZw42zcBrejyef557whAUbtyANPsF8QIqKxMHC90UuxM4x4OhxdFJDxBsH+qLL2NlRPFkluH/F
+D5j9LjmfwAoAdmGMx2DTDWyngDwCm6oMU1Vw77XQ9ifzyfUFA6sL0uBMbJXsfzZoGryAO/eAx2fR
+h1Emuf5xQG/5N+5oL9r0aZsYwgqnERupS+PkVHQU/Ep41BQafyKwv4k643rXgGN6t6+3PuhIydu4
+P3Bj9F6MKYMyB0RC3dMe0EuPoGSv8kUjGN2zzNpbBw+K7ICIT5EHTOm1zeEJVdrlCdVD4mIbFhVX
+H+JE1K5ZSec7kZouht58YAR43qAJIFmhKa4yTmgFDgrUpdLSFUX9LDEYZ688jHwgzlmrgB41tqrp
+0g+GPd/yBv5+CO6U8NU39WhfDxr4mPg3B4cRg6u6n7JqsD8Z3OsqDq1tF48z+Cq25Wz5d5qN4vUJ
+M5yHopI8hs360W5X96DBLdw5e3CI6Acih5orl/20H7jHRuxyWoRWTctUsiFrn06w/SRLPN1P3dmd
+YJ3rIIKEadELpAt0o4FXv4PSjR4WND2H+nlKH3Azd6ywpZwd2maP3oFtNTujJHHI7RMSNH4vUH8H
+2X0EBtI7Cm/oRoPLaZycNSBc5OAjC11QHtCLdnDHFEycHchVIkFdtgoNHsnygV1vxMtlGuxizSLs
+g2LoeH8n4ALV6h8obGIhDd7KtgqqhlYCbu551uvkny3vRbmpbZVACpk9VidCChOc3SA8m4AAKZhg
+BtOtPuYe9Y3wEYU0+AACs+IcjYHDrp5nR9z+Xct7Ucvt14rmRRnGm8GpHAckTpMnRVfazhSZaSdu
+OYFnyyjZy0NIg7/HQY0ffG15/e8BuT6UuNVQTGNJMwMLYSs7r2DsZUda1D0+N2WGZqk7E6ScGi3c
+ltiF9fCrW3CAroFuUEchxuD+XO5BIQ0u4xMHJZELwZv/YRuSbLBsOTDGzieMuEU8ItyZdU1qB8Pc
+bCTJ7tjfkDkaIINWktVBA3PId4Xh27D/93DnpoEguwssSGDjg9pCV/YGi81FxG+U9QAMcZuxbblS
+7ShQD3ZLb0spBg2UNk3QYL07e0vu6hwN3uL2n7u8zveG8e6nkqwHe2w/j+sOr3A9LXHYeszai84k
+ytruoIWM0kA/J0XMkfCumFPb2hDs08yyKfynb2KOBpfxyOIyoouHU7J/c2mTCuWDcL7G8kFVbpmF
+7yEjvhqR+UaWD8qLl8mad5tBKLsKGkzDX/Pa2CcYCmSRYuGLA+p5N/BuRxiyLw00XqTQdlGdcpf5
+6A0G6SxkFGY3JSuIvHtsx4dwfJy3N1ANZl5nyY2wh/4bfMoJ30WkpJcEz+h51vTwQLzla9jTtjNg
+cqP7OL637aydqEulxYLQ4GT0CEEL1czfY7IkzT3Q0+A8Jo0HFSfoE0yGVhgnMBo8axDPf0W2pxPo
+YCXbzfOxbTkipU4cLQoiyL2NEEdzvH0cc6FtYnrn1X9kN3gaTHHn8hVAdAgncieF6NSZkVuAHWPq
+65f2aIDPPYwSoZMQ1uN4kUduh04/ARNUIQzKTAaIC10YxkrU6mnRT+AW6HTPGaC+xej3DQ7VO/wT
+Q3jZqtDg464Nd2Jn2I0DhSWvA6VTDfbjJyxJ1tlOTeZbTPBeyh2fTkhcBWpoiS4YzdbyyDlq+KHg
+7MOTNowGPuf5+IHiuhs8xfVHleQ+IMi05XLS15oROgI/BTUNK/Bg74T3s5en3gFSxSRPwkxZ07kL
+/UPqFHVOY3dY53WuhQ8VqxsNLl3EWwYGVivW4ny8MbJCbdnp607/f+T+/jO2WjDgQ0PzIMAeGvVt
+xwFx1lQ13NlObj/N+sx+X5+52xnlJcO50cCcty2rSINnu3iWgoU5Zxf7rO6wHyVSiu7L3PH11BlH
+QIJfH8yIanGuYE7ypF0o4Y/4CVUJmWzaBS1KnL7wMA2aNJjOXC0CKHyjyPL78rJXBFRFugUe6RxM
+bWX8P3cLRdyLIz/D7w445EngDcQBNruFUXMpBK9IUud7m8mn09MzNDDarnLmUqA/X+P+dprxe8t+
+5uGcY6w4/R/Ou7+f2wPY+TEncs2ADLlZOp4YHrolNf3ZNKCcRkH2orhYnN31MA3sWY9bdRoIKsls
+eB42oGdWgYjNjNZ9H6WMVcilCoTedxlGvR7q5yh6AxWGKDyDJoGU78YEaRHHKD9NIx1iTk+GBg+u
+ul+2CrDOzRtQnNZhes3BLmrQQNzHGO0cOaDsaFCmH2D4jelI246huM2dOKtCUjf1KnKFQg8RSUm9
+ix7yowxyA9l2WtnlK/zFqfOQDYPtwMjJhVE9i/i3R9zxEsn8kjZcgqOVD24Pqp0e3ZB0UbPilEGh
+92pZszjwAPzDjRg5vRKD83x14TXCK3by0KAyiIcItIgsm2JmYYZC80Y46nODOmezhomzwhIYH/Iz
+dplzy/mV1RZXGlgl/jKTVmsCB4HWcPLIAcZBDTW5mcneiQ3NmDh71ueNu1HC6JGjhLjneHkzpEFy
+vaLOnWF5hME8ulFyY3wdqBJTG8cuGZByW3bMkTheSRx+DVlGoTQr93P1RSEBcqlQUzMWKdKZVQ/T
+QOERxwceKUaJxBXnxlkFa0oyymK2RcXbzh6PsqPeoLBa0kPktgYtmmr2N7aL5kjARxwNDJJsZVi7
+SEQkvKCbTg6NHC/ofUBJFecMa+JLpGLvOvZ2NjL/EOg9Tdc4g4NrjdZ+4HCMG2N5q1FUqDI1pMc1
+n1XP2qYSzOwos/jO2/WjuFI16j7kIaoIL6oqrfFso0u9sEIFqPYVbKk12ur9bBztXx5qHlhFMvjU
+YBx0Psoa/rHLGHsJk4tP5EBdXJ2lfDOcrCnk42y5i2kkbUqgkPcG0uyONsDzSs1oMMwdS6E0lhEz
++PwafV4k1JA5SNwFuXLdHvI9ArrrQLRqkXcjVTmFSU6TJJKwlnK6u6xLKbsUyp4G43yK0WDJZQ3f
+RNj5MauCdI0v5aKbOSMnycp0I0bqXK3UXS+BM6ywASJohqVgVyHqPkHMDrmlnFrZh+Qs41xadNRo
+sMU1zki0NDhd5I2rhf2c05Rmj4QE8EdiR63c7SHs40RwXYXzPKRbtgD1dS6NJ1wocoJ3xVnSKlar
+LizUVjayZRhzMLSk+XjrWEiy0gTILTyXBtZ94sZ4KBlCVyBMEvgbxxFSUyLpAnbHoJp4PbY1rgkZ
+c05g6EwI1x4ZYj21wnFGgxfyIoPHBuLooLOUClXuf2O7iDVjFgkHOXUydgVbYbrKzyALE14eO4Xs
+Uhh/3sD5+A0kwm4HHySINGwD0qdAifXOMw+NoogKwNf9PyeH91zpWS6K13BU0btyc/Y7rfl0gLgD
+A8L+wWyo0sRITKs/5ICkaGiHiA5VQo51BCN3Ewb7HtDjBMqTKyB/Ek4CHOHHqCRQQiVW7VWZPntY
+2nsa6A1f4l9fXfGgc/oNL2El6Ouzf3+y7JSkYd9m/7aIa2/PeNkSZ2V94d8+T9kzx4H9Mpgg5YT9
+10MuvRIJuE0Y3S2ojbqrQfK0V7cjZSXDwwaS0cA8ZJulZMP8ALPbnqqNojH+QHZJlyPdtMh+YN7h
+/QB+aTAq0yIR3/uauItWKLw3VCo6s3UTxu96pNt2QPjoDKedoFDZTSUvu1iIgQqiYTzhWzkG8BWA
+Knyu5hHv97ddHFG4wljTuXI2+bajoz7s3v0b4KF+sK9WZk7mtJ3oT50maGfFbmHUwYjRQ0ClPQlj
+gi6FnBmFKt6B+pQtXLjrWvgK+oGEe2in5vwPc79LWSd5Q44Gx9KxMq1dYe1Nk8VPFmw6nNS2I9fR
+uPooqqkM7wdxWc7Emg9Gfc7CiQNZkRQdbweYLeSbkADSx5V+p4bBezrQtQ3f+xJ8ukiYCm1ma4q9
+cy5ZQRQ59L40R4PXFa3jJm48xm4JtXkGyIxXWixo3Y+z5goexuUfDzqMJ9ltqGN7S54kqw9y/lTu
+MnumDUzP0Abemgrbs5eLFG3kEi2Xsyp3ggu7aL2sjVTPChErvWvZhcH/IkeDk7jKpKAI3pobUw2a
+PhRutTJOtcJWzqk7giQxlf4kxxM+GeJHtz0zHIM9eCJ1t0sXAoT0CK8MPThTCXbXKZBCFSDuCszP
+UPvnGEe8kpN+Nj9Q+LcM4fMxNqAMfZmhgZCMxmUW/wsdSDWz1MZSy+fkLC4eg68RPZ2ckRutseuh
+H5vea+0HcjZ40uWyNLgr7X5lzrHS1h4FNXkqxOzbwQ118voElMEGXNlw0j/33ohIs5TlBn/OwOhx
+F5H7IGVZlYU3fpZky8mcCcxxELfs+O/DXXgcjKUD6FjkhkbCsWAxZyPAgjMjPcZNuCdZFmm74Zyj
+hF1my7IkrDqxtHPqRkaErr0B4vtZcJKvp3Vkjx3jCmyeXz16dWbDKP9O+ppST4PzsXjwXv7dz8Ds
+CNd1qkPwrWc+aCPLQ59ESaXtPgL1a09F5dY6SLnriHElT5PrN5RcXfQ8DL462lpn5yuuzqeUJUah
+QdnOlk/rNlcqETPFpgsZDdO4mKPQmMXBEaCihlNncCGcN2NpkR0IX5egIb4AAlRxi6ZIZ6l+W1wW
+QD+HNMd8pb734VnKXha90RHgE8SOhsjrxHuFa922HGfch/3NIFuCUf9UfodoHgseboJDpwL0QdgS
+O0jgX6IS9F40fYgzh8JRnxvFtjx1082kTNzoi7IdNAq13ejWQL+uaDTNZOJejNA6BPezgNztJMBZ
+/DrLNiDhW+5zFioqInoJe92L2owRHceZyduzFmrXQP+Z+JbQsFOVM4yP7+MaV0I663yK7ejJBNyW
+LVgx9HNYuVKl0++K/IfIv4MeR4GfjkSxbUosDKFlqTOiwyKfmCmw2OWKPYXKbvpxGMywwtsaCdCi
+zWN2wQg+bboeurcFEaQroV2GFn6ETHYPh7+44oHEyYMSSxdTro1qy+fN5eZ45Tp5Yfav+Xslzjev
+QC5VnaiN8dA2+j+Oxk1So5xIP3kecy7WQUlovHcT6nB14q7e20B5/gwuCFcQapOjY2femO1hS1UL
+v1Vd4wKM+tHqqpu6JBRxMbB/j4vHlbh2ToTJ5XUQ4FjURk6hGlynHNcxCm3gz3L5fW93xRR62osX
+UyALxujbPZbD9eysUOeDmIXxC0QvqrQQjmNXlXNtCl+J/vom6owUrPAAwiMn4Rb9koy+7n6EWepc
+nrLGcNAESDjt+C+US6XstsElCctEd5WTUs3TrnO0tjhXUqduqwbSXLzOEpyD5DkLbH0b7L1z0NQv
+MvK8A20bxojZQK/YXtQoMs/GYSX6BEEG56EssqKws0GDJ9IPmHDyVLi1aJRiahcGzjQHyC707STM
+h9GpAKqlLxL5K1ArxhCbpXwYYoojF65Is7LeOCAi4WPmaU0OxLRzUqK+4UoXInJV4pbfV6X6PseF
+V+OCa/GcbaDZjdSrs5RCiSuTKTSsa5wsbrA5d0XIB19z83X2Qrt+Ceyj5tDxjv1LNIfLbMQI8L4d
+KutOLJ25C4O0I/6eCen/JJhMkxh0D2K/Tp0/il8JI7HmxGvTiRrv8UZZ8nvh6YWY3dt01KpRAOrF
++mn3TZiq/xU6/OdAokbo+J2g0B7qrWlaKL5wL84qA6EmqMGsarjpdR32+q3efPBCSp42ArPfBQfs
+QR90MtcY2LBCfLUpGRURMxA4CQbOLfzyXoIvV2xFu59KLb0OE7I6jP+btItqXOrXB+xapETsgnfW
+z4rrReI0di7DE2f7q7xVAX43oEdqpJocvg6Nr/DTE2PAQJtrvQsl8HB2ErmvLyqzmqgGVJzG40M5
+AkgXu+h49HkHfJP9eNkxePdmMMQoVbSwNSnpP4Oz2mENuBvuJnHXHlz/63jOPyAxex5cnhdimubP
+YcKmFGt1PrzO0WprTlh8uMrnNyhtWs5FiBimH6aeqFLoz9BWOQXPfx1DypsRJrgDo9XkbZO2v+BR
+3gK2yr6USsXC1Lvxutc7p68cLNRRLIsUjkQLZqDQv4JRrAPzBURuzpXNFVzmvNwqhYauLTqJrtag
+bGzonQ+r7Ag4Fju4snSTC03HQHHNsXnqlGHqhFXb+Q0x7aIKl34tsQxrM7PE53K5oDEsYKazQm6j
+aJ3h9z4SygYf8itnMWBudoI+7oQV/llG0vR4Aba70eDZ/JincKnnCH9jWiAGSbCT269QYtTptbbR
+qxNJuYuhCRVOwRqUz4can+ZzYhKymQ0+C63JMZrIc6BZnU6plqKMcdrzBEudS7CVP+1KHE6nqrwD
+/W1zEIzjRXt4ZRJsrSU+SjoKi2szJMokp/iVYeZmVs3pTQOBWFAJcxzuvBs9uQk9CUM3UZFNJi50
+XoGGL+F2NcmPQg8nYcI+iL973Y0vRXjyye7I94HNOf4aFNARfbp6UGY6SrKNcfX6q7A+wG53zWlg
+hZuZqRcKLh3UE2C+nW56oXXZB1mNDJa4Fwz/c3qYpP3Q4Lno5528+V5wZUKVkGPD3rWuqpr2cBaK
+tns9/m7FY0exrPBnnO7yODrdLQUlIJjWFu7jeE9ZZzgGuo5hXy3dwxAOuQpuUW6+1zBWRJ6D5GmA
+A9bzO9cJHxVx6Y9WNuiUOivLiGEaYg6RJXWkbUnpk7utD9h7zXET1ttgIP0AQ/VWtLVSpM+7UWKW
+NYEauR2igGqyFkET4qdj4N8Pe+zGouecins3weKeYMih4QwhXTx+D0Z6vfsKnhcBR9Ogwe00yY5C
+1yyiN8bowj6iu+zKhxX1zSDKa5GSExFx8nGhrnjuTYNXAxfqj9yGMXspi5CrWRr4smd/RJu7F53c
+iPY1KLimuDLCHBB6FHrbwnipwJP4VHbe8vIhgjF2Olj5Bk6Ln6ai3gEJPkw/ccoZWmbt+GBUbv1x
+gzLwMwFxegEPnuEyY4ujgcB0GaZRPI9p9beTAGGRt482CwemRr9V4EziuDqNuymsx+nNasxumpHh
+Gjy7A5Ak71vqQqcRhPKpDPHvgsy5i3Zq07WzzDBqwjX5Z7MLz0aOEsKgqXkeJqP0OyPvzi6e1gvJ
+C9Lgx9DJdfrrKpFiqK8IOJ1jMKPBSNk4zY85SO3YRbhCeeodLnEmkM3VrjAGN4ShsAtD+IaiJWEN
+OqLy5TBCnofhPI0WTlOTN93CRBJk/MUdDEvHIhdSbLn8yhxLjyKuNr7FJdsv7bbSdZ80EKQkp9nu
+3fj7L/yG5wg/o7ePX4nRkj8dUxpqVfVbZd8MfCJesmdDE0sH4CQjRWX3WYIqP6tVpT06S+dgL/He
+yEY7ouyLDPvhmvzmsSfOBTMiWc3VOF76AgyOL0BuX8wnLPxN+z6/1ehnPc6iTRchtn4T9ocp6KvB
++NKxMFSUj0yDI7YfzmSKGGgbYlxhKCsMLSfT5GSbBkMdzex0s6QLokMamHeiHvsk12lsuEFZZexI
+88Nq113kWr4wevucrPFJpx5HmQC4062LPMGoQEp+t2Skx3446nM0iJxwyJ2NGJ9pU1LbTOOUYkEF
+lGU9G9nvXybMHreKYuOeNuEIsOX2kqyrrJTQYMZRKEX1DsHF0gf0/83SZzqtuB7uwltgKe1mcOpY
++sDTJEMEWVFxzkQO46UiGhiPhxipOZ/IzzWbyhYbmH1ZLXpvTHM2pEG4Y7drsWnEjM0ciZ0yEDKM
+XNupTksvLIWMwn3Cj5xEmsI35D4A+7pCEyLNjt/Y1S6E1SXCPuT4w7s8Pl9vYOpxjlQ0+8SssjL9
+cx9J9v1NimiQKxHzoE9oMFST8/VGMBZfinSxL/DpiwACN/LCvsnwNBimaq7dBk/qXoy1B1jznSDO
+aubEfm6VeAexf8BV9c7zr8XgrPRo3h3U3wFkIOxLfVqiGuP2Ckv27kfPmzyeMEx2kByvb/xlNt+i
+O/NBMMreotx5H3rql/Wah9MzCcxUMSKFSbrZ/heeWNTkvT+G0t/Lv9sgnSyfPO3m+xuYrssd8fuh
+ou5Wg1VzeVpf+95m8K6SnX6TZsWd1+G+ASEHFCrtwhXotcizysJF9TkuXtQivUv4lvsfYsKTMd0c
+zPbr4Arsckn/IebaRqgbQuwXGqaStR19dMxSNF5ehTPicw8PTd52kXxLXCbAaryEttZQNnsoXE/8
+EpxSAoxjFL6yh0s8KBoIXIR9TNuWIWE+AzG1C/QoQWlvZh9GGQUr1AohYSweIG5gmoJpF9FgKFgU
+rlCp5ISPBBxgBaN2r1Ahex2gSaEGUF9n8e82Drv/Wiw2lzaR+G4sD7eVi0+tg5begHIEzbjdir+T
+aGKNbvaC2M9RInfcAgY5QWEumwRyxjysNHsq9NGMJGmWfpYm8tDi50ljtwTj99DfpXxqdWl8oHA0
+iP89xrc/DVxcxEoCrYI6njU8jb7FUS7850uPc5MDYg7SkWwozQIhXnYVLjheaBeFpWMx2LrJoXYs
+ttvdgrEKS8TkcmggSMdvRfGT2svvAx/sRYp4nPPoZilSo0AKSxFVcorBc6rp23ZWFtXcKuGSJUNO
+f+Qem6NBKMfU/N+IcaaVH513vQnEeDfuOo7zy5aOxmXSQJB5rrjM1BWsTB5iemSDWxdmQT9Z6PSK
+C1V6WS8BZq0iOJwDkgRoVShn19aSohklidO9CYyfKUib04B9dVcnwILTLK5dMxoIZhuUwKGaCzwV
+htPlqM7cTHPNZEUPGmif2wzv+FixL5HvhtxuBC5kr5DwXtxJVoFtgDg9F4VSZ7jjagT+ZJnoGwgN
+OvAicGvkvIfPYoxcySxgrnDaInp23GbwmuwuBfjKjVZx9lI30zYKDoqzTb3xY5wRZflMRdAlKH6x
+TzppO08Q+frycTcoGggC2m9iPYiCVqx+m55dzNBKkw7djBvyNaZwR1yxlBc74URMcXaLZwIjXu5X
+cisa1BnmM0U95NYQqvJKXRnhSkQt3+leMYa/b5FBwABpICgQHmVJs8LZiIXsgtWkaZxbgPoKKz5L
+rlDXCjctDevZxYgRuuJhnNWbWGVXnxpRV9/DF1UZ6BaI+yFGJiJ+uf01yMSZwhtmAccRMiAYLA3s
+mTk4DzWN6s40+UnPOeqJYeYDlMEbtGUlkCSR88gsx+ut+Di79cne1InEFssS9vCsfeZ9lPV3F6Fa
++bXgAA9jy/6E52rQQFAMEK5dcSEKTK6GxtbJKtuz9lLE9MPuIDZp+tkSnLnEtdmsbaYH2i5P4KHE
+aFrKjEKZcmkr9l8GQX81Y3AezlhsHGINaWAPFwwc0xCaa93A0pXryQ02eIUxA933miDNCnrpEh/0
+lpJPuHszd4J+ZZmX1eDxTiADc2v2e3IGK4WopcUq+oROo9+WHU11jP3jUXujeZhdkEt7oKWbLFJL
+WRUQUz9bRrebuVnYKaOZLROoNs9ulg2UuAbRRvwaXBg/BxeK/PXKoWlF+cDgJM5zsop5hU8yH6Ci
+aS/JMEQUm072gWg/bsKqssLgR+Ro0ADVNZw1Dm9mCyTP+9yNkzSy344P6a4srA4NFF6E2KrNgTE4
+DnJ2PSsYZyjKky6B0tAMLYTIFYBWshaqFmRsxls+nl3UaYRD5OSV/HTxmtFA4UX86lkpi03t9ptw
+cAezcjplLHXf/55xTp/qjCpzRzYxxor9R92qK+tZV6k1y58MPjFucIrIV1cTI6tPA4X3wsexeoXw
+C0RDqNPaTp9uCixiq+bErlSrwpncTYZRK5yENA4yjAH1dwDvvT91dIHI36w+LtaKBgofhhTei31L
+9YSwEcbiJpBETck5GlSqbKfcdIEyPfAG4iU7nfoxqEHix2CFGPS+DoXfawNrSwOD9yIgk9Dkj3uW
+Mi4ZqixjnWSl0LmYMr32MH8o/XTVssrye9UFhkGAm9e6m5nfIcIHhfBDlKrfyLqNXGS0RiWcQvKk
+nAqZBgJtG/LsZ4k8Ya17VAyHMg1CeBAztm+m0TnNuT3HUDEkGOkn+C/jHvrwyKLBoxP+DzZLJzsQ
+2bIYAAAAAElFTkSuQmCC</mediaString>
+</org.usip.osp.networking.OSPSimMedia>
+</SIM_MEDIA_OBJECTS></SIM_PACKAGE_OBJECT>

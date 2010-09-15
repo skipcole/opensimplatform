@@ -24,6 +24,15 @@
 	
 	////////////////////////////////////////
 	
+	
+	String loaduser = (String) request.getParameter("loaduser");
+	
+	if ((loaduser != null) && (loaduser.equalsIgnoreCase("true"))) {
+		String userid = (String) request.getParameter("userid");
+		
+		userOnScratchPad = User.getById(afso.schema, new Long(userid));
+	}
+	/////////
 	String is_admin = "";
 	String is_author = "";
 	String is_instructor = "";
