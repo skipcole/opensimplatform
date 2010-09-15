@@ -389,6 +389,13 @@ public class ObjectPackager {
 				thisInject.setId(null);
 
 				returnString += xstream.toXML(thisInject) + lineTerminator;
+				
+				// Package actors targeted for this inject.
+				List targetRaw = InjectActorAssignments.getAllForInject(schema, thisInject.getTransit_id());
+				for (ListIterator liInjId = targetRaw.listIterator(); liInjId.hasNext();) {
+					InjectActorAssignments targ = (InjectActorAssignments) liInjId.next();
+					returnString += xstream.toXML(targ) + lineTerminator;
+				}
 
 			}
 		}
@@ -739,7 +746,7 @@ public class ObjectPackager {
 				metaPhaseIdMappings, phaseIdMappings);
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Injects");
-		unpackageInjects(schema, re.getId(), xmlText, simRead.getId(), xstream);
+		unpackageInjects(schema, re.getId(), xmlText, simRead.getId(), xstream, actorIdMappings);
 
 		RestoreResults.createAndSaveNotes(re.getId(),
 				"Unpacking Base Simulation Sections");
@@ -1585,7 +1592,7 @@ public class ObjectPackager {
 	 * @param xstream
 	 */
 	public static void unpackageInjects(String schema, Long reId,
-			String fullString, Long sim_id, XStream xstream) {
+			String fullString, Long sim_id, XStream xstream, Hashtable actorIdMappings) {
 		Hashtable injectGroupIds = new Hashtable();
 
 		List injectGroups = getSetOfObjectFromFile(fullString,
@@ -1606,6 +1613,8 @@ public class ObjectPackager {
 			injectGroupIds.put(ig.getTransit_id(), ig.getId());
 
 		}
+		
+		Hashtable injectMappings = new Hashtable();
 
 		List injects = getSetOfObjectFromFile(fullString,
 				makeOpenTag(Inject.class), makeCloseTag(Inject.class));
@@ -1618,11 +1627,38 @@ public class ObjectPackager {
 			ig.setGroup_id((Long) injectGroupIds.get(ig.getGroup_id()));
 			ig.setSim_id(sim_id);
 			ig.saveMe(schema);
+			
+			// Save the mapping of old id to new to allow the proper assignment of targets.
+			injectMappings.put(ig.getTransit_id(), ig.getId());
+			
 			RestoreResults.createAndSaveObject(reId, ig.getId().toString(), ig
 					.getClass().toString(), ig.getInject_name(),
 					"Inject added to simulation");
 
 		}
+		
+		///
+		List injectsTargs = getSetOfObjectFromFile(fullString,
+				makeOpenTag(InjectActorAssignments.class), makeCloseTag(InjectActorAssignments.class));
+
+		for (ListIterator<String> li_i = injectsTargs.listIterator(); li_i.hasNext();) {
+			String inject_targ_string = li_i.next();
+
+			InjectActorAssignments iaa = (InjectActorAssignments) xstream.fromXML(inject_targ_string);
+
+			// Look up what the new actor id is in the database we are moving to.
+			iaa.setActor_id((Long) actorIdMappings.get(iaa.getActor_id()));
+			iaa.setInject_id((Long) injectMappings.get(iaa.getInject_id()));
+
+			iaa.saveMe(schema);
+			
+			String restoreNote = "targeted actor " + iaa.getActor_id() + " for inject " + iaa.getInject_id();
+			RestoreResults.createAndSaveObject(reId, iaa.getId().toString(), iaa
+					.getClass().toString(), restoreNote,
+					"Inject Target added to simulation");
+
+		}
+		///
 	}
 
 	/**

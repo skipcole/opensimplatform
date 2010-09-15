@@ -13,6 +13,17 @@
 	
 	User userOnScratchPad = afso.handleCreateAdminUser(request);
 	
+	/////////////////////////////////////////
+	List userList = null;
+	String do_search = (String) request.getParameter("do_search");
+	
+	if ((do_search != null) && (do_search.equalsIgnoreCase("true"))) {
+		String search_string = (String) request.getParameter("search_string");
+		userList = BaseUser.searchUserByName(afso.schema, search_string);
+	}
+	
+	////////////////////////////////////////
+	
 	String is_admin = "";
 	String is_author = "";
 	String is_instructor = "";
@@ -142,6 +153,41 @@
           <% } %>
         </table>
         <p>&nbsp;</p>
+<h2>Search for a User</h2>
+<p>Use the form below to find a user's email address if you need it.  </p>
+<form name="form1" method="post" action="">
+<table width="70%" border="1">
+  <tr>
+    <td>Part of Their Name: </td>
+    <td>
+      <label>
+        <input type="text" name="search_string">
+        </label>    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><label>
+	<input type="hidden" name="do_search" value="true">
+      <input type="submit" name="Submit" value="Submit">
+    </label></td>
+  </tr>
+</table>
+</form>
+
+<% if (userList != null) { %>
+<h3>Search Results (Click on a User to Queue Load Them.) </h3>
+<blockquote>
+<%
+    	for (ListIterator li = userList.listIterator(); li.hasNext();) {
+			BaseUser bu = (BaseUser) li.next();  %>
+		<a href="create_admin_user.jsp?loaduser=true&userid=<%= bu.getId() %>"><%= bu.getUsername() %></a> <br />
+<%     	}  %>
+
+</blockquote>
+</blockquote>
+
+<% } // end if if search results not null %>
+
       </blockquote>
 <!-- InstanceEndEditable -->
 			</td>

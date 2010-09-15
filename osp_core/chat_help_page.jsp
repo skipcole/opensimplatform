@@ -27,7 +27,7 @@
 %>
 <html>
 <head>
-<script type="text/javascript" src="../jquery-1.2.6.js"></script>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
 <script type="text/javascript">
 	<%
 		// Keep a set of actors to loop over check on if online.

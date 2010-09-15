@@ -37,8 +37,10 @@ public class InjectActorAssignments {
 	@GeneratedValue
 	private Long id;
 	
+	/** Id of the inject */
 	private Long inject_id;
 	
+	/** Id of the actor being targetted. */
 	private Long actor_id;
 	
 	public InjectActorAssignments(){
@@ -83,6 +85,12 @@ public class InjectActorAssignments {
 		this.actor_id = actor_id;
 	}
 	
+	/**
+	 * Removes all of the injects actor assignments previously made.
+	 * 
+	 * @param schema
+	 * @param inject_id
+	 */
 	public static void removeAllForInject(String schema, Long inject_id){
 		
 		List removeList = getAllForInject(schema, inject_id); 
@@ -98,6 +106,13 @@ public class InjectActorAssignments {
 		
 	}
 	
+	/**
+	 * Returns the list of actor targeted for a particular inject.
+	 * 
+	 * @param schema
+	 * @param inject_id
+	 * @return
+	 */
 	public static List getAllForInject(String schema, Long inject_id) {
 
 		if (inject_id == null) {

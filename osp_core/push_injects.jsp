@@ -27,7 +27,7 @@
 %>
 <html>
 <head>
-<title>News Page</title>
+<title>Push Inject Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
