@@ -39,6 +39,10 @@
                       <td><a href="simulation_admin_lastlogins.jsp">Last Login Times</a></td>
                       <td>Allows one to see when users have logged on the system.</td>
                     </tr>
+                    <tr valign="top">
+                      <td><a href="admin_players_view.jsp">Player View </a></td>
+                      <td>Allows one to enter a simulation as a particular player. </td>
+                    </tr>
                   </table>
                   <p>&nbsp;</p>
                   <p>&nbsp;</p></td>

@@ -48,11 +48,14 @@ body {
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page9_assignactors.PNG" alt="Assign Actors" width="723" height="318" border="1" /></p>
  
-  <table width="70%" border="1" cellspacing="2" cellpadding="0">
+  <table width="100%" border="1" cellspacing="2" cellpadding="0">
     <tr>
       <td><h2 align="center"><strong>Tip: The Difference between 'Associated' and 'Assigned'</strong></h2>
         <p>Actors can be <strong>'associated'</strong> with a simulation. This means that changes to an actor affects the particular actor that has been associated with that simulation. Actors of the same name can exist in many simulations, for example many simulations may have an actor entitled 'Facilitator.' But each simulation will have its own version of that actor.</p>
-        <p>Actors can also be <strong>'assigned</strong> to' a simulation. This means that when a simulation starts, a player needs to be assigned to this actor. It is possible for an actor to be associated with a simulation, but not assigned to it. When play testing a simulation one has to try out different sets of actors to find the optimal mix. So this set up allows a simulation author the ability to keep several actors in their active 'stable' but then try out different combinations of them. (Does our simulation need the French Ambassador? Maybe, maybe not. Let's try it out both ways and find out.')</p></td>
+        <p>Imagine this scenario. Simulation author Joe creates a simulation, and in it creates an actor entitled 'Henry Kissenger.' Simulation author Mary creates a different simulation and in it creates an actor called 'Henry Kissenger.' Both simulations have actors named 'Henry Kissenger.' But the one Joe created is associated with his simulation, and the one Mary created is associated with her simulation. </p>
+        <p>Actors can also be <strong>'assigned</strong> to' a simulation. This means that when a simulation starts, a player may be assigned to this actor. It is possible for an actor to be associated with a simulation, but not assigned to it. During the process of developing a simulation it is likely that an initial simulation will be created, and that it will be tested out with a group of players. This 'play testing' may help reveal many issues, and is highly recommended. During play testing one may want to try out different sets of actors to find the optimal mix. </p>
+        <p>So the group of associated actors can provide an active 'stable' of actors from which the author(s) can pull. But the set of actors that can be assigned in each simulation can be adjusted to try out different variations. (&quot;<em><strong>Does our simulation need the French Ambassador? Maybe, maybe not. Let's try it out both ways and find out</strong></em>.&quot;)</p>
+        </td>
     </tr>
   </table>
   </blockquote>

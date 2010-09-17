@@ -254,45 +254,10 @@ function loadInfo(dropdownlist){
                             Below 
                             <blockquote> 
                               <p>
-                                <select name="bss_id"  onChange="loadInfo(window.document.section_form.bss_id);">
-                                  <%
-							
-		for (ListIterator li = new BaseSimSection().getAll(afso.schema).listIterator(); li.hasNext();) {
-			BaseSimSection bss = (BaseSimSection) li.next();
-			%>
-                                  <option value="<%= bss.getId() %>"><%= bss.getRec_tab_heading() %></option>
-                                  <% } %>
-                                  <option value="new_section">* Create an Entirely 
-                                    New Section</option>
-                                  <% 
-								List uc = CustomizeableSection.getAllUncustomized(afso.schema);
-								
-								if (uc != null) {
-							%>
-                                  <% 
-			for (ListIterator li = uc.listIterator(); li.hasNext();) {
-				CustomizeableSection cs = (CustomizeableSection) li.next();
-				
-				//////////////////////////////////////////////////////////
-				// Don't list sections the actor already has at this phase.
-				boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
-					afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
-			
-				if (!(hasItAlready) ) {
-				
-				String cs_class = "customized_section";
-				if (cs.isThisIsACustomizedSection()){
-					cs_class = "player_customized_section";
-				}
-			%>
-                                  <option value="<%= cs.getId().toString() %>" class="<%= cs_class %>" ><%= cs.getRec_tab_heading() %></option>
-                                  
-								  <% }  // End of if they don't have this section already at this phase         %>
-								  
-								  <% }  // End of loop over customizeable sections         %>
-                        <% } %>
-                                  </select>
-                                </p>
+                                <select name="bss_id"  onchange="loadInfo(window.document.section_form.bss_id);">
+								<%= afso.getUniversalSelections() %>
+                                </select>
+                              </p>
                               <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a>   </p>
                               <p><a href="catalog_of_customized_sections.jsp">View Catalog of Customized Section</a></p>
                             </blockquote>                          </td>
