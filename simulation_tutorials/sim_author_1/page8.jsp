@@ -44,27 +44,34 @@ body {
 <br />
 <h1>Step 8. Create actors</h1>
 <blockquote>
-  <p>a.) Right click your mouse on each of the images below to save them onto your computer. You will be using these to upload images for the three actors you will be creating.</p>
+  <p>a.) Right click your mouse on each of the images below to save them onto your computer. You will be using these to upload images for the three actors you will be creating. </p>
+  <p><strong>Please note:</strong> Different web browsers have slightly different menus for basically the same thing. You will want to select something like 'Save Image As ..' or 'Save Picture As ..'. You will then want to save the images to an easy to find place on your computer, such as your 'My Documents' or your 'C:\' folder. </p>
   <blockquote>
     <p><img src="images/facilitator.png" alt="Facilitator" width="129" height="129" /> <img src="images/facilitator_thumb.png" alt="Facilitator Thumg" width="40" height="40" /> <img src="images/player_a.png" alt="Player A" width="129" height="129" /> <img src="images/player_a_thumb.png" alt="Player A Thumb" width="40" height="40" /> <img src="images/player_b.png" alt="Player B" width="129" height="129" /> <img src="images/player_b_thumb.png" alt="Player B Thumb" width="40" height="40" /> </p>
   </blockquote>
   <p>b.) Create the 'Orange Salesman' (who is the 'control' character) as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
   <blockquote>
-    <p>Tip: Make sure that you select the 'Control' checkbox for this (and only this) actor.</p>
-    <p>Tip 2: The path to the image files will depend on where you saved the images in step a. above.</p>
-    <p><img src="images/tut_sim_auth_1_page8_createcontrol.PNG" alt="Create Facilitator" width="658" height="692" border="1" /></p>
+    <p><strong>Tip</strong>: Make sure that you select the 'Control' checkbox for this (and only this) actor.</p>
+    <p><strong>Tip 2</strong>: The path to the image files will depend on where you saved the images in step a. above. The names of the files (facilitator.png, player_a.png, player_a_thumb.png, etc. ) indicate which image to user for each player.</p>
+    <p><img src="images/tut_sim_auth_1_page8_createcontrol.PNG" alt="Create Control Character" width="656" height="769" border="1" /></p>
   </blockquote>
-  <p CLASS="breakhere">c.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
+  <p CLASS="breakhere">c.) After you create the actor, they should appear as shown in the figure below. Hit the 'Clear' button at the bottom of the page to get ready to create the next actor. (The 'Clear' button is circled in red in the image below.) </p>
+  <blockquote>
+    <p class="breakhere"><img src="images/tut_sim_auth_1_page8_createcontrol_done.PNG" alt="Control Character Created" width="664" height="1161" border="1" /></p>
+  </blockquote>
   <p>d.) Create 'Player A' as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page8_create_playerA.PNG" alt="Create Player A" width="626" height="585" border="1" /></p>
-    </blockquote>
+  </blockquote>
   <p CLASS="breakhere">e.) Hit the 'Clear' button at the bottom of the page to get ready to create the next actor.</p>
   <p>f.) Create 'Player B' as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page8_create_playerB.PNG" alt="Create Player B" width="666" height="572" border="1" /></p>
   </blockquote>
-  <p>g.) Select the link 'Next Step: Assign Actor to Simulation' to move on to the next step.</p>
+  <p>g.) Select the link 'Next Step: Assign Actor to Simulation' (located at the far bottom of the page) to move on to the next step.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_auth_1_page8_create_playerB_done.PNG" alt="Player B Done" width="698" height="380" border="1" /></p>
+  </blockquote>
 </blockquote>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable -->

@@ -262,8 +262,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnX;
 	}
 
-
-
 	public String setOfUsers = ""; //$NON-NLS-1$
 	public String invitationCode = ""; //$NON-NLS-1$
 
@@ -361,18 +359,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnString;
 	}
 
-	public String getAutoRegistrationBaseLink(){
-		
+	public String getAutoRegistrationBaseLink() {
+
 		String baseURL = USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
-		+ "/simulation_user_admin/auto_registration_form.jsp";
+				+ "/simulation_user_admin/auto_registration_form.jsp";
 
 		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
 
 		baseURL += "?schema_id=" + schema_id;
-		
+
 		return baseURL;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -405,8 +403,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				if (BaseUser.checkIfUserExists(this_email)) {
 					Logger.getRootLogger().debug("exists:" + this_email);
 					// make sure exists in this schema
-					returnString += "<font color=\"red\">User already registered: " + this_email
-							+ "</font><br />";
+					returnString += "<font color=\"red\">User already registered: "
+							+ this_email + "</font><br />";
 
 				} else {
 
@@ -436,7 +434,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				}
 			}
-			
+
 			this.setOfUsers = "";
 		}
 
@@ -1826,7 +1824,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if (pname.startsWith("target_")) {
 				pname = pname.replace("target_", "");
 
-				if (vname.equalsIgnoreCase("on")){
+				if (vname.equalsIgnoreCase("on")) {
 					Long thisTarget = USIP_OSP_Util.stringToLong(pname);
 					if (thisTarget != null) {
 						targettedPeople.add(thisTarget);
@@ -1931,6 +1929,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String simcopyright = (String) request.getParameter("simcopyright");
 
 		String simblurb = (String) request.getParameter("simblurb");
+
+		String clear = (String) request.getParameter("clear");
+		if ((clear != null) && (clear.equalsIgnoreCase("true"))) {
+			simulation = new Simulation();
+			sim_id = null;
+
+			return simulation;
+		}
 
 		if (command != null) {
 			if (command.equalsIgnoreCase("Create")) {
@@ -2296,6 +2302,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @return
 	 */
 	public Simulation giveMeSim() {
+
+		if (sim_id == null) {
+			return new Simulation();
+		}
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
 				.getSession(schema).get(Simulation.class, sim_id);
@@ -3022,8 +3033,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if (returnForLackOfInformation) {
 				return user;
 			}
-			
-			if (User.getByUsername(sio.getSchema_name(), user.getUser_name()) != null){
+
+			if (User.getByUsername(sio.getSchema_name(), user.getUser_name()) != null) {
 				errorMsg += "This username/email already has been registered. <br/>";
 				return user;
 			}
@@ -3869,6 +3880,64 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return simulation;
 
+	}
+
+	public String getUniversalSelections() {
+
+		String returnString = "";
+		for (ListIterator li = new BaseSimSection().getAll(schema)
+				.listIterator(); li.hasNext();) {
+			BaseSimSection bss = (BaseSimSection) li.next();
+
+			returnString += "<option value=\"" + bss.getId() + "\">"
+					+ bss.getRec_tab_heading() + "</option>";
+		}
+
+		// Link to the option that allows them to define a whole new web
+		// resource.
+		returnString += "<option value=\"new_section\">* Create an Entirely New Section</option>";
+
+		List uc = CustomizeableSection.getAllUncustomized(schema);
+		Collections.sort(uc);
+
+		if (uc != null) {
+
+			for (ListIterator li = uc.listIterator(); li.hasNext();) {
+				CustomizeableSection cs = (CustomizeableSection) li.next();
+
+				// ////////////////////////////////////////////////////////
+				// Don't list sections the actor already has at this phase.
+				boolean hasItAlready = SimulationSectionAssignment
+						.determineIfActorHasThisSectionAtThisPhase(schema,
+								sim_id, actor_being_worked_on_id, phase_id, cs
+										.getId());
+
+				boolean forThisSimulation = false;
+
+				System.out.println(cs.getSimId() + ", " + sim_id);
+
+				if (cs.getSimId() == null) {
+					forThisSimulation = true;
+				} else if (cs.getSimId().intValue() == sim_id.intValue()) {
+					forThisSimulation = true;
+				}
+
+				if ((!(hasItAlready)) && (forThisSimulation)) {
+
+					String cs_class = "customized_section";
+					if (cs.isThisIsACustomizedSection()) {
+						cs_class = "player_customized_section";
+					}
+
+					returnString += "<option value=\"" + cs.getId().toString()
+							+ "\" class=\"" + cs_class + "\" >"
+							+ cs.getRec_tab_heading() + "</option>";
+				} // End of if they don't have this section already at this
+				// phase
+			} // End of loop over customizeable sections
+		}
+
+		return returnString;
 	}
 
 } // End of class

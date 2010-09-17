@@ -71,8 +71,9 @@ body {
   <h2><br />
     7.) Running   Simulation</h2>
 	
-  <p>For clarity, a simulation that is in play is referred to as a running simulation. This is just due to the sad fact that the term 'simulation' can refer to both the archetypal simulation and to the process of conducting it.
+  <p>For clarity, a simulation that is in play is referred to as a running simulation. This is just due to the sad fact that the term 'simulation' can refer to both the 'platonic ideal' simulation and to the process of conducting it.
  (The word 'game' suffers similarly by having at least two distinct meanings. For example, the phrase 'the game of chess' can be used as in, "The game of chess is ancient." or "The game of chess I played on August 8th with my father was the best one I have ever played.")   </p>
+  <p>While the difference between 'simulation' and 'running simulation' may sound kind of esoteric, in practice it is profound. It is also important to keep in mind, while one is authoring the platonic version of one's simulation, that it will get played out in many different places by many different people. Each one of these real world, physical events with warm bodies playing in them, we refer to as a running simulaiton.</p>
   <p>&nbsp;</p>
   <table align="center" width="70%" border="0" cellspacing="4" cellpadding="4">
   <tr>

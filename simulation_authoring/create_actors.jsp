@@ -212,7 +212,7 @@ if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.ge
     <% } %>
 
     <hr />
-    <p>Below are listed alphabetically all of the current Actors associated with this simulation.</p>
+    <p>Below are listed alphabetically all of the current Actors associated with this simulation. Click on the name of any actor to edit them. </p>
     <blockquote> 
       <table>
         <%
