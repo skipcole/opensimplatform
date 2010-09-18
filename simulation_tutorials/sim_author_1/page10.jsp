@@ -42,14 +42,23 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Step 10. Skipping over creating injects</h1>
+<h1>Step 10. Add Objects - Create a Conversation</h1>
 <blockquote>
-  <p>a.) Observe the 'Create Injects' page. We will not be creating or editing injects here. That will be covered in a future authoring tutorial.</p>
+  <p>a.) Observe the 'Add Simulation Objects' pages. On this page one adds things to a simulation: conversations, documents, parameters that can change, etc. </p>
+  <blockquote>
+    <p>It will be possible to reach many of these 'object creation' pages from other places, but this is one convenient place to quickly access the objects that your simulation may need. We are creating a conversation at this point in anticipation that it will used later. In a following step, you will see where. </p>
+    <p><img src="images/tut_sim_auth_1_page10_add_objects.PNG" alt="add objects page" width="692" height="390" border="1" /></p>
+  </blockquote>
+  <p>We will only be creating a conversation here.. The other items will be covered in future authoring tutorials.</p>
   <blockquote>
     <p>Tip: Injects (also sometimes called events) are things that may happen to the players during a simulation. For example, things may be going along fine for the players, and then the facilitator will hit them with a general strike, or a terrorist attack, or whatever the scenario calls for. Injects provide learning opportunities for the players and allow them to call into action some of the lessons they have been taught.</p>
+    <p>Tip: The 'Add Document link will take the author to a place where they can add documents to the simulation that the students and facilitators can read and write to. For example, if the simulation calls for the student's to work on a contract together, that would be a document added to the simulation.</p>
   </blockquote>
-  <p>b.) Select the link 'Next Step: Add Objects' to move on to the next step.</p>
-</blockquote>
+  <p>b.) Select the link 'Add Conversation.' This will take you to the next step.</p>
+  <blockquote>
+    <p>&nbsp;</p>
+  </blockquote>
+  </blockquote>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>

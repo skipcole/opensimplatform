@@ -32,7 +32,7 @@ body {
   <tr>
     <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="60" height="10" /></td>
     <td height="10" colspan="2" valign="bottom" bgcolor="#475DB0">
-		</td>
+	</td>
   </tr>
   <tr>
   	<td width="120" align="right" valign="top"></td>
@@ -44,11 +44,28 @@ body {
 <br />
 <h1>Step 11. Skipping over creating documents</h1>
 <blockquote>
-  <p>a.) Observe the 'Add Simulation Object' page. We will not be creating or editing objects here. That will be covered in the next authoring tutorial.</p>
+  <p>a.) Observe the 'Create / Edit Conversation' page. </p>
   <blockquote>
-    <p>Tip: The 'Add Document link will take the author to a place where they can add documents to the simulation that the students and facilitators can read and write to. For example, if the simulation calls for the student's to work on a contract together, that would be a document added to the simulation.</p>
+    <blockquote>
+      <p><img src="images/tut_sim_auth_1_page11_add_conv_1.PNG" alt="conv 1" width="616" height="560" border="1" /></p>
+    </blockquote>
   </blockquote>
-  <p>b.) Select the link 'Next Step: Assign Simulation Sections to Actors' to move on to the next step.</p>
+  <p>b.) Fill out the form as follows:</p>
+  <ol>
+    <ol>
+      <li>Unique Conversation Name: orange_chat</li>
+      <li>Conversation Notes: A Market Place</li>
+      <li>Control: Checked</li>
+      <li>Player A: Checked</li>
+      <li>Player B: Checked </li>
+    </ol>
+  </ol>
+  <p>c.) Hit the 'Create' button. The page should then appear as shown below. </p>
+  <blockquote>
+    <p><img src="images/tut_sim_auth_1_page11_add_conv_2.PNG" alt="conv 2" width="774" height="746" border="1" /></p>
+  </blockquote>
+  <p>d.) Select the back arrow (circled above) to move back to the 'Add Objects' page. </p>
+  <p>e.) Select the link 'Next Step: Assign Simulation Sections to Actors' to move on to the next step.</p>
 </blockquote>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">

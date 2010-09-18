@@ -52,7 +52,7 @@
       <blockquote>
         <p>&nbsp;</p>
           <p>Below are listed alphabetically all of the current Simulations. Please 
-            select one, or <a href="create_simulation.jsp">create a new one</a>, 
+            select one, or <a href="create_simulation.jsp?clear=true">create a new one</a>, 
             to continue.</p>
           <table>
             <%
