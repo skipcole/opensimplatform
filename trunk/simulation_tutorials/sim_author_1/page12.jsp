@@ -84,9 +84,12 @@ body {
    <blockquote>
      <p><img src="images/tut_sim_auth_1_page12_select_meeting.PNG" alt="Select Meeting" width="337" height="477" border="1" /></p>
    </blockquote>
-   <p>g. Customize the Meeting room as shown below, and then select 'Save and Add'</p>
+   <p>g. Customize the Meeting room as shown below, and then select 'Save and Add Section to Conversants'</p>
    <blockquote>
-     <p><img src="images/tut_sim_auth_1_page12_customize_market.PNG" alt="Customize Market" width="580" height="579" border="1" /></p>
+     <p><strong>Tip: Make sure you select the conversation 'orange_chat' that you created before. </strong></p>
+     <blockquote>
+       <p><img src="images/tut_sim_auth_1_page12_customize_market.PNG" alt="customize market" width="616" height="588" border="1" /></p>
+     </blockquote>
      <p>&nbsp;</p>
      <p>Tip: You will not see the 'Market' listed in the universal sections. This is because one select the actors that can participate in a meeting room, and not all of them may have been selected. These selections will show up when you look at the individual actors, which is the next step.</p>
    </blockquote>
@@ -94,12 +97,16 @@ body {
    <blockquote>
      <p>Tip: First select the phase 'Completed' and then push the 'Change Phase' button.</p>
      <p><img src="images/tut_sim_auth_1_page12_change_phase.PNG" alt="Change Phase 1" width="145" height="75" border="1" align="middle" /> to <img src="images/tut_sim_auth_1_page12_change_phase2.PNG" alt="Change Phase 2" width="150" height="79" border="1" align="middle" /> to <img src="images/tut_sim_auth_1_page12_change_phase3.PNG" alt="Change Phase 3" width="149" height="79" border="1" align="middle" /></p>
+     <p>&nbsp;</p>
    </blockquote>
    <p>i.) Observe that 'AAR' has already been added to the the 'completed' phase as shown below.</p>
    <blockquote>
      <p><img src="images/tut_sim_auth_1_page12_aar.PNG" alt="AAR in Completed Phase" width="717" height="457" border="1" /></p>
    </blockquote>
    <p>j.) Add the 'Cast' phase, as done before, to this 'Completed' phase.</p>
+   <blockquote>
+     <p>Tip: We are not adding the 'Meeting' to the Completed phase, since by then the meeting has completed. </p>
+   </blockquote>
    <p>k.) Change phase back to the 'Started' phase.</p>
    <p>l..) Select the link 'Next Step: Customize Sections for the Actor Orange Salesman' to move on to the next step.</p>
    <p>&nbsp;</p>

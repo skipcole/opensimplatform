@@ -70,8 +70,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 <h1>Welcome</h1></td><td>
   <div align="center"></div></td></tr></table>
 <blockquote>
-  <p>In this tutorial we  are going to set up a very simple simulation where two people can enter into to negotiate over oranges. Along the way we will discuss many core concepts of the OSP. Time to complete this tutorial is  approximately an hour.</p>
-  <p>To complete this tutorial you will need access to an authoring account on an OSP server. If you need assistance getting this, please send an email to osp@usip.org.</p>
+  <p>In this tutorial we  are going to set up a very simple simulation where two people can enter into to negotiate over oranges. Along the way we will discuss many core concepts of the OSP. While we step through the steps sequentially here during the tutorial, when you are creating your own simulations, you need not do things in such a linear fashion. You can enter information in whereever you want to, and the platform will store it for you. </p>
+  <p>To complete this tutorial you will need access to an authoring account on an OSP server. If you need assistance getting this, please send an email to <a href="mailto:osp@usip.org">osp@usip.org</a>. Time to complete this tutorial is  approximately three hours.</p>
   
   <p>
   <strong>Optional, but Recommended:</strong> You may want to <a href="tutorial_sim_author_1_for_printing.jsp" onclick="MM_openBrWindow('tutorial_sim_author_1_for_printing.jsp','tutorialprint','toolbar=yes,status=yes,scrollbars=yes,resizable=yes')">Print out The Entire Tutorial</a> to allow you to easily access the USIP OSP and the tutorial at the same time.</p>
@@ -90,8 +90,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
     <li><a href="page7.jsp">Skipping over creating phases</a></li>
     <li><a href="page8.jsp">Create actors</a></li>
     <li><a href="page9.jsp">Assign actors</a></li>
-    <li><a href="page10.jsp">Skipping over creating injects</a></li>
-    <li><a href="page11.jsp">Skipping over creating documents</a></li>
+    <li><a href="page10.jsp">Add Objects </a></li>
+    <li><a href="page10.jsp">Create a Conversation</a><a href="page11.jsp"></a></li>
     <li><a href="page12.jsp">Creating universal sections</a></li>
     <li><a href="page13.jsp">Assigning specific sections</a></li>
     <li><a href="page14.jsp">Write  starter 'After Action Report' text</a></li>
