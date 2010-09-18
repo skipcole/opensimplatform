@@ -108,7 +108,7 @@ body {
                 
               <% if(user_in_this_schema.isSim_author()) { %>
               	<td width="25%" valign="top"><p align="center"><a href="simulation_authoring/creationwebui.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>&show_intro=true"><img src="images/authors.png" alt="Author Login" width="140" height="120"></a></p>
-              	  Use this section to author simulations.</td>
+              	  <p>Use this section to author simulations.</p></td>
                 <% } // end of if is author. %>
                 
               <% if(user_in_this_schema.isSim_instructor()) {  %>  

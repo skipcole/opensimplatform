@@ -12,6 +12,29 @@
 		return;
 	}
 	
+	if (!(afso.isAdmin())){
+		response.sendRedirect("index.jsp");
+		return;
+	}
+	
+
+	String admin_backdoor = request.getParameter("admin_backdoor");
+	if ((admin_backdoor != null) && ( admin_backdoor.equalsIgnoreCase("true") ) ) {
+		PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	
+		pso.user_id = afso.user_id;
+		pso.schema = afso.schema;
+		pso.setLoggedin(true);
+		pso.handleLoadPlayerScenario(request);
+	
+		if (pso.forward_on) {
+			pso.forward_on = false;
+			response.sendRedirect("admin_players_view_enter.jsp");
+			return;
+		}
+	
+	}
+	
 %>
 <html>
 <head>
@@ -52,10 +75,15 @@
   <tr>
     <td><%= sim.getSimulationName() %></td>
     <td><%= rs.getRunningSimulationName() %></td>
-    <td><%= ua.getActor_id() %></td>
+    <td><%= USIP_OSP_Cache.getActorName(afso.schema, sim.getId(), rs.getId(), request, ua.getActor_id()) %></td>
     <td><form name="form1" method="post" action="">
       <label>
         <input type="submit" name="Submit" value="Become ->">
+		<input type="hidden" name="admin_backdoor" value="true" />
+		<input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
+        <input type="hidden" name="schema" value="<%= afso.schema %>" />
+        <input type="hidden" name="schema_org" value="Admin" />
+        <input type="hidden" name="sending_page" value="select_simulation" />
         </label>
     </form>
     </td>

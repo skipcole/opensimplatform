@@ -114,6 +114,7 @@ function loadInfo(dropdownlist){
 <!-- TemplateParam name="theBodyInfo" type="text" value="" -->
 <style type="text/css">
 <!--
+.new_section {background-color:#66FFFF}
 .customized_section {background-color:#CCFFCC}
 .player_customized_section {background-color:#99FFFF}
 
@@ -255,7 +256,7 @@ function loadInfo(dropdownlist){
                             <blockquote> 
                               <p>
                                 <select name="bss_id"  onchange="loadInfo(window.document.section_form.bss_id);">
-								<%= afso.getUniversalSelections() %>
+								<%= afso.getSectionsList() %>
                                 </select>
                               </p>
                               <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a>   </p>
