@@ -53,6 +53,10 @@ public class SessionObjectBase {
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
 
+	public void setLoggedin(boolean loggedin) {
+		this.loggedin = loggedin;
+	}
+
 	public boolean isLoggedin() {
 		return loggedin;
 	}

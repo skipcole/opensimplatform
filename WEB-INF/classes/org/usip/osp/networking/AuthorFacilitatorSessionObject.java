@@ -3882,7 +3882,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	}
 
-	public String getUniversalSelections() {
+	public String getSectionsList() {
 
 		String returnString = "";
 		for (ListIterator li = new BaseSimSection().getAll(schema)
@@ -3890,17 +3890,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			BaseSimSection bss = (BaseSimSection) li.next();
 
 			returnString += "<option value=\"" + bss.getId() + "\">"
-					+ bss.getRec_tab_heading() + "</option>";
+					+ bss.getRec_tab_heading() + "</option>" + ObjectPackager.lineTerminator;
 		}
 
 		// Link to the option that allows them to define a whole new web
 		// resource.
-		returnString += "<option value=\"new_section\">* Create an Entirely New Section</option>";
+		returnString += "<option value=\"new_section\" class=\"new_section\">* Create an Entirely New Section</option>";
 
 		List uc = CustomizeableSection.getAllUncustomized(schema);
+		
+		if (uc == null) {
+			uc = new ArrayList();
+		}
+		
 		Collections.sort(uc);
 
-		if (uc != null) {
+		String rawCust = "";
+		String custCust = "";
 
 			for (ListIterator li = uc.listIterator(); li.hasNext();) {
 				CustomizeableSection cs = (CustomizeableSection) li.next();
@@ -3914,8 +3920,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				boolean forThisSimulation = false;
 
-				System.out.println(cs.getSimId() + ", " + sim_id);
-
 				if (cs.getSimId() == null) {
 					forThisSimulation = true;
 				} else if (cs.getSimId().intValue() == sim_id.intValue()) {
@@ -3924,18 +3928,22 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				if ((!(hasItAlready)) && (forThisSimulation)) {
 
-					String cs_class = "customized_section";
 					if (cs.isThisIsACustomizedSection()) {
-						cs_class = "player_customized_section";
+						custCust += "<option value=\"" + cs.getId().toString()
+						+ "\" class=\"player_customized_section\" >"
+						+ cs.getRec_tab_heading() + "</option>" + ObjectPackager.lineTerminator;
+					} else {
+						rawCust += "<option value=\"" + cs.getId().toString()
+						+ "\" class=\"customized_section\" >"
+						+ cs.getRec_tab_heading() + "</option>" + ObjectPackager.lineTerminator;
 					}
 
-					returnString += "<option value=\"" + cs.getId().toString()
-							+ "\" class=\"" + cs_class + "\" >"
-							+ cs.getRec_tab_heading() + "</option>";
+					
 				} // End of if they don't have this section already at this
 				// phase
 			} // End of loop over customizeable sections
-		}
+			
+		returnString = returnString + rawCust + custCust;
 
 		return returnString;
 	}
