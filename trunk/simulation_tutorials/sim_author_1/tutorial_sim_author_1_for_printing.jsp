@@ -24,6 +24,7 @@
   <%@ include file="page10.jsp" %>
   <%@ include file="page11.jsp" %>
   <%@ include file="page12.jsp" %>
+  <%@ include file="page12b.jsp" %>
   <%@ include file="page13.jsp" %>
   <%@ include file="page14.jsp" %>
   <%@ include file="page15.jsp" %>
