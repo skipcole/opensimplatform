@@ -42,7 +42,7 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
- <h1> Step 12. Creating universal sections </h1>
+ <h1> Step 12. Creating universal sections - Part A </h1>
  <blockquote>
    <p>a.) Observe the 'Set Universal Simulation Sections' form shown below. This form shows the tab heading that will be seen by the players during the phase selected. Observe that:</p>
    <blockquote>
@@ -54,23 +54,29 @@ body {
        <li>In the center is an icon (currently for the 'After Action Report') for the section that is queued up to add.</li>
      </ol>
      <p><img src="images/tut_sim_auth_1_page12_createuniverals1.PNG" alt="Create Universals" width="737" height="734" border="1" /></p>
-     <p>&nbsp;</p>
      <p>Tip: A 'universal section' is one that will be applied to all actors at that phase. An author can then go in and remove it from some actors.</p>
-     <p>&nbsp;</p>
    </blockquote>
-   <p>b.) Select 'Cast' from the pulldown and then click the 'Add Section' button.</p>
+   <p>b.) Observe the list of sections one can add to one's simulation. A sample image of a list is shown in the image below, but this list will change depending up a.) what sections have been loaded on your installation, and b.) what sections have already been customized for this particular simulation. </p>
+   <p>This list contains (from top to bottom) 4 different kinds of sections that one can add:</p>
+   <p>1.) Sections that require no customization.(white backgrounds)<br />
+     2.) A way to link to any web site anywhere.<br />
+     3.) Sections that require customization<br />
+     4.) Sections that have been customized, that have already been added.<br />
+   </p>
+   <p>&nbsp;</p>
+   <p>c.) Select 'Cast' from the pulldown and then click the 'Add Section' button.</p>
    <blockquote>
      <p><img src="images/tut_sim_auth_1_page12_select_cast.PNG" alt="Select Cast" width="908" height="468" border="1" /></p>
      <p>&nbsp;</p>
    </blockquote>
-   <p>c.) You will be taken to a page where you can customize the 'Cast' page.</p>
+   <p>d.) You will be taken to a page where you can customize the 'Cast' page.</p>
    <blockquote>
      <p><img src="images/tut_sim_auth_1_page12_customize_cast.PNG" alt="Customize Cast" width="662" height="448" border="1" /></p>
    </blockquote>
-   <p>d.) Select 'Yes' for the question &quot;Cast page will display control characters               
+   <p>e.) Select 'Yes' for the question &quot;Cast page will display control characters               
      <label> </label>
      ?&quot;   </p>
-   <p>e.) Select 'Save and Add Section.' This will return you back to the 'Set Universal Sections' page.</p>
+   <p>f.) Select 'Save and Add Section.' This will return you back to the 'Set Universal Sections' page.</p>
    <blockquote>
      <table width="70%" border="1" cellspacing="2" cellpadding="0">
     <tr>
@@ -80,35 +86,7 @@ body {
     </tr>
   </table>
    </blockquote>
-   <p>f.) Select 'Meeting' from the pulldown and then click the 'Add Section' button.</p>
-   <blockquote>
-     <p><img src="images/tut_sim_auth_1_page12_select_meeting.PNG" alt="Select Meeting" width="337" height="477" border="1" /></p>
-   </blockquote>
-   <p>g. Customize the Meeting room as shown below, and then select 'Save and Add Section to Conversants'</p>
-   <blockquote>
-     <p><strong>Tip: Make sure you select the conversation 'orange_chat' that you created before. </strong></p>
-     <blockquote>
-       <p><img src="images/tut_sim_auth_1_page12_customize_market.PNG" alt="customize market" width="616" height="588" border="1" /></p>
-     </blockquote>
-     <p>&nbsp;</p>
-     <p>Tip: You will not see the 'Market' listed in the universal sections. This is because one select the actors that can participate in a meeting room, and not all of them may have been selected. These selections will show up when you look at the individual actors, which is the next step.</p>
-   </blockquote>
-   <p>h.) Use the control in the upper right hand corner to to change phase to the completed phase. </p>
-   <blockquote>
-     <p>Tip: First select the phase 'Completed' and then push the 'Change Phase' button.</p>
-     <p><img src="images/tut_sim_auth_1_page12_change_phase.PNG" alt="Change Phase 1" width="145" height="75" border="1" align="middle" /> to <img src="images/tut_sim_auth_1_page12_change_phase2.PNG" alt="Change Phase 2" width="150" height="79" border="1" align="middle" /> to <img src="images/tut_sim_auth_1_page12_change_phase3.PNG" alt="Change Phase 3" width="149" height="79" border="1" align="middle" /></p>
-     <p>&nbsp;</p>
-   </blockquote>
-   <p>i.) Observe that 'AAR' has already been added to the the 'completed' phase as shown below.</p>
-   <blockquote>
-     <p><img src="images/tut_sim_auth_1_page12_aar.PNG" alt="AAR in Completed Phase" width="717" height="457" border="1" /></p>
-   </blockquote>
-   <p>j.) Add the 'Cast' phase, as done before, to this 'Completed' phase.</p>
-   <blockquote>
-     <p>Tip: We are not adding the 'Meeting' to the Completed phase, since by then the meeting has completed. </p>
-   </blockquote>
-   <p>k.) Change phase back to the 'Started' phase.</p>
-   <p>l..) Select the link 'Next Step: Customize Sections for the Actor Orange Salesman' to move on to the next step.</p>
+   <p>g.) Continue on to the <a href="page12b.jsp">next page</a> in this tutorial. </p>
    <p>&nbsp;</p>
    <blockquote>
      <p>&nbsp;</p>
@@ -119,7 +97,7 @@ body {
   <tr>
     <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page11.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page13.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page12b.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

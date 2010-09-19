@@ -1373,10 +1373,9 @@ public class ObjectPackager {
 
 			if (this_bss.isThisIsACustomizedSection()) {
 
+				this_bss.setSimId(sim_id);
 				this_bss.saveMe(schema);
 				
-				this_bss.setSimId(sim_id);
-
 				RestoreResults.createAndSaveObject(reId, this_bss.getId()
 						.toString(), this_bss.getClass().toString(), this_bss
 						.getUniqueName(), "Found " + this_bss.getUniqueName()
