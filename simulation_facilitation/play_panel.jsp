@@ -49,7 +49,7 @@
             </tr>
         <tr valign="top">
           <td>2.</td>
-            <td><a href="create_schedule_page.jsp">Create Schedule Page</a> (?) (optional)</td>
+            <td><a href="create_schedule_page.jsp">Create Schedule Page</a> <a href="helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></td>
           </tr>
         <tr valign="top">
           <td>3. </td>

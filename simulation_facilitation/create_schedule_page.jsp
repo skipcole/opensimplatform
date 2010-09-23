@@ -38,7 +38,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Create Schedule Page</h1>
+              <h1>Create Schedule Page <a href="helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></h1>
               <br />
                     <% 
 			if (afso.sim_id == null) {
@@ -55,11 +55,11 @@
                   Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
                   <p>
                     <% } else { %>
-                            </p>
+                  </p>
                   <blockquote>
                     <p><strong>Simulation</strong>: <%= simulation.getDisplayName() %> (To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
 		  <p><strong>Running Simulation</strong>: <%= rs.getRunningSimulationName() %> (To select a different running simulation, <a href="../simulation_authoring/create_running_sim.jsp">click here</a>.)</p>
-                    </blockquote>
+                  </blockquote>
                   <p> Below are notes from the simulation author on how he or she felt this simulation would be conducted.</p>
                   <p>Below that is a place where you can enter the specific schedule page for your students. This page will give them important information on when they can and should login and any other details. You will be able to give the players announcements during the simulation, but this page will set the initial expectations.</p>
                   <div align="center">
@@ -71,7 +71,7 @@
 	      <td><%= simulation.getPlannedPlayIdeas() %></td>
 	      </tr>
                     </table>
-	                  </div>
+                  </div>
                   <p>&nbsp;</p>
                   <form action="create_schedule_page.jsp" method="post" name="form2" id="form2">
                     <blockquote>
@@ -89,7 +89,7 @@
               <input type="submit" name="command" value="Save" />
               </p>
           </blockquote>
-                    </form>
+                  </form>
                   <% } // end of if running_sim.id has been set. %>
                   <%
 		
@@ -98,7 +98,7 @@
 %>
                   <blockquote>
                     <p>&nbsp;</p>
-                    </blockquote>
+                  </blockquote>
                   <p align="center"><a href="bulk_invite.jsp">Next Step: Bulk Invite Users</a><a href="../simulation_authoring/create_simulation_phases.jsp"></a></p>
                   <a href="create_running_sim.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>

@@ -18,13 +18,9 @@ body {
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
-<h1>Bulk Invite  </h1>
-<ul>
-  <li>Enter a set of email addresses separated by commas, or each on a separate line.</li>
-  <li>If a user is already registered, you will be notified.</li>
-  <li>You will be able to check to see which of the players you have invited to register have actually done so by selecting the invite lookup code. <br>
-  </li>
-</ul>
+<h1>Simulation Blurb </h1>
+<p>The simulation blurb is written to communicate to instructors, in a concise fashion, the most interesting things about this simulation.</p>
+<p>&nbsp; </p>
 <!-- InstanceEndEditable --> 
 </body>
 <!-- InstanceEnd --></html>

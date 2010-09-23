@@ -6,7 +6,16 @@
 <!-- InstanceEndEditable --> 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css">
-<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style1 {
+	color: #0066CC;
+	font-weight: bold;
+}
+-->
+</style>
+<!-- InstanceEndEditable -->
 <style type="text/css">
 <!--
 body {
@@ -18,13 +27,9 @@ body {
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
-<h1>Bulk Invite  </h1>
-<ul>
-  <li>Enter a set of email addresses separated by commas, or each on a separate line.</li>
-  <li>If a user is already registered, you will be notified.</li>
-  <li>You will be able to check to see which of the players you have invited to register have actually done so by selecting the invite lookup code. <br>
-  </li>
-</ul>
+<h1>Create Schedule </h1>
+<p>Here you will indicate to your players exactly when they will be playing. For example you may give a particular date and time and duration: We will begin at 9:45 am on 10/31/10 and play for 5 hours. Or you may give them a range of dates: Play will be conducted every morning from 9:00 to 10:00 from Monday through Friday. </p>
+<p>&nbsp; </p>
 <!-- InstanceEndEditable --> 
 </body>
 <!-- InstanceEnd --></html>

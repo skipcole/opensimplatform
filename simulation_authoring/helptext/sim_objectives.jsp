@@ -18,13 +18,10 @@ body {
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
-<h1>Bulk Invite  </h1>
-<ul>
-  <li>Enter a set of email addresses separated by commas, or each on a separate line.</li>
-  <li>If a user is already registered, you will be notified.</li>
-  <li>You will be able to check to see which of the players you have invited to register have actually done so by selecting the invite lookup code. <br>
-  </li>
-</ul>
+<h1>Simulation Objectives </h1>
+<p>These are a concrete set of outcomes that you would like to achieve.</p>
+<p>We have begun keeping a set of <a href="http://demo.opensimplatform.org/docs/index.php/USIP_OSP_Example_Simulation_Objectives">example objectives here</a>.  </p>
+<p>&nbsp; </p>
 <!-- InstanceEndEditable --> 
 </body>
 <!-- InstanceEnd --></html>

@@ -47,7 +47,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Enter Simulation Learning Objectives</h1>
+              <h1>Enter Simulation Learning Objectives <a href="helptext/sim_objectives.jsp"  target="helpinright">(?)</a> </h1>
               <br />
       <blockquote>
         <% 

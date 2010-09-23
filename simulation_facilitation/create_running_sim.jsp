@@ -41,7 +41,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  <h1>Create Running Simulation</h1>
+			  <h1>Create Running Simulation<a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></h1>
 			  <br />
             <blockquote> 
               <% 
