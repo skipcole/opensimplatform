@@ -75,7 +75,7 @@
                           <textarea name="email_text" id="email_text" cols="60" rows="8">
 You are invited to enter a Beta Test of a simulation. 
 Please go to the website [web_site_location] to enter. 
-Your username is [username], and your password is [password].
+Your username is [username].
 Enjoy!
                           </textarea>
                           <br />

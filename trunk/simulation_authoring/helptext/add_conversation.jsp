@@ -18,13 +18,9 @@ body {
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
-<h1>Bulk Invite  </h1>
-<ul>
-  <li>Enter a set of email addresses separated by commas, or each on a separate line.</li>
-  <li>If a user is already registered, you will be notified.</li>
-  <li>You will be able to check to see which of the players you have invited to register have actually done so by selecting the invite lookup code. <br>
-  </li>
-</ul>
+<h1>Add Conversation </h1>
+<p>A conversation is a set of actors. Note, for them to talk, you will need to add something such as an electronic chat room as a simulation section.</p>
+<p>&nbsp;</p>
 <!-- InstanceEndEditable --> 
 </body>
 <!-- InstanceEnd --></html>

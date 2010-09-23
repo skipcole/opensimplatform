@@ -35,9 +35,9 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Create User</h1>
+              <h1>Create User <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></h1>
 			
-      <p><font color="#FF0000"><%= afso.errorMsg %></font></p>
+              <p><font color="#FF0000"><%= afso.errorMsg %></font></p>
       <form action="create_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           <tr>

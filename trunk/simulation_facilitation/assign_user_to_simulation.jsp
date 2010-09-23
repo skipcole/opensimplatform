@@ -49,7 +49,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Assign User to a Running Simulation</h1>
+              <h1>Assign User to a Running Simulation <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a></h1>
               <br />
       <% 
 			if (afso.sim_id == null) {

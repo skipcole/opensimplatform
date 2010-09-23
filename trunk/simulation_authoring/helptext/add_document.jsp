@@ -18,13 +18,9 @@ body {
 
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
-<h1>Bulk Invite  </h1>
-<ul>
-  <li>Enter a set of email addresses separated by commas, or each on a separate line.</li>
-  <li>If a user is already registered, you will be notified.</li>
-  <li>You will be able to check to see which of the players you have invited to register have actually done so by selecting the invite lookup code. <br>
-  </li>
-</ul>
+<h1>Add Document </h1>
+<p>The players and instructors will be able to read and/or modify this kind of document after you have enabled them to do so by giving them the applicable simulation sections (Write Document, Read Document, etc.) </p>
+<p>&nbsp;</p>
 <!-- InstanceEndEditable --> 
 </body>
 <!-- InstanceEnd --></html>

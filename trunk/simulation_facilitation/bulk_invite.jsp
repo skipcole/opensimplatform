@@ -40,7 +40,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Invite Players to Register </h1>
+              <h1>Invite Players to Register <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?)</a></h1>
               <br />
       <blockquote> 
         
