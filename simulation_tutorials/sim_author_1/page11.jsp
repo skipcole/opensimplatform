@@ -42,7 +42,7 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Step 11. Skipping over creating documents</h1>
+<h1>Step 11. <a href="page10.jsp">Create a Conversation</a><a href="page11.jsp"></a></h1>
 <blockquote>
   <p>a.) Observe the 'Create / Edit Conversation' page. </p>
   <blockquote>

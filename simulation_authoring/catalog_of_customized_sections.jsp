@@ -35,12 +35,6 @@ body {
 }
 -->
 </style>
-<style type="text/css">
-<!--
-.style1 {font-size: small}
--->
-</style>
-
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="">
@@ -56,7 +50,8 @@ body {
               <br />
     <blockquote> 
       <p>This page shows all of the sections that have been customized on this database.</p>
-    <table border="1" width="100%"><tr><td>
+      <h2>Customized for this Simulation </h2>
+      <table border="1" width="100%"><tr><td>
       <table border="0" width="100%" cellspacing="1">
         <tr align="left" valign="top">
           <td><strong>Tab Heading</strong></td>
@@ -75,17 +70,6 @@ body {
 			
 				boolean checkSectionInUse = SimulationSectionAssignment.checkUsage(afso.schema, bss.getId());
 			%>
-
-        <tr align="left" valign="top"> 
-          <td><strong><%= bss.getRec_tab_heading() %></strong></td>
-        <td><%= bss.getDescription() %></td>
-        <td><% 
-				if (checkSectionInUse) { %>
-          <a href="view_customized_section_usage.jsp?bss_id=<%= bss.getId().toString() %>">view usage</a>
-          <% } else { %>
-          <a href="delete_object.jsp?object_type=bss&objid=<%= bss.getId().toString() %>&object_info=<%= nameToSend %>">delete</a>
-          <% } %></td>
-      </tr>
         <%  
 			} // End of if not customized.
 		
@@ -98,13 +82,14 @@ body {
 			
 			if ((bss.isAuthorGeneratedSimulationSection()) || ((bss.isThisIsACustomizedSection()))){ 
 			
+			if ((bss.getSimId() != null) && (bss.getSimId().intValue() == afso.sim_id)) {
+			
 			String nameToSend = java.net.URLEncoder.encode(bss.getRec_tab_heading());
 			
 			boolean checkSectionInUse = SimulationSectionAssignment.checkUsage(afso.schema, bss.getId());
 			%>
         <tr align="left" valign="top"> 
-          <td><strong><%= bss.getRec_tab_heading() %></strong><br />
-            <span class="style1">(Customization Required)</span></td>
+          <td><strong><%= bss.getRec_tab_heading() %></strong><br /></td>
         <td><%= bss.getDescription() %></td>
         <td><% 
 				if (checkSectionInUse) { %>
@@ -114,10 +99,63 @@ body {
           <% } %></td>
       </tr>
         <%  
+			} // End of if for this simulation
 			} // End of if not customized or author generated.
 		}  %>
         </table>
     </td></tr></table>
+      <h2>&nbsp;</h2>
+      <h2>Customized for other Simulations</h2>
+      <table border="1" width="100%">
+        <tr>
+          <td><table border="0" width="100%" cellspacing="1">
+              <tr align="left" valign="top">
+                <td><strong>Simulation</strong></td>
+                <td><strong>Tab Heading</strong></td>
+                <td><strong>Description</strong></td>
+                </tr>
+              <%
+
+		for (ListIterator li = BaseSimSection.getAllBase(afso.schema).listIterator(); li.hasNext();) {
+			BaseSimSection bss = (BaseSimSection) li.next(); 
+			
+			String nameToSend = java.net.URLEncoder.encode(bss.getRec_tab_heading());
+			
+			if ((bss.isAuthorGeneratedSimulationSection())){
+			
+				boolean checkSectionInUse = SimulationSectionAssignment.checkUsage(afso.schema, bss.getId());
+			%>
+              <%  
+			} // End of if not customized.
+		
+		}  %>
+              <%
+
+		for (ListIterator li = new CustomizeableSection().getAllCustomizable(afso.schema).listIterator(); li.hasNext();) {
+			CustomizeableSection bss = (CustomizeableSection) li.next(); 
+			
+			if ((bss.isAuthorGeneratedSimulationSection()) || ((bss.isThisIsACustomizedSection()))){ 
+			
+			if ((bss.getSimId() != null) && (bss.getSimId().intValue() != afso.sim_id)) {
+			
+			String nameToSend = java.net.URLEncoder.encode(bss.getRec_tab_heading());
+			
+			boolean checkSectionInUse = SimulationSectionAssignment.checkUsage(afso.schema, bss.getId());
+			%>
+              <tr align="left" valign="top">
+                <td>wip <%= bss.getSimId() %></td>
+                <td><strong><%= bss.getRec_tab_heading() %></strong><br /></td>
+                <td><%= bss.getDescription() %></td>
+                </tr>
+              <%  
+			  
+			  } // End of if not for the sim being worked on.
+			} // End of if not customized or author generated.
+		}  %>
+          </table></td>
+        </tr>
+      </table>
+      <p>&nbsp; </p>
     </blockquote>
     <blockquote>
       <p>&nbsp;</p>

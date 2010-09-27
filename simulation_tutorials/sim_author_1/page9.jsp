@@ -46,7 +46,7 @@ body {
 <blockquote>
   <p>a.) Observe the 'Assign Actors' page. It should look similar to the image below.</p>
   <blockquote>
-    <p><img src="images/tut_sim_auth_1_page9_assignactors.PNG" alt="Assign Actors" width="723" height="318" border="1" /></p>
+    <p><img src="images/tut_sim_auth_1_page9_assignactors.PNG" alt="Assign Actors Page" width="802" height="296" /></p>
  
   <table width="100%" border="1" cellspacing="2" cellpadding="0">
     <tr>
@@ -60,7 +60,7 @@ body {
   </table>
   </blockquote>
   <div align="left"></div><div align="center"></div>
-  <p>b.) Select the link 'Next Step: Create Injects' to move on to the next step.</p>
+  <p>b.) Select the link 'Next Step: Add Objects' to move on to the next step.</p>
 </blockquote>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">

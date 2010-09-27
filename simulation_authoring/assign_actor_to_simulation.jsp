@@ -14,7 +14,9 @@
 	String sim_id = (String) request.getParameter("sim_id");
 	
 	if ( (sending_page != null) && (addactortosim != null) && (sending_page.equalsIgnoreCase("assign_actor"))){
-		afso.addActorToSim(sim_id, actor_being_worked_on_id);
+		if (actor_being_worked_on_id != null) {
+			afso.addActorToSim(sim_id, actor_being_worked_on_id);
+		}
 	} // End of if coming from this page and have assigned actor
 	
 	if ( (remove != null) &&  (remove.equalsIgnoreCase("true"))){

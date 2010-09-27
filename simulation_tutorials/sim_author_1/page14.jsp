@@ -52,7 +52,7 @@ body {
   <blockquote>
     <p>Tip: You don't ever really need to work with raw HTML. We included the HTML file above to make doing this tutorial a little faster. </p>
   </blockquote>
-  <p>d..) Select the link 'Next Step: Review Simulation ' to move on to the next  step.</p>
+  <p>d..) Hit the 'Save and Proceed' button to move on to the next  step.</p>
   <p>&nbsp;</p>
 </blockquote>
 <!-- InstanceEndEditable -->
