@@ -122,6 +122,8 @@ body {
 			
 			// Must check to see that running sim has been enabled, and has not been inactivated.
 			if ((rs.isReady_to_begin()) && (!(rs.isInactivated()))) {
+			
+			if ((act != null) && (sp != null)){
   %>
               <tr valign="top">
                 <td><%= sg.getSchema_organization() %></td>
@@ -139,8 +141,21 @@ body {
         <input type="hidden" name="sending_page" value="select_simulation" />
         </form></td>
     </tr>
+              
               <%
+			  } else { // End of if not null
+			  %>
+			  <tr valign="top">
+                <td>Problem in Sim </td>
+                <td><%= sim.getDisplayName() %></td>
+                <td><%= rs.getRunningSimulationName() %></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+			  <%
 			  
+			  } // End of if act or sp was null
 			  } // End of if running simulation has been enabled.
 			  
   		} // End of loop over User Assignments

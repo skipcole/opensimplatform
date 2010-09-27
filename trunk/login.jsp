@@ -105,6 +105,10 @@ body {
             <td> <input type="password" name="password"> </td>
           </tr>
           
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
           <tr> 
             <td>&nbsp;</td>
             <td> <input type="submit" name="Submit" value="Submit" > </td>
@@ -116,8 +120,7 @@ body {
 				if (browser != "mozilla"){
 					document.write("<b>Please Note: This software has only been thoroughly tested on Firefox. It may work on other platforms, but you may experience some inconveniences. Our apologies in advance.</b>" );
 				}
-</script>
-			</td>
+</script>			</td>
           </tr>
           <tr>
             <td colspan="2"><div align="right"><span class="style1"><a href="simulation_user_admin/retrieve_password.jsp"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "forgot_password") %></a></span></div></td>
@@ -130,8 +133,19 @@ body {
 	  <center>
         <table width="50%" border="0" cellspacing="2" cellpadding="1">
            <tr>
-             <td align="center">
+            <td>Upcoming Planned Outage:<br /> <%= USIP_OSP_Properties.getNextPlannedDowntime() %></td>
+          </tr>
+          <tr> 
+          <tr> 
+            <td><a href="acknowledgements/index.htm">Acknowledgements</a></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+           <tr>
+             <td align="left">
              <form name="form2" method="post" action="login.jsp">
+             Lanuage: 
              <select name="select_language" id="selectlanguage">
                <option value="1" <%= selectedEnglish %>>English</option>
                <option value="2" <%= selectedSpanish %>>epanol</option>
@@ -142,13 +156,6 @@ body {
                  </label>
                </form>             </td>
            </tr>
-           <tr>
-            <td>Upcoming Planned Outage:<br /> <%= USIP_OSP_Properties.getNextPlannedDowntime() %></td>
-          </tr>
-          <tr> 
-          <tr> 
-            <td><a href="acknowledgements/index.htm">Acknowledgements</a></td>
-          </tr>
         </table>
 	  </center>
       <p align="center">&nbsp;</p>
