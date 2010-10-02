@@ -149,8 +149,8 @@ body {
                 <td>Problem in Sim </td>
                 <td><%= sim.getDisplayName() %></td>
                 <td><%= rs.getRunningSimulationName() %></td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td><%= act %></td>
+                <td><%= sp %></td>
                 <td>&nbsp;</td>
               </tr>
 			  <%

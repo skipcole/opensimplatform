@@ -736,6 +736,11 @@ public class USIP_OSP_Cache {
 	public static Hashtable addFiredInjectsToCache(String schema,
 			HttpServletRequest request, Long rs_id, Long a_id, Long inj_id,
 			String targets) {
+		
+		if ((rs_id == null) || (a_id == null)){
+			Logger.getRootLogger().warn("USIP_OSP_Cache.addFiredInjectsToCache (rs/a): " + rs_id + " / " + a_id);
+			return new Hashtable();
+		}
 
 		Hashtable starterTable = getInjectsFired(schema, request, rs_id, a_id);
 
@@ -745,6 +750,13 @@ public class USIP_OSP_Cache {
 
 	}
 
+	/**
+	 * Returns the Running Sim _ Actor Id Hash Key.
+	 * 
+	 * @param rs_id
+	 * @param a_id
+	 * @return
+	 */
 	public static String getRsActorKey(Long rs_id, Long a_id) {
 		String returnString = rs_id.toString() + "_" + a_id.toString();
 
@@ -779,6 +791,40 @@ public class USIP_OSP_Cache {
 		// database.
 		thisTable.put(new Long(0), "all");
 
+	}
+	
+	public static String getSimulationNameById(HttpServletRequest request,
+			String schema, Long sim_id) {
+
+		// /////////////////////////////////////////////////////
+		// The conversation is pulled out of the context Hashtable
+		Hashtable<Long, String> simulation_name_by_id_cache = (Hashtable) request
+				.getSession()
+				.getServletContext()
+				.getAttribute(
+						USIP_OSP_ContextListener.CACHEON_SIM_NAMES_BY_ID);
+
+		if (simulation_name_by_id_cache == null) {
+			simulation_name_by_id_cache = new Hashtable();
+		}
+		String simulationName = simulation_name_by_id_cache.get(sim_id);
+
+		if (simulationName == null) {
+
+			// Get phase name
+			Simulation sim = Simulation.getById(schema,sim_id);
+
+			simulationName = sim.getSimulationName() + " version " + sim.getVersion();
+
+			// Store it in the cache
+			simulation_name_by_id_cache.put(sim_id, simulationName);
+		}
+
+		request.getSession().getServletContext().setAttribute(
+				USIP_OSP_ContextListener.CACHEON_SIM_NAMES_BY_ID,
+				simulation_name_by_id_cache);
+
+		return simulationName;
 	}
 
 }

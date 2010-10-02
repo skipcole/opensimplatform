@@ -88,8 +88,10 @@
 				} else {
 				%>
                 <input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
-                <input type="submit" name="command" value="Clear" tabindex="6" />
-                <input type="submit" name="command" value="Update" />
+				<table width="100%"><tr>
+                <td align="left"><input type="submit"  name="command" value="Update" /></td>
+				<td align="right"><input type="submit" name="command" tabindex="6" value="Create New Simulation" /></td>
+				</tr></table>
                 <%
 					}
 				%>              </td>

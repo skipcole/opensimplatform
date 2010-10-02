@@ -34,8 +34,8 @@
                 <td width="120"><img src="../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><h1> <br />
                     Launch Beta Tests</h1>
-                  <p>On this page you can automatically set up many running simulations instantly. One will be created and enable for each actor, for each user, that you enter. So if you have 5 testors and 5 actors, 25 running simulations will be created.</p>
-                  <br />
+                  <p>On this page you can automatically set up many running simulations instantly. One will be created and enabled for each  for each user (beta tester) that you enter. Each user will be added to the simulation created for them as every actor in that simulation. <br />
+                  </p>
                   <blockquote><form id="form1" name="form1" method="post" action="">
                     <table width="100%" border="1" cellspacing="0" cellpadding="0">
                       <tr>
@@ -44,8 +44,16 @@
                         <td width="56%" valign="top">
                           <select name="sim_id" id="select">
                           <% for (ListIterator li = simList.listIterator(); li.hasNext();) {
-								Simulation sim = (Simulation) li.next(); %>
-                            <option value="<%= sim.getId() %>"><%= sim.getDisplayName() %></option>
+								Simulation sim = (Simulation) li.next(); 
+								
+								String selected = "";
+								
+								if ((sim.getId() != null) && (afso.sim_id != null) && (sim.getId().intValue() == afso.sim_id.intValue())){
+								selected = "selected";
+								
+								}
+								%>
+                            <option value="<%= sim.getId() %>" <%= selected %>><%= sim.getDisplayName() %></option>
                           <% } %>
                           </select>
                         </td>
