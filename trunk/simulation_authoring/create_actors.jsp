@@ -173,7 +173,8 @@
             <tr> 
               <td colspan="3" valign="top"><input type="hidden" name="MAX_FILE_SIZE" value="100000" />
                 Choose an image file to upload: 
-                <input name="uploadedfile" type="file" tabindex="5" /></td>
+                <input name="uploadedfile" type="file" tabindex="5" />
+                or </td>
             </tr>
             <tr> 
               <td colspan="3" valign="top">
@@ -193,8 +194,10 @@
 				} else {
 				%>
                 <input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
-                <input type="submit" name="clear_button" value="Clear" />
-                <input type="submit"  name="update_actor" value="Update Actor" /> 
+                <table><tr>
+                <td align="left"><input type="submit"  name="update_actor" value="Update Actor" /></td>
+				<td align="right"><input type="submit" name="clear_button" value="New Actor" /></td>
+				</tr></table>
                 <%
 					}
 				%>              </td>
@@ -202,15 +205,21 @@
             </table>
     <p>      </p>
     </form>
-    <% 
+    <p>
+      <% 
 if ((actorOnScratchPad.getImageFilename() != null) && (actorOnScratchPad.getImageFilename().trim().length() > 0)){ %>
-    <img src="../osp_core/images/actors/<%= actorOnScratchPad.getImageFilename() %>">
-    <% } %>
-        <% 
+        <img src="../osp_core/images/actors/<%= actorOnScratchPad.getImageFilename() %>">
+        <% } %>
+      <% 
 if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.getImageThumbFilename().trim().length() > 0)){ %>
-    <img src="../osp_core/images/actors/<%= actorOnScratchPad.getImageThumbFilename() %>">
-    <% } %>
-
+          <img src="../osp_core/images/actors/<%= actorOnScratchPad.getImageThumbFilename() %>">
+          <% } %>
+    </p>
+	<% if ((actorOnScratchPad != null) && (actorOnScratchPad.getId() != null) ) { %>
+    <p><a href="create_actors_image.jsp?act_id=<%= actorOnScratchPad.getId() %>">Set image files for Actor <%= actorOnScratchPad.getActorName() %></a></p>
+	<% } else { %>
+	<p>After the actor is created you can set the image files.</p>
+	<% } %>
     <hr />
     <p>Below are listed alphabetically all of the current Actors associated with this simulation. Click on the name of any actor to edit them. </p>
     <blockquote> 
@@ -224,7 +233,7 @@ if ((actorOnScratchPad.getImageThumbFilename() != null) && (actorOnScratchPad.ge
           <td><a href="create_actors.jsp?editmode=true&actorid=<%= act.getId() %>" ><%= act.getActorName() %></td>
         <td>&nbsp;</td>
         <td>
-          <% if ((act.getActorName() != null) && (!(act.getActorName().equalsIgnoreCase("control")))) { %>
+          <% if (act.getActorName() != null) { %>
           <a href="delete_object.jsp?object_type=actor&objid=<%= act.getId().toString() %>&object_info=<%= act.getActorName() %>"> 
             Remove <%= act.getActorName() %> </a>
           <% } %>          </td>

@@ -128,7 +128,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
 		ObjectPackager.unpackageSim(filename, this.schema, sim_name,
-				sim_version, upgrade_file_name);
+				sim_version, upgrade_file_name, this);
 
 	}
 
@@ -3947,5 +3947,67 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return returnString;
 	}
+	
+	public static void main(String args[]){
+		System.out.println("hi");
+		
+		//getImageFiles();
+		
+		System.out.println("bye");
+		
+	}
+	public List getImageFiles() {
+
+		ArrayList returnList = new ArrayList();
+		
+		// The set of base simulation sections are read out of
+		// XML files stored in the simulation_section_information directory.
+
+		String fileLocation = FileIO.getActor_image_dir();
+
+		File locDir = new File(fileLocation);
+
+		if (locDir == null) {
+			Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
+			return returnList;
+		} else {
+
+			File files[] = locDir.listFiles();
+
+			if (files == null) {
+				Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
+				return returnList;
+			} else {
+				for (int ii = 0; ii < files.length; ii++) {
+
+				String fName = files[ii].getName();
+				if ((fName.endsWith(".png")) || ((fName.endsWith(".gif"))) || ((fName.endsWith(".jpg")))
+						|| (fName.endsWith(".PNG")) || ((fName.endsWith(".GIF"))) || ((fName.endsWith(".JPG")))
+				) { //$NON-NLS-1$
+				try {
+					Vector thisImageVector = new Vector();
+					String fullFileLoc = fileLocation + fName;
+					String relativePath = "../osp_core/images/actors/" + fName;
+					
+					//System.out.println(fullFileLoc);
+					//System.out.println(relativePath);
+					
+					thisImageVector.add(relativePath);
+					thisImageVector.add(fName);
+					
+					returnList.add(thisImageVector);
+							
+				} catch (Exception e) {
+					Logger.getRootLogger().debug("problem reading in file " + fName); //$NON-NLS-1$
+					Logger.getRootLogger().debug(e.getMessage());
+				}
+				}
+
+				}
+			}
+
+			return returnList;
+		} // end of if found files.
+	} // end of method 
 
 } // End of class

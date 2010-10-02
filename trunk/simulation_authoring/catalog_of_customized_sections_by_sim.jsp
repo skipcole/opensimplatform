@@ -108,7 +108,7 @@ body {
       <h2>Customized for other Simulations</h2>
       <table border="1" width="100%">
         <tr>
-          <td><table border="0" width="100%" cellspacing="1">
+          <td><table border="1" width="100%" cellspacing="1">
               <tr align="left" valign="top">
                 <td><strong>Simulation</strong></td>
                 <td><strong>Tab Heading</strong></td>

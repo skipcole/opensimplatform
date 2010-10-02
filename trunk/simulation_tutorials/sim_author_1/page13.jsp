@@ -46,7 +46,7 @@ body {
 <blockquote>
   <p>a..) Observe the  Actor Orange Salesman's sections in the Started phase. </p>
   <blockquote>
-    <p>Tip: You will notice that the Actor Orange Saleman has an additional section added entitled 'Change Phase.' This is automatically added to all 'control' characters.</p>
+    <p>Tip: The Actor Orange Saleman will have an additional section during play. All control characters have a red 'Control' tab at the far right of their list to allow them to do things such as make announcements and move the simulation along. </p>
     <p><img src="images/tut_sim_auth_1_page13_orange_salesman.PNG" alt="Orange Saleman" width="933" height="317" /></p>
     <p>&nbsp;</p>
   </blockquote>

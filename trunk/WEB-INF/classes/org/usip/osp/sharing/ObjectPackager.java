@@ -684,7 +684,8 @@ public class ObjectPackager {
 	 * @param schema
 	 */
 	public static void unpackageSim(String fileName, String schema,
-			String sim_name, String sim_version, String upgradeFileName) {
+			String sim_name, String sim_version, String upgradeFileName,
+			AuthorFacilitatorSessionObject afso) {
 
 		unpackInformationString = "";
 
@@ -732,6 +733,8 @@ public class ObjectPackager {
 		simRead.setVersion(sim_version);
 
 		simRead.saveMe(schema);
+		
+		afso.sim_id = simRead.getId();
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Actors");
 		unpackageActors(schema, re.getId(), xmlText, simRead.getId(), xstream,
