@@ -814,7 +814,7 @@ public class USIP_OSP_Cache {
 			// Get phase name
 			Simulation sim = Simulation.getById(schema,sim_id);
 
-			simulationName = sim.getSimulationName() + " version " + sim.getVersion();
+			simulationName = sim.getDisplayName();
 
 			// Store it in the cache
 			simulation_name_by_id_cache.put(sim_id, simulationName);

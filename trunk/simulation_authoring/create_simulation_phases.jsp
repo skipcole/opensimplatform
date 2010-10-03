@@ -93,7 +93,7 @@
                     <input type="hidden" name="sp_id" value="<%= spOnScratchPad.getId() %>" />
 					<table width="100%"><tr>
                 <td align="left"><input type="submit"  name="command" value="Update" /></td>
-				<td align="right"><input type="submit" name="command2" tabindex="6" value="Create New Phase" /></td>
+				<td align="right"><input type="submit" name="command2" tabindex="6" value="Clear to Create New Phase" /></td>
 				</tr></table>
                     <%
 					}

@@ -87,8 +87,10 @@
 				} else {
 				%>
                 <input type="hidden" name="conv_id" value="<%= thisConv.getId() %>" />
-                <input type="submit" name="clear_button" value="Clear" />
-                <input type="submit"  name="update_conv" value="Update Conversation" /> 
+				<table width="100%"><tr>
+                <td align="left"><input type="submit"  name="update_conv" value="Update" /></td>
+				<td align="right"><input type="submit" name="clear_button" value="Clear to Create New Conversation" /></td>
+				</tr></table>
                 <%
 					}
 				%>

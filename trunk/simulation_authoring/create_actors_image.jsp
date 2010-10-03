@@ -60,7 +60,7 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Set Actor Images for <%= actorOnScratchPad.getActorName() %></h1>
-              <p>On this page you will set the images for an actor </p>
+              <p>On this page you will set the images for an actor. You can either upload an image file from your local machine to the server, or browse the server for an image to use.</p>
               <br />
     <form enctype="multipart/form-data" action="create_actors.jsp" method="post">
     
