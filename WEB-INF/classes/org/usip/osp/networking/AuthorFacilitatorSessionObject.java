@@ -1130,7 +1130,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * 
+	 * Responds to items selected on the create conversation page.
 	 * @param request
 	 * @return
 	 */
@@ -2030,8 +2030,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				newActor.setImageFilename("no_image_default.jpg");
 				createActor(mpr, newActor);
 
-			} else if ((clear_button != null)
-					&& (clear_button.equalsIgnoreCase("Clear"))) {
+			} else if ((clear_button != null)) {
+				
 				actor_being_worked_on_id = null;
 			}
 		} catch (java.io.IOException ioe) {
@@ -2498,8 +2498,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				for (Enumeration e2 = actors.elements(); e2.hasMoreElements();) {
 					Long a_id_2 = (Long) e2.nextElement();
-
 					String key = a_id_1 + "_" + a_id_2;
+					System.out.println("put in key: " + key);
 					returnTable.put(key, "set");
 				}
 			}
@@ -4009,5 +4009,74 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			return returnList;
 		} // end of if found files.
 	} // end of method 
+	
+	/**
+	 * Handles the CRUD on creating items.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public InventoryItem handleCreateItems(HttpServletRequest request) {
+
+		InventoryItem inventoryItem = new InventoryItem();
+
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return inventoryItem;
+		}
+
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
+		String ii_id = (String) request.getParameter("ii_id");
+
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
+				&& (ii_id != null) && (ii_id.trim().length() > 0)) {
+			inventoryItem = InventoryItem.getById(schema, new Long(ii_id));
+			return inventoryItem;
+		}
+
+		// If player just entered this page from a different form, just return
+		// the blank document
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null)
+				|| (!(sending_page
+						.equalsIgnoreCase("make_create_items_page")))) {
+			return inventoryItem;
+		}
+
+		// If we got down to here, we must be doing some real work on a
+		// document.
+		String item_name = (String) request.getParameter("item_name");
+		String item_description = (String) request.getParameter("item_description");
+		String item_notes = (String) request.getParameter("item_notes");
+
+		// Do create if called.
+		String create_item = (String) request.getParameter("create_item");
+		if ((create_item != null)) {
+			Logger.getRootLogger().debug(
+					"creating item of uniq name: " + item_name);
+			inventoryItem = new InventoryItem(item_name, item_description, item_notes, sim_id, true);
+			inventoryItem.saveMe(schema);
+		}
+
+		// Do update if called.
+		String update_item = (String) request.getParameter("update_item");
+		if ((update_item != null)) {
+			Logger.getRootLogger().debug(
+					"updating item of uniq title: " + item_name);
+			inventoryItem = InventoryItem.getById(schema, new Long(ii_id));
+			inventoryItem.setItemName(item_name);
+			inventoryItem.setDescription(item_description);
+			inventoryItem.setNotes(item_notes);
+			inventoryItem.setSim_id(sim_id);
+			inventoryItem.saveMe(schema);
+
+		}
+
+		return inventoryItem;
+	}
+
 
 } // End of class

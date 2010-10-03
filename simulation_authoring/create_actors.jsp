@@ -194,9 +194,9 @@
 				} else {
 				%>
                 <input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
-                <table><tr>
+                <table width="100%"><tr>
                 <td align="left"><input type="submit"  name="update_actor" value="Update Actor" /></td>
-				<td align="right"><input type="submit" name="clear_button" value="New Actor" /></td>
+				<td align="right"><input type="submit" name="clear_button" value="Clear to Create New Actor" /></td>
 				</tr></table>
                 <%
 					}

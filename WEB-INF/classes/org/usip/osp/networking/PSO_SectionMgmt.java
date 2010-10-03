@@ -1111,6 +1111,7 @@ public class PSO_SectionMgmt {
 		// /////////////////////////////////////////////////////////
 		// Pull this custom page out of the database based on its id.
 		_custom_section_id = request.getParameter("custom_page");
+		
 		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 
 		// If this is the original custom page, make a new section for this

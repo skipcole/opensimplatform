@@ -483,6 +483,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.AllowableResponse.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.GenericVariable.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.IndividualLink.class);
+		ac.addAnnotatedClass(org.usip.osp.specialfeatures.InventoryItem.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.OneLink.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.OSPObjectHistory.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.PlayerReflection.class);

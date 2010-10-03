@@ -257,17 +257,35 @@ public class CustomizeableSection extends BaseSimSection {
 	 */
 	public static CustomizeableSection getById(String schema, String the_id){
 
+		Long theId = null;
+		try {
+			theId = new Long(the_id);
+		} catch (Exception e){
+			Logger.getRootLogger().warn("Warning. CustomizeableSection.getById, Bad cs id passed in" + the_id); //$NON-NLS-1$
+			return null;
+		}
+		
+		if (theId == null){
+			Logger.getRootLogger().warn("Warning. CustomizeableSection.getById, CS id was null.");
+			return null;
+		} else {
+			return getById(schema, theId);
+		}
+		
+		
+	}
+	
+	private static CustomizeableSection getById(String schema, Long the_id){
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.
-			getSession(schema).get(CustomizeableSection.class, new Long(the_id));
+			getSession(schema).get(CustomizeableSection.class, the_id);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		if (cs == null){
-			Logger.getRootLogger().debug("Warning. Null cs returned using id " + the_id); //$NON-NLS-1$
+			Logger.getRootLogger().warn("Warning. Null cs returned using id " + the_id); //$NON-NLS-1$
 		}
 		
 		return cs;
-		
 	}
 	
 	public String simImage(String baseWebDirectory){

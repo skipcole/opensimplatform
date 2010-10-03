@@ -61,8 +61,7 @@
 			
 		  %>
                   <tr>
-                    <td width="33%">
-					<%= this_ssa.getSim_id() %>                    </td>
+                    <td width="33%"><%= USIP_OSP_Cache.getSimulationNameById(request, afso.schema, this_ssa.getSim_id()) %> </td>
                     <td width="33%">
 					
 					<%= this_actor_name  %></td>

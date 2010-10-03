@@ -45,7 +45,7 @@
             <td width="24%"><a href="../osp_javadocs/index.html" target="_top">JavaDocs</a></td>
             <td width="2%">&nbsp;</td>
             <td width="72%">Hopefully these are clear. Don't hesitate to send an 
-              email to <a href="mailto:scole@usip.org">scole@usip.org</a> if they 
+              email to <a href="mailto:osp@usip.org">osp@usip.org</a> if they 
               are not.</td>
           </tr>
         <tr valign="top"> 
@@ -68,6 +68,12 @@
             <td>Warning! Running this suite of tests will destroy all data in the 
               database.</td>
           </tr>
+        <tr valign="top">
+          <td>&nbsp;</td>
+          <td>View Error Cache </td>
+          <td>&nbsp;</td>
+          <td>Allows the developer to see recent error messages stored in cache. </td>
+        </tr>
         <tr valign="top">
           <td>&nbsp;</td>
           <td><a href="../osp_development/custom_section_xml_generator.jsp">Custom Section XML Generator</a></td>

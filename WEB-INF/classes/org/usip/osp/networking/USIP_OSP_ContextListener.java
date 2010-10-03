@@ -102,7 +102,7 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	
 	public static final String CACHEON_AUTOCOMPLETE_PLAYER_USERNAMES = "acup_names"; //$NON-NLS-1$
 	
-	public static final String CACHEON_SIM_NAMES_BY_ID = "phaseNamesById"; //$NON-NLS-1$
+	public static final String CACHEON_SIM_NAMES_BY_ID = "simNamesById"; //$NON-NLS-1$
 
 	/** Used to keep track of which injects have been fired during a game. */
 	public static final String CACHEON_INJECTS_FIRED = "injects_fired"; //$NON-NLS-1$
