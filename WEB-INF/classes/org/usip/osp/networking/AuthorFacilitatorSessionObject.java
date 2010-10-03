@@ -4077,6 +4077,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return inventoryItem;
 	}
+	
+	public void handleDistributeItems(HttpServletRequest request) {
+		
+		Hashtable itemDistribution = new Hashtable();
+		
+		// Remove all previous distributions
+		//InventoryItem.removeTemplateAssignments(schema, base_id);
+		
+		// Loop over all of the actor ids found
+		
+		// Get the number of items found. If it is unintelligible, it is zero.
+		
+		// Create one item record for each item an actor has in their possession
+		
+		// Select all items for this running sim 
+		
+	}
 
 
 } // End of class
