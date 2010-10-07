@@ -8,6 +8,7 @@ import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
 import org.usip.osp.networking.*;
 import org.usip.osp.persistence.*;
+import org.usip.osp.specialfeatures.*;
 
 import sun.misc.*;
 
@@ -144,9 +145,6 @@ public class ObjectPackager {
 		returnString += packageSimObjectInformation(schema, sim.getTransitId(),
 				xstream)
 				+ lineTerminator;
-		returnString += packageMiscSimObjectInformation(schema, sim
-				.getTransitId(), xstream)
-				+ lineTerminator;
 
 		returnString += packageSimMedia(schema, sim.getTransitId(), xstream);
 		returnString += "</SIM_PACKAGE_OBJECT>"; //$NON-NLS-1$
@@ -181,45 +179,6 @@ public class ObjectPackager {
 	}
 
 	/**
-	 * I'm adding this right now to package up the TimeLine object, which may or
-	 * may not be associated with a base sim section, and seems pertinent to
-	 * only one simulation. There will be a better way to package these things
-	 * up later, I'm sure.
-	 * 
-	 * @param schema
-	 * @param sim_id
-	 * @param xstream
-	 * @return
-	 */
-	public static String packageMiscSimObjectInformation(String schema,
-			Long sim_id, XStream xstream) {
-
-		TimeLine tl = TimeLine.getMasterPlan(schema, sim_id.toString());
-
-		String returnString = "";
-
-		returnString += xstream.toXML(tl) + lineTerminator;
-
-		List<Event> allEvents = Event.getAllForTimeLine(tl.getId(), schema);
-		for (ListIterator<Event> li = allEvents.listIterator(); li.hasNext();) {
-			Event thisEvent = li.next();
-
-			returnString += xstream.toXML(thisEvent) + lineTerminator;
-
-		}
-
-		List<Tips> allTips = Tips.getAllForBaseSim(sim_id, schema);
-		for (ListIterator<Tips> lit = allTips.listIterator(); lit.hasNext();) {
-			Tips thisTip = lit.next();
-
-			returnString += xstream.toXML(thisTip) + lineTerminator;
-
-		}
-
-		return returnString;
-	}
-
-	/**
 	 * Right now this does documents, but we need to find a way to do it
 	 * generically for all objects that have been declared as simulation object
 	 * (by implementing the interface SimSectionDependentObject )
@@ -229,7 +188,7 @@ public class ObjectPackager {
 	 * @param xstream
 	 * @return
 	 */
-	public static String packageSimObjectInformation(String schema,
+	public static String aaaaapackageSimObjectInformation(String schema,
 			long sim_id, XStream xstream) {
 
 		String returnString = ""; //$NON-NLS-1$
@@ -281,29 +240,133 @@ public class ObjectPackager {
 				// objects.
 				if (depObj.getClass().equals(Conversation.class)) {
 					// Get list of conversation actors
-					for (ListIterator<ConvActorAssignment> lcaa = ConvActorAssignment
-							.getAllForConversation(schema,
-									depObj.getTransit_id()).listIterator(); lcaa
-							.hasNext();) {
-						ConvActorAssignment caa = lcaa.next();
-						returnString += xstream.toXML(caa) + lineTerminator;
-					}
+
 
 				} else if (depObj.getClass().equals(SharedDocument.class)) {
 					// Get list of shared document actor notification objects.
-					for (ListIterator<SharedDocActorNotificAssignObj> lcaa = SharedDocActorNotificAssignObj
-							.getAllAssignmentsForDocument(schema,
-									depObj.getTransit_id()).listIterator(); lcaa
-							.hasNext();) {
-						SharedDocActorNotificAssignObj sdano = lcaa.next();
-						returnString += xstream.toXML(sdano) + lineTerminator;
-					}
 
 				}
 			}
 
 		}
 
+		return returnString;
+	}
+	
+	/**
+	 * 
+	 * @param thoseDone
+	 */
+	public static String packageSimObjectInformation(String schema, long sim_id, XStream xstream){
+		
+		String returnString = "";
+		
+		// Copy Conversations
+		List <Conversation> convList = Conversation.getAllBaseForSim(schema, sim_id);
+		for (ListIterator<Conversation> coList = convList.listIterator(); coList.hasNext();) {
+			Conversation caa = coList.next();
+			caa.setTransit_id(caa.getId());
+			caa.setId(null);
+			returnString += xstream.toXML(caa) + lineTerminator;
+		}
+		
+		// Copy Conversation Actor Assignments
+		List <ConvActorAssignment> caaList = ConvActorAssignment.getAllBaseForSim(schema, sim_id);
+		for (ListIterator<ConvActorAssignment> cList = caaList.listIterator(); cList.hasNext();) {
+			ConvActorAssignment caa = cList.next();
+			caa.setTransit_id(caa.getId());
+			caa.setId(null);
+			returnString += xstream.toXML(caa) + lineTerminator;
+		}
+		
+		// Copy GenericVariables
+		List <GenericVariable> genVarList = GenericVariable.getAllBaseGenericVariablesForSim(schema, sim_id);
+		for (ListIterator<GenericVariable> gvList = genVarList.listIterator(); gvList.hasNext();) {
+			GenericVariable gv = gvList.next();
+			gv.setTransit_id(gv.getId());
+			gv.setId(null);
+			returnString += xstream.toXML(gv) + lineTerminator;
+		}
+		
+		// Copy InventoryItems
+		List <InventoryItem> invList = InventoryItem.getAllBaseForSim(schema, sim_id);
+		for (ListIterator<InventoryItem> iList = invList.listIterator(); iList.hasNext();) {
+			InventoryItem inv = iList.next();
+			inv.setTransit_id(inv.getId());
+			inv.setId(null);
+			returnString += xstream.toXML(inv) + lineTerminator;
+		}
+		
+		// Copy OneLinks
+		List <OneLink> olList = OneLink.getAllBaseOneLinksForSim(schema, sim_id);
+		for (ListIterator<OneLink> onelList = olList.listIterator(); onelList.hasNext();) {
+			OneLink inv = onelList.next();
+			inv.setTransit_id(inv.getId());
+			inv.setId(null);
+			returnString += xstream.toXML(inv) + lineTerminator;
+		}
+		
+		// Copy SharedDocuments
+		List sdList = SharedDocument.getAllBaseDocumentsForSim(schema, sim_id);
+		for (ListIterator<SharedDocument> sdlList = sdList.listIterator(); sdlList.hasNext();) {
+			SharedDocument sd = sdlList.next();
+			sd.setTransit_id(sd.getId());
+			sd.setId(null);
+			returnString += xstream.toXML(sd) + lineTerminator;
+		}
+
+		// Shared Document Actor Notification Object
+		List <SharedDocActorNotificAssignObj> sdanao = SharedDocActorNotificAssignObj.getAllBaseForSim(schema, sim_id);
+		for (ListIterator<SharedDocActorNotificAssignObj> lcaa = sdanao.listIterator(); lcaa
+				.hasNext();) {
+			SharedDocActorNotificAssignObj sdano = lcaa.next();
+			sdano.setTransit_id(sdano.getId());
+			sdano.setId(null);
+			returnString += xstream.toXML(sdano) + lineTerminator;
+		}
+		
+		// Copy TimeLine
+		List timeList = TimeLine.getAllBaseForSimulation(schema, sim_id);
+		for (ListIterator<TimeLine> tList = timeList.listIterator(); tList.hasNext();) {
+			TimeLine tl = tList.next();
+			tl.setTransit_id(tl.getId());
+			tl.setId(null);
+			returnString += xstream.toXML(tl) + lineTerminator;
+		}
+		
+		// Events
+		List<Event> eventsList = Event.getAllBaseForSim(sim_id, schema);
+		for (ListIterator<Event> li = eventsList.listIterator(); li.hasNext();) {
+			Event thisEvent = li.next();
+			thisEvent.setTransit_id(thisEvent.getId());
+			thisEvent.setId(null);
+			returnString += xstream.toXML(thisEvent) + lineTerminator;
+		}
+
+		// Tips
+		List<Tips> allTips = Tips.getAllForBaseSim(sim_id, schema);
+		for (ListIterator<Tips> lit = allTips.listIterator(); lit.hasNext();) {
+			Tips thisTip = lit.next();
+			thisTip.setTransit_id(thisTip.getId());
+			thisTip.setId(null);
+			returnString += xstream.toXML(thisTip) + lineTerminator;
+		}
+		
+		///////////////////////////////////////////////////////
+		// Get dependency (bssdoa), add bssdoa xml
+		for (ListIterator<BaseSimSectionDepObjectAssignment> li = BaseSimSectionDepObjectAssignment
+				.getSimDependencies(schema, sim_id).listIterator(); li
+				.hasNext();) {
+
+			BaseSimSectionDepObjectAssignment bssdoa = li.next();
+
+			bssdoa.setTransit_id(bssdoa.getId());
+			bssdoa.setId(null);
+
+			returnString += xstream.toXML(bssdoa) + lineTerminator;
+		}
+
+		
 		return returnString;
 	}
 
@@ -998,26 +1061,87 @@ public class ObjectPackager {
 
 		}
 	}
+	
+	/** A list, key-ed on object class and transit id, of all of the new ids */
+	
+	/** A list, key-ed on the previous id, of this conversation's new id. */
+	
+	 
+	
 
-	/**
-	 * Pulls the simulation object out of the packaged file. Right now we are
-	 * targeting specific types (documents, etc.), but eventually we want to be
-	 * able to pull out any unspecified type that implements the
-	 * SimSectionDependentObject interface.
-	 * 
-	 * @param schema
-	 * @param fullString
-	 * @param sim_id
-	 * @param xstream
+	/*
+	 * Pulls the simulation object out of the packaged file. 
+	 * Below is the basic process
+	Unpackaging
+
+	Get Objects
+	For each of them, do the following
+		Save Objects and get new id
+		Create hashtable key based on object class + transit id
+		Add to hashtable the object id, and its new id
+
+	List Sub Objects (Conversation Actor Assignments, Events, Etc.)
+	For each of them, do the following
+		Save Objects and get new id
+		Create hashtable key based on object class + transit id
+		Add to hashtable the object id, and its new id
+		Look up linked object id from hashtable
+		set id of linked object to id found
+		If this object links to actors (eg. SharedDocumentActorNotificationObject) then map actor id
+		Save  Sub Object
+
+	List BSSDOA
+	For each of them, do the following
+		Set transit id to id
+		Set id to null
+		Create hashtable key based on object class and original id
+		Look through hashtable to get id of new object
+		Set object id to be the id found from the hashtable
 	 */
+
 	public static void unpackageSimObjects(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
 			Hashtable bssIdMappings, Hashtable actorIdMappings) {
+		
+		Hashtable objectMappings = new Hashtable();
+		Hashtable conversationMappings = new Hashtable();
+		Hashtable sharedDocumentMappings = new Hashtable();
+		Hashtable timelineMappings = new Hashtable();
+		Hashtable eventMappings = new Hashtable();
 
-		// Fill this up to import objects first, and then remap the bssdoa to
-		// them and the base sim section
-		Hashtable<String, String> setOfObjectClassesToGet = new Hashtable();
-
+		
+		ArrayList <String> classNames = new ArrayList();
+		
+		
+		// !!! Note, need to add the classes in the right order, so the lookup of information
+		// such as SharedDocument.getId() from the hashtable, can work correctly.
+		classNames.add(Conversation.class.toString());
+		classNames.add(ConvActorAssignment.class.toString());
+		classNames.add(GenericVariable.class.toString());
+		classNames.add(InventoryItem.class.toString());
+		classNames.add(OneLink.class.toString());
+		classNames.add(SharedDocument.class.toString());
+		classNames.add(SharedDocActorNotificAssignObj.class.toString());
+		classNames.add(TimeLine.class.toString());
+		classNames.add(Event.class.toString());
+		classNames.add(Tips.class.toString());
+		classNames.add(TimelineEventAssignment.class.toString());
+		
+		
+		for (ListIterator<String> li_i = classNames.listIterator(); li_i
+				.hasNext();) {
+			String key = li_i.next();
+			
+			RestoreResults.createAndSaveNotes(reId,
+					"Looking for objects of class: " + key);
+			doClass(key, schema, reId, xstream, sim_id, fullString, actorIdMappings,
+				objectMappings,  conversationMappings,  sharedDocumentMappings,
+				timelineMappings,  eventMappings);
+		}
+		
+		/////////////////////////////////////////////////
+	
+		//////////////////////////////////////////////////
 		List<String> bssdoa_list = getSetOfObjectFromFile(fullString,
 				makeOpenTag(BaseSimSectionDepObjectAssignment.class),
 				makeCloseTag(BaseSimSectionDepObjectAssignment.class));
@@ -1027,77 +1151,15 @@ public class ObjectPackager {
 
 			BaseSimSectionDepObjectAssignment this_bssdoa = (BaseSimSectionDepObjectAssignment) xstream
 					.fromXML(sd_string);
-
-			setOfObjectClassesToGet.put(this_bssdoa.getClassName(), "set");
-		}
-
-		Hashtable dependentObjectMappings = new Hashtable();
-		// Get objects belonging to the classes just found
-		for (Enumeration e = setOfObjectClassesToGet.keys(); e
-				.hasMoreElements();) {
-			String key = (String) e.nextElement();
-
-			String startXMLTag = "<" + key + ">";
-			String endXMLTag = "</" + key + ">";
-			RestoreResults.createAndSaveNotes(reId,
-					"Looking for objects of class: " + key);
-
-			List dos_list = getSetOfObjectFromFile(fullString, startXMLTag,
-					endXMLTag);
-
-			for (ListIterator<String> li_i = dos_list.listIterator(); li_i
-					.hasNext();) {
-				String sd_string = li_i.next();
-
-				SimSectionDependentObject this_dos = (SimSectionDependentObject) xstream
-						.fromXML(sd_string);
-
-				// map sim id back to the new sim id.
-				this_dos.setSimId(sim_id);
-
-				// Save object, map its new id to the transit id
-				this_dos.saveMe(schema);
-
-				dependentObjectMappings.put(this_dos.getTransit_id(), this_dos
-						.getId());
-
-				RestoreResults.createAndSaveObject(reId, this_dos.getId()
-						.toString(), this_dos.getClass().toString(), "",
-						"Found Dependent Object of class " + key
-								+ " and it had a transit id of "
-								+ this_dos.getTransit_id()
-								+ " which was mapped to an id of "
-								+ this_dos.getId());
-
-				// Conversations have conversation actor assignments associated
-				// with them.
-				if (this_dos.getClass().equals(Conversation.class)) {
-					unpackageConversationActorAssignments(schema, reId,
-							fullString, this_dos.getTransit_id(), this_dos
-									.getId(), xstream, actorIdMappings);
-				} else if (this_dos.getClass().equals(SharedDocument.class)) {
-					unpackSDANAO(schema, reId, sim_id, fullString, this_dos
-							.getTransit_id(), this_dos.getId(), xstream,
-							actorIdMappings);
-				}
-			}
-		}
-
-		// Now go back through the bssdoas, remap the values of bss id and dep
-		// obj. id, and then save them.
-		for (ListIterator<String> li_i = bssdoa_list.listIterator(); li_i
-				.hasNext();) {
-			String sd_string = li_i.next();
-
-			BaseSimSectionDepObjectAssignment this_bssdoa = (BaseSimSectionDepObjectAssignment) xstream
-					.fromXML(sd_string);
-
-			Logger.getRootLogger().warn(
-					"this_bssdoa.getBss_id() was " + this_bssdoa.getBss_id());
-			System.out.flush();
-
+			
 			this_bssdoa.setSim_id(sim_id);
 
+			// get the id of the object from the hashtable.
+			String fetchKey = this_bssdoa.getClassName() + "_" + this_bssdoa.getObjectId();
+			Long newObjectId = (Long) objectMappings.get(fetchKey);
+			this_bssdoa.setObjectId(newObjectId);
+			
+			// Map the base section numbers to what they are on this system.
 			try {
 				Long thisMappedId = (Long) bssIdMappings.get(this_bssdoa
 						.getBss_id());
@@ -1109,9 +1171,6 @@ public class ObjectPackager {
 								+ sd_string);
 			}
 
-			this_bssdoa.setObjectId((Long) dependentObjectMappings
-					.get(this_bssdoa.getObjectId()));
-
 			this_bssdoa.saveMe(schema);
 
 			RestoreResults.createAndSaveObject(reId, this_bssdoa.getId()
@@ -1121,129 +1180,117 @@ public class ObjectPackager {
 							+ this_bssdoa.getSim_id() + " / "
 							+ this_bssdoa.getBss_id() + " / "
 							+ this_bssdoa.getObjectId());
-
 		}
-
 	}
-
+	
 	/**
-	 * Unpacks these 'sub' objects. Eventually need to find a way to do this
-	 * with all such objects.
 	 * 
+	 * @param key
 	 * @param schema
-	 * @param fullString
-	 * @param orig_id
-	 * @param new_id
+	 * @param reId
 	 * @param xstream
+	 * @param sim_id
+	 * @param fullString
 	 * @param actorIdMappings
 	 * @return
 	 */
-	public static void unpackSDANAO(String schema, Long reId, Long sim_id,
-			String fullString, Long orig_id, Long new_id, XStream xstream,
-			Hashtable actorIdMappings) {
-
-		List<String> sdanao_list = getSetOfObjectFromFile(fullString,
-				makeOpenTag(SharedDocActorNotificAssignObj.class),
-				makeCloseTag(SharedDocActorNotificAssignObj.class));
-
-		/*
-		 * Get full set of conversations. Only save the ones we are adding for
-		 * this conversation.
-		 */
-		for (ListIterator<String> li_i = sdanao_list.listIterator(); li_i
-				.hasNext();) {
-			String sdanao_string = li_i.next();
-
-			SharedDocActorNotificAssignObj this_sdanao = (SharedDocActorNotificAssignObj) xstream
-					.fromXML(sdanao_string);
-
-			if (this_sdanao.getSd_id().equals(orig_id)) {
-
-				// The id this had on the system it was exported from bears no
-				// relationship to the id where its being imported.
-				this_sdanao.setId(null);
-
-				this_sdanao.setSd_id(new_id);
-
-				Long newActorId = (Long) actorIdMappings.get(this_sdanao
-						.getActor_id());
-
-				this_sdanao.setSim_id(sim_id);
-				this_sdanao.setActor_id(newActorId);
-
-				this_sdanao.saveMe(schema);
-
-				RestoreResults.createAndSaveObject(reId, this_sdanao.getId()
-						.toString(), this_sdanao.getClass().toString(), "",
-						"Notification text: "
-								+ this_sdanao.getNotificationText());
-
+	public static String doClass(String key, String schema, 
+			Long reId, XStream xstream, Long sim_id, String fullString, Hashtable actorIdMappings,
+			Hashtable objectMappings, Hashtable conversationMappings, Hashtable sharedDocumentMappings,
+			 Hashtable timelineMappings, Hashtable eventMappings){
+		
+		String returnString = "";
+		
+		String startXMLTag = "<" + key + ">";
+		String endXMLTag = "</" + key + ">";
+		RestoreResults.createAndSaveNotes(reId,
+				"Looking for objects of class: " + key);
+		List this_list = getSetOfObjectFromFile(fullString, startXMLTag, endXMLTag);
+		
+		for (ListIterator<String> li_i = this_list.listIterator(); li_i.hasNext();) {
+			String sd_string = li_i.next();
+			
+			SimSectionDependentObject ssdo = null;
+				
+			if (key.equalsIgnoreCase(Conversation.class.toString())){
+				ssdo = (Conversation) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(ConvActorAssignment.class.toString())){
+				ssdo = (ConvActorAssignment) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(GenericVariable.class.toString())){
+				ssdo = (GenericVariable) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(InventoryItem.class.toString())){
+				ssdo = (InventoryItem) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(OneLink.class.toString())){
+				ssdo = (OneLink) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(SharedDocument.class.toString())){
+				ssdo = (SharedDocument) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(SharedDocActorNotificAssignObj.class.toString())){
+				ssdo = (SharedDocActorNotificAssignObj) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(TimeLine.class.toString())){
+				ssdo = (TimeLine) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(Event.class.toString())){
+				ssdo = (Event) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(Tips.class.toString())){
+				ssdo = (Tips) xstream.fromXML(sd_string);
+			} else if (key.equalsIgnoreCase(TimelineEventAssignment.class.toString())){
+				ssdo = (TimelineEventAssignment) xstream.fromXML(sd_string);
+			} else {
+				Logger.getRootLogger().warn("ObjectPackager.doClass: Trying to unpack unknown class.");
 			}
-		}
-	}
-
-	/**
-	 * Unpacks these 'sub' objects. Eventually need to find a way to do this
-	 * with all such objects.
-	 * 
-	 * @param schema
-	 * @param fullString
-	 * @param orig_id
-	 * @param new_id
-	 * @param xstream
-	 * @param actorIdMappings
-	 * @return
-	 */
-	public static void unpackageConversationActorAssignments(String schema,
-			Long reId, String fullString, Long orig_id, Long new_id,
-			XStream xstream, Hashtable actorIdMappings) {
-
-		List<String> caa_list = getSetOfObjectFromFile(fullString,
-				makeOpenTag(ConvActorAssignment.class),
-				makeCloseTag(ConvActorAssignment.class));
-
-		/*
-		 * Get full set of conversations. Only save the ones we are adding for
-		 * this conversation.
-		 */
-		for (ListIterator<String> li_i = caa_list.listIterator(); li_i
-				.hasNext();) {
-			String caa_string = li_i.next();
-
-			ConvActorAssignment this_caa = (ConvActorAssignment) xstream
-					.fromXML(caa_string);
-
-			if ((this_caa.getConv_id().equals(orig_id))
-					&& (this_caa.getActor_id() != null)) {
-
-				try {
-
-					Long newActorId = (Long) actorIdMappings.get(this_caa
-							.getActor_id());
-
-					if (newActorId != null) {
-						// The id this had on the system it was exported from
-						// bears no
-						// relationship to the id where its being imported.
-						this_caa.setId(null);
-
-						this_caa.setConv_id(new_id);
-
-						this_caa.setActor_id(newActorId);
-
-						this_caa.saveMe(schema);
-						RestoreResults.createAndSaveObject(reId, this_caa
-								.getId().toString(), this_caa.getClass()
-								.toString(), this_caa.getRole(),
-								"added actor id " + newActorId
-										+ " to conversation.");
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
+			
+			if (ssdo != null){
+				ssdo.setSimId(sim_id);
+				
+				
+				if (ssdo.getClass().equals(ConvActorAssignment.class)) {
+					ConvActorAssignment caa = (ConvActorAssignment) ssdo;
+					Long newActorId = (Long) actorIdMappings.get(caa.getActor_id());
+					caa.setActor_id(newActorId);
+					caa.setConv_id((Long) conversationMappings.get(caa.getConv_id()));
+				} else if (ssdo.getClass().equals(SharedDocActorNotificAssignObj.class)) {
+					SharedDocActorNotificAssignObj sdano = (SharedDocActorNotificAssignObj) ssdo;
+					Long newActorId = (Long) actorIdMappings.get(sdano.getActor_id());
+					sdano.setActor_id(newActorId);
+					sdano.setSd_id((Long) sharedDocumentMappings.get(sdano.getSd_id()));
+				} else if (ssdo.getClass().equals(TimelineEventAssignment.class)) {
+					TimelineEventAssignment sdano = (TimelineEventAssignment) ssdo;
+					Long newActorId = (Long) actorIdMappings.get(sdano.getCreatingActorId());
+					Long newTimeLineId = (Long) timelineMappings.get(sdano.getTimeLineId());
+					Long newEventId = (Long) eventMappings.get(sdano.getEventId());
+					
+					sdano.setCreatingActorId(newActorId);
+					sdano.setTimeLineId(newTimeLineId);
+					sdano.setEventId(newEventId);
 				}
+				
+				ssdo.saveMe(schema);
+				
+				// Save information you might need later.
+				if (ssdo.getClass().equals(Conversation.class)) {
+					Conversation conv = (Conversation) ssdo;
+					conversationMappings.put(conv.getTransit_id(), conv.getId());
+				} else if (ssdo.getClass().equals(SharedDocument.class)) {
+					SharedDocument sd = (SharedDocument) ssdo;
+					sharedDocumentMappings.put(sd.getTransit_id(), sd.getId());
+				} else if (ssdo.getClass().equals(TimeLine.class)) {
+					TimeLine sd = (TimeLine) ssdo;
+					timelineMappings.put(sd.getTransit_id(), sd.getId());
+				} else if (ssdo.getClass().equals(Event.class)) {
+					Event sd = (Event) ssdo;
+					eventMappings.put(sd.getTransit_id(), sd.getId());
+				}
+				
+				
+				objectMappings.put(key + "_" + ssdo.getTransit_id(), ssdo.getId());
+				
+				RestoreResults.createAndSaveObject(reId, ssdo.getId().toString(), ssdo.getClass().toString(), "",
+						"Found Dependent Object of class " + key + " and it had a transit id of "
+								+ ssdo.getTransit_id() + " which was mapped to an id of "
+								+ ssdo.getId());
 			}
 		}
+		
+		return returnString;
 	}
 
 	/**

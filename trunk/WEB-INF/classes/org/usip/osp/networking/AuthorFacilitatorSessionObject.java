@@ -1131,6 +1131,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	/**
 	 * Responds to items selected on the create conversation page.
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -2031,7 +2032,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				createActor(mpr, newActor);
 
 			} else if ((clear_button != null)) {
-				
+
 				actor_being_worked_on_id = null;
 			}
 		} catch (java.io.IOException ioe) {
@@ -3890,7 +3891,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			BaseSimSection bss = (BaseSimSection) li.next();
 
 			returnString += "<option value=\"" + bss.getId() + "\">"
-					+ bss.getRec_tab_heading() + "</option>" + ObjectPackager.lineTerminator;
+					+ bss.getRec_tab_heading() + "</option>"
+					+ ObjectPackager.lineTerminator;
 		}
 
 		// Link to the option that allows them to define a whole new web
@@ -3898,68 +3900,69 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		returnString += "<option value=\"new_section\" class=\"new_section\">* Create an Entirely New Section</option>";
 
 		List uc = CustomizeableSection.getAllUncustomized(schema);
-		
+
 		if (uc == null) {
 			uc = new ArrayList();
 		}
-		
+
 		Collections.sort(uc);
 
 		String rawCust = "";
 		String custCust = "";
 
-			for (ListIterator li = uc.listIterator(); li.hasNext();) {
-				CustomizeableSection cs = (CustomizeableSection) li.next();
+		for (ListIterator li = uc.listIterator(); li.hasNext();) {
+			CustomizeableSection cs = (CustomizeableSection) li.next();
 
-				// ////////////////////////////////////////////////////////
-				// Don't list sections the actor already has at this phase.
-				boolean hasItAlready = SimulationSectionAssignment
-						.determineIfActorHasThisSectionAtThisPhase(schema,
-								sim_id, actor_being_worked_on_id, phase_id, cs
-										.getId());
+			// ////////////////////////////////////////////////////////
+			// Don't list sections the actor already has at this phase.
+			boolean hasItAlready = SimulationSectionAssignment
+					.determineIfActorHasThisSectionAtThisPhase(schema, sim_id,
+							actor_being_worked_on_id, phase_id, cs.getId());
 
-				boolean forThisSimulation = false;
+			boolean forThisSimulation = false;
 
-				if (cs.getSimId() == null) {
-					forThisSimulation = true;
-				} else if (cs.getSimId().intValue() == sim_id.intValue()) {
-					forThisSimulation = true;
+			if (cs.getSimId() == null) {
+				forThisSimulation = true;
+			} else if (cs.getSimId().intValue() == sim_id.intValue()) {
+				forThisSimulation = true;
+			}
+
+			if ((!(hasItAlready)) && (forThisSimulation)) {
+
+				if (cs.isThisIsACustomizedSection()) {
+					custCust += "<option value=\"" + cs.getId().toString()
+							+ "\" class=\"player_customized_section\" >"
+							+ cs.getRec_tab_heading() + "</option>"
+							+ ObjectPackager.lineTerminator;
+				} else {
+					rawCust += "<option value=\"" + cs.getId().toString()
+							+ "\" class=\"customized_section\" >"
+							+ cs.getRec_tab_heading() + "</option>"
+							+ ObjectPackager.lineTerminator;
 				}
 
-				if ((!(hasItAlready)) && (forThisSimulation)) {
+			} // End of if they don't have this section already at this
+			// phase
+		} // End of loop over customizeable sections
 
-					if (cs.isThisIsACustomizedSection()) {
-						custCust += "<option value=\"" + cs.getId().toString()
-						+ "\" class=\"player_customized_section\" >"
-						+ cs.getRec_tab_heading() + "</option>" + ObjectPackager.lineTerminator;
-					} else {
-						rawCust += "<option value=\"" + cs.getId().toString()
-						+ "\" class=\"customized_section\" >"
-						+ cs.getRec_tab_heading() + "</option>" + ObjectPackager.lineTerminator;
-					}
-
-					
-				} // End of if they don't have this section already at this
-				// phase
-			} // End of loop over customizeable sections
-			
 		returnString = returnString + rawCust + custCust;
 
 		return returnString;
 	}
-	
-	public static void main(String args[]){
+
+	public static void main(String args[]) {
 		System.out.println("hi");
-		
-		//getImageFiles();
-		
+
+		// getImageFiles();
+
 		System.out.println("bye");
-		
+
 	}
+
 	public List getImageFiles() {
 
 		ArrayList returnList = new ArrayList();
-		
+
 		// The set of base simulation sections are read out of
 		// XML files stored in the simulation_section_information directory.
 
@@ -3968,48 +3971,54 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		File locDir = new File(fileLocation);
 
 		if (locDir == null) {
-			Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
+			Logger.getRootLogger().debug(
+					"Problem finding files at " + fileLocation); //$NON-NLS-1$
 			return returnList;
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
+				Logger.getRootLogger().debug(
+						"Problem finding files at " + fileLocation); //$NON-NLS-1$
 				return returnList;
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
-				String fName = files[ii].getName();
-				if ((fName.endsWith(".png")) || ((fName.endsWith(".gif"))) || ((fName.endsWith(".jpg")))
-						|| (fName.endsWith(".PNG")) || ((fName.endsWith(".GIF"))) || ((fName.endsWith(".JPG")))
-				) { //$NON-NLS-1$
-				try {
-					Vector thisImageVector = new Vector();
-					String fullFileLoc = fileLocation + fName;
-					String relativePath = "../osp_core/images/actors/" + fName;
-					
-					//System.out.println(fullFileLoc);
-					//System.out.println(relativePath);
-					
-					thisImageVector.add(relativePath);
-					thisImageVector.add(fName);
-					
-					returnList.add(thisImageVector);
-							
-				} catch (Exception e) {
-					Logger.getRootLogger().debug("problem reading in file " + fName); //$NON-NLS-1$
-					Logger.getRootLogger().debug(e.getMessage());
-				}
-				}
+					String fName = files[ii].getName();
+					if ((fName.endsWith(".png")) || ((fName.endsWith(".gif")))
+							|| ((fName.endsWith(".jpg")))
+							|| (fName.endsWith(".PNG"))
+							|| ((fName.endsWith(".GIF")))
+							|| ((fName.endsWith(".JPG")))) { //$NON-NLS-1$
+						try {
+							Vector thisImageVector = new Vector();
+							String fullFileLoc = fileLocation + fName;
+							String relativePath = "../osp_core/images/actors/"
+									+ fName;
+
+							// System.out.println(fullFileLoc);
+							// System.out.println(relativePath);
+
+							thisImageVector.add(relativePath);
+							thisImageVector.add(fName);
+
+							returnList.add(thisImageVector);
+
+						} catch (Exception e) {
+							Logger.getRootLogger().debug(
+									"problem reading in file " + fName); //$NON-NLS-1$
+							Logger.getRootLogger().debug(e.getMessage());
+						}
+					}
 
 				}
 			}
 
 			return returnList;
 		} // end of if found files.
-	} // end of method 
-	
+	} // end of method
+
 	/**
 	 * Handles the CRUD on creating items.
 	 * 
@@ -4041,15 +4050,15 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		// the blank document
 		String sending_page = (String) request.getParameter("sending_page");
 		if ((sending_page == null)
-				|| (!(sending_page
-						.equalsIgnoreCase("make_create_items_page")))) {
+				|| (!(sending_page.equalsIgnoreCase("make_create_items_page")))) {
 			return inventoryItem;
 		}
 
 		// If we got down to here, we must be doing some real work on a
 		// document.
 		String item_name = (String) request.getParameter("item_name");
-		String item_description = (String) request.getParameter("item_description");
+		String item_description = (String) request
+				.getParameter("item_description");
 		String item_notes = (String) request.getParameter("item_notes");
 
 		// Do create if called.
@@ -4057,7 +4066,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((create_item != null)) {
 			Logger.getRootLogger().debug(
 					"creating item of uniq name: " + item_name);
-			inventoryItem = new InventoryItem(item_name, item_description, item_notes, sim_id, true);
+			inventoryItem = new InventoryItem(item_name, item_description,
+					item_notes, sim_id, true);
 			inventoryItem.saveMe(schema);
 		}
 
@@ -4077,23 +4087,73 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return inventoryItem;
 	}
-	
-	public void handleDistributeItems(HttpServletRequest request) {
-		
-		Hashtable itemDistribution = new Hashtable();
-		
-		// Remove all previous distributions
-		//InventoryItem.removeTemplateAssignments(schema, base_id);
-		
-		// Loop over all of the actor ids found
-		
-		// Get the number of items found. If it is unintelligible, it is zero.
-		
-		// Create one item record for each item an actor has in their possession
-		
-		// Select all items for this running sim 
-		
-	}
 
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleDistributeItems(HttpServletRequest request) {
+
+		Hashtable itemDistribution = new Hashtable();
+
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("distribute_items"))) {
+
+			String ii_id = (String) request.getParameter("ii_id");
+
+			if (ii_id != null) {
+
+				InventoryItem iiTemplate = InventoryItem.getById(schema,
+						new Long(ii_id));
+
+				// Remove all previous distributions
+				InventoryItem
+						.removeTemplateAssignments(schema, new Long(ii_id));
+
+				// Loop over all of the actor ids found
+				for (Enumeration<String> e = request.getParameterNames(); e
+						.hasMoreElements();) {
+					String pname = (String) e.nextElement();
+
+					String vname = (String) request.getParameter(pname);
+					Logger.getRootLogger().debug(pname + " " + vname);
+
+					if (pname.startsWith("ii_assign_")) {
+						pname = pname.replaceAll("ii_assign_", "");
+						System.out.println("pname gets vname: " + pname
+								+ " gets " + vname);
+
+						if ((vname == null) || (vname.equalsIgnoreCase(""))
+								|| (vname.equalsIgnoreCase("null"))) {
+							vname = "0";
+						}
+						// turn vname into an int
+						int numItems = 0;
+						try {
+							numItems = new Long(vname).intValue();
+						} catch (Exception er) {
+							Logger.getRootLogger().warn(
+									"Trouble converting vname: " + vname);
+						}
+						// Create one item record for each item an actor has in
+						// their possession
+						for (int ii = 1; ii <= numItems; ++ii) {
+							InventoryItem iItem = new InventoryItem(iiTemplate
+									.getItemName(),
+									iiTemplate.getDescription(), iiTemplate
+											.getNotes(), sim_id, false);
+
+							iItem.saveMe(schema);
+
+						}
+					}
+
+				}
+
+			}
+		}
+	}
 
 } // End of class

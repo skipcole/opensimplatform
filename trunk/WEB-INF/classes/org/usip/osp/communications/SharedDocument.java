@@ -337,6 +337,7 @@ public class SharedDocument implements SimSectionDependentObject {
 			
 			SharedDocActorNotificAssignObj sdanao_copy = sdanao.createCopy();
 			sdanao_copy.setSd_id(sd.getId());
+			sdanao_copy.setRunningSimId(rs_id);
 			sdanao_copy.saveMe(schema);
 			
 		}

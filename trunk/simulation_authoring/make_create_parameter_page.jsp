@@ -101,12 +101,15 @@ controlled by them. But they can control other items, such as the budget of the 
       <table border="1" width="100%">
   <tr>
     <td><strong>Uniq Parameter Identifier</strong></td>
+    <td><strong>View Usage </strong></td>
   </tr>
         <%
 					for (ListIterator li = GenericVariable.getAllBaseGenericVariablesForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 						GenericVariable gv_l = (GenericVariable) li.next();
 		%>
-          <tr><td><a href="make_create_parameter_page.jsp?gv_id=<%= gv_l.getId() %>&queueup=true"><%= gv_l.getName() %></a></td></tr>
+          <tr><td><a href="make_create_parameter_page.jsp?gv_id=<%= gv_l.getId() %>&queueup=true"><%= gv_l.getName() %></a></td>
+            <td>Usage</td>
+          </tr>
         <% } %>
       </table>
       <p>&nbsp;</p>

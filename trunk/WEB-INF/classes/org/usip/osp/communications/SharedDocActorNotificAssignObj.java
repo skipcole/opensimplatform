@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -31,7 +32,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "SDANAO")
 @Proxy(lazy=false)
-public class SharedDocActorNotificAssignObj {
+public class SharedDocActorNotificAssignObj implements SimSectionDependentObject{
 	
 	public SharedDocActorNotificAssignObj(){
 		
@@ -55,8 +56,22 @@ public class SharedDocActorNotificAssignObj {
 	@GeneratedValue
 	private Long id;
 	
+	/** Running Sim to which this has been assigned. */
+	private Long runningSimId;
+	
 	/** Simulation to which this has been assigned. */
 	private Long sim_id;
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transitId) {
+		transit_id = transitId;
+	}
 	
 	/** The document id for which this notification is set.*/
 	private Long sd_id;
@@ -96,12 +111,20 @@ public class SharedDocActorNotificAssignObj {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public Long getRunningSimId() {
+		return runningSimId;
+	}
 
-	public Long getSim_id() {
+	public void setRunningSimId(Long runningSimId) {
+		this.runningSimId = runningSimId;
+	}
+
+	public Long getSimId() {
 		return this.sim_id;
 	}
 
-	public void setSim_id(Long sim_id) {
+	public void setSimId(Long sim_id) {
 		this.sim_id = sim_id;
 	}
 
@@ -127,6 +150,26 @@ public class SharedDocActorNotificAssignObj {
 
 	public void setNotificationText(String notificationText) {
 		this.notificationText = notificationText;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static List getAllBaseForSim(String schema, Long sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		String hql_string = "from SharedDocActorNotificAssignObj where sim_id = :sim_id and runningSimId is null"; //$NON-NLS-1$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string)
+		.setLong("sim_id", sim_id)
+		.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+
 	}
 	
 	/**
@@ -238,10 +281,20 @@ public class SharedDocActorNotificAssignObj {
 		//sdanao.set//
 		sdanao.setNotificationText(this.getNotificationText());
 		sdanao.setSd_id(this.getSd_id());
-		sdanao.setSim_id(this.getSim_id());
-		
+		sdanao.setSimId(this.getSimId());
+		sdanao.setRunningSimId(this.getRunningSimId());
 		
 		return sdanao;
+	}
+
+	@Override
+	public Long createRunningSimVersion(String schema, Long simId, Long rsId,
+			Object templateObject) {
+		// Do Nothing here
+		// When a new shared document is created for a running sim, that shared document creates all
+		// of its Conversation Actor Assignments (ConvActorAssignment) so they all point to the 
+		// correct conversation id.
+		return null;
 	}
 
 }

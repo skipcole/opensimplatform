@@ -219,6 +219,26 @@ public class GenericVariable implements SimSectionDependentObject{
 	 * @param sim_id
 	 * @return
 	 */
+	public static List getAllForSim(String schema, Long sim_id) {
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		String hql_string = "from GenericVariable where SIM_ID = :sim_id";  //$NON-NLS-1$
+		
+		List varFound = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return varFound;
+
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
 	public static GenericVariable getGVForRunningSim(String schema, Long gv_id, Long rs_id) {
 
 		GenericVariable this_gv = null;
