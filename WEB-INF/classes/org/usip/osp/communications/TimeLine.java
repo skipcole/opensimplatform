@@ -193,6 +193,19 @@ public class TimeLine  implements SimSectionDependentObject {
 		return returnTimeLine;
     }
     
+    public static List getAllBaseForSimulation(String schema, Long sim_id){
+        
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from TimeLine where simId = :sim_id and runningSimId is null")
+				.setLong("sim_id", sim_id).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+    }
+    
     /**
      * Returns all of the actors found in a schema for a particular simulation
      * 

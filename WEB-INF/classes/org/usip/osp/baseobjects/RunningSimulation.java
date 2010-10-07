@@ -184,8 +184,6 @@ public class RunningSimulation {
 
 		Simulation sim = Simulation.getById(schema, new Long(sid));
 
-		doFinalChecksOnSim(sim, schema);
-
 		// Email if desired
 		if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) { //$NON-NLS-1$
 			Logger.getRootLogger().debug("sending welcome emails"); //$NON-NLS-1$
@@ -225,7 +223,7 @@ public class RunningSimulation {
 				.getSimDependencies(schema, sim.getId());
 
 		// Create a table to list all of the objects we have created.
-		Hashtable uniqueSimObjects = new Hashtable();
+		Hashtable uniqueSimObjects = new Hashtable();		
 
 		// Loop over dependent object assignments found for this simulation
 		for (ListIterator<BaseSimSectionDepObjectAssignment> lc = depObjectAssignments
@@ -257,8 +255,7 @@ public class RunningSimulation {
 									bssdoa.getObjectId());
 					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-					// Create object - uses its own hibernate transaction to
-					// create object.
+					// Create object - uses its own hibernate transaction to create object.
 					thisRSVersionsId = template_obj.createRunningSimVersion(
 							schema, sim.getId(), this.id, template_obj);
 
@@ -269,8 +266,7 @@ public class RunningSimulation {
 				if (thisRSVersionsId == null) {
 					System.out.println("bad add on: " + uniqueKey);
 				} else {
-					// Add the objects to a hashtable based on the base template
-					// object
+					// Add the objects to a hashtable based on the base template object
 					// (so template object shared by multiple sections only
 					// contribute one new object).
 					uniqueSimObjects.put(uniqueKey, thisRSVersionsId);
@@ -289,43 +285,6 @@ public class RunningSimulation {
 			ssrsdoa.setUniqueTagName(bssdoa.getUniqueTagName());
 
 			ssrsdoa.saveMe(schema);
-
-		}
-
-	}
-
-	public void doFinalChecksOnSim(Simulation sim, String schema) {
-
-		// Making sure all actors added to broadcast chat
-		for (ListIterator<Conversation> lc = sim.getConversations(schema)
-				.listIterator(); lc.hasNext();) {
-			Conversation conv = lc.next();
-
-			if ((conv.getUniqueConvName() != null)
-					&& (conv.getUniqueConvName().equalsIgnoreCase("broadcast"))) { //$NON-NLS-1$
-
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-
-				conv
-						.setConv_actor_assigns(new ArrayList<ConvActorAssignment>());
-
-				// loop over simulation actors
-				for (ListIterator<Actor> la = sim.getActors(schema)
-						.listIterator(); la.hasNext();) {
-					Actor act = la.next();
-
-					ConvActorAssignment caa = new ConvActorAssignment();
-					caa.setActor_id(act.getId());
-					caa.setConv_id(conv.getId());
-
-					MultiSchemaHibernateUtil.getSession(schema).save(caa);
-					conv.getConv_actor_assigns(schema).add(caa);
-				}
-
-				MultiSchemaHibernateUtil.getSession(schema).save(conv);
-
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-			}
 
 		}
 

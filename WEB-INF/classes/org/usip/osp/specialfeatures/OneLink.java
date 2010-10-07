@@ -262,6 +262,27 @@ public class OneLink implements SimSectionDependentObject{
 	}
 	
 	/**
+	 * This returns the 'base' one links for a simulation. A 'base' generic variable is the archetypal 
+	 * generic variable
+	 * that is copied into a version to be edited in a particular running simulation. When the base
+	 * generic variable is copied into a copy generic variable, its id is copied into the base_id of the copy. So 
+	 * the original 'base' generic variables have their BASE_ID null, and copies have in values in that field.
+	 * @param hibernate_session
+	 * @param the_sim_id
+	 * @return
+	 */
+	public static List getAllForSim(String schema, Long the_sim_id) {
+		
+		String hql_string = "from OneLink where SIM_ID = " + the_sim_id.toString();  //$NON-NLS-1$
+	
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
+	/**
 	 * Creates, and saves to the database, a copy of this generic variable. This is used to create a version 
 	 * of a 
 	 * variable for a particular running simulation session. The copied variable

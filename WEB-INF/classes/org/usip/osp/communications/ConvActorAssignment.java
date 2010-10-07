@@ -9,13 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 
 /**
  * This class represents the assignment of an actor to a particular conversation. 
- *
- *
+ */
+ /*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or
@@ -30,13 +31,49 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "CONV_ACTOR_ASSIGNMENT")
 @Proxy(lazy = false)
-public class ConvActorAssignment {
+public class ConvActorAssignment implements SimSectionDependentObject {
 
+	public ConvActorAssignment() {
+		
+	}
+	
 	@Id 
 	@GeneratedValue
 	@Column(name = "ID")
     private Long id;
 	
+	@Column(name = "SIM_ID")
+	private Long sim_id;
+	
+	public Long getSimId() {
+		return sim_id;
+	}
+
+	public void setSimId(Long simId) {
+		sim_id = simId;
+	}
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return this.transit_id;
+	}
+
+	public void setTransit_id(Long transit_id) {
+		this.transit_id = transit_id;
+	}
+	
+	private Long running_sim_id;
+
+	public Long getRunning_sim_id() {
+		return this.running_sim_id;
+	}
+
+	public void setRunning_sim_id(Long running_sim_id) {
+		this.running_sim_id = running_sim_id;
+	}
+
 	@Column(name = "ACTOR_ID")
 	private Long actor_id;
 	
@@ -143,6 +180,21 @@ public class ConvActorAssignment {
 	}
 	
 	/** Returns a list of all conversations associated with a particular simulation. */
+	public static List getAllBaseForSim(String schema, Long sim_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List<ConvActorAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from ConvActorAssignment where sim_id = :sim_id")
+				.setLong("sim_id", sim_id)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
+	/** Returns a list of all conversations associated with a particular simulation. */
 	public static List getAllForConversation(String schema, Long conv_id){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -172,6 +224,17 @@ public class ConvActorAssignment {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return returnCAA;
+	}
+
+	@Override
+	public Long createRunningSimVersion(String schema, Long simId, Long rsId,
+			Object templateObject) {
+
+		// Do Nothing here
+		// When a new conversation is created for a running sim, that conversation creates all
+		// of its Conversation Actor Assignments (ConvActorAssignment) so they all point to the 
+		// correct conversation id.
+		return null;
 	}
 	
 }

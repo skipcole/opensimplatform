@@ -11,6 +11,9 @@
 	
 	String ii_id = (String) request.getParameter("ii_id");
 	
+	
+	afso.handleDistributeItems(request);
+	
 	InventoryItem thisItem = new InventoryItem();
 	
 	if (ii_id != null) {
@@ -47,7 +50,8 @@
               <br />
     <p>Below are listed the quantities that the players will start this simulation with. If you  add the ability for them to give or receive items, the quanties that they have at any given time may change. 
     <form id="form1" name="form1" method="post" action="make_create_items_distribute_page.jsp">
-	<input type="hidden" name="ii_id" value=<%= ii_id %>
+	<input type="hidden" name="ii_id" value=<%= ii_id %> />
+	<input type="hidden" name="sending_page" value="distribute_items"  />
       <table width="100%" border="1">
   <tr>
     <td valign="top"><strong>Actor</strong></td>
@@ -58,12 +62,11 @@
 		for (ListIterator li = actorL.listIterator(); li.hasNext();) {
 			Actor act = (Actor) li.next();
 			
-			ii += 1;
 				%>
         
           <tr><td valign="top"><%= act.getActorName() %></td>
                 <td valign="top"><label>
-                  <input type="text" name="ii_assign_<%= ii %>_<%= act.getId() %>" />
+                  <input type="text" name="ii_assign_<%= act.getId() %>" />
                 </label></td>
                 </tr>
                 <%

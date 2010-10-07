@@ -1168,11 +1168,13 @@ public class PSO_SectionMgmt {
 						conv.saveMe(afso.schema);
 
 						ConvActorAssignment caa = new ConvActorAssignment();
+						caa.setSimId(afso.sim_id);
 						caa.setActor_id(actorWithChat);
 						caa.setConv_id(conv.getId());
 						caa.saveMe(afso.schema);
 
 						ConvActorAssignment caa2 = new ConvActorAssignment();
+						caa2.setSimId(afso.sim_id);
 						caa2.setActor_id(actorWithChat2);
 						caa2.setConv_id(conv.getId());
 						caa2.saveMe(afso.schema);

@@ -148,7 +148,7 @@ public class SessionObjectBase {
 			phase_id = sim.getFirstPhaseId(schema);
 		}
 
-		return Event.packupArray(Event.getAllForSim(sim_id, phase_id, schema));
+		return Event.packupArray(Event.getAllForSimAndPhase(sim_id, phase_id, schema));
 
 	}
 

@@ -215,7 +215,7 @@ public class InventoryItem implements SimSectionDependentObject {
 
 		x.saveMe("test");
 
-		for (ListIterator<InventoryItem> li = getAllForSim("test", new Long(1))
+		for (ListIterator<InventoryItem> li = getAllBaseForSim("test", new Long(1))
 				.listIterator(); li.hasNext();) {
 			InventoryItem this_sp = li.next();
 			System.out.println(this_sp.getItemName());
@@ -230,7 +230,7 @@ public class InventoryItem implements SimSectionDependentObject {
 	 * @param simid
 	 * @return
 	 */
-	public static List getAllForSim(String schema, Long simid) {
+	public static List getAllBaseForSim(String schema, Long simid) {
 
 		if (simid == null) {
 			return new ArrayList();
@@ -241,7 +241,7 @@ public class InventoryItem implements SimSectionDependentObject {
 		List<InventoryItem> returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery(
-						"from InventoryItem where sim_id = :simid and templateObject is true")
+						"from InventoryItem where sim_id = :simid and rs_id is null")
 				.setLong("simid", simid).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -315,6 +315,9 @@ public class InventoryItem implements SimSectionDependentObject {
 
 	/** Returns the set of intial assignment objects. */
 	public static List getListOfTemplateAssignments(String schema, Long ii_id) {
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
 		List<InventoryItem> tempList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery(

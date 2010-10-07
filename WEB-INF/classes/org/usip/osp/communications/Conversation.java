@@ -125,7 +125,7 @@ public class Conversation implements SimSectionDependentObject {
 	 * Returns a list of all conversations associated with a particular
 	 * simulation.
 	 */
-	public static List getAllForSim(String schema, Long simid) {
+	public static List getAllBaseForSim(String schema, Long simid) {
 
 		if (simid == null){
 			return new ArrayList();
@@ -378,6 +378,7 @@ public class Conversation implements SimSectionDependentObject {
 
 		if (!(hasActor(schema, a_id))) {
 			ConvActorAssignment caa = new ConvActorAssignment();
+			caa.setSimId(sim_id);
 			caa.setActor_id(a_id);
 			caa.setRole(role);
 			caa.setConv_id(this.id);
@@ -470,6 +471,8 @@ public class Conversation implements SimSectionDependentObject {
 
 			ConvActorAssignment new_conv_ass = new ConvActorAssignment();
 
+			new_conv_ass.setSimId(sim_id);
+			new_conv_ass.setRunning_sim_id(rs_id);
 			new_conv_ass.setConv_id(new_conv.getId());
 			new_conv_ass.setActor_id(conv_ass.getActor_id());
 			new_conv_ass.setCan_be_added_removed(conv_ass.isCan_be_added_removed());

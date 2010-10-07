@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 
@@ -26,7 +27,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 @Entity
 @Proxy(lazy = false)
-public class Tips {
+public class Tips implements SimSectionDependentObject{
 
 	/** Database id of this Tip. */
 	@Id
@@ -174,7 +175,17 @@ public class Tips {
 	private String tipText = "";
 	
 	private Date tipLastEditDate;
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
 
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transitId) {
+		transit_id = transitId;
+	}
 
 	public Long getParentTipId() {
 		return parentTipId;
@@ -326,6 +337,13 @@ public class Tips {
 
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
+	}
+
+	@Override
+	public Long createRunningSimVersion(String schema, Long simId, Long rsId,
+			Object templateObject) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

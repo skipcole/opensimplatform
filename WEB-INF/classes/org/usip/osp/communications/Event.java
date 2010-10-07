@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.SimPhaseAssignment;
+import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
@@ -40,7 +41,7 @@ import org.usip.osp.sharing.ObjectPackager;
 @Entity
 @Table(name = "EVENT")
 @Proxy(lazy = false)
-public class Event implements EventInterface{
+public class Event implements EventInterface, SimSectionDependentObject{
 	
 	public static SimpleDateFormat similie_sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 
@@ -98,6 +99,17 @@ public class Event implements EventInterface{
 
 	/** If this event is associated with a particular timeline, record that here. */
 	private Long timelineId;
+	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transitId) {
+		transit_id = transitId;
+	}
 	
 	public Date getEventStartTime() {
 		return eventStartTime;
@@ -273,7 +285,7 @@ public class Event implements EventInterface{
 	 * @param schema
 	 * @return
 	 */
-	public static List<Event> getAllForSim(Long simid, Long phaseid, String schema) {
+	public static List<Event> getAllForSimAndPhase(Long simid, Long phaseid, String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -281,6 +293,27 @@ public class Event implements EventInterface{
 				"from Event where simId = :sim_id and phaseId = :phase_id")
 				.setString("sim_id", simid.toString())
 				.setString("phase_id", phaseid.toString())
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	/**
+	 * Returns a list of all events created for a simulation.
+	 * 
+	 * @param simid
+	 * @param schema
+	 * @return
+	 */
+	public static List<Event> getAllBaseForSim(Long simid, String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<Event> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Event where simId = :sim_id and runningSimId is null")
+				.setString("sim_id", simid.toString())
 				.list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -368,6 +401,13 @@ public class Event implements EventInterface{
 
 	@Override
 	public Long getEventParentId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Long createRunningSimVersion(String schema, Long simId, Long rsId,
+			Object templateObject) {
 		// TODO Auto-generated method stub
 		return null;
 	}
