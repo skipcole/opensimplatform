@@ -11,7 +11,6 @@
 	
 	String ii_id = (String) request.getParameter("ii_id");
 	
-	
 	afso.handleDistributeItems(request);
 	
 	InventoryItem thisItem = new InventoryItem();
@@ -27,6 +26,8 @@
 			simulation = afso.giveMeSim();
 			actorL = Actor.getAllForSimulation(afso.schema, afso.sim_id);
 		}
+	
+	Hashtable itemHash = InventoryItem.getAllAssignmentForItem(afso.schema, thisItem.getId(), afso.sim_id);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -66,7 +67,7 @@
         
           <tr><td valign="top"><%= act.getActorName() %></td>
                 <td valign="top"><label>
-                  <input type="text" name="ii_assign_<%= act.getId() %>" />
+                  <input type="text" name="ii_assign_<%= act.getId() %>" value="<%= itemHash.get(act.getId()) %>" />
                 </label></td>
                 </tr>
                 <%

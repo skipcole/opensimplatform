@@ -9,6 +9,11 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
+	if (!(afso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
+	
 	InventoryItem thisItem = afso.handleCreateItems(request);
 	
 	Simulation sim = new Simulation();	
@@ -89,7 +94,7 @@
   </tr>
         <%
 			  		int ii = 0;
-					for (ListIterator li = InventoryItem.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+					for (ListIterator li = InventoryItem.getAllTemplateForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 						InventoryItem inventoryItem = (InventoryItem) li.next();
 				%>
         

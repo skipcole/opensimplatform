@@ -254,6 +254,16 @@ public class ObjectPackager {
 	}
 	
 	/**
+	 * List Objects (Conversations, Timelines, Etc.)
+	 * Set transit id to id
+	 * Set id to null
+	 * Save XML
+	 * 
+	 * List BSSDOA
+	 * Set transit id to id
+	 * Set id to null
+	 * Save XML
+	 * 
 	 * 
 	 * @param thoseDone
 	 */
@@ -1103,6 +1113,8 @@ public class ObjectPackager {
 			String fullString, Long sim_id, XStream xstream,
 			Hashtable bssIdMappings, Hashtable actorIdMappings) {
 		
+		System.out.println("sims id is " + sim_id);
+		
 		Hashtable objectMappings = new Hashtable();
 		Hashtable conversationMappings = new Hashtable();
 		Hashtable sharedDocumentMappings = new Hashtable();
@@ -1115,17 +1127,17 @@ public class ObjectPackager {
 		
 		// !!! Note, need to add the classes in the right order, so the lookup of information
 		// such as SharedDocument.getId() from the hashtable, can work correctly.
-		classNames.add(Conversation.class.toString());
-		classNames.add(ConvActorAssignment.class.toString());
-		classNames.add(GenericVariable.class.toString());
-		classNames.add(InventoryItem.class.toString());
-		classNames.add(OneLink.class.toString());
-		classNames.add(SharedDocument.class.toString());
-		classNames.add(SharedDocActorNotificAssignObj.class.toString());
-		classNames.add(TimeLine.class.toString());
-		classNames.add(Event.class.toString());
-		classNames.add(Tips.class.toString());
-		classNames.add(TimelineEventAssignment.class.toString());
+		classNames.add(Conversation.class.toString().replaceFirst("class ", ""));
+		classNames.add(ConvActorAssignment.class.toString().replaceFirst("class ", ""));
+		classNames.add(GenericVariable.class.toString().replaceFirst("class ", ""));
+		classNames.add(InventoryItem.class.toString().replaceFirst("class ", ""));
+		classNames.add(OneLink.class.toString().replaceFirst("class ", ""));
+		classNames.add(SharedDocument.class.toString().replaceFirst("class ", ""));
+		classNames.add(SharedDocActorNotificAssignObj.class.toString().replaceFirst("class ", ""));
+		classNames.add(TimeLine.class.toString().replaceFirst("class ", ""));
+		classNames.add(Event.class.toString().replaceFirst("class ", ""));
+		classNames.add(Tips.class.toString().replaceFirst("class ", ""));
+		classNames.add(TimelineEventAssignment.class.toString().replaceFirst("class ", ""));
 		
 		
 		for (ListIterator<String> li_i = classNames.listIterator(); li_i
@@ -1134,6 +1146,7 @@ public class ObjectPackager {
 			
 			RestoreResults.createAndSaveNotes(reId,
 					"Looking for objects of class: " + key);
+			
 			doClass(key, schema, reId, xstream, sim_id, fullString, actorIdMappings,
 				objectMappings,  conversationMappings,  sharedDocumentMappings,
 				timelineMappings,  eventMappings);
@@ -1203,8 +1216,7 @@ public class ObjectPackager {
 		
 		String startXMLTag = "<" + key + ">";
 		String endXMLTag = "</" + key + ">";
-		RestoreResults.createAndSaveNotes(reId,
-				"Looking for objects of class: " + key);
+
 		List this_list = getSetOfObjectFromFile(fullString, startXMLTag, endXMLTag);
 		
 		for (ListIterator<String> li_i = this_list.listIterator(); li_i.hasNext();) {
@@ -1212,27 +1224,27 @@ public class ObjectPackager {
 			
 			SimSectionDependentObject ssdo = null;
 				
-			if (key.equalsIgnoreCase(Conversation.class.toString())){
+			if (key.equalsIgnoreCase(Conversation.class.toString().replaceFirst("class ", ""))){
 				ssdo = (Conversation) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(ConvActorAssignment.class.toString())){
+			} else if (key.equalsIgnoreCase(ConvActorAssignment.class.toString().replaceFirst("class ", ""))){
 				ssdo = (ConvActorAssignment) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(GenericVariable.class.toString())){
+			} else if (key.equalsIgnoreCase(GenericVariable.class.toString().replaceFirst("class ", ""))){
 				ssdo = (GenericVariable) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(InventoryItem.class.toString())){
+			} else if (key.equalsIgnoreCase(InventoryItem.class.toString().replaceFirst("class ", ""))){
 				ssdo = (InventoryItem) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(OneLink.class.toString())){
+			} else if (key.equalsIgnoreCase(OneLink.class.toString().replaceFirst("class ", ""))){
 				ssdo = (OneLink) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(SharedDocument.class.toString())){
+			} else if (key.equalsIgnoreCase(SharedDocument.class.toString().replaceFirst("class ", ""))){
 				ssdo = (SharedDocument) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(SharedDocActorNotificAssignObj.class.toString())){
+			} else if (key.equalsIgnoreCase(SharedDocActorNotificAssignObj.class.toString().replaceFirst("class ", ""))){
 				ssdo = (SharedDocActorNotificAssignObj) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(TimeLine.class.toString())){
+			} else if (key.equalsIgnoreCase(TimeLine.class.toString().replaceFirst("class ", ""))){
 				ssdo = (TimeLine) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(Event.class.toString())){
+			} else if (key.equalsIgnoreCase(Event.class.toString().replaceFirst("class ", ""))){
 				ssdo = (Event) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(Tips.class.toString())){
+			} else if (key.equalsIgnoreCase(Tips.class.toString().replaceFirst("class ", ""))){
 				ssdo = (Tips) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(TimelineEventAssignment.class.toString())){
+			} else if (key.equalsIgnoreCase(TimelineEventAssignment.class.toString().replaceFirst("class ", ""))){
 				ssdo = (TimelineEventAssignment) xstream.fromXML(sd_string);
 			} else {
 				Logger.getRootLogger().warn("ObjectPackager.doClass: Trying to unpack unknown class.");
@@ -1240,7 +1252,6 @@ public class ObjectPackager {
 			
 			if (ssdo != null){
 				ssdo.setSimId(sim_id);
-				
 				
 				if (ssdo.getClass().equals(ConvActorAssignment.class)) {
 					ConvActorAssignment caa = (ConvActorAssignment) ssdo;
@@ -1263,6 +1274,7 @@ public class ObjectPackager {
 					sdano.setEventId(newEventId);
 				}
 				
+				System.out.println("saving ssdo: " + ssdo);
 				ssdo.saveMe(schema);
 				
 				// Save information you might need later.
