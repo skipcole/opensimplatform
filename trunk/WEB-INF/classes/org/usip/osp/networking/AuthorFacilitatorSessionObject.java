@@ -4110,7 +4110,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				// Remove all previous distributions
 				InventoryItem
-						.removeTemplateAssignments(schema, new Long(ii_id));
+						.removeTemplateAssignments(schema, new Long(ii_id), sim_id);
 
 				// Loop over all of the actor ids found
 				for (Enumeration<String> e = request.getParameterNames(); e
@@ -4145,6 +4145,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 									iiTemplate.getDescription(), iiTemplate
 											.getNotes(), sim_id, false);
 
+							iItem.setBase_id(iiTemplate.getId());
+							iItem.setOwner_id(new Long(pname));
 							iItem.saveMe(schema);
 
 						}

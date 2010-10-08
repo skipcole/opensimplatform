@@ -12,6 +12,14 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents an inventory Item that a player may have.
+ * 
+ * There are 3 categories of these item objects:
+	Category 1.) Template - These are iconical items that are first created.<br />
+		Template is true, rsid is null
+	Category 2.) Actor Assigned - template items doled out to actors by the sim author.<br />
+		Template is false, rsid is null
+	Category 3.) In Play
+		Template is false, rsid is not null
  */
 /*
  * 
@@ -222,6 +230,32 @@ public class InventoryItem implements SimSectionDependentObject {
 		}
 
 	}
+	
+	/**
+	 * Returns all of the template items for a simulation.
+	 * 
+	 * @param schema
+	 * @param simid
+	 * @return
+	 */
+	public static List getAllTemplateForSim(String schema, Long simid) {
+
+		if (simid == null) {
+			return new ArrayList();
+		}
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InventoryItem> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from InventoryItem where sim_id = :simid and rs_id is null and templateObject is true")
+				.setLong("simid", simid).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
 
 	/**
 	 * Returns all of the template items for a simulation.
@@ -248,7 +282,28 @@ public class InventoryItem implements SimSectionDependentObject {
 
 		return returnList;
 	}
+	/** Returns the set of intial assignment objects. 
+	 * 
+	 * */
+	public static List getAllActorAssignedForSim(String schema, Long simid) {
 
+		if (simid == null) {
+			return new ArrayList();
+		}
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InventoryItem> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from InventoryItem where sim_id = :simid and rs_id is null and templateObject is false")
+				.setLong("simid", simid).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
 	/**
 	 * Pulls the simulation out of the database base on its id and schema.
 	 * 
@@ -267,6 +322,27 @@ public class InventoryItem implements SimSectionDependentObject {
 		return inventoryItem;
 
 	}
+	
+	public static List getAllItemAssignmentsForSim(String schema, Long ii_id, Long simid) {
+
+		if (simid == null) {
+			return new ArrayList();
+		}
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InventoryItem> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from InventoryItem where sim_id = :simid and base_id = :ii_id and rs_id is null")
+				.setLong("simid", simid)
+				.setLong("ii_id", ii_id)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
 
 	/**
 	 * Returns a hashtable that lists all of the actor ids who own these items,
@@ -276,16 +352,16 @@ public class InventoryItem implements SimSectionDependentObject {
 	 * @param ii_id
 	 * @return
 	 */
-	public static Hashtable getAllAssignmentForItem(String schema, Long ii_id) {
+	public static Hashtable getAllAssignmentForItem(String schema, Long base_id, Long sim_id) {
 
 		Hashtable returnTable = new Hashtable();
 
-		if (ii_id == null) {
+		if (base_id == null) {
 			return returnTable;
 		}
 
-		List<InventoryItem> tempList = getListOfTemplateAssignments(schema,
-				ii_id);
+		List<InventoryItem> tempList = getAllItemAssignmentsForSim(schema,
+				base_id, sim_id);
 
 		for (ListIterator<InventoryItem> li = tempList.listIterator(); li
 				.hasNext();) {
@@ -313,22 +389,7 @@ public class InventoryItem implements SimSectionDependentObject {
 		return returnTable;
 	}
 
-	/** Returns the set of intial assignment objects. */
-	public static List getListOfTemplateAssignments(String schema, Long ii_id) {
-		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
-		List<InventoryItem> tempList = MultiSchemaHibernateUtil
-				.getSession(schema)
-				.createQuery(
-						"from InventoryItem where base_id = :ii_id and templateObject is true")
-				.setLong("ii_id", ii_id).list(); //$NON-NLS-1$
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return tempList;
-
-	}
 
 	/**
 	 * Removes all of the template assignments for an item.
@@ -336,10 +397,10 @@ public class InventoryItem implements SimSectionDependentObject {
 	 * @param schema
 	 * @param base_id
 	 */
-	public static void removeTemplateAssignments(String schema, Long base_id) {
+	public static void removeTemplateAssignments(String schema, Long base_id, Long sim_id) {
 		
-		List<InventoryItem> tempList = getListOfTemplateAssignments(schema,
-				base_id);
+		List<InventoryItem> tempList = getAllItemAssignmentsForSim(schema,
+				base_id, sim_id);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		for (ListIterator<InventoryItem> li = tempList.listIterator(); li
