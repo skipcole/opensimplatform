@@ -35,7 +35,17 @@
               <br />
     <p>Select the simulation you will be un-packaging.</p>
     <p> 
-      <% for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
+      <% 
+	  	ArrayList loss = new ArrayList();
+		
+		for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
+			String sim = (String) li.next();
+			loss.add(sim);	
+		}
+		
+		Collections.sort(loss);
+	  
+	  for (ListIterator li = loss.listIterator(); li.hasNext();) {
 			String sim = (String) li.next(); %>
       Load:<a href="unpackage_details.jsp?loaddetails=true&filename=<%= sim %>"> <%= sim %></a><br />
       <% } %>

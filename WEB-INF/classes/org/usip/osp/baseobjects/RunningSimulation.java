@@ -12,6 +12,7 @@ import org.usip.osp.communications.Alert;
 import org.usip.osp.communications.Emailer;
 import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.specialfeatures.InventoryItem;
 import org.apache.log4j.*;
 
 /**
@@ -287,7 +288,17 @@ public class RunningSimulation {
 			ssrsdoa.saveMe(schema);
 
 		}
-
+		
+		// Get objects that may not have been assigned.
+		List iItems = InventoryItem.getAllActorAssignedForSim(schema, this.sim_id);
+		for (ListIterator<InventoryItem> iList = iItems.listIterator(); iList.hasNext();) {
+			InventoryItem this_item = iList.next();
+			
+			//Make copy for this running sim.
+			this_item.createRunningSimVersion(schema, this.sim_id, this.getId(), this_item);
+			
+		}
+		
 	}
 
 	/**
