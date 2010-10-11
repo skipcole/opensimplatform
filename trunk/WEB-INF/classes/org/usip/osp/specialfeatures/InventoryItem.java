@@ -106,8 +106,13 @@ public class InventoryItem implements SimSectionDependentObject {
 	@Override
 	public Long createRunningSimVersion(String schema, Long simId, Long rsId,
 			Object templateObject) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		InventoryItem ii = (InventoryItem) templateObject;
+		ii.setId(null);
+		ii.setRs_id(rsId);
+		ii.saveMe(schema);
+		
+		return ii.getId();
 	}
 
 	@Override
@@ -323,6 +328,13 @@ public class InventoryItem implements SimSectionDependentObject {
 
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param ii_id
+	 * @param simid
+	 * @return
+	 */
 	public static List getAllItemAssignmentsForSim(String schema, Long ii_id, Long simid) {
 
 		if (simid == null) {
@@ -337,6 +349,30 @@ public class InventoryItem implements SimSectionDependentObject {
 						"from InventoryItem where sim_id = :simid and base_id = :ii_id and rs_id is null")
 				.setLong("simid", simid)
 				.setLong("ii_id", ii_id)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param owner_id
+	 * @param rs_id
+	 * @return
+	 */
+	public static List getAllItemsForActor(String schema, Long owner_id, Long rs_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InventoryItem> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from InventoryItem where owner_id = :owner_id and rs_id = :rs_id")
+				.setLong("owner_id", owner_id)
+				.setLong("rs_id", rs_id)
 				.list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

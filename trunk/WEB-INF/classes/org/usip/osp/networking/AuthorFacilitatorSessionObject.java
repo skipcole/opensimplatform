@@ -88,6 +88,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public static final int PASSWORD_MISMATCH = 1;
 
 	public List tempSimSecList = new ArrayList();
+	
+	
+	static {
+		makeUploadDir();
+		
+	}
 
 	/**
 	 * Unpacks a simulation from an XML file.
@@ -176,8 +182,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				for (ListIterator<Actor> li = ctrl_actors.listIterator(); li
 						.hasNext();) {
 					Actor this_act = li.next();
-					sim.addControlSectionsToAllPhasesOfControl(this.schema,
-							this_act);
+
 				}
 
 				// I'm not really sure why we are saving the simulation here
@@ -2116,9 +2121,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						MultiSchemaHibernateUtil.getSession(schema).flush();
 						MultiSchemaHibernateUtil
 								.commitAndCloseTransaction(schema);
-
-						sim.addControlSectionsToAllPhasesOfControl(this.schema,
-								actorOnScratchPad);
 					}
 
 				} else {
@@ -2254,8 +2256,149 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleCreateActorImages(HttpServletRequest request) {
 
-	public void makeUploadDir() {
+		String actorid = "";
+
+		try {
+			MultipartRequest mpr = new MultipartRequest(request,
+					USIP_OSP_Properties.getValue("uploads"));
+
+			String update_actor = (String) mpr.getParameter("update_actor");
+
+			actorid = (String) mpr.getParameter("actorid");
+
+			if ((update_actor != null)
+					&& (update_actor.equalsIgnoreCase("Update Actor"))) {
+
+				actor_being_worked_on_id = new Long((String) mpr
+						.getParameter("actorid"));
+
+				Actor actorOnScratchPad = Actor.getById(schema,
+						actor_being_worked_on_id);
+
+				createActor(mpr, actorOnScratchPad);
+
+			} 
+		} catch (java.io.IOException ioe) {
+			Logger.getRootLogger().debug(
+					"error in edit actor:" + ioe.getMessage());
+
+			actorid = (String) request.getParameter("actorid");
+			if (actorid != null) {
+				actor_being_worked_on_id = new Long(actorid);
+			}
+
+		} catch (Exception e) {
+			Logger.getRootLogger().debug(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Creating actor images.
+	 * 
+	 * @param mpr
+	 * @param actorOnScratchPad
+	 */
+	public void createActorImages(MultipartRequest mpr, Actor actorOnScratchPad){
+
+		try {
+
+			String update_actor = (String) mpr.getParameter("update_actor");
+
+			String MAX_FILE_SIZE = (String) mpr.getParameter("MAX_FILE_SIZE");
+
+			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
+
+
+			if (update_actor != null) {
+				Logger.getRootLogger().debug("setting actor images");
+
+				String _sim_id = (String) mpr.getParameter("sim_id");
+				Simulation sim = Simulation.getById(schema, sim_id);
+				sim.updateLastEditDate(schema);
+
+				actorOnScratchPad.setSim_id(new Long(_sim_id));
+
+				// ////////////////////////////////////////////
+				// Image portion of save
+				String initFileName = mpr.getOriginalFileName("uploadedfile");
+
+				if ((initFileName != null)
+						&& (initFileName.trim().length() > 0)) {
+
+					actorOnScratchPad.setImageFilename(mpr
+							.getOriginalFileName("uploadedfile"));
+
+					File fileData = mpr.getFile("uploadedfile");
+
+					Logger.getRootLogger()
+							.debug("File is " + fileData.length());
+
+					if (fileData.length() <= max_file_longvalue) {
+						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
+								actorOnScratchPad.getImageFilename(), mpr
+										.getFile("uploadedfile"));
+					} else {
+						this.errorMsg = "Selected image file too large.";
+						actorOnScratchPad
+								.setImageFilename("no_image_default.jpg");
+					}
+
+				}
+
+				// ////////////////////////////////////////////
+				// Image portion of save
+				String initThumbFileName = mpr.getOriginalFileName("uploaded_thumb_file");
+
+				if ((initThumbFileName != null)
+						&& (initThumbFileName.trim().length() > 0)) {
+
+					actorOnScratchPad.setImageThumbFilename(mpr
+							.getOriginalFileName("uploaded_thumb_file"));
+
+					File fileData = mpr.getFile("uploaded_thumb_file");
+
+					Logger.getRootLogger()
+							.debug("File is " + fileData.length());
+
+					if (fileData.length() <= max_file_longvalue) {
+						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
+								actorOnScratchPad.getImageThumbFilename(), mpr
+										.getFile("uploaded_thumb_file"));
+					} else {
+						this.errorMsg += "Selected thumbnail image file too large.";
+						actorOnScratchPad
+								.setImageThumbFilename("no_image_default.jpg");
+					}
+
+				}
+
+				actorOnScratchPad.saveMe(schema);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.getRootLogger().debug(
+					"problem in create actor: " + e.getMessage());
+
+			try {
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			} catch (Exception e_ignored) {
+				Logger.getRootLogger()
+						.warn("Difficulty in closing connection.");
+				Logger.getRootLogger().warn(e_ignored.getMessage());
+			}
+		}
+	}
+
+	public static void makeUploadDir() {
 
 		try {
 			new File("uploads").mkdir();
