@@ -1844,9 +1844,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String command = (String) request.getParameter("command");
 		if (command != null) {
 
-			if (command.equalsIgnoreCase("Clear")) { //$NON-NLS-1$
-				return inject;
-			} else if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
+			if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
 				inject.setInject_name(inject_name);
 				inject.setInject_text(inject_text);
 				inject.setInject_Notes(inject_notes);
@@ -1857,7 +1855,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				addInjectDefaultRecipients(schema, targettedPeople, inject,
 						false);
 
-			} else if (command.equalsIgnoreCase("Update")) {
+			} else if (command.equalsIgnoreCase("Update Inject")) {
 				inject = Inject.getById(schema, new Long(inj_id));
 				inject.setInject_name(inject_name);
 				inject.setInject_text(inject_text);

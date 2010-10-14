@@ -109,7 +109,7 @@
   </tr>
         <%
 			  		int ii = 0;
-					for (ListIterator li = Conversation.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+					for (ListIterator li = Conversation.getAllBaseForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 						Conversation conv = (Conversation) li.next();
 				%>
         

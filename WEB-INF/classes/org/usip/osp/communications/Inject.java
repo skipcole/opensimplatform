@@ -2,15 +2,11 @@ package org.usip.osp.communications;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.*;
 
 /**
  * This class represents a piece of information (an inject) thrust upon the players.
@@ -30,7 +26,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "INJECTS")
 @Proxy(lazy=false)
-public class Inject implements LearningEvent{
+public class Inject implements CreatesRespondableObjects{
 
     /** Database id of this Inject. */
 	@Id
@@ -171,6 +167,26 @@ public class Inject implements LearningEvent{
 
 	public void setTypicalQuestionsAndResponses(String typicalQuestionsAndResponses) {
 		this.typicalQuestionsAndResponses = typicalQuestionsAndResponses;
+	}
+
+	@Override
+	public void createRespondableObject(String schema, Long simId, Long rsId, Long phase_id, 
+			Long actor_id, String userName, String userDisplayName) {
+		
+		RespondableObject ro = new RespondableObject();
+		
+		ro.setSimId(simId);
+		ro.setRsId(rsId);
+		ro.setObjectId(this.getId());
+		ro.setClassName(Inject.class.toString().replaceFirst("class ", ""));
+		
+		ro.setCreatingActorId(actor_id);
+		ro.setPhaseId(phase_id);
+		
+		ro.setResponseObjectSynopsis(this.getInject_text());
+		
+		ro.saveMe(schema);
+		
 	}
 	
 	

@@ -140,7 +140,7 @@
           <p>Below are listed all the TimeLines for this simulation.</p>
           <table>
             <%
-		List timelineList = TimeLine.getAllForSimulation(afso.schema, afso.sim_id);
+		List timelineList = TimeLine.getAllBaseForSimulation(afso.schema, afso.sim_id);
 		
 		for (ListIterator li = timelineList.listIterator(); li.hasNext();) {
 			TimeLine tim = (TimeLine) li.next();

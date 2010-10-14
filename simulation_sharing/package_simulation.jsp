@@ -83,7 +83,18 @@
       <p>Your currently exported simulations:</p>
       <p> 
       <ul>
-        <% for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
+        <% 
+		
+		ArrayList loss = new ArrayList();
+		
+		for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
+			String sim = (String) li.next();
+			loss.add(sim);	
+		}
+		
+		Collections.sort(loss);
+		
+		for (ListIterator li = loss.listIterator(); li.hasNext();) {
 			String sim = (String) li.next(); %>
         <li><a href="./packaged_simulations/<%= sim %>" target="_new"><%= sim %></a></li>
 	  <% } %>

@@ -1,7 +1,10 @@
 package org.usip.osp.baseobjects.core;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.communications.Tips;
 import org.usip.osp.networking.SessionObjectBase;
@@ -44,6 +47,17 @@ public class TipsCustomizer extends Customizer {
 	public void handleCustomizeSection(HttpServletRequest request,
 			SessionObjectBase afso, CustomizeableSection cs) {
 
+		Tips tip = new Tips();
+		
+		List bssdoas = BaseSimSectionDepObjectAssignment.getObjectsForSection(afso.schema, cs.getId());
+		
+		if ((bssdoas == null) || (bssdoas.size() == 0)){
+			
+		} else {
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) bssdoas.get(0);
+			tip = (Tips) BaseSimSectionDepObjectAssignment.pullOutObject(afso.schema, bssdoa);
+		}
+		
 		tip = Tips.getBySimActorPhaseSection(afso.sim_id,
 				afso.actor_being_worked_on_id, afso.phase_id, cs.getId(),
 				afso.schema, true);
@@ -59,7 +73,7 @@ public class TipsCustomizer extends Customizer {
 
 			String tip_page_text = request.getParameter("tip_page_text");
 
-			Tips tip = new Tips();
+			
 
 			tip.setTipText(tip_page_text);
 			tip.setActorId(afso.actor_being_worked_on_id);
@@ -70,6 +84,13 @@ public class TipsCustomizer extends Customizer {
 			tip.setBaseTip(true);
 
 			tip.saveMe(afso.schema);
+			
+			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, cs.getId());
+			
+			@SuppressWarnings("unused")
+			BaseSimSectionDepObjectAssignment bssdoa_gv = new BaseSimSectionDepObjectAssignment(
+					cs.getId(), "org.usip.osp.specialfeatures.GenericVariable", 1, gvId, afso.sim_id, afso.schema);
+	
 
 		}
 

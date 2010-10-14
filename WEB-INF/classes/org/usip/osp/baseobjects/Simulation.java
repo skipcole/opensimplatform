@@ -30,7 +30,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "SIMULATIONS")
 @Proxy(lazy = false)
-public class Simulation implements ExportableObject{
+public class Simulation implements ExportableObject, Comparable{
 
 	/** Database id of this Simulation. */
 	@Id
@@ -650,6 +650,14 @@ public class Simulation implements ExportableObject{
 
 	public void setListingKeyWords(String listingKeyWords) {
 		this.listingKeyWords = listingKeyWords;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+
+		Simulation sim = (Simulation) arg0;
+
+		return -(sim.getDisplayName().compareTo(this.getDisplayName()));
 	}
 	
 

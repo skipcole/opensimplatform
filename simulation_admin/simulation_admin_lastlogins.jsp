@@ -37,7 +37,19 @@
   
   		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
 		
-  		for (ListIterator li = User.getAll(afso.schema, true).listIterator(); li.hasNext();) {
+		ArrayList usersList = new ArrayList();
+		
+		 for (ListIterator li = User.getAll(afso.schema, true).listIterator(); li.hasNext();) {
+			
+			User user = (User) li.next();
+			
+			usersList.add(user);
+			
+		}
+		
+		Collections.sort(usersList);
+		
+  		for (ListIterator li = usersList.listIterator(); li.hasNext();) {
 			
 			User user = (User) li.next();
 			
