@@ -53,7 +53,7 @@
                 <li><a href="make_create_parameter_page.jsp">Add Parameter</a> (?) - Add a value that can be adjusted during a simulation.</li>
                 <li><a href="make_create_items_page.jsp">Create Inventory Items</a> (?) - Create and then add items to your player's inventory. </li>
                 <li><a href="incorporate_underlying_model.jsp">Incorporate Underlying Model</a> (work in progress) (?) - Add automated computation to your simulation. </li>
-                <li><a href="timeline_editor.jsp">Timeline Creator</a> (?) - Add a sequence of events to your simulation. </li>
+                <li><a href="timeline_creator.jsp">Timeline Creator</a> (?) - Add a sequence of events to your simulation. </li>
               </ul>
               <p>&nbsp;</p>
               <br />

@@ -29,7 +29,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "USERS")
 @Proxy(lazy = false)
-public class User {
+public class User implements Comparable{
 
 	/** Database id of this User. */
 	@Id
@@ -637,4 +637,15 @@ public class User {
 
         return user;
     }
+
+	@Override
+	public int compareTo(Object arg0) {
+		User user = (User) arg0;
+		
+		if ((user.getBu_full_name() == null) || (this.getBu_full_name() == null)){
+			return 0;
+		}
+
+		return -(user.getBu_full_name().compareTo(this.getBu_full_name()));
+	}
 }

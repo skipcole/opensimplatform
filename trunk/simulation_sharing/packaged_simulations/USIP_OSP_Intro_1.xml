@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SIM_PACKAGE_OBJECT>
 <OSP_VERSION>0.9.0</OSP_VERSION>
-<EXPORT_DATE>9/15/10 2:50 PM</EXPORT_DATE>
+<EXPORT_DATE>10/11/10 2:00 PM</EXPORT_DATE>
 <org.usip.osp.baseobjects.SimulationVersion>
   <transitId>1</transitId>
   <name>USIP OSP Intro</name>
@@ -16,7 +16,7 @@
   <softwareVersion>0.9.0</softwareVersion>
   <blurb>A simulation just to introduce new authors to the player interface.</blurb>
   <allowPlayerAutoreg>false</allowPlayerAutoreg>
-  <introduction>&lt;span style=&quot;font-weight: bold;&quot;&gt;Welcome!&lt;/span&gt;&lt;br&gt;&lt;br&gt;This is a brief sample simulation to show you what a player&apos;s world will look like to them. There is nothing to do here other than to investigate this interface. We included several of the frequently used tools here, but normally it is not likely that all of them would appear all at once.&lt;br&gt;&lt;br&gt;Across the top of your screen, you will notice information such as the name of the simulation, the phase it is in, and your role in this simulation. Also at the top, you should see a set of tabs. Right now you are reading these words on the &apos;Introduction&apos; tab. These tabs, also referred to as simulation sections, have been defined by the simulation author. These tab headings may change during a simulation providing the players with different things they can see or do, and different players may have completely different set of sections (tab headings.)&lt;br&gt;&lt;br&gt;At the bottom, you will see the copyright information for the simulation. The simulation author has also defined that.&lt;br&gt;&lt;br&gt;Please look at the rest of the tabs to see what the different sections will look like. If you would like to be sure that you have hit everything, you may print out the &apos;Check List&apos; page and use it to check off things as you go.&lt;br&gt;&lt;br&gt;Please note, that a simulation in action involves the deep involvement of the players. They will interact with the computer, and with each other. The simulation really takes place more in their minds than anywhere else. This interface provides the tools (chat, email, information, web sites, etc.) to allow there simulated reality to be constructed.&lt;br&gt;&lt;br&gt;Sincerely,&lt;br&gt;Your USIP OSP Team&lt;br&gt;&lt;br&gt;</introduction>
+  <introduction>&lt;span style=&quot;font-weight: bold;&quot;&gt;Welcome!&lt;/span&gt;&lt;br&gt;&lt;br&gt;This is a brief sample simulation to show you what a player&apos;s world will look like to them. There is nothing to do here other than to investigate this interface. We included several of the frequently used tools here, but normally it is not likely that all of them would appear all at once.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Your First Task&lt;/span&gt;&lt;br&gt;Across the top of your screen, you will notice information such as the name of the simulation, the phase it is in, and your role in this simulation. Also at the top, you should see a set of tabs. Right now you are reading these words on the &apos;Introduction&apos; tab. These tabs, also referred to as simulation sections, have been defined by the simulation author. These tab headings may change during a simulation providing the players with different things they can see or do. Different players may have completely different set of tab headings.&lt;br&gt;&lt;br&gt;Please note, that a simulation in action involves the deep involvement of the players. They will interact with the computer, and with each other. The simulation really takes place more in their minds than anywhere else. This interface provides the tools (chat, email, information, web sites, etc.) to allow there simulated reality to be constructed.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Your Next Task&lt;/span&gt;&lt;br&gt;Go to the green &apos;Check List&apos; tab above. Print it off and use it to record that you have seen all of the different tabs available in this simulation.&lt;br&gt;&lt;br&gt;Sincerely,&lt;br&gt;Your USIP OSP Team&lt;br&gt;&lt;br&gt;</introduction>
   <learningObjvs>To just show people new to the USIP OSP what the player interface looks like.&lt;br&gt;</learningObjvs>
   <audience>Anyone who wants a quick glimpse at what the USIP OSP can provide.&lt;br&gt;</audience>
   <plannedPlayIdeas>This is just a place for the people new to the platform to look around in it at their leisure.&lt;br&gt;</plannedPlayIdeas>
@@ -26,7 +26,7 @@
   <copyrightString>Copyright 2010.</copyrightString>
   <isReadyForPublicListing>false</isReadyForPublicListing>
   <listingKeyWords></listingKeyWords>
-  <lastEditDate class="sql-timestamp">2010-09-08 07:27:53.0</lastEditDate>
+  <lastEditDate class="sql-timestamp">2010-10-11 04:29:43.0</lastEditDate>
 </org.usip.osp.baseobjects.Simulation>
 <org.usip.osp.baseobjects.Actor>
   <sim__id>1</sim__id>
@@ -35,8 +35,8 @@
   <public__description>Stuff everyone knows about Player A.&lt;br&gt;</public__description>
   <semi__public__description>Stuff everyone only players close to Player A know.&lt;br&gt;</semi__public__description>
   <private__description>Stuff only Player A knows about themselves: their hidden motives and opinions.&lt;br&gt;</private__description>
-  <imageFilename>no_image_default.jpg</imageFilename>
-  <imageThumbFilename></imageThumbFilename>
+  <imageFilename>player_a.png</imageFilename>
+  <imageThumbFilename>player_a_thumb.png</imageThumbFilename>
   <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
   <control__actor>false</control__actor>
   <npc>false</npc>
@@ -109,7 +109,7 @@
   <timePasses>false</timePasses>
   <time__passage__mechanism>0</time__passage__mechanism>
   <time__advances__automatically>false</time__advances__automatically>
-  <order>9999</order>
+  <order>3</order>
 </org.usip.osp.baseobjects.SimulationPhase>
 
 <org.usip.osp.baseobjects.SimPhaseAssignment>
@@ -251,7 +251,7 @@
   <sendUserId>false</sendUserId>
 </org.usip.osp.baseobjects.BaseSimSection>
 <org.usip.osp.baseobjects.BaseSimSection>
-  <transit__id>45</transit__id>
+  <transit__id>46</transit__id>
   <creatingOrganization>org.usip.osp.</creatingOrganization>
   <uniqueName>Write AAR</uniqueName>
   <version>1</version>
@@ -280,7 +280,7 @@
   <hasCustomizer>true</hasCustomizer>
   <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
   <numDependentObjects>0</numDependentObjects>
-  <transit__id>50</transit__id>
+  <transit__id>51</transit__id>
   <creatingOrganization>org.usip.osp.</creatingOrganization>
   <uniqueName>Text Page</uniqueName>
   <version>1</version>
@@ -307,11 +307,11 @@
   <specificMakePage>customize_section_pages/core/make_cast_page.jsp</specificMakePage>
   <contents>
     <entry>
-      <string>display_control</string>
+      <string>display_unassigned</string>
       <string>true</string>
     </entry>
     <entry>
-      <string>display_unassigned</string>
+      <string>display_control</string>
       <string>true</string>
     </entry>
   </contents>
@@ -319,7 +319,7 @@
   <hasCustomizer>true</hasCustomizer>
   <customizerClassName>org.usip.osp.baseobjects.core.CastCustomizer</customizerClassName>
   <numDependentObjects>0</numDependentObjects>
-  <transit__id>51</transit__id>
+  <transit__id>52</transit__id>
   <creatingOrganization>org.usip.osp.baseobjects.</creatingOrganization>
   <uniqueName>Customized Cast</uniqueName>
   <version>1</version>
@@ -408,8 +408,7 @@
   <hasASpecificMakePage>true</hasASpecificMakePage>
   <specificMakePage>customize_section_pages/core/make_text_page.jsp</specificMakePage>
   <contents/>
-  <bigString>In this small sample simulation we just want to introduce you to a few basic sections that are commonly seen by the players and facilitators. To help guide your reading, you may want to print this page out and check off the following sections below as you see them. &lt;br&gt;&lt;br&gt;Hint: To complete this checklist, you will either need to login as each of the three players, or log in as Control, who can switch into any of the other players. Items marked with a &apos;*&apos; are only visible to the Control Player.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items to See in the Started Phase&lt;/span&gt;&lt;br&gt;___ Introduction&lt;br&gt;___ Schedule&lt;br&gt;___ Announcements&lt;br&gt;___ Cast&lt;br&gt;___ Chat&lt;br&gt;___ Background Information (for A)&lt;br&gt;___ Background Information (for B)&lt;br&gt;___ Email&lt;br&gt;___ Email Master *&lt;br&gt;___ Web Links&lt;br&gt;___ Timeline *&lt;br&gt;___ Check List&lt;br&gt;___ Control *&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Change Phase&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Change Your Role&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Make Announcement&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Push Injects&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Swap/Remove/Add Players&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ View Last Logins&lt;br&gt;&lt;br&gt;(As the Control Player, use the &apos;Change Phase&apos; page to move the simulation into the &apos;Reflection&apos; phase.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items to see in the Reflection Phase&lt;/span&gt;&lt;br&gt;___ Reflection&lt;br&gt;___ View Player Reflection*&lt;br&gt;___ Write AAR*&lt;br&gt;&lt;br&gt;(As the Control Player, use the &apos;Change Phase&apos; page to move the simulation into the &apos;Completed&apos; phase.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items to see in the Completed Phase&lt;/span&gt;&lt;br&gt;&#x0D;
-___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&apos;button&apos; &quot; +&quot;onClick=&apos;window.print()&apos; &quot; +&quot;class=&apos;printbutton&apos; &quot; +&quot;value=&apos;Print This Page&apos;/&gt;&quot;);&lt;/script&gt;&lt;input onclick=&quot;window.print()&quot; class=&quot;printbutton&quot; value=&quot;Print This Page&quot; type=&quot;button&quot;&gt;&lt;input onclick=&quot;window.print()&quot; class=&quot;printbutton&quot; value=&quot;Print This Page&quot; type=&quot;button&quot;&gt;</bigString>
+  <bigString>In this small sample simulation we just want to introduce you to a few &#x0D;basic sections that are commonly seen by the players and facilitators. &#x0D;To help guide your reading, you may want to print this page out and &#x0D;check off the following sections below as you see them. &lt;br&gt;&lt;br&gt;Hint: To&#x0D; complete this checklist, you will either need to login as each of the &#x0D;three players, or log in as Control, who can switch into any of the &#x0D;other players. &lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items All Players Can See in the Started Phase&lt;/span&gt;&lt;br&gt;___ Introduction&lt;br&gt;___ Schedule&lt;br&gt;___ Announcements&lt;br&gt;___ Cast&lt;br&gt;___ Chat&lt;br&gt;___ Web Links (This is a page where you can add an article/map for all players to reference.)&lt;br&gt;___ Check List&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Additional Items to See in the Started Phase As Control&lt;br&gt;&lt;/span&gt;___ Email Master (On this page the control player can see everyone&apos;s email.)&lt;br&gt;___ Timeline&lt;br&gt;___ Control (From this tab, you can see enter each of the following pages.)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; ___ Change Phase&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Change Your Role&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Make Announcement&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Push Injects&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ Swap/Remove/Add Players&lt;br&gt;&amp;nbsp;&amp;nbsp; &amp;nbsp;___ View Last Logins&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Additional Items to See in the Started Phase As Player A/B&lt;br&gt;&lt;/span&gt;___ Background Information (for A/B)&lt;br&gt;___ Email&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;&lt;br&gt;&lt;/span&gt;(As the Control Player, use the &apos;Change Phase&apos; page to move the simulation into the &apos;Reflection&apos; phase.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items &lt;/span&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;All Players Can See in the&lt;/span&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt; Reflection Phase&lt;/span&gt;&lt;br&gt;___ Reflection&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Additional Items to see in the Reflection Phase as Control&lt;/span&gt;&lt;br&gt;___ View Player Reflection&lt;br&gt;___ Write AAR&lt;br&gt;&lt;br&gt;(As the Control Player, use the &apos;Change Phase&apos; page to move the simulation into the &apos;Completed&apos; phase.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-weight: bold;&quot;&gt;Items to see in the Completed Phase as Any Player&lt;/span&gt; &lt;br&gt;&#x0D;___ AAR&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;input class=&quot;printbutton&quot; value=&quot;Print This Page&quot; type=&quot;button&quot;&gt;</bigString>
   <hasCustomizer>true</hasCustomizer>
   <customizerClassName>org.usip.osp.baseobjects.core.TextPageCustomizer</customizerClassName>
   <numDependentObjects>0</numDependentObjects>
@@ -745,7 +744,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <tab__position>2</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Schedule</tab__heading>
-  <base__sec__id>50</base__sec__id>
+  <base__sec__id>51</base__sec__id>
   <baseUniqueName>Text Page</baseUniqueName>
   <baseVersion>1</baseVersion>
   <url></url>
@@ -764,7 +763,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <tab__position>2</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Schedule</tab__heading>
-  <base__sec__id>50</base__sec__id>
+  <base__sec__id>51</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
@@ -783,7 +782,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <tab__position>2</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Schedule</tab__heading>
-  <base__sec__id>50</base__sec__id>
+  <base__sec__id>51</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
@@ -802,32 +801,13 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <tab__position>2</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Schedule</tab__heading>
-  <base__sec__id>50</base__sec__id>
+  <base__sec__id>51</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
   <page__file__name>text_page.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
-  <simSubSection>false</simSubSection>
-  <simSubSectionIndex>0</simSubSectionIndex>
-  <sendString></sendString>
-</org.usip.osp.baseobjects.SimulationSectionAssignment>
-<org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>13</transit__id>
-  <sim__id>1</sim__id>
-  <actor__id>0</actor__id>
-  <phase__id>1</phase__id>
-  <tab__position>3</tab__position>
-  <tabColor>FFFFFF</tabColor>
-  <tab__heading>Cast</tab__heading>
-  <base__sec__id>51</base__sec__id>
-  <baseUniqueName>Customized Cast</baseUniqueName>
-  <baseVersion>1</baseVersion>
-  <url></url>
-  <directory>../osp_core/</directory>
-  <page__file__name>cast.jsp</page__file__name>
-  <addedAsUniversalSection>false</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
   <sendString></sendString>
@@ -840,7 +820,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <tab__position>4</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Cast</tab__heading>
-  <base__sec__id>51</base__sec__id>
+  <base__sec__id>52</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
@@ -859,7 +839,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <tab__position>4</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Cast</tab__heading>
-  <base__sec__id>51</base__sec__id>
+  <base__sec__id>52</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
@@ -878,32 +858,13 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <tab__position>4</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Cast</tab__heading>
-  <base__sec__id>51</base__sec__id>
+  <base__sec__id>52</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
   <page__file__name>cast.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
-  <simSubSection>false</simSubSection>
-  <simSubSectionIndex>0</simSubSectionIndex>
-  <sendString></sendString>
-</org.usip.osp.baseobjects.SimulationSectionAssignment>
-<org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>17</transit__id>
-  <sim__id>1</sim__id>
-  <actor__id>0</actor__id>
-  <phase__id>1</phase__id>
-  <tab__position>4</tab__position>
-  <tabColor>FFFFFF</tabColor>
-  <tab__heading>Chat</tab__heading>
-  <base__sec__id>53</base__sec__id>
-  <baseUniqueName>Conference Room</baseUniqueName>
-  <baseVersion>1</baseVersion>
-  <url></url>
-  <directory>../osp_core/</directory>
-  <page__file__name>conference_room.jsp</page__file__name>
-  <addedAsUniversalSection>false</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
   <sendString></sendString>
@@ -966,25 +927,6 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>21</transit__id>
-  <sim__id>1</sim__id>
-  <actor__id>0</actor__id>
-  <phase__id>1</phase__id>
-  <tab__position>5</tab__position>
-  <tabColor>FFFFFF</tabColor>
-  <tab__heading>Email</tab__heading>
-  <base__sec__id>54</base__sec__id>
-  <baseUniqueName>email</baseUniqueName>
-  <baseVersion>1</baseVersion>
-  <url></url>
-  <directory>../osp_core/</directory>
-  <page__file__name>email.jsp</page__file__name>
-  <addedAsUniversalSection>false</addedAsUniversalSection>
-  <simSubSection>false</simSubSection>
-  <simSubSectionIndex>0</simSubSectionIndex>
-  <sendString></sendString>
-</org.usip.osp.baseobjects.SimulationSectionAssignment>
-<org.usip.osp.baseobjects.SimulationSectionAssignment>
   <transit__id>22</transit__id>
   <sim__id>1</sim__id>
   <actor__id>1</actor__id>
@@ -1023,7 +965,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>25</transit__id>
+  <transit__id>24</transit__id>
   <sim__id>1</sim__id>
   <actor__id>3</actor__id>
   <phase__id>1</phase__id>
@@ -1041,20 +983,39 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <simSubSectionIndex>0</simSubSectionIndex>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>27</transit__id>
+  <transit__id>26</transit__id>
   <sim__id>1</sim__id>
-  <actor__id>0</actor__id>
+  <actor__id>1</actor__id>
   <phase__id>1</phase__id>
-  <tab__position>5</tab__position>
-  <tabColor>FFFFFF</tabColor>
+  <tab__position>9</tab__position>
+  <tabColor>CCFFCC</tabColor>
   <tab__heading>Check List</tab__heading>
   <base__sec__id>55</base__sec__id>
-  <baseUniqueName>Text Page</baseUniqueName>
-  <baseVersion>1</baseVersion>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
   <page__file__name>text_page.jsp</page__file__name>
-  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>27</transit__id>
+  <sim__id>1</sim__id>
+  <actor__id>2</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>9</tab__position>
+  <tabColor>CCFFCC</tabColor>
+  <tab__heading>Check List</tab__heading>
+  <base__sec__id>55</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>text_page.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
   <sendString></sendString>
@@ -1062,10 +1023,10 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
   <transit__id>28</transit__id>
   <sim__id>1</sim__id>
-  <actor__id>1</actor__id>
+  <actor__id>3</actor__id>
   <phase__id>1</phase__id>
   <tab__position>9</tab__position>
-  <tabColor>FFFFFF</tabColor>
+  <tabColor>CCFFCC</tabColor>
   <tab__heading>Check List</tab__heading>
   <base__sec__id>55</base__sec__id>
   <baseUniqueName></baseUniqueName>
@@ -1079,58 +1040,38 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>29</transit__id>
+  <transit__id>30</transit__id>
   <sim__id>1</sim__id>
-  <actor__id>2</actor__id>
+  <actor__id>1</actor__id>
   <phase__id>1</phase__id>
-  <tab__position>9</tab__position>
+  <tab__position>3</tab__position>
   <tabColor>FFFFFF</tabColor>
-  <tab__heading>Check List</tab__heading>
-  <base__sec__id>55</base__sec__id>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>39</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>text_page.jsp</page__file__name>
+  <page__file__name>show_announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
-  <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
   <transit__id>31</transit__id>
   <sim__id>1</sim__id>
-  <actor__id>3</actor__id>
+  <actor__id>2</actor__id>
   <phase__id>1</phase__id>
-  <tab__position>9</tab__position>
+  <tab__position>3</tab__position>
   <tabColor>FFFFFF</tabColor>
-  <tab__heading>Check List</tab__heading>
-  <base__sec__id>55</base__sec__id>
+  <tab__heading>Announcements</tab__heading>
+  <base__sec__id>39</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>text_page.jsp</page__file__name>
-  <addedAsUniversalSection>true</addedAsUniversalSection>
-  <simSubSection>false</simSubSection>
-  <simSubSectionIndex>0</simSubSectionIndex>
-  <sendString></sendString>
-</org.usip.osp.baseobjects.SimulationSectionAssignment>
-<org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>32</transit__id>
-  <sim__id>1</sim__id>
-  <actor__id>0</actor__id>
-  <phase__id>1</phase__id>
-  <tab__position>7</tab__position>
-  <tabColor>FFFFFF</tabColor>
-  <tab__heading>Announcements</tab__heading>
-  <base__sec__id>39</base__sec__id>
-  <baseUniqueName>Show Announcements</baseUniqueName>
-  <baseVersion>1</baseVersion>
-  <url></url>
-  <directory>../osp_core/</directory>
   <page__file__name>show_announcements.jsp</page__file__name>
-  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
@@ -1139,61 +1080,25 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sim__id>1</sim__id>
   <actor__id>1</actor__id>
   <phase__id>1</phase__id>
-  <tab__position>3</tab__position>
+  <tab__position>8</tab__position>
   <tabColor>FFFFFF</tabColor>
-  <tab__heading>Announcements</tab__heading>
-  <base__sec__id>39</base__sec__id>
+  <tab__heading>Web Links</tab__heading>
+  <base__sec__id>56</base__sec__id>
   <baseUniqueName></baseUniqueName>
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>web_link_page.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
   <transit__id>34</transit__id>
   <sim__id>1</sim__id>
   <actor__id>2</actor__id>
   <phase__id>1</phase__id>
-  <tab__position>3</tab__position>
-  <tabColor>FFFFFF</tabColor>
-  <tab__heading>Announcements</tab__heading>
-  <base__sec__id>39</base__sec__id>
-  <baseUniqueName></baseUniqueName>
-  <baseVersion></baseVersion>
-  <url></url>
-  <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
-  <addedAsUniversalSection>true</addedAsUniversalSection>
-  <simSubSection>false</simSubSection>
-  <simSubSectionIndex>0</simSubSectionIndex>
-</org.usip.osp.baseobjects.SimulationSectionAssignment>
-<org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>36</transit__id>
-  <sim__id>1</sim__id>
-  <actor__id>0</actor__id>
-  <phase__id>1</phase__id>
-  <tab__position>8</tab__position>
-  <tabColor>FFFFFF</tabColor>
-  <tab__heading>Web Links</tab__heading>
-  <base__sec__id>56</base__sec__id>
-  <baseUniqueName>Web Link Page</baseUniqueName>
-  <baseVersion>1</baseVersion>
-  <url></url>
-  <directory>../osp_core/</directory>
-  <page__file__name>web_link_page.jsp</page__file__name>
-  <addedAsUniversalSection>false</addedAsUniversalSection>
-  <simSubSection>false</simSubSection>
-  <simSubSectionIndex>0</simSubSectionIndex>
-  <sendString></sendString>
-</org.usip.osp.baseobjects.SimulationSectionAssignment>
-<org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>37</transit__id>
-  <sim__id>1</sim__id>
-  <actor__id>1</actor__id>
-  <phase__id>1</phase__id>
   <tab__position>8</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Web Links</tab__heading>
@@ -1209,26 +1114,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>38</transit__id>
-  <sim__id>1</sim__id>
-  <actor__id>2</actor__id>
-  <phase__id>1</phase__id>
-  <tab__position>8</tab__position>
-  <tabColor>FFFFFF</tabColor>
-  <tab__heading>Web Links</tab__heading>
-  <base__sec__id>56</base__sec__id>
-  <baseUniqueName></baseUniqueName>
-  <baseVersion></baseVersion>
-  <url></url>
-  <directory>../osp_core/</directory>
-  <page__file__name>web_link_page.jsp</page__file__name>
-  <addedAsUniversalSection>true</addedAsUniversalSection>
-  <simSubSection>false</simSubSection>
-  <simSubSectionIndex>0</simSubSectionIndex>
-  <sendString></sendString>
-</org.usip.osp.baseobjects.SimulationSectionAssignment>
-<org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>39</transit__id>
+  <transit__id>35</transit__id>
   <sim__id>1</sim__id>
   <actor__id>3</actor__id>
   <phase__id>1</phase__id>
@@ -1247,7 +1133,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>40</transit__id>
+  <transit__id>36</transit__id>
   <sim__id>1</sim__id>
   <actor__id>3</actor__id>
   <phase__id>1</phase__id>
@@ -1265,7 +1151,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <simSubSectionIndex>0</simSubSectionIndex>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>41</transit__id>
+  <transit__id>37</transit__id>
   <sim__id>1</sim__id>
   <actor__id>0</actor__id>
   <phase__id>2</phase__id>
@@ -1284,7 +1170,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>42</transit__id>
+  <transit__id>38</transit__id>
   <sim__id>1</sim__id>
   <actor__id>1</actor__id>
   <phase__id>2</phase__id>
@@ -1303,7 +1189,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>43</transit__id>
+  <transit__id>39</transit__id>
   <sim__id>1</sim__id>
   <actor__id>2</actor__id>
   <phase__id>2</phase__id>
@@ -1322,7 +1208,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>44</transit__id>
+  <transit__id>40</transit__id>
   <sim__id>1</sim__id>
   <actor__id>3</actor__id>
   <phase__id>2</phase__id>
@@ -1341,7 +1227,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>45</transit__id>
+  <transit__id>41</transit__id>
   <sim__id>1</sim__id>
   <actor__id>3</actor__id>
   <phase__id>2</phase__id>
@@ -1359,14 +1245,14 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <simSubSectionIndex>0</simSubSectionIndex>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>46</transit__id>
+  <transit__id>42</transit__id>
   <sim__id>1</sim__id>
   <actor__id>3</actor__id>
   <phase__id>2</phase__id>
   <tab__position>3</tab__position>
   <tabColor>FFFFFF</tabColor>
   <tab__heading>Write AAR</tab__heading>
-  <base__sec__id>45</base__sec__id>
+  <base__sec__id>46</base__sec__id>
   <baseUniqueName>Write AAR</baseUniqueName>
   <baseVersion>1</baseVersion>
   <url></url>
@@ -1377,7 +1263,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <simSubSectionIndex>0</simSubSectionIndex>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>47</transit__id>
+  <transit__id>43</transit__id>
   <sim__id>1</sim__id>
   <actor__id>1</actor__id>
   <phase__id>1</phase__id>
@@ -1396,7 +1282,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>48</transit__id>
+  <transit__id>44</transit__id>
   <sim__id>1</sim__id>
   <actor__id>2</actor__id>
   <phase__id>1</phase__id>
@@ -1415,7 +1301,7 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
 <org.usip.osp.baseobjects.SimulationSectionAssignment>
-  <transit__id>49</transit__id>
+  <transit__id>45</transit__id>
   <sim__id>1</sim__id>
   <actor__id>3</actor__id>
   <phase__id>1</phase__id>
@@ -1433,16 +1319,26 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <simSubSectionIndex>0</simSubSectionIndex>
   <sendString></sendString>
 </org.usip.osp.baseobjects.SimulationSectionAssignment>
-
-<org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>46</transit__id>
   <sim__id>1</sim__id>
-  <bss__id>52</bss__id>
-  <objectId>1</objectId>
-  <actor__dependent>false</actor__dependent>
-  <className>org.usip.osp.communications.Conversation</className>
-  <dep__obj__index>1</dep__obj__index>
-  <transit__id>1</transit__id>
-</org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+  <actor__id>3</actor__id>
+  <phase__id>1</phase__id>
+  <tab__position>10</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Email</tab__heading>
+  <base__sec__id>54</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>email.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+
 <org.usip.osp.communications.Conversation>
   <uniqueConvName>group_chat</uniqueConvName>
   <sim__id>1</sim__id>
@@ -1451,7 +1347,8 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <transit__id>1</transit__id>
 </org.usip.osp.communications.Conversation>
 <org.usip.osp.communications.ConvActorAssignment>
-  <id>1</id>
+  <sim__id>1</sim__id>
+  <transit__id>1</transit__id>
   <actor__id>3</actor__id>
   <conv__id>1</conv__id>
   <role></role>
@@ -1460,7 +1357,8 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <can__be__added__removed>false</can__be__added__removed>
 </org.usip.osp.communications.ConvActorAssignment>
 <org.usip.osp.communications.ConvActorAssignment>
-  <id>2</id>
+  <sim__id>1</sim__id>
+  <transit__id>2</transit__id>
   <actor__id>2</actor__id>
   <conv__id>1</conv__id>
   <role></role>
@@ -1469,7 +1367,8 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <can__be__added__removed>false</can__be__added__removed>
 </org.usip.osp.communications.ConvActorAssignment>
 <org.usip.osp.communications.ConvActorAssignment>
-  <id>3</id>
+  <sim__id>1</sim__id>
+  <transit__id>3</transit__id>
   <actor__id>1</actor__id>
   <conv__id>1</conv__id>
   <role></role>
@@ -1477,6 +1376,45 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <initially__present>false</initially__present>
   <can__be__added__removed>false</can__be__added__removed>
 </org.usip.osp.communications.ConvActorAssignment>
+<org.usip.osp.communications.TimeLine>
+  <adjustToRunningSimStartTime>false</adjustToRunningSimStartTime>
+  <simId>1</simId>
+  <timeline__category>1</timeline__category>
+  <description></description>
+  <transit__id>1</transit__id>
+</org.usip.osp.communications.TimeLine>
+<org.usip.osp.communications.Event>
+  <eventType>1</eventType>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:00:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>Do Inject 1</eventTitle>
+  <eventMsgBody>This is just a sample inject for you to fire. To see its results you and fire it as control, and then log on as Player A or B, and see how they receive it.&lt;br&gt;</eventMsgBody>
+  <simId>1</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+  <transit__id>1</transit__id>
+</org.usip.osp.communications.Event>
+<org.usip.osp.communications.Event>
+  <eventType>3</eventType>
+  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
+  <start></start>
+  <end></end>
+  <eventTitle>Do Inject 2</eventTitle>
+  <eventMsgBody>&lt;br&gt;</eventMsgBody>
+  <simId>1</simId>
+  <phaseId>1</phaseId>
+  <timelineId>1</timelineId>
+  <transit__id>2</transit__id>
+</org.usip.osp.communications.Event>
+<org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
+  <sim__id>1</sim__id>
+  <objectId>1</objectId>
+  <actor__dependent>false</actor__dependent>
+  <className>org.usip.osp.communications.Conversation</className>
+  <dep__obj__index>1</dep__obj__index>
+  <transit__id>1</transit__id>
+</org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
 <org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
   <sim__id>1</sim__id>
   <bss__id>53</bss__id>
@@ -1486,326 +1424,6 @@ ___ AAR&lt;br&gt;&lt;br&gt;&lt;script&gt;document.write(&quot;&lt;input type=&ap
   <dep__obj__index>1</dep__obj__index>
   <transit__id>2</transit__id>
 </org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment>
-
-<org.usip.osp.communications.TimeLine>
-  <id>1</id>
-  <adjustToRunningSimStartTime>false</adjustToRunningSimStartTime>
-  <simId>1</simId>
-  <timeline__category>1</timeline__category>
-  <description></description>
-</org.usip.osp.communications.TimeLine>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>1</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:00:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>Do Inject 1</eventTitle>
-  <eventMsgBody>This is just a sample inject for you to fire. To see its results you and fire it as control, and then log on as Player A or B, and see how they receive it.&lt;br&gt;</eventMsgBody>
-  <simId>1</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>3</eventType>
-  <id>2</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>Do Inject 2</eventTitle>
-  <eventMsgBody>&lt;br&gt;</eventMsgBody>
-  <simId>1</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>3</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 09:34:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF 05</eventTitle>
-  <eventMsgBody></eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>4</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 09:36:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF-11</eventTitle>
-  <eventMsgBody>First Challenge: Who is in Charge?</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>5</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 09:45:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>NATO-02</eventTitle>
-  <eventMsgBody>Part of Second Challenge: Pulling apart by militarization.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>6</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 09:45:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>NAC-02</eventTitle>
-  <eventMsgBody>Part of Second Challenge: Pulling apart by militarization.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>7</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 09:45:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>UNAMA-03</eventTitle>
-  <eventMsgBody>Part of Second Challenge: Pulling apart by militarization.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>8</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:00:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF-13</eventTitle>
-  <eventMsgBody>Generally sobering news.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>9</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:05:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF-14</eventTitle>
-  <eventMsgBody>Generally sobering news.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>2</eventType>
-  <id>10</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:06:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>UNAMA-05</eventTitle>
-  <eventMsgBody>Load them down if desired</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>2</eventType>
-  <id>11</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:06:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>NAC-03</eventTitle>
-  <eventMsgBody>Load them down</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>2</eventType>
-  <id>12</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:06:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>NATO-04</eventTitle>
-  <eventMsgBody>load down Nato</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>2</eventType>
-  <id>13</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:06:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>DAI-05</eventTitle>
-  <eventMsgBody>load down DAI</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>14</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>NATO-03</eventTitle>
-  <eventMsgBody>Challenge: Pull them apart</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>15</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>DAI-04</eventTitle>
-  <eventMsgBody>Pull them apart</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>16</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>NAC-01</eventTitle>
-  <eventMsgBody>Pull them apart</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>17</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 10:30:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>UNAMA-04</eventTitle>
-  <eventMsgBody>pull them apart</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>18</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 11:00:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF-06</eventTitle>
-  <eventMsgBody>reset</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>19</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 11:15:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF-01</eventTitle>
-  <eventMsgBody>Final Challenge: Peace vs. Justice</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>20</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 11:15:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF-02</eventTitle>
-  <eventMsgBody>Final Challenge: Peace vs Justice</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>21</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 11:15:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>New Event</eventTitle>
-  <eventMsgBody>Make up a handmade inject concerning the victim&apos;s groups demanding justice.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>3</eventType>
-  <id>22</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 11:20:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>Escalate 1 - Protesters</eventTitle>
-  <eventMsgBody>Continuing peace vs justice outcome&#x0D;This can be escalated (forcing them to respond) by having a protest march.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>3</eventType>
-  <id>23</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 11:25:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>Escalate 2 - Strike!</eventTitle>
-  <eventMsgBody>Continuing peace vs justice outcome&#x0D;This can be escalated (forcing them to respond) by having a general strike.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>24</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 12:00:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>Reflection Phase</eventTitle>
-  <eventMsgBody>Advance the simulation into the reflection phase and allow the players to write their reflections.</eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>25</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 09:30:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF 03</eventTitle>
-  <eventMsgBody></eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
-<org.usip.osp.communications.Event>
-  <eventType>1</eventType>
-  <id>26</id>
-  <eventStartTime class="sql-timestamp">2001-01-01 09:32:00.0</eventStartTime>
-  <start></start>
-  <end></end>
-  <eventTitle>JRTF 04</eventTitle>
-  <eventMsgBody></eventMsgBody>
-  <simId>2</simId>
-  <phaseId>1</phaseId>
-  <timelineId>1</timelineId>
-</org.usip.osp.communications.Event>
 
 <SIM_MEDIA_OBJECTS>
 <org.usip.osp.networking.OSPSimMedia>
@@ -1842,6 +1460,151 @@ donQqBK08pNcky4satw5XdxEr9SS0ov5oT0I9qun7EP3zxi6jVpTjVvQqdbsY8knYnv3iLqtREWf
 wkhA133Vcd31TxS5qxLqszbtJyQ5u2l9CLyIuhAOKNHuB63rSpWjUSp0B+PKqdRwurPIVlaXSzht
 X2kkj8upn8xnCOxa10XHa03423K3PpT543KivqRux5biLkf7AbAAM5LP4s9WqG4kqhNhV1gsZRNY
 IlH7kYMAEBAAAAAAAAAA/9k=</mediaString>
+</org.usip.osp.networking.OSPSimMedia>
+<org.usip.osp.networking.OSPSimMedia>
+  <mediaType>1</mediaType>
+  <mediaName>player_a.png</mediaName>
+  <mediaString>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
+bFE6PIv/BxXMxMdDHnvQAAAAAElFTkSuQmCC</mediaString>
+</org.usip.osp.networking.OSPSimMedia>
+<org.usip.osp.networking.OSPSimMedia>
+  <mediaType>1</mediaType>
+  <mediaName>player_a_thumb.png</mediaName>
+  <mediaString>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
+w38pplc4KCvGQgAAAABJRU5ErkJggg==</mediaString>
 </org.usip.osp.networking.OSPSimMedia>
 <org.usip.osp.networking.OSPSimMedia>
   <mediaType>1</mediaType>

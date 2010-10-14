@@ -65,7 +65,7 @@
           <p>Select Conversation: 
 	              <select name="conversation_id">
                   <option value="0" <%= none_selected %> >None Selected</option>
-                  	<% for (ListIterator li = Conversation.getAllForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+                  	<% for (ListIterator li = Conversation.getAllBaseForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
 						Conversation this_conv = (Conversation) li.next(); 
 						
 						String selected = "";		

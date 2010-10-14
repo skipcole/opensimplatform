@@ -30,6 +30,11 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class TimeLine  implements SimSectionDependentObject {
 	
+	/** Zero argument constructors */
+	public TimeLine(){
+		
+	}
+	
 	/** If this timeline represents a plan of events to happen, it will be of this category. */
 	public static final int CATEGORY_MASTERPLAN = 1;
 	
@@ -193,6 +198,14 @@ public class TimeLine  implements SimSectionDependentObject {
 		return returnTimeLine;
     }
     
+    
+    /**
+     * Returns all of the base timelines for simulations.
+     * 
+     * @param schema
+     * @param sim_id
+     * @return
+     */
     public static List getAllBaseForSimulation(String schema, Long sim_id){
         
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -206,24 +219,6 @@ public class TimeLine  implements SimSectionDependentObject {
 		return returnList;
     }
     
-    /**
-     * Returns all of the actors found in a schema for a particular simulation
-     * 
-     * @param schema
-     * @return
-     */
-    public static List getAllForSimulation(String schema, Long sim_id){
-        
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from TimeLine where simId = :sim_id ")
-				.setLong("sim_id", sim_id).list(); //$NON-NLS-1$
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return returnList;
-    }
 
 	@Override
 	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {

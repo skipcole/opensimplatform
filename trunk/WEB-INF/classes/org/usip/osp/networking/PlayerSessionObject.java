@@ -1468,18 +1468,26 @@ public class PlayerSessionObject extends SessionObjectBase {
 				makeGeneralAnnouncement(announcement_text, request);
 
 				if (inject_id != null) {
+					
+					Inject theInject = Inject.getById(schema, new Long(inject_id));
+					
 					InjectFiringHistory ifh = new InjectFiringHistory(
 							this.runningSimId, this.actorId);
 					ifh.setActorNamessFiredTo("all");
 					ifh.setActualFiredText(announcement_text);
 					ifh.setTargets("all");
-					ifh.setInjectId(new Long(inject_id));
+					ifh.setInjectId(theInject.getId());
 					ifh.saveMe(schema);
-
+					
+					// Create a respondable object entry that players can respond to.
+					theInject.createRespondableObject(schema, this.sim_id, this.runningSimId, phase_id, this.actorId,
+							this.user_name, this.userDisplayName);				
+						
 					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
 							this.runningSimId, this.actorId,
-							new Long(inject_id), "all");
+							theInject.getId(), "all");
 				}
+				
 				return false;
 			}
 

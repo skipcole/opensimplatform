@@ -31,8 +31,6 @@ public class MasterTester{
     public static BudgetVariable bd_v1 = new BudgetVariable();
     public static BudgetVariable bd_v2 = new BudgetVariable();
     
-    public static PlayerControlBudgetTransfer pcbt1 = new PlayerControlBudgetTransfer();
-
     
     
     public static String runTests(){
@@ -219,9 +217,6 @@ public class MasterTester{
     public static String testCreatePlayerBudgetTransferControl(){
         String returnString = makeHeader("Creating Player Budget Transfer Control"); //$NON-NLS-1$
         
-        //pcbt1.game_id = testGame1.id;
-        pcbt1.name = "Player Control"; //$NON-NLS-1$
-        pcbt1.description = "Text describing this player control."; //$NON-NLS-1$
         
         //pcbt1.fromAcctString = bd_v1.get_sf_id();
         //pcbt1.toAcctString = bd_v2.get_sf_id();
@@ -407,7 +402,7 @@ public class MasterTester{
         //gs.actor_id = act_r.id;
         //gs.game_status = "in progress";
         //gs.section_short_name = pcbt1.gs.section_short_name;
-        gs.setTab_heading(pcbt1.gs.getTab_heading());
+
         //gs.tab_position = "6"; //pcbt1.gs.tab_position;
         //gs.directory = "/osp_core/";
         //gs.page_file_name = pcbt1.jsp_page;

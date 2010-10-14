@@ -171,8 +171,10 @@
                 <%
 				} else {
 				%>
-                <input type="submit" name="command" value="Clear" tabindex="6" />
-                <input type="submit" name="command" value="Update" />
+				<table width="100%"><tr>
+                <td align="left"><input type="submit"  name="command" value="Update Inject" /></td>
+				<td align="right"><input type="submit" name="clear_button" value="Clear to Create New Inject" /></td>
+				</tr></table>
                 <%
 					}
 				%></td>

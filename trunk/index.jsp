@@ -44,14 +44,15 @@ body {
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr><td>
 <h1>Welcome to the USIP Open Simulation Platform</h1>
-<p>More information on this project can be found at docs.opensimplatform.org</p>
+<h2>&nbsp;</h2>
 <h2>Login to the System</h2>
 <ul>
-  <li><a href="login.jsp">Login </a>as a Player, Instructor or Author (new players see <a href="simulation_user_admin/auto_registration_page.jsp">Player Registration Page</a>)<br />
+  <li><a href="login.jsp">Login </a>as a Player, Instructor or Author (new players please see the <a href="simulation_user_admin/auto_registration_page.jsp">Player Registration Page</a>)<br />
   </li>
-  </ul>
-
+</ul>
 <h2>Learn more about the Platform</h2>
+<p align="center"><a href="http://docs.opensimplatform.org"><img src="Templates/images/ospbannergraphic.jpg" alt="usip osp logo" width="120" height="120" border="0" /></a><a href="http://www.facebook.com/#!/group.php?gid=162549447105518"><img src="Templates/images/facebook-icon.png" alt="facebook" width="120" height="120" border="0" /></a></p>
+<h2>&nbsp;</h2>
 <ul>
   <li><a href="http://docs.opensimplatform.org">Docs and Community</a> - Installation instructions, mailing lists and list archives, architecture documentation, developer information, etc.</li>
   <li><a href="simulation_tutorials/index.jsp">Tutorials</a> - Step by step instructions on how to use the platform to create, conduct and share simulations.</li>

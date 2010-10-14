@@ -251,9 +251,7 @@
         <table width="80%">
         <%
 		
-		// TODO: make replace new Long(1) with afso.phase_id 
-		
-		for (ListIterator li = Event.getAllForSim(afso.sim_id, new Long(1), afso.schema).listIterator(); li.hasNext();) {
+		for (ListIterator li = Event.getAllBaseForSim(afso.sim_id, afso.schema).listIterator(); li.hasNext();) {
 			Event event_l = (Event) li.next();
 			%>
             <tr>
