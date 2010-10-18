@@ -1064,7 +1064,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * 
+	 * Does the CRUD operations on a timeline.
 	 * @param request
 	 * @return
 	 */
@@ -1103,16 +1103,31 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String timeline_name = (String) request.getParameter("timeline_name");
 		String param_notes = (String) request.getParameter("param_notes");
 		String start_value = (String) request.getParameter("start_value");
-
+		String timeline_start_date = (String) request.getParameter("timeline_start_date");
+		String timeline_start_hour = (String) request.getParameter("timeline_start_hour");
+		
+		String timeline_start = timeline_start_date + " " + timeline_start_hour;
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy H");
+		
+		Date timeLineStartDate = new Date();
+		
+		try {
+			timeLineStartDate = sdf.parse(timeline_start);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		// Do create if called.
 		String create_timeline = (String) request
 				.getParameter("create_timeline");
 		if ((create_timeline != null)) {
 			Logger.getRootLogger().debug(
 					"creating param of uniq name: " + timeline_name);
-			// timeline = new TimeLine(uniq_param_name, sim_id);
 			timeline.setName(timeline_name);
-			// timeline.saveMe(schema);
+			timeline.setTimeline_start_date(timeLineStartDate);
+			timeline.setSimId(sim_id);
+			timeline.saveMe(schema);
 		}
 
 		// Do update if called.
@@ -1123,8 +1138,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					"updating param of uniq title: " + timeline_name);
 			timeline = TimeLine.getById(schema, new Long(t_id));
 			timeline.setName(timeline_name);
-			// timeline.setNotes(param_notes);
-			// timeline.setStartingValue(start_value);
+			timeline.setTimeline_start_date(timeLineStartDate);
 			timeline.setSimId(sim_id);
 			timeline.saveMe(schema);
 
@@ -4094,7 +4108,22 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public static void main(String args[]) {
 		System.out.println("hi");
 
-		// getImageFiles();
+		Calendar y = new GregorianCalendar();
+		
+		y.set(1900, 10, 10, 10, 10);
+		
+		java.util.Date x = y.getTime();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy H");
+		
+		try {
+			Date g = sdf.parse("10/18/2010 9");
+			System.out.println(g.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// Calendar.set(year + 1900, month, date, hrs, min)
+
 
 		System.out.println("bye");
 

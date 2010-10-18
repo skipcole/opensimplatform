@@ -22,33 +22,7 @@
 	pso.actor_being_worked_on_id = pso.getActorId();
 	TipsCustomizer tc = new TipsCustomizer(request, pso, cs);
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	if ((sending_page != null) && (sending_page.equalsIgnoreCase("tips"))){
-	
-		System.out.println("adding tip");
-		
-		Tips tip = new Tips();
-	
-		String tip_id = (String) request.getParameter("tip_id");
-		if ((tip_id != null) && (!(tip_id.equalsIgnoreCase("null")))   ){
-			tip.setId(new Long(tip_id));
-		}
-		String tip_page_text = request.getParameter("tip_page_text");
-		tip.setTipText(tip_page_text);
-		tip.setActorId(pso.getActorId());
-		tip.setPhaseId(pso.phase_id);
-		tip.setCsId(cs.getId());
-		tip.setSimId(pso.sim_id);
-		tip.setTipLastEditDate(new java.util.Date());
-		tip.setBaseTip(false);
-		tip.setParentTipId(tc.getTip().getId());
-		tip.setUserId(pso.user_id);
-		tip.setUserName(pso.userDisplayName);
-		tip.setUserEmail(pso.user_name);
-
-		tip.saveMe(pso.schema);
-
-	}
+	pso.addPlayerTip(cs, tc, request);
 	
 %>
 <html>
@@ -57,12 +31,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<body><%= tc.getTip().getTipText() %>
-
-<% if (tc.getCanLeaveTip() ) { %>
-<hr>
-<p>Tips left by Others</p>
-
+<body>
+<h1>Author's Tip(s)</h1>
+<p><%= tc.getTip().getTipText() %>
+  
+  <% if (tc.getCanLeaveTip() ) { %>
+</p>
+<hr />
+<h1><strong>Tips left by Others</strong></h1>
 <%
 
 	List tl = new ArrayList();
@@ -76,17 +52,18 @@
 	for (ListIterator li = tl.listIterator(); li.hasNext();) {
 		Tips this_tip = (Tips) li.next();
 
-%><p>	<% if ( (pso.user_id != null) && (pso.user_id.equals(this_tip.getUserId())) ) { 
+%><p>	<% if ( (pso.user_name != null) && (pso.user_name.equalsIgnoreCase(this_tip.getUserEmail())) ) { 
 	this_users_tip = this_tip;
 %>
 		<% } else { %>
-		<p><%= this_tip.getTipText() %><br /></p>
-		<% } %>
+		<p><strong>Tip left by <%= this_tip.getUserEmail() %></strong><br />
+<%= this_tip.getTipText() %><br />
+		</p>
+<% } %>
 </p>
 <% } // End of loop over other people's tips.  %>
 
-You can leave your tip here.
-
+<strong>Your Tip. <%= pso.user_name %> </strong>
 <form name="form1" method="post" action="tips.jsp">
   <label>
   <textarea name="tip_page_text"><%= this_users_tip.getTipText()%></textarea>

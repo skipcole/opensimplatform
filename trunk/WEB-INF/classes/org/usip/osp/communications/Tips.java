@@ -172,6 +172,7 @@ public class Tips implements SimSectionDependentObject{
 	private String instructorsEmail;
 	
 	private String tipName;
+	
 	private String tipText = "";
 	
 	private Date tipLastEditDate;

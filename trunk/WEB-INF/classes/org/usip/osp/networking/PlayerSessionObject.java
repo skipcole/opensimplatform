@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.*;
+import org.usip.osp.baseobjects.core.TipsCustomizer;
 import org.usip.osp.bishops.BishopsPartyInfo;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
@@ -2159,5 +2160,39 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		// ////////////////////////////////
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void addPlayerTip(CustomizeableSection cs, TipsCustomizer tc, HttpServletRequest request){
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("tips"))){
+		
+			System.out.println("adding tip");
+			
+			Tips tip = new Tips();
+		
+			String tip_id = (String) request.getParameter("tip_id");
+			if ((tip_id != null) && (!(tip_id.equalsIgnoreCase("null")))   ){
+				tip.setId(new Long(tip_id));
+			}
+			String tip_page_text = request.getParameter("tip_page_text");
+			tip.setTipText(tip_page_text);
+			tip.setActorId(getActorId());
+			tip.setPhaseId(phase_id);
+			tip.setCsId(cs.getId());
+			tip.setSimId(sim_id);
+			tip.setTipLastEditDate(new java.util.Date());
+			tip.setBaseTip(false);
+			tip.setParentTipId(tc.getTip().getId());
+			tip.setUserId(user_id);
+			tip.setUserName(userDisplayName);
+			tip.setUserEmail(user_name);
+
+			tip.saveMe(schema);
+
+		}
 	}
 }
