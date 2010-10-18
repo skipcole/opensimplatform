@@ -37,6 +37,7 @@ public class TipsCustomizer extends Customizer {
 	public TipsCustomizer(HttpServletRequest request, SessionObjectBase pso,
 			CustomizeableSection cs) {
 		
+		System.out.println("created tc");
 		this.cs = cs;
 
 		loadSimCustomizeSection(request, pso, cs);
@@ -46,22 +47,16 @@ public class TipsCustomizer extends Customizer {
 	@SuppressWarnings("unchecked")
 	public void handleCustomizeSection(HttpServletRequest request,
 			SessionObjectBase afso, CustomizeableSection cs) {
-
-		Tips tip = new Tips();
 		
 		List bssdoas = BaseSimSectionDepObjectAssignment.getObjectsForSection(afso.schema, cs.getId());
 		
 		if ((bssdoas == null) || (bssdoas.size() == 0)){
-			
+			tip = new Tips();
 		} else {
 			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) bssdoas.get(0);
 			tip = (Tips) BaseSimSectionDepObjectAssignment.pullOutObject(afso.schema, bssdoa);
 		}
 		
-		tip = Tips.getBySimActorPhaseSection(afso.sim_id,
-				afso.actor_being_worked_on_id, afso.phase_id, cs.getId(),
-				afso.schema, true);
-
 		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
 		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) { //$NON-NLS-1$
@@ -73,8 +68,6 @@ public class TipsCustomizer extends Customizer {
 
 			String tip_page_text = request.getParameter("tip_page_text");
 
-			
-
 			tip.setTipText(tip_page_text);
 			tip.setActorId(afso.actor_being_worked_on_id);
 			tip.setPhaseId(afso.phase_id);
@@ -83,19 +76,26 @@ public class TipsCustomizer extends Customizer {
 			tip.setTipLastEditDate(new java.util.Date());
 			tip.setBaseTip(true);
 
+			tip.setTipName("s c p a " + afso.sim_id + " " 
+					+ cs.getId() + " " + afso.phase_id + " " + afso.actor_being_worked_on_id);
+			
 			tip.saveMe(afso.schema);
 			
 			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, cs.getId());
 			
 			@SuppressWarnings("unused")
 			BaseSimSectionDepObjectAssignment bssdoa_gv = new BaseSimSectionDepObjectAssignment(
-					cs.getId(), "org.usip.osp.specialfeatures.GenericVariable", 1, gvId, afso.sim_id, afso.schema);
+					cs.getId(), "org.usip.osp.communications.Tips", 1, tip.getId(), afso.sim_id, afso.schema);
 	
 
 		}
 
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Tips getTip() {
 		return tip;
 	}
@@ -118,9 +118,18 @@ public class TipsCustomizer extends Customizer {
 	public void loadSimCustomizeSection(HttpServletRequest request,
 			SessionObjectBase sob, CustomizeableSection cs) {
 		
-		tip = Tips.getBySimActorPhaseSection(sob.sim_id,
-				sob.actor_being_worked_on_id, sob.phase_id, cs.getId(),
-				sob.schema, true);
+		List bssdoas = BaseSimSectionDepObjectAssignment.getObjectsForSection(sob.schema, cs.getId());
+		
+		if ((bssdoas == null) || (bssdoas.size() == 0)){
+			System.out.println("bssdoas is null");
+			tip = new Tips();
+		} else {
+			System.out.println("bssdoas not null");
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) bssdoas.get(0);
+			System.out.println(bssdoa.getObjectId());
+			tip = (Tips) BaseSimSectionDepObjectAssignment.pullOutObject(sob.schema, bssdoa);
+			System.out.println(tip);
+		}
 
 	}
 

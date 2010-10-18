@@ -49,7 +49,7 @@ public class TimeLine  implements SimSectionDependentObject {
 	@GeneratedValue
 	private Long id;
 	
-	private String name;
+	private String name = "";
 	
 	private boolean adjustToRunningSimStartTime = false;
 	
