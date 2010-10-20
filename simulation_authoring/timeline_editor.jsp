@@ -14,7 +14,13 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-		
+	
+	String timeline_id = (String) request.getParameter("timeline_id");
+	
+	if (timeline_id != null) {
+		afso.timelineOnScratchPad = TimeLine.getById(afso.schema, new Long(timeline_id));
+	}
+	
 	// Date expected in format similar to: "Oct 15 2009 00:00:00 GMT"
 	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 	sdf.setTimeZone(TimeZone.getDefault());
@@ -22,16 +28,11 @@
 	SimpleDateFormat short_sdf = new SimpleDateFormat("HH:mm");
 	short_sdf.setTimeZone(TimeZone.getDefault());
 	
-	String run_start = sdf.format(new java.util.Date());
+	String run_start = sdf.format(afso.timelineOnScratchPad.getTimeline_start_date());
 	
 	Simulation simulation = new Simulation();
 	if (afso.sim_id != null) {
 		simulation = afso.giveMeSim();
-		run_start = sdf.format(simulation.getPhaseStartTime(afso.schema, simulation.getFirstPhaseId(afso.schema)));
-		
-		if (afso.phase_id == null) {
-			afso.phase_id = simulation.getFirstPhaseId(afso.schema);
-		}
 	}
 
 	Event event = afso.handleTimeLineCreator(request);
@@ -53,6 +54,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		
+		<link type="text/css" href="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/themes/cupertino/jquery.ui.all.css" rel="stylesheet" />
+	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.datepicker.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$("#datepicker").datepicker();
+		$('#dateselector').datepicker("setDate", new Date(2000,1,01) );
+
+	});
+	</script>
+
        <!-- script>
  			Timeline_ajax_url="<  %= Timeline_ajax_url % >";
  			Timeline_urlPrefix='< % = Timeline_urlPrefix % >';       
@@ -119,23 +134,14 @@
 			if (afso.sim_id != null) {
 		%>
     
-        <h2>Edit Timeline</h2>
-    <p>Select Timeline (<a href="timeline_creator.jsp">click here</a> to create a new one)</p>
-    <blockquote>
-      <form name="form2" method="post" action="">
-        <label>
-          <select name="select" id="select">
-          </select>
-        </label>
-        <p>&nbsp;</p>
-      </form>
-      <p>&nbsp;</p>
-    </blockquote>
+        <h2>Add Events to Your Timeline</h2>
+
     <div id="my-timeline" style="height: 300px; border: 1px solid #aaa"></div>
         <hr>
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="50%">Timeline Name <a href="helptext/timeline_name.jsp" target="helpinright">(?)</a>: <strong>Default Simulation Timeline</strong></td>
+            <td width="50%">Timeline Name <a href="helptext/timeline_name.jsp" target="helpinright">(?)</a>: 
+			<strong><%= afso.timelineOnScratchPad.getName() %></strong></td>
             <td>Timeline Phase (if applicable): <strong>All</strong></td>
           </tr>
           <tr>
@@ -144,9 +150,10 @@
           </tr>
     </table>
     <h2>&nbsp;</h2>
-        Add Event
+        <h2>Add Event
         
-    <blockquote>
+        </h2>
+        <blockquote>
 <form name="form1" method="post" action="timeline_editor.jsp">
         <input type="hidden" name="sending_page" value="timeline_creator">
         <input type="hidden" name="timeline_id" value="<%= event.getTimelineId() %>">
@@ -195,24 +202,15 @@
             </label></td>
           </tr>
           <tr>
-            <td valign="top"><strong>Start Day</strong></td>
-            <td valign="top"><label>
-            <select name="select2" id="start_day">
-              <option value="1">1</option>
-            </select>
-            </label></td>
+            <td valign="top"><strong>Event Date</strong></td>
+            <td valign="top">
+			<%
+				SimpleDateFormat sdf_startdate = new SimpleDateFormat("MM/dd/yyyy");
+				String start_date_formatted = sdf_startdate.format(afso.timelineOnScratchPad.getTimeline_start_date());
+			%>
+			<input name="timeline_start_date" type="text" id="datepicker" value="<%= start_date_formatted %>">
+			</td>
       </tr>
-                    <tr>
-            <td valign="top"><strong>Start Month</strong></td>
-            <td valign="top"><label>
-            <select name="start_month" id="start_month">
-              <option value="1">January</option>
-            </select>
-              </label></td>
-      </tr>          <tr>
-            <td valign="top"><strong>Start Year</strong></td>
-            <td valign="top"><input type="text" name="textfield3" id="textfield3"></td>
-          </tr>
           <tr>
             <td valign="top"><strong>Hour</strong></td>
             <td valign="top"><label>
@@ -243,7 +241,7 @@
 				%>
 </label></td>
           </tr>
-        </table>
+    </table>
     </form>
     </blockquote>
         <h2>Edit/Delete Events</h2>
@@ -276,7 +274,7 @@
         
 <noscript>
         This page uses Javascript to show you a Timeline. Please enable Javascript in your browser to see the full page. Thank you.
-        </noscript>
+    </noscript>
     </body>
 
  </html>

@@ -84,7 +84,7 @@ public class TimeLine  implements SimSectionDependentObject {
 	
 	private int timeline_category;
 	
-	private Date timeline_start_date;
+	private Date timeline_start_date = new Date();
 	
 	
 	public Date getTimeline_start_date() {
