@@ -1063,19 +1063,21 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	}
 
+	public TimeLine timelineOnScratchPad = new TimeLine();
+	
 	/**
 	 * Does the CRUD operations on a timeline.
 	 * @param request
 	 * @return
 	 */
-	public TimeLine handleCreateTimeLine(HttpServletRequest request) {
+	public void handleCreateTimeLine(HttpServletRequest request) {
 
-		TimeLine timeline = new TimeLine();
+		timelineOnScratchPad = new TimeLine();
 
 		// If the player cleared the form, return the blank document.
 		String clear_button = (String) request.getParameter("clear_button");
 		if (clear_button != null) {
-			return timeline;
+			return;
 		}
 
 		// If we got passed in a doc id, use it to retrieve the doc we are
@@ -1085,8 +1087,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String queueup = (String) request.getParameter("queueup");
 		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
 				&& (t_id != null) && (t_id.trim().length() > 0)) {
-			timeline = TimeLine.getById(schema, new Long(t_id));
-			return timeline;
+			timelineOnScratchPad = TimeLine.getById(schema, new Long(t_id));
+			return;
 		}
 
 		// If player just entered this page from a different form, just return
@@ -1095,14 +1097,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((sending_page == null)
 				|| (!(sending_page
 						.equalsIgnoreCase("make_create_timeline_page")))) {
-			return timeline;
+			return;
 		}
 
 		// If we got down to here, we must be doing some real work on a
 		// document.
 		String timeline_name = (String) request.getParameter("timeline_name");
-		String param_notes = (String) request.getParameter("param_notes");
-		String start_value = (String) request.getParameter("start_value");
 		String timeline_start_date = (String) request.getParameter("timeline_start_date");
 		String timeline_start_hour = (String) request.getParameter("timeline_start_hour");
 		
@@ -1124,10 +1124,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((create_timeline != null)) {
 			Logger.getRootLogger().debug(
 					"creating param of uniq name: " + timeline_name);
-			timeline.setName(timeline_name);
-			timeline.setTimeline_start_date(timeLineStartDate);
-			timeline.setSimId(sim_id);
-			timeline.saveMe(schema);
+			timelineOnScratchPad.setName(timeline_name);
+			timelineOnScratchPad.setTimeline_start_date(timeLineStartDate);
+			timelineOnScratchPad.setSimId(sim_id);
+			timelineOnScratchPad.saveMe(schema);
 		}
 
 		// Do update if called.
@@ -1136,17 +1136,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((update_timeline != null)) {
 			Logger.getRootLogger().debug(
 					"updating param of uniq title: " + timeline_name);
-			timeline = TimeLine.getById(schema, new Long(t_id));
-			timeline.setName(timeline_name);
-			timeline.setTimeline_start_date(timeLineStartDate);
-			timeline.setSimId(sim_id);
-			timeline.saveMe(schema);
+			timelineOnScratchPad = TimeLine.getById(schema, new Long(t_id));
+			timelineOnScratchPad.setName(timeline_name);
+			timelineOnScratchPad.setTimeline_start_date(timeLineStartDate);
+			timelineOnScratchPad.setSimId(sim_id);
+			timelineOnScratchPad.saveMe(schema);
 
 		}
 
-		return timeline;
-
 	}
+	
 
 	/**
 	 * Responds to items selected on the create conversation page.

@@ -22,9 +22,7 @@
 	SimpleDateFormat short_sdf = new SimpleDateFormat("HH:mm");
 	short_sdf.setTimeZone(TimeZone.getDefault());
 	
-	String run_start = sdf.format(new java.util.Date());
-	
-	TimeLine timeline = afso.handleCreateTimeLine(request);
+	afso.handleCreateTimeLine(request);
 
 	
 %>
@@ -61,43 +59,156 @@
         <td><strong>Name:</strong></td>
         <td>
           <label>
-            <input type="text" name="timeline_name" id="textfield" value="<%= timeline.getName() %>">
+            <input type="text" name="timeline_name" id="textfield" value="<%= afso.timelineOnScratchPad.getName() %>">
           </label>        </td>
       </tr>
 
       <tr>
             <td valign="top"><strong>Start Date: </strong></td>
-            <td valign="top"><input name="timeline_start_date" type="text" id="datepicker" value="10/24/2010"></td>
+            <td valign="top">
+			<%
+				SimpleDateFormat sdf_startdate = new SimpleDateFormat("MM/dd/yyyy");
+				String start_date_formatted = sdf_startdate.format(afso.timelineOnScratchPad.getTimeline_start_date());
+			%>
+			<input name="timeline_start_date" type="text" id="datepicker" value="<%= start_date_formatted %>"></td>
       </tr>
           <tr>
             <td valign="top"><strong>Start Hour: </strong></td>
             <td valign="top"><label>
+			<%
+				SimpleDateFormat hour_sdf = new SimpleDateFormat("HH");
+				
+				String start_hour = hour_sdf.format(afso.timelineOnScratchPad.getTimeline_start_date());
+				
+				System.out.println(start_hour);
+				
+String selected_0	 = "";
+String selected_1	 = "";
+String selected_2	 = "";
+String selected_3	 = "";
+String selected_4	 = "";
+String selected_5	 = "";
+String selected_6	 = "";
+String selected_7	 = "";
+String selected_8	 = "";
+String selected_9	 = "";
+String selected_10	 = "";
+String selected_11	 = "";
+String selected_12	 = "";
+String selected_13	 = "";
+String selected_14	 = "";
+String selected_15	 = "";
+String selected_16	 = "";
+String selected_17	 = "";
+String selected_18	 = "";
+String selected_19	 = "";
+String selected_20	 = "";
+String selected_21	 = "";
+String selected_22	 = "";
+String selected_23	 = "";
+
+	if (start_hour != null) {
+		
+		if (start_hour.equalsIgnoreCase("00")){
+			selected_0 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("01")){
+			selected_1 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("02")){
+			selected_2 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("03")){
+			selected_3 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("04")){
+			selected_4 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("05")){
+			selected_5 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("06")){
+			selected_6 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("07")){
+			selected_7 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("08")){
+			selected_8 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("09")){
+			selected_9 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("10")){
+			selected_10 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("11")){
+			selected_11 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("12")){
+			selected_12 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("13")){
+			selected_13 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("14")){
+			selected_14 = " selected ";
+		} else		
+		if (start_hour.equalsIgnoreCase("15")){
+			selected_15 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("16")){
+			selected_16 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("17")){
+			selected_17 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("18")){
+			selected_18 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("19")){
+			selected_19 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("20")){
+			selected_20 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("21")){
+			selected_21 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("22")){
+			selected_22 = " selected ";
+		} else
+		if (start_hour.equalsIgnoreCase("23")){
+			selected_23 = " selected ";
+		}
+		
+	}
+			%>
             <select name="timeline_start_hour">
-              <option value="8">8 AM</option>
-              <option value="9" selected>9 AM</option>
-              <option value="10">10 AM</option>
-              <option value="11">11 AM</option>
-              <option value="12">12 PM</option>
-              <option value="13">1 PM</option>
-              <option value="14">2 PM</option>
-              <option value="15">3 PM</option>
-              <option value="16">4 PM</option>
-              <option value="17">5 PM</option>
-              <option value="18">6 PM</option>
-              <option value="19">7 PM</option>
-              <option value="20">8 PM</option>
-              <option value="21">9 PM</option>
-              <option value="22">10 PM</option>
-              <option value="23">11 PM</option>
-              <option value="0">12 AM</option>
-              <option value="1">1 AM</option>
-              <option value="2">2 AM</option>
-              <option value="3">3 AM</option>
-              <option value="4">4 AM</option>
-              <option value="5">5 AM</option>
-              <option value="6">6 AM</option>
-              <option value="7">7 AM</option>
-              <option value="8">8 AM</option>
+              <option value="0" <%= selected_0 %>>12 AM</option>
+              <option value="1" <%= selected_1 %>>1 AM</option>
+              <option value="2" <%= selected_2 %>>2 AM</option>
+              <option value="3" <%= selected_3 %>>3 AM</option>
+              <option value="4" <%= selected_4 %>>4 AM</option>
+              <option value="5" <%= selected_5 %>>5 AM</option>
+              <option value="6" <%= selected_6 %>>6 AM</option>
+              <option value="7" <%= selected_7 %>>7 AM</option>
+              <option value="8" <%= selected_8 %>>8 AM</option>
+              <option value="9" <%= selected_9 %>>9 AM</option>
+              <option value="10" <%= selected_10 %>>10 AM</option>
+              <option value="11" <%= selected_11 %>>11 AM</option>
+              <option value="12" <%= selected_12 %>>12 PM</option>
+              <option value="13" <%= selected_13 %>>1 PM</option>
+              <option value="14" <%= selected_14 %>>2 PM</option>
+              <option value="15" <%= selected_15 %>>3 PM</option>
+              <option value="16" <%= selected_16 %>>4 PM</option>
+              <option value="17" <%= selected_17 %>>5 PM</option>
+              <option value="18" <%= selected_18 %>>6 PM</option>
+              <option value="19" <%= selected_19 %>>7 PM</option>
+              <option value="20" <%= selected_20 %>>8 PM</option>
+              <option value="21" <%= selected_21 %>>9 PM</option>
+              <option value="22" <%= selected_22 %>>10 PM</option>
+              <option value="23" <%= selected_23 %>>11 PM</option>
             </select>
             </label></td>
           </tr>
@@ -105,16 +216,16 @@
             <td valign="top">&nbsp;</td>
             <td valign="top"><label>
             <%
-				if (timeline.getId() == null) {
+				if (afso.timelineOnScratchPad.getId() == null) {
 				%>
             <input type="submit" name="create_timeline" value="Create" />
             <%
 				} else {
 				%>
-            <input type="hidden" name="t_id" value="<%= timeline.getId() %>" />
+            <input type="hidden" name="t_id" value="<%= afso.timelineOnScratchPad.getId() %>" />
 			    <table width="100%"><tr>
                 <td align="left"><input type="submit"  name="update_timeline" tabindex="5" value="Update" /></td>
-				<td align="right"><input type="submit" name="command" tabindex="6" value="Clear to Create new Timeline" /></td>
+				<td align="right"><input type="submit" name="clear_button" tabindex="6" value="Clear to Create new Timeline" /></td>
 				</tr></table>
             <%
 					}
@@ -128,7 +239,7 @@
       <blockquote>
         <p>&nbsp;</p>
           <p>Below are listed all the TimeLines for this simulation.</p>
-          <table>
+          <table width="100%">
             <%
 		List timelineList = TimeLine.getAllBaseForSimulation(afso.schema, afso.sim_id);
 		
@@ -139,7 +250,7 @@
             <tr> 
               <td><a href="timeline_creator.jsp?queueup=true&t_id=<%= tim.getId().toString() %>"><%= tim.getName() %></a></td>
               <td>&nbsp;</td>
-              <td></td>
+              <td><a href="timeline_editor.jsp?timeline_id=<%= tim.getId().toString() %>">Add Events </a></td>
             </tr>
             <%
 	}
