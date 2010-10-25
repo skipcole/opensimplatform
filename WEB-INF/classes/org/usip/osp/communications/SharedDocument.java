@@ -31,7 +31,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "SHARED_DOCUMENTS")
 @Proxy(lazy=false)
-public class SharedDocument implements SimSectionDependentObject {
+public class SharedDocument implements SimSectionDependentObject, Comparable {
 
 	/** Database id of this Shared Document. */
 	@Id
@@ -521,6 +521,13 @@ public class SharedDocument implements SimSectionDependentObject {
 
 	public void setInternalControlNumber(String internalControlNumber) {
 		this.internalControlNumber = internalControlNumber;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		SharedDocument sd = (SharedDocument) arg0;
+		
+		return this.getDisplayTitle().compareToIgnoreCase(sd.getDisplayTitle());
 	}
 
 }

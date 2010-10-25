@@ -51,8 +51,11 @@
 <input type="hidden" name="sending_page" value="select_actors" />
 <%
 	List targets = new ArrayList();
-	List targetRaw = InjectActorAssignments.getAllForInject(pso.schema, new Long(inject_id));
-					
+	List targetRaw = new ArrayList();
+	
+	if (inject_id != null){
+		targetRaw = InjectActorAssignments.getAllForInject(pso.schema, new Long(inject_id));
+	}
 	///
 	for (ListIterator liInjId = targetRaw.listIterator(); liInjId.hasNext();) {
 		InjectActorAssignments targ = (InjectActorAssignments) liInjId.next();

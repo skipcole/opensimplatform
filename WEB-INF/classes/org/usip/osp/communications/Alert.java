@@ -49,6 +49,9 @@ public class Alert implements EventInterface {
 
 	/** An incoming for the player. */
 	public static final int TYPE_MEMO = 6;
+	
+	/** An announcement has been made and may be seen on the announcement page. */
+	public static final int TYPE_RATING_ANNOUNCEMENT = 7;
 
 	/**
 	 * Multiple events have occured for the user. (Don't pester with continuous

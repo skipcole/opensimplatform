@@ -13,10 +13,14 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
-	SimSectionRSDepOjbectAssignment ssrsdoa = 
-		SimSectionRSDepOjbectAssignment.getOneForRunningSimSection(pso.schema, pso.getRunningSimId(), cs.getId(), 0);
+	GenericVariable gv = new GenericVariable();
+	if (!(pso.preview_mode)) {
+
+		SimSectionRSDepOjbectAssignment ssrsdoa = 
+			SimSectionRSDepOjbectAssignment.getOneForRunningSimSection(pso.schema, pso.getRunningSimId(), cs.getId(), 0);
 		
-	GenericVariable gv = GenericVariable.getById(pso.schema, ssrsdoa.getObjectId());
+		gv = GenericVariable.getById(pso.schema, ssrsdoa.getObjectId());
+	}
 	
 	String sending_page = request.getParameter("sending_page");
 	
