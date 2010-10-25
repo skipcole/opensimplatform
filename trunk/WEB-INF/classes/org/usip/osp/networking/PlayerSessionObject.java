@@ -774,7 +774,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		Alert al = new Alert();
 		al.setSpecific_targets(true);
-		al.setType(Alert.TYPE_ANNOUNCEMENT);
+		al.setType(alertInQueueType);
 		al.setAlertMessage(alertInQueueText);
 
 		String shortIntro = USIP_OSP_Util.cleanAndShorten(alertInQueueText, 20)
@@ -787,7 +787,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		makeTargettedAnnouncement(al, targets, request);
 
-		if (inject_id != null) {
+		if ((inject_id != null) && (!(inject_id.equalsIgnoreCase("null")))
+				&& (inject_id.length() > 0)) {
 			InjectFiringHistory ifh = new InjectFiringHistory(
 					this.runningSimId, this.actorId);
 			ifh.setActorIdsFiredTo(targets);
@@ -1561,6 +1562,52 @@ public class PlayerSessionObject extends SessionObjectBase {
 				alertInQueueText = announcement_text;
 				alertInQueueType = Alert.TYPE_ANNOUNCEMENT;
 				backPage = "make_announcement.jsp";
+				this.forward_on = true;
+				return;
+			} else {
+				makeGeneralAnnouncement(announcement_text, request);
+			}
+
+		} // End of if coming from this page and have added announcement.
+
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleMakeRatingAnnouncement(HttpServletRequest request) {
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String add_news = (String) request.getParameter("add_news");
+
+		if ((sending_page != null) && (add_news != null)
+				&& (sending_page.equalsIgnoreCase("make_rating_announcement"))) {
+
+			String announcement_text = (String) request
+					.getParameter("announcement_text");
+
+			String player_target = (String) request
+					.getParameter("player_target");
+			
+			String points_awarded = (String) request
+			.getParameter("points_awarded");
+			
+			Long pointsAwarded = new Long (points_awarded);
+			
+			String awardImage = "";
+			
+			for (int ii = 0; ii < pointsAwarded.intValue(); ++ii){
+				awardImage += "<img src=\"" + getBaseSimURL() + "/simulation/images/dove_30by30.png\" >";
+			}
+			
+			announcement_text = awardImage + announcement_text;
+			
+			if ((player_target != null)
+					&& (player_target.equalsIgnoreCase("some"))) {
+				alertInQueueText = announcement_text;
+				alertInQueueType = Alert.TYPE_RATING_ANNOUNCEMENT;
+				backPage = "make_rating_announcement.jsp";
 				this.forward_on = true;
 				return;
 			} else {

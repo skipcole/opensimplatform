@@ -28,12 +28,12 @@
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<p>On this page we will </p>
-
+<p>On this page control can perform the functions listed below.</p>
+<h2>Core Functions </h2>
 <table width="95%" border="0" cellspacing="2" cellpadding="2">
   <tr valign="top">
-    <td valign="top"><p><a href="change_phase.jsp">Change Phase </a></p>    </td> 
-    <td valign="top"><p>This page will allow you to change the phase of the simulation. </p>      </td>
+    <td valign="top"><a href="change_phase.jsp">Change Phase </a>    </td> 
+    <td valign="top">This page will allow you to change the phase of the simulation.      </td>
   </tr>
   <tr valign="top">
     <td valign="top"><a href="become_player.jsp">Change Your Role </a></td>
@@ -53,7 +53,7 @@
   </tr>
   <tr valign="top">
     <td valign="top"><a href="finger.jsp">View Last Logins </a></td>
-    <td valign="top"><p>This page allows you to see when your players have logged in. </p>    </td>
+    <td valign="top">This page allows you to see when your players have logged in.    </td>
   </tr>
   <tr valign="top">
     <td valign="top"><a href="write_aar.jsp">Write AAR</a> </td>
@@ -61,5 +61,13 @@
   </tr>
 </table>
 <p>&nbsp;</p>
+<h2>Additional Fuctions</h2>
+<table width="95%" border="0" cellpadding="2" cellspacing="2">
+  <tr valign="top">
+    <td width="32%" valign="top"><a href="make_rating_announcement.jsp">Make Rating Announcement </a></td>
+    <td width="68%" valign="top">On this  page will be able to send a message including a 'star' rating to tell your students how they are doing. </td>
+  </tr>
+</table>
+<p>&nbsp; </p>
 </body>
 </html>

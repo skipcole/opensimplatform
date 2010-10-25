@@ -32,6 +32,7 @@
 
 <%= cs.getBigString() %><br />
             <p><%
+			
 					for (ListIterator li = wdl.getDocs().listIterator(); li.hasNext();) {
 						SharedDocument sd = (SharedDocument) li.next();
 					%>

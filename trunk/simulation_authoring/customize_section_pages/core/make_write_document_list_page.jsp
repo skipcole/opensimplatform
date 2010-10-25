@@ -64,8 +64,11 @@
 			int numSelect = docsAvailable.size();
 			
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
-
-				for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
+				
+				List theDocs = docsAvailable;
+				Collections.sort(theDocs);
+			
+				for (ListIterator li = theDocs.listIterator(); li.hasNext();) {
 					
 					SharedDocument sd = (SharedDocument) li.next(); %>
 
