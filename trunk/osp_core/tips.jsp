@@ -32,7 +32,7 @@
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<h1>Author's Tip(s)</h1>
+<h1>Simulation Author's Tip(s)</h1>
 <p><%= tc.getTip().getTipText() %>
   
   <% if (tc.getCanLeaveTip() ) { %>
@@ -63,10 +63,10 @@
 </p>
 <% } // End of loop over other people's tips.  %>
 
-<strong>Your Tip. <%= pso.user_name %> </strong>
+<strong>Your Tip.</strong> (<%= pso.user_name %>) 
 <form name="form1" method="post" action="tips.jsp">
   <label>
-  <textarea name="tip_page_text"><%= this_users_tip.getTipText()%></textarea>
+  <textarea cols="80" name="tip_page_text"><%= this_users_tip.getTipText()%></textarea>
 </label>
 
   <label>

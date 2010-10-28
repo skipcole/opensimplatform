@@ -75,6 +75,23 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
   
   <p>
   <strong>Optional, but Recommended:</strong> You may want to <a href="tutorial_sim_author_1_for_printing.jsp" onclick="MM_openBrWindow('tutorial_sim_author_1_for_printing.jsp','tutorialprint','toolbar=yes,status=yes,scrollbars=yes,resizable=yes')">Print out The Entire Tutorial</a> to allow you to easily access the USIP OSP and the tutorial at the same time.</p>
+  <table align="center" width="70%" border="0" cellspacing="4" cellpadding="4">
+
+  <tr>
+
+    <td bgcolor="#FFFFFF"><h2>Before You Begin</h2>
+
+      <p>It is probably worth noting here that this tool Assumes that the simulation author comes in with something in mind to work on - just as the blank page assumes that the writer has something to write about. To perform these tutorials, we have created some rather simple content, but the eventual content that you create using this platform will be (should be) much better. </p>
+
+    <p>We are just creating the platform to allow you to become a virtuouso. If this platform needs improvement to allow your creative vision to come to fruition, send an email to osp@usip.org</p>
+
+    <p>&nbsp; </p></td>
+
+  </tr>
+
+</table>
+
+
   <p>&nbsp;</p>
   <p align="center"><a href="page1.jsp">Begin</a></p>
   <p>&nbsp;</p>

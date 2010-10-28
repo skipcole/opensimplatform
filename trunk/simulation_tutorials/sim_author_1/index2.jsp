@@ -68,7 +68,22 @@ body {
 <blockquote>
   <p>In this tutorial we  are going to set up a very simple simulation where two people can enter into to negotiate over oranges. Along the way we will discuss many core concepts of the OSP. Time to complete this tutorial is  approximately an hour.</p>
   <p>To complete this tutorial you will need access to an authoring account on an OSP server. If you need assistance getting this, please send an email to osp@usip.org.</p>
-  
+  <table align="center" width="70%" border="0" cellspacing="4" cellpadding="4">
+
+  <tr>
+
+    <td bgcolor="#FFFFFF"><h2>Before You Begin</h2>
+
+      <p>It is probably worth noting here that this tool Assumes that the simulation author comes in with something in mind to work on - just as the blank page assumes that the writer has something to write about. To perform these tutorials, we have created some rather simple content, but the eventual content that you create using this platform will be (should be) much better. </p>
+
+    <p>We are just creating the platform to allow you to become a virtuouso. If this platform needs improvement to allow your creative vision to come to fruition, send an email to osp@usip.org</p>
+
+    <p>&nbsp; </p></td>
+
+  </tr>
+
+</table>
+
   <p>&nbsp;</p>
   <p align="center"><a href="page1.jsp">Begin</a></p>
   <p>&nbsp;</p>

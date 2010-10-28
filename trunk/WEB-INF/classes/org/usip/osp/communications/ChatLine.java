@@ -47,6 +47,9 @@ public class ChatLine implements Comparable{
 	@Column(name = "RUNNING_SIM_ID")
     private Long running_sim_id;
 	
+	/** Phase in which the chat line occured. */
+	private Long phaseId;
+	
 	@Column(name = "CONV_ID")
     private Long conversation_id;
     
