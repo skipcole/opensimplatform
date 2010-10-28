@@ -195,8 +195,8 @@ public class MasterTester{
         //bd_v1.game_id  = testGame1.id;
         //bd_v1.name = "Budget Name";
         //bd_v1.description = "Description of First Budget Variable.";
-        bd_v1.value = "10000"; //$NON-NLS-1$
-        bd_v1.accumulates = true;
+        //bd_v1.value = "10000"; //$NON-NLS-1$
+        //bd_v1.accumulates = true;
 
 
         returnString += b + "First Budget Variable Created"; //$NON-NLS-1$
@@ -205,8 +205,8 @@ public class MasterTester{
         //bd_v2.game_id  = testGame1.id;
         //bd_v2.name = "Budget Variable 2 Name";
         //bd_v2.description = "Description of Second Budget Variable.";
-        bd_v1.value = "0"; //$NON-NLS-1$
-        bd_v2.accumulates = false;
+        //bd_v1.value = "0"; //$NON-NLS-1$
+        //bd_v2.accumulates = false;
         //bd_v2.store();
 
         returnString += b + "Second Budget Variable Created"; //$NON-NLS-1$
