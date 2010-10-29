@@ -67,11 +67,13 @@
 			Vector actV = (Vector) li.next();
 			
 			String fileLoc = (String) actV.get(0);
+			String fileName = (String) actV.get(1);
 			
 		%>
                 <tr>
                   <td><img src="<%= fileLoc %>" alt="image" /></td>
-                  <td>Select</td>
+                  <td><%= fileName %></td>
+                  <td><a href="browse_actors_image.jsp?setimage=true&img_name=<%= fileName %>">Select</a></td>
                 </tr>
 				
 		<% } %>

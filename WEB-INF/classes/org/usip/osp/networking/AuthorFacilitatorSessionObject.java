@@ -88,11 +88,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public static final int PASSWORD_MISMATCH = 1;
 
 	public List tempSimSecList = new ArrayList();
-	
-	
+
 	static {
 		makeUploadDir();
-		
+
 	}
 
 	/**
@@ -1064,9 +1063,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	public TimeLine timelineOnScratchPad = new TimeLine();
-	
+
 	/**
 	 * Does the CRUD operations on a timeline.
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -1103,21 +1103,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		// If we got down to here, we must be doing some real work on a
 		// document.
 		String timeline_name = (String) request.getParameter("timeline_name");
-		String timeline_start_date = (String) request.getParameter("timeline_start_date");
-		String timeline_start_hour = (String) request.getParameter("timeline_start_hour");
-		
+		String timeline_start_date = (String) request
+				.getParameter("timeline_start_date");
+		String timeline_start_hour = (String) request
+				.getParameter("timeline_start_hour");
+
 		String timeline_start = timeline_start_date + " " + timeline_start_hour;
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy H");
-		
+
 		Date timeLineStartDate = new Date();
-		
+
 		try {
 			timeLineStartDate = sdf.parse(timeline_start);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		// Do create if called.
 		String create_timeline = (String) request
 				.getParameter("create_timeline");
@@ -1145,7 +1147,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 	}
-	
 
 	/**
 	 * Responds to items selected on the create conversation page.
@@ -2016,6 +2017,148 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 */
 	public void handleCreateActor(HttpServletRequest request) {
 
+		String update_actor = (String) request.getParameter("update_actor");
+		String actorid = (String) request.getParameter("actorid");
+		String clear_button = (String) request.getParameter("clear_button");
+		String create_actor = (String) request.getParameter("create_actor");
+		String editmode = (String) request.getParameter("editmode");
+
+		if ((update_actor != null)
+				&& (update_actor.equalsIgnoreCase("Update Actor"))) {
+
+			actor_being_worked_on_id = new Long(actorid);
+
+			Actor actorOnScratchPad = Actor.getById(schema,
+					actor_being_worked_on_id);
+
+			createOrUpdateActor(request, actorOnScratchPad);
+
+		} else if ((create_actor != null)
+				&& (create_actor.equalsIgnoreCase("Create Actor"))) {
+			Actor newActor = new Actor();
+			newActor.setImageFilename("no_image_default.jpg");
+			createOrUpdateActor(request, newActor);
+
+		} else if ((clear_button != null)) {
+
+			actor_being_worked_on_id = null;
+		} else if (editmode != null){
+			actorid = (String) request.getParameter("actorid");
+			if (actorid != null) {
+				actor_being_worked_on_id = new Long(actorid);
+			}
+		}
+
+	}
+
+	/**
+	 * Creates an actor.
+	 * 
+	 * @param request
+	 * @param actorOnScratchPad
+	 */
+	public void createOrUpdateActor(HttpServletRequest request, Actor actorOnScratchPad) {
+
+		boolean saveActor = false;
+		String create_actor = (String) request.getParameter("create_actor");
+		String update_actor = (String) request.getParameter("update_actor");
+
+		if ((create_actor != null)
+				&& (create_actor.equalsIgnoreCase("Create Actor"))
+				|| (update_actor != null)
+				&& (update_actor.equalsIgnoreCase("Update Actor"))
+
+		) {
+			saveActor = true;
+		}
+
+		if (saveActor) {
+			Logger.getRootLogger().debug("saving actor");
+			makeUploadDir();
+
+			String _sim_id = (String) request.getParameter("sim_id");
+			Simulation sim = Simulation.getById(schema, sim_id);
+			sim.updateLastEditDate(schema);
+
+			actorOnScratchPad.setSim_id(new Long(_sim_id));
+
+			String public_description = request.getParameter("public_description");
+			String actor_name = request.getParameter("actor_name");
+			String semi_public_description = request.getParameter("semi_public_description");
+			String private_description = request.getParameter("private_description");
+			String control_actor = (String) request.getParameter("control_actor");
+			
+			actorOnScratchPad.setPublic_description(public_description);
+			actorOnScratchPad.setName(actor_name);
+			actorOnScratchPad.setSemi_public_description(semi_public_description);
+			actorOnScratchPad.setPrivate_description(private_description);
+
+			if ((control_actor != null)
+					&& (control_actor.equalsIgnoreCase("true"))) {
+				actorOnScratchPad.setControl_actor(true);
+			} else {
+				actorOnScratchPad.setControl_actor(false);
+			}
+
+			// ////////////////////////////////////////////
+
+			actorOnScratchPad.saveMe(schema);
+
+			String add_to_sim = (String) request.getParameter("add_to_sim");
+
+			if ((add_to_sim != null) && (add_to_sim.equalsIgnoreCase("true"))) {
+
+				String actors_role = (String) request.getParameter("actors_role");
+				String chat_color = (String) request.getParameter("chat_color");
+
+				SimActorAssignment saa;
+
+				// Don't add actor to sim, if he or she has already been
+				// added.
+				boolean simHasActor = false;
+				for (ListIterator<Actor> li = SimActorAssignment
+						.getActorsForSim(schema, sim_id).listIterator(); li
+						.hasNext();) {
+					Actor act = li.next();
+
+					if (act.getId().equals(actorOnScratchPad.getId())) {
+						simHasActor = true;
+					}
+				}
+
+				// if (!(SimActorAssignment.getActorsForSim(schema,
+				// sim_id).contains(actorOnScratchPad))) {
+				if (!(simHasActor)) {
+					saa = new SimActorAssignment(schema, sim_id,
+							actorOnScratchPad.getId());
+				} else {
+					saa = SimActorAssignment.getById(schema, sim_id,
+							actorOnScratchPad.getId());
+				}
+
+				saa.setActors_role(actors_role);
+				saa.setActors_chat_color(chat_color);
+
+				saa.saveMe(schema);
+
+				SimulationSectionAssignment.applyAllUniversalSections(schema,
+						sim_id);
+
+			}
+
+			this.actor_name = actorOnScratchPad.getActorName();
+			this.actor_being_worked_on_id = actorOnScratchPad.getId();
+
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleCreateActorImages(HttpServletRequest request) {
+
 		String actorid = "";
 
 		try {
@@ -2026,10 +2169,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			actorid = (String) mpr.getParameter("actorid");
 
-			String clear_button = (String) mpr.getParameter("clear_button");
-
-			String create_actor = (String) mpr.getParameter("create_actor");
-
 			if ((update_actor != null)
 					&& (update_actor.equalsIgnoreCase("Update Actor"))) {
 
@@ -2039,17 +2178,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				Actor actorOnScratchPad = Actor.getById(schema,
 						actor_being_worked_on_id);
 
-				createActor(mpr, actorOnScratchPad);
+				setActorImages(mpr, actorOnScratchPad);
 
-			} else if ((create_actor != null)
-					&& (create_actor.equalsIgnoreCase("Create Actor"))) {
-				Actor newActor = new Actor();
-				newActor.setImageFilename("no_image_default.jpg");
-				createActor(mpr, newActor);
-
-			} else if ((clear_button != null)) {
-
-				actor_being_worked_on_id = null;
 			}
 		} catch (java.io.IOException ioe) {
 			Logger.getRootLogger().debug(
@@ -2067,12 +2197,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * Creates an actor.
+	 * Sets the image for an actor. 
+	 * The image can be uploaded.
 	 * 
 	 * @param mpr
 	 * @param actorOnScratchPad
 	 */
-	public void createActor(MultipartRequest mpr, Actor actorOnScratchPad) {
+	public void setActorImages(MultipartRequest mpr, Actor actorOnScratchPad) {
 
 		try {
 
@@ -2105,38 +2236,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				sim.updateLastEditDate(schema);
 
 				actorOnScratchPad.setSim_id(new Long(_sim_id));
-
-				actorOnScratchPad.setPublic_description((String) mpr
-						.getParameter("public_description"));
-				actorOnScratchPad.setName((String) mpr
-						.getParameter("actor_name"));
-				actorOnScratchPad.setSemi_public_description((String) mpr
-						.getParameter("semi_public_description"));
-				actorOnScratchPad.setPrivate_description((String) mpr
-						.getParameter("private_description"));
-
-				String control_actor = (String) mpr
-						.getParameter("control_actor");
-
-				if ((control_actor != null)
-						&& (control_actor.equalsIgnoreCase("true"))) {
-
-					actorOnScratchPad.setControl_actor(true);
-					if (this.sim_id != null) {
-
-						MultiSchemaHibernateUtil.beginTransaction(schema);
-						Logger.getRootLogger().debug(
-								"actors id is" + actorOnScratchPad.getId());
-						MultiSchemaHibernateUtil.getSession(schema)
-								.saveOrUpdate(actorOnScratchPad);
-						MultiSchemaHibernateUtil.getSession(schema).flush();
-						MultiSchemaHibernateUtil
-								.commitAndCloseTransaction(schema);
-					}
-
-				} else {
-					actorOnScratchPad.setControl_actor(false);
-				}
 
 				// ////////////////////////////////////////////
 				// Image portion of save
@@ -2267,57 +2366,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 	}
-	
-	/**
-	 * 
-	 * @param request
-	 */
-	public void handleCreateActorImages(HttpServletRequest request) {
 
-		String actorid = "";
-
-		try {
-			MultipartRequest mpr = new MultipartRequest(request,
-					USIP_OSP_Properties.getValue("uploads"));
-
-			String update_actor = (String) mpr.getParameter("update_actor");
-
-			actorid = (String) mpr.getParameter("actorid");
-
-			if ((update_actor != null)
-					&& (update_actor.equalsIgnoreCase("Update Actor"))) {
-
-				actor_being_worked_on_id = new Long((String) mpr
-						.getParameter("actorid"));
-
-				Actor actorOnScratchPad = Actor.getById(schema,
-						actor_being_worked_on_id);
-
-				createActor(mpr, actorOnScratchPad);
-
-			} 
-		} catch (java.io.IOException ioe) {
-			Logger.getRootLogger().debug(
-					"error in edit actor:" + ioe.getMessage());
-
-			actorid = (String) request.getParameter("actorid");
-			if (actorid != null) {
-				actor_being_worked_on_id = new Long(actorid);
-			}
-
-		} catch (Exception e) {
-			Logger.getRootLogger().debug(e.getMessage());
-			e.printStackTrace();
-		}
-	}
-	
 	/**
 	 * Creating actor images.
 	 * 
 	 * @param mpr
 	 * @param actorOnScratchPad
 	 */
-	public void createActorImages(MultipartRequest mpr, Actor actorOnScratchPad){
+	public void createActorImages(MultipartRequest mpr, Actor actorOnScratchPad) {
 
 		try {
 
@@ -2326,7 +2382,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String MAX_FILE_SIZE = (String) mpr.getParameter("MAX_FILE_SIZE");
 
 			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
-
 
 			if (update_actor != null) {
 				Logger.getRootLogger().debug("setting actor images");
@@ -2366,7 +2421,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				// ////////////////////////////////////////////
 				// Image portion of save
-				String initThumbFileName = mpr.getOriginalFileName("uploaded_thumb_file");
+				String initThumbFileName = mpr
+						.getOriginalFileName("uploaded_thumb_file");
 
 				if ((initThumbFileName != null)
 						&& (initThumbFileName.trim().length() > 0)) {
@@ -4108,13 +4164,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		System.out.println("hi");
 
 		Calendar y = new GregorianCalendar();
-		
+
 		y.set(1900, 10, 10, 10, 10);
-		
+
 		java.util.Date x = y.getTime();
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy H");
-		
+
 		try {
 			Date g = sdf.parse("10/18/2010 9");
 			System.out.println(g.toString());
@@ -4122,7 +4178,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			e.printStackTrace();
 		}
 		// Calendar.set(year + 1900, month, date, hrs, min)
-
 
 		System.out.println("bye");
 
@@ -4278,8 +4333,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						new Long(ii_id));
 
 				// Remove all previous distributions
-				InventoryItem
-						.removeTemplateAssignments(schema, new Long(ii_id), sim_id);
+				InventoryItem.removeTemplateAssignments(schema,
+						new Long(ii_id), sim_id);
 
 				// Loop over all of the actor ids found
 				for (Enumeration<String> e = request.getParameterNames(); e
