@@ -170,17 +170,6 @@
                 <option value="ddddff">Light Blue</option>
   </select> </td>
             </tr    -->
-            <tr> 
-              <td colspan="3" valign="top"><input type="hidden" name="MAX_FILE_SIZE" value="100000" />
-                Choose an image file to upload: 
-                <input name="uploadedfile" type="file" tabindex="5" />
-                or </td>
-            </tr>
-            <tr> 
-              <td colspan="3" valign="top">
-                Choose an thumbnail (chat) image file to upload: 
-                <input name="uploaded_thumb_file" type="file" tabindex="5" /></td>
-            </tr>
             <tr>
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>

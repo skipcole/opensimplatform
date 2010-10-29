@@ -16,7 +16,7 @@
 		if (afso.actor_being_worked_on_id != null) {
 			actorOnScratchPad = afso.giveMeActor();
 					
-			handleCreateActorImages(request);	
+			afso.handleCreateActorImages(request);	
 		}
 
 %>
