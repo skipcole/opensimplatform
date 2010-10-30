@@ -3,6 +3,9 @@ package org.usip.osp.networking;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
+
+import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.apache.log4j.*;
 
@@ -147,17 +150,61 @@ public class FileIO {
 		}
 	}
 	
+	static ArrayList<String> listOfStdFileExtensions = new ArrayList();
+	
+	static {
+		listOfStdFileExtensions.add(".jpg");
+		listOfStdFileExtensions.add(".JPG");
+		listOfStdFileExtensions.add(".jpeg");
+		listOfStdFileExtensions.add(".JPEG");
+		listOfStdFileExtensions.add(".gif");
+		listOfStdFileExtensions.add(".GIF");
+		listOfStdFileExtensions.add(".png");
+		listOfStdFileExtensions.add(".PNG");
+		
+	}
+	
+	/**
+	 * Checks to see if the image has a standard file extension. If so, the extension 
+	 * is returned.
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public static String getFileExtension(String fileName){
+		
+		// loop over standard extensions to try to find it.
+		
+		for (ListIterator<String> li = listOfStdFileExtensions.listIterator(); li.hasNext();) {
+			String thisExtension = li.next();
+			
+			if (fileName.endsWith(thisExtension)){
+				return thisExtension;
+			}
+		}
+		
+		return "";
+	}
+	
+	/** Returns the name of a file not found on the file system. */
 	public static File getCleanFileName(String filePathAndName){
 		
 		File outFile = new File(filePathAndName);
 		
-		int ii = 0;
+		if (outFile.exists()){
 		
-		while(outFile.exists()){
-			ii += 1;
-			outFile = new File(filePathAndName + "_" + ii);
+			String fileExtension = getFileExtension(filePathAndName);
+			System.out.println("file extension: " + fileExtension);
+			int endIndex = filePathAndName.length() - fileExtension.length();
+			String reducedFilePathAndName = filePathAndName.substring(0, endIndex);
+			
+			int ii = 0;
+		
+			while(outFile.exists()){
+				ii += 1;
+				outFile = new File(reducedFilePathAndName + "_" + ii + fileExtension);
+			}
 		}
-		
 		return outFile;
 	}
 
