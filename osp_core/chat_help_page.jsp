@@ -23,19 +23,48 @@
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	ChatHelpCustomizer chc = new ChatHelpCustomizer(request, pso, cs);
 	
+	ArrayList constantPeople = chc.getConstantActors();
+	
+	Actor this_actor = pso.giveMeActor();
+	
+	// Keep a set of actors to loop over check on if online.
+	Hashtable setOfActors = new Hashtable();
+
+	ArrayList theseConversations = new ArrayList();
+	// Loop over the conversations for this Actor
+	for (ListIterator<Long> li = constantPeople.listIterator(); li.hasNext();) {
+		Long constantActorId = (Long) li.next();
+		
+		if (constantActorId.intValue() != this_actor.getId().intValue()) {
+			setOfActors.put(constantActorId.toString(), "set");
+			Conversation conv = Conversation.getChatHelpConversation(pso.schema, pso.sim_id, cs.getId(),
+				pso.getRunningSimId(), this_actor.getId(), constantActorId);
+			
+			if (conv != null){
+				theseConversations.add(conv);
+			}
+		} else {
+			List convs = Conversation.getAllChatHelpConversationsForHelper(pso.schema, pso.sim_id, cs.getId(),
+				pso.getRunningSimId(), this_actor.getId());
+				
+			for (ListIterator<Conversation> lic = convs.listIterator(); lic.hasNext();) {
+				Conversation conv = lic.next();	
+				
+				if (conv != null){
+					theseConversations.add(conv);
+				}
+			}
+		}
+
+	}
 	
 %>
 <html>
 <head>
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
 <script type="text/javascript">
-	<%
-		// Keep a set of actors to loop over check on if online.
-		Hashtable setOfActors = new Hashtable();
-	
-		// The print out statement below fills in the hashtable and lists important details regarding the actors.
-	%>
-	<%= pso.generatePrivateChatLines(request, setOfActors, new Long(cs_id)) %>
+	<%		// The print out statement below fills in the hashtable and lists important details regarding the actors.  %>
+	<%= pso.generateChatHelpLines(request, theseConversations, new Long(cs_id)) %>
 
 </script>
 	<script type="text/javascript">
@@ -52,7 +81,7 @@
 		%>
 			
 		<%  // Loop over the conversations for this Actor
-		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id)).listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = theseConversations.listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next(); %>
 		
 			updateMsg<%= conv.getId() %>();
@@ -76,7 +105,7 @@
 		}); // End of loop over if ready
 		
 		<%  // Loop over the conversations for this Actor
-		for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id)).listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = theseConversations.listIterator(); li.hasNext();) {
 			Conversation conv = (Conversation) li.next(); %>
 			
 		function addMessages<%= conv.getId() %>(xml) {
@@ -155,7 +184,7 @@ width:100%;
 } 
 <%
 	// Loop over the conversations for this Actor
-	for (ListIterator<Conversation> li = Conversation.getActorsConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id)).listIterator(); li.hasNext();) {
+	for (ListIterator<Conversation> li = theseConversations.listIterator(); li.hasNext();) {
 		Conversation conv = (Conversation) li.next();
 %>	
 		#messagewindow<%= conv.getId() %> {
@@ -191,25 +220,12 @@ width:100%;
   </TR>
 </table>
 <P>
-
-<%
-	List listOfConversations = Conversation.getActorsConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id));
-	
-	Actor this_actor = pso.giveMeActor();
-	/*
-	if (this_actor.isControl_actor()){
-		listOfConversations = Conversation.getAllConversationsForSimSection(pso.schema, pso.getActorId(), pso.getRunningSimId(), new Long(cs_id));
-	}
-	*/
-	
-	// Loop over the conversations for this Actor
-	for (ListIterator<Conversation> li = listOfConversations.listIterator(); li.hasNext();) {
-		Conversation conv = (Conversation) li.next();
-	
-	
-%>
 <table width="100%" border="1">
   <% 
+  
+  	// Loop over the conversations for this Actor
+	for (ListIterator<Conversation> li = theseConversations.listIterator(); li.hasNext();) {
+		Conversation conv = (Conversation) li.next();
   		
 		// Loop over the conversation actors (should be 2 of them) for this private chat.
   		for (ListIterator<ConvActorAssignment> liii = conv.getConv_actor_assigns(pso.schema).listIterator(); liii.hasNext();) {
@@ -226,25 +242,25 @@ width:100%;
 	%>
 		
   <tr valign="top"> 
-    <td width="40%"> Your conversation with <%= this_a_name %> <img src = "<%= this_a_thumb %>" alt = "<%= this_a_name %>" >
+    <td width="40%"> Your conversation with <%= this_a_name %>
     (<I><span id="actorpresent<%= caa.getActor_id().toString() %>">Checking status ...</span></I>)<br>
 				<form id="chatform<%= conv.getId() %>" >
   <p>&nbsp;&nbsp;<textarea cols="40" rows="5" id="msg<%= conv.getId() %>" ></textarea>
 	<input type="hidden" id="author<%= conv.getId() %>" value="You" />
+	<input type="hidden" id="cs_id" name="cs_id" value="<%= cs_id %>" />
     <input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" /><br />
 	<input type="submit" value="Send">
   </p>
 </form>			</td>
 			
-    <td><p id="messagewindow<%= conv.getId() %>"><span id="loading">Loading...</span></p></td>
+    <td><p id="messagewindow<%= conv.getId() %>"><span id="loading" >Loading...</span></p></td>
 		</tr>
         <% 
 			} //End of if this is a different actor from this particular player character.
-		} // End of loop over conversation actors. %>
+		} // End of loop over conversation actors.
+		
+		} // End of loop over conversation  %>
 	</table>
-<% 
- 	}
-  %>
 	</P>
 </body>
 </html>

@@ -130,8 +130,8 @@ public class ChatHelpCustomizer extends Customizer {
 		// Create conversations for constant-visitor
 	}
 
-	private ArrayList constantActors = new ArrayList();
-	private ArrayList visitingActors = new ArrayList();
+	private ArrayList <Long> constantActors = new ArrayList();
+	private ArrayList <Long> visitingActors = new ArrayList();
 	private boolean eForEveryone = false;
 
 	public ArrayList getConstantActors() {
