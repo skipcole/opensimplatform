@@ -612,21 +612,6 @@ public class Simulation implements ExportableObject, Comparable{
 		this.aarStarterText = aar_starter_text;
 	}
 
-	public List<Conversation> getConversations(String schema) {
-		return SimConversationAssignment.getConversationsForSim(schema, this.id);
-	}
-
-	/**
-	 * Only adds conversation to a simulation if that conversation has not
-	 * already been added.
-	 * 
-	 * @param conv
-	 */
-	public void addConversation(String schema, Conversation conv) {
-
-		@SuppressWarnings("unused")
-		SimConversationAssignment sca = new SimConversationAssignment(schema, this.id, conv.getId());
-	}
 
 	public String getCopyright_string() {
 		return this.copyrightString;

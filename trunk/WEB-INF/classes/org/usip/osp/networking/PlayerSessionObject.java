@@ -682,6 +682,44 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		} // End of if coming back from the form on this page.
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param setOfActors
+	 * @param section_id
+	 * @return
+	 */
+	public String generateChatHelpLines(HttpServletRequest request,
+			ArrayList setOfConversations, Long section_id) {
+
+		String returnString = "";
+
+		// Loop over the conversations for this Actor
+		for (ListIterator<Conversation> li = setOfConversations.listIterator(); li.hasNext();) {
+			Conversation conv = (Conversation) li.next();
+
+			returnString += "var start_index" + conv.getId() + " = 0 \r\n";
+			returnString += "var new_start_index" + conv.getId() + " = 0 \r\n";
+
+			// Take this opportunity to fill up the hashtable with actors
+			// Loop over the conversation actors (should be 2 of them) for this
+			// private chat.
+			for (ListIterator<ConvActorAssignment> liii = conv
+					.getConv_actor_assigns(schema).listIterator(); liii
+					.hasNext();) {
+				ConvActorAssignment caa = (ConvActorAssignment) liii.next();
+
+				// Don't do the chat with the actor and his or her self.
+				if (!(caa.getActor_id().equals(actorId))) {
+					//setOfActors.put(caa.getActor_id().toString(), "set");
+				} // end of if this is an applicable actor
+			} // End of loop over conversation actors
+		} // End of loop over conversations.
+
+		return returnString;
+
+	} // End of method
 
 	/**
 	 * 

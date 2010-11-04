@@ -5,7 +5,9 @@ import java.util.*;
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
@@ -53,7 +55,7 @@ public class Conversation implements SimSectionDependentObject {
 	/** This is a private conversation. */
 	public static final int TYPE_PRIVATE = 2;
 
-	/** This is a caucus conversation. */
+	/** This is a chat help conversation. */
 	public static final int TYPE_CHAT_HELP = 3;
 	
 	/** This is a caucus conversation. */
@@ -76,10 +78,6 @@ public class Conversation implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		Simulation sim = Simulation.getById(schema, sim_id);
-		sim.addConversation(schema, this);
-		sim.saveMe(schema);
 
 	}
 
@@ -293,6 +291,107 @@ public class Conversation implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
+	}
+	
+	public static List getAllChatHelpConversationsForHelper(String schema, Long sim_id, Long section_id,
+			Long rs_id, Long actor1){
+		
+		ArrayList returnList  = new ArrayList<Conversation>();
+		
+		List <Actor> actList  = Actor.getAllForSimulation(schema, sim_id);
+		
+		for (ListIterator<Actor> li = actList.listIterator(); li.hasNext();) {
+
+			Actor act = li.next();
+			
+			Conversation conv = Conversation.getChatHelpConversation(schema, sim_id, section_id,
+					rs_id, act.getId(), actor1);
+			
+			if (conv != null){
+				returnList.add(conv);
+			}
+		}
+		
+		return returnList;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param section_id
+	 * @param rs_id
+	 * @param actor1
+	 * @param actor2
+	 * @return
+	 */
+	public static Conversation getChatHelpConversation(String schema, Long sim_id, Long section_id,
+			Long rs_id, Long actor1, Long actor2){
+		
+		// Look for conversation named like, "Chat Help, S1, SEC99, RS2, A7, A9"
+		
+		String actorIdPiece = "";
+		if (actor1.intValue() < actor2.intValue()){
+			actorIdPiece = ", A" + actor1 + ", A" + actor2;
+		} else {
+			actorIdPiece = ", A" + actor2 + ", A" + actor1;
+		}
+		
+		String uniqName = "Chat Help, S" + sim_id + ", SEC" + section_id + ", RS" + rs_id + actorIdPiece;
+		
+		Conversation conv = Conversation.getByUniqueIdentifier(schema, uniqName, TYPE_CHAT_HELP);
+		
+		if (conv == null){
+			conv = new Conversation();
+			conv.setSim_id(sim_id);
+			conv.setSimId(sim_id);
+			conv.setConversationType(TYPE_CHAT_HELP);
+			conv.setRs_id(rs_id);
+			conv.setUniqueConvName(uniqName);
+			conv.saveMe(schema);
+			
+			ConvActorAssignment caa1 = new ConvActorAssignment();
+			caa1.setActor_id(actor1);
+			caa1.setConv_id(conv.getId());
+			caa1.setRunning_sim_id(rs_id);
+			caa1.setSimId(sim_id);
+			caa1.saveMe(schema);
+			
+			ConvActorAssignment caa2 = new ConvActorAssignment();
+			caa2.setActor_id(actor2);
+			caa2.setConv_id(conv.getId());
+			caa2.setRunning_sim_id(rs_id);
+			caa2.setSimId(sim_id);
+			caa2.saveMe(schema);
+			
+		}
+		
+		return conv;
+		
+	}
+	
+	public static Conversation getByUniqueIdentifier(String schema, String uniqueConvName, int conv_type) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String getSQL = "from Conversation where uniqueConvName = :uniqueConvName and conv_type = :conv_type"; //$NON-NLS-1$
+
+		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(getSQL)
+			.setString("uniqueConvName", uniqueConvName)
+			.setInteger("conv_type", conv_type)
+			.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		if ((returnList == null) || (returnList.size() == 0)){
+			return null;
+		} else if (returnList.size() == 1){
+			return returnList.get(0);
+		} else {
+			Logger.getRootLogger().warn("multiple conversations with same unique id found");
+			return returnList.get(0);
+		}
 	}
 
 	/**
