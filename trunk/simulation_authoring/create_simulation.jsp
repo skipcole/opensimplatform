@@ -64,7 +64,14 @@
               <td valign="top">Simulation Creator <a href="helptext/sim_banner.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top">
   <input type="hidden" name="simcreator" value="<%= afso.userDisplayName %>"> 
-                <%= simulation.getCreator() %></td>
+  			<% String creatorName = "";
+				if ((simulation.getCreator() != null) && (simulation.getCreator().length() > 0)) {
+					creatorName = simulation.getCreator();
+				} else {
+					creatorName = afso.userDisplayName;
+				}
+			%>
+                <%=  creatorName%></td>
             </tr>
           <tr>
             <td>&nbsp;</td>

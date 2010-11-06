@@ -9,7 +9,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-
+/**
+ * This class associates a running simulation with a set.
+ * 
+ * @author Skip
+ *
+ */
 /* 
 *         This file is part of the USIP Open Simulation Platform.<br>
 * 

@@ -30,16 +30,16 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 @Entity
 @Proxy(lazy = false)
-public class OneLink implements SimSectionDependentObject{
+public class SetOfLinks implements SimSectionDependentObject{
 	
 	/**
 	 * Zero argument constructor required by hibernate.
 	 */
-	public OneLink(){
+	public SetOfLinks(){
 		
 	}
 	
-	public OneLink(String name, Long sim_id){
+	public SetOfLinks(String name, Long sim_id){
 		this.name = name;
 		this.sim_id = sim_id;
 		
@@ -64,14 +64,14 @@ public class OneLink implements SimSectionDependentObject{
     @Column(name = "RS_ID")
     private Long rs_id;
     
+    
+    /** Running simulation id. */
+    @Column(name = "RS_SET_ID")
+    private Long rs_set_id;
+    
     private String name = ""; //$NON-NLS-1$
     
-    private String notes = ""; //$NON-NLS-1$
-	
-	public static final String PLACEHOLDER_LOCATION = "../osp_core/onelink_placeholder.jsp";
-    
-    private String startingValue = PLACEHOLDER_LOCATION; //$NON-NLS-1$
-    
+    private String notes = ""; //$NON-NLS-1$  
 
 	public String getName() {
 		return name;
@@ -89,14 +89,6 @@ public class OneLink implements SimSectionDependentObject{
 		this.notes = notes;
 	}
 
-	public String getStartingValue() {
-		return startingValue;
-	}
-
-	public void setStartingValue(String startingValue) {
-		this.startingValue = startingValue;
-	}
-
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
@@ -108,18 +100,6 @@ public class OneLink implements SimSectionDependentObject{
 		this.transit_id = transit_id;
 	}
     
-    /** If a value has been set for this variable, this is the id allowable response holding the answer. */
-    private Long currentlySelectedResponse;
-	
-
-	public Long getCurrentlySelectedResponse() {
-		return this.currentlySelectedResponse;
-	}
-
-	public void setCurrentlySelectedResponse(Long currentlySelectedResponse) {
-		this.currentlySelectedResponse = currentlySelectedResponse;
-	}
-
 	public Long getId() {
 		return this.id;
 	}
@@ -152,6 +132,14 @@ public class OneLink implements SimSectionDependentObject{
 		this.rs_id = rs_id;
 	}
 
+	public Long getRs_set_id() {
+		return rs_set_id;
+	}
+
+	public void setRs_set_id(Long rsSetId) {
+		rs_set_id = rsSetId;
+	}
+
 	/**
 	 * Saves this object to the database.
 	 * @param schema
@@ -170,13 +158,13 @@ public class OneLink implements SimSectionDependentObject{
 	 * @param sim_id
 	 * @return
 	 */
-	public static OneLink getOneLinkForRunningSim(String schema, Long gv_id, Long rs_id) {
+	public static SetOfLinks getSetOfLinksForRunningSim(String schema, Long gv_id, Long rs_id) {
 
-		OneLink this_gv = null;
+		SetOfLinks this_gv = null;
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		String hql_string = "from OneLink where RS_ID = " + rs_id  //$NON-NLS-1$
+		String hql_string = "from SetOfLinks where RS_ID = " + rs_id  //$NON-NLS-1$
 		+ " AND BASE_ID = '" + gv_id + "'"; //$NON-NLS-1$ //$NON-NLS-2$
 		
 		Logger.getRootLogger().debug("----------------------------------"); //$NON-NLS-1$
@@ -195,7 +183,7 @@ public class OneLink implements SimSectionDependentObject{
 		}
 		
 		
-		for (ListIterator<OneLink> li = varFound.listIterator(); li.hasNext();) {
+		for (ListIterator<SetOfLinks> li = varFound.listIterator(); li.hasNext();) {
 			this_gv = li.next();
 		}
 
@@ -205,17 +193,6 @@ public class OneLink implements SimSectionDependentObject{
 
 	}
 	
-	public String generateForwardOnTag(){
-		
-		String tagString = "";
-		
-		if (!(this.startingValue.equalsIgnoreCase(PLACEHOLDER_LOCATION))){
-			tagString = "<META http-equiv=\"refresh\" content=\"0;URL=" + startingValue + "\"> ";
-		}
-		
-		return tagString;
-	}
-	
 	/**
 	 * Retrieves object from database.
 	 * 
@@ -223,13 +200,13 @@ public class OneLink implements SimSectionDependentObject{
 	 * @param gv_id
 	 * @return
 	 */
-	public static OneLink getById(String schema, Long gv_id) {
+	public static SetOfLinks getMe(String schema, Long gv_id) {
 
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		OneLink this_gv  = (OneLink) MultiSchemaHibernateUtil
-				.getSession(schema).get(OneLink.class, gv_id);
+		SetOfLinks this_gv  = (SetOfLinks) MultiSchemaHibernateUtil
+				.getSession(schema).get(SetOfLinks.class, gv_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -249,9 +226,9 @@ public class OneLink implements SimSectionDependentObject{
 	 * @param the_sim_id
 	 * @return
 	 */
-	public static List getAllBaseOneLinksForSim(String schema, Long the_sim_id) {
+	public static List getAllBaseSetOfLinkssForSim(String schema, Long the_sim_id) {
 		
-		String hql_string = "from OneLink where SIM_ID = " + the_sim_id.toString()  //$NON-NLS-1$
+		String hql_string = "from SetOfLinks where SIM_ID = " + the_sim_id.toString()  //$NON-NLS-1$
 			+ " AND RS_ID is null"; //$NON-NLS-1$
 	
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -262,29 +239,9 @@ public class OneLink implements SimSectionDependentObject{
 	}
 	
 	/**
-	 * This returns the 'base' one links for a simulation. A 'base' generic variable is the archetypal 
-	 * generic variable
-	 * that is copied into a version to be edited in a particular running simulation. When the base
-	 * generic variable is copied into a copy generic variable, its id is copied into the base_id of the copy. So 
-	 * the original 'base' generic variables have their BASE_ID null, and copies have in values in that field.
-	 * @param hibernate_session
-	 * @param the_sim_id
-	 * @return
-	 */
-	public static List getAllForSim(String schema, Long the_sim_id) {
-		
-		String hql_string = "from OneLink where SIM_ID = " + the_sim_id.toString();  //$NON-NLS-1$
-	
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
-		return returnList;
-	}
-	
-	/**
-	 * Creates, and saves to the database, a copy of this one link object. This is used to create a version 
-	 * of a variable for a particular running simulation session. The copied variable
+	 * Creates, and saves to the database, a copy of this generic variable. This is used to create a version 
+	 * of a 
+	 * variable for a particular running simulation session. The copied variable
 	 * will have the base_id field filled in with the id of the original.
 	 * 
 	 * @param rsid Running simulation id.
@@ -292,16 +249,15 @@ public class OneLink implements SimSectionDependentObject{
 	 * @return The generic variable object created.
 	 * 
 	 */
-	public OneLink createCopy(Long rsid,  String schema){
+	public SetOfLinks createCopy(Long rsid,  String schema){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		OneLink gv = new OneLink();
+		SetOfLinks gv = new SetOfLinks();
 		
 		gv.setBase_id(this.getId());
 		gv.setRs_id(rsid);
 		gv.setSim_id(this.getSim_id());
-		gv.setStartingValue(this.getStartingValue());
 		
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(gv);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -315,18 +271,15 @@ public class OneLink implements SimSectionDependentObject{
 
 		Logger.getRootLogger().warn("Creating generic variable for running sim : " + rs_id); //$NON-NLS-1$
 
-		OneLink templateOL = (OneLink) templateObject;
+		SetOfLinks templateOL = (SetOfLinks) templateObject;
 
-		OneLink ol = new OneLink();
+		SetOfLinks ol = new SetOfLinks();
 		
 		ol.setName(templateOL.getName());
 		ol.setNotes(templateOL.getNotes());
 		ol.setSim_id(templateOL.getSim_id());
 		ol.setBase_id(templateOL.getId());
-		
-		// Set value to starting value
-		ol.setStartingValue(this.getStartingValue());
-		
+				
 		ol.setRs_id(rs_id);
 		
 		ol.saveMe(schema);

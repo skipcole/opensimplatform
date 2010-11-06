@@ -43,7 +43,7 @@
 <body>
 <table width="95%" border="0" cellspacing="2" cellpadding="2">
   <tr valign="top"> 
-    <td><p>This page is a placeholder until this site has been set by the simulation facilitator.
+    <td><p>Loading ... 
     </p>
       </td>
   </tr>

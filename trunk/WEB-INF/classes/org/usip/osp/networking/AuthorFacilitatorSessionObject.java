@@ -2017,6 +2017,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 */
 	public void handleCreateActor(HttpServletRequest request) {
 
+		System.out.println("handleCreateActor");
+		
 		String update_actor = (String) request.getParameter("update_actor");
 		String actorid = (String) request.getParameter("actorid");
 		String clear_button = (String) request.getParameter("clear_button");
@@ -2033,8 +2035,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			createOrUpdateActor(request, actorOnScratchPad);
 
-		} else if ((create_actor != null)
-				&& (create_actor.equalsIgnoreCase("Create Actor"))) {
+		} else if (create_actor != null) {
+			System.out.println("Creating Actor");
 			Actor newActor = new Actor();
 			newActor.setImageFilename("no_image_default.jpg");
 			createOrUpdateActor(request, newActor);
@@ -2063,12 +2065,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String create_actor = (String) request.getParameter("create_actor");
 		String update_actor = (String) request.getParameter("update_actor");
 
-		if ((create_actor != null)
-				&& (create_actor.equalsIgnoreCase("Create Actor"))
-				|| (update_actor != null)
-				&& (update_actor.equalsIgnoreCase("Update Actor"))
-
-		) {
+		if ((create_actor != null) || (update_actor != null)){
 			saveActor = true;
 		}
 
