@@ -75,7 +75,7 @@
               <h1>Create / Edit Actor</h1>
               <p>On this page you will enter the basic information regarding the actors in your simulation. (If you have several actors that will have the <strong>exact</strong> same simulation sections, you may want to  create an <a href="create_actor_category.jsp">actor category</a>.)</p>
               <br />
-    <form enctype="multipart/form-data" action="create_actors.jsp" method="post">
+    <form action="create_actors.jsp" method="post">
     
     <input type="hidden" name="sim_id" value="<%= afso.sim_id %>" />
     

@@ -17,6 +17,13 @@
 		return;
 	}
 	
+	// Find the document associated with this section.
+	SharedDocument sd_current = new SharedDocument();
+	
+	if ((cs != null) && (cs.getId() != null)){
+		sd_current = BaseSimSectionDepObjectAssignment.getSharedDocumentForSection(afso.schema, cs.getId().toString());
+	}
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -45,7 +52,7 @@
         <blockquote>
           <p>Tab Heading: 
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
-            </p>
+          </p>
           <p>To allow access to a player to write a document, you must first have created it. To create a new document associated with this simulation <a href="../../make_create_document_page.jsp">click here</a>. </p>
           <table width="100%" border="0">
               <tr>
@@ -63,8 +70,14 @@
 					for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 					
 						SharedDocument sd = (SharedDocument) li.next();
+						
+						String selected = "";
+						
+						if (sd.getId().intValue() == sd_current.getId().intValue()){
+							selected = "selected=\"selected\"";
+						}
 				%>
-                      <option value="<%= sd.getId() %>" <%= SharedDocument.getSelectedIfFoundBaseDocsForBaseSimSection(afso.schema, cs.getId(), sd.getId()) %>><%= sd.getUniqueDocTitle() %></option>
+                      <option value="<%= sd.getId() %>" <%= selected %>><%= sd.getUniqueDocTitle() %></option>
                       <%
 					}
 				%>
@@ -108,6 +121,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

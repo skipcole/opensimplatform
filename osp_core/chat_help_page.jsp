@@ -61,6 +61,10 @@
 %>
 <html>
 <head>
+<title>Chat Help Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="-1">
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
 <script type="text/javascript">
 	<%		// The print out statement below fills in the hashtable and lists important details regarding the actors.  %>
@@ -138,7 +142,7 @@
 				$("#loading").remove();
 				addMessages<%= conv.getId() %>(xml);
 			});
-			setTimeout('updateMsg<%= conv.getId() %>()', 4000);
+			setTimeout('updateMsg<%= conv.getId() %>()', 2000);
 		}
 		<% } // End of loop over conversations. %>
 		
@@ -167,7 +171,7 @@
 						);
 					
 					
-					setTimeout('checkOnlineActor<%= key %>()', 10000);
+					setTimeout('checkOnlineActor<%= key %>()', 1000);
 				
 				}
 		<%
@@ -249,7 +253,7 @@ width:100%;
 	<input type="hidden" id="author<%= conv.getId() %>" value="You" />
 	<input type="hidden" id="cs_id" name="cs_id" value="<%= cs_id %>" />
     <input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" /><br />
-	<input type="submit" value="Send">
+	<input type="submit" value="Send"  onClick="sendText();return false;">
   </p>
 </form>			</td>
 			

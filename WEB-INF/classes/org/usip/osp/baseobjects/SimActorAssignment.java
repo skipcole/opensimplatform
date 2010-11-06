@@ -34,6 +34,10 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class SimActorAssignment {
 
+	public static final int TYPE_UNDEFINED = 0;
+	public static final int TYPE_REQUIRED = 1;
+	public static final int TYPE_OPTIONAL = 2;
+	
 	/** Database id. */
 	@Id
 	@GeneratedValue
@@ -49,6 +53,14 @@ public class SimActorAssignment {
     
     private String actors_role = ""; //$NON-NLS-1$
     
+    private int assignmentType = 0;
+    
+    private Long assignmentPriority = new Long(1);
+    
+    private String assignmentNotes = "";  //$NON-NLS-1$
+    
+	private String actors_chat_color = ""; //$NON-NLS-1$
+	
 	public String getActors_role() {
 		return this.actors_role;
 	}
@@ -56,16 +68,37 @@ public class SimActorAssignment {
 	public void setActors_role(String actors_role) {
 		this.actors_role = actors_role;
 	}
-	
-	private String actors_chat_color = ""; //$NON-NLS-1$
-	
 
-	public String getActors_chat_color() {
-		return this.actors_chat_color;
+	public int getAssignmentType() {
+		return assignmentType;
 	}
 
-	public void setActors_chat_color(String actors_chat_color) {
-		this.actors_chat_color = actors_chat_color;
+	public void setAssignmentType(int assignmentType) {
+		this.assignmentType = assignmentType;
+	}
+
+	public Long getAssignmentPriority() {
+		return assignmentPriority;
+	}
+
+	public void setAssignmentPriority(Long assignmentPriority) {
+		this.assignmentPriority = assignmentPriority;
+	}
+
+	public String getAssignmentNotes() {
+		return assignmentNotes;
+	}
+
+	public void setAssignmentNotes(String assignmentNotes) {
+		this.assignmentNotes = assignmentNotes;
+	}
+
+	public String getActors_chat_color() {
+		return actors_chat_color;
+	}
+
+	public void setActors_chat_color(String actorsChatColor) {
+		actors_chat_color = actorsChatColor;
 	}
 
 	public SimActorAssignment(){
@@ -134,6 +167,11 @@ public class SimActorAssignment {
 		}
 	}
 	
+	/**
+	 * Saves the assignment back to the database.
+	 * 
+	 * @param schema
+	 */
 	public void saveMe(String schema){
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);

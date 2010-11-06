@@ -672,10 +672,12 @@ public class PSO_SectionMgmt {
 			// Get the document associated with this customized section
 			try {
 				Long doc_id = new Long(_doc_string);
+				
+				BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, customizableSectionOnScratchPad.getId());
 
-				BaseSimSectionDepObjectAssignment bssdoa = BaseSimSectionDepObjectAssignment.getIfExistsElseCreateIt(
-						afso.schema, customizableSectionOnScratchPad.getId(),
-						"org.usip.osp.communications.SharedDocument", doc_id, afso.sim_id);
+				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment
+					(customizableSectionOnScratchPad.getId(), 
+					SharedDocument.class.toString().replaceFirst("class ", ""), 1, doc_id, afso.sim_id, afso.schema);
 
 				bssdoa.setDepObjIndex(1);
 
