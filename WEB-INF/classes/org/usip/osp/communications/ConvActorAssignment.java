@@ -185,7 +185,7 @@ public class ConvActorAssignment implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
 		List<ConvActorAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from ConvActorAssignment where sim_id = :sim_id")
+				"from ConvActorAssignment where sim_id = :sim_id and running_sim_id is null")
 				.setLong("sim_id", sim_id)
 				.list(); //$NON-NLS-1$
 

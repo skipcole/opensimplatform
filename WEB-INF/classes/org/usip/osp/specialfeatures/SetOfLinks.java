@@ -200,7 +200,7 @@ public class SetOfLinks implements SimSectionDependentObject{
 	 * @param gv_id
 	 * @return
 	 */
-	public static SetOfLinks getMe(String schema, Long gv_id) {
+	public static SetOfLinks getById(String schema, Long gv_id) {
 
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -226,7 +226,7 @@ public class SetOfLinks implements SimSectionDependentObject{
 	 * @param the_sim_id
 	 * @return
 	 */
-	public static List getAllBaseSetOfLinkssForSim(String schema, Long the_sim_id) {
+	public static List getAllBaseSetOfLinksForSim(String schema, Long the_sim_id) {
 		
 		String hql_string = "from SetOfLinks where SIM_ID = " + the_sim_id.toString()  //$NON-NLS-1$
 			+ " AND RS_ID is null"; //$NON-NLS-1$
@@ -245,24 +245,21 @@ public class SetOfLinks implements SimSectionDependentObject{
 	 * will have the base_id field filled in with the id of the original.
 	 * 
 	 * @param rsid Running simulation id.
-	 * @param hibernate_session Hibernate session created targetting the appropriate schema for saving into.
 	 * @return The generic variable object created.
 	 * 
 	 */
 	public SetOfLinks createCopy(Long rsid,  String schema){
+			
+		SetOfLinks sol = new SetOfLinks();
 		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
+		sol.setBase_id(this.getId());
+		sol.setRs_id(rsid);
+		sol.setSim_id(this.getSim_id());
+		sol.setName(this.getName());
+		sol.setNotes(this.getNotes());
+		sol.saveMe(schema);
 		
-		SetOfLinks gv = new SetOfLinks();
-		
-		gv.setBase_id(this.getId());
-		gv.setRs_id(rsid);
-		gv.setSim_id(this.getSim_id());
-		
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(gv);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
-		return gv;
+		return sol;
 	}
 	
 
@@ -273,18 +270,18 @@ public class SetOfLinks implements SimSectionDependentObject{
 
 		SetOfLinks templateOL = (SetOfLinks) templateObject;
 
-		SetOfLinks ol = new SetOfLinks();
+		SetOfLinks sol = new SetOfLinks();
 		
-		ol.setName(templateOL.getName());
-		ol.setNotes(templateOL.getNotes());
-		ol.setSim_id(templateOL.getSim_id());
-		ol.setBase_id(templateOL.getId());
+		sol.setName(templateOL.getName());
+		sol.setNotes(templateOL.getNotes());
+		sol.setSim_id(templateOL.getSim_id());
+		sol.setBase_id(templateOL.getId());
 				
-		ol.setRs_id(rs_id);
+		sol.setRs_id(rs_id);
 		
-		ol.saveMe(schema);
+		sol.saveMe(schema);
 		
-		return ol.getId();
+		return sol.getId();
 	}
 
 	@Override

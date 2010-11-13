@@ -72,20 +72,6 @@ public class ChatLine implements Comparable{
 	@Transient
 	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a"); //$NON-NLS-1$
 	
-    /**
-     * Packages a line with information (index, from id, and message payload) with
-     * expected delimiters.
-     * 
-     * @return
-     */
-    public String packageMe(){
-        
-        String me = this.id + "_" + this.fromActor + "_"; //$NON-NLS-1$ //$NON-NLS-2$
-        
-        me = me + "xyxyx_" + this.msgtext; //$NON-NLS-1$
-        
-        return me;
-    }
     
     /**
      * Packages a line with information (index, from id, and message payload) with
@@ -105,8 +91,11 @@ public class ChatLine implements Comparable{
     	returnString += "     <time>" + time_string + "</time>"; //$NON-NLS-1$ //$NON-NLS-2$
     	returnString += "     <id>" + this.id + "</id>"; //$NON-NLS-1$ //$NON-NLS-2$
     	returnString += "     <author>" + actorName + "</author>"; //$NON-NLS-1$ //$NON-NLS-2$
+    	returnString += "     <actor_id>" + fromActor + "</actor_id>"; //$NON-NLS-1$ //$NON-NLS-2$
     	returnString += "     <text>" + this.msgtext + "</text>"; //$NON-NLS-1$ //$NON-NLS-2$
     	returnString += "</message>\r\n"; //$NON-NLS-1$
+    	
+    	System.out.println(returnString);
         
         return returnString;
     }

@@ -911,6 +911,69 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			}
 		}
 	}
+	
+	
+	public SetOfLinks handleCreateSetOfLinks(HttpServletRequest request){
+		
+		SetOfLinks returnSetOfLinks = new SetOfLinks();
+		
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return returnSetOfLinks;
+		}
+
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
+		String sol_id = (String) request.getParameter("ol_id");
+
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
+				&& (sol_id != null) && (sol_id.trim().length() > 0)) {
+			returnSetOfLinks = SetOfLinks.getById(schema, new Long(sol_id));
+			return returnSetOfLinks;
+		}
+
+		// If player just entered this page from a different form, just return
+		// the blank object
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null)
+				|| (!(sending_page.equalsIgnoreCase("make_create_setoflinks_page")))) {
+			return returnSetOfLinks;
+		}
+
+		// If we got down to here, we must be doing some real work on a
+		// document.
+		String setoflinks_name = (String) request.getParameter("setoflinks_name");
+		String setoflinks_notes = (String) request.getParameter("setoflinks_notes");
+		String start_value = (String) request.getParameter("start_value");
+
+		// Do create if called.
+		String create_setoflinks = (String) request.getParameter("create_setoflinks");
+		if ((create_setoflinks != null)) {
+			Logger.getRootLogger().debug(
+					"creating setoflinks of uniq name: " + setoflinks_name);
+			returnSetOfLinks = new SetOfLinks(setoflinks_name, sim_id);
+			returnSetOfLinks.setNotes(setoflinks_notes);
+			returnSetOfLinks.saveMe(schema);
+		}
+
+		// Do update if called.
+		String update_onelink = (String) request.getParameter("update_onelink");
+		if ((update_onelink != null)) {
+			Logger.getRootLogger().debug(
+					"updating onelink of uniq title: " + setoflinks_name);
+			returnSetOfLinks = SetOfLinks.getById(schema, new Long(sol_id));
+			returnSetOfLinks.setName(setoflinks_name);
+			returnSetOfLinks.setNotes(setoflinks_notes);
+			returnSetOfLinks.setSim_id(sim_id);
+			returnSetOfLinks.saveMe(schema);
+
+		}
+
+		return returnSetOfLinks;
+		
+	}
 
 	/**
 	 * Handles CRUD operations on OneLink Object

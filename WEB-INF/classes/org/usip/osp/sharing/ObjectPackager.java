@@ -530,6 +530,11 @@ public class ObjectPackager {
 			if (bu != null) {
 				thisUser.setTransit_id(thisUser.getId());
 				thisUser.setId(null);
+
+				// Set the last sim edited to null since this may be meaningless
+				// upon re-import.
+				thisUser.setLastSimEdited(null);
+
 				bu.setTransit_id(bu.getId());
 				bu.setId(null);
 
@@ -1229,6 +1234,7 @@ public class ObjectPackager {
 			String sd_string = li_i.next();
 
 			SimSectionDependentObject ssdo = null;
+			boolean doRest = true;
 
 			if (key.equalsIgnoreCase(Conversation.class.toString()
 					.replaceFirst("class ", ""))) {
@@ -1280,8 +1286,25 @@ public class ObjectPackager {
 					Long newActorId = (Long) actorIdMappings.get(caa
 							.getActor_id());
 					caa.setActor_id(newActorId);
-					caa.setConv_id((Long) conversationMappings.get(caa
-							.getConv_id()));
+
+					Long conv_id = null;
+
+					// 11/9/10 This armor plating is probably no longer necessary. SC
+					try {
+						conv_id = (Long) conversationMappings.get(caa
+								.getConv_id());
+					} catch (Exception e) {
+						e.printStackTrace();
+						doRest = false;
+					}
+
+					if (conv_id != null) {
+						caa.setConv_id(conv_id);
+					} else {
+						System.out.println("conv_id null for caa with id of "
+								+ caa.getConv_id());
+						doRest = false;
+					}
 				} else if (ssdo.getClass().equals(
 						SharedDocActorNotificAssignObj.class)) {
 					SharedDocActorNotificAssignObj sdano = (SharedDocActorNotificAssignObj) ssdo;
@@ -1305,40 +1328,44 @@ public class ObjectPackager {
 					sdano.setEventId(newEventId);
 				}
 
-				System.out.println("saving ssdo: " + ssdo);
-				ssdo.saveMe(schema);
+				if (doRest) {
 
-				try {
-					// Save information you might need later.
-					if (ssdo.getClass().equals(Conversation.class)) {
-						Conversation conv = (Conversation) ssdo;
-						conversationMappings.put(conv.getTransit_id(), conv
-								.getId());
-					} else if (ssdo.getClass().equals(SharedDocument.class)) {
-						SharedDocument sd = (SharedDocument) ssdo;
-						sharedDocumentMappings.put(sd.getTransit_id(), sd
-								.getId());
-					} else if (ssdo.getClass().equals(TimeLine.class)) {
-						TimeLine sd = (TimeLine) ssdo;
-						timelineMappings.put(sd.getTransit_id(), sd.getId());
-					} else if (ssdo.getClass().equals(Event.class)) {
-						Event sd = (Event) ssdo;
-						eventMappings.put(sd.getTransit_id(), sd.getId());
+					System.out.println("saving ssdo: " + ssdo);
+					ssdo.saveMe(schema);
+
+					try {
+						// Save information you might need later.
+						if (ssdo.getClass().equals(Conversation.class)) {
+							Conversation conv = (Conversation) ssdo;
+							conversationMappings.put(conv.getTransit_id(), conv
+									.getId());
+						} else if (ssdo.getClass().equals(SharedDocument.class)) {
+							SharedDocument sd = (SharedDocument) ssdo;
+							sharedDocumentMappings.put(sd.getTransit_id(), sd
+									.getId());
+						} else if (ssdo.getClass().equals(TimeLine.class)) {
+							TimeLine sd = (TimeLine) ssdo;
+							timelineMappings
+									.put(sd.getTransit_id(), sd.getId());
+						} else if (ssdo.getClass().equals(Event.class)) {
+							Event sd = (Event) ssdo;
+							eventMappings.put(sd.getTransit_id(), sd.getId());
+						}
+					} catch (Exception eee) {
+						eee.printStackTrace();
 					}
-				} catch (Exception eee) {
-					eee.printStackTrace();
+
+					objectMappings.put(key + "_" + ssdo.getTransit_id(), ssdo
+							.getId());
+
+					RestoreResults.createAndSaveObject(reId, ssdo.getId()
+							.toString(), ssdo.getClass().toString(), "",
+							"Found Dependent Object of class " + key
+									+ " and it had a transit id of "
+									+ ssdo.getTransit_id()
+									+ " which was mapped to an id of "
+									+ ssdo.getId());
 				}
-
-				objectMappings.put(key + "_" + ssdo.getTransit_id(), ssdo
-						.getId());
-
-				RestoreResults.createAndSaveObject(reId, ssdo.getId()
-						.toString(), ssdo.getClass().toString(), "",
-						"Found Dependent Object of class " + key
-								+ " and it had a transit id of "
-								+ ssdo.getTransit_id()
-								+ " which was mapped to an id of "
-								+ ssdo.getId());
 			}
 		}
 

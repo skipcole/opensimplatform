@@ -50,14 +50,15 @@ errorPage="../error.jsp" %>
 				Long storedSimId = afso.editedBefore();
 				
 				if (storedSimId != null){
-					returningAuthor = true;
-					backString = " Back ";
-					
+				
 					Simulation sim = Simulation.getById(afso.schema, storedSimId);
-					simName = sim.getSimulationName();
 					
-					afso.sim_id = sim.getId();
-					
+					if (sim != null) {
+						returningAuthor = true;
+						backString = " Back ";
+						simName = sim.getSimulationName();
+						afso.sim_id = sim.getId();
+					}
 				}
 			%>
 			  <h1 align="center"> Welcome <%= backString %> <%= afso.userDisplayName %> ! </h1>
