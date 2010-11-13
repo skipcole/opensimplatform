@@ -25,6 +25,14 @@
 		pso.user_id = afso.user_id;
 		pso.schema = afso.schema;
 		pso.setLoggedin(true);
+		
+		String sim_id = request.getParameter("sim_id");
+		pso.sim_id = new Long(sim_id);
+		
+		String rs_id = request.getParameter("rs_id");
+		pso.setRunningSimId( new Long(rs_id) );
+		
+		
 		pso.handleLoadPlayerScenario(request);
 	
 		if (pso.forward_on) {
@@ -82,6 +90,8 @@
 		<input type="hidden" name="admin_backdoor" value="true" />
 		<input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
         <input type="hidden" name="schema" value="<%= afso.schema %>" />
+		<input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
+		<input type="hidden" name="rs_id" value="<%= rs.getId() %>" />
         <input type="hidden" name="schema_org" value="Admin" />
         <input type="hidden" name="sending_page" value="select_simulation" />
         </label>

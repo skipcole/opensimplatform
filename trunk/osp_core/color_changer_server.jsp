@@ -8,11 +8,9 @@
 
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
-
 	String actor_id =  (String) request.getParameter("actor_id");
 	String chatlinecolor =  (String) request.getParameter("chatlinecolor");
 
-	//System.out.println(" a: " + actor_id + ", chatlinecolor: " + chatlinecolor);
 	pso.changeActorsColor(actor_id, chatlinecolor);
 	
 	String status_code = "no data to return";

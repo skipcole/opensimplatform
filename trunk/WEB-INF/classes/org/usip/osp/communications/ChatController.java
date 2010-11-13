@@ -115,33 +115,6 @@ public class ChatController {
 		}
 	}
 
-	public static String getConversation(HttpServletRequest request,
-			PlayerSessionObject pso) {
-
-		if ((pso == null) || (pso.getRunningSimId() == null)) {
-			return ""; //$NON-NLS-1$
-		}
-
-		// Get user id
-		String user_id = request.getParameter("user_id"); //$NON-NLS-1$
-
-		// Get actor id
-		String actor_id = request.getParameter("actor_id"); //$NON-NLS-1$
-
-		// Start index is where to start getting messages from
-		String start_index = request.getParameter("start_index"); //$NON-NLS-1$
-
-		// Get the new text to add to the conversation
-		String newtext = request.getParameter("newtext"); //$NON-NLS-1$
-
-		// Get the key for this conversation
-		String conv_id = request.getParameter("conv_id"); //$NON-NLS-1$
-
-		Vector this_conv = getCachedConversation(request, pso, conv_id);
-
-		return getConversation(user_id, actor_id, start_index, newtext,
-				conv_id, this_conv, pso.getRunningSimId(), pso.schema);
-	}
 
 	/** Returns a key for the conversation based on schema, running sim id and conversation id. */
 	public static String getConvKey(PlayerSessionObject pso, String conv_id) {
@@ -208,47 +181,6 @@ public class ChatController {
 		return convLinesToReturn;
 	}
 
-	/**
-	 * Looks up all of the lines for the conversation needed and passes them
-	 * back. Uses the 'index' to keep track of how much of the conversation the
-	 * user needs.
-	 * 
-	 * @param request
-	 * @param afso
-	 * @return
-	 */
-	public static String getConversation(String user_id, String actor_id,
-			String start_index, String newtext, String conv_id,
-			Vector<ChatLine> this_conv, Long rsid, String schema) {
-		
-		if (start_index == null) {
-			start_index = "0"; //$NON-NLS-1$
-		}
-
-		int start_int = new Integer(start_index).intValue();
-
-		if (newtext != null) {
-			ChatLine cl = new ChatLine(user_id, rsid.toString(), actor_id,
-					conv_id, newtext);
-			cl.saveMe(schema);
-			this_conv.add(cl);
-		}
-
-		Collections.sort(this_conv);
-		//Collections.reverse(this_conv);
-		
-		String convLinesToReturn = ""; //$NON-NLS-1$
-		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
-			ChatLine bcl = (ChatLine) e.nextElement();
-
-			// Check to see were are above the start index sent.
-			if (bcl.getId().intValue() > start_int) {
-				convLinesToReturn += (bcl.packageMe() + "|||||"); //$NON-NLS-1$
-			}
-		}
-
-		return convLinesToReturn;
-	}
 
 	public static void insertChatLine(Long user_id, Long actor_id,
 			String start_index, String newtext, String conv_id,

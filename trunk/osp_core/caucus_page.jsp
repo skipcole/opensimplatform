@@ -15,26 +15,20 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-	
-	String bodyText = "";
-	
+		
 	String cs_id = (String) request.getParameter("cs_id");
-	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-	CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(cs_id));
-    
-	bodyText = (String) cs.getBigString();
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, new Long(cs_id));
 	
 	Long sim_conv_id = (Long) cs.getContents().get("sim_conv_id");
 	
-	MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
+	Conversation conv = Conversation.getById(pso.schema, sim_conv_id)
 	
 	Vector this_set_of_actors = ChatController.getActorsForConversation(pso, sim_conv_id.toString(), request);
 	
 %>
 <html>
 <head>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
 <script type="text/javascript">
 
 	var start_index = 0
@@ -42,6 +36,7 @@
 	var actor_names = new Array();
 	var actor_colors = new Array();
 	
+	// Here we loop over the actors to set the color of their chat.
 	<% 
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();
@@ -54,46 +49,6 @@
 		}
 	%>
 
-
-
-function formatString(rawData){
-	
-	var lineDelimiter = "|||||";
-	var innerDelimiter = "_xyxyx_";
-	
-	var formattedHTML = "";
-	
-	array0 = rawData.split(lineDelimiter);
-
-	for (count = 0; count < array0.length - 1; count++){
-		var this_msg = array0[count];
-		
-		array1 = this_msg.split(innerDelimiter);
-		
-		var msgMetaData = array1[0];
-		
-		array2 = msgMetaData.split("_")
-		var msgIndex = array2[0];
-		
-		// Make it a number
-		msgIndex = msgIndex * 1
-		
-		//////////////////////////////////
-		if (msgIndex > start_index) {
-			start_index = msgIndex
-		}
-		
-		var msgSender = array2[1];
-		
-		var msgPayload = array1[1];
-		
-		//formattedHTML += ("<div class=actor_" + actor_colors[msgSender] + ">From " + actor_names[msgSender] + ": " + msgPayload + " </div>" );
-		formattedHTML += ("<table width=100% bgcolor=#" + actor_colors[msgSender] + " ><tr><td>From " + actor_names[msgSender] + ": " + msgPayload + " </td></tr></table>" );
-		
-	}
-		
-  	return ( formattedHTML );
-}
   
 var chat_text = ""
 
@@ -115,110 +70,58 @@ function changeActorColor(dropdownlist){
 
 }
 
-function ajaxFunction()
-  {
-  var xmlHttp;
-  try
-    {
-    // Firefox, Opera 8.0+, Safari
-    xmlHttp=new XMLHttpRequest();
-    }
-  catch (e)
-    {
-    // Internet Explorer
-    try
-      {
-      xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-      }
-    catch (e)
-      {
-      try
-        {
-        xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-      catch (e)
-        {
-        alert("Your browser does not support AJAX!");
-        return false;
-        }
-      }
-    }
-    xmlHttp.onreadystatechange=function()
-      {
-      if(xmlHttp.readyState==4)
-        {
-
-		var returnedText = xmlHttp.responseText;
-		
-		if (returnedText.length > 10) {
-		
-			var formattedHTML = formatString(returnedText);
-			
-			chat_text = chat_text + formattedHTML;
-			document.getElementById('foo').innerHTML = chat_text;
-			var objDiv = document.getElementById("foo");
-			objDiv.scrollTop = objDiv.scrollHeight;
-		
-		}
-		
-        }
-      }
-    xmlHttp.open("GET","broadcast_chat_server.jsp?conv_id=<%= sim_conv_id %>&actor_id=" + <%= pso.getActorId() %> + "&start_index=" + start_index,true);
-    xmlHttp.send(null);
-  }
+//document.getElementById('foo').innerHTML = chat_text;
+//var objDiv = document.getElementById("foo");
+//objDiv.scrollTop = objDiv.scrollHeight;
+//xmlHttp.open("GET","broadcast_chat_server.jsp?conv_id=<%= sim_conv_id %>&actor_id=" + <%= pso.getActorId() %> + "&start_index=" + start_index,true)
   
 
 </script>
 <script type="text/javascript">
-function timedCount()
-{
-	ajaxFunction()
-	setTimeout("timedCount()",1000)
-}
 
 function sendText(){
-	
-  	var send_text
-	
 	send_text = encodeURI(document.getElementById('chattexttosend').value);
 	
 	document.getElementById('chattexttosend').value = "";
-	
-	var xmlHttp;
-  try
-    {
-    // Firefox, Opera 8.0+, Safari
-    xmlHttp=new XMLHttpRequest();
-    }
-  catch (e)
-    {
-    // Internet Explorer
-    try
-      {
-      xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
-      }
-    catch (e)
-      {
-      try
-        {
-        xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-        }
-      catch (e)
-        {
-        alert("Your browser does not support AJAX!");
-        return false;
-        }
-      }
-    }
-
-	var dataToSend = "conv_id=<%= sim_conv_id %>&actor_id=" + <%= pso.getActorId() %> + "&user_id=" + <%= pso.user_id %> + "&newtext=" + send_text;
-	
+	var dataToSend = "conv_id=<%= sim_conv_id %>&actor_id=" + <%= pso.getActorId() %> + "&user_id=" + <%= pso.user_id %> + "&newtext=" + send_text;	
 	xmlHttp.open("POST","broadcast_chat_server.jsp",true);
 	xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xmlHttp.send(dataToSend);
 
   }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <style type="text/css" media="screen">
 body {
 margin:2;
@@ -259,8 +162,8 @@ overflow:scroll;
 <body onLoad="timedCount();"> 
 <table width="50%">
 <TR>
-    <TD valign="top" width="25%"><%= bodyText %>
-	  </TD>
+    <TD valign="top" width="25%"><%= cs.getBigString() %>
+	  xxx</TD>
 <TR>
     <TD width="25%"><form name="form1" method="post" action="">
   <p>Text to send: 
@@ -283,12 +186,9 @@ overflow:scroll;
 	  <option value="<%= this_a_id %>_ddffdd">Green</option>
 	  <option value="<%= this_a_id %>_ddddff">Blue</option>
       <option value="<%= this_a_id %>_ffff66">Yellow</option>
-    </select> </form></LI><% } %>
+    </select> (<I><span id="actorpresent<%= act.getActor_id().toString() %>">Checking status ...</span></I>)</form></LI><% } %>
 	</UL>
 	</P>
 <div id="foo" >Chat Text</div>
 </body>
 </html>
-<%
-	
-%>

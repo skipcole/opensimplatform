@@ -10,7 +10,7 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	OneLink ol  = afso.handleCreateOneLink(request);
+	SetOfLinks sol  = afso.handleCreateSetOfLinks(request);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -30,25 +30,21 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Create/Edit One Link</h1>
+              <h1>Create/Edit Set of Links </h1>
               <br />
-    <p>A 'One Link' is an address that can be modified during a simulation.
+    <p>A 'Set of Links' is a set of Link objects that can be added into a running simulation or a set of running simulations.
     <form action="make_create_onelink_page.jsp" method="post" name="form2" id="form2">
       
-      <h2>Create New 'One Link'</h2>
+      <h2>Create New 'Set of Links'</h2>
             <table width="100%">
               <tr>
-                <td valign="top">One Link Name  <a href="helptext/onelink_name.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top"><input type="text" name="onelink_name" value="<%= ol.getName() %>" /></td></tr>
+                <td valign="top">Set of Links  Name  <a href="helptext/onelink_name.jsp" target="helpinright">(?)</a>:</td>
+                <td valign="top"><input type="text" name="onelink_name" value="<%= sol.getName() %>" /></td></tr>
               <tr valign="top">
-                <td>One Link Notes <a href="helptext/onelink_notes.jsp" target="helpinright">(?)</a>:</td>
+                <td>Set of Links  Notes <a href="helptext/onelink_notes.jsp" target="helpinright">(?)</a>:</td>
                 <td><label>
-                  <textarea name="onelink_notes" id="textarea" cols="45" rows="5"><%= ol.getNotes() %></textarea>
+                  <textarea name="onelink_notes" id="textarea" cols="45" rows="5"><%= sol.getNotes() %></textarea>
                 </label></td>
-              </tr>
-              <tr valign="top">
-                <td>One Link Starting Point<a href="helptext/onelink_startingpoint.jsp" target="helpinright">(?)</a>:</td>
-                <td><input type="text" name="start_value" value="<%= ol.getStartingValue() %>" /></td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -56,14 +52,14 @@
               </tr>
               <tr><td>&nbsp;</td><td>
               
-              <% if (ol.getId() == null) { %>
+              <% if (sol.getId() == null) { %>
               
               <input type="submit" name="create_onelink" value="Create" />
               
               <%
 				} else {
 				%>
-                <input type="hidden" name="ol_id" value="<%= ol.getId() %>" />
+                <input type="hidden" name="sol_id" value="<%= sol.getId() %>" />
                 <input type="submit" name="clear_button" value="Clear" />
                 <input type="submit"  name="update_onelink" value="Update One Link" /> 
                 <%
@@ -76,24 +72,22 @@
       </p>
     </form>
       <p>&nbsp;</p>
-      <p>Below are listed all of the 'one links' currently associated with this simulation. </p>
+      <p>Below are listed all of the 'set of links' currently associated with this simulation. </p>
       <table border="1" width="100%">
   <tr>
     
-    <td><strong>One Link  Identifier</strong></td>
-    <td><strong>Remove*</strong></td>
-  </tr>
+    <td><strong>Set of Links   Identifier</strong></td>
+    </tr>
         <%
-					for (ListIterator li = OneLink.getAllBaseOneLinksForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
-						OneLink ol_l = (OneLink) li.next();
+					for (ListIterator li = SetOfLinks.getAllBaseSetOfLinksForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+						SetOfLinks sol_l = (SetOfLinks) li.next();
 		%>
           <tr>
-            <td><a href="make_create_onelink_page.jsp?ol_id=<%= ol_l.getId() %>&queueup=true"><%= ol_l.getName() %></a></td>
-            <td>&nbsp;</td>
+            <td><a href="make_create_set_of_links_page.jsp?sol_id=<%= sol_l.getId() %>&queueup=true"><%= sol_l.getName() %></a></td>
             </tr>
         <% } %>
       </table>
-      <p>* Feature not yet implemented</p>
+      <p>&nbsp;</p>
       <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>

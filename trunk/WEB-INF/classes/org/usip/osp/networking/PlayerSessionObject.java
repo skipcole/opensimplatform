@@ -720,6 +720,41 @@ public class PlayerSessionObject extends SessionObjectBase {
 		return returnString;
 
 	} // End of method
+	
+	/**
+	 * 
+	 * @param request
+	 * @param setOfActors
+	 * @param section_id
+	 * @return
+	 */
+	public String generateConferenceRoomChatLines(HttpServletRequest request,
+			Hashtable setOfActors, Long conv_id) {
+
+		String returnString = "";
+
+			Conversation conv = Conversation.getById(schema, conv_id);
+
+			returnString += "var start_index" + conv.getId() + " = 0 \r\n";
+			returnString += "var new_start_index" + conv.getId() + " = 0 \r\n";
+
+			// Take this opportunity to fill up the hashtable with actors
+			// Loop over the conversation actors (should be 2 of them) for this
+			// private chat.
+			for (ListIterator<ConvActorAssignment> liii = conv
+					.getConv_actor_assigns(schema).listIterator(); liii
+					.hasNext();) {
+				ConvActorAssignment caa = (ConvActorAssignment) liii.next();
+
+				//xxxxx Don't do the chat with the actor and his or her self.
+				//xxxxif (!(caa.getActor_id().equals(actorId))) {
+					setOfActors.put(caa.getActor_id().toString(), "set");
+				//xxxxx} // end of if this is an applicable actor
+			} // End of loop over conversation actors
+
+		return returnString;
+
+	} // End of method
 
 	/**
 	 * 
@@ -2124,13 +2159,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 		for (Enumeration e = myActors.elements(); e.hasMoreElements();) {
 			ActorGhost ag = (ActorGhost) e.nextElement();
 
-			// Logger.getRootLogger().debug("color was: " +
-			// ag.getDefaultColorChatBubble());
-
 			if (ag.getId().toString().equalsIgnoreCase(actor_id)) {
 				ag.setDefaultColorChatBubble(newColor);
-				// Logger.getRootLogger().debug("color is: " +
-				// ag.getDefaultColorChatBubble());
 			}
 		}
 	}

@@ -32,11 +32,13 @@
 
 <%= cs.getBigString() %><br />
             <p><%
-			
-					for (ListIterator li = wdl.getDocs().listIterator(); li.hasNext();) {
+					
+					List theDocs = wdl.getDocs();
+					//Collections.sort(theDocs);
+					for (ListIterator li = theDocs.listIterator(); li.hasNext();) {
 						SharedDocument sd = (SharedDocument) li.next();
 					%>
-                    <a href="write_document.jsp?sendingDocId=true&doc_id=<%= sd.getId() %>"><%= sd.getDisplayTitle() %> (<%= sd.getUniqueDocTitle() %>)</a><br />
+              <a href="write_document.jsp?sendingDocId=true&doc_id=<%= sd.getId() %>"><%= sd.getDisplayTitle() %></a><br />
                     <% } %>
             
             </p>
