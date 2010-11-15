@@ -17,7 +17,6 @@
 	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
 	String time_string = sdf.format(now) + "_" + start_index;
 	
-	System.out.println("hit me: " + time_string);
 	String xml_msgs = "";
 							
 	xml_msgs = ChatController.getXMLConversation(start_index, conversation, pso, request);

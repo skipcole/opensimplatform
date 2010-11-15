@@ -70,9 +70,9 @@
           </tr>
         <tr valign="top">
           <td>&nbsp;</td>
-          <td>View Error Cache </td>
+          <td><a href="errors.jsp">View Errors</a></td>
           <td>&nbsp;</td>
-          <td>Allows the developer to see recent error messages stored in cache. </td>
+          <td>Allows the developer to see recent error messages stored in cache and in the database. </td>
         </tr>
         <tr valign="top">
           <td>&nbsp;</td>

@@ -94,8 +94,7 @@ public class ChatLine implements Comparable{
     	returnString += "     <actor_id>" + fromActor + "</actor_id>"; //$NON-NLS-1$ //$NON-NLS-2$
     	returnString += "     <text>" + this.msgtext + "</text>"; //$NON-NLS-1$ //$NON-NLS-2$
     	returnString += "</message>\r\n"; //$NON-NLS-1$
-    	
-    	System.out.println(returnString);
+
         
         return returnString;
     }

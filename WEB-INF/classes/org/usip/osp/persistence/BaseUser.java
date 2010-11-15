@@ -190,12 +190,20 @@ public class BaseUser {
         MultiSchemaHibernateUtil.beginTransaction(
                 MultiSchemaHibernateUtil.principalschema, true);
 
-        List sList = MultiSchemaHibernateUtil.getSession(
+        List sList = null;
+        
+        try {
+        sList = MultiSchemaHibernateUtil.getSession(
                 MultiSchemaHibernateUtil.principalschema, true).createQuery(
                 "from BaseUser where USERNAME = :username AND PASSWORD = :password ")
                 .setString("username", username)
                 .setString("password", password)
                 .list(); //$NON-NLS-1$ 
+        } catch (Exception e){
+        	// TODO
+        	// This died here when a user got added with null username (during a csv import)
+        	// We should find a way to log errors of this nature to a place where the admin can read them.
+        }
 
         if ((sList == null) || (sList.size() == 0)) {
             MultiSchemaHibernateUtil.getSession(
