@@ -115,11 +115,21 @@ public class Email {
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
 
-	/** Indicates if this email is a reply to another email. */
-	private boolean reply_email = false;
-	
 	/** Indicates if this email is a forward of another email. */
 	private boolean forward_email = false;
+	
+	private boolean sendInRealWorld = true;
+	
+	public boolean isSendInRealWorld() {
+		return sendInRealWorld;
+	}
+
+	public void setSendInRealWorld(boolean sendInRealWorld) {
+		this.sendInRealWorld = sendInRealWorld;
+	}
+
+	/** Indicates if this email is a reply to another email. */
+	private boolean reply_email = false;
 	
 	public boolean isReply_email() {
 		return reply_email;

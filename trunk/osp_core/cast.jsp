@@ -115,7 +115,7 @@
 			if (userAssigned.equalsIgnoreCase("unassigned")) {
 				thisActorAssignedToUser = false;
 			}
-				System.out.println(USIP_OSP_Cache.getUserAssigned(pso.schema, pso.getRunningSimId(), act.getId(), request));
+				
 			//}
 			
 			if ((showControl) || (!(act.isControl_actor()))) {
