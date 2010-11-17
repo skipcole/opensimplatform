@@ -36,7 +36,7 @@
 		aai.setRunning_sim_id(pso.getRunningSimId());
 		aai.saveMe(pso.schema);
 
-		pso.getActorName() = new_name;		
+		pso.setActorName(new_name);		
 		USIP_OSP_Cache.setActorName(new_name, pso.schema, pso.sim_id, pso.getRunningSimId(), request, pso.getActorId());
 		
 		   

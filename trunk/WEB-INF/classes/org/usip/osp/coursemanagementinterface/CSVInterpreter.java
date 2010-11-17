@@ -74,7 +74,7 @@ public class CSVInterpreter {
 						boolean foundFirstLine = false;
 						while (daLine != null) {
 							if (daLine.startsWith("#")) {
-								// Don't do anything, its a comment
+								returnString += daLine + "<br />";
 							} else {
 
 								if (!foundFirstLine) {
@@ -86,6 +86,7 @@ public class CSVInterpreter {
 										readInFileColumnHeadings(daLine,
 												importMappings);
 										foundFirstLine = true;
+										returnString += "Found First Line <br />";
 									}
 								} else {
 									returnString += readInLineOfUserData(
@@ -105,9 +106,12 @@ public class CSVInterpreter {
 				}
 			}
 		} catch (java.io.IOException ioe) {
+			returnString += "IOException";
+			returnString += ioe.getMessage();
 			Logger.getRootLogger().warn(
 					"Entered Import Page: " + ioe.getMessage());
 		} catch (Exception e) {
+			returnString += e.getMessage();
 			Logger.getRootLogger().debug(e.getMessage());
 			e.printStackTrace();
 		}

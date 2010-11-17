@@ -142,7 +142,7 @@ public class USIP_OSP_Properties {
     	String cachedAnswer = hashedValues.get(propertyName);
     	
     	if (cachedAnswer == null){
-    		cachedAnswer = resourceBundle.getString(propertyName);
+    		cachedAnswer = getRawValue(propertyName);
     		
     		if (cachedAnswer != null){
     			hashedValues.put(propertyName, cachedAnswer);
@@ -160,7 +160,7 @@ public class USIP_OSP_Properties {
      * @return
      */
     public static String getRawValue(String propertyName){
-        return resourceBundle.getString(propertyName);
+    	return resourceBundle.getString(propertyName);
     }
     
 }

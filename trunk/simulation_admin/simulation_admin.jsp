@@ -37,8 +37,8 @@
                     </tr>
                     <tr valign="top">
                       <td><a href="simulation_maintenancerelated.jsp">Maintenance Tasks</a></td>
-                      <td><p>Allows one to see all of the installed databases and the last time someone has logged into them. Also allows one to edit or install a new database. <br />
-                      Also here one can send test the email system and set the next planned down time.</p>                      </td>
+                      <td>Allows one to see all of the installed databases, and to edit or install a new database. 
+                      Also here one can send test the email system and set the next planned down time.                      </td>
                     </tr>
                     <tr valign="top">
                       <td><a href="software_development_section.jsp">Software Development Tasks</a></td>
