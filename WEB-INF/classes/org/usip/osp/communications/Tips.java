@@ -343,8 +343,10 @@ public class Tips implements SimSectionDependentObject{
 	@Override
 	public Long createRunningSimVersion(String schema, Long simId, Long rsId,
 			Object templateObject) {
-		// TODO Auto-generated method stub
-		return null;
+
+		// Tips are handled differently since one base tip is used in all running sims.
+		return this.getId();
+		
 	}
 	
 }

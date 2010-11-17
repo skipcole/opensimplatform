@@ -3,7 +3,7 @@ import="java.io.*,java.util.*,java.text.*,
 java.sql.*,
 org.usip.osp.networking.*,
 org.usip.osp.persistence.*,
-org.usip.osp.baseobjects.*" errorPage="" %>
+org.usip.osp.baseobjects.*" %>
 <%
 	String errorMsg = "";
 	
@@ -87,11 +87,13 @@ body {
         &nbsp;&nbsp;&nbsp;(Release <%= USIP_OSP_Properties.getRelease() %>)<br> 
         <br>
       </h1>
+	  <div align="center">
+	  <table border="1" width="59%" bordercolor="#<%= USIP_OSP_Properties.getRawValue("server_color") %>"><tr><td>
       <form name="form1" method="post" action="login.jsp" target="_top">
         <input type="hidden" name="pageLanguage" value=<%= pso.languageCode %>>
         <input type="hidden" name="attempting_login" value="true">
-        </font> 
-        <table width="58%" border="0" cellspacing="0" cellpadding="0" align="center">
+
+        <table width="58%" cellspacing="0" cellpadding="0" align="center" border="0">
           <tr>
             <td>&nbsp;</td>
             <td><h1><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "login") %></h1></td>
@@ -105,22 +107,19 @@ body {
             <td> <input type="password" name="password"> </td>
           </tr>
           
-          <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-          </tr>
           <tr> 
             <td>&nbsp;</td>
             <td> <input type="submit" name="Submit" value="Submit" > </td>
           </tr>
           <tr> 
             <td colspan="2"><font color="#FF0000"><%= errorMsg %></font>
-						<script>
+									<script>
 				var browser = jQuery.uaMatch(navigator.userAgent).browser;
 				if (browser != "mozilla"){
-					document.write("<b>Please Note: This software has only been thoroughly tested on Firefox. It may work on other platforms, but you may experience some inconveniences. Our apologies in advance.</b>" );
+					document.write("<b>Please Note: This software has only been tested on Firefox. It may work on other platforms, but you may experience some inconveniences. Our apologies in advance.</b>" );
 				}
-</script>			</td>
+</script>
+			</td>
           </tr>
           <tr>
             <td colspan="2"><div align="right"><span class="style1"><a href="simulation_user_admin/retrieve_password.jsp"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "forgot_password") %></a></span></div></td>
@@ -129,23 +128,13 @@ body {
             <td colspan="2"><div align="right"><a href="simulation_user_admin/auto_registration_form.jsp" class="style1">Register</a></div></td>
           </tr>
         </table>
+
       </form>
 	  <center>
         <table width="50%" border="0" cellspacing="2" cellpadding="1">
            <tr>
-            <td>Upcoming Planned Outage:<br /> <%= USIP_OSP_Properties.getNextPlannedDowntime() %></td>
-          </tr>
-          <tr> 
-          <tr> 
-            <td><a href="acknowledgements/index.htm">Acknowledgements</a></td>
-          </tr>
-          <tr>
-            <td>&nbsp;</td>
-          </tr>
-           <tr>
-             <td align="left">
+             <td align="center">
              <form name="form2" method="post" action="login.jsp">
-             Lanuage: 
              <select name="select_language" id="selectlanguage">
                <option value="1" <%= selectedEnglish %>>English</option>
                <option value="2" <%= selectedSpanish %>>epanol</option>
@@ -154,9 +143,20 @@ body {
                  <label>
                    <input type="submit" name="button" id="button" value="Submit">
                  </label>
-               </form>             </td>
+               </form>
+			   
+             </td>
            </tr>
+           <tr>
+            <td>Upcoming Planned Outage:<br /> <%= USIP_OSP_Properties.getNextPlannedDowntime() %></td>
+          </tr>
+          <tr> 
+          <tr> 
+            <td><a href="acknowledgements/index.htm">Acknowledgements</a></td>
+          </tr>
         </table>
+		</td></tr></table>
+		</div>
 	  </center>
       <p align="center">&nbsp;</p>
     </td>

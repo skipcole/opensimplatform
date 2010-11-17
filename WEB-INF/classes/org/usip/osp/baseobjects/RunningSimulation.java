@@ -212,7 +212,8 @@ public class RunningSimulation {
 	}
 
 	/**
-	 * Loops over the
+	 * Loops over the base objects for the simulation and create running simulation 
+	 * versions of them.
 	 * 
 	 * @param schema
 	 * @param sim

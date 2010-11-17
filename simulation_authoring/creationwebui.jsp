@@ -7,13 +7,14 @@
 <%
 
 	AuthorFacilitatorSessionObject.handleInitialEntry(request);
-
+		
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("../login.jsp");
 		return;
 	}
+
 	
 	String bottomFrame = "control_panel.jsp";
 	String show_intro = (String) request.getParameter("show_intro");
