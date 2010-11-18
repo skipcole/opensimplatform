@@ -92,7 +92,7 @@ function changeActorColor(dropdownlist){
 	
 	chat_text = "";
 	// Set the restart to 0 to cause reload
-	start_index = 0;
+	start_index<%= conv.getId() %> = 0;
 	
 	return true;
 

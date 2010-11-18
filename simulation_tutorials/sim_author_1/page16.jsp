@@ -48,7 +48,7 @@ body {
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page16_publish1.PNG" alt="Simulation Publish 1" width="824" height="444" border="1" /></p>
   </blockquote>
-  <p>b.) Enter the key words &quot;tutorial, negotiation, interests,positions&quot; and hit the publish button. </p>
+  <p>b.) Enter the keywords &quot;tutorial, negotiation, interests, positions&quot; and hit the publish button. </p>
   <p>c.) Observe that the publish form looks similar to the one shown below.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page16_publish2.PNG" alt="Simulation Publish 2" width="810" height="461" border="1" /></p>

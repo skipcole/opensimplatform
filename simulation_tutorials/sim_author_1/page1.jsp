@@ -45,7 +45,7 @@ body {
 <h1>Step 1. Log on and go to the 'Create' section</h1>
 <blockquote>
   <p>a.) Go to the URL of the OSP server where you have your   account. </p>
-  <p>b.) Log in with the username and password you have been given. You will be taken to a page where you will be able to select the section of the OSP you want to enter into. Depending upon the privileges you have on the system, you will see from 1 to 4 icons as shown below.</p>
+  <p>b.) Log in with the username and password you have been given. You will be taken to a page where you will be able to select the section of the OSP you want to enter. Depending upon the privileges you have on the system, you will see from 1 to 4 icons as shown below.</p>
   <blockquote>
     <p><img src="images/tut_sim_auth_1_page1_select_func.PNG" alt="Select Section" width="681" height="329" /></p>
   </blockquote>

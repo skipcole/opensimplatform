@@ -23,6 +23,14 @@
 #
 next_planned_outage=None Currently Planned
 
+################################################################
+#
+# Server color is used to help people to easily distinguish which server they are working on.
+#
+
+server_color=FFDDDD
+server_name=USIP Development Server
+
 ################################################################################
 # URL of the apache/tomcat server
 #

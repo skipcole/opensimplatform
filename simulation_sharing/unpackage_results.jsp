@@ -36,7 +36,8 @@
               <br />
     <p>&nbsp;</p>
     <p>Import Complete.</p>
-    <p>Import details are currently stored in the database - we will be adding the ability for you to see them soon.</p>
+    <p>You should now see this simulation in the list of simulations that you can edit. </p>
+    <p>(Import details are currently stored in the database - we will be adding the ability for you to see them soon.)</p>
     <p>&nbsp;</p>		</td>
 		</tr>
 		</table>	</td>

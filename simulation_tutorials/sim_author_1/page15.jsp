@@ -44,7 +44,7 @@ body {
 <br />
 <h1>Step 15. Reviewing your simulation</h1>
 <blockquote>
-  <p>a.) Observe the review page. It should indicate all the steps you have taken so fare.</p>
+  <p>a.) Observe the review page. It should indicate all the steps you have taken so far.</p>
   <blockquote>
     <p>Tip: From the Review Page you immediately go back to any section that needs editing and work on it.</p>
   </blockquote>
