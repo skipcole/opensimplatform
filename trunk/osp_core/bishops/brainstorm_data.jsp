@@ -16,7 +16,7 @@
 	}
 
 	String sd_id = (String) request.getParameter("sd_id");
-	SharedDocument docOnBlock = SharedDocument.getMe(pso.schema, new Long(sd_id));
+	SharedDocument docOnBlock = SharedDocument.getById(pso.schema, new Long(sd_id));
 	
 	String update = (String) request.getParameter("update");
 	

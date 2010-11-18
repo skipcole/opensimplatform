@@ -49,10 +49,10 @@ body {
     <p>It will be possible to reach many of these 'object creation' pages from other places, but this is one convenient place to quickly access the objects that your simulation may need. We are creating a conversation at this point in anticipation that it will used later. In a following step, you will see where. </p>
     <p><img src="images/tut_sim_auth_1_page10_add_objects.PNG" alt="add objects page" width="692" height="390" border="1" /></p>
   </blockquote>
-  <p>We will only be creating a conversation here.. The other items will be covered in future authoring tutorials.</p>
+  <p>We will only be creating a conversation here. The other items will be covered in future authoring tutorials.</p>
   <blockquote>
     <p>Tip: Injects (also sometimes called events) are things that may happen to the players during a simulation. For example, things may be going along fine for the players, and then the facilitator will hit them with a general strike, or a terrorist attack, or whatever the scenario calls for. Injects provide learning opportunities for the players and allow them to call into action some of the lessons they have been taught.</p>
-    <p>Tip: The 'Add Document link will take the author to a place where they can add documents to the simulation that the students and facilitators can read and write to. For example, if the simulation calls for the student's to work on a contract together, that would be a document added to the simulation.</p>
+    <p>Tip: The 'Add Document' link will take authors to a place where they can add documents to the simulation that the students and facilitators can read and write to. For example, if the simulation calls for the students to work on a contract together, that would be a document added to the simulation.</p>
   </blockquote>
   <p>b.) Select the link 'Add Conversation.' This will take you to the next step.</p>
   <blockquote>

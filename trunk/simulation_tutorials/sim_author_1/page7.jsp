@@ -46,7 +46,7 @@ body {
 <blockquote>
   <p>a.) Observe the 'Create Phases' page. We will not be creating or editing phases here. That will be covered in the next authoring tutorial.</p>
   <blockquote>
-    <p>Tip: A'phase' is what ever the simulation author wants it to be. Some examples might be 'Negotiate' phase, or 'Reflect' phase. At any given phase each actor can have a completely different set of things that they can see or do. For example, players may be able to chat electronically with each other in one phase (we will see how we can enable that later in this tutorial) but not be able to chat electronically later on.</p>
+    <p>Tip: A 'phase' is whatever the simulation author wants it to be. Some examples might be 'Negotiate' phase, or 'Reflect' phase. At any given phase each actor can have a completely different set of things that they can see or do. For example, players may be able to chat electronically with each other in one phase (we will see how we can enable that later in this tutorial) but not be able to chat electronically later on.</p>
   </blockquote>
   <p>b.) Select the link 'Next Step: Create Actors' to move on to the next step.</p>
 </blockquote>

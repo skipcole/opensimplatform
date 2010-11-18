@@ -52,7 +52,7 @@ body {
   <p>b.) Create the 'Orange Salesman' (who is the 'control' character) as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
   <blockquote>
     <p><strong>Tip</strong>: Make sure that you select the 'Control' checkbox for this (and only this) actor.</p>
-    <p><strong>Tip 2</strong>: The path to the image files will depend on where you saved the images in step a. above. The names of the files (facilitator.png, player_a.png, player_a_thumb.png, etc. ) indicate which image to user for each player.</p>
+    <p><strong>Tip 2</strong>: The path to the image files will depend on where you saved the images in step a. above. The names of the files (facilitator.png, player_a.png, player_a_thumb.png, etc. ) indicate which image to use for each player.</p>
     <p><img src="images/tut_sim_auth_1_page8_createcontrol.PNG" alt="Create Control Character" width="656" height="769" border="1" /></p>
   </blockquote>
   <p CLASS="breakhere">c.) After you create the actor, they should appear as shown in the figure below. Hit the 'Clear' button at the bottom of the page to get ready to create the next actor. (The 'Clear' button is circled in red in the image below.) </p>

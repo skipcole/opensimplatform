@@ -106,8 +106,7 @@ public class CSVInterpreter {
 				}
 			}
 		} catch (java.io.IOException ioe) {
-			returnString += "IOException";
-			returnString += ioe.getMessage();
+			returnString += "Ready for Import";
 			Logger.getRootLogger().warn(
 					"Entered Import Page: " + ioe.getMessage());
 		} catch (Exception e) {
@@ -186,9 +185,11 @@ public class CSVInterpreter {
 					if (fieldValue.equalsIgnoreCase("Initials")) {
 						pullPasswordFromName = true;
 					} else {
-						bu.setPasswordAlreadyHashed(fieldValue);
+						bu.setPassword(fieldValue);
 					}
 
+				} else if (fieldName.equalsIgnoreCase("Password Hashed")) {
+					bu.setPasswordAlreadyHashed(fieldValue);
 				} else {
 					System.out.println("unaccounted for field: " + fieldValue);
 				}

@@ -46,7 +46,7 @@ body {
 <blockquote>
   <p>a.) Enter in the information on the objectives page as shown in the image below.</p>
   <blockquote>
-    <p>Tip: In general your objectives will be much longer than the simple one's shown below. This is where you really want to indicate clearly, to all who read or use this simulation in the future, what your original intent was. </p>
+    <p>Tip: In general your objectives will be much longer than the simple one shown below. This is where you really want to indicate clearly, to all who read or use this simulation in the future, what your original intent was. </p>
     <p><img src="images/tut_sim_auth_1_page3_objectives.PNG" alt="Enter Objectives" width="607" height="379" border="1" /></p>
     <p>b.) Hit the 'Save and Proceed' button to move on to the next step.</p>
     <p>&nbsp;</p>

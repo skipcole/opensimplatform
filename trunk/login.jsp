@@ -116,7 +116,7 @@ body {
 									<script>
 				var browser = jQuery.uaMatch(navigator.userAgent).browser;
 				if (browser != "mozilla"){
-					document.write("<b>Please Note: This software has only been tested on Firefox. It may work on other platforms, but you may experience some inconveniences. Our apologies in advance.</b>" );
+					document.write("<b>Please Note: This software has only been tested on Chrome and Firefox. It may work on other platforms, but you may experience some inconveniences. Our apologies in advance.</b>" );
 				}
 </script>
 			</td>

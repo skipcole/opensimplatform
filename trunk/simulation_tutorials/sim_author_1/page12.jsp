@@ -56,7 +56,7 @@ body {
      <p><img src="images/tut_sim_auth_1_page12_createuniverals1.PNG" alt="Create Universals" width="737" height="734" border="1" /></p>
      <p>Tip: A 'universal section' is one that will be applied to all actors at that phase. An author can then go in and remove it from some actors.</p>
    </blockquote>
-   <p>b.) Observe the list of sections one can add to one's simulation. A sample image of a list is shown in the image below, but this list will change depending up a.) what sections have been loaded on your installation, and b.) what sections have already been customized for this particular simulation.<br />
+   <p>b.) Observe the list of sections one can add to one's simulation. A sample image of a list is shown in the image below, but this list will change depending upon a.) what sections have been loaded on your installation, and b.) what sections have already been customized for this particular simulation.<br />
    </p>
    <p align="center"><img src="images/tut_sim_auth_1_page12_sections_list.PNG" alt="sections list" width="200" height="819" border="1" /></p>
    <p>This list contains (from top to bottom) 4 different kinds of sections that one can add:</p>
@@ -85,7 +85,7 @@ body {
     <tr>
       <td><h2 align="center"><strong>Tip: The Difference between 'Save' and 'Save and Add'</strong></h2>
         <p>When you 'Save' changes to a customized section being added, you are just changing the way it will look or behave. You are not modifying which actors will have it during the current phase you are working on.</p>
-        <p>When you 'Save and Add' a section you are not only making changes to it, you are also adding it to the actor being worked on (or all actors is you working on the universal sections) during the current phase that you are working on.</p></td>
+        <p>When you 'Save and Add' a section you are not only making changes to it, you are also adding it to the actor being worked on (or all actors if you working on the universal sections) during the current phase that you are working on.</p></td>
     </tr>
   </table>
    </blockquote>
