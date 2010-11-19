@@ -43,7 +43,7 @@ body {
   </tr>
   <tr> 
     <td width="24" height="24"  >&nbsp;</td>
-    <td width="672"><p align="center">This page should not be scene.</p>	  </td>
+    <td width="672"><p align="center">This page should not be seen.</p>	  </td>
     <td width="24" height="24"  >&nbsp;</td>
   </tr>
 </table>

@@ -441,6 +441,7 @@ public class CustomizeableSection extends BaseSimSection {
 	public String getMakePage(){
 		
 		if (!this.isHasASpecificMakePage()) {
+			// This page does not seem to exist any more.
 			return ("customize_page.jsp?custom_page=" + this.getId());
 		} else {
 			return (this.getSpecificMakePage() + "?custom_page=" + this.getId());
