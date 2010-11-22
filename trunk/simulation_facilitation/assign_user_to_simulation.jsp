@@ -39,7 +39,8 @@
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery.autocomplete.js"></script>
-<link rel="stylesheet" href="../third_party_libraries/jquery/jquery.autocomplete.css" type="text/css" /></head>
+<link rel="stylesheet" href="../third_party_libraries/jquery/jquery.autocomplete.css" type="text/css" />
+</head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
@@ -83,7 +84,7 @@
         <tr valign="top"> 
           <td ><strong>Actor</strong></td>
             <td ><strong>User Assigned</strong></td>
-            <td >&nbsp;</td>
+            <td ><strong>Del/Add</strong></td>
             <td ><strong>Enter User's Email</strong></td>
             <td ><strong>Assign User</strong></td>
           </tr>
@@ -127,6 +128,7 @@
               <td>
                 <% if ((ua != null) && (ua.getId() != null)){ %>
                 	<img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" />
+					<img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" />
                   <% } %>
                   </td>
               <td>
