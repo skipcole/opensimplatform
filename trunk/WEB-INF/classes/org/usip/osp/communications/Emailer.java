@@ -28,6 +28,7 @@ import org.apache.log4j.*;
 public class Emailer {
 
 	/**
+	 * Generic emailing method.
 	 * 
 	 * @param schema_id
 	 * @param recipients

@@ -105,8 +105,8 @@ function timedCount()
           <!-- td>Round</td -->
         </tr>
         <tr> 
-          <td><strong><%= pso.simulation_name %></strong></td>
-          <td><strong><%= pso.run_sim_name %></strong></td>
+          <td><strong><a href="../osp_core/introduction.jsp" target="mainFrame"><%= pso.simulation_name %></a></strong></td>
+          <td><strong><a href="../osp_core/schedule.jsp" target="mainFrame"><%= pso.run_sim_name %></a></strong></td>
           <td><strong><%= pso.getActorName() %></strong></td>
           <td><strong><div id="sim_phase_div">Loading...</div></strong></td>
           <!-- td><strong><div id="sim_round_div">Loading...</div></strong></td -->

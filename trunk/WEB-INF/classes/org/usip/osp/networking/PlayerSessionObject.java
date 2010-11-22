@@ -682,7 +682,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		} // End of if coming back from the form on this page.
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -696,7 +696,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 		String returnString = "";
 
 		// Loop over the conversations for this Actor
-		for (ListIterator<Conversation> li = setOfConversations.listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = setOfConversations.listIterator(); li
+				.hasNext();) {
 			Conversation conv = (Conversation) li.next();
 
 			returnString += "var start_index" + conv.getId() + " = 0 \r\n";
@@ -712,7 +713,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				// Don't do the chat with the actor and his or her self.
 				if (!(caa.getActor_id().equals(actorId))) {
-					//setOfActors.put(caa.getActor_id().toString(), "set");
+					// setOfActors.put(caa.getActor_id().toString(), "set");
 				} // end of if this is an applicable actor
 			} // End of loop over conversation actors
 		} // End of loop over conversations.
@@ -720,7 +721,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		return returnString;
 
 	} // End of method
-	
+
 	/**
 	 * 
 	 * @param request
@@ -733,24 +734,23 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		String returnString = "";
 
-			Conversation conv = Conversation.getById(schema, conv_id);
+		Conversation conv = Conversation.getById(schema, conv_id);
 
-			returnString += "var start_index" + conv.getId() + " = 0 \r\n";
-			returnString += "var new_start_index" + conv.getId() + " = 0 \r\n";
+		returnString += "var start_index" + conv.getId() + " = 0 \r\n";
+		returnString += "var new_start_index" + conv.getId() + " = 0 \r\n";
 
-			// Take this opportunity to fill up the hashtable with actors
-			// Loop over the conversation actors (should be 2 of them) for this
-			// private chat.
-			for (ListIterator<ConvActorAssignment> liii = conv
-					.getConv_actor_assigns(schema).listIterator(); liii
-					.hasNext();) {
-				ConvActorAssignment caa = (ConvActorAssignment) liii.next();
+		// Take this opportunity to fill up the hashtable with actors
+		// Loop over the conversation actors (should be 2 of them) for this
+		// private chat.
+		for (ListIterator<ConvActorAssignment> liii = conv
+				.getConv_actor_assigns(schema).listIterator(); liii.hasNext();) {
+			ConvActorAssignment caa = (ConvActorAssignment) liii.next();
 
-				//xxxxx Don't do the chat with the actor and his or her self.
-				//xxxxif (!(caa.getActor_id().equals(actorId))) {
-					setOfActors.put(caa.getActor_id().toString(), "set");
-				//xxxxx} // end of if this is an applicable actor
-			} // End of loop over conversation actors
+			// xxxxx Don't do the chat with the actor and his or her self.
+			// xxxxif (!(caa.getActor_id().equals(actorId))) {
+			setOfActors.put(caa.getActor_id().toString(), "set");
+			// xxxxx} // end of if this is an applicable actor
+		} // End of loop over conversation actors
 
 		return returnString;
 
@@ -1543,9 +1543,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 				makeGeneralAnnouncement(announcement_text, request);
 
 				if (inject_id != null) {
-					
-					Inject theInject = Inject.getById(schema, new Long(inject_id));
-					
+
+					Inject theInject = Inject.getById(schema, new Long(
+							inject_id));
+
 					InjectFiringHistory ifh = new InjectFiringHistory(
 							this.runningSimId, this.actorId);
 					ifh.setActorNamessFiredTo("all");
@@ -1553,16 +1554,18 @@ public class PlayerSessionObject extends SessionObjectBase {
 					ifh.setTargets("all");
 					ifh.setInjectId(theInject.getId());
 					ifh.saveMe(schema);
-					
-					// Create a respondable object entry that players can respond to.
-					theInject.createRespondableObject(schema, this.sim_id, this.runningSimId, phase_id, this.actorId,
-							this.user_name, this.userDisplayName);				
-						
+
+					// Create a respondable object entry that players can
+					// respond to.
+					theInject.createRespondableObject(schema, this.sim_id,
+							this.runningSimId, phase_id, this.actorId,
+							this.user_name, this.userDisplayName);
+
 					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
-							this.runningSimId, this.actorId,
-							theInject.getId(), "all");
+							this.runningSimId, this.actorId, theInject.getId(),
+							"all");
 				}
-				
+
 				return false;
 			}
 
@@ -1644,13 +1647,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 		} // End of if coming from this page and have added announcement.
 
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
 	public void handleMakeRatingAnnouncement(HttpServletRequest request) {
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String add_news = (String) request.getParameter("add_news");
 
@@ -1662,20 +1665,21 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			String player_target = (String) request
 					.getParameter("player_target");
-			
+
 			String points_awarded = (String) request
-			.getParameter("points_awarded");
-			
-			Long pointsAwarded = new Long (points_awarded);
-			
+					.getParameter("points_awarded");
+
+			Long pointsAwarded = new Long(points_awarded);
+
 			String awardImage = "";
-			
-			for (int ii = 0; ii < pointsAwarded.intValue(); ++ii){
-				awardImage += "<img src=\"" + getBaseSimURL() + "/simulation/images/dove_30by30.png\" >";
+
+			for (int ii = 0; ii < pointsAwarded.intValue(); ++ii) {
+				awardImage += "<img src=\"" + getBaseSimURL()
+						+ "/simulation/images/dove_30by30.png\" >";
 			}
-			
+
 			announcement_text = awardImage + announcement_text;
-			
+
 			if ((player_target != null)
 					&& (player_target.equalsIgnoreCase("some"))) {
 				alertInQueueText = announcement_text;
@@ -2276,21 +2280,22 @@ public class PlayerSessionObject extends SessionObjectBase {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		// ////////////////////////////////
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
-	public void addPlayerTip(CustomizeableSection cs, TipsCustomizer tc, HttpServletRequest request){
+	public void addPlayerTip(CustomizeableSection cs, TipsCustomizer tc,
+			HttpServletRequest request) {
 		String sending_page = (String) request.getParameter("sending_page");
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("tips"))){
-		
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("tips"))) {
+
 			System.out.println("adding tip");
-			
+
 			Tips tip = new Tips();
-		
+
 			String tip_id = (String) request.getParameter("tip_id");
-			if ((tip_id != null) && (!(tip_id.equalsIgnoreCase("null")))   ){
+			if ((tip_id != null) && (!(tip_id.equalsIgnoreCase("null")))) {
 				tip.setId(new Long(tip_id));
 			}
 			String tip_page_text = request.getParameter("tip_page_text");
@@ -2308,6 +2313,48 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			tip.saveMe(schema);
 
+		}
+	}
+
+	public void handleEmailPlayers(HttpServletRequest request, SchemaInformationObject sio) {
+
+		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("email_players"))) {
+			
+			String email_text = request.getParameter("email_text"); //$NON-NLS-1$
+			String email_subject = request.getParameter("email_subject"); //$NON-NLS-1$
+			String email_from = request.getParameter("email_from"); //$NON-NLS-1$
+			
+			Hashtable <String, String> playersToEmail  = new Hashtable();
+
+			for (Enumeration e = request.getParameterNames(); e
+					.hasMoreElements();) {
+				String param_name = (String) e.nextElement();
+
+				if (param_name.startsWith("email_player_")) {
+					if ((request.getParameter(param_name) != null)
+							&& (request.getParameter(param_name)
+									.equalsIgnoreCase("true"))) {
+
+						String user_email = param_name.replaceFirst(
+								"email_player_", "");
+
+						playersToEmail.put(user_email, "set");
+
+					}
+
+				}
+			}
+			
+			for (Enumeration e = playersToEmail.keys(); e.hasMoreElements();) {
+				String email_address = (String) e.nextElement();
+				
+				Emailer.postMail(sio, email_address, email_subject, email_text, email_from, new Vector(), new Vector());
+				
+			}
+			
 		}
 	}
 }

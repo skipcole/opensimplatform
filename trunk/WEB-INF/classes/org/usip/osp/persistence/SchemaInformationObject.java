@@ -445,5 +445,13 @@ public class SchemaInformationObject {
 		}
 
 	}
+	
+	public boolean isEmailEnabled(){
+		if (!(emailState.equalsIgnoreCase(SchemaInformationObject.EMAIL_STATE_DOWN))){
+			return true;
+		}
+		
+		return false;
+	}
 
 }
