@@ -1,4 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,java.util.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page contentType="text/html; charset=UTF-8" language="java"  isErrorPage="true"  import="java.sql.*,java.io.*,java.util.*" %>
 <%
 
 %>
@@ -7,10 +8,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <title>Open Simulation Platform Control Page</title>
-
-
-
-<link href="usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -36,6 +33,19 @@
 </td></tr></table>
 
 <p>&nbsp;</p>
+<%= exception.toString() %>
+
+<%
+out.println("<!--");
+StringWriter sw = new StringWriter();
+PrintWriter pw = new PrintWriter(sw);
+exception.printStackTrace(pw);
+out.print(sw);
+sw.close();
+pw.close();
+out.println("-->");
+%>
+
 
 <p align="center">&nbsp;</p>
 </body>

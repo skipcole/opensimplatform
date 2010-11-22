@@ -64,6 +64,10 @@
 <h2>Additional Fuctions</h2>
 <table width="95%" border="0" cellpadding="2" cellspacing="2">
   <tr valign="top">
+    <td valign="top"><a href="email_player.jsp">Email your Players</a> </td>
+    <td valign="top">Send an email to players in this simulation. </td>
+  </tr>
+  <tr valign="top">
     <td width="32%" valign="top"><a href="make_rating_announcement.jsp">Make Rating Announcement </a></td>
     <td width="68%" valign="top">On this  page will be able to send a message including a 'star' rating to tell your students how they are doing. </td>
   </tr>

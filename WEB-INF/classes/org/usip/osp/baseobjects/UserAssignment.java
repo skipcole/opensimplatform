@@ -205,6 +205,27 @@ public class UserAssignment{
 	}
 	
 	
+	public static List getUsersAssigned (String schema, Long rid, Long aid) {
+		
+		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString).list();
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return userList;
+		
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param rid
+	 * @param aid
+	 * @return
+	 */
 	public static User getUserAssigned (String schema, Long rid, Long aid) {
 		
 		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$

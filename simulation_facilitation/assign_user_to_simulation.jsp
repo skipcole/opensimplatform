@@ -93,16 +93,31 @@
 		
 			for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
-				User user_assigned = UserAssignment.getUserAssigned(afso.schema, running_simulation.getId(), act.getId());
 				
-				UserAssignment ua = new UserAssignment();
+				List theUsersAssigned = UserAssignment.getUsersAssigned(afso.schema, running_simulation.getId(), act.getId());
 				
-				if (user_assigned == null) {
-					user_assigned = new User();
-					user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
-					
-					ua = UserAssignment.getUserAssignment (afso.schema, afso.getRunningSimId(), act.getId());
+				System.out.println("act name: " + act.getActorName());
+				
+				if ((theUsersAssigned == null) || (theUsersAssigned.size() == 0)){
+					System.out.println("   adding new ua");
+					theUsersAssigned = new ArrayList();
+					UserAssignment ua = new UserAssignment();
+					theUsersAssigned.add(ua);
 				}
+				
+				User user_assigned = new User();
+				
+				for (ListIterator liua = theUsersAssigned.listIterator(); liua.hasNext();) {
+					UserAssignment ua = (UserAssignment) liua.next();
+					
+					
+					
+					if (ua.getUser_id() != null){
+						user_assigned = User.getById(afso.schema, ua.getUser_id());
+					} else {
+						user_assigned = new User();
+						user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
+					}
 
 					%>
         <tr valign="top"> 
@@ -110,11 +125,10 @@
             <td><%= act.getActorName() %></td>
               <td><%= user_assigned.getBu_username() %></td>
               <td>
-                <% String nameToSend = " this user assignment "; %> 
                 <% if ((ua != null) && (ua.getId() != null)){ %>
-                <a href="delete_object.jsp?object_type=user_assignment&objid=<%= ua.getId() %>&object_info=<%= nameToSend %>">
+                	<img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" />
                   <% } %>
-                  <img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a></td>
+                  </td>
               <td>
               <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>
               </td>
@@ -126,6 +140,8 @@
             </form>
           </tr>
         <%
+				} // End of loop over user assignments
+				
 				ii += 2;
 		  	}
 			// End of loop over results set of Actors
