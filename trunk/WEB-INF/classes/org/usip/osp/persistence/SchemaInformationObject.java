@@ -25,6 +25,10 @@ import org.apache.log4j.*;
 @Proxy(lazy = false)
 public class SchemaInformationObject {
 
+	public static final String EMAIL_STATE_VERIFIED = "verified";
+	public static final String EMAIL_STATE_UNVERIFIED = "unverified";
+	public static final String EMAIL_STATE_DOWN = "down";
+	
 	@Id
 	@GeneratedValue
 	@Column(name = "SIO_ID")
@@ -36,7 +40,9 @@ public class SchemaInformationObject {
 	/** Organization for which this schema has been created. */
 	private String schema_organization;
 
-	// //////////////////////////////////////////
+	/** Creation date of this schema */
+	private Date creationDate;
+	
 	/** Email SMTP server */
 	private String email_smtp;
 
@@ -48,12 +54,31 @@ public class SchemaInformationObject {
 
 	/** Email archive address. */
 	private String email_archive_address;
+	
+	/** Email to send system error messages to */
+	private String tech_email_address = "tech@opensimplatform.org";
+	
+	/** Level above which to send an email to tech support */
+	private int systemAlertLevel = 0;
+	
+	@Lob
+	/** notes for this particular installation. */
+	private String notes = "";
+	
+	/** Indicates if the email system has been verified and if it is up. */
+	private String emailState = "";
 
-	public static final String EMAIL_STATE_VERIFIED = "verified";
-
-	public static final String EMAIL_STATE_UNVERIFIED = "unverified";
-
-	public static final String EMAIL_STATE_DOWN = "down";
+	/** If multiple schema exist, multiple email servers may be declared. 
+	 * When email is sent from 'the system' it can try the email servers in the order
+	 * in which they are numbered according to their emailServerNumber.
+	 */
+	private Long emailServerNumber;
+	
+	/**
+	 * Keeps track of the last time an author, instructor or admin has logged
+	 * on.
+	 */
+	private Date lastLogin;
 
 	private Long preferredLanguageCode = new Long(
 			UILanguageObject.ENGLISH_LANGUAGE_CODE);
@@ -66,15 +91,9 @@ public class SchemaInformationObject {
 		this.preferredLanguageCode = preferredLanguageCode;
 	}
 
-	private Date creationDate;
-
 	public Date getCreationDate() {
 		return creationDate;
 	}
-
-	@Lob
-	/** notes for this particular installation. */
-	private String notes = "";
 
 	public String getNotes() {
 		return notes;
@@ -84,9 +103,6 @@ public class SchemaInformationObject {
 		this.notes = notes;
 	}
 
-	/** Indicates if the email system has been verified and if it is up. */
-	private String emailState = "";
-
 	public String getEmailState() {
 		return emailState;
 	}
@@ -95,8 +111,6 @@ public class SchemaInformationObject {
 		this.emailState = emailState;
 	}
 
-	private Long emailServerNumber;
-
 	public Long getEmailServerNumber() {
 		return emailServerNumber;
 	}
@@ -104,12 +118,6 @@ public class SchemaInformationObject {
 	public void setEmailServerNumber(Long emailServerNumber) {
 		this.emailServerNumber = emailServerNumber;
 	}
-
-	/**
-	 * Keeps track of the last time an author, instructor or admin has logged
-	 * on.
-	 */
-	private Date lastLogin;
 
 	public Date getLastLogin() {
 		return lastLogin;
@@ -139,6 +147,11 @@ public class SchemaInformationObject {
 
 	}
 
+	/**
+	 * Just used for debugging purposes.
+	 * 
+	 * @param args
+	 */
 	public static void main(String args[]) {
 
 		List x = getAllOrderedByEmailServerNumber();
@@ -293,6 +306,22 @@ public class SchemaInformationObject {
 
 	public void setSmtp_auth_user(String smtp_auth_user) {
 		this.smtp_auth_user = smtp_auth_user;
+	}
+
+	public String getTech_email_address() {
+		return tech_email_address;
+	}
+
+	public void setTech_email_address(String techEmailAddress) {
+		tech_email_address = techEmailAddress;
+	}
+
+	public int getSystemAlertLevel() {
+		return systemAlertLevel;
+	}
+
+	public void setSystemAlertLevel(int systemAlertLevel) {
+		this.systemAlertLevel = systemAlertLevel;
 	}
 
 	/**

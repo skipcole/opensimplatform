@@ -151,6 +151,22 @@ body {
                  <td valign="top">&nbsp;</td>
                  <td valign="top">&nbsp;</td>
                </tr>
+               <tr>
+                 <td valign="top"><strong>Error Handling </strong></td>
+                 <td valign="top">&nbsp;</td>
+               </tr>
+               <tr>
+                 <td valign="top">email to send issues to: </td>
+                 <td valign="top">tech@opensimplatform.org</td>
+               </tr>
+               <tr>
+                 <td valign="top">alert level </td>
+                 <td valign="top">all</td>
+               </tr>
+               <tr>
+                 <td valign="top">&nbsp;</td>
+                 <td valign="top">&nbsp;</td>
+               </tr>
               <tr> 
                 <td valign="top"><strong>Email Settings (optional)</strong></td>
                 <td valign="top">&nbsp;</td>

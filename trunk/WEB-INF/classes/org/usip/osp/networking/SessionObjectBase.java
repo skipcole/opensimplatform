@@ -148,7 +148,8 @@ public class SessionObjectBase {
 			phase_id = sim.getFirstPhaseId(schema);
 		}
 
-		return Event.packupArray(Event.getAllForSimAndPhase(sim_id, phase_id, schema));
+		return Event.packupArray(Event.getAllForSimAndPhase(sim_id, phase_id,
+				schema));
 
 	}
 
@@ -178,10 +179,42 @@ public class SessionObjectBase {
 		System.out.println("command was " + command);
 
 		if (command != null) {
-			if ((command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
-				String user_to_add_to_simulation = request
-						.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
+			String actor_id = request
+					.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
+			String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
+			String running_sim_id = request
+					.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
+			String user_assignment_id = request
+					.getParameter("user_assignment_id"); //$NON-NLS-1$
+			
+			// Email address of user to assign role to
+			String user_to_add_to_simulation = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
+			
+			Long a_id = null;
+			Long s_id = null;
+			Long r_id = null;
+			Long ua_id = null;
+			
+			try {
+				a_id = new Long(actor_id);
+				s_id = new Long(sim_id);
+				r_id = new Long(running_sim_id);
+				
+				if ((user_assignment_id != null)
+						&& (!(user_assignment_id.equalsIgnoreCase("null")))) {
+					ua_id = new Long (user_assignment_id);
+				}
+			} catch (Exception e){
+				
+				e.printStackTrace();
+				return;
+				
+			}
+			
+			UserAssignment ua = new UserAssignment();
+
+			if ((command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
 				Long user_to_add_id = null;
 
@@ -189,6 +222,11 @@ public class SessionObjectBase {
 						&& (user_to_add_to_simulation
 								.equalsIgnoreCase("remove"))) {
 					errorMsg = "Removed User Assignment";
+					
+					if (ua_id != null) {
+						UserAssignment.removeMe(schema, ua_id);
+					}
+					
 				} else {
 					user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
 							request, user_to_add_to_simulation);
@@ -201,16 +239,21 @@ public class SessionObjectBase {
 
 				System.out.println("user to add was: " + user_to_add_id);
 
-				String actor_id = request
-						.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
-				String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
-				String running_sim_id = request
-						.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
+				if (ua_id != null) {
+					ua = UserAssignment.getById(schema, ua_id);
+				}
 
-				@SuppressWarnings("unused")
-				UserAssignment ua = UserAssignment.getUniqueUserAssignment(
-						schema, new Long(sim_id), new Long(running_sim_id),
-						new Long(actor_id), user_to_add_id);
+				if (ua != null){
+					ua.setSim_id(s_id);
+					ua.setRunning_sim_id(r_id);
+					ua.setActor_id(a_id);
+					ua.setUser_id(user_to_add_id);
+
+					ua.saveMe(schema);
+				}
+
+			} else if (command.equalsIgnoreCase("add_assignment")) {
+				ua = new UserAssignment(schema, s_id, r_id, a_id, null);
 			}
 		}
 	}

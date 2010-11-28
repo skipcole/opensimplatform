@@ -1,5 +1,6 @@
 package org.usip.osp.baseobjects;
 
+import java.io.File;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -52,6 +53,13 @@ public class USIP_OSP_Properties {
 
 	public static void setNextPlannedDowntime(String newNextPlannedDowntime) {
 		USIP_OSP_Properties.nextPlannedDowntime = newNextPlannedDowntime;
+	}
+	
+	/** Returns the URL to the error page. */
+	public static String getErrorJspUrl() {
+		String error_url = USIP_OSP_Properties.getCachedValue("base_sim_url") + "error.jsp";
+	
+		return error_url;
 	}
 
 	static {
