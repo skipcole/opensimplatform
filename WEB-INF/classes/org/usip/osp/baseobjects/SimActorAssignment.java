@@ -49,7 +49,7 @@ public class SimActorAssignment {
 	
     /** Unique id of this actor. */
     @Column(name = "ACTOR_ID")
-    private Long actor_id;
+    private Long actorId;
     
     private String actors_role = ""; //$NON-NLS-1$
     
@@ -107,7 +107,7 @@ public class SimActorAssignment {
 	
 	public SimActorAssignment(String schema, Long sim_id, Long actor_id){
 		this.sim_id = sim_id;
-		this.actor_id = actor_id;
+		this.actorId = actor_id;
 		if (SimActorAssignment.getById(schema, sim_id, actor_id) == null){
 			this.saveMe(schema);
 		}
@@ -121,12 +121,12 @@ public class SimActorAssignment {
 		this.sim_id = sim_id;
 	}
 
-	public Long getActor_id() {
-		return this.actor_id;
+	public Long getActorId() {
+		return this.actorId;
 	}
 
-	public void setActor_id(Long actor_id) {
-		this.actor_id = actor_id;
+	public void setActorId(Long actor_id) {
+		this.actorId = actor_id;
 	}
 	
 	public Long getId() {
@@ -195,7 +195,7 @@ public class SimActorAssignment {
 		
 		for (ListIterator<SimActorAssignment> li = startList.listIterator(); li.hasNext();) {
 			SimActorAssignment this_saa = li.next();
-			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, this_saa.getActor_id());
+			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(schema).get(Actor.class, this_saa.getActorId());
 			returnList.add(act);
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -230,7 +230,7 @@ public class SimActorAssignment {
 		for (ListIterator<SimActorAssignment> li = removeList.listIterator(); li.hasNext();) {
 			SimActorAssignment this_saa = li.next();
 			
-			SimActorAssignment.removeMe(schema, this_saa.getSim_id(), this_saa.getActor_id());
+			SimActorAssignment.removeMe(schema, this_saa.getSim_id(), this_saa.getActorId());
 			
 		}
 		

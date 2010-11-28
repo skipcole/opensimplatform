@@ -505,15 +505,15 @@ public class USIP_OSP_Cache {
 			SimActorAssignment this_saa = li.next();
 
 			User user = UserAssignment.getUserAssigned(schema, rs_id, this_saa
-					.getActor_id());
+					.getActorId());
 
 			if (user != null) { // If found, enter their user_id into the
 				// hashtable
 				user_assignments_hash.put(schema + "_" + rs_id + "_"
-						+ this_saa.getActor_id(), user.getId().toString());
+						+ this_saa.getActorId(), user.getId().toString());
 			} else { // If not found, enter 'unassigned'
 				user_assignments_hash.put(schema + "_" + rs_id + "_"
-						+ this_saa.getActor_id(), UNASSIGNED);
+						+ this_saa.getActorId(), UNASSIGNED);
 			}
 		}
 

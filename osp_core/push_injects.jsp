@@ -14,7 +14,7 @@
 	pso.backPage = "push_injects.jsp";
 	
 	if (!(pso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
 	

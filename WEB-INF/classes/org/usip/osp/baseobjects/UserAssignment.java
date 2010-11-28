@@ -165,6 +165,17 @@ public class UserAssignment{
 		
 	}
 	
+	public static void removeMe(String schema, Long ua_id){
+		
+		UserAssignment ua = UserAssignment.getById(schema, ua_id);
+		
+		if (ua != null){
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+			MultiSchemaHibernateUtil.getSession(schema).delete(ua);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		}
+	}
+	
 	/**
 	 * If a user has not been assigned to this role, create a new user assignment. Else,
 	 * update the current user assignment with a new user id.

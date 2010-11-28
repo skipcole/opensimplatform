@@ -26,6 +26,8 @@ import org.apache.log4j.*;
  * 
  */
 public class Emailer {
+	
+	public static final String NOREPLY_EMAIL = "noreply@opensimplatform.org";
 
 	/**
 	 * Generic emailing method.

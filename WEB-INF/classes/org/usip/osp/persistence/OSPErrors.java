@@ -1,6 +1,7 @@
 package org.usip.osp.persistence;
 
 import java.io.*;
+import java.util.Vector;
 
 import javax.persistence.*;
 
@@ -8,8 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.User;
+import org.usip.osp.communications.Emailer;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.networking.PlayerSessionObject;
+import org.usip.osp.networking.SessionObjectBase;
+import org.usip.osp.sharing.ObjectPackager;
 
 /* 
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -27,10 +32,11 @@ import org.usip.osp.networking.PlayerSessionObject;
 @Proxy(lazy = false)
 public class OSPErrors {
 
-	public static final int ERROR_MILD = 0;
-	public static final int ERROR_ANNOYING = 1;
-	public static final int ERROR_SEVERE = 2;
-	public static final int ERROR_SHOWSTOPPER = 3;
+	public static final int ERROR_INCONSEQUENTIAL = 0;
+	public static final int ERROR_MILD = 1;
+	public static final int ERROR_ANNOYING = 2;
+	public static final int ERROR_SEVERE = 3;
+	public static final int ERROR_SHOWSTOPPER = 4;
 	
 	public static final int SOURCE_OTHER = 0;
 	public static final int SOURCE_JSP = 1;
@@ -52,8 +58,11 @@ public class OSPErrors {
 	/** User id of the user who encountered this error. */
 	private Long userId;
 	
+	/** User requested email when this is resolved. */
+	private boolean userRequestedEmail = false;
+	
 	/** Email of the user encountering this error */
-	private String userEmail;
+	private String userEmail = "";
 	
 	/** Notes left by the user */
 	@Lob
@@ -72,6 +81,7 @@ public class OSPErrors {
 	/** Severity, as recorded by the player */
 	private int errorSeverity = 0;
 	
+	/** Source of error: web, java, or other. */
 	private int errorSource = 0;
 	
 	/** Indicates if this error has been sent */
@@ -123,11 +133,81 @@ public class OSPErrors {
         MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
     }
     
-    public static Long storeWebErrors(Throwable exception, HttpServletRequest request){
+    /**
+     * 
+     * @param request
+     * @return
+     */
+	public static OSPErrors processForm(HttpServletRequest request){
+		
+		OSPErrors returnError = new OSPErrors();
+		
+		SchemaInformationObject sio = null;
+		
+		try {
+			String error_id = request.getParameter("error_id");
+			
+			if ((error_id != null) && (!(error_id.equalsIgnoreCase("null")))){
+				returnError = OSPErrors.getById(new Long(error_id));
+				
+				String user_notes = request.getParameter("user_notes");
+				String user_email = request.getParameter("user_email");
+				String user_err_level = request.getParameter("user_err_level");
+				
+				returnError.setUserNotes(user_notes);
+				returnError.setUserEmail(user_email);
+				
+				if ((user_err_level != null) && (!(user_err_level.equalsIgnoreCase("null")))){
+					returnError.setErrorSeverity(new Long(user_err_level).intValue());
+				}
+				
+				returnError.saveMe();
+				
+				sio = SchemaInformationObject.lookUpSIOByName(returnError.getdBschema());
+				
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		returnError.emailErrors(sio, true);
+		
+		return returnError;
+	}
+	
+	public static SessionObjectBase getSessionObjectBaseIfFound(HttpServletRequest request){
+		
+		SessionObjectBase sob = null;
+		PlayerSessionObject pso = (PlayerSessionObject) request.getSession().getAttribute("pso");
+		AuthorFacilitatorSessionObject afso = (AuthorFacilitatorSessionObject) request.getSession().getAttribute("afso");
+		
+		if (pso != null){
+			sob = (SessionObjectBase) pso;
+		}
+		
+		if (afso != null){
+			sob = (SessionObjectBase) afso;
+		}
+		
+		return sob;
+	}
+    
+    /**
+     * Takes the initial error encountered on a jsp and logs it to the database.
+     * @param exception
+     * @param request
+     * @return
+     */
+    public static OSPErrors storeWebErrors(Throwable exception, HttpServletRequest request){
+    	
+    	System.out.println("Storing web errors");
     	
     	OSPErrors err = new OSPErrors();
     	
+    	err.setErrorSource(SOURCE_JSP);
     	err.setErrorMessage(exception.getMessage());
+    	
+    	SchemaInformationObject sio = null;
     	
     	try {
     		StringWriter sw = new StringWriter();
@@ -137,8 +217,20 @@ public class OSPErrors {
     		sw.close();
     		pw.close();
     		
-    		PlayerSessionObject pso = (PlayerSessionObject) request.getSession().getAttribute("pso");
-    		AuthorFacilitatorSessionObject afso = (AuthorFacilitatorSessionObject) request.getSession().getAttribute("afso");
+    		SessionObjectBase sob = getSessionObjectBaseIfFound(request);
+    		
+    		// Must have logged in, so record additional information if found.
+    		if (sob != null){
+    			err.setUserId(sob.user_id);
+    			err.setdBschema(sob.schema);
+    			
+    			User user = sob.giveMeUser();
+    			if (user != null){
+    				err.setUserEmail(user.getUser_name());
+    			}
+    			
+    			sio = SchemaInformationObject.lookUpSIOByName(sob.schema);
+    		}
     		
     	} catch (Exception e){
     		Logger.getRootLogger().error("ERROR IN ERROR SYSTEM!");
@@ -146,8 +238,59 @@ public class OSPErrors {
     	}
     	
     	err.saveMe();
+    	Logger.getRootLogger().error("about to save");
     	
-    	return err.getId();
+    	err.emailErrors(sio, false);
+    	
+    	return err;
+    }
+    
+    /**
+     * Emails the error, if email has been enabled.
+     * 
+     * @param sio
+     * @param fromUser
+     * @return
+     */
+    public boolean emailErrors(SchemaInformationObject sio, boolean fromUser){
+    	
+    	String subject = "ERROR on system";
+    	
+    	if (sio == null){
+			sio = SchemaInformationObject.getFirstUpEmailServer();
+			subject += ", 1st email sending";
+		} else {
+			subject +=  ", error on " + sio.getSchema_name();
+		}
+    	
+    	subject += ", error number " + this.getId();
+    	
+    	if (fromUser) {
+    		subject = "User email on " + subject;
+    	}
+    	
+    	String lt = ObjectPackager.lineTerminator;
+    	
+    	String message = "Error Date " + this.getErrorDate() + lt;
+    	
+    	message += this.getErrorMessage() + lt + lt;
+    	
+    	
+    	if (fromUser){
+    		message += "respond to " + this.getUserEmail() + lt;
+    		message += "who stated: " + this.getUserNotes() + lt;
+    	}
+    	
+    	System.out.println(message);
+    	
+    	if (sio.isEmailEnabled()){
+    		Emailer.postMail(sio, sio.getTech_email_address(), subject, message, Emailer.NOREPLY_EMAIL, new Vector(), new Vector());
+    		return true;
+    	} else {
+    		System.out.println(message);
+    		return false;
+    	}
+    	
     }
 
 	public Long getId() {
@@ -180,6 +323,14 @@ public class OSPErrors {
 
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
+	}
+	
+	public boolean isUserRequestedEmail() {
+		return userRequestedEmail;
+	}
+
+	public void setUserRequestedEmail(boolean userRequestedEmail) {
+		this.userRequestedEmail = userRequestedEmail;
 	}
 
 	public String getUserNotes() {
@@ -220,6 +371,14 @@ public class OSPErrors {
 
 	public void setErrorSeverity(int errorSeverity) {
 		this.errorSeverity = errorSeverity;
+	}
+
+	public int getErrorSource() {
+		return errorSource;
+	}
+
+	public void setErrorSource(int errorSource) {
+		this.errorSource = errorSource;
 	}
 
 	public boolean isErrorSentByEmail() {
@@ -269,9 +428,5 @@ public class OSPErrors {
 	public void setErrorProcessed(boolean errorProcessed) {
 		this.errorProcessed = errorProcessed;
 	}
-
-
-    
-    
     
 }

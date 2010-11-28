@@ -84,6 +84,7 @@
         <tr valign="top"> 
           <td ><strong>Actor</strong></td>
             <td ><strong>User Assigned</strong></td>
+            <td ><strong>Notes</strong></td>
             <td ><strong>Del/Add</strong></td>
             <td ><strong>Enter User's Email</strong></td>
             <td ><strong>Assign User</strong></td>
@@ -92,15 +93,14 @@
 		
 		int ii = 5;
 		
+			// Loop over all actors in the simulation
 			for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
 				
+				// For each actor, get all of their user assignments
 				List theUsersAssigned = UserAssignment.getUsersAssigned(afso.schema, running_simulation.getId(), act.getId());
 				
-				System.out.println("act name: " + act.getActorName());
-				
 				if ((theUsersAssigned == null) || (theUsersAssigned.size() == 0)){
-					System.out.println("   adding new ua");
 					theUsersAssigned = new ArrayList();
 					UserAssignment ua = new UserAssignment();
 					theUsersAssigned.add(ua);
@@ -108,10 +108,9 @@
 				
 				User user_assigned = new User();
 				
+				// Loop over all of the user assignments
 				for (ListIterator liua = theUsersAssigned.listIterator(); liua.hasNext();) {
 					UserAssignment ua = (UserAssignment) liua.next();
-					
-					
 					
 					if (ua.getUser_id() != null){
 						user_assigned = User.getById(afso.schema, ua.getUser_id());
@@ -125,16 +124,16 @@
           <form action="assign_user_to_simulation.jsp" method="post" name="form3" id="form3">
             <td><%= act.getActorName() %></td>
               <td><%= user_assigned.getBu_username() %></td>
+              <td>&nbsp;</td>
               <td>
                 <% if ((ua != null) && (ua.getId() != null)){ %>
                 	<img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" />
-					<img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" />
-                  <% } %>
-                  </td>
+					<a href="assign_user_to_simulation.jsp?command=add_assignment&simulation_adding_to=<%= simulation.getId() %>&running_simulation_adding_to=<%= running_simulation.getId() %>&actor_to_add_to_simulation=<%= act.getId() %>"><img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" /></a>
+                  <% } %>                  </td>
               <td>
-              <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>
-              </td>
+              <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>              </td>
               <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
+			    <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
                 <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 
                 <input type="hidden" name="simulation_adding_to" value="<%= simulation.getId() %>" /> 
                 <input type="hidden" name="running_simulation_adding_to" value="<%= running_simulation.getId() %>" /> 
