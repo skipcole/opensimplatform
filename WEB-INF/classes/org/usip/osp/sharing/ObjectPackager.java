@@ -1609,17 +1609,12 @@ public class ObjectPackager {
 			// Set the id of the simulation associated with this actor to be the
 			// new simulation id.
 			this_act.setSim_id(sim_id);
-
-			String originalName = this_act.getActorName();
-
-			this_act.setName(getUniqueUsersName(actorNames, this_act
-					.getActorName()));
-
 			this_act.saveMe(schema);
+			
 			RestoreResults.createAndSaveObject(reId, this_act.getId()
 					.toString(), this_act.getClass().toString(), this_act
 					.getActorName(), "unpacked Actor with originalName: "
-					+ originalName);
+					+ this_act.getActorName());
 
 			actorIdMappings.put(this_act.getTransitId(), this_act.getId());
 
@@ -1796,31 +1791,6 @@ public class ObjectPackager {
 
 		}
 		// /
-	}
-
-	/**
-	 * 
-	 * @param listOfNames
-	 * @param thisName
-	 * @return
-	 */
-	public static String getUniqueUsersName(List<String> listOfNames,
-			String thisName) {
-
-		if (!(listOfNames.contains(thisName))) {
-			listOfNames.add(thisName);
-			return thisName;
-		} else {
-
-			for (int ii = 1; ii <= 1000; ++ii) {
-				String nameToCheck = thisName + "_" + ii;
-				if (!(listOfNames.contains(nameToCheck))) {
-					listOfNames.add(nameToCheck);
-					return nameToCheck;
-				}
-			}
-		}
-		return "ran out of names";
 	}
 
 	/**

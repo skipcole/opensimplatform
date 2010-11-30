@@ -6,7 +6,7 @@
 	org.usip.osp.communications.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.baseobjects.*" 
-	errorPage="" 
+	errorPage="/error.jsp" 
 %>
 <%
 

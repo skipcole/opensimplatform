@@ -2,9 +2,11 @@
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="../error.jsp" %>
+	errorPage="/error.jsp" %>
 
 <%
+
+	Long x = new Long(null);
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	if (!(pso.isLoggedin())) {
@@ -21,7 +23,6 @@
 		Simulation sim = pso.giveMeSim();
 		textToShow = sim.getAarStarterText();
 	}
-	Long x = new Long(null);
 	
 %>
 <html>

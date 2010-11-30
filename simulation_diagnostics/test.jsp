@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,org.usip.osp.networking.*" errorPage="" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.sql.*,org.usip.osp.networking.*" errorPage="/error.jsp" %>
 <%
 	String test = " sat ";
 %>

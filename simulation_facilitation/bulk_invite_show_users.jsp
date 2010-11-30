@@ -9,7 +9,7 @@
 	org.usip.osp.coursemanagementinterface.*,
 	org.hibernate.*,
 	org.usip.osp.baseobjects.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	afso.backPage = "bulk_invite.jsp";

@@ -5,7 +5,7 @@ import="java.sql.*,java.util.*,
 		org.usip.osp.baseobjects.*,
 		org.usip.osp.networking.*,
 		org.usip.osp.persistence.*" 
-errorPage=""
+errorPage="/error.jsp"
 
  %>
 <%

@@ -56,20 +56,20 @@
                   <td align="left" valign="top">What were you doing when this error occured? </td>
                   <td align="left" valign="top">
                     <label>
-                      <textarea name="textarea" cols="80" rows="5"></textarea>
+                      <textarea name="user_notes" cols="80" rows="5"><%= error.getUserNotes() %></textarea>
                       </label>                  </td>
                 </tr>
                 <tr>
                   <td align="left" valign="top">How would you rate this error? </td>
-                  <td align="left" valign="top"><label>
-                    <input name="user_err_level" type="radio" value="1" />
-                  Mild<br />
-                  <input name="user_err_level" type="radio" value="2" checked="checked" />
-                  Annoying<br />
-                  <input name="user_err_level" type="radio" value="3" />
-                  Severe<br />
-                  <input name="user_err_level" type="radio" value="4" />
-                  Show Stopper </label></td>
+                  <td align="left" valign="top">
+                  <label><input name="user_err_level" type="radio" value="1" />
+                  Mild</label><br/>
+                  <label><input name="user_err_level" type="radio" value="2" checked="checked" />
+                  Annoying</label><br/>
+                  <label><input name="user_err_level" type="radio" value="3" />
+                  Severe</label><br/>
+                  <label><input name="user_err_level" type="radio" value="4" />
+                  Show Stopper</label> </td>
                 </tr>
                 <tr>
                   <td align="left" valign="top">Would you like an email when this issue is resolved? </td>

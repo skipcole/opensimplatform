@@ -7,7 +7,7 @@
 	org.usip.osp.baseobjects.*,
 	java.io.*,
 	com.oreilly.servlet.MultipartRequest" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 

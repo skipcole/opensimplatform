@@ -5,7 +5,7 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.bishops.*,
 	org.usip.osp.communications.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 
 <%
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));

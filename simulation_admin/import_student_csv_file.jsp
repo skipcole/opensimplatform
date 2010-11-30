@@ -5,7 +5,7 @@
 	org.usip.osp.coursemanagementinterface.*,
 	org.usip.osp.baseobjects.*,
 	com.oreilly.servlet.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <%
 		AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 		

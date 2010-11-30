@@ -2,7 +2,7 @@
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.hibernate.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	afso.backPage = "../simulation_facilitation/create_set_of_running_sims.jsp";

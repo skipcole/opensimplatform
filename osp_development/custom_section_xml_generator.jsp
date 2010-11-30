@@ -6,7 +6,7 @@
 	org.usip.osp.baseobjects.*,
 	org.usip.osp.sharing.*,
 	org.usip.osp.persistence.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 
 <%
 		CustomizeableSection cs = CustomizeableSection.generateCSforXML(request);

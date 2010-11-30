@@ -2,7 +2,7 @@
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 
@@ -11,23 +11,13 @@
 		return;
 	}
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	String addactortosim = (String) request.getParameter("addactortosim");
-	String remove = (String) request.getParameter("remove");
+	SimActorAssignment this_saa = afso.addActorToSim(request);
 	
-	String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
-	String sim_id = (String) request.getParameter("sim_id");
+	Actor this_act = new Actor();
 	
-	if ( (sending_page != null) && (addactortosim != null) && (sending_page.equalsIgnoreCase("assign_actor"))){
-		if (actor_being_worked_on_id != null) {
-			afso.addActorToSim(sim_id, actor_being_worked_on_id);
-		}
-	} // End of if coming from this page and have assigned actor
-	
-	if ( (remove != null) &&  (remove.equalsIgnoreCase("true"))){
-		afso.removeActorFromSim(sim_id, actor_being_worked_on_id);
-		     
-	} // End of if coming from this page and have removed actor
+	if (this_saa.getActorId() != null) {
+		this_act = Actor.getById(afso.schema, this_saa.getActorId());
+	}	
 	
 	Simulation sim = new Simulation();
 	
@@ -43,6 +33,11 @@
 <title>Open Simulation Platform Control Page</title>
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
 </head>
 <body>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -56,24 +51,86 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Assign 
-                Actor to a Simulation</h1>
-              <br />
-      <table width="100%" border="0" cellspacing="2" cellpadding="2">
+              <h1>Actor Assignments </h1>
+              <p>Actors can be </p>
+              <% 
+						if (this_saa.getId() != null) {
+					%>
+				  <strong>Update Actor (Click here to clear)
+				  <% } else { %>
+				  Assign Actor</strong> 
+				  <% } %>
+				  <form action="assign_actor_to_simulation.jsp" method="post" name="assign_actor" id="assign_actor" >
+                <table width="100%" border="1">
+                  <tr valign="top">
+                    <td align="left" valign="top"><strong>Actor</strong></strong></td>
+                    <td align="left" valign="top"><strong>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></strong></td>
+                    <td align="left" valign="top"><strong>Priority()</strong></td>
+                    <td align="left" valign="top"><strong>Role</strong></td>
+                    <td align="left" valign="top"><strong>Notes</strong></td>
+                    <td align="left" valign="top"><strong>
+					<% 
+						if (this_saa.getId() != null) {
+					%>
+					Update
+					<% } else { %>
+					Assign
+					<% } %>
+					
+					
+					</strong></td>
+                    </tr>
+                  <tr>
+                    <td align="left" valign="top">
+					<% 
+						if (this_saa.getId() != null) {
+					%> <%= this_act.getActorName() %>
+					<input type="hidden" name="saa_id" value="<%= this_saa.getId() %>" />
+					<% } else { %>
+					<select name="actor_being_worked_on_id">
+                        <% 
+                for (ListIterator la = sim.getAvailableActorsForSim(afso.schema).listIterator(); la.hasNext();) {
+					Actor act = (Actor) la.next();
+		%>
+                        <option value="<%= act.getId().toString() %>"><%= act.getActorName() %></option>
+                        <% } %>
+                    </select>
+					
+					<% } // end of if no actor queued up %>					</td>
+                    <td align="left" valign="top"><label>
+                      <select name="select" id="select">
+                        <option value="required" selected="selected">Required</option>
+                        <option value="optional">Optional</option>
+                      </select>
+                    </label></td>
+                    <td align="left" valign="top"><label>
+                      <input name="saa_priority" type="text" size="5" maxlength="5" value="<%= this_saa.getAssignmentPriority() %>" />
+                    </label></td>
+                    <td align="left" valign="top"><input name="saa_role" type="text" value="<%= this_saa.getActors_role() %>" /></td>
+                    <td align="left" valign="top"><label>
+                      <textarea name="saa_notes"><%= this_saa.getAssignmentNotes() %></textarea>
+                      </label>                    </td>
+                    <td align="left" valign="top"><input type="hidden" name="sending_page" value="assign_actor" />
+                        <input type="hidden" name="sim_id" value="<%= sim.getId().toString() %>" />
+                        <input type="submit" name="addactortosim" value="Submit" /></td>
+                    </tr>
+                </table>
+              </form>
+              <p></p>
+              <h2>Currently Assigned Actors in <%= sim.getSimulationName() %>:<%= sim.getVersion() %><br />
+              </h2>
+              <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top">
-          <td width="25%"> <h2>Simulation</h2></td>
-            <td width="39%"> <h2>Actors</h2></td>
-            <td width="16%"><h2>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></h2></td>
-            <td width="11%"><h2>Priority</h2></td>
-            <td width="9%"> <h2>Notes</h2></td>
-            </tr>
-        <form action="assign_actor_to_simulation.jsp" method="post" name="form1" id="form1">
-          <tr valign="top">
-            <td colspan="5"><%= sim.getSimulationName() %>:<%= sim.getVersion() %></td>
-            </tr>
+          <td width="39%"> <strong>Actors*</strong></td>
+            <td width="16%"><strong>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></strong></td>
+            <td width="11%"><strong>Priority</strong></td>
+            <td width="11%"><strong>Role</strong></td>
+            <td width="9%"> <strong>Notes</strong></td>
+            <td width="9%"><strong>Inactivate</strong></td>
+        </tr>
 			<%
 			
-			List actorAssignments = SimActorAssignment.getActorsAssignmentsForSim(afso.schema, sim.getId());
+			List actorAssignments = SimActorAssignment.getActiveActorsAssignmentsForSim(afso.schema, sim.getId(), true);
 			
 			for (ListIterator la = actorAssignments.listIterator(); la.hasNext();) {
 				SimActorAssignment saa = (SimActorAssignment) la.next();
@@ -82,64 +139,55 @@
 
 			%>
           <tr valign="top">
-            <td></td>
-              <td> 
-                <A href="assign_actor_to_sim_see_role.jsp?actor_being_worked_on_id=<%= act.getId() %>&sim_id=<%= sim.getId() %>"> <%= act.getActorName() %> </A>
-                <A href="assign_actor_to_simulation.jsp?remove=true&actor_being_worked_on_id=<%= act.getId().toString() %>&sim_id=<%= sim.getId().toString() %>"> (remove) </A><br/>
-                                </td>
-              <td><label></label></td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              </tr>
+            <td> 
+                <A href="assign_actor_to_simulation.jsp?queue_up=true&saa_id=<%= saa.getId() %>"> <%= act.getActorName() %> </A>                        </td>
+              <td><%= saa.getAssignmentTypeDescriptor() %></td>
+              <td><%= saa.getAssignmentPriority() %></td>
+              <td><%= saa.getActors_role() %></td>
+              <td><%= saa.getAssignmentNotes() %></td>
+              <td><a href="assign_actor_to_simulation.jsp?inactivate=true&saa_id=<%= saa.getId() %>">inactivate</a></td>
+          </tr>
 			  <% } // End of loop over Actors %>
-            <tr><td></td><td></td>
-              <td colspan="3">&nbsp;</td>
-            </tr>
-            <tr><td colspan="5"><hr /></td>
-            </tr>
-          </form>
       </table>
-      <p>sss</p>
-	  <table>
-	    <tr valign="top">
-	      <td>Actor</td>
-          <td><h2>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></h2></td>
-	      <td><h2>Priority()</h2></td>
-	      <td><h2>Notes</h2></td>
-	      <td><h2>Assign</h2></td>
-	      </tr>
-	    <tr>
-	      <td><select name="actor_being_worked_on_id">
-                <% 
-                for (ListIterator la = sim.getAvailableActorsForSim(afso.schema).listIterator(); la.hasNext();) {
-					Actor act = (Actor) la.next();
-		%>
-                <option value="<%= act.getId().toString() %>"><%= act.getActorName() %></option>
-                <% } %>
-                </select></td>
-	  
-	  <td><label>
-                <select name="select" id="select">
-                  <option value="required" selected="selected">Required</option>
-                  <option value="optional">Optional</option>
-                        </select>
-              </label></td>
-              <td><label>
-                <input name="textfield" type="text" size="5" maxlength="5" />
-              </label></td>
-              <td><form id="form2" name="form2" method="post" action="">
-                <label>
-                  <textarea name="textarea"></textarea>
-                  </label>
-              </form>
-              </td>
-              <td> <input type="hidden" name="sending_page" value="assign_actor" /> 
-                <input type="hidden" name="sim_id" value="<%= sim.getId().toString() %>" /> 
-                <input type="submit" name="addactortosim" value="Submit" /></td>
-	  </tr>
-	  </table>
-	  <p><a href="copy_actor_to_simulation.jsp">Add actor from other simulation </a><a href="helptext/copy_actor_from_other_sim.jsp" target="helpinright">(?)</a></p>
-	  <p></p>
+              * Select actor's name to edit their assignment
+              <h2>&nbsp;</h2>
+			  <% 
+			  List actorNonAssignments = SimActorAssignment.getActiveActorsAssignmentsForSim(afso.schema, sim.getId(), false);
+			  
+			  if ((actorNonAssignments != null) && (actorNonAssignments.size() > 0)) {
+			  %>
+              <h2>Currently <span class="style1">Inactivated</span> Assignments in <%= sim.getSimulationName() %>:<%= sim.getVersion() %><br />
+                                          </h2>
+              <table width="100%" border="1" cellspacing="0" cellpadding="2">
+                <tr valign="top">
+                  <td width="39%"><span class="style1"><strong>Inactive Actors</strong></span></td>
+                  <td width="16%"><strong>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></strong></td>
+                  <td width="11%"><strong>Priority</strong></td>
+                  <td width="11%"><strong>Role</strong></td>
+                  <td width="9%"><strong>Notes</strong></td>
+                  <td width="9%"><strong>Activate</strong></td>
+                </tr>
+                <%
+			for (ListIterator la = actorNonAssignments.listIterator(); la.hasNext();) {
+				SimActorAssignment saa = (SimActorAssignment) la.next();
+			
+				Actor act = Actor.getById(afso.schema, saa.getActorId());
+
+			%>
+                <tr valign="top">
+                  <td> <%= act.getActorName() %> </td>
+                  <td><%= saa.getAssignmentTypeDescriptor() %></td>
+                  <td><%= saa.getAssignmentPriority() %></td>
+                  <td><%= saa.getActors_role() %></td>
+                  <td><%= saa.getAssignmentNotes() %></td>
+                  <td><a href="assign_actor_to_simulation.jsp?activate=true&saa_id=<%= saa.getId() %>">activate</a></td>
+                </tr>
+                <% } // End of loop over Actors %>
+              </table>
+		<% } // End of if there are some inactive assignments %>
+              <p>&nbsp; </p>
+      <p><a href="copy_actor_to_simulation.jsp">Add actor from other simulation </a><a href="helptext/copy_actor_from_other_sim.jsp" target="helpinright">(?)</a></p>
+      <p>&nbsp;</p>
       <div align="center"><a href="add_objects.jsp">Next Step: Add Objects</a></div>
       <a href="create_actors.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
