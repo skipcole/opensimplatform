@@ -6,7 +6,7 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <%
 	String schema_id = (String) request.getParameter("schema_id");
 	String uri = (String) request.getParameter("uri");

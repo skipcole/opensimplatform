@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,
 		org.usip.osp.networking.*,
 		org.usip.osp.unittests.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));

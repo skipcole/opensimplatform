@@ -437,7 +437,7 @@ public class Actor implements ExportableObject{
     
 	public String getRole(String schema, Long sim_id){
 		
-		SimActorAssignment saa = SimActorAssignment.getById(schema, sim_id, this.id);
+		SimActorAssignment saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id, this.id);
 		
 		if ((sim_id == null) || (saa == null)){
 			return "Actor has not been assigned to this simulation."; //$NON-NLS-1$

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.communications.Emailer;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
@@ -66,7 +67,7 @@ public class OSPErrors {
 	
 	/** Notes left by the user */
 	@Lob
-	private String userNotes;
+	private String userNotes = "";
 	
 	/** Date of this error */
 	private java.util.Date errorDate = new java.util.Date();
@@ -175,6 +176,13 @@ public class OSPErrors {
 		return returnError;
 	}
 	
+	/**
+	 * Checks to see if the user has a session object (AFSO or PSO) set. If so, returns the 
+	 * SessionObjectBase.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public static SessionObjectBase getSessionObjectBaseIfFound(HttpServletRequest request){
 		
 		SessionObjectBase sob = null;
@@ -205,7 +213,7 @@ public class OSPErrors {
     	OSPErrors err = new OSPErrors();
     	
     	err.setErrorSource(SOURCE_JSP);
-    	err.setErrorMessage(exception.getMessage());
+    	err.setErrorMessage("Error Message: " + exception.toString());
     	
     	SchemaInformationObject sio = null;
     	
@@ -254,7 +262,7 @@ public class OSPErrors {
      */
     public boolean emailErrors(SchemaInformationObject sio, boolean fromUser){
     	
-    	String subject = "ERROR on system";
+    	String subject = "ERROR on " + USIP_OSP_Properties.getValue("server_name");
     	
     	if (sio == null){
 			sio = SchemaInformationObject.getFirstUpEmailServer();
@@ -275,6 +283,7 @@ public class OSPErrors {
     	
     	message += this.getErrorMessage() + lt + lt;
     	
+    	message += this.getErrorText();
     	
     	if (fromUser){
     		message += "respond to " + this.getUserEmail() + lt;

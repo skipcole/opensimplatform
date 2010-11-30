@@ -2,7 +2,7 @@
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <%
 
 	String show_print_button = (String) request.getParameter("show_print_button");

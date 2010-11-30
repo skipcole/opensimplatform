@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" 
 	import="java.sql.*,java.util.*,
-	org.usip.osp.networking.*" errorPage="" %>
+	org.usip.osp.networking.*" errorPage="/error.jsp" %>
 <%
 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));

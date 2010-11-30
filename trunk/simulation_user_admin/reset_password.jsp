@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <%
 	
 	int displayMode = ResetPasswordObject.handleResetPassword(request);

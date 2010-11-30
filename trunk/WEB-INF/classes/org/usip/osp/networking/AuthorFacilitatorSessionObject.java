@@ -2192,7 +2192,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					saa = new SimActorAssignment(schema, sim_id,
 							actorOnScratchPad.getId());
 				} else {
-					saa = SimActorAssignment.getById(schema, sim_id,
+					saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id,
 							actorOnScratchPad.getId());
 				}
 
@@ -2393,7 +2393,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						saa = new SimActorAssignment(schema, sim_id,
 								actorOnScratchPad.getId());
 					} else {
-						saa = SimActorAssignment.getById(schema, sim_id,
+						saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id,
 								actorOnScratchPad.getId());
 					}
 
@@ -2635,11 +2635,70 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param sim_id
 	 * @param actor_id
 	 */
-	public void addActorToSim(String sim_id, String actor_id) {
+	public SimActorAssignment addActorToSim(HttpServletRequest request) {
+		
+		SimActorAssignment saa = new SimActorAssignment();
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String addactortosim = (String) request.getParameter("addactortosim");
+		String inactivate = (String) request.getParameter("inactivate");
+		String activate = (String) request.getParameter("activate");
+		
+		String queue_up = (String) request.getParameter("queue_up");
+		String saa_id = (String) request.getParameter("saa_id");
+		
+		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))){
+			saa = SimActorAssignment.getById(schema, new Long(saa_id));
+			return saa;
+		}
+		
+		/** We do not just delete assignment for two reasons. First, and more importantly,
+		 * the assignment may have some information in it the user will want to keep.
+		 * Secondly, if user assignments are deleted, running simulations that have been 
+		 * created that use them will become completely broken.
+		 */
+		if ((inactivate != null) && (inactivate.equalsIgnoreCase("true"))){
+			SimActorAssignment saa_in = SimActorAssignment.getById(schema, new Long(saa_id));
+			saa_in.setActive(false);
+			saa_in.saveMe(schema);
+			return saa;
+		}
+		
+		if ((activate != null) && (activate.equalsIgnoreCase("true"))){
+			SimActorAssignment saa_in = SimActorAssignment.getById(schema, new Long(saa_id));
+			saa_in.setActive(true);
+			saa_in.saveMe(schema);
+			return saa;
+		}
+		
+		String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
+		String sim_id = (String) request.getParameter("sim_id");
+		
+		String saa_priority = (String) request.getParameter("saa_priority");
+		String saa_notes = (String) request.getParameter("saa_notes");
+		String saa_role = (String) request.getParameter("saa_role");
+		
+		
+		if ( (sending_page != null) && (addactortosim != null) && (sending_page.equalsIgnoreCase("assign_actor"))){
+			if (actor_being_worked_on_id != null) {
+				
+				Long s_id = new Long(sim_id);
+				Long a_id = new Long(actor_being_worked_on_id);
+				saa = new SimActorAssignment(schema, s_id, a_id);
+				saa.setActors_role(saa_role);
+				saa.setAssignmentNotes(saa_notes);
+				saa.setAssignmentPriority(saa_priority);
 
-		Long s_id = new Long(sim_id);
-		Long a_id = new Long(actor_id);
+				SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
+			}
+		} // End of if coming from this page and have assigned actor
+		
+		//////
 
+
+		/////////////////////////////////////////////
+		// Copy in an actor action.
+		/*
 		Actor this_act = Actor.getById(schema, a_id);
 
 		if (!(this_act.getSim_id().equals(s_id))) {
@@ -2647,15 +2706,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			this_act = Actor.cloneMe(schema, a_id);
 			this_act.setSim_id(s_id);
 			this_act.saveMe(schema);
+			SimActorAssignment saa = new SimActorAssignment(schema, s_id, this_act.getId());
+
+			SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
 
 		}
+		*/
+		////////////////////////////////
 
-		@SuppressWarnings("unused")
-		SimActorAssignment saa = new SimActorAssignment(schema, s_id, this_act
-				.getId());
-
-		SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
-
+		return saa;
+		
 	}
 
 	/**

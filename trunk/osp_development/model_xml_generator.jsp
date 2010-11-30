@@ -7,7 +7,7 @@
 	org.usip.osp.modelinterface.*,
 	org.usip.osp.sharing.*,
 	org.usip.osp.persistence.*" 
-	errorPage="" %>
+	errorPage="/error.jsp" %>
 <%
 		ModelDefinitionObject mdo = ModelDefinitionObject.generateMDOforXML(request);
 %>
