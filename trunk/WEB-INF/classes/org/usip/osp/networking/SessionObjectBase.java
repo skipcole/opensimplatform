@@ -179,14 +179,21 @@ public class SessionObjectBase {
 		System.out.println("command was " + command);
 
 		if (command != null) {
+			
+			String user_assignment_id = request
+			.getParameter("user_assignment_id"); //$NON-NLS-1$
+			
+			if (command.equalsIgnoreCase("remove_ua")){
+				UserAssignment.removeMe(schema, new Long(user_assignment_id));
+				return;
+			}
 
 			String actor_id = request
 					.getParameter("actor_to_add_to_simulation"); //$NON-NLS-1$
 			String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
 			String running_sim_id = request
 					.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
-			String user_assignment_id = request
-					.getParameter("user_assignment_id"); //$NON-NLS-1$
+
 			
 			// Email address of user to assign role to
 			String user_to_add_to_simulation = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$

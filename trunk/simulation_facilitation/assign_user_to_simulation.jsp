@@ -124,10 +124,10 @@
           <form action="assign_user_to_simulation.jsp" method="post" name="form3" id="form3">
             <td><%= act.getActorName() %></td>
               <td><%= user_assigned.getBu_username() %></td>
-              <td><a href="view_sim_actor_assignment_notes.jsp">details</a></td>
+              <td><a href="view_sim_actor_assignment_notes.jsp?actor_id=<%= act.getId() %>">details</a></td>
               <td>
                 <% if ((ua != null) && (ua.getId() != null)){ %>
-                	<img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" />
+                	<a href="assign_user_to_simulation.jsp?command=remove_ua&user_assignment_id=<%= ua.getId() %>"><img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a>
 					<a href="assign_user_to_simulation.jsp?command=add_assignment&simulation_adding_to=<%= simulation.getId() %>&running_simulation_adding_to=<%= running_simulation.getId() %>&actor_to_add_to_simulation=<%= act.getId() %>"><img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" /></a>
                   <% } %>                  </td>
               <td>

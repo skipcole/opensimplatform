@@ -102,6 +102,18 @@ public class SimActorAssignment implements ExportableObject{
 	public void setAssignmentType(int assignmentType) {
 		this.assignmentType = assignmentType;
 	}
+	
+	public void setAssignmentType(String saa_type){
+		if (saa_type == null){
+			return;
+		}
+		
+		if (saa_type.equalsIgnoreCase("required")){
+			this.assignmentType = TYPE_REQUIRED;
+		} else {
+			this.assignmentType = TYPE_OPTIONAL;
+		}
+	}
 
 	public String getAssignmentPriority() {
 		return assignmentPriority;
@@ -357,5 +369,16 @@ public class SimActorAssignment implements ExportableObject{
 	public void setTransitId(Long transitId) {
 		this.transitId = transitId;
 	}	
+	
+	public void storeDetails(String saa_type, String saa_role, String saa_notes, String saa_priority, String schema){
+		
+		this.setAssignmentType(saa_type);
+		this.setActors_role(saa_role);
+		this.setAssignmentNotes(saa_notes);
+		this.setAssignmentPriority(saa_priority);
+		this.saveMe(schema);
+		
+		
+	}
 
 }
