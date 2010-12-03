@@ -100,9 +100,18 @@
 					
 					<% } // end of if no actor queued up %>					</td>
                     <td align="left" valign="top"><label>
-                      <select name="select" id="select">
-                        <option value="required" selected="selected">Required</option>
-                        <option value="optional">Optional</option>
+					<%
+						String selected_req = "";
+						String selected_opt = "selected=\"selected\"";
+						
+						if (this_saa.getAssignmentType() == SimActorAssignment.TYPE_REQUIRED){
+							selected_req = "selected=\"selected\"";
+							selected_opt = "";
+						}
+					%>
+                      <select name="saa_type" id="saa_type">
+                        <option value="required" <%= selected_req %>>Required</option>
+                        <option value="optional" <%= selected_opt %>>Optional</option>
                       </select>
                     </label></td>
                     <td align="left" valign="top"><label>
@@ -118,7 +127,7 @@
                     </tr>
                 </table>
               </form>
-              <p></p>
+              <p><hr /></p>
               <h2>Currently Assigned Actors in <%= sim.getSimulationName() %>:<%= sim.getVersion() %><br />
               </h2>
               <table width="100%" border="1" cellspacing="0" cellpadding="2">

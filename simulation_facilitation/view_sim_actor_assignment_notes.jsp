@@ -5,6 +5,8 @@
 	errorPage="/error.jsp" %>
 <%
 
+	String actor_id = (String) request.getParameter("actor_id");
+	
 	String comingfrompso = (String) request.getParameter("comingfrompso");
 	String act_id = (String) request.getParameter("act_id");
 	
@@ -22,9 +24,8 @@
 	}
 	
 	
-	SimActorAssignment saa = new SimActorAssignment ();
-	//Actor act = Actor.getById(afso.schema, saa.getActorId());
-	Actor act = new Actor();
+	SimActorAssignment saa = SimActorAssignment.getBySimIdAndActorId(afso.schema, afso.sim_id, new Long(actor_id));
+	Actor act = Actor.getById(afso.schema, saa.getActorId());
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -33,8 +34,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <title>USIP Open Simulation Platform</title>
-
-
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
@@ -52,7 +51,7 @@
 			  <table width="100%" border="1" cellspacing="0" cellpadding="2">
                 <tr valign="top">
                   <td width="20%"><strong>Actor</strong></td>
-                  <td width="10%"><%= act.getActorName() %></td>
+                  <td width="80%"><%= act.getActorName() %></td>
                   </tr>
                 <tr valign="top">
                   <td><strong>Required</strong></td>
@@ -72,12 +71,6 @@
                   </tr>
               </table>
 			  <br />
-
-
-            <% } else { // End of if have set simulation id. %>
-
-            <p></p>
-              <% } // End of if have not set simulation for edits. %>
                   
             <p>&nbsp;</p>
 			</td>

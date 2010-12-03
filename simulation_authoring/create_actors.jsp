@@ -96,11 +96,6 @@
                         <% } // end of if this is a control character %>
                 <% } %>            </td>
             </tr>
-            <!-- tr>
-      <td valign="top">Non-Player Character</td>
-      <td valign="top"><input type="checkbox" name="npc" value="true">
-      Yes</td>
-    </tr -->
             <tr>
               <td valign="top">&nbsp;</td>
               <td valign="top">Public 
@@ -146,30 +141,6 @@
 			    Control <a href="helptext/control_actor.jsp"  target="helpinright">(?)</a></label></td>
               <td valign="top">This actor is a control character.</td>
             </tr>
-            <tr>
-              <td valign="top">&nbsp;</td>
-			  <td valign="top"><label>
-			    <input name="add_to_sim" type="checkbox" value="true" checked="checked" />
-			    Assign</label></td>
-              <td valign="top" >Assign this actor to the simulation <%= simulation.getDisplayName() %></td>
-            </tr>
-            <!-- tr>
-              <td valign="top">&nbsp;</td>
-              <td valign="top" bgcolor="#FFFFCC">Actor's Role in Sim(?)</td>
-              <td valign="top" bgcolor="#FFFFCC">
-                <textarea name="actors_role" id="actors_role"  style="height: 120px; width: 480px;" ><% if ((actorOnScratchPad.getId() != null) && (simulation.getId() != null) ) { %><%= actorOnScratchPad.getRole(afso.schema, simulation.getId()) %><% } %>
-              </textarea>            </td>
-            </tr>
-            <tr>
-              <td valign="top">&nbsp;</td>
-              <td valign="top" bgcolor="#FFFFCC">Chat Color(?)</td>
-              <td valign="top" bgcolor="#FFFFCC"><select name="chat_color" >
-                <option value="ffffff">White</option>
-                <option value="ffdddd">Light Red</option>
-                <option value="ddffdd">Light Green</option>
-                <option value="ddddff">Light Blue</option>
-  </select> </td>
-            </tr    -->
             <tr>
               <td valign="top">&nbsp;</td>
               <td valign="top">&nbsp;</td>

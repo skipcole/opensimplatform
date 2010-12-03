@@ -12,6 +12,12 @@
 			return;
 		}
 		
+		String act_id = request.getParameter("act_id");
+		
+		if ( (act_id != null) && (!(act_id.equalsIgnoreCase("")))){
+			afso.actor_being_worked_on_id = new Long(act_id);
+		}
+		
 		Actor actorOnScratchPad = new Actor();
 		if (afso.actor_being_worked_on_id != null) {
 			actorOnScratchPad = afso.giveMeActor();
@@ -58,7 +64,7 @@
               <h1>Set Actor Images for <%= actorOnScratchPad.getActorName() %></h1>
               <p>On this page you will set the images for an actor. You can either upload an image file from your local machine to the server, or browse the server for an image to use.</p>
               <br />
-    <form enctype="multipart/form-data" action="create_actors.jsp" method="post">
+    <form enctype="multipart/form-data" action="create_actors_image.jsp" method="post">
     
     <input type="hidden" name="sim_id" value="<%= afso.sim_id %>" />
     
@@ -69,8 +75,8 @@
         </p>
           <table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td align="left" valign="top">Actor 
-                <%= actorOnScratchPad.getActorName() %></td>
+              <td align="left" valign="top"><h2>Actor 
+                <%= actorOnScratchPad.getActorName() %></h2></td>
               <td align="left" valign="top">&nbsp;</td>
               <td align="left" valign="top">&nbsp;</td>
             </tr>
@@ -104,7 +110,7 @@
               <td align="left" valign="top">
   <input type="hidden" name="actorid" value="<%= afso.actor_being_worked_on_id %>" />
   <%
-				if ((afso.actor_being_worked_on_id == null) || (afso.actor_being_worked_on_id.equals(new Long(0))) ) {
+				if (afso.actor_being_worked_on_id != null) {
 				%>
   <input type="submit" name="create_actor" value="Set Images" />
                 <%

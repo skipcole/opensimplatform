@@ -911,12 +911,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			}
 		}
 	}
-	
-	
-	public SetOfLinks handleCreateSetOfLinks(HttpServletRequest request){
-		
+
+	public SetOfLinks handleCreateSetOfLinks(HttpServletRequest request) {
+
 		SetOfLinks returnSetOfLinks = new SetOfLinks();
-		
+
 		// If the player cleared the form, return the blank document.
 		String clear_button = (String) request.getParameter("clear_button");
 		if (clear_button != null) {
@@ -938,18 +937,22 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		// the blank object
 		String sending_page = (String) request.getParameter("sending_page");
 		if ((sending_page == null)
-				|| (!(sending_page.equalsIgnoreCase("make_create_setoflinks_page")))) {
+				|| (!(sending_page
+						.equalsIgnoreCase("make_create_setoflinks_page")))) {
 			return returnSetOfLinks;
 		}
 
 		// If we got down to here, we must be doing some real work on a
 		// document.
-		String setoflinks_name = (String) request.getParameter("setoflinks_name");
-		String setoflinks_notes = (String) request.getParameter("setoflinks_notes");
+		String setoflinks_name = (String) request
+				.getParameter("setoflinks_name");
+		String setoflinks_notes = (String) request
+				.getParameter("setoflinks_notes");
 		String start_value = (String) request.getParameter("start_value");
 
 		// Do create if called.
-		String create_setoflinks = (String) request.getParameter("create_setoflinks");
+		String create_setoflinks = (String) request
+				.getParameter("create_setoflinks");
 		if ((create_setoflinks != null)) {
 			Logger.getRootLogger().debug(
 					"creating setoflinks of uniq name: " + setoflinks_name);
@@ -972,7 +975,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		return returnSetOfLinks;
-		
+
 	}
 
 	/**
@@ -2081,7 +2084,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public void handleCreateActor(HttpServletRequest request) {
 
 		System.out.println("handleCreateActor");
-		
+
 		String update_actor = (String) request.getParameter("update_actor");
 		String actorid = (String) request.getParameter("actorid");
 		String clear_button = (String) request.getParameter("clear_button");
@@ -2107,7 +2110,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		} else if ((clear_button != null)) {
 
 			actor_being_worked_on_id = null;
-		} else if (editmode != null){
+		} else if (editmode != null) {
 			actorid = (String) request.getParameter("actorid");
 			if (actorid != null) {
 				actor_being_worked_on_id = new Long(actorid);
@@ -2122,13 +2125,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param request
 	 * @param actorOnScratchPad
 	 */
-	public void createOrUpdateActor(HttpServletRequest request, Actor actorOnScratchPad) {
+	public void createOrUpdateActor(HttpServletRequest request,
+			Actor actorOnScratchPad) {
 
 		boolean saveActor = false;
 		String create_actor = (String) request.getParameter("create_actor");
 		String update_actor = (String) request.getParameter("update_actor");
 
-		if ((create_actor != null) || (update_actor != null)){
+		if ((create_actor != null) || (update_actor != null)) {
 			saveActor = true;
 		}
 
@@ -2142,15 +2146,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			actorOnScratchPad.setSim_id(new Long(_sim_id));
 
-			String public_description = request.getParameter("public_description");
+			String public_description = request
+					.getParameter("public_description");
 			String actor_name = request.getParameter("actor_name");
-			String semi_public_description = request.getParameter("semi_public_description");
-			String private_description = request.getParameter("private_description");
-			String control_actor = (String) request.getParameter("control_actor");
-			
+			String semi_public_description = request
+					.getParameter("semi_public_description");
+			String private_description = request
+					.getParameter("private_description");
+			String control_actor = (String) request
+					.getParameter("control_actor");
+
 			actorOnScratchPad.setPublic_description(public_description);
 			actorOnScratchPad.setName(actor_name);
-			actorOnScratchPad.setSemi_public_description(semi_public_description);
+			actorOnScratchPad
+					.setSemi_public_description(semi_public_description);
 			actorOnScratchPad.setPrivate_description(private_description);
 
 			if ((control_actor != null)
@@ -2164,47 +2173,38 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			actorOnScratchPad.saveMe(schema);
 
-			String add_to_sim = (String) request.getParameter("add_to_sim");
+			//String chat_color = (String) request.getParameter("chat_color");
 
-			if ((add_to_sim != null) && (add_to_sim.equalsIgnoreCase("true"))) {
+			SimActorAssignment saa;
 
-				String actors_role = (String) request.getParameter("actors_role");
-				String chat_color = (String) request.getParameter("chat_color");
+			// Don't add actor to sim, if he or she has already been
+			// added.
+			boolean simHasActor = false;
+			for (ListIterator<Actor> li = SimActorAssignment.getActorsForSim(
+					schema, sim_id).listIterator(); li.hasNext();) {
+				Actor act = li.next();
 
-				SimActorAssignment saa;
-
-				// Don't add actor to sim, if he or she has already been
-				// added.
-				boolean simHasActor = false;
-				for (ListIterator<Actor> li = SimActorAssignment
-						.getActorsForSim(schema, sim_id).listIterator(); li
-						.hasNext();) {
-					Actor act = li.next();
-
-					if (act.getId().equals(actorOnScratchPad.getId())) {
-						simHasActor = true;
-					}
+				if (act.getId().equals(actorOnScratchPad.getId())) {
+					simHasActor = true;
 				}
-
-				// if (!(SimActorAssignment.getActorsForSim(schema,
-				// sim_id).contains(actorOnScratchPad))) {
-				if (!(simHasActor)) {
-					saa = new SimActorAssignment(schema, sim_id,
-							actorOnScratchPad.getId());
-				} else {
-					saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id,
-							actorOnScratchPad.getId());
-				}
-
-				saa.setActors_role(actors_role);
-				saa.setActors_chat_color(chat_color);
-
-				saa.saveMe(schema);
-
-				SimulationSectionAssignment.applyAllUniversalSections(schema,
-						sim_id);
-
 			}
+
+			// if (!(SimActorAssignment.getActorsForSim(schema,
+			// sim_id).contains(actorOnScratchPad))) {
+			if (!(simHasActor)) {
+				saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad
+						.getId());
+			} else {
+				saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id,
+						actorOnScratchPad.getId());
+			}
+
+			//saa.setActors_chat_color(chat_color);
+
+			saa.saveMe(schema);
+
+			SimulationSectionAssignment.applyAllUniversalSections(schema,
+					sim_id);
 
 			this.actor_name = actorOnScratchPad.getActorName();
 			this.actor_being_worked_on_id = actorOnScratchPad.getId();
@@ -2257,8 +2257,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * Sets the image for an actor. 
-	 * The image can be uploaded.
+	 * Sets the image for an actor. The image can be uploaded.
 	 * 
 	 * @param mpr
 	 * @param actorOnScratchPad
@@ -2393,8 +2392,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						saa = new SimActorAssignment(schema, sim_id,
 								actorOnScratchPad.getId());
 					} else {
-						saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id,
-								actorOnScratchPad.getId());
+						saa = SimActorAssignment.getBySimIdAndActorId(schema,
+								sim_id, actorOnScratchPad.getId());
 					}
 
 					saa.setActors_role(actors_role);
@@ -2636,96 +2635,98 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param actor_id
 	 */
 	public SimActorAssignment addActorToSim(HttpServletRequest request) {
-		
+
 		SimActorAssignment saa = new SimActorAssignment();
-		
+
 		String clear_queue = (String) request.getParameter("clear_queue");
 		String inactivate = (String) request.getParameter("inactivate");
 		String activate = (String) request.getParameter("activate");
-		
+
 		String queue_up = (String) request.getParameter("queue_up");
 		String saa_id = (String) request.getParameter("saa_id");
-		
-		if ((clear_queue != null) && (clear_queue.equalsIgnoreCase("true"))){
+
+		if ((clear_queue != null) && (clear_queue.equalsIgnoreCase("true"))) {
 			return saa;
-		} else if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))){
+		} else if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))) {
 			saa = SimActorAssignment.getById(schema, new Long(saa_id));
 			return saa;
 		}
-		
-		/** We do not just delete assignment for two reasons. First, and more importantly,
-		 * the assignment may have some information in it the user will want to keep.
-		 * Secondly, if user assignments are deleted, running simulations that have been 
-		 * created that use them will become completely broken.
+
+		/**
+		 * We do not just delete assignment for two reasons. First, and more
+		 * importantly, the assignment may have some information in it the user
+		 * will want to keep. Secondly, if user assignments are deleted, running
+		 * simulations that have been created that use them will become
+		 * completely broken.
 		 */
-		else if ((inactivate != null) && (inactivate.equalsIgnoreCase("true"))){
-			SimActorAssignment saa_in = SimActorAssignment.getById(schema, new Long(saa_id));
+		else if ((inactivate != null) && (inactivate.equalsIgnoreCase("true"))) {
+			SimActorAssignment saa_in = SimActorAssignment.getById(schema,
+					new Long(saa_id));
 			saa_in.setActive(false);
 			saa_in.saveMe(schema);
 			return saa;
 		}
-		
-		else if ((activate != null) && (activate.equalsIgnoreCase("true"))){
-			SimActorAssignment saa_in = SimActorAssignment.getById(schema, new Long(saa_id));
+
+		else if ((activate != null) && (activate.equalsIgnoreCase("true"))) {
+			SimActorAssignment saa_in = SimActorAssignment.getById(schema,
+					new Long(saa_id));
 			saa_in.setActive(true);
 			saa_in.saveMe(schema);
 			return saa;
 		}
-		
-		String actor_being_worked_on_id = (String) request.getParameter("actor_being_worked_on_id");
+
+		String actor_being_worked_on_id = (String) request
+				.getParameter("actor_being_worked_on_id");
 		String sim_id = (String) request.getParameter("sim_id");
-		
+
+		String saa_type = (String) request.getParameter("saa_type");
 		String saa_priority = (String) request.getParameter("saa_priority");
 		String saa_notes = (String) request.getParameter("saa_notes");
 		String saa_role = (String) request.getParameter("saa_role");
-		
+
 		String create_saa = (String) request.getParameter("create_saa");
 		String update_saa = (String) request.getParameter("update_saa");
-		
-		if ((update_saa != null) && (update_saa.equalsIgnoreCase("true")) ){
-			saa = SimActorAssignment.getById(schema, new Long(saa_id));
-			saa.setActors_role(saa_role);
-			saa.setAssignmentNotes(saa_notes);
-			saa.setAssignmentPriority(saa_priority);
-			saa.saveMe(schema);
-		} else if ( (create_saa != null) && (create_saa.equalsIgnoreCase("true"))){
+
+		if ((update_saa != null) && (update_saa.equalsIgnoreCase("true"))) {
+			saa = SimActorAssignment.getById(schema, new Long(saa_id));			
+			saa.storeDetails(saa_type, saa_role, saa_notes, saa_priority, schema);
+
+		} else if ((create_saa != null)
+				&& (create_saa.equalsIgnoreCase("true"))) {
 			if (actor_being_worked_on_id != null) {
-				
+
 				Long s_id = new Long(sim_id);
 				Long a_id = new Long(actor_being_worked_on_id);
 				saa = new SimActorAssignment(schema, s_id, a_id);
-				saa.setActors_role(saa_role);
-				saa.setAssignmentNotes(saa_notes);
-				saa.setAssignmentPriority(saa_priority);
-				saa.saveMe(schema);
+				
+				saa.storeDetails(saa_type, saa_role, saa_notes, saa_priority, schema);
 
-				SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
+				SimulationSectionAssignment.applyAllUniversalSections(schema,
+						s_id);
 			}
 		} // End of if coming from this page and have assigned actor
-		
-		//////
 
+		// ////
 
-		/////////////////////////////////////////////
+		// ///////////////////////////////////////////
 		// Copy in an actor action.
 		/*
-		Actor this_act = Actor.getById(schema, a_id);
-
-		if (!(this_act.getSim_id().equals(s_id))) {
-
-			this_act = Actor.cloneMe(schema, a_id);
-			this_act.setSim_id(s_id);
-			this_act.saveMe(schema);
-			SimActorAssignment saa = new SimActorAssignment(schema, s_id, this_act.getId());
-
-			SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
-
-		}
-		*/
-		////////////////////////////////
+		 * Actor this_act = Actor.getById(schema, a_id);
+		 * 
+		 * if (!(this_act.getSim_id().equals(s_id))) {
+		 * 
+		 * this_act = Actor.cloneMe(schema, a_id); this_act.setSim_id(s_id);
+		 * this_act.saveMe(schema); SimActorAssignment saa = new
+		 * SimActorAssignment(schema, s_id, this_act.getId());
+		 * 
+		 * SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
+		 * 
+		 * }
+		 */
+		// //////////////////////////////
 
 		return saa;
-		
+
 	}
 
 	/**
