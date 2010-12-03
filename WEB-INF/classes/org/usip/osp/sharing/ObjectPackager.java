@@ -505,6 +505,19 @@ public class ObjectPackager {
 
 			returnString += xstream.toXML(thisActor) + lineTerminator;
 		}
+		
+		List <SimActorAssignment> actorAssignments = 
+			SimActorAssignment.getActorsAssignmentsForSim(schema, sim_id);
+		for (ListIterator<SimActorAssignment> li = actorAssignments.listIterator(); li.hasNext();) {
+			SimActorAssignment thisSAA = li.next();
+			
+			thisSAA.setTransitId(thisSAA.getId());
+			thisSAA.setId(null);
+			
+			returnString += xstream.toXML(thisSAA) + lineTerminator;
+			
+		}
+		
 		return returnString;
 	}
 
@@ -1597,8 +1610,6 @@ public class ObjectPackager {
 			String fullString, Long sim_id, XStream xstream,
 			Hashtable actorIdMappings) {
 
-		ArrayList actorNames = Actor.getAllActorNames(schema);
-
 		List actors = getSetOfObjectFromFile(fullString,
 				makeOpenTag(Actor.class), makeCloseTag(Actor.class));
 		for (ListIterator<String> li_i = actors.listIterator(); li_i.hasNext();) {
@@ -1618,9 +1629,20 @@ public class ObjectPackager {
 
 			actorIdMappings.put(this_act.getTransitId(), this_act.getId());
 
-			@SuppressWarnings("unused")
-			SimActorAssignment saa = new SimActorAssignment(schema, sim_id,
-					this_act.getId());
+		}
+
+		// Get all of the SimActorAssignments
+		List saa = getSetOfObjectFromFile(fullString,
+				makeOpenTag(SimActorAssignment.class), makeCloseTag(SimActorAssignment.class));
+		for (ListIterator<String> li_i = saa.listIterator(); li_i.hasNext();) {
+			String saa_string = li_i.next();
+
+			SimActorAssignment this_saa = (SimActorAssignment) xstream.fromXML(saa_string);
+			
+			this_saa.setSim_id(sim_id);
+			this_saa.setActorId( (Long) actorIdMappings.get(this_saa.getActorId())); 
+			this_saa.saveMe(schema);
+			
 		}
 
 	}

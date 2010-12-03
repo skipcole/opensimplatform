@@ -52,11 +52,11 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Actor Assignments </h1>
-              <p>Actors can be </p>
+              <p>Here you can leave notes about the actors in the simulation: if they are required or not, details concerning the type of player best fitted for them, notes on which actors to include in unison, etc. For example, some simulations may have a variable number of players, such as from 8 to 18. But you may want to say here that if one includes Actor X, then one should also include Actor Y for balance. </p>
               <% 
 						if (this_saa.getId() != null) {
 					%>
-				  <strong>Update Actor (Click here to clear)
+				  <strong>Update Actor (<a href="assign_actor_to_simulation.jsp?clear_queue=true">click here to clear</a>)
 				  <% } else { %>
 				  Assign Actor</strong> 
 				  <% } %>
@@ -73,8 +73,11 @@
 						if (this_saa.getId() != null) {
 					%>
 					Update
+					<input type="hidden" name="saa_id" value="<%= this_saa.getId() %>" />
+					<input type="hidden" name="update_saa" value="true" />
 					<% } else { %>
 					Assign
+					<input type="hidden" name="create_saa" value="true" />
 					<% } %>
 					
 					
@@ -85,7 +88,6 @@
 					<% 
 						if (this_saa.getId() != null) {
 					%> <%= this_act.getActorName() %>
-					<input type="hidden" name="saa_id" value="<%= this_saa.getId() %>" />
 					<% } else { %>
 					<select name="actor_being_worked_on_id">
                         <% 
@@ -121,12 +123,12 @@
               </h2>
               <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top">
-          <td width="39%"> <strong>Actors*</strong></td>
-            <td width="16%"><strong>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></strong></td>
-            <td width="11%"><strong>Priority</strong></td>
-            <td width="11%"><strong>Role</strong></td>
-            <td width="9%"> <strong>Notes</strong></td>
-            <td width="9%"><strong>Inactivate</strong></td>
+          <td width="20%"> <strong>Actors*</strong></td>
+            <td width="10%"><strong>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></strong></td>
+            <td width="10%"><strong>Priority</strong></td>
+            <td width="10%"><strong>Role</strong></td>
+            <td width="45%"> <strong>Notes</strong></td>
+            <td width="5%"><strong>Inactivate</strong></td>
         </tr>
 			<%
 			
@@ -157,7 +159,7 @@
 			  if ((actorNonAssignments != null) && (actorNonAssignments.size() > 0)) {
 			  %>
               <h2>Currently <span class="style1">Inactivated</span> Assignments in <%= sim.getSimulationName() %>:<%= sim.getVersion() %><br />
-                                          </h2>
+                  </h2>
               <table width="100%" border="1" cellspacing="0" cellpadding="2">
                 <tr valign="top">
                   <td width="39%"><span class="style1"><strong>Inactive Actors</strong></span></td>
@@ -175,12 +177,12 @@
 
 			%>
                 <tr valign="top">
-                  <td> <%= act.getActorName() %> </td>
-                  <td><%= saa.getAssignmentTypeDescriptor() %></td>
-                  <td><%= saa.getAssignmentPriority() %></td>
-                  <td><%= saa.getActors_role() %></td>
-                  <td><%= saa.getAssignmentNotes() %></td>
-                  <td><a href="assign_actor_to_simulation.jsp?activate=true&saa_id=<%= saa.getId() %>">activate</a></td>
+                  <td width="20%"> <%= act.getActorName() %> </td>
+                  <td width="10%"><%= saa.getAssignmentTypeDescriptor() %></td>
+                  <td width="10%"><%= saa.getAssignmentPriority() %></td>
+                  <td width="10%"><%= saa.getActors_role() %></td>
+                  <td width="50%"><%= saa.getAssignmentNotes() %></td>
+                  <td width="5%"><a href="assign_actor_to_simulation.jsp?activate=true&saa_id=<%= saa.getId() %>">activate</a></td>
                 </tr>
                 <% } // End of loop over Actors %>
               </table>
