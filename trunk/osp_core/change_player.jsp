@@ -58,6 +58,7 @@
 <table border="1">
         <tr valign="top"> 
           <td ><strong>Actor</strong></td>
+            <td >Details</td>
             <td ><strong>User Currently Assigned </strong></td>
             <td ><strong>Enter User's Email* </strong></td>
             <td ><strong>Assign User</strong></td>
@@ -83,6 +84,7 @@
         <tr valign="top"> 
           <form action="change_player.jsp" method="post" name="form3" id="form3">
             <td><%= act.getActorName() %></td>
+              <td><a href="../simulation_facilitation/view_sim_actor_assignment_notes.jsp?comingfrompso=true&act_id=<%= act.getId() %>">details</a></td>
               <td><%= user_assigned.getBu_username() %></td>
               <td>
               <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>              </td>

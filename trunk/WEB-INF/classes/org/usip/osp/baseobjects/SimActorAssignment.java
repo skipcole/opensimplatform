@@ -31,7 +31,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "SIM_ACTOR_ASSIGNMENT")
 @Proxy(lazy = false)
-public class SimActorAssignment {
+public class SimActorAssignment implements ExportableObject{
 
 	public static final int TYPE_UNDEFINED = 0;
 	public static final int TYPE_REQUIRED = 1;
@@ -61,6 +61,8 @@ public class SimActorAssignment {
 	private String actors_chat_color = ""; //$NON-NLS-1$
 
 	private boolean active = true;
+	
+	private Long transitId;
 
 	public String getAssignmentTypeDescriptor() {
 
@@ -347,5 +349,13 @@ public class SimActorAssignment {
 		return this_saa;
 
 	}
+
+	public Long getTransitId() {
+		return transitId;
+	}
+
+	public void setTransitId(Long transitId) {
+		this.transitId = transitId;
+	}	
 
 }

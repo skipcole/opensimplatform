@@ -84,7 +84,7 @@
         <tr valign="top"> 
           <td ><strong>Actor</strong></td>
             <td ><strong>User Assigned</strong></td>
-            <td ><strong>Notes</strong></td>
+            <td ><strong>Details</strong></td>
             <td ><strong>Del/Add</strong></td>
             <td ><strong>Enter User's Email</strong></td>
             <td ><strong>Assign User</strong></td>
@@ -124,7 +124,7 @@
           <form action="assign_user_to_simulation.jsp" method="post" name="form3" id="form3">
             <td><%= act.getActorName() %></td>
               <td><%= user_assigned.getBu_username() %></td>
-              <td>&nbsp;</td>
+              <td><a href="view_sim_actor_assignment_notes.jsp">details</a></td>
               <td>
                 <% if ((ua != null) && (ua.getId() != null)){ %>
                 	<img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" />

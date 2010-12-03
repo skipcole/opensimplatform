@@ -2639,15 +2639,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		
 		SimActorAssignment saa = new SimActorAssignment();
 		
-		String sending_page = (String) request.getParameter("sending_page");
-		String addactortosim = (String) request.getParameter("addactortosim");
+		String clear_queue = (String) request.getParameter("clear_queue");
 		String inactivate = (String) request.getParameter("inactivate");
 		String activate = (String) request.getParameter("activate");
 		
 		String queue_up = (String) request.getParameter("queue_up");
 		String saa_id = (String) request.getParameter("saa_id");
 		
-		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))){
+		if ((clear_queue != null) && (clear_queue.equalsIgnoreCase("true"))){
+			return saa;
+		} else if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))){
 			saa = SimActorAssignment.getById(schema, new Long(saa_id));
 			return saa;
 		}
@@ -2657,14 +2658,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		 * Secondly, if user assignments are deleted, running simulations that have been 
 		 * created that use them will become completely broken.
 		 */
-		if ((inactivate != null) && (inactivate.equalsIgnoreCase("true"))){
+		else if ((inactivate != null) && (inactivate.equalsIgnoreCase("true"))){
 			SimActorAssignment saa_in = SimActorAssignment.getById(schema, new Long(saa_id));
 			saa_in.setActive(false);
 			saa_in.saveMe(schema);
 			return saa;
 		}
 		
-		if ((activate != null) && (activate.equalsIgnoreCase("true"))){
+		else if ((activate != null) && (activate.equalsIgnoreCase("true"))){
 			SimActorAssignment saa_in = SimActorAssignment.getById(schema, new Long(saa_id));
 			saa_in.setActive(true);
 			saa_in.saveMe(schema);
@@ -2678,8 +2679,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String saa_notes = (String) request.getParameter("saa_notes");
 		String saa_role = (String) request.getParameter("saa_role");
 		
+		String create_saa = (String) request.getParameter("create_saa");
+		String update_saa = (String) request.getParameter("update_saa");
 		
-		if ( (sending_page != null) && (addactortosim != null) && (sending_page.equalsIgnoreCase("assign_actor"))){
+		if ((update_saa != null) && (update_saa.equalsIgnoreCase("true")) ){
+			saa = SimActorAssignment.getById(schema, new Long(saa_id));
+			saa.setActors_role(saa_role);
+			saa.setAssignmentNotes(saa_notes);
+			saa.setAssignmentPriority(saa_priority);
+			saa.saveMe(schema);
+		} else if ( (create_saa != null) && (create_saa.equalsIgnoreCase("true"))){
 			if (actor_being_worked_on_id != null) {
 				
 				Long s_id = new Long(sim_id);
@@ -2688,6 +2697,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				saa.setActors_role(saa_role);
 				saa.setAssignmentNotes(saa_notes);
 				saa.setAssignmentPriority(saa_priority);
+				saa.saveMe(schema);
 
 				SimulationSectionAssignment.applyAllUniversalSections(schema, s_id);
 			}
