@@ -8,6 +8,10 @@
 
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
+	if (!(pso.isLoggedin())) {
+		return;
+	}
+	
 	String status_code = ChatController.NO_NEW_MSG + "";
 	
 	String message = (String) request.getParameter("message");
