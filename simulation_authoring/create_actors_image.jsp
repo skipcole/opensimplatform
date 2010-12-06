@@ -20,9 +20,8 @@
 		
 		Actor actorOnScratchPad = new Actor();
 		if (afso.actor_being_worked_on_id != null) {
+			afso.handleCreateActorImages(request);
 			actorOnScratchPad = afso.giveMeActor();
-					
-			afso.handleCreateActorImages(request);	
 		}
 
 %>
@@ -80,30 +79,31 @@
               <td align="left" valign="top">&nbsp;</td>
               <td align="left" valign="top">&nbsp;</td>
             </tr>
-			  <!--
             <tr>
-              <td valign="top">&nbsp;</td>
-              <td valign="top" bgcolor="#FFFFCC">Chat Color(?)</td>
-              <td valign="top" bgcolor="#FFFFCC"><select name="chat_color" >
-                <option value="ffffff">White</option>
-                <option value="ffdddd">Light Red</option>
-                <option value="ddffdd">Light Green</option>
-                <option value="ddddff">Light Blue</option>
-  </select> </td>
-            </tr> -->
+              <td valign="top">Chat Color (?) 
+                <select name="chat_color" >
+                  <option value="ffffff">White</option>
+                  <option value="ffdddd">Light Red</option>
+                  <option value="ddffdd">Light Green</option>
+                  <option value="ddddff">Light Blue</option>
+                </select> 
+                (not implemented) </td>
+              <td valign="top" bgcolor="#FFFFCC">&nbsp;</td>
+              <td valign="top" bgcolor="#FFFFCC">&nbsp;</td>
+            </tr>
             <tr> 
               <td align="left" valign="top"><input type="hidden" name="MAX_FILE_SIZE" value="100000" />
                 Upload Image: 
                   <input name="uploadedfile" type="file" tabindex="5" /></td>
               <td align="left" valign="top">or</td>
-              <td align="left" valign="top"><a href="browse_actors_image.jsp">Browser Server</a> </td>
+              <td align="left" valign="top">Browser Server (Coming soon) </td>
             </tr>
             <tr> 
               <td align="left" valign="top">
                 Upload Thumbnail Image: 
                   <input name="uploaded_thumb_file" type="file" tabindex="5" /></td>
               <td align="left" valign="top">or</td>
-              <td align="left" valign="top">Browse Server </td>
+              <td align="left" valign="top">Browse Server (Coming soon) </td>
             </tr>
             <tr>
 
@@ -112,7 +112,7 @@
   <%
 				if (afso.actor_being_worked_on_id != null) {
 				%>
-  <input type="submit" name="create_actor" value="Set Images" />
+  <input type="submit" name="set_images" value="Set Images" />
                 <%
 				} else {
 				%>
@@ -124,7 +124,6 @@
               <td align="left" valign="top">&nbsp;</td>
             </tr>
             </table>
-    <p>      </p>
     </form>
     <p>
       <% 

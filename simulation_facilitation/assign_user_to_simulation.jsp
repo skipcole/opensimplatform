@@ -101,9 +101,12 @@
 				List theUsersAssigned = UserAssignment.getUsersAssigned(afso.schema, running_simulation.getId(), act.getId());
 				
 				if ((theUsersAssigned == null) || (theUsersAssigned.size() == 0)){
+					System.out.println("userlist null");
 					theUsersAssigned = new ArrayList();
 					UserAssignment ua = new UserAssignment();
 					theUsersAssigned.add(ua);
+				} else {
+					System.out.println("userlist null");
 				}
 				
 				User user_assigned = new User();

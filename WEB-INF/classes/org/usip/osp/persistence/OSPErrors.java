@@ -73,6 +73,7 @@ public class OSPErrors {
 	private java.util.Date errorDate = new java.util.Date();
 	
 	/** Error message*/
+	@Lob
 	private String errorMessage = "";
 	
 	/** Stacktrace of this error */
