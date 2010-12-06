@@ -2173,7 +2173,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			actorOnScratchPad.saveMe(schema);
 
-			//String chat_color = (String) request.getParameter("chat_color");
+			// String chat_color = (String) request.getParameter("chat_color");
 
 			SimActorAssignment saa;
 
@@ -2199,7 +2199,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						actorOnScratchPad.getId());
 			}
 
-			//saa.setActors_chat_color(chat_color);
+			// saa.setActors_chat_color(chat_color);
 
 			saa.saveMe(schema);
 
@@ -2225,12 +2225,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			MultipartRequest mpr = new MultipartRequest(request,
 					USIP_OSP_Properties.getValue("uploads"));
 
-			String update_actor = (String) mpr.getParameter("update_actor");
+			String set_images = (String) mpr.getParameter("set_images");
 
 			actorid = (String) mpr.getParameter("actorid");
 
-			if ((update_actor != null)
-					&& (update_actor.equalsIgnoreCase("Update Actor"))) {
+			if (set_images != null) {
 
 				actor_being_worked_on_id = new Long((String) mpr
 						.getParameter("actorid"));
@@ -2266,150 +2265,76 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		try {
 
-			boolean saveActor = false;
-			String create_actor = (String) mpr.getParameter("create_actor");
-			String update_actor = (String) mpr.getParameter("update_actor");
-
 			String MAX_FILE_SIZE = (String) mpr.getParameter("MAX_FILE_SIZE");
 
 			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
 
-			Logger.getRootLogger().debug("create_actor is " + create_actor);
-			Logger.getRootLogger().debug("update_actor is " + update_actor);
+			Logger.getRootLogger().debug("saving actor image");
+			makeUploadDir();
 
-			if ((create_actor != null)
-					&& (create_actor.equalsIgnoreCase("Create Actor"))
-					|| (update_actor != null)
-					&& (update_actor.equalsIgnoreCase("Update Actor"))
+			String _sim_id = (String) mpr.getParameter("sim_id");
+			Simulation sim = Simulation.getById(schema, sim_id);
+			sim.updateLastEditDate(schema);
 
-			) {
-				saveActor = true;
+			actorOnScratchPad.setSim_id(new Long(_sim_id));
+
+			// ////////////////////////////////////////////
+			// Image portion of save
+			String initFileName = mpr.getOriginalFileName("uploadedfile");
+
+			if ((initFileName != null) && (initFileName.trim().length() > 0)) {
+
+				actorOnScratchPad.setImageFilename(mpr
+						.getOriginalFileName("uploadedfile"));
+
+				File fileData = mpr.getFile("uploadedfile");
+
+				Logger.getRootLogger().debug("File is " + fileData.length());
+
+				if (fileData.length() <= max_file_longvalue) {
+					FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
+							actorOnScratchPad.getImageFilename(), mpr
+									.getFile("uploadedfile"));
+				} else {
+					this.errorMsg = "Selected image file too large.";
+					actorOnScratchPad.setImageFilename("no_image_default.jpg");
+				}
+
 			}
 
-			if (saveActor) {
-				Logger.getRootLogger().debug("saving actor");
-				makeUploadDir();
+			// ////////////////////////////////////////////
+			// Image portion of save
+			String initThumbFileName = mpr
+					.getOriginalFileName("uploaded_thumb_file");
 
-				String _sim_id = (String) mpr.getParameter("sim_id");
-				Simulation sim = Simulation.getById(schema, sim_id);
-				sim.updateLastEditDate(schema);
+			if ((initThumbFileName != null)
+					&& (initThumbFileName.trim().length() > 0)) {
 
-				actorOnScratchPad.setSim_id(new Long(_sim_id));
+				actorOnScratchPad.setImageThumbFilename(mpr
+						.getOriginalFileName("uploaded_thumb_file"));
 
-				// ////////////////////////////////////////////
-				// Image portion of save
-				String initFileName = mpr.getOriginalFileName("uploadedfile");
+				File fileData = mpr.getFile("uploaded_thumb_file");
 
-				if ((initFileName != null)
-						&& (initFileName.trim().length() > 0)) {
+				Logger.getRootLogger().debug("File is " + fileData.length());
 
-					actorOnScratchPad.setImageFilename(mpr
-							.getOriginalFileName("uploadedfile"));
-
-					File fileData = mpr.getFile("uploadedfile");
-
-					Logger.getRootLogger()
-							.debug("File is " + fileData.length());
-
-					if (fileData.length() <= max_file_longvalue) {
-						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
-								actorOnScratchPad.getImageFilename(), mpr
-										.getFile("uploadedfile"));
-					} else {
-						this.errorMsg = "Selected image file too large.";
-						actorOnScratchPad
-								.setImageFilename("no_image_default.jpg");
-					}
-
+				if (fileData.length() <= max_file_longvalue) {
+					FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
+							actorOnScratchPad.getImageThumbFilename(), mpr
+									.getFile("uploaded_thumb_file"));
+				} else {
+					this.errorMsg += "Selected thumbnail image file too large.";
+					actorOnScratchPad
+							.setImageThumbFilename("no_image_default.jpg");
 				}
-
-				// ////////////////////////////////////////////
-				// Image portion of save
-				String initThumbFileName = mpr
-						.getOriginalFileName("uploaded_thumb_file");
-
-				if ((initThumbFileName != null)
-						&& (initThumbFileName.trim().length() > 0)) {
-
-					actorOnScratchPad.setImageThumbFilename(mpr
-							.getOriginalFileName("uploaded_thumb_file"));
-
-					File fileData = mpr.getFile("uploaded_thumb_file");
-
-					Logger.getRootLogger()
-							.debug("File is " + fileData.length());
-
-					if (fileData.length() <= max_file_longvalue) {
-						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
-								actorOnScratchPad.getImageThumbFilename(), mpr
-										.getFile("uploaded_thumb_file"));
-					} else {
-						this.errorMsg += "Selected thumbnail image file too large.";
-						actorOnScratchPad
-								.setImageThumbFilename("no_image_default.jpg");
-					}
-
-				}
-
-				// ////////////////////////////////////////////
-
-				MultiSchemaHibernateUtil.beginTransaction(schema);
-
-				Logger.getRootLogger().debug(
-						"actors id is" + actorOnScratchPad.getId());
-				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(
-						actorOnScratchPad);
-				MultiSchemaHibernateUtil.getSession(schema).flush();
-
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-				String add_to_sim = (String) mpr.getParameter("add_to_sim");
-
-				if ((add_to_sim != null)
-						&& (add_to_sim.equalsIgnoreCase("true"))) {
-
-					String actors_role = (String) mpr
-							.getParameter("actors_role");
-					String chat_color = (String) mpr.getParameter("chat_color");
-
-					SimActorAssignment saa;
-
-					// Don't add actor to sim, if he or she has already been
-					// added.
-					boolean simHasActor = false;
-					for (ListIterator<Actor> li = SimActorAssignment
-							.getActorsForSim(schema, sim_id).listIterator(); li
-							.hasNext();) {
-						Actor act = li.next();
-
-						if (act.getId().equals(actorOnScratchPad.getId())) {
-							simHasActor = true;
-						}
-					}
-
-					// if (!(SimActorAssignment.getActorsForSim(schema,
-					// sim_id).contains(actorOnScratchPad))) {
-					if (!(simHasActor)) {
-						saa = new SimActorAssignment(schema, sim_id,
-								actorOnScratchPad.getId());
-					} else {
-						saa = SimActorAssignment.getBySimIdAndActorId(schema,
-								sim_id, actorOnScratchPad.getId());
-					}
-
-					saa.setActors_role(actors_role);
-					saa.setActors_chat_color(chat_color);
-
-					saa.saveMe(schema);
-
-					SimulationSectionAssignment.applyAllUniversalSections(
-							schema, sim_id);
-
-				}
-
-				this.actor_name = actorOnScratchPad.getActorName();
-				this.actor_being_worked_on_id = actorOnScratchPad.getId();
 
 			}
+
+			// ////////////////////////////////////////////
+			actorOnScratchPad.saveMe(schema);
+
+			this.actor_name = actorOnScratchPad.getActorName();
+			this.actor_being_worked_on_id = actorOnScratchPad.getId();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			Logger.getRootLogger().debug(
@@ -2688,8 +2613,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String update_saa = (String) request.getParameter("update_saa");
 
 		if ((update_saa != null) && (update_saa.equalsIgnoreCase("true"))) {
-			saa = SimActorAssignment.getById(schema, new Long(saa_id));			
-			saa.storeDetails(saa_type, saa_role, saa_notes, saa_priority, schema);
+			saa = SimActorAssignment.getById(schema, new Long(saa_id));
+			saa.storeDetails(saa_type, saa_role, saa_notes, saa_priority,
+					schema);
 
 		} else if ((create_saa != null)
 				&& (create_saa.equalsIgnoreCase("true"))) {
@@ -2698,8 +2624,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				Long s_id = new Long(sim_id);
 				Long a_id = new Long(actor_being_worked_on_id);
 				saa = new SimActorAssignment(schema, s_id, a_id);
-				
-				saa.storeDetails(saa_type, saa_role, saa_notes, saa_priority, schema);
+
+				saa.storeDetails(saa_type, saa_role, saa_notes, saa_priority,
+						schema);
 
 				SimulationSectionAssignment.applyAllUniversalSections(schema,
 						s_id);
