@@ -238,19 +238,20 @@ public class ChatController {
 
 		List<ChatLine> returnList = MultiSchemaHibernateUtil.getSession(schema)
 				.createQuery(
-						"from ChatLine where RUNNING_SIM_ID = " //$NON-NLS-1$
-								+ running_sim_id + " AND CONV_ID = '" + conv_id //$NON-NLS-1$
-								+ "'").list(); //$NON-NLS-1$
+						"from ChatLine where RUNNING_SIM_ID = :running_sim_id AND CONV_ID = :conv_id")
+				.setLong("running_sim_id", running_sim_id)
+				.setLong("conv_id", new Long(conv_id))
+				.list(); //$NON-NLS-1$
 
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
 		for (ListIterator li = returnList.listIterator(); li.hasNext();) {
 			ChatLine bcl = (ChatLine) li.next();
 
-			MultiSchemaHibernateUtil.getSession(schema).evict(bcl);
+			//MultiSchemaHibernateUtil.getSession(schema).evict(bcl);
 			returnVector.add(bcl);
 
 		}
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnVector;
 	}

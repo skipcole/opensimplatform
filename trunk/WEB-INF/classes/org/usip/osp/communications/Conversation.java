@@ -13,6 +13,7 @@ import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.SessionObjectBase;
 import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -162,7 +163,7 @@ public class Conversation implements SimSectionDependentObject {
 	 * @param schema
 	 * @return
 	 */
-	public String getListOfActors(String schema, AuthorFacilitatorSessionObject afso, HttpServletRequest request){
+	public String getListOfActors(String schema, SessionObjectBase sob, HttpServletRequest request){
 		
 		String returnString = ""; //$NON-NLS-1$
 		
@@ -171,13 +172,14 @@ public class Conversation implements SimSectionDependentObject {
 		for (ListIterator<ConvActorAssignment> bi = cca_list.listIterator(); bi.hasNext();) {
 			ConvActorAssignment caa = bi.next();
 			
-			String a_name = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.getRunningSimId(), request, caa.getActor_id());
+			String a_name = USIP_OSP_Cache.getActorName(sob.schema, sob.sim_id, sob.getRunningSimId(), request, caa.getActor_id());
 
 			returnString += a_name + "-"; //$NON-NLS-1$
 		}
 		
-		
-		returnString = returnString.substring(0, returnString.length() -1 );
+		if (returnString.length() > 0){
+			returnString = returnString.substring(0, returnString.length() -1 );
+		}
 		
 		return returnString;
 	}
