@@ -43,6 +43,10 @@
                       <td><a href="admin_players_view.jsp">Player View </a></td>
                       <td>Allows one to enter a simulation as a particular player. </td>
                     </tr>
+                    <tr valign="top">
+                      <td><a href="admin_teachers_view.jsp">Teacher View</a> </td>
+                      <td>Allows one to enter the OSP as an author or facilitator. </td>
+                    </tr>
                   </table>
                   <p>&nbsp;</p>
                   <p>&nbsp;</p></td>

@@ -59,6 +59,11 @@
               <td valign="top">
   <input type="text" name="creation_org" value="<%= simulation.getCreation_org() %>" tabindex="3" /></td>
             </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td valign="top">Organization Website (?): </td>
+            <td valign="top">&nbsp;</td>
+          </tr>
           <tr> 
             <td>&nbsp;</td>
               <td valign="top">Simulation Creator <a href="helptext/sim_banner.jsp" target="helpinright">(?)</a>:</td>

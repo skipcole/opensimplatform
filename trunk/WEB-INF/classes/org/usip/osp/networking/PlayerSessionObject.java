@@ -217,6 +217,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 
 		String hashKey = sim_id + "_" + actorId + "_" + phase_id;
+		
+		// Control players get the additional section which has to be cached with them.
+		if (this.isControlCharacter()) {
+			hashKey += "_control";
+		}
 
 		Hashtable<String, List<SimulationSectionGhost>> sim_section_info = (Hashtable<String, List<SimulationSectionGhost>>) session
 				.getServletContext().getAttribute(
@@ -265,8 +270,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				returnList.add(ssg);
 			}
-
 		}
+		
 
 		return returnList;
 	}

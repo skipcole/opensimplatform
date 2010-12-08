@@ -60,7 +60,7 @@
 </label></td>
     </tr>
   <tr>
-    <td width="6%" valign="top">To:</td>
+    <td valign="top">To:</td>
     <td valign="top">
           <select name="removed_email" id="removed_email">
         <%
@@ -80,7 +80,10 @@
       </label></td>
     </tr>
   <tr>
-    <td valign="top">&nbsp;</td>
+    <td colspan="2" valign="top"><hr /></td>
+    </tr>
+  <tr>
+    <td valign="top">Address Book: </td>
     <td valign="top"><select name="email_recipient" id="email_recipient">
         <%
   		for (ListIterator li =  pso.eligibleActors.listIterator(); li.hasNext();) {
@@ -106,7 +109,7 @@
 			wysiwygHeight = 120;
   			generate_wysiwyg('email_text');
 		</script>
-		  </p>
+  </p>
 <table width="360" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="50%"><input type="submit" name="email_save" id="email_save" value="Save Email"></td>
