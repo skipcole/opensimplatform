@@ -182,6 +182,16 @@ public class ChatController {
 	}
 
 
+	/**
+	 * 
+	 * @param user_id
+	 * @param actor_id
+	 * @param start_index
+	 * @param newtext
+	 * @param conv_id
+	 * @param pso
+	 * @param request
+	 */
 	public static void insertChatLine(Long user_id, Long actor_id,
 			String start_index, String newtext, String conv_id,
 			PlayerSessionObject pso, HttpServletRequest request) {
