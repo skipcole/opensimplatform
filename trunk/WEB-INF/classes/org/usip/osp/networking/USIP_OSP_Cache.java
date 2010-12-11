@@ -633,6 +633,13 @@ public class USIP_OSP_Cache {
 
 	}
 
+	/**
+	 * Returns a list of autocomplete names.
+	 * 
+	 * @param schema
+	 * @param request
+	 * @return
+	 */
 	public static Hashtable getPlayerAutocompleteUserNames(String schema,
 			HttpServletRequest request) {
 

@@ -219,6 +219,7 @@ function loadInfo(dropdownlist){
                             <option value="FFCCCC" <%= USIP_OSP_Util.matchSelected("FFCCCC", ss.getTabColor(), "selected") %> >Red</option>
                             <option value="CCFFCC" <%= USIP_OSP_Util.matchSelected("CCFFCC", ss.getTabColor(), "selected") %> >Green</option>
                             <option value="CCCCFF" <%= USIP_OSP_Util.matchSelected("CCCCFF", ss.getTabColor(), "selected") %> >Blue</option>
+							<option value="FFFF66" <%= USIP_OSP_Util.matchSelected("FFFF66", ss.getTabColor(), "selected") %> >Yellow</option>
                             </select>
                           <input type="submit" name="button" id="button" value="Go!" />
                           </form>

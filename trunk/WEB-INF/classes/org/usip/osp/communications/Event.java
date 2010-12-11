@@ -173,7 +173,7 @@ public class Event implements EventInterface, SimSectionDependentObject{
 		for (ListIterator<EventInterface> li = setOfEvents.listIterator(); li.hasNext();) {
 			EventInterface thisEvent = li.next();
 			
-			returnString += packageEvent(thisEvent);
+			returnString += packageEvent(thisEvent) + ObjectPackager.lineTerminator;
 			
 		}
 		

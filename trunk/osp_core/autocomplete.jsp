@@ -9,7 +9,9 @@
 	
 	String q = request.getParameter("q");
 	
-	System.out.println("   q is: " + q);
+	if (!(pso.isLoggedin())) {
+		return;
+	}
 	
 	response.setHeader("Cache-Control", "no-cache");
 	
@@ -17,10 +19,8 @@
 	
 	for (Enumeration e = USIP_OSP_Cache.getPlayerAutocompleteUserNames(pso.schema, request).keys(); e.hasMoreElements();) {
 			String s = (String) e.nextElement();
-			      System.out.println("                " + s);
 			
 			if ((q != null) && ((s.toLowerCase().indexOf(q.toLowerCase()) != -1))) {
-				System.out.println("found match!  " + s);
 				outList.add(s);
 			}
 	}

@@ -21,6 +21,10 @@
 	String sending_page = (String) request.getParameter("sending_page");
 	String inject_id = (String) request.getParameter("inject_id");
 	
+	if ((inject_id != null) && ( inject_id.equalsIgnoreCase("null") ) ) {
+		inject_id = null;
+	}
+	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("select_actors"))){
 	
 		pso.makeTargettedAnnouncement(request, inject_id);

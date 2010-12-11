@@ -22,7 +22,7 @@
     
 	String timeline_to_show = (String) cs.getContents().get(SimilieTimelineCustomizer.KEY_FOR_DISPLAY);
 	
-	System.out.println(timeline_to_show);
+	System.out.println("timeline_to_show" + timeline_to_show);
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 	sdf.setTimeZone(TimeZone.getDefault());

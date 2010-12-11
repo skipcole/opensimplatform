@@ -14,8 +14,11 @@
 	
 	String sending_page = request.getParameter("sending_page");
 	
+	boolean formProcessed = false;
+	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("error_jsp"))) {
 		error = OSPErrors.processForm(request);
+		formProcessed = true;
 	} else {
 		System.out.println("storing web errors");
 		error = OSPErrors.storeWebErrors(exception, request);
@@ -40,10 +43,15 @@
 		<tr>
 			<td width="120"><img src="Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
+<% if (formProcessed) { %>
+<h1>Thank You!</h1>
+<p>Your email has been sent. It is recommended that you now<a href="login.jsp" target="_top"> log off </a>and then back on to the platform.</p>
+<% } else { %>
               <h1>Sadly, An Error Has Occured</h1>
               <p>The error encountered has now been logged to the database. </p>
               <p>If you could be so kind to fill in the short form below, it will help us make our platform stronger. </p>
-			  <%
+<% } //End of message about error%>
+              <%
 			  		// The error.jsp page falls into place where ever the broken jsp was, so we must make a direct reference 
 					// back to the form in our post.
 					String error_url = USIP_OSP_Properties.getErrorJspUrl();

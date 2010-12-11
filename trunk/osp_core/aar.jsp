@@ -6,7 +6,6 @@
 
 <%
 
-	Long x = new Long(null);
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	if (!(pso.isLoggedin())) {

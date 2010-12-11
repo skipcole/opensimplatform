@@ -1641,6 +1641,11 @@ public class ObjectPackager {
 			
 			this_saa.setSim_id(sim_id);
 			this_saa.setActorId( (Long) actorIdMappings.get(this_saa.getActorId())); 
+			
+			if (saa_string.contains("<active>true</active>")){
+				this_saa.setActive(true);
+			}
+			
 			this_saa.saveMe(schema);
 			
 		}
