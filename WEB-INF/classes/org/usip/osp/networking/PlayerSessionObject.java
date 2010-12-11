@@ -1562,10 +1562,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 					// Create a respondable object entry that players can
 					// respond to.
+					/*
 					theInject.createRespondableObject(schema, this.sim_id,
 							this.runningSimId, phase_id, this.actorId,
 							this.user_name, this.userDisplayName);
-
+					*/
 					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
 							this.runningSimId, this.actorId, theInject.getId(),
 							"all");
