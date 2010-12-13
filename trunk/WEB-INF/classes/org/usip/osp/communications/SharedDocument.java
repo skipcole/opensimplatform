@@ -223,11 +223,30 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 	 * @return Returns a list of all of the base documents found for a
 	 *         particular simulation.
 	 */
-	public static List getAllBaseDocumentsForSim(String schema, Long the_sim_id) {
+	public static List getAllBaseDocumentsForSim(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		String hql_string = "from SharedDocument where SIM_ID = " + the_sim_id.toString() + " AND RS_ID is null"; //$NON-NLS-1$ //$NON-NLS-2$
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		String hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID is null"; //$NON-NLS-1$ //$NON-NLS-2$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hql_string)
+			.setLong("sim_id", sim_id)
+			.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+
+	}
+	
+	public static List getAllDocumentsForRunningSim(String schema, Long sim_id, Long rs_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		String hql_string = "from SharedDocument where SIM_ID = :sim_id AND RS_ID = :rs_id"; //$NON-NLS-1$ //$NON-NLS-2$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hql_string)
+			.setLong("sim_id", sim_id)
+			.setLong("rs_id", rs_id)
+			.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
