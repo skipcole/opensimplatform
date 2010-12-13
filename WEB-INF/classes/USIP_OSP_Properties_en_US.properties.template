@@ -101,7 +101,7 @@ password=password
 # Dialect of communication between the database and hibernate
 #     (This probably will not need changed.)
 #
-dialect=org.hibernate.dialect.MySQLInnoDBDialect
+dialect=org.usip.osp.persistence.CharsetUTFDialect
 
 ################################################################################
 # Driver class for communication between the database and hibernate

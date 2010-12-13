@@ -64,6 +64,10 @@
 <h2>Additional Fuctions</h2>
 <table width="95%" border="0" cellpadding="2" cellspacing="2">
   <tr valign="top">
+    <td valign="top"><a href="write_document_list_all.jsp">Edit simulation document </a></td>
+    <td valign="top">Access and edit any document currently associated with this running simulation. </td>
+  </tr>
+  <tr valign="top">
     <td valign="top"><a href="email_player.jsp">Email your Players</a> </td>
     <td valign="top">Send an email to players in this simulation. </td>
   </tr>
