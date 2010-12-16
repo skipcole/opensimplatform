@@ -16,7 +16,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.SimulationPhase;
+import org.usip.osp.baseobjects.User;
+import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.SchemaInformationObject;
 
 /**
  * This class represents an in simulation email.
@@ -385,8 +388,7 @@ public class Email {
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String hqlString = "from EmailRecipients where " +
-				"email_id = :eid";
+		String hqlString = "from EmailRecipients where " + "email_id = :eid";
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)
@@ -493,6 +495,30 @@ public class Email {
 		return returnString;
 	}
 	
-	
+	public boolean sendIt(String schema, Long running_sim_id){
+		
+		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
+		
+		List recipients = Email.getRecipientsOfAnEmail(schema, this.getId());
+		
+		for (ListIterator<EmailRecipients> li = recipients.listIterator(); li.hasNext();) {
+			EmailRecipients this_er = li.next();
+			
+			// Get List of Users playing the actors.
+			List uaList = UserAssignment.getAllForActorInARunningSim(schema, this_er.getActor_id(), running_sim_id);
+			
+			for (ListIterator<UserAssignment> li_ua = uaList.listIterator(); li_ua.hasNext();) {
+				UserAssignment this_ua = li_ua.next();
+				
+				User user = User.getById(schema, this_ua.getUser_id());
+				Emailer.postMail(sio, user.getUser_name(), this.getSubjectLine(), this.getMsgtext(), "noreply@opensimplatform.org", 
+						null, null);
+			}
+			
+		}
+		
+		return true;
+		
+	}
 	
 }

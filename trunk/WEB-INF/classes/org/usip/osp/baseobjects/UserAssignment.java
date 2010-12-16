@@ -142,6 +142,23 @@ public class UserAssignment{
 		return returnList;
 	}
 	
+	public static List getAllForActorInARunningSim(String schema, Long actor_id, Long running_sim_id) {
+		
+		List returnList = new ArrayList<UserAssignment>();
+		
+		String qyrString = "from UserAssignment where running_sim_id = :running_sim_id and actor_id = :actor_id";
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		returnList =  MultiSchemaHibernateUtil.getSession(schema).createQuery(qyrString)
+			.setLong("running_sim_id", running_sim_id)
+			.setLong("actor_id", actor_id)
+			.list();
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
 	/**
 	 * Zero argument constructor needed by Hibernate
 	 */
@@ -231,13 +248,14 @@ public class UserAssignment{
 	}
 	
 	/**
-	 * 
+	 * This is only used for one thing now: to see if a user has been assigned,
+	 * so if it is arbitrary if 1 or more have been assigned. This should be simplified and removed.
 	 * @param schema
 	 * @param rid
 	 * @param aid
 	 * @return
 	 */
-	public static User getUserAssigned (String schema, Long rid, Long aid) {
+	public static User get_A_UserAssigned_dont_use (String schema, Long rid, Long aid) {
 		
 		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
 		

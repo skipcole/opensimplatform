@@ -21,7 +21,7 @@ import org.apache.log4j.*;
  */
 public class SimilieTimelineCustomizer extends Customizer{
 
-	public static final String KEY_FOR_DISPLAY = "timeline_to_show"; //$NON-NLS-1$
+	public static final String KEY_FOR_DISPLAY = "timeline_id"; //$NON-NLS-1$
 
 	public void handleCustomizeSection(HttpServletRequest request, 
 			SessionObjectBase pso, CustomizeableSection cs) {
@@ -36,9 +36,9 @@ public class SimilieTimelineCustomizer extends Customizer{
 
 			cs.setBigString(request.getParameter("cs_bigstring"));
 			
-			String timeline_to_show = request.getParameter("timeline_to_show"); //$NON-NLS-1$
+			String timeline_id = request.getParameter("timeline_id"); //$NON-NLS-1$
 
-			cs.getContents().put(KEY_FOR_DISPLAY, timeline_to_show);
+			cs.getContents().put(KEY_FOR_DISPLAY, timeline_id);
 
 			cs.saveMe(pso.schema);
 

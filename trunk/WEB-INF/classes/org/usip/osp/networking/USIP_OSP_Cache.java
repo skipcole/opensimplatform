@@ -473,7 +473,7 @@ public class USIP_OSP_Cache {
 				+ a_id);
 
 		if (user_id == null) {
-			loadRunningSimsUserAssignments(schema, rs_id, user_assignments_hash);
+			loadRunningSimsUserAssignments_dont_use(schema, rs_id, user_assignments_hash);
 
 			user_id = user_assignments_hash.get(schema + "_" + rs_id + "_"
 					+ a_id);
@@ -490,7 +490,7 @@ public class USIP_OSP_Cache {
 	 * not assigned to actor, put string 'unassigned' into hashtable We should
 	 * Not leave the user_id null, or else we will keep hitting the database.
 	 */
-	public static void loadRunningSimsUserAssignments(String schema,
+	public static void loadRunningSimsUserAssignments_dont_use(String schema,
 			Long rs_id, Hashtable user_assignments_hash) {
 
 		Logger.getRootLogger().debug("doing loadRunningSimsUserAssignments");
@@ -504,7 +504,7 @@ public class USIP_OSP_Cache {
 				.hasNext();) {
 			SimActorAssignment this_saa = li.next();
 
-			User user = UserAssignment.getUserAssigned(schema, rs_id, this_saa
+			User user = UserAssignment.get_A_UserAssigned_dont_use(schema, rs_id, this_saa
 					.getActorId());
 
 			if (user != null) { // If found, enter their user_id into the

@@ -2,6 +2,7 @@
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,
+	org.usip.osp.communications.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.core.*,
@@ -65,14 +66,16 @@
           <p>Tab Heading: 
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
-          <p>
-            <label>
-            <input type="radio" name="timeline_to_show" id="show_plan" value="show_plan" <%= selected_display_plan %> />
-            Show Planned Events            </label>
-            <br />
-            <label>
-            <input type="radio" name="timeline_to_show" id="show_actual" value="show_actual" <%= selected_display_actual %> />
-            Show Actual Events</label>
+          <p>Select Timeline: <select name="timeline_id"><%
+		List timelineList = TimeLine.getAllBaseForSimulation(afso.schema, afso.sim_id);
+		
+		for (ListIterator li = timelineList.listIterator(); li.hasNext();) {
+			TimeLine tim = (TimeLine) li.next();
+
+		%><option value="<%= tim.getId().toString() %>"><%= tim.getName() %></option><%
+	}
+%>
+            </select>
           </p>
           <%
 			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 

@@ -17,7 +17,7 @@
 	
 	String timeline_id = (String) request.getParameter("timeline_id");
 	
-	if (timeline_id != null) {
+	if ((timeline_id != null) && (!(timeline_id.equalsIgnoreCase("null"))) ) {
 		afso.timelineOnScratchPad = TimeLine.getById(afso.schema, new Long(timeline_id));
 	}
 	
@@ -35,7 +35,7 @@
 		simulation = afso.giveMeSim();
 	}
 
-	Event event = afso.handleTimeLineCreator(request);
+	Event event = afso.handleAddTimeLineEvents(request);
 			
 	String Timeline_ajax_url = "";
 	String Timeline_urlPrefix = "http://static.simile.mit.edu/timeline/api-2.3.0/";
@@ -156,7 +156,7 @@
         <blockquote>
 <form name="form1" method="post" action="timeline_editor.jsp">
         <input type="hidden" name="sending_page" value="timeline_creator">
-        <input type="hidden" name="timeline_id" value="<%= event.getTimelineId() %>">
+        <input type="hidden" name="timeline_id" value="<%= timeline_id %>">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td valign="top"><strong>Title</strong></td>
@@ -206,10 +206,13 @@
             <td valign="top">
 			<%
 				SimpleDateFormat sdf_startdate = new SimpleDateFormat("MM/dd/yyyy");
-				String start_date_formatted = sdf_startdate.format(afso.timelineOnScratchPad.getTimeline_start_date());
+				String start_date_formatted = sdf_startdate.format(new java.util.Date());
+				if (event.getEventStartTime() != null) {
+					 start_date_formatted = sdf_startdate.format(event.getEventStartTime());
+				}
 			%>
-			<input name="timeline_start_date" type="text" id="datepicker" value="<%= start_date_formatted %>">
-			</td>
+			<input name="timeline_event_date" type="text" id="datepicker" value="<%= start_date_formatted %>">
+			(mm/dd/yyyy)</td>
       </tr>
           <tr>
             <td valign="top"><strong>Hour</strong></td>

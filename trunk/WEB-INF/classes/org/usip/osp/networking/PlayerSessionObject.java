@@ -217,8 +217,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 
 		String hashKey = sim_id + "_" + actorId + "_" + phase_id;
-		
-		// Control players get the additional section which has to be cached with them.
+
+		// Control players get the additional section which has to be cached
+		// with them.
 		if (this.isControlCharacter()) {
 			hashKey += "_control";
 		}
@@ -271,7 +272,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 				returnList.add(ssg);
 			}
 		}
-		
 
 		return returnList;
 	}
@@ -1248,8 +1248,14 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		Email email = new Email();
 
+		forward_on = false;
+
 		String reply_to = request.getParameter("reply_to");
 		String forward_to = request.getParameter("forward_to");
+		String queue_up = request.getParameter("queue_up");
+		String email_clear = request.getParameter("email_clear");
+		String email_delete_draft = request.getParameter("email_delete_draft");
+		String sending_page = request.getParameter("sending_page");
 
 		if ((reply_to != null) && (reply_to.equalsIgnoreCase("true"))) {
 			String reply_id = request.getParameter("reply_id");
@@ -1305,30 +1311,24 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			draft_email_id = email.getId();
 
-		}
-
-		String queue_up = request.getParameter("queue_up");
-		String email_clear = request.getParameter("email_clear");
-		String email_delete_draft = request.getParameter("email_delete_draft");
-
-		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))) {
+		} else if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))) {
 			String email_id = request.getParameter("email_id");
 			draft_email_id = new Long(email_id);
+			email = Email.getById(schema, draft_email_id);
+
 		} else if (email_clear != null) {
+			email = new Email();
 			draft_email_id = null;
+
 		} else if ((email_delete_draft != null) && (draft_email_id != null)) {
 			email = Email.getById(schema, draft_email_id);
 			email.setEmail_deleted(true);
 			email.saveMe(schema);
+
 			email = new Email();
 			draft_email_id = null;
-		}
 
-		forward_on = false;
-
-		String sending_page = request.getParameter("sending_page");
-
-		if ((sending_page != null)
+		} else if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("writing_email"))) {
 
 			String add_recipient = request.getParameter("add_recipient");
@@ -1337,6 +1337,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			String remove_recipient = request.getParameter("remove_recipient");
 
 			boolean doSave = false;
+
 			if ((remove_recipient != null) || (add_recipient != null)
 					|| (email_save != null) || (email_send != null)) {
 
@@ -1369,7 +1370,23 @@ public class PlayerSessionObject extends SessionObjectBase {
 							email.setToActors(Email.generateListOfRecipients(
 									schema, email.getId(),
 									EmailRecipients.RECIPIENT_TO));
+
+							String send_real_world = request
+									.getParameter("send_real_world");
+							
+							System.out.println(" send_real_world was: " + send_real_world);
+
+							if ((send_real_world != null)
+									&& (send_real_world
+											.equalsIgnoreCase("true"))) {
+								email.setSendInRealWorld(true);
+							} else {
+								email.setSendInRealWorld(false);
+							}
+
 							forward_on = true;
+						} else {
+							this.errorMsg = "no recipients";
 						}
 					}
 				}
@@ -1387,6 +1404,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				email.saveMe(schema);
 				draft_email_id = email.getId();
+				
+				// Send real world email if called for.
+				if ((forward_on) && (email.isSendInRealWorld())){
+					email.sendIt(schema, this.getRunningSimId());
+				}
 
 				if (add_recipient != null) {
 					String email_rep = request.getParameter("email_recipient");
@@ -1404,9 +1426,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 										email_rep), aname,
 								EmailRecipients.RECIPIENT_TO);
 					}
-				}
-
-				if (remove_recipient != null) {
+				} else if (remove_recipient != null) {
 					String removed_email = request
 							.getParameter("removed_email");
 					if (removed_email != null) {
@@ -1415,10 +1435,15 @@ public class PlayerSessionObject extends SessionObjectBase {
 					}
 				}
 			} // end of if saving.
-		} // end of if returning from this same page.
+		} // end of if writing email.
 
+		setUpEligibleActors();
+
+		return email;
+	}
+
+	public void setUpEligibleActors() {
 		if (draft_email_id != null) {
-			email = Email.getById(schema, draft_email_id);
 			emailRecipients = Email.getRecipientsOfAnEmail(schema,
 					draft_email_id);
 		} else {
@@ -1455,8 +1480,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 			}
 
 		}
-
-		return email;
 	}
 
 	/**
@@ -1563,10 +1586,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 					// Create a respondable object entry that players can
 					// respond to.
 					/*
-					theInject.createRespondableObject(schema, this.sim_id,
-							this.runningSimId, phase_id, this.actorId,
-							this.user_name, this.userDisplayName);
-					*/
+					 * theInject.createRespondableObject(schema, this.sim_id,
+					 * this.runningSimId, phase_id, this.actorId,
+					 * this.user_name, this.userDisplayName);
+					 */
 					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
 							this.runningSimId, this.actorId, theInject.getId(),
 							"all");
@@ -2052,8 +2075,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request
 					.getSession(true).getAttribute("osp_soh");
 
-			User user = User.getById(pso.schema, osp_soh.getUserid());
-			BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
+			User user = null;
+			BaseUser bu = null;
+
+			if (osp_soh != null) {
+				user = User.getById(pso.schema, osp_soh.getUserid());
+				bu = BaseUser.getByUserId(osp_soh.getUserid());
+			}
 
 			if (user != null) {
 				pso.user_id = user.getId();
@@ -2322,18 +2350,19 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 	}
 
-	public void handleEmailPlayers(HttpServletRequest request, SchemaInformationObject sio) {
+	public void handleEmailPlayers(HttpServletRequest request,
+			SchemaInformationObject sio) {
 
 		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("email_players"))) {
-			
+
 			String email_text = request.getParameter("email_text"); //$NON-NLS-1$
 			String email_subject = request.getParameter("email_subject"); //$NON-NLS-1$
 			String email_from = request.getParameter("email_from"); //$NON-NLS-1$
-			
-			Hashtable <String, String> playersToEmail  = new Hashtable();
+
+			Hashtable<String, String> playersToEmail = new Hashtable();
 
 			for (Enumeration e = request.getParameterNames(); e
 					.hasMoreElements();) {
@@ -2353,14 +2382,15 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				}
 			}
-			
+
 			for (Enumeration e = playersToEmail.keys(); e.hasMoreElements();) {
 				String email_address = (String) e.nextElement();
-				
-				Emailer.postMail(sio, email_address, email_subject, email_text, email_from, new Vector(), new Vector());
-				
+
+				Emailer.postMail(sio, email_address, email_subject, email_text,
+						email_from, new Vector(), new Vector());
+
 			}
-			
+
 		}
 	}
 }

@@ -148,10 +148,18 @@ public class User implements Comparable{
 		this.setId(bu.getId());
 
 		this.user_name = username;
+		
 		this.sim_author = sim_creator;
 		this.sim_instructor = sim_instructor;
 		this.admin = admin;
 
+		// Set these transient fields to show what has been set in the main schema.
+		this.bu_first_name = bu.getFirst_name();
+		this.bu_middle_name = bu.getMiddle_name();
+		this.bu_last_name = bu.getLast_name();
+		this.bu_full_name = bu.getFull_name();
+		this.bu_username = bu.getUsername();
+		
 		try {
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
