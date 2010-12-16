@@ -44,10 +44,11 @@
 <h2>Inbox for <%= pso.getActorName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="4%" valign="top">&nbsp;</td>
-    <td width="46%" valign="top"><strong>Subject</strong></td>
-    <td width="25%" valign="top"><strong>From</strong></td>
-    <td width="25%" valign="top"><strong>Date</strong></td>
+    <td width="1%" valign="top">&nbsp;</td>
+    <td width="34%" valign="top"><strong>Subject</strong></td>
+    <td width="29%" valign="top"><strong>From</strong></td>
+    <td width="33%" valign="top"><strong>Date</strong></td>
+    <td width="3%" align="center" valign="top">*</td>
   </tr>
 <%
 	// Get email list
@@ -71,17 +72,20 @@
     <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
     <td valign="top"><%= email.getFromActorName() %></td>
     <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+    <td align="center" valign="top">&nbsp;</td>
   </tr>
 <% } %>
 </table>
+<p>* 'Y' for sent as real world also. N for not sent as real world email. </p>
 <hr>
 <h2>Sent Messages From <%= pso.getActorName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="4%" valign="top">&nbsp;</td>
+    <td width="1%" valign="top">&nbsp;</td>
     <td width="46%" valign="top"><strong>Subject</strong></td>
     <td width="25%" valign="top"><strong>To</strong></td>
     <td width="25%" valign="top"><strong>Date</strong></td>
+	<td align="center" valign="top">*</td>
   </tr>
   <%
 	// Get email list
@@ -93,9 +97,11 @@
     <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
     <td valign="top"><%= email.getToActors() %></td>
     <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+	<td align="center">x</td>
   </tr>
   <% } %>
 </table>
+<p>* 'Y' for sent as real world also. N for not sent as real world email. </p>
 <hr>
 <h2>Draft Messages</h2>
 <table width="80%" border="1" cellpadding="0" cellspacing="0">

@@ -66,7 +66,7 @@
 				}
 		%>
                 <tr> 
-                  <td><a href="administrate_users.jsp"><%= rs.getRunningSimulationName() %></a></td>
+                  <td><a href="administrate_users.jsp?rs_id=<%= rs.getRunningId() %>"><%= rs.getRunningSimulationName() %></a></td>
               <td><%= sp.getPhaseName() %></td>
             </tr>
                 <%

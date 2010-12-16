@@ -177,8 +177,6 @@ public class OSP_UserAdmin {
 		User user = new User();
 		
 		String command = request.getParameter("command"); //$NON-NLS-1$
-		
-		
 
 		if (command != null) {
 
@@ -193,8 +191,9 @@ public class OSP_UserAdmin {
 
 					try {
 
-						user = new User(schema, this._email, this._password, "", "", //$NON-NLS-1$ //$NON-NLS-2$
-								"", this._full_name, false, false, false); //$NON-NLS-1$
+						user = new User(schema, this._email, this._password, 
+								this._first_name, this._last_name, this._middle_name, 
+								this._full_name, false, false, false);
 						
 						String preferred_language = request.getParameter("preferred_language");
 						

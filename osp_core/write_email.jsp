@@ -1,5 +1,5 @@
 <%@ page 
-	contentType="text/html; charset=UTF-8" 
+	contentType="text/html; charset=utf-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,
 		org.usip.osp.networking.*,
@@ -46,6 +46,14 @@
 </head>
 
 <body>
+<% if (pso.errorMsg.equalsIgnoreCase("no recipients")) { 
+	pso.errorMsg = "";
+%>
+<script type="text/javascript">
+alert("You must add recipients to the 'To' line to send email.");
+</script>
+<% } %>
+
 <h2>Compose Email</h2>
 <form name="form1" method="post" action="write_email.jsp">
   <input type="hidden" name="sending_page" value="writing_email" />
@@ -80,6 +88,10 @@
       </label></td>
     </tr>
   <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
     <td colspan="2" valign="top"><hr /></td>
     </tr>
   <tr>
@@ -110,9 +122,15 @@
   			generate_wysiwyg('email_text');
 		</script>
   </p>
+<p>
+  <label>
+  <input type="checkbox" name="send_real_world" value="true">Send as Real World Email Also
+  </label> 
+</p>
 <table width="360" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="50%"><input type="submit" name="email_save" id="email_save" value="Save Email"></td>
+    <td width="50%" bgcolor="#FF99FF"><input type="submit" name="email_send" value="Send Email"></td>
     <td width="50%"><div align="right">
       <label>
       <input type="submit" name="email_clear" id="email_clear" value="Clear">
@@ -122,9 +140,11 @@
   <tr>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
-    <td><input type="submit" name="email_send" value="Send Email"></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
     <td><div align="right">
       <label>
       <input type="submit" name="email_delete_draft" id="email_delete_draft" value="Delete Draft"  onClick="return confirm('Are you sure you want to delete this draft?');">

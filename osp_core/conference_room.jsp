@@ -75,8 +75,7 @@ if (conv.getId() != null) {   %>
 		}
 	%>
 
-  
-var chat_text = ""
+ 
 
 function changeActorColor(dropdownlist){
 
@@ -90,7 +89,9 @@ function changeActorColor(dropdownlist){
 	
 	$.post("color_changer_server.jsp", { actor_id: array1[0], chatlinecolor: array1[1] });
 	
-	chat_text = "";
+	//$("#loading").remove();
+	$("#messagewindow<%= conv.getId() %>").replaceWith( "Loading ..." );
+	
 	// Set the restart to 0 to cause reload
 	start_index<%= conv.getId() %> = 0;
 	
@@ -165,7 +166,6 @@ function formatString(mTime, message, actorName, msgSender){
 				
 			});
 			
-			//setTimeout('addMessages<%= conv.getId() %>()', 4000);
 			
 		}
 		
@@ -178,7 +178,7 @@ function formatString(mTime, message, actorName, msgSender){
 				addMessages<%= conv.getId() %>(xml);
 			});
 			//alert("4 secs");
-			setTimeout('updateMsg()', 4000);
+			setTimeout('updateMsg()', 2000);
 		
 		}
 		

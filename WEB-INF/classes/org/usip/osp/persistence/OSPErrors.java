@@ -209,8 +209,6 @@ public class OSPErrors {
      */
     public static OSPErrors storeWebErrors(Throwable exception, HttpServletRequest request){
     	
-    	System.out.println("Storing web errors");
-    	
     	OSPErrors err = new OSPErrors();
     	
     	err.setErrorSource(SOURCE_JSP);
@@ -240,6 +238,36 @@ public class OSPErrors {
     			
     			sio = SchemaInformationObject.lookUpSIOByName(sob.schema);
     		}
+    		
+    	} catch (Exception e){
+    		Logger.getRootLogger().error("ERROR IN ERROR SYSTEM!");
+    		e.printStackTrace();
+    	}
+    	
+    	err.saveMe();
+    	Logger.getRootLogger().error("about to save");
+    	
+    	err.emailErrors(sio, false);
+    	
+    	return err;
+    }
+    
+    public static OSPErrors storeInternalErrors(Throwable exception){
+    	
+    	OSPErrors err = new OSPErrors();
+    	
+    	err.setErrorSource(SOURCE_JSP);
+    	err.setErrorMessage("Error Message: " + exception.toString());
+    	
+    	SchemaInformationObject sio = null;
+    	
+    	try {
+    		StringWriter sw = new StringWriter();
+    		PrintWriter pw = new PrintWriter(sw);
+    		exception.printStackTrace(pw);
+    		err.setErrorText(sw.getBuffer().toString());
+    		sw.close();
+    		pw.close();
     		
     	} catch (Exception e){
     		Logger.getRootLogger().error("ERROR IN ERROR SYSTEM!");

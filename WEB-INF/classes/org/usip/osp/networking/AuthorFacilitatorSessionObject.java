@@ -1189,7 +1189,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		// Do create if called.
 		String create_timeline = (String) request
 				.getParameter("create_timeline");
-		if ((create_timeline != null)) {
+		
+		boolean hasName = false;
+		
+		if ((timeline_name != null) && (timeline_name.trim().length() > 0)){
+			hasName = true;
+		}
+		
+		if ((create_timeline != null) && hasName) {
 			Logger.getRootLogger().debug(
 					"creating param of uniq name: " + timeline_name);
 			timelineOnScratchPad.setName(timeline_name);
@@ -1201,7 +1208,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		// Do update if called.
 		String update_timeline = (String) request
 				.getParameter("update_timeline");
-		if ((update_timeline != null)) {
+		if ((update_timeline != null) && hasName) {
 			Logger.getRootLogger().debug(
 					"updating param of uniq title: " + timeline_name);
 			timelineOnScratchPad = TimeLine.getById(schema, new Long(t_id));
@@ -3085,9 +3092,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request
 					.getSession(true).getAttribute("osp_soh");
 
-			User user = User.getById(afso.schema, osp_soh.getUserid());
-			BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
-
+			User user = null;
+			BaseUser bu = null;
+			
+			if (osp_soh != null){
+				user = User.getById(afso.schema, osp_soh.getUserid());
+				bu = BaseUser.getByUserId(osp_soh.getUserid());
+			}
+			
 			if (user != null) {
 				afso.user_id = user.getId();
 				afso.isAdmin = user.isAdmin();
@@ -3803,7 +3815,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param request
 	 * @return
 	 */
-	public Event handleTimeLineCreator(HttpServletRequest request) {
+	public Event handleAddTimeLineEvents(HttpServletRequest request) {
 
 		TimeLine timeline = TimeLine.getMasterPlan(schema, sim_id.toString());
 
@@ -3844,30 +3856,21 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				event.setEventMsgBody((String) request
 						.getParameter("event_text"));
 
+				String timeline_event_date = (String) request.getParameter("timeline_event_date");
 				String event_hour = (String) request.getParameter("event_hour");
-				String event_minute = (String) request
-						.getParameter("event_minute");
+				String event_minute = (String) request.getParameter("event_minute");
+				
+				timeline_event_date += (" " + event_hour + " " + event_minute);
 
-				int event_hour_int = 0;
-				int event_minute_int = 0;
-
+				SimpleDateFormat sdf_startdate = new SimpleDateFormat("MM/dd/yyyy HH mm");
+				
 				try {
-					event_hour_int = new Long(event_hour).intValue();
-					event_minute_int = new Long(event_minute).intValue();
-
-				} catch (Exception e) {
+					Date ted = sdf_startdate.parse(timeline_event_date);
+					event.setEventStartTime(ted);
+				
+				} catch (Exception e){
 					e.printStackTrace();
 				}
-
-				// For now arbitrarily set date to 1/1/2001.
-				Calendar cal = new GregorianCalendar();
-				cal.setTimeZone(TimeZone.getDefault());
-
-				// Year, month, day, hour, minute, second
-				cal.set(2001, 0, 1, event_hour_int, event_minute_int, 0);
-
-				event.setEventStartTime(cal.getTime());
-
 				event.setSimId(sim_id);
 
 				// TODO add ability to create multiple timelines

@@ -166,9 +166,12 @@ public class SessionObjectBase {
 	 * @return
 	 */
 	public User giveMeUser() {
-
-		return User.getUser(schema, this.user_id);
-
+		
+		if (this.user_id != null){
+			return User.getUser(schema, this.user_id);
+		} else {
+			return null;
+		}
 	}
 
 	/** Assigns a user to a simulation. */
