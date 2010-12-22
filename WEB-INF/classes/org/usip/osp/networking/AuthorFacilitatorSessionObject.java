@@ -350,7 +350,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				}
 
 				rs.enableAndPrep(this.schema, sim.getId().toString(), bu
-						.getUsername(), email_users, email_text);
+						.getUsername(), email_users, email_text, "");
 
 			} else {
 
@@ -634,6 +634,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				String email_users = request.getParameter("email_users");
 				String email_text = request.getParameter("email_text");
+				String email_from = request.getParameter("email_from");
+				
+				String send_email_from = "noreply@opensimplatform.org";
+				if ( (email_from != null) && (email_from.equalsIgnoreCase("username"))   ) {
+					send_email_from = this.user_email;
+				}
 
 				BaseUser bu = BaseUser.getByUserId(this.user_id);
 
@@ -646,7 +652,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 				running_sim.enableAndPrep(this.schema, this.sim_id.toString(),
-						bu.getUsername(), email_users, email_text);
+						send_email_from, email_users, email_text, "");
 
 			} // End of if coming from this page and have enabled the sim
 			// ////////////////////////////
@@ -2497,27 +2503,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 	}
 
-	/**
-	 * Returns the simulation based on what sim_id is currently stored in this
-	 * AuthorFacilitatorSessionObject.
-	 * 
-	 * @return
-	 */
-	public Simulation giveMeSim() {
-
-		if (sim_id == null) {
-			return new Simulation();
-		}
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(Simulation.class, sim_id);
-
-		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		return simulation;
-
-	}
 
 	public Actor giveMeActor(Long a_id) {
 
@@ -3351,9 +3336,24 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return user;
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public User handleCreateUser(HttpServletRequest request) {
-		OSP_UserAdmin pu = new OSP_UserAdmin(this);
-		return pu.handleCreateUser(request, schema);
+		
+		String username = request.getParameter("email");
+		
+		User user = User.getByUsername(schema, username);
+		
+		if (user != null){
+			this.errorMsg = "The user " + username + " already exists.";
+			return user; 
+		} else {
+			OSP_UserAdmin pu = new OSP_UserAdmin(this);
+			return pu.handleCreateUser(request, schema);
+		}
 	}
 
 	public void handleMyProfile(HttpServletRequest request) {

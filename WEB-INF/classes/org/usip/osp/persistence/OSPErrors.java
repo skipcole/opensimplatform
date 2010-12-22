@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.communications.Emailer;
-import org.usip.osp.networking.AuthorFacilitatorSessionObject;
-import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.networking.SessionObjectBase;
 import org.usip.osp.sharing.ObjectPackager;
 
@@ -178,30 +177,6 @@ public class OSPErrors {
 	}
 	
 	/**
-	 * Checks to see if the user has a session object (AFSO or PSO) set. If so, returns the 
-	 * SessionObjectBase.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public static SessionObjectBase getSessionObjectBaseIfFound(HttpServletRequest request){
-		
-		SessionObjectBase sob = null;
-		PlayerSessionObject pso = (PlayerSessionObject) request.getSession().getAttribute("pso");
-		AuthorFacilitatorSessionObject afso = (AuthorFacilitatorSessionObject) request.getSession().getAttribute("afso");
-		
-		if (pso != null){
-			sob = (SessionObjectBase) pso;
-		}
-		
-		if (afso != null){
-			sob = (SessionObjectBase) afso;
-		}
-		
-		return sob;
-	}
-    
-    /**
      * Takes the initial error encountered on a jsp and logs it to the database.
      * @param exception
      * @param request
@@ -224,7 +199,7 @@ public class OSPErrors {
     		sw.close();
     		pw.close();
     		
-    		SessionObjectBase sob = getSessionObjectBaseIfFound(request);
+    		SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
     		
     		// Must have logged in, so record additional information if found.
     		if (sob != null){

@@ -92,6 +92,15 @@
                 <td width="66%"> <input name="email_users" type="checkbox" value="true" checked="checked" />
                   yes </td>
               </tr>
+        <tr valign="top">
+          <td>Email from: </td>
+          <td><label>
+            <input name="email_from" type="radio" value="noreply" checked="checked" />
+          noreply@opensimplatform.org
+          </label><br />
+		  <label>
+		  <input name="email_from" type="radio" value="username" /><%= afso.user_email %> </label></td>
+        </tr>
         <tr valign="top"> 
           <td width="34%">Email text:<br /> <br /> </td>
                 <td width="66%"> Dear &lt;Players Name&gt;,<br /> <p> 
