@@ -288,12 +288,15 @@ public class UserAssignment{
 	
 	public static UserAssignment getUserAssignment (String schema, Long rid, Long aid) {
 		
-		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
+		String hqlString = "from UserAssignment where RUNNING_SIM_ID = :running_sim_id and ACTOR_ID = :actor_id"; //$NON-NLS-1$
 		Logger.getRootLogger().debug(hqlString);
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString).list();
+		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString)
+			.setLong("running_sim_id", rid)
+			.setLong("actor_id", aid)
+			.list();
 		
 		UserAssignment returnUserAssignment = null;
 		

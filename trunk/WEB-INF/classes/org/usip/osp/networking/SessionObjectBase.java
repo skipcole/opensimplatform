@@ -26,6 +26,31 @@ import org.usip.osp.persistence.UILanguageObject;
  * PARTICULAR PURPOSE. <BR>
  */
 public class SessionObjectBase {
+	
+	public SessionObjectBase() {
+		
+	}
+	
+	/**
+	 * Returns the simulation based on what sim_id is currently stored in this Session Object Base.
+	 * 
+	 * @return
+	 */
+	public Simulation giveMeSim() {
+
+		if (sim_id == null) {
+			return new Simulation();
+		}
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
+				.getSession(schema).get(Simulation.class, sim_id);
+
+		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		return simulation;
+
+	}
 
 	/** Schema of the database that the user is working in. */
 	public String schema = ""; //$NON-NLS-1$

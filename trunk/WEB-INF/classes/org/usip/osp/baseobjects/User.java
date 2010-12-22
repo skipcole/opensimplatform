@@ -632,7 +632,9 @@ public class User implements Comparable{
 
         try {
             List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-                    "from User where user_name = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
+                    "from User where user_name = :the_username")
+                    .setString("the_username", the_username)
+                    .list(); //$NON-NLS-1$
         	
         	if ((returnList != null) && (returnList.size() > 0)){
         		user = (User) returnList.get(0);

@@ -7,6 +7,9 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.PlayerSessionObject;
+import org.usip.osp.networking.SessionObjectBase;
 import org.usip.osp.networking.USIP_OSP_Cache;
 
 /*
@@ -179,5 +182,29 @@ public class USIP_OSP_Util {
 		}
 		
 		return false;
+	}
+
+	/**
+	 * Checks to see if the user has a session object (AFSO or PSO) set. If so, returns the 
+	 * SessionObjectBase.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static SessionObjectBase getSessionObjectBaseIfFound(HttpServletRequest request){
+		
+		SessionObjectBase sob = null;
+		PlayerSessionObject pso = (PlayerSessionObject) request.getSession().getAttribute("pso");
+		AuthorFacilitatorSessionObject afso = (AuthorFacilitatorSessionObject) request.getSession().getAttribute("afso");
+		
+		if (pso != null){
+			sob = (SessionObjectBase) pso;
+		}
+		
+		if (afso != null){
+			sob = (SessionObjectBase) afso;
+		}
+		
+		return sob;
 	}
 }

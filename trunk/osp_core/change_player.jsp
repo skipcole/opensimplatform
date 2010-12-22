@@ -69,22 +69,36 @@
 		
 			for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 				Actor act = (Actor) li.next();
-				User user_assigned = UserAssignment.getUserAssigned(pso.schema, pso.getRunningSimId(), act.getId());
+				// For each actor, get all of their user assignments
+				List theUsersAssigned = UserAssignment.getUsersAssigned(pso.schema, pso.getRunningSimId(), act.getId());
 				
-				UserAssignment ua = new UserAssignment();
-				
-				if (user_assigned == null) {
-					user_assigned = new User();
-					user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
-					
-					ua = UserAssignment.getUserAssignment (pso.schema, pso.getRunningSimId(), act.getId());
+				if ((theUsersAssigned == null) || (theUsersAssigned.size() == 0)){
+					System.out.println("userlist null");
+					theUsersAssigned = new ArrayList();
+					UserAssignment ua = new UserAssignment();
+					theUsersAssigned.add(ua);
+				} else {
+					System.out.println("userlist null");
 				}
+				
+				User user_assigned = new User();
+				
+				// Loop over all of the user assignments
+				for (ListIterator liua = theUsersAssigned.listIterator(); liua.hasNext();) {
+					UserAssignment ua = (UserAssignment) liua.next();
+					
+					if (ua.getUser_id() != null){
+						user_assigned = User.getById(pso.schema, ua.getUser_id());
+					} else {
+						user_assigned = new User();
+						user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
+					}
 
 					%>
         <tr valign="top"> 
           <form action="change_player.jsp" method="post" name="form3" id="form3">
             <td><%= act.getActorName() %></td>
-              <td><a href="../simulation_facilitation/view_sim_actor_assignment_notes.jsp?comingfrompso=true&act_id=<%= act.getId() %>">details</a></td>
+              <td><a href="../simulation_facilitation/view_sim_actor_assignment_notes.jsp?comingfrompso=true&actor_id=<%= act.getId() %>">details</a></td>
               <td><%= user_assigned.getBu_username() %></td>
               <td>
               <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>              </td>
@@ -96,6 +110,8 @@
           </form>
     </tr>
         <%
+				} // End of loop over user assignments
+				
 				ii += 2;
 		  	}
 			// End of loop over results set of Actors

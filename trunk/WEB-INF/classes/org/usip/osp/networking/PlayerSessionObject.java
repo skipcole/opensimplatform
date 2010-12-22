@@ -1225,17 +1225,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	}
 
-	public Simulation giveMeSim() {
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(Simulation.class, sim_id);
-
-		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		return simulation;
-
-	}
-
 	public List eligibleActors = new ArrayList();
 	public List emailRecipients = new ArrayList();
 

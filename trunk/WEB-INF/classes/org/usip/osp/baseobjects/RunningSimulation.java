@@ -179,7 +179,7 @@ public class RunningSimulation {
 	 * @return
 	 */
 	public void enableAndPrep(String schema, String sid, String from,
-			String email_users, String emailText) {
+			String email_users, String emailText, String cc) {
 
 		Logger.getRootLogger().debug("Enabling Sim."); //$NON-NLS-1$
 

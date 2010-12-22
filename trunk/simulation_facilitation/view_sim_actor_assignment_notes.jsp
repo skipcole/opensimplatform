@@ -1,31 +1,31 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.hibernate.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.hibernate.*" 
 	errorPage="/error.jsp" %>
 <%
 
 	String actor_id = (String) request.getParameter("actor_id");
 	
 	String comingfrompso = (String) request.getParameter("comingfrompso");
-	String act_id = (String) request.getParameter("act_id");
 	
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	SessionObjectBase sob =  USIP_OSP_Util.getSessionObjectBaseIfFound(request);
 	
-	if (!(afso.isLoggedin())) {
+	if (!(sob.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
 	Simulation simulation = new Simulation();	
 	
-	if (afso.sim_id != null){
-		simulation = afso.giveMeSim();
+	if (sob.sim_id != null){
+		simulation = sob.giveMeSim();
 	}
 	
 	
-	SimActorAssignment saa = SimActorAssignment.getBySimIdAndActorId(afso.schema, afso.sim_id, new Long(actor_id));
-	Actor act = Actor.getById(afso.schema, saa.getActorId());
+	SimActorAssignment saa = SimActorAssignment.getBySimIdAndActorId(sob.schema, sob.sim_id, new Long(actor_id));
+	Actor act = Actor.getById(sob.schema, saa.getActorId());
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
