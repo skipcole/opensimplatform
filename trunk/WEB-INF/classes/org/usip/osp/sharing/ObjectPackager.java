@@ -231,7 +231,7 @@ public class ObjectPackager {
 				Logger.getRootLogger().debug(
 						"put hash_key_string: " + hash_key_string); //$NON-NLS-1$
 
-				depObj.setTransit_id(depObj.getId());
+				depObj.setTransitId(depObj.getId());
 				depObj.setId(null);
 
 				returnString += xstream.toXML(depObj) + lineTerminator;
@@ -272,7 +272,7 @@ public class ObjectPackager {
 		for (ListIterator<Conversation> coList = convList.listIterator(); coList
 				.hasNext();) {
 			Conversation caa = coList.next();
-			caa.setTransit_id(caa.getId());
+			caa.setTransitId(caa.getId());
 			caa.setId(null);
 			returnString += xstream.toXML(caa) + lineTerminator;
 		}
@@ -283,7 +283,7 @@ public class ObjectPackager {
 		for (ListIterator<ConvActorAssignment> cList = caaList.listIterator(); cList
 				.hasNext();) {
 			ConvActorAssignment caa = cList.next();
-			caa.setTransit_id(caa.getId());
+			caa.setTransitId(caa.getId());
 			caa.setId(null);
 			returnString += xstream.toXML(caa) + lineTerminator;
 		}
@@ -294,7 +294,7 @@ public class ObjectPackager {
 		for (ListIterator<GenericVariable> gvList = genVarList.listIterator(); gvList
 				.hasNext();) {
 			GenericVariable gv = gvList.next();
-			gv.setTransit_id(gv.getId());
+			gv.setTransitId(gv.getId());
 			gv.setId(null);
 			returnString += xstream.toXML(gv) + lineTerminator;
 		}
@@ -305,7 +305,7 @@ public class ObjectPackager {
 		for (ListIterator<InventoryItem> iList = invList.listIterator(); iList
 				.hasNext();) {
 			InventoryItem inv = iList.next();
-			inv.setTransit_id(inv.getId());
+			inv.setTransitId(inv.getId());
 			inv.setId(null);
 			returnString += xstream.toXML(inv) + lineTerminator;
 		}
@@ -315,7 +315,7 @@ public class ObjectPackager {
 		for (ListIterator<OneLink> onelList = olList.listIterator(); onelList
 				.hasNext();) {
 			OneLink inv = onelList.next();
-			inv.setTransit_id(inv.getId());
+			inv.setTransitId(inv.getId());
 			inv.setId(null);
 			returnString += xstream.toXML(inv) + lineTerminator;
 		}
@@ -325,7 +325,7 @@ public class ObjectPackager {
 		for (ListIterator<SharedDocument> sdlList = sdList.listIterator(); sdlList
 				.hasNext();) {
 			SharedDocument sd = sdlList.next();
-			sd.setTransit_id(sd.getId());
+			sd.setTransitId(sd.getId());
 			sd.setId(null);
 			returnString += xstream.toXML(sd) + lineTerminator;
 		}
@@ -336,7 +336,7 @@ public class ObjectPackager {
 		for (ListIterator<SharedDocActorNotificAssignObj> lcaa = sdanao
 				.listIterator(); lcaa.hasNext();) {
 			SharedDocActorNotificAssignObj sdano = lcaa.next();
-			sdano.setTransit_id(sdano.getId());
+			sdano.setTransitId(sdano.getId());
 			sdano.setId(null);
 			returnString += xstream.toXML(sdano) + lineTerminator;
 		}
@@ -346,7 +346,7 @@ public class ObjectPackager {
 		for (ListIterator<TimeLine> tList = timeList.listIterator(); tList
 				.hasNext();) {
 			TimeLine tl = tList.next();
-			tl.setTransit_id(tl.getId());
+			tl.setTransitId(tl.getId());
 			tl.setId(null);
 			returnString += xstream.toXML(tl) + lineTerminator;
 		}
@@ -355,7 +355,7 @@ public class ObjectPackager {
 		List<Event> eventsList = Event.getAllBaseForSim(sim_id, schema);
 		for (ListIterator<Event> li = eventsList.listIterator(); li.hasNext();) {
 			Event thisEvent = li.next();
-			thisEvent.setTransit_id(thisEvent.getId());
+			thisEvent.setTransitId(thisEvent.getId());
 			thisEvent.setId(null);
 			returnString += xstream.toXML(thisEvent) + lineTerminator;
 		}
@@ -364,7 +364,7 @@ public class ObjectPackager {
 		List<Tips> allTips = Tips.getAllForBaseSim(sim_id, schema);
 		for (ListIterator<Tips> lit = allTips.listIterator(); lit.hasNext();) {
 			Tips thisTip = lit.next();
-			thisTip.setTransit_id(thisTip.getId());
+			thisTip.setTransitId(thisTip.getId());
 			thisTip.setId(null);
 			returnString += xstream.toXML(thisTip) + lineTerminator;
 		}
@@ -800,6 +800,7 @@ public class ObjectPackager {
 		Hashtable metaPhaseIdMappings = new Hashtable();
 		Hashtable phaseIdMappings = new Hashtable();
 		Hashtable bssIdMappings = new Hashtable();
+		Hashtable injectIdMappings = new Hashtable();
 
 		String fileLocation = FileIO.packaged_sim_dir + File.separator
 				+ fileName;
@@ -850,7 +851,7 @@ public class ObjectPackager {
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Injects");
 		unpackageInjects(schema, re.getId(), xmlText, simRead.getId(), xstream,
-				actorIdMappings);
+				actorIdMappings, injectIdMappings);
 
 		RestoreResults.createAndSaveNotes(re.getId(),
 				"Unpacking Base Simulation Sections");
@@ -879,13 +880,20 @@ public class ObjectPackager {
 				xstream, bssIdMappings, actorIdMappings);
 
 		RestoreResults.createAndSaveNotes(re.getId(),
-				"Unpacking Misc Simulation Objects");
-		unpackageMiscSimObjects(schema, re.getId(), xmlText, simRead.getId(),
-				xstream, bssIdMappings, actorIdMappings);
+				"Unpacking Timeline Simulation Objects");
+		unpackageTimelineObjects(schema, re.getId(), xmlText, simRead.getId(),
+				xstream, bssIdMappings, actorIdMappings, injectIdMappings);
 
+		RestoreResults.createAndSaveNotes(re.getId(),
+			"Unpacking Tips");
+		unpackageTips(schema, re.getId(), xmlText, simRead.getId(), xstream, bssIdMappings,
+				actorIdMappings);
+		
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Media");
 		unpackageSimMedia(schema, re.getId(), xmlMedia, simRead.getId(),
 				xstream, bssIdMappings, actorIdMappings);
+		
+
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Import Complete");
 
@@ -1010,10 +1018,46 @@ public class ObjectPackager {
 	 * @param actorIdMappings
 	 * @return
 	 */
-	public static void unpackageMiscSimObjects(String schema, Long reId,
+	public static void unpackageTimelineObjects(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings, Hashtable actorIdMappings) {
+			Hashtable bssIdMappings, Hashtable actorIdMappings, Hashtable injectIdMappings) {
+		
+		Hashtable timelineIdMappings = new Hashtable();
+		
+		List<String> timeline_list = getSetOfObjectFromFile(fullString,
+				makeOpenTag(TimeLine.class), makeCloseTag(TimeLine.class));
+		
+		for (ListIterator<String> li_i = timeline_list.listIterator(); li_i.hasNext();) {
+			String t_string = li_i.next();
 
+			TimeLine timeline = (TimeLine) xstream.fromXML(t_string);
+			
+			timeline.setSimId(sim_id);
+			timeline.saveMe(schema);
+			
+			timelineIdMappings.put(timeline.getTransitId(), timeline.getId());
+			
+		}
+		
+		List<String> timeline_oa = getSetOfObjectFromFile(fullString,
+				makeOpenTag(TimelineObjectAssignment.class), makeCloseTag(TimelineObjectAssignment.class));
+		
+		for (ListIterator<String> li_i = timeline_oa.listIterator(); li_i.hasNext();) {
+			String toa_string = li_i.next();
+
+			TimelineObjectAssignment toa = (TimelineObjectAssignment) xstream.fromXML(toa_string);
+			
+			toa.setSimId(sim_id);
+			toa.setTimeLineId((Long) timelineIdMappings.get(toa.getTimeLineId()));
+			
+			if (toa.getObjectClass().equalsIgnoreCase(Inject.class.toString().replaceFirst("class ", ""))){
+				toa.setObjectId((Long) injectIdMappings.get(toa.getObjectId())); 
+			}
+			toa.saveMe(schema);
+		
+		}
+
+		/*
 		String timelineString = getObjectFromFile(fullString,
 				makeOpenTag(TimeLine.class), makeCloseTag(TimeLine.class));
 
@@ -1036,7 +1080,9 @@ public class ObjectPackager {
 		timeline.setId(thisMaster.getId());
 		timeline.setSimId(sim_id);
 		timeline.saveMe(schema);
+		*/
 
+		/*
 		List<String> event_list = getSetOfObjectFromFile(fullString,
 				makeOpenTag(Event.class), makeCloseTag(Event.class));
 
@@ -1061,9 +1107,8 @@ public class ObjectPackager {
 
 			}
 		}
+		*/
 
-		unpackageTips(schema, reId, fullString, sim_id, xstream, bssIdMappings,
-				actorIdMappings);
 	}
 
 	public static void unpackageTips(String schema, Long reId,
@@ -1154,10 +1199,9 @@ public class ObjectPackager {
 				""));
 		classNames.add(SharedDocActorNotificAssignObj.class.toString()
 				.replaceFirst("class ", ""));
-		classNames.add(TimeLine.class.toString().replaceFirst("class ", ""));
 		classNames.add(Event.class.toString().replaceFirst("class ", ""));
 		classNames.add(Tips.class.toString().replaceFirst("class ", ""));
-		classNames.add(TimelineEventAssignment.class.toString().replaceFirst(
+		classNames.add(TimelineObjectAssignment.class.toString().replaceFirst(
 				"class ", ""));
 
 		for (ListIterator<String> li_i = classNames.listIterator(); li_i
@@ -1272,18 +1316,15 @@ public class ObjectPackager {
 							.toString().replaceFirst("class ", ""))) {
 				ssdo = (SharedDocActorNotificAssignObj) xstream
 						.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(TimeLine.class.toString()
-					.replaceFirst("class ", ""))) {
-				ssdo = (TimeLine) xstream.fromXML(sd_string);
 			} else if (key.equalsIgnoreCase(Event.class.toString()
 					.replaceFirst("class ", ""))) {
 				ssdo = (Event) xstream.fromXML(sd_string);
 			} else if (key.equalsIgnoreCase(Tips.class.toString().replaceFirst(
 					"class ", ""))) {
 				ssdo = (Tips) xstream.fromXML(sd_string);
-			} else if (key.equalsIgnoreCase(TimelineEventAssignment.class
+			} else if (key.equalsIgnoreCase(TimelineObjectAssignment.class
 					.toString().replaceFirst("class ", ""))) {
-				ssdo = (TimelineEventAssignment) xstream.fromXML(sd_string);
+				ssdo = (TimelineObjectAssignment) xstream.fromXML(sd_string);
 			} else {
 				Logger
 						.getRootLogger()
@@ -1326,20 +1367,7 @@ public class ObjectPackager {
 					sdano.setActor_id(newActorId);
 					sdano.setSd_id((Long) sharedDocumentMappings.get(sdano
 							.getSd_id()));
-				} else if (ssdo.getClass()
-						.equals(TimelineEventAssignment.class)) {
-					TimelineEventAssignment sdano = (TimelineEventAssignment) ssdo;
-					Long newActorId = (Long) actorIdMappings.get(sdano
-							.getCreatingActorId());
-					Long newTimeLineId = (Long) timelineMappings.get(sdano
-							.getTimeLineId());
-					Long newEventId = (Long) eventMappings.get(sdano
-							.getEventId());
-
-					sdano.setCreatingActorId(newActorId);
-					sdano.setTimeLineId(newTimeLineId);
-					sdano.setEventId(newEventId);
-				}
+				} 
 
 				if (doRest) {
 
@@ -1350,32 +1378,32 @@ public class ObjectPackager {
 						// Save information you might need later.
 						if (ssdo.getClass().equals(Conversation.class)) {
 							Conversation conv = (Conversation) ssdo;
-							conversationMappings.put(conv.getTransit_id(), conv
+							conversationMappings.put(conv.getTransitId(), conv
 									.getId());
 						} else if (ssdo.getClass().equals(SharedDocument.class)) {
 							SharedDocument sd = (SharedDocument) ssdo;
-							sharedDocumentMappings.put(sd.getTransit_id(), sd
+							sharedDocumentMappings.put(sd.getTransitId(), sd
 									.getId());
 						} else if (ssdo.getClass().equals(TimeLine.class)) {
 							TimeLine sd = (TimeLine) ssdo;
 							timelineMappings
-									.put(sd.getTransit_id(), sd.getId());
+									.put(sd.getTransitId(), sd.getId());
 						} else if (ssdo.getClass().equals(Event.class)) {
 							Event sd = (Event) ssdo;
-							eventMappings.put(sd.getTransit_id(), sd.getId());
+							eventMappings.put(sd.getTransitId(), sd.getId());
 						}
 					} catch (Exception eee) {
 						eee.printStackTrace();
 					}
 
-					objectMappings.put(key + "_" + ssdo.getTransit_id(), ssdo
+					objectMappings.put(key + "_" + ssdo.getTransitId(), ssdo
 							.getId());
 
 					RestoreResults.createAndSaveObject(reId, ssdo.getId()
 							.toString(), ssdo.getClass().toString(), "",
 							"Found Dependent Object of class " + key
 									+ " and it had a transit id of "
-									+ ssdo.getTransit_id()
+									+ ssdo.getTransitId()
 									+ " which was mapped to an id of "
 									+ ssdo.getId());
 				}
@@ -1745,7 +1773,7 @@ public class ObjectPackager {
 	 */
 	public static void unpackageInjects(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable actorIdMappings) {
+			Hashtable actorIdMappings, Hashtable injectIdMappings) {
 		Hashtable injectGroupIds = new Hashtable();
 
 		List injectGroups = getSetOfObjectFromFile(fullString,

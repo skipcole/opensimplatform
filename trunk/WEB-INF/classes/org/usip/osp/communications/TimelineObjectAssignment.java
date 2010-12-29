@@ -1,14 +1,18 @@
 package org.usip.osp.communications;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.ExportableObject;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
- * This object represents the mapping of an event to a timeline.
+ * This object represents the mapping of an object (event, inject, etc.) to a timeline.
  *
  */
 /* 
@@ -25,7 +29,7 @@ import org.usip.osp.baseobjects.SimSectionDependentObject;
  */
 @Entity
 @Proxy(lazy = false)
-public class TimelineEventAssignment implements SimSectionDependentObject{
+public class TimelineObjectAssignment implements ExportableObject, SimSectionDependentObject{
 	
 	/** Database id of this TimeLine. */
 	@Id
@@ -40,11 +44,22 @@ public class TimelineEventAssignment implements SimSectionDependentObject{
 	
 	private Long timeLineId;
 	
-	private Long eventId;
+	private Long objectId;
+	
+	private String objectClass = "";
 	
 	private Long creatingActorId;
 	
 	private Long transitId;
+	
+	private int assignmentType = 0;
+	
+	private Date eventStartTime = null;
+	private Date eventEndTime = null;
+	
+	private String start = "";
+	private String end = "";
+	private String eventTitle = "";
 
 	public Long getId() {
 		return id;
@@ -86,12 +101,20 @@ public class TimelineEventAssignment implements SimSectionDependentObject{
 		this.timeLineId = timeLineId;
 	}
 
-	public Long getEventId() {
-		return eventId;
+	public Long getObjectId() {
+		return objectId;
 	}
 
-	public void setEventId(Long eventId) {
-		this.eventId = eventId;
+	public void setObjectId(Long objectId) {
+		this.objectId = objectId;
+	}
+
+	public String getObjectClass() {
+		return objectClass;
+	}
+
+	public void setObjectClass(String objectClass) {
+		this.objectClass = objectClass;
 	}
 
 	public Long getCreatingActorId() {
@@ -110,29 +133,66 @@ public class TimelineEventAssignment implements SimSectionDependentObject{
 		this.transitId = transitId;
 	}
 
+	public int getAssignmentType() {
+		return assignmentType;
+	}
+
+	public void setAssignmentType(int assignmentType) {
+		this.assignmentType = assignmentType;
+	}
+
+	public Date getEventStartTime() {
+		return eventStartTime;
+	}
+
+	public void setEventStartTime(Date eventStartTime) {
+		this.eventStartTime = eventStartTime;
+	}
+
+	public Date getEventEndTime() {
+		return eventEndTime;
+	}
+
+	public void setEventEndTime(Date eventEndTime) {
+		this.eventEndTime = eventEndTime;
+	}
+
+	public String getStart() {
+		return start;
+	}
+
+	public void setStart(String start) {
+		this.start = start;
+	}
+
+	public String getEnd() {
+		return end;
+	}
+
+	public void setEnd(String end) {
+		this.end = end;
+	}
+
+	public String getEventTitle() {
+		return eventTitle;
+	}
+
+	public void setEventTitle(String eventTitle) {
+		this.eventTitle = eventTitle;
+	}
+
+	@Override
+	public void saveMe(String schema) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+
 	@Override
 	public Long createRunningSimVersion(String schema, Long simId, Long rsId,
 			Object templateObject) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public Long getTransit_id() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveMe(String schema) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setTransit_id(Long transitId) {
-		// TODO Auto-generated method stub
-		
 	}
 
 

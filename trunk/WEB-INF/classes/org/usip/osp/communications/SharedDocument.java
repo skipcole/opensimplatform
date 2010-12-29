@@ -91,16 +91,17 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 	private String displayTitle = ""; //$NON-NLS-1$
 
 	/** Short description of this document. */
+	@Lob
 	private String docDesc = ""; //$NON-NLS-1$
 
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
-	public Long getTransit_id() {
+	public Long getTransitId() {
 		return this.transit_id;
 	}
 
-	public void setTransit_id(Long transit_id) {
+	public void setTransitId(Long transit_id) {
 		this.transit_id = transit_id;
 	}
 
