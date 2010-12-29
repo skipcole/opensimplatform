@@ -94,12 +94,12 @@ public class InventoryItem implements SimSectionDependentObject {
 	}
 
 	@Override
-	public Long getTransit_id() {
+	public Long getTransitId() {
 		return this.transit_id;
 	}
 
 	@Override
-	public void setTransit_id(Long transit_id) {
+	public void setTransitId(Long transit_id) {
 		this.transit_id = transit_id;
 	}
 

@@ -65,11 +65,11 @@ public class SharedDocActorNotificAssignObj implements SimSectionDependentObject
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
-	public Long getTransit_id() {
+	public Long getTransitId() {
 		return transit_id;
 	}
 
-	public void setTransit_id(Long transitId) {
+	public void setTransitId(Long transitId) {
 		transit_id = transitId;
 	}
 	

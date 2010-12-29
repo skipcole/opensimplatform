@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.apache.log4j.Logger;
@@ -58,6 +59,7 @@ public class InjectGroup {
 	private String name = ""; //$NON-NLS-1$
 	
 	/** Description of this group of injects. */
+	@Lob
 	private String description = ""; //$NON-NLS-1$
 
 	public Long getId() {

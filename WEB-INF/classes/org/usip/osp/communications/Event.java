@@ -14,6 +14,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.ExportableObject;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.SimPhaseAssignment;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
@@ -41,7 +42,7 @@ import org.usip.osp.sharing.ObjectPackager;
 @Entity
 @Table(name = "EVENT")
 @Proxy(lazy = false)
-public class Event implements EventInterface, SimSectionDependentObject{
+public class Event implements EventInterface, SimSectionDependentObject, ExportableObject{
 	
 	public static SimpleDateFormat similie_sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 
@@ -103,11 +104,11 @@ public class Event implements EventInterface, SimSectionDependentObject{
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
-	public Long getTransit_id() {
+	public Long getTransitId() {
 		return transit_id;
 	}
 
-	public void setTransit_id(Long transitId) {
+	public void setTransitId(Long transitId) {
 		transit_id = transitId;
 	}
 	
@@ -411,5 +412,6 @@ public class Event implements EventInterface, SimSectionDependentObject{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 }
