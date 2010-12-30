@@ -11,14 +11,6 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
-	
-	Simulation simulation = new Simulation();	
-	
-	if (afso.sim_id != null){
-		simulation = afso.giveMeSim();
-	}
-	
-	afso.handleAddRunningSimulation(request, simulation);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -44,17 +36,20 @@
 			  <h1>View Running Simulations</h1>
 			  <br />
             <blockquote> 
-              <% 
-			if (afso.sim_id != null) {
-		%>
 
-              Below are the running simulation created by [Insert Creator's Name] </b>. <br />
+              Below are the running simulations created by you (<%= afso.userDisplayName %>) </b>. <br />
               <table width="80%" border = "1">
-                <tr> 
+                <tr>
+                  <td><h2>Simulation</h2></td> 
                   <td><h2>Running Simulation</h2></td>
               <td><h2>Phase</h2></td>
             </tr>
                 <%
+				
+				for (ListIterator lis = Simulation.getAll(afso.schema).listIterator(); lis.hasNext();) {
+				Simulation sim = (Simulation) lis.next();
+				afso.sim_id = sim.getId();
+				
 		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id.toString(), afso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
@@ -65,25 +60,69 @@
 					sp = SimulationPhase.getById(afso.schema, rs.getPhase_id().toString());
 				}
 		%>
-                <tr> 
-                  <td><a href="administrate_users.jsp?rs_id=<%= rs.getRunningId() %>"><%= rs.getRunningSimulationName() %></a></td>
+                <tr>
+                  <td><%= sim.getDisplayName() %></td> 
+                  <td><a href="administrate_users.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
               <td><%= sp.getPhaseName() %></td>
             </tr>
                 <%
-			}
+			} // End of loop over Running Sims
+			} // End of loop over sims
 		%>
                 </table>
-	          </blockquote>
+	          <p>&nbsp;</p>
+	          <p>Below are all of the simulations in which you have been assigned as a player. You can log in as a player to access any of these. </p>
+	          <table width="80%" border="2" cellspacing="2" cellpadding="2">
+              <tr valign="top">
+      <td width="30%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "simulation") %></h2></td>
+      <td width="35%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "session") %></h2></td>
+      <td width="15%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "your_role") %></h2></td>
+      <td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "phase") %></h2></td>
+      <!-- td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "play") %></h2></td  -->
+    </tr>
+              <%
+  
+  		List uaList = UserAssignment.getAllForUser(afso.schema, afso.user_id);
+	
+		for (ListIterator li = uaList.listIterator(); li.hasNext();) {
+			UserAssignment ua = (UserAssignment) li.next();
+			
+			Simulation sim = Simulation.getById(afso.schema, ua.getSim_id());
+			RunningSimulation rs = RunningSimulation.getById(afso.schema,ua.getRunning_sim_id());
+			Actor act = Actor.getById(afso.schema, ua.getActor_id());
+			
+			SimulationPhase sp = SimulationPhase.getById(afso.schema, rs.getPhase_id());
+			
+			// Must check to see that running sim has been enabled, and has not been inactivated.
+			if ((rs.isReady_to_begin()) && (!(rs.isInactivated()))) {
+			
+			if ((act != null) && (sp != null)){
+  %>
+              <tr valign="top">
+      <td><%= sim.getDisplayName() %></td>
+      <td><%= rs.getRunningSimulationName() %></td>
+      <td><%= act.getActorName(afso.schema, rs.getId(), request) %></td>
+      <td><%= sp.getPhaseName() %></td>
+      <!-- td> <form action="../simulation/select_simulation_to_play.jsp" method="post" name="form1" id="form1">
+      
+        <input type="submit" name="Submit" value="<%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "play") %> > " />
+        <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
+        <input type="hidden" name="schema" value="<%= afso.schema %>" />
+        <input type="hidden" name="schema_org" value="<%= afso.simulation_org %>" />
+        <input type="hidden" name="sending_page" value="select_simulation" />
+        </form></td  -->
+    </tr>
+				  <%
+			  
+			  } // End of if act or sp was null
+			  } // End of if running simulation has been enabled.
+			  
+  		} // End of loop over User Assignments
+		
+  %>
+	</table>
+            </blockquote>
 
-            <p align="center">&nbsp;</p>
-            <% } else { // End of if have set simulation id. %>
-            <blockquote> 
-              <p>                </p>
-            <%@ include file="../simulation_authoring/select_message.jsp" %>
-                  </blockquote>
-            <p>
-              <% } // End of if have not set simulation for edits. %>
-                  </p>
             <p>&nbsp;</p>
             <% 
 		if (!(afso.isAuthor())) { %>

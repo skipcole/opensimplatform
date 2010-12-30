@@ -178,4 +178,32 @@ public class RespondableObject {
 		
 	}
 	
+	public RespondableObject(String schema, Long simId, Long rsId, Long phase_id, 
+			Long objId, String objClassName, String roSynopsis, 
+			Long actor_id, String userName, String userDisplayName,
+			String recipients) {
+		
+		dateOfResponseObjectCreation = new Date();
+		
+		setSimId(simId);
+		setRsId(rsId);
+		setObjectId(objId);
+		setClassName(objClassName);
+		
+		setCreatingActorId(actor_id);
+		setPhaseId(phase_id);
+		
+		setResponseObjectSynopsis(roSynopsis);
+		
+		saveMe(schema);
+		
+		generateRecipients(this, simId, recipients, schema);
+		
+	}
+	
+	//TODO generate recipient lines.
+	public void generateRecipients(RespondableObject ro, Long simId, String recipients, String schema){
+		
+	}
+	
 }
