@@ -79,10 +79,28 @@ public class InjectFiringHistory implements EventInterface {
 		
 	}
 	
-	public InjectFiringHistory(Long running_sim_id, Long actor_id){
+	/**
+	 * Records an inject's firing history to the database.
+	 * 
+	 * @param running_sim_id
+	 * @param actor_id
+	 * @param injectId
+	 * @param targets
+	 * @param iText
+	 * @param iActors
+	 * @param schema
+	 */
+	public InjectFiringHistory(Long running_sim_id, Long actor_id, Long injectId, 
+			String targets, String iText, String iActors, String schema){
 		
 		this.running_sim_id = running_sim_id;
 		this.actor_id = actor_id;
+		this.setTargets(targets);
+		this.setInjectId(injectId);
+		this.setActualFiredText(iText);
+		this.setActorIdsFiredTo(iActors);
+		
+		this.saveMe(schema);
 		
 	}
 	

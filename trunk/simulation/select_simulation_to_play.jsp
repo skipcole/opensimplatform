@@ -160,7 +160,7 @@ body {
 			  
   		} // End of loop over User Assignments
 		
-		}
+		} // End of loop over Schema Ghosts
 		
   %>
             </table>

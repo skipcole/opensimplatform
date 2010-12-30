@@ -26,8 +26,13 @@ import org.usip.osp.sharing.*;
 @Entity
 @Table(name = "INJECTS")
 @Proxy(lazy=false)
-public class Inject implements CreatesRespondableObjects{
+public class Inject{
 
+	public Inject() {
+		
+	}
+	
+	
     /** Database id of this Inject. */
 	@Id
 	@GeneratedValue
@@ -116,9 +121,7 @@ public class Inject implements CreatesRespondableObjects{
 	public static Inject getById(String schema, Long id) {
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
-		Inject inj = (Inject)
-		MultiSchemaHibernateUtil.getSession(schema).get(Inject.class, id);
+		Inject inj = (Inject) MultiSchemaHibernateUtil.getSession(schema).get(Inject.class, id);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return inj;
@@ -168,26 +171,5 @@ public class Inject implements CreatesRespondableObjects{
 	public void setTypicalQuestionsAndResponses(String typicalQuestionsAndResponses) {
 		this.typicalQuestionsAndResponses = typicalQuestionsAndResponses;
 	}
-
-	@Override
-	public void createRespondableObject(String schema, Long simId, Long rsId, Long phase_id, 
-			Long actor_id, String userName, String userDisplayName) {
-		
-		RespondableObject ro = new RespondableObject();
-		
-		ro.setSimId(simId);
-		ro.setRsId(rsId);
-		ro.setObjectId(this.getId());
-		ro.setClassName(Inject.class.toString().replaceFirst("class ", ""));
-		
-		ro.setCreatingActorId(actor_id);
-		ro.setPhaseId(phase_id);
-		
-		ro.setResponseObjectSynopsis(this.getInject_text());
-		
-		ro.saveMe(schema);
-		
-	}
-	
 	
 }

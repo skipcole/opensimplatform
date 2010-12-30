@@ -11,6 +11,7 @@ import org.usip.osp.baseobjects.core.TipsCustomizer;
 import org.usip.osp.bishops.BishopsPartyInfo;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
+import org.usip.osp.sharing.RespondableObject;
 import org.usip.osp.specialfeatures.AllowableResponse;
 import org.usip.osp.specialfeatures.PlayerReflection;
 
@@ -867,17 +868,20 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		if ((inject_id != null) && (!(inject_id.equalsIgnoreCase("null")))
 				&& (inject_id.length() > 0)) {
+			
+			// Record this in the firing history
 			InjectFiringHistory ifh = new InjectFiringHistory(
-					this.runningSimId, this.actorId);
-			ifh.setActorIdsFiredTo(targets);
-			ifh.setActualFiredText(alertInQueueText);
-			ifh.setTargets("some");
-			ifh.setInjectId(new Long(inject_id));
-			ifh.saveMe(schema);
+					this.runningSimId, this.actorId, new Long(inject_id), "some", alertInQueueText,
+					targets, schema);
 
 			USIP_OSP_Cache
 					.addFiredInjectsToCache(schema, request, this.runningSimId,
 							this.actorId, new Long(inject_id), "all");
+			// TODO come back here and add inject name instead of short Intro
+			RespondableObject ro = new RespondableObject(schema, this.sim_id, this.runningSimId, 
+					 phase_id, 
+					 new Long(inject_id), Inject.class.toString().replaceFirst("class ", ""), shortIntro,
+					 this.actorId, this.user_name, this.userDisplayName, "all");
 		}
 
 	}
@@ -1551,12 +1555,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			String inject_id = request.getParameter("inject_id"); //$NON-NLS-1$
 
-			if ((player_target != null)
+			if ((player_target != null)		// Sending Inject to some players
 					&& (player_target.equalsIgnoreCase("some"))) { //$NON-NLS-1$
 				this.alertInQueueText = announcement_text;
 				this.alertInQueueType = Alert.TYPE_EVENT;
 				return true;
-			} else {
+				
+			} else {						// Sending inejct to all players
 				makeGeneralAnnouncement(announcement_text, request);
 
 				if (inject_id != null) {
@@ -1564,24 +1569,20 @@ public class PlayerSessionObject extends SessionObjectBase {
 					Inject theInject = Inject.getById(schema, new Long(
 							inject_id));
 
+					// Record this in the firing history
 					InjectFiringHistory ifh = new InjectFiringHistory(
-							this.runningSimId, this.actorId);
-					ifh.setActorNamessFiredTo("all");
-					ifh.setActualFiredText(announcement_text);
-					ifh.setTargets("all");
-					ifh.setInjectId(theInject.getId());
-					ifh.saveMe(schema);
+							this.runningSimId, this.actorId, theInject.getId(), 
+							"all", announcement_text, "all", schema);
 
-					// Create a respondable object entry that players can
-					// respond to.
-					/*
-					 * theInject.createRespondableObject(schema, this.sim_id,
-					 * this.runningSimId, phase_id, this.actorId,
-					 * this.user_name, this.userDisplayName);
-					 */
 					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
 							this.runningSimId, this.actorId, theInject.getId(),
 							"all");
+					
+					RespondableObject ro = new RespondableObject(schema, this.sim_id, this.runningSimId, 
+							 phase_id, 
+							 theInject.getId(), Inject.class.toString().replaceFirst("class ", ""), theInject.getInject_name(),
+							 this.actorId, this.user_name, this.userDisplayName, "all");
+					
 				}
 
 				return false;
