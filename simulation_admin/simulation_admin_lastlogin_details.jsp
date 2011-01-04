@@ -62,7 +62,6 @@
 </table>
 </blockquote>
 <p>&nbsp;</p>
-<p><a href="../osp_core/finger.jsp">Back</a></p>
 </body>
 </html>
 <%

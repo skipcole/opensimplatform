@@ -40,11 +40,12 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Administrate Users </h1>
+              <h1>Administrate Users for Running Simulation </h1>
               <br />
       <p>Users for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></p>
-      <table border="1"><tr><td><strong>Actor</strong></td>
+      <table border="1" width="100%"><tr><td><strong>Actor</strong></td>
       <td><strong>User Email</strong></td>
+      <td>Last Login</td>
       </tr>
       <%
 	  			for (ListIterator li = UserAssignment.getAllForRunningSim(afso.schema, new Long (rs_id)).listIterator(); li.hasNext();) {
@@ -53,7 +54,9 @@
 					
 					String act_name = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.getRunningSimId(), request, ua.getActor_id());
 		%>
-        	<tr><td> <%= act_name %></td><td> <%= user.getUser_name() %></td></tr>
+        	<tr><td> <%= act_name %></td><td> <%= user.getUser_name() %></td>
+        	  <td><a href="../simulation_admin/simulation_admin_lastlogin_details.jsp?user_id=<%= user.getId() %>">last date</a></td>
+        	</tr>
         <%
 			
 	  	} // End of loop over user assignments.
