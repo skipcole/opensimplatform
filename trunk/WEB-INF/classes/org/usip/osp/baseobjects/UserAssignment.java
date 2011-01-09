@@ -54,6 +54,12 @@ public class UserAssignment{
     private Long user_id;
     
     private Long highestAlertNumberRecieved = new Long(0);
+    
+    private boolean temporaryAssignment = false;
+    
+    private String username = "";
+    
+    private boolean facilitatorAssignment = false;
 
 	public Long getHighestAlertNumberRecieved() {
 		return highestAlertNumberRecieved;
@@ -103,6 +109,38 @@ public class UserAssignment{
 		this.user_id = user_id;
 	}
 	
+	public boolean isTemporaryAssignment() {
+		return temporaryAssignment;
+	}
+
+	public void setTemporaryAssignment(boolean temporaryAssignment) {
+		this.temporaryAssignment = temporaryAssignment;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public boolean isFacilitatorAssignment() {
+		return facilitatorAssignment;
+	}
+
+	public void setFacilitatorAssignment(boolean facilitatorAssignment) {
+		this.facilitatorAssignment = facilitatorAssignment;
+	}
+
+	public Long getAssumedIdentityId() {
+		return assumedIdentityId;
+	}
+
+	public void setAssumedIdentityId(Long assumedIdentityId) {
+		this.assumedIdentityId = assumedIdentityId;
+	}
+
 	public List getAllForUser(Long userid, org.hibernate.Session hibernate_session) {
 		return (hibernate_session.createQuery("from UserAssignment where user_id = " +  //$NON-NLS-1$
 				userid.toString()).list());

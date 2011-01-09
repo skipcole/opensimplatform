@@ -139,9 +139,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 	/** Type of alert being worked on. */
 	public int alertInQueueType = 0;
 
-	/** Page to forward the user on to. */
-	public boolean forward_on = false;
-
 	public String tabposition = "1"; //$NON-NLS-1$
 
 	/** The page to take them back to if needed. */

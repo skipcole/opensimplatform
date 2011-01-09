@@ -52,12 +52,14 @@
           If desired, assign them a designated role (such as participant, visitor, etc.) </p>
         <p><%
 		
-		MultiSchemaHibernateUtil.beginTransaction(afso.schema);
+		
 		
 		Conversation conv = new Conversation();
 		
 		if (afso.sim_conv_id != null) {
+			MultiSchemaHibernateUtil.beginTransaction(afso.schema);
 			conv = (Conversation) MultiSchemaHibernateUtil.getSession(afso.schema).get(Conversation.class, afso.sim_conv_id);
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(afso.schema);
 		}	
 		
 		%>
@@ -87,7 +89,7 @@
            
 		<% } // End of loop over Actors 
 		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(afso.schema);
+		
 		%>
 		</table>
 	

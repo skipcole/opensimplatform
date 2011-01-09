@@ -73,6 +73,8 @@
 		
 		MultiSchemaHibernateUtil.beginTransaction(afso.schema);
 		simulation = (Simulation) MultiSchemaHibernateUtil.getSession(afso.schema).get(Simulation.class, simulation.getId());
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(afso.schema);
+		
 		for (ListIterator li = simulation.getRunning_sims(afso.schema).listIterator(); li.hasNext();) {
 			RunningSimulation rs = (RunningSimulation) li.next();
 			
@@ -84,8 +86,6 @@
             <%
 	}
 	}
-	
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(afso.schema);
 
 %>
             </table>

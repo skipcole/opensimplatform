@@ -16,12 +16,9 @@
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	
-	MultiSchemaHibernateUtil.beginTransaction(pso.schema);
-
-	CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil.getSession(pso.schema).get(CustomizeableSection.class, new Long(cs_id));
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
     
 	bodyText = (String) cs.getBigString();
-	MultiSchemaHibernateUtil.commitAndCloseTransaction(pso.schema);
 	
 %>
 <html>

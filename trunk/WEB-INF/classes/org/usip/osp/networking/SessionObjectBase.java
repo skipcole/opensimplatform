@@ -31,6 +31,9 @@ public class SessionObjectBase {
 		
 	}
 	
+	/** Page to forward the user on to. */
+	public boolean forward_on = false;
+	
 	/**
 	 * Returns the simulation based on what sim_id is currently stored in this Session Object Base.
 	 * 
@@ -200,11 +203,16 @@ public class SessionObjectBase {
 	}
 
 	/** Assigns a user to a simulation. */
-	public void handleAssignUser(HttpServletRequest request) {
+	public UserAssignment handleAssignUser(HttpServletRequest request) {
 
+		UserAssignment ua = new UserAssignment();
+		
 		String command = request.getParameter("command"); //$NON-NLS-1$
-
-		System.out.println("command was " + command);
+		
+		Long a_id = null;
+		Long s_id = null;
+		Long r_id = null;
+		Long ua_id = null;
 
 		if (command != null) {
 			
@@ -213,7 +221,7 @@ public class SessionObjectBase {
 			
 			if (command.equalsIgnoreCase("remove_ua")){
 				UserAssignment.removeMe(schema, new Long(user_assignment_id));
-				return;
+				return ua;
 			}
 
 			String actor_id = request
@@ -226,10 +234,7 @@ public class SessionObjectBase {
 			// Email address of user to assign role to
 			String user_to_add_to_simulation = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
 			
-			Long a_id = null;
-			Long s_id = null;
-			Long r_id = null;
-			Long ua_id = null;
+
 			
 			try {
 				a_id = new Long(actor_id);
@@ -243,13 +248,13 @@ public class SessionObjectBase {
 			} catch (Exception e){
 				
 				e.printStackTrace();
-				return;
+				return ua;
 				
 			}
 			
-			UserAssignment ua = new UserAssignment();
+			
 
-			if ((command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
+			if ((command != null) && (command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
 				Long user_to_add_id = null;
 
@@ -266,9 +271,15 @@ public class SessionObjectBase {
 					user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
 							request, user_to_add_to_simulation);
 					if (user_to_add_id == null) {
-						errorMsg = "User Not Found: "
-								+ user_to_add_to_simulation;
-						return;
+						
+						ua.setUsername(user_to_add_to_simulation);
+						ua.setSim_id(s_id);
+						ua.setActor_id(a_id);
+						ua.setRunning_sim_id(r_id);
+						forward_on = true;
+						
+						return ua;
+						
 					}
 				}
 
@@ -291,5 +302,7 @@ public class SessionObjectBase {
 				ua = new UserAssignment(schema, s_id, r_id, a_id, null);
 			}
 		}
+		
+		return ua;
 	}
 }

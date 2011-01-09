@@ -13,7 +13,17 @@
 	
 	afso.backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
 	
-	afso.handleAssignUser(request);
+	UserAssignment ua_temp = afso.handleAssignUser(request);
+	
+	if (afso.forward_on){
+		afso.forward_on = false;
+		String paramString = "?uname=" + ua_temp.getUsername() + "&s_id=" + ua_temp.getSim_id() + "&rs_id=" + ua_temp.getRunning_sim_id() + "&a_id" +	ua_temp.getActor_id();
+		
+		
+		response.sendRedirect("assign_user_to_sim_user_not_found.jsp" + paramString);
+		
+		return;
+	}
 	
 	////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	
@@ -80,13 +90,14 @@
         <li>Click on the button 'Assign User'</li>
         <li>Repeat until all actors have been assigned users to play them</li>
       </ol>
-      <table border="1">
+      <table border="1" width="100%">
         <tr valign="top"> 
           <td ><strong>Actor</strong></td>
             <td ><strong>User Assigned</strong></td>
             <td ><strong>Details</strong></td>
             <td ><strong>Del/Add</strong></td>
             <td ><strong>Enter User's Email</strong></td>
+            <td ><strong>I ? </strong></td>
             <td ><strong>Assign User</strong></td>
           </tr>
         <%
@@ -135,6 +146,9 @@
                   <% } %>                  </td>
               <td>
               <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>              </td>
+              <td><label>
+                <input type="checkbox" name="checkbox" value="checkbox" />
+              </label></td>
               <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
 			    <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
                 <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 

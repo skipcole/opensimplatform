@@ -41,9 +41,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
 
-	/** Page to forward the user on to. */
-	public boolean forward_on = false;
-
 	/** Organization of the schema that the user is working in. */
 	public String schemaOrg = ""; //$NON-NLS-1$
 

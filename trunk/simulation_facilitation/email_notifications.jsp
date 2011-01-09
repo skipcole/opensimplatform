@@ -88,8 +88,39 @@
       <input type="hidden" name="sending_page" value="enable_game" />
       <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top"> 
-          <td width="34%">Enable the simulation to start:</td>
-                <td width="66%"> <input type="submit" name="command" value="Start Simulation" /></td>
+          <td width="34%">Notify players via Email:</td>
+                <td width="66%"> <input name="email_users" type="checkbox" value="true" checked="checked" />
+                  yes </td>
+              </tr>
+        <tr valign="top">
+          <td>Email from: </td>
+          <td><label>
+            <input name="email_from" type="radio" value="noreply" checked="checked" />
+          noreply@opensimplatform.org
+          </label><br />
+		  <label>
+		  <input name="email_from" type="radio" value="username" /><%= afso.user_email %> </label></td>
+        </tr>
+        <tr valign="top">
+          <td>Email Subject Line </td>
+          <td><label>
+            <input type="text" name="textfield" />
+          </label></td>
+        </tr>
+        <tr valign="top"> 
+          <td width="34%">Email text:<br /> <br /> </td>
+                <td width="66%"> Dear &lt;Players Name&gt;,<br /> <p> 
+                  <textarea name="email_text" cols="60" rows="5">
+     You are invited to enter a simulation. 
+     Please go to the website [web_site_location] to enter. 
+     Your username is [username]. Your password is either the one you entered when registering on the system, or the one that your instructor has assigned you.
+Enjoy!
+</textarea>
+                  </p>
+                  <p><font color="#CC9900">Note:</font> You should not need to replace 
+                    the text inside of brackets []. If your system is configured 
+                    correctly, these will automatically be replaced with the correct 
+                    information in the emails sent out.</p></td>
               </tr>
         </table>
     </form>
