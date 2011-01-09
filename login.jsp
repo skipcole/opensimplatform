@@ -5,6 +5,29 @@ org.usip.osp.networking.*,
 org.usip.osp.persistence.*,
 org.usip.osp.baseobjects.*" %>
 <%
+
+	///////////////////////////////////////////////
+	// Everything below here just checks to make sure we have a good database connection.
+	// TODO Record when connections are being reset here 
+	try {
+		BaseUser bu = BaseUser.getByUserId(new Long(1));
+	} catch (Exception e) {
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+	}
+	//
+	
+	for (ListIterator<SchemaInformationObject> sio_l = SchemaInformationObject.getAll().listIterator(); sio_l.hasNext();) {
+        	SchemaInformationObject sio = sio_l.next();
+
+		try {
+			User u = User.getById(sio.getSchema_name(), new Long(1));
+		} catch (Exception e){
+				MultiSchemaHibernateUtil.commitAndCloseTransaction(sio.getSchema_name());
+		}
+
+	}
+	////////////////////////////////////////////////////
+	
 	String errorMsg = "";
 	
 	String select_language = request.getParameter("select_language");

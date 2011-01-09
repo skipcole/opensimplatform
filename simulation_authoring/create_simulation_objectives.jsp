@@ -68,7 +68,7 @@
             </p>
             <p> 
               <input type="hidden" name="sending_page" value="authoring_wizard_page" />
-            </p>
+              <a href="browse_objectives.jsp">Browse Objectives from Other Simulations</a> </p>
             <table width="100%" border="0">
               <tr>
                 <td align="center"><input type="submit" name="save" value="Save" /></td>

@@ -128,7 +128,7 @@ body {
               <tr valign="top">
                 <td><%= sg.getSchema_organization() %></td>
       <td><%= sim.getDisplayName() %>
-        <span class="style1"><%= pso.checkDatesOnSim(sim, rs) %>        </span></td>
+        <span class="style1"><!-- %= pso.checkDatesOnSim(sim, rs) %   -->        </span></td>
       <td><%= rs.getRunningSimulationName() %></td>
       <td><%= act.getActorName(pso.schema, rs.getId(), request) %></td>
       <td><%= sp.getPhaseName() %></td>
