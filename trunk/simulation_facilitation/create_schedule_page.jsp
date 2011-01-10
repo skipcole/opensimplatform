@@ -64,10 +64,12 @@
                   <p>Below that is a place where you can enter the specific schedule page for your students. This page will give them important information on when they can and should login and any other details. You will be able to give the players announcements during the simulation, but this page will set the initial expectations.</p>
                   <div align="center">
                     <table width="80%" border="1">
-                      <caption>
-                      Notes from the Simulation Author
-                      </caption>
-	    <tr>
+	                  <tr>
+	                    <td><div align="center">
+	                      <h2>Notes from the Simulation Author </h2>
+	                    </div></td>
+                      </tr>
+	                  <tr>
 	      <td><%= simulation.getPlannedPlayIdeas() %></td>
 	      </tr>
                     </table>
@@ -99,7 +101,7 @@
                   <blockquote>
                     <p>&nbsp;</p>
                   </blockquote>
-                  <p align="center"><a href="bulk_invite.jsp">Next Step: Bulk Invite Users</a><a href="../simulation_authoring/create_simulation_phases.jsp"></a></p>
+                  <p align="center"><a href="assign_user_to_simulation.jsp">Next Step: Assign Users</a></p>
                   <a href="create_running_sim.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>

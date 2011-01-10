@@ -33,7 +33,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Browse Simulation Objectives </h1>
+              <h1>Browse Simulation Introductions </h1>
               <br />
 			 
       <blockquote>
@@ -50,16 +50,15 @@
             </tr>
             <tr>
               <td width="15%">&nbsp;</td>
-              <td width="85%"><%= sim.getLearning_objvs() %></td>
+              <td width="85%"><%= sim.getIntroduction() %></td>
             </tr>
             <%
 	}
 %>
             </table>
       </blockquote>      
-      <p align="left"><a href="create_simulation_objectives.jsp">Back to Create/Edit Simulation Objectives </a></p>
-      <p align="left"><br />
-      </p></td>
+      <p align="left"><a href="create_simulation_introduction.jsp">Back to Create/Edit Introduction </a></p>
+      <p align="left">&nbsp;</p></td>
 		</tr>
 		</table>	</td>
   </tr>

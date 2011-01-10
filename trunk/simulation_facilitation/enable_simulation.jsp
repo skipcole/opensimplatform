@@ -102,8 +102,8 @@
 
 %>        <blockquote>
           <div align="center">
-            <p><a href="../login.jsp" target="_top">Next 
-              Step: Begin Play</a></p>
+            <p><a href="email_notifications.jsp">Next 
+              Step: Send Invitation Emails </a></p>
             <p align="left"><a href="assign_user_to_simulation.jsp">&lt;- 
         Back</a></p>
           </div>

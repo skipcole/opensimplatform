@@ -38,8 +38,12 @@
               <% if (afso.sim_id != null) { %>
               	<blockquote><strong>
               	Working on Simulation: <%= simulation.getDisplayName() %>                </strong></blockquote>
-              <% } %>
-      <table width="100%" border="0" cellspacing="2" cellpadding="1">
+                <p>
+                  <% } %>
+                </p>
+                <h2>Basic Steps </h2>
+                <p>Below are the basic steps one will need to go through to initiate a simulation. </p>
+                <table width="100%" border="0" cellspacing="2" cellpadding="1">
         <tr valign="top"> 
           <td colspan="2"><h2>Step</h2></td>
             </tr>
@@ -51,35 +55,36 @@
           <td>2.</td>
             <td><a href="create_schedule_page.jsp">Create Schedule Page</a> <a href="helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></td>
           </tr>
-        <tr valign="top">
-          <td>3. </td>
-            <td><a href="bulk_invite.jsp">Invite Users</a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></td>
-            </tr>
         <tr valign="top"> 
-          <td>4.</td>
-            <td><a href="create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a> </td>
-            </tr>
-        <tr valign="top"> 
-          <td>5.</td>
+          <td>3.</td>
             <td><a href="assign_user_to_simulation.jsp">Assign Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
             </tr>
         <tr valign="top"> 
-          <td>6.</td>
+          <td>4.</td>
             <td><a href="enable_simulation.jsp">Enable Simulation</a> <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></td>
             </tr>
-        <tr valign="top"> 
-          <td>7.</td>
-            <td><a href="../simulation/index.jsp?schema=<%= afso.schema %>" target="_top">Enter Simulation</a> <a href="helptext/enter_sim_help.jsp" target="helpinright">(?)</a> </td>
-            </tr>
+        <tr valign="top">
+          <td>5.</td>
+          <td><a href="email_notifications.jsp">Notify Players via Email</a><a href="helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
+        </tr>
       </table>
-      <p>Other Activities</p>
-      <ul>
-        <li><a href="library.jsp" align="left">Go to the Library</a> </li>
+                <h2>&nbsp;</h2>
+                <h2>Basic Instructor Activities</h2>
+                <p>Below are listed other activities that instructors occasionally have to do. </p>
+      <ul><li><a href="create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></li>
         <li><a href="inactivate_running_sim.jsp">Inactivate Running Simulations</a></li>
+        <li><a href="bulk_invite.jsp">Invite Users to Register </a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></li>
         <li><a href="launch_beta_test.jsp">Launch Beta Test</a></li>
-        <li><a href="create_set_of_running_sims.jsp">Create Set of Running Simulations</a></li>
-        <li><a href="export_import_experience.jsp">Export / Import Simulation Experience</a> </li>
+        <li><a href="library.jsp" align="left">View Simulation  Library</a></li>
       </ul>      
+      <p>&nbsp;</p>
+      <h2>Advanced Instructor Activities </h2>
+      <p>Below are listed instructor activities that are either rare, or in development.</p>
+      <ul>
+        <li><a href="create_set_of_running_sims.jsp">Create Set of Running Simulations</a></li>
+        <li><a href="export_import_experience.jsp">Export / Import Simulation Experience</a></li>
+      </ul>
+      <p>&nbsp; </p>
       <p align="center"></p>			</td>
 		</tr>
 		</table>	</td>

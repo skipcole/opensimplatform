@@ -114,11 +114,7 @@
 			%>
       </blockquote>
       <blockquote>
-        <div align="center">
-          <p><a href="create_user.jsp">Next 
-            Step: Create Users </a></p>
-          <p align="left"><a href="create_schedule_page.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
-        </div>
+        
         </blockquote>			</td>
 		</tr>
 		</table>	</td>

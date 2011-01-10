@@ -10,7 +10,6 @@ import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.Alert;
 import org.usip.osp.communications.Emailer;
-import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.specialfeatures.InventoryItem;
 import org.apache.log4j.*;
@@ -178,36 +177,27 @@ public class RunningSimulation {
 	 * @param emailText
 	 * @return
 	 */
-	public void enableAndPrep(String schema, String sid, String from,
-			String email_users, String emailText, String cc) {
+	public static void enableAndPrep(String schema, Long s_id,  Long rs_id) {
 
 		Logger.getRootLogger().debug("Enabling Sim."); //$NON-NLS-1$
 
-		Simulation sim = Simulation.getById(schema, new Long(sid));
-
-		// Email if desired
-		if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) { //$NON-NLS-1$
-			Logger.getRootLogger().debug("sending welcome emails"); //$NON-NLS-1$
-
-			Logger.getRootLogger().debug("sending from " + from); //$NON-NLS-1$
-			sendWelcomeEmail(schema, from, emailText);
-
-		}
+		Simulation sim = Simulation.getById(schema, s_id);
+		RunningSimulation rs = RunningSimulation.getById(schema, rs_id);
 
 		// Mark it ready to go
-		this.ready_to_begin = true;
-		this.setEnabledDate(new java.util.Date());
+		rs.ready_to_begin = true;
+		rs.setEnabledDate(new java.util.Date());
 
 		Alert startEvent = new Alert();
 		startEvent.setSim_id(sim.getId());
-		startEvent.setRunning_sim_id(this.getId());
+		startEvent.setRunning_sim_id(rs_id);
 		startEvent.setType(Alert.TYPE_RUN_ENABLED);
 		startEvent.setAlertMessage("Simulation Enabled.");
-		startEvent.setTimeOfAlert(this.getEnabledDate());
+		startEvent.setTimeOfAlert(rs.getEnabledDate());
 		startEvent.saveMe(schema);
 		CommunicationsHub ch = new CommunicationsHub(startEvent, schema);
 
-		this.saveMe(schema);
+		rs.saveMe(schema);
 
 	}
 
@@ -300,72 +290,6 @@ public class RunningSimulation {
 			
 		}
 		
-	}
-
-	/**
-	 * Email sent from the simulation creator to the player. The simulation
-	 * creator is also copied on the email. If the administrator has set a an
-	 * email archive address it will also receive a copy.
-	 * 
-	 * @param from
-	 * @param to
-	 * @param emailText
-	 */
-	public void sendWelcomeEmail(String schema, String from, String emailText) {
-
-		emailText = emailText
-				.replace(
-						"[web_site_location]", USIP_OSP_Properties.getValue("simulation_url") + "simulation/"); //$NON-NLS-1$
-
-		Hashtable <Long, String> usersEmailed = new Hashtable<Long, String>();
-
-		for (ListIterator<UserAssignment> li = getUser_assignments(schema,
-				this.id).listIterator(); li.hasNext();) {
-			UserAssignment ua = li.next();
-
-			// If we have not emailed this person yet.
-			if (usersEmailed.get(ua.getUser_id()) == null) { 
-
-				String this_guys_emailText = emailText;
-
-				// /////////////////////////////////////
-				MultiSchemaHibernateUtil.beginTransaction(
-						MultiSchemaHibernateUtil.principalschema, true);
-				BaseUser bu = (BaseUser) MultiSchemaHibernateUtil.getSession(
-						MultiSchemaHibernateUtil.principalschema, true).get(
-						BaseUser.class, ua.getUser_id());
-				MultiSchemaHibernateUtil
-						.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-				// ///////////////////////////////////////
-
-				this_guys_emailText = this_guys_emailText.replace(
-						"[username]", bu.getUsername()); //$NON-NLS-1$
-
-				String fullEmail;
-
-				if ((bu.getFull_name() != null)
-						&& (bu.getFull_name().trim().length() > 0)) {
-					fullEmail = "Dear " + bu.getFull_name() + ",\r\n"; //$NON-NLS-1$ //$NON-NLS-2$
-				} else {
-					fullEmail = "Dear Player, " + "\r\n"; //$NON-NLS-1$ //$NON-NLS-2$
-				}
-
-				fullEmail += this_guys_emailText;
-
-				Logger.getRootLogger().debug("emailing : " + bu.getUsername()); //$NON-NLS-1$
-
-				String cc = null;
-				String bcc = from;
-
-				Emailer.postSimReadyMail(schema, bu.getUsername(), from, cc,
-						bcc, "Simulation Starting", fullEmail); //$NON-NLS-1$
-
-				usersEmailed.put(ua.getUser_id(), "set");
-
-			}
-
-		}
-
 	}
 
 	public List<RunningSimulation> getAll(

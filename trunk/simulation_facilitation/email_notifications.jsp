@@ -13,19 +13,19 @@
 		return;
 	}
 	
-	afso.backPage = "enable_simulation.jsp";
+	afso.backPage = "email_notifications.jsp";
 
 	////////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
 	}
 	
-	/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
 	RunningSimulation running_sim = new RunningSimulation();
 	if (afso.getRunningSimId() != null){
-		afso.handleEnableSim(request);
 		running_sim = (RunningSimulation) afso.giveMeRunningSim();
 	}
+	
 	//////////////////////////////////////////////////////
 	
 
@@ -57,41 +57,87 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Enable Simulation to Start <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></h1>
+              <h1>Notify Players By Email <a href="helptext/enable_sim_help.jsp" target="helpinright"></a></h1>
               <blockquote> 
         <% 
 			if (afso.sim_id == null) {
 		%>
-        <p>You must first select the simulation which you will be enabling.<br />
+        <p>You must first select a simulation.<br />
           
           Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring/create_simulation.jsp">create a new one</a>.</p>
 		  
 		<% } else { %>
-        <p>Enabling <strong>simulation: <%= simulation.getDisplayName() %></strong>. <br />
+        <p>Emailing players in <strong>simulation: <%= simulation.getDisplayName() %></strong>. <br />
           To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.</p>
           <%
 			if (afso.getRunningSimId() == null) {
 		%>
-        <p>You must select the running simulation for which you will be enabling.<br />
+        <p>You must select the running simulation.<br />
           
           Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
 		  
-		<% } else if (running_sim.isReady_to_begin()) { %>
-        <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  been enabled.</span><br />
-          To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
+		<% } else if (!(running_sim.isReady_to_begin())) { %>
+        <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  not been enabled. You must first enable a simulation before sending invitation emails.</span><br />
+
 		  <% } else { %>
-        <p>Enabling <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
+        <p>Emailing players in  <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
           To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
   
   <p>&nbsp;</p>
     <form action="enable_simulation.jsp" method="post" name="form1" id="form1">
-      <input type="hidden" name="sending_page" value="enable_game" />
+      <h2>
+        <input type="hidden" name="sending_page" value="enable_game" />
+        Instructions</h2>
+      <p>Select the players below you wish to notify. Tailor your email as desire, and then hit send. If you would like to send a copy of a previously sent email, select that email from the list at the bottom to put its text in the body of the email to be sent. </p>
+      <h2>Step 1. Players to Notify</h2>
+      <table width="100%" border="1">
+        <tr>
+          <td valign="top"><strong>Actor</strong></td>
+          <td valign="top"><strong>User</strong></td>
+          <td valign="top"><strong>Username</strong></td>
+          <td valign="top"><strong>Previous<br />
+            Invites</strong></td>
+          <td valign="top"><strong>Send</strong></td>
+        </tr>
+		<% 
+			// Loop over all actors in the simulation
+			for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
+				Actor act = (Actor) li.next();
+				
+				// For each actor, get all of their user assignments
+				List theUsersAssigned = UserAssignment.getUsersAssigned(afso.schema, running_sim.getId(), act.getId());
+				
+				User user_assigned = new User();
+				
+				// Loop over all of the user assignments
+				for (ListIterator liua = theUsersAssigned.listIterator(); liua.hasNext();) {
+					UserAssignment ua = (UserAssignment) liua.next();
+					
+					if (ua.getUser_id() != null){
+						user_assigned = User.getById(afso.schema, ua.getUser_id());
+					} else {
+						user_assigned = new User();
+						user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
+					}
+
+					%>
+        <tr>
+          <td valign="top"><%= act.getActorName() %></td>
+          <td valign="top">John Doe</td>
+          <td valign="top"><%= user_assigned.getBu_username() %></td>
+          <td valign="top">&nbsp;</td>
+          <td valign="top"><label>
+            <input type="checkbox" name="checkbox" value="checkbox" />
+          </label></td>
+        </tr>
+		<%
+				} // End of loop over user assignments
+		  	} // End of loop over results set of Actors
+		%>
+      </table>
+      <h2><br />
+        Step 2. Tailor Email Contents  </h2>
       <table width="100%" border="1" cellspacing="0" cellpadding="2">
-        <tr valign="top"> 
-          <td width="34%">Notify players via Email:</td>
-                <td width="66%"> <input name="email_users" type="checkbox" value="true" checked="checked" />
-                  yes </td>
-              </tr>
         <tr valign="top">
           <td>Email from: </td>
           <td><label>
@@ -123,21 +169,25 @@ Enjoy!
                     information in the emails sent out.</p></td>
               </tr>
         </table>
-    </form>
-    <p>&nbsp;</p>
-        </blockquote>
-      <% } // end of if running_sim.id has been set. %>
+    
+      <h2><br />
+        Step 3. Send Email</h2>
+      <p>
+        <label>
+        <input type="submit" name="Submit" value="Send Email" />
+        </label>
+</p>
+	</form>
+              <h2>Previously Sent Invitations </h2>
+              <p>Functionalty in progress. </p>
+              </blockquote>
+              <% } // end of if running_sim.id has been set. %>
         <%
 		
 	}// end of if afso.simulation.id has been set.
 
 %>        <blockquote>
-          <div align="center">
-            <p><a href="../login.jsp" target="_top">Next 
-              Step: Begin Play</a></p>
-            <p align="left"><a href="assign_user_to_simulation.jsp">&lt;- 
-        Back</a></p>
-          </div>
+
           </blockquote>			</td>
 		</tr>
 		</table>	</td>
