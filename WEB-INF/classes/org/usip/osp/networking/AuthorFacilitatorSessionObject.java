@@ -346,9 +346,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				}
 
-				rs.enableAndPrep(this.schema, sim.getId().toString(), bu
-						.getUsername(), email_users, email_text, "");
-
+				RunningSimulation.enableAndPrep(this.schema, sim.getId(), rs.getId());
+				// TODO send the beta testers an email.
+				
 			} else {
 
 				returnString += "<font color=\"red\">Warning: did not find user:"
@@ -629,6 +629,25 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if (command != null) {
 			if ((command.equalsIgnoreCase("Start Simulation"))) {
 
+				RunningSimulation.enableAndPrep(this.schema, this.sim_id, this.runningSimId);
+
+			} // End of if coming from this page and have enabled the sim
+			// ////////////////////////////
+		}
+
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void handleNotifyPlayers(HttpServletRequest request) {
+
+		String command = request.getParameter("command");
+
+		if (command != null) {
+			if ((command.equalsIgnoreCase("Start Simulation"))) {
+
 				String email_users = request.getParameter("email_users");
 				String email_text = request.getParameter("email_text");
 				String email_from = request.getParameter("email_from");
@@ -640,22 +659,21 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				BaseUser bu = BaseUser.getByUserId(this.user_id);
 
-				MultiSchemaHibernateUtil.beginTransaction(this.schema);
+				// Email if desired
+				if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) { //$NON-NLS-1$
+					Logger.getRootLogger().debug("sending welcome emails"); //$NON-NLS-1$
 
-				RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil
-						.getSession(this.schema).get(RunningSimulation.class,
-								this.runningSimId);
+					//Logger.getRootLogger().debug("sending from " + from); //$NON-NLS-1$
+					//Emailer.sendWelcomeEmail(schema, this.id, from, emailText);
 
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
-
-				running_sim.enableAndPrep(this.schema, this.sim_id.toString(),
-						send_email_from, email_users, email_text, "");
+				}
 
 			} // End of if coming from this page and have enabled the sim
 			// ////////////////////////////
 		}
 
 	}
+
 
 	/**
 	 * 

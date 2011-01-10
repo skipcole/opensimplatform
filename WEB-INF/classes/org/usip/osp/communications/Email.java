@@ -87,6 +87,8 @@ public class Email {
 	@Column(name = "RUNNING_SIM_ID")
     private Long running_sim_id;
 	
+	private boolean simInvitationEmail = false;
+	
 	/** Id of the thread that this email may exist in. */
     private Long thread_id;
     
@@ -129,6 +131,28 @@ public class Email {
 
 	public void setSendInRealWorld(boolean sendInRealWorld) {
 		this.sendInRealWorld = sendInRealWorld;
+	}
+	
+	
+
+	public boolean isSimInvitationEmail() {
+		return simInvitationEmail;
+	}
+
+	public void setSimInvitationEmail(boolean simInvitationEmail) {
+		this.simInvitationEmail = simInvitationEmail;
+	}
+
+	public static String getOrderByDesc() {
+		return orderByDesc;
+	}
+
+	public static void setOrderByDesc(String orderByDesc) {
+		Email.orderByDesc = orderByDesc;
+	}
+
+	public boolean isHasBeenSent() {
+		return hasBeenSent;
 	}
 
 	/** Indicates if this email is a reply to another email. */

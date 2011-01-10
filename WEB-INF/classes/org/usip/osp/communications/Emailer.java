@@ -3,11 +3,15 @@ package org.usip.osp.communications;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.baseobjects.UserAssignment;
+import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.SchemaInformationObject;
 
 import java.util.*;
+
 import org.apache.log4j.*;
 
 /**
@@ -154,6 +158,74 @@ public class Emailer {
 		session.setDebug(debug);
 
 		return session;
+	}
+
+	/**
+	 * Email sent from the simulation facilitator to the player. The simulation
+	 * instructor may be copied on all emails as well. If the administrator has set a an
+	 * email archive address it will also receive a copy.
+	 * 
+	 * @param from
+	 * @param to
+	 * @param emailText
+	 */
+	public static void sendWelcomeEmail(String schema, Long rs_id, String from, String emailText) {
+	
+		emailText = emailText
+				.replace(
+						"[web_site_location]", USIP_OSP_Properties.getValue("simulation_url") + "simulation/"); //$NON-NLS-1$
+	
+		Hashtable <Long, String> usersEmailed = new Hashtable<Long, String>();
+	
+		RunningSimulation rs = RunningSimulation.getById(schema, rs_id);
+		
+		for (ListIterator<UserAssignment> li = rs.getUser_assignments(schema,
+				rs_id).listIterator(); li.hasNext();) {
+			UserAssignment ua = li.next();
+	
+			// If we have not emailed this person yet.
+			if (usersEmailed.get(ua.getUser_id()) == null) { 
+	
+				String this_guys_emailText = emailText;
+	
+				// /////////////////////////////////////
+				MultiSchemaHibernateUtil.beginTransaction(
+						MultiSchemaHibernateUtil.principalschema, true);
+				BaseUser bu = (BaseUser) MultiSchemaHibernateUtil.getSession(
+						MultiSchemaHibernateUtil.principalschema, true).get(
+						BaseUser.class, ua.getUser_id());
+				MultiSchemaHibernateUtil
+						.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+				// ///////////////////////////////////////
+	
+				this_guys_emailText = this_guys_emailText.replace(
+						"[username]", bu.getUsername()); //$NON-NLS-1$
+	
+				String fullEmail;
+	
+				if ((bu.getFull_name() != null)
+						&& (bu.getFull_name().trim().length() > 0)) {
+					fullEmail = "Dear " + bu.getFull_name() + ",\r\n"; //$NON-NLS-1$ //$NON-NLS-2$
+				} else {
+					fullEmail = "Dear Player, " + "\r\n"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+	
+				fullEmail += this_guys_emailText;
+	
+				Logger.getRootLogger().debug("emailing : " + bu.getUsername()); //$NON-NLS-1$
+	
+				String cc = null;
+				String bcc = from;
+	
+				postSimReadyMail(schema, bu.getUsername(), from, cc,
+						bcc, "Simulation Starting", fullEmail); //$NON-NLS-1$
+	
+				usersEmailed.put(ua.getUser_id(), "set");
+	
+			}
+	
+		}
+	
 	}
 
 }

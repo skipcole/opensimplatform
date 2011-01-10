@@ -72,6 +72,10 @@
           </label></td>
     </tr>
           <tr>
+            <td>Phone Number: </td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
             <td>Language:</td>
             <td>
             <%
@@ -108,10 +112,7 @@
 <iframe src ="../simulation_user_admin/user_search.jsp" width="100%" height="200">
   <p> </p>
 </iframe>
-          <p align="center"><a href="assign_user_to_simulation.jsp">Next 
-            Step: Assign User</a></p>
-          <p align="left"><a href="bulk_invite.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
-        </blockquote>			</td>
+</td>
 		</tr>
 		</table>	</td>
   </tr>

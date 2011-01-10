@@ -55,8 +55,10 @@
               <p align="left">You may either </p>
               <ul>
                 <li><a href="assign_user_to_simulation.jsp">Cancel this action</a></li>
-                <li>Add this username and email the user an invite for this simualation.</li>
-              </ul>              <p align="left">&nbsp;    </p></td>
+                <li>Create/Register this user now </li>
+                <li>Add this username, and email the user an invite for this simualation.</li>
+              </ul>              
+              <p align="left">&nbsp;    </p></td>
 		</tr>
 		</table>	</td>
   </tr>
