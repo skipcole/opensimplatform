@@ -547,6 +547,7 @@ public class ObjectPackager {
 				// Set the last sim edited to null since this may be meaningless
 				// upon re-import.
 				thisUser.setLastSimEdited(null);
+				thisUser.setLastRunningSimEdited(null);
 
 				bu.setTransit_id(bu.getId());
 				bu.setId(null);

@@ -229,13 +229,11 @@ public class SessionObjectBase {
 			String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
 			String running_sim_id = request
 					.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
-
 			
 			// Email address of user to assign role to
 			String user_to_add_to_simulation = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
 			
 
-			
 			try {
 				a_id = new Long(actor_id);
 				s_id = new Long(sim_id);
@@ -252,8 +250,6 @@ public class SessionObjectBase {
 				
 			}
 			
-			
-
 			if ((command != null) && (command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
 				Long user_to_add_id = null;
@@ -283,25 +279,29 @@ public class SessionObjectBase {
 					}
 				}
 
-				System.out.println("user to add was: " + user_to_add_id);
 
+				////////////////////////////////////////////////////////////
+				// Add user to an existing userAssignment object
 				if (ua_id != null) {
 					ua = UserAssignment.getById(schema, ua_id);
 				}
-
 				if (ua != null){
 					ua.setSim_id(s_id);
 					ua.setRunning_sim_id(r_id);
 					ua.setActor_id(a_id);
 					ua.setUser_id(user_to_add_id);
+					ua.setUsername(user_to_add_to_simulation);
 
 					ua.saveMe(schema);
 				}
-
+				/////////////////////////////////////////////////////////
 			} else if (command.equalsIgnoreCase("add_assignment")) {
+				
+				// Creating a new blank user assignment
 				ua = new UserAssignment(schema, s_id, r_id, a_id, null);
-			}
-		}
+				
+			} // end of adding a ua object
+		} // End of if command is not null
 		
 		return ua;
 	}

@@ -77,7 +77,11 @@ public class EmailRecipients {
 	/** Type of receipt (from, to, cc, or bcc) */
 	private int recipient_type;
 	
+	/** Indicates if in-game email has been read. */
 	private boolean hasBeenRead = false;
+	
+	/** Used to indicate if receipt of email has been confirmed by player. */
+	private boolean recieptConfirmed = false;
 	
 	/**
 	 * Saves this object back to the database.

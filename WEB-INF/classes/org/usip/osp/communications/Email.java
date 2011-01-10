@@ -48,6 +48,16 @@ public class Email {
 		
 	}
 	
+	public Email(Long fromUser, String fromName, String subject, String bodyText, Long s_id, 
+			Long rs_id){
+		this.fromUser = fromUser;
+		this.fromUserName = fromName;
+		this.subjectLine = subject;
+		this.msgtext = bodyText;
+		this.sim_id = s_id;
+		this.running_sim_id = rs_id;
+	}
+	
 	/**
 	 * Saves this object back to the database.
 	 * 
@@ -109,6 +119,9 @@ public class Email {
 	
     /** Id of the user making this email. */
     private Long fromUser;
+    
+    /** Email address of the sending user. */
+    private String fromUserName = "";
     
     /** Subject line of this email. */
     private String subjectLine = ""; //$NON-NLS-1$
@@ -250,6 +263,14 @@ public class Email {
 
 	public void setFromUser(Long fromUser) {
 		this.fromUser = fromUser;
+	}
+
+	public String getFromUserName() {
+		return fromUserName;
+	}
+
+	public void setFromUserName(String fromUserName) {
+		this.fromUserName = fromUserName;
 	}
 
 	public String getSubjectLine() {

@@ -14,6 +14,11 @@
 	}
 	
 	afso.backPage = "email_notifications.jsp";
+	
+	afso.handleNotifyPlayers(request);
+	
+	Email email = new Email();
+	email.setSubjectLine("Simulation Starting");
 
 	////////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	if (afso.sim_id != null){
@@ -84,9 +89,9 @@
           To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
   
   <p>&nbsp;</p>
-    <form action="enable_simulation.jsp" method="post" name="form1" id="form1">
+    <form action="email_notifications.jsp" method="post" name="form1" id="form1">
       <h2>
-        <input type="hidden" name="sending_page" value="enable_game" />
+        <input type="hidden" name="sending_page" value="notify_players" />
         Instructions</h2>
       <p>Select the players below you wish to notify. Tailor your email as desire, and then hit send. If you would like to send a copy of a previously sent email, select that email from the list at the bottom to put its text in the body of the email to be sent. </p>
       <h2>Step 1. Players to Notify</h2>
@@ -127,7 +132,7 @@
           <td valign="top"><%= user_assigned.getBu_username() %></td>
           <td valign="top">&nbsp;</td>
           <td valign="top"><label>
-            <input type="checkbox" name="checkbox" value="checkbox" />
+            <input type="checkbox" name="invite_<%= ua.getId() %>" value="true" />
           </label></td>
         </tr>
 		<%
@@ -150,19 +155,22 @@
         <tr valign="top">
           <td>Email Subject Line </td>
           <td><label>
-            <input type="text" name="textfield" />
+            <input type="text" name="email_subject" value="<%= email.getSubjectLine() %> />
           </label></td>
         </tr>
         <tr valign="top"> 
           <td width="34%">Email text:<br /> <br /> </td>
-                <td width="66%"> Dear &lt;Players Name&gt;,<br /> <p> 
+                <td width="66%"> Dear &lt;Players Name&gt;,<br /> <p>
                   <textarea name="email_text" cols="60" rows="5">
      You are invited to enter a simulation. 
      Please go to the website [web_site_location] to enter. 
      Your username is [username]. Your password is either the one you entered when registering on the system, or the one that your instructor has assigned you.
+	 
+	 Please confirm that you have received this email by going to this website [confirm_receipt]
+	 
 Enjoy!
-</textarea>
-                  </p>
+                  </textarea>
+                </p>
                   <p><font color="#CC9900">Note:</font> You should not need to replace 
                     the text inside of brackets []. If your system is configured 
                     correctly, these will automatically be replaced with the correct 
@@ -174,7 +182,7 @@ Enjoy!
         Step 3. Send Email</h2>
       <p>
         <label>
-        <input type="submit" name="Submit" value="Send Email" />
+        <input type="submit" name="command" value="Send Email" />
         </label>
 </p>
 	</form>

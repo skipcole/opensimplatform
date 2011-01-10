@@ -52,6 +52,8 @@ public class User implements Comparable{
 	private Date lastLogin;
 	
 	private Long lastSimEdited = null;
+	
+	private Long lastRunningSimEdited = null;
 
 	/** Used to keep track of time zone of users. */
 	private int timeZoneOffset;
@@ -583,6 +585,14 @@ public class User implements Comparable{
 
 	public void setLastSimEdited(Long lastSimEdited) {
 		this.lastSimEdited = lastSimEdited;
+	}
+	
+	public Long getLastRunningSimEdited() {
+		return lastRunningSimEdited;
+	}
+
+	public void setLastRunningSimEdited(Long lastRunningSimEdited) {
+		this.lastRunningSimEdited = lastRunningSimEdited;
 	}
 
 	public int getTimeZoneOffset() {

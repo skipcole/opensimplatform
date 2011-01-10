@@ -644,18 +644,43 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public void handleNotifyPlayers(HttpServletRequest request) {
 
 		String command = request.getParameter("command");
+		String sending_page = request.getParameter("sending_page");
 
-		if (command != null) {
-			if ((command.equalsIgnoreCase("Start Simulation"))) {
+		if ((command != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("notify_players"))){
 
-				String email_users = request.getParameter("email_users");
-				String email_text = request.getParameter("email_text");
-				String email_from = request.getParameter("email_from");
-				
-				String send_email_from = "noreply@opensimplatform.org";
-				if ( (email_from != null) && (email_from.equalsIgnoreCase("username"))   ) {
-					send_email_from = this.user_email;
+			String email_text = request.getParameter("email_text");
+			String email_from = request.getParameter("email_from");
+			String email_subject = request.getParameter("email_subject");
+			
+			// TODO Save prototypical sample that includes the un-replaced [] materials.
+			
+			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+				String pname = (String) e.nextElement();
+
+				String vname = (String) request.getParameter(pname);
+				if (pname.startsWith("invite_")){
+					System.out.println(pname + " xxx " + vname);
+					pname = pname.replaceFirst("invite_", "");
+					UserAssignment ua = UserAssignment.getById(schema, new Long(pname));
+					System.out.println(ua.getUsername());
+					
+
+					
+					String send_email_from = "noreply@opensimplatform.org";
+					if ( (email_from != null) && (email_from.equalsIgnoreCase("username"))   ) {
+						send_email_from = this.user_email;
+					}
+					
+					// Need to check if email has been enabled.
+					if (true){
+						Email email = new Email(this.user_id, send_email_from, email_subject, email_text, 
+								this.sim_id, this.runningSimId);
+					}
 				}
+
+			}
+				/*
+				
 
 				BaseUser bu = BaseUser.getByUserId(this.user_id);
 
@@ -668,7 +693,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				}
 
-			} // End of if coming from this page and have enabled the sim
+				*/
 			// ////////////////////////////
 		}
 
