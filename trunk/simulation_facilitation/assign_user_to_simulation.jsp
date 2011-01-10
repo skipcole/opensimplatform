@@ -87,7 +87,12 @@
       <p>To assign players to a simulation, <strong>you must follow these steps</strong></p>
       <ol>
         <li>Find the user by starting to type their name in the User's Email field</li>
-        <li>Click on the button 'Assign User'</li>
+        <li>If this player is an Instructor, check the box in the 'I' column. (?) </li>
+        <li>Click on the button 'Assign User'
+          <ol>
+            <li>If the user is not found on this platform, you will then be given several options. </li>
+          </ol>
+        </li>
         <li>Repeat until all actors have been assigned users to play them</li>
       </ol>
       <table border="1" width="100%">
@@ -97,7 +102,7 @@
             <td ><strong>Details</strong></td>
             <td ><strong>Del/Add</strong></td>
             <td ><strong>Enter User's Email</strong></td>
-            <td ><strong>I ? </strong></td>
+            <td ><strong>I (?) </strong></td>
             <td ><strong>Assign User</strong></td>
           </tr>
         <%

@@ -27,6 +27,7 @@
 		Long r_sim_id = new Long(   (String) request.getParameter("r_sim_id")   );
 		
 		afso.setRunningSimId(r_sim_id);
+		afso.setLastRunningSimEdited(r_sim_id);
 		
 		RunningSimulation rs = afso.giveMeRunningSim();
 		

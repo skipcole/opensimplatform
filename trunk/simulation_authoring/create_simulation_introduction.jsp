@@ -64,6 +64,7 @@
 	        </p>
             <p> 
               <input type="hidden" name="sending_page" value="authoring_wizard_page" />
+              <a href="browse_introductions.jsp">Browse Introductions from Other Simulations</a>
             <table width="100%" border="0">
               <tr>
                 <td align="center"><input type="submit" name="save" value="Save" /></td>

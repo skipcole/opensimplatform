@@ -65,6 +65,7 @@
 	      </p>
             <p> 
               <input type="hidden" name="sending_page" value="authoring_wizard_page" />
+              <a href="browse_planned_play_ideas.jsp">Browse Planned Play Ideas from Other Simulations</a>
             <table width="100%" border="0">
               <tr>
                 <td align="center"><input type="submit" name="save" value="Save" /></td>
