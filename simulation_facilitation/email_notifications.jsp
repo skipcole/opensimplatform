@@ -15,10 +15,7 @@
 	
 	afso.backPage = "email_notifications.jsp";
 	
-	afso.handleNotifyPlayers(request);
-	
-	Email email = new Email();
-	email.setSubjectLine("Simulation Starting");
+	Email email = afso.handleNotifyPlayers(request);
 
 	////////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	if (afso.sim_id != null){
@@ -155,21 +152,13 @@
         <tr valign="top">
           <td>Email Subject Line </td>
           <td><label>
-            <input type="text" name="email_subject" value="<%= email.getSubjectLine() %> />
+            <input type="text" name="email_subject" value="<%= email.getSubjectLine() %>" />
           </label></td>
         </tr>
         <tr valign="top"> 
           <td width="34%">Email text:<br /> <br /> </td>
                 <td width="66%"> Dear &lt;Players Name&gt;,<br /> <p>
-                  <textarea name="email_text" cols="60" rows="5">
-     You are invited to enter a simulation. 
-     Please go to the website [web_site_location] to enter. 
-     Your username is [username]. Your password is either the one you entered when registering on the system, or the one that your instructor has assigned you.
-	 
-	 Please confirm that you have received this email by going to this website [confirm_receipt]
-	 
-Enjoy!
-                  </textarea>
+                  <textarea name="email_text" cols="60" rows="5"><%= email.getMsgtext() %></textarea>
                 </p>
                   <p><font color="#CC9900">Note:</font> You should not need to replace 
                     the text inside of brackets []. If your system is configured 

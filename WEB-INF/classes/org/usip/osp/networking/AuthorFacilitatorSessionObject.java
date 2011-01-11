@@ -641,10 +641,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public void handleNotifyPlayers(HttpServletRequest request) {
+	public Email handleNotifyPlayers(HttpServletRequest request) {
 
 		String command = request.getParameter("command");
 		String sending_page = request.getParameter("sending_page");
+		
+		Email returnEmail = Email.getRawBlankSimInvite();
 
 		if ((command != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("notify_players"))){
 
@@ -652,7 +654,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String email_from = request.getParameter("email_from");
 			String email_subject = request.getParameter("email_subject");
 			
-			// TODO Save prototypical sample that includes the un-replaced [] materials.
+			String send_email_from = "noreply@opensimplatform.org";
+			if ( (email_from != null) && (email_from.equalsIgnoreCase("username"))   ) {
+				send_email_from = this.user_email;
+			}
+			
+			returnEmail = new Email(this.user_id, send_email_from, email_subject, email_text, 
+					this.sim_id, this.runningSimId);
+			
 			
 			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
 				String pname = (String) e.nextElement();
@@ -664,12 +673,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					UserAssignment ua = UserAssignment.getById(schema, new Long(pname));
 					System.out.println(ua.getUsername());
 					
-
-					
-					String send_email_from = "noreply@opensimplatform.org";
-					if ( (email_from != null) && (email_from.equalsIgnoreCase("username"))   ) {
-						send_email_from = this.user_email;
-					}
 					
 					// Need to check if email has been enabled.
 					if (true){
@@ -679,24 +682,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				}
 
 			}
-				/*
-				
-
-				BaseUser bu = BaseUser.getByUserId(this.user_id);
-
-				// Email if desired
-				if ((email_users != null) && (email_users.equalsIgnoreCase("true"))) { //$NON-NLS-1$
-					Logger.getRootLogger().debug("sending welcome emails"); //$NON-NLS-1$
-
-					//Logger.getRootLogger().debug("sending from " + from); //$NON-NLS-1$
-					//Emailer.sendWelcomeEmail(schema, this.id, from, emailText);
-
-				}
-
-				*/
-			// ////////////////////////////
 		}
 
+		return returnEmail;
 	}
 
 

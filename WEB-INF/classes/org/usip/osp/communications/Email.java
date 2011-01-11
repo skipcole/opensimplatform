@@ -58,6 +58,22 @@ public class Email {
 		this.running_sim_id = rs_id;
 	}
 	
+	public static Email getRawBlankSimInvite(){
+		Email email = new Email();
+		
+		email.setSubjectLine("Simulation Starting");
+		
+		String msgText = "	     You are invited to enter a simulation.";
+		msgText += "	     Please go to the website [web_site_location] to enter.";
+		msgText += "	     Your username is [username]. Your password is either the one you entered when registering on the system, or the one that your instructor has assigned you.";
+		msgText += "Please confirm that you have received this email by going to this website [confirm_receipt]";
+		msgText += "Enjoy!";
+		
+		email.setMsgtext(msgText);
+ 
+		return email;
+	}
+	
 	/**
 	 * Saves this object back to the database.
 	 * 
