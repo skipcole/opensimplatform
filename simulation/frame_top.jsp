@@ -92,7 +92,7 @@ function timedCount()
               <area shape="rect" coords="1,1,23,11" href="simwebui.jsp?lessten=true" target="_top" alt="resize smaller">
               <area shape="rect" coords="1,12,23,22" href="simwebui.jsp?addten=true" target="_top" alt="resize smaller">
             </map></td>
-    <td width="120" valign="top"><a href="about.jsp" target="_top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
+    <td width="120" valign="top"><a href="about.jsp" target="mainFrame"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
     <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header"><%= pso.simulation_org %></h1>
     
     <table width="80%" border="0" cellspacing="2" cellpadding="2">
@@ -118,7 +118,7 @@ function timedCount()
 	    <table border="0" cellspacing="1" cellpadding="0">
 
         <tr>
-          <td><div align="center"><table bgcolor="#475DB0" cellspacing="0" cellpadding="2" border="1"><tr><td align="center"><a href="../simulation_user_admin/my_player_profile.jsp" target="_top" class="menu_item style1"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "my_profile") %></a></td>
+          <td><div align="center"><table bgcolor="#475DB0" cellspacing="0" cellpadding="2" border="1"><tr><td align="center"><a href="../simulation_user_admin/my_player_profile.jsp" target="mainFrame" class="menu_item style1"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "my_profile") %></a></td>
           </tr>
                 <tr>
                   <td align="center"><a href="../logout.jsp" target="_top" class="menu_item style1"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "logout") %></a></td>

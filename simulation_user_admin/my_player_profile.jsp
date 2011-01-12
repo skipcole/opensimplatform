@@ -6,19 +6,20 @@
 <%
 	String error_msg = "";
 	
-	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
-	if (!(pso.isLoggedin())) {
+	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
+	
+	if ((sob == null) || (!(sob.isLoggedin()))) {
 		response.sendRedirect("../simulation/index.jsp");
 		return;
 	}
 	
-	User user = pso.giveMeUser();
+	User user = sob.giveMeUser();
 	
 	String sending_page = request.getParameter("sending_page");
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("my_profile_language"))) {
 		String language_id = request.getParameter("language_id");
-		pso.languageCode = new Long(language_id).intValue();
+		sob.languageCode = new Long(language_id).intValue();
 		
 	}
 	
@@ -37,46 +38,12 @@
 <!--
 body {
 	background-color: #FFFFFF;
-	background-image: url(../Templates/images/page_bg.png);
-	background-repeat: repeat-x;
 }
 -->
 </style>
 </head>
 <body onLoad="">
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
-    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
-
-	  <div align="center">
-	    <table border="0" cellspacing="1" cellpadding="0">
-        <tr>
-          <td><div align="center"><a href="../simulation/simwebui.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
-        </tr>
-        <tr>
-          <td><div align="center"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></div></td>
-        </tr>
-        <tr>
-          <td><div align="center"><a href="../logout.jsp" target="_top" class="menu_item"><img src="../Templates/images/logout.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
-        </tr>
-      </table>	  
-	  </div>	  </td>
-  </tr>
-  <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
-  </tr>
-  <tr>
-  	<td width="120" align="right" valign="top">&nbsp;</td>
-    <td colspan="1" valign="top"><br /></td>
-    <td width="194" align="right" valign="top">		</td>
-  </tr>
-</table>
 <BR />
-<table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
     <td>
@@ -96,14 +63,12 @@ body {
       <td valign="top">First Name:</td>
       <td valign="top">
 
-          <%= user.getBu_first_name() %>
-</td>
+          <%= user.getBu_first_name() %></td>
     </tr>
     <tr>
       <td valign="top">Middle Name:</td>
       <td valign="top">
-          <%= user.getBu_middle_name() %>
-</td>
+          <%= user.getBu_middle_name() %></td>
     </tr>
     <tr>
       <td valign="top">Last Name:</td>
@@ -113,7 +78,11 @@ body {
 
     <tr>
       <td valign="top">Email Address:</td>
-      <td valign="top"><%= pso.user_name %></td>
+      <td valign="top"><%= sob.user_name %></td>
+    </tr>
+    <tr>
+      <td valign="top">Password</td>
+      <td valign="top"><a href="change_password.jsp">Change Password </a></td>
     </tr>
     <tr>
       <td valign="top">Language:</td>
@@ -123,10 +92,10 @@ body {
 		String checkedEnglish = "";
 		String checkedSpanish = "";
 		
-		if (pso.languageCode == UILanguageObject.ENGLISH_LANGUAGE_CODE){
+		if (sob.languageCode == UILanguageObject.ENGLISH_LANGUAGE_CODE){
 			System.out.println("its in english");
 			checkedEnglish = " selected=\"selected\" ";
-		} else if (pso.languageCode == UILanguageObject.SPANISH_LANGUAGE_CODE) {
+		} else if (sob.languageCode == UILanguageObject.SPANISH_LANGUAGE_CODE) {
 			checkedSpanish = " selected=\"selected\" ";
 			System.out.println("its in spanish");
 		} else {
@@ -144,12 +113,11 @@ body {
         <label>
         <input type="submit" name="button" id="button" value="Change Language" />
         </label>
-      </form>
-      </td>
+      </form>      </td>
     </tr>
   </table>
-      <p><a href="../simulation/simwebui.jsp" target="_top">Back</a></p>
-      <p>&nbsp;</p>			</td>
+      <p>&nbsp;</p>
+      </td>
 		</tr>
 		</table>	</td>
   </tr>
@@ -158,13 +126,9 @@ body {
     <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
   </tr>
 </table>
-</td></tr></table>
 
 <p>&nbsp;</p>
 
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

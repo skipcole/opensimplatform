@@ -58,6 +58,12 @@ public class BaseUser {
     @Column(name = "REGISTERED")
     private boolean registered = false;    
     
+    /** 
+     * Indicates if this is a temporarily assigned password that should be changed.
+     * 
+     */
+    private boolean tempPassword = false;
+    
     private Long preferredLanguageCode = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
     
     public Long getPreferredLanguageCode() {
@@ -489,6 +495,16 @@ public class BaseUser {
 		this.registered = registered;
 	}
 	
+	public boolean isTempPassword() {
+		return tempPassword;
+	}
+
+	public void setTempPassword(boolean tempPassword) {
+		this.tempPassword = tempPassword;
+	}
+
+
+
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 

@@ -61,7 +61,7 @@ function timedCount()
 {
 	getSimEvent()
 	sendHeartbeat()
-	setTimeout("timedCount()", 1000)
+	setTimeout("timedCount()", 2000)
 }
 
 

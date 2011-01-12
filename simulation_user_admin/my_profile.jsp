@@ -6,7 +6,11 @@
 <%
 	String error_msg = "";
 	
+	// Eventually we will use this insread of the AFSO here.
+	SessionObjectBase sob = SessionObjectBase.getSessionObjectBaseIfFound(HttpServletRequest request);
+	
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("../simulation_authoring/index.jsp");
 		return;
@@ -85,6 +89,10 @@
     <tr>
       <td>Email Address:</td>
       <td><%= afso.user_email %><input type="hidden" name="email" value="<%= afso.user_email %>" /> </td>
+    </tr>
+	    <tr>
+      <td>Password:</td>
+      <td><a href="change_password.jsp">Change Password </a></td>
     </tr>
     <tr>
       <td>&nbsp;</td>

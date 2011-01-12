@@ -1,5 +1,5 @@
 <%@ page 
-	contentType="text/html; charset=UTF-8" 
+	contentType="text/html; charset=utf-8" 
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.communications.*,org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" 
@@ -90,10 +90,10 @@ function changeActorColor(dropdownlist){
 	$.post("color_changer_server.jsp", { actor_id: array1[0], chatlinecolor: array1[1] });
 	
 	//$("#loading").remove();
-	$("#messagewindow<%= conv.getId() %>").replaceWith( "Loading ..." );
+	$("#messagewindow").empty();
 	
 	// Set the restart to 0 to cause reload
-	start_index<%= conv.getId() %> = 0;
+	start_index = 0;
 	
 	return true;
 
@@ -114,7 +114,11 @@ function formatString(mTime, message, actorName, msgSender){
 
 <script type="text/javascript">
 		$(document).ready(function(){
+		
 			timestamp = 0;
+			
+			console.log(timestamp);
+			
 			fromActor = -1;
 			
 		<%
@@ -133,7 +137,7 @@ function formatString(mTime, message, actorName, msgSender){
 							message: $("#msg<%= conv.getId() %>").val(),
 							name: $("#author<%= conv.getId() %>").val(),
 							conversation: $("#conversation<%= conv.getId() %>").val(),
-							start_index: start_index<%= conv.getId() %>,
+							start_index: start_index,
 							action: "postmsg",
 							time: timestamp
 						}, function(xml) {
@@ -156,12 +160,12 @@ function formatString(mTime, message, actorName, msgSender){
 			$("message",xml).each(function(id) {
 				message = $("message",xml).get(id);
 				coloredMsg = formatString($("time",message).text(), $("text",message).text(), $("author",message).text(), $("actor_id",message).text());		
-				$("#messagewindow<%= conv.getId() %>").prepend(coloredMsg);
+				$("#messagewindow").prepend(coloredMsg);
 											
-				new_start_index<%= conv.getId() %> = $("id",message).text();
+				new_start_index = $("id",message).text();
 				
-				if (parseInt(new_start_index<%= conv.getId() %>) > parseInt(start_index<%= conv.getId() %>)){
-					start_index<%= conv.getId() %> = new_start_index<%= conv.getId() %>;
+				if (parseInt(new_start_index) > parseInt(start_index)){
+					start_index = new_start_index;
 				}
 				
 			});
@@ -171,7 +175,7 @@ function formatString(mTime, message, actorName, msgSender){
 		
 		function updateMsg() {
 			$.post("one_on_one_chat_server.jsp",{ 
-				start_index: start_index<%= conv.getId() %>, 
+				start_index: start_index, 
 				conversation: $("#conversation<%= conv.getId() %>").val(), 
 				time: timestamp }, function(xml) {
 				$("#loading").remove();
@@ -222,6 +226,24 @@ function formatString(mTime, message, actorName, msgSender){
 
 
 </script>
+<script type="text/javascript">
+    $(function()
+    {
+       var  testTextBox = $('#msg<%= conv.getId() %>');
+        var code =null;
+        testTextBox.keypress(function(e)
+        {
+            code= (e.keyCode ? e.keyCode : e.which);
+            if (code == 13){
+				$('#chatform<%= conv.getId() %>').submit();
+			}
+            //e.preventDefault();
+        });
+
+    });
+
+</script>
+
 <style type="text/css" media="screen">
 body {
 margin:2;
@@ -230,7 +252,7 @@ height:100%;
 width:100%;
 }
 
-#messagewindow<%= conv.getId() %> {
+#messagewindow {
 position:absolute;
 right:0;
 top:0;
@@ -274,19 +296,18 @@ overflow:auto;
       <p><%= cs.getBigString() %></p></TD>
 <TR>
     <TD width="25%"><form id="chatform<%= conv.getId() %>" >
-  <p>Text to send: 
-		  	<textarea name="chatmsgbox" cols="40" rows="2" id="msg<%= conv.getId() %>"  ></textarea>
-			<input type="hidden" id="author<%= conv.getId() %>" value="You" />
+  <p><table>
+    <tr><td valign="top">Your Text:</td>
+  <td valign="top"> <textarea name="chatmsgbox" cols="40" rows="2" id="msg<%= conv.getId() %>"   ></textarea></td></tr></table>
+	      <input type="hidden" id="author<%= conv.getId() %>" value="You" />
     		<input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" />
           <BR>
-	<input type="submit" value="Send">
   </p>
 </form></TD>
   </TR>
 </table>
-Actors in this conversation:
-<P>
-	<UL><% 
+<p>Actors in this conversation:</p>
+<UL><% 
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();
 			String this_a_id = act.getId().toString();
@@ -298,8 +319,8 @@ Actors in this conversation:
 	  <option value="<%= this_a_id %>_ddddff" <%= USIP_OSP_Util.matchSelected("ddddff", act.getDefaultColorChatBubble(), " selected ") %>>Blue</option>
 	  <option value="<%= this_a_id %>_ffff66" <%= USIP_OSP_Util.matchSelected("ffff66", act.getDefaultColorChatBubble(), " selected ") %>>Yellow</option>
         </select> (<I><span id="actorpresent<%= act.getId().toString() %>">Checking status ...</span></I>)</form></LI><% } %>
-	</UL>
+</UL>
 	</P>
-<div id="messagewindow<%= conv.getId() %>"><span id="loading">Loading...</span></div>
+<div id="messagewindow"><span id="loading">Loading...</span></div>
 </body>
 </html>

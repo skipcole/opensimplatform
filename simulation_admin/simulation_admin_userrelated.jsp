@@ -44,6 +44,10 @@
                       <td>Allows one to enter a simulation as a particular player. </td>
                     </tr>
                     <tr valign="top">
+                      <td>Reset Password </td>
+                      <td>Allows an admin to reset a player password. </td>
+                    </tr>
+                    <tr valign="top">
                       <td><a href="admin_teachers_view.jsp">Teacher View</a> </td>
                       <td>Allows one to enter the OSP as an author or facilitator. </td>
                     </tr>
