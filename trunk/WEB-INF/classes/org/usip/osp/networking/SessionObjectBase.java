@@ -10,6 +10,7 @@ import org.usip.osp.baseobjects.User;
 import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.baseobjects.UserTrailGhost;
 import org.usip.osp.communications.Event;
+import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.UILanguageObject;
 
@@ -189,6 +190,12 @@ public class SessionObjectBase {
 	public Long user_id;
 
 	/**
+	 * Username/ Email address of user that is logged in and using this
+	 * AuthorFacilitatorSessionObject.
+	 */
+	public String user_name;
+	
+	/**
 	 * Returns the user associated with this session.
 	 * 
 	 * @return
@@ -305,4 +312,47 @@ public class SessionObjectBase {
 		
 		return ua;
 	}
+	
+	public static final int ALL_GOOD = 0;
+	public static final int INSUFFICIENT_INFORMATION = 1;
+	public static final int PASSWORDS_MISMATCH = 2;
+	public static final int WRONG_OLD_PASSWORD = 3;
+	public static final int PASSWORDS_CHANGED = 4;
+	
+	
+	/** Assigns a user to a simulation. */
+	public int changePassword(HttpServletRequest request) {
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String update = (String) request.getParameter("update");
+		
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("change_password")) ){
+			
+			if (update != null) {
+				String old_password = request.getParameter("old_password");
+				String new_password = request.getParameter("new_password");
+				String new_password2 = request.getParameter("new_password2");
+				
+				if ((old_password == null) || (new_password == null) || (new_password == null)){
+					return INSUFFICIENT_INFORMATION;
+				}
+				
+				if (!(new_password.equals(new_password2))){
+					return PASSWORDS_MISMATCH;
+				}
+				
+				BaseUser bu = BaseUser.validateUser(this.user_name, old_password);
+				if (bu == null){
+					return WRONG_OLD_PASSWORD;
+				}
+
+				bu.setPassword(new_password);
+				return PASSWORDS_CHANGED;
+			}
+		}
+		
+		
+		return ALL_GOOD;
+	}
+	
 }

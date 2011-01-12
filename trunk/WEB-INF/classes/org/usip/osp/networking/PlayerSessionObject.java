@@ -103,12 +103,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 	/** Name of phase being conducted or worked on. */
 	private String phaseName = ""; //$NON-NLS-1$
 
-	/**
-	 * Username/ Email address of user that is logged in and using this
-	 * PlayerSessionObject.
-	 */
-	public String user_name;
-
 	public Long draft_email_id;
 
 	public int topFrameHeight = 200;

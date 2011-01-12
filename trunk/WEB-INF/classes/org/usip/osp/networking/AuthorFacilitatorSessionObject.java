@@ -50,12 +50,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	/** The page to move them on to, if needed. */
 	public String nextPage = "index.jsp"; //$NON-NLS-1$
 
-	/**
-	 * Username/ Email address of user that is logged in and using this
-	 * AuthorFacilitatorSessionObject.
-	 */
-	public String user_name;
-
 	/** Records if user is an admin. */
 	private boolean isAdmin = false;
 
@@ -3263,10 +3257,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			String captchacode = USIP_OSP_Util.cleanNulls(request
 					.getParameter("captchacode"));
-
-			System.out.println(captchacode);
-
-			System.out.println(captcha_code);
 
 			/* Must have a schema id to now where to put the registered user. */
 			String schema_id = request.getParameter("schema_id"); //$NON-NLS-1$
