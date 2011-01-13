@@ -117,8 +117,6 @@ function formatString(mTime, message, actorName, msgSender){
 		
 			timestamp = 0;
 			
-			console.log(timestamp);
-			
 			fromActor = -1;
 			
 		<%
