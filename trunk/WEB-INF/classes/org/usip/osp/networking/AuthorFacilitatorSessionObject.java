@@ -641,6 +641,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String sending_page = request.getParameter("sending_page");
 		
 		Email returnEmail = Email.getRawBlankSimInvite();
+		
+		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
 
 		if ((command != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("notify_players"))){
 
@@ -655,7 +657,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			
 			returnEmail = new Email(this.user_id, send_email_from, email_subject, email_text, 
 					this.sim_id, this.runningSimId);
-			
+			returnEmail.setInvitePrototype(true);
+			returnEmail.setSimInvitationEmail(true);
+			returnEmail.saveMe(schema);
 			
 			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
 				String pname = (String) e.nextElement();
@@ -665,13 +669,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					System.out.println(pname + " xxx " + vname);
 					pname = pname.replaceFirst("invite_", "");
 					UserAssignment ua = UserAssignment.getById(schema, new Long(pname));
-					System.out.println(ua.getUsername());
 					
-					
-					// Need to check if email has been enabled.
-					if (true){
+					if (sio.isEmailEnabled()){
 						Email email = new Email(this.user_id, send_email_from, email_subject, email_text, 
 								this.sim_id, this.runningSimId);
+						email.setSimInvitationEmail(true);
+						email.saveMe(schema);
+						//email.sendIt(schema, running_sim_id)
 					}
 				}
 

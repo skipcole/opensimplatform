@@ -3,6 +3,7 @@ package org.usip.osp.communications;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Vector;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -113,7 +114,11 @@ public class Email {
 	@Column(name = "RUNNING_SIM_ID")
     private Long running_sim_id;
 	
+	/** If this is a simulation invitation mail.  */
 	private boolean simInvitationEmail = false;
+	
+	/** If this is a prototypical invite. */
+	private boolean invitePrototype = false;
 	
 	/** Id of the thread that this email may exist in. */
     private Long thread_id;
@@ -139,6 +144,8 @@ public class Email {
     /** Email address of the sending user. */
     private String fromUserName = "";
     
+
+    
     /** Subject line of this email. */
     private String subjectLine = ""; //$NON-NLS-1$
     
@@ -152,6 +159,7 @@ public class Email {
 	/** Indicates if this email is a forward of another email. */
 	private boolean forward_email = false;
 	
+	/** Indicates if this email is to be sent externally also. */
 	private boolean sendInRealWorld = true;
 	
 	public boolean isSendInRealWorld() {
@@ -162,14 +170,20 @@ public class Email {
 		this.sendInRealWorld = sendInRealWorld;
 	}
 	
-	
-
 	public boolean isSimInvitationEmail() {
 		return simInvitationEmail;
 	}
 
 	public void setSimInvitationEmail(boolean simInvitationEmail) {
 		this.simInvitationEmail = simInvitationEmail;
+	}
+
+	public boolean isInvitePrototype() {
+		return invitePrototype;
+	}
+
+	public void setInvitePrototype(boolean invitePrototype) {
+		this.invitePrototype = invitePrototype;
 	}
 
 	public static String getOrderByDesc() {
@@ -353,6 +367,38 @@ public class Email {
 			}
 			
 		}
+		
+		return returnList;
+	
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param running_sim_id
+	 * @return
+	 */
+	public static List getPrototypeInvites(String schema, Long sim_id, Long running_sim_id){
+		
+		ArrayList returnList = new ArrayList();
+		
+		if (running_sim_id == null){
+			return returnList;
+			
+		}
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String hqlString = "from Email where sim_id = :sim_id " +
+				"running_sim_id = :running_sim_id and invitePrototype is true order by id";
+		
+		List tempList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hqlString)
+			.setLong("sim_id", sim_id)
+			.setLong("running_sim_id", running_sim_id)
+			.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return returnList;
 	
@@ -554,6 +600,15 @@ public class Email {
         }
 
 		return returnString;
+	}
+	
+	public void sendEmail(SchemaInformationObject sio){
+
+		Vector to = new Vector();
+		Vector cc = new Vector();
+		Vector bcc = new Vector();
+		
+		Emailer.postMail(sio, to, this.getSubjectLine(), this.getMsgtext(), this.fromUserName, cc, bcc);
 	}
 	
 	public boolean sendIt(String schema, Long running_sim_id){

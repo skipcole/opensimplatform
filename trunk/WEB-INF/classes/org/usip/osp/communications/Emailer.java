@@ -33,6 +33,67 @@ public class Emailer {
 	
 	public static final String NOREPLY_EMAIL = "noreply@opensimplatform.org";
 
+	
+	public static void postMail(final SchemaInformationObject sio, Vector<String> to, String subject,
+			String message, String from, Vector<String> cced,
+			Vector<String> bcced) {
+		
+		Session session = getJavaxMailSessionForSchema(sio, true);
+
+		Message msg = new MimeMessage(session);
+
+		try {
+			// set the from and to address
+			InternetAddress addressFrom = new InternetAddress(from);
+			msg.setFrom(addressFrom);
+			
+			// /////////////////////////////////////////////////////////
+			int ii = 0;
+			if ((to != null) && (to.size() > 0)) {
+				InternetAddress[] addressTo = new InternetAddress[to.size()];
+				for (Enumeration<String> e = to.elements(); e.hasMoreElements();) {
+					String s = e.nextElement();
+					Logger.getRootLogger().debug("addressTo[ii] is " + addressTo[ii]); //$NON-NLS-1$
+					addressTo[ii] = new InternetAddress(s);
+				}
+				msg.setRecipients(Message.RecipientType.TO, addressTo);
+			}
+
+			// /////////////////////////////////////////////////////////
+			ii = 0;
+			if ((cced != null) && (cced.size() > 0)) {
+				InternetAddress[] addressCC = new InternetAddress[cced.size()];
+				for (Enumeration<String> e = cced.elements(); e
+						.hasMoreElements();) {
+					String s = e.nextElement();
+					Logger.getRootLogger().debug("addressCC[ii] is " + addressCC[ii]); //$NON-NLS-1$
+					addressCC[ii] = new InternetAddress(s);
+				}
+				msg.setRecipients(Message.RecipientType.CC, addressCC);
+			}
+			// /////////////////////////////////////////////////////////
+			ii = 0;
+			if ((bcced != null) && (bcced.size() > 0)) {
+				InternetAddress[] addressBCC = new InternetAddress[bcced.size()];
+				for (Enumeration<String> e = bcced.elements(); e
+						.hasMoreElements();) {
+					String s = e.nextElement();
+					Logger.getRootLogger().debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!s is " + s); //$NON-NLS-1$
+					addressBCC[ii] = new InternetAddress(s);
+
+				}
+				msg.setRecipients(Message.RecipientType.BCC, addressBCC);
+			}
+			// Setting the Subject and Content Type
+			msg.setSubject(subject);
+			msg.setContent(message, "text/plain"); //$NON-NLS-1$
+			Transport.send(msg);
+
+		} catch (Exception err) {
+			err.printStackTrace();
+		}
+		
+	}
 	/**
 	 * Generic emailing method.
 	 * 
