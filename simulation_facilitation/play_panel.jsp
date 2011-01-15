@@ -44,9 +44,7 @@
                 <h2>Basic Steps </h2>
                 <p>Below are the basic steps one will need to go through to initiate a simulation. </p>
                 <table width="100%" border="0" cellspacing="2" cellpadding="1">
-        <tr valign="top"> 
-          <td colspan="2"><h2>Step</h2></td>
-            </tr>
+        
         <tr valign="top"> 
           <td>1. </td>
             <td><a href="create_running_sim.jsp">Create Running Simulation</a> <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>

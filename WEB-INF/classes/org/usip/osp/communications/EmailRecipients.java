@@ -74,6 +74,9 @@ public class EmailRecipients {
 	/** ID of the player playing the role to which this email was sent. */
 	private Long user_id;
 	
+    /** User email of recipient. */
+    private String toUserName = "";
+	
 	/** Type of receipt (from, to, cc, or bcc) */
 	private int recipient_type;
 	
@@ -178,6 +181,14 @@ public class EmailRecipients {
 
 	public void setEmail_id(Long email_id) {
 		this.email_id = email_id;
+	}
+	
+	public String getToUserName() {
+		return toUserName;
+	}
+
+	public void setToUserName(String toUserName) {
+		this.toUserName = toUserName;
 	}
 
 	public Long getSim_id() {

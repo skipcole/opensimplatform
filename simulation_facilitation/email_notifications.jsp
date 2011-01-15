@@ -15,6 +15,8 @@
 	
 	afso.backPage = "email_notifications.jsp";
 	
+	SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(afso.schema);
+	
 	Email email = afso.handleNotifyPlayers(request);
 
 	////////////////////////////////////////////////////////
@@ -60,6 +62,14 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Notify Players By Email <a href="helptext/enable_sim_help.jsp" target="helpinright"></a></h1>
+			  
+<%
+	if(!(sio.isEmailEnabled())){
+%>
+Email has not been enabled on this server. Please contact your administrator if you desire these features.
+<%
+	} else {
+%>
               <blockquote> 
         <% 
 			if (afso.sim_id == null) {
@@ -177,15 +187,23 @@
 	</form>
               <h2>Previously Sent Invitations </h2>
               <p>Functionalty in progress. </p>
+<%
+		// Get email list
+	for (ListIterator li = Email.getPrototypeInvites(afso.schema, afso.sim_id, afso.running_sim_id).listIterator(); li.hasNext();) {
+		Email email = (Email) li.next();
+%>
+Email <%= email.getId() %><br/>
+<% } // end of loop over invite emails. %>
+
               </blockquote>
               <% } // end of if running_sim.id has been set. %>
         <%
 		
 	}// end of if afso.simulation.id has been set.
+	
+} // End of if email has been enabled.
 
-%>        <blockquote>
-
-          </blockquote>			</td>
+%> 		</td>
 		</tr>
 		</table>	</td>
   </tr>
