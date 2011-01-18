@@ -48,11 +48,11 @@ public class OSP_UserAdmin {
 	/** Password of the user. */
 	private String _password = ""; //$NON-NLS-1$
 	
-	private AuthorFacilitatorSessionObject afso;
+	private SessionObjectBase sob;
 	
-	public OSP_UserAdmin(AuthorFacilitatorSessionObject afso){
+	public OSP_UserAdmin(SessionObjectBase sob){
 		
-		this.afso = afso;
+		this.sob = sob;
 	}
 	
 	
@@ -140,7 +140,7 @@ public class OSP_UserAdmin {
 
 					} catch (Exception e) {
 						e.printStackTrace();
-						this.afso.errorMsg = e.getMessage();
+						this.sob.errorMsg = e.getMessage();
 					}
 				}
 			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
@@ -202,7 +202,7 @@ public class OSP_UserAdmin {
 						bu.saveMe();
 						
 					} catch (Exception e) {
-						this.afso.errorMsg = e.getMessage();
+						this.sob.errorMsg = e.getMessage();
 					}
 				}
 			}
@@ -222,13 +222,13 @@ public class OSP_UserAdmin {
 		Logger.getRootLogger().debug("e is " + this._email); //$NON-NLS-1$
 		
 		if (this._password.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
-			this.afso.errorMsg += "Must enter password.<br/>"; //$NON-NLS-1$
+			this.sob.errorMsg += "Must enter password.<br/>"; //$NON-NLS-1$
 			return false;
 		} else if (this._full_name.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
-			this.afso.errorMsg += "Must enter name.<br/>"; //$NON-NLS-1$
+			this.sob.errorMsg += "Must enter name.<br/>"; //$NON-NLS-1$
 			return false;
 		} else if (this._email.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
-			this.afso.errorMsg += "Must enter email address.<br/>"; //$NON-NLS-1$
+			this.sob.errorMsg += "Must enter email address.<br/>"; //$NON-NLS-1$
 			return false;
 		}
 
@@ -247,6 +247,11 @@ public class OSP_UserAdmin {
 		BaseUser bu = BaseUser.getByUserId(user_id);
 		
 		bu.updateMe(this._first_name, this._full_name, this._last_name, this._middle_name);
+	
+		String language_id = request.getParameter("language_id");
+		sob.languageCode = new Long(language_id).intValue();
+	
+	
 	}
 
 

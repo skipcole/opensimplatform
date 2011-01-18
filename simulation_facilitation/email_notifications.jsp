@@ -189,10 +189,10 @@ Email has not been enabled on this server. Please contact your administrator if 
               <p>Functionalty in progress. </p>
 <%
 		// Get email list
-	for (ListIterator li = Email.getPrototypeInvites(afso.schema, afso.sim_id, afso.running_sim_id).listIterator(); li.hasNext();) {
-		Email email = (Email) li.next();
+	for (ListIterator li = Email.getPrototypeInvites(afso.schema, afso.sim_id, afso.getRunningSimId()).listIterator(); li.hasNext();) {
+		Email emailPrototype = (Email) li.next();
 %>
-Email <%= email.getId() %><br/>
+Email <%= emailPrototype.getId() %><br/>
 <% } // end of loop over invite emails. %>
 
               </blockquote>

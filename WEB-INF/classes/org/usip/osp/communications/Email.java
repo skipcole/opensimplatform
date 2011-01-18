@@ -389,7 +389,7 @@ public class Email {
 		}
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String hqlString = "from Email where sim_id = :sim_id " +
+		String hqlString = "from Email where sim_id = :sim_id and " +
 				"running_sim_id = :running_sim_id and invitePrototype is true order by id";
 		
 		List tempList = MultiSchemaHibernateUtil.getSession(schema)

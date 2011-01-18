@@ -1,17 +1,22 @@
 package org.usip.osp.networking;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.baseobjects.UserTrailGhost;
 import org.usip.osp.communications.Event;
+import org.usip.osp.coursemanagementinterface.UserRegistrationInvite;
 import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.SchemaInformationObject;
 import org.usip.osp.persistence.UILanguageObject;
 
 /*
@@ -27,16 +32,21 @@ import org.usip.osp.persistence.UILanguageObject;
  * PARTICULAR PURPOSE. <BR>
  */
 public class SessionObjectBase {
+
+	public static final int CAPTCHA_WRONG = 1;
+	public static final int USERNAME_MISMATCH = 1;
+	public static final int PASSWORD_MISMATCH = 1;
 	
 	public SessionObjectBase() {
-		
+
 	}
-	
+
 	/** Page to forward the user on to. */
 	public boolean forward_on = false;
-	
+
 	/**
-	 * Returns the simulation based on what sim_id is currently stored in this Session Object Base.
+	 * Returns the simulation based on what sim_id is currently stored in this
+	 * Session Object Base.
 	 * 
 	 * @return
 	 */
@@ -59,6 +69,9 @@ public class SessionObjectBase {
 	/** Schema of the database that the user is working in. */
 	public String schema = ""; //$NON-NLS-1$
 
+	/** The page to take them back to if needed. */
+	public String backPage = "index.jsp"; //$NON-NLS-1$
+
 	/** Code to indicate what kind of error was returned. */
 	public int errorCode = 0;
 
@@ -78,6 +91,30 @@ public class SessionObjectBase {
 	public void setLanguageCode(int languageCode) {
 		this.languageCode = languageCode;
 	}
+	
+	/** Records if user is an admin. */
+	protected boolean isAdmin = false;
+
+	/** Records if user is authorized to create simulations. */
+	protected boolean isSimAuthor = false;
+
+	/** Records if user is authorized to facilitate simulations. */
+	protected boolean isFacilitator = false;
+	
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public boolean isAuthor() {
+		return isSimAuthor;
+	}
+
+	public boolean isFacilitator() {
+		return isFacilitator;
+	}
+
+	/** Records the email of this user. */
+	public String user_email = ""; //$NON-NLS-1$
 
 	/** Determines if actor is logged in. */
 	private boolean loggedin = false;
@@ -194,39 +231,98 @@ public class SessionObjectBase {
 	 * AuthorFacilitatorSessionObject.
 	 */
 	public String user_name;
-	
+
 	/**
 	 * Returns the user associated with this session.
 	 * 
 	 * @return
 	 */
 	public User giveMeUser() {
-		
-		if (this.user_id != null){
+
+		if (this.user_id != null) {
 			return User.getUser(schema, this.user_id);
 		} else {
 			return null;
 		}
 	}
 
+	public UserAssignment handleAssignUserEmail(HttpServletRequest request) {
+
+		UserAssignment ua = new UserAssignment();
+
+		String uname = request.getParameter("uname"); //$NON-NLS-1$
+
+		ua.setUsername(uname);
+
+		String sending_page = request.getParameter("sending_page");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("assign_just_email"))) {
+			
+			String command = request.getParameter("command");
+			
+			if (command != null) {
+				
+				this.forward_on = true;
+				
+				if (command.equalsIgnoreCase("Cancel")){
+					backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
+					return ua;
+				}
+			
+
+				String a_id = request.getParameter("a_id"); //$NON-NLS-1$
+				String s_id = request.getParameter("s_id"); //$NON-NLS-1$
+				String rs_id = request.getParameter("rs_id"); //$NON-NLS-1$
+
+				try {
+					ua.setActor_id(new Long(a_id));
+					ua.setSim_id(new Long(s_id));
+					ua.setRunning_sim_id(new Long(rs_id));
+
+				} catch (Exception e) {
+
+					e.printStackTrace();
+					return ua;
+
+				}
+				
+				if (command.equalsIgnoreCase("Create")){
+					ua.saveMe(schema);
+					backPage = "../simulation_facilitation/create_user.jsp";
+					return ua;
+				}
+				
+				if (command.equalsIgnoreCase("Add")){
+					ua.saveMe(schema);
+					backPage = "../simulation_facilitation/assign_useremail_to_role.jsp";
+					return ua;
+				}
+
+			}
+		}
+		return ua;
+
+	}
+
 	/** Assigns a user to a simulation. */
 	public UserAssignment handleAssignUser(HttpServletRequest request) {
 
 		UserAssignment ua = new UserAssignment();
-		
+
 		String command = request.getParameter("command"); //$NON-NLS-1$
-		
+
 		Long a_id = null;
 		Long s_id = null;
 		Long r_id = null;
 		Long ua_id = null;
 
 		if (command != null) {
-			
+
 			String user_assignment_id = request
-			.getParameter("user_assignment_id"); //$NON-NLS-1$
-			
-			if (command.equalsIgnoreCase("remove_ua")){
+					.getParameter("user_assignment_id"); //$NON-NLS-1$
+
+			if (command.equalsIgnoreCase("remove_ua")) {
 				UserAssignment.removeMe(schema, new Long(user_assignment_id));
 				return ua;
 			}
@@ -236,27 +332,27 @@ public class SessionObjectBase {
 			String sim_id = request.getParameter("simulation_adding_to"); //$NON-NLS-1$
 			String running_sim_id = request
 					.getParameter("running_simulation_adding_to"); //$NON-NLS-1$
-			
+
 			// Email address of user to assign role to
-			String user_to_add_to_simulation = request.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
-			
+			String user_to_add_to_simulation = request
+					.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
 
 			try {
 				a_id = new Long(actor_id);
 				s_id = new Long(sim_id);
 				r_id = new Long(running_sim_id);
-				
+
 				if ((user_assignment_id != null)
 						&& (!(user_assignment_id.equalsIgnoreCase("null")))) {
-					ua_id = new Long (user_assignment_id);
+					ua_id = new Long(user_assignment_id);
 				}
-			} catch (Exception e){
-				
+			} catch (Exception e) {
+
 				e.printStackTrace();
 				return ua;
-				
+
 			}
-			
+
 			if ((command != null) && (command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
 				Long user_to_add_id = null;
@@ -265,34 +361,33 @@ public class SessionObjectBase {
 						&& (user_to_add_to_simulation
 								.equalsIgnoreCase("remove"))) {
 					errorMsg = "Removed User Assignment";
-					
+
 					if (ua_id != null) {
 						UserAssignment.removeMe(schema, ua_id);
 					}
-					
+
 				} else {
 					user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
 							request, user_to_add_to_simulation);
 					if (user_to_add_id == null) {
-						
+
 						ua.setUsername(user_to_add_to_simulation);
 						ua.setSim_id(s_id);
 						ua.setActor_id(a_id);
 						ua.setRunning_sim_id(r_id);
 						forward_on = true;
-						
+
 						return ua;
-						
+
 					}
 				}
 
-
-				////////////////////////////////////////////////////////////
+				// //////////////////////////////////////////////////////////
 				// Add user to an existing userAssignment object
 				if (ua_id != null) {
 					ua = UserAssignment.getById(schema, ua_id);
 				}
-				if (ua != null){
+				if (ua != null) {
 					ua.setSim_id(s_id);
 					ua.setRunning_sim_id(r_id);
 					ua.setActor_id(a_id);
@@ -301,48 +396,50 @@ public class SessionObjectBase {
 
 					ua.saveMe(schema);
 				}
-				/////////////////////////////////////////////////////////
+				// ///////////////////////////////////////////////////////
 			} else if (command.equalsIgnoreCase("add_assignment")) {
-				
+
 				// Creating a new blank user assignment
 				ua = new UserAssignment(schema, s_id, r_id, a_id, null);
-				
+
 			} // end of adding a ua object
 		} // End of if command is not null
-		
+
 		return ua;
 	}
-	
+
 	public static final int ALL_GOOD = 0;
 	public static final int INSUFFICIENT_INFORMATION = 1;
 	public static final int PASSWORDS_MISMATCH = 2;
 	public static final int WRONG_OLD_PASSWORD = 3;
 	public static final int PASSWORDS_CHANGED = 4;
-	
-	
+
 	/** Assigns a user to a simulation. */
 	public int changePassword(HttpServletRequest request) {
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String update = (String) request.getParameter("update");
-		
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("change_password")) ){
-			
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("change_password"))) {
+
 			if (update != null) {
 				String old_password = request.getParameter("old_password");
 				String new_password = request.getParameter("new_password");
 				String new_password2 = request.getParameter("new_password2");
-				
-				if ((old_password == null) || (new_password == null) || (new_password == null)){
+
+				if ((old_password == null) || (new_password == null)
+						|| (new_password == null)) {
 					return INSUFFICIENT_INFORMATION;
 				}
-				
-				if (!(new_password.equals(new_password2))){
+
+				if (!(new_password.equals(new_password2))) {
 					return PASSWORDS_MISMATCH;
 				}
-				
-				BaseUser bu = BaseUser.validateUser(this.user_name, old_password);
-				if (bu == null){
+
+				BaseUser bu = BaseUser.validateUser(this.user_name,
+						old_password);
+				if (bu == null) {
 					return WRONG_OLD_PASSWORD;
 				}
 
@@ -350,9 +447,157 @@ public class SessionObjectBase {
 				return PASSWORDS_CHANGED;
 			}
 		}
-		
-		
+
 		return ALL_GOOD;
 	}
 	
+	public void handleMyProfile(HttpServletRequest request) {
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String update = (String) request.getParameter("update");
+
+		// /////////////////////////////////
+		if ((sending_page != null) && (update != null)
+				&& (sending_page.equalsIgnoreCase("my_profile"))) {
+			OSP_UserAdmin pu = new OSP_UserAdmin(this);
+			pu.handleMyProfile(request, user_id);
+		
+		}
+	}
+	
+	public String captcha_code = "";
+
+	/**
+	 * Handles the auto-registration of players.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public User handleAutoRegistration(HttpServletRequest request) {
+
+		User user = new User();
+
+		String command = request.getParameter("command"); //$NON-NLS-1$
+
+		if ((command != null) && (command.equalsIgnoreCase("Register"))) {
+
+			String captchacode = USIP_OSP_Util.cleanNulls(request
+					.getParameter("captchacode"));
+
+			/* Must have a schema id to now where to put the registered user. */
+			String schema_id = request.getParameter("schema_id"); //$NON-NLS-1$
+
+			if (schema_id == null) {
+				return user;
+			}
+
+			SchemaInformationObject sio = SchemaInformationObject
+					.getById(new Long(schema_id));
+
+			String uri_id = (String) request.getParameter("uri");
+
+			UserRegistrationInvite uri = new UserRegistrationInvite();
+			boolean recordSaveToURI = false;
+
+			if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
+				uri = UserRegistrationInvite.getById(sio.getSchema_name(),
+						new Long(uri_id));
+				recordSaveToURI = true;
+			}
+
+			OSP_UserAdmin osp_ua = new OSP_UserAdmin(this);
+
+			osp_ua.getUserNameDetails(request);
+
+			user.setBu_first_name(osp_ua.get_first_name());
+			user.setBu_full_name(osp_ua.get_full_name());
+			user.setBu_last_name(osp_ua.get_last_name());
+			user.setBu_middle_name(osp_ua.get_middle_name());
+			user.setBu_username(osp_ua.get_email());
+			user.setUser_name(osp_ua.get_email());
+
+			String confirm_email = request.getParameter("confirm_email"); //$NON-NLS-1$
+			String password = request.getParameter("password"); //$NON-NLS-1$
+			String confirm_password = request.getParameter("confirm_password"); //$NON-NLS-1$
+
+			boolean returnForLackOfInformation = false;
+
+			if (!(captchacode.equalsIgnoreCase(captcha_code))) {
+				errorMsg += "Incorrect Captcha Code<br/>";
+				errorCode = CAPTCHA_WRONG;
+				returnForLackOfInformation = true;
+			}
+
+			if (!(user.getUser_name().equalsIgnoreCase(confirm_email))) {
+				errorMsg += "Email Addresses did not match<br/>";
+				errorCode = USERNAME_MISMATCH;
+				returnForLackOfInformation = true;
+			}
+
+			if (!(password.equalsIgnoreCase(confirm_password))) {
+				errorMsg += "Passwords did not match<br/>";
+				errorCode = PASSWORD_MISMATCH;
+				returnForLackOfInformation = true;
+			}
+
+			if (returnForLackOfInformation) {
+				return user;
+			}
+
+			if (User.getByUsername(sio.getSchema_name(), user.getUser_name()) != null) {
+				errorMsg += "This username/email already has been registered. <br/>";
+				return user;
+			}
+
+			if (!(osp_ua.hasEnoughInfoToCreateUser())) {
+				return user;
+			} else {
+
+				try {
+
+					user = new User(sio.getSchema_name(), user.getUser_name(),
+							password, user.getBu_first_name(), user
+									.getBu_last_name(), user
+									.getBu_middle_name(), user
+									.getBu_full_name(), false, false, false);
+
+					if (recordSaveToURI) {
+						uri.setEmailAddressRegistered(user.getUser_name());
+						uri.setRegistrationDate(new Date());
+						uri.saveMe();
+					}
+				} catch (Exception e) {
+					errorMsg = e.getMessage();
+				}
+
+				// Set so they forward on to the 'Thank You for registering'
+				// page.
+				forward_on = true;
+			}
+
+		}
+
+		return user;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public User handleCreateUser(HttpServletRequest request) {
+		
+		String username = request.getParameter("email");
+		
+		User user = User.getByUsername(schema, username);
+		
+		if (user != null){
+			this.errorMsg = "The user " + username + " already exists.";
+			return user; 
+		} else {
+			OSP_UserAdmin pu = new OSP_UserAdmin(this);
+			return pu.handleCreateUser(request, schema);
+		}
+	}
+
 }
