@@ -44,23 +44,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	/** Organization of the schema that the user is working in. */
 	public String schemaOrg = ""; //$NON-NLS-1$
 
-	/** The page to take them back to if needed. */
-	public String backPage = "index.jsp"; //$NON-NLS-1$
-
 	/** The page to move them on to, if needed. */
 	public String nextPage = "index.jsp"; //$NON-NLS-1$
-
-	/** Records if user is an admin. */
-	private boolean isAdmin = false;
-
-	/** Records if user is authorized to create simulations. */
-	private boolean isSimAuthor = false;
-
-	/** Records if user is authorized to facilitate simulations. */
-	private boolean isFacilitator = false;
-
-	/** Records the email of this user. */
-	public String user_email = ""; //$NON-NLS-1$
 
 	/** Name of the actor being played or worked on. */
 	public String actor_name = ""; //$NON-NLS-1$
@@ -73,10 +58,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	/** The Session object. */
 	private HttpSession session = null;
-
-	public static final int CAPTCHA_WRONG = 1;
-	public static final int USERNAME_MISMATCH = 1;
-	public static final int PASSWORD_MISMATCH = 1;
 
 	public List tempSimSecList = new ArrayList();
 
@@ -2101,7 +2082,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			this.sim_id = simulation.getId();
 
-			saveSimEdited();
+			saveLastSimEdited();
 
 		} else if (this.sim_id != null) {
 			simulation = Simulation.getById(schema, this.sim_id);
@@ -2687,18 +2668,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		SimActorAssignment.removeMe(schema, s_id, a_id);
 	}
 
-	public boolean isAdmin() {
-		return isAdmin;
-	}
-
-	public boolean isAuthor() {
-		return isSimAuthor;
-	}
-
-	public boolean isFacilitator() {
-		return isFacilitator;
-	}
-
 	/**
 	 * 
 	 * @param request
@@ -3243,145 +3212,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				request, universal);
 	}
 
-	public String captcha_code = "";
 
-	/**
-	 * Handles the auto-registration of players.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public User handleAutoRegistration(HttpServletRequest request) {
-
-		User user = new User();
-
-		String command = request.getParameter("command"); //$NON-NLS-1$
-
-		if ((command != null) && (command.equalsIgnoreCase("Register"))) {
-
-			String captchacode = USIP_OSP_Util.cleanNulls(request
-					.getParameter("captchacode"));
-
-			/* Must have a schema id to now where to put the registered user. */
-			String schema_id = request.getParameter("schema_id"); //$NON-NLS-1$
-
-			if (schema_id == null) {
-				return user;
-			}
-
-			SchemaInformationObject sio = SchemaInformationObject
-					.getById(new Long(schema_id));
-
-			String uri_id = (String) request.getParameter("uri");
-
-			UserRegistrationInvite uri = new UserRegistrationInvite();
-			boolean recordSaveToURI = false;
-
-			if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
-				uri = UserRegistrationInvite.getById(sio.getSchema_name(),
-						new Long(uri_id));
-				recordSaveToURI = true;
-			}
-
-			OSP_UserAdmin osp_ua = new OSP_UserAdmin(this);
-
-			osp_ua.getUserNameDetails(request);
-
-			user.setBu_first_name(osp_ua.get_first_name());
-			user.setBu_full_name(osp_ua.get_full_name());
-			user.setBu_last_name(osp_ua.get_last_name());
-			user.setBu_middle_name(osp_ua.get_middle_name());
-			user.setBu_username(osp_ua.get_email());
-			user.setUser_name(osp_ua.get_email());
-
-			String confirm_email = request.getParameter("confirm_email"); //$NON-NLS-1$
-			String password = request.getParameter("password"); //$NON-NLS-1$
-			String confirm_password = request.getParameter("confirm_password"); //$NON-NLS-1$
-
-			boolean returnForLackOfInformation = false;
-
-			if (!(captchacode.equalsIgnoreCase(captcha_code))) {
-				errorMsg += "Incorrect Captcha Code<br/>";
-				errorCode = CAPTCHA_WRONG;
-				returnForLackOfInformation = true;
-			}
-
-			if (!(user.getUser_name().equalsIgnoreCase(confirm_email))) {
-				errorMsg += "Email Addresses did not match<br/>";
-				errorCode = USERNAME_MISMATCH;
-				returnForLackOfInformation = true;
-			}
-
-			if (!(password.equalsIgnoreCase(confirm_password))) {
-				errorMsg += "Passwords did not match<br/>";
-				errorCode = PASSWORD_MISMATCH;
-				returnForLackOfInformation = true;
-			}
-
-			if (returnForLackOfInformation) {
-				return user;
-			}
-
-			if (User.getByUsername(sio.getSchema_name(), user.getUser_name()) != null) {
-				errorMsg += "This username/email already has been registered. <br/>";
-				return user;
-			}
-
-			if (!(osp_ua.hasEnoughInfoToCreateUser())) {
-				return user;
-			} else {
-
-				try {
-
-					user = new User(sio.getSchema_name(), user.getUser_name(),
-							password, user.getBu_first_name(), user
-									.getBu_last_name(), user
-									.getBu_middle_name(), user
-									.getBu_full_name(), false, false, false);
-
-					if (recordSaveToURI) {
-						uri.setEmailAddressRegistered(user.getUser_name());
-						uri.setRegistrationDate(new Date());
-						uri.saveMe();
-					}
-				} catch (Exception e) {
-					errorMsg = e.getMessage();
-				}
-
-				// Set so they forward on to the 'Thank You for registering'
-				// page.
-				forward_on = true;
-			}
-
-		}
-
-		return user;
-	}
-
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public User handleCreateUser(HttpServletRequest request) {
-		
-		String username = request.getParameter("email");
-		
-		User user = User.getByUsername(schema, username);
-		
-		if (user != null){
-			this.errorMsg = "The user " + username + " already exists.";
-			return user; 
-		} else {
-			OSP_UserAdmin pu = new OSP_UserAdmin(this);
-			return pu.handleCreateUser(request, schema);
-		}
-	}
-
-	public void handleMyProfile(HttpServletRequest request) {
-		OSP_UserAdmin pu = new OSP_UserAdmin(this);
-		pu.handleMyProfile(request, user_id);
-	}
 
 	// /////////////////////////////////////////////////////////////////////////
 
@@ -3957,7 +3788,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			this.simulation_org = sim.getCreation_org();
 			this.simulation_version = sim.getVersion();
 
-			saveSimEdited();
+			saveLastSimEdited();
 
 			this.forward_on = true;
 
@@ -3968,7 +3799,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	/**
 	 * Saves which sim the user last edited to the database.
 	 */
-	public void saveSimEdited() {
+	public void saveLastSimEdited() {
 		if ((user_id != null) && (sim_id != null)) {
 			User user = User.getById(schema, user_id);
 			user.setLastSimEdited(sim_id);
@@ -3977,6 +3808,46 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			Logger.getRootLogger().warn(
 					"attempted to save non-existant sim or user, user/sim:"
 							+ user_id + "/" + sim_id);
+		}
+	}
+	
+	/**
+	 * Saves which sim the user last edited to the database.
+	 */
+	public void saveLastRunningSimEdited() {
+		if ((user_id != null) && (this.getRunningSimId() != null)) {
+			User user = User.getById(schema, user_id);
+			user.setLastRunningSimEdited(this.getRunningSimId());
+			user.saveJustUser(schema);
+		} else {
+			Logger.getRootLogger().warn(
+					"attempted to save non-existant sim or user, user/running sim:"
+							+ user_id + "/" + sim_id);
+		}
+	}
+	
+	/**
+	 * Handles the selection of a running simulation by the faciliator.
+	 * @param request
+	 */
+	public void selectRunningSim(HttpServletRequest request){
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		String select_running_sim = (String) request.getParameter("select_running_sim");
+		
+		if ((select_running_sim != null) && (select_running_sim.equalsIgnoreCase("true"))){
+			
+			Long r_sim_id = new Long(   (String) request.getParameter("r_sim_id")   );
+			
+			setRunningSimId(r_sim_id);
+			saveLastRunningSimEdited();
+			
+			RunningSimulation rs = giveMeRunningSim();
+			
+			run_sim_name = rs.getRunningSimulationName();
+			forward_on = true;
+				
 		}
 	}
 

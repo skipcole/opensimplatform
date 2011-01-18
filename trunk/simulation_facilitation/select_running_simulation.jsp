@@ -18,23 +18,11 @@
 		simulation = afso.giveMeSim();
 	}
 
-	String sending_page = (String) request.getParameter("sending_page");
+	afso.selectRunningSim(request);
 	
-	String select_running_sim = (String) request.getParameter("select_running_sim");
-	
-	if ((select_running_sim != null) && (select_running_sim.equalsIgnoreCase("true"))){
-		
-		Long r_sim_id = new Long(   (String) request.getParameter("r_sim_id")   );
-		
-		afso.setRunningSimId(r_sim_id);
-		afso.setLastRunningSimEdited(r_sim_id);
-		
-		RunningSimulation rs = afso.giveMeRunningSim();
-		
-		afso.run_sim_name = rs.getRunningSimulationName();
+	if (afso.forward_on){
 		response.sendRedirect(afso.backPage);
 		return;
-			
 	}
 	
 	

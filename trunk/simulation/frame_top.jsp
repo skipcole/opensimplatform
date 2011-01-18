@@ -118,7 +118,7 @@ function timedCount()
 	    <table border="0" cellspacing="1" cellpadding="0">
 
         <tr>
-          <td><div align="center"><table bgcolor="#475DB0" cellspacing="0" cellpadding="2" border="1"><tr><td align="center"><a href="../simulation_user_admin/my_player_profile.jsp" target="mainFrame" class="menu_item style1"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "my_profile") %></a></td>
+          <td><div align="center"><table bgcolor="#475DB0" cellspacing="0" cellpadding="2" border="1"><tr><td align="center"><a href="../simulation_user_admin/my_profile.jsp" target="mainFrame" class="menu_item style1"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "my_profile") %></a></td>
           </tr>
                 <tr>
                   <td align="center"><a href="../logout.jsp" target="_top" class="menu_item style1"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "logout") %></a></td>

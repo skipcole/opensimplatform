@@ -7,29 +7,16 @@
 	String error_msg = "";
 	
 	// Eventually we will use this insread of the AFSO here.
-	SessionObjectBase sob = SessionObjectBase.getSessionObjectBaseIfFound(HttpServletRequest request);
-	
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	
-	if (!(afso.isLoggedin())) {
+	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
+		
+	if (!(sob.isLoggedin())) {
 		response.sendRedirect("../simulation_authoring/index.jsp");
 		return;
 	}
 	
+	sob.handleMyProfile(request);
 	
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String update = (String) request.getParameter("update");
-
-		// /////////////////////////////////
-	if ((sending_page != null) && (update != null)
-			&& (sending_page.equalsIgnoreCase("my_profile"))) {
-		
-		afso.handleMyProfile(request);
-		
-	}
-	
-	User user = afso.giveMeUser();
+	User user = sob.giveMeUser();
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -57,46 +44,78 @@
       <form id="form1" name="form1" method="post" action="my_profile.jsp">
   <table border="0" cellspacing="2" cellpadding="1">
     <tr>
-      <td>First Name:</td>
-      <td>
+      <td valign="top"><strong>First Name:</strong></td>
+      <td valign="top">
         <label>
           <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
           </label></td>
     </tr>
     <tr>
-      <td>Middle Name:</td>
-      <td>
+      <td valign="top"><strong>Middle Name:</strong></td>
+      <td valign="top">
         <label>
           <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
           </label></td>
     </tr>
     <tr>
-      <td>Last Name:</td>
-      <td>
+      <td valign="top"><strong>Last Name:</strong></td>
+      <td valign="top">
         <label>
           <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
           </label></td>
     </tr>
     <tr>
-      <td>Authorization Level:</td>
-      <td>
-      		<% if (afso.isAdmin()) { %>Administrator, <% } %>
-	  		<% if (afso.isAuthor()) { %>Simulation Author, <% } %> 
-			<% if (afso.isFacilitator()) { %>Simulation Facilitator <% } %>
-            
-      </td>
+      <td valign="top"><strong>Authorization Level:</strong></td>
+      <td valign="top">
+      		<% if (sob.isAdmin()) { %>Administrator, <% } %>
+	  		<% if (sob.isAuthor()) { %>Simulation Author, <% } %> 
+			<% if (sob.isFacilitator()) { %>Simulation Facilitator <% } %>
+Player      </td>
     </tr>
     <tr>
-      <td>Email Address:</td>
-      <td><%= afso.user_email %><input type="hidden" name="email" value="<%= afso.user_email %>" /> </td>
+      <td valign="top"><strong>Email Address:</strong></td>
+      <td valign="top"><%= sob.user_email %><input type="hidden" name="email" value="<%= sob.user_email %>" /> </td>
     </tr>
 	    <tr>
-      <td>Password:</td>
-      <td><a href="change_password.jsp">Change Password </a></td>
+      <td valign="top"><strong>Password:</strong></td>
+      <td valign="top"><a href="change_password.jsp">Change Password </a></td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
-      <td><label>
+      <td valign="top"><strong>Language:</strong></td>
+      <td valign="top">
+      <%
+		
+		String checkedEnglish = "";
+		String checkedSpanish = "";
+		
+		if (sob.languageCode == UILanguageObject.ENGLISH_LANGUAGE_CODE){
+			System.out.println("its in english");
+			checkedEnglish = " selected=\"selected\" ";
+		} else if (sob.languageCode == UILanguageObject.SPANISH_LANGUAGE_CODE) {
+			checkedSpanish = " selected=\"selected\" ";
+			System.out.println("its in spanish");
+		} else {
+			System.out.println("its in unknown");
+		}
+	  %>
+        <label>
+          <select name="language_id" id="select">
+            <option value="1" <%= checkedEnglish %>>English</option>
+            <option value="2" <%= checkedSpanish %>>Spanish</option>
+          </select>
+          </label>     </td>
+    </tr>
+        <tr>
+          <td valign="top"><strong>Time Zone: </strong></td>
+          <td valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td valign="top"><strong>Phone Number: </strong></td>
+          <td valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+      <td valign="top">&nbsp;</td>
+      <td valign="top"><label>
         <input type="hidden" name="sending_page" value="my_profile" /> 
         <input type="submit" name="update" id="update" value="Update" />
         </label></td>

@@ -135,8 +135,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	public String tabposition = "1"; //$NON-NLS-1$
 
-	/** The page to take them back to if needed. */
-	public String backPage = "index.jsp"; //$NON-NLS-1$
 
 	/**
 	 * Once a player has selected a running sim, do not let them back out and
