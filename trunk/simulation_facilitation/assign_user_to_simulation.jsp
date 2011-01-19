@@ -17,8 +17,7 @@
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
-		String paramString = "?uname=" + ua_temp.getUsername() + "&s_id=" + ua_temp.getSim_id() + "&rs_id=" + ua_temp.getRunning_sim_id() + "&a_id" +	ua_temp.getActor_id();
-		
+		String paramString = ua_temp.getAsParameterString();
 		
 		response.sendRedirect("assign_user_to_sim_user_not_found.jsp" + paramString);
 		
@@ -131,18 +130,21 @@
 				for (ListIterator liua = theUsersAssigned.listIterator(); liua.hasNext();) {
 					UserAssignment ua = (UserAssignment) liua.next();
 					
+					String bgColor = "FFFFFF";
+					
 					if (ua.getUser_id() != null){
 						user_assigned = User.getById(afso.schema, ua.getUser_id());
 					} else {
+						bgColor = "FFCCCC";
 						user_assigned = new User();
 						user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
 					}
 
 					%>
-        <tr valign="top"> 
+        <tr valign="top" bgcolor="#<%= bgColor %>"> 
           <form action="assign_user_to_simulation.jsp" method="post" name="form3" id="form3">
             <td><%= act.getActorName() %></td>
-              <td><%= user_assigned.getBu_username() %></td>
+              <td><%= ua.getUsername() %></td>
               <td><a href="view_sim_actor_assignment_notes.jsp?actor_id=<%= act.getId() %>">details</a></td>
               <td>
                 <% if ((ua != null) && (ua.getId() != null)){ %>
@@ -176,7 +178,7 @@
 	}// end of if afso.simulation.id has been set.
 %>
       </blockquote>
-      <p>&nbsp;</p>
+      <p>Rows in pink represent unregistered players that have been assigned a role in the simulation. </p>
       <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>      <p align="left"><a href="create_user.jsp">&lt;- 
         Back</a></p>			</td>
 		</tr>

@@ -21,6 +21,7 @@
 	afso.selectRunningSim(request);
 	
 	if (afso.forward_on){
+		afso.forward_on = false;
 		response.sendRedirect(afso.backPage);
 		return;
 	}

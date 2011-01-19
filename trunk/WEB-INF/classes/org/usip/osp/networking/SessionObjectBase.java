@@ -19,6 +19,11 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.SchemaInformationObject;
 import org.usip.osp.persistence.UILanguageObject;
 
+/**
+ * This object contains all of the methods and data to create users, and to allow
+ * users to log in as either an administrator, author, instructor or player.
+ *
+ */
 /*
  * 
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -245,14 +250,47 @@ public class SessionObjectBase {
 			return null;
 		}
 	}
-
-	public UserAssignment handleAssignUserEmail(HttpServletRequest request) {
+	
+	public UserAssignment getBasedOnParameters(HttpServletRequest request) {
 
 		UserAssignment ua = new UserAssignment();
 
 		String uname = request.getParameter("uname"); //$NON-NLS-1$
 
 		ua.setUsername(uname);
+		
+		String a_id = request.getParameter("a_id"); //$NON-NLS-1$
+		String s_id = request.getParameter("s_id"); //$NON-NLS-1$
+		String rs_id = request.getParameter("rs_id"); //$NON-NLS-1$
+
+		try {
+			if (a_id != null){
+				ua.setActor_id(new Long(a_id));
+			}
+			if (s_id != null){
+				ua.setSim_id(new Long(s_id));
+			}
+			if (rs_id != null){
+				ua.setRunning_sim_id(new Long(rs_id));
+			}
+
+		} catch (Exception e) {
+			return ua;
+		}
+		
+		return ua;
+	}
+
+	/**
+	 * Handles just assigning a user email to a role in a simulation (and not 
+	 * a completely registered student).
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public UserAssignment handleAssignUserEmail(HttpServletRequest request) {
+
+		UserAssignment ua = getBasedOnParameters(request);
 
 		String sending_page = request.getParameter("sending_page");
 
@@ -269,33 +307,19 @@ public class SessionObjectBase {
 					backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
 					return ua;
 				}
-			
-
-				String a_id = request.getParameter("a_id"); //$NON-NLS-1$
-				String s_id = request.getParameter("s_id"); //$NON-NLS-1$
-				String rs_id = request.getParameter("rs_id"); //$NON-NLS-1$
-
-				try {
-					ua.setActor_id(new Long(a_id));
-					ua.setSim_id(new Long(s_id));
-					ua.setRunning_sim_id(new Long(rs_id));
-
-				} catch (Exception e) {
-
-					e.printStackTrace();
-					return ua;
-
-				}
 				
 				if (command.equalsIgnoreCase("Create")){
+					System.out.println("Doing Create in assign user not reg.");
 					ua.saveMe(schema);
 					backPage = "../simulation_facilitation/create_user.jsp";
 					return ua;
 				}
 				
 				if (command.equalsIgnoreCase("Add")){
+					System.out.println("Doing Add in assign user not reg.");
 					ua.saveMe(schema);
-					backPage = "../simulation_facilitation/assign_useremail_to_role.jsp";
+					backPage = "../simulation_facilitation/assign_useremail_to_role.jsp"
+						+ ua.getAsParameterString();
 					return ua;
 				}
 

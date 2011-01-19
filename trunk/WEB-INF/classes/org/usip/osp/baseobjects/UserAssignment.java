@@ -415,5 +415,13 @@ public class UserAssignment{
 	public void setAssumedIdentity(boolean assumedIdentity) {
 		this.assumedIdentity = assumedIdentity;
 	}
+
+	public String getAsParameterString() {
+		String returnString = 
+			"?uname=" + getUsername() + "&s_id=" + getSim_id() + 
+			"&rs_id=" + getRunning_sim_id() + "&a_id=" + getActor_id();
+		
+		return returnString;
+	}
 	
 }

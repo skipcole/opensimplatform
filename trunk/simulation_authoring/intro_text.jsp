@@ -14,6 +14,13 @@ errorPage="../error.jsp" %>
 	
 	afso.backPage = "intro_text.jsp";
 	
+	Simulation simulation = new Simulation();
+	
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
+	}
+	
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -42,28 +49,9 @@ errorPage="../error.jsp" %>
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-            <% 
-				boolean returningAuthor = false;
-				String backString = ""; 
-				String simName = "";
-				
-				Long storedSimId = afso.editedBefore();
-				
-				if (storedSimId != null){
-				
-					Simulation sim = Simulation.getById(afso.schema, storedSimId);
-					
-					if (sim != null) {
-						returningAuthor = true;
-						backString = " Back ";
-						simName = sim.getSimulationName();
-						afso.sim_id = sim.getId();
-					}
-				}
-			%>
-			  <h1 align="center"> Welcome <%= backString %> <%= afso.userDisplayName %> ! </h1>
-              <% if (returningAuthor) { %>
-              	<p>You are working on simulation <span class="style1"><%= simName %></span>.</p>
+			  <h1 align="center"> Welcome <%= afso.userDisplayName %> ! </h1>
+              <% if (afso.sim_id != null) { %>
+              	<p>You are working on simulation <span class="style1"><%= simulation.getSimulationName() %></span>.</p>
                 <p>To select/create a different simulation, <a href="select_simulation.jsp">click here</a>.</p>
               <% } %>
 			  <br />            <table  background="../Templates/images/page_bg.png" align="center" cellpadding="0" cellspacing="0">

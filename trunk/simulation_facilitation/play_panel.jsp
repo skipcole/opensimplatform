@@ -8,9 +8,13 @@
 	}
 
 	Simulation simulation = new Simulation();
-	
 	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
+	}
+	
+	RunningSimulation running_simulation = new RunningSimulation();
+	if (afso.getRunningSimId() != null){
+		running_simulation = afso.giveMeRunningSim();
 	}
 	
 %>
@@ -35,12 +39,16 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1 align="center">Simulation Facilitation Control Panel</h1>
+			  
+			  <blockquote>
               <% if (afso.sim_id != null) { %>
-              	<blockquote><strong>
-              	Working on Simulation: <%= simulation.getDisplayName() %>                </strong></blockquote>
-                <p>
-                  <% } %>
-                </p>
+				<strong>Working on Simulation: <%= simulation.getDisplayName() %></strong>(change)<br/>
+              <% } %>
+			  <% if (afso.getRunningSimId() != null) { %>
+				<strong>Working on Running Simulation: <%= running_simulation.getRunningSimulationName() %></strong>(change)<br/>
+              <% } %>
+			  </blockquote>
+                
                 <h2>Basic Steps </h2>
                 <p>Below are the basic steps one will need to go through to initiate a simulation. </p>
                 <table width="100%" border="0" cellspacing="2" cellpadding="1">
