@@ -3091,6 +3091,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				afso.user_name = afso.user_email;
 
 				afso.loggedin = true;
+				
+				////////////
+				afso.sim_id = afso.getIdOfLastSimEdited();
+				afso.setRunningSimId(afso.getIdOfLastRunningSimEdited());
+				///////////
 
 				user.setLastLogin(new Date());
 				user.saveJustUser(afso.schema);
@@ -3856,11 +3861,26 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @return
 	 */
-	public Long editedBefore() {
+	public Long getIdOfLastSimEdited() {
 
 		if (user_id != null) {
 			User user = User.getById(schema, user_id);
 			return user.getLastSimEdited();
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Gets the id of the simulation last edited.
+	 * 
+	 * @return
+	 */
+	public Long getIdOfLastRunningSimEdited() {
+
+		if (user_id != null) {
+			User user = User.getById(schema, user_id);
+			return user.getLastRunningSimEdited();
 		} else {
 			return null;
 		}

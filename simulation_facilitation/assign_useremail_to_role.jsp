@@ -4,12 +4,14 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 <% 
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
 	
-	if (!(afso.isLoggedin())) {
+	if (!(sob.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	UserAssignment ua = sob.getBasedOnParameters(request);
 	
 	
 %>
@@ -43,9 +45,9 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Assign Useremail to a Running Simulation</h1>
+              <h1>Assign a User Email to a Role </h1>
               <p>
-                The email address <span class="style1">x</span> has been assigned in the running simulation <span class="style2">y</span> to actor role <span class="style2">z</span>.</p>
+                The email address <span class="style1"><%= ua.getUsername() %></span> has been assigned in the running simulation <span class="style2">y</span> to actor role <span class="style2">z</span>.</p>
               <p>You may now either</p>
               <ul>
                 <li>Email the user at this email address an invition to join, or</li>
@@ -67,58 +69,6 @@
 <p>&nbsp;</p>
 
 <p align="center">&nbsp;</p>
-<script type="text/javascript">
-function findValue(li) {
-	if( li == null ) return alert("No match!");
 
-	// if coming from an AJAX call, let's use the CityId as the value
-	if( !!li.extra ) var sValue = li.extra[0];
-
-	// otherwise, display the value in the text box
-	else var sValue = li.selectValue;
-
-}
-
-function selectItem(li) {
-	findValue(li);
-}
-
-function formatItem(row) {
-	return row[1] + ", " + row[0];
-}
-
-<%
-	for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
-		Actor act = (Actor) li.next();
-		
-		/*
-function lookupAjax(){
-	var oSuggest = $("#userNameAjax< % = act.getId() % > ")[0].autocompleter;
-	oSuggest.findValue();
-	return false;
-}
-
-*/
-%>
-
-
-
-$("#userNameAjax<%= act.getId() %>").autocomplete(
-	"autocomplete.jsp",
-	{
-delay:3,
-minChars:3,
-matchSubset:3,
-matchContains:3,
-cacheLength:10,
-onItemSelect:selectItem,
-onFindValue:findValue,
-formatItem:formatItem,
-autoFill:true
-	}
-);
-
-<% } // End of loop over actor ids %>
-</script>
 </body>
 </html>

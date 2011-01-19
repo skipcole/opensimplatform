@@ -13,6 +13,12 @@
 	
 	User userOnScratchPad = afso.handleCreateAdminUser(request);
 	
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect("create_admin_user_complete.jsp");
+		return;
+	}
+	
 	/////////////////////////////////////////
 	List userList = null;
 	String do_search = (String) request.getParameter("do_search");
@@ -89,7 +95,16 @@
             <td>password<a href="helptext/user_password.jsp" target="helpinright">(?)</a></td>
             <td><input type="text" name="password" tabindex="2" /></td>
           </tr>
-    <tr>
+          <tr>
+            <td>temporary password: </td>
+            <td><input name="radiobutton" type="radio" value="radiobutton" />
+              yes / 
+              <label>
+              <input name="radiobutton" type="radio" value="radiobutton" />
+              </label>
+              no </td>
+          </tr>
+          <tr>
     <td>First Name:</td>
     <td>
       <label>

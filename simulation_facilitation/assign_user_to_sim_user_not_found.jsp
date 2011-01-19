@@ -14,6 +14,7 @@
 	UserAssignment ua_temp = sob.handleAssignUserEmail(request);
 	
 	if (sob.forward_on){
+		sob.forward_on = false;
 		response.sendRedirect(sob.backPage);
 		return;
 	}
@@ -22,7 +23,7 @@
 	Simulation simulation = new Simulation();	
 	
 	if (sob.sim_id != null){
-		simulation = afso.giveMeSim();
+		simulation = sob.giveMeSim();
 	}
 	/////////////////////////////////////////////////////
 	RunningSimulation running_simulation = new RunningSimulation();
@@ -63,25 +64,29 @@
               <p align="left">You may then: </p>
 			  <form id="form1" name="form1" method="post" action="assign_user_to_sim_user_not_found.jsp">
 			  <input type="hidden" name="sending_page" value="assign_just_email" />
+			  <input type="hidden" name="a_id" value="<%= ua_temp.getActor_id() %>" />
+			  <input type="hidden" name="s_id" value="<%= ua_temp.getSim_id() %>" />
+			  <input type="hidden" name="rs_id" value="<%= ua_temp.getRunning_sim_id() %>" />
+			  <input type="hidden" name="uname" value="<%= ua_temp.getUsername() %>" />
               <ul>
                 <li>
-                  
                     <label>
                       <input type="submit" name="command" value="Cancel" />
-                      </label>
-                  This will return you to the previous page. 
-                  
-                  <a href="assign_user_to_simulation.jsp"></a></li>
-                <li><a href="create_user.jsp">
+                      This will return you to the previous page.
+                    </label>   
+                </li>
+                <li>
                   <label>
-                  <input type="submit" name="command" value="Create" />
+                  <input type="submit" name="command" value="Create" /> 
+                  This will take you to the create user page.
                   </label>
-                </a>This will take you to the create user page. </li>
-                <li><a href="assign_useremail_to_role.jsp">
+                 </li>
+                <li>
                   <label>
-                  <input type="submit" name="command" value="Add" />
+                  <input type="submit" name="command" value="Add" /> 
+                  You will be presented with options on how to inform the player that they have been assigned a role.
                   </label>
-                </a>You will be presented with options on how to inform the player that they have been assigned a role. </li>
+                 </li>
                 </ul>    
 				</form>          
               <p align="left">&nbsp;    </p></td>
@@ -98,58 +103,6 @@
 <p>&nbsp;</p>
 
 <p align="center">&nbsp;</p>
-<script type="text/javascript">
-function findValue(li) {
-	if( li == null ) return alert("No match!");
 
-	// if coming from an AJAX call, let's use the CityId as the value
-	if( !!li.extra ) var sValue = li.extra[0];
-
-	// otherwise, display the value in the text box
-	else var sValue = li.selectValue;
-
-}
-
-function selectItem(li) {
-	findValue(li);
-}
-
-function formatItem(row) {
-	return row[1] + ", " + row[0];
-}
-
-<%
-	for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
-		Actor act = (Actor) li.next();
-		
-		/*
-function lookupAjax(){
-	var oSuggest = $("#userNameAjax< % = act.getId() % > ")[0].autocompleter;
-	oSuggest.findValue();
-	return false;
-}
-
-*/
-%>
-
-
-
-$("#userNameAjax<%= act.getId() %>").autocomplete(
-	"autocomplete.jsp",
-	{
-delay:3,
-minChars:3,
-matchSubset:3,
-matchContains:3,
-cacheLength:10,
-onItemSelect:selectItem,
-onFindValue:findValue,
-formatItem:formatItem,
-autoFill:true
-	}
-);
-
-<% } // End of loop over actor ids %>
-</script>
 </body>
 </html>
