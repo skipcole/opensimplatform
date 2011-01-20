@@ -59,8 +59,13 @@ public class UserAssignment{
     
     private String username = "";
     
+    /** Indicates if this assignment is to a facilitator. */
     private boolean facilitatorAssignment = false;
 
+    /** Used to record if this player has been invited, has acknowledged the invite
+     * or has logged on. */
+    private String uaStatus = "";
+    
 	public Long getHighestAlertNumberRecieved() {
 		return highestAlertNumberRecieved;
 	}
@@ -423,5 +428,49 @@ public class UserAssignment{
 		
 		return returnString;
 	}
+
+	public String getUaStatus() {
+		return uaStatus;
+	}
+
+	public void setUaStatus(String uaStatus) {
+		this.uaStatus = uaStatus;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public Actor giveMeActor(String schema){
+		
+		Actor act = new Actor();
+		act.setName("Unknown in UA ");
+		
+		if (this.actor_id != null){
+			act = Actor.getById(schema, this.actor_id);
+		}
+		
+		return act;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public RunningSimulation giveMeRunningSim(String schema){
+		RunningSimulation rs = new RunningSimulation();
+		rs.setName("Unknown in UA ");
+		
+		if (this.running_sim_id != null) {
+			rs = RunningSimulation.getById(schema, this.running_sim_id);
+		}
+		
+		return rs;
+	}
+	
+	
+	
 	
 }

@@ -11,8 +11,10 @@
 		return;
 	}
 	
-	UserAssignment ua = sob.getBasedOnParameters(request);
+	UserAssignment ua = sob.getUserAssignBasedOnParameters(request);
 	
+	RunningSimulation rs = ua.giveMeRunningSim(sob.schema);
+	Actor act = ua.giveMeActor(sob.schema);
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -47,10 +49,10 @@
 			<td width="100%"><br />
               <h1>Assign a User Email to a Role </h1>
               <p>
-                The email address <span class="style1"><%= ua.getUsername() %></span> has been assigned in the running simulation <span class="style2">y</span> to actor role <span class="style2">z</span>.</p>
+                The email address <span class="style1"><%= ua.getUsername() %></span> has been assigned in the running simulation <span class="style2"><%= act.getActorName() %></span> to actor role <span class="style2"><%= act.getActorName() %></span>.</p>
               <p>You may now either</p>
               <ul>
-                <li>Email the user at this email address an invition to join, or</li>
+                <li>Email the user an invition to join, or</li>
                 <li>Return to the assign user's page. (You may then email mail several players at once.) </li>
               </ul>
               <p>&nbsp;</p>

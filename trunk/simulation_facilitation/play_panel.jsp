@@ -6,6 +6,8 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	afso.backPage = "../simulation_facilitation/play_panel.jsp";
 
 	Simulation simulation = new Simulation();
 	if (afso.sim_id != null){
@@ -42,10 +44,10 @@
 			  
 			  <blockquote>
               <% if (afso.sim_id != null) { %>
-				<strong>Working on Simulation: <%= simulation.getDisplayName() %></strong>(change)<br/>
+				<strong>Working on Simulation: <%= simulation.getDisplayName() %> </strong> (<a href="../simulation_authoring/select_simulation.jsp">change</a>)<br/>
               <% } %>
 			  <% if (afso.getRunningSimId() != null) { %>
-				<strong>Working on Running Simulation: <%= running_simulation.getRunningSimulationName() %></strong>(change)<br/>
+				<strong>Working on Running Simulation: <%= running_simulation.getRunningSimulationName() %> </strong> (<a href="select_running_simulation.jsp">change</a>)<br/>
               <% } %>
 			  </blockquote>
                 

@@ -9,8 +9,8 @@ import org.apache.log4j.*;
 
 /**
  * Utility class with methods to handle user administration; creation, editing, etc..
- *
- * 
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
@@ -47,6 +47,12 @@ public class OSP_UserAdmin {
 
 	/** Password of the user. */
 	private String _password = ""; //$NON-NLS-1$
+	
+	private String _phoneNumber = "";
+	
+	private String _profileNotes = "";
+	
+	private String _timeZone = "";
 	
 	private SessionObjectBase sob;
 	
@@ -86,7 +92,7 @@ public class OSP_UserAdmin {
 	}
 	
 	/**
-	 * Gets name details about the user from the request.
+	 * Gets details about the user from the request.
 	 * @param request
 	 */
 	public void getUserNameDetails(HttpServletRequest request){
@@ -101,6 +107,9 @@ public class OSP_UserAdmin {
 		// Construct full name from the piece of name passed in.
 		this._full_name = USIP_OSP_Util.constructName(this._first_name, this._middle_name, this._last_name);
 		
+		this._phoneNumber = request.getParameter("phonenumber");
+		this._timeZone = request.getParameter("timezone");
+		this._profileNotes = request.getParameter("profilenotes");
 	}
 
 	/**
@@ -245,9 +254,14 @@ public class OSP_UserAdmin {
 		getUserNameDetails(request);
 		
 		BaseUser bu = BaseUser.getByUserId(user_id);
+		User user = User.getById(sob.schema, user_id);
 		
 		bu.updateMe(this._first_name, this._full_name, this._last_name, this._middle_name);
 	
+		user.setPhoneNumber(_phoneNumber);
+		
+		user.saveMe(sob.schema);
+
 		String language_id = request.getParameter("language_id");
 		sob.languageCode = new Long(language_id).intValue();
 	
@@ -313,6 +327,38 @@ public class OSP_UserAdmin {
 	public void set_password(String password) {
 		_password = password;
 	}
+
+
+	public String get_phoneNumber() {
+		return _phoneNumber;
+	}
+
+
+	public void set_phoneNumber(String phoneNumber) {
+		_phoneNumber = phoneNumber;
+	}
+
+
+	public String get_profileNotes() {
+		return _profileNotes;
+	}
+
+
+	public void set_profileNotes(String profileNotes) {
+		_profileNotes = profileNotes;
+	}
+
+
+	public String get_timeZone() {
+		return _timeZone;
+	}
+
+
+	public void set_timeZone(String timeZone) {
+		_timeZone = timeZone;
+	}
+	
+	
 
 	
 }

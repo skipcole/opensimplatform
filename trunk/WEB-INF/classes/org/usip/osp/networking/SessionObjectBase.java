@@ -251,7 +251,13 @@ public class SessionObjectBase {
 		}
 	}
 	
-	public UserAssignment getBasedOnParameters(HttpServletRequest request) {
+	/**
+	 * Creates a user assignment based on parameters passed into it on a web form.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public UserAssignment getUserAssignBasedOnParameters(HttpServletRequest request) {
 
 		UserAssignment ua = new UserAssignment();
 
@@ -290,7 +296,7 @@ public class SessionObjectBase {
 	 */
 	public UserAssignment handleAssignUserEmail(HttpServletRequest request) {
 
-		UserAssignment ua = getBasedOnParameters(request);
+		UserAssignment ua = getUserAssignBasedOnParameters(request);
 
 		String sending_page = request.getParameter("sending_page");
 
