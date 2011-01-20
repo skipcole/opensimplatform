@@ -56,7 +56,12 @@ public class User implements Comparable{
 	private Long lastRunningSimEdited = null;
 
 	/** Used to keep track of time zone of users. */
-	private int timeZoneOffset;
+	private String timeZoneOffset = "";
+	
+	private String phoneNumber = "";
+	
+	@Lob
+	private String profileNotes = "";
 
 	@Transient
 	private Long trail_id;
@@ -595,11 +600,11 @@ public class User implements Comparable{
 		this.lastRunningSimEdited = lastRunningSimEdited;
 	}
 
-	public int getTimeZoneOffset() {
+	public String getTimeZoneOffset() {
 		return this.timeZoneOffset;
 	}
 
-	public void setTimeZoneOffset(int timeZoneOffset) {
+	public void setTimeZoneOffset(String timeZoneOffset) {
 		this.timeZoneOffset = timeZoneOffset;
 	}
 	
@@ -668,4 +673,22 @@ public class User implements Comparable{
 
 		return -(user.getBu_full_name().compareTo(this.getBu_full_name()));
 	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getProfileNotes() {
+		return profileNotes;
+	}
+
+	public void setProfileNotes(String profileNotes) {
+		this.profileNotes = profileNotes;
+	}
+	
+	
 }
