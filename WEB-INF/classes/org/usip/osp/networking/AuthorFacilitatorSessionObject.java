@@ -3595,7 +3595,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public void logout(HttpServletRequest request) {
 
 		if (loggedin) {
-
+			loggedin = false;
 		}
 	}
 

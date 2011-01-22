@@ -2127,6 +2127,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				myUserTrailGhost.recordLogout(schema);
 			}
 
+			loggedin = false;
 		}
 	}
 

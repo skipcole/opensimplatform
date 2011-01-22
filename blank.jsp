@@ -4,13 +4,17 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 <link href="usip_osp.css" rel="stylesheet" type="text/css">
+<script language="Javascript">
+	top.location.href = "logout.jsp";
+	window.location.href = "logout.jsp";
+</script> 
 <style type="text/css">
 <!--
 .style1 {color: #FFFFFF}
 -->
 </style>
 </head>
-<body bgcolor="#FFFFFF" onLoad="timedCount();">
+<body>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="100%" valign="top"  background="Templates/images/top_fade.png" height="180">
@@ -20,7 +24,4 @@
   </tr>
 </table>
 </body>
-<HEAD>
-<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
-</HEAD>
 </html>
