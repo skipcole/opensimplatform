@@ -13,6 +13,14 @@
 	}
 	
 	User userOnScratchPad = afso.handleCreateUser(request);
+	
+	if (afso.forward_on){
+		afso.forward_on = false;
+	
+		response.sendRedirect("create_user_complete.jsp?u_id=" + userOnScratchPad.getId());
+		
+		return;
+	}
 
 
 %>
@@ -34,7 +42,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Create User <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></h1>
+              <h1>Create User <a href="../simulation_facilitation/helptext/create_user_help.jsp" target="helpinright">(?)</a></h1>
 			
               <p><font color="#FF0000"><%= afso.errorMsg %></font></p>
 			  <%
@@ -43,11 +51,11 @@
       <form action="create_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td>username/email<a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?)</a></td>
+            <td>username/email<a href="helptext/user_email.jsp" target="helpinright">(?)</a></td>
               <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"  /></td>
             </tr>
           <tr>
-            <td height="29">password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?)</a></td>
+            <td height="29">password<a href="helptext/user_password.jsp" target="helpinright"> (?)</a></td>
               <td><input type="text" name="password" tabindex="2" /></td>
             </tr>
           <tr>

@@ -317,15 +317,14 @@ public class SessionObjectBase {
 				if (command.equalsIgnoreCase("Create")){
 					System.out.println("Doing Create in assign user not reg.");
 					ua.saveMe(schema);
-					backPage = "../simulation_facilitation/create_user.jsp";
+					backPage = "../simulation_user_admin/create_user.jsp?create_for_role=true&ua_id=" + ua.getId() ;
 					return ua;
 				}
 				
 				if (command.equalsIgnoreCase("Add")){
 					System.out.println("Doing Add in assign user not reg.");
 					ua.saveMe(schema);
-					backPage = "../simulation_facilitation/assign_useremail_to_role.jsp"
-						+ ua.getAsParameterString();
+					backPage = "../simulation_facilitation/assign_useremail_to_role.jsp?ua_id=" + ua.getId() ;
 					return ua;
 				}
 
@@ -366,6 +365,19 @@ public class SessionObjectBase {
 			// Email address of user to assign role to
 			String user_to_add_to_simulation = request
 					.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
+			
+			// I'm shelving this idea for later.
+			/*
+			 * If someone is an instructor, we can allow them to indicate that 
+			 * this is one of their simulatiosn elsewhere.
+			 * 
+			String instructor = request
+			.getParameter("instructor"); //$NON-NLS-1$
+			
+			if ((instructor != null) && (instructor.equalsIgnoreCase("true"))){
+				ua.setFacilitatorAssignment(true);
+			}
+			*/
 
 			try {
 				a_id = new Long(actor_id);

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.User;
+import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.persistence.BaseUser;
 import org.apache.log4j.*;
 
@@ -186,6 +187,16 @@ public class OSP_UserAdmin {
 		User user = new User();
 		
 		String command = request.getParameter("command"); //$NON-NLS-1$
+		
+		String create_for_role = (String) request.getParameter("create_for_role");
+		String ua_id = (String) request.getParameter("ua_id");
+		
+		if ((create_for_role != null) && (create_for_role.equalsIgnoreCase("true"))){
+			UserAssignment ua = UserAssignment.getById(schema, new Long(ua_id));
+			user.setUser_name(ua.getUsername());
+			user.setBu_username(ua.getUsername());
+			return user;
+		}
 
 		if (command != null) {
 
@@ -208,7 +219,11 @@ public class OSP_UserAdmin {
 						
 						BaseUser bu = BaseUser.getByUserId(user.getId());
 						bu.setPreferredLanguageCode(new Long(preferred_language));
+						bu.setTempPassword(true);
+						bu.setTemppasswordCleartext(this._password);
 						bu.saveMe();
+						
+						sob.forward_on = true;
 						
 					} catch (Exception e) {
 						this.sob.errorMsg = e.getMessage();

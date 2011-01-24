@@ -11,7 +11,8 @@
 		return;
 	}
 	
-	UserAssignment ua = sob.getUserAssignBasedOnParameters(request);
+	String ua_id = (String) request.getParameter("ua_id");
+	UserAssignment ua = UserAssignment.getById(sob.schema, new Long(ua_id));
 	
 	RunningSimulation rs = ua.giveMeRunningSim(sob.schema);
 	Actor act = ua.giveMeActor(sob.schema);
@@ -52,12 +53,12 @@
                 The email address <span class="style1"><%= ua.getUsername() %></span> has been assigned in the running simulation <span class="style2"><%= act.getActorName() %></span> to actor role <span class="style2"><%= act.getActorName() %></span>.</p>
               <p>You may now either</p>
               <ul>
-                <li>Email the user an invition to join, or</li>
-                <li>Return to the assign user's page. (You may then email mail several players at once.) </li>
+                <li><a href="invite_user_to_role.jsp?ua_id=<%= ua.getId() %>">Email the user an invition</a> to join, or</li>
+                <li><a href="assign_user_to_simulation.jsp">Return to the assign</a> user's page. (You may then email mail several players at once.) </li>
               </ul>
               <p>&nbsp;</p>
       <p align="center"><a href="enable_simulation.jsp"></a></p>      
-      <p align="left"><a href="create_user.jsp"></a></p>			</td>
+      <p align="left"><a href="../simulation_user_admin/create_user.jsp"></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

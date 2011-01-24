@@ -64,7 +64,19 @@ public class BaseUser {
      */
     private boolean tempPassword = false;
     
-    private Long preferredLanguageCode = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
+    @Column(name = "TEMP_PASSWORD_CT")
+    private String tempPasswordCleartext = ""; //$NON-NLS-1$
+    
+    public String getTemppasswordCleartext() {
+		return tempPasswordCleartext;
+	}
+
+	public void setTemppasswordCleartext(String temppasswordCleartext) {
+		tempPasswordCleartext = temppasswordCleartext;
+	}
+
+
+	private Long preferredLanguageCode = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
     
     public Long getPreferredLanguageCode() {
 		return preferredLanguageCode;

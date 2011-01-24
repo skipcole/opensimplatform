@@ -17,7 +17,6 @@
 	
 	afso.setRunningSimId(new Long(rs_id));
 	
-	
 	running_simulation = RunningSimulation.getById(afso.schema, afso.getRunningSimId());
 	//////////////////////////////////////////////////////
 	
@@ -50,7 +49,13 @@
       <%
 	  			for (ListIterator li = UserAssignment.getAllForRunningSim(afso.schema, new Long (rs_id)).listIterator(); li.hasNext();) {
 					UserAssignment ua = (UserAssignment) li.next();
-					User user = User.getById(afso.schema, ua.getUser_id());
+					
+					User user = new User();
+					user.setUser_name(ua.getUsername());
+					
+					if (ua.getUser_id() != null){
+						user = User.getById(afso.schema, ua.getUser_id());
+					}
 					
 					String act_name = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.getRunningSimId(), request, ua.getActor_id());
 		%>

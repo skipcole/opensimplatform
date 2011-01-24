@@ -86,12 +86,7 @@
       <p>To assign players to a simulation, <strong>you must follow these steps</strong></p>
       <ol>
         <li>Find the user by starting to type their name in the User's Email field</li>
-        <li>If this player is an Instructor, check the box in the 'I' column. (?) </li>
-        <li>Click on the button 'Assign User'
-          <ol>
-            <li>If the user is not found on this platform, you will then be given several options. </li>
-          </ol>
-        </li>
+        <li>Click on the button 'Assign User' (If the user is not found on this platform, you will then be given several options)</li>
         <li>Repeat until all actors have been assigned users to play them</li>
       </ol>
       <table border="1" width="100%">
@@ -101,7 +96,6 @@
             <td ><strong>Details</strong></td>
             <td ><strong>Del/Add</strong></td>
             <td ><strong>Enter User's Email</strong></td>
-            <td ><strong>I (?) </strong></td>
             <td ><strong>Assign User</strong></td>
           </tr>
         <%
@@ -116,12 +110,10 @@
 				List theUsersAssigned = UserAssignment.getUsersAssigned(afso.schema, running_simulation.getId(), act.getId());
 				
 				if ((theUsersAssigned == null) || (theUsersAssigned.size() == 0)){
-					System.out.println("userlist null");
 					theUsersAssigned = new ArrayList();
 					UserAssignment ua = new UserAssignment();
+					ua.setUser_id(new Long(-1));
 					theUsersAssigned.add(ua);
-				} else {
-					System.out.println("userlist null");
 				}
 				
 				User user_assigned = new User();
@@ -132,8 +124,10 @@
 					
 					String bgColor = "FFFFFF";
 					
-					if (ua.getUser_id() != null){
+					if ((ua.getUser_id() != null) && (ua.getUser_id().intValue() != -1) ){
 						user_assigned = User.getById(afso.schema, ua.getUser_id());
+					} else if ((ua.getUser_id() != null) && (ua.getUser_id().intValue() == -1) ){
+						bgColor = "FFFFFF";
 					} else {
 						bgColor = "FFCCCC";
 						user_assigned = new User();
@@ -153,9 +147,6 @@
                   <% } %>                  </td>
               <td>
               <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>              </td>
-              <td><label>
-                <input type="checkbox" name="checkbox" value="checkbox" />
-              </label></td>
               <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
 			    <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
                 <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 
@@ -178,8 +169,8 @@
 	}// end of if afso.simulation.id has been set.
 %>
       </blockquote>
-      <p>Rows in pink represent unregistered players that have been assigned a role in the simulation. </p>
-      <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>      <p align="left"><a href="create_user.jsp">&lt;- 
+      <p>Note: Rows in pink represent unregistered players that have been assigned a role in the simulation. To email them to inform them to register, <a href="invite_user_to_role.jsp?ua_id=all">click here</a>. </p>
+      <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>      <p align="left"><a href="../simulation_user_admin/create_user.jsp">&lt;- 
         Back</a></p>			</td>
 		</tr>
 		</table>	</td>
