@@ -82,6 +82,9 @@ public class User implements Comparable{
 	private String bu_username = ""; //$NON-NLS-1$
 	
 	@Transient
+	private String bu_password = ""; //$NON-NLS-1$
+	
+	@Transient
 	private Long bu_language = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
 
 	public User() {
@@ -434,6 +437,10 @@ public class User implements Comparable{
 		
 		this.setBu_username(bu.getUsername());
 		
+		if (bu.isTempPassword()){
+			this.setBu_password(bu.getTemppasswordCleartext());
+		}
+		
 		this.setBu_language(bu.getPreferredLanguageCode());
 		
 	}
@@ -568,6 +575,14 @@ public class User implements Comparable{
 		this.bu_username = bu_username;
 	}
 	
+	public String getBu_password() {
+		return bu_password;
+	}
+
+	public void setBu_password(String buPassword) {
+		bu_password = buPassword;
+	}
+
 	public Long getBu_language() {
 		return bu_language;
 	}

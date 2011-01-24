@@ -79,7 +79,7 @@
                 <h2>&nbsp;</h2>
                 <h2>Basic Instructor Activities</h2>
                 <p>Below are listed other activities that instructors occasionally have to do. </p>
-      <ul><li><a href="create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></li>
+      <ul><li><a href="../simulation_user_admin/create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></li>
         <li><a href="inactivate_running_sim.jsp">Inactivate Running Simulations</a></li>
         <li><a href="bulk_invite.jsp">Invite Users to Register </a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></li>
         <li><a href="launch_beta_test.jsp">Launch Beta Test</a></li>
