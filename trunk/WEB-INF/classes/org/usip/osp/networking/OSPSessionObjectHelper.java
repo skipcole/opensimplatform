@@ -82,8 +82,6 @@ public class OSPSessionObjectHelper {
 	 */
 	public static BaseUser handleLoginAttempt(HttpServletRequest request) {
 
-		String returnString = "";
-
 		String attempting_login = (String) request.getParameter("attempting_login");
 
 		if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))) {

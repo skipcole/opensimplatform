@@ -6,27 +6,8 @@ org.usip.osp.persistence.*,
 org.usip.osp.baseobjects.*" %>
 <%
 
-	///////////////////////////////////////////////
-	// Everything below here just checks to make sure we have a good database connection.
-	// TODO Record when connections are being reset here 
-	try {
-		BaseUser bu = BaseUser.getByUserId(new Long(1));
-	} catch (Exception e) {
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-	}
-	//
-	
-	for (ListIterator<SchemaInformationObject> sio_l = SchemaInformationObject.getAll().listIterator(); sio_l.hasNext();) {
-        	SchemaInformationObject sio = sio_l.next();
 
-		try {
-			User u = User.getById(sio.getSchema_name(), new Long(1));
-		} catch (Exception e){
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(sio.getSchema_name());
-		}
-
-	}
-	////////////////////////////////////////////////////
+	USIP_OSP_Util.cleanConnections();
 	
 	String errorMsg = "";
 	
@@ -50,7 +31,17 @@ org.usip.osp.baseobjects.*" %>
 	
 	if (bu != null){
 		pso.languageCode = bu.getPreferredLanguageCode().intValue();
-		response.sendRedirect("select_functionality_and_schema.jsp");
+		
+		if (bu.isTempPassword()){
+			System.out.println("doing temp passworld");
+			SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
+			sob.setLoggedin(true);
+			OSPSessionObjectHelper osp_soh = OSPSessionObjectHelper.getOSP_SOH(request.getSession(true));
+			osp_soh.setUserid(bu.getId());
+			response.sendRedirect("simulation_user_admin/change_password.jsp?forcepasswordchange=true");
+		} else {
+			response.sendRedirect("select_functionality_and_schema.jsp");
+		}
 		return;
 	}
 	
