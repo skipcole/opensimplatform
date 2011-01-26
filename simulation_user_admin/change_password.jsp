@@ -13,9 +13,20 @@
 		return;
 	}
 	
-	int returnCode = sob.changePassword(request);
-
+	String forcepasswordchange = request.getParameter("forcepasswordchange");
 	
+	boolean forcedChange = false;
+	if ((forcepasswordchange != null) && (forcepasswordchange.equalsIgnoreCase("true"))){
+		forcedChange = true;
+	}
+	
+	int returnCode = sob.changePassword(request);
+	
+	if (returnCode == SessionObjectBase.FORCED_PASSWORD_CHANGED) {
+		response.sendRedirect("../select_functionality_and_schema.jsp");
+		return;
+	}
+
 	User user = sob.giveMeUser();
 	
 %>
@@ -39,7 +50,11 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
+			<% if (forcedChange) { %>
+			<h2>You must change the temporary password that you were assigned</h2>
+			<% } else { %>
               <h1>Change Password </h1>
+			<% } %>
               <br />
       <form id="form1" name="form1" method="post" action="change_password.jsp">
   <table border="0" cellspacing="2" cellpadding="1" width="100%">
@@ -67,6 +82,7 @@
     <tr>
       <td>&nbsp;</td>
       <td><label>
+	  <input type="hidden" name="forcepasswordchange" value="<%= forcepasswordchange %>" />
         <input type="hidden" name="sending_page" value="change_password" /> 
         <input type="submit" name="update" id="update" value="Update" />
         </label></td>

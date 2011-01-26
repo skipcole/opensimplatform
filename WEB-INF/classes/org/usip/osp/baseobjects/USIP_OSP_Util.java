@@ -7,10 +7,9 @@ import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.usip.osp.networking.AuthorFacilitatorSessionObject;
-import org.usip.osp.networking.PlayerSessionObject;
-import org.usip.osp.networking.SessionObjectBase;
-import org.usip.osp.networking.USIP_OSP_Cache;
+
+import org.usip.osp.networking.*;
+import org.usip.osp.persistence.*;
 
 /*
  * 
@@ -206,5 +205,31 @@ public class USIP_OSP_Util {
 		}
 		
 		return sob;
+	}
+	
+	/**
+	 * Everything below here just checks to make sure we have a good database connection.
+		TODO Record when connections are being reset here 
+	 */
+	public static void cleanConnections(){
+		 
+		try {
+			BaseUser bu = BaseUser.getByUserId(new Long(1));
+		} catch (Exception e) {
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+		}
+		
+		
+		for (ListIterator<SchemaInformationObject> sio_l = SchemaInformationObject.getAll().listIterator(); sio_l.hasNext();) {
+	        	SchemaInformationObject sio = sio_l.next();
+
+			try {
+				User u = User.getById(sio.getSchema_name(), new Long(1));
+			} catch (Exception e){
+					MultiSchemaHibernateUtil.commitAndCloseTransaction(sio.getSchema_name());
+			}
+
+		}
+
 	}
 }

@@ -455,12 +455,15 @@ public class SessionObjectBase {
 	public static final int PASSWORDS_MISMATCH = 2;
 	public static final int WRONG_OLD_PASSWORD = 3;
 	public static final int PASSWORDS_CHANGED = 4;
+	public static final int FORCED_PASSWORD_CHANGED = 5;
 
 	/** Assigns a user to a simulation. */
 	public int changePassword(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String update = (String) request.getParameter("update");
+		
+		String forcepasswordchange = request.getParameter("forcepasswordchange");
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("change_password"))) {
@@ -486,7 +489,12 @@ public class SessionObjectBase {
 				}
 
 				bu.setPassword(new_password);
-				return PASSWORDS_CHANGED;
+				
+				if ((forcepasswordchange != null) && (forcepasswordchange.equalsIgnoreCase("true"))){
+					return FORCED_PASSWORD_CHANGED;
+				} else {
+					return PASSWORDS_CHANGED;
+				}
 			}
 		}
 
