@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.SimulationPhase;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -59,16 +60,17 @@ public class Email {
 		this.running_sim_id = rs_id;
 	}
 	
-	public static Email getRawBlankSimInvite(){
+	
+	public static Email getRawBlankSimInvite(String simName){
 		Email email = new Email();
 		
-		email.setSubjectLine("Simulation Starting");
+		email.setSubjectLine("Simulation " + simName + " Starting");
 		
-		String msgText = "	     You are invited to enter a simulation.";
-		msgText += "	     Please go to the website [web_site_location] to enter.";
-		msgText += "	     Your username is [username]. Your password is either the one you entered when registering on the system, or the one that your instructor has assigned you.";
-		msgText += "Please confirm that you have received this email by going to this website [confirm_receipt]";
-		msgText += "Enjoy!";
+		String msgText = "Dear [Student Name]," + USIP_OSP_Util.lineTerminator;
+		msgText += "You are invited to enter a simulation." + USIP_OSP_Util.lineTerminator;
+		msgText += "Please confirm that you have received this ";
+		msgText += "email by going to this website [confirm_receipt]" + USIP_OSP_Util.lineTerminator;
+		msgText += "Enjoy!" + USIP_OSP_Util.lineTerminator;
 		
 		email.setMsgtext(msgText);
  
@@ -143,8 +145,6 @@ public class Email {
     
     /** Email address of the sending user. */
     private String fromUserName = "";
-    
-
     
     /** Subject line of this email. */
     private String subjectLine = ""; //$NON-NLS-1$
@@ -387,10 +387,13 @@ public class Email {
 			return returnList;
 			
 		}
+			
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String hqlString = "from Email where sim_id = :sim_id and " +
 				"running_sim_id = :running_sim_id and invitePrototype is true order by id";
+		
+		System.out.println(hqlString);
 		
 		List tempList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)
@@ -400,7 +403,7 @@ public class Email {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
-		return returnList;
+		return tempList;
 	
 	}
 
@@ -491,15 +494,16 @@ public class Email {
 	 * @param actorId
 	 * @return
 	 */
-	public static List getRecipientsOfAnEmail(String schema, Long email_id){
+	public static List getRecipientsOfAnEmail(String schema, Long email_id, int recipient_type){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String hqlString = "from EmailRecipients where " + "email_id = :eid";
+		String hqlString = "from EmailRecipients where email_id = :eid and recipient_type = :recipient_type";
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)
 			.setString("eid", email_id.toString())
+			.setInteger("recipient_type", recipient_type)
 			.list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -509,37 +513,20 @@ public class Email {
 	
 	}
 	
+	
 	/**
-	 * Returns all of the email directed to an actor during a simulation.
+	 * Generates a comma separated list of the email recipients.
 	 * 
 	 * @param schema
-	 * @param runningSimId
-	 * @param actorId
+	 * @param email_id
+	 * @param e_type
 	 * @return
 	 */
-	public static List getRecipientsOfSpecifiedType(String schema, Long email_id, int e_type){
-		
-		List starterList = getRecipientsOfAnEmail(schema, email_id);
-
-		List returnList = new ArrayList();
-		
-		for (ListIterator<EmailRecipients> li = starterList.listIterator(); li.hasNext();) {
-			EmailRecipients this_er = li.next();
-			
-			if (this_er.getRecipient_type() == e_type){
-				returnList.add(this_er);
-			}
-		}
-		
-		return returnList;
-	
-	}
-	
 	public static String generateListOfRecipients(String schema, Long email_id, int e_type){
 		
 		String returnString = "  ";
 		
-		List starterList = getRecipientsOfSpecifiedType(schema, email_id, e_type);
+		List starterList = getRecipientsOfAnEmail(schema, email_id, e_type);
 		
 		for (ListIterator<EmailRecipients> li = starterList.listIterator(); li.hasNext();) {
 			EmailRecipients this_er = li.next();
@@ -551,12 +538,13 @@ public class Email {
 		// Remove final 2 characters.
 		returnString = (String) returnString.subSequence(0, returnString.length() - 2);
 		
-		// Remove final 2 spaces.
+		// Remove final space (is there any?).
 		returnString = returnString.trim();
 		
 		return returnString;
 		
 	}
+	
 	public String getToActors() {
 		return toActors;
 	}
@@ -602,9 +590,15 @@ public class Email {
 		return returnString;
 	}
 	
+	/**
+	 * 
+	 * @param sio
+	 */
 	public void sendEmail(SchemaInformationObject sio){
 
 		Vector to = new Vector();
+		this.generateListOfRecipients(sio.getSchema_name(), this.getId(), EmailRecipients.RECIPIENT_TO);
+		
 		Vector cc = new Vector();
 		Vector bcc = new Vector();
 		
@@ -615,7 +609,7 @@ public class Email {
 		
 		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
 		
-		List recipients = Email.getRecipientsOfAnEmail(schema, this.getId());
+		List recipients = Email.getRecipientsOfAnEmail(schema, this.getId(), EmailRecipients.RECIPIENT_TO);
 		
 		for (ListIterator<EmailRecipients> li = recipients.listIterator(); li.hasNext();) {
 			EmailRecipients this_er = li.next();

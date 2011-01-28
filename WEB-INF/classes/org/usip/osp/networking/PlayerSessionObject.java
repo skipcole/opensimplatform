@@ -1343,7 +1343,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 					if (draft_email_id != null) {
 
 						emailRecipients = Email.getRecipientsOfAnEmail(schema,
-								draft_email_id);
+								draft_email_id, EmailRecipients.RECIPIENT_TO);
 
 						if ((emailRecipients != null)
 								&& (emailRecipients.size() > 0)) {
@@ -1427,7 +1427,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public void setUpEligibleActors() {
 		if (draft_email_id != null) {
 			emailRecipients = Email.getRecipientsOfAnEmail(schema,
-					draft_email_id);
+					draft_email_id, EmailRecipients.RECIPIENT_TO);
 		} else {
 			emailRecipients = new ArrayList();
 		}

@@ -33,8 +33,6 @@ import org.apache.log4j.*;
  */
 public class ObjectPackager {
 
-	public static final String lineTerminator = "\r\n"; //$NON-NLS-1$
-
 	/** Creates an opening tag for the XML surrounding an object. */
 	public static String makeOpenTag(Class thisClass) {
 		return "<" + thisClass.getName() + ">";
@@ -107,44 +105,44 @@ public class ObjectPackager {
 		simBase.setVersion(sim.getVersion());
 		simBase.setTransitId(sim.getTransitId());
 
-		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>" + lineTerminator; //$NON-NLS-1$
+		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>" + USIP_OSP_Util.lineTerminator; //$NON-NLS-1$
 
 		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRelease() + "</OSP_VERSION>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 
 		Date today = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat();
 
-		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + lineTerminator; //$NON-NLS-1$ //$NON-NLS-2$
+		returnString += "<EXPORT_DATE>" + sdf.format(today) + "</EXPORT_DATE>" + USIP_OSP_Util.lineTerminator; //$NON-NLS-1$ //$NON-NLS-2$
 
-		returnString += xstream.toXML(simBase) + lineTerminator;
+		returnString += xstream.toXML(simBase) + USIP_OSP_Util.lineTerminator;
 		;
 
 		// This packages the values directly associate with the simulation such
 		// as objectives and audience.
-		returnString += xstream.toXML(sim) + lineTerminator;
+		returnString += xstream.toXML(sim) + USIP_OSP_Util.lineTerminator;
 		;
 
 		returnString += packageActors(schema, sim.getTransitId(), xstream)
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 		returnString += packageMetaPhases(schema, sim.getTransitId(), xstream)
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 		returnString += packagePhases(schema, sim.getTransitId(), xstream)
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 		returnString += packagePhaseAssignments(schema, sim.getTransitId(),
 				xstream)
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 		returnString += packageInjects(schema, sim.getTransitId(), xstream)
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 		returnString += packageBaseSimSectionInformation(schema, sim
 				.getTransitId(), xstream)
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 		returnString += packageSimSectionAssignmentInformation(schema, sim
 				.getTransitId(), xstream)
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 		returnString += packageSimObjectInformation(schema, sim.getTransitId(),
 				xstream)
-				+ lineTerminator;
+				+ USIP_OSP_Util.lineTerminator;
 
 		returnString += packageSimMedia(schema, sim.getTransitId(), xstream);
 		returnString += "</SIM_PACKAGE_OBJECT>"; //$NON-NLS-1$
@@ -172,7 +170,7 @@ public class ObjectPackager {
 			thisSection.setTransit_id(thisSection.getId());
 			thisSection.setId(null);
 
-			returnString += xstream.toXML(thisSection) + lineTerminator;
+			returnString += xstream.toXML(thisSection) + USIP_OSP_Util.lineTerminator;
 		}
 
 		return returnString;
@@ -207,7 +205,7 @@ public class ObjectPackager {
 			bssdoa.setTransit_id(bssdoa.getId());
 			bssdoa.setId(null);
 
-			returnString += xstream.toXML(bssdoa) + lineTerminator;
+			returnString += xstream.toXML(bssdoa) + USIP_OSP_Util.lineTerminator;
 
 			// We need to make sure that an object is not saved multiple times
 			// to the xml
@@ -234,7 +232,7 @@ public class ObjectPackager {
 				depObj.setTransitId(depObj.getId());
 				depObj.setId(null);
 
-				returnString += xstream.toXML(depObj) + lineTerminator;
+				returnString += xstream.toXML(depObj) + USIP_OSP_Util.lineTerminator;
 
 				// Some dependent objects (such as conversations) have sub
 				// objects.
@@ -274,7 +272,7 @@ public class ObjectPackager {
 			Conversation caa = coList.next();
 			caa.setTransitId(caa.getId());
 			caa.setId(null);
-			returnString += xstream.toXML(caa) + lineTerminator;
+			returnString += xstream.toXML(caa) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Copy Conversation Actor Assignments
@@ -285,7 +283,7 @@ public class ObjectPackager {
 			ConvActorAssignment caa = cList.next();
 			caa.setTransitId(caa.getId());
 			caa.setId(null);
-			returnString += xstream.toXML(caa) + lineTerminator;
+			returnString += xstream.toXML(caa) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Copy GenericVariables
@@ -296,7 +294,7 @@ public class ObjectPackager {
 			GenericVariable gv = gvList.next();
 			gv.setTransitId(gv.getId());
 			gv.setId(null);
-			returnString += xstream.toXML(gv) + lineTerminator;
+			returnString += xstream.toXML(gv) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Copy InventoryItems
@@ -307,7 +305,7 @@ public class ObjectPackager {
 			InventoryItem inv = iList.next();
 			inv.setTransitId(inv.getId());
 			inv.setId(null);
-			returnString += xstream.toXML(inv) + lineTerminator;
+			returnString += xstream.toXML(inv) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Copy OneLinks
@@ -317,7 +315,7 @@ public class ObjectPackager {
 			OneLink inv = onelList.next();
 			inv.setTransitId(inv.getId());
 			inv.setId(null);
-			returnString += xstream.toXML(inv) + lineTerminator;
+			returnString += xstream.toXML(inv) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Copy SharedDocuments
@@ -327,7 +325,7 @@ public class ObjectPackager {
 			SharedDocument sd = sdlList.next();
 			sd.setTransitId(sd.getId());
 			sd.setId(null);
-			returnString += xstream.toXML(sd) + lineTerminator;
+			returnString += xstream.toXML(sd) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Shared Document Actor Notification Object
@@ -338,7 +336,7 @@ public class ObjectPackager {
 			SharedDocActorNotificAssignObj sdano = lcaa.next();
 			sdano.setTransitId(sdano.getId());
 			sdano.setId(null);
-			returnString += xstream.toXML(sdano) + lineTerminator;
+			returnString += xstream.toXML(sdano) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Copy TimeLine
@@ -348,7 +346,7 @@ public class ObjectPackager {
 			TimeLine tl = tList.next();
 			tl.setTransitId(tl.getId());
 			tl.setId(null);
-			returnString += xstream.toXML(tl) + lineTerminator;
+			returnString += xstream.toXML(tl) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Events
@@ -357,7 +355,7 @@ public class ObjectPackager {
 			Event thisEvent = li.next();
 			thisEvent.setTransitId(thisEvent.getId());
 			thisEvent.setId(null);
-			returnString += xstream.toXML(thisEvent) + lineTerminator;
+			returnString += xstream.toXML(thisEvent) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// Tips
@@ -366,7 +364,7 @@ public class ObjectPackager {
 			Tips thisTip = lit.next();
 			thisTip.setTransitId(thisTip.getId());
 			thisTip.setId(null);
-			returnString += xstream.toXML(thisTip) + lineTerminator;
+			returnString += xstream.toXML(thisTip) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// /////////////////////////////////////////////////////
@@ -380,7 +378,7 @@ public class ObjectPackager {
 			bssdoa.setTransit_id(bssdoa.getId());
 			bssdoa.setId(null);
 
-			returnString += xstream.toXML(bssdoa) + lineTerminator;
+			returnString += xstream.toXML(bssdoa) + USIP_OSP_Util.lineTerminator;
 		}
 
 		return returnString;
@@ -413,7 +411,7 @@ public class ObjectPackager {
 						BaseSimSection.class.getName())) {
 					bss.setTransitId(bss.getId());
 					bss.setId(null);
-					returnString += xstream.toXML(bss) + lineTerminator;
+					returnString += xstream.toXML(bss) + USIP_OSP_Util.lineTerminator;
 				} else if (bss.getClass().getName().equalsIgnoreCase(
 						CustomizeableSection.class.getName())) {
 
@@ -422,7 +420,7 @@ public class ObjectPackager {
 							schema, thisBaseId.toString());
 					cbss.setTransitId(cbss.getId());
 					cbss.setId(null);
-					returnString += xstream.toXML(cbss) + lineTerminator;
+					returnString += xstream.toXML(cbss) + USIP_OSP_Util.lineTerminator;
 				} else {
 					Logger.getRootLogger().debug(
 							"Warning in Object Packager. Unknown object."); //$NON-NLS-1$
@@ -455,7 +453,7 @@ public class ObjectPackager {
 			thisInjectGroup.setTransit_id(thisInjectGroup.getId());
 			thisInjectGroup.setId(null);
 
-			returnString += xstream.toXML(thisInjectGroup) + lineTerminator;
+			returnString += xstream.toXML(thisInjectGroup) + USIP_OSP_Util.lineTerminator;
 
 			List<Inject> allInjects = Inject.getAllForSimAndGroup(schema,
 					sim_id, thisInjectGroup.getTransit_id());
@@ -467,7 +465,7 @@ public class ObjectPackager {
 				thisInject.setTransit_id(thisInject.getId());
 				thisInject.setId(null);
 
-				returnString += xstream.toXML(thisInject) + lineTerminator;
+				returnString += xstream.toXML(thisInject) + USIP_OSP_Util.lineTerminator;
 
 				// Package actors targeted for this inject.
 				List targetRaw = InjectActorAssignments.getAllForInject(schema,
@@ -476,7 +474,7 @@ public class ObjectPackager {
 						.hasNext();) {
 					InjectActorAssignments targ = (InjectActorAssignments) liInjId
 							.next();
-					returnString += xstream.toXML(targ) + lineTerminator;
+					returnString += xstream.toXML(targ) + USIP_OSP_Util.lineTerminator;
 				}
 
 			}
@@ -503,7 +501,7 @@ public class ObjectPackager {
 			thisActor.setTransitId(thisActor.getId());
 			thisActor.setId(null);
 
-			returnString += xstream.toXML(thisActor) + lineTerminator;
+			returnString += xstream.toXML(thisActor) + USIP_OSP_Util.lineTerminator;
 		}
 		
 		List <SimActorAssignment> actorAssignments = 
@@ -514,7 +512,7 @@ public class ObjectPackager {
 			thisSAA.setTransitId(thisSAA.getId());
 			thisSAA.setId(null);
 			
-			returnString += xstream.toXML(thisSAA) + lineTerminator;
+			returnString += xstream.toXML(thisSAA) + USIP_OSP_Util.lineTerminator;
 			
 		}
 		
@@ -530,7 +528,7 @@ public class ObjectPackager {
 	 */
 	public static String packageUsers(String schema) {
 
-		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + lineTerminator; //$NON-NLS-1$
+		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + USIP_OSP_Util.lineTerminator; //$NON-NLS-1$
 
 		XStream xstream = new XStream();
 
@@ -552,8 +550,8 @@ public class ObjectPackager {
 				bu.setTransit_id(bu.getId());
 				bu.setId(null);
 
-				returnString += xstream.toXML(bu) + lineTerminator;
-				returnString += xstream.toXML(thisUser) + lineTerminator;
+				returnString += xstream.toXML(bu) + USIP_OSP_Util.lineTerminator;
+				returnString += xstream.toXML(thisUser) + USIP_OSP_Util.lineTerminator;
 			} else {
 				Logger.getRootLogger().warn(
 						"Back Up User Null for " + thisUser.getUser_name());
@@ -670,7 +668,7 @@ public class ObjectPackager {
 			thisPhase.setTransit_id(thisPhase.getId());
 			thisPhase.setId(null);
 
-			returnString += xstream.toXML(thisPhase) + lineTerminator;
+			returnString += xstream.toXML(thisPhase) + USIP_OSP_Util.lineTerminator;
 		}
 
 		return returnString;
@@ -697,7 +695,7 @@ public class ObjectPackager {
 			thisMetaPhase.setTransit_id(thisMetaPhase.getId());
 			thisMetaPhase.setId(null);
 
-			returnString += xstream.toXML(thisMetaPhase) + lineTerminator;
+			returnString += xstream.toXML(thisMetaPhase) + USIP_OSP_Util.lineTerminator;
 		}
 
 		return returnString;
@@ -723,7 +721,7 @@ public class ObjectPackager {
 			thisPhaseAssignment.setTransit_id(thisPhaseAssignment.getId());
 			thisPhaseAssignment.setId(null);
 
-			returnString += xstream.toXML(thisPhaseAssignment) + lineTerminator;
+			returnString += xstream.toXML(thisPhaseAssignment) + USIP_OSP_Util.lineTerminator;
 		}
 		return returnString;
 	}
@@ -910,7 +908,7 @@ public class ObjectPackager {
 	public static String packageSimMedia(String schema, Long sim_id,
 			XStream xstream) {
 
-		String returnString = "<SIM_MEDIA_OBJECTS>" + lineTerminator;
+		String returnString = "<SIM_MEDIA_OBJECTS>" + USIP_OSP_Util.lineTerminator;
 		List actors = Actor.getAllForSimulation(schema, sim_id);
 
 		for (ListIterator<Actor> li = actors.listIterator(); li.hasNext();) {
@@ -931,7 +929,7 @@ public class ObjectPackager {
 										.getImageFile(OSPSimMedia.ACTOR_IMAGE,
 												actorImageFile)));
 
-				returnString += xstream.toXML(osm) + lineTerminator;
+				returnString += xstream.toXML(osm) + USIP_OSP_Util.lineTerminator;
 			}
 
 			String actorThumbImageFile = thisActor.getImageThumbFilename();
@@ -969,7 +967,7 @@ public class ObjectPackager {
 			osm.setMediaString(new sun.misc.BASE64Encoder().encode(FileIO
 					.getImageFile(mediaType, mediaName)));
 
-			return (xstream.toXML(osm) + lineTerminator);
+			return (xstream.toXML(osm) + USIP_OSP_Util.lineTerminator);
 		} catch (Exception e) {
 			Logger.getRootLogger().warn("Problem finding object: " + mediaName);
 			return "";

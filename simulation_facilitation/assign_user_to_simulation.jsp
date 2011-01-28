@@ -169,7 +169,7 @@
 	}// end of if afso.simulation.id has been set.
 %>
       </blockquote>
-      <p>Note: Rows in pink represent unregistered players that have been assigned a role in the simulation. To email them to inform them to register, <a href="invite_user_to_role.jsp?ua_id=all">click here</a>. </p>
+      <p>Note: Rows in pink represent unregistered players that have been assigned a role in the simulation.</p>
       <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>      <p align="left"><a href="../simulation_user_admin/create_user.jsp">&lt;- 
         Back</a></p>			</td>
 		</tr>

@@ -32,6 +32,8 @@
 	}
 	//////////////////////////////////////////////////////
 	
+	String ua_id = request.getParameter("ua_id");
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -60,13 +62,15 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Assign User to Actor <a href="helptext/assign_players_help.jsp" target="helpinright"></a></h1>
-              <p align="left">The username you have entered, <span class="style1"><%= ua_temp.getUsername() %></span>, was not found. Please verify that <%= ua_temp.getUsername() %> is the correct email address for your student. </p>
+              <p align="left">The username you have entered, <span class="style1"><%= ua_temp.getUsername() %></span>, was not found. </p>
+              <p align="left"><strong>Please verify</strong> that <%= ua_temp.getUsername() %> is the correct email address for your student. </p>
               <p align="left">You may then: </p>
 			  <form id="form1" name="form1" method="post" action="assign_user_to_sim_user_not_found.jsp">
 			  <input type="hidden" name="sending_page" value="assign_just_email" />
 			  <input type="hidden" name="a_id" value="<%= ua_temp.getActor_id() %>" />
 			  <input type="hidden" name="s_id" value="<%= ua_temp.getSim_id() %>" />
 			  <input type="hidden" name="rs_id" value="<%= ua_temp.getRunning_sim_id() %>" />
+			  <input type="hidden" name="ua_id" value="<%= ua_id %>" />
 			  <input type="hidden" name="uname" value="<%= ua_temp.getUsername() %>" />
               <ul>
                 <li>
@@ -84,9 +88,8 @@
                 <li>
                   <label>
                   <input type="submit" name="command" value="Add" /> 
-                  You will be presented with options on how to inform the player that they have been assigned a role.
-                  </label>
-                 </li>
+                  This will take you to the previous page with the <%= ua_temp.getUsername() %> associated with the role selected. </label>
+                </li>
                 </ul>    
 				</form>          
               <p align="left">&nbsp;    </p></td>

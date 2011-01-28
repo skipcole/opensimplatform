@@ -20,9 +20,10 @@ import org.usip.osp.persistence.SchemaInformationObject;
 import org.usip.osp.persistence.UILanguageObject;
 
 /**
- * This object contains all of the methods and data to create users, and to allow
- * users to log in as either an administrator, author, instructor or player.
- *
+ * This object contains all of the methods and data to create users, and to
+ * allow users to log in as either an administrator, author, instructor or
+ * player.
+ * 
  */
 /*
  * 
@@ -41,7 +42,7 @@ public class SessionObjectBase {
 	public static final int CAPTCHA_WRONG = 1;
 	public static final int USERNAME_MISMATCH = 1;
 	public static final int PASSWORD_MISMATCH = 1;
-	
+
 	public SessionObjectBase() {
 
 	}
@@ -96,7 +97,7 @@ public class SessionObjectBase {
 	public void setLanguageCode(int languageCode) {
 		this.languageCode = languageCode;
 	}
-	
+
 	/** Records if user is an admin. */
 	protected boolean isAdmin = false;
 
@@ -105,7 +106,7 @@ public class SessionObjectBase {
 
 	/** Records if user is authorized to facilitate simulations. */
 	protected boolean isFacilitator = false;
-	
+
 	public boolean isAdmin() {
 		return isAdmin;
 	}
@@ -250,46 +251,54 @@ public class SessionObjectBase {
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Creates a user assignment based on parameters passed into it on a web form.
+	 * Creates a user assignment based on parameters passed into it on a web
+	 * form.
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public UserAssignment getUserAssignBasedOnParameters(HttpServletRequest request) {
+	public UserAssignment getUserAssignBasedOnParameters(
+			HttpServletRequest request) {
 
 		UserAssignment ua = new UserAssignment();
+		
+		String ua_id = request.getParameter("ua_id"); //$NON-NLS-1$
+		
+		if ((ua_id != null) && (!(ua_id.equalsIgnoreCase("null")))){
+			ua.setId(new Long(ua_id));
+		}
 
 		String uname = request.getParameter("uname"); //$NON-NLS-1$
 
 		ua.setUsername(uname);
-		
+
 		String a_id = request.getParameter("a_id"); //$NON-NLS-1$
 		String s_id = request.getParameter("s_id"); //$NON-NLS-1$
 		String rs_id = request.getParameter("rs_id"); //$NON-NLS-1$
 
 		try {
-			if (a_id != null){
+			if (a_id != null) {
 				ua.setActor_id(new Long(a_id));
 			}
-			if (s_id != null){
+			if (s_id != null) {
 				ua.setSim_id(new Long(s_id));
 			}
-			if (rs_id != null){
+			if (rs_id != null) {
 				ua.setRunning_sim_id(new Long(rs_id));
 			}
 
 		} catch (Exception e) {
 			return ua;
 		}
-		
+
 		return ua;
 	}
 
 	/**
-	 * Handles just assigning a user email to a role in a simulation (and not 
-	 * a completely registered student).
+	 * Handles just assigning a user email to a role in a simulation (and not a
+	 * completely registered student).
 	 * 
 	 * @param request
 	 * @return
@@ -302,32 +311,30 @@ public class SessionObjectBase {
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("assign_just_email"))) {
-			
+
 			String command = request.getParameter("command");
-			
+
 			if (command != null) {
-				
+
 				this.forward_on = true;
-				
-				if (command.equalsIgnoreCase("Cancel")){
+
+				if (command.equalsIgnoreCase("Cancel")) {
 					backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
 					return ua;
 				}
-				
-				if (command.equalsIgnoreCase("Create")){
-					System.out.println("Doing Create in assign user not reg.");
+
+				if (command.equalsIgnoreCase("Create")) {
 					ua.saveMe(schema);
-					backPage = "../simulation_user_admin/create_user.jsp?create_for_role=true&ua_id=" + ua.getId() ;
-					return ua;
-				}
-				
-				if (command.equalsIgnoreCase("Add")){
-					System.out.println("Doing Add in assign user not reg.");
-					ua.saveMe(schema);
-					backPage = "../simulation_facilitation/assign_useremail_to_role.jsp?ua_id=" + ua.getId() ;
+					backPage = "../simulation_user_admin/create_user.jsp?create_for_role=true&ua_id="
+							+ ua.getId();
 					return ua;
 				}
 
+				if (command.equalsIgnoreCase("Add")) {
+					ua.saveMe(schema);
+					backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
+					return ua;
+				}
 			}
 		}
 		return ua;
@@ -341,6 +348,8 @@ public class SessionObjectBase {
 
 		String command = request.getParameter("command"); //$NON-NLS-1$
 
+		String user_assignment_id = request.getParameter("user_assignment_id"); //$NON-NLS-1$
+
 		Long a_id = null;
 		Long s_id = null;
 		Long r_id = null;
@@ -348,9 +357,7 @@ public class SessionObjectBase {
 
 		if (command != null) {
 
-			String user_assignment_id = request
-					.getParameter("user_assignment_id"); //$NON-NLS-1$
-
+			// User selected '-' icon to remove assignment.
 			if (command.equalsIgnoreCase("remove_ua")) {
 				UserAssignment.removeMe(schema, new Long(user_assignment_id));
 				return ua;
@@ -365,19 +372,19 @@ public class SessionObjectBase {
 			// Email address of user to assign role to
 			String user_to_add_to_simulation = request
 					.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
-			
+
 			// I'm shelving this idea for later.
 			/*
-			 * If someone is an instructor, we can allow them to indicate that 
+			 * If someone is an instructor, we can allow them to indicate that
 			 * this is one of their simulatiosn elsewhere.
 			 * 
-			String instructor = request
-			.getParameter("instructor"); //$NON-NLS-1$
-			
-			if ((instructor != null) && (instructor.equalsIgnoreCase("true"))){
-				ua.setFacilitatorAssignment(true);
-			}
-			*/
+			 * String instructor = request .getParameter("instructor");
+			 * //$NON-NLS-1$
+			 * 
+			 * if ((instructor != null) &&
+			 * (instructor.equalsIgnoreCase("true"))){
+			 * ua.setFacilitatorAssignment(true); }
+			 */
 
 			try {
 				a_id = new Long(actor_id);
@@ -387,6 +394,7 @@ public class SessionObjectBase {
 				if ((user_assignment_id != null)
 						&& (!(user_assignment_id.equalsIgnoreCase("null")))) {
 					ua_id = new Long(user_assignment_id);
+					ua.setId(ua_id);
 				}
 			} catch (Exception e) {
 
@@ -399,29 +407,20 @@ public class SessionObjectBase {
 
 				Long user_to_add_id = null;
 
-				if ((user_to_add_to_simulation != null)
-						&& (user_to_add_to_simulation
-								.equalsIgnoreCase("remove"))) {
-					errorMsg = "Removed User Assignment";
+				user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
+						request, user_to_add_to_simulation);
+				
+				//User was not found, so must add assignment to just the useremail entered.
+				if (user_to_add_id == null) {
 
-					if (ua_id != null) {
-						UserAssignment.removeMe(schema, ua_id);
-					}
+					ua.setUsername(user_to_add_to_simulation);
+					ua.setSim_id(s_id);
+					ua.setActor_id(a_id);
+					ua.setRunning_sim_id(r_id);
+					forward_on = true;
 
-				} else {
-					user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
-							request, user_to_add_to_simulation);
-					if (user_to_add_id == null) {
+					return ua;
 
-						ua.setUsername(user_to_add_to_simulation);
-						ua.setSim_id(s_id);
-						ua.setActor_id(a_id);
-						ua.setRunning_sim_id(r_id);
-						forward_on = true;
-
-						return ua;
-
-					}
 				}
 
 				// //////////////////////////////////////////////////////////
@@ -462,8 +461,9 @@ public class SessionObjectBase {
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String update = (String) request.getParameter("update");
-		
-		String forcepasswordchange = request.getParameter("forcepasswordchange");
+
+		String forcepasswordchange = request
+				.getParameter("forcepasswordchange");
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("change_password"))) {
@@ -489,8 +489,9 @@ public class SessionObjectBase {
 				}
 
 				bu.setPassword(new_password);
-				
-				if ((forcepasswordchange != null) && (forcepasswordchange.equalsIgnoreCase("true"))){
+
+				if ((forcepasswordchange != null)
+						&& (forcepasswordchange.equalsIgnoreCase("true"))) {
 					return FORCED_PASSWORD_CHANGED;
 				} else {
 					return PASSWORDS_CHANGED;
@@ -500,9 +501,9 @@ public class SessionObjectBase {
 
 		return ALL_GOOD;
 	}
-	
+
 	public void handleMyProfile(HttpServletRequest request) {
-		
+
 		String sending_page = (String) request.getParameter("sending_page");
 		String update = (String) request.getParameter("update");
 
@@ -511,10 +512,10 @@ public class SessionObjectBase {
 				&& (sending_page.equalsIgnoreCase("my_profile"))) {
 			OSP_UserAdmin pu = new OSP_UserAdmin(this);
 			pu.handleMyProfile(request, user_id);
-		
+
 		}
 	}
-	
+
 	public String captcha_code = "";
 
 	/**
@@ -636,14 +637,14 @@ public class SessionObjectBase {
 	 * @return
 	 */
 	public User handleCreateUser(HttpServletRequest request) {
-		
+
 		String username = request.getParameter("email");
-		
+
 		User user = User.getByUsername(schema, username);
-		
-		if (user != null){
+
+		if (user != null) {
 			this.errorMsg = "The user " + username + " already exists.";
-			return user; 
+			return user;
 		} else {
 			OSP_UserAdmin pu = new OSP_UserAdmin(this);
 			return pu.handleCreateUser(request, schema);

@@ -241,6 +241,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public String setOfUsers = ""; //$NON-NLS-1$
 	public String invitationCode = ""; //$NON-NLS-1$
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getDefaultInviteMessage() {
 
 		String defaultInviteEmailMsg = "Dear Student,\r\n"; //$NON-NLS-1$
@@ -616,14 +620,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public Email handleNotifyPlayers(HttpServletRequest request) {
+	public Email handleNotifyPlayers(HttpServletRequest request, SchemaInformationObject sio) {
 
 		String command = request.getParameter("command");
 		String sending_page = request.getParameter("sending_page");
 		
-		Email returnEmail = Email.getRawBlankSimInvite();
+		String simName = "";
+		if (this.sim_id != null){
+			Simulation sim = Simulation.getById(schema, sim_id);
+			simName = sim.getDisplayName();
+		}
 		
-		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
+		Email returnEmail = Email.getRawBlankSimInvite(simName);
 
 		if ((command != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("notify_players"))){
 
@@ -651,12 +659,32 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					pname = pname.replaceFirst("invite_", "");
 					UserAssignment ua = UserAssignment.getById(schema, new Long(pname));
 					
+					String customizedMessage = email_text;
+					
+					if (ua.getUser_id() == null){
+						// Get the user name that the faciliator entered.
+						String this_player_name = request.getParameter(ua.getId() + "_user_display_name");
+						customizedMessage = customizedMessage.replace("[Student Name]", this_player_name);
+						System.out.println("         ");
+						System.out.println(customizedMessage);
+						System.out.println("         ");
+					} else {
+						User user = User.getById(schema, ua.getUser_id());
+						customizedMessage = customizedMessage.replace("[Student Name]", user.getBu_full_name());
+						System.out.println("         ");
+						System.out.println(customizedMessage);
+						System.out.println("         ");
+					}
+					
 					if (sio.isEmailEnabled()){
-						Email email = new Email(this.user_id, send_email_from, email_subject, email_text, 
+						Email email = new Email(this.user_id, send_email_from, email_subject, customizedMessage, 
 								this.sim_id, this.runningSimId);
 						email.setSimInvitationEmail(true);
 						email.saveMe(schema);
 						//email.sendIt(schema, running_sim_id)
+						
+						ua.advanceStatus("invited");
+						ua.saveMe(schema);
 					}
 				}
 
@@ -4076,7 +4104,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			returnString += "<option value=\"" + bss.getId() + "\">"
 					+ bss.getRec_tab_heading() + "</option>"
-					+ ObjectPackager.lineTerminator;
+					+ USIP_OSP_Util.lineTerminator;
 		}
 
 		// Link to the option that allows them to define a whole new web
@@ -4117,12 +4145,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					custCust += "<option value=\"" + cs.getId().toString()
 							+ "\" class=\"player_customized_section\" >"
 							+ cs.getRec_tab_heading() + "</option>"
-							+ ObjectPackager.lineTerminator;
+							+ USIP_OSP_Util.lineTerminator;
 				} else {
 					rawCust += "<option value=\"" + cs.getId().toString()
 							+ "\" class=\"customized_section\" >"
 							+ cs.getRec_tab_heading() + "</option>"
-							+ ObjectPackager.lineTerminator;
+							+ USIP_OSP_Util.lineTerminator;
 				}
 
 			} // End of if they don't have this section already at this
