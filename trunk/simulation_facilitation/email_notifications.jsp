@@ -15,9 +15,10 @@
 	
 	afso.backPage = "email_notifications.jsp";
 	
+	// Used to detect if email has been enabled on this server, and to send email if needed.
 	SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(afso.schema);
 	
-	Email email = afso.handleNotifyPlayers(request);
+	Email email = afso.handleNotifyPlayers(request, sio);
 
 	////////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	if (afso.sim_id != null){
@@ -95,7 +96,6 @@ Email has not been enabled on this server. Please contact your administrator if 
         <p>Emailing players in  <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
           To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
   
-  <p>&nbsp;</p>
     <form action="email_notifications.jsp" method="post" name="form1" id="form1">
       <h2>
         <input type="hidden" name="sending_page" value="notify_players" />
@@ -105,10 +105,9 @@ Email has not been enabled on this server. Please contact your administrator if 
       <table width="100%" border="1">
         <tr>
           <td valign="top"><strong>Actor</strong></td>
-          <td valign="top"><strong>User</strong></td>
+          <td valign="top"><strong>Student Name </strong></td>
           <td valign="top"><strong>Username</strong></td>
-          <td valign="top"><strong>Previous<br />
-            Invites</strong></td>
+          <td valign="top"><strong>Status</strong></td>
           <td valign="top"><strong>Send</strong></td>
         </tr>
 		<% 
@@ -125,21 +124,38 @@ Email has not been enabled on this server. Please contact your administrator if 
 				for (ListIterator liua = theUsersAssigned.listIterator(); liua.hasNext();) {
 					UserAssignment ua = (UserAssignment) liua.next();
 					
+					boolean userHasBeenRegistered = false;
+					
 					if (ua.getUser_id() != null){
 						user_assigned = User.getById(afso.schema, ua.getUser_id());
+						userHasBeenRegistered = true;
 					} else {
 						user_assigned = new User();
-						user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
 					}
 
 					%>
         <tr>
           <td valign="top"><%= act.getActorName() %></td>
-          <td valign="top">John Doe</td>
-          <td valign="top"><%= user_assigned.getBu_username() %></td>
-          <td valign="top">&nbsp;</td>
-          <td valign="top"><label>
-            <input type="checkbox" name="invite_<%= ua.getId() %>" value="true" />
+          <td valign="top">
+		  	<% if (userHasBeenRegistered) { %>
+				<%= user_assigned.getUser_name() %>
+			<% } else { %>
+				<input name="<%= ua.getId() %>_user_display_name" type="text" value="Player" size="30" maxlength="80" />
+			<% } %>
+		  </td>
+          <td valign="top"><%= ua.getUsername() %></td>
+          <td valign="top"><%= ua.getUaStatus() %></td>
+          <td valign="top">
+		  	<%
+				String checked_value = "checked=\"checked\"";
+				
+				if (false){
+					checked_value = "";
+				}
+				
+			%>
+		  <label>
+            <input type="checkbox" name="invite_<%= ua.getId() %>" value="true" <%= checked_value %> />
           </label></td>
         </tr>
 		<%
@@ -167,13 +183,12 @@ Email has not been enabled on this server. Please contact your administrator if 
         </tr>
         <tr valign="top"> 
           <td width="34%">Email text:<br /> <br /> </td>
-                <td width="66%"> Dear &lt;Players Name&gt;,<br /> <p>
+                <td width="66%">
+                  <p>
                   <textarea name="email_text" cols="60" rows="5"><%= email.getMsgtext() %></textarea>
                 </p>
-                  <p><font color="#CC9900">Note:</font> You should not need to replace 
-                    the text inside of brackets []. If your system is configured 
-                    correctly, these will automatically be replaced with the correct 
-                    information in the emails sent out.</p></td>
+                  <p><strong><font color="#CC9900">Note:</font> You should not edit the text inside of brackets []. This text will automatically be replaced with the correct 
+                    information for your system. </strong></p></td>
               </tr>
         </table>
     
@@ -185,14 +200,13 @@ Email has not been enabled on this server. Please contact your administrator if 
         </label>
 </p>
 	</form>
-              <h2>Previously Sent Invitations </h2>
-              <p>Functionalty in progress. </p>
+              <h2>Previously Sent Invitations for this Running Simulation </h2>
 <%
 		// Get email list
 	for (ListIterator li = Email.getPrototypeInvites(afso.schema, afso.sim_id, afso.getRunningSimId()).listIterator(); li.hasNext();) {
 		Email emailPrototype = (Email) li.next();
 %>
-Email <%= emailPrototype.getId() %><br/>
+<a href="email_notifications.jsp?queue_up=true&e_id=<%= emailPrototype.getId() %>">Email </a>sent on <%= emailPrototype.getMsgDate() %><br/>
 <% } // end of loop over invite emails. %>
 
               </blockquote>

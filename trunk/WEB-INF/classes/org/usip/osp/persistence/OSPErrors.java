@@ -14,7 +14,6 @@ import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.communications.Emailer;
 import org.usip.osp.networking.SessionObjectBase;
-import org.usip.osp.sharing.ObjectPackager;
 
 /* 
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -281,7 +280,7 @@ public class OSPErrors {
     		subject = "User email on " + subject;
     	}
     	
-    	String lt = ObjectPackager.lineTerminator;
+    	String lt = USIP_OSP_Util.lineTerminator;
     	
     	String message = "Error Date " + this.getErrorDate() + lt;
     	

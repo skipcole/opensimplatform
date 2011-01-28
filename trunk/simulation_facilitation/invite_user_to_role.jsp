@@ -12,19 +12,24 @@
 	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	afso.backPage = "bulk_invite.jsp";
+	afso.backPage = "invite_user_to_role.jsp";
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
+	List uaList = new ArrayList();
 	//String results = afso.handleBulkInvite(request);
 	String ua_id = (String) request.getParameter("ua_id");
 	
 	if ((ua_id != null) && (ua_id.equalsIgnoreCase("all"))){
-	
+		uaList = UserAssignment.getAllForRunningSim(afso.schema, afso.getRunningSimId());
+	} else if (ua_id != null) {   // have got sent in an id.
+		UserAssignment ua = UserAssignment.getById(afso.schema, new Long(ua_id));
+		uaList.add(ua);
 	}
+
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -47,13 +52,31 @@
               <br />
       <blockquote> 
         
-        <p>The following players will be sent invitations to register, and then assigned to the following roles:</p>
-        <p>Loop over uas</p>
-        <p>ua_id is <%= ua_id %>  </p>
-
+        <p>Check the 'send' box for the players you want to send invitations to register</p>
+        <p>
+          <input type="hidden" name="sending_page" value="bulk_invite" />
+          </p>
         <form action="bulk_invite.jsp" method="post" name="form1" id="form1">
-      <input type="hidden" name="sending_page" value="bulk_invite" />
-      <table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <table width="100%" border="0">
+            <tr>
+              <td><strong>Actor</strong></td>
+              <td><strong>Username</strong></td>
+              <td><strong>Player's Name </strong></td>
+              <td><strong>Status</strong></td>
+              <td><strong>Send</strong></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><label>
+                <input type="checkbox" name="checkbox" value="checkbox" />
+              </label></td>
+            </tr>
+          </table>
+          <p>&nbsp;    </p>
+          <table width="100%" border="0" cellspacing="2" cellpadding="2">
         <tr valign="top">
           <td>Message Text: <a href="helptext/bulk_invite_message_text_help.jsp" target="helpinright">(?)</a></td>
                 <td><textarea name="defaultInviteEmailMsg" cols="60" rows="5"><%= afso.getDefaultInviteMessage() %></textarea></td>

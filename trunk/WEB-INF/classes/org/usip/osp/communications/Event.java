@@ -22,7 +22,6 @@ import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
-import org.usip.osp.sharing.ObjectPackager;
 
 /**
  * This class represents an event.
@@ -174,7 +173,7 @@ public class Event implements EventInterface, SimSectionDependentObject, Exporta
 		for (ListIterator<EventInterface> li = setOfEvents.listIterator(); li.hasNext();) {
 			EventInterface thisEvent = li.next();
 			
-			returnString += packageEvent(thisEvent) + ObjectPackager.lineTerminator;
+			returnString += packageEvent(thisEvent) + USIP_OSP_Util.lineTerminator;
 			
 		}
 		

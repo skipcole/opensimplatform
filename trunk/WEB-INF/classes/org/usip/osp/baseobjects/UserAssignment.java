@@ -145,12 +145,14 @@ public class UserAssignment{
 	public void setAssumedIdentityId(Long assumedIdentityId) {
 		this.assumedIdentityId = assumedIdentityId;
 	}
-
-	public List getAllForUser(Long userid, org.hibernate.Session hibernate_session) {
-		return (hibernate_session.createQuery("from UserAssignment where user_id = " +  //$NON-NLS-1$
-				userid.toString()).list());
-	}
 	
+	/**
+	 * Returns all of the user assignments for a user.
+	 * 
+	 * @param schema
+	 * @param userid
+	 * @return
+	 */
 	public static List getAllForUser(String schema, Long userid) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -424,7 +426,8 @@ public class UserAssignment{
 	public String getAsParameterString() {
 		String returnString = 
 			"?uname=" + getUsername() + "&s_id=" + getSim_id() + 
-			"&rs_id=" + getRunning_sim_id() + "&a_id=" + getActor_id();
+			"&rs_id=" + getRunning_sim_id() + "&a_id=" + getActor_id() +
+			"&ua_id=" + this.getId();
 		
 		return returnString;
 	}
@@ -470,7 +473,17 @@ public class UserAssignment{
 		return rs;
 	}
 	
-	
+	public void advanceStatus(String newStatus){
+		
+		if ((this.uaStatus == null) || (this.uaStatus.equalsIgnoreCase(""))){
+			this.uaStatus = newStatus;
+		}
+		
+		
+		
+		
+	}
+		
 	
 	
 }

@@ -232,4 +232,6 @@ public class USIP_OSP_Util {
 		}
 
 	}
+
+	public static final String lineTerminator = "\r\n"; //$NON-NLS-1$
 }
