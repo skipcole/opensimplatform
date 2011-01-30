@@ -650,5 +650,36 @@ public class SessionObjectBase {
 			return pu.handleCreateUser(request, schema);
 		}
 	}
+	
+	public static final int USER_FOUND = 1;
+	public static final int USER_NOT_FOUND = 2;
+	
+	public int processConfirmation(HttpServletRequest request){
+		
+		System.out.println("Doing confirmation");
+		
+		String schema = request.getParameter("schema");
+		String er_id = request.getParameter("er_id");
+		String ua_id = request.getParameter("ua_id");
+	
+		
+		System.out.println("s/e/u: " + schema + er_id + ua_id);
+		
+		if ((schema != null) && (er_id != null) & (ua_id != null)) {
+			System.out.println("doin it");
+			
+			UserAssignment ua = UserAssignment.getById(schema, new Long(ua_id));
+			ua.advanceStatus("confirmed");
+			ua.saveMe(schema);
+			
+			if (ua.getUser_id() != null){
+				return USER_FOUND;
+			} else {
+				return USER_NOT_FOUND;
+			}
+		}
+		return 0;
+	}
+	
 
 }

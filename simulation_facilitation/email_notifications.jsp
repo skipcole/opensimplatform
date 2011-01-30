@@ -9,7 +9,7 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
@@ -202,13 +202,33 @@ Email has not been enabled on this server. Please contact your administrator if 
 	</form>
               <h2>Previously Sent Invitations for this Running Simulation </h2>
 <%
+	List previousSentList = Email.getPrototypeInvites(afso.schema, afso.sim_id, afso.getRunningSimId());
+	
+	if ((previousSentList == null) || (previousSentList.size() == 0)) {
+	
+	%>
+	None
+	<% } else { %>
+	<table border="1">
+	<TR>
+	<td valign="top"><strong>Click to Queue it Up</strong></td>
+	<td valign="top"><strong>Sent</strong></td>
+	<td valign="top"><strong>Subject Line</strong></td>
+	</TR>
+	<%
 		// Get email list
 	for (ListIterator li = Email.getPrototypeInvites(afso.schema, afso.sim_id, afso.getRunningSimId()).listIterator(); li.hasNext();) {
 		Email emailPrototype = (Email) li.next();
 %>
-<a href="email_notifications.jsp?queue_up=true&e_id=<%= emailPrototype.getId() %>">Email </a>sent on <%= emailPrototype.getMsgDate() %><br/>
+<tr>
+<td valign="top">
+<a href="email_notifications.jsp?queue_up=true&e_id=<%= emailPrototype.getId() %>">Email </a></td>
+<td valign="top"><%= emailPrototype.getSendDate() %></td>
+<td valign="top"><%= emailPrototype.getSubjectLine() %></td>
+</tr>
 <% } // end of loop over invite emails. %>
-
+</table>
+<% } // end of if there were previous invits %>
               </blockquote>
               <% } // end of if running_sim.id has been set. %>
         <%

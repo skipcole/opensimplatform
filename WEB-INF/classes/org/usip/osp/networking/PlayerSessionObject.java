@@ -1389,7 +1389,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				
 				// Send real world email if called for.
 				if ((forward_on) && (email.isSendInRealWorld())){
-					email.sendIt(schema, this.getRunningSimId());
+					email.sendInGameEmail(schema, this.getRunningSimId());
 				}
 
 				if (add_recipient != null) {

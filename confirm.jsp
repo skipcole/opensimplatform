@@ -3,19 +3,15 @@ import="java.io.*,java.util.*,java.text.*,
 java.sql.*,
 org.usip.osp.networking.*,
 org.usip.osp.persistence.*,
-org.usip.osp.baseobjects.*" %>
+org.usip.osp.baseobjects.*" 
+errorPage="/error.jsp"
+%>
 <%
 	
-	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
 	
-	String e_id = request.getParameter("e_id");
-	String er_id = request.getParameter("er_id");
-	String s_id = request.getParameter("s_id");
-	String r_id = request.getParameter("r_id");
-	
-	//response.sendRedirect("login.jsp");
-	//return;
-	//This page receives email confirmations and then forwards the player on to the applicable portion of the software.
+	int returnCode = sob.processConfirmation(request);
+
 		
 %>
 <html>
@@ -43,7 +39,7 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "USIP_OSP_HEADER") %></h1></td>
+    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, sob.languageCode, "USIP_OSP_HEADER") %></h1></td>
     <td align="right" background="Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
@@ -62,7 +58,9 @@ body {
 <table width="720" border="0" cellspacing="0" cellpadding="0" align="center" background="Templates/images/page_bg.png">
 
   <tr> 
-    <td colspan="3" background="Templates/images/page_bg.png" ><h2 align="center">Thank you for confirming receipt of that email.</h2></td>
+    <td colspan="3" background="Templates/images/page_bg.png" ><h2 align="center">Thank you for confirming receipt of your invitation email.</h2>
+      <p align="left">You may now log into the platform.</p>
+      <p align="left">You must register to log into the platform. </p></td>
   </tr>
 
 </table>

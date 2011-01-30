@@ -37,6 +37,17 @@ public class EmailRecipients {
 		
 	}
 	
+	/**
+	 * Creates an email recipient applicable for an in game email (that can also be sent out side of the game.)
+	 * 
+	 * @param schema
+	 * @param email_id
+	 * @param rsid
+	 * @param sid
+	 * @param aid
+	 * @param a_name
+	 * @param etype
+	 */
 	public EmailRecipients(String schema, Long email_id, Long rsid, Long sid, Long aid, String a_name, int etype){
 		
 		this.setActor_id(aid);
@@ -48,6 +59,25 @@ public class EmailRecipients {
 		
 		this.saveMe(schema);
 	
+	}
+	
+	/**
+	 * Creates an email recipient line applicable to a particular user.
+	 * 
+	 * @param schema
+	 * @param email_id
+	 * @param rsid
+	 * @param sid
+	 * @param username
+	 */
+	public EmailRecipients(String schema, Long email_id, Long rsid, Long sid, String username, int recipientType){
+		this.setEmail_id(email_id);
+		this.setRunning_sim_id(rsid);
+		this.setSim_id(sid);
+		this.setToUserName(username);
+		this.setRecipient_type(recipientType);
+		
+		this.saveMe(schema);
 	}
 	
 	
@@ -221,6 +251,14 @@ public class EmailRecipients {
 
 	public void setActorName(String actor_name) {
 		this.actorName = actor_name;
+	}
+
+	public boolean isRecieptConfirmed() {
+		return recieptConfirmed;
+	}
+
+	public void setRecieptConfirmed(boolean recieptConfirmed) {
+		this.recieptConfirmed = recieptConfirmed;
 	}
 
 	public Long getUser_id() {
