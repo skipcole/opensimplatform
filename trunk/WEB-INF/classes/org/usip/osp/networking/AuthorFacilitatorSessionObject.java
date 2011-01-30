@@ -339,6 +339,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnString;
 	}
 
+	/**
+	 * Returns the URL of the autoregistration site for this installation for the particular
+	 * schema which is being used.
+	 * 
+	 * @return
+	 */
 	public String getAutoRegistrationBaseLink() {
 
 		String baseURL = USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
@@ -347,6 +353,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
 
 		baseURL += "?schema_id=" + schema_id;
+
+		return baseURL;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getConfirmEmailBaseLink(String schema) {
+
+		String baseURL = USIP_OSP_Properties.getValue("base_sim_url") //$NON-NLS-1$
+				+ "confirm.jsp";
+
+		baseURL += "?schema=" + schema;
 
 		return baseURL;
 	}
@@ -632,7 +652,19 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 		
 		Email returnEmail = Email.getRawBlankSimInvite(simName);
+		
+		//////////////////////////////
+		// If user has selected a previously sent email to send again ...
+		String queue_up = request.getParameter("queue_up");
+		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))){
+			String e_id = request.getParameter("e_id");
+			
+			returnEmail = Email.getById(schema, new Long(e_id));
+		}
+		
 
+		//////////////////////////////////////////
+		// If user is sending email
 		if ((command != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("notify_players"))){
 
 			String email_text = request.getParameter("email_text");
@@ -665,23 +697,29 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						// Get the user name that the faciliator entered.
 						String this_player_name = request.getParameter(ua.getId() + "_user_display_name");
 						customizedMessage = customizedMessage.replace("[Student Name]", this_player_name);
-						System.out.println("         ");
-						System.out.println(customizedMessage);
-						System.out.println("         ");
 					} else {
 						User user = User.getById(schema, ua.getUser_id());
 						customizedMessage = customizedMessage.replace("[Student Name]", user.getBu_full_name());
-						System.out.println("         ");
-						System.out.println(customizedMessage);
-						System.out.println("         ");
 					}
 					
 					if (sio.isEmailEnabled()){
 						Email email = new Email(this.user_id, send_email_from, email_subject, customizedMessage, 
 								this.sim_id, this.runningSimId);
 						email.setSimInvitationEmail(true);
+						email.setToActorEmail(false);
 						email.saveMe(schema);
-						//email.sendIt(schema, running_sim_id)
+						EmailRecipients er = new EmailRecipients(schema, email.getId(), this.getRunningSimId(), 
+								sim_id, ua.getUsername(), EmailRecipients.RECIPIENT_TO);
+						
+						String confirmURL = AuthorFacilitatorSessionObject.getConfirmEmailBaseLink(sio.getSchema_name());
+						confirmURL += "&ua_id=" + ua.getId();
+						confirmURL += "&er_id=" + er.getId();
+						
+						customizedMessage = customizedMessage.replace("[confirm_receipt]", confirmURL);
+						email.setMsgtext(customizedMessage);
+						email.saveMe(schema);
+						
+						email.sendMe(sio);
 						
 						ua.advanceStatus("invited");
 						ua.saveMe(schema);

@@ -43,6 +43,20 @@ import org.usip.osp.persistence.SchemaInformationObject;
 @Proxy(lazy=false)
 public class Email {
 	
+	/** Email can be to a particular user, or to an actor. Email that is to 'an actor' gets
+	 * sent to each user assigned to that role while email that is sent to a particular user
+	 * obviously does not get split up.
+	 */
+	private boolean toActorEmail = true;
+	
+	public boolean isToActorEmail() {
+		return toActorEmail;
+	}
+
+	public void setToActorEmail(boolean toActorEmail) {
+		this.toActorEmail = toActorEmail;
+	}
+	
 	/**
 	 * Zero argument constructor required by hibernate.
 	 */
@@ -61,6 +75,8 @@ public class Email {
 	}
 	
 	
+	
+	
 	public static Email getRawBlankSimInvite(String simName){
 		Email email = new Email();
 		
@@ -73,6 +89,8 @@ public class Email {
 		msgText += "Enjoy!" + USIP_OSP_Util.lineTerminator;
 		
 		email.setMsgtext(msgText);
+		
+		email.setToActorEmail(false);
  
 		return email;
 	}
@@ -155,6 +173,9 @@ public class Email {
     
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
+	
+	@Column(name="SEND_DATE", columnDefinition="datetime") 	
+	private java.util.Date sendDate;	
 
 	/** Indicates if this email is a forward of another email. */
 	private boolean forward_email = false;
@@ -327,7 +348,14 @@ public class Email {
 		this.msgDate = msgDate;
 	}
 	
-	
+	public java.util.Date getSendDate() {
+		return sendDate;
+	}
+
+	public void setSendDate(java.util.Date sendDate) {
+		this.sendDate = sendDate;
+	}
+
 	private static String orderByDesc = " order by id desc " ;
 
 	
@@ -494,15 +522,15 @@ public class Email {
 	 * @param actorId
 	 * @return
 	 */
-	public static List getRecipientsOfAnEmail(String schema, Long email_id, int recipient_type){
+	public static List <EmailRecipients> getRecipientsOfAnEmail(String schema, Long email_id, int recipient_type){
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String hqlString = "from EmailRecipients where email_id = :eid and recipient_type = :recipient_type";
+		String hqlString = "from EmailRecipients where email_id = :email_id and recipient_type = :recipient_type";
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)
-			.setString("eid", email_id.toString())
+			.setLong("email_id", email_id)
 			.setInteger("recipient_type", recipient_type)
 			.list(); //$NON-NLS-1$
 
@@ -594,18 +622,75 @@ public class Email {
 	 * 
 	 * @param sio
 	 */
-	public void sendEmail(SchemaInformationObject sio){
+	public void sendMe(SchemaInformationObject sio){
 
-		Vector to = new Vector();
-		this.generateListOfRecipients(sio.getSchema_name(), this.getId(), EmailRecipients.RECIPIENT_TO);
-		
-		Vector cc = new Vector();
-		Vector bcc = new Vector();
-		
-		Emailer.postMail(sio, to, this.getSubjectLine(), this.getMsgtext(), this.fromUserName, cc, bcc);
+		System.out.println("im in send me");
+		if (this.sendInRealWorld){
+			// Do real world send stuff.
+			Vector to = getListOfRecipients(sio.getSchema_name(), this.getId(), 
+					running_sim_id, this.isToActorEmail(), EmailRecipients.RECIPIENT_TO);
+			Vector cc = getListOfRecipients(sio.getSchema_name(), this.getId(), 
+					running_sim_id, this.isToActorEmail(), EmailRecipients.RECIPIENT_CC);
+			Vector bcc = getListOfRecipients(sio.getSchema_name(), this.getId(), 
+					running_sim_id, this.isToActorEmail(), EmailRecipients.RECIPIENT_BCC);	
+
+			System.out.println("about to post");
+			Emailer.postMail(sio, to, this.getSubjectLine(), this.getMsgtext(), this.fromUserName, cc, bcc);
+		}
+				
+		this.hasBeenSent = true;
+		this.sendDate = new java.util.Date();
+		this.saveMe(sio.getSchema_name());
 	}
 	
-	public boolean sendIt(String schema, Long running_sim_id){
+	/**
+	 * Returns a list of user email addresses in a vector depending on the criteria sent in.
+	 * 
+	 * @param schema
+	 * @param targetingActor
+	 * @param recipientType
+	 * @return
+	 */
+	public static Vector getListOfRecipients(String schema, Long e_id, Long rs_id, boolean targetingActor, int recipientType){
+		
+		System.out.println("im in get list");
+		Vector <String> returnVector = new Vector();
+		
+		List recipients = new ArrayList();
+		
+		if (targetingActor){	// Look up all users playing this actor.
+			System.out.println("targeting actor");
+			recipients = Email.getRecipientsOfAnEmail(schema, e_id, recipientType);
+			
+			for (ListIterator<EmailRecipients> li = recipients.listIterator(); li.hasNext();) {
+				EmailRecipients this_er = li.next();
+				
+				// Get List of Users playing the actors.
+				List uaList = UserAssignment.getAllForActorInARunningSim(schema, this_er.getActor_id(), rs_id);
+				
+				for (ListIterator<UserAssignment> li_ua = uaList.listIterator(); li_ua.hasNext();) {
+					UserAssignment this_ua = li_ua.next();
+					
+					User user = User.getById(schema, this_ua.getUser_id());
+					returnVector.add(user.getUser_name());
+				}
+			}
+		} else {	// Users must have been specified specifically
+			recipients = Email.getRecipientsOfAnEmail(schema, e_id, recipientType);
+			
+			for (ListIterator<EmailRecipients> li = recipients.listIterator(); li.hasNext();) {
+				EmailRecipients this_er = li.next();
+				
+				System.out.println("should see name here " + this_er.getToUserName());
+				returnVector.add(this_er.getToUserName());
+			}
+		}
+		
+		return returnVector;
+		
+	}
+	
+	public boolean sendInGameEmail(String schema, Long running_sim_id){
 		
 		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
 		

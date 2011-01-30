@@ -473,13 +473,20 @@ public class UserAssignment{
 		return rs;
 	}
 	
+	public static final int INVITED = 1;
+	public static final int CONFIRMED = 2;
+	
 	public void advanceStatus(String newStatus){
 		
 		if ((this.uaStatus == null) || (this.uaStatus.equalsIgnoreCase(""))){
 			this.uaStatus = newStatus;
 		}
 		
-		
+		if (this.uaStatus.equalsIgnoreCase("invited")){
+			if (newStatus.equalsIgnoreCase("confirmed")){
+				this.uaStatus = newStatus;
+			}
+		}
 		
 		
 	}
