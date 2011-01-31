@@ -473,22 +473,56 @@ public class UserAssignment{
 		return rs;
 	}
 	
-	public static final int INVITED = 1;
-	public static final int CONFIRMED = 2;
+	public static final String STATUS_INVITED = "invited";
+	public static final String STATUS_CONFIRMED = "confirmed";
+	public static final String STATUS_REGISTERED = "registered";
+	public static final String STATUS_LOGGED_ON = "logged on";
+	public static final String STATUS_ENTERED = "entered simulation";
 	
+	/**
+	 * Advances the status indicator of this User Assignment if the event is
+	 * indeed an advancement. 
+	 * @param newStatus
+	 */
 	public void advanceStatus(String newStatus){
 		
-		if ((this.uaStatus == null) || (this.uaStatus.equalsIgnoreCase(""))){
-			this.uaStatus = newStatus;
+		if (prioritizeStatusString(newStatus) > prioritizeStatusString(uaStatus)){
+			uaStatus = newStatus;
 		}
 		
-		if (this.uaStatus.equalsIgnoreCase("invited")){
-			if (newStatus.equalsIgnoreCase("confirmed")){
-				this.uaStatus = newStatus;
-			}
+	}
+	
+	/**
+	 * Puts the text strings of status information into a hierarchical order.
+	 * 
+	 * @param inputString
+	 * @return
+	 */
+	public int prioritizeStatusString(String inputString){
+		
+		if (inputString == null){
+			return -1;
 		}
-		
-		
+		if (inputString.equalsIgnoreCase("")){
+			return 0;
+		}
+		if (inputString.equalsIgnoreCase(STATUS_INVITED)){
+			return 1;
+		}		
+		if (inputString.equalsIgnoreCase(STATUS_CONFIRMED)){
+			return 2;
+		}	
+		if (inputString.equalsIgnoreCase(STATUS_REGISTERED)){
+			return 3;
+		}
+		if (inputString.equalsIgnoreCase(STATUS_LOGGED_ON)){
+			return 4;
+		}
+		if (inputString.equalsIgnoreCase(STATUS_ENTERED)){
+			return 5;
+		}
+
+		return 0;
 	}
 		
 	

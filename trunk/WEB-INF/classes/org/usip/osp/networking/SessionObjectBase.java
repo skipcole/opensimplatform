@@ -651,9 +651,16 @@ public class SessionObjectBase {
 		}
 	}
 	
+	public static final int CONFIRM_DEFAULT = 0;
 	public static final int USER_FOUND = 1;
 	public static final int USER_NOT_FOUND = 2;
 	
+	/**
+	 * Handles the entry of the player to the confirmation page. 
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public int processConfirmation(HttpServletRequest request){
 		
 		System.out.println("Doing confirmation");
@@ -661,9 +668,6 @@ public class SessionObjectBase {
 		String schema = request.getParameter("schema");
 		String er_id = request.getParameter("er_id");
 		String ua_id = request.getParameter("ua_id");
-	
-		
-		System.out.println("s/e/u: " + schema + er_id + ua_id);
 		
 		if ((schema != null) && (er_id != null) & (ua_id != null)) {
 			System.out.println("doin it");
@@ -678,7 +682,7 @@ public class SessionObjectBase {
 				return USER_NOT_FOUND;
 			}
 		}
-		return 0;
+		return CONFIRM_DEFAULT;
 	}
 	
 
