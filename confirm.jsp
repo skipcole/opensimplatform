@@ -10,6 +10,10 @@ errorPage="/error.jsp"
 	
 	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
 	
+	if (sob == null) {
+		sob = new SessionObjectBase();
+	}
+	
 	int returnCode = sob.processConfirmation(request);
 
 		
@@ -58,9 +62,20 @@ body {
 <table width="720" border="0" cellspacing="0" cellpadding="0" align="center" background="Templates/images/page_bg.png">
 
   <tr> 
-    <td colspan="3" background="Templates/images/page_bg.png" ><h2 align="center">Thank you for confirming receipt of your invitation email.</h2>
-      <p align="left">You may now log into the platform.</p>
-      <p align="left">You must register to log into the platform. </p></td>
+    <td colspan="3" background="Templates/images/page_bg.png" >
+	<% if (returnCode == SessionObjectBase.CONFIRM_DEFAULT) { %>
+		<h2 align="center">You have reached the email confirmation page.</h2>
+	<% } else { %>
+		<h2 align="center">Thank you for confirming receipt of your invitation email.</h2>
+		<% if (returnCode == SessionObjectBase.USER_FOUND) { %>
+      	<p align="left">You may now <a href="login.jsp">login to the platform</a>.</p>
+	  	<% } else if (returnCode == SessionObjectBase.USER_NOT_FOUND){ %>
+      	<p align="left">You must now <a href="simulation_user_admin/auto_registration_page.jsp">register on this system</a> to join in this simulation. </p>
+      	<p align="left">&nbsp;</p>
+	 <% } // End of if it looks like a real confirmation request. %>
+	  
+	  </td>
+	<% } %>
   </tr>
 
 </table>
