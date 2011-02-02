@@ -517,7 +517,9 @@ public class SessionObjectBase {
 	}
 
 	public String captcha_code = "";
-
+	
+	/** Indicates if the schema has been specified. */
+	public boolean sioSet = false;
 	/**
 	 * Handles the auto-registration of players.
 	 * 
@@ -527,23 +529,23 @@ public class SessionObjectBase {
 	public User handleAutoRegistration(HttpServletRequest request) {
 
 		User user = new User();
+		sioSet = false;
 
 		String command = request.getParameter("command"); //$NON-NLS-1$
-
+		
+		// Coming here from user action. 
 		if ((command != null) && (command.equalsIgnoreCase("Register"))) {
 
 			String captchacode = USIP_OSP_Util.cleanNulls(request
 					.getParameter("captchacode"));
 
 			/* Must have a schema id to now where to put the registered user. */
-			String schema_id = request.getParameter("schema_id"); //$NON-NLS-1$
+			String schema = request.getParameter("schema"); //$NON-NLS-1$
 
-			if (schema_id == null) {
+			if (schema == null) {
 				return user;
 			}
-
-			SchemaInformationObject sio = SchemaInformationObject
-					.getById(new Long(schema_id));
+			sioSet = true;
 
 			String uri_id = (String) request.getParameter("uri");
 
@@ -551,8 +553,7 @@ public class SessionObjectBase {
 			boolean recordSaveToURI = false;
 
 			if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
-				uri = UserRegistrationInvite.getById(sio.getSchema_name(),
-						new Long(uri_id));
+				uri = UserRegistrationInvite.getById(schema, new Long(uri_id));
 				recordSaveToURI = true;
 			}
 
@@ -595,7 +596,7 @@ public class SessionObjectBase {
 				return user;
 			}
 
-			if (User.getByUsername(sio.getSchema_name(), user.getUser_name()) != null) {
+			if (User.getByUsername(schema, user.getUser_name()) != null) {
 				errorMsg += "This username/email already has been registered. <br/>";
 				return user;
 			}
@@ -606,7 +607,7 @@ public class SessionObjectBase {
 
 				try {
 
-					user = new User(sio.getSchema_name(), user.getUser_name(),
+					user = new User(schema, user.getUser_name(),
 							password, user.getBu_first_name(), user
 									.getBu_last_name(), user
 									.getBu_middle_name(), user
@@ -617,6 +618,19 @@ public class SessionObjectBase {
 						uri.setRegistrationDate(new Date());
 						uri.saveMe();
 					}
+					
+					String ua_id = request.getParameter("ua_id");
+					if ((ua_id != null) && (!(ua_id.equalsIgnoreCase("null"))) ) {
+						this.uaId = new Long(ua_id);
+						UserAssignment ua = UserAssignment.getById(schema, uaId);
+						user.setUser_name(ua.getUsername());
+						user.setBu_username(ua.getUsername());
+						
+						ua.setUser_id(user.getId());
+						ua.advanceStatus(UserAssignment.STATUS_REGISTERED);
+						ua.saveMe(schema);
+					}
+					
 				} catch (Exception e) {
 					errorMsg = e.getMessage();
 				}
@@ -626,6 +640,44 @@ public class SessionObjectBase {
 				forward_on = true;
 			}
 
+		}
+		
+		// Coming here from Bulk Invite.
+		// Get the schema id that has been sent in. If there is none, then allow user to select organizational database.
+		String schema_id = (String) request.getParameter("schema_id");
+		String uri_id = (String) request.getParameter("uri");
+		String initial_entry = (String) request.getParameter("initial_entry");
+		
+		SchemaInformationObject sio = new SchemaInformationObject();
+		UserRegistrationInvite uri = new UserRegistrationInvite();
+		
+		if ((schema_id != null) && (!(schema_id.equalsIgnoreCase("null")))) {
+			sio = SchemaInformationObject.getById(new Long(schema_id));
+			
+			sioSet = true;
+			
+			if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
+				uri = UserRegistrationInvite.getById(sio.getSchema_name(), new Long(uri_id));
+			
+				if (initial_entry != null) {
+					user.setBu_username(uri.getOriginalInviteEmailAddress());
+				}
+			}
+		}
+		
+		// coming here from User Assignment Invite.
+		String schema = (String) request.getParameter("schema");
+		if (schema != null){
+			this.schema = schema;
+			this.sioSet = true;
+		}
+		
+		String ua_id = request.getParameter("ua_id");
+		if (ua_id != null) {
+			this.uaId = new Long(ua_id);
+			UserAssignment ua = UserAssignment.getById(schema, uaId);
+			user.setUser_name(ua.getUsername());
+			user.setBu_username(ua.getUsername());
 		}
 
 		return user;
@@ -655,6 +707,8 @@ public class SessionObjectBase {
 	public static final int USER_FOUND = 1;
 	public static final int USER_NOT_FOUND = 2;
 	
+	public Long uaId = null;
+	
 	/**
 	 * Handles the entry of the player to the confirmation page. 
 	 * 
@@ -670,9 +724,12 @@ public class SessionObjectBase {
 		String ua_id = request.getParameter("ua_id");
 		
 		if ((schema != null) && (er_id != null) & (ua_id != null)) {
-			System.out.println("doin it");
-			
-			UserAssignment ua = UserAssignment.getById(schema, new Long(ua_id));
+
+			this.schema = schema;
+			this.sioSet = true;
+	
+			this.uaId = new Long(ua_id);
+			UserAssignment ua = UserAssignment.getById(schema, uaId);
 			ua.advanceStatus("confirmed");
 			ua.saveMe(schema);
 			

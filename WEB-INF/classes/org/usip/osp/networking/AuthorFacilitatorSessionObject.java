@@ -1730,7 +1730,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			// Create the admin in this schema
 			@SuppressWarnings("unused")
-			User user = new User(db_schema, bu, true, true, true);
+			User user = new User(db_schema, bu.getUsername(), bu.getPassword(),
+					bu.getFirst_name(), bu.getLast_name(), bu.getMiddle_name(),
+					bu.getFull_name(), true, true, true);
 
 			error_msg = "database_created";
 

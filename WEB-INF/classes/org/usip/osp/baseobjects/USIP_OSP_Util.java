@@ -207,6 +207,17 @@ public class USIP_OSP_Util {
 		return sob;
 	}
 	
+	public static SessionObjectBase getSessionObjectBase(HttpServletRequest request){
+		
+		SessionObjectBase sob = getSessionObjectBaseIfFound(request);
+		
+		if (sob == null){
+			sob = new SessionObjectBase();
+		}
+		
+		return sob;
+	}
+	
 	/**
 	 * Everything below here just checks to make sure we have a good database connection.
 		TODO Record when connections are being reset here 

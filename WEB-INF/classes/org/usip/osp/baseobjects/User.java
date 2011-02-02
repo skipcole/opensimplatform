@@ -91,7 +91,7 @@ public class User implements Comparable{
 
 	}
 	
-	/**
+	/*
 	 * Creates an entry for the base user in this schema with the permissions passed in.
 	 * 
 	 * @param schema
@@ -99,7 +99,7 @@ public class User implements Comparable{
 	 * @param sim_creator
 	 * @param sim_instructor
 	 * @param admin
-	 */
+	 *
 	public User(String schema, BaseUser bu, boolean sim_creator,
 			boolean sim_instructor, boolean admin) {
 		
@@ -121,9 +121,13 @@ public class User implements Comparable{
 			e.printStackTrace();
 		}
 	}
-
+	*/
+	
 	/**
 	 * Creates a base user and user object in the schema passed in.
+	 * Additionally it checks to see if any UserAssignments have been applied 
+	 * to just user names and then gives them an id.
+	 * 
 	 * @param schema
 	 * @param username
 	 * @param password
@@ -172,14 +176,15 @@ public class User implements Comparable{
 		
 		try {
 			MultiSchemaHibernateUtil.beginTransaction(schema);
-
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		// Check user assignments for missing ids.
+		UserAssignment.checkUserAssignmentsForNameToUpdated(schema, this.user_name, this.getId());
 	}
 
 	/**
