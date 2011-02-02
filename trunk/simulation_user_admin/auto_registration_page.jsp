@@ -9,39 +9,15 @@
 	errorPage="/error.jsp" %>
 <%
 	
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBase(request);
 	
-	User userOnScratchPad = afso.handleAutoRegistration(request);
+	User userOnScratchPad = sob.handleAutoRegistration(request);
 	
-	if(afso.forward_on){
-	
+	if(sob.forward_on){
 		response.sendRedirect("auto_registration_thankyou.jsp");
-		afso.forward_on = false;
+		sob.forward_on = false;
 		return;
 	}
-	
-	// Get the schema id that has been sent in. If there is none, then allow user to select organizational database.
-	String schema_id = (String) request.getParameter("schema_id");
-	String uri_id = (String) request.getParameter("uri");
-	String initial_entry = (String) request.getParameter("initial_entry");
-	
-	
-	SchemaInformationObject sio = new SchemaInformationObject();
-	UserRegistrationInvite uri = new UserRegistrationInvite();
-	
-	if ((schema_id != null) && (!(schema_id.equalsIgnoreCase("null")))) {
-		sio = SchemaInformationObject.getById(new Long(schema_id));
-		
-		if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
-			uri = UserRegistrationInvite.getById(sio.getSchema_name(), new Long(uri_id));
-		
-			if (initial_entry != null) {
-				userOnScratchPad.setBu_username(uri.getOriginalInviteEmailAddress());
-			}
-		}
-	
-	}
-	
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -49,8 +25,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <title>Open Simulation Platform Auto Registration Page</title>
-
-
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -98,12 +72,11 @@ body {
 			
       <p>To participate in online simulations using this sytem, you will need to be registered in the system.</p>
 
-      <div align="center"><table width="70%" border="1"><tr><td>
-        <p><strong>Please Note:</strong><br/>
-Registering on the sytem may not give you immediate access to any simulations. An instructor will need to assign you a role in an ongoing simulation before you can participate in one.</p>
-		</td></tr></table></div>
-
-      <p align="center" class="style1"><%= afso.errorMsg %></p>
+      <p align="center" class="style1"><%= sob.errorMsg %></p>
+	  	<%
+			sob.errorMsg = "";
+	
+		%>
       <form action="auto_registration_page.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           
@@ -144,16 +117,17 @@ Registering on the sytem may not give you immediate access to any simulations. A
           <input type="text" name="last_name" tabindex="7" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  size="60"     />
           </label></td>
     </tr>
-    <% if ((schema_id != null) && (!(schema_id.equalsIgnoreCase("null") ) ) ) { %>
-	
+    <% if (sob.sioSet) { %>
+		<input type="hidden" name="schema" value="<%= sob.schema %>" />
+		<!--
 	     	<tr>
             <td valign="top">Organizational Database: <a href="helptext/org_database.jsp" target="helpinright">(?):</a></td>
               <td valign="top">
-              <input type=hidden name="schema_id" value="<%= schema_id %>">
-			  <input type=hidden name="uri" value="<%= uri.getId() %>">
-			<%= sio.getSchema_organization() %></td>
+              <input type=hidden name="schema_id" value="">
+			  <input type=hidden name="uri" value="">
+			</td>
             </tr>
-            
+         -->
      <% } else { %>
 <tr>
             <td valign="top">Organizational Database <a href="helptext/org_database.jsp" target="helpinright">(?)</a>:</td>
@@ -192,7 +166,7 @@ Captcha Code <a href="helptext/captcha_code.jsp"  target="helpinright">(?)</a>: 
               <td valign="top">
                 
                 <input type="hidden" name="sending_page" value="create_users" /> 
-                
+                <input type="hidden" name="ua_id" value="<%= sob.uaId %>" />
                 <input type="submit" name="command" value="Register" tabindex="10"   />			</td>
             </tr>
           </table>
@@ -214,7 +188,3 @@ Captcha Code <a href="helptext/captcha_code.jsp"  target="helpinright">(?)</a>: 
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	afso.errorMsg = "";
-	
-%>

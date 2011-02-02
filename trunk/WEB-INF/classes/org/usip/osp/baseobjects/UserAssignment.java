@@ -227,6 +227,47 @@ public class UserAssignment{
 		
 	}
 	
+	/**
+	 * This goes through all of the UserAssignments to see if any of them have an
+	 * email assigned, but not a user id. It will then update the user id.
+	 * @param schema
+	 * @param username
+	 * @param user_id
+	 */
+	public static void checkUserAssignmentsForNameToUpdated(String schema, String username, Long user_id){
+		
+		for (ListIterator<UserAssignment> li = getAllByUserName(schema, username).listIterator(); li.hasNext();) {
+			UserAssignment ua = li.next();
+			
+			if (ua.getUser_id() == null){
+				ua.setUser_id(user_id);
+				ua.saveMe(schema);
+			} else if (ua.id.intValue() != user_id.intValue()){
+				Logger.getRootLogger().warn("Warning user assignment with apparently the wrong id.");
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param username
+	 * @return
+	 */
+	public static List <UserAssignment> getAllByUserName(String schema, String username) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery("from UserAssignment where username = :username")
+			.setString("username", username).list();
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+
+	}
+	
 	public static void removeMe(String schema, Long ua_id){
 		
 		UserAssignment ua = UserAssignment.getById(schema, ua_id);

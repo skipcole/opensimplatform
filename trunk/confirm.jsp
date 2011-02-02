@@ -8,11 +8,7 @@ errorPage="/error.jsp"
 %>
 <%
 	
-	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
-	
-	if (sob == null) {
-		sob = new SessionObjectBase();
-	}
+	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBase(request);
 	
 	int returnCode = sob.processConfirmation(request);
 
@@ -70,7 +66,7 @@ body {
 		<% if (returnCode == SessionObjectBase.USER_FOUND) { %>
       	<p align="left">You may now <a href="login.jsp">login to the platform</a>.</p>
 	  	<% } else if (returnCode == SessionObjectBase.USER_NOT_FOUND){ %>
-      	<p align="left">You must now <a href="simulation_user_admin/auto_registration_page.jsp">register on this system</a> to join in this simulation. </p>
+      	<p align="left">You must  <a href="simulation_user_admin/auto_registration_page.jsp?schema=<%= sob.schema %>&ua_id=<%= sob.uaId %>">register on this system</a> to join in this simulation. </p>
       	<p align="left">&nbsp;</p>
 	 <% } // End of if it looks like a real confirmation request. %>
 	  

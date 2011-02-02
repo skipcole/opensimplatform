@@ -304,31 +304,25 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			session = request.getSession();
 
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-
 			String user_assignment_id = request
 					.getParameter("user_assignment_id");
 
-			UserAssignment ua = (UserAssignment) MultiSchemaHibernateUtil
-					.getSession(schema).get(UserAssignment.class,
-							new Long(user_assignment_id));
-
+			UserAssignment ua = UserAssignment.getById(schema,new Long(user_assignment_id));
 			myUserAssignmentId = ua.getId();
+			ua.advanceStatus(UserAssignment.STATUS_LOGGED_ON);
+			ua.saveMe(schema);
 
 			this.myHighestAlertNumber = ua.getHighestAlertNumberRecieved();
 
 			sim_id = ua.getSim_id();
-			Simulation simulation = (Simulation) MultiSchemaHibernateUtil
-					.getSession(schema).get(Simulation.class, sim_id);
+			
+			Simulation simulation = Simulation.getById(schema, sim_id);
 
 			runningSimId = ua.getRunning_sim_id();
-			RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil
-					.getSession(schema).get(RunningSimulation.class,
-							runningSimId);
+			RunningSimulation running_sim = RunningSimulation.getById(schema,runningSimId);
 
 			actorId = ua.getActor_id();
-			Actor actor = (Actor) MultiSchemaHibernateUtil.getSession(schema)
-					.get(Actor.class, actorId);
+			Actor actor = Actor.getById(schema, actorId);
 
 			// If player logs in as a control character, their 'control-ness'
 			// will follow them.
@@ -336,9 +330,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				this.controlCharacter = true;
 			}
 
-			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil
-					.getSession(schema).get(SimulationPhase.class,
-							running_sim.getPhase_id());
+			SimulationPhase sp = SimulationPhase.getById(schema,running_sim.getPhase_id());
 
 			// Load information from the pertinent objects to be displayed.
 			loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
@@ -375,8 +367,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			}
 			// //////////////////////////////////////////////////////////////////////
-
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 			recordLoginToSchema(user_id, schema, actorId, runningSimId, request);
 
