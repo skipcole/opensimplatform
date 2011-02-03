@@ -27,9 +27,10 @@
                   <h1>Simulation Software User Admininstration</h1>
                   <br />
                   <table width="100%" border="1" cellspacing="2" cellpadding="1">
+                    
                     <tr valign="top">
-                      <td width="24%"><a href="../simulation_user_admin/create_admin_user.jsp">Add Administrative User</a></td>
-                      <td width="72%">Allows you to add a user who can administrate or create or facilitate simulations.</td>
+                      <td><a href="../simulation_user_admin/create_user.jsp">Create User </a></td>
+                      <td>Allows you to create a user on this system. </td>
                     </tr>
                     <tr valign="top">
                       <td><a href="import_student_csv_file.jsp">Import CSV File</a></td>
@@ -46,6 +47,10 @@
                     <tr valign="top">
                       <td>Reset Password </td>
                       <td>Allows an admin to reset a player password. </td>
+                    </tr>
+					<tr valign="top">
+                      <td width="24%"><a href="../simulation_user_admin/create_admin_user.jsp">Promote/Demote User</a></td>
+                      <td width="72%">Allows you to promote (or demote) a user to being an administrator, author or facilitator.</td>
                     </tr>
                     <tr valign="top">
                       <td><a href="admin_teachers_view.jsp">Teacher View</a> </td>

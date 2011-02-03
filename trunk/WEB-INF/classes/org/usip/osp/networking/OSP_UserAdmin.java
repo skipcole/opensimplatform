@@ -62,6 +62,37 @@ public class OSP_UserAdmin {
 		this.sob = sob;
 	}
 	
+	/**
+	 * Pulls permission values from the request if they are found. 
+	 * 
+	 * @param request
+	 */
+	public void getPermissionsParameters(HttpServletRequest request){
+		
+		String perm_level = request.getParameter("perm_level"); //$NON-NLS-1$
+		
+		if (perm_level == null){
+			return;
+		}
+		
+		// Start off by removing all permissions. This essentially makes the user
+		// just a player
+		this._makeAdmin = false;
+		this._makeAuthor = false;
+		this._makeInstructor = false;
+		
+		// Add back permissions based on what was passed in
+		if (perm_level.equalsIgnoreCase("admin")) { //$NON-NLS-1$
+			this._makeAdmin = true;
+			this._makeAuthor = true;
+			this._makeInstructor = true;
+		} else if (perm_level.equalsIgnoreCase("author")) { //$NON-NLS-1$
+			this._makeAuthor = true;
+			this._makeInstructor = true;
+		} else if ((perm_level.equalsIgnoreCase("instructor"))) { //$NON-NLS-1$
+			this._makeInstructor = true;
+		}
+	}
 	
 	/**
 	 * Gets the basic required parameters from the request.
@@ -71,24 +102,6 @@ public class OSP_UserAdmin {
 		
 		// Gets the user's name.
 		getUserNameDetails(request);
-		
-		this._admin = request.getParameter("admin"); //$NON-NLS-1$
-		this._author = request.getParameter("author"); //$NON-NLS-1$
-		this._instructor = request.getParameter("instructor"); //$NON-NLS-1$
-		
-
-		if ((this._admin != null) && (this._admin.equalsIgnoreCase("true"))) { //$NON-NLS-1$
-			this._makeAdmin = true;
-			this._makeAuthor = true;
-			this._makeInstructor = true;
-		} else if ((this._author != null)
-				&& (this._author.equalsIgnoreCase("true"))) { //$NON-NLS-1$
-			this._makeAuthor = true;
-			this._makeInstructor = true;
-		} else if ((this._instructor != null)
-				&& (this._instructor.equalsIgnoreCase("true"))) { //$NON-NLS-1$
-			this._makeInstructor = true;
-		}
 
 	}
 	
@@ -117,7 +130,7 @@ public class OSP_UserAdmin {
 	 * 
 	 * @param request
 	 */
-	public User handleCreateAdminUser(HttpServletRequest request, String schema) {
+	public User handlePromoteUser(HttpServletRequest request, String schema) {
 
 		User user = new User();
 
@@ -125,42 +138,15 @@ public class OSP_UserAdmin {
 
 		if (command != null) {
 			
-			getBaseUserParamters(request);
-			
 			String u_id = request.getParameter("u_id"); //$NON-NLS-1$
 			
-			if (command.equalsIgnoreCase("Create")) { //$NON-NLS-1$
-
-				if (!hasEnoughInfoToCreateUser()) {
-					return user;
-				} else {
-
-					try {
-						user = new User(schema, this._email, this._password, "", "", "", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-								this._full_name, this._makeAuthor, this._makeInstructor,
-								this._makeAdmin);
-						
-						user.setBu_username(this._email);
-						user.setBu_first_name(this._first_name);
-						user.setBu_full_name(this._full_name);
-						user.setBu_last_name(this._last_name);
-						user.setBu_middle_name(this._middle_name);
-						
-						user.saveMe(schema);
-
-					} catch (Exception e) {
-						e.printStackTrace();
-						this.sob.errorMsg = e.getMessage();
-					}
-				}
-			} else if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
+			if (command.equalsIgnoreCase("Update")) { //  //$NON-NLS-1$
+				
+				getPermissionsParameters(request);
+				
 				user = User.getById(schema, new Long(u_id));
+				
 				user.setAdmin(this._makeAdmin);
-				user.setBu_first_name(this._first_name);
-				user.setBu_full_name(this._full_name);
-				user.setBu_last_name(this._last_name);
-				user.setBu_middle_name(this._middle_name);
-				user.setBu_username(this._email);
 				user.setSim_author(this._makeAuthor);
 				user.setSim_instructor(this._makeInstructor);
 				

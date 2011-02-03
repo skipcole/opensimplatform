@@ -44,21 +44,21 @@
       <form id="form1" name="form1" method="post" action="my_profile.jsp">
   <table border="0" cellspacing="2" cellpadding="1">
     <tr>
-      <td valign="top"><strong>First Name:</strong></td>
+      <td valign="top"><strong>First Name <a href="helptext/first_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
           <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
           </label></td>
     </tr>
     <tr>
-      <td valign="top"><strong>Middle Name:</strong></td>
+      <td valign="top"><strong>Middle Name <a href="helptext/middle_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
           <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
           </label></td>
     </tr>
     <tr>
-      <td valign="top"><strong>Last Name:</strong></td>
+      <td valign="top"><strong>Last Name <a href="helptext/last_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
           <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
