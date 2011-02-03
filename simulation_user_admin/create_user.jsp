@@ -51,40 +51,52 @@
       <form action="create_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td>username/email<a href="helptext/user_email.jsp" target="helpinright">(?)</a></td>
+            <td><strong>username/email<a href="helptext/user_email.jsp" target="helpinright"> (?):</a></strong></td>
               <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"  /></td>
             </tr>
           <tr>
-            <td height="29">password<a href="helptext/user_password.jsp" target="helpinright"> (?)</a></td>
+            <td height="29"><strong>password<a href="helptext/user_password.jsp" target="helpinright"> (?):</a></strong></td>
               <td><input type="text" name="password" tabindex="2" /></td>
             </tr>
+			          <tr>
+            <td><strong>temporary password <a href="helptext/temp_password.jsp" target="helpinright"> (?)</a>: </strong></td>
+            <td><input name="radiobutton" type="radio" value="radiobutton" />
+              yes / 
+              <label>
+              <input name="radiobutton" type="radio" value="radiobutton" />
+              </label>
+              no </td>
+          </tr>
+			
           <tr>
-            <td>First Name:</td>
+            <td><strong>First Name <a href="helptext/first_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td>
         <label>
           <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
           </label></td>
     </tr>
           <tr>
-            <td>Middle Name:</td>
+            <td><strong>Middle Name<a href="helptext/middle_name.jsp" target="helpinright"> (?)</a>:</strong></td>
       <td>
         <label>
           <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
           </label></td>
     </tr>
           <tr>
-            <td>Last Name:</td>
+            <td><strong>Last Name <a href="helptext/last_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td>
         <label>
           <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
           </label></td>
     </tr>
           <tr>
-            <td>Phone Number: </td>
-            <td>&nbsp;</td>
+            <td><strong>Phone Number: </strong></td>
+            <td><label>
+            <input type="text" name="phonenumber" value="<%= user.getPhoneNumber() %>" />
+          </label></td>
           </tr>
           <tr>
-            <td>Language:</td>
+            <td><strong>Language:</strong></td>
             <td>
             <%
 				String checkedEng = " selected=\"selected\" ";

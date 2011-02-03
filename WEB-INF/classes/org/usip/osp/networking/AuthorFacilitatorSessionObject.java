@@ -3252,7 +3252,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param schema
 	 * @return
 	 */
-	public User handleCreateAdminUser(HttpServletRequest request) {
+	public User handlePromoteUser(HttpServletRequest request) {
 
 		User user = new User();
 
@@ -3261,7 +3261,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			return user;
 		} else {
 			OSP_UserAdmin pu = new OSP_UserAdmin(this);
-			return pu.handleCreateAdminUser(request, schema);
+			return pu.handlePromoteUser(request, schema);
 		}
 	}
 

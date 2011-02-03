@@ -7,11 +7,11 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin()) || (!(afso.isAdmin()))) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
-	User userOnScratchPad = afso.handleCreateAdminUser(request);
+	User userOnScratchPad = afso.handlePromoteUser(request);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
@@ -42,15 +42,16 @@
 	String is_admin = "";
 	String is_author = "";
 	String is_instructor = "";
+	String is_player = "";
 	
 	if (userOnScratchPad.isAdmin()){
 		is_admin = " \"checked\" ";
-	}
-	if (userOnScratchPad.isSim_author()){
+	} else if (userOnScratchPad.isSim_author()){
 		is_author = " \"checked\" ";
-	}
-	if (userOnScratchPad.isSim_instructor()){
+	} else if (userOnScratchPad.isSim_instructor()){
 		is_instructor = " \"checked\" ";
+	} else {
+		is_player = " \"checked\" ";
 	}
 	
 	
@@ -76,86 +77,66 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Create Admin User</h1>
+      <h1>Promote User</h1>
       <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" -->
 
 <p><font color="#FF0000"><%= afso.errorMsg %></font></p>
-      <p>On this page you can create simulation authors, instructors and administrative 
+      <p>On this page you  can also promote users to be simulation authors, instructors or administrative 
         users. </p>
-      <p>You can also promote normal users to be simulation authors, instructors or administrative 
-        users. </p>
+<% if (userOnScratchPad.getId() == null) { %>
+<p>You must first select a user to promote or demote. You can do this by selecting the name of one of the current users, or by searching for the user.</p>
+
+<p>If you need to create a user, <a href="create_user.jsp">click here</a>.</p>
+
+<% } else { %>
       <form action="create_admin_user.jsp" method="post" name="form1" id="form1">
-        <table width="80%" border="0" cellspacing="0" cellpadding="0">
+        <table width="80%" border="1" cellspacing="0" cellpadding="2">
           <tr> 
-            <td>username/email<a href="helptext/user_name.jsp" target="helpinright">(?)</a>:</td>
-            <td> <input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>" /> </td>
-          </tr>
-          <tr> 
-            <td>password<a href="helptext/user_password.jsp" target="helpinright">(?)</a></td>
-            <td><input type="text" name="password" tabindex="2" /></td>
+            <td valign="top">username/email<a href="helptext/user_name.jsp" target="helpinright">(?)</a>:</td>
+            <td valign="top">  <%= userOnScratchPad.getBu_username() %></td>
           </tr>
           <tr>
-            <td>temporary password: </td>
-            <td><input name="radiobutton" type="radio" value="radiobutton" />
-              yes / 
-              <label>
-              <input name="radiobutton" type="radio" value="radiobutton" />
-              </label>
-              no </td>
-          </tr>
-          <tr>
-    <td>First Name:</td>
-    <td>
-      <label>
-      <input type="text" name="first_name" id="first_name" tabindex="4" value="<%= userOnScratchPad.getBu_first_name() %>" />
-      </label></td>
+    <td valign="top">First Name:</td>
+    <td valign="top"><%= userOnScratchPad.getBu_first_name() %></td>
   </tr>
     <tr>
-    <td>Middle Name:</td>
-    <td>
-      <label>
-      <input type="text" name="middle_name" id="middle_name" tabindex="5" value="<%= userOnScratchPad.getBu_middle_name() %>" />
-      </label></td>
+    <td valign="top">Middle Name:</td>
+    <td valign="top"> <%= userOnScratchPad.getBu_middle_name() %></td>
   </tr>
     <tr>
-    <td>Last Name:</td>
-    <td>
-      <label>
-      <input type="text" name="last_name" id="last_name" tabindex="6" value="<%= userOnScratchPad.getBu_last_name() %>"  />
-      </label></td>
+    <td valign="top">Last Name:</td>
+    <td valign="top"> <%= userOnScratchPad.getBu_last_name() %></td>
   </tr>
           <tr> 
-            <td>administrator</td>
-            <td><input name="admin" type="checkbox" tabindex="7" value="true" <%= is_admin %> /></td>
+            <td valign="top">Permission Level: </td>
+            <td valign="top"><label>
+              <input name="perm_level" type="radio" value="admin" <%= is_admin %> />
+              Admin, Author, Instructor, Player </label><br />
+			  <label>
+              <input name="perm_level" type="radio" value="author" <%= is_author %> />
+              Author, Instructor, Player </label><br />
+			  <label>
+              <input name="perm_level" type="radio" value="instructor" <%= is_instructor %> />
+              Instructor, Player </label>
+			  <br />
+			  <label>
+              <input name="perm_level" type="radio" value="player" <%= is_player %> />
+              Player </label>
+			  </td>
           </tr>
           <tr> 
-            <td>simulation author</td>
-            <td><input name="author" type="checkbox" value="true" tabindex="8" <%= is_author %> /></td>
-          </tr>
-          <tr> 
-            <td>simulation Instructor</td>
-            <td><input name="instructor" type="checkbox" value="true" tabindex="9" <%= is_instructor %> /></td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-            <td><input type="hidden" name="sending_page" value="create_admin_user" /> 
-                <%
-				if (userOnScratchPad.getId() == null) {
-				%>
-                	<input type="submit" name="command" tabindex="10" value="Create" />
-                <%
-				} else {
-				%>
+            <td valign="top">&nbsp;</td>
+            <td valign="top"><input type="hidden" name="sending_page" value="create_admin_user" /> 
                 	<input type="hidden" name="u_id" value="<%= userOnScratchPad.getId() %>" />
                 	<input type="submit" name="command" tabindex="10" value="Clear" />
-                	<input type="submit" name="command" tabindex="11" value="Update" />
-                <%
-					}
-				%>              </td>
+                	<input type="submit" name="command" tabindex="11" value="Update" />           </td>
           </tr>
         </table>
 </form>
+                <%
+					} // End of if user_id was found.
+				%>   
 <p>&nbsp;</p>      <p>Below are listed alphabetically by username all of the current sim creators 
         and administrators.</p>
       <blockquote> 

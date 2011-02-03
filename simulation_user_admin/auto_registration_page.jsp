@@ -81,37 +81,37 @@ body {
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           
           <tr>
-            <td valign="top">Username/Email <a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?):</a></td>
+            <td valign="top"><strong>Username/Email <a href="../simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?):</a></strong></td>
               <td valign="top"><input name="email" type="text" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>" size="60"   /></td>
             </tr>
           <tr>
-            <td valign="top">Confirm Email <a href="helptext/confirm_email.jsp" target="helpinright">(?)</a>: </td>
+            <td valign="top"><strong>Confirm Email <a href="helptext/confirm_email.jsp" target="helpinright">(?)</a>: </strong></td>
             <td valign="top"><input type="text" name="confirm_email" tabindex="2" value="<%= userOnScratchPad.getBu_username() %>" size="60" ></td>
           </tr>
           <tr>
-            <td valign="top">Password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?):</a></td>
+            <td valign="top"><strong>Password<a href="../simulation_user_admin/helptext/user_password.jsp" target="helpinright"> (?):</a></strong></td>
               <td valign="top"><input type="text" name="password" tabindex="3"  size="60"   /></td>
             </tr>
           <tr>
-            <td valign="top">Confirm Password <a href="helptext/confirm_password.jsp" target="helpinright">(?)</a>: </td>
+            <td valign="top"><strong>Confirm Password <a href="helptext/confirm_password.jsp" target="helpinright">(?)</a>: </strong></td>
             <td valign="top"><input type="text" name="confirm_password" tabindex="4" size="60" ></td>
           </tr>
           <tr>
-            <td valign="top">First Name <a href="helptext/real_name.jsp" target="helpinright">(?)</a>:</td>
+            <td valign="top"><strong>First Name <a href="helptext/first_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
           <input type="text" name="first_name" tabindex="5"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>"  size="60"   />
           </label></td>
     </tr>
           <tr>
-            <td valign="top">Middle Name <a href="helptext/real_name.jsp" target="helpinright">(?)</a>:</td>
+            <td valign="top"><strong>Middle Name <a href="helptext/middle_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
           <input type="text" name="middle_name" tabindex="6"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>"    size="60"  />
           </label></td>
     </tr>
           <tr>
-            <td valign="top">Last Name <a href="helptext/real_name.jsp" target="helpinright">(?)</a>:</td>
+            <td valign="top"><strong>Last Name <a href="helptext/last_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
           <input type="text" name="last_name" tabindex="7" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  size="60"     />
@@ -130,7 +130,7 @@ body {
          -->
      <% } else { %>
 <tr>
-            <td valign="top">Organizational Database <a href="helptext/org_database.jsp" target="helpinright">(?)</a>:</td>
+            <td valign="top"><strong>Organizational Database <a href="helptext/org_database.jsp" target="helpinright">(?)</a>:</strong></td>
               <td valign="top">
               <select name="schema_id" tabindex="8">
 			  <%
@@ -146,8 +146,8 @@ body {
 			</tr>  
      <% }  // end if if schema_id was null %>
           <tr>
-            <td valign="top">
-Captcha Code <a href="helptext/captcha_code.jsp"  target="helpinright">(?)</a>: </td>
+            <td valign="top"><strong>
+Captcha Code <a href="helptext/captcha_code.jsp"  target="helpinright">(?)</a>: </strong></td>
             <td valign="top">
               <input name="captchacode" type="text" size="4" maxlength="4" tabindex="9" />
             
