@@ -1,20 +1,24 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.communications.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 <%
 	
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
 	String u_id = request.getParameter("u_id");
-	User userOnScratchPad = User.getById(afso.schema, new Long(u_id));
-
+	
+	Email email = afso.handleCreatedUserResponse(request);
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -35,38 +39,52 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Created User <%= userOnScratchPad.getBu_username() %></h1>
+              <h1>Created User <%= afso.tempMsg %></h1>
 			
+              <p>You may now email them to let them know that they have been added to this system, and how they may login.</p>
               <p>&nbsp;</p>
-			  <form action="create_user.jsp" method="post" name="form1" id="form1">
-        <table width="80%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td>username/email<a href="helptext/user_email.jsp" target="helpinright">(?)</a></td>
-              <td><%= userOnScratchPad.getBu_username() %></td>
-            </tr>
-          <tr>
-            <td height="29">password<a href="helptext/user_password.jsp" target="helpinright"> (?)</a></td>
-              <td><%= userOnScratchPad.getBu_password() %></td>
-            </tr>
-          <tr>
-            <td>First Name:</td>
-      <td><%= userOnScratchPad.getBu_first_name() %></td>
-    </tr>
-          <tr>
-            <td>Middle Name:</td>
-      <td><%= userOnScratchPad.getBu_middle_name() %></td>
-    </tr>
-          <tr>
-            <td>Last Name:</td>
-      <td><%= userOnScratchPad.getBu_last_name() %></td>
-    </tr>
-          <tr>
-            <td>Phone Number: </td>
-            <td>&nbsp;</td>
-          </tr>
-          </table>
-        </form>
-      <p>&nbsp;</p>
+
+              <p>&nbsp;</p>
+			  
+<form action="create_user_complete.jsp" method="post"  name="form1" id="form1">
+              <table width="100%" border="1" cellspacing="0" cellpadding="2">
+        <tr valign="top">
+          <td><strong>Email From: </strong></td>
+          <td><label>
+            <input name="email_from" type="radio" value="noreply@opensimplatform.org" checked="checked" />
+          noreply@opensimplatform.org
+          </label><br />
+		  <label>
+		  <input name="email_from" type="radio" value="<%= afso.user_email %>" /><%= afso.user_email %> </label></td>
+        </tr>
+        <tr valign="top">
+          <td><strong>Email To: </strong></td>
+          <td><%= afso.tempMsg %><input type="hidden" name="email_to" value="<%= afso.tempMsg %>" /></td>
+        </tr>
+        <tr valign="top">
+          <td><strong>Email Subject Line </strong></td>
+          <td><label>
+            <input type="text" name="email_subject" value="<%= email.getSubjectLine() %>" />
+          </label></td>
+        </tr>
+        <tr valign="top"> 
+          <td width="34%"><strong>Email text:<br /> 
+              <br /> 
+              </strong></td>
+                <td width="66%">
+                  <p>
+                  <textarea name="email_text" cols="60" rows="5"><%= email.getMsgtext() %></textarea>
+                  </p>                  </td>
+              </tr>
+        <tr valign="top">
+          <td>&nbsp;</td>
+          <td><label>
+		  	<input type="hidden" name="u_id" value="<%= u_id %>" />
+            <input type="submit" name="send_email" value="Send" />
+          </label></td>
+        </tr>
+        </table>
+		</form>
             </td>
 		</tr>
 		</table>	</td>
@@ -76,7 +94,7 @@
     <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
   </tr>
 </table>
-
+</form>
 <p>&nbsp;</p>
 
 <p align="center">&nbsp;</p>

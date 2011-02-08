@@ -35,11 +35,19 @@
     String admin_email = afso.getClean(request, "admin_email");
 	String new_admin_user_cbox = afso.getClean(request, "new_admin_user_cbox");
 
-    //////////////////////////////////////////////////////////////////    
+    //////////////////////////////////////////////////////////////////  
+	String email_tech_address = afso.getClean(request, "email_tech_address");  
+	
+	if (email_tech_address.length() == 0){
+		email_tech_address = "tech@opensimplatform.org";
+	}
+	
+	String email_noreply_address = afso.getClean(request, "email_noreply_address");
     String email_smtp = afso.getClean(request, "email_smtp");
     String email_user = afso.getClean(request, "email_user");
     String email_pass = afso.getClean(request, "email_pass");
     String email_user_address = afso.getClean(request, "email_user_address");
+	String email_reply_address = afso.getClean(request, "email_reply_address");
         
 
 %>
@@ -157,7 +165,7 @@ body {
                </tr>
                <tr>
                  <td valign="top">email to send issues to: </td>
-                 <td valign="top">tech@opensimplatform.org</td>
+                 <td valign="top"><input type="text" name="email_tech_address"  value="<%= email_tech_address %>" /></td>
                </tr>
                <tr>
                  <td valign="top">alert level </td>
@@ -188,6 +196,10 @@ body {
               <tr> 
                 <td valign="top">email archive user address (?)</td>
                 <td valign="top"><input type="text" name="email_user_address"  value="<%= email_user_address %>" /></td>
+              </tr>
+              <tr>
+                <td valign="top">email noreply address (?) </td>
+                <td valign="top"><input type="text" name="email_noreply_address"  value="<%= email_noreply_address %>" /></td>
               </tr>
               <tr>
                 <td valign="top">email server number <a href="helptext/email_server_number.jsp"  target="helpinright">(?)</a></td>

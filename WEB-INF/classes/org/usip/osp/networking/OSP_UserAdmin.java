@@ -174,6 +174,9 @@ public class OSP_UserAdmin {
 		
 		String command = request.getParameter("command"); //$NON-NLS-1$
 		
+		/////////////////////////////////////////////////
+		// This loads the name of the user (student) into the username fields if the 
+		// facilitator has selected to create this user.
 		String create_for_role = (String) request.getParameter("create_for_role");
 		String ua_id = (String) request.getParameter("ua_id");
 		
@@ -183,6 +186,7 @@ public class OSP_UserAdmin {
 			user.setBu_username(ua.getUsername());
 			return user;
 		}
+		//////////////////////////////////////////////////
 
 		if (command != null) {
 

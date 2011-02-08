@@ -16,7 +16,7 @@
 	
 	sob.handleMyProfile(request);
 	
-	User user = sob.giveMeUser();
+	User userOnScratchPad = sob.giveMeUser();
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -47,21 +47,21 @@
       <td valign="top"><strong>First Name <a href="helptext/first_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
-          <input type="text" name="first_name" id="first_name" value="<%= user.getBu_first_name() %>" />
+          <input type="text" name="first_name" id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
           </label></td>
     </tr>
     <tr>
       <td valign="top"><strong>Middle Name <a href="helptext/middle_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
-          <input type="text" name="middle_name" id="middle_name" value="<%= user.getBu_middle_name() %>" />
+          <input type="text" name="middle_name" id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
           </label></td>
     </tr>
     <tr>
       <td valign="top"><strong>Last Name <a href="helptext/last_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td valign="top">
         <label>
-          <input type="text" name="last_name" id="last_name" value="<%= user.getBu_last_name() %>"  />
+          <input type="text" name="last_name" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
           </label></td>
     </tr>
     <tr>
@@ -144,7 +144,7 @@ Player      </td>
         <tr>
           <td valign="top"><strong>Phone Number: </strong></td>
           <td valign="top"><label>
-            <input type="text" name="phonenumber" value="<%= user.getPhoneNumber() %>" />
+            <input type="text" name="phonenumber" value="<%= userOnScratchPad.getPhoneNumber() %>" />
           </label></td>
         </tr>
         <tr>

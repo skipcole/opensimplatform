@@ -60,10 +60,10 @@
             </tr>
 			          <tr>
             <td><strong>temporary password <a href="helptext/temp_password.jsp" target="helpinright"> (?)</a>: </strong></td>
-            <td><input name="radiobutton" type="radio" value="radiobutton" />
+            <td><input name="radiobutton" type="radio" value="radiobutton" checked="checked" />
               yes / 
               <label>
-              <input name="radiobutton" type="radio" value="radiobutton" />
+              <input name="radiobutton" type="radio" value="radiobutton" disabled="disabled" />
               </label>
               no </td>
           </tr>
@@ -92,7 +92,7 @@
           <tr>
             <td><strong>Phone Number: </strong></td>
             <td><label>
-            <input type="text" name="phonenumber" value="<%= user.getPhoneNumber() %>" />
+            <input type="text" name="phonenumber" tabindex="7" value="<%= userOnScratchPad.getPhoneNumber() %>" />
           </label></td>
           </tr>
           <tr>
@@ -109,7 +109,7 @@
 			%>
             
             <label for="select">
-              <select name="preferred_language" id="preferred_language">
+              <select name="preferred_language" id="preferred_language" tabindex="8">
                 <option value="1" <%= checkedEng %>>English</option>
                 <option value="2" <%= checkedSpan %>>Spanish</option>
               </select>
@@ -118,12 +118,12 @@
           <tr>
             <td>&nbsp;</td>
               <td><input type="hidden" name="sending_page" value="create_users" />
-                <input type="submit" name="command" value="Save" tabindex="6" />
+                <input type="submit" name="command" value="Save" tabindex="9" />
                 <%
 			  	// Put in switch here to allow the ediiting of users
 			  %>
                 <label>
-                  <input type="submit" name="command" value="Clear" />
+                  <input type="submit" name="command" value="Clear" tabindex="10" />
                   </label></td>
             </tr>
           </table>
