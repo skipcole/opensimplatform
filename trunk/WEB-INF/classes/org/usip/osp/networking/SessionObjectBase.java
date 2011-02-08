@@ -263,10 +263,10 @@ public class SessionObjectBase {
 			HttpServletRequest request) {
 
 		UserAssignment ua = new UserAssignment();
-		
+
 		String ua_id = request.getParameter("ua_id"); //$NON-NLS-1$
-		
-		if ((ua_id != null) && (!(ua_id.equalsIgnoreCase("null")))){
+
+		if ((ua_id != null) && (!(ua_id.equalsIgnoreCase("null")))) {
 			ua.setId(new Long(ua_id));
 		}
 
@@ -372,6 +372,7 @@ public class SessionObjectBase {
 			// Email address of user to assign role to
 			String user_to_add_to_simulation = request
 					.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
+			
 
 			// I'm shelving this idea for later.
 			/*
@@ -405,12 +406,17 @@ public class SessionObjectBase {
 
 			if ((command != null) && (command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
+				if ((user_to_add_to_simulation == null) || (user_to_add_to_simulation.trim().length() == 0) ){
+					return ua;
+				}
+				
 				Long user_to_add_id = null;
 
 				user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
 						request, user_to_add_to_simulation);
-				
-				//User was not found, so must add assignment to just the useremail entered.
+
+				// User was not found, so must add assignment to just the
+				// useremail entered.
 				if (user_to_add_id == null) {
 
 					ua.setUsername(user_to_add_to_simulation);
@@ -517,9 +523,10 @@ public class SessionObjectBase {
 	}
 
 	public String captcha_code = "";
-	
+
 	/** Indicates if the schema has been specified. */
 	public boolean sioSet = false;
+
 	/**
 	 * Handles the auto-registration of players.
 	 * 
@@ -532,8 +539,8 @@ public class SessionObjectBase {
 		sioSet = false;
 
 		String command = request.getParameter("command"); //$NON-NLS-1$
-		
-		// Coming here from user action. 
+
+		// Coming here from user action.
 		if ((command != null) && (command.equalsIgnoreCase("Register"))) {
 
 			String captchacode = USIP_OSP_Util.cleanNulls(request
@@ -607,30 +614,30 @@ public class SessionObjectBase {
 
 				try {
 
-					user = new User(schema, user.getUser_name(),
-							password, user.getBu_first_name(), user
-									.getBu_last_name(), user
-									.getBu_middle_name(), user
-									.getBu_full_name(), false, false, false);
+					user = new User(schema, user.getUser_name(), password, user
+							.getBu_first_name(), user.getBu_last_name(), user
+							.getBu_middle_name(), user.getBu_full_name(),
+							false, false, false);
 
 					if (recordSaveToURI) {
 						uri.setEmailAddressRegistered(user.getUser_name());
 						uri.setRegistrationDate(new Date());
 						uri.saveMe();
 					}
-					
+
 					String ua_id = request.getParameter("ua_id");
-					if ((ua_id != null) && (!(ua_id.equalsIgnoreCase("null"))) ) {
+					if ((ua_id != null) && (!(ua_id.equalsIgnoreCase("null")))) {
 						this.uaId = new Long(ua_id);
-						UserAssignment ua = UserAssignment.getById(schema, uaId);
+						UserAssignment ua = UserAssignment
+								.getById(schema, uaId);
 						user.setUser_name(ua.getUsername());
 						user.setBu_username(ua.getUsername());
-						
+
 						ua.setUser_id(user.getId());
 						ua.advanceStatus(UserAssignment.STATUS_REGISTERED);
 						ua.saveMe(schema);
 					}
-					
+
 				} catch (Exception e) {
 					errorMsg = e.getMessage();
 				}
@@ -641,37 +648,39 @@ public class SessionObjectBase {
 			}
 
 		}
-		
+
 		// Coming here from Bulk Invite.
-		// Get the schema id that has been sent in. If there is none, then allow user to select organizational database.
+		// Get the schema id that has been sent in. If there is none, then allow
+		// user to select organizational database.
 		String schema_id = (String) request.getParameter("schema_id");
 		String uri_id = (String) request.getParameter("uri");
 		String initial_entry = (String) request.getParameter("initial_entry");
-		
+
 		SchemaInformationObject sio = new SchemaInformationObject();
 		UserRegistrationInvite uri = new UserRegistrationInvite();
-		
+
 		if ((schema_id != null) && (!(schema_id.equalsIgnoreCase("null")))) {
 			sio = SchemaInformationObject.getById(new Long(schema_id));
-			
+
 			sioSet = true;
-			
+
 			if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
-				uri = UserRegistrationInvite.getById(sio.getSchema_name(), new Long(uri_id));
-			
+				uri = UserRegistrationInvite.getById(sio.getSchema_name(),
+						new Long(uri_id));
+
 				if (initial_entry != null) {
 					user.setBu_username(uri.getOriginalInviteEmailAddress());
 				}
 			}
 		}
-		
+
 		// coming here from User Assignment Invite.
 		String schema = (String) request.getParameter("schema");
-		if (schema != null){
+		if (schema != null) {
 			this.schema = schema;
 			this.sioSet = true;
 		}
-		
+
 		String ua_id = request.getParameter("ua_id");
 		if (ua_id != null) {
 			this.uaId = new Long(ua_id);
@@ -702,38 +711,38 @@ public class SessionObjectBase {
 			return pu.handleCreateUser(request, schema);
 		}
 	}
-	
+
 	public static final int CONFIRM_DEFAULT = 0;
 	public static final int USER_FOUND = 1;
 	public static final int USER_NOT_FOUND = 2;
-	
+
 	public Long uaId = null;
-	
+
 	/**
-	 * Handles the entry of the player to the confirmation page. 
+	 * Handles the entry of the player to the confirmation page.
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public int processConfirmation(HttpServletRequest request){
-		
+	public int processConfirmation(HttpServletRequest request) {
+
 		System.out.println("Doing confirmation");
-		
+
 		String schema = request.getParameter("schema");
 		String er_id = request.getParameter("er_id");
 		String ua_id = request.getParameter("ua_id");
-		
+
 		if ((schema != null) && (er_id != null) & (ua_id != null)) {
 
 			this.schema = schema;
 			this.sioSet = true;
-	
+
 			this.uaId = new Long(ua_id);
 			UserAssignment ua = UserAssignment.getById(schema, uaId);
 			ua.advanceStatus("confirmed");
 			ua.saveMe(schema);
-			
-			if (ua.getUser_id() != null){
+
+			if (ua.getUser_id() != null) {
 				return USER_FOUND;
 			} else {
 				return USER_NOT_FOUND;
@@ -741,6 +750,5 @@ public class SessionObjectBase {
 		}
 		return CONFIRM_DEFAULT;
 	}
-	
 
 }

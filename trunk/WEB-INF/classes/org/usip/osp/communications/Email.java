@@ -171,6 +171,10 @@ public class Email {
     @Lob
     private String msgtext = ""; //$NON-NLS-1$
     
+    /** Body of the message text. */
+    @Lob
+    private String htmlMsgText = ""; //$NON-NLS-1$
+    
 	@Column(name="MSG_DATE", columnDefinition="datetime") 	
 	private java.util.Date msgDate;
 	
@@ -338,6 +342,14 @@ public class Email {
 
 	public void setMsgtext(String msgtext) {
 		this.msgtext = msgtext;
+	}
+
+	public String getHtmlMsgText() {
+		return htmlMsgText;
+	}
+
+	public void setHtmlMsgText(String htmlMsgText) {
+		this.htmlMsgText = htmlMsgText;
 	}
 
 	public java.util.Date getMsgDate() {
@@ -635,7 +647,7 @@ public class Email {
 					running_sim_id, this.isToActorEmail(), EmailRecipients.RECIPIENT_BCC);	
 
 			System.out.println("about to post");
-			Emailer.postMail(sio, to, this.getSubjectLine(), this.getMsgtext(), this.fromUserName, cc, bcc);
+			Emailer.postMail(sio, to, this.getSubjectLine(), this.getMsgtext(), this.getHtmlMsgText(), this.fromUserName, cc, bcc);
 		}
 				
 		this.hasBeenSent = true;

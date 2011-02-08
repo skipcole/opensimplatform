@@ -57,7 +57,11 @@ public class UserAssignment{
     
     private boolean temporaryAssignment = false;
     
+    /** username/email address of this user. */
     private String username = "";
+    
+    /** If this assignment for an unregistered user, record the name entered for them here. */
+    private String tempStudentName = "Player";
     
     /** Indicates if this assignment is to a facilitator. */
     private boolean facilitatorAssignment = false;
@@ -128,6 +132,14 @@ public class UserAssignment{
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getTempStudentName() {
+		return tempStudentName;
+	}
+
+	public void setTempStudentName(String tempStudentName) {
+		this.tempStudentName = tempStudentName;
 	}
 
 	public boolean isFacilitatorAssignment() {

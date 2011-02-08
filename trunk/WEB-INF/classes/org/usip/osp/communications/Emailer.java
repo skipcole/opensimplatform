@@ -1,7 +1,9 @@
 package org.usip.osp.communications;
 
+import java.io.*;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.activation.*;
 
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
@@ -35,7 +37,7 @@ public class Emailer {
 
 	
 	public static void postMail(final SchemaInformationObject sio, Vector<String> to, String subject,
-			String message, String from, Vector<String> cced,
+			String message, String htmlMessage, String from, Vector<String> cced,
 			Vector<String> bcced) {
 		
 		Session session = getJavaxMailSessionForSchema(sio, true);
@@ -87,6 +89,7 @@ public class Emailer {
 			// Setting the Subject and Content Type
 			msg.setSubject(subject);
 			msg.setContent(message, "text/plain"); //$NON-NLS-1$
+			msg.setDataHandler(new DataHandler(new HTMLDataSource(htmlMessage)));
 			Transport.send(msg);
 
 		} catch (Exception err) {
@@ -94,6 +97,39 @@ public class Emailer {
 		}
 		
 	}
+    /*
+     * I copied this code from http://www.vipan.com/htdocs/javamail.html.
+     * Not sure on the rights. Can remove it later if needed -- Skip
+     * 
+     * Inner class to act as a JAF datasource to send HTML e-mail content
+     */
+    static class HTMLDataSource implements DataSource {
+        private String html;
+
+        public HTMLDataSource(String htmlString) {
+            html = htmlString;
+        }
+
+        // Return html string in an InputStream.
+        // A new stream must be returned each time.
+        public InputStream getInputStream() throws IOException {
+            if (html == null) throw new IOException("Null HTML");
+            return new ByteArrayInputStream(html.getBytes());
+        }
+
+        public OutputStream getOutputStream() throws IOException {
+            throw new IOException("This DataHandler cannot write HTML");
+        }
+
+        public String getContentType() {
+            return "text/html";
+        }
+
+        public String getName() {
+            return "JAF text/html dataSource to send e-mail only";
+        }
+    }
+
 	/**
 	 * Generic emailing method.
 	 * 

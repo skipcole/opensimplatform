@@ -140,7 +140,7 @@ Email has not been enabled on this server. Please contact your administrator if 
 		  	<% if (userHasBeenRegistered) { %>
 				<%= user_assigned.getUser_name() %>
 			<% } else { %>
-				<input name="<%= ua.getId() %>_user_display_name" type="text" value="Player" size="30" maxlength="80" />
+				<input name="<%= ua.getId() %>_user_display_name" type="text" value="<%= ua.getTempStudentName() %>" size="30" maxlength="80" />
 			<% } %>
 		  </td>
           <td valign="top"><%= ua.getUsername() %></td>

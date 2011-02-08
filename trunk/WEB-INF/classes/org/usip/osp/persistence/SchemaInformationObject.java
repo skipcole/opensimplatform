@@ -52,11 +52,15 @@ public class SchemaInformationObject {
 	/** Email password for authorized user. */
 	private String smtp_auth_password;
 
-	/** Email archive address. */
+	/** Email archive address - an email address that should receive a copy of all outgoing emails
+	 * from the system to keep a record. */
 	private String email_archive_address;
 	
+	/** A non-monitored email address (generally) from which system emails are sent. */
+	private String email_noreply_address = "noreply@opensimplatform.org";
+	
 	/** Email to send system error messages to */
-	private String tech_email_address = "tech@opensimplatform.org";
+	private String email_tech_address = "tech@opensimplatform.org";
 	
 	/** Level above which to send an email to tech support */
 	private int systemAlertLevel = 0;
@@ -284,6 +288,14 @@ public class SchemaInformationObject {
 		this.email_archive_address = email_archive_address;
 	}
 
+	public String getEmailNoreplyAddress() {
+		return email_noreply_address;
+	}
+
+	public void setEmailNoreplyAddress(String noreplyEmailAddress) {
+		email_noreply_address = noreplyEmailAddress;
+	}
+
 	public String getEmail_smtp() {
 		return this.email_smtp;
 	}
@@ -308,12 +320,12 @@ public class SchemaInformationObject {
 		this.smtp_auth_user = smtp_auth_user;
 	}
 
-	public String getTech_email_address() {
-		return tech_email_address;
+	public String getEmailTechAddress() {
+		return email_tech_address;
 	}
 
-	public void setTech_email_address(String techEmailAddress) {
-		tech_email_address = techEmailAddress;
+	public void setEmailTechAddress(String techEmailAddress) {
+		email_tech_address = techEmailAddress;
 	}
 
 	public int getSystemAlertLevel() {

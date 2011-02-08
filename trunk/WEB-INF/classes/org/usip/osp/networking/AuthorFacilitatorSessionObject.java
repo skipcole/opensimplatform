@@ -697,6 +697,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						// Get the user name that the faciliator entered.
 						String this_player_name = request.getParameter(ua.getId() + "_user_display_name");
 						customizedMessage = customizedMessage.replace("[Student Name]", this_player_name);
+						// Set the temporary user name of this UserAssignment
+						ua.setTempStudentName(this_player_name);
 					} else {
 						User user = User.getById(schema, ua.getUser_id());
 						customizedMessage = customizedMessage.replace("[Student Name]", user.getBu_full_name());
@@ -1673,6 +1675,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String email_pass = (String) request.getParameter("email_pass");
 			String email_user_address = (String) request
 					.getParameter("email_user_address");
+			
+			String email_tech_address = (String) request
+				.getParameter("email_user_address");
+			String email_noreply_address = (String) request
+				.getParameter("email_tech_address");
+			
 			String email_server_number = (String) request
 					.getParameter("email_server_number");
 			String email_status = checkEmailStatus(email_smtp, email_user,
@@ -1685,7 +1693,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			sio.setEmail_smtp(email_smtp);
 			sio.setSmtp_auth_user(email_user);
 			sio.setSmtp_auth_password(email_pass);
+			sio.setEmailTechAddress(email_tech_address);
 			sio.setEmail_archive_address(email_user_address);
+			sio.setEmailNoreplyAddress(email_noreply_address);
 			sio.setEmailState(email_status);
 			sio.setEmailServerNumber(new Long(email_server_number));
 			Logger.getRootLogger().debug(sio.toString());
@@ -4423,5 +4433,102 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			}
 		}
 	}
+	
+	/** if a message, not an error, has to get reported back to the user, you can use this. */
+	public String tempMsg = "";
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Email handleCreatedUserResponse(HttpServletRequest request){
+		
+		Email email = new Email();
+		
+		
+		// Handle what happens when they want to send an email.
+		String send_email = request.getParameter("send_email");
+		String u_id = request.getParameter("u_id");
+		
+		if (send_email != null){
+			String email_subject = request.getParameter("email_subject");
+			String email_text = request.getParameter("email_text");
+			String email_from = request.getParameter("email_from");
+			String email_to = request.getParameter("email_to");
+			
+			email.setSubjectLine(email_subject);
+			email.setMsgtext(email_text);
+			email.setHtmlMsgText(email_text);
+			email.setMsgDate(new java.util.Date());
+			email.setFromUserName(email_from);
+			email.setFromUser(user_id);
+			email.setToActorEmail(false);
+			email.saveMe(schema);
+			
+			// Set to
+			EmailRecipients er = new EmailRecipients(schema, email.getId(), 
+					this.getRunningSimId(), sim_id, email_to, EmailRecipients.RECIPIENT_TO);
+			EmailRecipients er_cc = new EmailRecipients(schema, email.getId(), 
+					this.getRunningSimId(), sim_id, email_to, EmailRecipients.RECIPIENT_CC);
+		
+			SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
+			email.sendMe(sio);
+		}
+		
+		
+		// Handle what happens when they get here after creating a user.
+		 
+		if (u_id != null){
+			User user = new User();
+			user = User.getById(schema, new Long(u_id));
+			
+			tempMsg = user.getBu_username();
+			
+			email = prepResponseEmail(request, user);
+		}
+		
+        
+		return email;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param user
+	 * @return
+	 */
+	public Email prepResponseEmail(HttpServletRequest request, User user){
+		
+		Email email = new Email();
+		
+		email.setSubjectLine("USIP OSP Registration Complete");
+		
+		String responseText = "";
+		responseText += "<p>Site: <a href=\"" + 
+			USIP_OSP_Properties.getValue("simulation_url") + "\">" + USIP_OSP_Properties.getValue("simulation_url") + "</p>";
+		responseText += "<p>Username: " + user.getBu_username() + "</p>";
+		responseText += "<p>Password: " + user.getBu_password() + "</p>";
+		
+		email.setMsgtext(responseText);
+		
+		email.setHtmlMsgText(responseText);
+		
+		return email;
+	}
+	
+	public static ArrayList getBaseResponseEmailText(){
+		return null;
+	}
+	
+	public static ArrayList htmlIfyAString(ArrayList<String> inputString){
+		
+		for (ListIterator<String> li = inputString.listIterator(); li.hasNext();) {
+			String this_act = li.next();
+		}
+		return null;
+	}
+	
+	
 
 } // End of class
