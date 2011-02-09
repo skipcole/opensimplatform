@@ -8,7 +8,7 @@
 		afso.backPage = "../simulation_authoring/create_actors.jsp";
 		
 		if (!(afso.isLoggedin())) {
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("../blank.jsp");
 			return;
 		}
 		
@@ -96,14 +96,14 @@
                 Upload Image: 
                   <input name="uploadedfile" type="file" tabindex="5" /></td>
               <td align="left" valign="top">or</td>
-              <td align="left" valign="top">Browser Server (Coming soon) </td>
+              <td align="left" valign="top"><a href="browse_actors_image.jsp?selectimage=mainimg">Browser Server </a></td>
             </tr>
             <tr> 
               <td align="left" valign="top">
                 Upload Thumbnail Image: 
                   <input name="uploaded_thumb_file" type="file" tabindex="5" /></td>
               <td align="left" valign="top">or</td>
-              <td align="left" valign="top">Browse Server (Coming soon) </td>
+              <td align="left" valign="top"><a href="browse_actors_image.jsp?selectimage=thumbimg">Browse Server </a></td>
             </tr>
             <tr>
 

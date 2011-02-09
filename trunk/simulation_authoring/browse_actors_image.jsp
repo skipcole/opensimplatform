@@ -8,7 +8,7 @@
 		afso.backPage = "../simulation_authoring/create_actors.jsp";
 		
 		if (!(afso.isLoggedin())) {
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("../blank.jsp");
 			return;
 		}
 
@@ -20,6 +20,30 @@
 			if (actorOnScratchPad == null){
 				actorOnScratchPad = new Actor();
 			}		
+		}
+		
+		String selectimage = request.getParameter("selectimage");
+		String setimage = request.getParameter("setimage");
+		
+		if ((setimage != null) && (setimage.equalsIgnoreCase("true"))){
+		
+			String img_name = request.getParameter("img_name");
+			
+			actorOnScratchPad = afso.giveMeActor();
+			
+			if ((selectimage != null) && (selectimage.equalsIgnoreCase("mainimg"))){
+			
+				actorOnScratchPad.setImageFilename(img_name);
+				
+			} else if ((selectimage != null) && (selectimage.equalsIgnoreCase("thumbimg"))){
+			
+				actorOnScratchPad.setImageThumbFilename(img_name);
+				
+			}
+			
+			actorOnScratchPad.saveMe(afso.schema);
+			response.sendRedirect("create_actors_image.jsp");
+			return;
 		}
 
 %>
@@ -73,7 +97,7 @@
                 <tr>
                   <td><img src="<%= fileLoc %>" alt="image" /></td>
                   <td><%= fileName %></td>
-                  <td><a href="browse_actors_image.jsp?setimage=true&img_name=<%= fileName %>">Select</a></td>
+                  <td><a href="browse_actors_image.jsp?setimage=true&selectimage=<%= selectimage %>&img_name=<%= fileName %>">Select</a></td>
                 </tr>
 				
 		<% } %>

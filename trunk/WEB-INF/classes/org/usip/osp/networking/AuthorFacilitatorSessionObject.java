@@ -350,9 +350,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String baseURL = USIP_OSP_Properties.getValue("simulation_url") //$NON-NLS-1$
 				+ "/simulation_user_admin/auto_registration_form.jsp";
 
-		Long schema_id = SchemaInformationObject.lookUpId(this.schema);
-
-		baseURL += "?schema_id=" + schema_id;
+		baseURL += "?schema=" + schema;
 
 		return baseURL;
 	}

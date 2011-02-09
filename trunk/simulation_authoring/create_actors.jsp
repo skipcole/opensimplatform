@@ -8,7 +8,7 @@
 		afso.backPage = "../simulation_authoring/create_actors.jsp";
 		
 		if (!(afso.isLoggedin())) {
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("../blank.jsp");
 			return;
 		}
 

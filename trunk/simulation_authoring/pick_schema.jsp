@@ -22,7 +22,7 @@
 			return;
 		} else {
 			afso.errorMsg = "Not authorized to author or instruct simulations.";
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("../blank.jsp");
 			return;
 		}
 
