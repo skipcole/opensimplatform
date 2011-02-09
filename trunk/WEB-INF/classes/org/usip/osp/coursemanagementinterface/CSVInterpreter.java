@@ -184,6 +184,7 @@ public class CSVInterpreter {
 
 					if (fieldValue.equalsIgnoreCase("Initials")) {
 						pullPasswordFromName = true;
+						bu.setTempPassword(true);
 					} else {
 						bu.setPassword(fieldValue);
 					}
@@ -206,7 +207,9 @@ public class CSVInterpreter {
 		bu.setLast_name(user.getBu_last_name());
 
 		if (pullPasswordFromName) {
-			bu.setPassword(bu.getInitials());
+			String usersInitials = bu.getInitials();
+			bu.setPassword(usersInitials);
+			bu.setTemppasswordCleartext(usersInitials);
 		}
 
 		user.setBu_full_name(user.getBu_first_name() + " "

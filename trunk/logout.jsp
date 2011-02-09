@@ -13,6 +13,7 @@
 	session.setAttribute("afso", null);
 	session.setAttribute("osp_soh", null);
 	session.setAttribute("pso", null);
+	session.setAttribute("sob", null);
 	
 	response.sendRedirect("login.jsp");
 	return;

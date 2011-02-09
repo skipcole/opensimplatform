@@ -32,16 +32,18 @@ org.usip.osp.baseobjects.*" %>
 	if (bu != null){
 		pso.languageCode = bu.getPreferredLanguageCode().intValue();
 		
+		/*
 		if (bu.isTempPassword()){
-			System.out.println("doing temp passworld");
-			SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
+			SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBase(request);
 			sob.setLoggedin(true);
 			OSPSessionObjectHelper osp_soh = OSPSessionObjectHelper.getOSP_SOH(request.getSession(true));
 			osp_soh.setUserid(bu.getId());
 			response.sendRedirect("simulation_user_admin/change_password.jsp?forcepasswordchange=true");
 		} else {
+		*/
 			response.sendRedirect("select_functionality_and_schema.jsp");
-		}
+		//}
+		
 		return;
 	}
 	

@@ -495,6 +495,9 @@ public class SessionObjectBase {
 				}
 
 				bu.setPassword(new_password);
+				bu.setTempPassword(false);
+				bu.setTemppasswordCleartext("");
+				bu.saveMe();
 
 				if ((forcepasswordchange != null)
 						&& (forcepasswordchange.equalsIgnoreCase("true"))) {

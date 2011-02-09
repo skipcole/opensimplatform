@@ -4,28 +4,36 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 <%
+	
 	String error_msg = "";
 	
 	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
 	
 	if ((sob == null) || (!(sob.isLoggedin()))) {
+		System.out.println("sob null or not logged in");
 		response.sendRedirect("../simulation/index.jsp");
 		return;
 	}
 	
+	System.out.println("sob not null");
+	
 	String forcepasswordchange = request.getParameter("forcepasswordchange");
 	
 	boolean forcedChange = false;
+	/*
 	if ((forcepasswordchange != null) && (forcepasswordchange.equalsIgnoreCase("true"))){
 		forcedChange = true;
 	}
-	
+	*/
 	int returnCode = sob.changePassword(request);
 	
+	System.out.println("returnCode was: " + returnCode);
+	/*
 	if (returnCode == SessionObjectBase.FORCED_PASSWORD_CHANGED) {
 		response.sendRedirect("../select_functionality_and_schema.jsp");
 		return;
 	}
+	*/
 
 	User user = sob.giveMeUser();
 	
@@ -40,6 +48,11 @@
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -52,9 +65,19 @@
 			<td width="100%"><br />
 			<% if (forcedChange) { %>
 			<h2>You must change the temporary password that you were assigned</h2>
-			<% } else { %>
-              <h1>Change Password </h1>
-			<% } %>
+			
+			  <% } else { %>
+			  	<% if (returnCode == SessionObjectBase.PASSWORDS_CHANGED) { %>
+			  	<h1>Your Password Has Been Changed</h1>
+			  	<% } else if ((returnCode == SessionObjectBase.WRONG_OLD_PASSWORD) || (returnCode == SessionObjectBase.INSUFFICIENT_INFORMATION)) { %>
+			  	<h1 class="style1">Incorrect Previous Password</h1>
+			  	<% } else if (returnCode == SessionObjectBase.PASSWORDS_MISMATCH) { %>
+			  	<h1 class="style1">New Passwords Did Not Match</h1>
+			  	<% } else { %>
+				<h1>Change Password </h1>
+			  	<% } // End of if password changed, or an error %>
+			
+			<% } // End of if forced change. %>
               <br />
       <form id="form1" name="form1" method="post" action="change_password.jsp">
   <table border="0" cellspacing="2" cellpadding="1" width="100%">
