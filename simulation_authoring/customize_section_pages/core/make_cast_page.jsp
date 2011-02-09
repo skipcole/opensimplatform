@@ -44,8 +44,7 @@
               <h1>Customize Cast Page</h1>
               <br />
       <form action="make_cast_page.jsp" method="post" name="form2" id="form2">
-        <% if (cs.getId() != null) {
-	  	System.out.println("cs id was :" + cs.getId());
+        <% if ((cs != null) && (cs.getId() != null)) {
 	   %>
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %>
