@@ -46,8 +46,9 @@ body {
 <blockquote>
   <p>a.) Observe the 'Assign Actors' page. It should look similar to the image below.</p>
   <blockquote>
-    <p><img src="images/tut_sim_auth_1_page9_assignactors.PNG" alt="Assign Actors Page" width="802" height="296" /></p>
+    <p><img src="images/tut_sim_auth_1_page9_assignactors.PNG" alt="assign actors image" width="799" height="457" /></p>
  
+
   <table width="100%" border="1" cellspacing="2" cellpadding="0">
     <tr>
       <td><h2 align="center"><strong>Tip: The Difference between 'Associated' and 'Assigned'</strong></h2>

@@ -44,17 +44,18 @@ body {
 <br />
 <h1>Step 8. Create actors</h1>
 <blockquote>
-  <p>a.) Right click your mouse on each of the images below to save them onto your computer. You will be using these to upload images for the three actors you will be creating. </p>
-  <p><strong>Please note:</strong> Different web browsers have slightly different menus for basically the same thing. You will want to select something like 'Save Image As ..' or 'Save Picture As ..'. You will then want to save the images to an easy to find place on your computer, such as your 'My Documents' or your 'C:\' folder. </p>
-  <blockquote>
-    <p><img src="../../osp_core/images/actors/facilitator.png" alt="Facilitator" width="129" height="129" /> <img src="../../osp_core/images/actors/facilitator_thumb.png" alt="Facilitator Thumg" width="40" height="40" /> <img src="../../osp_core/images/actors/player_a.png" alt="Player A" width="129" height="129" /> <img src="../../osp_core/images/actors/player_a_thumb.png" alt="Player A Thumb" width="40" height="40" /> <img src="../../osp_core/images/actors/player_b.png" alt="Player B" width="129" height="129" /> <img src="../../osp_core/images/actors/player_b_thumb.png" alt="Player B Thumb" width="40" height="40" /> </p>
-  </blockquote>
-  <p>b.) Create the 'Orange Salesman' (who is the 'control' character) as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
+  <p>a.) Create the 'Orange Salesman' (who is the 'control' character) as shown below. Enter in the data as show, and then click on the 'Create' button.</p>
   <blockquote>
     <p><strong>Tip</strong>: Make sure that you select the 'Control' checkbox for this (and only this) actor.</p>
-    <p><strong>Tip 2</strong>: The path to the image files will depend on where you saved the images in step a. above. The names of the files (facilitator.png, player_a.png, player_a_thumb.png, etc. ) indicate which image to use for each player.</p>
-    <p><img src="images/tut_sim_auth_1_page8_createcontrol.PNG" alt="Create Control Character" width="656" height="769" border="1" /></p>
+    <p><img src="images/tut_sim_auth_1_page8_createcontrol.PNG" alt="Create Control Character" border="1" /></p>
   </blockquote>
+  <p CLASS="breakhere">b.) After you have created the Actor, you may set the image files for them. </p>
+  <p CLASS="breakhere"><img src="images/tut_sim_auth_1_page8_setcontrolimage.PNG" width="770" height="324" /></p>
+  <p CLASS="breakhere">You will need to browse the server, and then select the appropriate files.</p>
+  <p CLASS="breakhere"><img src="images/tut_sim_auth_1_page8_browseserver.PNG" width="662" height="366" border="1" /> </p>
+  <p CLASS="breakhere"><img src="images/tut_sim_auth_1_page8_select_image.PNG" width="826" height="228" border="1" /></p>
+  <p CLASS="breakhere">When you are done, it should look like the image below:</p>
+  <p CLASS="breakhere"><img src="images/tut_sim_auth_1_page8_control_done.PNG" width="758" height="309" border="1" /></p>
   <p CLASS="breakhere">c.) After you create the actor, they should appear as shown in the figure below. Hit the 'Clear' button at the bottom of the page to get ready to create the next actor. (The 'Clear' button is circled in red in the image below.) </p>
   <blockquote>
     <p class="breakhere"><img src="images/tut_sim_auth_1_page8_createcontrol_done.PNG" alt="Control Character Created" width="664" height="1161" border="1" /></p>

@@ -246,16 +246,12 @@ public class SimActorAssignment implements ExportableObject{
 
 		ArrayList returnList = new ArrayList();
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
 		for (ListIterator<SimActorAssignment> li = startList.listIterator(); li
 				.hasNext();) {
 			SimActorAssignment this_saa = li.next();
-			Actor act = (Actor) MultiSchemaHibernateUtil.getSession(schema)
-					.get(Actor.class, this_saa.getActorId());
+			Actor act = Actor.getById(schema, this_saa.getActorId());
 			returnList.add(act);
 		}
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 
