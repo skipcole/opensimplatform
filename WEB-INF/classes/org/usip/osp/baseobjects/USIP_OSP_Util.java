@@ -192,9 +192,11 @@ public class USIP_OSP_Util {
 	 */
 	public static SessionObjectBase getSessionObjectBaseIfFound(HttpServletRequest request){
 		
-		SessionObjectBase sob = null;
 		PlayerSessionObject pso = (PlayerSessionObject) request.getSession().getAttribute("pso");
 		AuthorFacilitatorSessionObject afso = (AuthorFacilitatorSessionObject) request.getSession().getAttribute("afso");
+		SessionObjectBase sob = (SessionObjectBase) request.getSession().getAttribute("sob");
+		
+		System.out.println ("sob is " + sob);
 		
 		if (pso != null){
 			sob = (SessionObjectBase) pso;
@@ -207,12 +209,18 @@ public class USIP_OSP_Util {
 		return sob;
 	}
 	
+	/**
+	 * Returns a SessionObjectBase, no matter what.
+	 * @param request
+	 * @return
+	 */
 	public static SessionObjectBase getSessionObjectBase(HttpServletRequest request){
 		
 		SessionObjectBase sob = getSessionObjectBaseIfFound(request);
 		
 		if (sob == null){
 			sob = new SessionObjectBase();
+			request.getSession().setAttribute("sob", sob);
 		}
 		
 		return sob;
