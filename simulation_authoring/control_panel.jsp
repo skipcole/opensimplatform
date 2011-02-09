@@ -12,7 +12,7 @@
 	afso.backPage = "control_panel.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	

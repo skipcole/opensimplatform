@@ -9,7 +9,7 @@
 	afso.backPage = AuthorFacilitatorSessionObject.getBaseSimURL() + "/simulation_authoring/set_specific_sim_sections.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
