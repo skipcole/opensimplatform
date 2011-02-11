@@ -8,12 +8,12 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
 	if (!(afso.isAdmin())){
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	

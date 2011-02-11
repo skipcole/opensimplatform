@@ -170,7 +170,8 @@
 %>
       </blockquote>
       <p>Note: Rows in pink represent unregistered players that have been assigned a role in the simulation.</p>
-      <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>      <p align="left"><a href="../simulation_user_admin/create_user.jsp">&lt;- 
+      <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>     
+	   <p align="left"><a href="create_schedule_page.jsp">&lt;- 
         Back</a></p>			</td>
 		</tr>
 		</table>	</td>

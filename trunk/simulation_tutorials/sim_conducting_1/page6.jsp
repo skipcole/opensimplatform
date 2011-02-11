@@ -42,24 +42,25 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Step 6. Create Users</h1>
+<h1>Step 6. Enable Simulation</h1>
 <blockquote>
-  <p>a.) You can also just create users by hand. Enter the information on the form as needed below to create a user.</p>
+  <p>a.) Observe the form below. This is where you will enable your simulation </p>
   <blockquote>
-    <blockquote>
-      <p><img src="images/tut_sim_conduct_1_page6_create_user.PNG" alt="Create User" width="503" height="208" border="1" /></p>
-    </blockquote>
-    <p>&nbsp;</p>
-    <p>b.) Create the users you will need for your simulation. If you are doing the 'Buying Oranges' simulation, you will need at least 3 users: one facilitator and one for each of the Players A and B.</p>
-    <p>c.) Click on the link 'Next step: Assign Players' to move to the next step.</p>
+    <p><img src="images/tut_sim_conduct_1_page6_enabled_simulation.PNG" width="713" height="363" /></p>
   </blockquote>
+  <p>&nbsp;</p>
+  <p>b.) Click the button 'Start Simulation.' </p>
+  <blockquote>
+    <p><img src="images/tut_sim_conduct_1_page6_enabled_simulation.PNG" alt="Enabled Sim" width="713" height="363" /></p>
+  </blockquote>
+  <p>c.) Click on the link 'Next step: Send Invitation Emails' to move to the next step.</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
 </blockquote>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page5.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page7.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page7.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
