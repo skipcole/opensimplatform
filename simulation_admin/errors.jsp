@@ -8,14 +8,30 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
+	}
+	
+	// Move all of the above to a java file AFSO
+	String toggle_e = (String) request.getParameter("toggle_e");
+	
+	
+	if ((toggle_e != null) && (toggle_e.equalsIgnoreCase("true") ) ) {
+		String e_id = (String) request.getParameter("e_id");
+		
+		OSPErrors ospError = OSPErrors.getById(new Long (e_id));
+		if (ospError.isErrorProcessed()){
+			ospError.setErrorProcessed(false);
+		} else {
+			ospError.setErrorProcessed(true);
+		}
+		ospError.saveMe();
 	}
 	
 %>
 <html>
 <head>
-<title>Finger</title>
+<title>View Errors</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
@@ -29,6 +45,7 @@
 <h3>Current Errors </h3>
 <table width="100%" border="1">
 <tr>
+  <td width="5%">id</td>
       
       <td width="5%"><strong>Date</strong></td>
       <td width="12%"><strong>Class</strong></td>
@@ -38,25 +55,35 @@
       <td width="2%"><strong>D</strong></td>
       <td width="2%">M</td>
 </tr>
+<% 
+	List unprocessedErrors = OSPErrors.getAllErrors(false);
+	
+  		for (ListIterator li = unprocessedErrors.listIterator(); li.hasNext();) {	
+			OSPErrors upE = (OSPErrors) li.next();
+%>
 <tr>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td><form name="form1" method="post" action="">
+  <td valign="top"><%= upE.getId() %></td>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
+  <td valign="top">&nbsp;</td>
+  <td valign="top"><form name="form1" method="post" action="errors.jsp">
+  	<input type="hidden" name="toggle_e" value="true" />
+	<input type="hidden" name="e_id" value="<%= upE.getId() %> %>" />
     <label>
       <input type="submit" name="Submit" value="|">
       </label>
-  </form>
-  </td>
+  </form>  </td>
 </tr>
+<% } // end of loop over unprccessed errors. %>
 </table>
 <h3>&nbsp;</h3>
 <h3>Previous Errors </h3>
 <table width="100%" border="1">
   <tr>
+    <td width="5%">id</td>
     <td width="5%"><strong>Date</strong></td>
     <td width="12%"><strong>Class</strong></td>
     <td width="16%"><strong>Error</strong></td>
@@ -65,19 +92,29 @@
     <td width="2%"><strong>D</strong></td>
     <td width="2%">M</td>
   </tr>
+<% 
+	List processedErrors = OSPErrors.getAllErrors(true);
+	
+  		for (ListIterator li = processedErrors.listIterator(); li.hasNext();) {	
+			OSPErrors upE = (OSPErrors) li.next();
+%>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td><form name="form1" method="post" action="">
-      <label>
-        <input type="submit" name="Submit2" value="|">
-        </label>
-    </form></td>
+    <td valign="top"><%= upE.getId() %></td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top"><form name="form1" method="post" action="errors.jsp">
+  	<input type="hidden" name="toggle_e" value="true" />
+	<input type="hidden" name="e_id" value="<%= upE.getId() %> %>" />
+    <label>
+      <input type="submit" name="Submit" value="|">
+      </label>
+  </form>  </td>
   </tr>
+<% } // end of loop over processed errors. %>
 </table>
 <p></p>
 <p>&nbsp;</p>

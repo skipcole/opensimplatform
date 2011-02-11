@@ -1,6 +1,7 @@
 package org.usip.osp.persistence;
 
 import java.io.*;
+import java.util.List;
 import java.util.Vector;
 
 import javax.persistence.*;
@@ -439,6 +440,33 @@ public class OSPErrors {
 
 	public void setErrorProcessed(boolean errorProcessed) {
 		this.errorProcessed = errorProcessed;
+	}
+	
+	/** Returns all of the errors on this system, processed or unprocessed depending on
+	 * what is passed in.
+	 * 
+	 * @param schema
+	 * @param processedErrors
+	 * @return
+	 */
+	public static List<OSPErrors> getAllErrors(boolean processedErrors){
+		
+		String hqlString = "from OSPErrors where errorProcessed is false";
+		
+		if (processedErrors){
+			hqlString = "from OSPErrors where errorProcessed is true";
+		}
+		
+		MultiSchemaHibernateUtil.beginTransaction(
+                MultiSchemaHibernateUtil.principalschema, true);
+
+		List<OSPErrors> returnList = MultiSchemaHibernateUtil.getSession(
+                MultiSchemaHibernateUtil.principalschema, true).createQuery(hqlString).list(); //$NON-NLS-1$
+
+        MultiSchemaHibernateUtil
+                .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+
+		return returnList;
 	}
     
 }

@@ -42,26 +42,26 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Step 4. Create Schedule Page</h1>
+<h1>Additional Activity . Create Users</h1>
 <blockquote>
-  <p>a.) Observe the schedule page shown below. On it you will see the 'Planned Play Ideas' entered by the Simulation Author when they created this simulation.</p>
+  <p>a.) You can also just create users by hand. Enter the information on the form as needed below to create a user.</p>
   <blockquote>
-    <p><img src="images/tut_sim_conduct_1_page4_enterschedule.PNG" alt="OSP Schedule Form" width="688" height="599" border="1" /></p>
-  </blockquote>
-  <p>b.) Enter in the time at which you would like this simulation should start, and any other instructions (such as how to contact you) that you would like for the students to be able to get to right off the bat. They will be able to see this information on their 'Schedule' tab.</p>
-  <p>c.) Hit 'Save' and observe that your changes have been saved.</p>
-  <p>d.) Click on the link 'Next Step: Assign Players' to move to the next step.</p>
-  <blockquote>
+    <blockquote>
+      <p><img src="images/tut_sim_conduct_1_page6_create_user.PNG" alt="Create User" width="503" height="208" border="1" /></p>
+    </blockquote>
     <p>&nbsp;</p>
+    <p>b.) Create the users you will need for your simulation. If you are doing the 'Buying Oranges' simulation, you will need at least 3 users: one facilitator and one for each of the Players A and B.</p>
+    <p>c.) Click on the link 'Next step: Assign Players' to move to the next step.</p>
   </blockquote>
+  <p>&nbsp;</p>
   <p>&nbsp;</p>
 </blockquote>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">
   <tr>
-    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page3.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="backButton" --><a href="page5.jsp">&lt;-- back </a><!-- InstanceEndEditable --></div></td>
     <td><div align="center"><!-- InstanceBeginEditable name="tocLink" -->  ||  <a href="index.jsp#toc"> table of contents </a>  ||<!-- InstanceEndEditable --></div></td>
-    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page5.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
+    <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page7.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
 <p>&nbsp;</p>

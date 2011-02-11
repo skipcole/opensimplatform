@@ -230,14 +230,18 @@ Email has not been enabled on this server. Please contact your administrator if 
 </table>
 <% } // end of if there were previous invits %>
               </blockquote>
-              <% } // end of if running_sim.id has been set. %>
-        <%
+              <p>
+                <% } // end of if running_sim.id has been set. %>
+                    <%
 		
 	}// end of if afso.simulation.id has been set.
 	
 } // End of if email has been enabled.
 
-%> 		</td>
+%> 		
+                <a href="../blank.jsp">Next 
+                Step: Enter Simulation </a></p>
+              <p>&nbsp;</p></td>
 		</tr>
 		</table>	</td>
   </tr>

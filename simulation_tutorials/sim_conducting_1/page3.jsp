@@ -42,7 +42,7 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Create Running Simulation</h1>
+<h1>Step 3. Create Running Simulation</h1>
 <blockquote>
   <p>a.) Observe the panel shown below. </p>
   <blockquote>

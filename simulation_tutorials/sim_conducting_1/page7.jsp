@@ -42,23 +42,15 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Step. 7 Assign Players</h1>
+<h1>Step. 7 Email Players </h1>
 <blockquote>
-  <p>a.) Players must be assigned to a role. For example, the real student 'John Doe' maybe be assigned to the fictional role of 'UK Prime Minister.' The form shown below is the one you will use to make assignments.</p>
+  <p>a.) You should notify your players that a simulation has begun and that they can now enter. </p>
+  <p>Tip: If you are performing this tutorial for an instructor, you may want to include them as a player so that you can send then a 'Game Starting' email notification from the system. </p>
   <blockquote>
-    <p><img src="images/tut_sim_conduct_1_page7_assign_user.PNG" alt="Assign Players" width="659" height="353" border="1" /></p>
-    <p>Tip: Many people do not find this form intuitive, and so we will probably be changing it soon.</p>
+    <p><img src="images/tut_sim_conduct_1_page7_notify_players.PNG" alt="Notify Players" width="716" height="924" /></p>
+    <p>&nbsp;</p>
   </blockquote>
-  <p>b.) Assign players to your simulation. You do this by following the steps below:</p>
-  <ol>
-    <ol>
-      <li>Select the user's email address (which is also their username) from the pulldown menu.</li>
-      <li>Click the 'Assign User' Button for that row.</li>
-      <li>If you make a mistake, you can select the button with the minus symbol ('-') to remove an assignment.</li>
-      <li>When all of the red 'Not Assigned' labels have been replaced with email addresses, you are done.</li>
-    </ol>
-  </ol>
-  <p>c.) Click on the link 'Next step: Enable Simulation' to move to the next step.</p>
+  <p>b.) Select &quot;Enter Simulation&quot; to enter into the simulation you just created. </p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
 </blockquote>

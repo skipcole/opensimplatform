@@ -51,7 +51,7 @@ body {
   <p>&nbsp;</p>
   <p>b.) Select the 'Buying Oranges' simulation that you created in the tutorial '<a href="../sim_author_1/index.jsp">Simulation Authoring 1</a>' or if you are trying this using a different simulation, then select it. You should be directed to a page that looks like the one below.</p>
   <blockquote>
-    <p><img src="images/tut_sim_conduct_1_page2_playpanel.PNG" alt="OSP Play Panel" width="607" height="296" border="1" /></p>
+    <p><img src="images/tut_sim_conduct_1_page2_playpanel.PNG" alt="Play Panel" width="690" height="295" border="1" /></p>
     <p>Tip: The (?) symbols are links to context sensitive help that will appear on the right side of your screen.</p>
   </blockquote>
   <p>c.) Select the link 'Create Running Simulaition' to move to the first step of the process.</p>

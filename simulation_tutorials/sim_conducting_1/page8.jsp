@@ -42,24 +42,22 @@ body {
 </table>
 <!-- InstanceBeginEditable name="pageBody" -->
 <br />
-<h1>Step 8. Enable Simulation</h1>
+<h1>Step 8. Enter Simulation </h1>
 <blockquote>
-  <p>a.) Observe the form below. This is where you will enable your simulation </p>
+  <p>a.) Clicking on the 'Enter Simulation' link will log you off as an author and bring you back to the login page. After logging in, select the 'Player' icon.</p>
   <blockquote>
-    <p><img src="images/tut_sim_conduct_1_page8_enable_simulation.PNG" alt="Enable Simulation" width="936" height="528" border="1" /></p>
+    <p><img src="images/tut_sim_conduct_1_page8_enable_landingpage.PNG" alt="Enter as Player" width="153" height="236" /> </p>
   </blockquote>
   <p>&nbsp;</p>
-  <p>b.) Click the button 'Start Simulation.' Emails will be sent out to all of your players, your running simulation enabled for entry, and you should see that the page now looks like the form below.</p>
+  <p>b.) Click the play button to enter into your simulation.</p>
   <blockquote>
-    <p><img src="images/tut_sim_conduct_1_page8_an_enabled_simulation.PNG" alt="An Enabled Simulation" width="782" height="342" border="1" /></p>
+    <p><img src="images/tut_sim_conduct_1_page8_select_sim.PNG" alt="Select Sim" width="718" height="250" /> </p>
+    <p>&nbsp;</p>
   </blockquote>
-  <p>&nbsp;</p>
-  <p>c.) Login to the simulation and play through it.</p>
-  <p>&nbsp;</p>
-  <h2>Congratulations!</h2>
-  <blockquote>
-    <p>You have finished the first tutorial on how to conduct a simulation using the OSP!</p>
-  </blockquote>
+  <p>c.) Entering as the 'Control' player (or Orange Salesman) you will be able to move around to the various sections, and via the 'Control' tab, become the roles of the other players. </p>
+  <p>d.) This is far as I have gotten on this tutorial. SC 1/10/11.</p>
+  <h2>&nbsp;</h2>
+  <blockquote>&nbsp;</blockquote>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
