@@ -44,9 +44,10 @@
 			  <h1>Create Running Simulation<a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></h1>
 			  <br />
             <blockquote> 
-              <% 
-			if (afso.sim_id != null) {
-		%>
+			<%= afso.errorMsg %>
+			<% afso.errorMsg = ""; %>
+            <% if (afso.sim_id != null) {  %>
+			
               <p>Create running simulations for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
                 (If you would like to create running simulations for a different simulation, 
                 <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>

@@ -3487,15 +3487,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String addRunningSimulation = (String) request
 				.getParameter("addRunningSimulation");
 
-		if ((sending_page != null) && (addRunningSimulation != null)
-				&& (sending_page.equalsIgnoreCase("create_running_sim"))) {
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("create_running_sim"))
+				&& (addRunningSimulation != null)) {
 
 			String rsn = (String) request.getParameter("running_sim_name");
-			RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
+			
+			if ((rsn != null) && (rsn.trim().length() > 0)){
+				
+				RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
 					schema, this.user_id, this.userDisplayName);
 
-			runningSimId = rs.getId();
-
+				runningSimId = rs.getId();
+			} else {
+				this.errorMsg = "Running Simulation Name must not be blank.";
+			}
 		} // End of if coming from this page and have added running simulation
 	}
 

@@ -714,24 +714,33 @@ public class Email {
 		
 	}
 	
-	public boolean sendInGameEmail(String schema, Long running_sim_id){
+	public boolean sendInGameEmail(SchemaInformationObject sio, Long running_sim_id){
 		
-		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
-		
-		List recipients = Email.getRecipientsOfAnEmail(schema, this.getId(), EmailRecipients.RECIPIENT_TO);
+		List recipients = Email.getRecipientsOfAnEmail(sio.getSchema_name(), this.getId(), EmailRecipients.RECIPIENT_TO);
 		
 		for (ListIterator<EmailRecipients> li = recipients.listIterator(); li.hasNext();) {
 			EmailRecipients this_er = li.next();
 			
 			// Get List of Users playing the actors.
-			List uaList = UserAssignment.getAllForActorInARunningSim(schema, this_er.getActor_id(), running_sim_id);
+			List uaList = UserAssignment.getAllForActorInARunningSim(sio.getSchema_name(), this_er.getActor_id(), running_sim_id);
 			
 			for (ListIterator<UserAssignment> li_ua = uaList.listIterator(); li_ua.hasNext();) {
 				UserAssignment this_ua = li_ua.next();
 				
-				User user = User.getById(schema, this_ua.getUser_id());
-				Emailer.postMail(sio, user.getUser_name(), this.getSubjectLine(), this.getMsgtext(), "noreply@opensimplatform.org", 
+				String toUserName = "";
+				
+				if (this_ua.getUser_id() != null){
+					User user = User.getById(sio.getSchema_name(), this_ua.getUser_id());
+					toUserName = user.getUser_name();
+				} else {	// User may have been assigned, but still not registered.
+					toUserName = this_ua.getUsername();
+				}
+				
+				if ((toUserName != null) && (toUserName.trim().length() > 0)){
+					Emailer.postMail(sio, toUserName, this.getSubjectLine(), this.getMsgtext(), sio.getEmailNoreplyAddress(), 
 						null, null);
+				}
+				
 			}
 			
 		}
