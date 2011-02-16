@@ -44,6 +44,8 @@ public class RunningSimulation {
 
 	/** Id of the instructor that created this running simulation. */
 	private Long creator_id;
+	
+	private String creatorName;
 
 	@Column(name = "RS_NAME")
 	private String name;
@@ -136,13 +138,14 @@ public class RunningSimulation {
 	 * @param sim
 	 * @param schema
 	 */
-	public RunningSimulation(String name, Simulation sim, String schema,
-			Long creator_id, String creator_name) {
+	public RunningSimulation(String name, Simulation sim, String schema, Long creator_id, String creatorName) {
 
 		this.name = name;
 		this.aar_text = sim.getAarStarterText();
 		this.phase_id = sim.getFirstPhaseId(schema);
 		this.sim_id = sim.getId();
+		this.creator_id = creator_id;
+		this.creatorName = creatorName;
 
 		this.saveMe(schema);
 
@@ -333,6 +336,18 @@ public class RunningSimulation {
 
 	public void setCreator_id(Long creator_id) {
 		this.creator_id = creator_id;
+	}
+	
+	public String getCreatorName() {
+		return creatorName;
+	}
+
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public String getRunningSimulationName() {
