@@ -32,7 +32,7 @@ body {
   <tr>
     <td width="120" valign="top"><img src="../../Templates/images/logo_bot.png" width="60" height="10" /></td>
     <td height="10" colspan="2" valign="bottom" bgcolor="#475DB0">
-		</td>
+	</td>
   </tr>
   <tr>
   	<td width="120" align="right" valign="top"></td>
@@ -57,7 +57,7 @@ body {
   <p>Simulations are run by  facilitators, who generally come into the simulation as a 'control' actor. This gives them greater ability to see things and to control what is happening than the other actors. </p>
   <p>&nbsp;</p>
   <h2>3.) Phase</h2>
-  <p>Every simulation has different epochs it will go through - even if these are just 'started' and 'finished.' In the different phases the actors may be able to do differen things. For example, in one phase some actors may be able to work on a shared document together. In another phase perhaps, they are no longer in communcation with each other. Development of the phases is up to the simulation author and will be discussed in greater detail later. For now, please just consider a phase as a period of time. </p>
+  <p>Every simulation has different epochs it will go through - even if these are just 'started' and 'finished.' In the different phases the actors may be able to do different things. For example, in one phase some actors may be able to work on a shared document together. In another phase perhaps, they are no longer in communcation with each other. Development of the phases is up to the simulation author and will be discussed in greater detail later. For now, please just consider a phase as a period of time. </p>
   <h2><br />
     4.) Simulation Sections</h2>
   <p>The USIP OSP provides access to things that the players can see and do in distinct sections. As you will see, these appear to the players as different tab headings. The simulation author defines what these sections will be by selecting from a list of available simulation sections. For example, if the author wants some of the players to be able to chat with each other, she would add the 'chat' section to the applicable players. </p>
@@ -96,6 +96,12 @@ body {
     <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --> <a href="../sim_author_1/index.jsp">next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
+<!-- InstanceBeginEditable name="errorReporting" -->
+
+To report corrections or errors, please <a href="mailto:tech@opensimplatform.org?subject=Problem_on_tutorial_page_sim_concepts_index">click here</a>. <br/>
+(If the above link does not work, you can also just send an email to tech@opensimplatform.org with the subject heading 'Problem on Tutorial Page Simulation Concepts'.)
+
+<!-- InstanceEndEditable -->
 <p>&nbsp;</p>
 <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
 <P CLASS="breakhere"></P>

@@ -75,6 +75,12 @@ body {
     <td><div align="center"><!-- InstanceBeginEditable name="nextButton" --><a href="page12.jsp"> next --&gt;</a><!-- InstanceEndEditable --></div></td>
   </tr>
 </table>
+<!-- InstanceBeginEditable name="errorReporting" -->
+
+To report corrections or errors, please <a href="mailto:tech@opensimplatform.org?subject=Problem_on_tutorial_page_a1_page11">click here</a>. <br/>
+(If the above link does not work, you can also just send an email to tech@opensimplatform.org with the subject heading 'Problem on Tutorial Page Simulation Authoring Page 11'.)
+
+<!-- InstanceEndEditable -->
 <p>&nbsp;</p>
 <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
 <P CLASS="breakhere"></P>

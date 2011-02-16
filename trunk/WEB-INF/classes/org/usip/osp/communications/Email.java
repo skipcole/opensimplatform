@@ -82,13 +82,14 @@ public class Email {
 		
 		email.setSubjectLine("Simulation " + simName + " Starting");
 		
-		String msgText = "Dear [Student Name]," + USIP_OSP_Util.lineTerminator;
-		msgText += "You are invited to enter a simulation." + USIP_OSP_Util.lineTerminator;
-		msgText += "Please confirm that you have received this ";
-		msgText += "email by going to this website [confirm_receipt]" + USIP_OSP_Util.lineTerminator;
-		msgText += "Enjoy!" + USIP_OSP_Util.lineTerminator;
+		String msgText = "Dear [Student Name],<br/>" + USIP_OSP_Util.lineTerminator;
+		msgText += "You are invited to enter a simulation.<br/>" + USIP_OSP_Util.lineTerminator;
+		msgText += "Please confirm that you have received this <br/>";
+		msgText += "email by going to this website [confirm_receipt]<br/>" + USIP_OSP_Util.lineTerminator;
+		msgText += "Enjoy!<br/>" + USIP_OSP_Util.lineTerminator;
 		
 		email.setMsgtext(msgText);
+		email.setHtmlMsgText(msgText);
 		
 		email.setToActorEmail(false);
  
@@ -163,6 +164,9 @@ public class Email {
     
     /** Email address of the sending user. */
     private String fromUserName = "";
+    
+    /** Email address to reply to. */
+    private String replyToName = "";
     
     /** Subject line of this email. */
     private String subjectLine = ""; //$NON-NLS-1$
@@ -326,6 +330,14 @@ public class Email {
 
 	public void setFromUserName(String fromUserName) {
 		this.fromUserName = fromUserName;
+	}
+	
+	public String getReplyToName() {
+		return replyToName;
+	}
+
+	public void setReplyToName(String replyToName) {
+		this.replyToName = replyToName;
 	}
 
 	public String getSubjectLine() {
@@ -644,10 +656,10 @@ public class Email {
 			Vector cc = getListOfRecipients(sio.getSchema_name(), this.getId(), 
 					running_sim_id, this.isToActorEmail(), EmailRecipients.RECIPIENT_CC);
 			Vector bcc = getListOfRecipients(sio.getSchema_name(), this.getId(), 
-					running_sim_id, this.isToActorEmail(), EmailRecipients.RECIPIENT_BCC);	
-
-			System.out.println("about to post");
-			Emailer.postMail(sio, to, this.getSubjectLine(), this.getMsgtext(), this.getHtmlMsgText(), this.fromUserName, cc, bcc);
+					running_sim_id, this.isToActorEmail(), EmailRecipients.RECIPIENT_BCC);
+			
+			Emailer.postMail(sio, to, this.getSubjectLine(), this.getMsgtext(), 
+					this.getHtmlMsgText(), this.fromUserName, this.replyToName, cc, bcc);
 		}
 				
 		this.hasBeenSent = true;

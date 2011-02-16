@@ -39,8 +39,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>Open Simulation Platform Control Page</title>
-
+<title>Open Simulation Platform Email Notification Page</title>
+<script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
+</script>
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
@@ -184,8 +185,12 @@ Email has not been enabled on this server. Please contact your administrator if 
         <tr valign="top"> 
           <td width="34%">Email text:<br /> <br /> </td>
                 <td width="66%">
-                  <p>
-                  <textarea name="email_text" cols="60" rows="5"><%= email.getMsgtext() %></textarea>
+				  <textarea id="email_text" name="email_text" style="height: 120px; width: 480px;"><%= email.getMsgtext() %></textarea>
+                <script language="javascript1.2">
+					wysiwygWidth = 480;
+					wysiwygHeight = 120;
+  			generate_wysiwyg('email_text');
+		</script>
                 </p>
                   <p><strong><font color="#CC9900">Note:</font> You should not edit the text inside of brackets []. This text will automatically be replaced with the correct 
                     information for your system. </strong></p></td>

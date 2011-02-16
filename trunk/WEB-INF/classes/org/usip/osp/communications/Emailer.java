@@ -33,11 +33,8 @@ import org.apache.log4j.*;
  */
 public class Emailer {
 	
-	public static final String NOREPLY_EMAIL = "noreply@opensimplatform.org";
-
-	
 	public static void postMail(final SchemaInformationObject sio, Vector<String> to, String subject,
-			String message, String htmlMessage, String from, Vector<String> cced,
+			String message, String htmlMessage, String from, String replyTo, Vector<String> cced,
 			Vector<String> bcced) {
 		
 		Session session = getJavaxMailSessionForSchema(sio, true);
@@ -45,9 +42,30 @@ public class Emailer {
 		Message msg = new MimeMessage(session);
 
 		try {
+			
 			// set the from and to address
 			InternetAddress addressFrom = new InternetAddress(from);
 			msg.setFrom(addressFrom);
+			
+			if ((replyTo != null) && (replyTo.length() > 0)){
+				InternetAddress[] addressReplyTo = new InternetAddress[1];
+				addressReplyTo[0] = new InternetAddress(replyTo);
+				msg.setReplyTo(addressReplyTo);
+			}
+			
+			// /////////////////////////////////////////////////////////
+			// Abandoning, for now, the idea of setting multiple 'replyTo' addresses.
+			//int ii = 0;
+			/* if ((replyTo != null) && (replyTo.size() > 0)) {
+				InternetAddress[] addressReplyTo = new InternetAddress[replyTo.size()];
+				for (Enumeration<String> e = replyTo.elements(); e.hasMoreElements();) {
+					String s = e.nextElement();
+					Logger.getRootLogger().debug("addressReplyTo[ii] is " + addressReplyTo[ii]); //$NON-NLS-1$
+					addressReplyTo[ii] = new InternetAddress(s);
+				}
+				msg.setReplyTo(addressReplyTo);
+				
+			}*/ 
 			
 			// /////////////////////////////////////////////////////////
 			int ii = 0;

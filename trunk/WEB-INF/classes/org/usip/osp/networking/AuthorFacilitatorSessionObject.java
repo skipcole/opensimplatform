@@ -669,15 +669,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String email_from = request.getParameter("email_from");
 			String email_subject = request.getParameter("email_subject");
 			
-			String send_email_from = "noreply@opensimplatform.org";
+			boolean setReplyTo = true;	// If sending from no-reply acct, set reply to instructor's email.
+			String send_email_from = sio.getEmailNoreplyAddress();
 			if ( (email_from != null) && (email_from.equalsIgnoreCase("username"))   ) {
 				send_email_from = this.user_email;
+				setReplyTo = false;
 			}
 			
 			returnEmail = new Email(this.user_id, send_email_from, email_subject, email_text, 
 					this.sim_id, this.runningSimId);
 			returnEmail.setInvitePrototype(true);
 			returnEmail.setSimInvitationEmail(true);
+			returnEmail.setSendDate(new java.util.Date());
 			returnEmail.saveMe(schema);
 			
 			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
@@ -707,6 +710,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 								this.sim_id, this.runningSimId);
 						email.setSimInvitationEmail(true);
 						email.setToActorEmail(false);
+						
+						if (setReplyTo){
+							email.setReplyToName(this.user_email);
+						}
 						email.saveMe(schema);
 						EmailRecipients er = new EmailRecipients(schema, email.getId(), this.getRunningSimId(), 
 								sim_id, ua.getUsername(), EmailRecipients.RECIPIENT_TO);
@@ -717,6 +724,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						
 						customizedMessage = customizedMessage.replace("[confirm_receipt]", confirmURL);
 						email.setMsgtext(customizedMessage);
+						email.setHtmlMsgText(customizedMessage);
 						email.saveMe(schema);
 						
 						email.sendMe(sio);
