@@ -10,12 +10,17 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
+
 	
+	Simulation simulation = new Simulation();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
+	}
 	
-	String debug_string = "";
-	
-	//////////////////////////////////
-	List simList = Simulation.getAll(afso.schema);
+	RunningSimulation running_simulation = new RunningSimulation();
+	if (afso.getRunningSimId() != null){
+		running_simulation = afso.giveMeRunningSim();
+	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -34,10 +39,33 @@
               <tr>
                 <td width="120"><img src="../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><br />
-                  <h1>Instructor Home Page </h1>
-                  <br />
+                  <h1>Welcome!  </h1>
+			  <blockquote>    
+			  <% if (afso.getRunningSimId() != null) { %>
+				<strong>Your last Running Simulation was: <%= running_simulation.getRunningSimulationName() %> </strong> 
+				<% if (afso.sim_id != null) { %>(<a href="select_running_simulation.jsp">Select Another for the Simulation <%= simulation.getDisplayName() %> </a>)<br/>
+				<% } %>
+				<p>Your Dasbhoard</p>
+				<table width="100%" border="1">
+        <tr>
+          <td valign="top"><strong>Student Name </strong></td>
+          <td valign="top"><strong>Actor</strong></td>
+          <td valign="top"><strong>Username</strong></td>
+          <td valign="top"><strong>Status</strong></td>
+          <td valign="top"><strong>Send</strong></td>
+        </tr>
+        <tr>
+          <td valign="top">&nbsp;</td>
+          <td valign="top">&nbsp;</td>
+          <td valign="top">&nbsp;</td>
+          <td valign="top">&nbsp;</td>
+          <td valign="top">&nbsp;</td>
+        </tr>
+		</table>
+				<% }  // End of if they have worked on a running sim before.%>
+			  </blockquote>
                   <blockquote>
-                    <p>Welcome Instructor!</p>
+                    <p>&nbsp;</p>
                     <ul>
                       <li>Take me to the <a href="library.jsp">online library</a>.</li>
                       <li>Take me to the <a href="play_panel.jsp">simulation facilitation control panel</a>.</li>
