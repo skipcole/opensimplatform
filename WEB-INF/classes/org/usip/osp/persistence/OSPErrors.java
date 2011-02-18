@@ -297,7 +297,7 @@ public class OSPErrors {
     	System.out.println(message);
     	
     	if (sio.isEmailEnabled()){
-    		Emailer.postMail(sio, sio.getEmailTechAddress(), subject, message, sio.getEmailNoreplyAddress(), new Vector(), new Vector());
+    		Emailer.postMail(sio, sio.getEmailTechAddress(), subject, message, message, sio.getEmailNoreplyAddress(), null, new Vector(), new Vector());
     		return true;
     	} else {
     		System.out.println(message);

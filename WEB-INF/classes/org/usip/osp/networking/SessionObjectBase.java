@@ -123,7 +123,7 @@ public class SessionObjectBase {
 	public String user_email = ""; //$NON-NLS-1$
 
 	/** Determines if actor is logged in. */
-	private boolean loggedin = false;
+	protected boolean loggedin = false;
 
 	public void setLoggedin(boolean loggedin) {
 		this.loggedin = loggedin;
@@ -488,8 +488,8 @@ public class SessionObjectBase {
 					return PASSWORDS_MISMATCH;
 				}
 
-				BaseUser bu = BaseUser.validateUser(this.user_name,
-						old_password);
+				BaseUser bu = BaseUser.validateUser(this.user_name, old_password);
+				
 				if (bu == null) {
 					return WRONG_OLD_PASSWORD;
 				}
@@ -752,6 +752,44 @@ public class SessionObjectBase {
 			}
 		}
 		return CONFIRM_DEFAULT;
+	}
+
+	/**
+	 * Called from the head of the login jsp, this attempts to log the user in. 
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static BaseUser handleLoginAttempt(HttpServletRequest request) {
+	
+		String attempting_login = (String) request.getParameter("attempting_login");
+	
+		if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))) {
+	
+			BaseUser bu = validate(request);
+	
+			return bu;
+	
+		}
+	
+		return null;
+	
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static BaseUser validate(HttpServletRequest request) {
+	
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+	
+		BaseUser bu = BaseUser.validateUser(username, password);
+	
+		return bu;
+	
 	}
 
 }

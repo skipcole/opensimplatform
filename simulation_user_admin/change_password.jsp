@@ -7,25 +7,23 @@
 	
 	String error_msg = "";
 	
-	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
-	if ((sob == null) || (!(sob.isLoggedin()))) {
-		System.out.println("sob null or not logged in");
-		response.sendRedirect("../simulation/index.jsp");
+	if ((pso == null) || (!(pso.isLoggedin()))) {
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
-	
-	System.out.println("sob not null");
+
 	
 	String forcepasswordchange = request.getParameter("forcepasswordchange");
 	
 	boolean forcedChange = false;
-	/*
+
 	if ((forcepasswordchange != null) && (forcepasswordchange.equalsIgnoreCase("true"))){
 		forcedChange = true;
 	}
-	*/
-	int returnCode = sob.changePassword(request);
+
+	int returnCode = pso.changePassword(request);
 	
 	System.out.println("returnCode was: " + returnCode);
 	/*
@@ -34,8 +32,6 @@
 		return;
 	}
 	*/
-
-	User user = sob.giveMeUser();
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -46,7 +42,6 @@
 <title>Open Simulation Platform Control Page</title>
 
 
-
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -55,6 +50,34 @@
 </style>
 </head>
 <body onLoad="">
+
+<%
+	if ( == ) {
+
+%>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;USIP Open Simulation Platform </h1></td>
+    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
+
+	  <div align="center"></div>	  </td>
+  </tr>
+  <tr>
+    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
+  </tr>
+  <tr>
+  	<td width="120" align="right" valign="top">&nbsp;</td>
+    <td colspan="1" valign="top"><br /></td>
+    <td width="194" align="right" valign="top">		</td>
+  </tr>
+</table>
+
+
+<% } // End of if this is a forced password changed %>
+
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -63,7 +86,10 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<% if (forcedChange) { %>
+			<% if (returnCode == SessionObjectBase.FORCED_PASSWORD_CHANGED) { %>
+			<h1>Password Changed</h1>
+			You must now <a href="../login.jsp">login again</a>.
+			<% } else if (forcedChange) { %>
 			<h2>You must change the temporary password that you were assigned</h2>
 			
 			  <% } else { %>

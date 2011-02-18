@@ -196,8 +196,6 @@ public class BaseUser {
      */
     public static BaseUser validateUser(String username, String password) {
 
-        // byte[] hashedP = MysqlDatabase.getPHash(password);
-        // String phash = new String(hashedP);
         if ((username == null) || (password == null)) {
             Logger.getRootLogger().debug("username or password was null."); //$NON-NLS-1$
             return null;

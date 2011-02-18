@@ -8,7 +8,7 @@
 	afso.backPage = "../simulation_facilitation/create_running_sim.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
@@ -31,6 +31,11 @@
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.style1 {color: #FF0000}
+-->
+</style>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -44,7 +49,7 @@
 			  <h1>Create Running Simulation<a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></h1>
 			  <br />
             <blockquote> 
-			<%= afso.errorMsg %>
+			  <span class="style1"><%= afso.errorMsg %></span>
 			<% afso.errorMsg = ""; %>
             <% if (afso.sim_id != null) {  %>
 			

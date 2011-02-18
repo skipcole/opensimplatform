@@ -47,7 +47,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				.getAttribute("pso");
 
 		if (pso == null) {
-			Logger.getRootLogger().debug("pso is new");
+			Logger.getRootLogger().warn("pso is new");
 			pso = new PlayerSessionObject();
 			pso.session = session;
 		}
@@ -55,13 +55,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		session.setAttribute("pso", pso);
 
 		return pso;
-	}
-
-	/** Determines if actor is logged in. */
-	private boolean loggedin = false;
-
-	public boolean isLoggedin() {
-		return loggedin;
 	}
 
 	private boolean controlCharacter = false;
@@ -309,7 +302,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			UserAssignment ua = UserAssignment.getById(schema,new Long(user_assignment_id));
 			myUserAssignmentId = ua.getId();
-			ua.advanceStatus(UserAssignment.STATUS_LOGGED_ON);
+			ua.advanceStatus(UserAssignment.STATUS_ENTERED);
 			ua.saveMe(schema);
 
 			this.myHighestAlertNumber = ua.getHighestAlertNumberRecieved();
@@ -1170,7 +1163,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 					Vector bcced = new Vector();
 					bcced.add(user_name);
 
-					Emailer.postMail(sio, bu.getUsername(), subject, message,
+					Emailer.postMail(sio, bu.getUsername(), subject, message, message, sio.getEmailNoreplyAddress(),
 							user_name, cced, bcced);
 
 				}
@@ -2001,7 +1994,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		String sendToPage = "index.jsp";
 
-		BaseUser bu = OSPSessionObjectHelper.validate(request);
+		BaseUser bu = SessionObjectBase.validate(request);
 
 		if (bu != null) {
 
@@ -2042,15 +2035,12 @@ public class PlayerSessionObject extends SessionObjectBase {
 			pso.schema = sio.getSchema_name();
 			pso.schemaOrg = sio.getSchema_organization();
 
-			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request
-					.getSession(true).getAttribute("osp_soh");
-
 			User user = null;
 			BaseUser bu = null;
 
-			if (osp_soh != null) {
-				user = User.getById(pso.schema, osp_soh.getUserid());
-				bu = BaseUser.getByUserId(osp_soh.getUserid());
+			if (pso.user_id != null) {
+				user = User.getById(pso.schema, pso.user_id);
+				bu = BaseUser.getByUserId(pso.user_id);
 			}
 
 			if (user != null) {
@@ -2332,6 +2322,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 			String email_text = request.getParameter("email_text"); //$NON-NLS-1$
 			String email_subject = request.getParameter("email_subject"); //$NON-NLS-1$
 			String email_from = request.getParameter("email_from"); //$NON-NLS-1$
+			
+			email_text = "!!!   This is a simulation email. This is not reality   !!!!   <br/>" + email_text;
+			email_text = email_text + "<br/>!!!   This is a simulation email. This is not reality   !!!!   <br/>";
 
 			Hashtable<String, String> playersToEmail = new Hashtable();
 
@@ -2357,11 +2350,42 @@ public class PlayerSessionObject extends SessionObjectBase {
 			for (Enumeration e = playersToEmail.keys(); e.hasMoreElements();) {
 				String email_address = (String) e.nextElement();
 
-				Emailer.postMail(sio, email_address, email_subject, email_text,
-						email_from, new Vector(), new Vector());
+				Emailer.postMail(sio, email_address, email_subject, email_text, email_text,
+						sio.getEmailNoreplyAddress(),email_from, new Vector(), new Vector());
 
 			}
 
+		}
+	}
+	
+	/**
+	 * Takes the language code current selected, compares it to the selection item
+	 * and if they match, passes back the HTML code to indicate this is the currently
+	 * selected language.
+	 * 
+	 * @param thisSelection
+	 * @return
+	 */
+	public String getLanuageCodeSelected(int thisSelection){
+				
+		if (this.languageCode == thisSelection){
+			return " selected=\"selected\" ";
+		} else {
+			return "";
+		}
+	}
+	
+	/**
+	 * Detects if a lanugage change has come in.
+	 * @param request
+	 */
+	public void detectLanguageChange(HttpServletRequest request){
+		
+		
+		String select_language = request.getParameter("select_language");
+		
+		if (select_language != null) {
+			languageCode = new Long(select_language).intValue();
 		}
 	}
 }

@@ -457,7 +457,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		SchemaInformationObject sio = SchemaInformationObject
 				.lookUpSIOByName(this.schema);
 
-		Emailer.postMail(sio, the_email, subject, message, this.user_name,
+		Emailer.postMail(sio, the_email, subject, message, message, sio.getEmailNoreplyAddress(), this.user_name,
 				cced, bcced);
 	}
 
@@ -1621,7 +1621,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if (sio != null) {
 				bccs.add(sio.getEmail_archive_address());
 				Emailer.postMail(sio, sio.getEmail_archive_address(),
-						"USIP OSP Installation Message", message, sio
+						"USIP OSP Installation Message", message, message, sio.getEmailNoreplyAddress(),  sio
 								.getEmail_archive_address(), ccs, bccs);
 				email_msg = "email_sent";
 			} else {
@@ -3144,6 +3144,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					.getSession(true));
 
 			afso.setLanguageCode(pso.getLanguageCode());
+			afso.user_id = pso.user_id;
 
 			String schema_id = (String) request.getParameter("schema_id");
 
@@ -3153,15 +3154,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			afso.schema = sio.getSchema_name();
 			afso.schemaOrg = sio.getSchema_organization();
 
-			OSPSessionObjectHelper osp_soh = (OSPSessionObjectHelper) request
-					.getSession(true).getAttribute("osp_soh");
-
 			User user = null;
 			BaseUser bu = null;
 			
-			if (osp_soh != null){
-				user = User.getById(afso.schema, osp_soh.getUserid());
-				bu = BaseUser.getByUserId(osp_soh.getUserid());
+			if (afso.user_id != null){
+				user = User.getById(afso.schema, afso.user_id);
+				bu = BaseUser.getByUserId(afso.user_id);
 			}
 			
 			if (user != null) {
@@ -3244,8 +3242,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			if (sio != null) {
 				bccs.add(sio.getEmail_archive_address());
-				Emailer.postMail(sio, email, "Access to OSP", message,
-						"noreply@opensimplatform.org", ccs, bccs);
+				Emailer.postMail(sio, email, "Access to OSP", message, message,
+						sio.getEmailNoreplyAddress(), null, ccs, bccs);
 			} else {
 				Logger.getRootLogger().warn("Warning no email servers found.");
 				returnValue = false;
@@ -4485,6 +4483,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		
 			SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
 			email.sendMe(sio);
+			
+			this.forward_on = true;
 		}
 		
 		

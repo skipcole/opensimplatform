@@ -1,6 +1,7 @@
 package org.usip.osp.baseobjects;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -532,6 +533,13 @@ public class UserAssignment{
 	public static final String STATUS_LOGGED_ON = "logged on";
 	public static final String STATUS_ENTERED = "entered simulation";
 	
+	public static final int STATUS_CODE_INVITED = 1;
+	public static final int STATUS_CODE_CONFIRMED = 2;
+	public static final int STATUS_CODE_REGISTERED = 3;
+	public static final int STATUS_CODE_LOGGED_ON = 4;
+	public static final int STATUS_CODE_ENTERED = 5;
+	
+	
 	/**
 	 * Advances the status indicator of this User Assignment if the event is
 	 * indeed an advancement. 
@@ -543,6 +551,29 @@ public class UserAssignment{
 			uaStatus = newStatus;
 		}
 		
+	}
+	/**
+	 * 
+			
+	 * @return
+	 */
+	public String getStatusColor(){
+		
+		String returnString = "000000";
+		
+		switch (prioritizeStatusString(uaStatus)) {
+		
+			case -1: returnString = "C2C2C2"; break;					// Null, Gray
+			case 0: returnString = "000000"; break;						// Blank, White
+			case STATUS_CODE_INVITED: returnString = "FFCCCC"; break;		// Invited, Pink
+			case STATUS_CODE_CONFIRMED: returnString = "FFCC66"; break;		// Confirmed, Orange
+			case STATUS_CODE_REGISTERED: returnString = "FFFF33"; break;	// Registered, Yellow
+			case STATUS_CODE_LOGGED_ON: returnString = "CC99FF"; break;		// Logged on, Purple
+			case STATUS_CODE_ENTERED: returnString = "99FF00"; break;		// Entered, Green
+		}
+		
+		return returnString;
+
 	}
 	
 	/**
@@ -560,19 +591,19 @@ public class UserAssignment{
 			return 0;
 		}
 		if (inputString.equalsIgnoreCase(STATUS_INVITED)){
-			return 1;
+			return STATUS_CODE_INVITED;
 		}		
 		if (inputString.equalsIgnoreCase(STATUS_CONFIRMED)){
-			return 2;
+			return STATUS_CODE_CONFIRMED;
 		}	
 		if (inputString.equalsIgnoreCase(STATUS_REGISTERED)){
-			return 3;
+			return STATUS_CODE_REGISTERED;
 		}
 		if (inputString.equalsIgnoreCase(STATUS_LOGGED_ON)){
-			return 4;
+			return STATUS_CODE_LOGGED_ON;
 		}
 		if (inputString.equalsIgnoreCase(STATUS_ENTERED)){
-			return 5;
+			return STATUS_CODE_ENTERED;
 		}
 
 		return 0;
