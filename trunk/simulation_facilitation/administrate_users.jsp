@@ -7,7 +7,7 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
@@ -44,7 +44,8 @@
       <p>Users for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></p>
       <table border="1" width="100%"><tr><td><strong>Actor</strong></td>
       <td><strong>User Email</strong></td>
-      <td>Last Login</td>
+      <td><strong>Status</strong></td>
+      <td><strong>Last Login</strong></td>
       </tr>
       <%
 	  			for (ListIterator li = UserAssignment.getAllForRunningSim(afso.schema, new Long (rs_id)).listIterator(); li.hasNext();) {
@@ -60,6 +61,7 @@
 					String act_name = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.getRunningSimId(), request, ua.getActor_id());
 		%>
         	<tr><td> <%= act_name %></td><td> <%= user.getUser_name() %></td>
+        	  <td bgcolor="#<%= ua.getStatusColor() %>"><%= ua.getUaStatus() %></td>
         	  <td><a href="../simulation_admin/simulation_admin_lastlogin_details.jsp?user_id=<%= user.getId() %>">last date</a></td>
         	</tr>
         <%

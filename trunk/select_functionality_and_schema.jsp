@@ -1,30 +1,29 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" errorPage="error.jsp" %>
 <%
 	
+	System.out.println("getting pso");
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
-	OSPSessionObjectHelper osp_soh = OSPSessionObjectHelper.getOSP_SOH(request.getSession(true));
-
-	if (osp_soh.getUserid() == null){
-		response.sendRedirect("login.jsp");
+	if (!(pso.isLoggedin())) {
+		response.sendRedirect("blank.jsp");
 		return;
 	}
 	
-	BaseUser bu = BaseUser.getByUserId(osp_soh.getUserid());
+	BaseUser bu = BaseUser.getByUserId(pso.user_id);
 	
 	// If still in English, and the players normal language is another, switch it into their preffered lang.
 	if (pso.languageCode == 1){
 		pso.languageCode = bu.getPreferredLanguageCode().intValue();
 	}
 	
-	List ghostList = BaseUser.getAuthorizedSchemas(osp_soh.getUserid());
+	List ghostList = BaseUser.getAuthorizedSchemas(pso.user_id);
 	
 	// Check to see if this is just one player logged in to one schema. 
 	// If this is the case, forward them on.
 	if ((ghostList != null) && (ghostList.size() == 1)){
 	
 		SchemaGhost this_sg = (SchemaGhost) ghostList.get(0);
-		User user_in_this_schema = User.getById(this_sg.getSchema_name() , osp_soh.getUserid());
+		User user_in_this_schema = User.getById(this_sg.getSchema_name() , pso.user_id);
 	
 	
 		if (user_in_this_schema.isJustPlayer()){
@@ -92,7 +91,7 @@ body {
             <%
 			  	for (ListIterator<SchemaGhost> li = ghostList.listIterator(); li.hasNext();) {
             		SchemaGhost this_sg = (SchemaGhost) li.next();
-					User user_in_this_schema = User.getById(this_sg.getSchema_name() , osp_soh.getUserid());
+					User user_in_this_schema = User.getById(this_sg.getSchema_name() , pso.user_id);
 		  %>
         <table align="center"><tr><td><h3>Database: <%= this_sg.getSchema_organization() %></h3></td></tr>
           <tr><td>

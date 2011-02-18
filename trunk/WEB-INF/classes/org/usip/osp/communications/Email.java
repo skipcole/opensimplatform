@@ -737,8 +737,8 @@ public class Email {
 				}
 				
 				if ((toUserName != null) && (toUserName.trim().length() > 0)){
-					Emailer.postMail(sio, toUserName, this.getSubjectLine(), this.getMsgtext(), sio.getEmailNoreplyAddress(), 
-						null, null);
+					Emailer.postMail(sio, toUserName, this.getSubjectLine(), this.getMsgtext(), this.getHtmlMsgText(), sio.getEmailNoreplyAddress(),
+							null, null, null);
 				}
 				
 			}

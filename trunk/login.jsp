@@ -11,38 +11,24 @@ org.usip.osp.baseobjects.*" %>
 	
 	String errorMsg = "";
 	
-	String select_language = request.getParameter("select_language");
-	
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
-	if (select_language != null) {
-		pso.languageCode = new Long(select_language).intValue();
-	}
-	
-	String selectedEnglish = " selected=\"selected\" ";
-	String selectedSpanish = "";
-	
-	if (pso.languageCode == 2) {
-		selectedSpanish = " selected=\"selected\" ";
-		selectedEnglish = "";
-	}
-	
-	BaseUser bu = OSPSessionObjectHelper.handleLoginAttempt(request);
+	pso.detectLanguageChange(request);
+		
+	BaseUser bu = SessionObjectBase.handleLoginAttempt(request);
 	
 	if (bu != null){
 		pso.languageCode = bu.getPreferredLanguageCode().intValue();
-		
-		/*
+		pso.user_id = bu.getId();
+		pso.user_name = bu.getUsername();
+		pso.setLoggedin(true);
+
 		if (bu.isTempPassword()){
-			SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBase(request);
-			sob.setLoggedin(true);
-			OSPSessionObjectHelper osp_soh = OSPSessionObjectHelper.getOSP_SOH(request.getSession(true));
-			osp_soh.setUserid(bu.getId());
 			response.sendRedirect("simulation_user_admin/change_password.jsp?forcepasswordchange=true");
 		} else {
-		*/
+			System.out.println("sfas");
 			response.sendRedirect("select_functionality_and_schema.jsp");
-		//}
+		}
 		
 		return;
 	}
@@ -151,9 +137,11 @@ body {
            <tr>
              <td align="center">
              <form name="form2" method="post" action="login.jsp">
-             <select name="select_language" id="selectlanguage">
-               <option value="1" <%= selectedEnglish %>>English</option>
-               <option value="2" <%= selectedSpanish %>>epanol</option>
+             <select name="select_language" id="select_language">
+               <option value="<%= UILanguageObject.ENGLISH_LANGUAGE_CODE %>" <%= pso.getLanuageCodeSelected(UILanguageObject.ENGLISH_LANGUAGE_CODE) %>>English</option>
+			   
+               <option value="<%= UILanguageObject.SPANISH_LANGUAGE_CODE %>" <%= pso.getLanuageCodeSelected(UILanguageObject.SPANISH_LANGUAGE_CODE) %>>epanol</option>
+			   
              </select>
                
                  <label>

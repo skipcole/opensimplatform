@@ -197,6 +197,7 @@ public class USIP_OSP_Util {
 		SessionObjectBase sob = (SessionObjectBase) request.getSession().getAttribute("sob");
 		
 		System.out.println ("sob is " + sob);
+		System.out.println ("pso is " + pso);
 		
 		if (pso != null){
 			sob = (SessionObjectBase) pso;

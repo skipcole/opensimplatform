@@ -16,6 +16,12 @@
 		return;
 	}
 	
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect("create_user_email_sent.jsp");
+		return;
+	}
+	
 	String u_id = request.getParameter("u_id");
 	
 	Email email = afso.handleCreatedUserResponse(request);
@@ -42,11 +48,7 @@
               <h1>Created User <%= afso.tempMsg %></h1>
 			
               <p>You may now email them to let them know that they have been added to this system, and how they may login.</p>
-              <p>&nbsp;</p>
-
-              <p>&nbsp;</p>
-			  
-<form action="create_user_complete.jsp" method="post"  name="form1" id="form1">
+              <form action="create_user_complete.jsp" method="post"  name="form1" id="form1">
               <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top">
           <td><strong>Email From: </strong></td>
@@ -91,12 +93,15 @@
   </tr>
   <tr> 
     <td>
+	
+	<p>&nbsp;</p>
+
+<p align="center">Back to Assigning Users for this Running Simulation</p>
+
     <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
   </tr>
 </table>
 </form>
-<p>&nbsp;</p>
 
-<p align="center">&nbsp;</p>
 </body>
 </html>

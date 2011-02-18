@@ -8,7 +8,7 @@
 	afso.backPage = "../simulation_facilitation/create_running_sim.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	

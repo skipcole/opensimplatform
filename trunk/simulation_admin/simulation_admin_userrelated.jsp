@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	afso.backPage = "../simulation_admin/simulation_admin_userrelated.jsp";
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("../blank.jsp");
