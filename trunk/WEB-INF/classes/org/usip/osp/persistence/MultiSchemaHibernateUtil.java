@@ -471,6 +471,7 @@ public class MultiSchemaHibernateUtil {
 		
 		// Course Management Classes
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.UserRegistrationInvite.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorRunningSimAssignments.class);
 
 		// Models
 		ac.addAnnotatedClass(org.usip.osp.modelinterface.ModelDefinitionObject.class);

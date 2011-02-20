@@ -527,12 +527,14 @@ public class UserAssignment{
 		return rs;
 	}
 	
+	public static final String STATUS_NONE = "";
 	public static final String STATUS_INVITED = "invited";
 	public static final String STATUS_CONFIRMED = "confirmed";
 	public static final String STATUS_REGISTERED = "registered";
 	public static final String STATUS_LOGGED_ON = "logged on";
 	public static final String STATUS_ENTERED = "entered simulation";
 	
+	public static final int STATUS_CODE_NONE = 0;
 	public static final int STATUS_CODE_INVITED = 1;
 	public static final int STATUS_CODE_CONFIRMED = 2;
 	public static final int STATUS_CODE_REGISTERED = 3;
@@ -564,7 +566,7 @@ public class UserAssignment{
 		switch (prioritizeStatusString(uaStatus)) {
 		
 			case -1: returnString = "C2C2C2"; break;					// Null, Gray
-			case 0: returnString = "000000"; break;						// Blank, White
+			case STATUS_CODE_NONE: returnString = "000000"; break;						// Blank, White
 			case STATUS_CODE_INVITED: returnString = "FFCCCC"; break;		// Invited, Pink
 			case STATUS_CODE_CONFIRMED: returnString = "FFCC66"; break;		// Confirmed, Orange
 			case STATUS_CODE_REGISTERED: returnString = "FFFF33"; break;	// Registered, Yellow
@@ -582,13 +584,13 @@ public class UserAssignment{
 	 * @param inputString
 	 * @return
 	 */
-	public int prioritizeStatusString(String inputString){
+	public static int prioritizeStatusString(String inputString){
 		
 		if (inputString == null){
 			return -1;
 		}
 		if (inputString.equalsIgnoreCase("")){
-			return 0;
+			return STATUS_CODE_NONE;
 		}
 		if (inputString.equalsIgnoreCase(STATUS_INVITED)){
 			return STATUS_CODE_INVITED;
