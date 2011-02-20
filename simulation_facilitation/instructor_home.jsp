@@ -1,7 +1,10 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.persistence.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.coursemanagementinterface.*,
+	org.usip.osp.persistence.*" 
 	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -54,13 +57,25 @@
           <td valign="top"><strong>Status</strong></td>
           <td valign="top"><strong>Send</strong></td>
         </tr>
+		<% 
+		
+			List dashboardLines = StudentDashboardLine.getDashboardLines(afso.sim_id, afso.schema, afso.runningSimId);
+			
+			// Loop over all actors in the simulation
+			for (ListIterator li = dashboardLines.listIterator(); li.hasNext();) {
+				StudentDashboardLine sdl = (StudentDashboardLine) li.next();
+
+					%>
         <tr>
-          <td valign="top">&nbsp;</td>
-          <td valign="top">&nbsp;</td>
-          <td valign="top">&nbsp;</td>
-          <td valign="top">&nbsp;</td>
+          <td valign="top"><%= sdl.getStudentName() %></td>
+          <td valign="top"><%= sdl.getStudentRole() %></td>
+          <td valign="top"><%= sdl.getStudentEmail() %></td>
+          <td valign="top" bgcolor="#<%= sdl.getStudentStatusColor() %>"><%= sdl.getStudentStatus() %></td>
           <td valign="top">&nbsp;</td>
         </tr>
+		<%
+				} // End of loop over StudentDashboardLine
+		%>
 		</table>
 				<% }  // End of if they have worked on a running sim before.%>
 			  </blockquote>

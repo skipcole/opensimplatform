@@ -158,7 +158,7 @@ public class SessionObjectBase {
 	public String sim_copyright_info = ""; //$NON-NLS-1$
 
 	/** ID of the Running Simulation being conducted or worked on. */
-	protected Long runningSimId;
+	public Long runningSimId;
 
 	public Long getRunningSimId() {
 		return runningSimId;

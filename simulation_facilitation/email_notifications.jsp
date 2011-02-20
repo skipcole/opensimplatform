@@ -1,7 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.communications.*,org.usip.osp.persistence.*,
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.communications.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.coursemanagementinterface.*,
 	org.hibernate.*,
 	org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
@@ -112,56 +115,40 @@ Email has not been enabled on this server. Please contact your administrator if 
           <td valign="top"><strong>Send</strong></td>
         </tr>
 		<% 
+		
+			List dashboardLines = StudentDashboardLine.getDashboardLines(afso.sim_id, afso.schema, afso.runningSimId);
+			
 			// Loop over all actors in the simulation
-			for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
-				Actor act = (Actor) li.next();
-				
-				// For each actor, get all of their user assignments
-				List theUsersAssigned = UserAssignment.getUsersAssigned(afso.schema, running_sim.getId(), act.getId());
-				
-				User user_assigned = new User();
-				
-				// Loop over all of the user assignments
-				for (ListIterator liua = theUsersAssigned.listIterator(); liua.hasNext();) {
-					UserAssignment ua = (UserAssignment) liua.next();
-					
-					boolean userHasBeenRegistered = false;
-					
-					if (ua.getUser_id() != null){
-						user_assigned = User.getById(afso.schema, ua.getUser_id());
-						userHasBeenRegistered = true;
-					} else {
-						user_assigned = new User();
-					}
+			for (ListIterator li = dashboardLines.listIterator(); li.hasNext();) {
+				StudentDashboardLine sdl = (StudentDashboardLine) li.next();
 
 					%>
         <tr>
-          <td valign="top"><%= act.getActorName() %></td>
+          <td valign="top"><%= sdl.getStudentRole() %></td>
           <td valign="top">
-		  	<% if (userHasBeenRegistered) { %>
-				<%= user_assigned.getUser_name() %>
+		  	<% if (sdl.isStudentRegistered()) { %>
+				<%= sdl.getStudentName() %>
 			<% } else { %>
-				<input name="<%= ua.getId() %>_user_display_name" type="text" value="<%= ua.getTempStudentName() %>" size="30" maxlength="80" />
+				<input name="<%= sdl.getUserAssignmentId() %>_user_display_name" type="text" value="<%= sdl.getStudentName() %>" size="30" maxlength="80" />
 			<% } %>
 		  </td>
-          <td valign="top"><%= ua.getUsername() %></td>
-          <td valign="top"><%= ua.getUaStatus() %></td>
+          <td valign="top"><%= sdl.getStudentEmail() %></td>
+          <td valign="top"><%= sdl.getStudentStatus() %></td>
           <td valign="top">
 		  	<%
 				String checked_value = "checked=\"checked\"";
 				
-				if (false){
+				if (sdl.isStudentInvited()){
 					checked_value = "";
 				}
 				
 			%>
 		  <label>
-            <input type="checkbox" name="invite_<%= ua.getId() %>" value="true" <%= checked_value %> />
+            <input type="checkbox" name="invite_<%= sdl.getUserAssignmentId() %>" value="true" <%= checked_value %> />
           </label></td>
         </tr>
 		<%
-				} // End of loop over user assignments
-		  	} // End of loop over results set of Actors
+				} // End of loop over StudentDashboardLine
 		%>
       </table>
       <h2><br />
