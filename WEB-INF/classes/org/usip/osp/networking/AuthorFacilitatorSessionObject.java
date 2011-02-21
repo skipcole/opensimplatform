@@ -4451,7 +4451,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param request
 	 * @return
 	 */
-	public Email handleCreatedUserResponse(HttpServletRequest request){
+	public Email handleEmailUserPassword(HttpServletRequest request){
 		
 		Email email = new Email();
 		

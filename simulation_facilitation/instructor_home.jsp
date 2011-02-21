@@ -45,10 +45,9 @@
                   <h1>Welcome!  </h1>
 			  <blockquote>    
 			  <% if (afso.getRunningSimId() != null) { %>
-				<strong>Your last Running Simulation was: <%= running_simulation.getRunningSimulationName() %> </strong> 
+				<strong>Your Dasbhoard showing participants in Running Simulation <%= running_simulation.getRunningSimulationName() %> </strong> 
 				<% if (afso.sim_id != null) { %>(<a href="select_running_simulation.jsp">Select Another for the Simulation <%= simulation.getDisplayName() %> </a>)<br/>
 				<% } %>
-				<p>Your Dasbhoard</p>
 				<table width="100%" border="1">
         <tr>
           <td valign="top"><strong>Student Name </strong></td>
@@ -67,7 +66,15 @@
 
 					%>
         <tr>
-          <td valign="top"><%= sdl.getStudentName() %></td>
+          <td valign="top">
+		  <% if (sdl.getStudentId() != null) { %>
+		  		<a href="../simulation_user_admin/view_player_profile.jsp?student_id=<%= sdl.getStudentId() %>">
+		  		<%= sdl.getStudentName() %>
+		  		</a>
+		  <% } else { %>
+		  	<%= sdl.getStudentName() %>
+		  <% } %>
+		  </td>
           <td valign="top"><%= sdl.getStudentRole() %></td>
           <td valign="top"><%= sdl.getStudentEmail() %></td>
           <td valign="top" bgcolor="#<%= sdl.getStudentStatusColor() %>"><%= sdl.getStudentStatus() %></td>
@@ -79,14 +86,7 @@
 		</table>
 				<% }  // End of if they have worked on a running sim before.%>
 			  </blockquote>
-                  <blockquote>
-                    <p>&nbsp;</p>
-                    <ul>
-                      <li>Take me to the <a href="library.jsp">online library</a>.</li>
-                      <li>Take me to the <a href="play_panel.jsp">simulation facilitation control panel</a>.</li>
-                      <li>Take me to a <a href="view_running_sims.jsp">list of my simulations</a>. </li>
-                    </ul>
-                  </blockquote>
+                  <blockquote>&nbsp;</blockquote>
                   <p align="center"></p></td>
               </tr>
             </table></td>

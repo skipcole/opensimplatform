@@ -87,7 +87,7 @@ body {
   <tr> 
     <td colspan="3">
       <blockquote> 
-          <h2><span class="header"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "select_from") %></span></h2>
+          <h2><span class="header"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "select_region_of_program_to_enter") %></span></h2>
             <%
 			  	for (ListIterator<SchemaGhost> li = ghostList.listIterator(); li.hasNext();) {
             		SchemaGhost this_sg = (SchemaGhost) li.next();

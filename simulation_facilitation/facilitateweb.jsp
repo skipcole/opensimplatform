@@ -10,12 +10,10 @@
 	
 	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))){
 		String sim_id = (String) request.getParameter("sim_id");
-
-		System.out.println("sim id is " + sim_id);
 		
 		afso.sim_id = new Long(sim_id);
 		
-		 mainPage = "play_panel.jsp";
+		 mainPage = "facilitate_panel.jsp";
 		
 	}
 %>

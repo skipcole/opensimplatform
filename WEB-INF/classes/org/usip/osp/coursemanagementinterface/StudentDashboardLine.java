@@ -31,6 +31,10 @@ public class StudentDashboardLine implements Comparable<StudentDashboardLine> {
 	public static final int SORT_BY_STATUS = 6;
 	public static final int SORT_BY_EMAIL = 7;
 
+	
+	/** Id of Student */
+	private Long studentId;
+	
 	/** Name of Student */
 	private String studentName = "";
 
@@ -103,6 +107,15 @@ public class StudentDashboardLine implements Comparable<StudentDashboardLine> {
 		}
 
 		return returnInt;
+	}
+
+	
+	public Long getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(Long studentId) {
+		this.studentId = studentId;
 	}
 
 	public String getStudentName() {
@@ -235,6 +248,7 @@ public class StudentDashboardLine implements Comparable<StudentDashboardLine> {
 					sdl.setStudentRegistered(true);
 					User user_assigned = User.getById(schema, ua.getUser_id());
 					sdl.setStudentName(user_assigned.getUser_name());
+					sdl.setStudentId(ua.getUser_id());
 				} else {
 					sdl.setStudentRegistered(false);
 					sdl.setStudentName(ua.getTempStudentName());
