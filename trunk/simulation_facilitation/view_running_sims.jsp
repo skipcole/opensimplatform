@@ -1,7 +1,11 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.hibernate.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.coursemanagementinterface.*,	
+	org.hibernate.*" 
 	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -37,7 +41,9 @@
 			  <br />
             <blockquote> 
 
-              Below are the running simulations created by you (<%= afso.userDisplayName %>) </b>. <br />
+              <p>Below are the running simulations where you are a designated instructor.</p>
+              <p> </b>. Select the running simulation to monitor or edit it. <br />
+              </p>
               <table width="80%" border = "1">
                 <tr>
                   <td><h2>Simulation</h2></td> 
@@ -59,14 +65,18 @@
 				if (rs.getPhase_id() != null){
 					sp = SimulationPhase.getById(afso.schema, rs.getPhase_id().toString());
 				}
+				
+				if (InstructorRunningSimAssignments.checkIsInstructor(afso.user_id, afso.schema, rs.getId())){ 
+				
 		%>
                 <tr>
                   <td><%= sim.getDisplayName() %></td> 
-                  <td><a href="administrate_users.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
+                  <td><a href="administrate_running_simulation.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
               <td><%= sp.getPhaseName() %></td>
             </tr>
                 <%
-			} // End of loop over Running Sims
+					} // End of if this user is a designated instructor.
+				} // End of loop over Running Sims
 			} // End of loop over sims
 		%>
                 </table>
@@ -124,10 +134,7 @@
             </blockquote>
 
             <p>&nbsp;</p>
-            <% 
-		if (!(afso.isAuthor())) { %>
-	  		<a href="instructor_home.jsp" target="_top">&lt;-- Back            </a>
-	        <% } %>			</td>
+		</td>
 		</tr>
 		</table>	</td>
   </tr>

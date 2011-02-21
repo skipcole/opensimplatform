@@ -10,6 +10,7 @@ import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.Alert;
 import org.usip.osp.communications.Emailer;
+import org.usip.osp.coursemanagementinterface.InstructorRunningSimAssignments;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.specialfeatures.InventoryItem;
 import org.apache.log4j.*;
@@ -132,6 +133,7 @@ public class RunningSimulation {
 	}
 
 	/**
+	 * This is the method called when creating a new Running Simulation.
 	 * 
 	 * @param name
 	 * @param phase_id
@@ -148,6 +150,10 @@ public class RunningSimulation {
 		this.creatorName = creatorName;
 
 		this.saveMe(schema);
+		
+		/** Add the creator as the first instructor to this running simulation. */
+		InstructorRunningSimAssignments irsa = new InstructorRunningSimAssignments(schema, this.getId(), creator_id);
+		
 
 		// Create the dependent object (shared documents, conversations,
 		// variables, etc.)

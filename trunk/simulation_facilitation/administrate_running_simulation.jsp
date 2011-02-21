@@ -1,7 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.coursemanagementinterface.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -39,10 +42,10 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Administrate Users for Running Simulation </h1>
+              <h1>Administrate Running Simulation </h1>
               <br />
-      <p>Users for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></p>
-      <table border="1" width="100%"><tr><td><strong>Actor</strong></td>
+              <h2>Users for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></h2>
+              <table border="1" width="100%"><tr><td><strong>Actor</strong></td>
       <td><strong>User Email</strong></td>
       <td><strong>Status</strong></td>
       <td><strong>Last Login</strong></td>
@@ -69,7 +72,6 @@
 	  	} // End of loop over user assignments.
 	  %>
       </table>
-      <p></p>
       <p align="center">
 	  <% if (!(running_simulation.isReady_to_begin())) {
 	  %>
@@ -79,7 +81,18 @@
 	  }
 	  %>
 	  
-	  </p>      <p align="left">&nbsp;</p>			</td>
+	  </p>      
+      <h2 align="left">Instructors for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></h2>
+      <p align="left">&nbsp;</p>
+	  <% 
+	  	List iList = InstructorRunningSimAssignments.getInstructorsForSim(running_simulation.getId(), afso.schema);
+		
+		for (ListIterator li = iList.listIterator(); li.hasNext();) {
+			User user = (User) li.next();
+	  %>
+	  <%= user.getId() %> <br />
+	  <% } // end of loop over instructors %>
+	  </td>
 		</tr>
 		</table>	</td>
   </tr>

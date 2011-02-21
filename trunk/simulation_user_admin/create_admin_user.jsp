@@ -13,12 +13,6 @@
 	
 	User userOnScratchPad = afso.handlePromoteUser(request);
 	
-	if (afso.forward_on){
-		afso.forward_on = false;
-		response.sendRedirect("create_admin_user_complete.jsp");
-		return;
-	}
-	
 	/////////////////////////////////////////
 	List userList = null;
 	String do_search = (String) request.getParameter("do_search");

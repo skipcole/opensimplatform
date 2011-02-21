@@ -52,7 +52,7 @@
 <body onLoad="">
 
 <%
-	if ( == ) {
+	if ((returnCode == SessionObjectBase.FORCED_PASSWORD_CHANGED) || (forcedChange) ){
 
 %>
 
@@ -105,6 +105,7 @@
 			
 			<% } // End of if forced change. %>
               <br />
+<% if (returnCode != SessionObjectBase.FORCED_PASSWORD_CHANGED) { %>
       <form id="form1" name="form1" method="post" action="change_password.jsp">
   <table border="0" cellspacing="2" cellpadding="1" width="100%">
     <tr>
@@ -137,7 +138,9 @@
         </label></td>
     </tr>
   </table>
-        </form>      <p>&nbsp;</p>			</td>
+        </form>      
+<% } // end of if not %>
+		<p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

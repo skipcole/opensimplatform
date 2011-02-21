@@ -77,7 +77,7 @@
 				}
 		%>
                 <tr> 
-                  <td><a href="administrate_users.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
+                  <td><a href="administrate_running_simulation.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
                   <td>
 				  <% if (rs.isReady_to_begin()){ %> true <% } else { %>false<% } %>
 				  </td>
@@ -112,10 +112,7 @@
               <% } // End of if have not set simulation for edits. %>
                   </p>
             <p>&nbsp;</p>
-            <% 
-		if (!(afso.isAuthor())) { %>
-	  		<a href="instructor_home.jsp" target="_top">&lt;-- Back            </a>
-	        <% } %>			</td>
+</td>
 		</tr>
 		</table>	</td>
   </tr>
