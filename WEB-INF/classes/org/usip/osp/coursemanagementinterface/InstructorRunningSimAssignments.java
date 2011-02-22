@@ -5,11 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.RunningSimulation;
@@ -131,8 +127,33 @@ public class InstructorRunningSimAssignments {
 		
 			InstructorRunningSimAssignments irsa = (InstructorRunningSimAssignments) li.next();
 			if (irsa.getInstructorId() != null){
-				User user = User.getById(schema, rs_id);
+				User user = User.getById(schema, irsa.getInstructorId());
 				returnList.add(user);
+			}
+		}
+		
+		return returnList;
+	}
+	
+	public static List<RunningSimulation> geSimsForInstructor(String schema, Long i_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InstructorRunningSimAssignments> tempList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery("from InstructorRunningSimAssignments where instructorId = :i_id")
+				.setLong("i_id", i_id).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		ArrayList<RunningSimulation> returnList = new ArrayList<RunningSimulation>();
+		
+		for (ListIterator li = tempList.listIterator(); li.hasNext();) {
+		
+			InstructorRunningSimAssignments irsa = (InstructorRunningSimAssignments) li.next();
+			if (irsa.getRunnignSimulationId() != null){
+				RunningSimulation rs = RunningSimulation.getById(schema, irsa.getRunnignSimulationId());
+				returnList.add(rs);
 			}
 		}
 		

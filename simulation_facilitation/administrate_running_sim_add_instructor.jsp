@@ -42,44 +42,20 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Administrate Running Simulation </h1>
-              <p>&nbsp;</p>
-              <h2><a name="admintasks" id="admintasks"></a>Administration Tasks </h2>
-              <table width="100%" border="0" cellspacing="2" cellpadding="1">
-                <tr valign="top">
-                  <td>1. </td>
-                  <td><a href="create_running_sim.jsp">Edit Running Simulation</a> Name <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>
-                </tr>
-                <tr valign="top">
-                  <td>2.</td>
-                  <td><a href="create_schedule_page.jsp">Edit  Schedule Page</a> <a href="helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></td>
-                </tr>
-                <tr valign="top">
-                  <td>3.</td>
-                  <td><a href="assign_user_to_simulation.jsp">Assign Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
-                </tr>
-                <tr valign="top">
-                  <td>4.</td>
-                  <td><a href="enable_simulation.jsp">Enable Simulation</a> 
-				  <% if (running_simulation.isReady_to_begin()) { %>
-				  	(Simulation is Enabled) 
-				  <% } %>
-				  <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></td>
-                </tr>
-                <tr valign="top">
-                  <td>5.</td>
-                  <td><a href="email_notifications.jsp">Notify Players via Email</a><a href="helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
-                </tr>
-                <tr valign="top">
-                  <td>6.</td>
-                  <td><a href="administrate_running_sim_add_instructor.jsp">Add Additional Instructors</a> (?)                   </td>
-                </tr>
-                <tr valign="top">
-                  <td>7.</td>
-                  <td>Inactivate Running Simulation (?) </td>
-                </tr>
-              </table>
-              <p>&nbsp;</p></td>
+              <h1>Add/Remove Instructors  </h1>
+              <p>When an user is designated as an instructor for a simulation, he or she will see that running simulation in their list of 'My Sims' and will be able to access the student dashboard for that simulation.</p>
+              <p>Note: making someone an 'Instructor' in a simulation does not automatically add them as a player in the simulation. Someone can act as an instructor (assigning players, checking on players, etc.) and never actually enter into the game world. </p>
+              <p align="center">&nbsp;</p>      
+      <h2 align="left">Instructors for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></h2>
+      <p align="left">&nbsp;</p>
+	  <% 
+	  	List iList = InstructorRunningSimAssignments.getInstructorsForSim(running_simulation.getId(), afso.schema);
+		
+		for (ListIterator li = iList.listIterator(); li.hasNext();) {
+			User user = (User) li.next();
+	  %>
+	  <%= user.getId() %> <br />
+	  <% } // end of loop over instructors %>	  </td>
 		</tr>
 		</table>	</td>
   </tr>

@@ -61,13 +61,7 @@
       <h1>Online Simulation Library </h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
-      <form action="instructor_home.jsp" method="post" name="form1" id="form1">
-	  	<input type="hidden" name="sending_page" value="create_simulation" />
-        <blockquote>
-        <blockquote>
-          <p>&nbsp;</p>
-        </blockquote>
-      </form>
+
       <blockquote>
         
         <p>Below are all of the currently published Simulations for your organization.</p>
@@ -87,12 +81,12 @@
 			Simulation sim = (Simulation) li.next();
 			%>
           <tr valign="top"> 
-            <td><a href="facilitateweb.jsp?loadSim=true&sim_id=<%= sim.getId() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
+            <td><a href="../simulation_facilitation/facilitateweb.jsp?loadSim=true&amp;sim_id=<%= sim.getId() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
             <td>ETCD</td>
             <td><%= sim.getListingKeyWords() %></td>
             <td>1/2009</td>
             <td><a href="../simulation_authoring/review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
-            <td><a href="sim_ratings.jsp?sim_id=<%= sim.getId() %>">
+            <td><a href="../simulation_facilitation/sim_ratings.jsp?sim_id=<%= sim.getId() %>">
 			<% if (true) { %>
             None
             <% } else { %>

@@ -27,11 +27,11 @@
 
 <frameset rows="*" cols="75%,25%" border="1">
   <frameset rows="150,90%" border="0">
-    <frame src="play_top.jsp">
-    <frame name="bodyinleft" src="play_panel.jsp">
+    <frame src="../simulation_facilitation/play_top.jsp">
+    <frame name="bodyinleft" src="../simulation_facilitation/play_panel.jsp">
   </frameset>
   
-  <frame name="helpinright" src="helptext/facilitation_basichelp.jsp">
+  <frame name="helpinright" src="../simulation_facilitation/helptext/facilitation_basichelp.jsp">
 </frameset>
 <noframes><body>
 

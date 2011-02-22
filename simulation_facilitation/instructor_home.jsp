@@ -46,7 +46,8 @@
 			  <blockquote>    
 			  <% if (afso.getRunningSimId() != null) { %>
 				<strong>Your Dasbhoard showing participants in Running Simulation <%= running_simulation.getRunningSimulationName() %> </strong> 
-				<% if (afso.sim_id != null) { %>(<a href="select_running_simulation.jsp">Select Another for the Simulation <%= simulation.getDisplayName() %> </a>)<br/>
+				<% if (afso.sim_id != null) { %>
+				(<a href="select_running_sim_for_dashboard.jsp">Select Another</a>)<br/>
 				<% } %>
 				<table width="100%" border="1">
         <tr>
