@@ -67,10 +67,10 @@
 			%>
           <tr valign="top"> 
             <td><a href="facilitateweb.jsp?loadSim=true&sim_id=<%= sim.getId() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
-            <td>ETCD</td>
+            <td><%= sim.getCreation_org() %></td>
             <td><%= sim.getListingKeyWords() %></td>
             <td>1/2009</td>
-            <td><a href="../simulation_authoring/review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
+            <td><a href="facilitator_review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
             <td><a href="sim_ratings.jsp?sim_id=<%= sim.getId() %>">
 			<% if (true) { %>
             None

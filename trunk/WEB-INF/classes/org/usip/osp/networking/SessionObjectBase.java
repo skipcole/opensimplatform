@@ -703,6 +703,13 @@ public class SessionObjectBase {
 	public User handleCreateUser(HttpServletRequest request) {
 
 		String username = request.getParameter("email");
+		
+		String command = request.getParameter("command");
+		if ((command != null) && (command.equalsIgnoreCase("Clear"))) { //$NON-NLS-1$
+			
+			return new User();
+			
+		}
 
 		User user = User.getByUsername(schema, username);
 
