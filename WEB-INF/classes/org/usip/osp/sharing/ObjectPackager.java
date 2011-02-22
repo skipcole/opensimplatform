@@ -876,7 +876,7 @@ public class ObjectPackager {
 		RestoreResults.createAndSaveNotes(re.getId(),
 				"Unpacking Simulation Objects");
 		unpackageSimObjects(schema, re.getId(), xmlText, simRead.getId(),
-				xstream, bssIdMappings, actorIdMappings);
+				xstream, bssIdMappings, actorIdMappings, afso);
 
 		RestoreResults.createAndSaveNotes(re.getId(),
 				"Unpacking Timeline Simulation Objects");
@@ -1169,7 +1169,7 @@ public class ObjectPackager {
 
 	public static void unpackageSimObjects(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings, Hashtable actorIdMappings) {
+			Hashtable bssIdMappings, Hashtable actorIdMappings, SessionObjectBase sob) {
 
 		System.out.println("sims id is " + sim_id);
 
@@ -1246,6 +1246,7 @@ public class ObjectPackager {
 				RestoreResults.createAndSaveWarning(reId,
 						RestoreResults.RESTORE_ERROR, "Problem unpacking: "
 								+ sd_string);
+				OSPErrors.storeInternalErrors(e, sob);
 			}
 
 			this_bssdoa.saveMe(schema);

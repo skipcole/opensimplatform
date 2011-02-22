@@ -189,7 +189,45 @@ public class OSPErrors {
     	err.setErrorSource(SOURCE_JSP);
     	err.setErrorMessage("Error Message: " + exception.toString());
     	
+    	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
+    	
+    	return saveAndEmailError(err, exception, sob);
+    	
+    }
+    
+    /**
+     * Used to attempt to email notice of an internal error.
+     * 
+     * @param exception
+     * @return
+     */
+    public static OSPErrors storeInternalErrors(Throwable exception, SessionObjectBase sob){
+    	
+    	OSPErrors err = new OSPErrors();
+    	
+    	err.setErrorSource(SOURCE_JAVA);
+    	err.setErrorMessage("Error Message: " + exception.toString());
+    	
+    	return saveAndEmailError(err, exception, sob);
+    	
+
+    }
+    
+    /**
+     * Saved the error to the database and send an email announcement of it.
+     * @param err
+     * @param exception
+     * @param sob
+     * @return
+     */
+    public static OSPErrors saveAndEmailError(OSPErrors err, Throwable exception, SessionObjectBase sob){
+    	
     	SchemaInformationObject sio = null;
+    	
+    	if (sob == null){
+    		// Do something noticeable
+    		return null;
+    	}
     	
     	try {
     		StringWriter sw = new StringWriter();
@@ -198,8 +236,6 @@ public class OSPErrors {
     		err.setErrorText(sw.getBuffer().toString());
     		sw.close();
     		pw.close();
-    		
-    		SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
     		
     		// Must have logged in, so record additional information if found.
     		if (sob != null){
@@ -222,37 +258,9 @@ public class OSPErrors {
     	err.saveMe();
     	Logger.getRootLogger().error("about to save");
     	
-    	err.emailErrors(sio, false);
-    	
-    	return err;
-    }
-    
-    public static OSPErrors storeInternalErrors(Throwable exception){
-    	
-    	OSPErrors err = new OSPErrors();
-    	
-    	err.setErrorSource(SOURCE_JSP);
-    	err.setErrorMessage("Error Message: " + exception.toString());
-    	
-    	SchemaInformationObject sio = null;
-    	
-    	try {
-    		StringWriter sw = new StringWriter();
-    		PrintWriter pw = new PrintWriter(sw);
-    		exception.printStackTrace(pw);
-    		err.setErrorText(sw.getBuffer().toString());
-    		sw.close();
-    		pw.close();
-    		
-    	} catch (Exception e){
-    		Logger.getRootLogger().error("ERROR IN ERROR SYSTEM!");
-    		e.printStackTrace();
+    	if (sio != null){
+    		err.emailErrors(sio, false);
     	}
-    	
-    	err.saveMe();
-    	Logger.getRootLogger().error("about to save");
-    	
-    	err.emailErrors(sio, false);
     	
     	return err;
     }
