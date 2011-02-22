@@ -43,7 +43,7 @@
               <h1 align="center">Simulation Facilitation Miscellaneous Tools</h1>
               <p align="center">&nbsp; </p>
               <h2>Basic Tools </h2>
-			  <p>Below are listed other activities that instructors occasionally have to do. </p>
+			  <p>Below are listed activities that instructors may occasionally do. </p>
 			  <ul><li><a href="../simulation_user_admin/create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></li>
         <li><a href="bulk_invite.jsp">Invite Users to Register </a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></li>
         </ul>      

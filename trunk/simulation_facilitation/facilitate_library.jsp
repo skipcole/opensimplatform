@@ -6,33 +6,12 @@
 
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-
-	Simulation simulation = new Simulation();
-	simulation.setCreator(afso.userDisplayName);
 	
-	if (afso.sim_id != null){
-		simulation = afso.giveMeSim();
+	if (!(afso.isLoggedin())) {
+		response.sendRedirect("../blank.jsp");
+		return;
 	}
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	String addsimulation = (String) request.getParameter("addsimulation");
-	
-	///////////////////////////////////
-	
-	boolean justAdded = false;
-	
-	String debug_string = "";
-
-	//////////////////////////////////
-	// Put sim on scratch pad
-	String edit_simulation = (String) request.getParameter("edit_simulation");
-	
-	
-	//////////////////////////////////
-	// Clear sim from scratch pad
-	String clear_simulation = (String) request.getParameter("clear_button");
-	
-	
+		
 	//////////////////////////////////
 	List simList = Simulation.getAll(afso.schema);
 
@@ -125,6 +104,3 @@
 <p align="center">&nbsp;</p>
 </body>
 <!-- InstanceEnd --></html>
-<%
-	
-%>

@@ -161,8 +161,7 @@
           <p>&nbsp;</p>
         </form>
         
-           <p><a href="library.jsp">&lt;-- Back to Online Library</a></p>
-             <h2>Player Simulation Ratings</h2>
+           <h2>Player Simulation Ratings</h2>
              <table border="1" cellpadding="1" cellspacing="0">
                <tr><td valign="top"><strong>Actor</strong></td>
         <td valign="top"><strong>User's Stated Name</strong></td>
@@ -178,7 +177,7 @@
 	  %>
                </table>
           
-            <p><a href="library.jsp">&lt;-- Back to Online Library</a></p>
+            <p><a href="facilitate_library.jsp">&lt;-- Back to Online Library</a></p>
       </blockquote>			</td>
 		</tr>
 		</table>	</td>
