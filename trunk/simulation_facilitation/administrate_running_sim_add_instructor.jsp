@@ -16,11 +16,9 @@
 	
 	RunningSimulation running_simulation = new RunningSimulation();
 	
-	String rs_id = request.getParameter("rs_id");
-	
-	afso.setRunningSimId(new Long(rs_id));
-	
-	running_simulation = RunningSimulation.getById(afso.schema, afso.getRunningSimId());
+	if (afso.getRunningSimId() != null) {
+		running_simulation = RunningSimulation.getById(afso.schema, afso.getRunningSimId());
+	}
 	//////////////////////////////////////////////////////
 	
 %>

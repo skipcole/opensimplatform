@@ -71,7 +71,7 @@
 				%>
               <table width="80%" border = "1">
                 <tr> 
-                  <td><h2>Running Simulation</h2></td>
+                  <td><h2>Running Simulation*</h2></td>
                   <td><h2>Enabled</h2></td>
                   <td><h2>Phase</h2></td>
             </tr>
@@ -82,7 +82,7 @@
 				
 		%>
                 <tr> 
-                  <td><a href="administrate_running_simulation.jsp?rs_id=<%= rsil.getRsId() %>"><%= rsil.getRsName() %></a></td>
+                  <td><a href="facilitate_change_running_sim_name.jsp?rs_id=<%= rsil.getRsId() %>"><%= rsil.getRsName() %></a></td>
                   <td>
 				  <%= rsil.isEnabled() %>
 				  </td>
@@ -92,6 +92,7 @@
 			}
 		%>
                 </table>
+				* You can edit the name of a Running Simulation by clicking on it above.
 				    <% } else { %>
 				    <ul><li>None</li></ul>
 				    <% } %>
@@ -113,6 +114,7 @@
             </form>
 			</blockquote>
             <p align="center"><a href="../simulation_authoring_play/create_schedule_page.jsp">Next step: Create Schedule Page</a></p>
+            <p align="left"><a href="facilitate_panel.jsp">&lt;-- Back</a></p>
             <% } else { // End of if have set simulation id. %>
             <blockquote> 
               <p>You must first select the simulation you want to work on from the library.                 </p>
