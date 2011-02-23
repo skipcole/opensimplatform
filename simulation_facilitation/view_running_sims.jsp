@@ -63,7 +63,7 @@
 				%>
                 <tr>
                   <td><%= rsil.getSimName() %></td> 
-                  <td><a href="administrate_running_simulation.jsp?rs_id=<%= rsil.getRsId() %>"><%= rsil.getRsName() %></a></td>
+                  <td><a href="facilitate_panel.jsp?rs_id=<%= rsil.getRsId() %>"><%= rsil.getRsName() %></a></td>
               <td><%= rsil.getPhaseName() %></td>
             </tr>
                 <%

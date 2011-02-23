@@ -34,18 +34,23 @@
 </style>
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.style2 {color: #000000}
+-->
+</style>
 </head>
 <body onLoad="">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
+    <td width="120" valign="top"><a href="../login.jsp"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
     <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;Open Simulation Platform </h1></td>
     <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>
   </tr>
   <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
+    <td width="120" valign="top"><a href="../login.jsp"><img src="../Templates/images/logo_bot.png" width="120" height="20" border="0" /></a></td>
     <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
   </tr>
   <tr>
@@ -88,15 +93,18 @@
       <p>Thank you for your request.</p>
       <p>You should soon receive an email containing a link and instructions on how to change your password.</p>
       <p>Note: If you do not receive the email, please check in your junk email folder. If it has gone into there, you may want to register the sender as a 'safe sender.' (The details of doing this depend upon your email service provider, so please direct any email related questions to them.)</p>
-      <% } // end of if just requested email 
+      <p>
+        <% } // end of if just requested email 
 	  		else {
 	  %> 
-      <span class="style1">
-      <font color="#FF0000">The email address you entered was not found in our database.</font>
-		 </span>      
-	<% } // and of if failed attempt. %>
-    <% } // end of if attempted to retrieved attempt. %>
-<p>&nbsp;</p>			</td>
+          <span class="style1">
+              <font color="#FF0000">The email address you entered was not found in our database.</font></span></p>
+      <p><span class="style2">If you believe that you should have an account on this system, you may want to contact your instructor or the system administrator.</span></p>
+      <p>Back to the <a href="../login.jsp">login page</a>.       
+            <% } // and of if failed attempt. %>
+            <% } // end of if attempted to retrieved attempt. %>
+                  </p>
+      <p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

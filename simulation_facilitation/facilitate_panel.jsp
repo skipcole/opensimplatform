@@ -15,8 +15,13 @@
 	}
 	
 	RunningSimulation running_simulation = new RunningSimulation();
-	if (afso.getRunningSimId() != null){
-		running_simulation = afso.giveMeRunningSim();
+	String rs_id = (String) request.getParameter("rs_id");
+	
+	if ((rs_id != null) && (!(rs_id.equalsIgnoreCase("null")))) {
+		running_simulation = RunningSimulation.getById(afso.schema, new Long(rs_id));
+		afso.setRunningSimId(new Long(rs_id));
+	} else {
+		running_simulation = RunningSimulation.getById(afso.schema, afso.getRunningSimId());
 	}
 	
 %>
@@ -40,7 +45,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1 align="center">Simulation Launch Pad </h1>
+              <h1 align="center">Simulation Launch &amp; Monitor Pad </h1>
 			  
 			  <blockquote>
               <% if (afso.sim_id != null) { %>
@@ -52,7 +57,7 @@
 			  
                 
                 
-                <p>Below are the basic steps  to initiate a simulation. </p>
+                <p>&nbsp;</p>
                 <table width="100%" border="0" cellspacing="2" cellpadding="1">
         
         <tr valign="top"> 
@@ -74,6 +79,10 @@
         <tr valign="top">
           <td>5.</td>
           <td><a href="facilitate_email_notifications.jsp">Notify Players via Email</a><a href="helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
+        </tr>
+        <tr valign="top">
+          <td>6.</td>
+          <td><a href="administrate_running_sim_add_instructor.jsp">Add Instructors</a> (?) </td>
         </tr>
       </table>
 </blockquote>
