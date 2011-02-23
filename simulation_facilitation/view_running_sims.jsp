@@ -43,6 +43,13 @@
 
               <h2>Simulations Where You are an Instructor </h2>
               <p>Below are the running simulations where you are a designated instructor. Select the name of the running simulation to monitor or edit it. </p>
+			  
+			  <%
+			  	List rsilList = RunningSimulationInformationLine.getRunningSimLines(afso, null);
+		
+				if ((rsilList != null) && (rsilList.size() > 0)) {		
+				
+				%>
               <table width="80%" border = "1">
                 <tr>
                   <td><h2>Simulation</h2></td> 
@@ -51,48 +58,42 @@
             </tr>
                 <%
 				
-				for (ListIterator lis = Simulation.getAll(afso.schema).listIterator(); lis.hasNext();) {
-				Simulation sim = (Simulation) lis.next();
-				afso.sim_id = sim.getId();
-				
-		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id.toString(), afso.schema);
-			
-			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
-				RunningSimulation rs = (RunningSimulation) li.next();
-				
-				SimulationPhase sp = new SimulationPhase();
-				if (rs.getPhase_id() != null){
-					sp = SimulationPhase.getById(afso.schema, rs.getPhase_id().toString());
-				}
-				
-				if (InstructorRunningSimAssignments.checkIsInstructor(afso.user_id, afso.schema, rs.getId())){ 
-				
-		%>
+					for (ListIterator li = rsilList.listIterator(); li.hasNext();) {
+						RunningSimulationInformationLine rsil = (RunningSimulationInformationLine) li.next();	
+				%>
                 <tr>
-                  <td><%= sim.getDisplayName() %></td> 
-                  <td><a href="administrate_running_simulation.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
-              <td><%= sp.getPhaseName() %></td>
+                  <td><%= rsil.getSimName() %></td> 
+                  <td><a href="administrate_running_simulation.jsp?rs_id=<%= rsil.getRsId() %>"><%= rsil.getRsName() %></a></td>
+              <td><%= rsil.getPhaseName() %></td>
             </tr>
                 <%
-					} // End of if this user is a designated instructor.
-				} // End of loop over Running Sims
-			} // End of loop over sims
+			} // End of loop over RunningSimulationInformationLine's
 		%>
                 </table>
-	          <p>&nbsp;</p>
-	          <h2>Simulations Where You are a Player </h2>
-	          <p>Below are all of the simulations in which you have been assigned as a player. You can log in as a player to access any of these. </p>
-	          <table width="80%" border="2" cellspacing="2" cellpadding="2">
-              <tr valign="top">
-      <td width="30%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "simulation") %></h2></td>
-      <td width="35%"><h2>Running Simulation</h2></td>
-      <td width="15%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "your_role") %></h2></td>
-      <td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "phase") %></h2></td>
-      <!-- td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "play") %></h2></td  -->
-    </tr>
-              <%
+			
+				    <% } else { %>
+				    <ul><li>None</li></ul>
+				    <% } %>
+				     
+                <p>&nbsp;</p>
+                <h2>Simulations Where You are a Player </h2>
+                <p>Below are all of the simulations in which you have been assigned as a player. You can log in as a player to access any of these. </p>
+				<%
+				List uaList = UserAssignment.getAllForUser(afso.schema, afso.user_id);
+				
+				if ((uaList != null) && (uaList.size() > 0)){ %>
+				
+                <table width="80%" border="2" cellspacing="2" cellpadding="2">
+                  <tr valign="top">
+                    <td width="30%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "simulation") %></h2></td>
+            <td width="35%"><h2>Running Simulation</h2></td>
+            <td width="15%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "your_role") %></h2></td>
+            <td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "phase") %></h2></td>
+            <!-- td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "play") %></h2></td  -->
+                    </tr>
+                  <%
   
-  		List uaList = UserAssignment.getAllForUser(afso.schema, afso.user_id);
+  		
 	
 		for (ListIterator li = uaList.listIterator(); li.hasNext();) {
 			UserAssignment ua = (UserAssignment) li.next();
@@ -108,12 +109,12 @@
 			
 			if ((act != null) && (sp != null)){
   %>
-              <tr valign="top">
-      <td><%= sim.getDisplayName() %></td>
-      <td><%= rs.getRunningSimulationName() %></td>
-      <td><%= act.getActorName(afso.schema, rs.getId(), request) %></td>
-      <td><%= sp.getPhaseName() %></td>
-      <!-- td> <form action="../simulation/select_simulation_to_play.jsp" method="post" name="form1" id="form1">
+                  <tr valign="top">
+                    <td><%= sim.getDisplayName() %></td>
+            <td><%= rs.getRunningSimulationName() %></td>
+            <td><%= act.getActorName(afso.schema, rs.getId(), request) %></td>
+            <td><%= sp.getPhaseName() %></td>
+            <!-- td> <form action="../simulation/select_simulation_to_play.jsp" method="post" name="form1" id="form1">
       
         <input type="submit" name="Submit" value="<%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "play") %> > " />
         <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
@@ -121,8 +122,8 @@
         <input type="hidden" name="schema_org" value="<%= afso.simulation_org %>" />
         <input type="hidden" name="sending_page" value="select_simulation" />
         </form></td  -->
-    </tr>
-				  <%
+                    </tr>
+                  <%
 			  
 			  } // End of if act or sp was null
 			  } // End of if running simulation has been enabled.
@@ -130,11 +131,12 @@
   		} // End of loop over User Assignments
 		
   %>
-	</table>
+                          </table>
+							    <% } else { %>
+				    <ul><li>None</li></ul>
+				    <% } %>
             </blockquote>
-
-            <p>&nbsp;</p>
-		</td>
+            <p>&nbsp;</p>		</td>
 		</tr>
 		</table>	</td>
   </tr>

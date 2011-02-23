@@ -28,7 +28,6 @@
 	
 	}
 	
-	/**
 	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))){
 		String sim_id = (String) request.getParameter("sim_id");
 		
@@ -37,7 +36,7 @@
 		 mainPage = "facilitate_panel.jsp";
 		
 	}
-	*/
+
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>

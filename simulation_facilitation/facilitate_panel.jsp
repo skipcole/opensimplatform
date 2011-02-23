@@ -49,7 +49,7 @@
 			  <% if (afso.getRunningSimId() != null) { %>
 				<strong>Working on Running Simulation: <%= running_simulation.getRunningSimulationName() %></strong><br/>
               <% } %>
-			  </blockquote>
+			  
                 
                 
                 <p>Below are the basic steps  to initiate a simulation. </p>
@@ -76,10 +76,7 @@
           <td><a href="facilitate_email_notifications.jsp">Notify Players via Email</a><a href="helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
         </tr>
       </table>
-                <h2>&nbsp;</h2>
-                <p>&nbsp;</p>
-      <h2>&nbsp;</h2>
-      <p>&nbsp; </p>
+</blockquote>
       <p align="center"></p>			</td>
 		</tr>
 		</table>	</td>
