@@ -57,7 +57,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Enable Simulation to Start <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></h1>
+              <h1>Enable Simulation to Start <a href="../simulation_facilitation/helptext/enable_sim_help.jsp" target="helpinright">(?)</a></h1>
               <blockquote> 
         <% 
 			if (afso.sim_id == null) {
@@ -74,14 +74,14 @@
 		%>
         <p>You must select the running simulation for which you will be enabling.<br />
           
-          Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
+          Please <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
 		  
 		<% } else if (running_sim.isReady_to_begin()) { %>
         <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  been enabled.</span><br />
-          To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
+          To select a different running simulation to enable, <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a>.</p>
 		  <% } else { %>
         <p>Enabling <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
-          To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
+          To select a different running simulation to enable, <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a>.</p>
   
   <p>&nbsp;</p>
     <form action="enable_simulation.jsp" method="post" name="form1" id="form1">

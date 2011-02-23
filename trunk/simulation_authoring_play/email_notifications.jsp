@@ -66,7 +66,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Notify Players By Email <a href="helptext/enable_sim_help.jsp" target="helpinright"></a></h1>
+              <h1>Notify Players By Email <a href="../simulation_facilitation/helptext/enable_sim_help.jsp" target="helpinright"></a></h1>
 			  
 <%
 	if(!(sio.isEmailEnabled())){
@@ -91,14 +91,14 @@ Email has not been enabled on this server. Please contact your administrator if 
 		%>
         <p>You must select the running simulation.<br />
           
-          Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
+          Please <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
 		  
 		<% } else if (!(running_sim.isReady_to_begin())) { %>
         <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  not been enabled. You must first enable a simulation before sending invitation emails.</span><br />
 
 		  <% } else { %>
         <p>Emailing players in  <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
-          To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
+          To select a different running simulation to enable, <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a>.</p>
   
     <form action="email_notifications.jsp" method="post" name="form1" id="form1">
       <h2>
@@ -214,7 +214,7 @@ Email has not been enabled on this server. Please contact your administrator if 
 %>
 <tr>
 <td valign="top">
-<a href="email_notifications.jsp?queue_up=true&e_id=<%= emailPrototype.getId() %>">Email </a></td>
+<a href="email_notifications.jsp?queue_up=true&amp;e_id=<%= emailPrototype.getId() %>">Email </a></td>
 <td valign="top"><%= emailPrototype.getSendDate() %></td>
 <td valign="top"><%= emailPrototype.getSubjectLine() %></td>
 </tr>

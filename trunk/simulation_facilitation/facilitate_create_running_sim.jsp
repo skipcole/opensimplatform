@@ -53,12 +53,12 @@
 			<% afso.errorMsg = ""; %>
             <% if (afso.sim_id != null) {  %>
 			
-              <p>Create running simulations for the simulation <strong><%= simulation.getDisplayName() %></strong>.<br>
-                (If you would like to create running simulations for a different simulation, 
-                <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
-              <p><% if (afso.getRunningSimId() != null) { %>You are currently working on runnign simulation <%= afso.run_sim_name %>.<% } %>
-              If you would like to select a running simulation already created,  <a href="select_running_simulation.jsp">click here.</a></p>
-              Below are the running simulation currently associated with <b> <%= simulation.getSimulationName() %> </b>. <br />
+              <p>Create running simulations for the simulation <strong><%= simulation.getDisplayName() %></strong>.
+              </p>
+              <p><% if (afso.getRunningSimId() != null) { %>
+              You are currently working on running simulation <%= afso.run_sim_name %>.<% } %>
+              </p>
+              Below are the running simulation currently associated with the simulation <b><%= simulation.getSimulationName() %> </b> where you are a designated instructor. <br />
               <table width="80%" border = "1">
                 <tr> 
                   <td><h2>Running Simulation</h2></td>
@@ -88,7 +88,7 @@
 		%>
                 </table>
 	          </blockquote>
-            <form action="create_running_sim.jsp" method="post" name="form1" id="form1">
+            <form action="../simulation_authoring_play/create_running_sim.jsp" method="post" name="form1" id="form1">
               <input type="hidden" name="sending_page" value="create_running_sim" />
               <table width="80%" border="0" cellspacing="2" cellpadding="2">
                 <tr> 
@@ -102,11 +102,10 @@
             </tr>
                 </table>
             </form>
-            <p align="center"><a href="create_schedule_page.jsp">Next step: Create Schedule Page</a></p>
+            <p align="center"><a href="../simulation_authoring_play/create_schedule_page.jsp">Next step: Create Schedule Page</a></p>
             <% } else { // End of if have set simulation id. %>
             <blockquote> 
-              <p>                </p>
-            <%@ include file="../simulation_authoring/select_message.jsp" %>
+              <p>You must first select the simulation you want to work on from the library.                 </p>
                   </blockquote>
             <p>
               <% } // End of if have not set simulation for edits. %>

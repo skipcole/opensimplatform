@@ -48,19 +48,19 @@
               <table width="100%" border="0" cellspacing="2" cellpadding="1">
                 <tr valign="top">
                   <td>1. </td>
-                  <td><a href="create_running_sim.jsp">Edit Running Simulation</a> Name <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>
+                  <td><a href="../simulation_authoring_play/create_running_sim.jsp">Edit Running Simulation</a> Name <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>
                 </tr>
                 <tr valign="top">
                   <td>2.</td>
-                  <td><a href="create_schedule_page.jsp">Edit  Schedule Page</a> <a href="helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></td>
+                  <td><a href="../simulation_authoring_play/create_schedule_page.jsp">Edit  Schedule Page</a> <a href="helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></td>
                 </tr>
                 <tr valign="top">
                   <td>3.</td>
-                  <td><a href="assign_user_to_simulation.jsp">Assign Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
+                  <td><a href="../simulation_authoring_play/assign_user_to_simulation.jsp">Assign Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
                 </tr>
                 <tr valign="top">
                   <td>4.</td>
-                  <td><a href="enable_simulation.jsp">Enable Simulation</a> 
+                  <td><a href="../simulation_authoring_play/enable_simulation.jsp">Enable Simulation</a> 
 				  <% if (running_simulation.isReady_to_begin()) { %>
 				  	(Simulation is Enabled) 
 				  <% } %>
@@ -68,7 +68,7 @@
                 </tr>
                 <tr valign="top">
                   <td>5.</td>
-                  <td><a href="email_notifications.jsp">Notify Players via Email</a><a href="helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
+                  <td><a href="../simulation_authoring_play/email_notifications.jsp">Notify Players via Email</a><a href="helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
                 </tr>
                 <tr valign="top">
                   <td>6.</td>

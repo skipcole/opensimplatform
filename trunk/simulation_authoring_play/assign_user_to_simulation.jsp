@@ -59,7 +59,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Assign User to a Running Simulation <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a></h1>
+              <h1>Assign User to a Running Simulation <a href="../simulation_facilitation/helptext/assign_players_help.jsp" target="helpinright">(?)</a></h1>
               <br />
       <% 
 			if (afso.sim_id == null) {
@@ -76,12 +76,12 @@
 		%>
       <p>You must select the running simulation for which you will be assigning 
         users.<br />
-        Please <a href="select_running_simulation.jsp">click here</a> to select 
+        Please <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a> to select 
         it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
       <% } else { %>
       <p>Assign users to play the role of actors in the <strong>running simulation 
         <%= running_simulation.getRunningSimulationName() %></strong><br/>
-        To select a different running simulation, <a href="select_running_simulation.jsp">click 
+        To select a different running simulation, <a href="../simulation_facilitation/select_running_simulation.jsp">click 
           here</a>.      </p>
       <p>To assign players to a simulation, <strong>you must follow these steps</strong></p>
       <ol>
@@ -139,11 +139,11 @@
           <form action="assign_user_to_simulation.jsp" method="post" name="form3" id="form3">
             <td><%= act.getActorName() %></td>
               <td><%= ua.getUsername() %></td>
-              <td><a href="view_sim_actor_assignment_notes.jsp?actor_id=<%= act.getId() %>">details</a></td>
+              <td><a href="../simulation_facilitation/view_sim_actor_assignment_notes.jsp?actor_id=<%= act.getId() %>">details</a></td>
               <td>
                 <% if ((ua != null) && (ua.getId() != null)){ %>
-                	<a href="assign_user_to_simulation.jsp?command=remove_ua&user_assignment_id=<%= ua.getId() %>"><img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a>
-					<a href="assign_user_to_simulation.jsp?command=add_assignment&simulation_adding_to=<%= simulation.getId() %>&running_simulation_adding_to=<%= running_simulation.getId() %>&actor_to_add_to_simulation=<%= act.getId() %>"><img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" /></a>
+                	<a href="assign_user_to_simulation.jsp?command=remove_ua&amp;user_assignment_id=<%= ua.getId() %>"><img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a>
+					<a href="assign_user_to_simulation.jsp?command=add_assignment&amp;simulation_adding_to=<%= simulation.getId() %>&amp;running_simulation_adding_to=<%= running_simulation.getId() %>&amp;actor_to_add_to_simulation=<%= act.getId() %>"><img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" /></a>
                   <% } %>                  </td>
               <td>
               <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>              </td>
@@ -171,7 +171,7 @@
       </blockquote>
       <p>Note: Rows in pink represent unregistered players that have been assigned a role in the simulation.</p>
       <p align="center"><a href="enable_simulation.jsp">Next Step: Enable Simulation</a></p>     
-	   <p align="left"><a href="create_schedule_page.jsp">&lt;- 
+	   <p align="left"><a href="create_schedule_page.jsp">&lt;-- 
         Back</a></p>			</td>
 		</tr>
 		</table>	</td>

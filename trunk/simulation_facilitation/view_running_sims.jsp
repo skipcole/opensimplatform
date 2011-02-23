@@ -41,9 +41,8 @@
 			  <br />
             <blockquote> 
 
-              <p>Below are the running simulations where you are a designated instructor.</p>
-              <p> </b>. Select the running simulation to monitor or edit it. <br />
-              </p>
+              <h2>Simulations Where You are an Instructor </h2>
+              <p>Below are the running simulations where you are a designated instructor. Select the name of the running simulation to monitor or edit it. </p>
               <table width="80%" border = "1">
                 <tr>
                   <td><h2>Simulation</h2></td> 
@@ -81,11 +80,12 @@
 		%>
                 </table>
 	          <p>&nbsp;</p>
+	          <h2>Simulations Where You are a Player </h2>
 	          <p>Below are all of the simulations in which you have been assigned as a player. You can log in as a player to access any of these. </p>
 	          <table width="80%" border="2" cellspacing="2" cellpadding="2">
               <tr valign="top">
       <td width="30%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "simulation") %></h2></td>
-      <td width="35%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "session") %></h2></td>
+      <td width="35%"><h2>Running Simulation</h2></td>
       <td width="15%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "your_role") %></h2></td>
       <td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "phase") %></h2></td>
       <!-- td width="10%"><h2><%= USIP_OSP_Cache.getInterfaceText(request, afso.languageCode, "play") %></h2></td  -->

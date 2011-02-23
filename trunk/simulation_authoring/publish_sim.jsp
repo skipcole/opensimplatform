@@ -1,7 +1,10 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,java.io.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,java.io.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="../error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -13,15 +16,7 @@
 	
 	afso.backPage = "publish_sim.jsp";
 	
-	String sending_page = (String) request.getParameter("sending_page");
-	String command = (String) request.getParameter("command");
-	String sim_key_words = (String) request.getParameter("sim_key_words");
-	String auto_registration = (String) request.getParameter("auto_registration");
-	
-	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("publish_sim"))){
-		afso.handlePublishing(command, sim_key_words, auto_registration);
-	}
+	afso.handlePublishing(request);
 	
 	Simulation simulation = new Simulation();	
 	
@@ -50,7 +45,6 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Publish Simulation</h1>
-              <br />
 	  <blockquote>
 	    <% 
 			if (afso.sim_id != null) {
@@ -127,7 +121,7 @@
             <td><%= ready %></td>
             <td><%= sim.getCreator() %></td>
             <td><%= sim.getListingKeyWords() %></td>
-            <td>&nbsp;</td>
+            <td><%= sim.getPublishDate() %></td>
           </tr>
         <% } %>
       </table>

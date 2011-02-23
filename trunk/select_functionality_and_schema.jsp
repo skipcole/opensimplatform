@@ -109,7 +109,7 @@ body {
                 <% } // end of if is author. %>
                 
               <% if(user_in_this_schema.isSim_instructor()) {  %>  
-              <td width="25%" valign="top"><p align="center"><a href="simulation_facilitation/facilitateweb.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/instructors.png" alt="Instructor Login" width="140" height="120"></a></p>
+              <td width="25%" valign="top"><p align="center"><a href="simulation_facilitation/facilitateweb.jsp?ftab=home&initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/instructors.png" alt="Instructor Login" width="140" height="120"></a></p>
                 <p>Use this section to create running simulations, invite students and perform other common instructor tasks.</p></td>
               <% } // end of if is instructor. %>
                 

@@ -38,7 +38,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Create Schedule Page <a href="helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></h1>
+              <h1>Create Schedule Page <a href="../simulation_facilitation/helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></h1>
               <br />
                     <% 
 			if (afso.sim_id == null) {
@@ -52,7 +52,7 @@
 		%>
                   <p>You must select the running simulation for which you will be creating a schedule.<br />
                       
-                  Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
+                  Please <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
                   <p>
                     <% } else { %>
                   </p>
@@ -102,7 +102,7 @@
                     <p>&nbsp;</p>
                   </blockquote>
                   <p align="center"><a href="assign_user_to_simulation.jsp">Next Step: Assign Users</a></p>
-                  <a href="create_running_sim.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+                  <a href="create_running_sim.jsp">&lt;-- Back</a>			</td>
 		</tr>
 		</table>	</td>
   </tr>
