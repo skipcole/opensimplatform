@@ -56,7 +56,7 @@
           <p>Below are listed alphabetically all of the current running simulations for the simulation 
             <%= simulation.getDisplayName() %>. </p>
           <p>Please 
-            select one, or <a href="create_running_sim.jsp">create a new one</a>, 
+            select one, or <a href="../simulation_authoring_play/create_running_sim.jsp">create a new one</a>, 
             to continue.</p>
           <table>
             <%

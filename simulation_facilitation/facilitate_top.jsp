@@ -12,6 +12,30 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
+	
+	String ftab = (String) request.getParameter("ftab");
+	
+	String tabColorHome = "475DB0";
+	String tabColorLibrary = "475DB0";
+	String tabColorMySims = "475DB0";
+	String tabColorMisc = "475DB0";
+	
+	if (ftab != null) {
+		
+		if (ftab.equalsIgnoreCase("home")){
+			tabColorHome = "9AABE1";
+		}
+		if (ftab.equalsIgnoreCase("library")){
+			tabColorLibrary = "9AABE1";
+		}
+		if (ftab.equalsIgnoreCase("my_sims")){
+			tabColorMySims = "9AABE1";
+		}
+		if (ftab.equalsIgnoreCase("misc")){
+			tabColorMisc = "9AABE1";
+		}
+	
+	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,7 +67,7 @@ body {
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">
 		<tr>
-          <td><div align="center"><a href="facilitateweb.jsp" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
+          <td><div align="center"><a href="facilitateweb.jsp?ftab=home" target="_top" class="menu_item"><img src="../Templates/images/home.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
         </tr>
         <tr>
           <td><div align="center"><a href="../simulation_user_admin/my_profile.jsp" target="bodyinleft" class="menu_item"><img src="../Templates/images/my_profile.png" alt="Home" width="90" height="19" border="0" /></a></div></td>
@@ -59,10 +83,10 @@ body {
     <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0">
 		<table border="0" cellpadding="0" cellspacing="0" >
 		   <tr>
-		   <td bgcolor="#475DB0"><a href="facilitateweb.jsp" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;HOME&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-		<td bgcolor="#475DB0"><a href="facilitate_library.jsp" target="bodyinleft" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-				<td bgcolor="#475DB0"><a href="view_running_sims.jsp" target="bodyinleft" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;MY SIMS&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
-				<td bgcolor="#475DB0"><a href="misc_tools.jsp" target="bodyinleft" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;MISC TOOLS&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		   <td bgcolor="#<%= tabColorHome %>"><a href="facilitateweb.jsp?ftab=home" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;HOME&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+		<td bgcolor="#<%= tabColorLibrary %>"><a href="facilitateweb.jsp?ftab=library" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+				<td bgcolor="#<%= tabColorMySims %>"><a href="facilitateweb.jsp?ftab=my_sims" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;MY SIMS&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+				<td bgcolor="#<%= tabColorMisc %>"><a href="facilitateweb.jsp?ftab=misc" target="_top" class="menu_item">&nbsp;&nbsp;&nbsp;&nbsp;MISC TOOLS&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
 		<td>&nbsp;</td></tr></table>
 	
 	</td>

@@ -325,9 +325,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				}
 
-				RunningSimulation.enableAndPrep(this.schema, sim.getId(), rs.getId());
+				RunningSimulation.enableAndPrep(this.schema, sim.getId(), rs
+						.getId());
 				// TODO send the beta testers an email.
-				
+
 			} else {
 
 				returnString += "<font color=\"red\">Warning: did not find user:"
@@ -340,8 +341,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * Returns the URL of the autoregistration site for this installation for the particular
-	 * schema which is being used.
+	 * Returns the URL of the autoregistration site for this installation for
+	 * the particular schema which is being used.
 	 * 
 	 * @return
 	 */
@@ -354,7 +355,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return baseURL;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -457,8 +458,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		SchemaInformationObject sio = SchemaInformationObject
 				.lookUpSIOByName(this.schema);
 
-		Emailer.postMail(sio, the_email, subject, message, message, sio.getEmailNoreplyAddress(), this.user_name,
-				cced, bcced);
+		Emailer.postMail(sio, the_email, subject, message, message, sio
+				.getEmailNoreplyAddress(), this.user_name, cced, bcced);
 	}
 
 	/**
@@ -626,109 +627,123 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if (command != null) {
 			if ((command.equalsIgnoreCase("Start Simulation"))) {
 
-				RunningSimulation.enableAndPrep(this.schema, this.sim_id, this.runningSimId);
+				RunningSimulation.enableAndPrep(this.schema, this.sim_id,
+						this.runningSimId);
 
 			} // End of if coming from this page and have enabled the sim
 			// ////////////////////////////
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
-	public Email handleNotifyPlayers(HttpServletRequest request, SchemaInformationObject sio) {
+	public Email handleNotifyPlayers(HttpServletRequest request,
+			SchemaInformationObject sio) {
 
 		String command = request.getParameter("command");
 		String sending_page = request.getParameter("sending_page");
-		
+
 		String simName = "";
-		if (this.sim_id != null){
+		if (this.sim_id != null) {
 			Simulation sim = Simulation.getById(schema, sim_id);
 			simName = sim.getDisplayName();
 		}
-		
+
 		Email returnEmail = Email.getRawBlankSimInvite(simName);
-		
-		//////////////////////////////
+
+		// ////////////////////////////
 		// If user has selected a previously sent email to send again ...
 		String queue_up = request.getParameter("queue_up");
-		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))){
+		if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))) {
 			String e_id = request.getParameter("e_id");
-			
+
 			returnEmail = Email.getById(schema, new Long(e_id));
 		}
-		
 
-		//////////////////////////////////////////
+		// ////////////////////////////////////////
 		// If user is sending email
-		if ((command != null) && (sending_page != null) && (sending_page.equalsIgnoreCase("notify_players"))){
+		if ((command != null) && (sending_page != null)
+				&& (sending_page.equalsIgnoreCase("notify_players"))) {
 
 			String email_text = request.getParameter("email_text");
 			String email_from = request.getParameter("email_from");
 			String email_subject = request.getParameter("email_subject");
-			
-			boolean setReplyTo = true;	// If sending from no-reply acct, set reply to instructor's email.
+
+			boolean setReplyTo = true; // If sending from no-reply acct, set
+										// reply to instructor's email.
 			String send_email_from = sio.getEmailNoreplyAddress();
-			if ( (email_from != null) && (email_from.equalsIgnoreCase("username"))   ) {
+			if ((email_from != null)
+					&& (email_from.equalsIgnoreCase("username"))) {
 				send_email_from = this.user_email;
 				setReplyTo = false;
 			}
-			
-			returnEmail = new Email(this.user_id, send_email_from, email_subject, email_text, 
-					this.sim_id, this.runningSimId);
+
+			returnEmail = new Email(this.user_id, send_email_from,
+					email_subject, email_text, this.sim_id, this.runningSimId);
 			returnEmail.setInvitePrototype(true);
 			returnEmail.setSimInvitationEmail(true);
 			returnEmail.setSendDate(new java.util.Date());
 			returnEmail.saveMe(schema);
-			
-			for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+
+			for (Enumeration e = request.getParameterNames(); e
+					.hasMoreElements();) {
 				String pname = (String) e.nextElement();
 
 				String vname = (String) request.getParameter(pname);
-				if (pname.startsWith("invite_")){
+				if (pname.startsWith("invite_")) {
 					System.out.println(pname + " xxx " + vname);
 					pname = pname.replaceFirst("invite_", "");
-					UserAssignment ua = UserAssignment.getById(schema, new Long(pname));
-					
+					UserAssignment ua = UserAssignment.getById(schema,
+							new Long(pname));
+
 					String customizedMessage = email_text;
-					
-					if (ua.getUser_id() == null){
+
+					if (ua.getUser_id() == null) {
 						// Get the user name that the faciliator entered.
-						String this_player_name = request.getParameter(ua.getId() + "_user_display_name");
-						customizedMessage = customizedMessage.replace("[Student Name]", this_player_name);
+						String this_player_name = request.getParameter(ua
+								.getId()
+								+ "_user_display_name");
+						customizedMessage = customizedMessage.replace(
+								"[Student Name]", this_player_name);
 						// Set the temporary user name of this UserAssignment
 						ua.setTempStudentName(this_player_name);
 					} else {
 						User user = User.getById(schema, ua.getUser_id());
-						customizedMessage = customizedMessage.replace("[Student Name]", user.getBu_full_name());
+						customizedMessage = customizedMessage.replace(
+								"[Student Name]", user.getBu_full_name());
 					}
-					
-					if (sio.isEmailEnabled()){
-						Email email = new Email(this.user_id, send_email_from, email_subject, customizedMessage, 
-								this.sim_id, this.runningSimId);
+
+					if (sio.isEmailEnabled()) {
+						Email email = new Email(this.user_id, send_email_from,
+								email_subject, customizedMessage, this.sim_id,
+								this.runningSimId);
 						email.setSimInvitationEmail(true);
 						email.setToActorEmail(false);
-						
-						if (setReplyTo){
+
+						if (setReplyTo) {
 							email.setReplyToName(this.user_email);
 						}
 						email.saveMe(schema);
-						EmailRecipients er = new EmailRecipients(schema, email.getId(), this.getRunningSimId(), 
-								sim_id, ua.getUsername(), EmailRecipients.RECIPIENT_TO);
-						
-						String confirmURL = AuthorFacilitatorSessionObject.getConfirmEmailBaseLink(sio.getSchema_name());
+						EmailRecipients er = new EmailRecipients(schema, email
+								.getId(), this.getRunningSimId(), sim_id, ua
+								.getUsername(), EmailRecipients.RECIPIENT_TO);
+
+						String confirmURL = AuthorFacilitatorSessionObject
+								.getConfirmEmailBaseLink(sio.getSchema_name());
 						confirmURL += "&ua_id=" + ua.getId();
 						confirmURL += "&er_id=" + er.getId();
-						
-						customizedMessage = customizedMessage.replace("[confirm_receipt]", confirmURL);
+
+						customizedMessage = customizedMessage.replace(
+								"[confirm_receipt]", confirmURL);
 						email.setMsgtext(customizedMessage);
 						email.setHtmlMsgText(customizedMessage);
 						email.saveMe(schema);
-						
+
 						email.sendMe(sio);
-						
+
 						ua.advanceStatus("invited");
 						ua.saveMe(schema);
 					}
@@ -739,7 +754,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return returnEmail;
 	}
-
 
 	/**
 	 * 
@@ -1276,13 +1290,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		// Do create if called.
 		String create_timeline = (String) request
 				.getParameter("create_timeline");
-		
+
 		boolean hasName = false;
-		
-		if ((timeline_name != null) && (timeline_name.trim().length() > 0)){
+
+		if ((timeline_name != null) && (timeline_name.trim().length() > 0)) {
 			hasName = true;
 		}
-		
+
 		if ((create_timeline != null) && hasName) {
 			Logger.getRootLogger().debug(
 					"creating param of uniq name: " + timeline_name);
@@ -1621,7 +1635,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if (sio != null) {
 				bccs.add(sio.getEmail_archive_address());
 				Emailer.postMail(sio, sio.getEmail_archive_address(),
-						"USIP OSP Installation Message", message, message, sio.getEmailNoreplyAddress(),  sio
+						"USIP OSP Installation Message", message, message, sio
+								.getEmailNoreplyAddress(), sio
 								.getEmail_archive_address(), ccs, bccs);
 				email_msg = "email_sent";
 			} else {
@@ -1681,12 +1696,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String email_pass = (String) request.getParameter("email_pass");
 			String email_user_address = (String) request
 					.getParameter("email_user_address");
-			
+
 			String email_tech_address = (String) request
-				.getParameter("email_user_address");
+					.getParameter("email_user_address");
 			String email_noreply_address = (String) request
-				.getParameter("email_tech_address");
-			
+					.getParameter("email_tech_address");
+
 			String email_server_number = (String) request
 					.getParameter("email_server_number");
 			String email_status = checkEmailStatus(email_smtp, email_user,
@@ -2594,7 +2609,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 	}
 
-
 	public Actor giveMeActor(Long a_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -3088,35 +3102,44 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param command
 	 * @param sim_key_words
 	 */
-	public void handlePublishing(String command, String sim_key_words,
-			String auto_registration) {
+	public void handlePublishing(HttpServletRequest request) {
 
-		if (command == null) {
-			return;
+		String sending_page = (String) request.getParameter("sending_page");
+		String command = (String) request.getParameter("command");
+		String sim_key_words = (String) request.getParameter("sim_key_words");
+		String auto_registration = (String) request
+				.getParameter("auto_registration");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("publish_sim"))) {
+
+			if ((command == null) || (sim_id == null)) {
+				return;
+			}
+
+			Simulation sim = Simulation.getById(schema, sim_id);
+
+			if (command.equalsIgnoreCase("Publish It!")) {
+				sim.setReadyForPublicListing(true);
+				sim.setListingKeyWords(sim_key_words);
+				sim.setPublishDate(new java.util.Date());
+			}
+
+			else if (command.equalsIgnoreCase("Un - Publish It!")) {
+				sim.setReadyForPublicListing(false);
+				sim.setListingKeyWords(sim_key_words);
+				sim.setPublishDate(null);
+			}
+
+			if ((auto_registration != null)
+					&& (auto_registration.equalsIgnoreCase("true"))) {
+				sim.setAllow_player_autoreg(true);
+			} else {
+				sim.setAllow_player_autoreg(false);
+			}
+
+			sim.saveMe(schema);
 		}
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Simulation sim = (Simulation) MultiSchemaHibernateUtil.getSession(
-				schema).get(Simulation.class, sim_id);
-
-		if (command.equalsIgnoreCase("Publish It!")) {
-			sim.setReadyForPublicListing(true);
-			sim.setListingKeyWords(sim_key_words);
-		}
-
-		else if (command.equalsIgnoreCase("Un - Publish It!")) {
-			sim.setReadyForPublicListing(false);
-			sim.setListingKeyWords(sim_key_words);
-		}
-
-		if ((auto_registration != null)
-				&& (auto_registration.equalsIgnoreCase("true"))) {
-			sim.setAllow_player_autoreg(true);
-		} else {
-			sim.setAllow_player_autoreg(false);
-		}
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
 
@@ -3156,12 +3179,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			User user = null;
 			BaseUser bu = null;
-			
-			if (afso.user_id != null){
+
+			if (afso.user_id != null) {
 				user = User.getById(afso.schema, afso.user_id);
 				bu = BaseUser.getByUserId(afso.user_id);
 			}
-			
+
 			if (user != null) {
 				afso.user_id = user.getId();
 				afso.isAdmin = user.isAdmin();
@@ -3173,11 +3196,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				afso.user_name = afso.user_email;
 
 				afso.loggedin = true;
-				
-				////////////
+
+				// //////////
 				afso.sim_id = afso.getIdOfLastSimEdited();
 				afso.setRunningSimId(afso.getIdOfLastRunningSimEdited());
-				///////////
+				// /////////
 
 				user.setLastLogin(new Date());
 				user.saveJustUser(afso.schema);
@@ -3298,8 +3321,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		addSectionFromProcessCustomPage(cs.getId(), tab_pos, tab_heading,
 				request, universal);
 	}
-
-
 
 	// /////////////////////////////////////////////////////////////////////////
 
@@ -3485,15 +3506,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String addRunningSimulation = (String) request
 				.getParameter("addRunningSimulation");
 
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("create_running_sim"))
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("create_running_sim"))
 				&& (addRunningSimulation != null)) {
 
 			String rsn = (String) request.getParameter("running_sim_name");
-			
-			if ((rsn != null) && (rsn.trim().length() > 0)){
-				
+
+			if ((rsn != null) && (rsn.trim().length() > 0)) {
+
 				RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
-					schema, this.user_id, this.userDisplayName);
+						schema, this.user_id, this.userDisplayName);
 
 				runningSimId = rs.getId();
 			} else {
@@ -3801,19 +3823,22 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				event.setEventMsgBody((String) request
 						.getParameter("event_text"));
 
-				String timeline_event_date = (String) request.getParameter("timeline_event_date");
+				String timeline_event_date = (String) request
+						.getParameter("timeline_event_date");
 				String event_hour = (String) request.getParameter("event_hour");
-				String event_minute = (String) request.getParameter("event_minute");
-				
+				String event_minute = (String) request
+						.getParameter("event_minute");
+
 				timeline_event_date += (" " + event_hour + " " + event_minute);
 
-				SimpleDateFormat sdf_startdate = new SimpleDateFormat("MM/dd/yyyy HH mm");
-				
+				SimpleDateFormat sdf_startdate = new SimpleDateFormat(
+						"MM/dd/yyyy HH mm");
+
 				try {
 					Date ted = sdf_startdate.parse(timeline_event_date);
 					event.setEventStartTime(ted);
-				
-				} catch (Exception e){
+
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				event.setSimId(sim_id);
@@ -3902,7 +3927,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							+ user_id + "/" + sim_id);
 		}
 	}
-	
+
 	/**
 	 * Saves which sim the user last edited to the database.
 	 */
@@ -3917,29 +3942,32 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							+ user_id + "/" + sim_id);
 		}
 	}
-	
+
 	/**
 	 * Handles the selection of a running simulation by the faciliator.
+	 * 
 	 * @param request
 	 */
-	public void selectRunningSim(HttpServletRequest request){
-		
+	public void selectRunningSim(HttpServletRequest request) {
+
 		String sending_page = (String) request.getParameter("sending_page");
-		
-		String select_running_sim = (String) request.getParameter("select_running_sim");
-		
-		if ((select_running_sim != null) && (select_running_sim.equalsIgnoreCase("true"))){
-			
-			Long r_sim_id = new Long(   (String) request.getParameter("r_sim_id")   );
-			
+
+		String select_running_sim = (String) request
+				.getParameter("select_running_sim");
+
+		if ((select_running_sim != null)
+				&& (select_running_sim.equalsIgnoreCase("true"))) {
+
+			Long r_sim_id = new Long((String) request.getParameter("r_sim_id"));
+
 			setRunningSimId(r_sim_id);
 			saveLastRunningSimEdited();
-			
+
 			RunningSimulation rs = giveMeRunningSim();
-			
+
 			run_sim_name = rs.getRunningSimulationName();
 			forward_on = true;
-				
+
 		}
 	}
 
@@ -3957,7 +3985,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Gets the id of the simulation last edited.
 	 * 
@@ -4442,30 +4470,32 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			}
 		}
 	}
-	
-	/** if a message, not an error, has to get reported back to the user, you can use this. */
+
+	/**
+	 * if a message, not an error, has to get reported back to the user, you can
+	 * use this.
+	 */
 	public String tempMsg = "";
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public Email handleEmailUserPassword(HttpServletRequest request){
-		
+	public Email handleEmailUserPassword(HttpServletRequest request) {
+
 		Email email = new Email();
-		
-		
+
 		// Handle what happens when they want to send an email.
 		String send_email = request.getParameter("send_email");
 		String u_id = request.getParameter("u_id");
-		
-		if (send_email != null){
+
+		if (send_email != null) {
 			String email_subject = request.getParameter("email_subject");
 			String email_text = request.getParameter("email_text");
 			String email_from = request.getParameter("email_from");
 			String email_to = request.getParameter("email_to");
-			
+
 			email.setSubjectLine(email_subject);
 			email.setMsgtext(email_text);
 			email.setHtmlMsgText(email_text);
@@ -4474,72 +4504,72 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			email.setFromUser(user_id);
 			email.setToActorEmail(false);
 			email.saveMe(schema);
-			
+
 			// Set to
-			EmailRecipients er = new EmailRecipients(schema, email.getId(), 
-					this.getRunningSimId(), sim_id, email_to, EmailRecipients.RECIPIENT_TO);
-			EmailRecipients er_cc = new EmailRecipients(schema, email.getId(), 
-					this.getRunningSimId(), sim_id, email_to, EmailRecipients.RECIPIENT_CC);
-		
-			SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
+			EmailRecipients er = new EmailRecipients(schema, email.getId(),
+					this.getRunningSimId(), sim_id, email_to,
+					EmailRecipients.RECIPIENT_TO);
+			EmailRecipients er_cc = new EmailRecipients(schema, email.getId(),
+					this.getRunningSimId(), sim_id, email_to,
+					EmailRecipients.RECIPIENT_CC);
+
+			SchemaInformationObject sio = SchemaInformationObject
+					.lookUpSIOByName(schema);
 			email.sendMe(sio);
-			
+
 			this.forward_on = true;
 		}
-		
-		
+
 		// Handle what happens when they get here after creating a user.
-		 
-		if (u_id != null){
+
+		if (u_id != null) {
 			User user = new User();
 			user = User.getById(schema, new Long(u_id));
-			
+
 			tempMsg = user.getBu_username();
-			
+
 			email = prepResponseEmail(request, user);
 		}
-		
-        
+
 		return email;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 * @param user
 	 * @return
 	 */
-	public Email prepResponseEmail(HttpServletRequest request, User user){
-		
+	public Email prepResponseEmail(HttpServletRequest request, User user) {
+
 		Email email = new Email();
-		
+
 		email.setSubjectLine("USIP OSP Registration Complete");
-		
+
 		String responseText = "";
-		responseText += "<p>Site: <a href=\"" + 
-			USIP_OSP_Properties.getValue("simulation_url") + "\">" + USIP_OSP_Properties.getValue("simulation_url") + "</p>";
+		responseText += "<p>Site: <a href=\""
+				+ USIP_OSP_Properties.getValue("simulation_url") + "\">"
+				+ USIP_OSP_Properties.getValue("simulation_url") + "</p>";
 		responseText += "<p>Username: " + user.getBu_username() + "</p>";
 		responseText += "<p>Password: " + user.getBu_password() + "</p>";
-		
+
 		email.setMsgtext(responseText);
-		
+
 		email.setHtmlMsgText(responseText);
-		
+
 		return email;
 	}
-	
-	public static ArrayList getBaseResponseEmailText(){
+
+	public static ArrayList getBaseResponseEmailText() {
 		return null;
 	}
-	
-	public static ArrayList htmlIfyAString(ArrayList<String> inputString){
-		
+
+	public static ArrayList htmlIfyAString(ArrayList<String> inputString) {
+
 		for (ListIterator<String> li = inputString.listIterator(); li.hasNext();) {
 			String this_act = li.next();
 		}
 		return null;
 	}
-	
-	
 
 } // End of class
