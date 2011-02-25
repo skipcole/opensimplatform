@@ -50,11 +50,11 @@
 				if ((rsilList != null) && (rsilList.size() > 0)) {		
 				
 				%>
-              <table width="80%" border = "1">
+              <table width="100%" border = "1">
                 <tr>
-                  <td><h2>Simulation</h2></td> 
-                  <td><h2>Running Simulation</h2></td>
-              <td><h2>Phase</h2></td>
+                  <td valign="top"><h2>Simulation</h2></td> 
+                  <td valign="top"><h2>Running Simulation</h2></td>
+              <td valign="top"><h2>Phase</h2></td>
             </tr>
                 <%
 				
@@ -62,9 +62,9 @@
 						RunningSimulationInformationLine rsil = (RunningSimulationInformationLine) li.next();	
 				%>
                 <tr>
-                  <td><%= rsil.getSimName() %></td> 
-                  <td><a href="facilitate_panel.jsp?rs_id=<%= rsil.getRsId() %>"><%= rsil.getRsName() %></a></td>
-              <td><%= rsil.getPhaseName() %></td>
+                  <td valign="top"><%= rsil.getSimName() %></td> 
+                  <td valign="top"><a href="facilitate_panel.jsp?rs_id=<%= rsil.getRsId() %>"><%= rsil.getRsName() %></a></td>
+              <td valign="top"><%= rsil.getPhaseName() %></td>
             </tr>
                 <%
 			} // End of loop over RunningSimulationInformationLine's
@@ -131,7 +131,7 @@
   		} // End of loop over User Assignments
 		
   %>
-                          </table>
+                    </table>
 							    <% } else { %>
 				    <ul><li>None</li></ul>
 				    <% } %>

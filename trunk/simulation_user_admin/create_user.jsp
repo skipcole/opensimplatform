@@ -55,18 +55,9 @@
               <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"  /></td>
             </tr>
           <tr>
-            <td height="29"><strong>password<a href="helptext/user_password.jsp" target="helpinright"> (?):</a></strong></td>
+            <td height="29"><strong>temporary password<a href="helptext/temp_password.jsp" target="helpinright"> (?):</a></strong></td>
               <td><input type="text" name="password" tabindex="2" /></td>
             </tr>
-			          <tr>
-            <td><strong>temporary password <a href="helptext/temp_password.jsp" target="helpinright"> (?)</a>: </strong></td>
-            <td><input name="radiobutton" type="radio" value="radiobutton" checked="checked" />
-              yes / 
-              <label>
-              <input name="radiobutton" type="radio" value="radiobutton" disabled="disabled" />
-              </label>
-              no </td>
-          </tr>
 			
           <tr>
             <td><strong>First Name <a href="helptext/first_name.jsp" target="helpinright">(?)</a>:</strong></td>
@@ -129,10 +120,7 @@
           </table>
         </form>
       <p>&nbsp;</p>
-<iframe src ="../simulation_user_admin/user_search.jsp" width="100%" height="200">
-  <p> </p>
-</iframe>
-</td>
+            </td>
 		</tr>
 		</table>	</td>
   </tr>

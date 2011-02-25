@@ -21,7 +21,9 @@
 		running_simulation = RunningSimulation.getById(afso.schema, new Long(rs_id));
 		afso.setRunningSimId(new Long(rs_id));
 	} else {
-		running_simulation = RunningSimulation.getById(afso.schema, afso.getRunningSimId());
+		if (afso.getRunningSimId() != null) {
+			running_simulation = RunningSimulation.getById(afso.schema, afso.getRunningSimId());
+		}
 	}
 	
 %>

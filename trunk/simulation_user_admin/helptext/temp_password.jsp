@@ -19,7 +19,8 @@ body {
 <body bgcolor="#DDDDFF">
 <!-- InstanceBeginEditable name="PageBody" -->
 <h1>Temporary Password</h1>
-<p>If a password is set as temporary, the user will be forced to change it as soon as they log on to the system. </p>
+<p>The player will be forced to change this temporary as soon as they log on to the system.</p>
+<p>(It is assumed that you will be emailing them this temporary password, and it is never safe to email passwords.) </p>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable --> 
 </body>
