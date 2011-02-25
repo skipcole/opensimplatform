@@ -13,21 +13,27 @@
 		return;
 	}
 	
-	afso.backPage = "enable_simulation.jsp";
 
 	////////////////////////////////////////////////////////
-	Simulation simulation = new Simulation();	if (afso.sim_id != null){
+	Simulation simulation = new Simulation();	
+	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
 	}
 	
 	/////////////////////////////////////////////////////
 	RunningSimulation running_sim = new RunningSimulation();
 	if (afso.getRunningSimId() != null){
+	
 		afso.handleEnableSim(request);
+		
 		running_sim = (RunningSimulation) afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
 	
+	String enable_string = "Enable";
+	if (running_sim.isReady_to_begin()) {
+		enable_string = "Disable";
+	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -72,17 +78,17 @@
 		%>
         <p>You must select the running simulation for which you will be enabling.        </p>
 		  
-		<% } else if (running_sim.isReady_to_begin()) { %>
-        <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  been enabled.</span></p>
-		  <% } else { %>
-        <p>Enabling <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong></p>
+		<% } else { %>
+        <p><%= enable_string %> <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong></p>
   
         <p>&nbsp;</p>
     <form action="facilitate_enable_simulation.jsp" method="post" name="form1" id="form1">
       <input type="hidden" name="sending_page" value="enable_game" />
+	  <input type="hidden" name="enable_string" value="<%= enable_string %>" />
+	  
       <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top"> 
-          <td width="34%">Enable the simulation to start:</td>
+          <td width="34%"><%= enable_string %> the simulation:</td>
                 <td width="66%"> <input type="submit" name="command" value="Start Simulation" /></td>
               </tr>
         </table>
@@ -96,9 +102,9 @@
 
 %>        <blockquote>
           <div align="center">
-            <p><a href="../simulation_authoring_play/email_notifications.jsp">Next 
+            <p><a href="facilitate_email_notifications.jsp">Next 
               Step: Send Invitation Emails </a></p>
-            <p align="left"><a href="../simulation_authoring_play/assign_user_to_simulation.jsp">&lt;- 
+            <p align="left"><a href="facilitate_assign_user_to_simulation.jsp">&lt;- 
         Back</a></p>
           </div>
           </blockquote>			</td>

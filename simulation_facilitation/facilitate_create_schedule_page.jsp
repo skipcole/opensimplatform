@@ -10,12 +10,14 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	afso.backPage = "../simulation_facilitation/create_schedule_page.jsp";
+	if (!(afso.isLoggedin())) {
+		response.sendRedirect("../blank.jsp");
+		return;
+	}
 	
 	Simulation simulation = afso.handleCreateSchedulePage(request);
 	
 	RunningSimulation rs = afso.giveMeRunningSim();
-	
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,22 +45,17 @@
                     <% 
 			if (afso.sim_id == null) {
 		%>
-                  <p>You must first select the simulation which you will be enabling.<br />
-                      
-                  Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring/create_simulation.jsp">create a new one</a>.</p>
-                  <% } else { 
+                    <% } else { 
 		
 			if ((afso.getRunningSimId() == null)) {
 		%>
-                  <p>You must select the running simulation for which you will be creating a schedule.<br />
-                      
-                  Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring_play/create_running_sim.jsp">create a new one</a>.</p>
+                  <p>You must select the running simulation for which you will be creating a schedule.                  </p>
                   <p>
                     <% } else { %>
                   </p>
                   <blockquote>
-                    <p><strong>Simulation</strong>: <%= simulation.getDisplayName() %> (To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
-		  <p><strong>Running Simulation</strong>: <%= rs.getRunningSimulationName() %> (To select a different running simulation, <a href="../simulation_authoring/create_running_sim.jsp">click here</a>.)</p>
+                    <p><strong>Simulation</strong>: <%= simulation.getDisplayName() %></p>
+		  <p><strong>Running Simulation</strong>: <%= rs.getRunningSimulationName() %></p>
                   </blockquote>
                   <p> Below are notes from the simulation author on how he or she felt this simulation would be conducted.</p>
                   <p>Below that is a place where you can enter the specific schedule page for your students. This page will give them important information on when they can and should login and any other details. You will be able to give the players announcements during the simulation, but this page will set the initial expectations.</p>
@@ -101,8 +98,8 @@
                   <blockquote>
                     <p>&nbsp;</p>
                   </blockquote>
-                  <p align="center"><a href="../simulation_authoring_play/assign_user_to_simulation.jsp">Next Step: Assign Users</a></p>
-                  <a href="../simulation_authoring_play/create_running_sim.jsp">&lt;-- Back</a>			</td>
+                  <p align="center"><a href="facilitate_assign_user_to_simulation.jsp">Next Step: Assign Users</a></p>
+                  <a href="facilitate_create_running_sim.jsp">&lt;-- Back</a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

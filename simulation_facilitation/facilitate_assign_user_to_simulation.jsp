@@ -11,7 +11,7 @@
 		return;
 	}
 	
-	afso.backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
+	afso.backPage = "../simulation_facilitation/facilitate_assign_user_to_simulation.jsp";
 	
 	UserAssignment ua_temp = afso.handleAssignUser(request);
 	
@@ -64,28 +64,19 @@
       <% 
 			if (afso.sim_id == null) {
 		%>
-      <p>You must first select the simulation for which you will be adding users.<br />
-        Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or 
-        <a href="../simulation_authoring/create_simulation.jsp">create a new one</a>.</p>
       <% } else { %>
-      <p>Assigning users to <strong>simulation <%= simulation.getDisplayName() %></strong>. <br />
-        To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click 
-          here</a>. 
+      <p>Assigning users to <strong>Simulation <%= simulation.getDisplayName() %></strong>. <br />
+ 
         <%
 			if (afso.getRunningSimId() == null) {
 		%>
-      <p>You must select the running simulation for which you will be assigning 
-        users.<br />
-        Please <a href="select_running_simulation.jsp">click here</a> to select 
-        it, or <a href="../simulation_authoring_play/create_running_sim.jsp">create a new one</a>.</p>
+      
       <% } else { %>
-      <p>Assign users to play the role of actors in the <strong>running simulation 
-        <%= running_simulation.getRunningSimulationName() %></strong><br/>
-        To select a different running simulation, <a href="select_running_simulation.jsp">click 
-          here</a>.      </p>
+      <p>Assign users to play the role of actors in the <strong>Running Simulation 
+        <%= running_simulation.getRunningSimulationName() %></strong></p>
       <p>To assign players to a simulation, <strong>you must follow these steps</strong></p>
       <ol>
-        <li>Find the user by starting to type their name in the User's Email field</li>
+        <li>Type the user's email address in the User's Email field</li>
         <li>Click on the button 'Assign User' (If the user is not found on this platform, you will then be given several options)</li>
         <li>Repeat until all actors have been assigned users to play them</li>
       </ol>
@@ -170,8 +161,8 @@
 %>
       </blockquote>
       <p>Note: Rows in pink represent unregistered players that have been assigned a role in the simulation.</p>
-      <p align="center"><a href="../simulation_authoring_play/enable_simulation.jsp">Next Step: Enable Simulation</a></p>     
-	   <p align="left"><a href="../simulation_authoring_play/create_schedule_page.jsp">&lt;-- 
+      <p align="center"><a href="facilitate_enable_simulation.jsp">Next Step: Enable Simulation</a></p>     
+	   <p align="left"><a href="facilitate_create_schedule_page.jsp">&lt;-- 
         Back</a></p>			</td>
 		</tr>
 		</table>	</td>

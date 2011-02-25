@@ -20,7 +20,7 @@
 			mainPage = "facilitate_library.jsp?ftab=library";
 		}
 		if (ftab.equalsIgnoreCase("my_sims")){
-			mainPage = "view_running_sims.jsp?ftab=my_sims";
+			mainPage = "facilitate_view_running_sims.jsp?ftab=my_sims";
 		}
 		if (ftab.equalsIgnoreCase("misc")){
 			mainPage = "misc_tools.jsp?ftab=misc";
