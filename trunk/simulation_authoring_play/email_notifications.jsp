@@ -57,7 +57,7 @@
 -->
 </style>
 </head>
-<body onLoad="">
+<body onLoad="" bgcolor="#00FFFF">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -91,14 +91,14 @@ Email has not been enabled on this server. Please contact your administrator if 
 		%>
         <p>You must select the running simulation.<br />
           
-          Please <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
+          Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
 		  
 		<% } else if (!(running_sim.isReady_to_begin())) { %>
         <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  not been enabled. You must first enable a simulation before sending invitation emails.</span><br />
 
 		  <% } else { %>
         <p>Emailing players in  <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
-          To select a different running simulation to enable, <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a>.</p>
+          To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
   
     <form action="email_notifications.jsp" method="post" name="form1" id="form1">
       <h2>

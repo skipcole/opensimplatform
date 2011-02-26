@@ -58,7 +58,7 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			<!-- InstanceBeginEditable name="pageTitle" -->
-      <h1>Online Simulation Library </h1>
+      <h1>Online Simulation Library (Author View) </h1>
     <!-- InstanceEndEditable --><br />
 			<!-- InstanceBeginEditable name="pageBody" --> 
 

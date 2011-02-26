@@ -37,7 +37,7 @@
 -->
 </style>
 </head>
-<body onLoad="">
+<body onLoad="" bgcolor="#00FFFF">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -58,7 +58,7 @@
                 <a href="../simulation_authoring/select_simulation.jsp">click here</a>.)</p>
               <p><% if (afso.getRunningSimId() != null) { %>
               You are currently working on running simulation <%= afso.run_sim_name %>.<% } %>
-              If you would like to select a running simulation already created,  <a href="../simulation_facilitation/select_running_simulation.jsp">click here.</a></p>
+              If you would like to select a running simulation already created,  <a href="select_running_simulation.jsp">click here.</a></p>
               Below are the running simulation currently associated with <b> <%= simulation.getSimulationName() %> </b>. <br />
               <table width="80%" border = "1">
                 <tr> 
@@ -78,7 +78,7 @@
 				}
 		%>
                 <tr> 
-                  <td><a href="../simulation_facilitation/administrate_running_simulation.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
+                  <td><a href="administrate_running_simulation.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
                   <td>
 				  <% if (rs.isReady_to_begin()){ %> true <% } else { %>false<% } %>
 				  </td>

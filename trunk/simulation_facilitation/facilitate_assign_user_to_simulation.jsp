@@ -133,8 +133,8 @@
               <td><a href="view_sim_actor_assignment_notes.jsp?actor_id=<%= act.getId() %>">details</a></td>
               <td>
                 <% if ((ua != null) && (ua.getId() != null)){ %>
-                	<a href="../simulation_authoring_play/assign_user_to_simulation.jsp?command=remove_ua&amp;user_assignment_id=<%= ua.getId() %>"><img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a>
-					<a href="../simulation_authoring_play/assign_user_to_simulation.jsp?command=add_assignment&amp;simulation_adding_to=<%= simulation.getId() %>&amp;running_simulation_adding_to=<%= running_simulation.getId() %>&amp;actor_to_add_to_simulation=<%= act.getId() %>"><img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" /></a>
+                	<a href="facilitate_assign_user_to_simulation.jsp?command=remove_ua&amp;user_assignment_id=<%= ua.getId() %>"><img src="../simulation_authoring/images/delete.png" width="26" height="22" border="0" /></a>
+					<a href="facilitate_assign_user_to_simulation.jsp?command=add_assignment&amp;simulation_adding_to=<%= simulation.getId() %>&amp;running_simulation_adding_to=<%= running_simulation.getId() %>&amp;actor_to_add_to_simulation=<%= act.getId() %>"><img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" /></a>
                   <% } %>                  </td>
               <td>
               <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>              </td>

@@ -31,7 +31,7 @@
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
-<body onLoad="">
+<body onLoad=""  bgcolor="#00FFFF">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -40,9 +40,9 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1 align="center">Simulation Facilitation Control Panel</h1>
-			  
-			  <blockquote>
+              <h1 align="center">Simulation Practice Play Control Panel</h1>
+              <p align="left">These pages allow you to kick off a game similar to what an instructor does. But these pages will not be what the facilitators use. (The blue background is a reminder that these are similar but not the same.) On these pages you are able to test out unpublished simulations.</p>
+              <blockquote>
               <% if (afso.sim_id != null) { %>
 				<strong>Working on Simulation: <%= simulation.getDisplayName() %> </strong> (<a href="../simulation_authoring/select_simulation.jsp">change</a>)<br/>
               <% } %>

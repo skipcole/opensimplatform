@@ -112,7 +112,7 @@
                 </table>
             </form>
 			</blockquote>
-            <p align="center"><a href="../simulation_authoring_play/create_schedule_page.jsp">Next step: Create Schedule Page</a></p>
+            <p align="center"><a href="facilitate_create_schedule_page.jsp">Next step: Create Schedule Page</a></p>
             <p align="left"><a href="facilitate_panel.jsp">&lt;-- Back</a></p>
             <% } else { // End of if have set simulation id. %>
             <blockquote> 
