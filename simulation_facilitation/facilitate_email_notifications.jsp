@@ -79,26 +79,21 @@ Email has not been enabled on this server. Please contact your administrator if 
         <% 
 			if (afso.sim_id == null) {
 		%>
-        <p>You must first select a simulation.<br />
-          
-          Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring/create_simulation.jsp">create a new one</a>.</p>
+        <p>You must first select a simulation.        </p>
 		  
 		<% } else { %>
-        <p>Emailing players in <strong>simulation: <%= simulation.getDisplayName() %></strong>. <br />
-          To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.</p>
+        <p>Emailing players in <strong>simulation: <%= simulation.getDisplayName() %></strong>. 
+        </p>
           <%
 			if (afso.getRunningSimId() == null) {
 		%>
-        <p>You must select the running simulation.<br />
-          
-          Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring_play/create_running_sim.jsp">create a new one</a>.</p>
+        <p>You must select the running simulation.        </p>
 		  
 		<% } else if (!(running_sim.isReady_to_begin())) { %>
         <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  not been enabled. You must first enable a simulation before sending invitation emails.</span><br />
 
 		  <% } else { %>
-        <p>Emailing players in  <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
-          To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
+        <p>Emailing players in  <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong></p>
   
     <form action="facilitate_email_notifications.jsp" method="post" name="form1" id="form1">
       <h2>
@@ -214,7 +209,7 @@ Email has not been enabled on this server. Please contact your administrator if 
 %>
 <tr>
 <td valign="top">
-<a href="../simulation_authoring_play/email_notifications.jsp?queue_up=true&amp;e_id=<%= emailPrototype.getId() %>">Email </a></td>
+<a href="facilitate_email_notifications.jsp?queue_up=true&amp;e_id=<%= emailPrototype.getId() %>">Email </a></td>
 <td valign="top"><%= emailPrototype.getSendDate() %></td>
 <td valign="top"><%= emailPrototype.getSubjectLine() %></td>
 </tr>
@@ -231,8 +226,7 @@ Email has not been enabled on this server. Please contact your administrator if 
 } // End of if email has been enabled.
 
 %> 		
-                <a href="../blank.jsp">Next 
-                Step: Enter Simulation </a></p>
+
               <p>&nbsp;</p></td>
 		</tr>
 		</table>	</td>

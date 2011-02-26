@@ -33,8 +33,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <title>Open Simulation Platform Control Page</title>
-
-
+<script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
+</script>
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
@@ -76,7 +76,12 @@
               </strong></td>
                 <td width="66%">
                   <p>
-                  <textarea name="email_text" cols="60" rows="5"><%= email.getMsgtext() %></textarea>
+                  <textarea  id="email_text" name="email_text"  style="height: 120px; width: 480px;"><%= email.getMsgtext() %></textarea>
+				  <script language="javascript1.2">
+					wysiwygWidth = 360;
+					wysiwygHeight = 120;
+  			generate_wysiwyg('email_text');
+		</script>
                   </p>                  </td>
               </tr>
         <tr valign="top">

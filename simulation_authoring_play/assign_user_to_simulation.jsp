@@ -50,7 +50,7 @@
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery.autocomplete.js"></script>
 <link rel="stylesheet" href="../third_party_libraries/jquery/jquery.autocomplete.css" type="text/css" />
 </head>
-<body onLoad="">
+<body onLoad="" bgcolor="#00FFFF">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -76,12 +76,12 @@
 		%>
       <p>You must select the running simulation for which you will be assigning 
         users.<br />
-        Please <a href="../simulation_facilitation/select_running_simulation.jsp">click here</a> to select 
+        Please <a href="select_running_simulation.jsp">click here</a> to select 
         it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
       <% } else { %>
       <p>Assign users to play the role of actors in the <strong>running simulation 
         <%= running_simulation.getRunningSimulationName() %></strong><br/>
-        To select a different running simulation, <a href="../simulation_facilitation/select_running_simulation.jsp">click 
+        To select a different running simulation, <a href="select_running_simulation.jsp">click 
           here</a>.      </p>
       <p>To assign players to a simulation, <strong>you must follow these steps</strong></p>
       <ol>

@@ -319,7 +319,7 @@ public class SessionObjectBase {
 				this.forward_on = true;
 
 				if (command.equalsIgnoreCase("Cancel")) {
-					backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
+					backPage = "../simulation_facilitation/facilitate_assign_user_to_simulation.jsp";
 					return ua;
 				}
 
@@ -332,7 +332,7 @@ public class SessionObjectBase {
 
 				if (command.equalsIgnoreCase("Add")) {
 					ua.saveMe(schema);
-					backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
+					backPage = "../simulation_facilitation/facilitate_assign_user_to_simulation.jsp";
 					return ua;
 				}
 			}
