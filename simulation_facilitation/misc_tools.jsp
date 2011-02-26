@@ -44,9 +44,12 @@
               <p align="center">&nbsp; </p>
               <h2>Basic Tools </h2>
 			  <p>Below are listed activities that instructors may occasionally do. </p>
-			  <ul><li><a href="../simulation_user_admin/create_user.jsp">Create Users</a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></li>
-        <li><a href="bulk_invite.jsp">Invite Users to Register </a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></li>
-        </ul>      
+			  <ul>
+			    <li><a href="administrate_running_sim_add_instructor.jsp">Add Instructors</a> (?) <a href="../simulation_user_admin/create_user.jsp"></a></li>
+                <li><a href="../simulation_user_admin/create_user.jsp">Find Student</a> (?) </li>
+                <li><a href="bulk_invite.jsp">Invite Student to Register </a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></li>
+                <li><a href="../simulation_user_admin/create_user.jsp">Register Student </a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></li>
+                </ul>      
               <p>&nbsp;</p>
               <h2>Advanced Tools </h2>
       <p>Below are listed instructor activities that are either rare, or in development.</p>

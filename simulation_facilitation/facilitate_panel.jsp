@@ -82,10 +82,6 @@
           <td>5.</td>
           <td><a href="facilitate_email_notifications.jsp">Notify Players via Email</a><a href="helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
         </tr>
-        <tr valign="top">
-          <td>6.</td>
-          <td><a href="administrate_running_sim_add_instructor.jsp">Add Instructors</a> (?) </td>
-        </tr>
       </table>
 </blockquote>
       <p align="center"></p>			</td>

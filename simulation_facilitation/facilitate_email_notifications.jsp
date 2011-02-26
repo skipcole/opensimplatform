@@ -217,7 +217,7 @@ Email has not been enabled on this server. Please contact your administrator if 
 </table>
 <% } // end of if there were previous invits %>
               </blockquote>
-              <p>
+              <p align="center">
                 <% } // end of if running_sim.id has been set. %>
                     <%
 		
@@ -227,7 +227,8 @@ Email has not been enabled on this server. Please contact your administrator if 
 
 %> 		
 
-              <p>&nbsp;</p></td>
+                    <a href="facilitate_panel.jsp">Home</a>
+              <p><a href="facilitate_enable_simulation.jsp">&lt;-- Back </a></p></td>
 		</tr>
 		</table>	</td>
   </tr>

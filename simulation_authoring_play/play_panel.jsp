@@ -47,7 +47,7 @@
 				<strong>Working on Simulation: <%= simulation.getDisplayName() %> </strong> (<a href="../simulation_authoring/select_simulation.jsp">change</a>)<br/>
               <% } %>
 			  <% if (afso.getRunningSimId() != null) { %>
-				<strong>Working on Running Simulation: <%= running_simulation.getRunningSimulationName() %> </strong> (<a href="../simulation_facilitation/select_running_simulation.jsp">change</a>)<br/>
+				<strong>Working on Running Simulation: <%= running_simulation.getRunningSimulationName() %> </strong> (<a href="select_running_simulation.jsp">change</a>)<br/>
               <% } %>
 			  </blockquote>
                 
