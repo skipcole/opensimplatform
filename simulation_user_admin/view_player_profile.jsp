@@ -13,9 +13,11 @@
 	
 	String student_id = (String) request.getParameter("student_id");
 	User userOnScratchPad = new User();
+	BaseUser bu = new BaseUser();
 	
 	if (student_id != null) {
 		userOnScratchPad = User.getById(afso.schema, new Long (student_id));
+		bu = BaseUser.getByUserId(userOnScratchPad.getId());
 	}
 	
 %>
@@ -41,7 +43,6 @@
 			<td width="100%"><br />
               <h1>Player Profile </h1>
               <br />
-      <form id="form1" name="form1" method="post" action="my_profile.jsp">
   <table border="0" cellspacing="2" cellpadding="1">
     <tr>
       <td valign="top"><strong>First Name <a href="helptext/first_name.jsp" target="helpinright">(?)</a>:</strong></td>
@@ -72,80 +73,30 @@ Player      </td>
     </tr>
     <tr>
       <td valign="top"><strong>Language:</strong></td>
-      <td valign="top">
-      <%
-		
-		String checkedEnglish = "";
-		String checkedSpanish = "";
-		
-		/*
-		if (userOnScratchPad.getLanguageCode() == UILanguageObject.ENGLISH_LANGUAGE_CODE){
-			System.out.println("its in english");
-			checkedEnglish = " selected=\"selected\" ";
-		} else if (userOnScratchPad.getLanguageCode() == UILanguageObject.SPANISH_LANGUAGE_CODE) {
-			checkedSpanish = " selected=\"selected\" ";
-			System.out.println("its in spanish");
-		} else {
-			System.out.println("its in unknown");
-		}
-		*/
-	  %>
-        <label>
-          <select name="language_id" id="select">
-            <option value="1" <%= checkedEnglish %>>English</option>
-            <option value="2" <%= checkedSpanish %>>Spanish</option>
-          </select>
-          </label>     </td>
+      <td valign="top">English</td>
     </tr>
         <tr>
           <td valign="top"><strong>Time Zone: </strong></td>
-          <td valign="top"><select name="timezone" id="DropDownTimezone">
-      <option value="-12.0">(GMT -12:00) Eniwetok, Kwajalein</option>
-      <option value="-11.0">(GMT -11:00) Midway Island, Samoa</option>
-      <option value="-10.0">(GMT -10:00) Hawaii</option>
-      <option value="-9.0">(GMT -9:00) Alaska</option>
-      <option value="-8.0">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
-      <option value="-7.0">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
-      <option value="-6.0">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
-      <option value="-5.0">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
-      <option value="-4.0">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
-      <option value="-3.5">(GMT -3:30) Newfoundland</option>
-      <option value="-3.0">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
-      <option value="-2.0">(GMT -2:00) Mid-Atlantic</option>
-      <option value="-1.0">(GMT -1:00 hour) Azores, Cape Verde Islands</option>
-      <option value="0.0">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
-      <option value="1.0">(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris</option>
-      <option value="2.0">(GMT +2:00) Kaliningrad, South Africa</option>
-      <option value="3.0">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
-      <option value="3.5">(GMT +3:30) Tehran</option>
-      <option value="4.0">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
-      <option value="4.5">(GMT +4:30) Kabul</option>
-      <option value="5.0">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
-      <option value="5.5">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
-      <option value="5.75">(GMT +5:45) Kathmandu</option>
-      <option value="6.0">(GMT +6:00) Almaty, Dhaka, Colombo</option>
-      <option value="7.0">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
-      <option value="8.0">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
-      <option value="9.0">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
-      <option value="9.5">(GMT +9:30) Adelaide, Darwin</option>
-      <option value="10.0">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
-      <option value="11.0">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
-      <option value="12.0">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
-</select></td>
+          <td valign="top">N/A</td>
         </tr>
         <tr>
           <td valign="top"><strong>Phone Number: </strong></td>
           <td valign="top"><%= userOnScratchPad.getPhoneNumber() %></td>
         </tr>
+		<%
+			if (bu.isTempPassword()){
+		%>
         <tr>
       <td valign="top">&nbsp;</td>
       <td valign="top"><label>
-        <input type="hidden" name="sending_page" value="my_profile" /> 
-        <input type="submit" name="update" id="update" value="Update" />
-        </label></td>
+      <a href="create_user_complete.jsp?u_id=<%= userOnScratchPad.getId() %>">Email them temporary password. </a></label></td>
     </tr>
+		<%
+			}
+		%>
   </table>
-        </form>      <p>&nbsp;</p>			</td>
+        </form>      
+      <p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>
