@@ -17,7 +17,7 @@
 	if (afso.forward_on){
 		afso.forward_on = false;
 	
-		response.sendRedirect("create_user_complete.jsp?u_id=" + userOnScratchPad.getId());
+		response.sendRedirect("email_user_temp_password.jsp?u_id=" + userOnScratchPad.getId());
 		
 		return;
 	}

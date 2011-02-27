@@ -49,7 +49,7 @@
               <h1>Email Temporary Password  <%= afso.tempMsg %></h1>
 			
               <p>You may now email them to let them know that they have been added to this system, and how they may login.</p>
-              <form action="create_user_complete.jsp" method="post"  name="form1" id="form1">
+              <form action="email_user_temp_password.jsp" method="post"  name="form1" id="form1">
               <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top">
           <td><strong>Email From: </strong></td>
