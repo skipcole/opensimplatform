@@ -89,7 +89,7 @@ Player      </td>
         <tr>
       <td valign="top">&nbsp;</td>
       <td valign="top"><label>
-      <a href="create_user_complete.jsp?u_id=<%= userOnScratchPad.getId() %>">Email them temporary password. </a></label></td>
+      <a href="email_user_temp_password.jsp?u_id=<%= userOnScratchPad.getId() %>">Email them temporary password. </a></label></td>
     </tr>
 		<%
 			}

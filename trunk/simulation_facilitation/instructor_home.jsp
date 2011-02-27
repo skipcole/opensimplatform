@@ -43,12 +43,10 @@
                 <td width="120"><img src="../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><br />
                   <h1>Welcome!  </h1>
-			  <blockquote>    
+   
 			  <% if (afso.getRunningSimId() != null) { %>
-				<strong>Your Dasbhoard showing participants in Running Simulation <%= running_simulation.getRunningSimulationName() %> </strong> 
-				<% if (afso.sim_id != null) { %>
-				(<a href="select_running_sim_for_dashboard.jsp">Select Another</a>)<br/>
-				<% } %>
+				<strong>Your Dasbhoard showing participants in Running Simulation <a href="facilitate_panel.jsp"><%= running_simulation.getRunningSimulationName() %></a> </strong> <br/><br />
+			<blockquote>				
 				<table width="100%" border="1">
         <tr>
           <td valign="top"><strong>Student Name </strong></td>
@@ -87,7 +85,9 @@
 		</table>
 				<% }  // End of if they have worked on a running sim before.%>
 			  </blockquote>
-                  <blockquote>&nbsp;</blockquote>
+			  <br />
+				<a href="select_running_sim_for_dashboard.jsp">Select a different Running Simulation </a><br/>
+				<br/>
                   <p align="center"></p></td>
               </tr>
             </table></td>
