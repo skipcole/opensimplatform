@@ -46,7 +46,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Created User <%= afso.tempMsg %></h1>
+              <h1>Email Temporary Password  <%= afso.tempMsg %></h1>
 			
               <p>You may now email them to let them know that they have been added to this system, and how they may login.</p>
               <form action="create_user_complete.jsp" method="post"  name="form1" id="form1">

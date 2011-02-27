@@ -3944,7 +3944,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * Handles the selection of a running simulation by the faciliator.
+	 * Handles the selection of a running simulation by the author working on simulations.
 	 * 
 	 * @param request
 	 */
@@ -3966,6 +3966,42 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			RunningSimulation rs = giveMeRunningSim();
 
 			run_sim_name = rs.getRunningSimulationName();
+			forward_on = true;
+
+		}
+	}
+	
+	/**
+	 * Handles the selection of a running simulation by the author working on simulations.
+	 * 
+	 * @param request
+	 */
+	public void selectDashboardSim(HttpServletRequest request) {
+
+		String select_running_sim = (String) request
+				.getParameter("select_running_sim");
+
+		if ((select_running_sim != null)
+				&& (select_running_sim.equalsIgnoreCase("true"))) {
+
+			Long r_sim_id = new Long((String) request.getParameter("r_sim_id"));
+			setRunningSimId(r_sim_id);
+			
+			RunningSimulation rs = giveMeRunningSim();
+			run_sim_name = rs.getRunningSimulationName();
+			
+			// Changed Running Sim, may have changed Sim being worked on as well.
+			this.sim_id = rs.getSim_id();
+			Simulation sim = this.giveMeSim();
+			
+			simulation_name = sim.getSimulationName();
+			simulation_org = sim.getCreation_org();
+			simulation_version = sim.getVersion();
+			
+			// Save information for next time player logs in.
+			saveLastRunningSimEdited();
+			saveLastSimEdited();
+			
 			forward_on = true;
 
 		}
@@ -4543,16 +4579,31 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public Email prepResponseEmail(HttpServletRequest request, User user) {
 
 		Email email = new Email();
+		
+		BaseUser bu = BaseUser.getByUserId(user.getId());
 
 		email.setSubjectLine("USIP OSP Registration Complete");
 
 		String responseText = "";
+		responseText += "<p>Dear " + user.getBu_full_name() + ", </p>" + USIP_OSP_Util.lineTerminator;
+		
+		responseText += "<p>You have been registered on a USIP OSP system, and may now login.</p>" + USIP_OSP_Util.lineTerminator;
+		
+		responseText += "<p></p>" + USIP_OSP_Util.lineTerminator;
+		
 		responseText += "<p>Site: <a href=\""
 				+ USIP_OSP_Properties.getValue("simulation_url") + "\">"
-				+ USIP_OSP_Properties.getValue("simulation_url") + "</p>";
-		responseText += "<p>Username: " + user.getBu_username() + "</p>";
-		responseText += "<p>Password: " + user.getBu_password() + "</p>";
+				+ USIP_OSP_Properties.getValue("simulation_url") + "</a></p>" + USIP_OSP_Util.lineTerminator;
+		responseText += "<p>Username: " + user.getBu_username() + "</p>" + USIP_OSP_Util.lineTerminator;
+		responseText += "<p>Password: " + user.getBu_password() + "</p>" + USIP_OSP_Util.lineTerminator;
 
+		if (bu.isTempPassword()){
+			responseText += "<p>This is temporary password. You will need to change it after you " +
+				"login to the system.</p>" + USIP_OSP_Util.lineTerminator;
+		}
+		
+		responseText += "<p>Thank You</p>" + USIP_OSP_Util.lineTerminator;
+		
 		email.setMsgtext(responseText);
 
 		email.setHtmlMsgText(responseText);

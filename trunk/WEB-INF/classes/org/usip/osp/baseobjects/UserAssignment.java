@@ -566,7 +566,7 @@ public class UserAssignment{
 		switch (prioritizeStatusString(uaStatus)) {
 		
 			case -1: returnString = "C2C2C2"; break;					// Null, Gray
-			case STATUS_CODE_NONE: returnString = "000000"; break;						// Blank, White
+			case STATUS_CODE_NONE: returnString = "FFFFFF"; break;						// Blank, White
 			case STATUS_CODE_INVITED: returnString = "FFCCCC"; break;		// Invited, Pink
 			case STATUS_CODE_CONFIRMED: returnString = "FFCC66"; break;		// Confirmed, Orange
 			case STATUS_CODE_REGISTERED: returnString = "FFFF33"; break;	// Registered, Yellow

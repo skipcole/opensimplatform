@@ -15,7 +15,14 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
-		
+	
+	afso.selectDashboardSim(request);
+	
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect("instructor_home.jsp");
+		return;
+	}		
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -54,7 +61,7 @@
 			if (rs != null) {
 		%>
             <tr> 
-              <td><a href="select_running_sim_for_dashboard.jsp?select_running_sim=true&amp;backpage=<%= afso.backPage %>&amp;r_sim_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
+              <td><a href="select_running_sim_for_dashboard.jsp?select_running_sim=true&r_sim_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
             </tr>
             <%
 	}
