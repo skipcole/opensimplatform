@@ -39,8 +39,13 @@
               <h1>Email Sent </h1>
 			
               <blockquote>
-                <p>You may now <a href="<%= afso.backPage %>">return</a> to where you began.</p>
-            </blockquote></td>
+			  	<% if (afso.backBackPageCode == 1) { %>
+                <p>You may now <a href="../simulation_facilitation/facilitate_assign_user_to_simulation.jsp">return</a> to the 'Assign Users' page.</p>
+            	<% } else { %>
+				You may not return to where you started.
+				<% } %>
+			
+			</blockquote></td>
 		</tr>
 		</table>	</td>
   </tr>

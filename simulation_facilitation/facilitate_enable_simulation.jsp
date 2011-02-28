@@ -26,6 +26,12 @@
 	
 		afso.handleEnableSim(request);
 		
+		if (afso.forward_on){
+			afso.forward_on = false;
+			response.sendRedirect("facilitate_email_notifications.jsp");
+			return;
+		}
+		
 		running_sim = (RunningSimulation) afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
@@ -63,25 +69,20 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Enable Simulation to Start <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></h1>
-              <blockquote> 
-        <% 
-			if (afso.sim_id == null) {
-		%>
-        <p>You must first select the simulation which you will be enabling from the library.     </p>
-		  
-		<% } else { %>
-        <p>Enabling <strong>simulation: <%= simulation.getDisplayName() %></strong>. 
-        </p>
-          <%
-			if (afso.getRunningSimId() == null) {
-		%>
-        <p>You must select the running simulation for which you will be enabling.        </p>
-		  
-		<% } else { %>
-        <p><%= enable_string %> <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong></p>
+              <h1><%= enable_string %> Simulation <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></h1>
+              <blockquote>
+                <%  if (afso.sim_id == null) { %>
+                <% } else { %>
+        		<% if (afso.getRunningSimId() == null) { %>
+        <% } else { %>
+        <p><%= enable_string %> running simulation <strong><%= running_sim.getRunningSimulationName() %></strong></p>
   
-        <p>&nbsp;</p>
+		<% if (running_sim.isReady_to_begin()) { %>
+		Please note, disabling a simulation will prevent everyone from logging back on to it. <br/>
+		(It will not cause people currently logged on to be logged off.)<br /><br />
+		<% } else { %>
+		Enabling a simulation will allow the players that you have assigned to log on to it.
+		<% } %>
     <form action="facilitate_enable_simulation.jsp" method="post" name="form1" id="form1">
       <input type="hidden" name="sending_page" value="enable_game" />
 	  <input type="hidden" name="enable_string" value="<%= enable_string %>" />
@@ -89,7 +90,7 @@
       <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top"> 
           <td width="34%"><%= enable_string %> the simulation:</td>
-                <td width="66%"> <input type="submit" name="command" value="Start Simulation" /></td>
+                <td width="66%"> <input type="submit" name="command" value="<%= enable_string %> Simulation" /></td>
               </tr>
         </table>
     </form>

@@ -79,7 +79,7 @@
             </tr>
         <tr valign="top"> 
           <td>4.</td>
-            <td><a href="facilitate_enable_simulation.jsp">Enable Simulation</a> <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></td>
+            <td><a href="facilitate_enable_simulation.jsp">Enable/Disable Simulation</a> <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></td>
             </tr>
         <tr valign="top">
           <td>5.</td>

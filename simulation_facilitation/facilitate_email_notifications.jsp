@@ -79,12 +79,8 @@ Email has not been enabled on this server. Please contact your administrator if 
         <% 
 			if (afso.sim_id == null) {
 		%>
-        <p>You must first select a simulation.        </p>
-		  
-		<% } else { %>
-        <p>Emailing players in <strong>simulation: <%= simulation.getDisplayName() %></strong>. 
-        </p>
-          <%
+        <% } else { %>
+        <%
 			if (afso.getRunningSimId() == null) {
 		%>
         <p>You must select the running simulation.        </p>

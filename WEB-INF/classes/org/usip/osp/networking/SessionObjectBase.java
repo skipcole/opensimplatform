@@ -77,6 +77,9 @@ public class SessionObjectBase {
 
 	/** The page to take them back to if needed. */
 	public String backPage = "index.jsp"; //$NON-NLS-1$
+	
+	/** In the rare cases where the user will need to go back to a point even further back. */
+	public int backBackPageCode = 0; //$NON-NLS-1$
 
 	/** Code to indicate what kind of error was returned. */
 	public int errorCode = 0;
