@@ -625,12 +625,22 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String command = request.getParameter("command");
 
 		if (command != null) {
-			if ((command.equalsIgnoreCase("Start Simulation"))) {
+			if ((command.equalsIgnoreCase("Enable Simulation"))) {
 
 				RunningSimulation.enableAndPrep(this.schema, this.sim_id,
 						this.runningSimId);
+				
+				this.forward_on = true;
 
 			} // End of if coming from this page and have enabled the sim
+			else if ((command.equalsIgnoreCase("Disable Simulation"))) {
+
+				RunningSimulation rs = this.giveMeRunningSim();
+				rs.setReady_to_begin(false);
+				rs.saveMe(schema);
+				
+			}
+			
 			// ////////////////////////////
 		}
 

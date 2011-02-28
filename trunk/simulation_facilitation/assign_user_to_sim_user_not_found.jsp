@@ -4,31 +4,32 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 <% 
-	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	afso.backBackPageCode = 1;
 	
-	if (!(sob.isLoggedin())) {
+	if (!(afso.isLoggedin())) {
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
-	UserAssignment ua_temp = sob.handleAssignUserEmail(request);
+	UserAssignment ua_temp = afso.handleAssignUserEmail(request);
 	
-	if (sob.forward_on){
-		sob.forward_on = false;
-		response.sendRedirect(sob.backPage);
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
 		return;
 	}
 	
 	////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	
 	
-	if (sob.sim_id != null){
-		simulation = sob.giveMeSim();
+	if (afso.sim_id != null){
+		simulation = afso.giveMeSim();
 	}
 	/////////////////////////////////////////////////////
 	RunningSimulation running_simulation = new RunningSimulation();
-	if (sob.getRunningSimId() != null){
-		running_simulation = sob.giveMeRunningSim();
+	if (afso.getRunningSimId() != null){
+		running_simulation = afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
 	

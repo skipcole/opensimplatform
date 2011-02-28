@@ -47,10 +47,11 @@
     <td valign="top"><a href="push_injects.jsp">Push Inject </a></td>
     <td valign="top">Pushes a pre-planned annoucement (in common simulation parlance called an inject) out to the players. </td>
   </tr>
-  <tr valign="top">
+  <!-- tr valign="top">
     <td valign="top"><a href="change_player.jsp">Swap/Remove/Add Players</a> </td>
     <td valign="top">This page allows you to change who is playing. </td>
-  </tr>
+  </tr
+  -->
   <tr valign="top">
     <td valign="top"><a href="finger.jsp">View Last Logins </a></td>
     <td valign="top">This page allows you to see when your players have logged in.    </td>

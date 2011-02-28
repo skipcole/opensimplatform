@@ -42,7 +42,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Create User <a href="../simulation_facilitation/helptext/create_user_help.jsp" target="helpinright">(?)</a></h1>
+              <h1>Create/Register User <a href="../simulation_facilitation/helptext/create_user_help.jsp" target="helpinright">(?)</a></h1>
 			
               <p><font color="#FF0000"><%= afso.errorMsg %></font></p>
 			  <%
@@ -52,38 +52,38 @@
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td><strong>username/email<a href="helptext/user_email.jsp" target="helpinright"> (?):</a></strong></td>
-              <td><input type="text" name="email" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>"  /></td>
+              <td><input name="email" type="text" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>" size="60"  /></td>
             </tr>
           <tr>
             <td height="29"><strong>temporary password<a href="helptext/temp_password.jsp" target="helpinright"> (?):</a></strong></td>
-              <td><input type="text" name="password" tabindex="2" /></td>
+              <td><input name="password" type="text" tabindex="2" size="20" /></td>
             </tr>
 			
           <tr>
             <td><strong>First Name <a href="helptext/first_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td>
         <label>
-          <input type="text" name="first_name" tabindex="4"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>" />
+          <input name="first_name" type="text"  id="first_name" tabindex="4" value="<%= userOnScratchPad.getBu_first_name() %>" size="60" />
           </label></td>
     </tr>
           <tr>
             <td><strong>Middle Name<a href="helptext/middle_name.jsp" target="helpinright"> (?)</a>:</strong></td>
       <td>
         <label>
-          <input type="text" name="middle_name" tabindex="5"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>" />
+          <input name="middle_name" type="text"  id="middle_name" tabindex="5" value="<%= userOnScratchPad.getBu_middle_name() %>" size="60" />
           </label></td>
     </tr>
           <tr>
             <td><strong>Last Name <a href="helptext/last_name.jsp" target="helpinright">(?)</a>:</strong></td>
       <td>
         <label>
-          <input type="text" name="last_name" tabindex="6" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  />
+          <input name="last_name" type="text" id="last_name" tabindex="6" value="<%= userOnScratchPad.getBu_last_name() %>" size="60"  />
           </label></td>
     </tr>
           <tr>
             <td><strong>Phone Number: </strong></td>
             <td><label>
-            <input type="text" name="phonenumber" tabindex="7" value="<%= userOnScratchPad.getPhoneNumber() %>" />
+            <input name="phonenumber" type="text" tabindex="7" value="<%= userOnScratchPad.getPhoneNumber() %>" size="60" />
           </label></td>
           </tr>
           <tr>
