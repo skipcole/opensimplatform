@@ -53,8 +53,7 @@
           <td valign="top"><strong>Actor</strong></td>
           <td valign="top"><strong>Username</strong></td>
           <td valign="top"><strong>Status</strong></td>
-          <td valign="top"><strong>Send</strong></td>
-        </tr>
+          </tr>
 		<% 
 		
 			List dashboardLines = StudentDashboardLine.getDashboardLines(afso.sim_id, afso.schema, afso.runningSimId);
@@ -68,17 +67,14 @@
           <td valign="top">
 		  <% if (sdl.getStudentId() != null) { %>
 		  		<a href="../simulation_user_admin/view_player_profile.jsp?student_id=<%= sdl.getStudentId() %>">
-		  		<%= sdl.getStudentName() %>
-		  		</a>
+		  		<%= sdl.getStudentName() %>		  		</a>
 		  <% } else { %>
 		  	<%= sdl.getStudentName() %>
-		  <% } %>
-		  </td>
+		  <% } %>		  </td>
           <td valign="top"><%= sdl.getStudentRole() %></td>
           <td valign="top"><%= sdl.getStudentEmail() %></td>
           <td valign="top" bgcolor="#<%= sdl.getStudentStatusColor() %>"><%= sdl.getStudentStatus() %></td>
-          <td valign="top">&nbsp;</td>
-        </tr>
+          </tr>
 		<%
 				} // End of loop over StudentDashboardLine
 		%>
@@ -86,8 +82,10 @@
 				<% }  // End of if they have worked on a running sim before.%>
 			  </blockquote>
 			  <br />
-				<a href="select_running_sim_for_dashboard.jsp">Select a different Running Simulation </a><br/>
-				<br/>
+			  	<% if (afso.getRunningSimId() != null) { %>
+					<a href="select_running_sim_for_dashboard.jsp">Select a different Running Simulation </a><br/>
+					<br/>
+				<% } %>
                   <p align="center"></p></td>
               </tr>
             </table></td>
