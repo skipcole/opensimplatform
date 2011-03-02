@@ -17,8 +17,11 @@
 	
 	String timeline_id = (String) request.getParameter("timeline_id");
 	
+	Long timeLineId = null;
+	
 	if ((timeline_id != null) && (!(timeline_id.equalsIgnoreCase("null"))) ) {
-		afso.timelineOnScratchPad = TimeLine.getById(afso.schema, new Long(timeline_id));
+		timeLineId = new Long(timeline_id);
+		afso.timelineOnScratchPad = TimeLine.getById(afso.schema, timeLineId);
 	}
 	
 	// Date expected in format similar to: "Oct 15 2009 00:00:00 GMT"
@@ -252,7 +255,7 @@
         <table width="80%">
         <%
 		
-		for (ListIterator li = Event.getAllBaseForSim(afso.sim_id, afso.schema).listIterator(); li.hasNext();) {
+		for (ListIterator li = Event.getAllForTimeLine(afso.schema, timeLineId).listIterator(); li.hasNext();) {
 			Event event_l = (Event) li.next();
 			%>
             <tr>
