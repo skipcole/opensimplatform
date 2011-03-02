@@ -26,7 +26,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 */
 @Entity
 @Proxy(lazy = false)
-public class InjectFiringHistory implements EventInterface {
+public class InjectFiringHistory implements TimeLineInterface {
 
 	public static final int FIRED_TO_ALL = 1;
 	

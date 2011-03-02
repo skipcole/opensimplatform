@@ -13,6 +13,7 @@ import org.usip.osp.baseobjects.User;
 import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.baseobjects.UserTrailGhost;
 import org.usip.osp.communications.Event;
+import org.usip.osp.communications.TimeLine;
 import org.usip.osp.coursemanagementinterface.UserRegistrationInvite;
 import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -213,18 +214,15 @@ public class SessionObjectBase {
 	 * @param phase_id
 	 * @return
 	 */
-	public static String getEventsForPhase(String schema, Long sim_id,
-			Long phase_id) {
+	public static String getEventsForTimeline(String schema, Long timeLineId) {
 
-		if (sim_id == null) {
+		if (timeLineId == null) {
 			return "";
-		} else if (phase_id == null) {
-			Simulation sim = Simulation.getById(schema, sim_id);
-			phase_id = sim.getFirstPhaseId(schema);
 		}
 
-		return Event.packupArray(Event.getAllForSimAndPhase(sim_id, phase_id,
-				schema));
+		//TimeLine.packupArray(TimeLineObjectAssignment.getAllForTimeline(schema, timeLineId));
+		
+		return TimeLine.packupArray(Event.getAllForTimeLine(schema, timeLineId));
 
 	}
 

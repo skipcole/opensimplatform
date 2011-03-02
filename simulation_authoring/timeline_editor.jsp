@@ -25,7 +25,7 @@
 	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 	sdf.setTimeZone(TimeZone.getDefault());
 	
-	SimpleDateFormat short_sdf = new SimpleDateFormat("HH:mm");
+	SimpleDateFormat short_sdf = new SimpleDateFormat(" MM/dd/yyyy HH:mm");
 	short_sdf.setTimeZone(TimeZone.getDefault());
 	
 	String run_start = sdf.format(afso.timelineOnScratchPad.getTimeline_start_date());
@@ -35,7 +35,7 @@
 		simulation = afso.giveMeSim();
 	}
 
-	Event event = afso.handleAddTimeLineEvents(request);
+	Event event = afso.handleAddTimeLineEvents(request, afso.timelineOnScratchPad.getId());
 			
 	String Timeline_ajax_url = "";
 	String Timeline_urlPrefix = "http://static.simile.mit.edu/timeline/api-2.3.0/";
@@ -110,7 +110,7 @@
         bandInfos[1].syncWith = 0;
         bandInfos[1].highlight = true;
         tl = Timeline.create(document.getElementById("my-timeline"), bandInfos);
-        Timeline.loadXML("timeline_server.jsp", function(xml, url) { eventSource.loadXML(xml, url); });
+        Timeline.loadXML("timeline_server.jsp?timeline_id=<%= timeline_id %>", function(xml, url) { eventSource.loadXML(xml, url); });
         }
 
         var resizeTimerID = null;

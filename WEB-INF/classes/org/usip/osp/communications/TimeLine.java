@@ -2,12 +2,15 @@ package org.usip.osp.communications;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
+import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -166,37 +169,6 @@ public class TimeLine  implements SimSectionDependentObject {
 		return act;
 
 	}
-	
-    /**
-     * Returns 'master plan' TimeLine.
-     * TODO: This currently assumes only one master plan. That will change.
-     * 
-     * @param schema
-     * @return
-     */
-    public static TimeLine getMasterPlan(String schema, String sim_id){
-        
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from TimeLine where simId = :sim_id  and timeline_category = " + CATEGORY_MASTERPLAN)
-				.setString("sim_id", sim_id)
-				.list(); //$NON-NLS-1$
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
-		TimeLine returnTimeLine = new TimeLine();
-		
-		if ((returnList == null) || (returnList.size() == 0)){
-			returnTimeLine.setTimeline_category(CATEGORY_MASTERPLAN);
-			returnTimeLine.setSimId(new Long(sim_id));
-			returnTimeLine.saveMe(schema);
-		} else {
-			returnTimeLine = (TimeLine) returnList.get(0);
-		}
-
-		return returnTimeLine;
-    }
     
     
     /**
@@ -248,6 +220,57 @@ public class TimeLine  implements SimSectionDependentObject {
 
 	public void setTransitId(Long transit_id) {
 		this.transit_id = transit_id;
+	}
+
+	/**
+	 * Packages an event in the format required by similie timeline.
+	 * 
+	 * @param a
+	 * @return
+	 */
+	public static String packageEvent(TimeLineInterface ei){
+		
+		String icon_name = "  icon=\"" + USIP_OSP_Properties.getValue("base_sim_url") ;
+		
+		
+		if (ei.getEventType() == 3){
+			icon_name += "/third_party_libraries/timeline_2.3.0/timeline_js/images/red-circle.png\"";
+		} else if (ei.getEventType() == 2){
+			icon_name += "/third_party_libraries/timeline_2.3.0/timeline_js/images/green-circle.png\"";
+		} else {
+			icon_name = "";
+		}
+		
+		String returnString = "<event start=\"" 
+			+ Event.similie_sdf.format(ei.getEventStartTime()) + 
+			"\" title=\"" + ei.getEventTitle() +
+			"\" " + icon_name 
+			+ ">";
+		
+		returnString += USIP_OSP_Util.htmlToCode(ei.getEventMsgBody());
+		
+		returnString += "</event>";
+		return returnString;
+	}
+
+	/**
+	 * returns an XML string containing the packaged objects. 
+	 * 
+	 * @param setOfEvents
+	 * @return
+	 */
+	public static String packupArray(List setOfEvents){
+		
+		String returnString = "";
+		
+		for (ListIterator<TimeLineInterface> li = setOfEvents.listIterator(); li.hasNext();) {
+			TimeLineInterface thisEvent = li.next();
+			
+			returnString += TimeLine.packageEvent(thisEvent) + USIP_OSP_Util.lineTerminator;
+			
+		}
+		
+		return returnString;
 	}
 
 

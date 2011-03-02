@@ -15,15 +15,9 @@
 	
 	String textToShow = "";
 	
-	if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("show_plan")  ) ){
-		//textToShow = AuthorFacilitatorSessionObject.getEventsForPhase(pso.schema, pso.sim_id, pso.phase_id);
-		// Make this work for more than just one timeline
-		
-		textToShow = PlayerSessionObject.getEventsForPhase(pso.schema, pso.sim_id, new Long(1));
-		//textToShow = pso.getSimilieEvents();
-	} else {
-		textToShow = pso.getSimilieEvents();
-	}
+	if (timeline_to_show != null){
+		textToShow = PlayerSessionObject.getEventsForTimeline(pso.schema, new Long(timeline_to_show));
+	} 
 	
 	response.setContentType("text/xml");
 	response.setHeader("Cache-Control", "no-cache");

@@ -3,7 +3,6 @@ package org.usip.osp.communications;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.TimeZone;
 
 import javax.persistence.Column;
@@ -19,8 +18,6 @@ import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.SimPhaseAssignment;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.Simulation;
-import org.usip.osp.baseobjects.USIP_OSP_Properties;
-import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -41,7 +38,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Table(name = "EVENT")
 @Proxy(lazy = false)
-public class Event implements EventInterface, SimSectionDependentObject, ExportableObject{
+public class Event implements TimeLineInterface, SimSectionDependentObject, ExportableObject{
 	
 	public static SimpleDateFormat similie_sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 
@@ -159,58 +156,6 @@ public class Event implements EventInterface, SimSectionDependentObject, Exporta
 		this.eventMsgBody = text;
 	}
 
-	
-	/**
-	 * returns an XML string containing the packaged objects. 
-	 * 
-	 * @param setOfEvents
-	 * @return
-	 */
-	public static String packupArray(List setOfEvents){
-		
-		String returnString = "";
-		
-		for (ListIterator<EventInterface> li = setOfEvents.listIterator(); li.hasNext();) {
-			EventInterface thisEvent = li.next();
-			
-			returnString += packageEvent(thisEvent) + USIP_OSP_Util.lineTerminator;
-			
-		}
-		
-		return returnString;
-	}
-	
-	/**
-	 * Packages an event in the format required by similie timeline.
-	 * 
-	 * @param a
-	 * @return
-	 */
-	public static String packageEvent(EventInterface ei){
-		
-		String icon_name = "  icon=\"" + USIP_OSP_Properties.getValue("base_sim_url") ;
-		
-		
-		if (ei.getEventType() == 3){
-			icon_name += "/third_party_libraries/timeline_2.3.0/timeline_js/images/red-circle.png\"";
-		} else if (ei.getEventType() == 2){
-			icon_name += "/third_party_libraries/timeline_2.3.0/timeline_js/images/green-circle.png\"";
-		} else {
-			icon_name = "";
-		}
-		
-		String returnString = "<event start=\"" 
-			+ similie_sdf.format(ei.getEventStartTime()) + 
-			"\" title=\"" + ei.getEventTitle() +
-			"\" " + icon_name 
-			+ ">";
-		
-		returnString += USIP_OSP_Util.htmlToCode(ei.getEventMsgBody());
-		
-		returnString += "</event>";
-		return returnString;
-	}
-
 	public Long getSimId() {
 		return simId;
 	}
@@ -278,27 +223,6 @@ public class Event implements EventInterface, SimSectionDependentObject, Exporta
 		}
 	}
 	
-	/**
-	 * Returns a list of all events created for a simulation.
-	 * 
-	 * @param simid
-	 * @param schema
-	 * @return
-	 */
-	public static List<Event> getAllForSimAndPhase(Long simid, Long phaseid, String schema) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List<Event> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Event where simId = :sim_id and phaseId = :phase_id")
-				.setString("sim_id", simid.toString())
-				.setString("phase_id", phaseid.toString())
-				.list(); //$NON-NLS-1$
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return returnList;
-	}
 	
 	/**
 	 * Returns a list of all events created for a simulation.
@@ -322,13 +246,13 @@ public class Event implements EventInterface, SimSectionDependentObject, Exporta
 	}
 	
 	/**
-	 * Returns a list of all events created for a simulation.
+	 * Returns a list of timeline events created for a simulation.
 	 * 
 	 * @param simid
 	 * @param schema
 	 * @return
 	 */
-	public static List<Event> getAllForTimeLine(Long timelineid, String schema) {
+	public static List<Event> getAllForTimeLine(String schema, Long timelineid) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 

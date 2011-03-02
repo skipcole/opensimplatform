@@ -22,7 +22,7 @@
     
 	String timeline_to_show = (String) cs.getContents().get(SimilieTimelineCustomizer.KEY_FOR_DISPLAY);
 	
-	System.out.println("timeline_to_show" + timeline_to_show);
+	System.out.println("timeline_to_show: " + timeline_to_show);
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 	sdf.setTimeZone(TimeZone.getDefault());
@@ -31,9 +31,7 @@
 	
 	RunningSimulation running_sim = new RunningSimulation();
 	
-	if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("show_plan")  ) ){
-	
-		System.out.println("We are showing the plan!");
+	if (timeline_to_show != null){
 		
 		Simulation simulation = new Simulation();	
 	
