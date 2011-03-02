@@ -220,6 +220,7 @@ public class SessionObjectBase {
 			return "";
 		}
 
+		// TODO - below is what it eventually should be.
 		//TimeLine.packupArray(TimeLineObjectAssignment.getAllForTimeline(schema, timeLineId));
 		
 		return TimeLine.packupArray(Event.getAllForTimeLine(schema, timeLineId));
