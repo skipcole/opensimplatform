@@ -21,6 +21,20 @@
 	}
 	//////////////////////////////////////////////////////
 	
+	String sending_page = request.getParameter("sending_page");
+	
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_instructor")) && (afso.getRunningSimId() != null)) {
+		String instructor_name = request.getParameter("instructor_name");
+		
+		User user = User.getByUsername(afso.schema, instructor_name);
+		
+		if (user != null){
+			InstructorRunningSimAssignments irsa = 
+				new InstructorRunningSimAssignments(afso.schema, afso.getRunningSimId(), user.getId());
+		}
+		
+	}
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -43,6 +57,9 @@
               <h1>Add/Remove Instructors  </h1>
               <p>When an user is designated as an instructor for a simulation, he or she will see that running simulation in their list of 'My Sims' and will be able to access the student dashboard for that simulation.</p>
               <p>Note: making someone an 'Instructor' in a simulation does not automatically add them as a player in the simulation. Someone can act as an instructor (assigning players, checking on players, etc.) and never actually enter into the game world. </p>
+			  
+	<% if (afso.getRunningSimId() != null) { %>
+	
               <p align="center">&nbsp;</p>      
       <h2 align="left">Instructors for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></h2>
       <p align="left">&nbsp;</p>
@@ -53,7 +70,26 @@
 			User user = (User) li.next();
 	  %>
 	  <%= user.getId() %> <br />
-	  <% } // end of loop over instructors %>	  </td>
+	  <% } // end of loop over instructors %>	  
+	  
+	  
+	  <p>Add Another (type username below and hit submit): </p>
+	  
+	  
+	  
+	  <form id="form1" name="form1" method="post" action="administrate_running_sim_add_instructor.jsp">
+	  <input type="hidden" name="sending_page" value="add_instructor" />
+	    <label>
+	      <input type="text" name="instructor_name" />
+	      </label>
+	    <label>
+	    <input type="submit" name="Submit" value="Submit" />
+	    </label>
+	  </form>
+	  
+	  
+	  <% } // end of if not rs_id != null %>
+	  </td>
 		</tr>
 		</table>	</td>
   </tr>
