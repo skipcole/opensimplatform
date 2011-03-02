@@ -2186,7 +2186,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 	}
 
 	public String getSimilieEvents() {
-		return Event.packupArray(setOfEvents);
+		return TimeLine.packupArray(setOfEvents);
 	}
 
 	public String checkDatesOnSim(Simulation sim, RunningSimulation rs) {

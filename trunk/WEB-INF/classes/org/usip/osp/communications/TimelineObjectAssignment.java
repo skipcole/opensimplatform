@@ -1,6 +1,7 @@
 package org.usip.osp.communications;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +31,13 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Entity
 @Proxy(lazy = false)
 public class TimelineObjectAssignment implements ExportableObject, SimSectionDependentObject{
+	
+	/**
+	 * Zero argument constructor required by hibernate.
+	 */
+	public TimelineObjectAssignment(){
+		
+	}
 	
 	/** Database id of this TimeLine. */
 	@Id
@@ -193,6 +201,20 @@ public class TimelineObjectAssignment implements ExportableObject, SimSectionDep
 			Object templateObject) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public static List<TimelineObjectAssignment> getAllBaseForSim(Long simId,
+			String schema) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<TimelineObjectAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from TimelineObjectAssignment where simId = :sim_id and runningSimId is null")
+				.setLong("sim_id", simId)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
 	}
 
 

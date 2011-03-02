@@ -3792,11 +3792,15 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param request
 	 * @return
 	 */
-	public Event handleAddTimeLineEvents(HttpServletRequest request) {
-
-		TimeLine timeline = TimeLine.getMasterPlan(schema, sim_id.toString());
+	public Event handleAddTimeLineEvents(HttpServletRequest request, Long timeLineId) {
 
 		Event event = new Event();
+		
+		if (timeLineId == null){
+			return event;
+		}
+		
+		TimeLine timeline = TimeLine.getById(schema, timeLineId);
 
 		String sending_page = (String) request.getParameter("sending_page");
 

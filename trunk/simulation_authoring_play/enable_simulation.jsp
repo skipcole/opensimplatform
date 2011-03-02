@@ -28,6 +28,11 @@
 	}
 	//////////////////////////////////////////////////////
 	
+	String enable_string = "Enable";
+	if (running_sim.isReady_to_begin()) {
+		enable_string = "Disable";
+	}
+	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -57,30 +62,30 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Enable Simulation to Start <a href="../simulation_facilitation/helptext/enable_sim_help.jsp" target="helpinright">(?)</a></h1>
+              <h1><%= enable_string %> Simulation</h1>
               <blockquote> 
         <% 
 			if (afso.sim_id == null) {
 		%>
-        <p>You must first select the simulation which you will be enabling.<br />
+        <p>You must first select a simulation.<br />
           
           Please <a href="../simulation_authoring/select_simulation.jsp">click here</a> to select it, or <a href="../simulation_authoring/create_simulation.jsp">create a new one</a>.</p>
 		  
 		<% } else { %>
-        <p>Enabling <strong>simulation: <%= simulation.getDisplayName() %></strong>. <br />
+        <p><%= enable_string %> <strong>simulation: <%= simulation.getDisplayName() %></strong>. <br />
           To select a different simulation, <a href="../simulation_authoring/select_simulation.jsp">click here</a>.</p>
           <%
 			if (afso.getRunningSimId() == null) {
 		%>
-        <p>You must select the running simulation for which you will be enabling.<br />
+        <p>You must select a running simulation.<br />
           
           Please <a href="select_running_simulation.jsp">click here</a> to select it, or <a href="create_running_sim.jsp">create a new one</a>.</p>
 		  
 		<% } else if (running_sim.isReady_to_begin()) { %>
-        <p><strong>Running simulation <%= running_sim.getRunningSimulationName() %> </strong> <span class="style1">has  been enabled.</span><br />
+		<p><br />
           To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
 		  <% } else { %>
-        <p>Enabling <strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
+        <p><strong>running simulation <%= running_sim.getRunningSimulationName() %></strong><br />
           To select a different running simulation to enable, <a href="select_running_simulation.jsp">click here</a>.</p>
   
   <p>&nbsp;</p>
@@ -88,8 +93,8 @@
       <input type="hidden" name="sending_page" value="enable_game" />
       <table width="100%" border="1" cellspacing="0" cellpadding="2">
         <tr valign="top"> 
-          <td width="34%">Enable the simulation to start:</td>
-                <td width="66%"> <input type="submit" name="command" value="Start Simulation" /></td>
+          <td width="34%"><%= enable_string %> the simulation:</td>
+                <td width="66%"> <input type="submit" name="command" value="<%= enable_string %> Simulation" /></td>
               </tr>
         </table>
     </form>

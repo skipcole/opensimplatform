@@ -2,7 +2,7 @@ package org.usip.osp.communications;
 
 import java.util.Date;
 
-public interface EventInterface {
+public interface TimeLineInterface {
 	
 	public static int EVENT_TYPE_EVENT = 1;
 	

@@ -11,13 +11,19 @@
 		return;
 	}
 	
-	// Need to put this back in
-	// AuthorFacilitatorSessionObject.getEventsForPhase(afso.schema, afso.sim_id, afso.phase_id)
+	Long timeLineId = null;
+	
+	String timeline_id = (String) request.getParameter("timeline_id");
+	
+	if ((timeline_id != null) && (!(timeline_id.equalsIgnoreCase("null")))){
+		timeLineId = new Long(timeline_id);
+	}
+
 	
 	response.setContentType("text/xml");
 	response.setHeader("Cache-Control", "no-cache");
 	
 %><?xml version="1.0" encoding="utf-8"?>
 <data>
-<%= AuthorFacilitatorSessionObject.getEventsForPhase(afso.schema, afso.sim_id, new Long(1)) %>
+<%= AuthorFacilitatorSessionObject.getEventsForTimeline(afso.schema, timeLineId) %>
 </data>

@@ -357,6 +357,16 @@ public class ObjectPackager {
 			thisEvent.setId(null);
 			returnString += xstream.toXML(thisEvent) + USIP_OSP_Util.lineTerminator;
 		}
+		
+		
+		// TimelineObjectAssignment
+		List<TimelineObjectAssignment> toaList = TimelineObjectAssignment.getAllBaseForSim(sim_id, schema);
+		for (ListIterator<TimelineObjectAssignment> li = toaList.listIterator(); li.hasNext();) {
+			TimelineObjectAssignment thisTOA = li.next();
+			thisTOA.setTransitId(thisTOA.getId());
+			thisTOA.setId(null);
+			returnString += xstream.toXML(thisTOA) + USIP_OSP_Util.lineTerminator;
+		}
 
 		// Tips
 		List<Tips> allTips = Tips.getAllForBaseSim(sim_id, schema);

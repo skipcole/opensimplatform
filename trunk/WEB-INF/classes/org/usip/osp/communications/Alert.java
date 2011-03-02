@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
 @Entity
 @Table(name = "ALERTS")
 @Proxy(lazy = false)
-public class Alert implements EventInterface {
+public class Alert implements TimeLineInterface {
 
 	/** This alert is of an undefined type. */
 	public static final int TYPE_UNDEFINED = 0;
