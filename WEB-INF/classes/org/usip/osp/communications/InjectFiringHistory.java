@@ -180,11 +180,11 @@ public class InjectFiringHistory implements TimeLineInterface {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<InjectFiringHistory> getAllForRunningSim(String schema, Long running_sim_id) {
+	public static List<TimeLineInterface> getAllForRunningSim(String schema, Long running_sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<InjectFiringHistory> returnList = 
+		List<TimeLineInterface> returnList = 
 			MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from InjectFiringHistory where running_sim_id = :running_sim_id")
 				.setLong("running_sim_id", running_sim_id)		

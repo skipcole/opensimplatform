@@ -37,7 +37,7 @@
 	if (afso.sim_id != null) {
 		simulation = afso.giveMeSim();
 	}
-
+	
 	Event event = afso.handleAddTimeLineEvents(request, afso.timelineOnScratchPad.getId());
 			
 	String Timeline_ajax_url = "";

@@ -47,7 +47,13 @@
   		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 			Actor act = (Actor) li.next();
 			
-			User user = UserAssignment.getUserAssigned(pso.schema, pso.getRunningSimId(), act.getId());
+			List userList = UserAssignment.getUsersAssigned(pso.schema, pso.getRunningSimId(), act.getId());
+			
+			for (ListIterator liu = userList.listIterator(); liu.hasNext();) {
+				UserAssignment ua = (UserAssignment) liu.next();
+				
+				User user = User.getById(pso.schema, ua.getUser_id());
+			
 			String uName = "";
 			String uTime = "Never";
 			Long uId = null;
@@ -67,6 +73,7 @@
   </tr>
 
   <%
+  		} // end of loop over actors
 	} // end of loop over actors.
 %>
 </table>

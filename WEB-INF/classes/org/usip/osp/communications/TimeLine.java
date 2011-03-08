@@ -259,7 +259,7 @@ public class TimeLine  implements SimSectionDependentObject {
 	 * @param setOfEvents
 	 * @return
 	 */
-	public static String packupArray(List setOfEvents){
+	public static String packupArray(List <TimeLineInterface> setOfEvents){
 		
 		String returnString = "";
 		

@@ -22,8 +22,6 @@
     
 	String timeline_to_show = (String) cs.getContents().get(SimilieTimelineCustomizer.KEY_FOR_DISPLAY);
 	
-	System.out.println("timeline_to_show: " + timeline_to_show);
-	
 	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 	sdf.setTimeZone(TimeZone.getDefault());
 	
@@ -53,7 +51,11 @@
 	
 	int shortIntervalPixelDistance = 125;
 	int longIntervalPixelDistance = 250;
-		
+	
+	String timeline_server_url = "similie_timeline_server.jsp?timeline_to_show=" + timeline_to_show;
+	
+	System.out.println(timeline_server_url);
+	// if this is a timeline of actual events, then pull them out.
 	
 %>
 <html>
@@ -87,7 +89,7 @@
         bandInfos[1].syncWith = 0;
         bandInfos[1].highlight = true;
         tl = Timeline.create(document.getElementById("my-timeline"), bandInfos);
-        Timeline.loadXML("similie_timeline_server.jsp?timeline_to_show=<%= timeline_to_show %>", function(xml, url) { eventSource.loadXML(xml, url); });
+        Timeline.loadXML("<%= timeline_server_url %>", function(xml, url) { eventSource.loadXML(xml, url); });
         }
 
         var resizeTimerID = null;

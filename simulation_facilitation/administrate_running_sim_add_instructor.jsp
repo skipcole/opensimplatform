@@ -58,20 +58,25 @@
               <p>When an user is designated as an instructor for a simulation, he or she will see that running simulation in their list of 'My Sims' and will be able to access the student dashboard for that simulation.</p>
               <p>Note: making someone an 'Instructor' in a simulation does not automatically add them as a player in the simulation. Someone can act as an instructor (assigning players, checking on players, etc.) and never actually enter into the game world. </p>
 			  
-	<% if (afso.getRunningSimId() != null) { %>
-	
-              <p align="center">&nbsp;</p>      
+	<% if (afso.getRunningSimId() != null) { %> 
       <h2 align="left">Instructors for Running Simulation: <strong><%= running_simulation.getRunningSimulationName() %></strong></h2>
-      <p align="left">&nbsp;</p>
+	  <ol>
 	  <% 
 	  	List iList = InstructorRunningSimAssignments.getInstructorsForSim(running_simulation.getId(), afso.schema);
 		
+		if ((iList == null) || (iList.size() == 0)) { %>
+			<li>None</li>
+		<% } // End of if there are no instructors.
+		
 		for (ListIterator li = iList.listIterator(); li.hasNext();) {
 			User user = (User) li.next();
+			
 	  %>
-	  <%= user.getId() %> <br />
+	  <li><%= user.getBu_full_name() %> <% if (iList.size() > 1) { %> 
+	  (remove) 
+	    <% } %></li>
 	  <% } // end of loop over instructors %>	  
-	  
+	  </ol>
 	  
 	  <p>Add Another (type username below and hit submit): </p>
 	  

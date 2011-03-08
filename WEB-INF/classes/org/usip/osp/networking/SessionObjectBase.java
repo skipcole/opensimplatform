@@ -13,6 +13,7 @@ import org.usip.osp.baseobjects.User;
 import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.baseobjects.UserTrailGhost;
 import org.usip.osp.communications.Event;
+import org.usip.osp.communications.InjectFiringHistory;
 import org.usip.osp.communications.TimeLine;
 import org.usip.osp.coursemanagementinterface.UserRegistrationInvite;
 import org.usip.osp.persistence.BaseUser;
@@ -225,6 +226,16 @@ public class SessionObjectBase {
 		
 		return TimeLine.packupArray(Event.getAllForTimeLine(schema, timeLineId));
 
+	}
+	
+	public static String getInjectFiredForTimeline(String schema, Long rs_id){
+		
+		if (rs_id == null){
+			return "";
+		}
+		
+		return TimeLine.packupArray(InjectFiringHistory.getAllForRunningSim(schema, rs_id));
+		
 	}
 
 	public static String getBaseSimURL() {

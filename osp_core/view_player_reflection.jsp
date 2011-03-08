@@ -38,7 +38,7 @@
 <table width="80%" border="1">
 <tr>
       <td width=50><strong>Actor</strong></td>
-      <td><strong>Phase</strong></td>
+      <td><strong>User</strong></td>
       <td><strong>Reflection</strong></td>
 </tr>
   <%
@@ -50,7 +50,7 @@
 		%>
   <tr>
     <td valign="top"><%= USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.getRunningSimId(), request, pr.getA_id()) %></td>
-    <td valign="top"><%= sp.getPhaseName() %></td>
+    <td valign="top">&nbsp;</td>
     <td valign="top"><%= pr.getBigString() %></td>
   </tr>
 

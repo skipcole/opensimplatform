@@ -1588,7 +1588,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		PlayerReflection playerReflection = PlayerReflection
 				.getPlayerReflection(schema, cs_id, runningSimId, actorId,
-						phase_id);
+						user_id);
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String update_text = (String) request.getParameter("update_text");
@@ -1598,7 +1598,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			String player_reflection_text = (String) request
 					.getParameter("player_reflection_text");
 
-			playerReflection.setPhase_id(this.phase_id);
+			playerReflection.setU_id(this.user_id);
 			playerReflection.setBigString(player_reflection_text);
 			playerReflection.save(schema);
 
@@ -2164,7 +2164,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 	}
 
-	private ArrayList<Event> setOfEvents = new ArrayList();
+	private ArrayList<TimeLineInterface> setOfEvents = new ArrayList();
 
 	{
 
@@ -2177,11 +2177,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 		setOfEvents.add(e1);
 	}
 
-	public ArrayList<Event> getSetOfEvents() {
+	public ArrayList<TimeLineInterface> getSetOfEvents() {
 		return setOfEvents;
 	}
 
-	public void setSetOfEvents(ArrayList<Event> setOfEvents) {
+	public void setSetOfEvents(ArrayList<TimeLineInterface> setOfEvents) {
 		this.setOfEvents = setOfEvents;
 	}
 
