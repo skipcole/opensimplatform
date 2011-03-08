@@ -252,11 +252,11 @@ public class Event implements TimeLineInterface, SimSectionDependentObject, Expo
 	 * @param schema
 	 * @return
 	 */
-	public static List<Event> getAllForTimeLine(String schema, Long timelineid) {
+	public static List<TimeLineInterface> getAllForTimeLine(String schema, Long timelineid) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<Event> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+		List<TimeLineInterface> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from Event where timelineId = :timelineId")
 				.setString("timelineId", timelineid.toString())
 				.list(); //$NON-NLS-1$

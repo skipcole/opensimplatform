@@ -12,6 +12,7 @@
 	}
 	
 	String timeline_to_show = (String) request.getParameter("timeline_to_show");
+	System.out.println(timeline_to_show);
 	
 	String textToShow = "";
 	

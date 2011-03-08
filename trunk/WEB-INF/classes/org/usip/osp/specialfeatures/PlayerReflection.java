@@ -9,8 +9,8 @@ import org.apache.log4j.*;
 
 /**
  * This class represents the reflections of a player regarding a simulation.
- *
- *
+ */
+ /*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or
@@ -52,6 +52,10 @@ public class PlayerReflection implements Comparable{
     /** Actor id. */
     @Column(name = "A_ID")
     private Long a_id;
+    
+    /** User id. */
+    @Column(name = "U_ID")
+    private Long u_id;
     
     /** The phase in which this reflection was made. */
     private Long phase_id;
@@ -122,6 +126,14 @@ public class PlayerReflection implements Comparable{
 		this.a_id = a_id;
 	}
 
+	public Long getU_id() {
+		return u_id;
+	}
+
+	public void setU_id(Long uId) {
+		u_id = uId;
+	}
+
 	public boolean isEditable() {
 		return this.editable;
 	}
@@ -147,24 +159,29 @@ public class PlayerReflection implements Comparable{
 	 * @return
 	 */
 	public static PlayerReflection getPlayerReflection(String schema, Long cs_id, Long rs_id, Long a_id,
-			Long phase_id){
+			Long u_id){
 		
 		PlayerReflection playerReflection = new PlayerReflection();
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		String hql_string = "from PlayerReflection where CS_ID = " + cs_id + " AND RS_ID = " + rs_id //$NON-NLS-1$ //$NON-NLS-2$
-		+ " AND A_ID = " + a_id; //$NON-NLS-1$
+		String hql_string = "from PlayerReflection where CS_ID = " + cs_id + 
+			" AND RS_ID =: rs_id AND A_ID = :a_id  AND U_ID = :u_id";
 		
 		Logger.getRootLogger().debug("hql_string is " + hql_string); //$NON-NLS-1$
 		
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string)
+		.setLong("cs_id", cs_id)
+		.setLong("rs_id", rs_id)
+		.setLong("a_id", a_id)
+		.setLong("u_id", u_id)
+		.list();
 		
 		if ((returnList == null) || (returnList.size() == 0)){
 			playerReflection.setCs_id(cs_id);
 			playerReflection.setRs_id(rs_id);
 			playerReflection.setA_id(a_id);
-			playerReflection.setPhase_id(phase_id);
+			playerReflection.setU_id(u_id);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(playerReflection);
 			
 		} else {

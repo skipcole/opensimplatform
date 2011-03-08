@@ -170,7 +170,8 @@ public class ObjectPackager {
 			thisSection.setTransit_id(thisSection.getId());
 			thisSection.setId(null);
 
-			returnString += xstream.toXML(thisSection) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisSection)
+					+ USIP_OSP_Util.lineTerminator;
 		}
 
 		return returnString;
@@ -205,7 +206,8 @@ public class ObjectPackager {
 			bssdoa.setTransit_id(bssdoa.getId());
 			bssdoa.setId(null);
 
-			returnString += xstream.toXML(bssdoa) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(bssdoa)
+					+ USIP_OSP_Util.lineTerminator;
 
 			// We need to make sure that an object is not saved multiple times
 			// to the xml
@@ -232,7 +234,8 @@ public class ObjectPackager {
 				depObj.setTransitId(depObj.getId());
 				depObj.setId(null);
 
-				returnString += xstream.toXML(depObj) + USIP_OSP_Util.lineTerminator;
+				returnString += xstream.toXML(depObj)
+						+ USIP_OSP_Util.lineTerminator;
 
 				// Some dependent objects (such as conversations) have sub
 				// objects.
@@ -355,17 +358,20 @@ public class ObjectPackager {
 			Event thisEvent = li.next();
 			thisEvent.setTransitId(thisEvent.getId());
 			thisEvent.setId(null);
-			returnString += xstream.toXML(thisEvent) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisEvent)
+					+ USIP_OSP_Util.lineTerminator;
 		}
-		
-		
+
 		// TimelineObjectAssignment
-		List<TimelineObjectAssignment> toaList = TimelineObjectAssignment.getAllBaseForSim(sim_id, schema);
-		for (ListIterator<TimelineObjectAssignment> li = toaList.listIterator(); li.hasNext();) {
+		List<TimelineObjectAssignment> toaList = TimelineObjectAssignment
+				.getAllBaseForSim(sim_id, schema);
+		for (ListIterator<TimelineObjectAssignment> li = toaList.listIterator(); li
+				.hasNext();) {
 			TimelineObjectAssignment thisTOA = li.next();
 			thisTOA.setTransitId(thisTOA.getId());
 			thisTOA.setId(null);
-			returnString += xstream.toXML(thisTOA) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisTOA)
+					+ USIP_OSP_Util.lineTerminator;
 		}
 
 		// Tips
@@ -374,7 +380,8 @@ public class ObjectPackager {
 			Tips thisTip = lit.next();
 			thisTip.setTransitId(thisTip.getId());
 			thisTip.setId(null);
-			returnString += xstream.toXML(thisTip) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisTip)
+					+ USIP_OSP_Util.lineTerminator;
 		}
 
 		// /////////////////////////////////////////////////////
@@ -388,7 +395,8 @@ public class ObjectPackager {
 			bssdoa.setTransit_id(bssdoa.getId());
 			bssdoa.setId(null);
 
-			returnString += xstream.toXML(bssdoa) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(bssdoa)
+					+ USIP_OSP_Util.lineTerminator;
 		}
 
 		return returnString;
@@ -421,7 +429,8 @@ public class ObjectPackager {
 						BaseSimSection.class.getName())) {
 					bss.setTransitId(bss.getId());
 					bss.setId(null);
-					returnString += xstream.toXML(bss) + USIP_OSP_Util.lineTerminator;
+					returnString += xstream.toXML(bss)
+							+ USIP_OSP_Util.lineTerminator;
 				} else if (bss.getClass().getName().equalsIgnoreCase(
 						CustomizeableSection.class.getName())) {
 
@@ -430,7 +439,8 @@ public class ObjectPackager {
 							schema, thisBaseId.toString());
 					cbss.setTransitId(cbss.getId());
 					cbss.setId(null);
-					returnString += xstream.toXML(cbss) + USIP_OSP_Util.lineTerminator;
+					returnString += xstream.toXML(cbss)
+							+ USIP_OSP_Util.lineTerminator;
 				} else {
 					Logger.getRootLogger().debug(
 							"Warning in Object Packager. Unknown object."); //$NON-NLS-1$
@@ -463,7 +473,8 @@ public class ObjectPackager {
 			thisInjectGroup.setTransit_id(thisInjectGroup.getId());
 			thisInjectGroup.setId(null);
 
-			returnString += xstream.toXML(thisInjectGroup) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisInjectGroup)
+					+ USIP_OSP_Util.lineTerminator;
 
 			List<Inject> allInjects = Inject.getAllForSimAndGroup(schema,
 					sim_id, thisInjectGroup.getTransit_id());
@@ -475,7 +486,8 @@ public class ObjectPackager {
 				thisInject.setTransit_id(thisInject.getId());
 				thisInject.setId(null);
 
-				returnString += xstream.toXML(thisInject) + USIP_OSP_Util.lineTerminator;
+				returnString += xstream.toXML(thisInject)
+						+ USIP_OSP_Util.lineTerminator;
 
 				// Package actors targeted for this inject.
 				List targetRaw = InjectActorAssignments.getAllForInject(schema,
@@ -484,7 +496,8 @@ public class ObjectPackager {
 						.hasNext();) {
 					InjectActorAssignments targ = (InjectActorAssignments) liInjId
 							.next();
-					returnString += xstream.toXML(targ) + USIP_OSP_Util.lineTerminator;
+					returnString += xstream.toXML(targ)
+							+ USIP_OSP_Util.lineTerminator;
 				}
 
 			}
@@ -511,21 +524,24 @@ public class ObjectPackager {
 			thisActor.setTransitId(thisActor.getId());
 			thisActor.setId(null);
 
-			returnString += xstream.toXML(thisActor) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisActor)
+					+ USIP_OSP_Util.lineTerminator;
 		}
-		
-		List <SimActorAssignment> actorAssignments = 
-			SimActorAssignment.getActorsAssignmentsForSim(schema, sim_id);
-		for (ListIterator<SimActorAssignment> li = actorAssignments.listIterator(); li.hasNext();) {
+
+		List<SimActorAssignment> actorAssignments = SimActorAssignment
+				.getActorsAssignmentsForSim(schema, sim_id);
+		for (ListIterator<SimActorAssignment> li = actorAssignments
+				.listIterator(); li.hasNext();) {
 			SimActorAssignment thisSAA = li.next();
-			
+
 			thisSAA.setTransitId(thisSAA.getId());
 			thisSAA.setId(null);
-			
-			returnString += xstream.toXML(thisSAA) + USIP_OSP_Util.lineTerminator;
-			
+
+			returnString += xstream.toXML(thisSAA)
+					+ USIP_OSP_Util.lineTerminator;
+
 		}
-		
+
 		return returnString;
 	}
 
@@ -560,8 +576,10 @@ public class ObjectPackager {
 				bu.setTransit_id(bu.getId());
 				bu.setId(null);
 
-				returnString += xstream.toXML(bu) + USIP_OSP_Util.lineTerminator;
-				returnString += xstream.toXML(thisUser) + USIP_OSP_Util.lineTerminator;
+				returnString += xstream.toXML(bu)
+						+ USIP_OSP_Util.lineTerminator;
+				returnString += xstream.toXML(thisUser)
+						+ USIP_OSP_Util.lineTerminator;
 			} else {
 				Logger.getRootLogger().warn(
 						"Back Up User Null for " + thisUser.getUser_name());
@@ -678,7 +696,8 @@ public class ObjectPackager {
 			thisPhase.setTransit_id(thisPhase.getId());
 			thisPhase.setId(null);
 
-			returnString += xstream.toXML(thisPhase) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisPhase)
+					+ USIP_OSP_Util.lineTerminator;
 		}
 
 		return returnString;
@@ -705,7 +724,8 @@ public class ObjectPackager {
 			thisMetaPhase.setTransit_id(thisMetaPhase.getId());
 			thisMetaPhase.setId(null);
 
-			returnString += xstream.toXML(thisMetaPhase) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisMetaPhase)
+					+ USIP_OSP_Util.lineTerminator;
 		}
 
 		return returnString;
@@ -731,7 +751,8 @@ public class ObjectPackager {
 			thisPhaseAssignment.setTransit_id(thisPhaseAssignment.getId());
 			thisPhaseAssignment.setId(null);
 
-			returnString += xstream.toXML(thisPhaseAssignment) + USIP_OSP_Util.lineTerminator;
+			returnString += xstream.toXML(thisPhaseAssignment)
+					+ USIP_OSP_Util.lineTerminator;
 		}
 		return returnString;
 	}
@@ -893,16 +914,13 @@ public class ObjectPackager {
 		unpackageTimelineObjects(schema, re.getId(), xmlText, simRead.getId(),
 				xstream, bssIdMappings, actorIdMappings, injectIdMappings);
 
-		RestoreResults.createAndSaveNotes(re.getId(),
-			"Unpacking Tips");
-		unpackageTips(schema, re.getId(), xmlText, simRead.getId(), xstream, bssIdMappings,
-				actorIdMappings);
-		
+		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Tips");
+		unpackageTips(schema, re.getId(), xmlText, simRead.getId(), xstream,
+				bssIdMappings, actorIdMappings, afso);
+
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Media");
 		unpackageSimMedia(schema, re.getId(), xmlMedia, simRead.getId(),
 				xstream, bssIdMappings, actorIdMappings);
-		
-
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Import Complete");
 
@@ -918,7 +936,8 @@ public class ObjectPackager {
 	public static String packageSimMedia(String schema, Long sim_id,
 			XStream xstream) {
 
-		String returnString = "<SIM_MEDIA_OBJECTS>" + USIP_OSP_Util.lineTerminator;
+		String returnString = "<SIM_MEDIA_OBJECTS>"
+				+ USIP_OSP_Util.lineTerminator;
 		List actors = Actor.getAllForSimulation(schema, sim_id);
 
 		for (ListIterator<Actor> li = actors.listIterator(); li.hasNext();) {
@@ -939,7 +958,8 @@ public class ObjectPackager {
 										.getImageFile(OSPSimMedia.ACTOR_IMAGE,
 												actorImageFile)));
 
-				returnString += xstream.toXML(osm) + USIP_OSP_Util.lineTerminator;
+				returnString += xstream.toXML(osm)
+						+ USIP_OSP_Util.lineTerminator;
 			}
 
 			String actorThumbImageFile = thisActor.getImageThumbFilename();
@@ -1029,100 +1049,99 @@ public class ObjectPackager {
 	 */
 	public static void unpackageTimelineObjects(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings, Hashtable actorIdMappings, Hashtable injectIdMappings) {
-		
+			Hashtable bssIdMappings, Hashtable actorIdMappings,
+			Hashtable injectIdMappings) {
+
 		Hashtable timelineIdMappings = new Hashtable();
-		
+
 		List<String> timeline_list = getSetOfObjectFromFile(fullString,
 				makeOpenTag(TimeLine.class), makeCloseTag(TimeLine.class));
-		
-		for (ListIterator<String> li_i = timeline_list.listIterator(); li_i.hasNext();) {
+
+		for (ListIterator<String> li_i = timeline_list.listIterator(); li_i
+				.hasNext();) {
 			String t_string = li_i.next();
 
 			TimeLine timeline = (TimeLine) xstream.fromXML(t_string);
-			
+
 			timeline.setSimId(sim_id);
 			timeline.saveMe(schema);
-			
+
 			timelineIdMappings.put(timeline.getTransitId(), timeline.getId());
-			
+
 		}
-		
+
 		List<String> timeline_oa = getSetOfObjectFromFile(fullString,
-				makeOpenTag(TimelineObjectAssignment.class), makeCloseTag(TimelineObjectAssignment.class));
-		
-		for (ListIterator<String> li_i = timeline_oa.listIterator(); li_i.hasNext();) {
+				makeOpenTag(TimelineObjectAssignment.class),
+				makeCloseTag(TimelineObjectAssignment.class));
+
+		for (ListIterator<String> li_i = timeline_oa.listIterator(); li_i
+				.hasNext();) {
 			String toa_string = li_i.next();
 
-			TimelineObjectAssignment toa = (TimelineObjectAssignment) xstream.fromXML(toa_string);
-			
+			TimelineObjectAssignment toa = (TimelineObjectAssignment) xstream
+					.fromXML(toa_string);
+
 			toa.setSimId(sim_id);
-			toa.setTimeLineId((Long) timelineIdMappings.get(toa.getTimeLineId()));
-			
-			if (toa.getObjectClass().equalsIgnoreCase(Inject.class.toString().replaceFirst("class ", ""))){
-				toa.setObjectId((Long) injectIdMappings.get(toa.getObjectId())); 
+			toa.setTimeLineId((Long) timelineIdMappings
+					.get(toa.getTimeLineId()));
+
+			if (toa.getObjectClass().equalsIgnoreCase(
+					Inject.class.toString().replaceFirst("class ", ""))) {
+				toa.setObjectId((Long) injectIdMappings.get(toa.getObjectId()));
 			}
 			toa.saveMe(schema);
-		
+
 		}
 
 		/*
-		String timelineString = getObjectFromFile(fullString,
-				makeOpenTag(TimeLine.class), makeCloseTag(TimeLine.class));
-
-		if (timelineString.length() == 0) {
-			RestoreResults.createAndSaveNotes(reId,
-					"Timeline not found in import file.");
-			return;
-		}
-
-		TimeLine timeline = (TimeLine) xstream.fromXML(timelineString);
-
-		if (timeline == null) {
-			timeline = new TimeLine();
-		}
-
-		Long timeline_orig_id = timeline.getId();
-
-		TimeLine thisMaster = TimeLine.getMasterPlan(schema, sim_id.toString());
-
-		timeline.setId(thisMaster.getId());
-		timeline.setSimId(sim_id);
-		timeline.saveMe(schema);
-		*/
+		 * String timelineString = getObjectFromFile(fullString,
+		 * makeOpenTag(TimeLine.class), makeCloseTag(TimeLine.class));
+		 * 
+		 * if (timelineString.length() == 0) {
+		 * RestoreResults.createAndSaveNotes(reId,
+		 * "Timeline not found in import file."); return; }
+		 * 
+		 * TimeLine timeline = (TimeLine) xstream.fromXML(timelineString);
+		 * 
+		 * if (timeline == null) { timeline = new TimeLine(); }
+		 * 
+		 * Long timeline_orig_id = timeline.getId();
+		 * 
+		 * TimeLine thisMaster = TimeLine.getMasterPlan(schema,
+		 * sim_id.toString());
+		 * 
+		 * timeline.setId(thisMaster.getId()); timeline.setSimId(sim_id);
+		 * timeline.saveMe(schema);
+		 */
 
 		/*
-		List<String> event_list = getSetOfObjectFromFile(fullString,
-				makeOpenTag(Event.class), makeCloseTag(Event.class));
-
-		for (ListIterator<String> li_i = event_list.listIterator(); li_i
-				.hasNext();) {
-			String e_string = li_i.next();
-
-			Event event = (Event) xstream.fromXML(e_string);
-
-			if (event.getTimelineId().equals(timeline_orig_id)) {
-
-				// The id this had on the system it was exported from bears no
-				// relationship to the id where its being imported.
-				event.setId(null);
-				event.setTimelineId(timeline.getId());
-				event.setSimId(sim_id);
-				event.saveMe(schema);
-
-				RestoreResults.createAndSaveObject(reId, event.getId()
-						.toString(), event.getClass().toString(), event
-						.getEventTitle(), "Event Added");
-
-			}
-		}
-		*/
+		 * List<String> event_list = getSetOfObjectFromFile(fullString,
+		 * makeOpenTag(Event.class), makeCloseTag(Event.class));
+		 * 
+		 * for (ListIterator<String> li_i = event_list.listIterator(); li_i
+		 * .hasNext();) { String e_string = li_i.next();
+		 * 
+		 * Event event = (Event) xstream.fromXML(e_string);
+		 * 
+		 * if (event.getTimelineId().equals(timeline_orig_id)) {
+		 * 
+		 * // The id this had on the system it was exported from bears no //
+		 * relationship to the id where its being imported. event.setId(null);
+		 * event.setTimelineId(timeline.getId()); event.setSimId(sim_id);
+		 * event.saveMe(schema);
+		 * 
+		 * RestoreResults.createAndSaveObject(reId, event.getId() .toString(),
+		 * event.getClass().toString(), event .getEventTitle(), "Event Added");
+		 * 
+		 * } }
+		 */
 
 	}
 
 	public static void unpackageTips(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings, Hashtable actorIdMappings) {
+			Hashtable bssIdMappings, Hashtable actorIdMappings,
+			SessionObjectBase sob) {
 
 		List<String> tips_list = getSetOfObjectFromFile(fullString,
 				makeOpenTag(Tips.class), makeCloseTag(Tips.class));
@@ -1138,16 +1157,25 @@ public class ObjectPackager {
 			tip.setId(null);
 			tip.setSimId(sim_id);
 
-			Long newCsId = (Long) bssIdMappings.get(tip.getCsId());
-			Long newActorId = (Long) actorIdMappings.get(tip.getActorId());
-			tip.setCsId(newCsId);
-			tip.setActorId(newActorId);
+			try {
+				Long newCsId = (Long) bssIdMappings.get(tip.getCsId());
+				Long newActorId = (Long) actorIdMappings.get(tip.getActorId());
+				tip.setCsId(newCsId);
+				tip.setActorId(newActorId);
 
-			tip.setTipName("tip: " + newCsId + "_" + newActorId);
-			tip.saveMe(schema);
+				tip.setTipName("tip: " + newCsId + "_" + newActorId);
+				tip.saveMe(schema);
 
-			RestoreResults.createAndSaveObject(reId, tip.getId().toString(),
-					tip.getClass().toString(), tip.getTipName(), "Event Added");
+				RestoreResults.createAndSaveObject(reId,
+						tip.getId().toString(), tip.getClass().toString(), tip
+								.getTipName(), "Event Added");
+			} catch (Exception e) {
+				e.printStackTrace();
+				RestoreResults.createAndSaveWarning(reId,
+						RestoreResults.RESTORE_ERROR, "Problem unpacking: "
+								+ e_string);
+				OSPErrors.storeInternalErrors(e, sob);
+			}
 
 		}
 	}
@@ -1179,7 +1207,8 @@ public class ObjectPackager {
 
 	public static void unpackageSimObjects(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings, Hashtable actorIdMappings, SessionObjectBase sob) {
+			Hashtable bssIdMappings, Hashtable actorIdMappings,
+			SessionObjectBase sob) {
 
 		System.out.println("sims id is " + sim_id);
 
@@ -1246,11 +1275,13 @@ public class ObjectPackager {
 			Long newObjectId = (Long) objectMappings.get(fetchKey);
 			this_bssdoa.setObjectId(newObjectId);
 
+			boolean saveBSSDOA = false;
 			// Map the base section numbers to what they are on this system.
 			try {
 				Long thisMappedId = (Long) bssIdMappings.get(this_bssdoa
 						.getBss_id());
 				this_bssdoa.setBss_id(thisMappedId);
+				saveBSSDOA = true;
 			} catch (Exception e) {
 				e.printStackTrace();
 				RestoreResults.createAndSaveWarning(reId,
@@ -1259,15 +1290,20 @@ public class ObjectPackager {
 				OSPErrors.storeInternalErrors(e, sob);
 			}
 
-			this_bssdoa.saveMe(schema);
+			if (saveBSSDOA) {
+				this_bssdoa.saveMe(schema);
 
-			RestoreResults.createAndSaveObject(reId, this_bssdoa.getId()
-					.toString(), this_bssdoa.getClass().toString(), this_bssdoa
-					.getUniqueTagName(),
-					"Found bssdoa. Sim id / bss id / obj id: "
-							+ this_bssdoa.getSim_id() + " / "
-							+ this_bssdoa.getBss_id() + " / "
-							+ this_bssdoa.getObjectId());
+				RestoreResults.createAndSaveObject(reId, this_bssdoa.getId()
+						.toString(), this_bssdoa.getClass().toString(),
+						this_bssdoa.getUniqueTagName(),
+						"Found bssdoa. Sim id / bss id / obj id: "
+								+ this_bssdoa.getSim_id() + " / "
+								+ this_bssdoa.getBss_id() + " / "
+								+ this_bssdoa.getObjectId());
+			} else {
+				System.out.println("problem");
+				System.out.println(sd_string);
+			}
 		}
 	}
 
@@ -1353,7 +1389,8 @@ public class ObjectPackager {
 
 					Long conv_id = null;
 
-					// 11/9/10 This armor plating is probably no longer necessary. SC
+					// 11/9/10 This armor plating is probably no longer
+					// necessary. SC
 					try {
 						conv_id = (Long) conversationMappings.get(caa
 								.getConv_id());
@@ -1377,7 +1414,7 @@ public class ObjectPackager {
 					sdano.setActor_id(newActorId);
 					sdano.setSd_id((Long) sharedDocumentMappings.get(sdano
 							.getSd_id()));
-				} 
+				}
 
 				if (doRest) {
 
@@ -1396,8 +1433,7 @@ public class ObjectPackager {
 									.getId());
 						} else if (ssdo.getClass().equals(TimeLine.class)) {
 							TimeLine sd = (TimeLine) ssdo;
-							timelineMappings
-									.put(sd.getTransitId(), sd.getId());
+							timelineMappings.put(sd.getTransitId(), sd.getId());
 						} else if (ssdo.getClass().equals(Event.class)) {
 							Event sd = (Event) ssdo;
 							eventMappings.put(sd.getTransitId(), sd.getId());
@@ -1659,7 +1695,7 @@ public class ObjectPackager {
 			// new simulation id.
 			this_act.setSim_id(sim_id);
 			this_act.saveMe(schema);
-			
+
 			RestoreResults.createAndSaveObject(reId, this_act.getId()
 					.toString(), this_act.getClass().toString(), this_act
 					.getActorName(), "unpacked Actor with originalName: "
@@ -1671,21 +1707,24 @@ public class ObjectPackager {
 
 		// Get all of the SimActorAssignments
 		List saa = getSetOfObjectFromFile(fullString,
-				makeOpenTag(SimActorAssignment.class), makeCloseTag(SimActorAssignment.class));
+				makeOpenTag(SimActorAssignment.class),
+				makeCloseTag(SimActorAssignment.class));
 		for (ListIterator<String> li_i = saa.listIterator(); li_i.hasNext();) {
 			String saa_string = li_i.next();
 
-			SimActorAssignment this_saa = (SimActorAssignment) xstream.fromXML(saa_string);
-			
+			SimActorAssignment this_saa = (SimActorAssignment) xstream
+					.fromXML(saa_string);
+
 			this_saa.setSim_id(sim_id);
-			this_saa.setActorId( (Long) actorIdMappings.get(this_saa.getActorId())); 
-			
-			if (saa_string.contains("<active>true</active>")){
+			this_saa.setActorId((Long) actorIdMappings.get(this_saa
+					.getActorId()));
+
+			if (saa_string.contains("<active>true</active>")) {
 				this_saa.setActive(true);
 			}
-			
+
 			this_saa.saveMe(schema);
-			
+
 		}
 
 	}

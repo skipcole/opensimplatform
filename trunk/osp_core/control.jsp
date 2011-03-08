@@ -53,8 +53,8 @@
   </tr
   -->
   <tr valign="top">
-    <td valign="top"><a href="finger.jsp">View Last Logins </a></td>
-    <td valign="top">This page allows you to see when your players have logged in.    </td>
+    <td valign="top"><a href="finger.jsp" -->View Last Logins </a></td>
+    <td valign="top">This page allows you to see when your players have logged in. (in repair shop)    </td>
   </tr>
   <tr valign="top">
     <td valign="top"><a href="write_aar.jsp">Write AAR</a> </td>
