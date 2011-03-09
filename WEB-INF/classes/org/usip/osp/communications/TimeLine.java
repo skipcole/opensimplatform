@@ -20,10 +20,11 @@ import org.usip.osp.networking.SessionObjectBase;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
- * This object represents a sequence of events that may happen or has happened in a simulation.
- *
+ * This object represents a sequence of events that may happen or has happened
+ * in a simulation.
+ * 
  */
-/* 
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
@@ -33,23 +34,28 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
- * 
  */
 @Entity
 @Proxy(lazy = false)
-public class TimeLine  implements SimSectionDependentObject {
-	
+public class TimeLine implements SimSectionDependentObject {
+
 	/** Zero argument constructors */
-	public TimeLine(){
-		
+	public TimeLine() {
+
 	}
-	
-	/** If this timeline represents a plan of events to happen, it will be of this category. */
+
+	/**
+	 * If this timeline represents a plan of events to happen, it will be of
+	 * this category.
+	 */
 	public static final int CATEGORY_MASTERPLAN = 1;
-	
-	/** If this timeline represents what actually transpired, it will be of this category. */
+
+	/**
+	 * If this timeline represents what actually transpired, it will be of this
+	 * category.
+	 */
 	public static final int CATEGORY_ACTUAL_EVENTS = 2;
-	
+
 	/** If this timeline represents a plan, it will be of this category. */
 	public static final int CATEGORY_PLAN = 3;
 
@@ -57,17 +63,17 @@ public class TimeLine  implements SimSectionDependentObject {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String name = "";
-	
+
 	private boolean adjustToRunningSimStartTime = false;
-	
-	
+
 	public boolean isAdjustToRunningSimStartTime() {
 		return adjustToRunningSimStartTime;
 	}
 
-	public void setAdjustToRunningSimStartTime(boolean adjustToRunningSimStartTime) {
+	public void setAdjustToRunningSimStartTime(
+			boolean adjustToRunningSimStartTime) {
 		this.adjustToRunningSimStartTime = adjustToRunningSimStartTime;
 	}
 
@@ -78,7 +84,7 @@ public class TimeLine  implements SimSectionDependentObject {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -90,12 +96,11 @@ public class TimeLine  implements SimSectionDependentObject {
 	private Long simId;
 	private Long runningSimId;
 	private Long phaseId;
-	
+
 	private int timeline_category;
-	
+
 	private Date timeline_start_date = new Date();
-	
-	
+
 	public Date getTimeline_start_date() {
 		return timeline_start_date;
 	}
@@ -114,6 +119,7 @@ public class TimeLine  implements SimSectionDependentObject {
 
 	@Lob
 	private String description = "";
+
 	public String getDescription() {
 		return description;
 	}
@@ -145,7 +151,7 @@ public class TimeLine  implements SimSectionDependentObject {
 	public void setPhaseId(Long phaseId) {
 		this.phaseId = phaseId;
 	}
-	
+
 	/**
 	 * Saves this object back to the database.
 	 * 
@@ -156,64 +162,66 @@ public class TimeLine  implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
-	
-    /**
-     * Returns a particular Timeline.
-     * 
-     * @param schema
-     * @param Timeline_id
-     * @return
-     */
+
+	/**
+	 * Returns a particular Timeline.
+	 * 
+	 * @param schema
+	 * @param Timeline_id
+	 * @return
+	 */
 	public static TimeLine getById(String schema, Long timeline_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		TimeLine act = (TimeLine) MultiSchemaHibernateUtil
-				.getSession(schema).get(TimeLine.class, timeline_id);
+		TimeLine act = (TimeLine) MultiSchemaHibernateUtil.getSession(schema)
+				.get(TimeLine.class, timeline_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return act;
 
 	}
-    
-    
-    /**
-     * Returns all of the base timelines for simulations.
-     * 
-     * @param schema
-     * @param sim_id
-     * @return
-     */
-    public static List getAllBaseForSimulation(String schema, Long sim_id){
-        
+
+	/**
+	 * Returns all of the base timelines for simulations.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static List getAllBaseForSimulation(String schema, Long sim_id) {
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from TimeLine where simId = :sim_id and runningSimId is null")
+		List returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from TimeLine where simId = :sim_id and runningSimId is null")
 				.setLong("sim_id", sim_id).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
-    }
-    
+	}
 
 	@Override
-	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
-		
+	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id,
+			Object templateObject) {
+
 		TimeLine templateTimeLine = (TimeLine) templateObject;
 
 		// Pull it out clean from the database
 		templateTimeLine = TimeLine.getById(schema, templateTimeLine.getId());
-		
+
 		TimeLine newTimeLine = new TimeLine();
-		newTimeLine.setAdjustToRunningSimStartTime(templateTimeLine.isAdjustToRunningSimStartTime());
+		newTimeLine.setAdjustToRunningSimStartTime(templateTimeLine
+				.isAdjustToRunningSimStartTime());
 		newTimeLine.saveMe(schema);
-		
+
 		// to copy events.
-		
+
 		// TODO Auto-generated method stub
-		
+
 		return null;
 	}
 
@@ -234,98 +242,113 @@ public class TimeLine  implements SimSectionDependentObject {
 	 * @param a
 	 * @return
 	 */
-	public static String packageEvent(TimeLineInterface ei){
-		
-		String icon_name = "  icon=\"" + USIP_OSP_Properties.getValue("base_sim_url") ;
-		
-		
-		if (ei.getEventType() == 3){
+	public static String packageTimelineInterfaceObject(TimeLineInterface ei) {
+
+		String icon_name = "  icon=\""
+				+ USIP_OSP_Properties.getValue("base_sim_url");
+
+		if (ei.getEventType() == 3) {
 			icon_name += "/third_party_libraries/timeline_2.3.0/timeline_js/images/red-circle.png\"";
-		} else if (ei.getEventType() == 2){
+		} else if (ei.getEventType() == 2) {
 			icon_name += "/third_party_libraries/timeline_2.3.0/timeline_js/images/green-circle.png\"";
 		} else {
 			icon_name = "";
 		}
-		
-		String returnString = "<event start=\"" 
-			+ Event.similie_sdf.format(ei.getEventStartTime()) + 
-			"\" title=\"" + ei.getEventTitle() +
-			"\" " + icon_name 
-			+ ">";
-		
+
+		String returnString = "<event start=\""
+				+ TimeLine.similie_sdf.format(ei.getEventStartTime())
+				+ "\" title=\"" + ei.getEventTitle() + "\" " + icon_name + ">";
+
 		returnString += USIP_OSP_Util.htmlToCode(ei.getEventMsgBody());
-		
+
 		returnString += "</event>";
 		return returnString;
 	}
 
 	/**
-	 * returns an XML string containing the packaged objects. 
+	 * returns an XML string containing the packaged objects.
 	 * 
 	 * @param setOfEvents
 	 * @return
 	 */
-	public static String packupArray(List <TimeLineInterface> setOfEvents){
-		
+	public static String packupArray(List<TimeLineInterface> setOfEvents) {
+
 		String returnString = "";
-		
-		for (ListIterator<TimeLineInterface> li = setOfEvents.listIterator(); li.hasNext();) {
+
+		for (ListIterator<TimeLineInterface> li = setOfEvents.listIterator(); li
+				.hasNext();) {
 			TimeLineInterface thisEvent = li.next();
-			
-			returnString += TimeLine.packageEvent(thisEvent) + USIP_OSP_Util.lineTerminator;
-			
+
+			returnString += TimeLine.packageTimelineInterfaceObject(thisEvent)
+					+ USIP_OSP_Util.lineTerminator;
+
 		}
-		
+
 		return returnString;
 	}
-	
+
 	@Transient
 	public String timelineURL = "";
-	
+
 	@Transient
-	public  String runStart = "";
-	
+	public String runStart = "";
+
 	@Transient
 	public int shortIntervalPixelDistance = 0;
-	
+
 	@Transient
 	public int longIntervalPixelDistance = 0;
-	
-	public static TimeLine getTimeLineForPresenation(HttpServletRequest request, SessionObjectBase sob){
-		
-		TimeLine returnTimeLine = new TimeLine();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
-		sdf.setTimeZone(TimeZone.getDefault());
-		
-		String cs_id = (String) request.getParameter("cs_id");
-		
-		String timeline_to_show = "";
-		
-		if (cs_id != null){
-			CustomizeableSection cs = CustomizeableSection.getById(sob.schema, cs_id);
-			timeline_to_show = (String) cs.getContents().get(SimilieTimelineCustomizer.KEY_FOR_DISPLAY);
-		} else {
-			timeline_to_show = (String) request.getParameter("timeline_to_show");
-		}
 
-		
-		if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("actual"))){
-			returnTimeLine.runStart = sdf.format(new java.util.Date());
-		} else if (timeline_to_show != null){
-			returnTimeLine = TimeLine.getById(sob.schema, new Long(timeline_to_show));
-			returnTimeLine.runStart = sdf.format(returnTimeLine.getTimeline_start_date());
-		}
-		
-		
-		returnTimeLine.shortIntervalPixelDistance = 125;
-		returnTimeLine.longIntervalPixelDistance = 250;
-		
-		returnTimeLine.timelineURL = "similie_timeline_server.jsp?timeline_to_show=" + timeline_to_show;
+	public static SimpleDateFormat similie_sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 
-		return returnTimeLine;
-		
+
+	{
+		TimeLine.similie_sdf.setTimeZone(TimeZone.getDefault());
 	}
 
+	public static TimeLine getTimeLineForPresenation(
+			HttpServletRequest request, SessionObjectBase sob) {
 
+		TimeLine returnTimeLine = new TimeLine();
+
+		String cs_id = (String) request.getParameter("cs_id");
+
+		String timeline_to_show = "";
+
+		if (cs_id != null) {
+			CustomizeableSection cs = CustomizeableSection.getById(sob.schema,
+					cs_id);
+			timeline_to_show = (String) cs.getContents().get(
+					SimilieTimelineCustomizer.KEY_FOR_DISPLAY);
+
+			if (timeline_to_show != null) {
+				returnTimeLine = TimeLine.getById(sob.schema, new Long(
+						timeline_to_show));
+				returnTimeLine.runStart = TimeLine.similie_sdf.format(returnTimeLine
+						.getTimeline_start_date());
+			}
+		}
+
+		returnTimeLine.shortIntervalPixelDistance = 125;
+		returnTimeLine.longIntervalPixelDistance = 250;
+
+		returnTimeLine.timelineURL = "similie_timeline_server.jsp?timeline_to_show="
+				+ timeline_to_show;
+
+		return returnTimeLine;
+
+	}
+
+	public static TimeLine getReviewTimeLine(HttpServletRequest request,
+			SessionObjectBase sob) {
+
+		TimeLine returnTimeLine = new TimeLine();
+
+		returnTimeLine.runStart = TimeLine.similie_sdf.format(new java.util.Date());
+		returnTimeLine.shortIntervalPixelDistance = 125;
+		returnTimeLine.longIntervalPixelDistance = 250;
+		returnTimeLine.timelineURL = "similie_timeline_server.jsp?timeline_to_show=actual";
+
+		return returnTimeLine;
+	}
 }

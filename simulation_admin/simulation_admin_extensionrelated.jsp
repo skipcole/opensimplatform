@@ -29,6 +29,10 @@
                   <br />
                   <table width="100%" border="1" cellspacing="2" cellpadding="1">
                     <tr valign="top">
+                      <td><a href="export_import_experience.jsp">Import/Export Experience</a> </td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr valign="top">
                       <td width="24%"><a href="install_simulation_sections.jsp">Install Simulation Sections</a></td>
                       <td width="72%">Install sections that can be added to simulations.</td>
                     </tr>

@@ -40,8 +40,6 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy = false)
 public class Event implements TimeLineInterface, SimSectionDependentObject, ExportableObject{
 	
-	public static SimpleDateFormat similie_sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
-
 	public Event() {
 		
 	}

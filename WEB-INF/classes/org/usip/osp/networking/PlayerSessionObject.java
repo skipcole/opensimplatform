@@ -841,9 +841,12 @@ public class PlayerSessionObject extends SessionObjectBase {
 		if ((inject_id != null) && (!(inject_id.equalsIgnoreCase("null")))
 				&& (inject_id.length() > 0)) {
 			
+			Inject inj = Inject.getById(schema, new Long (inject_id));
+			
 			// Record this in the firing history
 			InjectFiringHistory ifh = new InjectFiringHistory(
-					this.runningSimId, this.actorId, new Long(inject_id), "some", alertInQueueText,
+					this.runningSimId, this.actorId, new Long(inject_id), "some", 
+					inj.getInject_name(), alertInQueueText,
 					targets, schema);
 
 			USIP_OSP_Cache
@@ -1534,7 +1537,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				this.alertInQueueType = Alert.TYPE_EVENT;
 				return true;
 				
-			} else {						// Sending inejct to all players
+			} else {						// Sending inject to all players
 				makeGeneralAnnouncement(announcement_text, request);
 
 				if (inject_id != null) {
@@ -1545,7 +1548,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 					// Record this in the firing history
 					InjectFiringHistory ifh = new InjectFiringHistory(
 							this.runningSimId, this.actorId, theInject.getId(), 
-							"all", announcement_text, "all", schema);
+							"all", theInject.getInject_name(), announcement_text, "all", schema);
 
 					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
 							this.runningSimId, this.actorId, theInject.getId(),

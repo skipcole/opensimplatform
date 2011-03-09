@@ -55,8 +55,7 @@
       <p>Below are listed instructor activities that are either rare, or in development.</p>
       <ul>
         <li><a href="create_set_of_running_sims.jsp">Create Set of Running Simulations</a></li>
-        <li><a href="export_import_experience.jsp">Export / Import Simulation Experience</a> </li>
-      </ul>
+        </ul>
       <p align="center"></p>			</td>
 		</tr>
 		</table>	</td>
