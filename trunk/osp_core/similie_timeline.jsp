@@ -5,7 +5,7 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
-	org.usip.osp.baseobjects.core.*" 
+	org.usip.osp.communications.*" 
 	errorPage="/error.jsp" %>
 
 <%
@@ -16,46 +16,10 @@
 		return;
 	}
 	
-	String cs_id = (String) request.getParameter("cs_id");
+	TimeLine tl = TimeLine.getTimeLineForPresenation(request, pso);
 	
-	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
-    
-	String timeline_to_show = (String) cs.getContents().get(SimilieTimelineCustomizer.KEY_FOR_DISPLAY);
-	
-	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
-	sdf.setTimeZone(TimeZone.getDefault());
-	
-	String run_start = sdf.format(new java.util.Date());
-	
-	RunningSimulation running_sim = new RunningSimulation();
-	
-	if (timeline_to_show != null){
-		
-		Simulation simulation = new Simulation();	
-	
-		if (pso.sim_id != null){
-			System.out.println("pso.sim_id: " + pso.sim_id);
-			simulation = pso.giveMeSim();
-			run_start = sdf.format(simulation.getPhaseStartTime(pso.schema, simulation.getFirstPhaseId(pso.schema)));
-		}
-	} else {
-		if (pso.getRunningSimId() != null){
-			running_sim = (RunningSimulation) pso.giveMeRunningSim();
-			run_start = sdf.format(running_sim.getEnabledDate());
-		}
-	}
-	
-	// TODO - temporarily overriding this until customization is in place
-	
-	run_start = "Jan 01 2001 13:00:03 EST";
-	
-	int shortIntervalPixelDistance = 125;
-	int longIntervalPixelDistance = 250;
-	
-	String timeline_server_url = "similie_timeline_server.jsp?timeline_to_show=" + timeline_to_show;
-	
-	System.out.println(timeline_server_url);
-	// if this is a timeline of actual events, then pull them out.
+	System.out.println(tl.timelineURL);
+	System.out.println(tl.runStart);
 	
 %>
 <html>
@@ -71,25 +35,25 @@
         Timeline.createBandInfo({
 			timeZone:       -5,
              eventSource:    eventSource,
-            date:           "<%= run_start %>",
+            date:           "<%= tl.runStart %>",
             width:          "80%", 
             intervalUnit:   Timeline.DateTime.HOUR, 
-            intervalPixels: <%= shortIntervalPixelDistance %>
+            intervalPixels: <%= tl.shortIntervalPixelDistance %>
         }),
         Timeline.createBandInfo({
 			timeZone:       -5,
             overview:       true,
             eventSource:    eventSource,
-            date:           "<%= run_start %>",
+            date:           "<%= tl.runStart %>",
             width:          "20%", 
             intervalUnit:   Timeline.DateTime.DAY, 
-            intervalPixels: <%= longIntervalPixelDistance %>
+            intervalPixels: <%= tl.longIntervalPixelDistance %>
         })
         ];
         bandInfos[1].syncWith = 0;
         bandInfos[1].highlight = true;
         tl = Timeline.create(document.getElementById("my-timeline"), bandInfos);
-        Timeline.loadXML("<%= timeline_server_url %>", function(xml, url) { eventSource.loadXML(xml, url); });
+        Timeline.loadXML("<%= tl.timelineURL %>", function(xml, url) { eventSource.loadXML(xml, url); });
         }
 
         var resizeTimerID = null;

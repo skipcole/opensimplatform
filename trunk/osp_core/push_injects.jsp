@@ -66,7 +66,7 @@
           <select name="inject_action" id="inject_action">
             <option value="1" selected> </option>
             <option value="2">Communicate with Control your actions</option>
-                                        </select>
+          </select>
           </label>
       </p></td>
   </tr>
@@ -170,6 +170,7 @@
  <% } // end of loop over inject groups %>
 </table>
 <p>For a print out of the injects, <a href="pretty_print_injects.jsp">click here</a>.</p>
+<p><a href="similie_timeline.jsp?timeline_to_show=actual_events">See Injects Fired </a></p>
 </body>
 </html>
 <%

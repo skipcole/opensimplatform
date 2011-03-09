@@ -16,7 +16,9 @@
 	
 	String textToShow = "";
 	
-	if (timeline_to_show != null){
+	if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("actual"))){
+		textToShow = PlayerSessionObject.getInjectFiredForTimeline(pso.schema, pso.getRunningSimId());
+	} else if (timeline_to_show != null){
 		textToShow = PlayerSessionObject.getEventsForTimeline(pso.schema, new Long(timeline_to_show));
 	} 
 	
