@@ -1,16 +1,22 @@
 package org.usip.osp.communications;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.TimeZone;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
+import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
+import org.usip.osp.baseobjects.core.SimilieTimelineCustomizer;
+import org.usip.osp.networking.SessionObjectBase;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -271,6 +277,54 @@ public class TimeLine  implements SimSectionDependentObject {
 		}
 		
 		return returnString;
+	}
+	
+	@Transient
+	public String timelineURL = "";
+	
+	@Transient
+	public  String runStart = "";
+	
+	@Transient
+	public int shortIntervalPixelDistance = 0;
+	
+	@Transient
+	public int longIntervalPixelDistance = 0;
+	
+	public static TimeLine getTimeLineForPresenation(HttpServletRequest request, SessionObjectBase sob){
+		
+		TimeLine returnTimeLine = new TimeLine();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
+		sdf.setTimeZone(TimeZone.getDefault());
+		
+		String cs_id = (String) request.getParameter("cs_id");
+		
+		String timeline_to_show = "";
+		
+		if (cs_id != null){
+			CustomizeableSection cs = CustomizeableSection.getById(sob.schema, cs_id);
+			timeline_to_show = (String) cs.getContents().get(SimilieTimelineCustomizer.KEY_FOR_DISPLAY);
+		} else {
+			timeline_to_show = (String) request.getParameter("timeline_to_show");
+		}
+
+		
+		if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("actual"))){
+			returnTimeLine.runStart = sdf.format(new java.util.Date());
+		} else if (timeline_to_show != null){
+			returnTimeLine = TimeLine.getById(sob.schema, new Long(timeline_to_show));
+			returnTimeLine.runStart = sdf.format(returnTimeLine.getTimeline_start_date());
+		}
+		
+		
+		returnTimeLine.shortIntervalPixelDistance = 125;
+		returnTimeLine.longIntervalPixelDistance = 250;
+		
+		returnTimeLine.timelineURL = "similie_timeline_server.jsp?timeline_to_show=" + timeline_to_show;
+
+		return returnTimeLine;
+		
 	}
 
 
