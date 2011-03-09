@@ -12,35 +12,6 @@
 		return;
 	}
 	
-	Simulation simulation = new Simulation();	
-	
-	if (afso.sim_id != null){
-		simulation = afso.giveMeSim();
-	}
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	
-	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("inactivate_rs"))){
-	
-		String action = (String) request.getParameter("action");
-		String rsid = (String) request.getParameter("rsid");
-		
-		System.out.println("a/r " + action + "/" + rsid);
-		
-		if (action != null) {
-		
-			RunningSimulation rs = RunningSimulation.getById(afso.schema, new Long(rsid));
-		
-			if (action.equalsIgnoreCase("Inactivate")) {
-				rs.setInactivated(true);
-			} else if (action.equalsIgnoreCase("Activate")) {
-				rs.setInactivated(false);
-			}
-			
-			rs.saveMe(afso.schema);
-		}
-	
-	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -88,22 +59,19 @@
 
 						%>
                       <tr>
-                        <td valign="top"><%= this_sim.getName() %></td>
+                        <td valign="top"><%= this_sim.getSimulationName() %></td>
                         <td valign="top">[sim]_ver-[version]_[scema]_runs_[number]_[date].xml<br />
                         <br /></td>
                         <td valign="top">
-                        <form id="form<%= rs.getId() %>" name="form<%= rs.getId() %>" method="post" action="">
+                        <form id="form" name="form" method="post" action="">
                         <input type="hidden" name="sending_page" value="inactivate_rs">  
-                            <input type="submit" name="button" id="button" value="<%= actionTitle %>" />
+                            <input type="submit" name="button" id="button" value="Export" />
                         </form>                        </td>
                       </tr>
                       <%
 			}
 		%>
                     </table>
-                  
-                  
-                 <% } // End of loop over sims. %>
                  
                  </blockquote>
                   <p>&nbsp;</p>

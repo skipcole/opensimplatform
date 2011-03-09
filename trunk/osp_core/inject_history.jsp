@@ -34,7 +34,8 @@
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
 <h1>Inject Firing History </h1>
-<table width="100%" border="0">
+<blockquote>
+<table width="90%" border="1">
   <tr>
     <td><strong>Inject</strong></td>
     <td><%= inject.getInject_name() %></td>
@@ -44,12 +45,29 @@
     <td><%= inject.getInject_text() %></td>
   </tr>
 </table>
+</blockquote>
 <p>&nbsp;</p>
 <h2>Uses this Running Simulation</h2>
 <blockquote>
-  <table width="100%" border="0">
+<%
+	List useList = InjectFiringHistory.getAllForInjectAndRunningSim(pso.schema, pso.getRunningSimId(), inject.getId());
+	
+	if ((useList == null) || (useList.size() == 0)) {
+%>
+	<UL><LI>None</LI></UL>
+<% } else { %>
+  <table width="90%" border="1">
+  
+  <%
+  		for (ListIterator lii = useList.listIterator(); lii.hasNext();) {
+			InjectFiringHistory ifh = (InjectFiringHistory) lii.next();
+  %>
     <tr>
-      <td>Actors From and To </td>
+      <td>From</td>
+      <td><%= ifh.getId() %></td>
+    </tr>
+    <tr>
+      <td>To</td>
       <td>&nbsp;</td>
     </tr>
     <tr>
@@ -60,9 +78,11 @@
       <td>Text (if modified from original) </td>
       <td>&nbsp;</td>
     </tr>
+	<% } %>
   </table>
-  <p>&nbsp;</p>
+  <% } %>
 </blockquote>
+<p>&nbsp;</p>
 <h2>Uses in Other Running Simulations</h2>
 <blockquote>
   <p>Check in Inject Firing history for events for other simulations </p>

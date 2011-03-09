@@ -53,6 +53,10 @@
   </tr
   -->
   <tr valign="top">
+    <td valign="top"><a href="similie_review_timeline.jsp">Review Injects Sent</a> </td>
+    <td valign="top">Allows you to look at a timeline of the injects you have sent out. </td>
+  </tr>
+  <tr valign="top">
     <td valign="top"><a href="finger.jsp" -->View Last Logins </a></td>
     <td valign="top">This page allows you to see when your players have logged in. (in repair shop)    </td>
   </tr>

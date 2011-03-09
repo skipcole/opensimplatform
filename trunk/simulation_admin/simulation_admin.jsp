@@ -33,7 +33,7 @@
                     </tr>
                     <tr valign="top">
                       <td><a href="simulation_admin_extensionrelated.jsp">Extension Tasks</a></td>
-                      <td>Allows you to add new simulation sections or models to your USIP OSP installation</td>
+                      <td>Allows you to import experience from other simulations, or add new simulation sections or models to your USIP OSP installation.</td>
                     </tr>
                     <tr valign="top">
                       <td><a href="simulation_maintenancerelated.jsp">Maintenance Tasks</a></td>

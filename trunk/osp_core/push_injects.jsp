@@ -109,7 +109,7 @@
 <input type="hidden" name="sending_page" value="push_injects">
   <tr>
     <td valign="top">&nbsp;</td>
-    <td colspan="2" valign="top"><%= da_inject.getInject_name() %><a href="inject_history.jsp?inject_id=<%= da_inject.getId() %>">Inject History </a></td>
+    <td colspan="2" valign="top"><%= da_inject.getInject_name() %> <a href="inject_history.jsp?inject_id=<%= da_inject.getId() %>">Inject History </a></td>
     <td width="33%" rowspan="3" valign="top">
     <%
 		String selected_all = " checked ";
@@ -170,7 +170,7 @@
  <% } // end of loop over inject groups %>
 </table>
 <p>For a print out of the injects, <a href="pretty_print_injects.jsp">click here</a>.</p>
-<p><a href="similie_timeline.jsp?timeline_to_show=actual_events">See Injects Fired </a></p>
+<p><a href="similie_review_timeline.jsp?timeline_to_show=actual_events">See Injects Fired </a></p>
 </body>
 </html>
 <%

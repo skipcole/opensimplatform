@@ -75,6 +75,17 @@ public class InjectFiringHistory implements TimeLineInterface {
 		this.actualFiredText = actualFiredText;
 	}
 
+    @Column(name = "inject_name")
+	private String injectName = ""; //$NON-NLS-1$
+    
+	public String getInjectName() {
+		return injectName;
+	}
+
+	public void setInjectName(String injectName) {
+		this.injectName = injectName;
+	}
+
 	public InjectFiringHistory(){
 		
 	}
@@ -91,14 +102,16 @@ public class InjectFiringHistory implements TimeLineInterface {
 	 * @param schema
 	 */
 	public InjectFiringHistory(Long running_sim_id, Long actor_id, Long injectId, 
-			String targets, String iText, String iActors, String schema){
+			String targets, String iTitle, String iText, String iActors, String schema){
 		
 		this.running_sim_id = running_sim_id;
 		this.actor_id = actor_id;
 		this.setTargets(targets);
+		this.setInjectName(iTitle);
 		this.setInjectId(injectId);
 		this.setActualFiredText(iText);
 		this.setActorIdsFiredTo(iActors);
+		this.setFiredDate(new java.util.Date());
 		
 		this.saveMe(schema);
 		
@@ -195,6 +208,23 @@ public class InjectFiringHistory implements TimeLineInterface {
 		return returnList;
 	}
 	
+	
+	public static List<InjectFiringHistory> getAllForInjectAndRunningSim(String schema, Long running_sim_id, Long injectId) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InjectFiringHistory> returnList = 
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from InjectFiringHistory where running_sim_id = :running_sim_id and injectId = :injectId")
+				.setLong("running_sim_id", running_sim_id)		
+				.setLong("injectId", injectId)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
 	/**
 	 * Returns all of the injects fired for a particular running sim/actor combo.
 	 * @param schema
@@ -249,8 +279,7 @@ public class InjectFiringHistory implements TimeLineInterface {
 
 	@Override
 	public String getEventMsgBody() {
-		// TODO Auto-generated method stub
-		return null;
+		return actualFiredText;
 	}
 
 	@Override
@@ -267,14 +296,12 @@ public class InjectFiringHistory implements TimeLineInterface {
 
 	@Override
 	public Date getEventStartTime() {
-		// TODO Auto-generated method stub
-		return null;
+		return firedDate;
 	}
 
 	@Override
 	public String getEventTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.injectName;
 	}
 
 	@Override
