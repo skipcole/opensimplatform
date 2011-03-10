@@ -40,7 +40,7 @@
 </head>
 <body>
 <h1>Email</h1>
-<p align="center"><a href="write_email.jsp">Compose New Email</a> | <a href="email.jsp">Check for New Email</a></p>
+<p align="center"><a href="write_email_pre_step.jsp">Compose New Email</a> | <a href="email.jsp">Check for New Email</a></p>
 <h2>Inbox for <%= pso.getActorName() %></h2>
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
   <tr>

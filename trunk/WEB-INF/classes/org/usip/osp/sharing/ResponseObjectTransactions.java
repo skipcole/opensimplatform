@@ -9,6 +9,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
 
+/**
+ * This object/table is used to basically keep a linked list between events.
+ * 
+ *
+ */
 /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
