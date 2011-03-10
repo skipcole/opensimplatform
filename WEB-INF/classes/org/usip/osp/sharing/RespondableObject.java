@@ -1,15 +1,20 @@
 package org.usip.osp.sharing;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.BaseSimSection;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This object represents something to be put into a list from which the player can select. 
  * Selecting an object will indicate that this is something that player is responding to.
+ * Essentially, this is redundant data stored here for convenience of lookup and execution.
+ * 
  *
  */
 /* 
@@ -59,6 +64,7 @@ public class RespondableObject {
 	/** The type of object to respond to that the player sees." */
 	private String humanReadableObjectType = "Announcement";
 	
+	/** */
 	private String responseObjectSynopsis = "";
 	
 	/** The id of this object used to pull it out of the database if necessary. */
@@ -178,6 +184,21 @@ public class RespondableObject {
 		
 	}
 	
+	/**
+	 * Convenience method for creating and storing a respondable object.
+	 * 
+	 * @param schema
+	 * @param simId
+	 * @param rsId
+	 * @param phase_id
+	 * @param objId
+	 * @param objClassName
+	 * @param roSynopsis
+	 * @param actor_id
+	 * @param userName
+	 * @param userDisplayName
+	 * @param recipients
+	 */
 	public RespondableObject(String schema, Long simId, Long rsId, Long phase_id, 
 			Long objId, String objClassName, String roSynopsis, 
 			Long actor_id, String userName, String userDisplayName,
@@ -205,5 +226,7 @@ public class RespondableObject {
 	public void generateRecipients(RespondableObject ro, Long simId, String recipients, String schema){
 		
 	}
+	
+
 	
 }
