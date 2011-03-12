@@ -35,20 +35,11 @@
               <tr>
                 <td width="120"><img src="../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><h1> <br />
-                  Export / Import Experience (<span class="style1">Work In Progress</span>) </h1>
-                  <p>These section allows one to pull in information from previous runs, or to export information that one has obtained. Specific information saved in an 'experience extract' will include</p>
-                  <ul>
-                    <li>Instructor Tips (T) </li>
-                    <li>Instructor Injects (I) </li>
-                    <li>Player Responses to Injects (RT) </li>
-                    <li>Student Reflections (R) </li>
-                  </ul>
-                  <p>&nbsp;</p>
-                  <p>On to <a href="export_experience.jsp">Export Experience</a></p>
-                  <p>On to <a href="import_experience.jsp">Import Experience  </a><br />
-                  </p>
+                  Import Experience (<span class="style1">Work In Progress</span>) </h1>
+                  <p>This section allows one to pull in information from previous runs.</p>
+                  <p>The following files were found in your import directory: </p>
+                  <br />
                   <blockquote>&nbsp;</blockquote>
-                  <p>&nbsp;</p>
                 </td>
               </tr>
             </table></td>
@@ -63,3 +54,5 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
+<%
+%>

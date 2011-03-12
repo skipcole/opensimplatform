@@ -585,7 +585,7 @@ public class Simulation implements ExportableObject, Comparable{
 			return new ArrayList<RunningSimulation>();
 		}
 		
-		return RunningSimulation.getAllForSim(this.id.toString(), schema);
+		return RunningSimulation.getAllForSim(this.id, schema);
 	}
 
 	public String getCreation_org() {

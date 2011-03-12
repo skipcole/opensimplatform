@@ -87,7 +87,7 @@
                   <td><h2>In Set</h2></td>
                 </tr>
                 <%
-		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id.toString(), afso.schema);
+		  	List rsList = RunningSimulation.getAllForSim(afso.sim_id, afso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();

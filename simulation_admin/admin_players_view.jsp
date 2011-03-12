@@ -70,7 +70,7 @@
   for (ListIterator li = simList.listIterator(); li.hasNext();) {
 	Simulation sim = (Simulation) li.next();
 	
-	List rsList = RunningSimulation.getAllForSim(sim.getId() + "", afso.schema);	
+	List rsList = RunningSimulation.getAllForSim(sim.getId(), afso.schema);	
 	
 	for (ListIterator lirs = rsList.listIterator(); lirs.hasNext();) {
 		RunningSimulation rs = (RunningSimulation) lirs.next();
