@@ -314,14 +314,15 @@ public class RunningSimulation {
 	 * @param schema
 	 * @return
 	 */
-	public static List<RunningSimulation> getAllForSim(String simid,
+	public static List<RunningSimulation> getAllForSim(Long simid,
 			String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<RunningSimulation> returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
-				.createQuery("from RunningSimulation where sim_id = :sim_id").setString("sim_id", simid).list(); //$NON-NLS-1$
+				.createQuery("from RunningSimulation where sim_id = :sim_id")
+					.setLong("sim_id", simid).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

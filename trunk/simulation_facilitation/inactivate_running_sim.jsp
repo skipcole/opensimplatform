@@ -81,7 +81,7 @@
                         <td><h2>Inactivate /Activate</h2></td>
                       </tr>
                       <%
-		  	List rsList = RunningSimulation.getAllForSim(this_sim.getId().toString(), afso.schema);
+		  	List rsList = RunningSimulation.getAllForSim(this_sim, afso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();
