@@ -33,6 +33,7 @@ public class FileIO {
 	public static String packaged_sim_dir = ""; //$NON-NLS-1$
 	public static String upgrade_files_dir = ""; //$NON-NLS-1$
 	private static String sim_image_dir = ""; //$NON-NLS-1$
+	public static String sim_experience_dir = ""; //$NON-NLS-1$
 
 	static {
 
@@ -51,6 +52,8 @@ public class FileIO {
 		upgrade_files_dir = base_web_dir + "software_upgrade_files" + File.separator;
 		sim_image_dir = base_web_dir + "simulation" + File.separator + "images"
 				+ File.separator;
+		sim_experience_dir = base_web_dir + "simulation_admin" + File.separator
+			+ "experience_archives" + File.separator;
 
 	}
 
@@ -111,31 +114,32 @@ public class FileIO {
 		} else if (saveType == OSPSimMedia.SIM_IMAGE) {
 			saveDir = sim_image_dir;
 		} else {
-			Logger.getRootLogger().debug(
+			Logger.getRootLogger().warn(
 					"Warning. Don't understand saveType: " + saveType);
 		}
 
 		return saveDir;
 	}
 	
+	/**
+	 * 
+	 * @param saveType
+	 * @param fileName
+	 * @param fileData
+	 */
 	public static void saveImageFile(int saveType, String fileName,
 			byte [] fileData) {
 
 		String saveDir = getSaveDirectory(saveType);
-		
-		System.out.println("saveDir was " + saveDir);
 
 		if (saveDir != null) {
 			try {
 				
 				String filePathAndName = saveDir + fileName;
 				
-				System.out.println(filePathAndName);
-				
 				File outFile = new File(filePathAndName);
 				
 				if (outFile.exists()){
-					System.out.println("getting new outfile name");
 					
 					outFile = getCleanFileName(filePathAndName);
 				}
@@ -304,6 +308,31 @@ public class FileIO {
 		}
 
 		return false;
+	}
+	
+	/**
+	 * Saves an archive of the users in this schema.
+	 * 
+	 * @param fileContents
+	 * @param fileName
+	 * @return
+	 */
+	public static boolean saveFile(String fileContents, String fileName) {
+		try {
+			File outFile = new File(fileName);
+
+			FileWriter outFW = new FileWriter(outFile);
+
+			outFW.write(fileContents);
+
+			outFW.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

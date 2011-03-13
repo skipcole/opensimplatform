@@ -125,7 +125,7 @@ public class RunningSimulationInformationLine {
 			afso.sim_id = sim.getId();
 
 			List rsList = RunningSimulation.getAllForSim(
-					afso.sim_id.toString(), afso.schema);
+					afso.sim_id, afso.schema);
 
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();

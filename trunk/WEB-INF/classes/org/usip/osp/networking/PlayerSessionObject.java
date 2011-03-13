@@ -821,7 +821,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public void makeTargettedAnnouncement(HttpServletRequest request,
 			String inject_id) {
 
-		String targets = list2String(getIdsOfCheckBoxes("actor_cb_", request));
+		String targets = list2String(USIP_OSP_Util.getIdsOfCheckBoxes("actor_cb_", request));
 
 		Alert al = new Alert();
 		al.setSpecific_targets(true);
@@ -877,31 +877,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		return returnString;
 
-	}
-
-	/**
-	 * returns a list of strings containing the value ( generally assumed to be
-	 * an id) from the checkboxes of a form.
-	 */
-	public List getIdsOfCheckBoxes(String tagString, HttpServletRequest request) {
-
-		ArrayList returnList = new ArrayList();
-
-		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
-			String param_name = (String) e.nextElement();
-
-			if (param_name.startsWith(tagString)) {
-				if ((request.getParameter(param_name) != null)
-						&& (request.getParameter(param_name)
-								.equalsIgnoreCase("true"))) {
-					String this_a_id = param_name.replaceFirst(tagString, "");
-
-					returnList.add(this_a_id);
-				}
-			}
-		}
-
-		return returnList;
 	}
 
 	/**

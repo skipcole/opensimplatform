@@ -1,6 +1,8 @@
 package org.usip.osp.baseobjects;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
 
@@ -118,6 +120,13 @@ public class USIP_OSP_Util {
 		}
 	}
 	
+	/** 
+	 * Returns the matchText if a and b match.
+	 * @param a
+	 * @param b
+	 * @param matchText
+	 * @return
+	 */
 	public static String matchSelected(Long a, Long b, String matchText) {
 		if ((a == null) || (b == null)) {
 			return "";
@@ -130,6 +139,12 @@ public class USIP_OSP_Util {
 		}
 	}
 	
+	/**
+	 * Converts HTML to HTML presentation code.
+	 * 
+	 * @param htmlString
+	 * @return
+	 */
 	public static String htmlToCode(String htmlString){
 		
 		htmlString = htmlString.replaceAll("\\r\\n", "<br />");
@@ -254,4 +269,93 @@ public class USIP_OSP_Util {
 	}
 
 	public static final String lineTerminator = "\r\n"; //$NON-NLS-1$
+
+	/**
+	 * returns a list of strings containing the value ( generally assumed to be
+	 * an id) from the checkboxes of a form.
+	 */
+	public static List <String> getIdsOfCheckBoxes(String tagString, HttpServletRequest request) {
+	
+		ArrayList <String> returnList = new ArrayList <String> ();
+	
+		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+			String param_name = (String) e.nextElement();
+	
+			if (param_name.startsWith(tagString)) {
+				if ((request.getParameter(param_name) != null)
+						&& (request.getParameter(param_name)
+								.equalsIgnoreCase("true"))) {
+					String this_a_id = param_name.replaceFirst(tagString, "");
+	
+					returnList.add(this_a_id);
+				}
+			}
+		}
+	
+		return returnList;
+	}
+
+	public static void main(String args[]){
+		
+		cleanStringForFileName("!@#$Hello().alsdjfaosdas;ldfasf.text");
+		
+	}
+	
+	/** Takes a string which may contain special characters and returns an alpha numeric sequence
+	 * suitable for using as a file name.
+	 * 
+	 * @param inputString
+	 * @return
+	 */
+	public static String cleanStringForFileName(String inputString){
+		
+		 if (inputString == null) {
+			 return "";
+		 }
+		 
+		 StringBuffer sb = new StringBuffer();
+		 
+		 int lastDecimal = 0;
+		 
+		 int newStringCounter = 0;
+		 
+		 for (int ii = 0; ii < inputString.length(); ++ii){
+			 
+			 if ((inputString.charAt(ii) >= 'A') && (inputString.charAt(ii) <= 'Z')) {
+				 sb.append(inputString.charAt(ii));
+				 newStringCounter += 1;
+			 }
+			 
+			 if ((inputString.charAt(ii) >= 'a') && (inputString.charAt(ii) <= 'z')) {
+				 sb.append(inputString.charAt(ii));
+				 newStringCounter += 1;
+			 }
+			 
+			 if ((inputString.charAt(ii) >= '0') && (inputString.charAt(ii) <= '9')) {
+				 sb.append(inputString.charAt(ii));
+				 newStringCounter += 1;
+			 }
+			 
+			 if (inputString.charAt(ii) == '_'){
+				 sb.append(inputString.charAt(ii));
+				 newStringCounter += 1;
+			 }
+
+			 if (inputString.charAt(ii) == '.'){
+				 newStringCounter += 1;
+				 sb.append("_");
+				 lastDecimal = newStringCounter;
+			 }
+		 }
+		 
+		 if (lastDecimal > 0){
+			 sb.setCharAt(lastDecimal, '.');
+		 }
+		 
+		 String returnString = new String(sb);
+		 
+		 System.out.println(returnString);
+		 return returnString;
+	}
+
 }
