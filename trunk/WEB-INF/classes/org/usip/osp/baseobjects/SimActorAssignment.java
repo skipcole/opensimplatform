@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ExportableObject;
 
 /**
  * This class represents the assignment of an actor into a simulation.

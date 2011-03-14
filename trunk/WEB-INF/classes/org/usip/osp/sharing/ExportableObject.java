@@ -1,4 +1,4 @@
-package org.usip.osp.baseobjects;
+package org.usip.osp.sharing;
 
 /**
  * Objects implement this class to be able to be exported and imported to XML. The key feature of this

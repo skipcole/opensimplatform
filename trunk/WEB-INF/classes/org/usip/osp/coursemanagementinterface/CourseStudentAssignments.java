@@ -1,6 +1,6 @@
 package org.usip.osp.coursemanagementinterface;
 
-import org.usip.osp.baseobjects.ExportableObject;
+import org.usip.osp.sharing.ExportableObject;
 
 public class CourseStudentAssignments  implements ExportableObject{
 

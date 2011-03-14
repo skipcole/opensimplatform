@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.usip.osp.sharing.ExportableObject;
+
 /*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 

@@ -9,6 +9,7 @@ import org.usip.osp.communications.Conversation;
 import org.usip.osp.communications.Event;
 import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.*;
+import org.usip.osp.sharing.ExportableObject;
 import org.usip.osp.sharing.ObjectPackager;
 import org.apache.log4j.*;
 

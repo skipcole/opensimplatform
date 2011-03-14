@@ -504,4 +504,15 @@ public class RunningSimulation {
 	 * public void setConversations(List<Conversation> conversations) {
 	 * this.conversations = conversations; }
 	 */
+	
+	private boolean importedRecord = false;
+
+	public boolean isImportedRecord() {
+		return importedRecord;
+	}
+
+	public void setImportedRecord(boolean importedRecord) {
+		this.importedRecord = importedRecord;
+	}
+
 }

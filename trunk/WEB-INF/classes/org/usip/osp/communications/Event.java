@@ -13,12 +13,12 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.ExportableObject;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.SimPhaseAssignment;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ExportableObject;
 
 /**
  * This class represents an event.
