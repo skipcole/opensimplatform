@@ -4,6 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ExportableObject;
+
 import java.util.*;
 
 import javax.persistence.*;

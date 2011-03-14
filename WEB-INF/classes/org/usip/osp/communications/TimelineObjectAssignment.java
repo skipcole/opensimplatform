@@ -8,9 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.ExportableObject;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ExportableObject;
 
 /**
  * This object represents the mapping of an object (event, inject, etc.) to a timeline.
