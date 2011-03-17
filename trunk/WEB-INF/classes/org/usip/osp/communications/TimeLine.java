@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
@@ -16,6 +17,7 @@ import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.core.SimilieTimelineCustomizer;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.networking.SessionObjectBase;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
@@ -341,14 +343,51 @@ public class TimeLine implements SimSectionDependentObject {
 
 	public static TimeLine getReviewTimeLine(HttpServletRequest request,
 			SessionObjectBase sob) {
+		
+		String rs_id = (String) request.getParameter("rs_id");
+	
+		String targetRSID = "";
+		if ((rs_id != null) && (rs_id.length() > 0) && (!(rs_id.equalsIgnoreCase("null")))){
+			targetRSID = "&rs_id=" + rs_id;
+		}
 
 		TimeLine returnTimeLine = new TimeLine();
 
 		returnTimeLine.runStart = TimeLine.similie_sdf.format(new java.util.Date());
 		returnTimeLine.shortIntervalPixelDistance = 125;
 		returnTimeLine.longIntervalPixelDistance = 250;
-		returnTimeLine.timelineURL = "similie_timeline_server.jsp?timeline_to_show=actual";
+		returnTimeLine.timelineURL = "similie_timeline_server.jsp?timeline_to_show=actual" + targetRSID;
+		
+		System.out.println("tlurl: " + returnTimeLine.timelineURL);
 
 		return returnTimeLine;
+	}
+	
+	public static String serveUpTimeLine(HttpServletRequest request, HttpServletResponse response,
+			PlayerSessionObject pso) {
+		
+		System.out.println("serveUpTimeLine");
+		
+		String timeline_to_show = (String) request.getParameter("timeline_to_show");
+		String rs_id = (String) request.getParameter("rs_id");
+
+		Long RsIdOfTimeLineToShow = pso.getRunningSimId();
+		
+		if ((rs_id != null) && (rs_id.length() > 0) && (!(rs_id.equalsIgnoreCase("null")))){
+			RsIdOfTimeLineToShow = new Long(rs_id);
+		}
+		
+		String textToShow = "";
+		
+		if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("actual"))){
+			textToShow = PlayerSessionObject.getInjectFiredForTimeline(pso.schema, RsIdOfTimeLineToShow);
+		} else if (timeline_to_show != null){
+			textToShow = PlayerSessionObject.getEventsForTimeline(pso.schema, new Long(timeline_to_show));
+		} 
+		
+		response.setContentType("text/xml");
+		response.setHeader("Cache-Control", "no-cache");
+		
+		return textToShow;
 	}
 }

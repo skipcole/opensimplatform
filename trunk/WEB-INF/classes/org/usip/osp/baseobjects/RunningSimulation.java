@@ -12,6 +12,7 @@ import org.usip.osp.communications.Alert;
 import org.usip.osp.communications.Emailer;
 import org.usip.osp.coursemanagementinterface.InstructorRunningSimAssignments;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ImportedExperienceObject;
 import org.usip.osp.specialfeatures.InventoryItem;
 import org.apache.log4j.*;
 
@@ -32,7 +33,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "RUNNING_SIM")
 @Proxy(lazy = false)
-public class RunningSimulation {
+public class RunningSimulation implements ImportedExperienceObject{
 
 	/** Database id of this Running Simulation. */
 	@Id
@@ -513,6 +514,18 @@ public class RunningSimulation {
 
 	public void setImportedRecord(boolean importedRecord) {
 		this.importedRecord = importedRecord;
+	}
+
+	@Override
+	public Long getTransitId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setTransitId(Long transitId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -8,6 +8,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ImportedExperienceObject;
 
 
 /**
@@ -27,7 +28,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 @Entity
 @Proxy(lazy = false)
-public class Tips implements SimSectionDependentObject{
+public class Tips implements SimSectionDependentObject, ImportedExperienceObject{
 
 	/** Database id of this Tip. */
 	@Id
@@ -346,6 +347,17 @@ public class Tips implements SimSectionDependentObject{
 
 		// Tips are handled differently since one base tip is used in all running sims.
 		return this.getId();
+		
+	}
+
+	private boolean importedRecord = false;
+	
+	public boolean isImportedRecord() {
+		return importedRecord;
+	}
+
+	public void setImportedRecord(boolean importedRecord) {
+		this.importedRecord = importedRecord;
 		
 	}
 	
