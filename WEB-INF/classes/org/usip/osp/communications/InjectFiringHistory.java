@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.ImportedExperienceObject;
 
 /**
  * History of which injects have been fired, to whom and to when.
@@ -26,7 +27,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 */
 @Entity
 @Proxy(lazy = false)
-public class InjectFiringHistory implements TimeLineInterface {
+public class InjectFiringHistory implements TimeLineInterface, ImportedExperienceObject {
 
 	public static final int FIRED_TO_ALL = 1;
 	
@@ -309,7 +310,29 @@ public class InjectFiringHistory implements TimeLineInterface {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
+	private boolean importedRecord = false;
 	
+	public boolean isImportedRecord() {
+		return importedRecord;
+	}
+
+	public void setImportedRecord(boolean importedRecord) {
+		this.importedRecord = importedRecord;
+		
+	}
 	
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
+	public void setTransitId(Long transitId) {
+		transit_id = transitId;
+		
+	}
+	
+	public Long getTransitId() {
+		return transit_id;
+	}
 	
 }

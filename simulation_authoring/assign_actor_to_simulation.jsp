@@ -63,12 +63,12 @@
 				  <form action="assign_actor_to_simulation.jsp" method="post" name="assign_actor" id="assign_actor" >
                 <table width="100%" border="1">
                   <tr valign="top">
-                    <td align="left" valign="top"><strong>Actor</strong></strong></td>
-                    <td align="left" valign="top"><strong>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></strong></td>
-                    <td align="left" valign="top"><strong>Priority()</strong></td>
-                    <td align="left" valign="top"><strong>Role</strong></td>
-                    <td align="left" valign="top"><strong>Notes</strong></td>
-                    <td align="left" valign="top"><strong>
+                    <td width="28%" align="left" valign="top"><strong>Actor</strong></strong></td>
+                    <td width="11%" align="left" valign="top"><strong>Required <a href="helptext/actor_required.jsp" target="helpinright">(?)</a></strong></td>
+                    <td width="9%" align="left" valign="top"><strong>Priority <a href="helptext/actor_priority.jsp"  target="helpinright">(?)</a></strong></td>
+                    <td width="14%" align="left" valign="top"><strong>Role</strong></td>
+                    <td width="16%" align="left" valign="top"><strong>Notes</strong></td>
+                    <td width="22%" align="left" valign="top"><strong>
 					<% 
 						if (this_saa.getId() != null) {
 					%>

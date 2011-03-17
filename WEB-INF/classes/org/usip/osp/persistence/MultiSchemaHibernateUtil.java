@@ -482,10 +482,11 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.networking.UserConfigObject.class);
 		
 		// Sharing 
+		ac.addAnnotatedClass(org.usip.osp.sharing.ExperienceExportObject.class);
 		ac.addAnnotatedClass(org.usip.osp.sharing.RespondableObject.class);
 		ac.addAnnotatedClass(org.usip.osp.sharing.RespondableObjectRecipients.class);
 		ac.addAnnotatedClass(org.usip.osp.sharing.ResponseObjectTransactions.class);
-
+		
 		// Special Features
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.AllowableResponse.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.GenericVariable.class);

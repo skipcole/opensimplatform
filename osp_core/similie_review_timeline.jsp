@@ -18,9 +18,6 @@
 	
 	TimeLine tl = TimeLine.getReviewTimeLine(request, pso);
 	
-	System.out.println(tl.timelineURL);
-	System.out.println(tl.runStart);
-	
 %>
 <html>
     <head>
@@ -73,6 +70,8 @@
         <noscript>
         This page uses Javascript to show you a Timeline. Please enable Javascript in your browser to see the full page. Thank you.
         </noscript>
+		
+		<p>See event trail for a different<a href="similie_review_timeline.jsp?timeline_to_show=actual&rs_id=1"> running simulation</a>.</p>
     </body>
 
  </html>

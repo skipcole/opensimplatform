@@ -14,10 +14,12 @@ import org.usip.osp.communications.*;
 import org.usip.osp.coursemanagementinterface.UserRegistrationInvite;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.Logger;
+import org.usip.osp.sharing.ExperienceExportObject;
 import org.usip.osp.sharing.ObjectPackager;
 import org.usip.osp.specialfeatures.*;
 
 import com.oreilly.servlet.MultipartRequest;
+import com.thoughtworks.xstream.XStream;
 
 /**
  * This object contains all of the session information for the simulation author
@@ -4689,21 +4691,37 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		Hashtable fullSetOfRunningSims = new Hashtable();
+		Hashtable listsOfTips = new Hashtable();
+		Hashtable listsOfIFH = new Hashtable();
+		
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("export_experience_export"))) {
 
 			String file_name = request.getParameter("file_name");
 
 			if ((file_name != null) && (file_name.length() > 0)) {
+				
 				String file_notes = request.getParameter("file_notes");
 
-				// Get list of running sims for which tips are saved.
+				// Get list of tips and running sims
 				List listOfRSiDsForTips = USIP_OSP_Util.getIdsOfCheckBoxes(
 						"t_", request);
-				System.out.println("t:" + listOfRSiDsForTips.size());
-				// 
+				for (ListIterator<String> li = listOfRSiDsForTips.listIterator(); li.hasNext();) {
+					String this_t = li.next();
+					fullSetOfRunningSims.put(this_t, "set");
+					listsOfTips.put(this_t, "set");
+				}
+				//////////////////////////////////////////
+				
+				// Get list of injects and running sims
 				List listOfRSiDsForInjects = USIP_OSP_Util.getIdsOfCheckBoxes(
 						"i_", request);
+				for (ListIterator<String> li = listOfRSiDsForInjects.listIterator(); li.hasNext();) {
+					String this_i = li.next();
+					fullSetOfRunningSims.put(this_i, "set");
+					listsOfIFH.put(this_i, "set");
+				}
+				
 
 				List listOfRSiDsForResponses = USIP_OSP_Util
 						.getIdsOfCheckBoxes("rt_", request);
@@ -4711,8 +4729,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				List listOfRSiDsForReflections = USIP_OSP_Util
 						.getIdsOfCheckBoxes("r_", request);
 				
+				
+				ExperienceExportObject eeo = new ExperienceExportObject();
+				eeo.setExportNotes(file_notes);
+				
+				XStream xstream = new XStream();
+				
 				String fileName = FileIO.sim_experience_dir + file_name;
-				FileIO.saveFile("test", fileName);
+				FileIO.saveFile(xstream.toXML(eeo), fileName);
 
 			}
 		}
