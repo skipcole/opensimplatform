@@ -390,12 +390,30 @@ public class FileIO {
 		return false;
 	}
 
+	/**
+	 * Returns a list of files found in the saved sims directory.
+	 * @return
+	 */
 	public static List getListOfSavedSims() {
 
 		return getListOfFiles(packaged_sim_dir);
 
 	}
+	
+	/**
+	 * Returns a list of files found in the import experience directory.
+	 * @return
+	 */
+	public static List getListOfExperienceImportFiles() {
 
+		return getListOfFiles(sim_experience_dir);
+
+	}
+
+	/**
+	 * Returns a list of files found in the saved user archives directory.
+	 * @return
+	 */
 	public static List getListOfUserArchives() {
 
 		return getListOfFiles(archives_dir);

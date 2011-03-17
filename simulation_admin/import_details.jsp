@@ -11,6 +11,15 @@
 		return;
 	}
 	
+	
+	String loaddetails = (String) request.getParameter("loaddetails");
+	Simulation sim = new Simulation();
+	
+	if ((loaddetails != null) && (loaddetails.equalsIgnoreCase("true"))){
+		System.out.println("made it here");
+	}
+	
+	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -23,7 +32,10 @@
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
-.style1 {color: #FF0000}
+.style1 {
+	color: #FF0000;
+	font-weight: bold;
+}
 -->
 </style>
 </head>
@@ -36,27 +48,36 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1><br />
-Import Experience (<span class="style1">Work In Progress</span>) </h1>
-              <p>This section allows one to pull in information from previous runs.</p>
-              <p>The following files were found in your import directory: </p>
-              <p> 
-      <% 
-	  	ArrayList loss = new ArrayList();
-		
-		for (ListIterator li = FileIO.getListOfExperienceImportFiles().listIterator(); li.hasNext();) {
-			String sim = (String) li.next();
-			loss.add(sim);	
-		}
-		
-		Collections.sort(loss);
-	  
-	  for (ListIterator li = loss.listIterator(); li.hasNext();) {
-			String eeo = (String) li.next(); %>
-      Load:<a href="import_details.jsp?loaddetails=true&filename=<%= eeo %>"> <%= eeo %></a><br />
-      <% } %>
-      </p>
-    <p>&nbsp;</p>
+              <h1>Import Details</h1>
+              <br />
+              <form id="form1" name="form1" method="post" action="">
+  <table width="100%">
+  <tr><td width="23%">Name:</td>
+    <td width="77%"><label></label></td>
+    </tr>
+  <tr>
+    <td>Version:</td>
+    <td><label></label></td>
+  </tr>
+  <tr>
+    <td>Simulation <br />
+      USIP OSP Version </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Your <br />
+      USIP OSP Version </td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><label>
+      <input type="hidden" name="import" value="true" />
+      <input type="submit" name="button" id="button" value="Submit" />
+      </label></td>
+  </tr>
+    </table>
+      </form>
     <p>&nbsp;</p>    <p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>

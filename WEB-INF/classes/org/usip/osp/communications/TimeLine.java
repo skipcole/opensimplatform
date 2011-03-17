@@ -390,4 +390,25 @@ public class TimeLine implements SimSectionDependentObject {
 		
 		return textToShow;
 	}
+	
+	public static void main(String args[]){
+		
+		java.util.Date now = new java.util.Date();
+	
+		long thenLong = now.getTime() + (1000 * 60 * 60 * 6);
+		
+		java.util.Date then = new Date(thenLong);
+		
+		long halfWay = (now.getTime() + then.getTime()) / 2;
+		
+		java.util.Date half = new Date(halfWay);
+		
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+		
+		System.out.println(sdf.format(now));
+		System.out.println(sdf.format(half));
+		System.out.println(sdf.format(then));
+		
+		
+	}
 }
