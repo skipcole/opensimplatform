@@ -194,11 +194,26 @@ public class InjectFiringHistory implements TimeLineInterface, ImportedExperienc
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<TimeLineInterface> getAllForRunningSim(String schema, Long running_sim_id) {
+	public static List<TimeLineInterface> getAllTLForRunningSim(String schema, Long running_sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<TimeLineInterface> returnList = 
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from InjectFiringHistory where running_sim_id = :running_sim_id")
+				.setLong("running_sim_id", running_sim_id)		
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	public static List<InjectFiringHistory> getAllForRunningSim(String schema, Long running_sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<InjectFiringHistory> returnList = 
 			MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from InjectFiringHistory where running_sim_id = :running_sim_id")
 				.setLong("running_sim_id", running_sim_id)		
@@ -333,6 +348,18 @@ public class InjectFiringHistory implements TimeLineInterface, ImportedExperienc
 	
 	public Long getTransitId() {
 		return transit_id;
+	}
+	
+	public static InjectFiringHistory getById(String schema, Long ifh_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		InjectFiringHistory ifh = (InjectFiringHistory) 
+			MultiSchemaHibernateUtil.getSession(schema).get(InjectFiringHistory.class, ifh_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return ifh;
+
 	}
 	
 }

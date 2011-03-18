@@ -14,6 +14,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
+import org.usip.osp.baseobjects.SimulationPhase;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.core.SimilieTimelineCustomizer;
@@ -389,6 +390,52 @@ public class TimeLine implements SimSectionDependentObject {
 		response.setHeader("Cache-Control", "no-cache");
 		
 		return textToShow;
+	}
+	
+	
+	/**
+	 * Takes a list of dates, finds the earliest and the latest and then 
+	 * returns the date right in between them.
+	 * 
+	 * Note, we could (and maybe should) just average all of the times. But I don't know if
+	 * adding up a long series of 'longs' might cause it to overflow. This method will
+	 * assure an answer, but maybe not the most optimal one.
+	 * 
+	 * @param theDates
+	 * @return
+	 */
+	public static Date averageDate(List<Date> theDates){
+		
+		if ((theDates == null) || (theDates.size() == 0)){
+			return new Date();
+		}
+		
+		Date earliestDate = null;
+		Date latestDate = null;
+		
+		for (ListIterator li = theDates.listIterator(); li.hasNext();) {
+			Date thisDate = (Date) li.next();
+			
+			if (earliestDate == null){
+				earliestDate = thisDate;
+			}
+			
+			if (latestDate == null){
+				latestDate = thisDate;
+			}
+			
+			if (thisDate.before(earliestDate)){
+				earliestDate = thisDate;
+			}
+			
+			if  (latestDate.after(thisDate)){
+				latestDate = thisDate;
+			}
+		}
+		
+		long averageOfExtremes = (earliestDate.getTime() + latestDate.getTime() ) /2;
+		
+		return new Date(averageOfExtremes);
 	}
 	
 	public static void main(String args[]){

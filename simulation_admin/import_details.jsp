@@ -1,7 +1,9 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.sharing.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -11,13 +13,11 @@
 		return;
 	}
 	
+	// Load up details, if called for, to show user.
+	ExperienceExportObject eeo = ExperienceExportObject.importExperienceDetails(request);
 	
-	String loaddetails = (String) request.getParameter("loaddetails");
-	Simulation sim = new Simulation();
-	
-	if ((loaddetails != null) && (loaddetails.equalsIgnoreCase("true"))){
-		System.out.println("made it here");
-	}
+	// Load in experience
+	ExperienceExportObject eeoFinal = ExperienceExportObject.importExperience(request, afso.schema);
 	
 	
 %>
@@ -50,30 +50,21 @@
 			<td width="100%"><br />
               <h1>Import Details</h1>
               <br />
-              <form id="form1" name="form1" method="post" action="">
+              <form id="form1" name="form1" method="post" action="import_details.jsp">
   <table width="100%">
   <tr><td width="23%">Name:</td>
-    <td width="77%"><label></label></td>
+    <td width="77%"><%= eeo.getFileName() %></td>
     </tr>
   <tr>
-    <td>Version:</td>
-    <td><label></label></td>
-  </tr>
-  <tr>
-    <td>Simulation <br />
-      USIP OSP Version </td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>Your <br />
-      USIP OSP Version </td>
-    <td>&nbsp;</td>
+    <td>Notes:</td>
+    <td><%= eeo.getExportNotes() %></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
     <td><label>
       <input type="hidden" name="import" value="true" />
-      <input type="submit" name="button" id="button" value="Submit" />
+	  <input type="hidden" name="filename" value="<%= eeo.getFileName() %>" />
+      <input type="submit" name="button" id="button" value="Continue with Import" />
       </label></td>
   </tr>
     </table>
