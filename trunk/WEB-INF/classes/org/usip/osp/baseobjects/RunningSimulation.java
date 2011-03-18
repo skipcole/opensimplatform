@@ -515,17 +515,27 @@ public class RunningSimulation implements ImportedExperienceObject{
 	public void setImportedRecord(boolean importedRecord) {
 		this.importedRecord = importedRecord;
 	}
+	
+	private String creatorEmail = "";
 
-	@Override
-	public Long getTransitId() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getCreatorEmail() {
+		return creatorEmail;
 	}
 
-	@Override
+	public void setCreatorEmail(String creatorEmail) {
+		this.creatorEmail = creatorEmail;
+	}
+
+	/** Id used when objects are exported and imported moving across databases. */
+	private Long transit_id;
+
 	public void setTransitId(Long transitId) {
-		// TODO Auto-generated method stub
+		transit_id = transitId;
 		
+	}
+	
+	public Long getTransitId() {
+		return transit_id;
 	}
 
 }

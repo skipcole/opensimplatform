@@ -234,7 +234,7 @@ public class SessionObjectBase {
 			return "";
 		}
 		
-		return TimeLine.packupArray(InjectFiringHistory.getAllForRunningSim(schema, rs_id));
+		return TimeLine.packupArray(InjectFiringHistory.getAllTLForRunningSim(schema, rs_id));
 		
 	}
 

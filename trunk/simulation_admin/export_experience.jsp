@@ -1,7 +1,9 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.hibernate.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.sharing.*,
+	org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -12,7 +14,7 @@
 		return;
 	}
 	
-	afso.handleExportExperience(request);
+	ExperienceExportObject eeo = ExperienceExportObject.handleExportExperience(request, afso);
 	
 
 %>
@@ -37,7 +39,12 @@
               <tr>
                 <td width="120"><img src="../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><h1> <br />
-                  Export Experience (<span class="style1">work in progress </span>) </h1>
+                  Export Experience</h1>
+				  
+				  <% if (eeo != null) { %>
+				  <p>Your experience has been exported to: <%= eeo.getFileName() %></p>
+				  <% } else { %>
+				  
 				  <blockquote>
                   <table width="90%" border="1">
                     <tr>
@@ -47,10 +54,10 @@
                     <li>Select the simulation</li>
                     <li>Select the running simulations and aspects of them (listed below) that you want to export 
                       <ul>
-                        <li>Instructor Tips (T) </li>
+                        <li>Instructor Tips (T) (<span class="style1">work in progress</span>) </li>
                         <li>Instructor Injects (I) </li>
-                        <li>Player Responses to Injects (RT) </li>
-                        <li>Student Reflections (R) </li>
+                        <li>Player Responses to Injects (RT) (<span class="style1">work in progress</span>)</li>
+                        <li>Student Reflections (R) (<span class="style1">work in progress</span>)</li>
                       </ul>
                     </li>
                     <li>Enter in information about this export (name, reason, etc.)</li>
@@ -154,6 +161,7 @@
 					  
 					  					  <p>
 					    <% } // end of if sim id not null %>
+						<% } // end of if eeo == null %>
 				      </p>
 			      </blockquote>
                   </blockquote>                  </td>
