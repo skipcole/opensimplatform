@@ -60,6 +60,10 @@ public class ExperienceExportObject {
 	private Date exportDate = new Date();
 	private String exportNotes = "";
 
+	private String simulationName = "";
+	private String simulationVersion = "";
+	private String softwareVersion = "";
+
 	@Transient
 	private ArrayList<RunningSimulation> setOfRunningSims = new ArrayList<RunningSimulation>();
 
@@ -259,10 +263,11 @@ public class ExperienceExportObject {
 
 					Long rsId = new Long(key);
 
-					RunningSimulation rs = RunningSimulation.getById(sob.schema, rsId);
+					RunningSimulation rs = RunningSimulation.getById(
+							sob.schema, rsId);
 					rs.setTransitId(rs.getId());
 					rs.setId(null);
-					
+
 					// Add it to the transient field for export.
 					allRS.add(rs);
 
@@ -322,7 +327,8 @@ public class ExperienceExportObject {
 	}
 
 	/**
-	 * Loads up the details of the experience for perusal before the entire import is done.
+	 * Loads up the details of the experience for perusal before the entire
+	 * import is done.
 	 * 
 	 * @param request
 	 * @return
@@ -350,6 +356,7 @@ public class ExperienceExportObject {
 
 	/**
 	 * Loads in an experience object from its XML file.
+	 * 
 	 * @param filename
 	 * @return
 	 */
@@ -380,40 +387,69 @@ public class ExperienceExportObject {
 			HttpServletRequest request, String schema) {
 
 		System.out.println("made it here");
-		
+
 		String importFlag = (String) request.getParameter("import");
 
 		if ((importFlag != null) && (importFlag.equalsIgnoreCase("true"))) {
 
 			// load experience object from its file
 			String filename = (String) request.getParameter("filename");
-			ExperienceExportObject eeo = ExperienceExportObject.loadEEOFromFile(filename);
-			
+			ExperienceExportObject eeo = ExperienceExportObject
+					.loadEEOFromFile(filename);
+
 			Hashtable runningSimLookupTable = new Hashtable();
-			
-			// Loop over running sims, save them (marked as imported) and create lookup table of new ids
-			for (ListIterator<RunningSimulation> li = eeo.getSetOfRunningSims().listIterator(); li.hasNext();) {
+
+			// Loop over running sims, save them (marked as imported) and create
+			// lookup table of new ids
+			for (ListIterator<RunningSimulation> li = eeo.getSetOfRunningSims()
+					.listIterator(); li.hasNext();) {
 				RunningSimulation this_rs = li.next();
 				this_rs.setImportedRecord(true);
 				this_rs.saveMe(schema);
-				runningSimLookupTable.put(this_rs.getTransitId(), this_rs.getId());
+				runningSimLookupTable.put(this_rs.getTransitId(), this_rs
+						.getId());
 			}
-			
-			// Loop over running sims, save them (marked as imported) and create lookup table of new ids
-			for (ListIterator<InjectFiringHistory> li = eeo.getSetOfIFH().listIterator(); li.hasNext();) {
+
+			// Loop over running sims, save them (marked as imported) and create
+			// lookup table of new ids
+			for (ListIterator<InjectFiringHistory> li = eeo.getSetOfIFH()
+					.listIterator(); li.hasNext();) {
 				InjectFiringHistory this_ifh = li.next();
-				
-				//Set the running sim id to what it will be on this platform
-				this_ifh.setRunning_sim_id((Long) runningSimLookupTable.get(this_ifh.getRunning_sim_id()));
+
+				// Set the running sim id to what it will be on this platform
+				this_ifh.setRunning_sim_id((Long) runningSimLookupTable
+						.get(this_ifh.getRunning_sim_id()));
 				this_ifh.setImportedRecord(true);
 				this_ifh.saveMe(schema);
 
 			}
 
-
-			
 		}
 		return null;
+	}
+
+	public String getSimulationName() {
+		return simulationName;
+	}
+
+	public void setSimulationName(String simulationName) {
+		this.simulationName = simulationName;
+	}
+
+	public String getSimulationVersion() {
+		return simulationVersion;
+	}
+
+	public void setSimulationVersion(String simulationVersion) {
+		this.simulationVersion = simulationVersion;
+	}
+
+	public String getSoftwareVersion() {
+		return softwareVersion;
+	}
+
+	public void setSoftwareVersion(String softwareVersion) {
+		this.softwareVersion = softwareVersion;
 	}
 
 }
