@@ -45,12 +45,12 @@
   		for (ListIterator li = ref_list.listIterator(); li.hasNext();) {
 			PlayerReflection pr = (PlayerReflection) li.next();
 			
-			SimulationPhase sp = SimulationPhase.getById(pso.schema, pr.getPhase_id());
+			//SimulationPhase sp = SimulationPhase.getById(pso.schema, pr.getPhase_id());
 			
 		%>
   <tr>
     <td valign="top"><%= USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.getRunningSimId(), request, pr.getA_id()) %></td>
-    <td valign="top">&nbsp;</td>
+    <td valign="top">(Soon Coming) </td>
     <td valign="top"><%= pr.getBigString() %></td>
   </tr>
 
