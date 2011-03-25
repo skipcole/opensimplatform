@@ -13,16 +13,19 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
-
+	
+	// Get the running sim first, so if the last sim they edited was a different simulation, 
+	// We can set the simulation to be the one that the running sim is from.
+	RunningSimulation running_simulation = new RunningSimulation();
+	if (afso.getRunningSimId() != null){
+		running_simulation = afso.giveMeRunningSim();
+		afso.sim_id = running_simulation.getSim_id();
+		// TODO - Open questions do we change the 'last sim edit field' ?
+	}
 	
 	Simulation simulation = new Simulation();
 	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
-	}
-	
-	RunningSimulation running_simulation = new RunningSimulation();
-	if (afso.getRunningSimId() != null){
-		running_simulation = afso.giveMeRunningSim();
 	}
 
 %>

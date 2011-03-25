@@ -24,16 +24,19 @@
 		return;
 	}
 	
+
+	/////////////////////////////////////////////////////
+	RunningSimulation running_simulation = new RunningSimulation();
+	if (afso.getRunningSimId() != null){
+		running_simulation = afso.giveMeRunningSim();
+		afso.sim_id = running_simulation.getSim_id();
+		// TODO - Open questions do we change the 'last sim edit field' ?
+	}
 	////////////////////////////////////////////////////
 	Simulation simulation = new Simulation();	
 	
 	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
-	}
-	/////////////////////////////////////////////////////
-	RunningSimulation running_simulation = new RunningSimulation();
-	if (afso.getRunningSimId() != null){
-		running_simulation = afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
 	

@@ -165,8 +165,7 @@ public class PlayerReflection implements Comparable{
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		String hql_string = "from PlayerReflection where CS_ID = " + cs_id + 
-			" AND RS_ID =: rs_id AND A_ID = :a_id  AND U_ID = :u_id";
+		String hql_string = "from PlayerReflection where CS_ID = :cs_id  AND RS_ID = :rs_id AND A_ID = :a_id  AND U_ID = :u_id";
 		
 		Logger.getRootLogger().debug("hql_string is " + hql_string); //$NON-NLS-1$
 		

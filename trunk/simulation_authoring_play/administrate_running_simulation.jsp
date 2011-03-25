@@ -33,7 +33,7 @@
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
-<body onLoad="">
+<body onLoad="" bgcolor="#00FFFF">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -69,10 +69,6 @@
                 <tr valign="top">
                   <td>5.</td>
                   <td><a href="email_notifications.jsp">Notify Players via Email</a><a href="../simulation_facilitation/helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
-                </tr>
-                <tr valign="top">
-                  <td>6.</td>
-                  <td><a href="../simulation_facilitation/administrate_running_sim_add_instructor.jsp">Add Additional Instructors</a> (?)                   </td>
                 </tr>
                 <tr valign="top">
                   <td>7.</td>

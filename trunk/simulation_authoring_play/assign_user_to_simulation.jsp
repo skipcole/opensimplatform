@@ -11,7 +11,7 @@
 		return;
 	}
 	
-	afso.backPage = "../simulation_facilitation/assign_user_to_simulation.jsp";
+	afso.backPage = "../simulation_authoring_play/assign_user_to_simulation.jsp";
 	
 	UserAssignment ua_temp = afso.handleAssignUser(request);
 	

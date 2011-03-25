@@ -31,6 +31,8 @@
 <html>
 <head>
 <title>Schedule Page</title>
+<script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
@@ -42,14 +44,17 @@
   </tr>
 </table>
 <p>&nbsp;</p>
-<p>
   <% 
 	if (pso.isControlCharacter()) {
 %>
-</p>
+<hr />
+<p>As a 'control' characther you are able to edit the schedule for the simulation below. This is to allow the schedule to reflect any deviations from the original plan. But please note, changes to schedule should probably be communicated to players via multiple methods, and you should confirm that everyone is on the same page after a schedule change.</p>
 <form name="form1" method="post" action="schedule.jsp">
   <label>
-  <textarea name="new_schedule" cols="80" rows="5"><%= displayString %></textarea>
+  <textarea name="new_schedule" id="new_schedule" style="height: 310px; width: 710px;"><%= displayString %></textarea>
+  		<script language="javascript1.2">
+  			generate_wysiwyg('new_schedule');
+		</script>
   </label>
   <p>
     <label>
@@ -57,13 +62,10 @@
     <input type="submit" name="update" value="Update">
     </label>
   </p>
-  <p>(Your editing interface will improve soon.)</p>
 </form>
 <p>&nbsp;</p>
-<p>
   <%
 } // End of if is control character
 %>
-</p>
 </body>
 </html>

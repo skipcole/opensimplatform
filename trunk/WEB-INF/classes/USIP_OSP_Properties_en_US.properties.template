@@ -41,6 +41,11 @@ base_sim_url=http://dev.opensimplatform.org/
 #
 simulation_url=http://dev.opensimplatform.org/simulation/
 
+################################################################################
+# timezone offset of this server
+#
+server_timezone_offset=-5.0
+
 
 ###########
 # Section 2 - File System Related

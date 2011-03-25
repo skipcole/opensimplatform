@@ -73,9 +73,9 @@
       <p>&nbsp;</p>
       <% if (bpi.getParentId() != null){ %>
 	  <a href="compare_party_info.jsp?parent_id=<%= bpi.getParentId() %>&my_id=<%= bpi.getId() %>">compare with previous version</a>
-	  <% } %>
+	  <% } // End of if parent id not null %>
     </div></td> 
-    <% } %>
+    <% } // End of if party size > 1   %>
 <% if ((partyList != null) && (partyList.size() >= 2)) { 
   		BishopsPartyInfo bpi = (BishopsPartyInfo) partyList.get(1);
   %>
@@ -246,10 +246,11 @@
   <p>&nbsp;</p>
       <hr>
 </blockquote>
-  <%	} 
-  	}
+  <%	}   // End of loop over inactive Party List
+  	}  // End of if inactive Party list not null
   %>
 
+<p><a href="needs_and_fears.jsp?cs_id=<%= cs_id %>" target="_blank">Print Page Form</a></p>
 
 </body>
 </html>

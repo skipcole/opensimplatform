@@ -43,7 +43,86 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
-<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
+<style type="text/css" media="screen">
+body {
+margin:2;
+padding:0;
+height:100%;
+width:100%;
+}
+
+#messagewindow {
+position:absolute;
+right:0;
+top:0;
+padding:0;
+width:50%;
+height:100%; /* works only if parent container is assigned a height value */
+color:#FFFFFF;
+background:#FFFFFF;
+border:1px solid #333;
+overflow:auto;
+
+}
+.actor_ffffff {
+	background-color: #FFFFFF;
+	background-position: left top;
+}
+.actor_ddffff {
+	background-color: #DDFFFF;
+	background-position: left top;
+}
+.actor_ffddff {
+	background-color: #FFDDFF;
+	background-position: left top;
+}
+.actor_ffffdd {
+	background-color: #FFFFDD;
+	background-position: left top;
+}
+.actor_class {
+	
+}
+
+.style1 {font-size: small; color:#000000}
+</style>
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+</head>
+<body onLoad="updateMsg();">
+<table width="50%">
+<TR>
+    <TD valign="top" width="25%"><h1><%= cs.getPageTitle() %></h1>
+      <p><%= cs.getBigString() %></p></TD>
+<TR>
+    <TD width="25%"><form id="chatform<%= conv.getId() %>" >
+	<table>
+    <tr><td valign="top">Your Text:</td>
+  <td valign="top"> <textarea name="chatmsgbox" cols="40" rows="2" id="msg<%= conv.getId() %>"   ></textarea></td></tr></table>
+	      <input type="hidden" id="author<%= conv.getId() %>" value="You" />
+    		<input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" />
+          <BR>
+</form></TD>
+  </TR>
+</table>
+<p>Actors in this conversation:</p>
+<UL><% 
+		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
+			ActorGhost act = (ActorGhost) e.nextElement();
+			String this_a_id = act.getId().toString();
+			String this_a_name = act.getActorName();
+	%><LI class="actor_class"><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
+      <option value="<%= this_a_id %>_ffffff" <%= USIP_OSP_Util.matchSelected("ffffff", act.getDefaultColorChatBubble(), " selected ") %>>White</option>
+	  <option value="<%= this_a_id %>_ffdddd" <%= USIP_OSP_Util.matchSelected("ffdddd", act.getDefaultColorChatBubble(), " selected ") %>>Red</option>
+	  <option value="<%= this_a_id %>_ddffdd" <%= USIP_OSP_Util.matchSelected("ddffdd", act.getDefaultColorChatBubble(), " selected ") %>>Green</option>
+	  <option value="<%= this_a_id %>_ddddff" <%= USIP_OSP_Util.matchSelected("ddddff", act.getDefaultColorChatBubble(), " selected ") %>>Blue</option>
+	  <option value="<%= this_a_id %>_ffff66" <%= USIP_OSP_Util.matchSelected("ffff66", act.getDefaultColorChatBubble(), " selected ") %>>Yellow</option>
+        </select> (<I><span id="actorpresent<%= act.getId().toString() %>">Checking status ...</span></I>)</form></LI><% } %>
+</UL>
+<div id="messagewindow"><span id="loading">Loading...</span></div>
+
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.5.1.js"></script>
 <script type="text/javascript">
 	<%
 		// Keep a set of actors to loop over check on if online.
@@ -83,7 +162,7 @@ function changeActorColor(dropdownlist){
     
 	var passedvalue = dropdownlist.options[myindex].value;
 	
-	array1 = passedvalue.split("_");
+	var array1 = passedvalue.split("_");
 	
 	actor_colors[array1[0]] = array1[1];
 	
@@ -103,7 +182,7 @@ function formatString(mTime, message, actorName, msgSender){
 	
 	var formattedHTML = "";
 	
-	formattedHTML += ("<table width=100% bgcolor=#" + actor_colors[msgSender] + " ><tr><td><span class=\"style1\">(" + mTime + ") </span>From " + actorName + ": " + message + " </td></tr></table>" );
+	formattedHTML += ('<table width=100% bgcolor=#' + actor_colors[msgSender] + ' ><tr><td><span class=\"style1\">(' + mTime + ') </span>From ' + actorName + ': ' + message + ' </td></tr></table>' );
 	
   	return formattedHTML;
 	
@@ -116,8 +195,6 @@ function formatString(mTime, message, actorName, msgSender){
 		$(document).ready(function(){
 		
 			timestamp = 0;
-			
-			fromActor = -1;
 			
 		<%
 			for (Enumeration e = setOfActors.keys(); e.hasMoreElements();){
@@ -160,7 +237,7 @@ function formatString(mTime, message, actorName, msgSender){
 				coloredMsg = formatString($("time",message).text(), $("text",message).text(), $("author",message).text(), $("actor_id",message).text());		
 				$("#messagewindow").prepend(coloredMsg);
 											
-				new_start_index = $("id",message).text();
+				var new_start_index = $("id",message).text();
 				
 				if (parseInt(new_start_index) > parseInt(start_index)){
 					start_index = new_start_index;
@@ -241,84 +318,5 @@ function formatString(mTime, message, actorName, msgSender){
     });
 
 </script>
-
-<style type="text/css" media="screen">
-body {
-margin:2;
-padding:0;
-height:100%;
-width:100%;
-}
-
-#messagewindow {
-position:absolute;
-right:0;
-top:0;
-padding:0;
-width:50%;
-height:100%; /* works only if parent container is assigned a height value */
-color:#FFFFFF;
-background:#FFFFFF;
-border:1px solid #333;
-overflow:auto;
-
-}
-.actor_ffffff {
-	background-color: #FFFFFF;
-	background-position: left top;
-}
-.actor_ddffff {
-	background-color: #DDFFFF;
-	background-position: left top;
-}
-.actor_ffddff {
-	background-color: #FFDDFF;
-	background-position: left top;
-}
-.actor_ffffdd {
-	background-color: #FFFFDD;
-	background-position: left top;
-}
-.actor_class {
-	
-}
-
-.style1 {font-size: small; color:#000000}
-</style>
-<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-</head>
-<body onLoad="updateMsg();">
-<table width="50%">
-<TR>
-    <TD valign="top" width="25%"><h1><%= cs.getPageTitle() %></h1>
-      <p><%= cs.getBigString() %></p></TD>
-<TR>
-    <TD width="25%"><form id="chatform<%= conv.getId() %>" >
-  <p><table>
-    <tr><td valign="top">Your Text:</td>
-  <td valign="top"> <textarea name="chatmsgbox" cols="40" rows="2" id="msg<%= conv.getId() %>"   ></textarea></td></tr></table>
-	      <input type="hidden" id="author<%= conv.getId() %>" value="You" />
-    		<input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" />
-          <BR>
-  </p>
-</form></TD>
-  </TR>
-</table>
-<p>Actors in this conversation:</p>
-<UL><% 
-		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
-			ActorGhost act = (ActorGhost) e.nextElement();
-			String this_a_id = act.getId().toString();
-			String this_a_name = act.getActorName();
-	%><LI class="actor_class"><form><%= this_a_name %> <select name="select<%= this_a_id %>" onChange="changeActorColor(this.form.select<%= this_a_id %>);">
-      <option value="<%= this_a_id %>_ffffff" <%= USIP_OSP_Util.matchSelected("ffffff", act.getDefaultColorChatBubble(), " selected ") %>>White</option>
-	  <option value="<%= this_a_id %>_ffdddd" <%= USIP_OSP_Util.matchSelected("ffdddd", act.getDefaultColorChatBubble(), " selected ") %>>Red</option>
-	  <option value="<%= this_a_id %>_ddffdd" <%= USIP_OSP_Util.matchSelected("ddffdd", act.getDefaultColorChatBubble(), " selected ") %>>Green</option>
-	  <option value="<%= this_a_id %>_ddddff" <%= USIP_OSP_Util.matchSelected("ddddff", act.getDefaultColorChatBubble(), " selected ") %>>Blue</option>
-	  <option value="<%= this_a_id %>_ffff66" <%= USIP_OSP_Util.matchSelected("ffff66", act.getDefaultColorChatBubble(), " selected ") %>>Yellow</option>
-        </select> (<I><span id="actorpresent<%= act.getId().toString() %>">Checking status ...</span></I>)</form></LI><% } %>
-</UL>
-	</P>
-<div id="messagewindow"><span id="loading">Loading...</span></div>
 </body>
 </html>

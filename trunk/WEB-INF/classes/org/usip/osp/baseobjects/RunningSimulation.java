@@ -127,6 +127,24 @@ public class RunningSimulation implements ImportedExperienceObject{
 	@Column(name = "RS_AAR")
 	@Lob
 	private String aar_text = ""; //$NON-NLS-1$
+	
+	private String timeZoneOffset = "0.0";
+
+	public String getTimeZoneOffset() {
+		return timeZoneOffset;
+	}
+
+	public void setTimeZoneOffset(String timeZoneOffset) {
+		this.timeZoneOffset = timeZoneOffset;
+	}
+
+	public Long getTransit_id() {
+		return transit_id;
+	}
+
+	public void setTransit_id(Long transitId) {
+		transit_id = transitId;
+	}
 
 	/** Zero argument constructor required by hibernate. */
 	public RunningSimulation() {

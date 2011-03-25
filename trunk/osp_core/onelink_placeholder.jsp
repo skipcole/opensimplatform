@@ -16,6 +16,7 @@
 		return;
 	}
 	
+	/*
 	String cs_id = (String) request.getParameter("cs_id");
 		
 	OneLinkCustomizer olc = new OneLinkCustomizer();
@@ -31,12 +32,15 @@
 		ol = OneLink.getOneLinkForRunningSim(pso.schema, olc.getOlId(), pso.getRunningSimId());
 		forwardOnString = ol.generateForwardOnTag();
 	}
-	
+	*/
+	String forwardOnString = "";
 %>
 <html>
 <head>
 <title>One Link Placeholder Page</title>
 <%= forwardOnString %>
+<!-- below is a one day kludge!  I promise! -->
+<META http-equiv="refresh" content="0;URL=http://bishops.libguides.com/content.php?pid=185740">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
