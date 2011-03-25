@@ -4669,6 +4669,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 		return null;
 	}
+	
+	/**
+	 * Used to change a user name (email address) of a player.
+	 * 
+	 * @param u_id
+	 * @param newUserName
+	 * @return
+	 */
+	public static boolean changePlayerUsername(Long u_id, String newUserName){
+		
+		// Change name in base user table
+		
+		// Change name in any user table in any schema
+		
+		// Change name in any user assignments in any schema
+		return false;
+	}
 
 
 } // End of class

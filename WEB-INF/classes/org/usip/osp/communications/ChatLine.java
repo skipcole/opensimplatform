@@ -109,7 +109,7 @@ public class ChatLine implements Comparable{
     
     public static void main(String args[]){
     	Logger.getRootLogger().debug("Hi handsome"); //$NON-NLS-1$
-    	ChatLine cl = new ChatLine("1", "1", "1", "1", "cargo cult"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+    	ChatLine cl = new ChatLine("1", "1", "1", "1", "cargo cult", new Date()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
     	cl.saveMe("test"); //$NON-NLS-1$
     	Logger.getRootLogger().debug("done"); //$NON-NLS-1$
     	
@@ -131,9 +131,9 @@ public class ChatLine implements Comparable{
      * @param cid	Conversation id of this chatline
      * @param text	Text of this chatline.
      */
-    public ChatLine(String uid, String rid, String aid, String cid, String text){
+    public ChatLine(String uid, String rid, String aid, String cid, String text, Date msgDate){
         
-    	this.msgDate = new java.util.Date();
+    	this.msgDate = msgDate;
     	
     	this.fromUser = new Long(uid);
     	

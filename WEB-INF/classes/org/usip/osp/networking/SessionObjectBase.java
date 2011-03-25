@@ -340,6 +340,15 @@ public class SessionObjectBase {
 					ua.saveMe(schema);
 					backPage = "../simulation_user_admin/create_user.jsp?create_for_role=true&ua_id="
 							+ ua.getId();
+					
+					
+					String author_play_kludge = request.getParameter("author_play_kludge");
+					
+					if ((author_play_kludge != null) && (author_play_kludge.equalsIgnoreCase("true"))){
+						backPage = "../simulation_authoring_play/create_user.jsp?create_for_role=true&ua_id="
+							+ ua.getId();
+					}
+					
 					return ua;
 				}
 

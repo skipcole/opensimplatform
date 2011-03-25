@@ -38,8 +38,8 @@
 <table width="80%" border="1">
 <tr>
       <td width=50><strong>Actor</strong></td>
-      <td><strong>User</strong></td>
-      <td><strong>Reflection</strong></td>
+      <td width="125"><strong>User</strong></td>
+      <td width="457"><strong>Reflection</strong></td>
 </tr>
   <%
   		for (ListIterator li = ref_list.listIterator(); li.hasNext();) {
@@ -50,7 +50,16 @@
 		%>
   <tr>
     <td valign="top"><%= USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id, pso.getRunningSimId(), request, pr.getA_id()) %></td>
-    <td valign="top">(Soon Coming) </td>
+    <td valign="top">
+	<%
+		  	String userName = "";
+		  	if (pr.getU_id() == null){
+				userName = "unkown";
+			} else {
+				userName = USIP_OSP_Cache.getUSERName(pso.schema, request, pr.getU_id());
+			}
+		  %>
+	<%= userName %></td>
     <td valign="top"><%= pr.getBigString() %></td>
   </tr>
 

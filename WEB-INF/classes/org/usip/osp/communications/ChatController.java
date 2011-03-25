@@ -194,7 +194,7 @@ public class ChatController {
 	 */
 	public static void insertChatLine(Long user_id, Long actor_id,
 			String start_index, String newtext, String conv_id,
-			PlayerSessionObject pso, HttpServletRequest request) {
+			PlayerSessionObject pso, HttpServletRequest request, Date msgDate) {
 
 		// This conversation is pulled from the set of conversations Vector
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
@@ -202,7 +202,7 @@ public class ChatController {
 		// If a line of new text has been passed, tack it on the end.
 		if (newtext != null) {
 			ChatLine cl = new ChatLine(user_id.toString(), pso.getRunningSimId()
-					.toString(), actor_id.toString(), conv_id, newtext);
+					.toString(), actor_id.toString(), conv_id, newtext, msgDate);
 			cl.saveMe(pso.schema);
 			this_conv.add(cl);
 		}
@@ -243,6 +243,26 @@ public class ChatController {
 			Long running_sim_id, String conv_id) {
 
 		Vector returnVector = new Vector();
+		
+		if (running_sim_id == null){
+			Logger.getRootLogger().warn("ChatController.getRunningSimConversation rs_id is null");
+			return returnVector;
+		}
+		
+		Long thisConvID = null;
+		try { 
+			thisConvID = new Long(conv_id);
+			
+			if (thisConvID == null){
+				Logger.getRootLogger().warn("ChatController.getRunningSimConversation conv_id is null");
+				return returnVector;
+			}
+			
+		} catch (Exception e){
+			Logger.getRootLogger().warn("Error: ChatController.getRunningSimConversation conv_id is null");
+			return returnVector;
+		}
+		
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -250,7 +270,7 @@ public class ChatController {
 				.createQuery(
 						"from ChatLine where RUNNING_SIM_ID = :running_sim_id AND CONV_ID = :conv_id")
 				.setLong("running_sim_id", running_sim_id)
-				.setLong("conv_id", new Long(conv_id))
+				.setLong("conv_id", thisConvID)
 				.list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

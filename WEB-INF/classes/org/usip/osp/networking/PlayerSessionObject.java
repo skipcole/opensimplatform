@@ -2366,4 +2366,26 @@ public class PlayerSessionObject extends SessionObjectBase {
 			languageCode = new Long(select_language).intValue();
 		}
 	}
+	
+	public long dateOffset = 10800000; //3 * 60 * 60 * 1000;
+	
+	public String insertChatLine (HttpServletRequest request){
+		String status_code = ChatController.NO_NEW_MSG + "";
+		
+		String message = (String) request.getParameter("message");
+		String name =  (String) request.getParameter("name");
+		String conversation =  (String) request.getParameter("conversation");
+		String start_index = (String) request.getParameter("start_index");
+		
+		java.util.Date nowPST = new Date();
+		long nowLong = nowPST.getTime() - dateOffset;
+		nowPST = new Date(nowLong);
+		
+
+		if ((message != null) && (message.trim().length() > 0)){
+			ChatController.insertChatLine(user_id, getActorId(), 
+					start_index, message, conversation, this, request, nowPST);
+		}
+		return status_code;
+	}
 }

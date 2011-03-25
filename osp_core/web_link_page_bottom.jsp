@@ -65,21 +65,18 @@
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
   <table border="0" cellpadding="2" cellspacing="2">
     <tr>
-      <td width="19%" valign="top"><%= linkName %> Name</td>
+      <td valign="top"><%= linkName %> Date </td>
+      <td colspan="2" valign="top"><input name="wlo_event_date" type="text" id="datepicker"> 
+        (mm/dd/yyyy) </td>
+    </tr>
+      <tr>
+      <td width="25%" valign="top"><%= linkName %> Name</td>
       <td colspan="2" valign="top">
           <input name="wlo_name" type="text" id="wlo_name" tabindex="1" value="<%= wlo.getWeblinkName() %>" size="40">      </td>
     </tr>
-
-	<script type="text/javascript">
-	$(function() {
-		$("#datepicker").datepicker();
-	});
-	</script>
-
-
     <tr>
-      <td valign="top"><%= linkName %> Date </td>
-      <td colspan="2" valign="top"><input name="wlo_event_date" type="text" id="datepicker"></td>
+      <td valign="top">Source of <%= linkName %></td>
+      <td colspan="2" valign="top"><input type="text" name="wlo_source" value="<%= wlo.getWeblinkSource() %>" size="40"></td>
     </tr>
     <tr>
       <td valign="top"><%= linkName %> Description</td>
@@ -90,17 +87,28 @@
       <td colspan="2" valign="top"><textarea name="wlo_url" cols="80" rows="4" tabindex="3"><%= wlo.getWeblinkURL() %></textarea></td>
     </tr>
 		<%
-		SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy HH:mm:ss z");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
 		sdf.setTimeZone(TimeZone.getDefault());
 	%>
-    <tr>
+        <tr>
+          <td valign="top">Submitter</td>
+		  <%
+		  	String userName = "";
+		  	if (wlo.getU_id() == null){
+				userName = "";
+			} else {
+				userName = USIP_OSP_Cache.getUSERName(pso.schema, request, wlo.getU_id());
+			}
+		  %>
+          <td colspan="2" valign="top"><%= userName %></td>
+        </tr>
+      <tr>
       <td valign="top">Posting Date </td>
-      <td colspan="2" valign="top"><%= sdf.format(wlo.getPostingDate()) %>
-	  </td>
+      <td colspan="2" valign="top"><%= sdf.format(wlo.getPostingDate()) %>	  </td>
     </tr>
     <tr>
       <td valign="top">&nbsp;</td>
-      <td width="46%" valign="top"><%	if (wlo.getId() == null) { %>
+      <td width="38%" valign="top"><%	if (wlo.getId() == null) { %>
           <input type="submit" name="command" value="Create" tabindex="4" />
           <%
 				} else {
@@ -111,11 +119,10 @@
         <%
 					}
 				%>      </td>
-      <td width="35%" align="right" valign="top"><%	if (wlo.getId() != null) { %>
+      <td width="37%" align="right" valign="top"><%	if (wlo.getId() != null) { %>
         <input type="submit" name="command" value="Delete" tabindex="7"  onClick="return confirm('Are you sure you want to delete this item?');" />
         <% } %></td>
     </tr>
-	
   </table>
   </form>
   <p></p>

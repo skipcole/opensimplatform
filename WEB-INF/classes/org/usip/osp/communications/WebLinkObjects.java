@@ -43,6 +43,9 @@ public class WebLinkObjects implements WebObject {
 	@Column(name = "CS_ID")
 	private Long cs_id;
 	
+	@Column(name = "U_ID")
+	private Long u_id;
+	
 	/** This date is automatically generated when the object is posted.  */
 	private java.util.Date postingDate;
 	
@@ -50,6 +53,8 @@ public class WebLinkObjects implements WebObject {
 	private java.util.Date webObjectDate;
 
 	private String weblinkName = "";
+	
+	private String weblinkSource = "";
 
 	private String weblinkDescription = "";
 
@@ -109,6 +114,14 @@ public class WebLinkObjects implements WebObject {
 	public void setWebObjectDate(java.util.Date webObjectDate) {
 		this.webObjectDate = webObjectDate;
 	}
+	
+	public Long getU_id() {
+		return u_id;
+	}
+
+	public void setU_id(Long uId) {
+		u_id = uId;
+	}
 
 	/**
 	 * Utility constructor.
@@ -118,15 +131,17 @@ public class WebLinkObjects implements WebObject {
 	 * @param desc
 	 * @param url
 	 */
-	public WebLinkObjects(String schema, String name, String desc, String url,
-			Long rsId, Long csId) {
+	public WebLinkObjects(String schema, String name, String source, String desc, String url,
+			Long rsId, Long csId, Long uId) {
 		
 		this.postingDate = new java.util.Date();
 		this.weblinkName = name;
+		this.weblinkSource = source;
 		this.weblinkDescription = desc;
 		this.weblinkURL = url;
 		this.rs_id = rsId;
 		this.cs_id = csId;
+		this.u_id = uId;
 
 		this.saveMe(schema);
 	}
@@ -169,6 +184,14 @@ public class WebLinkObjects implements WebObject {
 
 	public void setWeblinkName(String weblinkName) {
 		this.weblinkName = weblinkName;
+	}
+
+	public String getWeblinkSource() {
+		return weblinkSource;
+	}
+
+	public void setWeblinkSource(String weblinkSource) {
+		this.weblinkSource = weblinkSource;
 	}
 
 	public String getWeblinkDescription() {
@@ -296,16 +319,19 @@ public class WebLinkObjects implements WebObject {
 				String wlo_description = request
 						.getParameter("wlo_description");
 				String wlo_url = request.getParameter("wlo_url");
+				
+				String wlo_source = request.getParameter("wlo_source");
 
 				if (command.equalsIgnoreCase("Create")) {
 					
 					if ((wlo_url != null) && (wlo_url.length() > 0)) {
-						wlo = new WebLinkObjects(pso.schema, wlo_name,
-							wlo_description, wlo_url, pso.getRunningSimId(), csId);
+						wlo = new WebLinkObjects(pso.schema, wlo_name, wlo_source,
+							wlo_description, wlo_url, pso.getRunningSimId(), csId, pso.user_id);
 					} else {
 						wlo.setWloError("Not enough Information provided");
 						wlo.setWeblinkDescription(wlo_description);
 						wlo.setWeblinkName(wlo_name);
+						wlo.setWeblinkSource(wlo_source);
 					}
 					
 					wlo.setWloTopPage("web_link_page_top.jsp?cs_id=" + cs_id);
@@ -321,6 +347,7 @@ public class WebLinkObjects implements WebObject {
 					if ((wlo_url != null) && (wlo_url.length() > 0)) {
 						wlo.setWeblinkDescription(wlo_description);
 						wlo.setWeblinkName(wlo_name);
+						wlo.setWeblinkSource(wlo_source);
 						wlo.setWeblinkURL(wlo_url);
 						wlo.saveMe(pso.schema);
 						wlo.setWloTopPage("web_link_page_top.jsp?cs_id="

@@ -12,25 +12,10 @@
 		return;
 	}
 	
-	String status_code = ChatController.NO_NEW_MSG + "";
-	
-	String message = (String) request.getParameter("message");
-	String name =  (String) request.getParameter("name");
-	String conversation =  (String) request.getParameter("conversation");
-	String start_index = (String) request.getParameter("start_index");
-
-	java.util.Date now = new java.util.Date();
-	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
-	String time_string = sdf.format(now) + "_" + start_index;
-	
-	String xml_msgs = "";
-							
-	ChatController.insertChatLine(pso.user_id, pso.getActorId(), 
-				start_index, message, conversation, pso, request);
+	String status_code = pso.insertChatLine(request);
 	
 %>
 <?xml version="1.0"?>
 <response>
  <status><%= status_code %></status>
- <%= xml_msgs %>
 </response>
