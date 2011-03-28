@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import javax.persistence.*;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
@@ -207,8 +208,22 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 	 * @param schema
 	 */
 	public void saveMe(String schema) {
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
+		
+		Session session = MultiSchemaHibernateUtil.getSession(schema);
+		
+		// Save it to get a doc id
+		session.saveOrUpdate(this);
+		
+		// Save the history of what it is at this moment in time
+		SharedDocumentVersionHistory sdvh = new SharedDocumentVersionHistory(schema, this, session);
+		
+		// Save again to record the version number 
+		this.version = sdvh.getVersionNum();
+		
+		session.saveOrUpdate(this);
+		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 

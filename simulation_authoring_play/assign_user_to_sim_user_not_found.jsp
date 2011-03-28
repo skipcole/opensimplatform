@@ -62,32 +62,10 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Assign User to Actor <a href="../simulation_facilitation/helptext/assign_players_help.jsp" target="helpinright"></a></h1>
-              <p align="left">The username you have entered, <span class="style1"><%= ua_temp.getUsername() %></span>, was not found. </p>
-              <p align="left"><strong>Please verify</strong> that <%= ua_temp.getUsername() %> is the correct email address for your student. </p>
-              <p align="left">You may then: </p>
-			  <form id="form1" name="form1" method="post" action="../simulation_facilitation/assign_user_to_sim_user_not_found.jsp">
-			  <input type="hidden" name="sending_page" value="assign_just_email" />
-			  <input type="hidden" name="a_id" value="<%= ua_temp.getActor_id() %>" />
-			  <input type="hidden" name="s_id" value="<%= ua_temp.getSim_id() %>" />
-			  <input type="hidden" name="rs_id" value="<%= ua_temp.getRunning_sim_id() %>" />
-			  <input type="hidden" name="ua_id" value="<%= ua_id %>" />
-			  <input type="hidden" name="uname" value="<%= ua_temp.getUsername() %>" />
-              <ul>
-                <li>
-                    <label>
-<a href="assign_user_to_simulation.jsp">Cancel</a>:                      This will return you to the previous page.                    </label>   
-                </li>
-                <li>
-                  <label>
-				  <input type="hidden" name="author_play_kludge" value="true" />
-                  <input type="submit" name="command" value="Create" /> 
-                  This will take you to the create user page.
-                  </label>
-                 </li>
-                </ul>    
-				</form>          
-              <p align="left">&nbsp;    </p></td>
+              <h1>User not Found <a href="../simulation_facilitation/helptext/assign_players_help.jsp" target="helpinright"></a></h1>
+              <p align="left">The username you have entered to play test was not found. 
+                  <a href="assign_user_to_simulation.jsp">Return to the previous page.</a></p>
+              <p align="left">&nbsp; </p></td>
 		</tr>
 		</table>	</td>
   </tr>

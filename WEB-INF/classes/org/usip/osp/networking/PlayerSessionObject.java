@@ -7,13 +7,12 @@ import javax.servlet.http.*;
 
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.*;
-import org.usip.osp.baseobjects.core.TipsCustomizer;
-import org.usip.osp.bishops.BishopsPartyInfo;
+import org.usip.osp.baseobjects.core.*;
+import org.usip.osp.bishops.*;
 import org.usip.osp.communications.*;
 import org.usip.osp.persistence.*;
-import org.usip.osp.sharing.RespondableObject;
-import org.usip.osp.specialfeatures.AllowableResponse;
-import org.usip.osp.specialfeatures.PlayerReflection;
+import org.usip.osp.sharing.*;
+import org.usip.osp.specialfeatures.*;
 
 /**
  * This object contains all of the session information for the participant and
@@ -2387,5 +2386,26 @@ public class PlayerSessionObject extends SessionObjectBase {
 					start_index, message, conversation, this, request, nowPST);
 		}
 		return status_code;
+	}
+	
+	public String handleOneLink(HttpServletRequest request){
+		
+		String cs_id = (String) request.getParameter("cs_id");
+			
+		OneLinkCustomizer olc = new OneLinkCustomizer();
+		
+		CustomizeableSection cs = CustomizeableSection.getById(schema, cs_id);
+		olc = new OneLinkCustomizer(request, this, cs);
+		
+		String forwardOnString = "";
+		
+		OneLink ol = OneLink.getById(schema, olc.getOlId());
+		
+		if (!(preview_mode)) {	
+			ol = OneLink.getOneLinkForRunningSim(schema, olc.getOlId(), getRunningSimId());
+			forwardOnString = ol.generateForwardOnTag();
+		}
+		
+		return forwardOnString;
 	}
 }

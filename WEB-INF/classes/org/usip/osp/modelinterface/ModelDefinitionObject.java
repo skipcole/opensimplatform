@@ -170,7 +170,7 @@ public class ModelDefinitionObject implements Comparable{
 		// The set of base simulation sections are read out of
 		// XML files stored in the simulation_section_information directory.
 
-		String fileLocation = USIP_OSP_Properties.getValue("model_dir"); //$NON-NLS-1$
+		String fileLocation = FileIO.getModel_dir(); //$NON-NLS-1$
 
 		File locDir = new File(fileLocation);
 
