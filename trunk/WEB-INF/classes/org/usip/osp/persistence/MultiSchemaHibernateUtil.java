@@ -464,6 +464,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.communications.InjectGroup.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocument.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocActorNotificAssignObj.class);
+		ac.addAnnotatedClass(org.usip.osp.communications.SharedDocumentVersionHistory.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.TimeLine.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.TimelineObjectAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.Tips.class);

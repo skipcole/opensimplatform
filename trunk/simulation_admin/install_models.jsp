@@ -44,7 +44,7 @@ body {
 
         <blockquote>
           <p>Below are listed all of the model descriptor files found on this system. On this system,
-          model definition files are located in the directory: <%= USIP_OSP_Properties.getValue("model_dir") %></p>
+          model definition files are located in the directory: <%= FileIO.getModel_dir() %></p>
   <table width="100%" cellpadding="2" cellspacing="2" border="1"><tr>
   <td valign="top"><strong>Model Name / Version</strong></td>
   <td valign="top"><div align="right"><strong>State</strong></div></td>
@@ -103,6 +103,3 @@ body {
   Open Source Software Project</a>. </p>
 </body>
 </html>
-<%
-	
-%>

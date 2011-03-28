@@ -22,6 +22,10 @@
 	
 	if ((cs != null) && (cs.getId() != null)){
 		sd_current = BaseSimSectionDepObjectAssignment.getSharedDocumentForSection(afso.schema, cs.getId().toString());
+		
+		if (sd_current == null){
+			sd_current = new SharedDocument();
+		}
 	}
 	
 %>
@@ -60,12 +64,17 @@
                   <%
 		  	List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id);
 			
-			System.out.println("there are " + docsAvailable.size() + " available");
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
+			
+				String noneSelected = "";
+				if (sd_current.getId() == null) {
+					noneSelected = "selected=\"selected\"";;
+				}
 
 		  %>
                   <label>Select Document
                     <select name="doc_id">
+						<option value="-1" <%= noneSelected %> >None Selected</option>
                       <%
 					for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 					
@@ -73,13 +82,13 @@
 						
 						String selected = "";
 						
-						if (sd.getId().intValue() == sd_current.getId().intValue()){
+						if (sd.getId().equals(sd_current.getId())){
 							selected = "selected=\"selected\"";
 						}
 				%>
                       <option value="<%= sd.getId() %>" <%= selected %>><%= sd.getUniqueDocTitle() %></option>
                       <%
-					}
+					} // end of loop over docs available.
 				%>
                       </select>
                     </label>
