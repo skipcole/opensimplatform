@@ -128,14 +128,14 @@ public class RunningSimulation implements ImportedExperienceObject{
 	@Lob
 	private String aar_text = ""; //$NON-NLS-1$
 	
-	private String timeZoneOffset = "0.0";
+	private String timeZone = "EST";
 
-	public String getTimeZoneOffset() {
-		return timeZoneOffset;
+	public String getTimeZone() {
+		return timeZone;
 	}
 
-	public void setTimeZoneOffset(String timeZoneOffset) {
-		this.timeZoneOffset = timeZoneOffset;
+	public void setTimeZone(String timeZoneOffset) {
+		this.timeZone = timeZoneOffset;
 	}
 
 	public Long getTransit_id() {
@@ -159,7 +159,8 @@ public class RunningSimulation implements ImportedExperienceObject{
 	 * @param sim
 	 * @param schema
 	 */
-	public RunningSimulation(String name, Simulation sim, String schema, Long creator_id, String creatorName) {
+	public RunningSimulation(String name, Simulation sim, String schema, Long creator_id, 
+			String creatorName, String timeZoneString) {
 
 		this.name = name;
 		this.aar_text = sim.getAarStarterText();
@@ -167,6 +168,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 		this.sim_id = sim.getId();
 		this.creator_id = creator_id;
 		this.creatorName = creatorName;
+		this.timeZone = timeZoneString;
 
 		this.saveMe(schema);
 		

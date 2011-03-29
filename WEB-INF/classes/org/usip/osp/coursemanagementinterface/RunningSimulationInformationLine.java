@@ -37,6 +37,16 @@ public class RunningSimulationInformationLine {
 	
 	private boolean enabled = false;
 	
+	private String timeZone = "EST";
+
+	public String getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(String timeZoneOffset) {
+		this.timeZone = timeZoneOffset;
+	}
+	
 
 	public Long getSimId() {
 		return simId;
@@ -85,10 +95,6 @@ public class RunningSimulationInformationLine {
 	public void setPhaseName(String phaseName) {
 		this.phaseName = phaseName;
 	}
-	
-	
-
-
 
 	public boolean isEnabled() {
 		return enabled;
