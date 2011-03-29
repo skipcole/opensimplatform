@@ -508,9 +508,11 @@ public class Simulation implements ExportableObject, Comparable{
 	 * 
 	 * @param rs_name
 	 */
-	public RunningSimulation addNewRunningSimulation(String rs_name, String schema, Long _creator_id, String _creator_name) {
+	public RunningSimulation addNewRunningSimulation(String rs_name, String schema, 
+			Long _creator_id, String _creator_name, String _timezone) {
 
-		RunningSimulation rs = new RunningSimulation(rs_name, this, schema, _creator_id, _creator_name);
+		RunningSimulation rs = 
+			new RunningSimulation(rs_name, this, schema, _creator_id, _creator_name, _timezone);
 
 		return rs;
 

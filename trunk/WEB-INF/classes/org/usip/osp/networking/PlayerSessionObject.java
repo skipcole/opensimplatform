@@ -312,6 +312,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			runningSimId = ua.getRunning_sim_id();
 			RunningSimulation running_sim = RunningSimulation.getById(schema,runningSimId);
+			
+			// Set the date to be the date in which the Running Sim will be run.
+			this.dateOffset = this.getDateOffset(running_sim);
+			System.out.println("your date offset is : " + dateOffset);
 
 			actorId = ua.getActor_id();
 			Actor actor = Actor.getById(schema, actorId);
@@ -494,7 +498,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 		RunningSimulation rs = new RunningSimulation("My Session", this
-				.giveMeSim(), this.schema, null, "Player Self Assigned");
+				.giveMeSim(), this.schema, null, "Player Self Assigned", TimeZone.getDefault().getDisplayName());
 		this.runningSimId = rs.getId();
 		rs.setReady_to_begin(true);
 
@@ -2366,7 +2370,28 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 	}
 	
-	public long dateOffset = 10800000; //3 * 60 * 60 * 1000;
+	
+	/**
+	 * Sets the time, in milliseconds, between the server and the running simulation.
+	 * @param rs
+	 * @return
+	 */
+	public long getDateOffset(RunningSimulation rs){
+
+		TimeZone tz_server = TimeZone.getDefault();
+		 
+		TimeZone tz_rs = TimeZone.getTimeZone(rs.getTimeZone());
+		 
+		long offsetServer = tz_server.getOffset(new Date().getTime());
+		long offsetRunningSim = tz_rs.getOffset(new Date().getTime());
+		 
+		long relativeOffset = offsetServer - offsetRunningSim;
+		
+		return relativeOffset;
+		 
+	}
+	
+	public long dateOffset = 0;
 	
 	public String insertChatLine (HttpServletRequest request){
 		String status_code = ChatController.NO_NEW_MSG + "";

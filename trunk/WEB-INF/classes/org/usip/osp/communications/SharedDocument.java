@@ -213,13 +213,15 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 		
 		Session session = MultiSchemaHibernateUtil.getSession(schema);
 		
-		// Save it to get a doc id
-		session.saveOrUpdate(this);
+		if (this.getId() == null){
+			// Save it to get a doc id
+			session.saveOrUpdate(this);
+		}
 		
 		// Save the history of what it is at this moment in time
 		SharedDocumentVersionHistory sdvh = new SharedDocumentVersionHistory(schema, this, session);
 		
-		// Save again to record the version number 
+		// Save to record the version number 
 		this.version = sdvh.getVersionNum();
 		
 		session.saveOrUpdate(this);

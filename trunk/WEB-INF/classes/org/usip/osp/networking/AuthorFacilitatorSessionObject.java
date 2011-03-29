@@ -310,7 +310,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				System.out.println("rsn is " + rsn);
 				// Create Running Simulation
 				RunningSimulation rs = sim.addNewRunningSimulation(rsn, schema,
-						this.user_id, this.userDisplayName);
+						this.user_id, this.userDisplayName, TimeZone.getDefault().getDisplayName());
 				// Assign this user to all roles in the simulation.
 				for (ListIterator<Actor> lia = SimActorAssignment
 						.getActorsForSim(schema, sim.getId()).listIterator(); lia
@@ -3547,9 +3547,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String rsn = (String) request.getParameter("running_sim_name");
 
 			if ((rsn != null) && (rsn.trim().length() > 0)) {
+				
+				String timezone = (String) request.getParameter("timezone");
 
 				RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
-						schema, this.user_id, this.userDisplayName);
+						schema, this.user_id, this.userDisplayName, timezone);
 
 				runningSimId = rs.getId();
 			} else {
