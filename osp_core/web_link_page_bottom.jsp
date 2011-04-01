@@ -66,25 +66,25 @@
   <table border="0" cellpadding="2" cellspacing="2">
     <tr>
       <td valign="top"><%= linkName %> Date </td>
-      <td colspan="2" valign="top"><input name="wlo_event_date" type="text" id="datepicker"> 
+      <td colspan="2" valign="top"><input name="wlo_event_date" tabindex="1"  type="text" value="<%= wlo.getWLODateFormattedForWeb() %>" id="datepicker"> 
         (mm/dd/yyyy) </td>
     </tr>
       <tr>
       <td width="25%" valign="top"><%= linkName %> Name</td>
       <td colspan="2" valign="top">
-          <input name="wlo_name" type="text" id="wlo_name" tabindex="1" value="<%= wlo.getWeblinkName() %>" size="40">      </td>
+          <input name="wlo_name" type="text" id="wlo_name" tabindex="2" value="<%= wlo.getWeblinkName() %>" size="40" maxlength="60">      </td>
     </tr>
     <tr>
       <td valign="top">Source of <%= linkName %></td>
-      <td colspan="2" valign="top"><input type="text" name="wlo_source" value="<%= wlo.getWeblinkSource() %>" size="40"></td>
+      <td colspan="2" valign="top"><input type="text" name="wlo_source" tabindex="3"  value="<%= wlo.getWeblinkSource() %>" size="40"></td>
     </tr>
     <tr>
       <td valign="top"><%= linkName %> Description</td>
-      <td colspan="2" valign="top"><textarea name="wlo_description" cols="80" rows="2" tabindex="2"><%= wlo.getWeblinkDescription() %></textarea></td>
+      <td colspan="2" valign="top"><textarea name="wlo_description" cols="80" rows="2" tabindex="4"><%= wlo.getWeblinkDescription() %></textarea></td>
     </tr>
     <tr>
       <td valign="top"><%= linkName %> URL</td>
-      <td colspan="2" valign="top"><textarea name="wlo_url" cols="80" rows="4" tabindex="3"><%= wlo.getWeblinkURL() %></textarea></td>
+      <td colspan="2" valign="top"><textarea name="wlo_url" cols="80" rows="4" tabindex="5"><%= wlo.getWeblinkURL() %></textarea></td>
     </tr>
 		<%
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
@@ -109,18 +109,18 @@
     <tr>
       <td valign="top">&nbsp;</td>
       <td width="38%" valign="top"><%	if (wlo.getId() == null) { %>
-          <input type="submit" name="command" value="Create" tabindex="4" />
+          <input type="submit" name="command" value="Create" tabindex="6" />
           <%
 				} else {
 				%>
           <input type="hidden" name="wlo_id" value="<%= wlo.getId() %>" />
-          <input type="submit" name="command" value="Clear" tabindex="5" />
-          <input type="submit" name="command" value="Update" tabindex="6" />
+          <input type="submit" name="command" value="Clear" tabindex="7" />
+          <input type="submit" name="command" value="Update" tabindex="8" />
         <%
 					}
 				%>      </td>
       <td width="37%" align="right" valign="top"><%	if (wlo.getId() != null) { %>
-        <input type="submit" name="command" value="Delete" tabindex="7"  onClick="return confirm('Are you sure you want to delete this item?');" />
+        <input type="submit" name="command" value="Delete" tabindex="9"  onClick="return confirm('Are you sure you want to delete this item?');" />
         <% } %></td>
     </tr>
   </table>

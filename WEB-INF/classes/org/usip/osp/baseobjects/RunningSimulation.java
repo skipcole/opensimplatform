@@ -128,7 +128,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 	@Lob
 	private String aar_text = ""; //$NON-NLS-1$
 	
-	private String timeZone = "EST";
+	private String timeZone = "PST";
 
 	public String getTimeZone() {
 		return timeZone;
