@@ -80,8 +80,19 @@
 			if (wlo.getId().intValue() == nowShowingInt){
 				selected = " selected ";
 			}
+			
+			//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("mm/dd/yy");
+			
+			String dateString = " unknown date ";
+			
+			if (wlo.getWebObjectDate() != null) {
+				dateString = sdf.format(wlo.getWebObjectDate());
+			}
+			
+			dateString += " - ";
     %>
-    <option value="<%= wlo.getId() %>" <%= selected %>><%= wlo.getWeblinkName() %></option>
+    <option value="<%= wlo.getId() %>" <%= selected %>><%= dateString %><%= wlo.getWeblinkName() %></option>
     <% } %>
     </select>
   <input type="submit" name="command" id="go_button" value="Go!">
@@ -89,7 +100,8 @@
   <input type="submit" name="command" id="edit_button" value="Edit">
   </label>
 </form>
-</td><td valign="top" ><div id="wlo_desc"><%= nowShowingWLO.getWeblinkDescription() %>
+<br /> <a href="similie_on_the_fly_timeline.jsp" target="wlo_bottom" >TimeLine (in development)</a></td>
+  <td valign="top" ><div id="wlo_desc"><%= nowShowingWLO.getWeblinkDescription() %>
 <% if (showNewWindowLink) { %>
 <BR><a href="<%= nowShowingWLO.getWeblinkURL() %>" target="_new"> Open in new Window </a>
 <% } %>

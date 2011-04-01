@@ -1,5 +1,7 @@
 package org.usip.osp.communications;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -131,9 +133,10 @@ public class WebLinkObjects implements WebObject {
 	 * @param desc
 	 * @param url
 	 */
-	public WebLinkObjects(String schema, String name, String source, String desc, String url,
+	public WebLinkObjects(String schema, String name, Date objectDate, String source, String desc, String url,
 			Long rsId, Long csId, Long uId) {
 		
+		this.webObjectDate = objectDate;
 		this.postingDate = new java.util.Date();
 		this.weblinkName = name;
 		this.weblinkSource = source;
@@ -319,13 +322,16 @@ public class WebLinkObjects implements WebObject {
 				String wlo_description = request
 						.getParameter("wlo_description");
 				String wlo_url = request.getParameter("wlo_url");
+				String wlo_event_date = request.getParameter("wlo_event_date");
+				
+				Date wDate = dateStringToDate(wlo_event_date);
 				
 				String wlo_source = request.getParameter("wlo_source");
 
 				if (command.equalsIgnoreCase("Create")) {
 					
 					if ((wlo_url != null) && (wlo_url.length() > 0)) {
-						wlo = new WebLinkObjects(pso.schema, wlo_name, wlo_source,
+						wlo = new WebLinkObjects(pso.schema, wlo_name, wDate, wlo_source,
 							wlo_description, wlo_url, pso.getRunningSimId(), csId, pso.user_id);
 					} else {
 						wlo.setWloError("Not enough Information provided");
@@ -347,6 +353,7 @@ public class WebLinkObjects implements WebObject {
 					if ((wlo_url != null) && (wlo_url.length() > 0)) {
 						wlo.setWeblinkDescription(wlo_description);
 						wlo.setWeblinkName(wlo_name);
+						wlo.setWebObjectDate(wDate);
 						wlo.setWeblinkSource(wlo_source);
 						wlo.setWeblinkURL(wlo_url);
 						wlo.saveMe(pso.schema);
@@ -405,6 +412,39 @@ public class WebLinkObjects implements WebObject {
 		}
 
 		return;
+	}
+	
+	public static SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+	
+	/**
+	 * 
+	 * @param inputString
+	 * @return
+	 */
+	public static Date dateStringToDate(String inputString){
+		
+		Date returnDate = new Date();
+		
+		if ((inputString == null) || (inputString.trim().length() == 0)){
+			return returnDate;
+		}
+
+		try {
+			returnDate = sdf.parse(inputString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return returnDate;
+	}
+	
+	public String getWLODateFormattedForWeb(){
+		
+		if (this.webObjectDate != null){
+			return sdf.format(this.webObjectDate);
+		} else {
+			return "";
+		}
 	}
 
 }

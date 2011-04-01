@@ -43,7 +43,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 
 <style type="text/css" media="screen">
 body {
@@ -93,7 +92,7 @@ overflow:auto;
 <body onLoad="updateMsg();">
 <table width="50%">
 <TR>
-    <TD valign="top" width="25%"><h1><%= cs.getPageTitle() %></h1>
+    <TD valign="top" width="25%"><h1><%= cs.getPageTitle() %></h1><a href="conference_room_archive.jsp?conv_id=<%= conv.getId() %>&cs_id=<%= cs_id %>">Conversation Archive</a>
       <p><%= cs.getBigString() %></p></TD>
 <TR>
     <TD width="25%"><form id="chatform<%= conv.getId() %>" >
@@ -180,9 +179,8 @@ function changeActorColor(dropdownlist){
 
 function formatString(mTime, message, actorName, msgSender){
 	
-	var formattedHTML = "";
+	var formattedHTML =  ('<table width=100% bgcolor=#' + actor_colors[msgSender] + ' ><tr><td><span class=\"style1\">(' + mTime + ') </span>From ' + actorName + ': ' + message + ' </td></tr></table>' );
 	
-	formattedHTML += ('<table width=100% bgcolor=#' + actor_colors[msgSender] + ' ><tr><td><span class=\"style1\">(' + mTime + ') </span>From ' + actorName + ': ' + message + ' </td></tr></table>' );
 	
   	return formattedHTML;
 	
@@ -234,7 +232,7 @@ function formatString(mTime, message, actorName, msgSender){
 			
 			$("message",xml).each(function(id) {
 				message = $("message",xml).get(id);
-				coloredMsg = formatString($("time",message).text(), $("text",message).text(), $("author",message).text(), $("actor_id",message).text());		
+				coloredMsg = formatString($("time",message).text(), $("text",message).text(), $("author",message).text(), $("actor_id",message).text());			
 				$("#messagewindow").prepend(coloredMsg);
 											
 				var new_start_index = $("id",message).text();
@@ -317,6 +315,7 @@ function formatString(mTime, message, actorName, msgSender){
 
     });
 
-</script>
+</script> 
+<a href="conference_room_archive.jsp?conv_id=<%= conv.getId() %>&cs_id=<%= cs_id %>">Conversation Archive</a>
 </body>
 </html>

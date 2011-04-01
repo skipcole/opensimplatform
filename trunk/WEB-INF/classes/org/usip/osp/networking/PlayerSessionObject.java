@@ -2413,6 +2413,52 @@ public class PlayerSessionObject extends SessionObjectBase {
 		return status_code;
 	}
 	
+	public String getLocalTimeForDisplay(){
+		
+		java.util.Date nowLocalTime = new Date();
+		long nowLong = nowLocalTime.getTime() - dateOffset;
+		nowLocalTime = new Date(nowLong);
+		
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+		String time_string = sdf.format(nowLocalTime);
+		
+		return time_string;
+		
+	}
+	
+	public ArrayList <String> getChat(HttpServletRequest request){
+		String status_code = ChatController.NO_NEW_MSG + "";
+		
+		String show_all = (String) request.getParameter("show_all");
+		
+		String conversation =  (String) request.getParameter("conversation");
+		String start_index = (String) request.getParameter("start_index");
+		
+		String xml_msgs = "";
+		
+		if (show_all != null) {
+			xml_msgs = ChatController.getXMLConversation(start_index, conversation, this, request, 0);
+		} else {
+			xml_msgs = ChatController.getXMLConversation(start_index, conversation, this, request, 100);
+		}
+			
+		if ((xml_msgs != null) && (xml_msgs.trim().length() > 0)){
+			status_code = ChatController.NEW_MSG + "";
+		}
+		
+		ArrayList <String> returnList = new ArrayList <String> ();
+		returnList.add(status_code);
+		returnList.add(xml_msgs);
+		
+		return returnList;
+	}
+	
+	/**
+	 * Handles the creation of a one link item.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public String handleOneLink(HttpServletRequest request){
 		
 		String cs_id = (String) request.getParameter("cs_id");

@@ -96,7 +96,33 @@ Player      </td>
 		%>
   </table>
         </form>      
-      <p>&nbsp;</p>			</td>
+      <p>This Report is for <%= userOnScratchPad.getUser_name() %>, <%= userOnScratchPad.getBu_full_name() %>.</p>			
+      <blockquote>
+        <table width="80%" border="1">
+          <tr>
+            <td width="33%"><strong>Logged In</strong></td>
+            <td width="33%"><strong>Session Ended</strong></td>
+          </tr>
+          <%
+  
+  	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+  
+  	List uLogins = UserTrail.getAllForUser(afso.schema, userOnScratchPad.getId());
+	
+  	for (ListIterator li = uLogins.listIterator(); li.hasNext();) {
+		UserTrail ut = (UserTrail) li.next();
+			
+		%>
+          <tr>
+            <td valign="top"><%= sdf.format(ut.getLoggedInDate()) %></td>
+            <td valign="top"><%= sdf.format(ut.getEndSessionDate()) %></td>
+          </tr>
+          <%
+	} // end of loop over actors.
+%>
+        </table>
+      </blockquote>
+      <p></p></td>
 		</tr>
 		</table>	</td>
   </tr>
@@ -112,6 +138,3 @@ Player      </td>
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

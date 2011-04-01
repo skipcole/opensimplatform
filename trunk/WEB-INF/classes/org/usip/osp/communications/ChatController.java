@@ -14,8 +14,8 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 /**
  * This class provides utility functions to manage a chat session.
- *
- * 
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
@@ -209,7 +209,7 @@ public class ChatController {
 	}
 
 	public static String getXMLConversation(String start_index, String conv_id, PlayerSessionObject pso,
-			HttpServletRequest request) {
+			HttpServletRequest request, int numLines) {
 
 		if ((start_index == null) || (start_index.trim().length() == 0)) {
 			start_index = "0"; //$NON-NLS-1$
@@ -220,17 +220,57 @@ public class ChatController {
 		// This conversation is pulled from the set of conversations Vector
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
 
+		StringBuffer sb = new StringBuffer();
 		String convLinesToReturn = ""; //$NON-NLS-1$
+		
+		int startCounter = this_conv.size() - numLines;
+		
+		int lineNum = 0;
 		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
 			ChatLine bcl = (ChatLine) e.nextElement();
-
+			
+			lineNum += 1;
 			// Check to see were are above the start index sent.
 			if (bcl.getId().intValue() > start_int) {
-				convLinesToReturn += bcl.packageIntoXML(pso, request);
+				
+				if (lineNum >= startCounter) {
+					convLinesToReturn += bcl.packageIntoXML(pso, request);
+				}
+				
 			}
 		}
 
 		return convLinesToReturn;
+	}
+	
+	public static String getFullHTMLConversation(String conv_id, PlayerSessionObject pso,
+			HttpServletRequest request) {
+
+		// This conversation is pulled from the set of conversations Vector
+		Vector this_conv = getCachedConversation(request, pso, conv_id);
+		
+		StringBuffer sb = new StringBuffer();
+		
+		int lineNum = 0;
+		Hashtable <Long, String> actorNames = new Hashtable<Long, String>();
+		for (Enumeration e = this_conv.elements(); e.hasMoreElements();) {
+			ChatLine bcl = (ChatLine) e.nextElement();
+			
+			String name = (String) actorNames.get(bcl.getFromActor());
+			
+			if (name == null) {
+				name = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id,
+						pso.getRunningSimId(), request, bcl.getFromActor());
+				
+				actorNames.put(bcl.getFromActor(), name);
+			}
+			
+			
+			sb.insert(0,"<table width=100%><tr><td>(" + bcl.getMsgDate() + ")From " + 
+					name + ": " + bcl.getMsgtext() + " </td></tr></table>");
+		}
+
+		return sb.toString();
 	}
 
 	/**
