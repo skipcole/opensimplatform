@@ -79,9 +79,9 @@ public class ChatLine implements Comparable{
      * 
      * @return	Returns the chatline packaged in xml.
      */
-    public String packageIntoXML(PlayerSessionObject afso, HttpServletRequest request){
+    public String packageIntoXML(PlayerSessionObject afso, HttpServletRequest request, long timeZoneOffset){
     	
-    	String time_string = this.sdf.format(this.msgDate);
+    	String time_string = this.sdf.format(new Date(this.msgDate.getTime() + timeZoneOffset));
     	
     	String returnString = "<message>"; //$NON-NLS-1$
     	

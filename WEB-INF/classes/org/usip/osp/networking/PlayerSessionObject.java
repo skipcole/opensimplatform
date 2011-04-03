@@ -2401,14 +2401,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 		String conversation =  (String) request.getParameter("conversation");
 		String start_index = (String) request.getParameter("start_index");
 		
-		java.util.Date nowPST = new Date();
-		long nowLong = nowPST.getTime() - dateOffset;
-		nowPST = new Date(nowLong);
-		
 
 		if ((message != null) && (message.trim().length() > 0)){
 			ChatController.insertChatLine(user_id, getActorId(), 
-					start_index, message, conversation, this, request, nowPST);
+					start_index, message, conversation, this, request, new Date());
 		}
 		return status_code;
 	}

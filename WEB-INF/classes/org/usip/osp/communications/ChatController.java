@@ -234,7 +234,7 @@ public class ChatController {
 			if (bcl.getId().intValue() > start_int) {
 				
 				if (lineNum >= startCounter) {
-					convLinesToReturn += bcl.packageIntoXML(pso, request);
+					convLinesToReturn += bcl.packageIntoXML(pso, request, pso.dateOffset);
 				}
 				
 			}
@@ -265,8 +265,9 @@ public class ChatController {
 				actorNames.put(bcl.getFromActor(), name);
 			}
 			
+			Date localTime = new Date(bcl.getMsgDate().getTime() + pso.dateOffset);
 			
-			sb.insert(0,"<table width=100%><tr><td>(" + bcl.getMsgDate() + ")From " + 
+			sb.insert(0,"<table width=100%><tr><td>(" + localTime + ")From " + 
 					name + ": " + bcl.getMsgtext() + " </td></tr></table>");
 		}
 

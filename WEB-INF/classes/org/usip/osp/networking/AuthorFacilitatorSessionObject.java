@@ -310,7 +310,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				System.out.println("rsn is " + rsn);
 				// Create Running Simulation
 				RunningSimulation rs = sim.addNewRunningSimulation(rsn, schema,
-						this.user_id, this.userDisplayName, TimeZone.getDefault().getDisplayName());
+						this.user_id, this.userDisplayName, TimeZone
+								.getDefault().getDisplayName());
 				// Assign this user to all roles in the simulation.
 				for (ListIterator<Actor> lia = SimActorAssignment
 						.getActorsForSim(schema, sim.getId()).listIterator(); lia
@@ -3547,7 +3548,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			String rsn = (String) request.getParameter("running_sim_name");
 
 			if ((rsn != null) && (rsn.trim().length() > 0)) {
-				
+
 				String timezone = (String) request.getParameter("timezone");
 
 				RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
@@ -4671,7 +4672,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Used to change a user name (email address) of a player.
 	 * 
@@ -4679,15 +4680,43 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param newUserName
 	 * @return
 	 */
-	public static boolean changePlayerUsername(Long u_id, String newUserName){
-		
+	public static boolean changePlayerUsername(Long u_id, String newUserName) {
+
 		// Change name in base user table
-		
+
 		// Change name in any user table in any schema
-		
+
 		// Change name in any user assignments in any schema
 		return false;
 	}
 
+	/**
+	 * 
+	 */
+	public RunningSimulation editRunningSimulation(HttpServletRequest request) {
+		String rs_id = (String) request.getParameter("rs_id");
+
+		RunningSimulation rs = new RunningSimulation();
+
+		if ((rs_id != null) && (!(rs_id.equalsIgnoreCase("null")))) {
+			rs = RunningSimulation.getById(schema, new Long(rs_id));
+
+			String sending_page = (String) request.getParameter("sending_page");
+
+			if ((sending_page != null)
+					&& ((sending_page.equalsIgnoreCase("rs_changename")))) {
+
+				String rs_new_name = (String) request
+						.getParameter("rs_new_name");
+				String timezone = (String) request.getParameter("timezone");
+
+				rs.setName(rs_new_name);
+				rs.setTimeZone(timezone);
+				rs.saveMe(schema);
+
+			}
+		}
+		return rs;
+	}
 
 } // End of class
