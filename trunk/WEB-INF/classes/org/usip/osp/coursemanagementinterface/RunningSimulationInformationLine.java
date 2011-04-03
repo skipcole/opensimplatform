@@ -37,14 +37,14 @@ public class RunningSimulationInformationLine {
 	
 	private boolean enabled = false;
 	
-	private String timeZone = "EST";
+	private String timeZone = "";
 
 	public String getTimeZone() {
 		return timeZone;
 	}
 
-	public void setTimeZone(String timeZoneOffset) {
-		this.timeZone = timeZoneOffset;
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
 	}
 	
 
@@ -147,6 +147,7 @@ public class RunningSimulationInformationLine {
 					
 					RunningSimulationInformationLine rsil = new RunningSimulationInformationLine();
 					rsil.setSimName(sim.getDisplayName());
+					rsil.setTimeZone(rs.getTimeZone());
 					rsil.setRsName(rs.getRunningSimulationName());
 					rsil.setRsId(rs.getId());
 					rsil.setEnabled(rs.isReady_to_begin());
