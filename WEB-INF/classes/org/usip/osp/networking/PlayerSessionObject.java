@@ -127,7 +127,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	public String tabposition = "1"; //$NON-NLS-1$
 
-
 	/**
 	 * Once a player has selected a running sim, do not let them back out and
 	 * choose another without logging out and logging in.
@@ -299,7 +298,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 			String user_assignment_id = request
 					.getParameter("user_assignment_id");
 
-			UserAssignment ua = UserAssignment.getById(schema,new Long(user_assignment_id));
+			UserAssignment ua = UserAssignment.getById(schema, new Long(
+					user_assignment_id));
 			myUserAssignmentId = ua.getId();
 			ua.advanceStatus(UserAssignment.STATUS_ENTERED);
 			ua.saveMe(schema);
@@ -307,12 +307,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 			this.myHighestAlertNumber = ua.getHighestAlertNumberRecieved();
 
 			sim_id = ua.getSim_id();
-			
+
 			Simulation simulation = Simulation.getById(schema, sim_id);
 
 			runningSimId = ua.getRunning_sim_id();
-			RunningSimulation running_sim = RunningSimulation.getById(schema,runningSimId);
-			
+			RunningSimulation running_sim = RunningSimulation.getById(schema,
+					runningSimId);
+
 			// Set the date to be the date in which the Running Sim will be run.
 			this.dateOffset = this.getDateOffset(running_sim);
 			System.out.println("your date offset is : " + dateOffset);
@@ -326,7 +327,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 				this.controlCharacter = true;
 			}
 
-			SimulationPhase sp = SimulationPhase.getById(schema,running_sim.getPhase_id());
+			SimulationPhase sp = SimulationPhase.getById(schema, running_sim
+					.getPhase_id());
 
 			// Load information from the pertinent objects to be displayed.
 			loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
@@ -498,7 +500,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
 		RunningSimulation rs = new RunningSimulation("My Session", this
-				.giveMeSim(), this.schema, null, "Player Self Assigned", TimeZone.getDefault().getDisplayName());
+				.giveMeSim(), this.schema, null, "Player Self Assigned",
+				TimeZone.getDefault().getDisplayName());
 		this.runningSimId = rs.getId();
 		rs.setReady_to_begin(true);
 
@@ -824,7 +827,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public void makeTargettedAnnouncement(HttpServletRequest request,
 			String inject_id) {
 
-		String targets = list2String(USIP_OSP_Util.getIdsOfCheckBoxes("actor_cb_", request));
+		String targets = list2String(USIP_OSP_Util.getIdsOfCheckBoxes(
+				"actor_cb_", request));
 
 		Alert al = new Alert();
 		al.setSpecific_targets(true);
@@ -843,23 +847,24 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		if ((inject_id != null) && (!(inject_id.equalsIgnoreCase("null")))
 				&& (inject_id.length() > 0)) {
-			
-			Inject inj = Inject.getById(schema, new Long (inject_id));
-			
+
+			Inject inj = Inject.getById(schema, new Long(inject_id));
+
 			// Record this in the firing history
 			InjectFiringHistory ifh = new InjectFiringHistory(
-					this.runningSimId, this.actorId, new Long(inject_id), "some", 
-					inj.getInject_name(), alertInQueueText,
-					targets, schema);
+					this.runningSimId, this.actorId, new Long(inject_id),
+					"some", inj.getInject_name(), alertInQueueText, targets,
+					schema);
 
 			USIP_OSP_Cache
 					.addFiredInjectsToCache(schema, request, this.runningSimId,
 							this.actorId, new Long(inject_id), "all");
 			// TODO come back here and add inject name instead of short Intro
-			RespondableObject ro = new RespondableObject(schema, this.sim_id, this.runningSimId, 
-					 phase_id, 
-					 new Long(inject_id), Inject.class.toString().replaceFirst("class ", ""), shortIntro,
-					 this.actorId, this.user_name, this.userDisplayName, "all");
+			RespondableObject ro = new RespondableObject(schema, this.sim_id,
+					this.runningSimId, phase_id, new Long(inject_id),
+					Inject.class.toString().replaceFirst("class ", ""),
+					shortIntro, this.actorId, this.user_name,
+					this.userDisplayName, "all");
 		}
 
 	}
@@ -1144,8 +1149,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 					Vector bcced = new Vector();
 					bcced.add(user_name);
 
-					Emailer.postMail(sio, bu.getUsername(), subject, message, message, sio.getEmailNoreplyAddress(),
-							user_name, cced, bcced);
+					Emailer.postMail(sio, bu.getUsername(), subject, message,
+							message, sio.getEmailNoreplyAddress(), user_name,
+							cced, bcced);
 
 				}
 			}
@@ -1319,8 +1325,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 							String send_real_world = request
 									.getParameter("send_real_world");
-							
-							System.out.println(" send_real_world was: " + send_real_world);
+
+							System.out.println(" send_real_world was: "
+									+ send_real_world);
 
 							if ((send_real_world != null)
 									&& (send_real_world
@@ -1350,10 +1357,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				email.saveMe(schema);
 				draft_email_id = email.getId();
-				
+
 				// Send real world email if called for.
-				if ((forward_on) && (email.isSendInRealWorld())){
-					SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
+				if ((forward_on) && (email.isSendInRealWorld())) {
+					SchemaInformationObject sio = SchemaInformationObject
+							.lookUpSIOByName(schema);
 					email.sendInGameEmail(sio, this.getRunningSimId());
 				}
 
@@ -1509,13 +1517,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			String inject_id = request.getParameter("inject_id"); //$NON-NLS-1$
 
-			if ((player_target != null)		// Sending Inject to some players
+			if ((player_target != null) // Sending Inject to some players
 					&& (player_target.equalsIgnoreCase("some"))) { //$NON-NLS-1$
 				this.alertInQueueText = announcement_text;
 				this.alertInQueueType = Alert.TYPE_EVENT;
 				return true;
-				
-			} else {						// Sending inject to all players
+
+			} else { // Sending inject to all players
 				makeGeneralAnnouncement(announcement_text, request);
 
 				if (inject_id != null) {
@@ -1525,18 +1533,21 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 					// Record this in the firing history
 					InjectFiringHistory ifh = new InjectFiringHistory(
-							this.runningSimId, this.actorId, theInject.getId(), 
-							"all", theInject.getInject_name(), announcement_text, "all", schema);
+							this.runningSimId, this.actorId, theInject.getId(),
+							"all", theInject.getInject_name(),
+							announcement_text, "all", schema);
 
 					USIP_OSP_Cache.addFiredInjectsToCache(schema, request,
 							this.runningSimId, this.actorId, theInject.getId(),
 							"all");
-					
-					RespondableObject ro = new RespondableObject(schema, this.sim_id, this.runningSimId, 
-							 phase_id, 
-							 theInject.getId(), Inject.class.toString().replaceFirst("class ", ""), theInject.getInject_name(),
-							 this.actorId, this.user_name, this.userDisplayName, "all");
-					
+
+					RespondableObject ro = new RespondableObject(schema,
+							this.sim_id, this.runningSimId, phase_id, theInject
+									.getId(), Inject.class.toString()
+									.replaceFirst("class ", ""), theInject
+									.getInject_name(), this.actorId,
+							this.user_name, this.userDisplayName, "all");
+
 				}
 
 				return false;
@@ -2303,9 +2314,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 			String email_text = request.getParameter("email_text"); //$NON-NLS-1$
 			String email_subject = request.getParameter("email_subject"); //$NON-NLS-1$
 			String email_from = request.getParameter("email_from"); //$NON-NLS-1$
-			
-			email_text = "!!!   This is a simulation email. This is not reality   !!!!   <br/>" + email_text;
-			email_text = email_text + "<br/>!!!   This is a simulation email. This is not reality   !!!!   <br/>";
+
+			email_text = "!!!   This is a simulation email. This is not reality   !!!!   <br/>"
+					+ email_text;
+			email_text = email_text
+					+ "<br/>!!!   This is a simulation email. This is not reality   !!!!   <br/>";
 
 			Hashtable<String, String> playersToEmail = new Hashtable();
 
@@ -2331,148 +2344,155 @@ public class PlayerSessionObject extends SessionObjectBase {
 			for (Enumeration e = playersToEmail.keys(); e.hasMoreElements();) {
 				String email_address = (String) e.nextElement();
 
-				Emailer.postMail(sio, email_address, email_subject, email_text, email_text,
-						sio.getEmailNoreplyAddress(),email_from, new Vector(), new Vector());
+				Emailer.postMail(sio, email_address, email_subject, email_text,
+						email_text, sio.getEmailNoreplyAddress(), email_from,
+						new Vector(), new Vector());
 
 			}
 
 		}
 	}
-	
+
 	/**
-	 * Takes the language code current selected, compares it to the selection item
-	 * and if they match, passes back the HTML code to indicate this is the currently
-	 * selected language.
+	 * Takes the language code current selected, compares it to the selection
+	 * item and if they match, passes back the HTML code to indicate this is the
+	 * currently selected language.
 	 * 
 	 * @param thisSelection
 	 * @return
 	 */
-	public String getLanuageCodeSelected(int thisSelection){
-				
-		if (this.languageCode == thisSelection){
+	public String getLanuageCodeSelected(int thisSelection) {
+
+		if (this.languageCode == thisSelection) {
 			return " selected=\"selected\" ";
 		} else {
 			return "";
 		}
 	}
-	
+
 	/**
 	 * Detects if a lanugage change has come in.
+	 * 
 	 * @param request
 	 */
-	public void detectLanguageChange(HttpServletRequest request){
-		
-		
+	public void detectLanguageChange(HttpServletRequest request) {
+
 		String select_language = request.getParameter("select_language");
-		
+
 		if (select_language != null) {
 			languageCode = new Long(select_language).intValue();
 		}
 	}
-	
-	
+
 	/**
-	 * Sets the time, in milliseconds, between the server and the running simulation.
+	 * Sets the time, in milliseconds, between the server and the running
+	 * simulation.
+	 * 
 	 * @param rs
 	 * @return
 	 */
-	public long getDateOffset(RunningSimulation rs){
+	public long getDateOffset(RunningSimulation rs) {
 
 		TimeZone tz_server = TimeZone.getDefault();
-		 
+
 		TimeZone tz_rs = TimeZone.getTimeZone(rs.getTimeZone());
-		 
+
 		long offsetServer = tz_server.getOffset(new Date().getTime());
 		long offsetRunningSim = tz_rs.getOffset(new Date().getTime());
-		 
-		long relativeOffset = offsetServer - offsetRunningSim;
-		
-		return relativeOffset;
-		 
-	}
-	
-	public long dateOffset = 0;
-	
-	public String insertChatLine (HttpServletRequest request){
-		String status_code = ChatController.NO_NEW_MSG + "";
-		
-		String message = (String) request.getParameter("message");
-		String name =  (String) request.getParameter("name");
-		String conversation =  (String) request.getParameter("conversation");
-		String start_index = (String) request.getParameter("start_index");
-		
 
-		if ((message != null) && (message.trim().length() > 0)){
-			ChatController.insertChatLine(user_id, getActorId(), 
-					start_index, message, conversation, this, request, new Date());
+		long relativeOffset = offsetServer - offsetRunningSim;
+
+		return relativeOffset;
+
+	}
+
+	public long dateOffset = 0;
+
+	public String insertChatLine(HttpServletRequest request) {
+		String status_code = ChatController.NO_NEW_MSG + "";
+
+		String message = (String) request.getParameter("message");
+		String name = (String) request.getParameter("name");
+		String conversation = (String) request.getParameter("conversation");
+		String start_index = (String) request.getParameter("start_index");
+
+		if ((message != null) && (message.trim().length() > 0)) {
+			ChatController.insertChatLine(user_id, getActorId(), start_index,
+					message, conversation, this, request, new Date());
 		}
 		return status_code;
 	}
-	
-	public String getLocalTimeForDisplay(){
-		
+
+	public String getLocalTimeForDisplay() {
+
 		java.util.Date nowLocalTime = new Date();
 		long nowLong = nowLocalTime.getTime() - dateOffset;
 		nowLocalTime = new Date(nowLong);
-		
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
+				"MM/dd/yy HH:mm a");
 		String time_string = sdf.format(nowLocalTime);
-		
+
 		return time_string;
-		
+
 	}
-	
-	public ArrayList <String> getChat(HttpServletRequest request){
+
+	public ArrayList<String> getChat(HttpServletRequest request) {
 		String status_code = ChatController.NO_NEW_MSG + "";
-		
+
 		String show_all = (String) request.getParameter("show_all");
-		
-		String conversation =  (String) request.getParameter("conversation");
+
+		String conversation = (String) request.getParameter("conversation");
 		String start_index = (String) request.getParameter("start_index");
-		
+
 		String xml_msgs = "";
-		
-		if (show_all != null) {
-			xml_msgs = ChatController.getXMLConversation(start_index, conversation, this, request, 0);
-		} else {
-			xml_msgs = ChatController.getXMLConversation(start_index, conversation, this, request, 100);
+
+		if (conversation != null) {
+			if (show_all != null) {
+				xml_msgs = ChatController.getXMLConversation(start_index,
+						conversation, this, request, 0);
+			} else {
+				xml_msgs = ChatController.getXMLConversation(start_index,
+						conversation, this, request, 100);
+			}
 		}
-			
-		if ((xml_msgs != null) && (xml_msgs.trim().length() > 0)){
+
+		if ((xml_msgs != null) && (xml_msgs.trim().length() > 0)) {
 			status_code = ChatController.NEW_MSG + "";
 		}
-		
-		ArrayList <String> returnList = new ArrayList <String> ();
+
+		ArrayList<String> returnList = new ArrayList<String>();
 		returnList.add(status_code);
 		returnList.add(xml_msgs);
-		
+
 		return returnList;
 	}
-	
+
 	/**
 	 * Handles the creation of a one link item.
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public String handleOneLink(HttpServletRequest request){
-		
+	public String handleOneLink(HttpServletRequest request) {
+
 		String cs_id = (String) request.getParameter("cs_id");
-			
+
 		OneLinkCustomizer olc = new OneLinkCustomizer();
-		
+
 		CustomizeableSection cs = CustomizeableSection.getById(schema, cs_id);
 		olc = new OneLinkCustomizer(request, this, cs);
-		
+
 		String forwardOnString = "";
-		
+
 		OneLink ol = OneLink.getById(schema, olc.getOlId());
-		
-		if (!(preview_mode)) {	
-			ol = OneLink.getOneLinkForRunningSim(schema, olc.getOlId(), getRunningSimId());
+
+		if (!(preview_mode)) {
+			ol = OneLink.getOneLinkForRunningSim(schema, olc.getOlId(),
+					getRunningSimId());
 			forwardOnString = ol.generateForwardOnTag();
 		}
-		
+
 		return forwardOnString;
 	}
 }

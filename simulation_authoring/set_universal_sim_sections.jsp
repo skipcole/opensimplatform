@@ -13,14 +13,10 @@
 		return;
 	}
 	
-	Simulation simulation = new Simulation();
-	Actor actor = new Actor();
 	
-	afso.actor_being_worked_on_id = new Long(0);
+	Actor actor = afso.getAndSetUniversalActor();
 	
-	actor.setId(afso.actor_being_worked_on_id);
-	actor.setName("Every One");
-		
+	Simulation simulation = new Simulation();	
 	SimulationPhase spp = new SimulationPhase();
 	
 	if ((afso.sim_id != null)){
@@ -225,7 +221,11 @@ function loadInfo(dropdownlist){
                       <% if (ii > 0) { %>
                       <td>&nbsp;</td>
                     <% } %>
-                      <td><a href="delete_object.jsp?object_type=sim_section&objid=<%= ss.getId().toString() %>&backpage=set_universal_sim_sections.jsp&amp;object_info=<%= ss.getTab_heading() %>">Remove </a></td>
+                      <td><form id="form1" name="form1" method="post" action="set_universal_sim_sections.jsp">
+                        <input type="submit" name="Submit" value="Remove" />
+						<input type="hidden" name="univ_id" value="<%= ss.getId().toString() %>"  />
+						<input type="hidden" name="remove_universal" value="true"  />
+                      </form></td>
                     <% if (ii < (afso.tempSimSecList.size() - 1)) { %>
                       <td>&nbsp;</td>
                     <% } %>

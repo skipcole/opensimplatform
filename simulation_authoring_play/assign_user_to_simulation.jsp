@@ -85,7 +85,7 @@
           here</a>.      </p>
       <p>To assign players to a simulation, <strong>you must follow these steps</strong></p>
       <ol>
-        <li>Find the user by starting to type their name in the User's Email field</li>
+        <li>Find the user by starting to type their name in the User's Email field (or click <strong>'AFR'</strong> to 'Assign from Roster') </li>
         <li>Click on the button 'Assign User' (If the user is not found on this platform, you will then be given several options)</li>
         <li>Repeat until all actors have been assigned users to play them</li>
       </ol>
@@ -146,7 +146,7 @@
 					<a href="assign_user_to_simulation.jsp?command=add_assignment&amp;simulation_adding_to=<%= simulation.getId() %>&amp;running_simulation_adding_to=<%= running_simulation.getId() %>&amp;actor_to_add_to_simulation=<%= act.getId() %>"><img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" /></a>
                   <% } %>                  </td>
               <td>
-              <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>              </td>
+              <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>  <a href="assign_user_from_roster.jsp?user_assignment_id=<%= ua.getId() %>&actor_to_add_to_simulation=<%= act.getId() %>">(or AFR)            </a></td>
               <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
 			    <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
                 <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 

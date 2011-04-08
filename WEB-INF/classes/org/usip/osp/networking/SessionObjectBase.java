@@ -79,8 +79,11 @@ public class SessionObjectBase {
 
 	/** The page to take them back to if needed. */
 	public String backPage = "index.jsp"; //$NON-NLS-1$
-	
-	/** In the rare cases where the user will need to go back to a point even further back. */
+
+	/**
+	 * In the rare cases where the user will need to go back to a point even
+	 * further back.
+	 */
 	public int backBackPageCode = 0; //$NON-NLS-1$
 
 	/** Code to indicate what kind of error was returned. */
@@ -222,20 +225,23 @@ public class SessionObjectBase {
 		}
 
 		// TODO - below is what it eventually should be.
-		//TimeLine.packupArray(TimeLineObjectAssignment.getAllForTimeline(schema, timeLineId));
-		
-		return TimeLine.packupArray(Event.getAllForTimeLine(schema, timeLineId));
+		// TimeLine.packupArray(TimeLineObjectAssignment.getAllForTimeline(schema,
+		// timeLineId));
+
+		return TimeLine
+				.packupArray(Event.getAllForTimeLine(schema, timeLineId));
 
 	}
-	
-	public static String getInjectFiredForTimeline(String schema, Long rs_id){
-		
-		if (rs_id == null){
+
+	public static String getInjectFiredForTimeline(String schema, Long rs_id) {
+
+		if (rs_id == null) {
 			return "";
 		}
-		
-		return TimeLine.packupArray(InjectFiringHistory.getAllTLForRunningSim(schema, rs_id));
-		
+
+		return TimeLine.packupArray(InjectFiringHistory.getAllTLForRunningSim(
+				schema, rs_id));
+
 	}
 
 	public static String getBaseSimURL() {
@@ -340,7 +346,7 @@ public class SessionObjectBase {
 					ua.saveMe(schema);
 					backPage = "../simulation_user_admin/create_user.jsp?create_for_role=true&ua_id="
 							+ ua.getId();
-					
+
 					return ua;
 				}
 
@@ -368,6 +374,7 @@ public class SessionObjectBase {
 		Long s_id = null;
 		Long r_id = null;
 		Long ua_id = null;
+		Long user_to_add_id = null;
 
 		if (command != null) {
 
@@ -386,20 +393,7 @@ public class SessionObjectBase {
 			// Email address of user to assign role to
 			String user_to_add_to_simulation = request
 					.getParameter("user_to_add_to_simulation"); //$NON-NLS-1$
-			
-
-			// I'm shelving this idea for later.
-			/*
-			 * If someone is an instructor, we can allow them to indicate that
-			 * this is one of their simulatiosn elsewhere.
-			 * 
-			 * String instructor = request .getParameter("instructor");
-			 * //$NON-NLS-1$
-			 * 
-			 * if ((instructor != null) &&
-			 * (instructor.equalsIgnoreCase("true"))){
-			 * ua.setFacilitatorAssignment(true); }
-			 */
+			String user_id = request.getParameter("user_id"); //$NON-NLS-1$
 
 			try {
 				a_id = new Long(actor_id);
@@ -420,14 +414,21 @@ public class SessionObjectBase {
 
 			if ((command != null) && (command.equalsIgnoreCase("Assign User"))) { //$NON-NLS-1$
 
-				if ((user_to_add_to_simulation == null) || (user_to_add_to_simulation.trim().length() == 0) ){
-					return ua;
-				}
-				
-				Long user_to_add_id = null;
+				if (user_id != null) {
+					user_to_add_id = new Long(user_id);
+					User thisUser = User.getById(schema, user_to_add_id);
+					user_to_add_to_simulation = thisUser.getBu_username();
+					
+				} else {
 
-				user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
-						request, user_to_add_to_simulation);
+					if ((user_to_add_to_simulation == null)
+							|| (user_to_add_to_simulation.trim().length() == 0)) {
+						return ua;
+					}
+
+					user_to_add_id = USIP_OSP_Cache.getUserIdByName(schema,
+							request, user_to_add_to_simulation);
+				}
 
 				// User was not found, so must add assignment to just the
 				// useremail entered.
@@ -502,8 +503,9 @@ public class SessionObjectBase {
 					return PASSWORDS_MISMATCH;
 				}
 
-				BaseUser bu = BaseUser.validateUser(this.user_name, old_password);
-				
+				BaseUser bu = BaseUser.validateUser(this.user_name,
+						old_password);
+
 				if (bu == null) {
 					return WRONG_OLD_PASSWORD;
 				}
@@ -717,12 +719,12 @@ public class SessionObjectBase {
 	public User handleCreateUser(HttpServletRequest request) {
 
 		String username = request.getParameter("email");
-		
+
 		String command = request.getParameter("command");
 		if ((command != null) && (command.equalsIgnoreCase("Clear"))) { //$NON-NLS-1$
-			
+
 			return new User();
-			
+
 		}
 
 		User user = User.getByUsername(schema, username);
@@ -776,25 +778,27 @@ public class SessionObjectBase {
 	}
 
 	/**
-	 * Called from the head of the login jsp, this attempts to log the user in. 
+	 * Called from the head of the login jsp, this attempts to log the user in.
 	 * 
 	 * @param request
 	 * @return
 	 */
 	public static BaseUser handleLoginAttempt(HttpServletRequest request) {
-	
-		String attempting_login = (String) request.getParameter("attempting_login");
-	
-		if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))) {
-	
+
+		String attempting_login = (String) request
+				.getParameter("attempting_login");
+
+		if ((attempting_login != null)
+				&& (attempting_login.equalsIgnoreCase("true"))) {
+
 			BaseUser bu = validate(request);
-	
+
 			return bu;
-	
+
 		}
-	
+
 		return null;
-	
+
 	}
 
 	/**
@@ -803,14 +807,14 @@ public class SessionObjectBase {
 	 * @return
 	 */
 	public static BaseUser validate(HttpServletRequest request) {
-	
+
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-	
+
 		BaseUser bu = BaseUser.validateUser(username, password);
-	
+
 		return bu;
-	
+
 	}
 
 }

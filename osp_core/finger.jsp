@@ -52,8 +52,10 @@
 			for (ListIterator liu = userList.listIterator(); liu.hasNext();) {
 				UserAssignment ua = (UserAssignment) liu.next();
 				
-				User user = User.getById(pso.schema, ua.getUser_id());
-			
+				User user = new User();
+				if (ua.getUser_id() != null) {
+					user = User.getById(pso.schema, ua.getUser_id());
+				}
 			String uName = "";
 			String uTime = "Never";
 			Long uId = null;

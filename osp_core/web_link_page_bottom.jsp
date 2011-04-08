@@ -130,6 +130,49 @@
 <% } else { %>
 <p>&nbsp;</p>
 <p>No pages have been loaded.</p>
-<% } %>
+
+  <% } // End of if the user can not edit or add an article.%>
+  <% 
+  	// TODO Should make this customizable to show, not show, or only show if the player is control.
+	//if (pso.isControlCharacter()) {
+	
+	
+	List wloList = new ArrayList();
+	
+	if ((cs_id != null) && (!(cs_id.equalsIgnoreCase("null"))) && (pso.getRunningSimId() != null)) {
+		wloList = WebLinkObjects.getAllForRunningSimulationAndSection(pso.schema, pso.getRunningSimId(), new Long(cs_id));	
+	}
+%>
+<HR />
+<h2>List of Articles</h2>
+	<UL>
+ 	<% for (ListIterator li = wloList.listIterator(); li.hasNext();) {
+			WebLinkObjects wlol = (WebLinkObjects) li.next();
+			
+			//java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+			java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy");
+			
+			String dateString = " unknown date ";
+			
+			if (wlol.getWebObjectDate() != null) {
+				dateString = sdf.format(wlol.getWebObjectDate());
+			}
+			
+			dateString += " - ";
+
+		  	String userName = "";
+		  	if (wlol.getU_id() == null){
+				userName = "";
+			} else {
+				userName = USIP_OSP_Cache.getUSERName(pso.schema, request, wlol.getU_id());
+			}
+
+    %>
+    <LI><%= dateString %> <%= wlol.getWeblinkName() %> Posted by <%= userName %> on <%= sdf.format(wlol.getPostingDate()) %></LI>
+    <% } // end of loop over list %>
+	
+	</UL>
+ 
+  <% // } // End of if they are a control character. %>
 </body>
 </html>

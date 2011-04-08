@@ -564,10 +564,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 								SimulationSectionAssignment.class, o_id);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
-				SimulationSectionAssignment.removeAndReorder(this.schema, ss);
+				SimulationSectionAssignment.removeAndReorder(request, this.schema, ss);
 
-				// Clean web cache out
-				USIP_OSP_ContextListener.resetWebCache(request);
 
 			} else if (objectType.equalsIgnoreCase("user_assignment")) {
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
@@ -4717,6 +4715,24 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			}
 		}
 		return rs;
+	}
+	
+	
+	/**
+	 * Gets an actor with id of 0, and with name of 'Every One,' and sets
+	 * the id of the actor being worked on to 0.
+	 * @return
+	 */
+	public Actor getAndSetUniversalActor(){
+	
+		Actor actor = new Actor();
+		
+		actor_being_worked_on_id = new Long(0);
+		
+		actor.setId(actor_being_worked_on_id);
+		actor.setName("Every One");
+		
+		return actor;
 	}
 
 } // End of class

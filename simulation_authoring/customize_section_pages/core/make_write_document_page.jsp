@@ -82,7 +82,7 @@
 						
 						String selected = "";
 						
-						if (sd.getId().equals(sd_current.getId())){
+						if ((sd != null) && (sd.getId() != null) && (sd.getId().equals(sd_current.getId()))){
 							selected = "selected=\"selected\"";
 						}
 				%>
