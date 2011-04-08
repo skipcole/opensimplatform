@@ -3,9 +3,11 @@ package org.usip.osp.baseobjects;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.*;
+import org.usip.osp.networking.USIP_OSP_ContextListener;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 
@@ -89,6 +91,16 @@ public class SimulationSectionAssignment implements WebObject {
 
 	@Column(name = "ADDED_AS_UNIV")
 	private boolean addedAsUniversalSection = false;
+	
+	private Long universalParentId = null;
+
+	public Long getUniversalParentId() {
+		return universalParentId;
+	}
+
+	public void setUniversalParentId(Long universalParentId) {
+		this.universalParentId = universalParentId;
+	}
 
 	/**
 	 * Used to indicate if this section has been added as a subsection.
@@ -160,7 +172,7 @@ public class SimulationSectionAssignment implements WebObject {
 	 * @param schema
 	 * @param s_gone
 	 */
-	public static void removeAndReorder(String schema, SimulationSectionAssignment s_gone) {
+	public static void removeAndReorder(HttpServletRequest request, String schema, SimulationSectionAssignment s_gone) {
 
 		Long sid = s_gone.getSim_id();
 		Long aid = s_gone.getActor_id();
@@ -169,6 +181,66 @@ public class SimulationSectionAssignment implements WebObject {
 		remove(schema, s_gone);
 
 		reorder(schema, sid, aid, pid);
+		
+		// Clean web cache out
+		USIP_OSP_ContextListener.resetWebCache(request);
+
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param univ_parent_id
+	 */
+	public static void removeUniversal(HttpServletRequest request, String schema, Long univ_parent_id){
+		
+		for (ListIterator lia = getUniversals(schema, univ_parent_id).listIterator(); lia.hasNext();) {
+			SimulationSectionAssignment ssa = (SimulationSectionAssignment) lia.next();
+			
+			removeAndReorder(request, schema, ssa);
+
+		} // End of loop over sections
+		
+		
+		// Remove the universal itself
+		SimulationSectionAssignment ssa_univ = SimulationSectionAssignment.getById(schema, univ_parent_id);
+		
+		removeAndReorder(request, schema, ssa_univ);
+
+	}
+	
+	/**
+	 * Returns all of the sections for a particular simulation.
+	 * 
+	 * @param schema
+	 * @param univ_parent_id
+	 * @return
+	 */
+	public static List<SimulationSectionAssignment> getUniversals(String schema, Long univ_parent_id) {
+
+		if (univ_parent_id == null) {
+
+			Logger.getRootLogger().debug("univ_parent_id: " + univ_parent_id); //$NON-NLS-1$
+			return new ArrayList<SimulationSectionAssignment>();
+		} else {
+
+			String getHQL = "from SimulationSectionAssignment where universalParentId = :univ_parent_id order by simsec_id"; //$NON-NLS-1$ //$NON-NLS-2$
+
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+
+			List <SimulationSectionAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(getHQL)
+				.setLong("univ_parent_id", univ_parent_id)
+				.list();
+
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+			if (returnList == null) {
+				returnList = new ArrayList<SimulationSectionAssignment>();
+			}
+			
+			return returnList;
+		}
 
 	}
 
@@ -428,18 +500,21 @@ public class SimulationSectionAssignment implements WebObject {
 			return new ArrayList<SimulationSectionAssignment>();
 		} else {
 
-			String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid.toString() + "order by simsec_id"; //$NON-NLS-1$ //$NON-NLS-2$
+			String getHQL = "from SimulationSectionAssignment where SIM_ID = :sim_id order by simsec_id"; //$NON-NLS-1$ //$NON-NLS-2$
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
-
-			if (returnList == null) {
-				returnList = new ArrayList();
-			}
+			List <SimulationSectionAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(getHQL)
+				.setLong("sim_id", sid)
+				.list();
 
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
+			if (returnList == null) {
+				returnList = new ArrayList<SimulationSectionAssignment>();
+			}
+			
 			return returnList;
 		}
 
@@ -532,6 +607,14 @@ public class SimulationSectionAssignment implements WebObject {
 
 	}
 	
+	/**
+	 * This removes all of the sections in a simulation for an actor at a particular phase.
+	 * 
+	 * @param schema
+	 * @param sid
+	 * @param aid
+	 * @param pid
+	 */
 	public static void removeBySimAndActorAndPhase(String schema, Long sid, Long aid,
 			Long pid) {
 		
@@ -911,7 +994,8 @@ public class SimulationSectionAssignment implements WebObject {
 
 				ss_new.setActor_id(a_id);
 				ss_new.setAddedAsUniversalSection(true);
-
+				ss_new.setUniversalParentId(ss.getId());
+				
 				ss_new.setTab_position(currentActorsList.size() + 1);
 
 				MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(ss_new);

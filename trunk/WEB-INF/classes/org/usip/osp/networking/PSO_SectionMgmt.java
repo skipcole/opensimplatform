@@ -294,16 +294,32 @@ public class PSO_SectionMgmt {
 	 */
 	public Simulation handleSetUniversalSimSectionsPage(HttpServletRequest request) {
 
+		String remove_universal = request.getParameter("remove_universal"); //$NON-NLS-1$
+		
+		if ((remove_universal != null) && (remove_universal.equalsIgnoreCase("true"))){
+			String univ_id = request.getParameter("univ_id");
+			
+			System.out.println("univ_id: " + univ_id);
+			
+			SimulationSectionAssignment.removeUniversal(request, afso.schema, new Long(univ_id));
+			
+			afso.tempSimSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id,
+					afso.actor_being_worked_on_id, phase_being_worked_on_id);
+			
+			return afso.giveMeSim();
+			
+		}
+		
 		getSimSectionsInternalVariables(request);
 
 		Simulation simulation = this.afso.giveMeSim();
 
 		determinePhase(simulation);
 
-		this.afso.actor_being_worked_on_id = new Long(0);
+		afso.actor_being_worked_on_id = new Long(0);
 
-		this.afso.tempSimSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(this.afso.schema, this.afso.sim_id,
-				this.afso.actor_being_worked_on_id, this.phase_being_worked_on_id);
+		afso.tempSimSecList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id,
+				afso.actor_being_worked_on_id, phase_being_worked_on_id);
 
 		return simulation;
 	}
