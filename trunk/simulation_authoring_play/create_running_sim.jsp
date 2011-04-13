@@ -63,6 +63,7 @@
               <table width="80%" border = "1">
                 <tr> 
                   <td><h2>Running Simulation</h2></td>
+                  <td>TZ(?)</td>
                   <td><h2>Enabled</h2></td>
                   <td><h2>Phase</h2></td>
             </tr>
@@ -79,9 +80,9 @@
 		%>
                 <tr> 
                   <td><a href="administrate_running_simulation.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
+                  <td>&nbsp;</td>
                   <td>
-				  <% if (rs.isReady_to_begin()){ %> true <% } else { %>false<% } %>
-				  </td>
+				  <% if (rs.isReady_to_begin()){ %> true <% } else { %>false<% } %>				  </td>
                   <td><%= sp.getPhaseName() %></td>
             </tr>
                 <%
@@ -97,6 +98,15 @@
                     1')</td>
               <td><input type="text" name="running_sim_name" /></td>
             </tr>
+			                <tr>
+                  <td>Time Zone of Simulation </td>
+                  <td><select name="timezone" id="timezone">
+				  <!-- TODO Should get default time zone from database, in SchemaInfoObject read in from properties file -->
+		<option value="EST"> </option>
+      <option value="PST">Pacific Time (US &amp; Canada)</option>
+      <option value="EST">Eastern Time (US &amp; Canada), Bogota, Lima</option>
+</select></td>
+                </tr>
                 <tr> 
                   <td>&nbsp;</td>
               <td><input type="submit" name="addRunningSimulation" value="Submit" /></td>
