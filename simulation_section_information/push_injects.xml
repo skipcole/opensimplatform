@@ -1,0 +1,18 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Push Injects</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_push_injects.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A section to add injects that people can push out.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>push_injects.jsp</page__file__name>
+  <rec__tab__heading>Push Injects</rec__tab__heading>
+  <sample__image>push_injects.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>true</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>  
+</org.usip.osp.baseobjects.CustomizeableSection>

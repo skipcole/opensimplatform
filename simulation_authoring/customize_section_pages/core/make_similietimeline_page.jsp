@@ -54,8 +54,10 @@
 			<td width="120"><img src="../../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Customize Similie Timeline Page</h1>
-              <br />
-      <form action="make_similietimeline_page.jsp" method="post" name="form2" id="form2">
+              <p>&nbsp;</p>
+              <p>You must first create a timeline before you can create a timeline page. <br />
+                      </p>
+              <form action="make_similietimeline_page.jsp" method="post" name="form2" id="form2">
         <% if (cs.getId() != null) {
 	  	System.out.println("cs id was :" + cs.getId());
 	   %>
@@ -76,7 +78,7 @@
 	}
 %>
             </select>
-          </p>
+          (<a href="../../timeline_creator.jsp">Click here to create one</a>.) </p>
           <%
 			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());

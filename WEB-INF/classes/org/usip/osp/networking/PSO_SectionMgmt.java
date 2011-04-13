@@ -809,6 +809,8 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setNumDependentObjects(1);
 		}
 
+		String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
+		
 		String add_document = (String) request.getParameter("add_document");
 		
 		String remove_documents = (String) request.getParameter("remove_documents");
@@ -841,7 +843,6 @@ public class PSO_SectionMgmt {
 
 			Logger.getRootLogger().debug("now has num docs: " + numDocs);
 			// Update page values
-			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.saveMe(afso.schema);
@@ -885,7 +886,6 @@ public class PSO_SectionMgmt {
 			}
 
 			// Update page values
-			String make_read_document_page_text = (String) request.getParameter("make_read_document_page_text");
 			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			customizableSectionOnScratchPad.saveMe(afso.schema);
@@ -904,6 +904,102 @@ public class PSO_SectionMgmt {
 
 		return customizableSectionOnScratchPad;
 	}
+
+	/**
+	 * This method handles the creation of the page to allow player to push injects to each other.
+	 * 
+	 * Entry into this section comes in several different ways: when user adds group,
+	 * makes page editable, etc.
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakePushInjectsPage(HttpServletRequest request) {
+
+		this.getSimSectionsInternalVariables(request);
+
+		customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
+		
+		if ((sending_page == null) || (!(sending_page.equalsIgnoreCase("make_push_injects_page")))){
+			return customizableSectionOnScratchPad;
+		}
+				
+		String add_inject_group = (String) request.getParameter("add_inject_group");
+		String remove_inject_group = (String) request.getParameter("remove_inject_group");		
+		String make_push_injects_page_text = (String) request.getParameter("make_push_injects_page_text");
+		String injects_editable = (String) request.getParameter("injects_editable");
+		
+		boolean saveTextAndEditability = false;
+		
+		if (remove_inject_group != null) {
+			
+			makeCopyOfCustomizedSectionIfNeeded();
+			saveTextAndEditability = true;
+			
+			// Remove all dependent object assignments currently associated with
+			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema, customizableSectionOnScratchPad.getId());
+			customizableSectionOnScratchPad.setNumDependentObjects(0);
+		}
+		
+		// If adding an inject group, increase the number
+		if (add_inject_group != null) {
+
+			makeCopyOfCustomizedSectionIfNeeded();
+			saveTextAndEditability = true;
+
+			String new_ig_id = (String) request.getParameter("new_ig_id");
+			
+			if ((new_ig_id != null) && (!(new_ig_id.equalsIgnoreCase("0")))){
+				
+				int numIGs = customizableSectionOnScratchPad.getNumDependentObjects() + 1;
+				customizableSectionOnScratchPad.setNumDependentObjects(numIGs);
+
+				// Create and save the assignment object
+				BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment(
+						customizableSectionOnScratchPad.getId(), 
+						"org.usip.osp.communications.InjectGroup", numIGs,
+						new Long(new_ig_id), afso.sim_id, afso.schema);
+
+				bssdoa.saveMe(afso.schema);
+			}
+
+		}
+
+		if ((save_page != null) || (save_and_add != null)) {
+
+			// If this is the original custom page, make a new page
+			makeCopyOfCustomizedSectionIfNeeded();
+			saveTextAndEditability = true;
+
+			if (save_and_add != null) {
+				// add section
+				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading,
+						request, _universal);
+				// send them back
+				afso.forward_on = true;
+			}
+
+		} // End of if this is the make_push_injects_page
+
+		if (saveTextAndEditability){
+			// Update page values
+			customizableSectionOnScratchPad.setBigString(make_push_injects_page_text);
+			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			
+			if ((injects_editable != null) && (injects_editable.equalsIgnoreCase("true"))){
+				customizableSectionOnScratchPad.getContents().put(PLAYER_CAN_EDIT, "true");
+			} else {
+				customizableSectionOnScratchPad.getContents().put(PLAYER_CAN_EDIT, "false");
+			}
+			
+			customizableSectionOnScratchPad.saveMe(afso.schema);
+			
+			Simulation.updateSimsLastEditDate(afso.sim_id, afso.schema);
+		}
+		
+		return customizableSectionOnScratchPad;
+	}
+	
+	public static final String PLAYER_CAN_EDIT = "PLAYER_CAN_EDIT";
 
 	/**
 	 * This method handles the creation of the page to allow player access to

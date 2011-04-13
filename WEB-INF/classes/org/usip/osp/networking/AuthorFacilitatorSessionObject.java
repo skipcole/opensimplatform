@@ -4734,5 +4734,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		
 		return actor;
 	}
+	
+	public CustomizeableSection handleMakePushInjectsPage(HttpServletRequest request){
+		
+		return (getMyPSO_SectionMgmt().handleMakePushInjectsPage(request));
+		
+	}
 
 } // End of class
