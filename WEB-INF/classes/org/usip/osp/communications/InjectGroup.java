@@ -1,6 +1,8 @@
 package org.usip.osp.communications;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +14,14 @@ import javax.persistence.Table;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.BaseSimSection;
+import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
+import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
  * This class represents a collection of Injects and contains information about when this group may be used.
- *
- *
+ */
+ /*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or
@@ -61,6 +65,8 @@ public class InjectGroup {
 	/** Description of this group of injects. */
 	@Lob
 	private String description = ""; //$NON-NLS-1$
+
+	public static final String PLAYER_CAN_EDIT = "PLAYER_CAN_EDIT";
 
 	public Long getId() {
 		return this.id;
@@ -135,6 +141,57 @@ public class InjectGroup {
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param section_id
+	 * @param rs_id
+	 * @return
+	 */
+	public static List<InjectGroup> getSetOfInjectGroupsForSection(String schema, Long bss_id) {
+
+		List<InjectGroup> returnList = new ArrayList<InjectGroup>();
+
+		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = :bss_id "
+				+ " and className = 'org.usip.osp.communications.InjectGroup' order by dep_obj_index"; //$NON-NLS-1$
+
+		Logger.getRootLogger().debug(getString);
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List injectGroupList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(getString)
+			.setLong("bss_id", bss_id)
+			.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		// Go over list and get items.
+		for (ListIterator<BaseSimSectionDepObjectAssignment> li = injectGroupList.listIterator(); li.hasNext();) {
+
+			BaseSimSectionDepObjectAssignment ssrsdoa = li.next();
+
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+
+			try {
+				Class objClass = Class.forName(ssrsdoa.getClassName());
+
+				InjectGroup sd = (InjectGroup) MultiSchemaHibernateUtil.getSession(schema).get(objClass,
+						ssrsdoa.getObjectId());
+
+				returnList.add(sd);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		}
+
+		return returnList;
+
 	}
 	
 }

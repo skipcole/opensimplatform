@@ -113,7 +113,7 @@
 			User user = (User) li.next();
 		%>
 <tr>
-<td><%= user.getId() %></td>
+<td><%= user.getBu_full_name() %></td>
 <td>
 		<form action="assign_user_to_simulation.jsp" method="post" name="form3" id="form3">
 		  <input type="hidden" name="sending_page" value="assign_user_to_simulation" />

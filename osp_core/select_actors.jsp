@@ -20,6 +20,7 @@
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	String inject_id = (String) request.getParameter("inject_id");
+	String cs_id = (String) request.getParameter("cs_id");
 	
 	if ((inject_id != null) && ( inject_id.equalsIgnoreCase("null") ) ) {
 		inject_id = null;
@@ -28,7 +29,7 @@
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("select_actors"))){
 	
 		pso.makeTargettedAnnouncement(request, inject_id);
-		response.sendRedirect(pso.backPage);
+		response.sendRedirect(pso.backPage + "?cs_id=" + cs_id);
 		return;		
 		
 	}
@@ -52,6 +53,7 @@
 <h2>Select Actors to Receive This Inject </h2>
 <form name="form1" method="post" action="select_actors.jsp">
 <input type="hidden" name="inject_id" value="<%= inject_id %>">
+<input type="hidden" name="cs_id" value="<%= cs_id %>">
 <input type="hidden" name="sending_page" value="select_actors" />
 <%
 	List targets = new ArrayList();
