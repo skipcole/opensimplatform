@@ -173,6 +173,3 @@
 <p><a href="similie_review_timeline.jsp?timeline_to_show=actual_events">See Injects Fired </a></p>
 </body>
 </html>
-<%
-	
-%>

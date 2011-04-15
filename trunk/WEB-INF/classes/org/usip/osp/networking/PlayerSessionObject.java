@@ -832,7 +832,14 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		Alert al = new Alert();
 		al.setSpecific_targets(true);
+		
 		al.setType(alertInQueueType);
+		
+		// TODO - don't know if this matters.
+		al.setType(Alert.TYPE_ANNOUNCEMENT);
+		
+		System.out.println(alertInQueueType + " is now " + Alert.TYPE_ANNOUNCEMENT);
+		
 		al.setAlertMessage(alertInQueueText);
 
 		String shortIntro = USIP_OSP_Util.cleanAndShorten(alertInQueueText, 20)
@@ -843,7 +850,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 		al.setRunning_sim_id(runningSimId);
 		al.saveMe(schema);
 
-		makeTargettedAnnouncement(al, targets, request);
+		// Let people know that there is a change to catch.
+		storeNewHighestChangeNumber(request, al.getId());
 
 		if ((inject_id != null) && (!(inject_id.equalsIgnoreCase("null")))
 				&& (inject_id.length() > 0)) {
@@ -1910,6 +1918,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 		String unshotColor = "#FFFFFF"; //$NON-NLS-1$
 		String shotColor = "#FFCCCC"; //$NON-NLS-1$
 		String partialShotColor = "#CCFFCC"; //$NON-NLS-1$
+		
+		if (this.runningSimId == null) {
+			return unshotColor;
+		}
 
 		// Get hashtable for this rsid/actorid combo
 		Hashtable cachedInjectInfo = USIP_OSP_Cache.getInjectsFired(schema,

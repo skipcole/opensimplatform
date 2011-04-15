@@ -14,6 +14,7 @@ import org.usip.osp.baseobjects.core.ChatHelpCustomizer;
 import org.usip.osp.baseobjects.core.Customizer;
 import org.usip.osp.communications.ConvActorAssignment;
 import org.usip.osp.communications.Conversation;
+import org.usip.osp.communications.InjectGroup;
 import org.usip.osp.communications.SharedDocument;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.specialfeatures.AllowableResponse;
@@ -986,9 +987,9 @@ public class PSO_SectionMgmt {
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
 			
 			if ((injects_editable != null) && (injects_editable.equalsIgnoreCase("true"))){
-				customizableSectionOnScratchPad.getContents().put(PLAYER_CAN_EDIT, "true");
+				customizableSectionOnScratchPad.getContents().put(InjectGroup.PLAYER_CAN_EDIT, "true");
 			} else {
-				customizableSectionOnScratchPad.getContents().put(PLAYER_CAN_EDIT, "false");
+				customizableSectionOnScratchPad.getContents().put(InjectGroup.PLAYER_CAN_EDIT, "false");
 			}
 			
 			customizableSectionOnScratchPad.saveMe(afso.schema);
@@ -999,8 +1000,6 @@ public class PSO_SectionMgmt {
 		return customizableSectionOnScratchPad;
 	}
 	
-	public static final String PLAYER_CAN_EDIT = "PLAYER_CAN_EDIT";
-
 	/**
 	 * This method handles the creation of the page to allow player access to
 	 * read a document or documents.

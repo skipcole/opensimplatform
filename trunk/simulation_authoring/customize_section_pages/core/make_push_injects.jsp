@@ -43,15 +43,17 @@
                         <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
                       </p>
                       <table width="100%" border="1">
-                        <% List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id); 
-							Hashtable index_hash = BaseSimSectionDepObjectAssignment.getIndexIdHashtable(afso.schema, cs.getId());
-						%>
                         <tr>
                           <td valign="top"><strong>Current Groups (?) </strong></td>
                           <td valign="top">
-						  <%
-						  	for (int ii = 1; ii <= cs.getNumDependentObjects(); ++ii) {
-						  %><p>loop over groups</p>
+		<%
+			List setOfInjectGroups = InjectGroup.getSetOfInjectGroupsForSection(afso.schema, cs.getId());
+		
+				for (ListIterator<InjectGroup> li = setOfInjectGroups.listIterator(); li.hasNext();) {
+
+					InjectGroup ig = (InjectGroup) li.next();		
+						  %>
+						  <p><%= ig.getName() %></p>
 						  <% } %>
                             <p> 
                               <input type="submit" name="remove_inject_group" id="remove_inject_group" value="Remove All"  onclick="return confirm('Are you sure you want to remove all inject groups?');" />
@@ -80,7 +82,7 @@
 						  String player_editable = "";
 						  
 						  	if (cs.getContents() != null) {
-								String can_edit = (String) cs.getContents().get("PLAYER_CAN_EDIT");
+								String can_edit = (String) cs.getContents().get(InjectGroup.PLAYER_CAN_EDIT);
 								if (can_edit != null) {
 									if (can_edit.equalsIgnoreCase("true")){
 										player_editable = " checked=\"checked\" " ;

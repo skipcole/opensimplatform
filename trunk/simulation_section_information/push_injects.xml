@@ -9,7 +9,7 @@
   <description>A section to add injects that people can push out.</description>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>push_injects.jsp</page__file__name>
+  <page__file__name>push_injects_for_player.jsp</page__file__name>
   <rec__tab__heading>Push Injects</rec__tab__heading>
   <sample__image>push_injects.png</sample__image>
   <control__section>false</control__section>
