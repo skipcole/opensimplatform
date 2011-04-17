@@ -5,7 +5,7 @@
 	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	afso.backPage = "../simulation_facilitation/create_running_sim.jsp";
+	afso.backPage = "../simulation_authoring_play/create_running_sim.jsp";
 	
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("../blank.jsp");
@@ -80,7 +80,7 @@
 		%>
                 <tr> 
                   <td><a href="administrate_running_simulation.jsp?rs_id=<%= rs.getId() %>"><%= rs.getRunningSimulationName() %></a></td>
-                  <td>&nbsp;</td>
+                  <td><%= rs.getTimeZone() %></td>
                   <td>
 				  <% if (rs.isReady_to_begin()){ %> true <% } else { %>false<% } %>				  </td>
                   <td><%= sp.getPhaseName() %></td>
@@ -102,9 +102,12 @@
                   <td>Time Zone of Simulation </td>
                   <td><select name="timezone" id="timezone">
 				  <!-- TODO Should get default time zone from database, in SchemaInfoObject read in from properties file -->
+				  <% 
+				  	String serverDefaultTZ = "EST";
+					%>
 		<option value="EST"> </option>
-      <option value="PST">Pacific Time (US &amp; Canada)</option>
-      <option value="EST">Eastern Time (US &amp; Canada), Bogota, Lima</option>
+      <option value="PST" <%= USIP_OSP_Util.matchSelected(serverDefaultTZ, "PST", " selected ") %>>Pacific Time (US &amp; Canada)</option>
+      <option value="EST" <%= USIP_OSP_Util.matchSelected(serverDefaultTZ, "EST", " selected ") %>>Eastern Time (US &amp; Canada), Bogota, Lima</option>
 </select></td>
                 </tr>
                 <tr> 

@@ -10,7 +10,7 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	afso.backPage = "../simulation_facilitation/create_schedule_page.jsp";
+	afso.backPage = "../simulation_authoring_play/create_schedule_page.jsp";
 	
 	Simulation simulation = afso.handleCreateSchedulePage(request);
 	

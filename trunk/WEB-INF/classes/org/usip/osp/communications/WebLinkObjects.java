@@ -58,8 +58,10 @@ public class WebLinkObjects implements WebObject {
 	
 	private String weblinkSource = "";
 
+	@Lob
 	private String weblinkDescription = "";
 
+	@Lob
 	private String weblinkURL = "";
 
 	public WebLinkObjects() {
