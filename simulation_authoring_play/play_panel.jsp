@@ -7,7 +7,7 @@
 		return;
 	}
 	
-	afso.backPage = "../simulation_facilitation/play_panel.jsp";
+	afso.backPage = "../simulation_authoring_play/play_panel.jsp";
 
 	Simulation simulation = new Simulation();
 	if (afso.sim_id != null){
@@ -83,8 +83,7 @@
         <li><a href="../simulation_facilitation/inactivate_running_sim.jsp">Inactivate Running Simulations</a></li>
         <li><a href="../simulation_facilitation/bulk_invite.jsp">Invite Users to Register </a> <a href="../simulation_facilitation/helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></li>
         <li><a href="launch_beta_test.jsp">Launch Beta Test</a></li>
-        <li><a href="library.jsp" align="left">View Simulation  Library</a></li>
-      </ul>      
+        </ul>      
       <p>&nbsp;</p>
       <h2>Advanced Instructor Activities </h2>
       <p>Below are listed instructor activities that are either rare, or in development.</p>
