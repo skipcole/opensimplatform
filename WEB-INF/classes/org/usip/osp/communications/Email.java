@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
@@ -20,6 +21,7 @@ import org.usip.osp.baseobjects.SimulationPhase;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.baseobjects.UserAssignment;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.SchemaInformationObject;
 
@@ -714,7 +716,42 @@ public class Email {
 		
 	}
 	
-	public boolean sendInGameEmail(SchemaInformationObject sio, Long running_sim_id){
+	public void alertPlayersOfNewEmail(PlayerSessionObject pso, String schema, HttpServletRequest request){
+			
+		List recipients = Email.getRecipientsOfAnEmail(schema, this.getId(), EmailRecipients.RECIPIENT_TO);
+
+		ArrayList <String> idList = new ArrayList();
+		for (ListIterator<EmailRecipients> li = recipients.listIterator(); li.hasNext();) {
+			EmailRecipients this_er = li.next();
+		
+			if (this_er.getActor_id() != null){
+				idList.add(this_er.getActor_id() + "");
+			}
+		
+		}
+		
+		String targetList = PlayerSessionObject.list2String(idList);
+		
+		Alert al = new Alert();
+		al.setSpecific_targets(true);
+		
+		al.setType(Alert.TYPE_EMAIL);
+		
+		String alertMessage = "You have mail.";
+		al.setAlertMessage(alertMessage);
+
+		String shortIntro = alertMessage;
+
+		al.setAlertPopupMessage(alertMessage);
+		al.setThe_specific_targets(targetList);
+		al.setRunning_sim_id(pso.getRunningSimId());
+		al.saveMe(pso.schema);
+
+		// Let people know that there is a change to catch.
+		pso.storeNewHighestChangeNumber(request, al.getId());
+	}
+	
+	public boolean sendInGameEmailOutside(PlayerSessionObject pso, SchemaInformationObject sio){
 		
 		List recipients = Email.getRecipientsOfAnEmail(sio.getSchema_name(), this.getId(), EmailRecipients.RECIPIENT_TO);
 		
@@ -739,6 +776,11 @@ public class Email {
 				if ((toUserName != null) && (toUserName.trim().length() > 0)){
 					Emailer.postMail(sio, toUserName, this.getSubjectLine(), this.getMsgtext(), this.getHtmlMsgText(), sio.getEmailNoreplyAddress(),
 							null, null, null);
+					
+					//Alert emailAlert = new Alert(pso.sim_id, pso.getRunningSimId(), Alert.TYPE_EMAIL,
+					//		"New Email", "You've got mail.", "You've got mail", true, this_ua.getUser_id() + "");
+					
+					
 				}
 				
 			}

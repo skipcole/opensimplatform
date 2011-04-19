@@ -30,6 +30,9 @@
 	boolean showControl = false;
 	boolean showUnAssigned = false;
 	
+	String showControlText = "not";
+	String showUnAssignedText = "not";
+	
 	if (!(pso.preview_mode)) {
 	
 		this_actor = pso.giveMeActor();
@@ -38,11 +41,13 @@
 	
 		if ((stored_value != null) && (stored_value.equalsIgnoreCase("true"))){
 			showControl = true;
+			showControlText = "";
 		}
 		
 		String stored_value_unassinged = (String) cs.getContents().get(CastCustomizer.KEY_FOR_DISPLAY_UNASSIGNED);
 		if ((stored_value_unassinged != null) && (stored_value_unassinged.equalsIgnoreCase("true"))){
 			showUnAssigned = true;
+			showUnAssignedText = "";
 		}
 		
 		//
@@ -58,7 +63,11 @@
 
 <body>
 <h1>Cast</h1>
+<%
+	if (this_actor.isControl_actor()) {
 
+%><p><strong>Note to Control:</strong> This page has been set up that it will <%= showControlText %> show the control character and will <%= showUnAssignedText %> show all unassigned characters. </p> 
+<% } %>
 <p><%= cs.getBigString() %></p>
 <blockquote>
   <h2>You</h2>
@@ -159,6 +168,3 @@
 <p></p>
 </body>
 </html>
-<%
-	
-%>

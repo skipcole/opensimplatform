@@ -50,6 +50,10 @@
                       <td>Allows an admin to reset a player password. </td>
                     </tr>
 					<tr valign="top">
+					  <td><a href="../simulation_user_admin/change_username.jsp">Change Username</a> </td>
+					  <td>Allows an admin to change a user name. </td>
+				    </tr>
+					<tr valign="top">
                       <td width="24%"><a href="../simulation_user_admin/create_admin_user.jsp">Promote/Demote User</a></td>
                       <td width="72%">Allows you to promote (or demote) a user to being an administrator, author or facilitator.</td>
                     </tr>

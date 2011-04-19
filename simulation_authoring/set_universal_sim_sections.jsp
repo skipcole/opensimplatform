@@ -13,7 +13,8 @@
 		return;
 	}
 	
-	
+	afso.changeSectionColor(request);
+		
 	Actor actor = afso.getAndSetUniversalActor();
 	
 	Simulation simulation = new Simulation();	
@@ -201,7 +202,7 @@ function loadInfo(dropdownlist){
                     
                     <td><!-- a href="set_universal_sim_sections.jsp?exchange=true&first_sec=< % = first_ss %>&sec_sec=< % = sec_ss %>" -->-<!-- /a--></td>
                     <% } %>
-                    <td><a href="show_section_preview.jsp?sec_id=<%= sec_ss %>"><%= ss.getTab_heading() %></a></td>
+                    <td bgcolor="#<%= ss.getTabColor() %>"><a href="show_section_preview.jsp?sec_id=<%= sec_ss %>"><%= ss.getTab_heading() %></a></td>
                     <% if (ii < (afso.tempSimSecList.size() - 1)) { %>
                     <td>-</td>
                     <% } %>
@@ -211,7 +212,45 @@ function loadInfo(dropdownlist){
 				first_ss = ss.getId().intValue();
 				} // End of loop over simulation sections
 			%>
-                    <tr> 
+			
+	<tr> 
+		<%
+		  	ii = 0;
+			
+			for (ListIterator li = afso.tempSimSecList.listIterator(); li.hasNext();) {
+				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
+		  %>
+                      <% if (ii > 0) { %>
+                      <td>&nbsp;</td>
+                    <% } %>
+                      <td>
+                        
+                        <form name="change_color_ssid_<%= ss.getId() %>" method="post" action="set_universal_sim_sections.jsp">
+                          
+						  <input type="hidden" name="universal_color" value="true" />
+                          <input type="hidden" name="ss_id" value="<%= ss.getId() %>" />
+                          
+                          <input type="hidden" name="sending_section" value="change_color" />
+                          
+                          <select name="new_color">
+                            <option value="FFFFFF" <%= USIP_OSP_Util.matchSelected("FFFFFF", ss.getTabColor(), "selected") %> >White</option>
+                            <option value="FFCCCC" <%= USIP_OSP_Util.matchSelected("FFCCCC", ss.getTabColor(), "selected") %> >Red</option>
+                            <option value="CCFFCC" <%= USIP_OSP_Util.matchSelected("CCFFCC", ss.getTabColor(), "selected") %> >Green</option>
+                            <option value="CCCCFF" <%= USIP_OSP_Util.matchSelected("CCCCFF", ss.getTabColor(), "selected") %> >Blue</option>
+							<option value="FFFF66" <%= USIP_OSP_Util.matchSelected("FFFF66", ss.getTabColor(), "selected") %> >Yellow</option>
+                            </select>
+                          <input type="submit" name="button" id="button" value="Go!" />
+                          </form>
+                    <% if (ii < (afso.tempSimSecList.size() - 1)) { %>
+                        <td>&nbsp;</td>
+                    <% } // End of if this is not the last.
+			++ii;
+				} // End of loop over simulation sections
+			%>
+                      </tr>
+					
+					
+					<tr> 
                       <%
 		  	ii = 0;
 			

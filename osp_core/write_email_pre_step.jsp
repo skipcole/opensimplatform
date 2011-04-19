@@ -33,7 +33,7 @@
 <h2>Reason for Email</h2>
 
 <%
-	List roList = RespondableObjectRecipients.getAllForActorInRunningSim(pso.schema, pso.actor_id, pso.getRunningSimId());
+	List roList = RespondableObjectRecipients.getAllForActorInRunningSim(pso.schema, pso.getActorId(), pso.getRunningSimId());
 		
 %>	
 <p>Please indicate below if this email is in response any of the following events below. You can select as many as desired.</p>
