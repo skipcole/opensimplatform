@@ -119,6 +119,23 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	}
 	
 	/**
+	 * Used to reset a specific part of the cache.
+	 * 
+	 * @param request
+	 * @param cacheName
+	 */
+	public static boolean resetSpecificWebCache(HttpServletRequest request, String cacheName) {
+		
+		try {
+			request.getSession().getServletContext().setAttribute(cacheName, new Hashtable());
+		} catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Utility method that ultimately leads on to resetWebCache(ServletContext)
 	 * @param request
 	 */

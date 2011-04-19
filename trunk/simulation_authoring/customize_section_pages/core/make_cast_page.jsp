@@ -49,15 +49,15 @@
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %>
         <blockquote> 
-          <p>Cast page will display control characters? 
+          <p>Cast page will display control characters? <a href="../../helptext/cast_display_control.jsp" target="helpinright">(?)</a>
             <label>
               <input type="radio" name="display_control" id="display_control_yes" value="true" <%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_CONTROL, true) %> />
               Yes</label>
             / 
             <input type="radio" name="display_control" id="display_control_no" value="false" <%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_CONTROL, false) %> />
             No          </p>
-          <p>Cast page will display unassigned actors? 
-          <label>
+          <p>Cast page will display unassigned actors? <a href="../../helptext/cast_display_unassigned.jsp" target="helpinright">(?)</a>
+            <label>
               <input type="radio" name="display_unassigned" id="display_unassigned_yes" value="true" 
 			  <%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_UNASSIGNED, true) %> />
               Yes</label>

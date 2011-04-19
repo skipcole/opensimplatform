@@ -7,7 +7,7 @@
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	if (!(pso.isLoggedin())) {
-		response.sendRedirect("index.jsp");
+		//response.sendRedirect("index.jsp");
 		return;
 	}
 
@@ -35,8 +35,11 @@ function getSimEvent()
 			if (sim_event_type == "phase_change"){
 				alert(sim_event_text);
 			 	top.document.location="simwebui.jsp?tabposition=1";
-			} 
-			else if (sim_event_type == "news"){
+			} else if (sim_event_type == "email"){
+				alert(sim_event_text);
+			} else if (sim_event_type == "event"){
+				alert(sim_event_text);
+			} else if (sim_event_type == "news"){
 				alert(sim_event_text);
 			} else if (sim_event_type == "announcement"){
 				alert(sim_event_text);
@@ -44,7 +47,7 @@ function getSimEvent()
 				alert(sim_event_text);
 			} else if (sim_event_type == "multiple"){
 				alert(sim_event_text);
-			} 
+			}
 		
 		}, 'xml');
 

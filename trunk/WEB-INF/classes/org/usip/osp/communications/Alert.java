@@ -52,6 +52,9 @@ public class Alert implements TimeLineInterface {
 	
 	/** An announcement has been made and may be seen on the announcement page. */
 	public static final int TYPE_RATING_ANNOUNCEMENT = 7;
+	
+	/** An announcement has been made and may be seen on the announcement page. */
+	public static final int TYPE_EMAIL = 8;
 
 	/**
 	 * Multiple events have occured for the user. (Don't pester with continuous
@@ -122,6 +125,22 @@ public class Alert implements TimeLineInterface {
 		this.timeOfAlert = new java.util.Date();
 
 	}
+	
+	public Alert (String schema, Long simId, Long rsId, int alertType, String alertMessage, String alertPopupMessage, 
+			String alertEmailMessage, boolean specificTargets, String theTargets){
+		
+		this.sim_id = simId;
+		this.running_sim_id = rsId;
+		this.type = alertType;
+		this.alertMessage = alertMessage;
+		this.alertPopupMessage = alertPopupMessage;
+		this.alertEmailMessage = alertEmailMessage;
+		this.specific_targets = specificTargets;
+		this.the_specific_targets = theTargets;
+		
+		this.timeOfAlert = new java.util.Date();
+		this.saveMe(schema);
+	}
 
 	public Long getId() {
 		return this.id;
@@ -176,6 +195,8 @@ public class Alert implements TimeLineInterface {
 			return "news";
 		case TYPE_PHASECHANGE:
 			return "phase_change";
+		case Alert.TYPE_EMAIL:
+			return "email";
 		case Alert.TYPE_MULTIPLE:
 			return "multiple";
 		}

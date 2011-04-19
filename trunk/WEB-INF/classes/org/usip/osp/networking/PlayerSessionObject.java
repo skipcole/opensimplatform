@@ -835,11 +835,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 		
 		al.setType(alertInQueueType);
 		
-		// TODO - don't know if this matters.
+		// TODO - this seemed to matter.
 		al.setType(Alert.TYPE_ANNOUNCEMENT);
-		
-		System.out.println(alertInQueueType + " is now " + Alert.TYPE_ANNOUNCEMENT);
-		
+				
 		al.setAlertMessage(alertInQueueText);
 
 		String shortIntro = USIP_OSP_Util.cleanAndShorten(alertInQueueText, 20)
@@ -878,7 +876,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 	}
 
 	/** Takes a list and turns it into a comma separated string. */
-	public String list2String(List idList) {
+	public static String list2String(List <String> idList) {
 
 		String returnString = "";
 
@@ -1365,12 +1363,17 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				email.saveMe(schema);
 				draft_email_id = email.getId();
+				
+				// Forward on here indicates that the email was sent
+				if (forward_on){
+					email.alertPlayersOfNewEmail(this, schema, request);
+				}
 
 				// Send real world email if called for.
 				if ((forward_on) && (email.isSendInRealWorld())) {
 					SchemaInformationObject sio = SchemaInformationObject
 							.lookUpSIOByName(schema);
-					email.sendInGameEmail(sio, this.getRunningSimId());
+					email.sendInGameEmailOutside(this, sio);
 				}
 
 				if (add_recipient != null) {
@@ -1405,6 +1408,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 		return email;
 	}
 
+	/**
+	 * 
+	 */
 	public void setUpEligibleActors() {
 		if (draft_email_id != null) {
 			emailRecipients = Email.getRecipientsOfAnEmail(schema,

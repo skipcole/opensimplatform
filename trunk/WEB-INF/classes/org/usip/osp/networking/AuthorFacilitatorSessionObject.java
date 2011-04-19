@@ -3696,20 +3696,44 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String sending_section = (String) request
 				.getParameter("sending_section");
 
+		System.out.println("changeSectionColor 1");
+		
 		if ((sending_section != null)
 				&& (sending_section.equalsIgnoreCase("change_color"))) {
 
+			System.out.println("changeSectionColor 2");
+			
 			String ss_id = (String) request.getParameter("ss_id");
 			String new_color = (String) request.getParameter("new_color");
+			String universal_color = (String) request.getParameter("universal_color");
 
 			SimulationSectionAssignment ssa = SimulationSectionAssignment
 					.getById(schema, new Long(ss_id));
 
 			if (ssa != null) {
+				System.out.println("changeSectionColor 3");
 				ssa.setTabColor(new_color);
 				ssa.save(schema);
 			}
+			
+			if ((universal_color != null) && (universal_color.equalsIgnoreCase("true"))){
+				
+				System.out.println("changeSectionColor 4");
+				
+				System.out.println("base id is " + ssa.getBase_sec_id());
+				
+				for (ListIterator lia = SimulationSectionAssignment.getUniversals(schema, ssa.getId()).listIterator(); lia.hasNext();) {
+					SimulationSectionAssignment ssa_child = (SimulationSectionAssignment) lia.next();
+					
+					ssa_child.setTabColor(new_color);
+					ssa_child.save(schema);
 
+					System.out.println("changeSectionColor 5");
+				} // End of loop over sections
+				
+				System.out.println("changeSectionColor 6");
+			}
+			System.out.println("changeSectionColor 7");
 		}
 
 	}

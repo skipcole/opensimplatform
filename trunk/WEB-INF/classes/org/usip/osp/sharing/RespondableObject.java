@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.BaseSimSection;
+import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -227,6 +228,14 @@ public class RespondableObject {
 		
 	}
 	
+	public static RespondableObject getById(String schema, Long sim_id) {
 
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		RespondableObject ro 
+			= (RespondableObject) MultiSchemaHibernateUtil.getSession(schema).get(RespondableObject.class, sim_id);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return ro;
+	}
 	
 }
