@@ -263,7 +263,7 @@
               <td width="20%" valign="top"><%= short_sdf.format(event_l.getEventStartTime()) %>
              </td>
             <td width="10%" valign="top"><a href="timeline_editor.jsp?remove_event=true&event_id=<%= event_l.getId() %>">Remove </a></td>
-            <td width="10%" valign="top"><a href="timeline_editor.jsp?edit_event=true&event_id=<%= event_l.getId() %>">Edit </a></td>
+            <td width="10%" valign="top"><a href="timeline_editor.jsp?edit_event=true&event_id=<%= event_l.getId() %>&timeline_id=<%= timeline_id %>">Edit </a></td>
             </td></tr> 
 			<% } %>
         </table>

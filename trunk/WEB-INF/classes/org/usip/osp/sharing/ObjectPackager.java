@@ -949,17 +949,8 @@ public class ObjectPackager {
 					&& (!(actorImageFile
 							.equalsIgnoreCase("no_image_default.jpg")))) {
 
-				OSPSimMedia osm = new OSPSimMedia();
-				osm.setMediaType(OSPSimMedia.ACTOR_IMAGE);
-				osm.setMediaName(actorImageFile);
-				osm
-						.setMediaString(new sun.misc.BASE64Encoder()
-								.encode(FileIO
-										.getImageFile(OSPSimMedia.ACTOR_IMAGE,
-												actorImageFile)));
-
-				returnString += xstream.toXML(osm)
-						+ USIP_OSP_Util.lineTerminator;
+				returnString += packageMedia(OSPSimMedia.ACTOR_IMAGE,
+						actorImageFile, xstream);
 			}
 
 			String actorThumbImageFile = thisActor.getImageThumbFilename();

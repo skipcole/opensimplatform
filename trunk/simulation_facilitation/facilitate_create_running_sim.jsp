@@ -109,10 +109,13 @@
                 <tr>
                   <td>Time Zone of Simulation </td>
                   <td><select name="timezone" id="timezone">
-				  <!-- TODO Should get default time zone from database, in SchemaInfoObject read in from properties file -->
-		<option value="EST"> </option>
-      <option value="PST">Pacific Time (US &amp; Canada)</option>
-      <option value="EST">Eastern Time (US &amp; Canada), Bogota, Lima</option>
+				  <!-- TODO Should get default time zone from database, in SchemaInfoObject read in from properties file --><% 
+				  	String serverDefaultTZ = "EST";
+					%>
+		<option value="<%= serverDefaultTZ %>"> </option>
+      <option value="PST" <%= USIP_OSP_Util.matchSelected(serverDefaultTZ, "PST", " selected ") %>>Pacific Time (US &amp; Canada)</option>
+      <option value="EST" <%= USIP_OSP_Util.matchSelected(serverDefaultTZ, "EST", " selected ") %>>Eastern Time (US &amp; Canada), Bogota, Lima</option>
+	  <option value="CET" <%= USIP_OSP_Util.matchSelected(serverDefaultTZ, "CET", " selected ") %>>Central European Time (CET)</option>
 </select></td>
                 </tr>
                 <tr> 
