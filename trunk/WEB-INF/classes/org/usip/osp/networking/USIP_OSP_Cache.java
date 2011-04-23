@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.ActorAssumedIdentity;
+import org.usip.osp.baseobjects.BaseSimSection;
+import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.SimActorAssignment;
 import org.usip.osp.baseobjects.Simulation;
@@ -473,7 +475,8 @@ public class USIP_OSP_Cache {
 				+ a_id);
 
 		if (user_id == null) {
-			loadRunningSimsUserAssignments_dont_use(schema, rs_id, user_assignments_hash);
+			loadRunningSimsUserAssignments_dont_use(schema, rs_id,
+					user_assignments_hash);
 
 			user_id = user_assignments_hash.get(schema + "_" + rs_id + "_"
 					+ a_id);
@@ -504,8 +507,8 @@ public class USIP_OSP_Cache {
 				.hasNext();) {
 			SimActorAssignment this_saa = li.next();
 
-			User user = UserAssignment.get_A_UserAssigned_dont_use(schema, rs_id, this_saa
-					.getActorId());
+			User user = UserAssignment.get_A_UserAssigned_dont_use(schema,
+					rs_id, this_saa.getActorId());
 
 			if (user != null) { // If found, enter their user_id into the
 				// hashtable
@@ -523,6 +526,8 @@ public class USIP_OSP_Cache {
 	public static final String CACHED_TABLE_LONG_STRING = "long_string";
 	public static final String CACHED_TABLE_LONG_LONG = "long_long";
 	public static final String CACHED_TABLE_STRING_VECTOR = "string_vector";
+	public static final String CACHED_TABLE_LIST = "list";
+	public static final String CACHED_TABLE_LONG_LIST = "long_list";
 
 	/**
 	 * Pulls the hashtable from the context.
@@ -582,6 +587,14 @@ public class USIP_OSP_Cache {
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<Long, Long>();
+				context.setAttribute(hashkey, cacheWeWant);
+			}
+		} else if (dType.equalsIgnoreCase(CACHED_TABLE_LONG_LIST)) {
+			cacheWeWant = (Hashtable<String, List>) context
+					.getAttribute(hashkey);
+
+			if (cacheWeWant == null) {
+				cacheWeWant = new Hashtable<String, List>();
 				context.setAttribute(hashkey, cacheWeWant);
 			}
 		} else {
@@ -743,9 +756,11 @@ public class USIP_OSP_Cache {
 	public static Hashtable addFiredInjectsToCache(String schema,
 			HttpServletRequest request, Long rs_id, Long a_id, Long inj_id,
 			String targets) {
-		
-		if ((rs_id == null) || (a_id == null)){
-			Logger.getRootLogger().warn("USIP_OSP_Cache.addFiredInjectsToCache (rs/a): " + rs_id + " / " + a_id);
+
+		if ((rs_id == null) || (a_id == null)) {
+			Logger.getRootLogger().warn(
+					"USIP_OSP_Cache.addFiredInjectsToCache (rs/a): " + rs_id
+							+ " / " + a_id);
 			return new Hashtable();
 		}
 
@@ -799,16 +814,14 @@ public class USIP_OSP_Cache {
 		thisTable.put(new Long(0), "all");
 
 	}
-	
+
 	public static String getSimulationNameById(HttpServletRequest request,
 			String schema, Long sim_id) {
 
 		// /////////////////////////////////////////////////////
 		// The conversation is pulled out of the context Hashtable
 		Hashtable<Long, String> simulation_name_by_id_cache = (Hashtable) request
-				.getSession()
-				.getServletContext()
-				.getAttribute(
+				.getSession().getServletContext().getAttribute(
 						USIP_OSP_ContextListener.CACHEON_SIM_NAMES_BY_ID);
 
 		if (simulation_name_by_id_cache == null) {
@@ -819,7 +832,7 @@ public class USIP_OSP_Cache {
 		if (simulationName == null) {
 
 			// Get phase name
-			Simulation sim = Simulation.getById(schema,sim_id);
+			Simulation sim = Simulation.getById(schema, sim_id);
 
 			simulationName = sim.getDisplayName();
 
@@ -832,6 +845,67 @@ public class USIP_OSP_Cache {
 				simulation_name_by_id_cache);
 
 		return simulationName;
+	}
+
+	/** Used to keep track of sections that an author can add. */
+	public static final String CACHEON_BASE_SECTIONS = "base_section_info"; //$NON-NLS-1$
+
+	/** Used to keep track of sections that an author can add. */
+	public static final String CACHEON_CUSTOMIZED_SECTIONS = "custom_section_info"; //$NON-NLS-1$
+
+	/** Flag used to indicate that cache may need updated. */
+	public static boolean cacheon_customized_sections_invalidated = true;
+
+	/**
+	 * Pulls the list of Base Sections out of the cache.
+	 * 
+	 * @param schema
+	 * @param request
+	 * @return
+	 */
+	public static List getBaseSectionInformation(String schema,
+			HttpServletRequest request) {
+
+		ServletContext context = request.getSession().getServletContext();
+
+		List thisListOfBaseSections = (List<BaseSimSection>) context
+				.getAttribute(CACHEON_BASE_SECTIONS);
+
+		if ((thisListOfBaseSections == null)
+				|| (thisListOfBaseSections.size() == 0)) {
+			thisListOfBaseSections = BaseSimSection.getAll(schema);
+			context.setAttribute(CACHEON_BASE_SECTIONS, thisListOfBaseSections);
+		}
+
+		return thisListOfBaseSections;
+	}
+
+	/**
+	 * Pulls the list of Custom Sections out of the cache.
+	 * 
+	 * @param schema
+	 * @param request
+	 * @return
+	 */
+	public static List getCustomSectionInformation(String schema,
+			HttpServletRequest request) {
+
+		ServletContext context = request.getSession().getServletContext();
+
+		List thisListOfCustomSections = (List<CustomizeableSection>) context
+				.getAttribute(CACHEON_CUSTOMIZED_SECTIONS);
+
+		if ((cacheon_customized_sections_invalidated)
+				|| (thisListOfCustomSections == null)
+				|| (thisListOfCustomSections.size() == 0)) {
+			thisListOfCustomSections = CustomizeableSection
+					.getAllUncustomized(schema);
+			context.setAttribute(CACHEON_CUSTOMIZED_SECTIONS,
+					thisListOfCustomSections);
+			cacheon_customized_sections_invalidated = false;
+		}
+
+		return thisListOfCustomSections;
 	}
 
 }

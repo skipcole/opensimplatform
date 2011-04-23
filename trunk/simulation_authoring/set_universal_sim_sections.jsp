@@ -6,6 +6,8 @@
 
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	AuthorFacilitatorSessionObject pso = afso;
+	
 	afso.backPage = AuthorFacilitatorSessionObject.getBaseSimURL() + "/simulation_authoring/set_universal_sim_sections.jsp";
 	
 	if (!(afso.isLoggedin())) {
@@ -186,15 +188,17 @@ function loadInfo(dropdownlist){
 				idByPos.put(ii + "", ss.getId());
 				
 				++ii;
+				
 			}
 			////////////////////////////////////////////////////
 			
 			ii = 0;
 			int first_ss = 0;
-			
+
 			for (ListIterator li = afso.tempSimSecList.listIterator(); li.hasNext();) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
 				
+
 				int sec_ss = ss.getId().intValue();
 				
 		  %>
@@ -216,7 +220,7 @@ function loadInfo(dropdownlist){
 	<tr> 
 		<%
 		  	ii = 0;
-			
+
 			for (ListIterator li = afso.tempSimSecList.listIterator(); li.hasNext();) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
 		  %>
@@ -256,6 +260,7 @@ function loadInfo(dropdownlist){
 			
 			for (ListIterator li = afso.tempSimSecList.listIterator(); li.hasNext();) {
 				SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
+		 
 		  %>
                       <% if (ii > 0) { %>
                       <td>&nbsp;</td>
@@ -267,9 +272,8 @@ function loadInfo(dropdownlist){
                       </form></td>
                     <% if (ii < (afso.tempSimSecList.size() - 1)) { %>
                       <td>&nbsp;</td>
-                    <% } %>
-                      <%
-			++ii;
+                    <% } 
+						++ii;
 				} // End of loop over simulation sections
 			%>
                       </tr>
@@ -295,7 +299,7 @@ function loadInfo(dropdownlist){
                             <blockquote> 
                               <p>
                                 <select name="bss_id"  onchange="loadInfo(window.document.section_form.bss_id);">
-								<%= afso.getSectionsList() %>
+								<%= afso.getSectionsList(request) %>
                                 </select>
                               </p>
                               <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a>   </p>
@@ -317,17 +321,15 @@ function loadInfo(dropdownlist){
       </table>
       </blockquote>
       <p align="center"> 
-        <%
-			List setOfActors = simulation.getActors(afso.schema);
+        <%  
 			
-			if ((setOfActors != null) && (setOfActors.size() > 0)) {
+			if ((pso.getSetOfActors(simulation) != null) && (pso.getSetOfActors(simulation).size() > 0)) {
 	
-				Actor nextActor = (Actor) setOfActors.get(0);
+				Actor nextActor = (Actor) afso.getSetOfActors(simulation).get(0);
 %>
-        <a href="set_specific_sim_sections.jsp?actor_index=1&amp;phase_id=<%= spp.getId().toString() %>"> 
+        <a href="set_specific_sim_sections.jsp?actor_index=1&phase_id=<%= spp.getId().toString() %>"> 
           Next Step: Customize Sections for the Actor <strong><%= nextActor.getActorName() %></strong> </a>      </p>
       <% 
-	  
 	  		} // end of if set of actors not 0.
 	  
 	  } else { // End of if have set simulation id. %>
@@ -345,12 +347,7 @@ function loadInfo(dropdownlist){
   </tr>
 </table>
 </td></tr></table>
-
 <p>&nbsp;</p>
-
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

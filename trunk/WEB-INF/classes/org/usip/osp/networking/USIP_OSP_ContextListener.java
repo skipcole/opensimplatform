@@ -106,8 +106,8 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 
 	/** Used to keep track of which injects have been fired during a game. */
 	public static final String CACHEON_INJECTS_FIRED = "injects_fired"; //$NON-NLS-1$
-
-
+	
+	
 	/**
 	 * Utility method that ultimately leads on to resetWebCache(ServletContext)
 	 * @param request

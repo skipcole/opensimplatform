@@ -332,7 +332,6 @@ public class CustomizeableSection extends BaseSimSection {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		// TODO there is a better hibernate way to do this, i just don't know it.
 		String query = "from BaseSimSection where DTYPE = 'CustomizeableSection'"; //$NON-NLS-1$
 		
 		Query theQuery = MultiSchemaHibernateUtil.getSession(schema).createQuery(query);

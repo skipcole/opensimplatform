@@ -69,6 +69,10 @@
 <h2>Additional Fuctions</h2>
 <table width="95%" border="0" cellpadding="2" cellspacing="2">
   <tr valign="top">
+    <td valign="top"><a href="set_onelink_all.jsp">Change a Fixed (One) Link </a></td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr valign="top">
     <td valign="top"><a href="write_document_list_all.jsp">Edit simulation document </a></td>
     <td valign="top">Access and edit any document currently associated with this running simulation. </td>
   </tr>

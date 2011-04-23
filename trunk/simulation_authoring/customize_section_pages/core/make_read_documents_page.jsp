@@ -72,7 +72,7 @@
                               <%
 					}
 				%>
-                                                        </select>
+                            </select>
 </label>
                             <% } // end of if no documents have been created. %></td>
                         </tr>

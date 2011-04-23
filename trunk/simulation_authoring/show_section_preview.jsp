@@ -13,7 +13,6 @@
 	pso.loadInAFSOInformation(afso);
 	
 	String sec_id = request.getParameter("sec_id");
-	System.out.println("sec id is: " + sec_id);
 	
 	SimulationSectionAssignment ssa = SimulationSectionAssignment.getById(afso.schema, new Long(sec_id));
 
@@ -26,7 +25,7 @@
 </head>
 
 <frameset rows="50,90%,50" cols="*">
-  <frame src="show_section_preview_top.jsp">
+  <frame src="show_section_preview_top.jsp?sec_id=<%= sec_id %>">
   <frame src="<%= ssa.generateURLforBottomFrame(pso.getActorId()) %>">
   <frame src="show_section_preview_bot.jsp?base_sec_id=<%= ssa.getBase_sec_id() %>&ssa_sec_id=<%= sec_id %>">
 </frameset>
