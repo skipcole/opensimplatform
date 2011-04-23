@@ -31,7 +31,7 @@
 			spp = afso.giveMePhase();
 		}
 		
-		thisSimsActors = simulation.getActors(afso.schema);
+		thisSimsActors = afso.getSetOfActors(simulation);
 	
 	} // end of if afso.selected
 	
@@ -270,7 +270,7 @@ function loadInfo(dropdownlist){
                               <blockquote> 
                                 <p>
                                   <select name="bss_id"  onChange="loadInfo(window.document.section_form.bss_id);">
-								  <%= afso.getSectionsList() %>
+								  <%= afso.getSectionsList(request) %>
                                   </select>
                                 </p>
                                 <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a> </p>

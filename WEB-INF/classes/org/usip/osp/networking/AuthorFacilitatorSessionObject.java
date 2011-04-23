@@ -4274,9 +4274,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	}
 
-	public String getSectionsList() {
-
+	
+	public String getBaseList(HttpServletRequest request){
+		
+		List baseList = USIP_OSP_Cache.getBaseSectionInformation(schema, request);
+		
 		String returnString = "";
+		
 		for (ListIterator li = new BaseSimSection().getAll(schema)
 				.listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next();
@@ -4285,31 +4289,57 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					+ bss.getRec_tab_heading() + "</option>"
 					+ USIP_OSP_Util.lineTerminator;
 		}
-
-		// Link to the option that allows them to define a whole new web
-		// resource.
-		returnString += "<option value=\"new_section\" class=\"new_section\">* Create an Entirely New Section</option>";
-
-		List uc = CustomizeableSection.getAllUncustomized(schema);
+		
+		return returnString;
+	}
+	
+	
+	/**
+	 * Pulls the list out of cache.
+	 * @param request
+	 * @return
+	 */
+	public List getUncustomizedSections(HttpServletRequest request){
+		List uc = USIP_OSP_Cache.getCustomSectionInformation(schema, request);
 
 		if (uc == null) {
 			uc = new ArrayList();
 		}
 
 		Collections.sort(uc);
+		return uc;
+	}
+	
+	/**
+	 * Returns the HTML containing all of the sections.
+	 * 
+	 * @return
+	 */
+	public String getSectionsList(HttpServletRequest request) {
+
+		String returnString = getBaseList(request);
+
+		// Link to the option that allows them to define a whole new web
+		// resource.
+		returnString += "<option value=\"new_section\" class=\"new_section\">* Create an Entirely New Section</option>";
+
+		List uncustomizedList = getUncustomizedSections(request);
 
 		String rawCust = "";
 		String custCust = "";
 
-		for (ListIterator li = uc.listIterator(); li.hasNext();) {
+		for (ListIterator li = uncustomizedList.listIterator(); li.hasNext();) {
 			CustomizeableSection cs = (CustomizeableSection) li.next();
 
 			// ////////////////////////////////////////////////////////
 			// Don't list sections the actor already has at this phase.
-			boolean hasItAlready = SimulationSectionAssignment
+			// TODO this was slowing things down terribly. Better to just add it later if needed.
+			boolean hasItAlready = false;
+				
+				/* SimulationSectionAssignment
 					.determineIfActorHasThisSectionAtThisPhase(schema, sim_id,
 							actor_being_worked_on_id, phase_id, cs.getId());
-
+*/
 			boolean forThisSimulation = false;
 
 			if (cs.getSimId() == null) {

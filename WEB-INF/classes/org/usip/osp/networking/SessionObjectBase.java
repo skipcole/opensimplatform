@@ -1,6 +1,6 @@
 package org.usip.osp.networking;
 
-import java.util.Date;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -816,5 +816,33 @@ public class SessionObjectBase {
 		return bu;
 
 	}
+	
+	public static int debugNumber = 1;
+	public void debugTag(){
+		System.out.println(new java.util.Date().toString() + " shot: " + debugNumber);
+		debugNumber += 1;
+		System.out.flush();
+	}
+	public void debugTag(String marker){
+		System.out.println("!!!!! Marker: " + marker);
+		debugTag();
+	}
+	
+	public boolean listOfActorsInvalidated = true;
+	private List setOfActors = new ArrayList();
+	
+	public List getSetOfActors (Simulation simulation){
+		
+		if (!(listOfActorsInvalidated)){
+			debugTag("get stored set");
+			return setOfActors;
+		}else {
+			debugTag("getting new set");
+			setOfActors = simulation.getActors(schema);
+			listOfActorsInvalidated = false;
+			return setOfActors;
+		}
+	}
+	
 
 }

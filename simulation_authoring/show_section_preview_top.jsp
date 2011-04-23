@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" 
-	import="java.sql.*,org.usip.osp.networking.*" 
+	import="java.sql.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.networking.*" 
 	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -7,6 +9,14 @@
 	// Make sure that the player session object has been created, and is focused on the same simulation.
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	pso.sim_id = afso.sim_id;
+	
+	String sec_id = request.getParameter("sec_id");
+	
+	SimulationSectionAssignment ssa = new SimulationSectionAssignment();
+	
+	if (sec_id != null) {
+		ssa = SimulationSectionAssignment.getById(afso.schema, new Long(sec_id));
+	}
 	
 	String actors_name_string = "fill it in from cache";
 			
@@ -25,7 +35,12 @@
 </head>
 
 <body>
-Below is a sample of what this page make look like during a simulation for <%= actors_name_string %> in phase 
-<%= USIP_OSP_Cache.getPhaseNameById(request, pso.schema, pso.phase_id) %>.<br />
+<table>
+	<tr>
+		<td><table border="1"><tr><td><%= ssa.getTab_heading() %></td></tr></table>
+		</td>
+		<td>(Change this Tab Heading  for <%= actors_name_string %> in phase <%= USIP_OSP_Cache.getPhaseNameById(request, pso.schema, pso.phase_id) %>)		</td>
+	</tr>
+</table>
 </body>
 </html>
