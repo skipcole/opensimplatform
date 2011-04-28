@@ -6,7 +6,7 @@
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakeImagePage(request);
+	CustomizeableSection cs = afso.handleMakeCustomizedSection(request, CS_TYPES.IMAGE_PAGE);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;

@@ -47,7 +47,7 @@
 			 
       <form action="make_player_declaration_document_page.jsp" method="post" name="form2" id="form2">
         <blockquote>
-          <p>Tab Heading: 
+          <p>Default Tab Heading <a href="../../helptext/default_tab_heading_for_section.jsp" target="helpinright">(?)</a>:  
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
           <p>To allow players to work on a declaration document, you must first have created the template document from which they will being (this may be a blank document). To create a new document associated with this simulation <a href="../../make_create_document_page.jsp">click here</a>. </p>

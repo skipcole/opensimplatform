@@ -33,13 +33,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>USIP OSP Control Page</title>
 </head>
-
 <body>
 <table>
 	<tr>
 		<td><table border="1"><tr><td><%= ssa.getTab_heading() %></td></tr></table>
 		</td>
-		<td>(Change this Tab Heading  for <%= actors_name_string %> in phase <%= USIP_OSP_Cache.getPhaseNameById(request, pso.schema, pso.phase_id) %>)		</td>
+		<td>(<a href="change_player_tab_heading.jsp?sec_id=<%= sec_id %>" target="bodyinleft">Change this Tab Heading</a>  for <%= actors_name_string %> in phase <%= USIP_OSP_Cache.getPhaseNameById(request, pso.schema, pso.phase_id) %>)		</td>
 	</tr>
 </table>
 </body>

@@ -564,8 +564,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 								SimulationSectionAssignment.class, o_id);
 				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
 
-				SimulationSectionAssignment.removeAndReorder(request, this.schema, ss);
-
+				SimulationSectionAssignment.removeAndReorder(request,
+						this.schema, ss);
 
 			} else if (objectType.equalsIgnoreCase("user_assignment")) {
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
@@ -894,19 +894,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnString;
 	}
 
-	/**
-	 * This handles
+
+
+	/** This takes the sections applied to a 'category' actor and applies
+	 * them to all of the other actors in its group.
 	 * 
-	 * @param section_tag
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleCustomizeSection(
-			HttpServletRequest request) {
-
-		return (getMyPSO_SectionMgmt().handleCustomizeSection(request));
-	}
-
 	public String applyActorCategory(HttpServletRequest request) {
 
 		String returnString = "";
@@ -2778,51 +2773,96 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
+	 * This handles customized sections in which the code for 
+	 * handling the customization has been put into a separate customizer class.
 	 * 
+	 * @param section_tag
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleMakeCustomizedSection(
+	public CustomizeableSection handleCustomizeSection(
 			HttpServletRequest request) {
 
-		String custom_page = request.getParameter("custom_page");
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		CustomizeableSection cs = (CustomizeableSection) MultiSchemaHibernateUtil
-				.getSession(schema).get(CustomizeableSection.class,
-						new Long(custom_page));
-		// MultiSchemaHibernateUtil.getSession(schema).evict(cs);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		// Check to see if this is already a customized copy
-		if (!(cs.isThisIsACustomizedSection())) {
-			cs = cs.makeCopy(schema, sim_id);
-		}
-
-		cs.setRec_tab_heading(request.getParameter("tab_heading"));
-
-		if (cs.getContents() == null) {
-			cs.setContents(new Hashtable());
-		}
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return cs;
-
+		return (getMyPSO_SectionMgmt().handleCustomizeSection(request));
 	}
-
+	
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public CustomizeableSection handleMakePlayerDiscreteChoice(
-			HttpServletRequest request) {
+	public CustomizeableSection handleMakeCustomizedSection(
+			HttpServletRequest request, int customSectionType) {
 
-		return (getMyPSO_SectionMgmt().handleMakePlayerDiscreteChoice(request));
+		CustomizeableSection cs = new CustomizeableSection();
 
+		switch (customSectionType) {
+		case CS_TYPES.DISCRETE_CHOICE:
+			cs = getMyPSO_SectionMgmt().handleMakePlayerDiscreteChoice(request);
+			break;
+		case CS_TYPES.IMAGE_PAGE:
+			cs = getMyPSO_SectionMgmt().handleMakeImagePage(request);
+			break;
+		case CS_TYPES.MAKE_MEMOS:
+			cs = getMyPSO_SectionMgmt().handleMakeMemosPage(request);
+			break;
+		case CS_TYPES.PRIVATE_CHAT:
+			cs = getMyPSO_SectionMgmt().handleMakePrivateChatPage(request);
+			break;
+		case CS_TYPES.PUSH_INJECTS:
+			cs = getMyPSO_SectionMgmt().handleMakePushInjectsPage(request);
+			break;
+		case CS_TYPES.READ_DOCUMENT:
+			cs = getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request);
+			break;
+		case CS_TYPES.REFLECTIONS:
+			cs = getMyPSO_SectionMgmt().handleMakeReflectionPage(request);
+			break;
+		case CS_TYPES.SET_PARAMETER:
+			cs = getMyPSO_SectionMgmt().handleMakeSetParameter(request);
+			break;
+		case CS_TYPES.WRITE_DOCUMENT:
+			cs = getMyPSO_SectionMgmt().handleMakeWriteDocumentPage(request);
+			break;
+		default:
+			Logger.getRootLogger().warn("unknown section type");
+		}
+		
+		return cs;
+
+	}
+
+	/**
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Conversation handleMakeMeetingRoomPage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleMakeMeetingRoomPage(request));
+	}
+
+	/**
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
+	 * @param request
+	 */
+	public Simulation handleCreateSchedulePage(HttpServletRequest request) {
+		return (getMyPSO_SectionMgmt().handleCreateSchedulePage(request));
+	}
+	
+	/**
+	 * A wrapper that passes the request through to the associated
+	 * PSO_SectionMgmt object.
+	 * 
+	 * @param request
+	 */
+	public CustomizeableSection handleMakeSplitPage(HttpServletRequest request,
+			int numSections) {
+		return (getMyPSO_SectionMgmt()
+				.handleMakeSplitPage(request, numSections));
 	}
 
 	/**
@@ -3335,26 +3375,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 	}
 
-	/**
-	 * Called from process_custom_page.jsp
-	 * 
-	 * @param request
-	 */
-	public void handleProcessCustomPage(HttpServletRequest request) {
-		// This is what adds it to the base sim section list.
-		CustomizeableSection cs = handleMakeCustomizedSection(request);
-
-		String tab_heading = (String) request.getParameter("tab_heading");
-		String tab_pos = (String) request.getParameter("tab_pos");
-		String universal = (String) request.getParameter("universal");
-
-		Logger.getRootLogger().debug("pcp - universal was : " + universal);
-		Logger.getRootLogger().debug("tab_heading : " + tab_heading);
-
-		addSectionFromProcessCustomPage(cs.getId(), tab_pos, tab_heading,
-				request, universal);
-	}
-
 	// /////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -3412,50 +3432,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public CustomizeableSection handleMakeImagePage(HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMakeImagePage(request));
-	}
-
-	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeReadDocumentPage(
-			HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMakeReadDocumentPage(request));
-	}
-
-	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeMemosPage(HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMakeMemosPage(request));
-	}
-
-	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeSplitPage(HttpServletRequest request,
-			int numSections) {
-		return (getMyPSO_SectionMgmt()
-				.handleMakeSplitPage(request, numSections));
-	}
-
-	/**
 	 * One passes this a section id, a position, and the id of an object, and if
 	 * that object is assigned to this section, at that position, the word
 	 * 'selected' is passed back. If not, an empty string is passed back.
@@ -3493,41 +3469,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public CustomizeableSection handleMakeWriteDocumentPage(
-			HttpServletRequest request) {
-
-		return (getMyPSO_SectionMgmt().handleMakeWriteDocumentPage(request));
-	}
-
-	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public Conversation handleMakeMeetingRoomPage(HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMakeMeetingRoomPage(request));
-	}
-
-	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakeSetParameter(
-			HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMakeSetParameter(request));
-	}
-
-	/**
 	 * 
 	 * @param request
 	 * @param simulation
@@ -3557,42 +3498,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				this.errorMsg = "Running Simulation Name must not be blank.";
 			}
 		} // End of if coming from this page and have added running simulation
-	}
-
-	public Simulation handleCreateSchedulePage(HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleCreateSchedulePage(request));
-	}
-
-	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 */
-	public CustomizeableSection handleMakePrivateChatPage(
-			HttpServletRequest request) {
-		return (getMyPSO_SectionMgmt().handleMakePrivateChatPage(request));
-	}
-
-	/**
-	 * A wrapper that passes the request through to the associated
-	 * PSO_SectionMgmt object.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public CustomizeableSection handleMakeReflectionPage(
-			HttpServletRequest request) {
-
-		return (getMyPSO_SectionMgmt().handleMakeReflectionPage(request));
-	}
-
-	public void addSectionFromProcessCustomPage(Long bss_id,
-			String string_tab_pos, String tab_heading,
-			HttpServletRequest request, String universal) {
-
-		getMyPSO_SectionMgmt().addSectionFromProcessCustomPage(bss_id,
-				string_tab_pos, tab_heading, request, universal);
 	}
 
 	/**
@@ -3695,13 +3600,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		String sending_section = (String) request
 				.getParameter("sending_section");
-		
+
 		if ((sending_section != null)
 				&& (sending_section.equalsIgnoreCase("change_color"))) {
-			
+
 			String ss_id = (String) request.getParameter("ss_id");
 			String new_color = (String) request.getParameter("new_color");
-			String universal_color = (String) request.getParameter("universal_color");
+			String universal_color = (String) request
+					.getParameter("universal_color");
 
 			SimulationSectionAssignment ssa = SimulationSectionAssignment
 					.getById(schema, new Long(ss_id));
@@ -3710,14 +3616,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				ssa.setTabColor(new_color);
 				ssa.save(schema);
 			}
-			
-			if ((universal_color != null) && (universal_color.equalsIgnoreCase("true"))){
-				
+
+			if ((universal_color != null)
+					&& (universal_color.equalsIgnoreCase("true"))) {
+
 				System.out.println("base id is " + ssa.getBase_sec_id());
-				
-				for (ListIterator lia = SimulationSectionAssignment.getUniversals(schema, ssa.getId()).listIterator(); lia.hasNext();) {
-					SimulationSectionAssignment ssa_child = (SimulationSectionAssignment) lia.next();
-					
+
+				for (ListIterator lia = SimulationSectionAssignment
+						.getUniversals(schema, ssa.getId()).listIterator(); lia
+						.hasNext();) {
+					SimulationSectionAssignment ssa_child = (SimulationSectionAssignment) lia
+							.next();
+
 					ssa_child.setTabColor(new_color);
 					ssa_child.save(schema);
 
@@ -4274,13 +4184,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	}
 
-	
-	public String getBaseList(HttpServletRequest request){
-		
-		List baseList = USIP_OSP_Cache.getBaseSectionInformation(schema, request);
-		
+	public String getBaseList(HttpServletRequest request) {
+
+		List baseList = USIP_OSP_Cache.getBaseSectionInformation(schema,
+				request);
+
 		String returnString = "";
-		
+
 		for (ListIterator li = new BaseSimSection().getAll(schema)
 				.listIterator(); li.hasNext();) {
 			BaseSimSection bss = (BaseSimSection) li.next();
@@ -4289,17 +4199,17 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					+ bss.getRec_tab_heading() + "</option>"
 					+ USIP_OSP_Util.lineTerminator;
 		}
-		
+
 		return returnString;
 	}
-	
-	
+
 	/**
 	 * Pulls the list out of cache.
+	 * 
 	 * @param request
 	 * @return
 	 */
-	public List getUncustomizedSections(HttpServletRequest request){
+	public List getUncustomizedSections(HttpServletRequest request) {
 		List uc = USIP_OSP_Cache.getCustomSectionInformation(schema, request);
 
 		if (uc == null) {
@@ -4309,7 +4219,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		Collections.sort(uc);
 		return uc;
 	}
-	
+
 	/**
 	 * Returns the HTML containing all of the sections.
 	 * 
@@ -4333,13 +4243,15 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			// ////////////////////////////////////////////////////////
 			// Don't list sections the actor already has at this phase.
-			// TODO this was slowing things down terribly. Better to just add it later if needed.
+			// TODO this was slowing things down terribly. Better to just add it
+			// later if needed.
 			boolean hasItAlready = false;
-				
-				/* SimulationSectionAssignment
-					.determineIfActorHasThisSectionAtThisPhase(schema, sim_id,
-							actor_being_worked_on_id, phase_id, cs.getId());
-*/
+
+			/*
+			 * SimulationSectionAssignment
+			 * .determineIfActorHasThisSectionAtThisPhase(schema, sim_id,
+			 * actor_being_worked_on_id, phase_id, cs.getId());
+			 */
 			boolean forThisSimulation = false;
 
 			if (cs.getSimId() == null) {
@@ -4759,29 +4671,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 		return rs;
 	}
-	
-	
+
 	/**
-	 * Gets an actor with id of 0, and with name of 'Every One,' and sets
-	 * the id of the actor being worked on to 0.
+	 * Gets an actor with id of 0, and with name of 'Every One,' and sets the id
+	 * of the actor being worked on to 0.
+	 * 
 	 * @return
 	 */
-	public Actor getAndSetUniversalActor(){
-	
+	public Actor getAndSetUniversalActor() {
+
 		Actor actor = new Actor();
-		
+
 		actor_being_worked_on_id = new Long(0);
-		
+
 		actor.setId(actor_being_worked_on_id);
 		actor.setName("Every One");
-		
+
 		return actor;
-	}
-	
-	public CustomizeableSection handleMakePushInjectsPage(HttpServletRequest request){
-		
-		return (getMyPSO_SectionMgmt().handleMakePushInjectsPage(request));
-		
 	}
 
 } // End of class

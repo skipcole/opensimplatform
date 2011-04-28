@@ -18,6 +18,7 @@ import org.usip.osp.communications.TimeLine;
 import org.usip.osp.coursemanagementinterface.UserRegistrationInvite;
 import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.OSPErrors;
 import org.usip.osp.persistence.SchemaInformationObject;
 import org.usip.osp.persistence.UILanguageObject;
 
@@ -418,7 +419,7 @@ public class SessionObjectBase {
 					user_to_add_id = new Long(user_id);
 					User thisUser = User.getById(schema, user_to_add_id);
 					user_to_add_to_simulation = thisUser.getBu_username();
-					
+
 				} else {
 
 					if ((user_to_add_to_simulation == null)
@@ -765,13 +766,18 @@ public class SessionObjectBase {
 
 			this.uaId = new Long(ua_id);
 			UserAssignment ua = UserAssignment.getById(schema, uaId);
-			ua.advanceStatus("confirmed");
-			ua.saveMe(schema);
 
-			if (ua.getUser_id() != null) {
-				return USER_FOUND;
+			if (ua != null) {
+				ua.advanceStatus("confirmed");
+				ua.saveMe(schema);
+
+				if (ua.getUser_id() != null) {
+					return USER_FOUND;
+				} else {
+					return USER_NOT_FOUND;
+				}
 			} else {
-				return USER_NOT_FOUND;
+				OSPErrors.storeInternalWarning("ua null for uaId = " + uaId, this);
 			}
 		}
 		return CONFIRM_DEFAULT;
@@ -816,33 +822,35 @@ public class SessionObjectBase {
 		return bu;
 
 	}
-	
+
 	public static int debugNumber = 1;
-	public void debugTag(){
-		System.out.println(new java.util.Date().toString() + " shot: " + debugNumber);
+
+	public void debugTag() {
+		System.out.println(new java.util.Date().toString() + " shot: "
+				+ debugNumber);
 		debugNumber += 1;
 		System.out.flush();
 	}
-	public void debugTag(String marker){
+
+	public void debugTag(String marker) {
 		System.out.println("!!!!! Marker: " + marker);
 		debugTag();
 	}
-	
+
 	public boolean listOfActorsInvalidated = true;
 	private List setOfActors = new ArrayList();
-	
-	public List getSetOfActors (Simulation simulation){
-		
-		if (!(listOfActorsInvalidated)){
+
+	public List getSetOfActors(Simulation simulation) {
+
+		if (!(listOfActorsInvalidated)) {
 			debugTag("get stored set");
 			return setOfActors;
-		}else {
+		} else {
 			debugTag("getting new set");
 			setOfActors = simulation.getActors(schema);
 			listOfActorsInvalidated = false;
 			return setOfActors;
 		}
 	}
-	
 
 }

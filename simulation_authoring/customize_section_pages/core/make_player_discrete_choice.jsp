@@ -10,7 +10,7 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakePlayerDiscreteChoice(request);
+	CustomizeableSection cs = afso.handleMakeCustomizedSection(request, CS_TYPES.DISCRETE_CHOICE);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
@@ -50,7 +50,7 @@
       <form action="../../make_player_discrete_choice.jsp" method="post" name="form2" id="form2">
         <input type="hidden" name="num_ars" value="<%= allowableResponses.size() %>" />
         <blockquote>
-          <p>Tab Heading: 
+          <p>Default Tab Heading <a href="../../helptext/default_tab_heading_for_section.jsp" target="helpinright">(?)</a>:  
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             <br />
             </p>

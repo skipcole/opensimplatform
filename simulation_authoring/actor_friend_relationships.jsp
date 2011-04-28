@@ -10,7 +10,7 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakePrivateChatPage(request);
+	CustomizeableSection cs = afso.notDoneYet(request);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;

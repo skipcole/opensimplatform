@@ -251,6 +251,6 @@
   %>
 
 <p><a href="needs_and_fears.jsp?cs_id=<%= cs_id %>" target="_blank">Print Page Form</a></p>
-
+<p><a href="needs_and_fears_linear.jsp?cs_id=<%= cs_id %>" target="_blank">Linear Print Page Form</a></p>
 </body>
 </html>
