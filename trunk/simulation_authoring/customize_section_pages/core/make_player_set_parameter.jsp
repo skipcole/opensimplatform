@@ -10,7 +10,7 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakeSetParameter(request);
+	CustomizeableSection cs = afso.handleMakeCustomizedSection(request, CS_TYPES.SET_PARAMETER);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;

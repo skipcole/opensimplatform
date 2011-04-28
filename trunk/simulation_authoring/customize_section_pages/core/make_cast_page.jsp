@@ -56,7 +56,7 @@
             / 
             <input type="radio" name="display_control" id="display_control_no" value="false" <%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_CONTROL, false) %> />
             No          </p>
-          <p>Cast page will display unassigned actors? <a href="../../helptext/cast_display_unassigned.jsp" target="helpinright">(?)</a>
+          <p>Cast page will display unassigned actors? <a href="../../helptext/cast_display_unassigned.jsp" target="helpinright">(?):</a>
             <label>
               <input type="radio" name="display_unassigned" id="display_unassigned_yes" value="true" 
 			  <%= Customizer.storedValueTrueToChecked(cs, CastCustomizer.KEY_FOR_DISPLAY_UNASSIGNED, true) %> />
@@ -68,7 +68,7 @@
         </blockquote>
         
         <blockquote>
-          <p>Tab Heading: 
+          <p>Default Tab Heading <a href="../../helptext/default_tab_heading_for_section.jsp" target="helpinright">(?)</a>: 
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
             <table width="100%" border="1" cellspacing="0">

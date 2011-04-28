@@ -339,9 +339,7 @@ public class SimulationSectionAssignment implements WebObject {
 	 */
 	public void save(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 

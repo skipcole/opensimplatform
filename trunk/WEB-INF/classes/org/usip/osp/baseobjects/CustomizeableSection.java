@@ -180,24 +180,10 @@ public class CustomizeableSection extends BaseSimSection {
 	public void setSimId(Long simId) {
 		this.simId = simId;
 	}
-
-	public static void main(String args[]) {
-
-		CustomizeableSection cs = new CustomizeableSection();
-		
-		cs.setBigString("Set this to a good default value if you inted to use it, else you can leave it blank."); //$NON-NLS-1$
-		cs.hasCustomizer = true;
-		cs.setCustomizerClassName("org.yourco.yourproject.ClassName"); //$NON-NLS-1$
-		cs.setPageTitle("Page Title Here"); //$NON-NLS-1$
-		
-		Logger.getRootLogger().debug(ObjectPackager.getObjectXML(cs));
-
-		
-	}
 	
-	// TODO and even gives it a pointer to itself in the form of a url link (cs_id=id).
-    /**
+	/**
      * Copies the template customized section into a new version and saves it in the database.
+     * It also invalidates the cache on custom sections, so the get reloaded - to include this new one.
      * @param schema
      * @return
      */
@@ -237,13 +223,10 @@ public class CustomizeableSection extends BaseSimSection {
         // Copies are made when a section is customized. 
         cs.thisIsACustomizedSection = true;
 		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
+        cs.saveMe(schema);
         
-        //cs.setPage_file_name(cs.getPage_file_name() + "?cs_id=" + cs.getId());
-        //MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(cs);
-        
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+        // Invalidate the cache on custom sections so this new one will get picked up.
+        USIP_OSP_Cache.cacheon_customized_sections_invalidated = true;
         
         return cs;
 	

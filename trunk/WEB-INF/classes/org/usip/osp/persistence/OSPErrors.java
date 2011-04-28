@@ -213,6 +213,18 @@ public class OSPErrors {
 
     }
     
+    public static OSPErrors storeInternalWarning(String warningText,  SessionObjectBase sob){
+    	
+    	OSPErrors err = new OSPErrors();
+    	
+    	err.setErrorSource(SOURCE_JAVA);
+    	err.setErrorMessage("Warning Message: " + warningText);
+    	
+    	return saveAndEmailError(err, null, sob);
+    	
+
+    }
+    
     /**
      * Saved the error to the database and send an email announcement of it.
      * @param err
@@ -232,7 +244,9 @@ public class OSPErrors {
     	try {
     		StringWriter sw = new StringWriter();
     		PrintWriter pw = new PrintWriter(sw);
-    		exception.printStackTrace(pw);
+    		if (exception != null) {
+    			exception.printStackTrace(pw);
+    		}
     		err.setErrorText(sw.getBuffer().toString());
     		sw.close();
     		pw.close();
@@ -256,7 +270,6 @@ public class OSPErrors {
     	}
     	
     	err.saveMe();
-    	Logger.getRootLogger().error("about to save");
     	
     	if (sio != null){
     		err.emailErrors(sio, false);

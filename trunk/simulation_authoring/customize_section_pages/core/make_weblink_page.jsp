@@ -65,7 +65,7 @@
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %> 
         <blockquote>
-          <p>Tab Heading: 
+          <p>Default Tab Heading <a href="../../helptext/default_tab_heading_for_section.jsp" target="helpinright">(?)</a>:  
             <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
             </p>
           <p>Weblink Descriptor:

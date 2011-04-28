@@ -7,7 +7,7 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	CustomizeableSection cs = afso.handleMakePushInjectsPage(request);
+	CustomizeableSection cs = afso.handleMakeCustomizedSection(request, CS_TYPES.PUSH_INJECTS);
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
@@ -39,7 +39,7 @@
                   <form action="make_push_injects.jsp" method="post" name="form2" id="form2">
                     <blockquote>
                       <p>To allow access to a player to push any of a set of injects.  To create a new set of injects associated with this simulation <a href="../../injects.jsp">click here</a>. </p>
-                      <p>Tab Heading:
+                      <p>Default Tab Heading <a href="../../helptext/default_tab_heading_for_section.jsp" target="helpinright">(?)</a>: 
                         <input type="text" name="tab_heading" value="<%= afso.getMyPSO_SectionMgmt().get_tab_heading() %>"/>
                       </p>
                       <table width="100%" border="1">
