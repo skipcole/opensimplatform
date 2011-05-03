@@ -204,7 +204,7 @@
   </tr>
 </table>
 </form>
-<p>&nbsp;</p>
+<p><a href="grid_doc_linear_print.jsp?cs_id=<%= cs_id %>" target="_blank">Print Out Page</a></p>
 
 </body>
 </html>
