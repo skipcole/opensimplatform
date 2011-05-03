@@ -215,7 +215,14 @@ public class ChatController {
 			start_index = "0"; //$NON-NLS-1$
 		}
 
-		int start_int = new Integer(start_index).intValue();
+		int start_int = 0;
+		
+		try {
+			start_int = new Integer(start_index).intValue();
+		} catch (Exception e){
+			// TODO - come back here and do something.
+			// Need to modify errors to accept non-emailng errors. I just got over 1500 emails from this.
+		}
 
 		// This conversation is pulled from the set of conversations Vector
 		Vector this_conv = getCachedConversation(request, pso, conv_id);
