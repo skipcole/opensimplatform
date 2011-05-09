@@ -12,6 +12,7 @@ import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.baseobjects.UserAssignment;
 import org.usip.osp.baseobjects.UserTrailGhost;
+import org.usip.osp.communications.Emailer;
 import org.usip.osp.communications.Event;
 import org.usip.osp.communications.InjectFiringHistory;
 import org.usip.osp.communications.TimeLine;
@@ -42,9 +43,19 @@ import org.usip.osp.persistence.UILanguageObject;
  */
 public class SessionObjectBase {
 
+	public static final int ALL_GOOD = 0;
 	public static final int CAPTCHA_WRONG = 1;
-	public static final int USERNAME_MISMATCH = 1;
-	public static final int PASSWORD_MISMATCH = 1;
+	public static final int USERNAME_MISMATCH = 2;
+	public static final int INSUFFICIENT_INFORMATION = 3;
+	public static final int PASSWORDS_MISMATCH = 4;
+	public static final int WRONG_OLD_PASSWORD = 5;
+	public static final int PASSWORDS_CHANGED = 6;
+	public static final int FORCED_PASSWORD_CHANGED = 7;
+	public static final int USERNAME_CHANGED = 8;
+	public static final int CONFIRM_DEFAULT = 9;
+	public static final int USER_FOUND = 10;
+	public static final int USER_NOT_FOUND = 11;
+	public static final int INSUFFICIENT_PRIVLEGE = 12;
 
 	public SessionObjectBase() {
 
@@ -471,13 +482,6 @@ public class SessionObjectBase {
 		return ua;
 	}
 
-	public static final int ALL_GOOD = 0;
-	public static final int INSUFFICIENT_INFORMATION = 1;
-	public static final int PASSWORDS_MISMATCH = 2;
-	public static final int WRONG_OLD_PASSWORD = 3;
-	public static final int PASSWORDS_CHANGED = 4;
-	public static final int FORCED_PASSWORD_CHANGED = 5;
-
 	/** Assigns a user to a simulation. */
 	public int changePassword(HttpServletRequest request) {
 
@@ -615,7 +619,7 @@ public class SessionObjectBase {
 
 			if (!(password.equalsIgnoreCase(confirm_password))) {
 				errorMsg += "Passwords did not match<br/>";
-				errorCode = PASSWORD_MISMATCH;
+				errorCode = PASSWORDS_MISMATCH;
 				returnForLackOfInformation = true;
 			}
 
@@ -739,10 +743,6 @@ public class SessionObjectBase {
 		}
 	}
 
-	public static final int CONFIRM_DEFAULT = 0;
-	public static final int USER_FOUND = 1;
-	public static final int USER_NOT_FOUND = 2;
-
 	public Long uaId = null;
 
 	/**
@@ -777,7 +777,8 @@ public class SessionObjectBase {
 					return USER_NOT_FOUND;
 				}
 			} else {
-				OSPErrors.storeInternalWarning("ua null for uaId = " + uaId, this);
+				OSPErrors.storeInternalWarning("ua null for uaId = " + uaId,
+						this);
 			}
 		}
 		return CONFIRM_DEFAULT;
@@ -853,4 +854,81 @@ public class SessionObjectBase {
 		}
 	}
 
-}
+	/**
+	 * Handles the changing of a players user name.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public int changeUserName(HttpServletRequest request) {
+
+		if (!(this.isAdmin)) {
+			return INSUFFICIENT_PRIVLEGE;
+		}
+
+		String sending_page = request.getParameter("sending_page");
+		String old_username = request.getParameter("old_username");
+		String new_username = request.getParameter("new_username");
+		String new_username2 = request.getParameter("new_username2");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("change_password"))) {
+
+			// Check that new emails match
+			if ((new_username == null) || (new_username2 == null)) {
+				return INSUFFICIENT_INFORMATION;
+			}
+
+			if (new_username.trim().length() == 0) {
+				return INSUFFICIENT_INFORMATION;
+			}
+
+			if (!(new_username.equalsIgnoreCase(new_username2))) {
+				return USERNAME_MISMATCH;
+			}
+
+			BaseUser bu = BaseUser.getByUsername(old_username);
+
+			if (bu == null) {
+				return USER_NOT_FOUND;
+			} else {
+				// change user name in in base u
+				bu.setUsername(new_username);
+				bu.saveMe();
+
+				// change user name in user table
+				User user = User.getById(schema, bu.getId());
+				user.setUser_name(new_username);
+				user.saveMe(schema);
+
+				// change user name user assignment table
+				List ua_s = UserAssignment.getAllByUserName(schema,
+						new_username);
+
+				for (ListIterator<UserAssignment> li = ua_s.listIterator(); li
+						.hasNext();) {
+					UserAssignment ua = li.next();
+					ua.setUsername(new_username);
+					ua.saveMe(schema);
+				}
+
+				String message = "The username '" + old_username
+						+ "' has been changed to '" + new_username
+						+ "' on the USIP OSP System "
+						+ USIP_OSP_Properties.getValue("server_name");
+
+				// send email to user at both email addresses
+				Emailer.quickPostMail(schema, new_username,
+						"Username Changed on USIP OSP System", message, user
+								.getUser_name(), user.getUser_name());
+				Emailer.quickPostMail(schema, old_username,
+						"Username Changed on USIP OSP System", message, user
+								.getUser_name(), user.getUser_name());
+
+				return USERNAME_CHANGED;
+			} // end if found base user in database.
+		} else {
+			return ALL_GOOD;
+		}
+	}
+} // End of class

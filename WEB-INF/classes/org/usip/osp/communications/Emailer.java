@@ -145,6 +145,22 @@ public class Emailer {
 		postMail(sio,  toVector,  subject, message,  htmlMessage,  from,  replyTo,  cced, bcced);
 		
 	}
+	
+	/** Used for quick direct emails to users. */
+	public static void quickPostMail(String schema, String to, String subject,
+			String message, String from, String replyTo) {
+		
+		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(schema);
+		
+		String htmlMessage = message;
+		
+		Vector <String> toVector = new Vector();
+		toVector.add(to);
+		
+		postMail(sio,  toVector,  subject, message,  htmlMessage,  from,  replyTo, 
+				new Vector<String> (), new Vector<String> ());
+		
+	}
     /*
      * I copied this code from http://www.vipan.com/htdocs/javamail.html.
      * Not sure on the rights. Can remove it later if needed -- Skip
