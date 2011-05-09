@@ -323,9 +323,11 @@ public class BaseUser {
         Session s = MultiSchemaHibernateUtil.beginTransaction(
                 MultiSchemaHibernateUtil.principalschema, true);
 
+        String hqlString = "from BaseUser where username = :the_username"; //$NON-NLS-1$
         try {
-            List returnList = s.createQuery(
-                    "from BaseUser where username = '" + the_username + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
+            List returnList = s.createQuery(hqlString)
+            .setString("the_username", the_username)
+            .list(); 
         	
         	if ((returnList != null) && (returnList.size() > 0)){
         		bu = (BaseUser) returnList.get(0);

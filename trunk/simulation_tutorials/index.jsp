@@ -59,15 +59,8 @@ body {
       </li>
     </ol>
   </li>
-  <li><a href="sim_conducting_1/index.jsp">Simulation Conducting 1</a> -  This tutorial will introduce you to all of the steps necessecary to conduct an online simulation: creating a play session, establishing a schedule, inviting player, etc. <br />
-  Requirements:
-    <ol>
-      <li> In this tutorial you will set up a play session for the simulation you created in the previous tutorial 'Simulation Authoring.' </li>
-      <li>You will need two friends to play the two different actor's roles in the simulation (Alternately you could log on and log off as each of the players by yourself.)</li>
-      <li>About 1 hour of time.<br />
-        <br />
-      </li>
-    </ol>
+  <li><a href="../USIP_OSP_Facilitator_Training.ppt">Simulation Facilitation Presentation </a>-  We have some incredible improvements lately making it even easier for instructors to use the USIP OSP. So the tutorial that was here has been temporarily replaced with a power point presentation. (The power point presentation will eventually be turned into an instructional video, and a hands on tutorial brought up to date and returned to its place here.) <br />
+    <br />
   </li>
   <li><em><strong>In Progress! </strong></em>Simulation Authoring 2 - In this tutorial you will begin to incorporate more advanced features, such as documents that the players can edit, into a simulation.</li>
 </ol>

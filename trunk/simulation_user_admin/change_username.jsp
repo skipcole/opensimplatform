@@ -5,28 +5,15 @@
 	errorPage="/error.jsp" %>
 <%
 	
-	String error_msg = "";
-	
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	if ((pso == null) || (!(pso.isLoggedin()))) {
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
-
-	String forcepasswordchange = request.getParameter("forcepasswordchange");
 	
-	boolean forcedChange = false;
+	int returnCode = afso.changeUserName(request);
 	
-	/*
-	if ((forcepasswordchange != null) && (forcepasswordchange.equalsIgnoreCase("true"))){
-		forcedChange = true;
-	}
-
-	int returnCode = pso.changePassword(request);
-	
-	System.out.println("returnCode was: " + returnCode);
-	*/
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -44,34 +31,6 @@
 </style>
 </head>
 <body onLoad="">
-
-<%
-	if ((returnCode == SessionObjectBase.FORCED_PASSWORD_CHANGED) || (forcedChange) ){
-
-%>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;USIP Open Simulation Platform </h1></td>
-    <td align="right" background="../Templates/images/top_fade.png" width="20%"> 
-
-	  <div align="center"></div>	  </td>
-  </tr>
-  <tr>
-    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
-  </tr>
-  <tr>
-  	<td width="120" align="right" valign="top">&nbsp;</td>
-    <td colspan="1" valign="top"><br /></td>
-    <td width="194" align="right" valign="top">		</td>
-  </tr>
-</table>
-
-
-<% } // End of if this is a forced password changed %>
-
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -80,63 +39,47 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			<% if (returnCode == SessionObjectBase.FORCED_PASSWORD_CHANGED) { %>
+			<% if (returnCode == SessionObjectBase.USERNAME_CHANGED) { %>
 			<h1>Username Changed</h1>
-			You should now contact the user to let them know.
-			<% } else if (forcedChange) { %>
+			<% } else if (returnCode == SessionObjectBase.USERNAME_MISMATCH) { %>
+			<h1 class="style1">New Usernames Did Not Match</h1>
 			<% } else { %>
-			  	<% if (returnCode == SessionObjectBase.PASSWORDS_CHANGED) { %>
-			  	<h1>Username Has Been Changed</h1>
-			  	<% } else if ((returnCode == SessionObjectBase.WRONG_OLD_PASSWORD) || (returnCode == SessionObjectBase.INSUFFICIENT_INFORMATION)) { %>
-			  	<h1 class="style1">Incorrect Previous Username </h1>
-			  	<% } else if (returnCode == SessionObjectBase.PASSWORDS_MISMATCH) { %>
-			  	<h1 class="style1">New Usernames Did Not Match</h1>
-			  	<% } else { %>
-				<h1>Change Username - NOT IMPLEMENTED </h1>
-			  	<p>
-			  	  <% } // End of if password changed, or an error %>
-			  	  
-		  	        <% } // End of if forced change. %>
-		  	        <br />
-                    <% if (returnCode != SessionObjectBase.FORCED_PASSWORD_CHANGED) { %>
-			  	  </p>
+			<h1>Change Username</h1>
+
 			  	<p>&nbsp;</p>
-			  	<h2>NOTE!!!!!</h2>
-			  	<p>If the previous username has been assigned, we should go in and changes all simulations where they have been added.     </p>
 			  	<form id="form1" name="form1" method="post" action="change_username.jsp">
   <table border="0" cellspacing="2" cellpadding="1" width="100%">
     <tr>
-      <td>Old Username: </td>
+      <td>Old Username (email address): </td>
       <td>
         <label>
-        <input type="password" name="old_password" />
+        <input type="password" name="old_username" />
         </label></td>
     </tr>
     <tr>
-      <td>New Username: </td>
+      <td>New Username  (email address): </td>
       <td>
         <label>
-        <input type="password" name="new_password" />
+        <input type="password" name="new_username" />
         </label></td>
     </tr>
     <tr>
-      <td>Confirm New Username: </td>
+      <td>Confirm New Username (email address): </td>
       <td>
         <label>
-        <input type="password" name="new_password2" />
+        <input type="password" name="new_username2" />
         </label></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
       <td><label>
-	  <input type="hidden" name="forcepasswordchange" value="<%= forcepasswordchange %>" />
         <input type="hidden" name="sending_page" value="change_password" /> 
         <input type="submit" name="update" id="update" value="Update" disabled="disabled" />
         </label></td>
     </tr>
   </table>
         </form>      
-<% } // end of if not %>
+<% } // end of if change password %>
 		<p>&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
@@ -153,6 +96,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>
