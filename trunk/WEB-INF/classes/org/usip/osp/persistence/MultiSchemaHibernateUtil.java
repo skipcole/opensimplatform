@@ -499,6 +499,17 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.PlayerReflection.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.SetOfLinks.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
+		
+		// Check for Add-ons
+		String newClass = "org.usip.osp.addons.griddoc.GridData";
+		try {
+			Class nClass = Class.forName(newClass);
+			ac.addAnnotatedClass(nClass);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		Logger.getRootLogger().debug("classes added"); //$NON-NLS-1$
 	}

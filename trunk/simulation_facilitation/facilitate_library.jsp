@@ -61,7 +61,11 @@
 		  for (ListIterator li = Simulation.getAllPublished(afso.schema).listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
 			
-			String pubDate = sdf.format(sim.getPublishDate());
+			String pubDate = "";
+			
+			if (sim.getPublishDate() != null) {
+				pubDate = sdf.format(sim.getPublishDate());
+			}
 			
 			%>
           <tr valign="top"> 
