@@ -42,8 +42,27 @@
 			<td width="120"><img src="../../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Customize Grid Document Page</h1>
-              <br />
-      <form action="make_grid_doc_page.jsp" method="post" name="form2" id="form2">
+              <p>This creates a grid of data that the users can add or subtract from. They can add Columns or Rows and then fill in the cells where they interesect. </p>
+              <table width="90%" border="1">
+                <tr>
+                  <td>Column Descriptor </td>
+                  <td>Col 1 </td>
+                  <td>Col 2 </td>
+                </tr>
+                <tr>
+                  <td>Row 1 </td>
+                  <td>edit</td>
+                  <td>edit</td>
+                </tr>
+                <tr>
+                  <td>Row 2 </td>
+                  <td>edit</td>
+                  <td>edi</td>
+                </tr>
+              </table>
+              <p> <br />
+                      </p>
+              <form action="make_grid_doc_page.jsp" method="post" name="form2" id="form2">
         <% if (cs.getId() != null) {
 	  	System.out.println("cs id was :" + cs.getId());
 	   %>
@@ -58,14 +77,35 @@
         <blockquote>
           <table width="100%" border="1" cellspacing="0">
               <tr>
-                <td valign="top">&nbsp;</td>
-                <td valign="top">&nbsp;</td>
+                <td valign="top">Page Title </td>
+                <td valign="top"><label>
+				  <%
+				  	String page_title_value = (String) cs.getContents().get(GridDocCustomizer.KEY_FOR_PAGETITLE);
+					if (page_title_value == null) {
+						page_title_value = "";
+					}
+					
+				  %>
+                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_PAGETITLE %>" value="<%= page_title_value %>" />
+                </label></td>
               </tr>
               <tr>
                 <td valign="top">Page Introduction</td>
                 <td valign="top"><label>
                   <textarea name="cs_bigstring" id="textarea" cols="45" rows="5"><%= cs.getBigString() %></textarea>
                   </label></td>
+              </tr>
+              <tr>
+                <td valign="top">New Column</td>
+                <td valign="top"><label>
+                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_NEW_COLUMN %>" />
+                </label></td>
+              </tr>
+              <tr>
+                <td valign="top">New Row </td>
+                <td valign="top"><label>
+                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_NEW_ROW %>" />
+                </label></td>
               </tr>
               </table>
               
