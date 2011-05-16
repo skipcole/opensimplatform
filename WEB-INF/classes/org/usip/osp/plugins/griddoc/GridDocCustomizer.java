@@ -1,4 +1,4 @@
-package org.usip.osp.addons.griddoc;
+package org.usip.osp.plugins.griddoc;
 
 import java.util.*;
 
