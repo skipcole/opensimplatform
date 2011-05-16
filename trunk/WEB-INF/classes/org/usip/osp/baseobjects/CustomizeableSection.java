@@ -131,8 +131,8 @@ public class CustomizeableSection extends BaseSimSection {
     
     /** If this has a customizer, what class should be instantiated to serve as it. */
     private String customizerClassName;
-    
-    @Transient
+
+	@Transient
     private Customizer myCustomizer;
     
     /** If this object has dependent objects (conversations, shared documents, allowable responses, etc.) then
@@ -286,25 +286,6 @@ public class CustomizeableSection extends BaseSimSection {
         MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
         MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
     }
-
-    /**
-     * Returns all customizeable sections <code>DTYPE='CustomizeableSection</code>
-     * @param schema
-     * @return
-     */
-	public static List<BaseSimSection> getAll(String schema) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery(
-						"from BaseSimSection where DTYPE='CustomizeableSection'") //$NON-NLS-1$
-				.list();
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		return returnList;
-	}
 	
 	/**
 	 * 

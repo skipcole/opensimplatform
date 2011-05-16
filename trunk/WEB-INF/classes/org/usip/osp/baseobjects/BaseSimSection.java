@@ -581,6 +581,11 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 	}
 
+	/**
+	 * Returns a sorted list of all base and customized sections
+	 * @param schema
+	 * @return
+	 */
 	public static List<BaseSimSection> getAllBaseAndCustomizable(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -909,6 +914,52 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		String returnString = this.getUrl() + this.getDirectory() + this.getPage_file_name();
 		
 		return returnString;
+	}
+	
+    /** If this section requires its own set of tables to hold the data, they are found here in a
+     * comma separated list. */
+    private String databaseClassNames;
+    
+    public String getDatabaseClassNames() {
+		return databaseClassNames;
+	}
+
+	public void setDatabaseClassNames(String databaseClassNames) {
+		this.databaseClassNames = databaseClassNames;
+	}
+	
+	/**
+	 * Gets a list of classes that are 
+	 * @param schema
+	 * @return
+	 */
+	public static List <String> getUniqSetOfDatabaseClassNames(String schema){
+		
+		ArrayList <String> returnList = new ArrayList<String>();
+		
+		Hashtable <String, String> uniqList = new Hashtable<String, String>();
+		
+		for (ListIterator<BaseSimSection> bi = BaseSimSection.getAllBaseAndCustomizable(schema).listIterator(); bi.hasNext();) {
+			BaseSimSection bid = bi.next();
+
+			if ((bid.getDatabaseClassNames() != null) && (bid.getDatabaseClassNames().trim().length() > 0)){
+				
+				StringTokenizer str = new StringTokenizer(bid.getDatabaseClassNames(), ",");
+
+				while (str.hasMoreTokens()) {
+					uniqList.put(str.nextToken().trim(), "set");
+				}
+			}
+		}
+		
+		// Take uniq list out of hashtable and put it in list.
+		for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
+			String key = (String) e.nextElement();
+			returnList.add(key);
+		}
+		
+		return returnList;
+
 	}
 
 }

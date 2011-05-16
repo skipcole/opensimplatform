@@ -1615,17 +1615,23 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		MultiSchemaHibernateUtil.recreateDatabase(sio);
+		
+		////////////////////////////////
+		String loadss = (String) request.getParameter("loadss");
+
+		if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
+			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
+		}
+		////////////////////////////////
+		
+		MultiSchemaHibernateUtil.createAdditionalTables(sio);
+
 
 		// Must create the new user in this schema
 		@SuppressWarnings("unused")
 		User user = new User(schema, admin_email, admin_pass, admin_first,
 				admin_last, admin_middle, admin_full, true, true, true);
 
-		String loadss = (String) request.getParameter("loadss");
-
-		if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
-			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
-		}
 
 		// ///////////////////////////////////////////
 		// Test email functionality if SMTP information has been entered.

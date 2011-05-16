@@ -2,12 +2,12 @@ package org.usip.osp.persistence;
 
 import java.sql.*;
 import java.util.*;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+
+import org.hibernate.*;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.baseobjects.*;
 import org.apache.log4j.*;
 
 /**
@@ -219,6 +219,22 @@ public class MultiSchemaHibernateUtil {
 
 		return config;
 	}
+	
+	public static Configuration getConnForNewTables(String schema) {
+
+		Logger.getRootLogger().warn("getInitializedConfiguration " + schema); //$NON-NLS-1$ //$NON-NLS-2$
+
+		AnnotationConfiguration config = new AnnotationConfiguration();
+
+		String tempURL = makeSchemaConnString(schema);
+		
+		initializeConnection(tempURL, config);
+
+		Logger.getRootLogger().warn("! root database "); //$NON-NLS-1$
+		addAdditionalSchemaClasses(config, schema);
+
+		return config;
+	}
 
 	public static Session getSession(String schema) {
 		return getSession(schema, false);
@@ -285,6 +301,12 @@ public class MultiSchemaHibernateUtil {
 
 		Configuration config = MultiSchemaHibernateUtil.getInitializedConfiguration(dbi.getSchema_name(), false);
 
+		new SchemaExport(config).create(true, true);
+	}
+	
+	public static void createAdditionalTables(SchemaInformationObject dbi) {
+
+		Configuration config = MultiSchemaHibernateUtil.getConnForNewTables(dbi.getSchema_name());
 		new SchemaExport(config).create(true, true);
 	}
 
@@ -433,7 +455,6 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSection.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.CustomizeableSection.class);
-		ac.addAnnotatedClass(org.usip.osp.communications.Alert.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimSet.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimSetAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimulation.class);
@@ -450,6 +471,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.UserTrail.class);
 
 		// Communications
+		ac.addAnnotatedClass(org.usip.osp.communications.Alert.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.ChatLine.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.CommunicationsHub.class);
 		ac.addAnnotatedClass(org.usip.osp.communications.CommunicationsReceived.class);
@@ -499,19 +521,23 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.PlayerReflection.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.SetOfLinks.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
-		
-		// Check for Add-ons
-		String newClass = "org.usip.osp.addons.griddoc.GridData";
-		try {
-			Class nClass = Class.forName(newClass);
-			ac.addAnnotatedClass(nClass);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 
 		Logger.getRootLogger().debug("classes added"); //$NON-NLS-1$
+	}
+	
+	public static void addAdditionalSchemaClasses(AnnotationConfiguration ac, String schema) {
+		// Check for Add-ons
+		List additionalClasses = BaseSimSection.getUniqSetOfDatabaseClassNames(schema);
+		
+		for (ListIterator<String> acListIter = additionalClasses.listIterator(); acListIter.hasNext();) {
+			String newClass = acListIter.next();
+			try {
+				Class nClass = Class.forName(newClass);
+				ac.addAnnotatedClass(nClass);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
