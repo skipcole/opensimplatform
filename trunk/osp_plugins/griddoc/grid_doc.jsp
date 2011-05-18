@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
-	org.usip.osp.baseobjects.core.*,
+	org.usip.osp.plugins.griddoc.*,
 	org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" %>
 
@@ -40,7 +40,7 @@
 
 <td valign="top"><strong><%= thisColName %></strong>
 	<% if (ii == numCols) { %>
-	<form name="form2" method="post" action="../../osp_core/grid_doc.jsp">
+	<form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
     <input type="hidden" name="col" value="<%= ii + "" %>">
     <input type="submit" name="del_col" id="button" value="-"  onclick="return confirm('Are you sure you want to delete this column?');">
@@ -58,7 +58,7 @@
 <tr>
 <td valign="top"><strong><%= thisRowName %></strong>
 <% if (jj == numRows ) { %>
-<form name="form2" method="post" action="../../osp_core/grid_doc.jsp">
+<form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
     <input type="hidden" name="row" value="<%= jj + "" %>">
     <input type="submit" name="del_row" id="button" value="-"  onclick="return confirm('Are you sure you want to delete this row?');">
@@ -80,7 +80,7 @@
 </tr>
 <% } %>
 </table>
-<form name="form1" method="post" action="../../osp_core/grid_doc.jsp">
+<form name="form1" method="post" action="grid_doc.jsp">
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
 
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
@@ -105,7 +105,7 @@
   </tr>
 </table>
 </form>
-<p><a href="../../osp_core/grid_doc_linear_print.jsp?cs_id=<%= cs_id %>" target="_blank">Print Out Page</a></p>
+<p><a href="grid_doc_linear_print.jsp?cs_id=<%= cs_id %>" target="_blank">Print Out Page</a></p>
 
 </body>
 </html>

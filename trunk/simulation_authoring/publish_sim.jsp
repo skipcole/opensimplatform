@@ -64,11 +64,15 @@
                 </tr>
 	        
 	        <tr valign="top"> 
-	          <td>Simulation Key Words</td>
+	          <td>Simulation Key Words (?) </td>
                   
               <td> 
                 <textarea name="sim_key_words"><%= simulation.getListingKeyWords() %></textarea></td>
                 </tr>
+	        <tr>
+	          <td>Publish Publicly <a href="helptext/publish_publicly_help.jsp" target="helpinright">(?) </a></td>
+	          <td><input type="checkbox" name="auto_registration2" id="auto_registration2"  value="true"/></td>
+	          </tr>
 	        <tr>
 	          <td>Allow Player Auto-Registration <a href="helptext/auto_registration_help.jsp" target="helpinright">(?)</a></td>
                   <td><label>

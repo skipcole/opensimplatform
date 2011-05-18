@@ -49,6 +49,9 @@
                 <li><a href="make_create_document_page.jsp">Add Document</a> <a href="helptext/add_document.jsp" target="helpinright">(?)</a> - Add a document to the simulation.</li>
                 <li><a href="make_create_document_notifications_page.jsp">Add Document Change Notification</a> <a href="helptext/add_document_change_notification.jsp" target="helpinright">(?)</a> - Create an alert to notify a player that a document has changed.</li>
                 <li><a href="injects.jsp">Add Inject</a> <a href="helptext/create_injects_help.jsp" target="helpinright">(?)</a> - Add events that can happen to students during the simulation.</li>
+                </ul>
+              <p>&nbsp;</p>
+              <ul>
                 <li><a href="make_create_onelink_page.jsp">Add One Link</a> (?) - Add a 'one link' to a web address that can altered during the simulation.</li>
                 <li><a href="make_create_parameter_page.jsp">Add Parameter</a> (?) - Add a value that can be adjusted during a simulation.</li>
                 <li><a href="make_create_set_of_links_page.jsp">Add Set of Links</a> (?) - Add a set of links </li>

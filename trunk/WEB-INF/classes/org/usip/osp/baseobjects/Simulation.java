@@ -162,8 +162,11 @@ public class Simulation implements ExportableObject, Comparable{
 	private String copyrightString = ""; //$NON-NLS-1$
 
 	/** Flag to let instructors know it can be used. */
+	private boolean isInternallyPublished = false;
+	
+	/** Flag to let instructors know it can be used. */
 	@Column(name = "READYFORLISTING")
-	private boolean isReadyForPublicListing = false;
+	private boolean isExternallyPublished = false;
 
 	@Column(name = "LISTINGKEYWORDS")
 	private String listingKeyWords = ""; //$NON-NLS-1$
@@ -625,11 +628,11 @@ public class Simulation implements ExportableObject, Comparable{
 	}
 
 	public boolean isReadyForPublicListing() {
-		return this.isReadyForPublicListing;
+		return this.isExternallyPublished;
 	}
 
 	public void setReadyForPublicListing(boolean isReadyForPublicListing) {
-		this.isReadyForPublicListing = isReadyForPublicListing;
+		this.isExternallyPublished = isReadyForPublicListing;
 	}
 
 	public String getListingKeyWords() {
