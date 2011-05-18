@@ -88,16 +88,27 @@
 <p align="center">&nbsp;</p>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <tr>
+    <td width="50%" valign="top">Submitter</td>
     <td width="50%" valign="top"><h1><strong>Brainstorm Needs</strong></h1></td>
     <td width="50%" valign="top"><h1><strong>Brainstorm Solutions</strong></h1></td>
   </tr>
   <tr>
+    <td valign="top">country (select color text) (edit) </td>
     <td valign="top"><%= bneeds.getBigString() %><br>
       <a href="brainstorm_data.jsp?sd_id=<%= bneeds.getId() %>">edit</a></td>
     <td valign="top"><%= bsolutions.getBigString() %><br>
       <a href="brainstorm_data.jsp?sd_id=<%= bsolutions.getId() %>">edit</a></td>
   </tr>
 </table>
+<form name="form1" method="post" action="">
+  Add Row 
+  <label>
+  <input type="text" name="textfield">
+(color)  </label>
+  <label>
+  <input type="submit" name="Submit" value="Submit">
+  </label>
+</form>
 <p align="center">&nbsp;</p>
 </body>
 </html>
