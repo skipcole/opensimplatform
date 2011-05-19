@@ -10,21 +10,15 @@
 <%
 	
 	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBase(request);
+	InstructorApplication iaObject = InstructorApplication.sendEmailAndSave(request, sob);
 	
-	User userOnScratchPad = sob.handleAutoRegistration(request);
-	
-	if(sob.forward_on){
-		response.sendRedirect("auto_registration_thankyou.jsp");
-		sob.forward_on = false;
-		return;
-	}
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<title>Open Simulation Platform Auto Registration Page</title>
+<title>Open Simulation Platform Instructor Application</title>
 
 <link href="usip_osp.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
@@ -71,79 +65,43 @@ body {
               <br />
 			
       <p>Please complete the form below to send an email to the adminster of this system indicating that you would like to be registered on this system and made an instructor. You will also be cc'd on this email.</p>
-      <p>If your application is accepted and your made an instructor on this system, you will then be able to enroll your students in simulations hosted here and conduct games. It is highly recommended that before completing this application that you </p>
+      <p>If your application is accepted and your made an instructor on this system, you will then be able to enroll your students in simulations hosted here and conduct games. It is highly recommended that before completing this application that you have completed the <a href="simulation_tutorials/index.jsp">instructor/facilitator tutorial</a>. </p>
       <p>&nbsp; </p>
-      <p align="center" class="style1"><%= sob.errorMsg %></p>
-	  	<%
-			sob.errorMsg = "";
-	
-		%>
-      <form action="simulation_user_admin/auto_registration_page.jsp" method="post" name="form1" id="form1">
-        <table width="80%" border="0" cellspacing="0" cellpadding="0">
+      <p align="center" class="style1"></p>
+      <form action="instructor_application.jsp" method="post" name="form1" id="form1">
+<table width="80%" border="1" cellspacing="0" cellpadding="0">
           
+	<tr>
+            <td valign="top"><strong>Name?</strong></td>
+      <td valign="top">
+        <label>
+          <input type="text" name="applicant_name" tabindex="1"  id="applicant_name" value="<%= iaObject.getApplicantName() %>"  size="60"   />
+          </label></td>
+    </tr>
           <tr>
-            <td valign="top"><strong>Username/Email <a href="simulation_user_admin/helptext/user_email.jsp" target="helpinright">(?):</a></strong></td>
-              <td valign="top"><input name="email" type="text" tabindex="1" value="<%= userOnScratchPad.getBu_username() %>" size="60"   /></td>
+            <td valign="top"><strong>Email?</strong></td>
+              <td valign="top"><input name="applicant_email" type="text" tabindex="2" value="<%= iaObject.getApplicantEmailAddress() %>" size="60"   /></td>
             </tr>
-          <tr>
-            <td valign="top"><strong>First Name <a href="simulation_user_admin/helptext/first_name.jsp" target="helpinright">(?)</a>:</strong></td>
-      <td valign="top">
-        <label>
-          <input type="text" name="first_name" tabindex="5"  id="first_name" value="<%= userOnScratchPad.getBu_first_name() %>"  size="60"   />
-          </label></td>
-    </tr>
-          <tr>
-            <td valign="top"><strong>Middle Name <a href="simulation_user_admin/helptext/middle_name.jsp" target="helpinright">(?)</a>:</strong></td>
-      <td valign="top">
-        <label>
-          <input type="text" name="middle_name" tabindex="6"  id="middle_name" value="<%= userOnScratchPad.getBu_middle_name() %>"    size="60"  />
-          </label></td>
-    </tr>
-          <tr>
-            <td valign="top"><strong>Last Name <a href="simulation_user_admin/helptext/last_name.jsp" target="helpinright">(?)</a>:</strong></td>
-      <td valign="top">
-        <label>
-          <input type="text" name="last_name" tabindex="7" id="last_name" value="<%= userOnScratchPad.getBu_last_name() %>"  size="60"     />
-          </label></td>
-    </tr>
-    <% if (sob.sioSet) { %>
-		<input type="hidden" name="schema" value="<%= sob.schema %>" />
-		<!--
-	     	<tr>
-            <td valign="top">Organizational Database: <a href="helptext/org_database.jsp" target="helpinright">(?):</a></td>
-              <td valign="top">
-              <input type=hidden name="schema_id" value="">
-			  <input type=hidden name="uri" value="">
-			</td>
-            </tr>
-         -->
-     <% } else { %>
-<tr>
-            <td valign="top"><strong>Organizational Database <a href="simulation_user_admin/helptext/org_database.jsp" target="helpinright">(?)</a>:</strong></td>
-              <td valign="top">
-              <select name="schema_id" tabindex="8">
-			  <%
-			  	
-				List ghostList = SchemaInformationObject.getAll();
-			  
-			  	for (ListIterator<SchemaInformationObject> li = ghostList.listIterator(); li.hasNext();) {
-            		SchemaInformationObject this_sg = (SchemaInformationObject) li.next();
-				%>
-				<option value="<%= this_sg.getId() %>"><%= this_sg.getSchema_organization() %></option>
-			<% } %>
-              </select>              </td>
-			</tr>  
-     <% }  // end if if schema_id was null %>
+     <tr>
+       <td valign="top"><strong>A little about yourself?</strong></td>
+       <td valign="top"><label>
+         <textarea tabindex="3" name="applicant_background"><%= iaObject.getApplicantBackground() %></textarea>
+       </label></td>
+     </tr>
+     <tr>
+       <td valign="top"><strong>Where do you see yourself running the simulation? </strong></td>
+       <td valign="top"><textarea tabindex="4" name="applicant_desires"><%= iaObject.getApplicantDesiredUse() %></textarea></td>
+     </tr>  
           <tr>
             <td valign="top"><strong>
-Captcha Code <a href="simulation_user_admin/helptext/captcha_code.jsp"  target="helpinright">(?)</a>: </strong></td>
+Captcha Code?</strong></td>
             <td valign="top">
-              <input name="captchacode" type="text" size="4" maxlength="4" tabindex="9" />
+              <input name="captchacode" type="text" size="4" maxlength="4" tabindex="5" />
             
 			<script>
  function resetCaptcha()
  {
-  document.getElementById('imgCaptcha').src = 'captchaimage.jsp?' + Math.random();
+  document.getElementById('imgCaptcha').src = 'simulation_user_admin/captchaimage.jsp?' + Math.random();
  }
 </script>
 <div>
@@ -154,9 +112,8 @@ Captcha Code <a href="simulation_user_admin/helptext/captcha_code.jsp"  target="
             <td valign="top">&nbsp;</td>
               <td valign="top">
                 
-                <input type="hidden" name="sending_page" value="create_users" /> 
-                <input type="hidden" name="ua_id" value="<%= sob.uaId %>" />
-                <input type="submit" name="command" value="Register" tabindex="10"   />			</td>
+                <input type="hidden" name="sending_page" value="instructor_application" /> 
+                <input type="submit" name="command" value="Apply" tabindex="6"   />			</td>
             </tr>
           </table>
         </form>

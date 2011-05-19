@@ -7,18 +7,6 @@
 	org.usip.osp.persistence.*" 
 	errorPage="/error.jsp" %>
 
-<%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-	
-	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
-		return;
-	}
-		
-	//////////////////////////////////
-	List simList = Simulation.getAll(afso.schema);
-
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -61,34 +49,32 @@
               <br />
       <blockquote>
         
-        <p>Below are all of the currently published Simulations for your organization.</p>
-          <p>Click on the name of the simulation template to begin preparing a play 
-            session.</p>
+        <p>Below are all of the  published Simulations for your organization.</p>
           <table width="100%" border="1" cellspacing="0" cellpadding="2">
             <tr valign="top"> 
               <td width="15%"><strong>Name / Version</strong></td>
-              <td width="16%"><strong>Author</strong></td>
               <td width="16%"><strong>Keywords</strong></td>
-              <td width="16%"><strong>Publish Date</strong></td>
+              <td width="16%"># Players </td>
+              <td width="16%">Aprox. Play Time </td>
               <td width="16%"><strong>Review</strong></td>
               <td width="16%"><strong>User Comments</strong></td>
             </tr>
             <% 
 		  
-		  java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd yyyy");
-		  
-		  for (ListIterator li = Simulation.getAllPublished(afso.schema).listIterator(); li.hasNext();) {
-			Simulation sim = (Simulation) li.next();
+			// Loop over schema
+			for (ListIterator si = SchemaInformationObject.getAll().listIterator(); si.hasNext();) {
+				SchemaInformationObject sio = (SchemaInformationObject) si.next();
 			
-			String pubDate = sdf.format(sim.getPublishDate());
+		  for (ListIterator li = Simulation.getAllExternallyPublished(sio.getSchema_name()).listIterator(); li.hasNext();) {
+			Simulation sim = (Simulation) li.next();
 			
 			%>
             <tr valign="top"> 
-              <td><a href="simulation_facilitation/facilitateweb.jsp?loadSim=true&amp;sim_id=<%= sim.getId() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
-              <td><%= sim.getCreation_org() %></td>
+              <td><a href="simulation_facilitation/facilitateweb.jsp?loadSim=true&amp;sim_id=<%= sim.getId() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %><br /><%= sim.getCreation_org() %></a></td>
               <td><%= sim.getListingKeyWords() %></td>
-              <td><%= pubDate %></td>
-              <td><a href="simulation_facilitation/facilitator_review_sim.jsp?loadSim=true&amp;sim_id=<%= sim.getId() %>">Review</a></td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td><a href="public_review_of_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
               <td><a href="simulation_facilitation/sim_ratings.jsp?sim_id=<%= sim.getId() %>">
                 <% if (true) { %>
                 None
@@ -97,9 +83,14 @@
                 <% } %>
                 </a>                </td>
             </tr>
-            <% } %>
+            	<% } // End of loop over sims in a schema %>
+			<% } // End of loop over schema %>
             </table>
-  <br>
+          <p>&nbsp;</p>
+          <h1>Access to Run </h1>
+          <p>Instructor access is required to run any of the above simulations. If you are interested in becoming an instructor on this platform, <a href="instructor_application.jsp">please click here</a>. </p>
+          <p><br>
+              </p>
       </blockquote>      <p align="center"></p>			</td>
 		</tr>
 		</table>	</td>

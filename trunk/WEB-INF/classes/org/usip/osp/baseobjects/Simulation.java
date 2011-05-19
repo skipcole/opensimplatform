@@ -164,8 +164,7 @@ public class Simulation implements ExportableObject, Comparable{
 	/** Flag to let instructors know it can be used. */
 	private boolean isInternallyPublished = false;
 	
-	/** Flag to let instructors know it can be used. */
-	@Column(name = "READYFORLISTING")
+	/** Flag to let web visitors know it can be used. */
 	private boolean isExternallyPublished = false;
 
 	@Column(name = "LISTINGKEYWORDS")
@@ -390,12 +389,29 @@ public class Simulation implements ExportableObject, Comparable{
 		return returnList;
 	}
 
-	public static List getAllPublished(String schema) {
+	/** Returns a list of simulations that have been internally published - instructors registered
+	 * on the platform will be able to run the simulation. */
+	public static List getAllInternallyPublished(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Simulation where READYFORLISTING = '1'") //$NON-NLS-1$
+				"from Simulation where isInternallyPublished = '1'") //$NON-NLS-1$
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
+	
+	/** Returns a list of simulations that have been externally published - web visitors
+	 * looking at a review of this platforms simulations will be able to see the sim in the library. */
+	public static List getAllExternallyPublished(String schema) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Simulation where isExternallyPublished = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -414,7 +430,7 @@ public class Simulation implements ExportableObject, Comparable{
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Simulation where READYFORLISTING = '1' and allowPlayerAutoreg = '1'") //$NON-NLS-1$
+				"from Simulation where isInternallyPublished = '1' and allowPlayerAutoreg = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -627,12 +643,20 @@ public class Simulation implements ExportableObject, Comparable{
 		this.copyrightString = copyright_string;
 	}
 
-	public boolean isReadyForPublicListing() {
+	public boolean isExternallyPublished() {
 		return this.isExternallyPublished;
 	}
+	
+	public void setExternallyPublished(boolean isExternallyPublished) {
+		this.isExternallyPublished = isExternallyPublished;
+	}
 
-	public void setReadyForPublicListing(boolean isReadyForPublicListing) {
-		this.isExternallyPublished = isReadyForPublicListing;
+	public boolean isInternallyPublished() {
+		return isInternallyPublished;
+	}
+
+	public void setInternallyPublished(boolean isInternallyPublished) {
+		this.isInternallyPublished = isInternallyPublished;
 	}
 
 	public String getListingKeyWords() {

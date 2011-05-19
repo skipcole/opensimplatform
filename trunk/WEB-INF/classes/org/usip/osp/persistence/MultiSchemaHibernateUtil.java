@@ -424,6 +424,9 @@ public class MultiSchemaHibernateUtil {
 	 */
 	public static void addRootSchemaClasses(AnnotationConfiguration ac) {
 		
+		
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorApplication.class);
+		
 		ac.addAnnotatedClass(org.usip.osp.persistence.UILanguageObject.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.BaseUser.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.OSPErrors.class);

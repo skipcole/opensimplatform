@@ -425,25 +425,30 @@ public class ObjectPackager {
 				BaseSimSection bss = BaseSimSection.getById(schema, thisBaseId
 						.toString());
 
-				if (bss.getClass().getName().equalsIgnoreCase(
-						BaseSimSection.class.getName())) {
-					bss.setTransitId(bss.getId());
-					bss.setId(null);
-					returnString += xstream.toXML(bss)
-							+ USIP_OSP_Util.lineTerminator;
-				} else if (bss.getClass().getName().equalsIgnoreCase(
-						CustomizeableSection.class.getName())) {
+				if (bss != null) {
+					if (bss.getClass().getName().equalsIgnoreCase(
+							BaseSimSection.class.getName())) {
+						bss.setTransitId(bss.getId());
+						bss.setId(null);
+						returnString += xstream.toXML(bss)
+								+ USIP_OSP_Util.lineTerminator;
+					} else if (bss.getClass().getName().equalsIgnoreCase(
+							CustomizeableSection.class.getName())) {
 
-					bss = null;
-					CustomizeableSection cbss = CustomizeableSection.getById(
-							schema, thisBaseId.toString());
-					cbss.setTransitId(cbss.getId());
-					cbss.setId(null);
-					returnString += xstream.toXML(cbss)
-							+ USIP_OSP_Util.lineTerminator;
+						bss = null;
+						CustomizeableSection cbss = CustomizeableSection
+								.getById(schema, thisBaseId.toString());
+						cbss.setTransitId(cbss.getId());
+						cbss.setId(null);
+						returnString += xstream.toXML(cbss)
+								+ USIP_OSP_Util.lineTerminator;
+					} else {
+						Logger.getRootLogger().debug(
+								"Warning in Object Packager. Unknown object."); //$NON-NLS-1$
+					}
 				} else {
-					Logger.getRootLogger().debug(
-							"Warning in Object Packager. Unknown object."); //$NON-NLS-1$
+					// TODO 
+					// Store internal error that bss is null
 				}
 			}
 
