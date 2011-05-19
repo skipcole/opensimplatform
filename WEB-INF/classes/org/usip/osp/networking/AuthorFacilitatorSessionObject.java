@@ -3199,13 +3199,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			Simulation sim = Simulation.getById(schema, sim_id);
 
 			if (command.equalsIgnoreCase("Publish It!")) {
-				sim.setReadyForPublicListing(true);
+				sim.setExternallyPublished(true);
 				sim.setListingKeyWords(sim_key_words);
 				sim.setPublishDate(new java.util.Date());
 			}
 
 			else if (command.equalsIgnoreCase("Un - Publish It!")) {
-				sim.setReadyForPublicListing(false);
+				sim.setExternallyPublished(false);
 				sim.setListingKeyWords(sim_key_words);
 				sim.setPublishDate(null);
 			}

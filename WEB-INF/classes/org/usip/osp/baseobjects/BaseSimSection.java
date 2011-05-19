@@ -573,8 +573,6 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(schema).get(BaseSimSection.class,
 				new Long(the_id));
-
-		Logger.getRootLogger().debug("this bss can read: " + bss.isConfers_read_ability()); //$NON-NLS-1$
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return bss;

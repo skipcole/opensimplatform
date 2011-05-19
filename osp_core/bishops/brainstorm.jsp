@@ -85,7 +85,7 @@
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<p align="center">&nbsp;</p>
+<p align="center">This needs to get moved into an Nx2 column page. </p>
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <tr>
     <td width="50%" valign="top">Submitter</td>
@@ -110,5 +110,7 @@
   </label>
 </form>
 <p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+<p align="center">(Also need to move over <strong>Brainstorm 2 Needs</strong> documents) </p>
 </body>
 </html>
