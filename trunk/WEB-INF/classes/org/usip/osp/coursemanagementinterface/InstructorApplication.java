@@ -4,9 +4,10 @@ import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.USIP_OSP_Util;
-import org.usip.osp.networking.SessionObjectBase;
-import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.baseobjects.*;
+import org.usip.osp.communications.*;
+import org.usip.osp.networking.*;
+import org.usip.osp.persistence.*;
 
 import java.util.*;
 
@@ -44,6 +45,9 @@ public class InstructorApplication {
 	private Date applicationDate = new Date();
 	
 	private boolean emailSent = false;
+	
+	/** Flag to indicate that admin has processed this application. */
+	private boolean applicationProcessed = false;
 	
 	public InstructorApplication(){
 		applicationDate = new Date();
@@ -127,6 +131,20 @@ public class InstructorApplication {
 		this.emailSent = emailSent;
 	}
 	
+	public boolean isApplicationProcessed() {
+		return applicationProcessed;
+	}
+
+	public void setApplicationProcessed(boolean applicationProcessed) {
+		this.applicationProcessed = applicationProcessed;
+	}
+
+	/**
+	 * Checks to see if we should send this application and save it.
+	 * @param request
+	 * @param sob
+	 * @return
+	 */
 	public static InstructorApplication sendEmailAndSave(HttpServletRequest request, SessionObjectBase sob){
 		
 		InstructorApplication iaReturn = new InstructorApplication();
@@ -137,11 +155,6 @@ public class InstructorApplication {
 			
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("instructor_application")) ){
 			
-			String captchacode = USIP_OSP_Util.cleanNulls(request
-					.getParameter("captchacode"));
-			
-			System.out.println("c2: " + captchacode);
-			
 			String applicant_name = request.getParameter("applicant_name");
 			String applicant_email = request.getParameter("applicant_email");
 			String applicant_background = request.getParameter("applicant_background");
@@ -151,15 +164,68 @@ public class InstructorApplication {
 			iaReturn.setApplicantEmailAddress(applicant_email);
 			iaReturn.setApplicantBackground(applicant_background);
 			iaReturn.setApplicantDesiredUse(applicant_desires);
+			
+			if (!(iaReturn.hasEnoughData())){
+				sob.errorMsg += "All fields are required.<br/>";
+				sob.errorCode = SessionObjectBase.INSUFFICIENT_INFORMATION;
+				return iaReturn;
+			}
+			
+			
+			String captchacode = USIP_OSP_Util.cleanNulls(request
+					.getParameter("captchacode"));
+			
+			if ((captchacode == null) || (!(captchacode.equalsIgnoreCase(sob.captcha_code)))){
+				sob.errorMsg += "Incorrect Captcha Code<br/>";
+				sob.errorCode = SessionObjectBase.CAPTCHA_WRONG;
 
-			String message = "";
-		
-			//Emailer.quickPostMail(String schema, String to, "Instructor Application",
-			//		message, this.getApplicantEmailAddress(), String replyTo);
+			} else {
+				String message = "Dear Administrator, " + USIP_OSP_Util.lineTerminator;
+				message += "I would like to conduct simulations on your platform. " + USIP_OSP_Util.lineTerminator;
+				message += "A little more about me: " + iaReturn.getApplicantBackground()  + USIP_OSP_Util.lineTerminator;
+				message += "I would like to use this: " + iaReturn.getApplicantDesiredUse() + USIP_OSP_Util.lineTerminator;
+				message += "Sincerely," + USIP_OSP_Util.lineTerminator;
+				message += iaReturn.getApplicantName() + USIP_OSP_Util.lineTerminator;
+				message += iaReturn.getAdminsEmailAddress() + USIP_OSP_Util.lineTerminator;
+				
+				SchemaInformationObject sio = SchemaInformationObject.getFirstUpEmailServer();
+				
+				String to = sio.getEmailTechAddress();
+				
+				Emailer.quickDirectPostMailToAdmin(sio, to, "Instructor Application",
+						message, iaReturn.getApplicantEmailAddress(), iaReturn.getApplicantEmailAddress());
+				iaReturn.setEmailSent(true);
+				iaReturn.setAdminsEmailAddress(to);
+				
+				iaReturn.saveMe();
+			}
 		
 		}
 		
 		return iaReturn;
+	}
+	
+	/**
+	 * Looks at an application and verifies that all fields have been filled in.
+	 * 
+	 * @return
+	 */
+	public boolean hasEnoughData(){
+		
+		if ((this.getApplicantBackground() == null) || (this.getApplicantBackground().trim().length() == 0)){
+			return false;
+		}
+		if ((this.getApplicantDesiredUse() == null) || (this.getApplicantDesiredUse().trim().length() == 0)){
+			return false;
+		}
+		if ((this.getApplicantEmailAddress() == null) || (this.getApplicantEmailAddress().trim().length() == 0)){
+			return false;
+		}
+		if ((this.getApplicantName() == null) || (this.getApplicantName().trim().length() == 0)){
+			return false;
+		}
+		
+		return true;
 	}
 	
 }

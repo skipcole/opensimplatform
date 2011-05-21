@@ -161,6 +161,31 @@ public class Emailer {
 				new Vector<String> (), new Vector<String> ());
 		
 	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param to
+	 * @param subject
+	 * @param message
+	 * @param from
+	 * @param cc
+	 */
+	public static void quickDirectPostMailToAdmin(SchemaInformationObject sio, String to, String subject,
+			String message, String from, String cc) {
+		
+		String htmlMessage = message;
+		
+		Vector <String> toVector = new Vector<String>();
+		toVector.add(to);
+		
+		Vector <String> ccVector = new Vector<String>();
+		ccVector.add(cc);
+		
+		postMail(sio,  toVector,  subject, message,  htmlMessage,  from,  null, 
+				ccVector, new Vector<String> ());
+	}
+	
     /*
      * I copied this code from http://www.vipan.com/htdocs/javamail.html.
      * Not sure on the rights. Can remove it later if needed -- Skip
