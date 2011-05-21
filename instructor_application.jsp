@@ -60,13 +60,24 @@ body {
 		<tr>
 			<td width="120"><img src="Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
+			<% if (iaObject.isEmailSent() == true) {  %>
+			  <h1>Application Submitted!</h1>
+			  <p>Your application email has been sent to the adminstrator. You should also receive a copy.</p>
+              <p>Thank You!</p>
               <p>&nbsp;</p>
+              <p>&nbsp;</p>
+              <% } %>
               <h1>Instructor Application  </h1>
               <br />
 			
       <p>Please complete the form below to send an email to the adminster of this system indicating that you would like to be registered on this system and made an instructor. You will also be cc'd on this email.</p>
       <p>If your application is accepted and your made an instructor on this system, you will then be able to enroll your students in simulations hosted here and conduct games. It is highly recommended that before completing this application that you have completed the <a href="simulation_tutorials/index.jsp">instructor/facilitator tutorial</a>. </p>
-      <p>&nbsp; </p>
+     <p align="center" class="style1"><%= sob.errorMsg %></p>
+	  	<%
+			sob.errorMsg = "";
+			sob.errorCode = SessionObjectBase.ALL_GOOD;
+	
+		%>
       <p align="center" class="style1"></p>
       <form action="instructor_application.jsp" method="post" name="form1" id="form1">
 <table width="80%" border="1" cellspacing="0" cellpadding="0">
