@@ -104,7 +104,7 @@ public class ObjectPackager {
 		simBase.setSoftwareVersion(sim.getSoftwareVersion());
 		simBase.setVersion(sim.getVersion());
 		simBase.setTransitId(sim.getTransitId());
-
+		
 		String returnString = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<SIM_PACKAGE_OBJECT>" + USIP_OSP_Util.lineTerminator; //$NON-NLS-1$
 
 		returnString += "<OSP_VERSION>" + USIP_OSP_Properties.getRelease() + "</OSP_VERSION>" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -121,7 +121,12 @@ public class ObjectPackager {
 		// This packages the values directly associate with the simulation such
 		// as objectives and audience.
 		returnString += xstream.toXML(sim) + USIP_OSP_Util.lineTerminator;
-		;
+		
+		// Package the data associated with the planed play ideas
+		PlannedPlaySessionParameters ppsp = PlannedPlaySessionParameters.getById(schema, sim.getTransitId());
+		ppsp.setTransitId(sim.getTransitId());
+		ppsp.setId(null);
+		returnString += xstream.toXML(ppsp) + USIP_OSP_Util.lineTerminator;
 
 		returnString += packageActors(schema, sim.getTransitId(), xstream)
 				+ USIP_OSP_Util.lineTerminator;
@@ -172,82 +177,6 @@ public class ObjectPackager {
 
 			returnString += xstream.toXML(thisSection)
 					+ USIP_OSP_Util.lineTerminator;
-		}
-
-		return returnString;
-	}
-
-	/**
-	 * Right now this does documents, but we need to find a way to do it
-	 * generically for all objects that have been declared as simulation object
-	 * (by implementing the interface SimSectionDependentObject )
-	 * 
-	 * @param schema
-	 * @param sim_id
-	 * @param xstream
-	 * @return
-	 */
-	public static String aaaaapackageSimObjectInformation(String schema,
-			long sim_id, XStream xstream) {
-
-		String returnString = ""; //$NON-NLS-1$
-
-		// Keeps a list of items stored so we don't store the same item twice.
-		Hashtable previouslyStoredObjects = new Hashtable();
-
-		// Get dependency (bssdoa), Get object, add bssdoa xml, add object xml
-		// (if not added already)
-		for (ListIterator<BaseSimSectionDepObjectAssignment> li = BaseSimSectionDepObjectAssignment
-				.getSimDependencies(schema, sim_id).listIterator(); li
-				.hasNext();) {
-
-			BaseSimSectionDepObjectAssignment bssdoa = li.next();
-
-			bssdoa.setTransit_id(bssdoa.getId());
-			bssdoa.setId(null);
-
-			returnString += xstream.toXML(bssdoa)
-					+ USIP_OSP_Util.lineTerminator;
-
-			// We need to make sure that an object is not saved multiple times
-			// to the xml
-			SimSectionDependentObject depObj = BaseSimSectionDepObjectAssignment
-					.pullOutObject(schema, bssdoa);
-			Logger.getRootLogger().debug(depObj.getClass());
-			Logger.getRootLogger().debug(depObj.getId());
-
-			String hash_key_string = depObj.getClass() + "_" + depObj.getId(); //$NON-NLS-1$
-
-			String checkString = (String) previouslyStoredObjects
-					.get(hash_key_string);
-
-			Logger.getRootLogger().debug(
-					"hash_key_string was: " + hash_key_string); //$NON-NLS-1$
-			Logger.getRootLogger().debug("check string was: " + checkString); //$NON-NLS-1$
-
-			if (checkString == null) {
-
-				previouslyStoredObjects.put(hash_key_string, "set"); //$NON-NLS-1$
-				Logger.getRootLogger().debug(
-						"put hash_key_string: " + hash_key_string); //$NON-NLS-1$
-
-				depObj.setTransitId(depObj.getId());
-				depObj.setId(null);
-
-				returnString += xstream.toXML(depObj)
-						+ USIP_OSP_Util.lineTerminator;
-
-				// Some dependent objects (such as conversations) have sub
-				// objects.
-				if (depObj.getClass().equals(Conversation.class)) {
-					// Get list of conversation actors
-
-				} else if (depObj.getClass().equals(SharedDocument.class)) {
-					// Get list of shared document actor notification objects.
-
-				}
-			}
-
 		}
 
 		return returnString;
@@ -869,6 +798,17 @@ public class ObjectPackager {
 		simRead.setVersion(sim_version);
 
 		simRead.saveMe(schema);
+		
+		// Planned Play
+		String ppspString = getObjectFromFile(xmlText,
+				makeOpenTag(PlannedPlaySessionParameters.class), //$NON-NLS-1$
+				makeCloseTag(PlannedPlaySessionParameters.class)); //$NON-NLS-1$
+		
+		if ((ppspString != null) && (ppspString.trim().length() > 0)){
+			PlannedPlaySessionParameters ppsp = (PlannedPlaySessionParameters) xstream.fromXML(ppspString);;
+			ppsp.setId(simRead.getId());
+			ppsp.saveMe(schema);	
+		}
 
 		afso.sim_id = simRead.getId();
 

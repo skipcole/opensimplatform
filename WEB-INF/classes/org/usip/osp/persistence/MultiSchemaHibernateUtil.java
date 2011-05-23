@@ -231,7 +231,7 @@ public class MultiSchemaHibernateUtil {
 		initializeConnection(tempURL, config);
 
 		Logger.getRootLogger().warn("! root database "); //$NON-NLS-1$
-		addAdditionalSchemaClasses(config, schema);
+		addPluginSchemaClasses(config, schema);
 
 		return config;
 	}
@@ -304,7 +304,7 @@ public class MultiSchemaHibernateUtil {
 		new SchemaExport(config).create(true, true);
 	}
 	
-	public static void createAdditionalTables(SchemaInformationObject dbi) {
+	public static void createPluginTables(SchemaInformationObject dbi) {
 
 		Configuration config = MultiSchemaHibernateUtil.getConnForNewTables(dbi.getSchema_name());
 		new SchemaExport(config).create(true, true);
@@ -458,6 +458,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSection.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.CustomizeableSection.class);
+		ac.addAnnotatedClass(org.usip.osp.baseobjects.PlannedPlaySessionParameters.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimSet.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimSetAssignment.class);
 		ac.addAnnotatedClass(org.usip.osp.baseobjects.RunningSimulation.class);
@@ -528,7 +529,7 @@ public class MultiSchemaHibernateUtil {
 		Logger.getRootLogger().debug("classes added"); //$NON-NLS-1$
 	}
 	
-	public static void addAdditionalSchemaClasses(AnnotationConfiguration ac, String schema) {
+	public static void addPluginSchemaClasses(AnnotationConfiguration ac, String schema) {
 		// Check for Add-ons
 		List additionalClasses = BaseSimSection.getUniqSetOfDatabaseClassNames(schema);
 		

@@ -1624,7 +1624,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 		////////////////////////////////
 		
-		MultiSchemaHibernateUtil.createAdditionalTables(sio);
+		MultiSchemaHibernateUtil.createPluginTables(sio);
 
 
 		// Must create the new user in this schema
@@ -3188,6 +3188,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String sim_key_words = (String) request.getParameter("sim_key_words");
 		String auto_registration = (String) request
 				.getParameter("auto_registration");
+		
+		String publish_publicly = (String) request.getParameter("publish_publicly");
+		
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("publish_sim"))) {
@@ -3208,6 +3211,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				sim.setExternallyPublished(false);
 				sim.setListingKeyWords(sim_key_words);
 				sim.setPublishDate(null);
+			}
+			
+			
+			if ((publish_publicly != null)
+					&& (publish_publicly.equalsIgnoreCase("true"))) {
+				sim.setExternallyPublished(true);
+			} else {
+				sim.setExternallyPublished(false);
 			}
 
 			if ((auto_registration != null)
@@ -4166,6 +4177,19 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				nextPage = "create_simulation_planned_play_ideas.jsp";
 				break;
 			case SIM_PLANNED_PLAY_IDEAS:
+				String min_num_players = USIP_OSP_Util.cleanNulls((String) request.getParameter("min_num_players"));
+				String max_num_players = USIP_OSP_Util.cleanNulls((String) request.getParameter("max_num_players"));
+				String min_play_time = USIP_OSP_Util.cleanNulls((String) request.getParameter("min_play_time"));
+				String rec_play_time = USIP_OSP_Util.cleanNulls((String) request.getParameter("rec_play_time"));
+				
+				PlannedPlaySessionParameters ppsp = simulation.getPPSP(schema);
+				ppsp.setMinNumPlayers(min_num_players);
+				ppsp.setMaxNumPlayers(max_num_players);
+				ppsp.setMinPlayTime(min_play_time);
+				ppsp.setRecommendedPlayTime(rec_play_time);
+				ppsp.setPlannedPlayIdeas(sim_text);
+				ppsp.saveMe(schema);
+				
 				simulation.setPlannedPlayIdeas(sim_text);
 				nextPage = "create_simulation_phases.jsp";
 				break;
