@@ -69,9 +69,23 @@
               <td> 
                 <textarea name="sim_key_words"><%= simulation.getListingKeyWords() %></textarea></td>
                 </tr>
+			<tr>
+	          <td>Published Internally (?) </td>
+	          <td>&nbsp;</td>
+	          </tr>
+			  
 	        <tr>
-	          <td>Publish Publicly <a href="helptext/publish_publicly_help.jsp" target="helpinright">(?) </a></td>
-	          <td><input type="checkbox" name="auto_registration2" id="auto_registration2"  value="true"/></td>
+	          <td>Published Publicly <a href="helptext/publish_publicly_help.jsp" target="helpinright">(?) </a></td>
+	          <td>
+			  
+			  <input type="checkbox" name="publish_publicly" id="publish_publicly"  <%= USIP_OSP_Util.matchSelected( simulation.isExternallyPublished() , "value=\"true\"") %> />			  </td>
+	          </tr>
+
+	        <tr>
+	          <td>Release Date (?) </td>
+	          <td><label>
+	            <input type="text" name="textfield" />
+	          </label></td>
 	          </tr>
 	        <tr>
 	          <td>Allow Player Auto-Registration <a href="helptext/auto_registration_help.jsp" target="helpinright">(?)</a></td>
@@ -83,11 +97,7 @@
 	          <td>&nbsp;</td>
                   <td>
                     <input type="hidden" name="sending_page" value="publish_sim">
-                    <% if (simulation.isReadyForPublicListing()){ %>
-                    <input name="command" type="submit" id="submit_u" value="Un - Publish It!" /> 
-                    <% } else { %>
-                    <input name="command" type="submit" id="submit_p" value="Publish It!" />
-                    <% } %>              </td>
+                    <input name="command" type="submit" id="submit_p" value="Update" />                    </td>
                 </tr>
 	        </table>
 		    </form>
@@ -116,8 +126,12 @@
 			
 			String ready = "Under Development";
 			
-			if (sim.isReadyForPublicListing()){
+			if (sim.isInternallyPublished()){
 				ready = "Available for Use";
+				
+				if (sim.isExternallyPublished()) {
+					ready = "Externally Listed";
+				}
 			}
 			%>
         <tr valign="top"> 

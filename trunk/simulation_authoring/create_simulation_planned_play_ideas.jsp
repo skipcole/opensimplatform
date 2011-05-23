@@ -63,7 +63,33 @@
   			generate_wysiwyg('sim_text');
 		</script>
 	      </p>
-            <p> 
+	    <p>Frequently multiple game sessions can be play concurrently, one can have multiple simulation universes in which the players play, but for each game session, please place in the data below. </p>
+		
+		<%
+			PlannedPlaySessionParameters ppsp = simulation.getPPSP(afso.schema);
+		%>
+	    <table width="90%" border="1">
+          <tr>
+            <td>Minimum Number of Players</td>
+            <td><label>
+              <input type="text" name="min_num_players" value="<%= ppsp.getMinNumPlayers() %>" />
+            </label></td>
+          </tr>
+          <tr>
+            <td>Maximum Number of Players </td>
+            <td><input type="text" name="max_num_players" value="<%= ppsp.getMaxNumPlayers() %>" /></td>
+          </tr>
+          <tr>
+            <td>Minimum Amount of Play Time </td>
+            <td><input type="text" name="min_play_time" value="<%= ppsp.getMinPlayTime() %>" /></td>
+          </tr>
+          <tr>
+            <td>Recommended Play Time </td>
+            <td><input type="text" name="rec_play_time" value="<%= ppsp.getRecommendedPlayTime() %>" /></td>
+          </tr>
+        </table>
+	    <p>&nbsp;</p>
+	    <p> 
               <input type="hidden" name="sending_page" value="authoring_wizard_page" />
               <a href="browse_planned_play_ideas.jsp">Browse Planned Play Ideas from Other Simulations</a>
             <table width="100%" border="0">

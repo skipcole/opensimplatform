@@ -125,6 +125,10 @@ public class Simulation implements ExportableObject, Comparable{
 	@Column(name = "SIM_LEARN_OBJVS")
 	@Lob
 	private String learningObjvs = ""; //$NON-NLS-1$
+	
+	/** Hidden Objectives of this Simulation. */
+	@Lob
+	private String hiddenLearningObjectives = ""; //$NON-NLS-1$
 
 	/** Planned audience of this Simulation. */
 	@Column(name = "SIM_AUDIENCE")
@@ -142,6 +146,21 @@ public class Simulation implements ExportableObject, Comparable{
 
 	public void setPlannedPlayIdeas(String planned_play_ideas) {
 		this.plannedPlayIdeas = planned_play_ideas;
+	}
+	
+	/**
+	 * Returns the PlannedPlaySessionParameters associated with this simulation which,
+	 * for convenience, has the same id as this simulation.
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public PlannedPlaySessionParameters getPPSP(String schema){
+		if (this.id == null){
+			return new PlannedPlaySessionParameters();
+		} else {
+			return PlannedPlaySessionParameters.getById(schema, this.id);
+		}
 	}
 
 	/** AAR starter text for this Simulation. */
@@ -222,7 +241,14 @@ public class Simulation implements ExportableObject, Comparable{
 
 	}
 
-	
+	public String getHiddenLearningObjectives() {
+		return hiddenLearningObjectives;
+	}
+
+	public void setHiddenLearningObjectives(String hiddenLearningObjectives) {
+		this.hiddenLearningObjectives = hiddenLearningObjectives;
+	}
+
 	/**
 	 * Just used for occasional debugging.
 	 * 

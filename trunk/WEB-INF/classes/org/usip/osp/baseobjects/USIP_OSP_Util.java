@@ -139,6 +139,16 @@ public class USIP_OSP_Util {
 		}
 	}
 	
+	
+	public static String matchSelected(boolean a, String matchText) {
+
+		if (a) {
+			return matchText;
+		} else {
+			return "";
+		}
+	}
+	
 	/**
 	 * Converts HTML to HTML presentation code.
 	 * 
@@ -163,7 +173,7 @@ public class USIP_OSP_Util {
 		if (input == null){
 			return ""; //$NON-NLS-1$
 		} else {
-			return input;
+			return input.trim();
 		}
 	}
 	

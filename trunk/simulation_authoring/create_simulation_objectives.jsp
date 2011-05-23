@@ -66,7 +66,9 @@
   			generate_wysiwyg('sim_text');
 		</script>
             </p>
-            <p> 
+          <p>Comming Soon! Hidden objectives</p>
+          <p>getHiddenLearningObjectives</p>
+          <p> 
               <input type="hidden" name="sending_page" value="authoring_wizard_page" />
               <a href="browse_objectives.jsp">Browse Objectives from Other Simulations</a> </p>
             <table width="100%" border="0">
