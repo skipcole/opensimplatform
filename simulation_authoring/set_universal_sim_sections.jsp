@@ -77,14 +77,15 @@ function MM_swapImage() { //v3.0
 		BaseSimSection bss = (BaseSimSection) li.next(); %>
 		tab_headings["<%= bss.getId() %>"] = "<%= bss.getRec_tab_heading() %>";
 		sec_descs["<%= bss.getId() %>"] = "<%= bss.getDescription() %>";
-		the_sample_images["<%= bss.getId() %>"] = "<%= bss.getSample_image() %>";
-	<% 
+		
+		<% if (bss.isPluginSection()) { %>
+			the_sample_images["<%= bss.getId() %>"] = "../osp_plugins/" + "<%= bss.getPluginDirectory() %>"; + "/<%= bss.getSample_image() %>";
+		<% } else { %>
+			the_sample_images["<%= bss.getId() %>"] = "../simulation_section_information/images/" + "<%= bss.getSample_image() %>";
+		
+	<% } // end of else if not a plugin.
 	   } 
 	%>	
-	
-	tab_headings["new_section"] = "New Section";
-	sec_descs["new_section"] = "This can be any thing you want: any web page anywhere.";
-	the_sample_images["new_section"] = "new_section.png";
 	
 function loadFirstInfo(){
 
@@ -102,7 +103,7 @@ function loadInfo(dropdownlist){
 	
 	window.document.section_form.tab_heading.value = tab_headings[passedvalue];
 	document.getElementById('sec_desc').innerHTML = sec_descs[passedvalue];
-	window.document.getElementById('sample_image').src = "../simulation_section_information/images/" + the_sample_images[passedvalue];
+	window.document.getElementById('sample_image').src = the_sample_images[passedvalue];
 	
 	return true;
 

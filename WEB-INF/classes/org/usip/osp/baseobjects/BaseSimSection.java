@@ -14,22 +14,22 @@ import org.usip.osp.sharing.ObjectPackager;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.*;
+
 /**
  * This class represents sections that can be given to an actor at any given
  * phase of the game.
- *
+ * 
  */
-/* 
- *         This file is part of the USIP Open Simulation Platform.<br>
+/*
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
- * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  */
 @Entity
 @Table(name = "BASE_SIM_SECTIONS")
@@ -44,9 +44,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 */
 	public static void main(String args[]) {
 
-		//BaseSimSection.readNewBaseSimSectionsFromXMLFiles("test");
-		
-		
+		// BaseSimSection.readNewBaseSimSectionsFromXMLFiles("test");
+
 		// BaseSimSection.readBaseSimSectionsFromXMLFiles();
 
 		/*
@@ -58,21 +57,22 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		CustomizeableSection bss = new CustomizeableSection();
 		bss.setConfers_read_ability(true);
 		bss.setBigString("<H1>Broadcast stuff</H1><p>words</p>"); //$NON-NLS-1$
-		
-		Logger.getRootLogger().debug("can read " + bss.isConfers_read_ability()); //$NON-NLS-1$
 
-		
-		 Logger.getRootLogger().debug("--------------------"); // //$NON-NLS-1$
-		 Logger.getRootLogger().debug(ObjectPackager.getObjectXML(bss));
+		Logger.getRootLogger()
+				.debug("can read " + bss.isConfers_read_ability()); //$NON-NLS-1$
 
-		 /* 
+		Logger.getRootLogger().debug("--------------------"); // //$NON-NLS-1$
+		Logger.getRootLogger().debug(ObjectPackager.getObjectXML(bss));
+
+		/*
 		 * int aliquot = 2; int numPrinted = 0; if (sss.length() > aliquot) {
 		 * while (numPrinted < sss.length()) { char[] c = new char[aliquot]; int
 		 * numToGet = aliquot; if ((sss.length() - numPrinted) < aliquot) {
-		 * numToGet = sss.length() - numPrinted; } Logger.getRootLogger().debug(numPrinted
-		 * + " " + numToGet); sss.getChars(numPrinted, numPrinted + numToGet, c,
-		 * 0); Logger.getRootLogger().debug(c); try { sss.wait(1000); } catch (Exception
-		 * e) { e.printStackTrace(); }
+		 * numToGet = sss.length() - numPrinted; }
+		 * Logger.getRootLogger().debug(numPrinted + " " + numToGet);
+		 * sss.getChars(numPrinted, numPrinted + numToGet, c, 0);
+		 * Logger.getRootLogger().debug(c); try { sss.wait(1000); } catch
+		 * (Exception e) { e.printStackTrace(); }
 		 * 
 		 * numPrinted += aliquot; } }
 		 */
@@ -80,23 +80,26 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	}
 
 	/**
-	 * Checks to see if a simulation section with the same creating organization, name and version 
-	 * has been loaded. If so, it returns the id of the section, else it returns null.
+	 * Checks to see if a simulation section with the same creating
+	 * organization, name and version has been loaded. If so, it returns the id
+	 * of the section, else it returns null.
+	 * 
 	 * @param schema
 	 * @param bss
 	 * @return
 	 */
-	public static Long checkInstalled(String schema, BaseSimSection bss){
-		
+	public static Long checkInstalled(String schema, BaseSimSection bss) {
+
 		BaseSimSection correspondingBss = null;
-		
+
 		try {
-			correspondingBss = getByName(schema, bss.creatingOrganization, bss.uniqueName, bss.version);
-		} catch (Exception e){
+			correspondingBss = getByName(schema, bss.creatingOrganization,
+					bss.uniqueName, bss.version);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		if (correspondingBss == null){
+
+		if (correspondingBss == null) {
 			return null;
 		} else {
 			return correspondingBss.getId();
@@ -105,6 +108,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 	/**
 	 * Returns true if string passed in starts with a letter.
+	 * 
 	 * @param s
 	 * @return
 	 */
@@ -123,9 +127,10 @@ public class BaseSimSection implements Comparable, ExportableObject {
 			return true;
 		}
 	}
-	
+
 	/**
-	 * Reads the simulation sections from xml files, but does not save them to the database.
+	 * Reads the simulation sections from xml files, but does not save them to
+	 * the database.
 	 * 
 	 * @param schema
 	 * @return Returns a string indicating success, or not.
@@ -134,7 +139,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	public static List screenBaseSimSectionsFromXMLFiles(String schema) {
 
 		ArrayList returnList = new ArrayList();
-		
+
 		// The set of base simulation sections are read out of
 		// XML files stored in the simulation_section_information directory.
 
@@ -143,14 +148,16 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		File locDir = new File(fileLocation);
 
 		if (locDir == null) {
-			Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
+			Logger.getRootLogger().debug(
+					"Problem finding files at " + fileLocation); //$NON-NLS-1$
 			return returnList;
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
+				Logger.getRootLogger().debug(
+						"Problem finding files at " + fileLocation); //$NON-NLS-1$
 				return returnList;
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
@@ -161,10 +168,12 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 						try {
 							String fullFileLoc = fileLocation + fName;
-							returnList.add(BaseSimSection.readAheadXML(schema, files[ii], fullFileLoc));
-							
+							returnList.add(BaseSimSection.readAheadXML(schema,
+									files[ii], fullFileLoc));
+
 						} catch (Exception e) {
-							Logger.getRootLogger().debug("problem reading in file " + fName); //$NON-NLS-1$
+							Logger.getRootLogger().debug(
+									"problem reading in file " + fName); //$NON-NLS-1$
 							Logger.getRootLogger().debug(e.getMessage());
 						}
 					}
@@ -174,8 +183,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 			return returnList;
 		} // end of if found files.
-	} // end of method 
-
+	} // end of method
 
 	/**
 	 * Reads the simulation sections from xml files.
@@ -184,45 +192,71 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * @return Returns a string indicating success, or not.
 	 * 
 	 */
-	public static String readBaseSimSectionsFromXMLFiles(String schema) {
+	public static String readBaseSimSectionsFromXMLFiles(String schema, String fileLocation) {
 
 		// The set of base simulation sections are read out of
 		// XML files stored in the simulation_section_information directory.
-
-		String fileLocation = FileIO.getBase_section_web_dir();
 
 		Logger.getRootLogger().debug("Looking for files at: " + fileLocation); //$NON-NLS-1$
 
 		File locDir = new File(fileLocation);
 
+		File files[] = getFilesFromDirectory(fileLocation, locDir, ".xml");
+
+		for (int ii = 0; ii < files.length; ii++) {
+
+			String fName = files[ii].getName();
+			
+			try {
+				readInXMLFile(schema, files[ii]);
+			} catch (Exception e) {
+				Logger.getRootLogger()
+						.debug("problem reading in file " + fName); //$NON-NLS-1$
+				Logger.getRootLogger().debug(e.getMessage());
+			}
+		}
+
+		return "Read in Base Simulation Section Information."; //$NON-NLS-1$
+	}
+
+	public static File[] getFilesFromDirectory(String fileLocation,
+			File locDir, String fileTypes) {
+		
+		
+		ArrayList tempList = new ArrayList();
+
 		if (locDir == null) {
-			return ("Problem finding files at " + fileLocation); //$NON-NLS-1$
+			return null;
+			// TODO toss error
+			// return null
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				return ("Problem finding files at " + fileLocation); //$NON-NLS-1$
+				return null;
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
 					String fName = files[ii].getName();
-
-					if (fName.endsWith(".xml")) { //$NON-NLS-1$
-
-						try {
-							readInXMLFile(schema, files[ii]);
-						} catch (Exception e) {
-							Logger.getRootLogger().debug("problem reading in file " + fName); //$NON-NLS-1$
-							Logger.getRootLogger().debug(e.getMessage());
-						}
+					if (fName.endsWith(fileTypes)){
+						tempList.add(files[ii]);
 					}
-
 				}
 			}
+			
+			File returnFiles[] = new File[tempList.size()];
+			
+			int ii = 0;
+			for (ListIterator<File> bi = tempList.listIterator(); bi.hasNext();) {
+				File bid = bi.next();
+				returnFiles[ii] = bid;
+				++ii;
+			}
 
-			return "Read in Base Simulation Section Information."; //$NON-NLS-1$
+			return returnFiles;
 		}
+
 	}
 
 	/**
@@ -235,40 +269,44 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
-	
+
 	/**
-	 * Removes a base simulation section.
-	 * TODO - should check to see if things are using it ?
+	 * Removes a base simulation section. TODO - should check to see if things
+	 * are using it ?
+	 * 
 	 * @param schema
 	 * @param the_id
 	 */
 	public static void removeBSS(String schema, String the_id) {
-		
+
 		BaseSimSection bss = BaseSimSection.getById(schema, the_id);
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).delete(bss);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
-	
+
 	/**
 	 * Returns an object from an xml file without saving it.
+	 * 
 	 * @param schema
 	 * @param thisFile
 	 * @param customLibName
 	 * @return
 	 */
-	public static Object readAheadXML(String schema, File thisFile, String fullFileLoc) {
+	public static Object readAheadXML(String schema, File thisFile,
+			String fullFileLoc) {
 
 		String fullBSS = FileIO.getFileContents(thisFile);
 
 		Object bRead = unpackageXML(fullBSS);
-		
+
 		BaseSimSection bss = (BaseSimSection) bRead;
-		
-		// Using the directory field temporarily just to pass back location on where the file read is.
+
+		// Using the directory field temporarily just to pass back location on
+		// where the file read is.
 		bss.setDirectory(fullFileLoc);
-		
+
 		return bss;
 	}
 
@@ -293,7 +331,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		}
 	}
-	
+
 	/**
 	 * Reads an object from an XML file and saves it to the database.
 	 * 
@@ -306,7 +344,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		BaseSimSection bRead = unpackageXML(fullBSS);
 		bRead.setId(the_id);
-		
+
 		if (bRead != null) {
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -315,7 +353,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param xmlString
@@ -418,18 +456,50 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	protected String cust_lib_name = ""; //$NON-NLS-1$
 
 	/**
-	 * Flag to indicate if this is not an installed section, but one an author has created. 
+	 * Flag to indicate if this is not an installed section, but one an author
+	 * has created.
 	 */
 	protected boolean authorGeneratedSimulationSection = false;
-	
+
 	public boolean isAuthorGeneratedSimulationSection() {
 		return authorGeneratedSimulationSection;
 	}
 
-	public void setAuthorGeneratedSimulationSection(boolean authorGeneratedSimulationSection) {
+	public void setAuthorGeneratedSimulationSection(
+			boolean authorGeneratedSimulationSection) {
 		this.authorGeneratedSimulationSection = authorGeneratedSimulationSection;
 	}
 	
+	private boolean isPluginSection = false;
+	
+	public boolean isPluginSection() {
+		return isPluginSection;
+	}
+
+	public void setPluginSection(boolean isPluginSection) {
+		this.isPluginSection = isPluginSection;
+	}
+	
+	private String pluginDirectory = "";
+	
+	public String getPluginDirectory() {
+		return pluginDirectory;
+	}
+
+	public void setPluginDirectory(String pluginDirectory) {
+		this.pluginDirectory = pluginDirectory;
+	}
+	
+	private String pluginVersion = "";
+	
+	public String getPluginVersion() {
+		return pluginVersion;
+	}
+
+	public void setPluginVersion(String pluginVersion) {
+		this.pluginVersion = pluginVersion;
+	}
+
 	/**
 	 * Returns all control base sim sections.
 	 * 
@@ -440,8 +510,10 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from BaseSimSection where authorGeneratedSimulationSection = '1' ").list(); //$NON-NLS-1$
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from BaseSimSection where authorGeneratedSimulationSection = '1' ").list(); //$NON-NLS-1$
 
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
@@ -473,16 +545,24 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * send the actor id, don't send the user id.
 	 */
 	protected String sendString = ""; //$NON-NLS-1$
-	
-	/** Indicates if we should specifically send the Running Simulation Id to this external section. */
+
+	/**
+	 * Indicates if we should specifically send the Running Simulation Id to
+	 * this external section.
+	 */
 	protected boolean sendRsId = false;
-	
-	/** Indicates if we should specifically send the Actor Id to this external section. */
+
+	/**
+	 * Indicates if we should specifically send the Actor Id to this external
+	 * section.
+	 */
 	protected boolean sendActorId = false;
-	
-	/** Indicates if we should specifically send the User Id to this external section. */
+
+	/**
+	 * Indicates if we should specifically send the User Id to this external
+	 * section.
+	 */
 	protected boolean sendUserId = false;
-	
 
 	public boolean isSendRsId() {
 		return sendRsId;
@@ -522,8 +602,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * @param rec_tab_heading
 	 * @param description
 	 */
-	public BaseSimSection(String schema, String url, String directory, String page_file_name, String rec_tab_heading,
-			String description) {
+	public BaseSimSection(String schema, String url, String directory,
+			String page_file_name, String rec_tab_heading, String description) {
 
 		this.url = url;
 		this.directory = directory;
@@ -547,7 +627,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
+				schema).createQuery(
 				"from BaseSimSection where DTYPE='BaseSimSection'").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -571,8 +652,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	public static BaseSimSection getById(String schema, String the_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil.getSession(schema).get(BaseSimSection.class,
-				new Long(the_id));
+		BaseSimSection bss = (BaseSimSection) MultiSchemaHibernateUtil
+				.getSession(schema).get(BaseSimSection.class, new Long(the_id));
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return bss;
@@ -581,6 +662,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 	/**
 	 * Returns a sorted list of all base and customized sections
+	 * 
 	 * @param schema
 	 * @return
 	 */
@@ -589,7 +671,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection' OR DTYPE='CustomizeableSection'"; //$NON-NLS-1$ //$NON-NLS-2$
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
+				schema).createQuery(queryString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -607,7 +690,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection'"; //$NON-NLS-1$ //$NON-NLS-2$
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString).list();
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
+				schema).createQuery(queryString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -626,8 +710,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		String queryString = "from BaseSimSection where " + " DTYPE='CustomizeableSection'"; //$NON-NLS-1$ //$NON-NLS-2$
 
-		List<CustomizeableSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString)
-				.list();
+		List<CustomizeableSection> returnList = MultiSchemaHibernateUtil
+				.getSession(schema).createQuery(queryString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -644,8 +728,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from BaseSimSection").list(); //$NON-NLS-1$
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
+				schema).createQuery("from BaseSimSection").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -666,8 +750,10 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from BaseSimSection where control_section = '1' order by BASE_SIMSEC_ID").list(); //$NON-NLS-1$
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from BaseSimSection where control_section = '1' order by BASE_SIMSEC_ID").list(); //$NON-NLS-1$
 
 		if (returnList == null) {
 			returnList = new ArrayList<BaseSimSection>();
@@ -803,14 +889,17 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * @param rec_tab_name
 	 * @return
 	 */
-	public static BaseSimSection getByRecommendedTagHeading(String schema, String rec_tab_name) {
+	public static BaseSimSection getByRecommendedTagHeading(String schema,
+			String rec_tab_name) {
 
 		BaseSimSection bss = null;
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from BaseSimSection where BASE_TAB_HEADING = '" + rec_tab_name + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from BaseSimSection where BASE_TAB_HEADING = '" + rec_tab_name + "'").list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 		if (returnList != null) {
 			bss = returnList.get(0);
@@ -830,23 +919,22 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * @param version
 	 * @return
 	 */
-	public static BaseSimSection getByName(String schema, String creatingOrganization, String uniqueName, String version) {
-		
+	public static BaseSimSection getByName(String schema,
+			String creatingOrganization, String uniqueName, String version) {
+
 		BaseSimSection bss = null;
-		
-		String queryString = "from BaseSimSection where creatingOrganization = :creatingOrganization " 
-		+ " AND uniqueName = :uniqueName AND version = :version "; //$NON-NLS-1$
+
+		String queryString = "from BaseSimSection where creatingOrganization = :creatingOrganization "
+				+ " AND uniqueName = :uniqueName AND version = :version "; //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(queryString)
-			.setString("creatingOrganization", creatingOrganization)
-			.setString("uniqueName", uniqueName)
-			.setString("version", version)
-			.list();
+		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
+				schema).createQuery(queryString).setString(
+				"creatingOrganization", creatingOrganization).setString(
+				"uniqueName", uniqueName).setString("version", version).list();
 
-		
-		if ((returnList != null) && (returnList.size() > 0)){
+		if ((returnList != null) && (returnList.size() > 0)) {
 			bss = returnList.get(0);
 			return bss;
 		}
@@ -856,35 +944,39 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	}
 
 	public String getVersionInformation() {
-		return this.creatingOrganization + this.uniqueName + " version: " + this.version; //$NON-NLS-1$
+		return this.creatingOrganization + this.uniqueName
+				+ " version: " + this.version; //$NON-NLS-1$
 	}
 
-	public void setSendFields(String send_rsid_info, String send_actor_info, String send_user_info) {
-		
+	public void setSendFields(String send_rsid_info, String send_actor_info,
+			String send_user_info) {
 
-		if ((send_rsid_info != null) && (send_rsid_info.equalsIgnoreCase("true"))) {
+		if ((send_rsid_info != null)
+				&& (send_rsid_info.equalsIgnoreCase("true"))) {
 			this.sendRsId = true;
 		} else {
 			this.sendRsId = false;
 		}
 
-		if ((send_actor_info != null) && (send_actor_info.equalsIgnoreCase("true"))) {
+		if ((send_actor_info != null)
+				&& (send_actor_info.equalsIgnoreCase("true"))) {
 			this.sendActorId = true;
 		} else {
 			this.sendActorId = false;
 		}
 
-		if ((send_user_info != null) && (send_user_info.equalsIgnoreCase("true"))) {
+		if ((send_user_info != null)
+				&& (send_user_info.equalsIgnoreCase("true"))) {
 			this.sendUserId = true;
 		} else {
 			this.sendUserId = false;
 		}
 
 		setSendString();
-		
+
 	}
-	
-	public void setSendString(){
+
+	public void setSendString() {
 		String sendStringWork = "";
 
 		if (this.sendRsId) {
@@ -904,58 +996,65 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		} else {
 			sendStringWork += "0";
 		}
-		
+
 		this.sendString = sendStringWork;
 	}
-	
-	public String getFullPath(){
-		String returnString = this.getUrl() + this.getDirectory() + this.getPage_file_name();
-		
+
+	public String getFullPath() {
+		String returnString = this.getUrl() + this.getDirectory()
+				+ this.getPage_file_name();
+
 		return returnString;
 	}
-	
-    /** If this section requires its own set of tables to hold the data, they are found here in a
-     * comma separated list. */
-    private String databaseClassNames;
-    
-    public String getDatabaseClassNames() {
+
+	/**
+	 * If this section requires its own set of tables to hold the data, they are
+	 * found here in a comma separated list.
+	 */
+	private String databaseClassNames;
+
+	public String getDatabaseClassNames() {
 		return databaseClassNames;
 	}
 
 	public void setDatabaseClassNames(String databaseClassNames) {
 		this.databaseClassNames = databaseClassNames;
 	}
-	
+
 	/**
-	 * Gets a list of classes that are 
+	 * Gets a list of classes that are
+	 * 
 	 * @param schema
 	 * @return
 	 */
-	public static List <String> getUniqSetOfDatabaseClassNames(String schema){
-		
-		ArrayList <String> returnList = new ArrayList<String>();
-		
-		Hashtable <String, String> uniqList = new Hashtable<String, String>();
-		
-		for (ListIterator<BaseSimSection> bi = BaseSimSection.getAllBaseAndCustomizable(schema).listIterator(); bi.hasNext();) {
+	public static List<String> getUniqSetOfDatabaseClassNames(String schema) {
+
+		ArrayList<String> returnList = new ArrayList<String>();
+
+		Hashtable<String, String> uniqList = new Hashtable<String, String>();
+
+		for (ListIterator<BaseSimSection> bi = BaseSimSection
+				.getAllBaseAndCustomizable(schema).listIterator(); bi.hasNext();) {
 			BaseSimSection bid = bi.next();
 
-			if ((bid.getDatabaseClassNames() != null) && (bid.getDatabaseClassNames().trim().length() > 0)){
-				
-				StringTokenizer str = new StringTokenizer(bid.getDatabaseClassNames(), ",");
+			if ((bid.getDatabaseClassNames() != null)
+					&& (bid.getDatabaseClassNames().trim().length() > 0)) {
+
+				StringTokenizer str = new StringTokenizer(bid
+						.getDatabaseClassNames(), ",");
 
 				while (str.hasMoreTokens()) {
 					uniqList.put(str.nextToken().trim(), "set");
 				}
 			}
 		}
-		
+
 		// Take uniq list out of hashtable and put it in list.
 		for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
 			String key = (String) e.nextElement();
 			returnList.add(key);
 		}
-		
+
 		return returnList;
 
 	}

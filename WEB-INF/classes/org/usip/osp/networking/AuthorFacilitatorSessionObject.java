@@ -861,7 +861,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public void getAndLoad(HttpServletRequest request) {
+	public static void getAndLoad(HttpServletRequest request) {
 
 		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
 			String pname = (String) e.nextElement();
@@ -1532,19 +1532,15 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		schema = db_schema;
 
 		// ////////////////////////////////////////////////
-
-		String db_org = (String) request.getParameter("db_org");
-		String db_notes = (String) request.getParameter("db_notes");
-
-		String admin_first = (String) request.getParameter("admin_first");
-		String admin_middle = (String) request.getParameter("admin_middle");
-		String admin_last = (String) request.getParameter("admin_last");
-
-		String admin_full = USIP_OSP_Util.constructName(admin_first,
-				admin_middle, admin_last);
+		
+		DatabaseCreator.loadUpParameters(request);
 
 		String admin_pass = (String) request.getParameter("admin_pass");
 		String admin_email = (String) request.getParameter("admin_email");
+		
+		/*
+		String db_org = (String) request.getParameter("db_org");
+		String db_notes = (String) request.getParameter("db_notes");
 
 		String email_smtp = (String) request.getParameter("email_smtp");
 		String email_user = (String) request.getParameter("email_user");
@@ -1554,10 +1550,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String email_server_number = (String) request
 				.getParameter("email_server_number");
 
-		String email_status = checkEmailStatus(email_smtp, email_user,
+		String email_status = DatabaseCreator.checkEmailStatus(email_smtp, email_user,
 				email_pass, email_user_address);
-
-		String ps = MultiSchemaHibernateUtil.principalschema;
+		*/
 
 		if ((sending_page != null) && (cleandb != null)
 				&& (sending_page.equalsIgnoreCase("clean_db"))) {
@@ -1580,19 +1575,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			}
 		}
 
+		DatabaseCreator.loadUpParameters(request);
+		
 		// Fill SIO
-		SchemaInformationObject sio = new SchemaInformationObject();
-		sio.setSchema_name(db_schema);
-		sio.setSchema_organization(db_org);
-
-		sio.setNotes(db_notes);
-		sio.setEmail_smtp(email_smtp);
-		sio.setSmtp_auth_user(email_user);
-		sio.setSmtp_auth_password(email_pass);
-		sio.setEmail_archive_address(email_user_address);
-		sio.setEmailState(email_status);
-		sio.setEmailServerNumber(new Long(email_server_number));
-		Logger.getRootLogger().debug(sio.toString());
+		SchemaInformationObject sio = DatabaseCreator.fillSIO();
 
 		if (!(MultiSchemaHibernateUtil.testConn())) {
 			return ("<BR> Failed to create database connection to the database "
@@ -1601,11 +1587,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		// Store SIO if schema object of this name already exist, return
 		// warning.
-
+		
 		try {
-			MultiSchemaHibernateUtil.beginTransaction(ps, true);
-			MultiSchemaHibernateUtil.getSession(ps, true).saveOrUpdate(sio);
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(ps);
+			sio.saveMe();
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -1620,18 +1604,24 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String loadss = (String) request.getParameter("loadss");
 
 		if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
-			BaseSimSection.readBaseSimSectionsFromXMLFiles(schema);
+			BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema, FileIO.getBase_section_web_dir());
 		}
-		////////////////////////////////
+		///////////
 		
+		BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema, FileIO.getPlugin_dir());
 		MultiSchemaHibernateUtil.createPluginTables(sio);
 
+		String admin_first = (String) request.getParameter("admin_first");
+		String admin_middle = (String) request.getParameter("admin_middle");
+		String admin_last = (String) request.getParameter("admin_last");
+
+		String admin_full = USIP_OSP_Util.constructName(admin_first,
+				admin_middle, admin_last);
 
 		// Must create the new user in this schema
 		@SuppressWarnings("unused")
-		User user = new User(schema, admin_email, admin_pass, admin_first,
+		User user = new User(db_schema, admin_email, admin_pass, admin_first,
 				admin_last, admin_middle, admin_full, true, true, true);
-
 
 		// ///////////////////////////////////////////
 		// Test email functionality if SMTP information has been entered.
@@ -1639,7 +1629,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		if (sio.checkReqEmailInfoAndMaybeMarkDown()) {
 
-			String message = "This email is coming from your newly installed OSP Installation. Live long and prosper.";
+			String message = "This email is coming from your newly installed OSP Installation.";
 
 			Vector ccs = new Vector();
 			Vector bccs = new Vector();
@@ -1668,141 +1658,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return email_msg;
 
 	}
-
-	/**
-	 * Creates or updates a database based on the parameters passed in.
-	 * 
-	 * 
-	 * @param request
-	 * @return
-	 */
+	
 	public static String handleCreateOrUpdateDB(HttpServletRequest request,
 			Long adminUserId) {
-
-		String error_msg = "";
-
-		String sending_page = (String) request.getParameter("sending_page");
-		String command = (String) request.getParameter("command");
-
-		if ((sending_page == null) || (command == null)) {
-			return error_msg;
-		}
-
-		if (command.equalsIgnoreCase("Clear")) {
-			return error_msg;
-		}
-
-		SchemaInformationObject sio = new SchemaInformationObject();
-		if (command.equalsIgnoreCase("Update")) {
-			String sio_id = (String) request.getParameter("sio_id");
-			sio = SchemaInformationObject.getById(new Long(sio_id));
-		}
-
-		if ((command.equalsIgnoreCase("Update"))
-				|| (command.equalsIgnoreCase("Create"))) {
-			String db_schema = (String) request.getParameter("db_schema");
-			String db_org = (String) request.getParameter("db_org");
-			String db_notes = (String) request.getParameter("db_notes");
-			String email_smtp = (String) request.getParameter("email_smtp");
-			String email_user = (String) request.getParameter("email_user");
-			String email_pass = (String) request.getParameter("email_pass");
-			String email_user_address = (String) request
-					.getParameter("email_user_address");
-
-			String email_tech_address = (String) request
-					.getParameter("email_user_address");
-			String email_noreply_address = (String) request
-					.getParameter("email_tech_address");
-
-			String email_server_number = (String) request
-					.getParameter("email_server_number");
-			String email_status = checkEmailStatus(email_smtp, email_user,
-					email_pass, email_user_address);
-
-			// Fill SIO
-			sio.setSchema_name(db_schema);
-			sio.setSchema_organization(db_org);
-			sio.setNotes(db_notes);
-			sio.setEmail_smtp(email_smtp);
-			sio.setSmtp_auth_user(email_user);
-			sio.setSmtp_auth_password(email_pass);
-			sio.setEmailTechAddress(email_tech_address);
-			sio.setEmail_archive_address(email_user_address);
-			sio.setEmailNoreplyAddress(email_noreply_address);
-			sio.setEmailState(email_status);
-			sio.setEmailServerNumber(new Long(email_server_number));
-			Logger.getRootLogger().debug(sio.toString());
-
-			String ps = MultiSchemaHibernateUtil.principalschema;
-
-			if (!(MultiSchemaHibernateUtil.testConn())) {
-				error_msg += "<BR> Failed to create database connection";
-				return error_msg;
-			}
-
-			// Store SIO. If a schema object with the same name already exist,
-			// an error will be returned.
-
-			try {
-				MultiSchemaHibernateUtil.beginTransaction(ps, true);
-				MultiSchemaHibernateUtil.getSession(ps, true).saveOrUpdate(sio);
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(ps);
-			} catch (Exception e) {
-
-				error_msg = "Warning. Unable to create the database entry for this schema. <br />"
-						+ "This may indicate that it already has been created.";
-
-				e.printStackTrace();
-
-				return error_msg;
-			}
-
-			// Only if we are creating a new Schema Information Object will we
-			// recreate the database.
-			if (command.equalsIgnoreCase("Create")) {
-				MultiSchemaHibernateUtil.recreateDatabase(sio);
-
-				String loadss = (String) request.getParameter("loadss");
-
-				if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
-					BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema);
-				}
-			}
-
-			BaseUser bu = BaseUser.getByUserId(adminUserId);
-
-			// Create the admin in this schema
-			@SuppressWarnings("unused")
-			User user = new User(db_schema, bu.getUsername(), bu.getPassword(),
-					bu.getFirst_name(), bu.getLast_name(), bu.getMiddle_name(),
-					bu.getFull_name(), true, true, true);
-
-			error_msg = "database_created";
-
-		}
-		return error_msg;
-
+		
+		return DatabaseCreator.handleCreateOrUpdateDB(request, adminUserId);
+		
 	}
 
-	/**
-	 * Verify that all required fields have been entered for the email smtp
-	 * server.
-	 */
-	public static String checkEmailStatus(String email_smtp, String email_user,
-			String email_pass, String email_user_address) {
 
-		if ((email_smtp == null) || (email_user == null)
-				|| (email_pass == null) || (email_user_address == null)) {
-			return SchemaInformationObject.EMAIL_STATE_DOWN;
-		} else if ((email_smtp.trim().equalsIgnoreCase(""))
-				|| (email_user.trim().equalsIgnoreCase(""))
-				|| (email_pass.trim().equalsIgnoreCase(""))
-				|| (email_user_address.trim().equalsIgnoreCase(""))) {
-			return SchemaInformationObject.EMAIL_STATE_DOWN;
-		} else {
-			return SchemaInformationObject.EMAIL_STATE_UNVERIFIED;
-		}
-	}
+
 
 	/**
 	 * Recreates the root database that will hold information on the other
@@ -4258,10 +4123,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public String getSectionsList(HttpServletRequest request) {
 
 		String returnString = getBaseList(request);
-
-		// Link to the option that allows them to define a whole new web
-		// resource.
-		returnString += "<option value=\"new_section\" class=\"new_section\">* Create an Entirely New Section</option>";
 
 		List uncustomizedList = getUncustomizedSections(request);
 
