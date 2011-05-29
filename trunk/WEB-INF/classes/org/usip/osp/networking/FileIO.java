@@ -28,6 +28,7 @@ public class FileIO {
 	public static String archives_dir = "";
 	private static String actor_image_dir = ""; //$NON-NLS-1$
 	private static String base_section_web_dir = ""; //$NON-NLS-1$
+	private static String plugin_dir = ""; //$NON-NLS-1$
 	private static String model_dir = ""; //$NON-NLS-1$
 	private static String base_web_dir = ""; //$NON-NLS-1$
 	public static String packaged_sim_dir = ""; //$NON-NLS-1$
@@ -43,6 +44,7 @@ public class FileIO {
 				+ "database_archives" + File.separator;
 		base_section_web_dir = base_web_dir + "simulation_section_information"
 				+ File.separator;
+		plugin_dir = base_web_dir + "osp_plugins" + File.separator;
 		model_dir = base_web_dir + "simulation_model_information"
 				+ File.separator;
 		actor_image_dir = base_web_dir + "osp_core" + File.separator + "images"
@@ -283,6 +285,14 @@ public class FileIO {
 
 	public static void setBase_section_web_dir(String base_section_web_dir) {
 		FileIO.base_section_web_dir = base_section_web_dir;
+	}
+
+	public static String getPlugin_dir() {
+		return plugin_dir;
+	}
+
+	public static void setPlugin_dir(String pluginDir) {
+		plugin_dir = pluginDir;
 	}
 
 	/**

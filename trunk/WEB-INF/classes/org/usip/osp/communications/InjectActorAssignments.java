@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -52,6 +49,12 @@ public class InjectActorAssignments {
 		this.inject_id = inject_id;
 		
 		this.saveMe(schema);
+	}
+	
+	public static void main(String args[]){
+		System.out.println("hi");
+		InjectActorAssignments iaa = new InjectActorAssignments("test", new Long(1), new Long(1));
+		
 	}
 	
 	public void saveMe(String schema) {	

@@ -430,6 +430,8 @@ public class ObjectPackager {
 						.hasNext();) {
 					InjectActorAssignments targ = (InjectActorAssignments) liInjId
 							.next();
+					targ.setId(null);
+					
 					returnString += xstream.toXML(targ)
 							+ USIP_OSP_Util.lineTerminator;
 				}
@@ -1818,10 +1820,22 @@ public class ObjectPackager {
 
 			// Look up what the new actor id is in the database we are moving
 			// to.
-			iaa.setActor_id((Long) actorIdMappings.get(iaa.getActor_id()));
-			iaa.setInject_id((Long) injectMappings.get(iaa.getInject_id()));
+			
+			try {
+				Long newActorId = (Long) actorIdMappings.get(iaa.getActor_id());
+				//System.out.println("new Actor Id is " + newActorId);
+				
+				Long newInjectId = (Long) injectMappings.get(iaa.getInject_id());
+				//System.out.println("new inje Id is " + newInjectId);
+				
+				iaa.setActor_id(newActorId);
+				iaa.setInject_id(newInjectId);
 
-			iaa.saveMe(schema);
+				iaa.saveMe(schema);
+			} catch(Exception e){
+				System.out.println("error was here");
+			}
+
 
 			String restoreNote = "targeted actor " + iaa.getActor_id()
 					+ " for inject " + iaa.getInject_id();
