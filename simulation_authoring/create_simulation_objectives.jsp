@@ -60,14 +60,25 @@
       <form action="create_simulation_objectives.jsp" method="post" name="form2" id="form2">
         <blockquote>
           <p>
-            <textarea id="sim_text" name="sim_text" style="height: 710px; width: 710px;"><%= simulation.getLearning_objvs() %></textarea>
+            <textarea id="sim_text" name="sim_text" style="height: 300px; width: 710px;"><%= simulation.getLearning_objvs() %></textarea>
             
             <script language="javascript1.2">
+					wysiwygWidth = 710;
+					wysiwygHeight = 300;
   			generate_wysiwyg('sim_text');
 		</script>
             </p>
-          <p>Comming Soon! Hidden objectives</p>
-          <p>getHiddenLearningObjectives</p>
+          <h1>Hidden objectives</h1>
+          <p>If you want to hide some of the objectives of the simulation (so people perusing the objectives on a review page will not see them) put your true objectives here. </p>
+          <p>
+            <textarea id="sim_hidden_objs" name="sim_hidden_objs" style="height: 300px; width: 710px;"><%= simulation.getHiddenLearningObjectives() %></textarea>
+            
+            <script language="javascript1.2">
+					wysiwygWidth = 710;
+					wysiwygHeight = 300;
+  			generate_wysiwyg('sim_hidden_objs');
+		</script>
+            </p>
           <p> 
               <input type="hidden" name="sending_page" value="authoring_wizard_page" />
               <a href="browse_objectives.jsp">Browse Objectives from Other Simulations</a> </p>

@@ -34,13 +34,13 @@ public class GridDocCustomizer extends Customizer{
 	public void handleCustomizeSection(HttpServletRequest request, 
 			SessionObjectBase afso, CustomizeableSection cs) {
 
-		Logger.getRootLogger().debug("CastCustomizeableSection.handleCustomizeSection"); //$NON-NLS-1$
+		Logger.getRootLogger().debug("GridDocCustomizer.handleCustomizeSection"); //$NON-NLS-1$
 		
 		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
 		if ((save_results != null) && (save_results.equalsIgnoreCase("true"))) { //$NON-NLS-1$
 			
-			Logger.getRootLogger().debug("CastCustomizeableSection.handleCustomizeSection.save_results"); //$NON-NLS-1$
+			Logger.getRootLogger().debug("GridDocCustomizer.handleCustomizeSection.save_results"); //$NON-NLS-1$
 
 			cs.setBigString(request.getParameter("cs_bigstring"));
 			

@@ -1,8 +1,11 @@
 package org.usip.osp.plugins.griddoc;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.usip.osp.baseobjects.CustomizeableSection;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 /**
  * 
  */
@@ -95,12 +98,55 @@ public class GridPageData {
 	}
 
 
-	public static GridPageData loadPage(CustomizeableSection cs){
+	public static GridPageData loadPage(String schema, CustomizeableSection cs, Long simId, Long rsId){
 
 		GridPageData gpd = new GridPageData();
-		cs.getContents().get(GridDocCustomizer.KEY_FOR_NEW_COLUMN);
 		
-		return null;
+		// Load in number of cols
+		
+		// Load in number of rows
+		gpd.setNumRows(getNumRowsFromData(schema, simId, cs.getId(), rsId));
+		
+		return gpd;
+	}
+	
+	public static int getNumRowsFromData(String schema, Long simId, Long csId, Long rsId){
+		
+		//Select all rows where col = 0;
+		List rows = getRows(schema, simId, csId, rsId);
+		
+		// Get highest row number
+		
+		return 0;
+	}
+	
+	/**
+	 * Returns rows where col equals 0.
+	 * 
+	 * @param schema
+	 * @param simId
+	 * @param csId
+	 * @param rsId
+	 * @return
+	 */
+	public static List getRows(String schema, Long simId, Long csId, Long rsId){
+		
+		if ((rsId == null) || (simId == null) || (csId == null)){
+			return new ArrayList();
+		}
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from GridData where simId = :simId and csId = :csId and rsId = :rsId and colNum = 0") //$NON-NLS-1$
+				.setLong("simId", simId)
+				.setLong("csId", csId)
+				.setLong("rsId", rsId)
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
 	}
 	
 	

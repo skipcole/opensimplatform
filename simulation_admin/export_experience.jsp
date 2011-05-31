@@ -58,6 +58,7 @@
                         <li>Instructor Injects (I) </li>
                         <li>Player Responses to Injects (RT) (<span class="style1">work in progress</span>)</li>
                         <li>Student Reflections (R) (<span class="style1">work in progress</span>)</li>
+                        <li>Timeline of Phase Changes (P) (<span class="style1">work in progress</span>) </li>
                       </ul>
                     </li>
                     <li>Enter in information about this export (name, reason, etc.)</li>
@@ -104,7 +105,8 @@
                           <td valign="top"><strong>I</strong></td>
                           <td valign="top"><strong>R</strong></td>
                           <td valign="top"><strong>RT</strong></td>
-                          </tr>
+                          <td valign="top"><strong>P</strong></td>
+					      </tr>
 					      <%
 					  	List rsList = RunningSimulation.getAllForSim(afso.sim_id, afso.schema);	
 	
@@ -127,7 +129,8 @@
                           <td valign="top"><label>
                             <input type="checkbox" name="rt_<%= rs.getId() %>" value="true" />
                           </label></td>
-                          </tr>
+                          <td valign="top"><input type="checkbox" name="p_<%= rs.getId() %>" value="true" /></td>
+					      </tr>
 					      <%
 					  	} // end of loop over running simulations
 						%>

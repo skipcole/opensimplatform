@@ -192,7 +192,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * @return Returns a string indicating success, or not.
 	 * 
 	 */
-	public static String readBaseSimSectionsFromXMLFiles(String schema, String fileLocation) {
+	public static String readBaseSimSectionsFromXMLFiles(String schema,
+			String fileLocation) {
 
 		// The set of base simulation sections are read out of
 		// XML files stored in the simulation_section_information directory.
@@ -206,7 +207,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		for (int ii = 0; ii < files.length; ii++) {
 
 			String fName = files[ii].getName();
-			
+
 			try {
 				readInXMLFile(schema, files[ii]);
 			} catch (Exception e) {
@@ -221,8 +222,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 	public static File[] getFilesFromDirectory(String fileLocation,
 			File locDir, String fileTypes) {
-		
-		
+
 		ArrayList tempList = new ArrayList();
 
 		if (locDir == null) {
@@ -239,14 +239,14 @@ public class BaseSimSection implements Comparable, ExportableObject {
 				for (int ii = 0; ii < files.length; ii++) {
 
 					String fName = files[ii].getName();
-					if (fName.endsWith(fileTypes)){
+					if (fName.endsWith(fileTypes)) {
 						tempList.add(files[ii]);
 					}
 				}
 			}
-			
+
 			File returnFiles[] = new File[tempList.size()];
-			
+
 			int ii = 0;
 			for (ListIterator<File> bi = tempList.listIterator(); bi.hasNext();) {
 				File bid = bi.next();
@@ -469,9 +469,9 @@ public class BaseSimSection implements Comparable, ExportableObject {
 			boolean authorGeneratedSimulationSection) {
 		this.authorGeneratedSimulationSection = authorGeneratedSimulationSection;
 	}
-	
+
 	private boolean isPluginSection = false;
-	
+
 	public boolean isPluginSection() {
 		return isPluginSection;
 	}
@@ -479,9 +479,9 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	public void setPluginSection(boolean isPluginSection) {
 		this.isPluginSection = isPluginSection;
 	}
-	
+
 	private String pluginDirectory = "";
-	
+
 	public String getPluginDirectory() {
 		return pluginDirectory;
 	}
@@ -489,9 +489,9 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	public void setPluginDirectory(String pluginDirectory) {
 		this.pluginDirectory = pluginDirectory;
 	}
-	
+
 	private String pluginVersion = "";
-	
+
 	public String getPluginVersion() {
 		return pluginVersion;
 	}
@@ -1027,7 +1027,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * @param schema
 	 * @return
 	 */
-	public static List<String> getUniqSetOfDatabaseClassNames(String schema) {
+	public static List<String> getUniqSetOfDatabaseClassNames(String schema,
+			boolean justPlugins) {
 
 		ArrayList<String> returnList = new ArrayList<String>();
 
@@ -1037,14 +1038,16 @@ public class BaseSimSection implements Comparable, ExportableObject {
 				.getAllBaseAndCustomizable(schema).listIterator(); bi.hasNext();) {
 			BaseSimSection bid = bi.next();
 
-			if ((bid.getDatabaseClassNames() != null)
-					&& (bid.getDatabaseClassNames().trim().length() > 0)) {
+			if ((!(justPlugins)) || (bid.isPluginSection)) {
+				if ((bid.getDatabaseClassNames() != null)
+						&& (bid.getDatabaseClassNames().trim().length() > 0)) {
 
-				StringTokenizer str = new StringTokenizer(bid
-						.getDatabaseClassNames(), ",");
+					StringTokenizer str = new StringTokenizer(bid
+							.getDatabaseClassNames(), ",");
 
-				while (str.hasMoreTokens()) {
-					uniqList.put(str.nextToken().trim(), "set");
+					while (str.hasMoreTokens()) {
+						uniqList.put(str.nextToken().trim(), "set");
+					}
 				}
 			}
 		}

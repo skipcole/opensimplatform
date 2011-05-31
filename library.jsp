@@ -70,6 +70,9 @@
 			
 			PlannedPlaySessionParameters ppsp = sim.getPPSP(sio.getSchema_name());
 			
+			if (ppsp == null) {
+				ppsp = new PlannedPlaySessionParameters();
+			}
 			%>
             <tr valign="top"> 
               <td><a href="simulation_facilitation/facilitateweb.jsp?loadSim=true&amp;sim_id=<%= sim.getId() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %><br /><%= sim.getCreation_org() %></a></td>
