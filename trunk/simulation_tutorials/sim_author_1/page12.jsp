@@ -60,10 +60,10 @@ body {
    </p>
    <p align="center"><img src="images/tut_sim_auth_1_page12_sections_list.PNG" alt="sections list" width="200" height="819" border="1" /></p>
    <p>This list contains (from top to bottom) 4 different kinds of sections that one can add:</p>
-   <p>1.) Sections that require no customization.(white backgrounds)<br />
-     2.) A way to link to any web site anywhere.<br />
-     3.) Sections that require customization<br />
-     4.) Sections that have been customized, that have already been added.</p>
+   <p>1.) Sections that require no customization.(white backgrounds)
+   <br />
+     2.) Sections that require customization<br />
+   3.) Sections that have been customized, that have already been added.</p>
     
    <p align="left">While the list is long, it represents all of the things one can 'add' to a player's world. If, for example, one wants the players to be able to communicate via in-game email, one would add the 'Email' section. </p>
    <p>&nbsp;</p>

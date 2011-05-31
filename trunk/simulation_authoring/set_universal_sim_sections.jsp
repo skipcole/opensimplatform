@@ -79,7 +79,7 @@ function MM_swapImage() { //v3.0
 		sec_descs["<%= bss.getId() %>"] = "<%= bss.getDescription() %>";
 		
 		<% if (bss.isPluginSection()) { %>
-			the_sample_images["<%= bss.getId() %>"] = "../osp_plugins/" + "<%= bss.getPluginDirectory() %>"; + "/<%= bss.getSample_image() %>";
+			the_sample_images["<%= bss.getId() %>"] = "../osp_plugins/" + "<%= bss.getPluginDirectory() %>" + "/<%= bss.getSample_image() %>";
 		<% } else { %>
 			the_sample_images["<%= bss.getId() %>"] = "../simulation_section_information/images/" + "<%= bss.getSample_image() %>";
 		

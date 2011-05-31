@@ -1610,7 +1610,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		
 		BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema, FileIO.getPlugin_dir());
 		MultiSchemaHibernateUtil.createPluginTables(sio);
-
+		
 		String admin_first = (String) request.getParameter("admin_first");
 		String admin_middle = (String) request.getParameter("admin_middle");
 		String admin_last = (String) request.getParameter("admin_last");
@@ -1655,6 +1655,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		this.backPage = "install_confirmation.jsp?schema=" + schema
 				+ "&emailstatus=" + email_msg;
 
+
+		// Trying a reset here to get the plugin tables to be recognized at first go.
+		MultiSchemaHibernateUtil.resetSessionForSchema();
+		
 		return email_msg;
 
 	}
@@ -3055,6 +3059,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.getParameter("auto_registration");
 		
 		String publish_publicly = (String) request.getParameter("publish_publicly");
+		String publish_internally = (String) request.getParameter("publish_internally");
 		
 
 		if ((sending_page != null)
@@ -3066,16 +3071,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			Simulation sim = Simulation.getById(schema, sim_id);
 
-			if (command.equalsIgnoreCase("Publish It!")) {
+			if (command.equalsIgnoreCase("Update")) {
 				sim.setExternallyPublished(true);
 				sim.setListingKeyWords(sim_key_words);
 				sim.setPublishDate(new java.util.Date());
-			}
-
-			else if (command.equalsIgnoreCase("Un - Publish It!")) {
-				sim.setExternallyPublished(false);
-				sim.setListingKeyWords(sim_key_words);
-				sim.setPublishDate(null);
 			}
 			
 			
@@ -3085,6 +3084,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			} else {
 				sim.setExternallyPublished(false);
 			}
+			
+			if ((publish_internally != null)
+					&& (publish_internally.equalsIgnoreCase("true"))) {
+				sim.setInternallyPublished(true);
+			} else {
+				sim.setInternallyPublished(false);
+			}
+			
 
 			if ((auto_registration != null)
 					&& (auto_registration.equalsIgnoreCase("true"))) {
@@ -4031,6 +4038,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			switch (saveType) {
 			case SIM_OBJECTIVES:
 				simulation.setLearning_objvs(sim_text);
+				String sim_hidden_objs = request.getParameter("sim_hidden_objs");
+				simulation.setHiddenLearningObjectives(sim_hidden_objs);
 				nextPage = "create_simulation_audience.jsp";
 				break;
 			case SIM_AUDIENCE:

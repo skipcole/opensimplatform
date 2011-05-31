@@ -19,7 +19,9 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
+	GridPageData gpd = GridPageData.loadPage(pso.schema, cs, pso.sim_id, pso.getRunningSimId());
 	
+	Hashtable contents = cs.getContents();
 	
 %>
 <html>
@@ -32,14 +34,14 @@
 <h1><%= cs.getContents().get(GridDocCustomizer.KEY_FOR_PAGETITLE) %></h1>
 <table width="95%" border="1" cellspacing="2" cellpadding="2">
 <tr>
-<td valign="top"><%= cs.getContents().get(GridDocCustomizer.KEY_FOR_NEW_COLUMN) %></td>
-<% for (int ii = 1 ; ii <= numCols ; ++ii) { 
+<td valign="top"><%= cs.getContents().get(GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
+<% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
 
 	// loop over cols and get names
 	String thisColName = (String) contents.get("colname_" + pso.getRunningSimId() + "_" + ii); %>
 
 <td valign="top"><strong><%= thisColName %></strong>
-	<% if (ii == numCols) { %>
+	<% if (ii == gpd.getNumCols()) { %>
 	<form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
     <input type="hidden" name="col" value="<%= ii + "" %>">
@@ -51,13 +53,13 @@
 <% } %>
 </tr>
 
-<% for (int jj = 1 ; jj <= numRows ; ++jj) { 
+<% for (int jj = 1 ; jj <= gpd.getNumRows() ; ++jj) { 
 
 	String thisRowName = (String) contents.get("rowname_" + pso.getRunningSimId() + "_" + jj); %>
 
 <tr>
 <td valign="top"><strong><%= thisRowName %></strong>
-<% if (jj == numRows ) { %>
+<% if (jj == gpd.getNumRows() ) { %>
 <form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
     <input type="hidden" name="row" value="<%= jj + "" %>">
@@ -65,7 +67,7 @@
   	</form>
 <% } %>
 </td>
-<% for (int ii = 1 ; ii <= numCols ; ++ii) { 
+<% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
 
 	String rowData = (String) contents.get("rowData_" + pso.getRunningSimId() + "_" + ii + "_ " + jj);
 	if (rowData == null) {

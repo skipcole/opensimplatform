@@ -215,11 +215,42 @@ public class MultiSchemaHibernateUtil {
 
 			Logger.getRootLogger().warn("! root database "); //$NON-NLS-1$
 			addSchemaClasses(config);
+			// make a static list of the plugin tables
+
+			for (Enumeration e = setOfPluginTables.keys(); e.hasMoreElements();){
+				String key = (String) e.nextElement();
+				
+				System.out.println("                ");
+				System.out.println("                ");
+				System.out.println("                ");
+				System.out.println("                ");
+				System.out.println("                ");
+				System.out.println("key                " + key);
+				System.out.println("                ");
+				System.out.println("                ");
+				System.out.println("                ");
+				System.out.println("                ");
+				System.out.println("                ");
+				System.out.println("                ");
+				
+				
+				
+				Class nClass;
+				try {
+					nClass = Class.forName(key);
+					config.addAnnotatedClass(nClass);
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
 		}
 
 		return config;
 	}
 	
+	/** Returns the Configuration for the */
 	public static Configuration getConnForNewTables(String schema) {
 
 		Logger.getRootLogger().warn("getInitializedConfiguration " + schema); //$NON-NLS-1$ //$NON-NLS-2$
@@ -238,6 +269,10 @@ public class MultiSchemaHibernateUtil {
 
 	public static Session getSession(String schema) {
 		return getSession(schema, false);
+	}
+	
+	public static void resetSessionForSchema(){
+		setOfSessionFactories = new Hashtable();
 	}
 
 	/**
@@ -525,20 +560,36 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.PlayerReflection.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.SetOfLinks.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
-
+		
+		// TODO just to see if it works. If it does, maybe I will pull the names out
+		// of the section definition xml first, and then just 
+		ac.addAnnotatedClass(org.usip.osp.plugins.griddoc.GridData.class);
+		
 		Logger.getRootLogger().debug("classes added"); //$NON-NLS-1$
 	}
 	
+	static Hashtable setOfPluginTables = new Hashtable();
+	
+	/**
+	 * Adds the schema classes (creates the tables) required by any various loaded plugins.
+	 * 
+	 * @param ac
+	 * @param schema
+	 */
 	public static void addPluginSchemaClasses(AnnotationConfiguration ac, String schema) {
 		// Check for Add-ons
-		List additionalClasses = BaseSimSection.getUniqSetOfDatabaseClassNames(schema);
+		List additionalClasses = BaseSimSection.getUniqSetOfDatabaseClassNames(schema, true);
 		
 		for (ListIterator<String> acListIter = additionalClasses.listIterator(); acListIter.hasNext();) {
 			String newClass = acListIter.next();
 			try {
 				Class nClass = Class.forName(newClass);
 				ac.addAnnotatedClass(nClass);
+				setOfPluginTables.put(newClass, "set");
 			} catch (ClassNotFoundException e) {
+				System.out.println("It was: " + newClass);
+				System.out.println("It was: " + newClass);
+				System.out.flush();
 				e.printStackTrace();
 			}
 		}

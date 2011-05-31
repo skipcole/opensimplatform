@@ -125,6 +125,12 @@ public class PlannedPlaySessionParameters implements ExportableObject{
 			(PlannedPlaySessionParameters) MultiSchemaHibernateUtil.getSession(schema).get(PlannedPlaySessionParameters.class, ppsp_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		if (ppsp == null) {
+			ppsp = new PlannedPlaySessionParameters();
+			ppsp.setId(ppsp_id);
+			ppsp.saveMe(schema);
+		}
 
 		return ppsp;
 	}

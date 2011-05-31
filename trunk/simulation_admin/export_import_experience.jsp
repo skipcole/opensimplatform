@@ -42,6 +42,7 @@
                     <li>Instructor Injects (I) </li>
                     <li>Player Responses to Injects (RT) </li>
                     <li>Student Reflections (R) </li>
+                    <li>Timeline of Phase Change Events (P) </li>
                   </ul>
                   <p>&nbsp;</p>
                   <p>On to <a href="export_experience.jsp">Export Experience</a></p>

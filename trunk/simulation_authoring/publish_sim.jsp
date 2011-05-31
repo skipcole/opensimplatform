@@ -71,14 +71,14 @@
                 </tr>
 			<tr>
 	          <td>Published Internally (?) </td>
-	          <td>&nbsp;</td>
+	          <td><input name="publish_internally" type="checkbox" id="publish_internally"  <%= USIP_OSP_Util.matchSelected( simulation.isInternallyPublished() , "checked=\"checked\"") %> value="true" /></td>
 	          </tr>
 			  
 	        <tr>
 	          <td>Published Publicly <a href="helptext/publish_publicly_help.jsp" target="helpinright">(?) </a></td>
 	          <td>
 			  
-			  <input type="checkbox" name="publish_publicly" id="publish_publicly"  <%= USIP_OSP_Util.matchSelected( simulation.isExternallyPublished() , "value=\"true\"") %> />			  </td>
+			  <input type="checkbox" name="publish_publicly" id="publish_publicly"  <%= USIP_OSP_Util.matchSelected( simulation.isExternallyPublished() , "checked=\"checked\"") %>  value="true" />			  </td>
 	          </tr>
 
 	        <tr>
@@ -90,7 +90,7 @@
 	        <tr>
 	          <td>Allow Player Auto-Registration <a href="helptext/auto_registration_help.jsp" target="helpinright">(?)</a></td>
                   <td><label>
-                    <input type="checkbox" name="auto_registration" id="auto_registration"  value="true"/>
+                    <input type="checkbox" name="auto_registration" id="auto_registration"  <%= USIP_OSP_Util.matchSelected( simulation.isAllow_player_autoreg() , "checked=\"checked\"") %>  value="true"/>
                     </label></td>
                 </tr>
 	        <tr> 
