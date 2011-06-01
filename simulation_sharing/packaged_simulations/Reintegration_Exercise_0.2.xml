@@ -16,7 +16,7 @@
   <creationOrg>USIP</creationOrg>
   <creator></creator>
   <copyrightString>Copyright 2008 USIP All rights reserved</copyrightString>
-  <isReadyForPublicListing>true</isReadyForPublicListing>
+  <isInternallyPublished>true</isInternallyPublished>
   <listingKeyWords>Leadership, Communication, Teamwork</listingKeyWords>
 </org.usip.osp.baseobjects.Simulation><org.usip.osp.baseobjects.Actor>
   <transit__id>1</transit__id>

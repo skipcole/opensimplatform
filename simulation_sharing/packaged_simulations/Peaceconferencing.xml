@@ -24,7 +24,7 @@
   <creationOrg>Bishop&apos;s School</creationOrg>
   <creator>Skip Cole</creator>
   <copyrightString>&lt;table&gt;&lt;tr&gt;&lt;td&gt;&lt;a href=&quot;http://demo.opensimplatform.org/docs/index.php/Peaceconferencing_FAQ&quot; target=&quot;_new&quot;&gt;Help!    &lt;/a&gt;&lt;/td&gt;&lt;td&gt;Copyright 2009-2010 The Bishop&apos;s School&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</copyrightString>
-  <isReadyForPublicListing>true</isReadyForPublicListing>
+  <isInternallyPublished>true</isInternallyPublished>
   <listingKeyWords></listingKeyWords>
   <lastEditDate class="sql-timestamp">2010-11-16 19:13:32.0</lastEditDate>
 </org.usip.osp.baseobjects.Simulation>

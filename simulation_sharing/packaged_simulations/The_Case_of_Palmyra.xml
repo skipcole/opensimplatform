@@ -24,7 +24,7 @@
   <creationOrg>USIP</creationOrg>
   <creator>USIP</creator>
   <copyrightString></copyrightString>
-  <isReadyForPublicListing>true</isReadyForPublicListing>
+  <isInternallyPublished>true</isInternallyPublished>
   <listingKeyWords>Negotiation, Interests, Positions</listingKeyWords>
   <lastEditDate class="sql-timestamp">2011-01-13 15:37:09.0</lastEditDate>
 </org.usip.osp.baseobjects.Simulation>
