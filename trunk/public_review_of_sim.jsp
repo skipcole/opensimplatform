@@ -6,12 +6,10 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
-		return;
-	}
-	
 	afso.backPage = "review_sim.jsp";
+	
+	String db_schema = (String) request.getParameter("db_schema");
+	afso.schema = db_schema;
 	
 	String loadSim = (String) request.getParameter("loadSim");
 	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))) {

@@ -1114,7 +1114,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			al.setAlertMessage(phaseChangeNotice);
 			al.setAlertEmailMessage(phaseChangeNotice);
 			al.setAlertPopupMessage(phaseChangeNotice);
-
+			al.setSim_id(sim_id);
 			al.setRunning_sim_id(runningSimId);
 			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
 

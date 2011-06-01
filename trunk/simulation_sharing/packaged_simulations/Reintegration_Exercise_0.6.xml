@@ -24,7 +24,7 @@
   <creationOrg>USIP</creationOrg>
   <creator></creator>
   <copyrightString>Copyright 2008-2009 USIP All rights reserved</copyrightString>
-  <isReadyForPublicListing>true</isReadyForPublicListing>
+  <isInternallyPublished>true</isInternallyPublished>
   <listingKeyWords>Leadership, Communication, Teamwork</listingKeyWords>
   <lastEditDate class="sql-timestamp">2011-03-02 01:00:06.0</lastEditDate>
 </org.usip.osp.baseobjects.Simulation>

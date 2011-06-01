@@ -250,10 +250,13 @@ public class ExperienceExportObject {
 				}
 
 				List listOfRSiDsForResponses = USIP_OSP_Util
-						.getIdsOfCheckBoxes("rt_", request);
+					.getIdsOfCheckBoxes("rt_", request);
 
 				List listOfRSiDsForReflections = USIP_OSP_Util
-						.getIdsOfCheckBoxes("r_", request);
+					.getIdsOfCheckBoxes("r_", request);
+
+				List listOfRSiDsForPhaseChanges = USIP_OSP_Util
+					.getIdsOfCheckBoxes("p_", request);
 
 				// ///////////////////////////////
 				ArrayList allRS = new ArrayList();
