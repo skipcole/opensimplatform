@@ -100,6 +100,21 @@ public class USIP_OSP_Util {
 		
 	}
 	
+	/** 
+	 * Returns the matchText if a and b match.
+	 * @param a
+	 * @param b
+	 * @param matchText
+	 * @return
+	 */
+	public static String matchSelected(int a, int b, String matchText) {
+
+		if (a == b) {
+			return matchText;
+		} else {
+			return "";
+		}
+	}
 	/**
 	 * If a matches b, return the matchText.
 	 * 

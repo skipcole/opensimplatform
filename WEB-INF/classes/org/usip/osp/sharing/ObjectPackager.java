@@ -518,7 +518,7 @@ public class ObjectPackager {
 						+ USIP_OSP_Util.lineTerminator;
 			} else {
 				Logger.getRootLogger().warn(
-						"Back Up User Null for " + thisUser.getUser_name());
+						"Back Up User Null for " + thisUser.getUserName());
 			}
 		}
 		return returnString;
@@ -589,12 +589,12 @@ public class ObjectPackager {
 
 			User user = (User) xstream.fromXML(u_string);
 
-			User existingUser = User.getByUsername(schema, user.getUser_name());
+			User existingUser = User.getByUsername(schema, user.getUserName());
 
 			RestoreResults rr = new RestoreResults();
 			rr.setRestoreId(re.getId());
 			rr.setObjectClass(User.class.getName());
-			rr.setObjectName(user.getUser_name());
+			rr.setObjectName(user.getUserName());
 
 			if (existingUser != null) {
 				rr.setNotes("Username existed. Did not import record.");

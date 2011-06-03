@@ -611,7 +611,7 @@ public class SessionObjectBase {
 				returnForLackOfInformation = true;
 			}
 
-			if (!(user.getUser_name().equalsIgnoreCase(confirm_email))) {
+			if (!(user.getUserName().equalsIgnoreCase(confirm_email))) {
 				errorMsg += "Email Addresses did not match<br/>";
 				errorCode = USERNAME_MISMATCH;
 				returnForLackOfInformation = true;
@@ -627,7 +627,7 @@ public class SessionObjectBase {
 				return user;
 			}
 
-			if (User.getByUsername(schema, user.getUser_name()) != null) {
+			if (User.getByUsername(schema, user.getUserName()) != null) {
 				errorMsg += "This username/email already has been registered. <br/>";
 				return user;
 			}
@@ -638,13 +638,13 @@ public class SessionObjectBase {
 
 				try {
 
-					user = new User(schema, user.getUser_name(), password, user
+					user = new User(schema, user.getUserName(), password, user
 							.getBu_first_name(), user.getBu_last_name(), user
 							.getBu_middle_name(), user.getBu_full_name(),
 							false, false, false);
 
 					if (recordSaveToURI) {
-						uri.setEmailAddressRegistered(user.getUser_name());
+						uri.setEmailAddressRegistered(user.getUserName());
 						uri.setRegistrationDate(new Date());
 						uri.saveMe();
 					}
@@ -920,10 +920,10 @@ public class SessionObjectBase {
 				// send email to user at both email addresses
 				Emailer.quickPostMail(schema, new_username,
 						"Username Changed on USIP OSP System", message, user
-								.getUser_name(), user.getUser_name());
+								.getUserName(), user.getUserName());
 				Emailer.quickPostMail(schema, old_username,
 						"Username Changed on USIP OSP System", message, user
-								.getUser_name(), user.getUser_name());
+								.getUserName(), user.getUserName());
 
 				return USERNAME_CHANGED;
 			} // end if found base user in database.

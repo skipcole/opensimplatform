@@ -258,7 +258,7 @@ public class OSPErrors {
     			
     			User user = sob.giveMeUser();
     			if (user != null){
-    				err.setUserEmail(user.getUser_name());
+    				err.setUserEmail(user.getUserName());
     			}
     			
     			sio = SchemaInformationObject.lookUpSIOByName(sob.schema);

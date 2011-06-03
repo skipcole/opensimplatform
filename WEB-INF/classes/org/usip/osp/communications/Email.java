@@ -698,7 +698,7 @@ public class Email {
 					UserAssignment this_ua = li_ua.next();
 					
 					User user = User.getById(schema, this_ua.getUser_id());
-					returnVector.add(user.getUser_name());
+					returnVector.add(user.getUserName());
 				}
 			}
 		} else {	// Users must have been specified specifically
@@ -768,7 +768,7 @@ public class Email {
 				
 				if (this_ua.getUser_id() != null){
 					User user = User.getById(sio.getSchema_name(), this_ua.getUser_id());
-					toUserName = user.getUser_name();
+					toUserName = user.getUserName();
 				} else {	// User may have been assigned, but still not registered.
 					toUserName = this_ua.getUsername();
 				}

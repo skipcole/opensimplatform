@@ -31,7 +31,7 @@
 
 <h1>User Login History</h1>
 <p>Click on the user's name to see a past history of their logins.</p>
-<p>This Report is for <%= user.getUser_name() %>, <%= user.getBu_full_name() %>.</p>
+<p>This Report is for <%= user.getUserName() %>, <%= user.getBu_full_name() %>.</p>
 
 <blockquote>
 

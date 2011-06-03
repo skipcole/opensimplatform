@@ -74,15 +74,19 @@
           <td colspan="3"><h2>Step</h2></td>
             </tr>
         <tr valign="top"> 
-          <td width="5%">1.</td>
+          <td width="5%">0.</td>
             <td width="34%"><a href="create_simulation.jsp" target="bodyinleft">Create 
               New Simulation </a><a href="helptext/create_simulation_help.jsp" target="helpinright">(?)</a></td>
-            <td width="61%" rowspan="14" valign="top"><p>Following the steps on the left will enable you to create your simulation.</p>
+            <td width="61%" rowspan="15" valign="top"><p>Following the steps on the left will enable you to create your simulation.</p>
               <p>You can either work through the steps sequentially, or skip around amongst them after having completed the first step. Creating a simulation generally a requires many hours of work, but this can be spread out over as many days as you wish. Any information that you add here can always be modified  later. </p>
               <p>Good luck in your work! </p>
               <p>The USIP OSP Team </p>
               <p>PS. If you have any suggestions to make this tool better. Please direct them to osp@usip.org. </p>
               <p>&nbsp; </p></td>
+        </tr>
+        <tr valign="top">
+          <td>1.</td>
+          <td><a href="enter_basic_simulation_information.jsp">Edit Sim Basic Data </a></td>
         </tr>
         <tr valign="top"> 
           <td>2.</td>
