@@ -2036,6 +2036,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation.createDefaultObjects(schema);
 
 				simulation.saveMe(schema);
+				SimEditors simEditors = new SimEditors(schema, simulation.getId(), 
+						this.user_id, simcreator, this.user_email);
+				simEditors.saveMe(schema);
+				
 				this.phase_id = simulation.getFirstPhaseId(schema);
 
 			} else if (command.equalsIgnoreCase("Update")) { // 
@@ -3994,11 +3998,13 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	private static final String CTRL_PANEL = "control_panel.jsp";
-	public static final int SIM_OBJECTIVES = 1;
-	public static final int SIM_AUDIENCE = 2;
-	public static final int SIM_INTRO = 3;
-	public static final int SIM_PLANNED_PLAY_IDEAS = 4;
-	public static final int SIM_AAR_TEXT = 5;
+	public static final int CREATE_SIM = 1;
+	public static final int ENTER_SIM_BASIC_INFO = 2;
+	public static final int SIM_OBJECTIVES = 3;
+	public static final int SIM_AUDIENCE = 4;
+	public static final int SIM_INTRO = 5;
+	public static final int SIM_PLANNED_PLAY_IDEAS = 6;
+	public static final int SIM_AAR_TEXT = 7;
 
 	/**
 	 * This method handles the call from a wizard page of the wizard.

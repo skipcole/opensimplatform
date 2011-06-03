@@ -69,7 +69,7 @@ Player      </td>
     </tr>
     <tr>
       <td valign="top"><strong>Email Address:</strong></td>
-      <td valign="top"><%= userOnScratchPad.getUser_name() %><input type="hidden" name="email" value="<%= userOnScratchPad.getUser_name() %>" /> </td>
+      <td valign="top"><%= userOnScratchPad.getUserName() %><input type="hidden" name="email" value="<%= userOnScratchPad.getUserName() %>" /> </td>
     </tr>
     <tr>
       <td valign="top"><strong>Language:</strong></td>
@@ -96,7 +96,7 @@ Player      </td>
 		%>
   </table>
         </form>      
-      <p>This Report is for <%= userOnScratchPad.getUser_name() %>, <%= userOnScratchPad.getBu_full_name() %>.</p>			
+      <p>This Report is for <%= userOnScratchPad.getUserName() %>, <%= userOnScratchPad.getBu_full_name() %>.</p>			
       <blockquote>
         <table width="80%" border="1">
           <tr>

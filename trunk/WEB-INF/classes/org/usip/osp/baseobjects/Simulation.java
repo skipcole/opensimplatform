@@ -64,7 +64,7 @@ public class Simulation implements ExportableObject, Comparable{
 
 	/** Version of this Simulation. */
 	@Column(name = "SIM_VERSION")
-	private String version = ""; //$NON-NLS-1$
+	private String version = "0.0.1"; //$NON-NLS-1$
 
 	/** Version of the software this simulation was made with. */
 	private String softwareVersion = ""; //$NON-NLS-1$
@@ -217,7 +217,53 @@ public class Simulation implements ExportableObject, Comparable{
 		sim.updateLastEditDate(schema);
 	}
 	
+	public static final int SPECIFIC_USERS = 0;
+	public static final int EVERYONE = 1;
+
+	private int simEditingRestrictions = SPECIFIC_USERS;
+		
+	public int getSimEditingRestrictions() {
+		return simEditingRestrictions;
+	}
+
+	public void setSimEditingRestrictions(int simEditingRestrictions) {
+		this.simEditingRestrictions = simEditingRestrictions;
+	}
+
+	public static final int NOT_PUBLISHED = 0;
+	public static final int PUBLISHED_INTERNALLY = 1;
+	public static final int PUBLISHED_EXTERNALLY = 2;
 	
+	private int publishedState = NOT_PUBLISHED;
+	
+	private Date publishedInternallyDate;
+	
+	private Date publishedExternallyDate;
+	
+	public int getPublishedState() {
+		return publishedState;
+	}
+
+	public void setPublishedState(int publishedState) {
+		this.publishedState = publishedState;
+	}
+
+	public Date getPublishedInternallyDate() {
+		return publishedInternallyDate;
+	}
+
+	public void setPublishedInternallyDate(Date publishedInternallyDate) {
+		this.publishedInternallyDate = publishedInternallyDate;
+	}
+
+	public Date getPublishedExternallyDate() {
+		return publishedExternallyDate;
+	}
+
+	public void setPublishedExternallyDate(Date publishedExternallyDate) {
+		this.publishedExternallyDate = publishedExternallyDate;
+	}
+
 	/** Flag to indicate that simulation has been published. */
 	private Date publishDate;
 

@@ -1,10 +1,7 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
-	org.usip.osp.persistence.*,
-	org.usip.osp.baseobjects.*,
-	org.usip.osp.persistence.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.persistence.*" 
 	errorPage="/error.jsp" %>
 
 <%
@@ -37,8 +34,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Create New Simulation </h1>
-              <p>On this page you will enter the most basic information concerning your simulation.</p>
+              <h1>Enter Basic  Simulation Information </h1>
               <br />
       <form action="create_simulation.jsp" method="post" name="form1" id="form1">
         <input type="hidden" name="sending_page" value="create_simulation" />
@@ -47,21 +43,77 @@
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
           <tr> 
             <td>&nbsp;</td>
-              <td valign="top">Simulation Name <a href="helptext/sim_name.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top">
-  <input type="text" name="simulation_name" value="<%= simulation.getSimulationName() %>" tabindex="1" /></td>
+              <td valign="top">Simulation Name:</td>
+              <td valign="top"><%= simulation.getSimulationName() %></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
-              <td valign="top">Simulation Version <a href="helptext/sim_version.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top">
-  <input type="text" name="simulation_version" value="<%= simulation.getVersion() %>" tabindex="2" /></td>
+              <td valign="top">Simulation Version:</td>
+              <td valign="top"><%= simulation.getVersion() %></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
               <td valign="top">Simulation Creating Organization <a href="helptext/sim_banner.jsp" target="helpinright">(?)</a>:</td>
               <td valign="top">
   <input type="text" name="creation_org" value="<%= simulation.getCreation_org() %>" tabindex="3" /></td>
+            </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td valign="top">Organization Website (?): </td>
+            <td valign="top">&nbsp;</td>
+          </tr>
+          <tr> 
+            <td>&nbsp;</td>
+              <td valign="top">Simulation Creator <a href="helptext/sim_banner.jsp" target="helpinright">(?)</a>:</td>
+              <td valign="top">
+  <input type="hidden" name="simcreator" value="<%= afso.userDisplayName %>"> 
+  			<% String creatorName = "";
+				if ((simulation.getCreator() != null) && (simulation.getCreator().length() > 0)) {
+					creatorName = simulation.getCreator();
+				} else {
+					creatorName = afso.userDisplayName;
+				}
+			%>
+                <%=  creatorName%></td>
+            </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td valign="top">Simulation Editors </td>
+            <td valign="top">
+				<table>
+					<tr>
+						<td valign="top"><input name="editing_users" type="radio" value="specific_users"
+						 <%= USIP_OSP_Util.matchSelected(simulation.getSimEditingRestrictions(), Simulation.SPECIFIC_USERS , "checked=\"checked\"") %>
+						 /></td>
+						<td width="100%" valign="top">
+			  				<%
+			  				List userList = SimEditors.getAuthorizedUsers(afso.schema, afso.sim_id, afso.user_id);
+							
+							for (ListIterator li = userList.listIterator(); li.hasNext();) {
+								User user = (User) li.next();
+			
+			  				%>
+							<%= user.getUserName() %><br />
+							<%  } // end of loop over users %>
+			  				Add Editor</td>
+			  		</tr>
+					<tr>
+						<td><input name="editing_users" type="radio" value="everyone" 
+						<%= USIP_OSP_Util.matchSelected(simulation.getSimEditingRestrictions(), Simulation.EVERYONE , "checked=\"checked\"") %>
+						/></td>
+						<td>Everyone</td>
+					</tr>
+				</table>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+              <td valign="top">Simulation Copyright String <a href="helptext/sim_copyright.jsp" target="helpinright">(?)</a>:</td>
+              <td valign="top"> <textarea name="simcopyright" tabindex="4"><%= simulation.getCopyright_string() %></textarea></td>
+            </tr>
+          <tr>
+            <td>&nbsp;</td>
+              <td valign="top">Simulation Blurb <a href="helptext/sim_blurb.jsp" target="helpinright">(?)</a>:</td>
+              <td valign="top"><textarea name="simblurb" tabindex="4"><%= simulation.getBlurb() %></textarea></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -76,7 +128,7 @@
 				%>
                 <input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
 				<table width="100%"><tr>
-                <td align="left">&nbsp;</td>
+                <td align="left"><input type="submit"  name="command" value="Update" /></td>
 				<td align="right">&nbsp;</td>
 				</tr></table>
                 <%
@@ -94,7 +146,7 @@
             <p align="center">
               <div align="center">
 			  Simulation has been created.
-			    <form action="enter_basic_simulation_information.jsp" method="post" name="form1" id="form1">
+			    <form action="create_simulation_objectives.jsp" method="post" name="form1" id="form1">
               <label><input type="submit" name="Submit" value="Proceed to Next Step" /></label>
 			  
 			  </form>

@@ -54,6 +54,7 @@
           <p>Below are listed alphabetically all of the current Simulations. Please 
             select one, or <a href="create_simulation.jsp?clear=true">create a new one</a>, 
             to continue.</p>
+          <p>&nbsp;</p>
           <table>
             <%
 		
@@ -64,6 +65,9 @@
 		%>
             <tr> 
               <td><a href="select_simulation.jsp?select_sim=true&backpage=<%= afso.backPage %>&sim_id=<%= sim.getId().toString() %>"><%= sim.getSimulationName() %> version <%= sim.getVersion() %></a></td>
+              <td><input type="submit" name="Submit" value="Copy" /></td>
+              <td><input type="submit" name="Submit2" value="Rename" /></td>
+              <td><input type="submit" name="Submit3" value="Delete" /></td>
             </tr>
             <%
 	}

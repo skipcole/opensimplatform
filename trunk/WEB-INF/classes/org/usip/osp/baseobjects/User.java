@@ -248,7 +248,7 @@ public class User implements Comparable{
 		this.id = id;
 	}
 
-	public String getUser_name() {
+	public String getUserName() {
 		return user_name;
 	}
 

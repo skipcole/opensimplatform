@@ -673,7 +673,7 @@ public class USIP_OSP_Cache {
 			for (ListIterator<User> li = User.getAllForSchemaAndLoadDetails(
 					schema).listIterator(); li.hasNext();) {
 				User user = li.next();
-				thisUserNameTable.put(user.getUser_name(), user.getId());
+				thisUserNameTable.put(user.getUserName(), user.getId());
 			}
 			allUserNameTables.put(schema, thisUserNameTable);
 		}
@@ -701,7 +701,7 @@ public class USIP_OSP_Cache {
 			for (ListIterator<User> li = User.getAllForSchemaAndLoadDetails(
 					schema).listIterator(); li.hasNext();) {
 				User user = li.next();
-				thisUserNameTable.put(user.getUser_name() + " | "
+				thisUserNameTable.put(user.getUserName() + " | "
 						+ user.getBu_full_name(), user.getId());
 			}
 			allUserNameTables.put(schema, thisUserNameTable);

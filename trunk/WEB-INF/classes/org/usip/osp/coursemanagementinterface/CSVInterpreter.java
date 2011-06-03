@@ -222,7 +222,7 @@ public class CSVInterpreter {
 
 		user.saveJustUser(schema);
 
-		returnString += "<br /> saved user " + user.getUser_name();
+		returnString += "<br /> saved user " + user.getUserName();
 
 		return returnString;
 	}

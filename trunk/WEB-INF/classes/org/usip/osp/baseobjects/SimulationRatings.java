@@ -8,9 +8,9 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 /**
- * This class represents a simulation.
- *
- * 
+ * This class represents a ratings left by a user concerning a simulation.
+ */
+/* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
