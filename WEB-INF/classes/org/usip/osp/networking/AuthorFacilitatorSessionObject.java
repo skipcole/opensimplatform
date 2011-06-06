@@ -509,13 +509,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			Long o_id = new Long(objid);
 
 			if (objectType.equalsIgnoreCase("simulation")) {
-				MultiSchemaHibernateUtil.beginTransaction(this.schema);
-				Simulation sim = (Simulation) MultiSchemaHibernateUtil
-						.getSession(this.schema).get(Simulation.class, o_id);
-				MultiSchemaHibernateUtil.getSession(this.schema).delete(sim);
-				this.sim_id = null;
-
-				MultiSchemaHibernateUtil.commitAndCloseTransaction(this.schema);
+				if (Simulation.deleteSimulation(schema, new Long(o_id))){
+					this.sim_id = null;
+					User user = this.giveMeUser();
+					user.setLastSimEdited(null);
+				}
 
 			} else if (objectType.equalsIgnoreCase("phase")) {
 				MultiSchemaHibernateUtil.beginTransaction(this.schema);
@@ -609,8 +607,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 								+ objectType);
 			}
 
-			Simulation.updateSimsLastEditDate(sim_id, schema);
-
+			if (sim_id != null){
+				Simulation.updateSimsLastEditDate(sim_id, schema);
+			}
+			
 			return true;
 		}
 
@@ -1993,8 +1993,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	/**
 	 * Upon the creation of a new simulation several things happen: 1.) The
 	 * values the player entered get stored in the system. 2.) Two phases, the
-	 * starting phase and the completed phase, get added. 3.) The control
-	 * character is created (if necessary) and added to the simulation.
+	 * starting phase and the completed phase, get added.
 	 * 
 	 * @param request
 	 */
@@ -2075,6 +2074,84 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return simulation;
 	}
 
+	public Simulation handleEditBasicSimParameters(HttpServletRequest request) {
+
+		Simulation simulation = new Simulation();
+
+		String command = (String) request.getParameter("command");
+		String simcopyright = (String) request.getParameter("simcopyright");
+		String editing_users = (String) request.getParameter("editing_users");
+		
+		String simblurb = (String) request.getParameter("simblurb");
+
+		String clear = (String) request.getParameter("clear");
+		if ((clear != null) && (clear.equalsIgnoreCase("true"))) {
+			simulation = new Simulation();
+			sim_id = null;
+
+			return simulation;
+		}
+
+		if (command != null) {
+			if (command.equalsIgnoreCase("Update")) { // 
+				String sim_id = (String) request.getParameter("sim_id");
+				simulation = Simulation.getById(schema, new Long(sim_id));
+				// simulation.setCreator(simcreator);
+				simulation.setCopyright_string(simcopyright);
+				simulation.setBlurb(simblurb);
+
+				if ((editing_users != null) && (editing_users.equalsIgnoreCase("everyone"))){
+					simulation.setSimEditingRestrictions(Simulation.EVERYONE);
+				} else {
+					simulation.setSimEditingRestrictions(Simulation.SPECIFIC_USERS);
+				}
+				
+				simulation.saveMe(schema);
+			} else if (command.equalsIgnoreCase("Clear")) { // 
+				// returning new simulation will clear fields.
+			}
+
+			this.sim_id = simulation.getId();
+
+			saveLastSimEdited();
+
+		} else if (this.sim_id != null) {
+			simulation = Simulation.getById(schema, this.sim_id);
+		}
+
+		return simulation;
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 */
+	public void addEditor(HttpServletRequest request){
+
+		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
+		String user_id = request.getParameter("user_id"); //$NON-NLS-1$
+		String userName = request.getParameter("user_name"); //$NON-NLS-1$
+		String userEmail = request.getParameter("user_email"); //$NON-NLS-1$
+		
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_editor")) ){
+			
+			User user = User.getById(schema, new Long(user_id));
+			SimEditors se = new SimEditors(schema, sim_id, user.getId(), 
+					user.getBu_full_name(), user.getUserName());
+			se.saveMe(schema);
+		}
+		
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("remove_editor")) ){
+			
+			SimEditors se = new SimEditors();
+			SimEditors.removeAuthorization(schema, sim_id, new Long(user_id));
+			
+		}
+		
+		
+	}
+	
+	/** Returns the logged in value. */
 	public boolean isLoggedin() {
 		return loggedin;
 	}
@@ -2159,6 +2236,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					.getParameter("private_description");
 			String control_actor = (String) request
 					.getParameter("control_actor");
+			
+			if ((actor_name == null) || (actor_name.trim().length() == 0)){
+				actor_name = "Unnamed Actor";
+			}
 
 			actorOnScratchPad.setPublic_description(public_description);
 			actorOnScratchPad.setName(actor_name);

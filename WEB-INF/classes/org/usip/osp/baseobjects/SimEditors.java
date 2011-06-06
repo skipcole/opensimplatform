@@ -2,6 +2,7 @@ package org.usip.osp.baseobjects;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -121,8 +122,10 @@ public class SimEditors {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		if ((returnList == null) || (returnList.size() == 0)){
+			System.out.println("checkIfAuthorized is false");
 			return false;
 		} else {
+			System.out.println("checkIfAuthorized is true");
 			return true;
 		}
 	}
@@ -134,13 +137,12 @@ public class SimEditors {
 	 * @param userId
 	 * @return
 	 */
-	public static List getListOfAuthorizedEditors(String schema, Long simId, Long userId){
+	public static List <SimEditors> getListOfAuthorizedEditors(String schema, Long simId){
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from SimEditors where simId = :simId and userId = :userId")
+				"from SimEditors where simId = :simId")
 				.setLong("simId", simId)
-				.setLong("userId", userId)
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -157,7 +159,7 @@ public class SimEditors {
 	 */
 	public static void removeAuthorization(String schema, Long simId, Long userId){
 		
-		List deleteList = getListOfAuthorizedEditors(schema, simId, userId);
+		List deleteList = getUserAuthorizationsForThisSim(schema, simId, userId);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		for (ListIterator li = deleteList.listIterator(); li.hasNext();) {
@@ -170,24 +172,66 @@ public class SimEditors {
 	}
 	
 	/**
-	 * 
+	 * Returns the list of users currently identified to edit this sim.
 	 * @param schema
 	 * @param simId
 	 * @param userId
 	 * @return
 	 */
-	public static List<User> getAuthorizedUsers(String schema, Long simId, Long userId){
+	public static List<User> getAuthorizedUsers(String schema, Long simId){
 		
 		ArrayList returnList = new ArrayList();
 		
-		List baseList = getListOfAuthorizedEditors(schema, simId, userId);
+		if (simId == null){
+			return returnList;
+		}
+		
+		List baseList = getListOfAuthorizedEditors(schema, simId);
 
 		for (ListIterator li = baseList.listIterator(); li.hasNext();) {
 			SimEditors se = (SimEditors) li.next();
 			
-			User user = User.getById(schema, userId);
+			User user = User.getById(schema, se.getUserId());
 			returnList.add(user);
 		}
+		
+		return returnList;
+	}
+	
+	
+	public static Hashtable<Long, String> getCurrentEditors(String schema, Long simId){
+		
+		Hashtable <Long, String> returnTable = new Hashtable();
+		
+		List <User> fullList = SimEditors.getAuthorizedUsers(schema, simId);
+		
+		for (ListIterator li = fullList.listIterator(); li.hasNext();) {
+			User se = (User) li.next();
+			
+			returnTable.put(se.getId(), "set");
+		}
+		
+		return returnTable;
+		
+	}
+	
+	/** 
+	 * Returns all records that match this sim/user combination. 
+	 * @param schema
+	 * @param simId
+	 * @param userId
+	 * @return
+	 */
+	public static List getUserAuthorizationsForThisSim(String schema, Long simId, Long userId){
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from SimEditors where simId = :simId and userId = :userId")
+				.setLong("simId", simId)
+				.setLong("userId", userId)
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return returnList;
 	}

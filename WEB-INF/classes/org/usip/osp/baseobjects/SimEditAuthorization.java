@@ -39,7 +39,7 @@ public class SimEditAuthorization {
 		
 		User user = User.getById(schema, user_id);
 		
-		if ((user == null) || (!(user.isSim_author()))){
+		if ((sim_id == null) || (user == null) || (!(user.isSim_author()))){
 			return USER_NOT_AUTHOR;
 		}
 		
@@ -57,5 +57,16 @@ public class SimEditAuthorization {
 		}
 		
 		return SIM_CAN_BE_EDITED;
+	}
+	
+	/** Based on code returns blank or html code to disable activities. */
+	public static String getDisabledCode(int editCode){
+		
+		if (editCode == SIM_CAN_BE_EDITED){
+			return "";
+		} else {
+			return "disabled=\"disabled\"";
+		}
+		
 	}
 }

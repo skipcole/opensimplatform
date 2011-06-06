@@ -136,7 +136,12 @@ public class BaseUser {
         
     }
     
+    /** Handles the updating of a base user. */
     public void updateMe(String fi, String fu, String la, String mi){
+    	
+    	
+    	System.out.println("BaseUser.updateMe, first name was " + fi);
+    	
     	this.first_name = fi;
     	this.full_name = fu;
     	this.last_name = la;
@@ -146,6 +151,10 @@ public class BaseUser {
     	
     }
 
+    /**
+     * Saves this user back to the main database.
+     * 
+     */
     public void saveMe(){
         MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
         MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(this);                        

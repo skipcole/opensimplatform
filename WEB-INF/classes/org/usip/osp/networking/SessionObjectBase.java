@@ -72,16 +72,19 @@ public class SessionObjectBase {
 	 */
 	public Simulation giveMeSim() {
 
+		Simulation simulation = new Simulation();
+		
 		if (sim_id == null) {
-			return new Simulation();
+			return simulation;
 		}
 
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(Simulation.class, sim_id);
+		try {
+			simulation = Simulation.getById(schema, sim_id);
+		} catch (Exception e){
+			OSPErrors.storeInternalWarning
+				("Error encountered trying to get simulation in SOB " + e.getMessage(), this);
+		}
 
-		MultiSchemaHibernateUtil.getSession(schema).evict(simulation);
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		return simulation;
 
 	}
@@ -532,6 +535,11 @@ public class SessionObjectBase {
 		return ALL_GOOD;
 	}
 
+	/**
+	 * Handles a request sent to update the user profile.
+	 * 
+	 * @param request
+	 */
 	public void handleMyProfile(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");

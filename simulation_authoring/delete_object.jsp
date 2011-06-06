@@ -1,7 +1,12 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.specialfeatures.*,org.usip.osp.graphs.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.specialfeatures.*,
+	org.usip.osp.graphs.*" 
 	errorPage="../error.jsp" %>
 
 <%
@@ -19,6 +24,8 @@
 	String phase_sim_id = request.getParameter("phase_sim_id");
         
     String debug = "";
+	
+	objectInfo = java.net.URLDecoder.decode(objectInfo);
 	
 	boolean doneWithThis = afso.handleDeleteObject(request);
 	
@@ -51,7 +58,7 @@
               <br />
       <blockquote>
         <h1>&nbsp;</h1>
-          <p>Confirm deletion of <%= objectType %> <%= objectInfo %></p>
+          <p>Confirm deletion of <strong><%= objectType %> <%= objectInfo %></strong></p>
       </blockquote>
       <form action="delete_object.jsp" method="post" name="form1" id="form1">
         <blockquote>
@@ -68,8 +75,7 @@
       <blockquote> 
         <p>&nbsp;</p>
           <p><a href="<%= afso.backPage %>">Back</a></p>
-      </blockquote>
-			</td>
+      </blockquote>			</td>
 		</tr>
 		</table>	</td>
   </tr>
