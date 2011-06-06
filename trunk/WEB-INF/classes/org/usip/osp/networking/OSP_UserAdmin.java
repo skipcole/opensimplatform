@@ -115,6 +115,10 @@ public class OSP_UserAdmin {
 		this._password = request.getParameter("password"); //$NON-NLS-1$
 		
 		this._first_name = request.getParameter("first_name"); //$NON-NLS-1$
+		
+		
+		System.out.println("OSP user amdin. get user name details: first name was: " + this._first_name);
+		
 		this._last_name = request.getParameter("last_name"); //$NON-NLS-1$
 		this._middle_name = request.getParameter("middle_name"); //$NON-NLS-1$
 		
@@ -265,7 +269,8 @@ public class OSP_UserAdmin {
 	
 		user.setPhoneNumber(_phoneNumber);
 		
-		user.saveMe(sob.schema);
+		// Need to do 'just user' or we over write the changes we just made.
+		user.saveJustUser(sob.schema);
 
 		String language_id = request.getParameter("language_id");
 		sob.languageCode = new Long(language_id).intValue();

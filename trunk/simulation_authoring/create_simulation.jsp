@@ -75,10 +75,6 @@
 				} else {
 				%>
                 <input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
-				<table width="100%"><tr>
-                <td align="left">&nbsp;</td>
-				<td align="right">&nbsp;</td>
-				</tr></table>
                 <%
 					}
 				%>              </td>

@@ -13,7 +13,12 @@
 		return;
 	}
 	
-    Simulation simulation = afso.handleCreateOrUpdateNewSim(request); 
+    Simulation simulation = afso.handleEditBasicSimParameters(request); 
+	
+	int canEdit = SimEditAuthorization.checkAuthorizedToEdit(afso.schema, afso.sim_id, afso.user_id);
+	
+	System.out.println("canEdit is " + canEdit);
+	System.out.println("dis code is: " + SimEditAuthorization.getDisabledCode(canEdit));
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,7 +41,7 @@
 			<td width="100%"><br />
               <h1>Enter Basic  Simulation Information </h1>
               <br />
-      <form action="create_simulation.jsp" method="post" name="form1" id="form1">
+      <form action="enter_basic_simulation_information.jsp" method="post" name="form1" id="form1">
         <input type="hidden" name="sending_page" value="create_simulation" />
         <blockquote>
         
@@ -54,66 +59,46 @@
           <tr> 
             <td>&nbsp;</td>
               <td valign="top">Simulation Creating Organization <a href="helptext/sim_banner.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top">
-  <input type="text" name="creation_org" value="<%= simulation.getCreation_org() %>" tabindex="3" /></td>
+              <td valign="top"><%= simulation.getCreation_org() %></td>
             </tr>
-          <tr>
-            <td>&nbsp;</td>
-            <td valign="top">Organization Website (?): </td>
-            <td valign="top">&nbsp;</td>
-          </tr>
-          <tr> 
-            <td>&nbsp;</td>
-              <td valign="top">Simulation Creator <a href="helptext/sim_banner.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top">
-  <input type="hidden" name="simcreator" value="<%= afso.userDisplayName %>"> 
-  			<% String creatorName = "";
-				if ((simulation.getCreator() != null) && (simulation.getCreator().length() > 0)) {
-					creatorName = simulation.getCreator();
-				} else {
-					creatorName = afso.userDisplayName;
-				}
-			%>
-                <%=  creatorName%></td>
-            </tr>
-          <tr>
             <td>&nbsp;</td>
             <td valign="top">Simulation Editors </td>
             <td valign="top">
-				<table>
+				<table border="1" cellspacing="0">
 					<tr>
 						<td valign="top"><input name="editing_users" type="radio" value="specific_users"
 						 <%= USIP_OSP_Util.matchSelected(simulation.getSimEditingRestrictions(), Simulation.SPECIFIC_USERS , "checked=\"checked\"") %>
+						 <%= SimEditAuthorization.getDisabledCode(canEdit) %>
 						 /></td>
 						<td width="100%" valign="top">
 			  				<%
-			  				List userList = SimEditors.getAuthorizedUsers(afso.schema, afso.sim_id, afso.user_id);
+			  				List userList = SimEditors.getAuthorizedUsers(afso.schema, afso.sim_id);
 							
 							for (ListIterator li = userList.listIterator(); li.hasNext();) {
 								User user = (User) li.next();
 			
 			  				%>
-							<%= user.getUserName() %><br />
+			  				<%= user.getUserName() %><br />
 							<%  } // end of loop over users %>
-			  				Add Editor</td>
+			  				<a href="add_editor.jsp">Add/Remove Editors</a></td>
 			  		</tr>
 					<tr>
 						<td><input name="editing_users" type="radio" value="everyone" 
 						<%= USIP_OSP_Util.matchSelected(simulation.getSimEditingRestrictions(), Simulation.EVERYONE , "checked=\"checked\"") %>
+						 <%= SimEditAuthorization.getDisabledCode(canEdit) %>
 						/></td>
 						<td>Everyone</td>
 					</tr>
-				</table>
-          </tr>
+				</table>          </tr>
           <tr>
             <td>&nbsp;</td>
               <td valign="top">Simulation Copyright String <a href="helptext/sim_copyright.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top"> <textarea name="simcopyright" tabindex="4"><%= simulation.getCopyright_string() %></textarea></td>
+              <td valign="top"> <textarea name="simcopyright" tabindex="4" <%= SimEditAuthorization.getDisabledCode(canEdit) %>><%= simulation.getCopyright_string() %></textarea></td>
             </tr>
           <tr>
             <td>&nbsp;</td>
               <td valign="top">Simulation Blurb <a href="helptext/sim_blurb.jsp" target="helpinright">(?)</a>:</td>
-              <td valign="top"><textarea name="simblurb" tabindex="4"><%= simulation.getBlurb() %></textarea></td>
+              <td valign="top"><textarea name="simblurb" tabindex="4" <%= SimEditAuthorization.getDisabledCode(canEdit) %>><%= simulation.getBlurb() %></textarea></td>
             </tr>
           <tr> 
             <td>&nbsp;</td>
@@ -122,13 +107,12 @@
                 <%
 				if (afso.sim_id == null) {
 				%>
-                <input type="submit" name="command" value="Create" />
                 <%
 				} else {
 				%>
                 <input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
 				<table width="100%"><tr>
-                <td align="left"><input type="submit"  name="command" value="Update" /></td>
+                <td align="left"><input type="submit"  name="command" value="Update" <%= SimEditAuthorization.getDisabledCode(canEdit) %> /><%= SimEditAuthorization.getDisabledCode(canEdit) %></td>
 				<td align="right">&nbsp;</td>
 				</tr></table>
                 <%
@@ -145,8 +129,7 @@
 			%>
             <p align="center">
               <div align="center">
-			  Simulation has been created.
-			    <form action="create_simulation_objectives.jsp" method="post" name="form1" id="form1">
+                <form action="create_simulation_objectives.jsp" method="post" name="form1" id="form1">
               <label><input type="submit" name="Submit" value="Proceed to Next Step" /></label>
 			  
 			  </form>
@@ -170,6 +153,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

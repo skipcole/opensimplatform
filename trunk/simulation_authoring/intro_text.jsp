@@ -53,7 +53,9 @@ errorPage="../error.jsp" %>
               <% if (afso.sim_id != null) { %>
               	<p>You are working on simulation <span class="style1"><%= simulation.getSimulationName() %></span>.</p>
                 <p>To select/create a different simulation, <a href="select_simulation.jsp">click here</a>.</p>
-              <% } %>
+              <% } else { %>
+			  <p>You are not currently editing any simulations.To continue, <a href="create_simulation.jsp">create a new simulation</a>, or <a href="select_simulation.jsp">select one</a> already loaded on this platform.</p>
+			  <% } %>
 			  <br />            <table  background="../Templates/images/page_bg.png" align="center" cellpadding="0" cellspacing="0">
               <tr> 
                 <td width="80%"> 

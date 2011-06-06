@@ -200,6 +200,28 @@ public class UserAssignment{
 		return returnList;
 	}
 	
+	/**
+	 * 
+	 * @param schema
+	 * @param simId
+	 * @return
+	 */
+	public static List getAllForSim(String schema, Long simId) {
+		
+		List returnList = new ArrayList<UserAssignment>();
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		returnList =  MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery("from UserAssignment where sim_id = :simId")
+			.setLong("simId", simId)	
+			.list();
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		return returnList;
+	}
+	
 	public static List getAllForActorInARunningSim(String schema, Long actor_id, Long running_sim_id) {
 		
 		List returnList = new ArrayList<UserAssignment>();

@@ -747,6 +747,50 @@ public class Simulation implements ExportableObject, Comparable{
 		return -(sim.getDisplayName().compareTo(this.getDisplayName()));
 	}
 	
+	/**
+	 * Checks to see if there are users assigned to this simulation, in which case it will
+	 * not be possible to delete it from this platform.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static boolean checkIfDeletable(String schema, Long sim_id){
+		
+		List activeUserAssignments = UserAssignment.getAllForSim(schema, sim_id);
+		
+		// First check to see if this simulation has any active running simulations
+		if ((activeUserAssignments == null) || (activeUserAssignments.size() == 0)){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Removes a simulation and its sub objects from the database.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 */
+	public static boolean deleteSimulation (String schema, Long sim_id){
+		
+		if (!(Simulation.checkIfDeletable(schema, sim_id))){
+			return false;
+		}
+		
+		Simulation sim = Simulation.getById(schema, sim_id);
+		
+		// Delete Phases
+		
+		// Delete Actors
+		
+		// Delete 
+	
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).delete(sim);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-
+		return true;
+	}
 } // End of Simulation

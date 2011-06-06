@@ -50,30 +50,46 @@
               <br />
 			 
       <blockquote>
-        <p>&nbsp;</p>
-          <p>Below are listed alphabetically all of the current Simulations. Please 
-            select one, or <a href="create_simulation.jsp?clear=true">create a new one</a>, 
-            to continue.</p>
-          <p>&nbsp;</p>
-          <table>
+        <p>On this page you may take the following actions on the simulations listed below. If you need to create a new simulation, <a href="create_simulation.jsp">click here</a>. </p>
+          <ol>
+            <li>Edit. This will queue up the simultation for viewing. But if you do not have permission to edit it, or if it has been published and is locked from editing, you will only be able to view it.</li>
+            <li>Copy. This will allow you to create a copy of the simulation.</li>
+            <li>Rename. This will allow you to change basic simulation information: name, version or name of creating organization.</li>
+            <li>Delete. This will remove the simulation from this platform. If the simulation has running games created on this platform with users assigned to it. It will not be able to delete it. </li>
+          </ol>
+          <table width="100%">
             <%
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
-			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName());
+			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName() + " version " + sim.getVersion());
 			
 		%>
             <tr> 
-              <td><a href="select_simulation.jsp?select_sim=true&backpage=<%= afso.backPage %>&sim_id=<%= sim.getId().toString() %>"><%= sim.getSimulationName() %> version <%= sim.getVersion() %></a></td>
-              <td><input type="submit" name="Submit" value="Copy" /></td>
-              <td><input type="submit" name="Submit2" value="Rename" /></td>
-              <td><input type="submit" name="Submit3" value="Delete" /></td>
-            </tr>
+              <td colspan="5"><strong><%= sim.getSimulationName() %> version <%= sim.getVersion() %></strong></td>
+                    </tr>
+            <tr>
+              <td width="5%" align="right">&nbsp;</td>
+                    <td align="right"><input type="submit" name="edit" value="Edit" /></td>
+                    <td align="right"><input type="submit" name="copy" value="Create Copy" /></td>
+                    <td align="right"><input type="submit" name="rename" value="Rename" /></td>
+                    <td align="right">
+                      <form action="delete_object.jsp" method="get">
+                        <input type="hidden" name="object_type" value="Simulation" />
+                        <input type="hidden" name="object_info" value="<%= nameToSend %>" />
+                        <input type="hidden" name="objid" value="<%= sim.getId() %>" />
+                        <input type="submit" name="delete" value="Delete" />
+                        </form></td>
+                  </tr>
+            <tr>
+              <td colspan="5"><hr /></td>
+                    </tr>
             <%
 	}
 %>
             </table>
-      </blockquote>      <p align="center">&nbsp;</p>			</td>
+      </blockquote>      
+      <p align="center">&nbsp;</p>			</td>
 		</tr>
 		</table>	</td>
   </tr>
