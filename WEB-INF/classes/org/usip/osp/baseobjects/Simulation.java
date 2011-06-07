@@ -1,5 +1,6 @@
 package org.usip.osp.baseobjects;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ import org.apache.log4j.*;
 /**
  * This class represents a simulation.
  */
-/* 
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it
@@ -26,12 +27,11 @@ import org.apache.log4j.*;
  * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. <BR>
- * 
  */
 @Entity
 @Table(name = "SIMULATIONS")
 @Proxy(lazy = false)
-public class Simulation implements ExportableObject, Comparable{
+public class Simulation implements ExportableObject, Comparable {
 
 	/** Database id of this Simulation. */
 	@Id
@@ -46,7 +46,7 @@ public class Simulation implements ExportableObject, Comparable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transitId;
 
@@ -57,7 +57,7 @@ public class Simulation implements ExportableObject, Comparable{
 	public void setTransitId(Long transitId) {
 		this.transitId = transitId;
 	}
-	
+
 	/** Name of this Simulation. */
 	@Column(name = "SIM_NAME")
 	private String name = ""; //$NON-NLS-1$
@@ -84,7 +84,7 @@ public class Simulation implements ExportableObject, Comparable{
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
+
 	public String getSoftwareVersion() {
 		return softwareVersion;
 	}
@@ -92,7 +92,7 @@ public class Simulation implements ExportableObject, Comparable{
 	public void setSoftwareVersion(String softwareVersion) {
 		this.softwareVersion = softwareVersion;
 	}
-	
+
 	/** A paragraph introducing what this simulation is all about. */
 	@Lob
 	private String blurb = ""; //$NON-NLS-1$
@@ -125,7 +125,7 @@ public class Simulation implements ExportableObject, Comparable{
 	@Column(name = "SIM_LEARN_OBJVS")
 	@Lob
 	private String learningObjvs = ""; //$NON-NLS-1$
-	
+
 	/** Hidden Objectives of this Simulation. */
 	@Lob
 	private String hiddenLearningObjectives = ""; //$NON-NLS-1$
@@ -147,16 +147,16 @@ public class Simulation implements ExportableObject, Comparable{
 	public void setPlannedPlayIdeas(String planned_play_ideas) {
 		this.plannedPlayIdeas = planned_play_ideas;
 	}
-	
+
 	/**
-	 * Returns the PlannedPlaySessionParameters associated with this simulation which,
-	 * for convenience, has the same id as this simulation.
+	 * Returns the PlannedPlaySessionParameters associated with this simulation
+	 * which, for convenience, has the same id as this simulation.
 	 * 
 	 * @param schema
 	 * @return
 	 */
-	public PlannedPlaySessionParameters getPPSP(String schema){
-		if (this.id == null){
+	public PlannedPlaySessionParameters getPPSP(String schema) {
+		if (this.id == null) {
 			return new PlannedPlaySessionParameters();
 		} else {
 			return PlannedPlaySessionParameters.getById(schema, this.id);
@@ -182,13 +182,13 @@ public class Simulation implements ExportableObject, Comparable{
 
 	/** Flag to let instructors know it can be used. */
 	private boolean isInternallyPublished = false;
-	
+
 	/** Flag to let web visitors know it can be used. */
 	private boolean isExternallyPublished = false;
 
 	@Column(name = "LISTINGKEYWORDS")
 	private String listingKeyWords = ""; //$NON-NLS-1$
-	
+
 	/** Flag to indicate that simulation has been lastEdited. */
 	private Date lastEditDate;
 
@@ -199,35 +199,41 @@ public class Simulation implements ExportableObject, Comparable{
 	public void setLastEditDate(Date lastEditDate) {
 		this.lastEditDate = lastEditDate;
 	}
-	
+
 	public void updateLastEditDate(String schema) {
-		
+
 		this.lastEditDate = new Date();
 		this.saveMe(schema);
 	}
-	
+
 	/**
 	 * Updates the last time a simulation was edited.
 	 * 
 	 * @param sim_id
 	 * @param schema
 	 */
-	public static void updateSimsLastEditDate(Long sim_id, String schema){
+	public static void updateSimsLastEditDate(Long sim_id, String schema) {
 		Simulation sim = Simulation.getById(schema, sim_id);
 		sim.updateLastEditDate(schema);
 	}
-	
+
 	/** Used to indicate that the simulation is locked on this platform. */
 	public static final int CAN_BE_EDITED_BY_NO_ONE = -1;
-	
-	/** Used to indicate that the simulation can be edited by specific users on this platform. */
+
+	/**
+	 * Used to indicate that the simulation can be edited by specific users on
+	 * this platform.
+	 */
 	public static final int CAN_BE_EDITED_BY_SPECIFIC_USERS = 0;
-	
-	/** Used to indicate that the simulation can be edited by everyone on this platform. */
+
+	/**
+	 * Used to indicate that the simulation can be edited by everyone on this
+	 * platform.
+	 */
 	public static final int CAN_BE_EDITED_BY_EVERYONE = 1;
 
 	private int simEditingRestrictions = CAN_BE_EDITED_BY_SPECIFIC_USERS;
-		
+
 	public int getSimEditingRestrictions() {
 		return simEditingRestrictions;
 	}
@@ -239,13 +245,13 @@ public class Simulation implements ExportableObject, Comparable{
 	public static final int NOT_PUBLISHED = 0;
 	public static final int PUBLISHED_INTERNALLY = 1;
 	public static final int PUBLISHED_EXTERNALLY = 2;
-	
+
 	private int publishedState = NOT_PUBLISHED;
-	
+
 	private Date publishedInternallyDate;
-	
+
 	private Date publishedExternallyDate;
-	
+
 	public int getPublishedState() {
 		return publishedState;
 	}
@@ -309,83 +315,92 @@ public class Simulation implements ExportableObject, Comparable{
 	public static void main(String args[]) {
 
 		Logger.getRootLogger().debug("hello world"); //$NON-NLS-1$
-		
+
 		Simulation a = new Simulation();
 		Simulation b = new Simulation();
-		
+
 		a.setLearning_objvs("a");
 		b.setLearning_objvs("a");
-		
+
 		System.out.println(Simulation.compare(a, b, true));
-		
 
 	}
+
 	/**
-	 * Compares the simulations and returns an xml string indicating any differences.
+	 * Compares the simulations and returns an xml string indicating any
+	 * differences.
 	 * 
 	 * @param sim_a
 	 * @param sim_b
 	 * @return
 	 */
-	public static String compare(Simulation sim_a, Simulation sim_b, boolean exclude_name){
-		
+	public static String compare(Simulation sim_a, Simulation sim_b,
+			boolean exclude_name) {
+
 		boolean foundDifference = false;
-		
+
 		String differenceString = "<SIM_COMPARE>\r\n";
-		
-		
+
 		// Compare Objectives
-		if (sim_a.getLearning_objvs().equals(sim_b.getLearning_objvs())){
-			differenceString += ObjectPackager.addResultsToXML("     <OBJECTIVES>", "</OBJECTIVES>\r\n", true);
+		if (sim_a.getLearning_objvs().equals(sim_b.getLearning_objvs())) {
+			differenceString += ObjectPackager.addResultsToXML(
+					"     <OBJECTIVES>", "</OBJECTIVES>\r\n", true);
 		} else {
-			differenceString += ObjectPackager.addResultsToXML("     <OBJECTIVES>", "</OBJECTIVES>\r\n", false);
+			differenceString += ObjectPackager.addResultsToXML(
+					"     <OBJECTIVES>", "</OBJECTIVES>\r\n", false);
 			foundDifference = true;
 		}
-		
+
 		// Compare Audience
-		if (sim_a.getAudience().equals(sim_b.getAudience())){
-			differenceString += ObjectPackager.addResultsToXML("     <AUDIENCE>", "</AUDIENCE>\r\n", true);
+		if (sim_a.getAudience().equals(sim_b.getAudience())) {
+			differenceString += ObjectPackager.addResultsToXML(
+					"     <AUDIENCE>", "</AUDIENCE>\r\n", true);
 		} else {
-			differenceString += ObjectPackager.addResultsToXML("     <AUDIENCE>", "</AUDIENCE>\r\n", false);
+			differenceString += ObjectPackager.addResultsToXML(
+					"     <AUDIENCE>", "</AUDIENCE>\r\n", false);
 			foundDifference = true;
 		}
-		
+
 		// Compare Planned Play Ideas
-		if (sim_a.getPlannedPlayIdeas().equals(sim_b.getPlannedPlayIdeas())){
-			differenceString += ObjectPackager.addResultsToXML("     <PLANNED_PLAY_IDEAS>", "</PLANNED_PLAY_IDEAS>\r\n", true);
+		if (sim_a.getPlannedPlayIdeas().equals(sim_b.getPlannedPlayIdeas())) {
+			differenceString += ObjectPackager.addResultsToXML(
+					"     <PLANNED_PLAY_IDEAS>", "</PLANNED_PLAY_IDEAS>\r\n",
+					true);
 		} else {
-			differenceString += ObjectPackager.addResultsToXML("     <PLANNED_PLAY_IDEAS>", "</PLANNED_PLAY_IDEAS>\r\n", false);
+			differenceString += ObjectPackager.addResultsToXML(
+					"     <PLANNED_PLAY_IDEAS>", "</PLANNED_PLAY_IDEAS>\r\n",
+					false);
 			foundDifference = true;
 		}
-		
+
 		// Compare Introductions
-		if (sim_a.getIntroduction().equals(sim_b.getIntroduction())){
-			differenceString += ObjectPackager.addResultsToXML("     <INTRODUCTION>", "</INTRODUCTION>\r\n", true);
+		if (sim_a.getIntroduction().equals(sim_b.getIntroduction())) {
+			differenceString += ObjectPackager.addResultsToXML(
+					"     <INTRODUCTION>", "</INTRODUCTION>\r\n", true);
 		} else {
-			differenceString += ObjectPackager.addResultsToXML("     <INTRODUCTION>", "</INTRODUCTION>\r\n", false);
+			differenceString += ObjectPackager.addResultsToXML(
+					"     <INTRODUCTION>", "</INTRODUCTION>\r\n", false);
 			foundDifference = true;
 		}
-		
+
 		// Need to compare phases
-		
+
 		// Look at results to see if any of them differed.
-		String phaseCompareXML = SimulationPhase.compare(new SimulationPhase(), new SimulationPhase());
-		
-		if (!(phaseCompareXML.contains("<RESULTS>Same</RESULTS"))){
+		String phaseCompareXML = SimulationPhase.compare(new SimulationPhase(),
+				new SimulationPhase());
+
+		if (!(phaseCompareXML.contains("<RESULTS>Same</RESULTS"))) {
 			foundDifference = true;
 		}
 		differenceString += phaseCompareXML;
-		
-		differenceString += ObjectPackager.addResultsToXML("     <RESULTS>", "</RESULTS>\r\n", !(foundDifference));
-		
+
+		differenceString += ObjectPackager.addResultsToXML("     <RESULTS>",
+				"</RESULTS>\r\n", !(foundDifference));
+
 		differenceString += "</SIM_COMPARE>";
-		
+
 		return differenceString;
 	}
-	
-
-	
-	
 
 	/**
 	 * Creates the initial phases and standard universal sections of a
@@ -412,46 +427,54 @@ public class Simulation implements ExportableObject, Comparable{
 
 		// Create object in the database
 		@SuppressWarnings("unused")
-		SimPhaseAssignment spf = new SimPhaseAssignment(schema, this.getId(), sp_first.getId());
+		SimPhaseAssignment spf = new SimPhaseAssignment(schema, this.getId(),
+				sp_first.getId());
 
 		// Create object in the database
 		@SuppressWarnings("unused")
-		SimPhaseAssignment spl = new SimPhaseAssignment(schema, this.getId(), sp_last.getId());
+		SimPhaseAssignment spl = new SimPhaseAssignment(schema, this.getId(),
+				sp_last.getId());
 		// /////////////////////////////////////////////////
 
 		// Add the introduction section to the set of universal sections.
-		// Maybe should look this up in some other way, but I'll save that for another day.
-		BaseSimSection introSection = BaseSimSection.getByRecommendedTagHeading(schema, "Introduction"); //$NON-NLS-1$
+		// Maybe should look this up in some other way, but I'll save that for
+		// another day.
+		BaseSimSection introSection = BaseSimSection
+				.getByRecommendedTagHeading(schema, "Introduction"); //$NON-NLS-1$
 
 		// Add the introduction as the first tab to all players.
 		@SuppressWarnings("unused")
-		SimulationSectionAssignment ss_intro = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
-				.getId(), introSection.getId(), "Introduction", 1); //$NON-NLS-1$
+		SimulationSectionAssignment ss_intro = new SimulationSectionAssignment(
+				schema, this.getId(), new Long(0), sp_first.getId(),
+				introSection.getId(), "Introduction", 1); //$NON-NLS-1$
 
-		
 		// Add the schedule section to the set of universal sections.
-		// Maybe should look this up in some other way, but I'll save that for another day.
-		BaseSimSection scheduleSection = BaseSimSection.getByRecommendedTagHeading(schema, "Schedule"); //$NON-NLS-1$
+		// Maybe should look this up in some other way, but I'll save that for
+		// another day.
+		BaseSimSection scheduleSection = BaseSimSection
+				.getByRecommendedTagHeading(schema, "Schedule"); //$NON-NLS-1$
 
 		// Add the schedule as the first tab to all players.
 		@SuppressWarnings("unused")
-		SimulationSectionAssignment ss_sched = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_first
-				.getId(), scheduleSection.getId(), "Schedule", 2); //$NON-NLS-1$
-		
-		
+		SimulationSectionAssignment ss_sched = new SimulationSectionAssignment(
+				schema, this.getId(), new Long(0), sp_first.getId(),
+				scheduleSection.getId(), "Schedule", 2); //$NON-NLS-1$
+
 		// Add the after action review section to the set of universal sections.
-		// Maybe should look this up in some other way, but I'll save that for another day.
-		BaseSimSection aarSection = BaseSimSection.getByRecommendedTagHeading(schema, "AAR"); //$NON-NLS-1$
+		// Maybe should look this up in some other way, but I'll save that for
+		// another day.
+		BaseSimSection aarSection = BaseSimSection.getByRecommendedTagHeading(
+				schema, "AAR"); //$NON-NLS-1$
 
 		// Add the introduction as the first tab to all players.
 		@SuppressWarnings("unused")
-		SimulationSectionAssignment ss_aar = new SimulationSectionAssignment(schema, this.getId(), new Long(0), sp_last
-				.getId(), aarSection.getId(), "AAR", 1); //$NON-NLS-1$
+		SimulationSectionAssignment ss_aar = new SimulationSectionAssignment(
+				schema, this.getId(), new Long(0), sp_last.getId(), aarSection
+						.getId(), "AAR", 1); //$NON-NLS-1$
 
-		
 		// TODO: Not sure this is actually necessary at this point
-		SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(schema, this.getId(), sp_first.getId());
-		
+		SimulationSectionAssignment.applyUniversalSectionsToAllActorsForPhase(
+				schema, this.getId(), sp_first.getId());
 
 		this.saveMe(schema);
 	}
@@ -460,36 +483,45 @@ public class Simulation implements ExportableObject, Comparable{
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery("from Simulation").list(); //$NON-NLS-1$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery("from Simulation").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
 
-	/** Returns a list of simulations that have been internally published - instructors registered
-	 * on the platform will be able to run the simulation. */
+	/**
+	 * Returns a list of simulations that have been internally published -
+	 * instructors registered on the platform will be able to run the
+	 * simulation.
+	 */
 	public static List getAllInternallyPublished(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Simulation where isInternallyPublished = '1'") //$NON-NLS-1$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(
+						"from Simulation where isInternallyPublished = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
-	
-	/** Returns a list of simulations that have been externally published - web visitors
-	 * looking at a review of this platforms simulations will be able to see the sim in the library. */
+
+	/**
+	 * Returns a list of simulations that have been externally published - web
+	 * visitors looking at a review of this platforms simulations will be able
+	 * to see the sim in the library.
+	 */
 	public static List getAllExternallyPublished(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Simulation where isExternallyPublished = '1'") //$NON-NLS-1$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(
+						"from Simulation where isExternallyPublished = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -507,8 +539,10 @@ public class Simulation implements ExportableObject, Comparable{
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Simulation where isInternallyPublished = '1' and allowPlayerAutoreg = '1'") //$NON-NLS-1$
+		List returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from Simulation where isInternallyPublished = '1' and allowPlayerAutoreg = '1'") //$NON-NLS-1$
 				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -518,10 +552,10 @@ public class Simulation implements ExportableObject, Comparable{
 
 	/** Saves a simulation. */
 	public void saveMe(String schema) {
-		
+
 		// Save the last updated date each time this simulaiton is saved.
 		this.setLastEditDate(new Date());
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
@@ -540,39 +574,42 @@ public class Simulation implements ExportableObject, Comparable{
 	public static Simulation getById(String schema, Long sim_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Simulation simulation = (Simulation) MultiSchemaHibernateUtil.getSession(schema).get(Simulation.class, sim_id);
+		Simulation simulation = (Simulation) MultiSchemaHibernateUtil
+				.getSession(schema).get(Simulation.class, sim_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return simulation;
 	}
-	
-	/** Returns the start date for the simulation phase.
+
+	/**
+	 * Returns the start date for the simulation phase.
 	 * 
 	 * @param schema
 	 * @param phase_id
 	 * @return
 	 */
-	public Date getPhaseStartTime(String schema, Long phase_id){
+	public Date getPhaseStartTime(String schema, Long phase_id) {
 		SimulationPhase sp = SimulationPhase.getById(schema, phase_id);
-		
+
 		// For now arbitrarily set date to 1/1/2001.
 		Calendar cal = new GregorianCalendar();
-		
+
 		// Year, month, day, hour, minute
 		cal.set(2001, 0, 1, 9, 0);
-		
+
 		java.util.Date phaseStartDate = cal.getTime();
-		
+
 		return phaseStartDate;
-		//return sp.getPhaseStartDate();
-		
+		// return sp.getPhaseStartDate();
+
 	}
 
 	/** Returns the id of the first phase in a simulation. */
 	public Long getFirstPhaseId(String schema) {
 
-		for (ListIterator li = this.getPhases(schema).listIterator(); li.hasNext();) {
+		for (ListIterator li = this.getPhases(schema).listIterator(); li
+				.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 
 			if (sp.isFirstPhase()) {
@@ -587,7 +624,8 @@ public class Simulation implements ExportableObject, Comparable{
 	/** Returns the id of the last phase in a simulation. */
 	public Long getLastPhaseId(String schema) {
 
-		for (ListIterator li = this.getPhases(schema).listIterator(); li.hasNext();) {
+		for (ListIterator li = this.getPhases(schema).listIterator(); li
+				.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 
 			if (sp.getPhaseName().equalsIgnoreCase("Completed")) { //$NON-NLS-1$
@@ -605,11 +643,12 @@ public class Simulation implements ExportableObject, Comparable{
 	 * 
 	 * @param rs_name
 	 */
-	public RunningSimulation addNewRunningSimulation(String rs_name, String schema, 
-			Long _creator_id, String _creator_name, String _timezone) {
+	public RunningSimulation addNewRunningSimulation(String rs_name,
+			String schema, Long _creator_id, String _creator_name,
+			String _timezone) {
 
-		RunningSimulation rs = 
-			new RunningSimulation(rs_name, this, schema, _creator_id, _creator_name, _timezone);
+		RunningSimulation rs = new RunningSimulation(rs_name, this, schema,
+				_creator_id, _creator_name, _timezone);
 
 		return rs;
 
@@ -655,7 +694,8 @@ public class Simulation implements ExportableObject, Comparable{
 
 		List fullList = Actor.getAllForSimulation(schema, this.getId());
 
-		for (ListIterator la = this.getActors(schema).listIterator(); la.hasNext();) {
+		for (ListIterator la = this.getActors(schema).listIterator(); la
+				.hasNext();) {
 			Actor act = (Actor) la.next();
 
 			for (int ii = 0; ii < fullList.size(); ++ii) {
@@ -679,12 +719,15 @@ public class Simulation implements ExportableObject, Comparable{
 	}
 
 	public List<RunningSimulation> getRunning_sims(String schema) {
-		
-		if (this.id == null){
-			Logger.getRootLogger().warn("Simulation with null id called upon to return list of running sims.");
+
+		if (this.id == null) {
+			Logger
+					.getRootLogger()
+					.warn(
+							"Simulation with null id called upon to return list of running sims.");
 			return new ArrayList<RunningSimulation>();
 		}
-		
+
 		return RunningSimulation.getAllForSim(this.id, schema);
 	}
 
@@ -712,7 +755,6 @@ public class Simulation implements ExportableObject, Comparable{
 		this.aarStarterText = aar_starter_text;
 	}
 
-
 	public String getCopyright_string() {
 		return this.copyrightString;
 	}
@@ -724,7 +766,7 @@ public class Simulation implements ExportableObject, Comparable{
 	public boolean isExternallyPublished() {
 		return this.isExternallyPublished;
 	}
-	
+
 	public void setExternallyPublished(boolean isExternallyPublished) {
 		this.isExternallyPublished = isExternallyPublished;
 	}
@@ -752,51 +794,98 @@ public class Simulation implements ExportableObject, Comparable{
 
 		return -(sim.getDisplayName().compareTo(this.getDisplayName()));
 	}
-	
+
 	/**
-	 * Checks to see if there are users assigned to this simulation, in which case it will
-	 * not be possible to delete it from this platform.
+	 * Checks to see if there are users assigned to this simulation, in which
+	 * case it will not be possible to delete it from this platform.
 	 * 
 	 * @param schema
 	 * @param sim_id
 	 * @return
 	 */
-	public static boolean checkIfDeletable(String schema, Long sim_id){
-		
-		List activeUserAssignments = UserAssignment.getAllForSim(schema, sim_id);
-		
-		// First check to see if this simulation has any active running simulations
-		if ((activeUserAssignments == null) || (activeUserAssignments.size() == 0)){
+	public static boolean checkIfDeletable(String schema, Long sim_id) {
+
+		List activeUserAssignments = UserAssignment
+				.getAllForSim(schema, sim_id);
+
+		// First check to see if this simulation has any active running
+		// simulations
+		if ((activeUserAssignments == null)
+				|| (activeUserAssignments.size() == 0)) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Removes a simulation and its sub objects from the database.
 	 * 
 	 * @param schema
 	 * @param sim_id
 	 */
-	public static boolean deleteSimulation (String schema, Long sim_id){
-		
-		if (!(Simulation.checkIfDeletable(schema, sim_id))){
+	public static boolean deleteSimulation(String schema, Long sim_id) {
+
+		if (!(Simulation.checkIfDeletable(schema, sim_id))) {
 			return false;
 		}
-		
+
 		Simulation sim = Simulation.getById(schema, sim_id);
-		
+
 		// Delete Phases
-		
+
 		// Delete Actors
-		
-		// Delete 
-	
+
+		// Delete
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).delete(sim);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return true;
+	}
+
+	/**
+	 * Copies in the values held in the oldSimulation and recreates all of its
+	 * objects.
+	 * 
+	 * @param oldSimulation
+	 */
+	public void copyIn(Simulation oldSimulation) {
+
+		copyInBasicValues(oldSimulation);
+		
+		//TODO Do deep copy
+
+	}
+
+	/**
+	 * Copies in the values from the Simulation passed in.
+	 * 
+	 * @param os
+	 */
+	public void copyInBasicValues(Simulation os) {
+
+		Field[] fields = Simulation.class.getDeclaredFields();
+		for (int i = 0; i < fields.length; i++) {
+			fields[i].setAccessible(true);
+			try {
+				fields[i].set(this, fields[i].get(os));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		/*
+		 * this.setAarStarterText(os.getAarStarterText());
+		 * this.setAudience(os.getAudience()); this.setBlurb(os.getBlurb());
+		 * this.setCopyright_string(os.getCopyright_string());
+		 * this.setCreation_org(os.getCreation_org());
+		 * this.setCreator(os.getCreator());
+		 * this.setHiddenLearningObjectives(os.getHiddenLearningObjectives());
+		 * this.setIntroduction(os.getIntroduction());
+		 * this.setLastEditDate(os.getLastEditDate());
+		 * this.setLearning_objvs(os.getLearning_objvs());
+		 * this.setListingKeyWords(os.getListingKeyWords()); this.set
+		 */
 	}
 } // End of Simulation
