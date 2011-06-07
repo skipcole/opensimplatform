@@ -217,10 +217,16 @@ public class Simulation implements ExportableObject, Comparable{
 		sim.updateLastEditDate(schema);
 	}
 	
-	public static final int SPECIFIC_USERS = 0;
-	public static final int EVERYONE = 1;
+	/** Used to indicate that the simulation is locked on this platform. */
+	public static final int CAN_BE_EDITED_BY_NO_ONE = -1;
+	
+	/** Used to indicate that the simulation can be edited by specific users on this platform. */
+	public static final int CAN_BE_EDITED_BY_SPECIFIC_USERS = 0;
+	
+	/** Used to indicate that the simulation can be edited by everyone on this platform. */
+	public static final int CAN_BE_EDITED_BY_EVERYONE = 1;
 
-	private int simEditingRestrictions = SPECIFIC_USERS;
+	private int simEditingRestrictions = CAN_BE_EDITED_BY_SPECIFIC_USERS;
 		
 	public int getSimEditingRestrictions() {
 		return simEditingRestrictions;

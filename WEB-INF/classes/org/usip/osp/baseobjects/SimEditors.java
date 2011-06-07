@@ -34,12 +34,20 @@ public class SimEditors {
 		this.creationDate = new Date();
 	}
 	
-	public SimEditors(String schema, Long simId, Long userId, String userName, String userEmail) {
+	/** Convenience method to create and save.
+	 * 
+	 * @param schema
+	 * @param simId
+	 * @param userId
+	 * @param userDisplayName
+	 * @param userEmail
+	 */
+	public SimEditors(String schema, Long simId, Long userId, String userDisplayName, String userEmail) {
 		this.creationDate = new Date();
 		this.simId = simId;
 		this.userId = userId;
 		this.userEmail = userEmail;
-		this.userName = userName;
+		this.userName = userDisplayName;
 		this.saveMe(schema);
 	}
 

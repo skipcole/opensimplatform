@@ -52,9 +52,18 @@ errorPage="../error.jsp" %>
 			  <h1 align="center"> Welcome <%= afso.userDisplayName %> ! </h1>
               <% if (afso.sim_id != null) { %>
               	<p>You are working on simulation <span class="style1"><%= simulation.getSimulationName() %></span>.</p>
-                <p>To select/create a different simulation, <a href="select_simulation.jsp">click here</a>.</p>
-              <% } else { %>
-			  <p>You are not currently editing any simulations.To continue, <a href="create_simulation.jsp">create a new simulation</a>, or <a href="select_simulation.jsp">select one</a> already loaded on this platform.</p>
+                <blockquote>
+                  <p>If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
+                    here</a>.<br />
+To create a new simulation, <a href="create_simulation.jsp?clear=true">click here</a>.</p>
+                </blockquote>
+                <% } else { %>
+			    <p align="left">No simulation currently selected for editing. </p>
+			    <blockquote>
+                  <p align="left">To select a simulation to work on, <a href="select_simulation.jsp">click 
+                    here</a>.<br />
+                    To create a new simulation, <a href="create_simulation.jsp?clear=true">click here</a>. </p>
+			      </blockquote>
 			  <% } %>
 			  <br />            <table  background="../Templates/images/page_bg.png" align="center" cellpadding="0" cellspacing="0">
               <tr> 

@@ -15,11 +15,11 @@
 		return;
 	}
 	
-    Simulation simulation = afso.handleCreateSim(request); 
+    Simulation simulation = afso.handleCopySim(request); 
 	
 	if (afso.forward_on) {
 		afso.forward_on = false;
-		response.sendRedirect("create_simulation_done.jsp?comingfrom=Created");
+		response.sendRedirect("create_simulation_done.jsp?comingfrom=Copied");
 		return;
 	}
 
@@ -42,11 +42,11 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Create New Simulation </h1>
-              <p>On this page you will enter the most basic information concerning your simulation.</p>
+              <h1>Copy Simulation </h1>
+              <p>On this page you can create a copy of an existing simulation.</p>
               <br />
-      <form action="create_simulation.jsp" method="post" name="form1" id="form1">
-        <input type="hidden" name="sending_page" value="create_simulation" />
+      <form action="rename_simulation.jsp" method="post" name="form1" id="form1">
+        <input type="hidden" name="sending_page" value="rename" />
         <blockquote>
         
         <table width="80%" border="0" cellspacing="2" cellpadding="2">
@@ -72,15 +72,21 @@
             <td>&nbsp;</td>
               <td valign="top">&nbsp;</td>
               <td valign="top">
-
-                <input type="submit" name="command" value="Create" />
-           </td>
+                <%
+				if (afso.sim_id != null) {
+				%>
+				<input type="submit" name="command" value="Update" />
+                <input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
+                <%
+					}
+				%>              </td>
             </tr>
           </table>
 		  
+		  <p>Back to the <a href="control_panel.jsp">Control Panel </a></p>
 		  <p>&nbsp;		        </p>
       </form>
- 
+
       <p align="center"></p>			</td>
 		</tr>
 		</table>	</td>

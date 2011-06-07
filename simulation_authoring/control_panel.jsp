@@ -44,26 +44,29 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Simulation Author Control Panel</h1>
-              <p align="center">
-                <% 
+              <blockquote>
+                <p align="left">
+                  <% 
 			if (afso.sim_id != null) {
 			
 				String gameNameDisplay = simulation.getSimulationName() + " version " + simulation.getVersion();
 
 		%>
-                You are currently working on the simulation <strong><%= gameNameDisplay %></strong>.<br />
-                (If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
-                  here</a>.)
-                <% } else { // End of if have set simulation id. %>
-              </p>
-              <div align="center">
-                <blockquote>&nbsp; </blockquote>
-              </div>
-              <blockquote>
-                <p align="center"> No simulation currently selected for editing. </p>
-                <p align="center">To select a simulation to work on, <a href="select_simulation.jsp">click 
-                  here</a>. </p>
-                <p align="center">To create a new simulation, <a href="create_simulation.jsp">click here</a>. </p>
+                  You are currently working on the simulation <strong><%= gameNameDisplay %></strong>.</p>
+                <blockquote>
+                  <p align="left"> If you would like to work on a different simulation, <a href="select_simulation.jsp">click 
+                    here</a>.<br />
+                    To create a new simulation, <a href="create_simulation.jsp?clear=true">click here</a>.
+                        <% } else { // End of if have set simulation id. %>
+                  </p>
+                </blockquote>
+              
+                <p align="left"> No simulation currently selected for editing. </p>
+                <blockquote>
+                  <p align="left">To select a simulation to work on, <a href="select_simulation.jsp">click 
+                    here</a>.<br />
+                    To create a new simulation, <a href="create_simulation.jsp?clear=true">click here</a>. </p>
+                  </blockquote>
               </blockquote>
               <% } // End of if have not set simulation for edits. %>
               </p>
@@ -79,7 +82,6 @@
               <p>You can either work through the steps sequentially, or skip around amongst them after having completed the first step. Creating a simulation generally a requires many hours of work, but this can be spread out over as many days as you wish. Any information that you add here can always be modified  later. </p>
               <p>Good luck in your work! </p>
               <p>The USIP OSP Team </p>
-              <p>PS. If you have any suggestions to make this tool better. Please direct them to osp@usip.org. </p>
               <p>&nbsp; </p></td>
         </tr>
         <tr valign="top"> 

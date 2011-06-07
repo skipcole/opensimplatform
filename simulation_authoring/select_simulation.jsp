@@ -20,7 +20,7 @@
 	
 	if (afso.forward_on){
 		afso.forward_on = false;
-		response.sendRedirect(afso.backPage);
+		response.sendRedirect("control_panel.jsp");
 		return;
 	}
 	
@@ -58,6 +58,9 @@
             <li>Delete. This will remove the simulation from this platform. If the simulation has running games created on this platform with users assigned to it. It will not be able to delete it. </li>
           </ol>
           <table width="100%">
+		  <tr>
+              <td colspan="5"><hr /></td>
+            </tr>
             <%
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
@@ -65,14 +68,30 @@
 			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName() + " version " + sim.getVersion());
 			
 		%>
+            
             <tr> 
               <td colspan="5"><strong><%= sim.getSimulationName() %> version <%= sim.getVersion() %></strong></td>
                     </tr>
             <tr>
               <td width="5%" align="right">&nbsp;</td>
-                    <td align="right"><input type="submit" name="edit" value="Edit" /></td>
-                    <td align="right"><input type="submit" name="copy" value="Create Copy" /></td>
-                    <td align="right"><input type="submit" name="rename" value="Rename" /></td>
+                    <td align="right">
+						<form action="select_simulation.jsp" method="get">
+							<input type="hidden" name="select_sim" value="true" />
+							<input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
+							<input type="submit" name="edit" value="Edit" />
+                    	</form>
+					</td>
+					<td align="right">
+						<form action="copy_simulation.jsp" method="get">
+							<input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
+							<input type="submit" name="copy" value="Create Copy" />
+						</form>
+					</td>
+                    <td align="right">
+						<form action="rename_simulation.jsp" method="get">
+							<input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
+							<input type="submit" name="rename" value="Rename" />
+						</form></td>
                     <td align="right">
                       <form action="delete_object.jsp" method="get">
                         <input type="hidden" name="object_type" value="Simulation" />
