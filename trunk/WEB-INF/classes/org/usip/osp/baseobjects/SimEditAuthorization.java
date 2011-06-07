@@ -45,7 +45,7 @@ public class SimEditAuthorization {
 		
 		Simulation sim = Simulation.getById(schema, sim_id);
 		
-		if (sim.getSimEditingRestrictions() == Simulation.SPECIFIC_USERS){
+		if (sim.getSimEditingRestrictions() == Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS){
 			// need to check to see if this user is autorized
 			if (!(SimEditors.checkIfAuthorized(schema, sim_id, user_id))){
 				return NOT_AUTHORIZED;

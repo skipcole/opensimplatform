@@ -1997,7 +1997,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * 
 	 * @param request
 	 */
-	public Simulation handleCreateOrUpdateNewSim(HttpServletRequest request) {
+	public Simulation handleCreateSim(HttpServletRequest request) {
 
 		Simulation simulation = new Simulation();
 
@@ -2006,18 +2006,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.getParameter("simulation_name");
 		String simulation_version = (String) request
 				.getParameter("simulation_version");
-
 		String creation_org = (String) request.getParameter("creation_org");
-		String simcreator = (String) request.getParameter("simcreator");
-		String simcopyright = (String) request.getParameter("simcopyright");
 
-		String simblurb = (String) request.getParameter("simblurb");
 
 		String clear = (String) request.getParameter("clear");
 		if ((clear != null) && (clear.equalsIgnoreCase("true"))) {
 			simulation = new Simulation();
-			sim_id = null;
-
 			return simulation;
 		}
 
@@ -2028,52 +2022,78 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation.setVersion(simulation_version);
 				simulation.setSoftwareVersion(USIP_OSP_Properties.getRelease());
 				simulation.setCreation_org(creation_org);
-				simulation.setCreator(simcreator);
-				simulation.setCopyright_string(simcopyright);
-				simulation.setBlurb(simblurb);
 
 				simulation.createDefaultObjects(schema);
 
 				simulation.saveMe(schema);
 				SimEditors simEditors = new SimEditors(schema, simulation.getId(), 
-						this.user_id, simcreator, this.user_email);
+						this.user_id, this.userDisplayName, this.user_email);
 				simEditors.saveMe(schema);
 				
 				this.phase_id = simulation.getFirstPhaseId(schema);
+				
+				this.sim_id = simulation.getId();
 
-			} else if (command.equalsIgnoreCase("Update")) { // 
-				String sim_id = (String) request.getParameter("sim_id");
-				simulation = Simulation.getById(schema, new Long(sim_id));
+				saveLastSimEdited();
+				
+				this.forward_on = true;
+
+			} 
+		}
+
+		return simulation;
+	}
+	
+	/**
+	 * Allows for the renaming/re-versioning of a simulation. 
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public Simulation handleRenameSim(HttpServletRequest request) {
+
+		Simulation simulation = new Simulation();
+		
+		String sim_id = (String) request.getParameter("sim_id");
+		
+		if (sim_id != null){
+			simulation = Simulation.getById(schema, new Long(sim_id));
+		}
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String simulation_name = (String) request
+				.getParameter("simulation_name");
+		String simulation_version = (String) request
+				.getParameter("simulation_version");
+		String creation_org = (String) request.getParameter("creation_org");
+
+
+		if (sending_page != null) {
+			if (sending_page.equalsIgnoreCase("rename")) { // 
+				
 				simulation.setSimulationName(simulation_name);
 				simulation.setVersion(simulation_version);
-				simulation.setSoftwareVersion(USIP_OSP_Properties.getRelease());
 				simulation.setCreation_org(creation_org);
-				// simulation.setCreator(simcreator);
-				simulation.setCopyright_string(simcopyright);
-				simulation.setBlurb(simblurb);
 
 				simulation.saveMe(schema);
-			} else if (command.equalsIgnoreCase("Edit")) {
-				String sim_id = (String) request.getParameter("sim_id");
-				simulation = Simulation.getById(schema, new Long(sim_id));
-				// Clean up any items that could be queued up for editing
-				actor_being_worked_on_id = null;
+				
+				this.sim_id = simulation.getId();
 
-			} else if (command.equalsIgnoreCase("Clear")) { // 
-				// returning new simulation will clear fields.
+				saveLastSimEdited();
+				
+				this.forward_on = true;
 			}
-
-			this.sim_id = simulation.getId();
-
-			saveLastSimEdited();
-
-		} else if (this.sim_id != null) {
-			simulation = Simulation.getById(schema, this.sim_id);
 		}
 
 		return simulation;
 	}
 
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public Simulation handleEditBasicSimParameters(HttpServletRequest request) {
 
 		Simulation simulation = new Simulation();
@@ -2101,9 +2121,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation.setBlurb(simblurb);
 
 				if ((editing_users != null) && (editing_users.equalsIgnoreCase("everyone"))){
-					simulation.setSimEditingRestrictions(Simulation.EVERYONE);
+					simulation.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_EVERYONE);
 				} else {
-					simulation.setSimEditingRestrictions(Simulation.SPECIFIC_USERS);
+					simulation.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
 				}
 				
 				simulation.saveMe(schema);
@@ -3821,6 +3841,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	}
 
+	/**
+	 * Handles the selection of a simulation by an author. 
+	 * @param request
+	 */
 	public void handleSelectSimulation(HttpServletRequest request) {
 
 		String select_sim = (String) request.getParameter("select_sim");

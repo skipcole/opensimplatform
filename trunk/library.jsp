@@ -49,7 +49,7 @@
               <br />
       <blockquote>
         
-        <p>Below are all of the  published Simulations for your organization.</p>
+        <p>Below are all of the  published Simulations for your organization. Instructor access is required to run any of the above simulations. If you are interested in becoming an instructor on this platform, <a href="instructor_application.jsp"><strong>please click here</strong></a>. </p>
           <table width="100%" border="1" cellspacing="0" cellpadding="2">
             <tr valign="top"> 
               <td width="15%"><strong>Name / Version / Org </strong></td>
@@ -91,12 +91,7 @@
             	<% } // End of loop over sims in a schema %>
 			<% } // End of loop over schema %>
             </table>
-          <p>&nbsp;</p>
-          <h1>Access to Run </h1>
-          <p>Instructor access is required to run any of the above simulations. If you are interested in becoming an instructor on this platform, <a href="instructor_application.jsp">please click here</a>. </p>
-          <p><br>
-              </p>
-      </blockquote>      <p align="center"></p>			</td>
+          </blockquote>      </td>
 		</tr>
 		</table>	</td>
   </tr>
