@@ -2088,7 +2088,52 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return simulation;
 	}
 
-	
+	public Simulation handleCopySim(HttpServletRequest request) {
+
+		Simulation new_simulation = new Simulation();
+		Simulation old_simulation = new Simulation();
+		
+		String sim_id = (String) request.getParameter("sim_id");
+		
+		if (sim_id != null){
+			old_simulation = Simulation.getById(schema, new Long(sim_id));
+		} else {
+			return old_simulation;
+		}
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String simulation_name = (String) request
+				.getParameter("simulation_name");
+		String simulation_version = (String) request
+				.getParameter("simulation_version");
+		String creation_org = (String) request.getParameter("creation_org");
+
+
+		if (sending_page != null) {
+			if (sending_page.equalsIgnoreCase("copy")) { // 
+				
+				new_simulation.copyIn(old_simulation);
+
+				//Set id to null so when we save we get a new copy
+				new_simulation.setId(null);
+				
+				new_simulation.setSimulationName(simulation_name);
+				new_simulation.setVersion(simulation_version);
+				new_simulation.setCreation_org(creation_org);
+				
+				new_simulation.saveMe(schema);
+				
+				this.sim_id = new_simulation.getId();
+
+				saveLastSimEdited();
+				
+				this.forward_on = true;
+			}
+		}
+
+		return new_simulation;
+	}
+
 	/**
 	 * 
 	 * @param request
