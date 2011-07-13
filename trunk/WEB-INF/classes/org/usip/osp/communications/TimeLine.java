@@ -342,6 +342,12 @@ public class TimeLine implements SimSectionDependentObject {
 
 	}
 
+	/** Returns a timeline pointed in the right place to review the events that have happened in the current simulation
+	 * 
+	 * @param request
+	 * @param sob
+	 * @return
+	 */
 	public static TimeLine getReviewTimeLine(HttpServletRequest request,
 			SessionObjectBase sob) {
 		
@@ -351,19 +357,36 @@ public class TimeLine implements SimSectionDependentObject {
 		if ((rs_id != null) && (rs_id.length() > 0) && (!(rs_id.equalsIgnoreCase("null")))){
 			targetRSID = "&rs_id=" + rs_id;
 		}
+		
+		String timelineToGet = "actual" + targetRSID;
+		
+		String timeline_to_show = (String) request.getParameter("timeline_to_show");
+		
+		if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("phases"))){
+			timelineToGet = "phases";
+		}
+		
 
 		TimeLine returnTimeLine = new TimeLine();
 
 		returnTimeLine.runStart = TimeLine.similie_sdf.format(new java.util.Date());
 		returnTimeLine.shortIntervalPixelDistance = 125;
 		returnTimeLine.longIntervalPixelDistance = 250;
-		returnTimeLine.timelineURL = "similie_timeline_server.jsp?timeline_to_show=actual" + targetRSID;
+		returnTimeLine.timelineURL = "similie_timeline_server.jsp?timeline_to_show=" + timelineToGet;
 		
 		System.out.println("tlurl: " + returnTimeLine.timelineURL);
 
 		return returnTimeLine;
 	}
 	
+	/**
+	 * Returns a timeline based on what was asked for.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param pso
+	 * @return
+	 */
 	public static String serveUpTimeLine(HttpServletRequest request, HttpServletResponse response,
 			PlayerSessionObject pso) {
 		
@@ -382,6 +405,8 @@ public class TimeLine implements SimSectionDependentObject {
 		
 		if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("actual"))){
 			textToShow = PlayerSessionObject.getInjectFiredForTimeline(pso.schema, RsIdOfTimeLineToShow);
+		} else if ((timeline_to_show != null) && (timeline_to_show.equalsIgnoreCase("phases"))){
+			textToShow = getTimelineOfPhaseChanges(pso.schema, RsIdOfTimeLineToShow);
 		} else if (timeline_to_show != null){
 			textToShow = PlayerSessionObject.getEventsForTimeline(pso.schema, new Long(timeline_to_show));
 		} 
@@ -390,6 +415,46 @@ public class TimeLine implements SimSectionDependentObject {
 		response.setHeader("Cache-Control", "no-cache");
 		
 		return textToShow;
+	}
+	
+	/**
+	 * Returns information for a timeline showing all of the phase changes. 
+	 * 
+	 * @param schema
+	 * @param rs_id
+	 * @return
+	 */
+	public static String getTimelineOfPhaseChanges(String schema, Long rs_id) {
+
+		if (rs_id == null) {
+			return "";
+		}
+
+		return TimeLine.packupArray(getPhaseChangesForRunningSim(
+				schema, rs_id));
+	}
+	
+	/**
+	 * Returns the phase change alerts in a form to present a timeline.
+	 * 
+	 * @param schema
+	 * @param running_sim_id
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<TimeLineInterface> getPhaseChangesForRunningSim(String schema, Long running_sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<TimeLineInterface> returnList = 
+			MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from Alert where running_sim_id = :running_sim_id and type in ('1', '5')")
+				.setLong("running_sim_id", running_sim_id)		
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
 	}
 	
 	
