@@ -347,26 +347,22 @@ public class Alert implements TimeLineInterface {
 
 	@Override
 	public Date getEventEndTime() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.timeOfAlert;
 	}
 
 	@Override
 	public String getEventMsgBody() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.alertMessage;
 	}
 
 	@Override
 	public Date getEventStartTime() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.timeOfAlert;
 	}
 
 	@Override
 	public String getEventTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getAlertPopupMessage();
 	}
 
 	@Override
