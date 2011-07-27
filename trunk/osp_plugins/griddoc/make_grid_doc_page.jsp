@@ -3,8 +3,8 @@
 	language="java" 
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
-	org.usip.osp.plugins.griddoc.*,
-	org.usip.osp.baseobjects.*" 
+	org.usip.osp.baseobjects.*,
+	com.seachangesimulations.osp.griddoc.*" 
 	errorPage="/error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -78,14 +78,7 @@
               <tr>
                 <td valign="top">Page Title </td>
                 <td valign="top"><label>
-				  <%
-				  	String page_title_value = (String) cs.getContents().get(GridDocCustomizer.KEY_FOR_PAGETITLE);
-					if (page_title_value == null) {
-						page_title_value = "";
-					}
-					
-				  %>
-                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_PAGETITLE %>" value="<%= page_title_value %>" />
+                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_PAGETITLE %>" value="<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_PAGETITLE) %>" />
                 </label></td>
               </tr>
               <tr>
@@ -97,13 +90,14 @@
               <tr>
                 <td valign="top">New Column</td>
                 <td valign="top"><label>
-                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_NEW_COLUMN %>" />
+                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_NEW_COLUMN %>" 
+                  value="<%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_COLUMN) %>" />
                 </label></td>
               </tr>
               <tr>
                 <td valign="top">New Row </td>
                 <td valign="top"><label>
-                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_NEW_ROW %>" />
+                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_NEW_ROW %>" value="<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %>" />
                 </label></td>
               </tr>
               </table>

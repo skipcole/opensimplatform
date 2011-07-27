@@ -124,13 +124,13 @@ body {
             </div></td>
             <td valign="top"><div align="right">
               <form action="install_simulation_sections.jsp" method="post">
-                <input type="hidden" name="fullfileloc2" value="<%= bss.getDirectory() %>" />
-                <input type="hidden" name="loaded_id2" value="<%= loaded_id %>" />
+                <input type="hidden" name="fullfileloc" value="<%= bss.getDirectory() %>" />
+                <input type="hidden" name="loaded_id" value="<%= loaded_id %>" />
                 <% if (loaded) { %>
-                <input type="submit" name="unload_button" id="unload_button2" value="Unload" />
-                <input type="submit" name="reload_button" id="reload_button2" value="Reload" />
+                <input type="submit" name="command" id="unload_button2" value="Unload" />
+                <input type="submit" name="command" id="reload_button2" value="Reload" />
                 <% } else { %>
-                <input type="submit" name="load_button" id="load_button2" value="Load" />
+                <input type="submit" name="command" id="load_button2" value="Load" />
                 <% } %>
               </form>
             </div></td>
