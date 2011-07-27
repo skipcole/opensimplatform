@@ -42,6 +42,7 @@ body {
           Install Simulation Sections</h1>
 
         <blockquote>
+          <h2>Core Simulation Sections</h2>
           <p>Below are listed all of the simulation sections descriptor files found on this system. On this system,
           definition files are located in the directory: <%= FileIO.getBase_section_web_dir() %></p>
   <table width="100%" cellpadding="2" cellspacing="2" border="1"><tr><td valign="top"><strong>Organization</strong></td>
@@ -86,6 +87,57 @@ body {
     </table>
   </p>
 
+        <hr />
+        <h2>Plugins</h2>
+        <p>Below are Plugins found on this system.On this system,
+          definition files are located in the directory: <%= FileIO.getPlugin_dir() %></p>
+        <table width="100%" cellpadding="2" cellspacing="2" border="1">
+          <tr>
+            <td valign="top"><strong>Organization</strong></td>
+            <td valign="top"><strong>Unique Name</strong></td>
+            <td valign="top"><div align="right"><strong>Version</strong></div></td>
+            <td valign="top"><div align="right"><strong>State</strong></div></td>
+            <td valign="top"><strong>Action</strong></td>
+          </tr>
+          <% for (ListIterator li = BaseSimSection.screenPluginSectionsFromXMLFiles(afso.schema).listIterator(); li.hasNext();) {
+			BaseSimSection bss = (BaseSimSection) li.next(); 
+			
+			Long loaded_id = BaseSimSection.checkInstalled(afso.schema, bss);
+			
+			boolean loaded = false;
+			
+			if (loaded_id != null){
+				loaded = true;
+			}
+			
+			%>
+          <tr>
+            <td valign="top"><%= bss.getCreatingOrganization() %></td>
+            <td valign="top"><%= bss.getUniqueName() %></td>
+            <td valign="top"><div align="right"><%= bss.getVersion() %></div></td>
+            <td valign="top"><div align="right">
+              <% if (loaded) { %>
+              Loaded
+              <% } else { %>
+              Not Loaded
+              <% } %>
+            </div></td>
+            <td valign="top"><div align="right">
+              <form action="install_simulation_sections.jsp" method="post">
+                <input type="hidden" name="fullfileloc2" value="<%= bss.getDirectory() %>" />
+                <input type="hidden" name="loaded_id2" value="<%= loaded_id %>" />
+                <% if (loaded) { %>
+                <input type="submit" name="unload_button" id="unload_button2" value="Unload" />
+                <input type="submit" name="reload_button" id="reload_button2" value="Reload" />
+                <% } else { %>
+                <input type="submit" name="load_button" id="load_button2" value="Load" />
+                <% } %>
+              </form>
+            </div></td>
+          </tr>
+          <% } %>
+        </table>
+        </p>
         </blockquote>
         <p><a href="simulation_admin.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>
       <p>&nbsp;</p>
@@ -103,6 +155,3 @@ body {
   Open Source Software Project</a>. </p>
 </body>
 </html>
-<%
-	
-%>

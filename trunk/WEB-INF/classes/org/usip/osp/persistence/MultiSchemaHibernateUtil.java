@@ -564,7 +564,7 @@ public class MultiSchemaHibernateUtil {
 		
 		// TODO just to see if it works. If it does, maybe I will pull the names out
 		// of the section definition xml first, and then just 
-		ac.addAnnotatedClass(org.usip.osp.plugins.griddoc.GridData.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.griddoc.GridData.class);
 		
 		Logger.getRootLogger().debug("classes added"); //$NON-NLS-1$
 	}

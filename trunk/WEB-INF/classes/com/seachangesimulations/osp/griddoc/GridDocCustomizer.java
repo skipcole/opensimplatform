@@ -1,4 +1,4 @@
-package org.usip.osp.plugins.griddoc;
+package com.seachangesimulations.osp.griddoc;
 
 import java.util.*;
 
