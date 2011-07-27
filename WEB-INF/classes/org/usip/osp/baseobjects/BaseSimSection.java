@@ -127,7 +127,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 			return true;
 		}
 	}
-
+	
 	/**
 	 * Reads the simulation sections from xml files, but does not save them to
 	 * the database.
@@ -137,13 +137,34 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 * 
 	 */
 	public static List screenBaseSimSectionsFromXMLFiles(String schema) {
-
-		ArrayList returnList = new ArrayList();
-
+		
 		// The set of base simulation sections are read out of
 		// XML files stored in the simulation_section_information directory.
-
 		String fileLocation = FileIO.getBase_section_web_dir();
+		
+		return screenBaseSimSectionsFromXMLFiles(schema, fileLocation);
+	}
+	
+	public static List screenPluginSectionsFromXMLFiles(String schema) {
+		
+		// The set of base simulation sections are read out of
+		// XML files stored in the simulation_section_information directory.
+		String fileLocation = FileIO.getPlugin_dir();
+		
+		return screenBaseSimSectionsFromXMLFiles(schema, fileLocation);
+	}
+
+	/**
+	 * Reads the simulation sections from xml files, but does not save them to
+	 * the database.
+	 * 
+	 * @param schema
+	 * @return Returns a string indicating success, or not.
+	 * 
+	 */
+	public static List screenBaseSimSectionsFromXMLFiles(String schema, String fileLocation) {
+
+		ArrayList returnList = new ArrayList();
 
 		File locDir = new File(fileLocation);
 

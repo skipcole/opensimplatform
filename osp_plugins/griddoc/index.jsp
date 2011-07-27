@@ -8,7 +8,7 @@
 <body>
 <h1>Grid Doc Plugin</h1>
 <h2>Description</h2>
-<p>This plugin allows the user to ...</p>
+<p>This plugin allows the user to create a grid of editable data that is part of their simulation.</p>
 <h2>Files Included</h2>
 <blockquote>
   <h3>Classes</h3>

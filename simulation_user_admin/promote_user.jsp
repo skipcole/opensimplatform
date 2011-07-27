@@ -84,7 +84,7 @@
 <p>If you need to create a user, <a href="create_user.jsp">click here</a>.</p>
 
 <% } else { %>
-      <form action="create_admin_user.jsp" method="post" name="form1" id="form1">
+      <form action="promote_user.jsp" method="post" name="form1" id="form1">
         <table width="80%" border="1" cellspacing="0" cellpadding="2">
           <tr> 
             <td valign="top">username/email<a href="helptext/user_name.jsp" target="helpinright">(?)</a>:</td>
@@ -144,7 +144,7 @@
           <% for (ListIterator li = User.getAllAdminsSCandInstructors(afso.schema).listIterator(); li.hasNext();) {
 			User user = (User) li.next(); %>
           <tr> 
-            <td><a href="create_admin_user.jsp?command=Edit&u_id=<%= user.getId().toString() %>"><%= user.getBu_username() %></a></td>
+            <td><a href="promote_user.jsp?command=Edit&amp;u_id=<%= user.getId().toString() %>"><%= user.getBu_username() %></a></td>
             <td><%= user.isAdmin() %></td>
             <td><%= user.isSim_author() %></td>
             <td><%= user.isSim_instructor() %></td>
@@ -179,7 +179,7 @@
 <%
     	for (ListIterator li = userList.listIterator(); li.hasNext();) {
 			BaseUser bu = (BaseUser) li.next();  %>
-		<a href="create_admin_user.jsp?loaduser=true&userid=<%= bu.getId() %>"><%= bu.getUsername() %></a> <br />
+		<a href="promote_user.jsp?loaduser=true&amp;userid=<%= bu.getId() %>"><%= bu.getUsername() %></a> <br />
 <%     	}  %>
 
 </blockquote>

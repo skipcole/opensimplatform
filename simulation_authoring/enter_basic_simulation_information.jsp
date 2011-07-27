@@ -67,7 +67,7 @@
 				<table border="1" cellspacing="0">
 					<tr>
 						<td valign="top"><input name="editing_users" type="radio" value="specific_users"
-						 <%= USIP_OSP_Util.matchSelected(simulation.getSimEditingRestrictions(), Simulation.SPECIFIC_USERS , "checked=\"checked\"") %>
+						 <%= USIP_OSP_Util.matchSelected(simulation.getSimEditingRestrictions(), Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS , "checked=\"checked\"") %>
 						 <%= SimEditAuthorization.getDisabledCode(canEdit) %>
 						 /></td>
 						<td width="100%" valign="top">
@@ -84,7 +84,7 @@
 			  		</tr>
 					<tr>
 						<td><input name="editing_users" type="radio" value="everyone" 
-						<%= USIP_OSP_Util.matchSelected(simulation.getSimEditingRestrictions(), Simulation.EVERYONE , "checked=\"checked\"") %>
+						<%= USIP_OSP_Util.matchSelected(simulation.getSimEditingRestrictions(), Simulation.CAN_BE_EDITED_BY_EVERYONE , "checked=\"checked\"") %>
 						 <%= SimEditAuthorization.getDisabledCode(canEdit) %>
 						/></td>
 						<td>Everyone</td>

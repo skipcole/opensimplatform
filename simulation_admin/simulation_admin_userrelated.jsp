@@ -54,7 +54,7 @@
 					  <td>Allows an admin to change a user name. </td>
 				    </tr>
 					<tr valign="top">
-                      <td width="24%"><a href="../simulation_user_admin/create_admin_user.jsp">Promote/Demote User</a></td>
+                      <td width="24%"><a href="../simulation_user_admin/promote_user.jsp">Promote/Demote User</a></td>
                       <td width="72%">Allows you to promote (or demote) a user to being an administrator, author or facilitator.</td>
                     </tr>
                     <tr valign="top">

@@ -56,7 +56,7 @@
           <% for (ListIterator li = User.getAllAdminsSCandInstructors(afso.schema).listIterator(); li.hasNext();) {
 			User user = (User) li.next(); %>
           <tr> 
-            <td><a href="create_admin_user.jsp?command=Edit&u_id=<%= user.getId().toString() %>"><%= user.getBu_username() %></a></td>
+            <td><a href="promote_user.jsp?command=Edit&u_id=<%= user.getId().toString() %>"><%= user.getBu_username() %></a></td>
               <td><%= user.isAdmin() %></td>
               <td><%= user.isSim_author() %></td>
               <td><%= user.isSim_instructor() %></td>
