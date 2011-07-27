@@ -1,7 +1,11 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	com.seachangesimulations.osp.griddoc.*" 
 	errorPage="/error.jsp" %>
 
 <%
@@ -52,7 +56,7 @@
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<h1>Needs Assessment Follow Up Chart</h1>
+<h1><%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_PAGETITLE) %></h1>
 <table width="95%" border="1" cellspacing="2" cellpadding="2">
 
 <% for (int jj = 1 ; jj <= numRows ; ++jj) { 

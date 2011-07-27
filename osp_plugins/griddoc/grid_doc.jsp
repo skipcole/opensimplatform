@@ -4,8 +4,8 @@
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
-	org.usip.osp.plugins.griddoc.*,
-	org.usip.osp.baseobjects.*" 
+	org.usip.osp.baseobjects.*,
+	com.seachangesimulations.osp.griddoc.*" 
 	errorPage="/error.jsp" %>
 
 <%
@@ -31,10 +31,11 @@
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<h1><%= cs.getContents().get(GridDocCustomizer.KEY_FOR_PAGETITLE) %></h1>
+<h1><%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_PAGETITLE) %></h1>
+<p><%= cs.getBigString() %></p>
 <table width="95%" border="1" cellspacing="2" cellpadding="2">
 <tr>
-<td valign="top"><%= cs.getContents().get(GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
+<td valign="top"><%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
 <% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
 
 	// loop over cols and get names
@@ -87,7 +88,7 @@
 
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
   <tr>
-    <td>Add <%= cs.getContents().get(GridDocCustomizer.KEY_FOR_NEW_COLUMN) %></td>
+    <td>Add <%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_COLUMN) %></td>
     <td>
       <label>
         <input type="text" name="col_name" id="col_name_textfield">
@@ -99,7 +100,7 @@
     </label></td>
   </tr>
   <tr>
-    <td>Add <%= cs.getContents().get(GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
+    <td>Add <%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
     <td><label>
       <input type="text" name="row_name" id="row_name_textfield">
     </label></td>

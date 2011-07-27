@@ -96,4 +96,22 @@ public abstract class Customizer {
 		
 	}
 	
+	/**
+	 * Returns the value found, or an empty string.
+	 * 
+	 * @param cs
+	 * @return
+	 */
+	public static String getPageStringValue(CustomizeableSection cs, String key){
+		
+		if (cs == null){
+			return "";
+		}
+		if (cs.getContents().get(key) == null){
+			return "";
+		} else {
+			return (String) cs.getContents().get(key);
+		}
+	}
+	
 }
