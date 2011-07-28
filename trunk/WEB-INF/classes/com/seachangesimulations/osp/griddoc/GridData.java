@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
@@ -60,6 +61,25 @@ public class GridData {
 	
 	@Lob
 	private String cellData;
+	
+	public GridData(){
+		
+	}
+	
+	public GridData(Long simId, Long rsId, Long csId, String row_num, String col_num){
+		
+		this.simId = simId;
+		this.rsId = rsId;
+		this.csId = csId;
+		
+		try {
+			this.rowNum = new Long (row_num).intValue();
+			this.colNum = new Long (col_num).intValue();
+		} catch (Exception e){
+			Logger.getRootLogger().warn("bady row or column number sent to grid doc");
+		}
+		
+	}
 
 	public Long getId() {
 		return id;
