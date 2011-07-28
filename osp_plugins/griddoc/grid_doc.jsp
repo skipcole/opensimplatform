@@ -77,7 +77,7 @@ GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.g
 
 %> 
 
-<td valign="top"><%= gdCell.getCellData() %><br /> <a href="edit_grid_data.jsp?gd_id=<%= gdCell.getId() %>&cs_id=<%= cs_id %>">Edit</a> </td>
+<td valign="top"><%= gdCell.getCellData() %><br /> <a href="edit_grid_data.jsp?gd_id=<%= gdCell.getId() %>&cs_id=<%= cs_id %>&col_num=<%= ii %>&row_num=<%= jj %>">Edit</a> </td>
 
 <% } %>
 </tr>

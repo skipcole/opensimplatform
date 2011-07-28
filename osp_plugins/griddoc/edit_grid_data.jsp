@@ -19,14 +19,16 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	String gd_id = (String) request.getParameter("gd_id");
 	
-	GridData gd = new GridData();
+	String row_num = (String) request.getParameter("row_num");
+	String col_num = (String) request.getParameter("col_num");
 	
-	gd.set sim
-	gd.set rs
-	gd.set cs
+	GridData gd = new GridData();
 	
 	if ((gd_id != null) && (!(gd_id.equalsIgnoreCase("null")))) {
 		gd = GridData.getById(pso.schema, new Long(gd_id));
+	} else {
+		
+		gd = new GridData(pso.sim_id, pso.getRunningSimId(), new Long(cs_id), row_num, col_num);
 	}
 	
 	String update = (String) request.getParameter("update");
@@ -54,7 +56,10 @@
 <h1>Edit Grid Data</h1>
 <p>&nbsp;</p>
 <form name="form1" method="post" action="edit_grid_data.jsp">
+<input type="hidden" name="row_num" value="<%= row_num %>">
+<input type="hidden" name="col_num" value="<%= col_num %>">
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
+<input type="hidden" name="gd_id" value="<%= gd_id %>">
   <p>
 		  <textarea id="grid_text" name="grid_text" style="height: 310px; width: 710px;">
 		  <%= gd.getCellData() %>
