@@ -68,6 +68,7 @@ public class GridDocCustomizer extends Customizer{
 		// TODO Auto-generated method stub
 		
 	}
+
 	
 	public static CustomizeableSection getGridSection(HttpServletRequest request,
 			PlayerSessionObject pso){

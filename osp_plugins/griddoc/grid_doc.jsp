@@ -19,6 +19,8 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
+	GridPageData.handleChanges(request, cs, pso.schema, pso.sim_id, pso.getRunningSimId());
+	
 	GridPageData gpd = GridPageData.loadPage(pso.schema, cs, pso.sim_id, pso.getRunningSimId());
 	
 	Hashtable contents = cs.getContents();
@@ -38,10 +40,10 @@
 <td valign="top"><%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
 <% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
 
-	// loop over cols and get names
-	String thisColName = (String) contents.get("colname_" + pso.getRunningSimId() + "_" + ii); %>
-
-<td valign="top"><strong><%= thisColName %></strong>
+	GridData gdTop = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), ii, 0);
+			
+%>
+<td valign="top"><strong><%= gdTop.getCellData() %></strong>
 	<% if (ii == gpd.getNumCols()) { %>
 	<form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
@@ -56,10 +58,11 @@
 
 <% for (int jj = 1 ; jj <= gpd.getNumRows() ; ++jj) { 
 
-	String thisRowName = (String) contents.get("rowname_" + pso.getRunningSimId() + "_" + jj); %>
+GridData gdRow = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), 0, jj);
 
+%>
 <tr>
-<td valign="top"><strong><%= thisRowName %></strong>
+<td valign="top"><strong><%= gdRow.getCellData() %></strong>
 <% if (jj == gpd.getNumRows() ) { %>
 <form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
@@ -70,14 +73,11 @@
 </td>
 <% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
 
-	String rowData = (String) contents.get("rowData_" + pso.getRunningSimId() + "_" + ii + "_ " + jj);
-	if (rowData == null) {
-		rowData = "";
-		contents.put("rowData_" + pso.getRunningSimId() + "_" + ii + "_ " + jj, rowData);
-	}
+GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), ii, jj);
+
 %> 
 
-<td valign="top"><%= rowData %><br /> <a href="../../osp_core/edit_grid_data.jsp?cs_id=<%= cs_id %>&col=<%= ii %>&row=<%= jj %>">Edit</a> </td>
+<td valign="top"><%= gdCell.getCellData() %><br /> <a href="edit_grid_data.jsp?gd_id=<%= gdCell.getId() %>&cs_id=<%= cs_id %>">Edit</a> </td>
 
 <% } %>
 </tr>

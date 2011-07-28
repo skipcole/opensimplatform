@@ -17,19 +17,24 @@
 	}
 
 	String cs_id = (String) request.getParameter("cs_id");
-	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
+	String gd_id = (String) request.getParameter("gd_id");
 	
-	Hashtable contents = cs.getContents();
+	GridData gd = new GridData();
 	
-	String col = (String) request.getParameter("col");
-	String row = (String) request.getParameter("row");
+	gd.set sim
+	gd.set rs
+	gd.set cs
+	
+	if ((gd_id != null) && (!(gd_id.equalsIgnoreCase("null")))) {
+		gd = GridData.getById(pso.schema, new Long(gd_id));
+	}
 	
 	String update = (String) request.getParameter("update");
 	
 	if (update != null) {
 		String grid_text = (String) request.getParameter("grid_text");
-		contents.put("rowData_" + pso.getRunningSimId() + "_" + col + "_ " + row, grid_text);
-		cs.saveMe(pso.schema);
+		gd.setCellData(grid_text);
+		gd.saveMe(pso.schema);
 		
 		response.sendRedirect("grid_doc.jsp?cs_id=" + cs_id);
 		return;
@@ -48,20 +53,11 @@
 <body>
 <h1>Edit Grid Data</h1>
 <p>&nbsp;</p>
-<form name="form1" method="post" action="../../osp_core/edit_grid_data.jsp">
+<form name="form1" method="post" action="edit_grid_data.jsp">
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
-<input type="hidden" name="col" value="<%= col %>">
-<input type="hidden" name="row" value="<%= row %>">
-<%
-	String gridText = (String) contents.get("rowData_" + pso.getRunningSimId() + "_" + col + "_ " + row);
-	
-	if (gridText == null) {
-		gridText = "";
-	}
-%>
   <p>
 		  <textarea id="grid_text" name="grid_text" style="height: 310px; width: 710px;">
-		  <%= gridText %>
+		  <%= gd.getCellData() %>
 		  </textarea>
 		<script language="javascript1.2">
   			generate_wysiwyg('grid_text');

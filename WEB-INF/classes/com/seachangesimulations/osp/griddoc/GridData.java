@@ -1,12 +1,20 @@
 package com.seachangesimulations.osp.griddoc;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
- * This class represents data stored by the players.
+ * This class represents data stored by the players in a grid at GridData(row, col).
+ * 
+ *   There are 3 special cases of this:
+ * 		GridPageData (0,0) is used to store the number of rows and columns.
+ * 		GridPageData (row, 0) is used to store the name of the row in its data field.
+ * 		GridPageData (0, col) is used to store the name of the column in its data field.
  */
 /*
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -134,6 +142,10 @@ public class GridData {
 	}
 
 	public String getCellData() {
+		
+		if (cellData == null){
+			cellData = "";
+		}
 		return cellData;
 	}
 
@@ -147,5 +159,66 @@ public class GridData {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
+	/**
+	 * Pulls the simulation out of the database base on its id and schema.
+	 * 
+	 * @param schema
+	 * @param gd_id
+	 * @return
+	 */
+	public static GridData getById(String schema, Long gd_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		GridData gridData = (GridData) MultiSchemaHibernateUtil
+				.getSession(schema).get(GridData.class, gd_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return gridData;
+	}
+	
+	/**
+	 * Returns the data point found at the location specified for that custom
+	 * section and running simulation.
+	 * 
+	 * @param schema
+	 * @param simId
+	 * @param csId
+	 * @param rsId
+	 * @param colNum
+	 * @param rowNum
+	 * @return
+	 */
+	public static GridData getGridData(String schema, Long simId, Long csId,
+			Long rsId, int colNum, int rowNum) {
+
+		if ((rsId == null) || (simId == null) || (csId == null)) {
+			return new GridData();
+		}
+
+		String hqlQuery = "from GridData where simId = :simId and "
+				+ "csId = :csId and rsId = :rsId and colNum = :colNum and rowNum = :rowNum"; //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List tempList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(hqlQuery).setLong("simId", simId)
+				.setLong("csId", csId).setLong("rsId", rsId)
+				.setInteger("colNum", colNum).setInteger("rowNum", rowNum)
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		if ((tempList == null) || (tempList.size() == 0)) {
+			return new GridData();
+		} else if (tempList.size() > 1) {
+
+			System.out.println("multiple data at same point. We have problem.");
+			return new GridData();
+		} else {
+			GridData gd = (GridData) tempList.get(0);
+			return gd;
+		}
+	}
 
 }
