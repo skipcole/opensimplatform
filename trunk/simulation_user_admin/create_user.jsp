@@ -21,6 +21,22 @@
 		
 		return;
 	}
+	
+	/////////
+	String is_admin = "";
+	String is_author = "";
+	String is_instructor = "";
+	String is_player = "";
+	
+	if (userOnScratchPad.isAdmin()){
+		is_admin = " \"checked\" ";
+	} else if (userOnScratchPad.isSim_author()){
+		is_author = " \"checked\" ";
+	} else if (userOnScratchPad.isSim_instructor()){
+		is_instructor = " \"checked\" ";
+	} else {
+		is_player = " \"checked\" ";
+	}
 
 
 %>
@@ -80,6 +96,23 @@
           <input name="last_name" type="text" id="last_name" tabindex="6" value="<%= userOnScratchPad.getBu_last_name() %>" size="60"  />
           </label></td>
     </tr>
+          <tr> 
+            <td valign="top"><strong>Permission Level: </strong></td>
+            <td valign="top"><label>
+              <input name="perm_level" type="radio" value="admin" <%= is_admin %> />
+              Admin, Author, Instructor, Player </label><br />
+			  <label>
+              <input name="perm_level" type="radio" value="author" <%= is_author %> />
+              Author, Instructor, Player </label><br />
+			  <label>
+              <input name="perm_level" type="radio" value="instructor" <%= is_instructor %> />
+              Instructor, Player </label>
+			  <br />
+			  <label>
+              <input name="perm_level" type="radio" value="player" <%= is_player %> />
+              Player </label>
+			  </td>
+          </tr>
           <tr>
             <td><strong>Phone Number: </strong></td>
             <td><label>

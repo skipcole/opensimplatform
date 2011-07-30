@@ -58,7 +58,7 @@
 		  
 		  java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd yyyy");
 		  
-		  for (ListIterator li = Simulation.getAllPublished(afso.schema).listIterator(); li.hasNext();) {
+		  for (ListIterator li = Simulation.getAllExternallyPublished(afso.schema).listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
 			
 			String pubDate = "";
