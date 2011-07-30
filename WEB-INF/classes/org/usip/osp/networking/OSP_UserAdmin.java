@@ -169,6 +169,7 @@ public class OSP_UserAdmin {
 	}
 
 	/**
+	 * Handles the creation of a user from the adminstrator interface.
 	 * 
 	 * @param request
 	 */
@@ -205,9 +206,11 @@ public class OSP_UserAdmin {
 
 					try {
 
+						getPermissionsParameters(request);
+						
 						user = new User(schema, this._email, this._password, 
 								this._first_name, this._last_name, this._middle_name, 
-								this._full_name, false, false, false);
+								this._full_name, this._makeAdmin, this._makeAuthor, this._makeInstructor);
 						
 						String preferred_language = request.getParameter("preferred_language");
 						
