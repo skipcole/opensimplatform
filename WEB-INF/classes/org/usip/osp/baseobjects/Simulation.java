@@ -1,6 +1,7 @@
 package org.usip.osp.baseobjects;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 import javax.persistence.*;
@@ -868,24 +869,18 @@ public class Simulation implements ExportableObject, Comparable {
 
 		Field[] fields = Simulation.class.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
-			fields[i].setAccessible(true);
-			try {
-				fields[i].set(this, fields[i].get(os));
-			} catch (Exception e) {
-				e.printStackTrace();
+
+			// Don't attempt to set final (constant) fields.
+			int modifiers = fields[i].getModifiers();
+
+			if (!(Modifier.isFinal(modifiers))) {
+				fields[i].setAccessible(true);
+				try {
+					fields[i].set(this, fields[i].get(os));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
-		/*
-		 * this.setAarStarterText(os.getAarStarterText());
-		 * this.setAudience(os.getAudience()); this.setBlurb(os.getBlurb());
-		 * this.setCopyright_string(os.getCopyright_string());
-		 * this.setCreation_org(os.getCreation_org());
-		 * this.setCreator(os.getCreator());
-		 * this.setHiddenLearningObjectives(os.getHiddenLearningObjectives());
-		 * this.setIntroduction(os.getIntroduction());
-		 * this.setLastEditDate(os.getLastEditDate());
-		 * this.setLearning_objvs(os.getLearning_objvs());
-		 * this.setListingKeyWords(os.getListingKeyWords()); this.set
-		 */
 	}
 } // End of Simulation
