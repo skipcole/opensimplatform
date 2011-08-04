@@ -2088,6 +2088,14 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return simulation;
 	}
 
+	/**
+	 * This copies a simulation into a new version.
+	 * Currently it is a 'shallow' copy. It does not make copies of any objects 
+	 * (such as actors) that also belong to the simulation.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public Simulation handleCopySim(HttpServletRequest request) {
 
 		Simulation new_simulation = new Simulation();
