@@ -40,6 +40,12 @@
             <td><h2>&nbsp;</h2></td>
             <td><h2>Description</h2></td>
           </tr>
+        <tr valign="top">
+          <td>&nbsp;</td>
+          <td><a href="../simulation_diagnostics/import_export_copy_test.jsp">Import / Copy Tests</a></td>
+          <td>&nbsp;</td>
+          <td>These tests check the import/export and copy processes to verify that a simulation remains the same (varying only in minor version number changes) throughout these transformtions. </td>
+        </tr>
         <tr valign="top"> 
           <td width="2%">&nbsp;</td>
             <td width="24%"><a href="../osp_javadocs/index.html" target="_top">JavaDocs</a></td>
@@ -61,13 +67,6 @@
           <td>&nbsp;</td>
           <td>A window onto seeing cached information</td>
         </tr>
-        <tr valign="top"> 
-          <td>&nbsp;</td>
-            <td><a href="../simulation_diagnostics/run_test_suite.jsp">Run Test Suite</a></td>
-            <td>&nbsp;</td>
-            <td>Warning! Running this suite of tests will destroy all data in the 
-              database.</td>
-          </tr>
         <tr valign="top">
           <td>&nbsp;</td>
           <td><a href="errors.jsp">View Errors</a></td>
