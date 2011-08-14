@@ -56,7 +56,14 @@ public class SessionObjectBase {
 	public static final int USER_FOUND = 10;
 	public static final int USER_NOT_FOUND = 11;
 	public static final int INSUFFICIENT_PRIVLEGE = 12;
-
+	
+	////////////////////////////////////////////
+	public static final int ADMIN_LOGIN = 0;
+	public static final int AUTHOR_LOGIN = 1;
+	public static final int FACILITATOR_LOGIN = 2;
+	public static final int PLAYER_LOGIN = 3;
+	////////////////////////////////////////////
+	
 	public SessionObjectBase() {
 
 	}
@@ -798,7 +805,8 @@ public class SessionObjectBase {
 	 * @param request
 	 * @return
 	 */
-	public static BaseUser handleLoginAttempt(HttpServletRequest request) {
+	public static BaseUser handleLoginAttempt(HttpServletRequest request,
+			PlayerSessionObject pso) {
 
 		String attempting_login = (String) request
 				.getParameter("attempting_login");
@@ -807,6 +815,13 @@ public class SessionObjectBase {
 				&& (attempting_login.equalsIgnoreCase("true"))) {
 
 			BaseUser bu = validate(request);
+			
+			if (bu != null){
+				pso.languageCode = bu.getPreferredLanguageCode().intValue();
+				pso.user_id = bu.getId();
+				pso.user_name = bu.getUsername();
+				pso.setLoggedin(true);
+			}
 
 			return bu;
 
@@ -817,6 +832,7 @@ public class SessionObjectBase {
 	}
 
 	/**
+	 * Pulls the base user (if found) out of the database.
 	 * 
 	 * @param request
 	 * @return
