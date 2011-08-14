@@ -83,6 +83,11 @@ public class SchemaInformationObject {
 	 * on.
 	 */
 	private Date lastLogin;
+	
+	private boolean provideSpecificLicences = false;
+	
+	private String setOfPlatformSpecificFeaturesAvailable = "";
+	
 
 	private Long preferredLanguageCode = new Long(
 			UILanguageObject.ENGLISH_LANGUAGE_CODE);

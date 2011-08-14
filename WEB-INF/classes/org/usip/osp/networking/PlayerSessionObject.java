@@ -2513,4 +2513,49 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		return forwardOnString;
 	}
+	
+	/**
+	 * Returns the link to the message page.
+	 * 
+	 * @param sg
+	 * @param loginType
+	 * @return
+	 */
+	public String getLinkToMessages(SchemaGhost sg, String loginType){
+		return "login_messages.jsp?entry_type=" + loginType + sg.getSchemaIdHTML();
+	}
+	
+	public List getListOfMessages(){
+		return null;
+	}
+	
+	/**
+	 * Returns the url to forward the user to after they have read any messages that 
+	 * they needed to see.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getURLofSectionToEnter(HttpServletRequest request){
+		
+		String entry_type = (String) request.getParameter("entry_type");
+		String schema_id = (String) request.getParameter("schema_id");
+		
+		String urlTrailer = "?initial_entry=true&schema_id=" + schema_id;
+		
+		if (entry_type.equalsIgnoreCase("ADMIN")){
+			return "simulation_admin/adminwebui.jsp" + urlTrailer;
+		} else if (entry_type.equalsIgnoreCase("AUTHOR")) {
+			return "simulation_authoring/creationwebui.jsp" + urlTrailer + "&show_intro=true";
+		} else if (entry_type.equalsIgnoreCase("INSTRUCTOR")){
+			return "simulation_facilitation/facilitateweb.jsp" + urlTrailer + "&ftab=home";
+		} else if (entry_type.equalsIgnoreCase("PLAYER")){
+			return "simulation/select_simulation_to_play.jsp" + urlTrailer;
+		} else {
+			//TODO Log error
+			return "login.jsp";
+		}
+		
+	}
+	
 }

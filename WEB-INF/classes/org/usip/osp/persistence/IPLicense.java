@@ -1,8 +1,6 @@
-package org.usip.osp.coursemanagementinterface;
+package org.usip.osp.persistence;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
 
@@ -19,10 +17,6 @@ import org.hibernate.annotations.Proxy;
  */
 @Entity
 @Proxy(lazy = false)
-public class Course{
-
-	@Id
-	@GeneratedValue
-	private Long id;
+public class IPLicense {
 
 }

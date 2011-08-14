@@ -3263,10 +3263,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	}
 
-	public static final int AUTHOR_LOGIN = 1;
-
-	public static final int FACILITATOR_LOGIN = 2;
-
 	/**
 	 * If user has selected an author, instructor or admin entry point into the
 	 * system, this is called to set their AFSO object.

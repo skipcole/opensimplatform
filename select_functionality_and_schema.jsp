@@ -97,21 +97,21 @@ body {
             <tr>
             
               <% if(user_in_this_schema.isAdmin()) { %>
-                <td width="25%" valign="top"><p align="center"><a href="simulation_admin/adminwebui.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/admins.png" alt="Admin Login" width="140" height="120"></a></p>
+                <td width="25%" valign="top"><p align="center"><a href="<%= pso.getLinkToMessages(this_sg, "ADMIN") %>"><img src="images/admins.png" alt="Admin Login" width="140" height="120"></a></p>
                   <p>Use this section to administrate this OSP installation.</p></td>
               <% } // end of if is administratgor %>
                 
               <% if(user_in_this_schema.isSim_author()) { %>
-              	<td width="25%" valign="top"><p align="center"><a href="simulation_authoring/creationwebui.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>&show_intro=true"><img src="images/authors.png" alt="Author Login" width="140" height="120"></a></p>
+              	<td width="25%" valign="top"><p align="center"><a href="<%= pso.getLinkToMessages(this_sg, "AUTHOR") %>" ><img src="images/authors.png" alt="Author Login" width="140" height="120"></a></p>
               	  <p>Use this section to author simulations.</p></td>
                 <% } // end of if is author. %>
                 
               <% if(user_in_this_schema.isSim_instructor()) {  %>  
-              <td width="25%" valign="top"><p align="center"><a href="simulation_facilitation/facilitateweb.jsp?ftab=home&initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/instructors.png" alt="Instructor Login" width="140" height="120"></a></p>
+              <td width="25%" valign="top"><p align="center"><a href="<%= pso.getLinkToMessages(this_sg, "INSTRUCTOR") %>"><img src="images/instructors.png" alt="Instructor Login" width="140" height="120"></a></p>
                 <p>Use this section to create running simulations, invite students and perform other common instructor tasks.</p></td>
               <% } // end of if is instructor. %>
                 
-              <td width="25%" valign="top"><p align="center"><a href="simulation/select_simulation_to_play.jsp?initial_entry=true&schema_id=<%= this_sg.getId() %>"><img src="images/players.png" alt="Player Login" width="140" height="120"></a></p>
+              <td width="25%" valign="top"><p align="center"><a href="<%= pso.getLinkToMessages(this_sg, "PLAYER") %>"><img src="images/players.png" alt="Player Login" width="140" height="120"></a></p>
                 <p>Use this section to enter into a simulated world either as a student or a control character.</p></td>
             </tr>
           </table>

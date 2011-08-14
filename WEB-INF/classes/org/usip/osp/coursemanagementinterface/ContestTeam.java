@@ -19,10 +19,21 @@ import org.hibernate.annotations.Proxy;
  */
 @Entity
 @Proxy(lazy = false)
-public class Course{
+public class ContestTeam {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-
+	
+	private String teamName;
+	
+	private String teamDescription;
+	
+	private String teamNotes;
+	
+	private String teamImageName;
+	
+	private String teamWebSite;
+	
+	private String teamRegistrationCode;
 }

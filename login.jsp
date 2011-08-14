@@ -15,18 +15,13 @@ org.usip.osp.baseobjects.*" %>
 	
 	pso.detectLanguageChange(request);
 		
-	BaseUser bu = SessionObjectBase.handleLoginAttempt(request);
+	BaseUser bu = SessionObjectBase.handleLoginAttempt(request, pso);
 	
-	if (bu != null){
-		pso.languageCode = bu.getPreferredLanguageCode().intValue();
-		pso.user_id = bu.getId();
-		pso.user_name = bu.getUsername();
-		pso.setLoggedin(true);
+	if ((bu != null) && (pso.isLoggedin())){
 
 		if (bu.isTempPassword()){
 			response.sendRedirect("simulation_user_admin/change_password.jsp?forcepasswordchange=true");
 		} else {
-			System.out.println("sfas");
 			response.sendRedirect("select_functionality_and_schema.jsp");
 		}
 		
