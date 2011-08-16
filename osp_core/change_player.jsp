@@ -29,7 +29,7 @@
 	
 	if ((do_search != null) && (do_search.equalsIgnoreCase("true"))) {
 		String search_string = (String) request.getParameter("search_string");
-		userList = BaseUser.searchUserByName(pso.schema, search_string);
+		userList = BaseUser.searchUserByName(search_string);
 	}
 		
 %>

@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
+import org.usip.osp.coursemanagementinterface.Contest;
 import org.usip.osp.coursemanagementinterface.UserRegistrationInvite;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.Logger;
@@ -149,8 +150,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				SimPhaseAssignment spa = new SimPhaseAssignment(this.schema,
 						sim.getId(), returnSP.getId());
 
-				List<Actor> ctrl_actors = Actor.getControlActors(schema, sim
-						.getId());
+				List<Actor> ctrl_actors = Actor.getControlActors(schema,
+						sim.getId());
 
 				for (ListIterator<Actor> li = ctrl_actors.listIterator(); li
 						.hasNext();) {
@@ -328,8 +329,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				}
 
-				RunningSimulation.enableAndPrep(this.schema, sim.getId(), rs
-						.getId());
+				RunningSimulation.enableAndPrep(this.schema, sim.getId(),
+						rs.getId());
 				// TODO send the beta testers an email.
 
 			} else {
@@ -461,8 +462,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		SchemaInformationObject sio = SchemaInformationObject
 				.lookUpSIOByName(this.schema);
 
-		Emailer.postMail(sio, the_email, subject, message, message, sio
-				.getEmailNoreplyAddress(), this.user_name, cced, bcced);
+		Emailer.postMail(sio, the_email, subject, message, message,
+				sio.getEmailNoreplyAddress(), this.user_name, cced, bcced);
 	}
 
 	/**
@@ -509,7 +510,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			Long o_id = new Long(objid);
 
 			if (objectType.equalsIgnoreCase("simulation")) {
-				if (Simulation.deleteSimulation(schema, new Long(o_id))){
+				if (Simulation.deleteSimulation(schema, new Long(o_id))) {
 					this.sim_id = null;
 					User user = this.giveMeUser();
 					user.setLastSimEdited(null);
@@ -607,10 +608,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 								+ objectType);
 			}
 
-			if (sim_id != null){
+			if (sim_id != null) {
 				Simulation.updateSimsLastEditDate(sim_id, schema);
 			}
-			
+
 			return true;
 		}
 
@@ -715,8 +716,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					if (ua.getUser_id() == null) {
 						// Get the user name that the faciliator entered.
 						String this_player_name = request.getParameter(ua
-								.getId()
-								+ "_user_display_name");
+								.getId() + "_user_display_name");
 						customizedMessage = customizedMessage.replace(
 								"[Student Name]", this_player_name);
 						// Set the temporary user name of this UserAssignment
@@ -738,9 +738,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							email.setReplyToName(this.user_email);
 						}
 						email.saveMe(schema);
-						EmailRecipients er = new EmailRecipients(schema, email
-								.getId(), this.getRunningSimId(), sim_id, ua
-								.getUsername(), EmailRecipients.RECIPIENT_TO);
+						EmailRecipients er = new EmailRecipients(schema,
+								email.getId(), this.getRunningSimId(), sim_id,
+								ua.getUsername(), EmailRecipients.RECIPIENT_TO);
 
 						String confirmURL = AuthorFacilitatorSessionObject
 								.getConfirmEmailBaseLink(sio.getSchema_name());
@@ -894,10 +894,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnString;
 	}
 
-
-
-	/** This takes the sections applied to a 'category' actor and applies
-	 * them to all of the other actors in its group.
+	/**
+	 * This takes the sections applied to a 'category' actor and applies them to
+	 * all of the other actors in its group.
 	 * 
 	 * @param request
 	 * @return
@@ -1402,8 +1401,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if (param_name.startsWith("role_")) {
 				String this_a_id = param_name.replaceFirst("role_", "");
 
-				setOfUserRoles.put(this_a_id, (String) request
-						.getParameter(param_name));
+				setOfUserRoles.put(this_a_id,
+						(String) request.getParameter(param_name));
 
 			}
 		}
@@ -1532,27 +1531,26 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		schema = db_schema;
 
 		// ////////////////////////////////////////////////
-		
+
 		DatabaseCreator.loadUpParameters(request);
 
 		String admin_pass = (String) request.getParameter("admin_pass");
 		String admin_email = (String) request.getParameter("admin_email");
-		
+
 		/*
-		String db_org = (String) request.getParameter("db_org");
-		String db_notes = (String) request.getParameter("db_notes");
-
-		String email_smtp = (String) request.getParameter("email_smtp");
-		String email_user = (String) request.getParameter("email_user");
-		String email_pass = (String) request.getParameter("email_pass");
-		String email_user_address = (String) request
-				.getParameter("email_user_address");
-		String email_server_number = (String) request
-				.getParameter("email_server_number");
-
-		String email_status = DatabaseCreator.checkEmailStatus(email_smtp, email_user,
-				email_pass, email_user_address);
-		*/
+		 * String db_org = (String) request.getParameter("db_org"); String
+		 * db_notes = (String) request.getParameter("db_notes");
+		 * 
+		 * String email_smtp = (String) request.getParameter("email_smtp");
+		 * String email_user = (String) request.getParameter("email_user");
+		 * String email_pass = (String) request.getParameter("email_pass");
+		 * String email_user_address = (String) request
+		 * .getParameter("email_user_address"); String email_server_number =
+		 * (String) request .getParameter("email_server_number");
+		 * 
+		 * String email_status = DatabaseCreator.checkEmailStatus(email_smtp,
+		 * email_user, email_pass, email_user_address);
+		 */
 
 		if ((sending_page != null) && (cleandb != null)
 				&& (sending_page.equalsIgnoreCase("clean_db"))) {
@@ -1576,7 +1574,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		DatabaseCreator.loadUpParameters(request);
-		
+
 		// Fill SIO
 		SchemaInformationObject sio = DatabaseCreator.fillSIO();
 
@@ -1587,7 +1585,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		// Store SIO if schema object of this name already exist, return
 		// warning.
-		
+
 		try {
 			sio.saveMe();
 		} catch (Exception e) {
@@ -1599,18 +1597,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		MultiSchemaHibernateUtil.recreateDatabase(sio);
-		
-		////////////////////////////////
+
+		// //////////////////////////////
 		String loadss = (String) request.getParameter("loadss");
 
 		if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
-			BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema, FileIO.getBase_section_web_dir());
+			BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema,
+					FileIO.getBase_section_web_dir());
 		}
-		///////////
-		
-		BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema, FileIO.getPlugin_dir());
+		// /////////
+
+		BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema,
+				FileIO.getPlugin_dir());
 		MultiSchemaHibernateUtil.createPluginTables(sio);
-		
+
 		String admin_first = (String) request.getParameter("admin_first");
 		String admin_middle = (String) request.getParameter("admin_middle");
 		String admin_last = (String) request.getParameter("admin_last");
@@ -1637,9 +1637,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if (sio != null) {
 				bccs.add(sio.getEmail_archive_address());
 				Emailer.postMail(sio, sio.getEmail_archive_address(),
-						"USIP OSP Installation Message", message, message, sio
-								.getEmailNoreplyAddress(), sio
-								.getEmail_archive_address(), ccs, bccs);
+						"USIP OSP Installation Message", message, message,
+						sio.getEmailNoreplyAddress(),
+						sio.getEmail_archive_address(), ccs, bccs);
 				email_msg = "email_sent";
 			} else {
 				Logger.getRootLogger().warn("Problem sending test email.");
@@ -1655,23 +1655,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		this.backPage = "install_confirmation.jsp?schema=" + schema
 				+ "&emailstatus=" + email_msg;
 
-
-		// Trying a reset here to get the plugin tables to be recognized at first go.
+		// Trying a reset here to get the plugin tables to be recognized at
+		// first go.
 		MultiSchemaHibernateUtil.resetSessionForSchema();
-		
+
 		return email_msg;
 
 	}
-	
+
 	public static String handleCreateOrUpdateDB(HttpServletRequest request,
 			Long adminUserId) {
-		
+
 		return DatabaseCreator.handleCreateOrUpdateDB(request, adminUserId);
-		
+
 	}
-
-
-
 
 	/**
 	 * Recreates the root database that will hold information on the other
@@ -1775,7 +1772,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							send_user_info);
 					bss.setAuthorGeneratedSimulationSection(true);
 					bss.saveMe(schema);
-				} else if (command.equalsIgnoreCase("Update")) { // 
+				} else if (command.equalsIgnoreCase("Update")) { //
 					bss = BaseSimSection.getById(schema, bss_id);
 					bss.setUrl(u);
 					bss.setDirectory(d);
@@ -1789,7 +1786,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				} else if (command.equalsIgnoreCase("Edit")) {
 					bss = BaseSimSection.getById(schema, bss_id);
 					return bss;
-				} else if (command.equalsIgnoreCase("Clear")) { // 
+				} else if (command.equalsIgnoreCase("Clear")) { //
 					return bss;
 					// returning bss will clear field
 				}
@@ -2008,7 +2005,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.getParameter("simulation_version");
 		String creation_org = (String) request.getParameter("creation_org");
 
-
 		String clear = (String) request.getParameter("clear");
 		if ((clear != null) && (clear.equalsIgnoreCase("true"))) {
 			simulation = new Simulation();
@@ -2026,26 +2022,27 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				simulation.createDefaultObjects(schema);
 
 				simulation.saveMe(schema);
-				SimEditors simEditors = new SimEditors(schema, simulation.getId(), 
-						this.user_id, this.userDisplayName, this.user_email);
+				SimEditors simEditors = new SimEditors(schema,
+						simulation.getId(), this.user_id, this.userDisplayName,
+						this.user_email);
 				simEditors.saveMe(schema);
-				
+
 				this.phase_id = simulation.getFirstPhaseId(schema);
-				
+
 				this.sim_id = simulation.getId();
 
 				saveLastSimEdited();
-				
+
 				this.forward_on = true;
 
-			} 
+			}
 		}
 
 		return simulation;
 	}
-	
+
 	/**
-	 * Allows for the renaming/re-versioning of a simulation. 
+	 * Allows for the renaming/re-versioning of a simulation.
 	 * 
 	 * @param request
 	 * @return
@@ -2053,10 +2050,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public Simulation handleRenameSim(HttpServletRequest request) {
 
 		Simulation simulation = new Simulation();
-		
+
 		String sim_id = (String) request.getParameter("sim_id");
-		
-		if (sim_id != null){
+
+		if (sim_id != null) {
 			simulation = Simulation.getById(schema, new Long(sim_id));
 		}
 
@@ -2067,20 +2064,19 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.getParameter("simulation_version");
 		String creation_org = (String) request.getParameter("creation_org");
 
-
 		if (sending_page != null) {
-			if (sending_page.equalsIgnoreCase("rename")) { // 
-				
+			if (sending_page.equalsIgnoreCase("rename")) { //
+
 				simulation.setSimulationName(simulation_name);
 				simulation.setVersion(simulation_version);
 				simulation.setCreation_org(creation_org);
 
 				simulation.saveMe(schema);
-				
+
 				this.sim_id = simulation.getId();
 
 				saveLastSimEdited();
-				
+
 				this.forward_on = true;
 			}
 		}
@@ -2089,9 +2085,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * This copies a simulation into a new version.
-	 * Currently it is a 'shallow' copy. It does not make copies of any objects 
-	 * (such as actors) that also belong to the simulation.
+	 * This copies a simulation into a new version. Currently it is a 'shallow'
+	 * copy. It does not make copies of any objects (such as actors) that also
+	 * belong to the simulation.
 	 * 
 	 * @param request
 	 * @return
@@ -2100,10 +2096,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		Simulation new_simulation = new Simulation();
 		Simulation old_simulation = new Simulation();
-		
+
 		String sim_id = (String) request.getParameter("sim_id");
-		
-		if (sim_id != null){
+
+		if (sim_id != null) {
 			old_simulation = Simulation.getById(schema, new Long(sim_id));
 		} else {
 			return old_simulation;
@@ -2116,25 +2112,24 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.getParameter("simulation_version");
 		String creation_org = (String) request.getParameter("creation_org");
 
-
 		if (sending_page != null) {
-			if (sending_page.equalsIgnoreCase("copy")) { // 
-				
+			if (sending_page.equalsIgnoreCase("copy")) { //
+
 				new_simulation.copyIn(old_simulation);
 
-				//Set id to null so when we save we get a new copy
+				// Set id to null so when we save we get a new copy
 				new_simulation.setId(null);
-				
+
 				new_simulation.setSimulationName(simulation_name);
 				new_simulation.setVersion(simulation_version);
 				new_simulation.setCreation_org(creation_org);
-				
+
 				new_simulation.saveMe(schema);
-				
+
 				this.sim_id = new_simulation.getId();
 
 				saveLastSimEdited();
-				
+
 				this.forward_on = true;
 			}
 		}
@@ -2154,7 +2149,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String command = (String) request.getParameter("command");
 		String simcopyright = (String) request.getParameter("simcopyright");
 		String editing_users = (String) request.getParameter("editing_users");
-		
+
 		String simblurb = (String) request.getParameter("simblurb");
 
 		String clear = (String) request.getParameter("clear");
@@ -2166,21 +2161,24 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		if (command != null) {
-			if (command.equalsIgnoreCase("Update")) { // 
+			if (command.equalsIgnoreCase("Update")) { //
 				String sim_id = (String) request.getParameter("sim_id");
 				simulation = Simulation.getById(schema, new Long(sim_id));
 				// simulation.setCreator(simcreator);
 				simulation.setCopyright_string(simcopyright);
 				simulation.setBlurb(simblurb);
 
-				if ((editing_users != null) && (editing_users.equalsIgnoreCase("everyone"))){
-					simulation.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_EVERYONE);
+				if ((editing_users != null)
+						&& (editing_users.equalsIgnoreCase("everyone"))) {
+					simulation
+							.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_EVERYONE);
 				} else {
-					simulation.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
+					simulation
+							.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
 				}
-				
+
 				simulation.saveMe(schema);
-			} else if (command.equalsIgnoreCase("Clear")) { // 
+			} else if (command.equalsIgnoreCase("Clear")) { //
 				// returning new simulation will clear fields.
 			}
 
@@ -2194,36 +2192,37 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return simulation;
 	}
-	
+
 	/**
 	 * 
 	 * @param request
 	 */
-	public void addEditor(HttpServletRequest request){
+	public void addEditor(HttpServletRequest request) {
 
 		String sending_page = request.getParameter("sending_page"); //$NON-NLS-1$
 		String user_id = request.getParameter("user_id"); //$NON-NLS-1$
 		String userName = request.getParameter("user_name"); //$NON-NLS-1$
 		String userEmail = request.getParameter("user_email"); //$NON-NLS-1$
-		
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_editor")) ){
-			
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("add_editor"))) {
+
 			User user = User.getById(schema, new Long(user_id));
-			SimEditors se = new SimEditors(schema, sim_id, user.getId(), 
+			SimEditors se = new SimEditors(schema, sim_id, user.getId(),
 					user.getBu_full_name(), user.getUserName());
 			se.saveMe(schema);
 		}
-		
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("remove_editor")) ){
-			
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("remove_editor"))) {
+
 			SimEditors se = new SimEditors();
 			SimEditors.removeAuthorization(schema, sim_id, new Long(user_id));
-			
+
 		}
-		
-		
+
 	}
-	
+
 	/** Returns the logged in value. */
 	public boolean isLoggedin() {
 		return loggedin;
@@ -2309,8 +2308,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					.getParameter("private_description");
 			String control_actor = (String) request
 					.getParameter("control_actor");
-			
-			if ((actor_name == null) || (actor_name.trim().length() == 0)){
+
+			if ((actor_name == null) || (actor_name.trim().length() == 0)) {
 				actor_name = "Unnamed Actor";
 			}
 
@@ -2350,8 +2349,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			// if (!(SimActorAssignment.getActorsForSim(schema,
 			// sim_id).contains(actorOnScratchPad))) {
 			if (!(simHasActor)) {
-				saa = new SimActorAssignment(schema, sim_id, actorOnScratchPad
-						.getId());
+				saa = new SimActorAssignment(schema, sim_id,
+						actorOnScratchPad.getId());
 			} else {
 				saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id,
 						actorOnScratchPad.getId());
@@ -2389,8 +2388,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			if (set_images != null) {
 
-				actor_being_worked_on_id = new Long((String) mpr
-						.getParameter("actorid"));
+				actor_being_worked_on_id = new Long(
+						(String) mpr.getParameter("actorid"));
 
 				Actor actorOnScratchPad = Actor.getById(schema,
 						actor_being_worked_on_id);
@@ -2451,8 +2450,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				if (fileData.length() <= max_file_longvalue) {
 					FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
-							actorOnScratchPad.getImageFilename(), mpr
-									.getFile("uploadedfile"));
+							actorOnScratchPad.getImageFilename(),
+							mpr.getFile("uploadedfile"));
 				} else {
 					this.errorMsg = "Selected image file too large.";
 					actorOnScratchPad.setImageFilename("no_image_default.jpg");
@@ -2477,8 +2476,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				if (fileData.length() <= max_file_longvalue) {
 					FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
-							actorOnScratchPad.getImageThumbFilename(), mpr
-									.getFile("uploaded_thumb_file"));
+							actorOnScratchPad.getImageThumbFilename(),
+							mpr.getFile("uploaded_thumb_file"));
 				} else {
 					this.errorMsg += "Selected thumbnail image file too large.";
 					actorOnScratchPad
@@ -2551,8 +2550,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 					if (fileData.length() <= max_file_longvalue) {
 						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
-								actorOnScratchPad.getImageFilename(), mpr
-										.getFile("uploadedfile"));
+								actorOnScratchPad.getImageFilename(),
+								mpr.getFile("uploadedfile"));
 					} else {
 						this.errorMsg = "Selected image file too large.";
 						actorOnScratchPad
@@ -2579,8 +2578,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 					if (fileData.length() <= max_file_longvalue) {
 						FileIO.saveImageFile(OSPSimMedia.ACTOR_IMAGE,
-								actorOnScratchPad.getImageThumbFilename(), mpr
-										.getFile("uploaded_thumb_file"));
+								actorOnScratchPad.getImageThumbFilename(),
+								mpr.getFile("uploaded_thumb_file"));
 					} else {
 						this.errorMsg += "Selected thumbnail image file too large.";
 						actorOnScratchPad
@@ -2806,8 +2805,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * This handles customized sections in which the code for 
-	 * handling the customization has been put into a separate customizer class.
+	 * This handles customized sections in which the code for handling the
+	 * customization has been put into a separate customizer class.
 	 * 
 	 * @param section_tag
 	 * @param request
@@ -2818,7 +2817,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return (getMyPSO_SectionMgmt().handleCustomizeSection(request));
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -2860,7 +2859,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		default:
 			Logger.getRootLogger().warn("unknown section type");
 		}
-		
+
 		return cs;
 
 	}
@@ -2885,7 +2884,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public Simulation handleCreateSchedulePage(HttpServletRequest request) {
 		return (getMyPSO_SectionMgmt().handleCreateSchedulePage(request));
 	}
-	
+
 	/**
 	 * A wrapper that passes the request through to the associated
 	 * PSO_SectionMgmt object.
@@ -3135,8 +3134,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 */
 	public String handlePackageSim(String _sim_id, String fileName) {
 
-		FileIO.saveSimulationXMLFile(ObjectPackager.packageSimulation(schema,
-				new Long(_sim_id)), fileName);
+		FileIO.saveSimulationXMLFile(
+				ObjectPackager.packageSimulation(schema, new Long(_sim_id)),
+				fileName);
 
 		return fileName;
 	}
@@ -3215,10 +3215,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String sim_key_words = (String) request.getParameter("sim_key_words");
 		String auto_registration = (String) request
 				.getParameter("auto_registration");
-		
-		String publish_publicly = (String) request.getParameter("publish_publicly");
-		String publish_internally = (String) request.getParameter("publish_internally");
-		
+
+		String publish_publicly = (String) request
+				.getParameter("publish_publicly");
+		String publish_internally = (String) request
+				.getParameter("publish_internally");
 
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("publish_sim"))) {
@@ -3234,22 +3235,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				sim.setListingKeyWords(sim_key_words);
 				sim.setPublishDate(new java.util.Date());
 			}
-			
-			
+
 			if ((publish_publicly != null)
 					&& (publish_publicly.equalsIgnoreCase("true"))) {
 				sim.setExternallyPublished(true);
 			} else {
 				sim.setExternallyPublished(false);
 			}
-			
+
 			if ((publish_internally != null)
 					&& (publish_internally.equalsIgnoreCase("true"))) {
 				sim.setInternallyPublished(true);
 			} else {
 				sim.setInternallyPublished(false);
 			}
-			
 
 			if ((auto_registration != null)
 					&& (auto_registration.equalsIgnoreCase("true"))) {
@@ -3326,10 +3325,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			} else {
 				afso.loggedin = false;
-				Logger
-						.getRootLogger()
-						.warn(
-								"handling initial entry into simulation and got null user");
+				Logger.getRootLogger()
+						.warn("handling initial entry into simulation and got null user");
 			}
 		}
 	}
@@ -3891,7 +3888,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * Handles the selection of a simulation by an author. 
+	 * Handles the selection of a simulation by an author.
+	 * 
 	 * @param request
 	 */
 	public void handleSelectSimulation(HttpServletRequest request) {
@@ -4112,8 +4110,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			rssQueued.setRunningSimSetName(set_name);
 			rssQueued.saveMe(schema);
 
-			RunningSimSetAssignment.removeAllForRunningSimSet(schema, rssQueued
-					.getId());
+			RunningSimSetAssignment.removeAllForRunningSimSet(schema,
+					rssQueued.getId());
 
 			for (Enumeration<String> e = request.getParameterNames(); e
 					.hasMoreElements();) {
@@ -4198,7 +4196,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			switch (saveType) {
 			case SIM_OBJECTIVES:
 				simulation.setLearning_objvs(sim_text);
-				String sim_hidden_objs = request.getParameter("sim_hidden_objs");
+				String sim_hidden_objs = request
+						.getParameter("sim_hidden_objs");
 				simulation.setHiddenLearningObjectives(sim_hidden_objs);
 				nextPage = "create_simulation_audience.jsp";
 				break;
@@ -4211,11 +4210,19 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				nextPage = "create_simulation_planned_play_ideas.jsp";
 				break;
 			case SIM_PLANNED_PLAY_IDEAS:
-				String min_num_players = USIP_OSP_Util.cleanNulls((String) request.getParameter("min_num_players"));
-				String max_num_players = USIP_OSP_Util.cleanNulls((String) request.getParameter("max_num_players"));
-				String min_play_time = USIP_OSP_Util.cleanNulls((String) request.getParameter("min_play_time"));
-				String rec_play_time = USIP_OSP_Util.cleanNulls((String) request.getParameter("rec_play_time"));
-				
+				String min_num_players = USIP_OSP_Util
+						.cleanNulls((String) request
+								.getParameter("min_num_players"));
+				String max_num_players = USIP_OSP_Util
+						.cleanNulls((String) request
+								.getParameter("max_num_players"));
+				String min_play_time = USIP_OSP_Util
+						.cleanNulls((String) request
+								.getParameter("min_play_time"));
+				String rec_play_time = USIP_OSP_Util
+						.cleanNulls((String) request
+								.getParameter("rec_play_time"));
+
 				PlannedPlaySessionParameters ppsp = simulation.getPPSP(schema);
 				ppsp.setMinNumPlayers(min_num_players);
 				ppsp.setMaxNumPlayers(max_num_players);
@@ -4223,7 +4230,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				ppsp.setRecommendedPlayTime(rec_play_time);
 				ppsp.setPlannedPlayIdeas(sim_text);
 				ppsp.saveMe(schema);
-				
+
 				simulation.setPlannedPlayIdeas(sim_text);
 				nextPage = "create_simulation_phases.jsp";
 				break;
@@ -4335,7 +4342,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				}
 
 			} // End of if they don't have this section already at this
-			// phase
+				// phase
 		} // End of loop over customizeable sections
 
 		returnString = returnString + rawCust + custCust;
@@ -4547,10 +4554,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						// Create one item record for each item an actor has in
 						// their possession
 						for (int ii = 1; ii <= numItems; ++ii) {
-							InventoryItem iItem = new InventoryItem(iiTemplate
-									.getItemName(),
-									iiTemplate.getDescription(), iiTemplate
-											.getNotes(), sim_id, false);
+							InventoryItem iItem = new InventoryItem(
+									iiTemplate.getItemName(),
+									iiTemplate.getDescription(),
+									iiTemplate.getNotes(), sim_id, false);
 
 							iItem.setBase_id(iiTemplate.getId());
 							iItem.setOwner_id(new Long(pname));
@@ -4748,6 +4755,20 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		actor.setName("Every One");
 
 		return actor;
+	}
+
+	public void handleCreateContest(HttpServletRequest request) {
+
+		String contest_name = (String) request.getParameter("contest_name");
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("create_contest"))
+				&& (contest_name != null) && (contest_name.length() > 0)) {
+			Contest contest = new Contest(contest_name);
+
+		}
+
 	}
 
 } // End of class

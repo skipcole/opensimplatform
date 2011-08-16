@@ -55,6 +55,7 @@
       <p>Below are listed instructor activities that are either rare, or in development.</p>
       <ul>
         <li><a href="create_set_of_running_sims.jsp">Create Set of Running Simulations</a></li>
+        <li>Create a Login Message</li>
         </ul>
       <p align="center"></p>			</td>
 		</tr>

@@ -22,7 +22,7 @@ import org.hibernate.annotations.Proxy;
  */
 @Entity
 @Proxy(lazy=false)
-public class StudentAddress {
+public class PhysicalAddress {
 
 	@Id
 	@GeneratedValue

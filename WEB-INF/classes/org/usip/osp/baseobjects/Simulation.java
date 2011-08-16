@@ -480,6 +480,12 @@ public class Simulation implements ExportableObject, Comparable {
 		this.saveMe(schema);
 	}
 
+	/**
+	 * Returns all simulations found in the database.
+	 * 
+	 * @param schema
+	 * @return
+	 */
 	public static List getAll(String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
