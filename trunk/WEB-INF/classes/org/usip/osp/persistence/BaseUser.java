@@ -107,7 +107,7 @@ public class BaseUser {
     public static void main(String args[]){
     	System.out.println("Hello World!");
     	
-    	List mList = searchUserByName("test", "ip");
+    	List mList = searchUserByName("ip");
     	
     	for (ListIterator li = mList.listIterator(); li.hasNext();) {
 			BaseUser bu = (BaseUser) li.next();
@@ -115,7 +115,14 @@ public class BaseUser {
     	}
     }
     
-    public static List searchUserByName(String schema, String partialName){
+    /**
+     * Searches the database by the name of the user.
+     * 
+     * @param schema
+     * @param partialName
+     * @return
+     */
+    public static List searchUserByName(String partialName){
     	
     	partialName = "%" + partialName + "%";
     	

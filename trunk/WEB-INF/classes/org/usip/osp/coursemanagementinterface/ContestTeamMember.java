@@ -19,27 +19,19 @@ import org.hibernate.annotations.Proxy;
  */
 @Entity
 @Proxy(lazy = false)
-public class ContestTeam {
+public class ContestTeamMember {
 
 	@Id
 	@GeneratedValue
 	private Long id;
 	
+	private Long userId;
+	
 	private Long contestId;
 	
 	private Long contestParticipatingOrgId;
 	
-	private String teamName;
-	
-	private String teamDescription;
-	
-	private String teamNotes;
-	
-	private String teamImageName;
-	
-	private String teamWebSite;
-	
-	private String teamRegistrationCode;
+	private boolean teamAdministrator;
 
 	public Long getId() {
 		return id;
@@ -47,6 +39,14 @@ public class ContestTeam {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public Long getContestId() {
@@ -65,53 +65,14 @@ public class ContestTeam {
 		this.contestParticipatingOrgId = contestParticipatingOrgId;
 	}
 
-	public String getTeamName() {
-		return teamName;
+	public boolean isTeamAdministrator() {
+		return teamAdministrator;
 	}
 
-	public void setTeamName(String teamName) {
-		this.teamName = teamName;
+	public void setTeamAdministrator(boolean teamAdministrator) {
+		this.teamAdministrator = teamAdministrator;
 	}
-
-	public String getTeamDescription() {
-		return teamDescription;
-	}
-
-	public void setTeamDescription(String teamDescription) {
-		this.teamDescription = teamDescription;
-	}
-
-	public String getTeamNotes() {
-		return teamNotes;
-	}
-
-	public void setTeamNotes(String teamNotes) {
-		this.teamNotes = teamNotes;
-	}
-
-	public String getTeamImageName() {
-		return teamImageName;
-	}
-
-	public void setTeamImageName(String teamImageName) {
-		this.teamImageName = teamImageName;
-	}
-
-	public String getTeamWebSite() {
-		return teamWebSite;
-	}
-
-	public void setTeamWebSite(String teamWebSite) {
-		this.teamWebSite = teamWebSite;
-	}
-
-	public String getTeamRegistrationCode() {
-		return teamRegistrationCode;
-	}
-
-	public void setTeamRegistrationCode(String teamRegistrationCode) {
-		this.teamRegistrationCode = teamRegistrationCode;
-	}
+	
 	
 	
 }

@@ -459,7 +459,7 @@ public class MultiSchemaHibernateUtil {
 	 */
 	public static void addRootSchemaClasses(AnnotationConfiguration ac) {
 		
-		
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.Contest.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorApplication.class);
 		
 		ac.addAnnotatedClass(org.usip.osp.persistence.UILanguageObject.class);
@@ -533,6 +533,13 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.communications.WebLinkObjects.class);
 		
 		// Course Management Classes
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.ContestTeam.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.Course.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.CourseStudentAssignments.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.RequiredAcknowledgment.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.UserAcknowledgment.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.UserRegistrationInvite.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.PhysicalAddress.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.UserRegistrationInvite.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorRunningSimAssignments.class);
 
