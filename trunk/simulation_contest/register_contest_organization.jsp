@@ -9,14 +9,16 @@
 	org.hibernate.*" 
 	errorPage="/error.jsp" %>
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+
+	Contest contest = new Contest();
 	
-	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
+	ContestParticipatingOrganization cpo = ContestParticipatingOrganization.processInitialRegistration(request);
+	
+	if (cpo.readyToMoveToSecondStep()){
+		response.sendRedirect("");
 		return;
 	}
-	
-	afso.handleCreateContest(request);
+
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -36,6 +38,18 @@
 </style>
 </head>
 <body onLoad="">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="120" valign="top"><img src="<%= contest.getContestLogo() %>" width="120" height="100" border="0" /></td>
+    <td width="80%" valign="middle"><h1 class="header">&nbsp;<%= contest.getContestName() %>    </h1></td>
+
+  </tr>
+  <tr>
+  	<td width="120" align="right" valign="top">&nbsp;</td>
+    <td colspan="1" valign="top"><br /></td>
+		</td>
+  </tr>
+</table>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
 <tr> 
@@ -44,61 +58,127 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  <h1>Create Contest<a href="../simulation_facilitation/helptext/create_running_sim_help.jsp" target="helpinright"></a></h1>
+			  <h1>Contest<a href="../simulation_facilitation/helptext/create_running_sim_help.jsp" target="helpinright"></a> Registration</h1>
 			  <br />
             <blockquote>
-              <p>Here you can create a contest to have multiple teams creating simulations. </p>
+              <p>Please enter the information below:</p><form id="form1" name="form1" method="post" action="register_contest_organization.jsp">
+              <table width="100%" border="0">
+                <tr>
+                  <td colspan="3"><strong>You</strong></td>
+                  </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Your First Name</td>
+                  <td><label for="first_name"></label>
+                    <input type="text" name="first_name" id="first_name" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Your Last Name</td>
+                  <td><label for="last_name"></label>
+                    <input type="text" name="last_name" id="last_name" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Your Email Address</td>
+                  <td><label for="email_address"></label>
+                    <input type="text" name="email_address" id="email_address" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Verify Email Address</td>
+                  <td><label for="email_address2"></label>
+                    <input type="text" name="email_address2" id="email_address2" /></td>
+                </tr>
+                <tr>
+                  <td colspan="3"><strong>Your Organization</strong></td>
+                  </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Organization Name</td>
+                  <td><label for="org_name"></label>
+                    <input type="text" name="org_name" id="org_name" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Department Name (if applicable)</td>
+                  <td><label for="dept_name"></label>
+                    <input type="text" name="dept_name" id="dept_name" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Division Name (if applicable)</td>
+                  <td><label for="div_name"></label>
+                    <input type="text" name="div_name" id="div_name" /></td>
+                </tr>
+                <tr>
+                  <td colspan="3"><strong>Your Address at Your Organization</strong></td>
+                  </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Address Line 1</td>
+                  <td><label for="address_line1"></label>
+                    <input type="text" name="address_line1" id="address_line1" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Address Line 2</td>
+                  <td><label for="address_line2"></label>
+                    <input type="text" name="address_line2" id="address_line2" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>City</td>
+                  <td><label for="city"></label>
+                    <input type="text" name="city" id="city" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>State/Province</td>
+                  <td><label for="state_province"></label>
+                    <input type="text" name="state_province" id="state_province" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Postal Code</td>
+                  <td><label for="postal_code"></label>
+                    <input type="text" name="postal_code" id="postal_code" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>Any special instructions</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="3">&nbsp;</td>
+                  </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>
+                    <input type="submit" name="registration_submit" id="registration_submit" value="Submit" />
+                  </td>
+                </tr>
+              </table>
+              </form>
               <p>&nbsp;</p>
-              <table width="80%" border = "1">
-                <tr> 
-                  <td valign="top"><h2>Contest</h2></td>
-                  <td valign="top"><h2>Max Players</h2></td>
-                  <td valign="top"><h2>Enabled</h2></td>
-                  <td valign="top"><h2>Stage</h2></td>
-            </tr>
-                <%
-			
-				for (ListIterator li = Contest.getAll(afso.schema).listIterator(); li.hasNext();) {
-					Contest theContest = (Contest) li.next();
-				
-		%>
-                <tr> 
-                  <td><a href="x.jsp?rs_id=<%= theContest.getId() %>"><%= theContest.getContestName() %></a></td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-            </tr>
-                <%
-			}
-		%>
-            </table>
+              <p>How many Teams will you want to register?</p>
+              <p>&nbsp;</p>
+              <p>After you have registed and paid the fee for each of your teams, you wlll receive one or more emails (one for each team) to forward out to the students that you want to register on each team.</p>
+              <p>After your students have registered and the contest has begun, they will be able to enter into the platform and create simulations.</p>
+              <p>(Move to the payment area.)</p>
               <p>&nbsp;</p>
 	          
-            <form action="create_contest.jsp" method="post" name="form1" id="form1">
-              <input type="hidden" name="sending_page" value="create_contest" />
-              <table width="80%" border="1" cellspacing="2" cellpadding="2">
-                <tr> 
-                  <td valign="top">Contest Name</td>
-              <td valign="top"><input type="text" name="contest_name" /></td>
-            </tr>
-                <tr>
-                  <td>Contest Description</td>
-                  <td>&nbsp;</td>
-                </tr>
-                <tr>
-                  <td>Contest Period</td>
-                  <td>&nbsp;</td>
-                </tr>
-                <tr>
-                  <td>Max Players</td>
-                  <td>&nbsp;</td>
-                </tr>
-                <tr> 
-                  <td>&nbsp;</td>
-                  <td><input type="submit" name="addRunningSimulation" value="Submit" /></td>
-                </tr>
-                </table>
-            </form>
 			</blockquote>
             <p align="center">&nbsp;</p>
 <p>&nbsp;</p>
@@ -108,7 +188,7 @@
   </tr>
   <tr> 
     <td>
-    <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>.</p></td>
+    <p align="center">.</p></td>
   </tr>
 </table>
 </td></tr></table>

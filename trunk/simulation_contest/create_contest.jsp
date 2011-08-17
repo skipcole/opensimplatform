@@ -82,6 +82,14 @@
               <td valign="top"><input type="text" name="contest_name" /></td>
             </tr>
                 <tr>
+                  <td>Contest Logo</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>Contest Short Description</td>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
                   <td>Contest Description</td>
                   <td>&nbsp;</td>
                 </tr>
