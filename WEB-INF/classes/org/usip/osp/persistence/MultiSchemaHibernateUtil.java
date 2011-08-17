@@ -539,7 +539,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.RequiredAcknowledgment.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.UserAcknowledgment.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.UserRegistrationInvite.class);
-		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.PhysicalAddress.class);
+		ac.addAnnotatedClass(org.usip.osp.persistence.PhysicalAddress.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.UserRegistrationInvite.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorRunningSimAssignments.class);
 

@@ -56,6 +56,8 @@ public class Contest {
 	
 	private String contestName;
 	
+	private String contestLogo;
+	
 	@Lob
 	private String contestDescription;
 	
@@ -80,6 +82,14 @@ public class Contest {
 
 	public void setContestName(String contestName) {
 		this.contestName = contestName;
+	}
+
+	public String getContestLogo() {
+		return contestLogo;
+	}
+
+	public void setContestLogo(String contestLogo) {
+		this.contestLogo = contestLogo;
 	}
 
 	public String getContestDescription() {
@@ -137,7 +147,7 @@ public class Contest {
 	}
 	
 	/**
-	 * Pulls the Contest out of the root database base on its id and schema.
+	 * Pulls the Contest out of the root database base on its id.
 	 * 
 	 * @param schema
 	 * @param sim_id
@@ -159,7 +169,7 @@ public class Contest {
     }
 	
     /**
-     * Saves this user back to the main database.
+     * Saves this object back to the main database.
      * 
      */
     public void saveMe(){

@@ -1,8 +1,9 @@
-package org.usip.osp.coursemanagementinterface;
+package org.usip.osp.persistence;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.coursemanagementinterface.Contest;
 
 /**
  * This represents the address of a student. It is linked by user id to the user.
@@ -28,7 +29,10 @@ public class PhysicalAddress {
 	@GeneratedValue
 	private Long id;
 	
-	private Long userId;
+	private Long entityId;
+	
+	/** Class name (user, organization, etc.) associated with this brick and mortar address. */
+	private String entityType;
 	
 	/** Indicates if this is a home address, office address, etc. */
 	private int addressType;
@@ -54,12 +58,20 @@ public class PhysicalAddress {
 		this.id = id;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public Long getEntityId() {
+		return entityId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setEntityId(Long entityId) {
+		this.entityId = entityId;
+	}
+
+	public String getEntityType() {
+		return entityType;
+	}
+
+	public void setEntityType(String entityType) {
+		this.entityType = entityType;
 	}
 
 	public String getAddressLine1() {
@@ -118,6 +130,37 @@ public class PhysicalAddress {
 		this.addressType = addressType;
 	}
 	
+	/**
+	 * Pulls the physical Address out of the root database base on its id.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+    public static PhysicalAddress getById(Long paId) {
+
+        MultiSchemaHibernateUtil.beginTransaction(
+                MultiSchemaHibernateUtil.principalschema, true);
+
+        PhysicalAddress physicalAddress = (PhysicalAddress) MultiSchemaHibernateUtil.getSession(
+                MultiSchemaHibernateUtil.principalschema, true).get(
+                		PhysicalAddress.class, paId);
+
+        MultiSchemaHibernateUtil
+                .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+
+        return physicalAddress;
+    }
+	
+    /**
+     * Saves this object back to the main database.
+     * 
+     */
+    public void saveMe(){
+        MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
+        MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(this);                        
+        MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+    }
 	
 	
 }
