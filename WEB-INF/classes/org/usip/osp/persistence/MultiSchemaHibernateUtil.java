@@ -460,6 +460,7 @@ public class MultiSchemaHibernateUtil {
 	public static void addRootSchemaClasses(AnnotationConfiguration ac) {
 		
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.Contest.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.ContestParticipatingOrganization.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorApplication.class);
 		
 		ac.addAnnotatedClass(org.usip.osp.persistence.UILanguageObject.class);

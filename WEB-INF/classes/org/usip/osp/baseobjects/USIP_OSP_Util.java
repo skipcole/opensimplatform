@@ -192,6 +192,11 @@ public class USIP_OSP_Util {
 		}
 	}
 	
+	/**
+	 * Turns a string into a Long.
+	 * @param inputString
+	 * @return
+	 */
 	public static Long stringToLong(String inputString){
 		
 		Long returnLong = null;
@@ -205,6 +210,25 @@ public class USIP_OSP_Util {
 		}
 		
 		return returnLong;
+	}
+	
+	/**
+	 * Checks to see if a string input field contains information.
+	 * 
+	 * @param inputField
+	 * @return
+	 */
+	public static boolean stringFieldHasValue(String inputField){
+		if (inputField == null) {
+			return false;
+		}
+		if (inputField.trim().length() == 0){
+			return false;
+		}
+		if (inputField.equalsIgnoreCase("null")){
+			return false;
+		}
+		return true;
 	}
 
 	public static boolean findMatchingLong(ArrayList list, Long longLookedFor){

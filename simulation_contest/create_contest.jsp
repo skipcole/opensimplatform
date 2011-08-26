@@ -16,7 +16,14 @@
 		return;
 	}
 	
-	afso.handleCreateContest(request);
+	Contest contest = Contest.handleCreateContest(request);
+	
+	boolean editMode = false;
+	
+	String contest_id = (String) request.getParameter("contest_id");
+	if (USIP_OSP_Util.stringFieldHasValue(contest_id)) {
+		editMode = true;	
+	}
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -44,69 +51,61 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  <h1>Create Contest<a href="../simulation_facilitation/helptext/create_running_sim_help.jsp" target="helpinright"></a></h1>
+			  <h1>Create/Edit Contest<a href="../simulation_facilitation/helptext/create_running_sim_help.jsp" target="helpinright"></a></h1>
 			  <br />
             <blockquote>
               <p>Here you can create a contest to have multiple teams creating simulations. </p>
+              <p>It is NOT recommended to make any changes to a contest once it has begun.</p>
               <p>&nbsp;</p>
-              <table width="80%" border = "1">
-                <tr> 
-                  <td valign="top"><h2>Contest</h2></td>
-                  <td valign="top"><h2>Max Players</h2></td>
-                  <td valign="top"><h2>Enabled</h2></td>
-                  <td valign="top"><h2>Stage</h2></td>
-            </tr>
-                <%
-			
-				for (ListIterator li = Contest.getAll(afso.schema).listIterator(); li.hasNext();) {
-					Contest theContest = (Contest) li.next();
-				
-		%>
-                <tr> 
-                  <td><a href="x.jsp?rs_id=<%= theContest.getId() %>"><%= theContest.getContestName() %></a></td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-            </tr>
-                <%
-			}
-		%>
-            </table>
-              <p>&nbsp;</p>
-	          
-            <form action="create_contest.jsp" method="post" name="form1" id="form1">
+              <form action="create_contest.jsp" method="post" name="form1" id="form1">
+ 
+			<% if (editMode) { %>             
+              <input type="hidden" name="sending_page" value="edit_contest" /> 
+			  <% } else { %>
               <input type="hidden" name="sending_page" value="create_contest" />
+			<% } %>
+              <input type="hidden" name="contest_id" value="<%= contest.getId() %>" />
+              
               <table width="80%" border="1" cellspacing="2" cellpadding="2">
                 <tr> 
                   <td valign="top">Contest Name</td>
-              <td valign="top"><input type="text" name="contest_name" /></td>
+              <td valign="top"><input type="text" name="contest_name" value="<%= contest.getContestName() %>" /></td>
             </tr>
                 <tr>
-                  <td>Contest Logo</td>
-                  <td>&nbsp;</td>
+                  <td valign="top">Contest Logo</td>
+                  <td valign="top"><input type="hidden" name="MAX_FILE_SIZE" value="100000" /><input name="uploadedfile" type="file" tabindex="5" /></td>
                 </tr>
                 <tr>
-                  <td>Contest Short Description</td>
-                  <td>&nbsp;</td>
+                  <td valign="top">Contest Short Description</td>
+                  <td valign="top"><label for="short_description"></label>
+                    <textarea name="short_description" id="short_description" cols="45" rows="5">
+                    <%= contest.getContestShortDescription() %> </textarea></td>
                 </tr>
                 <tr>
-                  <td>Contest Description</td>
-                  <td>&nbsp;</td>
+                  <td valign="top">Contest Description</td>
+                  <td valign="top"><label for="description"></label>
+                    <textarea name="description" id="description" cols="45" rows="5">
+                    <%= contest.getContestDescription() %> </textarea></td>
                 </tr>
                 <tr>
-                  <td>Contest Period</td>
-                  <td>&nbsp;</td>
+                  <td valign="top">Contest Period</td>
+                  <td valign="top">&nbsp;</td>
                 </tr>
                 <tr>
-                  <td>Max Players</td>
-                  <td>&nbsp;</td>
+                  <td valign="top">Max Players</td>
+                  <td valign="top">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td valign="top">Conest Second Page Info</td>
+                  <td valign="top"><label for="second_page"></label>
+                    <textarea name="second_page" id="second_page" cols="45" rows="5"></textarea></td>
                 </tr>
                 <tr> 
-                  <td>&nbsp;</td>
-                  <td><input type="submit" name="addRunningSimulation" value="Submit" /></td>
+                  <td valign="top">&nbsp;</td>
+                  <td valign="top"><input type="submit" name="addRunningSimulation" value="Submit" /></td>
                 </tr>
                 </table>
-            </form>
+          </form>
 			</blockquote>
             <p align="center">&nbsp;</p>
 <p>&nbsp;</p>

@@ -4757,18 +4757,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return actor;
 	}
 
-	public void handleCreateContest(HttpServletRequest request) {
 
-		String contest_name = (String) request.getParameter("contest_name");
-		String sending_page = (String) request.getParameter("sending_page");
-
-		if ((sending_page != null)
-				&& (sending_page.equalsIgnoreCase("create_contest"))
-				&& (contest_name != null) && (contest_name.length() > 0)) {
-			Contest contest = new Contest(contest_name);
-
-		}
-
-	}
 
 } // End of class
