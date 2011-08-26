@@ -716,6 +716,13 @@ public class Email {
 		
 	}
 	
+	/**
+	 * Alerts players that they have a new email in their in box. 
+	 * 
+	 * @param pso
+	 * @param schema
+	 * @param request
+	 */
 	public void alertPlayersOfNewEmail(PlayerSessionObject pso, String schema, HttpServletRequest request){
 			
 		List recipients = Email.getRecipientsOfAnEmail(schema, this.getId(), EmailRecipients.RECIPIENT_TO);
@@ -751,6 +758,14 @@ public class Email {
 		pso.storeNewHighestChangeNumber(request, al.getId());
 	}
 	
+	/**
+	 * Sends an email sent inside the fictional world (simulated experience) to a player's real-
+	 * world email account.
+	 * 
+	 * @param pso
+	 * @param sio
+	 * @return
+	 */
 	public boolean sendInGameEmailOutside(PlayerSessionObject pso, SchemaInformationObject sio){
 		
 		List recipients = Email.getRecipientsOfAnEmail(sio.getSchema_name(), this.getId(), EmailRecipients.RECIPIENT_TO);

@@ -63,10 +63,17 @@
   /* Dispose function is used destory an image object */
   g2dImage.dispose();
 
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	String sent_from = request.getParameter("sent_from");
 	
-  afso.captcha_code = sImageCode;
-  
+	if ((sent_from != null) && (sent_from.equalsIgnoreCase("contest_reg"))){
+		ContestParticipatingOrganization cpo = ContestParticipatingOrganization.getCPO(request.getSession(true));
+		cpo.captcha_code = sImageCode;
+	} else {
+	
+		AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	
+  	afso.captcha_code = sImageCode;
+	}
   out.clear();
 
 	out = pageContext.pushBody(); 

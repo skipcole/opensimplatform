@@ -32,8 +32,8 @@
                       <td>Allows you to archive and restore database components  (users, simulation sections, running simulations. simulations, etc.) for archival or transport purposes.</td>
                     </tr>
                     <tr valign="top">
-                      <td><a href="../simulation_contest/create_contest.jsp">Create Contest</a></td>
-                      <td>Allows you to set up a contest that multiple teams can compete in creating simulations.</td>
+                      <td><a href="../simulation_contest/contest_administration.jsp">Administrate Contests</a></td>
+                      <td>Allows you to set up contests and administer them.</td>
                     </tr>
                     <tr valign="top">
                       <td><a href="simulation_admin_extensionrelated.jsp">Extension Tasks</a></td>

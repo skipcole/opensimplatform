@@ -6,11 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+
+import com.oreilly.servlet.MultipartRequest;
 
 /*
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -34,38 +39,45 @@ public class Contest {
 	public static final int CONTEST_IN_JUDGEMENT_PHASE = 4;
 	public static final int CONTEST_WINNER_ANNOUNCEMENT = 5;
 	public static final int CONTEST_OVER = 6;
-	
+
 	/** Zero argument constructor required by Hibernate */
-	public Contest(){
-		
+	public Contest() {
+
 	}
-	
-	/** Utility constructor
+
+	/**
+	 * Utility constructor
 	 * 
 	 * @param contestName
 	 */
-	public Contest(String contestName){
+	public Contest(String contestName) {
 		this.contestName = contestName;
 		this.contestState = Contest.CONTEST_CREATED;
 		this.saveMe();
 	}
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	private String contestName;
-	
-	private String contestLogo;
+
+	private String contestName = "";
+
+	private String contestLogo = "";
+
+	@Lob
+	private String contestShortDescription = "";
 	
 	@Lob
-	private String contestDescription;
+	private String contestDescription = "";
 	
 	@Lob
-	private String contestNotes;
-	
+	private String contestSecondPageInformation = "";
+
+	@Lob
+	private String contestNotes = "";
+
 	private int contestState;
-	
+
 	private boolean registrationOpen = false;
 
 	public Long getId() {
@@ -123,29 +135,70 @@ public class Contest {
 	public void setRegistrationOpen(boolean registrationOpen) {
 		this.registrationOpen = registrationOpen;
 	}
-	
+
+	/**
+	 * Gets a contest based on the contest id passed in, or if there was no contest
+	 * id passed in, tries to return the first contest found.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Contest getContest(HttpServletRequest request) {
+
+		String contest_id = request.getParameter("contest_id");
+
+		Contest contest = new Contest();
+		
+		if ((contest_id == null) || (contest_id.equalsIgnoreCase("null"))
+				|| (contest_id.length() == 0)) {
+			return getFirstContest();
+		} else {
+			try {
+				Long cId = new Long(contest_id);
+				contest = Contest.getById(cId);
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+
+		return contest;
+	}
+
+	/**
+	 * Returns the first contest found in the database.
+	 * 
+	 * @return
+	 */
+	public static Contest getFirstContest() {
+		List contests = getAll();
+
+		if ((contests != null) && (contests.size() > 0)) {
+			return (Contest) contests.get(0);
+		} else {
+			return new Contest();
+		}
+	}
+
 	/**
 	 * Returns all contests found on the platform.
 	 * 
-	 * @param schema
 	 * @return
 	 */
-	public static List getAll(String schema) {
+	public static List<Contest> getAll() {
 
-        MultiSchemaHibernateUtil.beginTransaction(
-                MultiSchemaHibernateUtil.principalschema, true);
-		
-        List returnList = MultiSchemaHibernateUtil.getSession(
-                MultiSchemaHibernateUtil.principalschema, true).createQuery(
-                "from Contest")
-                .list(); //$NON-NLS-1$ 
+		MultiSchemaHibernateUtil.beginTransaction(
+				MultiSchemaHibernateUtil.principalschema, true);
 
-        MultiSchemaHibernateUtil.getSession(
-                MultiSchemaHibernateUtil.principalschema, true).close();
+		List returnList = MultiSchemaHibernateUtil
+				.getSession(MultiSchemaHibernateUtil.principalschema, true)
+				.createQuery("from Contest").list(); //$NON-NLS-1$ 
+
+		MultiSchemaHibernateUtil.getSession(
+				MultiSchemaHibernateUtil.principalschema, true).close();
 
 		return returnList;
 	}
-	
+
 	/**
 	 * Pulls the Contest out of the root database base on its id.
 	 * 
@@ -153,29 +206,107 @@ public class Contest {
 	 * @param sim_id
 	 * @return
 	 */
-    public static Contest getById(Long contestId) {
+	public static Contest getById(Long contestId) {
 
-        MultiSchemaHibernateUtil.beginTransaction(
-                MultiSchemaHibernateUtil.principalschema, true);
+		MultiSchemaHibernateUtil.beginTransaction(
+				MultiSchemaHibernateUtil.principalschema, true);
 
-        Contest contest = (Contest) MultiSchemaHibernateUtil.getSession(
-                MultiSchemaHibernateUtil.principalschema, true).get(
-                		Contest.class, contestId);
+		Contest contest = (Contest) MultiSchemaHibernateUtil.getSession(
+				MultiSchemaHibernateUtil.principalschema, true).get(
+				Contest.class, contestId);
 
-        MultiSchemaHibernateUtil
-                .commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
 
-        return contest;
-    }
+		return contest;
+	}
+
+	/**
+	 * Saves this object back to the main database.
+	 * 
+	 */
+	public void saveMe() {
+		MultiSchemaHibernateUtil.beginTransaction(
+				MultiSchemaHibernateUtil.principalschema, true);
+		MultiSchemaHibernateUtil.getSession(
+				MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(
+				this);
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+	}
 	
-    /**
-     * Saves this object back to the main database.
-     * 
-     */
-    public void saveMe(){
-        MultiSchemaHibernateUtil.beginTransaction(MultiSchemaHibernateUtil.principalschema, true);
-        MultiSchemaHibernateUtil.getSession(MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(this);                        
-        MultiSchemaHibernateUtil.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
-    }
+	public static void setContestLogoImage(MultipartRequest mpr, Contest contestOnScratchPad) {
+
+
+	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Contest handleCreateContest(HttpServletRequest request) {
+		
+		Contest contest = new Contest();
+
+		String contest_name = (String) request.getParameter("contest_name");
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		String contest_id = (String) request.getParameter("contest_id");
+		
+		if (USIP_OSP_Util.stringFieldHasValue(contest_id)){
+			contest = Contest.getById(new Long(contest_id));
+		}
+		
+		
+		boolean saveChanges = false;
+		
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("edit_contest"))){
+			saveChanges = true;
+			
+		}
+		
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("create_contest"))
+				&& (contest_name != null) && (contest_name.length() > 0)) {
+			contest = new Contest(contest_name);
+			
+			saveChanges = true;
+
+		}
+		
+		if (saveChanges){
+			
+			String short_description = (String) request.getParameter("short_description");
+			String description = (String) request.getParameter("description");
+			
+			contest.setContestShortDescription(short_description);
+			contest.setContestDescription(description);
+			contest.saveMe();
+		}
+		
+		return contest;
+
+	}
+
+	public String getContestShortDescription() {
+		return contestShortDescription;
+	}
+
+	public void setContestShortDescription(String contestShortDescription) {
+		this.contestShortDescription = contestShortDescription;
+	}
+
+	public String getContestSecondPageInformation() {
+		return contestSecondPageInformation;
+	}
+
+	public void setContestSecondPageInformation(String contestSecondPageInformation) {
+		this.contestSecondPageInformation = contestSecondPageInformation;
+	}
+	
+	
+	
+
 }
