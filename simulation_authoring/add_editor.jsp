@@ -37,24 +37,27 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Add / Editors  <a href="../simulation_facilitation/helptext/assign_players_help.jsp" target="helpinright"></a></h1>
+              <h1>Add  Editors  <a href="../simulation_facilitation/helptext/assign_players_help.jsp" target="helpinright"></a></h1>
               <br />
-      <p>Select a user authorized simulations from the list below to allow them to edit this simulation. </p>
+      <p>Select an authorized simulation author from the list below to allow them to edit this simulation. </p>
       <table>
 	  <% 
 	
+		// Get hashtable of current editors
 		Hashtable currentSetOfEditors = SimEditors.getCurrentEditors(afso.schema, afso.sim_id);
 		
+		// create list of people who one can add to edit
 	  	ArrayList usersList = new ArrayList();
 		
+		// Loop over all users, and add the non-assigned editors to the possible list of people to edit.
 		 for (ListIterator li = User.getAll(afso.schema, true).listIterator(); li.hasNext();) {
-			
 			User user = (User) li.next();
 			if (currentSetOfEditors.get(user.getId()) == null) {	
 				usersList.add(user);
 			}
 		}
 		
+		// Sort the eligible editors found
 		Collections.sort(usersList);
 		
 		for (ListIterator li = usersList.listIterator(); li.hasNext();) {
@@ -62,14 +65,13 @@
 			User user = (User) li.next();
 		%>
 <tr>
-<td><%= user.getBu_full_name() %></td>
+<td><%= user.getBu_full_name() %> | </td>
 <td>
 		<form action="add_editor.jsp" method="post" name="form3" id="form3">
 		  <input type="hidden" name="sending_page" value="add_editor" />
           <input type="hidden" name="user_id" value="<%= user.getId() %>" />
           <input type="hidden" name="sim_id" value="afso.sim_id" />
-		  user_name
-		  user_email
+		  <%= user.getBu_username() %>
 		  <input type="submit" name="command2" value="Add Editor" />
 		</form></td></tr>
 		<% } %>
@@ -78,7 +80,7 @@
       <h1>&nbsp;</h1>
       <h1>Remove Editors <a href="../simulation_facilitation/helptext/assign_players_help.jsp" target="helpinright"></a></h1>
       <br />
-      <p>Select a user authorized simulations from the list below to allow them to edit this simulation. </p>
+      <p>Select a currently authorized editor below to remove them from this list.. </p>
       <table>
 	<%
 			List currentList = SimEditors.getAuthorizedUsers(afso.schema, afso.sim_id);
@@ -102,6 +104,7 @@
           <td><form action="add_editor.jsp" method="post" name="form3" id="form3">
               <input type="hidden" name="sending_page" value="remove_editor" />
               <input type="hidden" name="user_id" value="<%= user.getId() %>" />
+             | <%= user.getBu_username() %>
               <input type="submit" name="command" value="Remove this Editor" />
           </form></td>
         </tr>

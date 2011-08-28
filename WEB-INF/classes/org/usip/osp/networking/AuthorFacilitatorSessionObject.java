@@ -108,7 +108,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
 		ObjectPackager.unpackageSim(filename, this.schema, sim_name,
-				sim_version, upgrade_file_name, this);
+				sim_version, upgrade_file_name, this, user_id, this.userDisplayName, this.user_email);
 
 	}
 

@@ -23,8 +23,6 @@
 		response.sendRedirect("control_panel.jsp");
 		return;
 	}
-	
-	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -67,6 +65,7 @@
 			Simulation sim = (Simulation) li.next();
 			String nameToSend = java.net.URLEncoder.encode(sim.getSimulationName() + " version " + sim.getVersion());
 			
+			int canEdit = SimEditAuthorization.checkAuthorizedToEdit(afso.schema, sim.getId(), afso.user_id);
 		%>
             
             <tr> 
@@ -78,7 +77,7 @@
 						<form action="select_simulation.jsp" method="get">
 							<input type="hidden" name="select_sim" value="true" />
 							<input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
-							<input type="submit" name="edit" value="Edit" />
+							<input type="submit" name="edit" value="Edit"  <%= SimEditAuthorization.getDisabledCode(canEdit) %> />
                     	</form>
 					</td>
 					<td align="right">
