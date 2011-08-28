@@ -751,7 +751,7 @@ public class ObjectPackager {
 	 */
 	public static void unpackageSim(String fileName, String schema,
 			String sim_name, String sim_version, String upgradeFileName,
-			AuthorFacilitatorSessionObject afso) {
+			AuthorFacilitatorSessionObject afso, Long userId, String userDisplayName, String userName) {
 
 		unpackInformationString = "";
 
@@ -868,6 +868,14 @@ public class ObjectPackager {
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Media");
 		unpackageSimMedia(schema, re.getId(), xmlMedia, simRead.getId(),
 				xstream, bssIdMappings, actorIdMappings);
+		
+		/////////////////////////////////////////////////////////////
+		// Add the editor to the list of people who can edit this newly imported sim
+		SimEditors se = new SimEditors(schema, simRead.getId(), 
+				userId, userDisplayName, userName);
+		simRead.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
+		simRead.saveMe(schema);
+		/////////////////////////////////////////////////////////////
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Import Complete");
 

@@ -72,7 +72,7 @@
         <span class="style1"><%= afso.errorMsg %></span>
         <% afso.errorMsg = ""; %>
         </p>
-          <table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <table border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td align="left" valign="top"><h2>Actor 
                 <%= actorOnScratchPad.getActorName() %></h2></td>

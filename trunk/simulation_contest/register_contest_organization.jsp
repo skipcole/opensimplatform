@@ -20,7 +20,8 @@
 		response.sendRedirect("register_contest_organization_step2.jsp");
 		return;
 	}
-
+	
+	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -218,8 +219,39 @@
 <p>&nbsp;</p>
 
 <p align="center">&nbsp;</p>
-<% } else { %>
-No Contest Selected.
-<% } %>
+<p>
+  <% } else { %>
+</p>
+<p>No Contest Selected.</p>
+<p>
+  <% } // end of contest id == null %>
+ 
+ <%
+
+	List contests = Contest.getAll();
+	
+	if (contests.size() > 0) {   %>
+
+<p>Select a contest from the list below:</p>
+<p>&nbsp;</p>
+
+               <%
+			
+				for (ListIterator li = contests.listIterator(); li.hasNext();) {
+					Contest theContest = (Contest) li.next();
+				
+		%>
+        x
+                        <%
+			} // End of loop over contests.
+			
+			
+	} else { // End of if there are contests.
+	
+		%>
+        No contests found on this system. 
+        
+        <% } // end of no contests found on system. %>
+</p>
 </body>
 </html>

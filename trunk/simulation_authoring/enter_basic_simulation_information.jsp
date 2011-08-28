@@ -17,8 +17,6 @@
 	
 	int canEdit = SimEditAuthorization.checkAuthorizedToEdit(afso.schema, afso.sim_id, afso.user_id);
 	
-	System.out.println("canEdit is " + canEdit);
-	System.out.println("dis code is: " + SimEditAuthorization.getDisabledCode(canEdit));
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -112,7 +110,7 @@
 				%>
                 <input type="hidden" name="sim_id" value="<%= simulation.getId() %>" />
 				<table width="100%"><tr>
-                <td align="left"><input type="submit"  name="command" value="Update" <%= SimEditAuthorization.getDisabledCode(canEdit) %> /><%= SimEditAuthorization.getDisabledCode(canEdit) %></td>
+                <td align="left"><input type="submit"  name="command" value="Update" <%= SimEditAuthorization.getDisabledCode(canEdit) %> /></td>
 				<td align="right">&nbsp;</td>
 				</tr></table>
                 <%
