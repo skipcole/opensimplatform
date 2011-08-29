@@ -98,16 +98,23 @@
     </tr>
           <tr> 
             <td valign="top"><strong>Permission Level: </strong></td>
-            <td valign="top"><label>
+            <td valign="top">
+            
+            <% if (afso.isAdmin()) { %>
+              <label>
               <input name="perm_level" type="radio" value="admin" <%= is_admin %> />
               Admin, Author, Instructor, Player </label><br />
+            <% } %>
+            <% if (afso.isAuthor()) { %>
 			  <label>
               <input name="perm_level" type="radio" value="author" <%= is_author %> />
               Author, Instructor, Player </label><br />
+            <% } %>
+            <% if (afso.isFacilitator()) { %>
 			  <label>
               <input name="perm_level" type="radio" value="instructor" <%= is_instructor %> />
-              Instructor, Player </label>
-			  <br />
+              Instructor, Player </label><br />
+            <% } %>
 			  <label>
               <input name="perm_level" type="radio" value="player" <%= is_player %> />
               Player </label>

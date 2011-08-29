@@ -82,7 +82,9 @@
 				} // End of loop over StudentDashboardLine
 		%>
 		</table>
-				<% }  // End of if they have worked on a running sim before.%>
+				<% } else {  // End of if they have worked on a running sim before.%>
+                <p>No simulation found to display on dashboard.</p>
+                <% } %>
 			  </blockquote>
 			  <br />
 			  	<% if (afso.getRunningSimId() != null) { %>

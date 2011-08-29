@@ -176,9 +176,32 @@ public class SimActorAssignment implements ExportableObject{
 		this.active = active;
 	}
 
+	/** Convenience method for creating and storing.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param actor_id
+	 */
 	public SimActorAssignment(String schema, Long sim_id, Long actor_id) {
 		this.sim_id = sim_id;
 		this.actorId = actor_id;
+		if (SimActorAssignment.getBySimIdAndActorId(schema, sim_id, actor_id) == null) {
+			this.saveMe(schema);
+		}
+	}
+	
+	/** Convenience method for creating and storing.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param actor_id
+	 * @param assign_type
+	 */
+	public SimActorAssignment(String schema, Long sim_id, Long actor_id, int assign_type) {
+		this.sim_id = sim_id;
+		this.actorId = actor_id;
+		this.assignmentType = assign_type;
+		
 		if (SimActorAssignment.getBySimIdAndActorId(schema, sim_id, actor_id) == null) {
 			this.saveMe(schema);
 		}

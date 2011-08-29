@@ -72,7 +72,7 @@
 			User user = (User) li.next();
 			
 	  %>
-	  <li><%= user.getBu_full_name() %> <% if (iList.size() > 1) { %> 
+	  <li><%= user.getBu_full_name() %> | <%= user.getBu_username() %>  | <% if (iList.size() > 1) { %> 
 	  (remove) 
 	    <% } %></li>
 	  <% } // end of loop over instructors %>	  

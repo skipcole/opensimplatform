@@ -367,7 +367,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public static String getConfirmEmailBaseLink(String schema) {
 
 		String baseURL = USIP_OSP_Properties.getValue("base_sim_url") //$NON-NLS-1$
-				+ "confirm.jsp";
+				+ "/confirm.jsp";
 
 		baseURL += "?schema=" + schema;
 
@@ -649,8 +649,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
+	 * Sends an email based on the parameters passed in.
 	 * 
 	 * @param request
+	 * 
+	 * TODO: make this static and move it into the Email class
 	 */
 	public Email handleNotifyPlayers(HttpServletRequest request,
 			SchemaInformationObject sio) {
@@ -706,7 +709,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				String vname = (String) request.getParameter(pname);
 				if (pname.startsWith("invite_")) {
-					System.out.println(pname + " xxx " + vname);
 					pname = pname.replaceFirst("invite_", "");
 					UserAssignment ua = UserAssignment.getById(schema,
 							new Long(pname));
@@ -2346,11 +2348,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				}
 			}
 
-			// if (!(SimActorAssignment.getActorsForSim(schema,
-			// sim_id).contains(actorOnScratchPad))) {
 			if (!(simHasActor)) {
 				saa = new SimActorAssignment(schema, sim_id,
-						actorOnScratchPad.getId());
+						actorOnScratchPad.getId(), SimActorAssignment.TYPE_REQUIRED);
 			} else {
 				saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id,
 						actorOnScratchPad.getId());

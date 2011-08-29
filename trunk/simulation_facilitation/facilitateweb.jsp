@@ -45,14 +45,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
-<frameset rows="*" cols="75%,25%" border="1">
   <frameset rows="150,90%" border="0">
     <frame  name="headeruptop" src="<%= topPage %>">
     <frame name="bodyinleft" src="<%= mainPage %>">
   </frameset>
-  
-  <frame name="helpinright" src="helptext/facilitation_basichelp.jsp">
-</frameset>
+
 <noframes><body>
 
 </body></noframes>
