@@ -142,8 +142,8 @@ public class User implements Comparable{
 	 */
 	public User(String schema, String username, String password,
 			String first_name, String last_name, String middle_name,
-			String full_name, boolean sim_creator,
-			boolean sim_instructor, boolean admin) {
+			String full_name, boolean admin, boolean sim_creator,
+			boolean sim_instructor) {
 
 		Logger.getRootLogger().debug("creating user " + username); //$NON-NLS-1$
 

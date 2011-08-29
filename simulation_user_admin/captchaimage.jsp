@@ -3,6 +3,7 @@
 	java.awt.*,
 	java.awt.image.*,
 	org.usip.osp.networking.*,
+	org.usip.osp.coursemanagementinterface.*,
 	javax.imageio.*,
 	java.awt.geom.*"%>
 <%
@@ -67,7 +68,7 @@
 	
 	if ((sent_from != null) && (sent_from.equalsIgnoreCase("contest_reg"))){
 		ContestParticipatingOrganization cpo = ContestParticipatingOrganization.getCPO(request.getSession(true));
-		cpo.captcha_code = sImageCode;
+		cpo.setCaptcha_in_session(sImageCode);
 	} else {
 	
 		AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));

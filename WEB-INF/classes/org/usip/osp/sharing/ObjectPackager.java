@@ -799,7 +799,17 @@ public class ObjectPackager {
 		simRead.setSimulationName(sim_name);
 		simRead.setVersion(sim_version);
 
+		// Set initial permissions to be editable just by the person who imported it.
+		simRead.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
+		
 		simRead.saveMe(schema);
+		
+		/////////////////////////////////////////////////////////////
+		// Add the editor to the list of people who can edit this newly imported sim
+		@SuppressWarnings("unused")
+		SimEditors se = new SimEditors(schema, simRead.getId(), 
+				userId, userDisplayName, userName);
+		/////////////////////////////////////////////////////////////
 		
 		// Planned Play
 		String ppspString = getObjectFromFile(xmlText,
@@ -868,14 +878,6 @@ public class ObjectPackager {
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Media");
 		unpackageSimMedia(schema, re.getId(), xmlMedia, simRead.getId(),
 				xstream, bssIdMappings, actorIdMappings);
-		
-		/////////////////////////////////////////////////////////////
-		// Add the editor to the list of people who can edit this newly imported sim
-		SimEditors se = new SimEditors(schema, simRead.getId(), 
-				userId, userDisplayName, userName);
-		simRead.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
-		simRead.saveMe(schema);
-		/////////////////////////////////////////////////////////////
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Import Complete");
 

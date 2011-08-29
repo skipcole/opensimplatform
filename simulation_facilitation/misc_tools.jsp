@@ -27,9 +27,10 @@
 
 <title>Open Simulation Platform Control Page</title>
 
-
-
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
+<!-- script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script -->
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -45,17 +46,17 @@
               <h2>Basic Tools </h2>
 			  <p>Below are listed activities that instructors may occasionally do. </p>
 			  <ul>
-			    <li><a href="administrate_running_sim_add_instructor.jsp">Add Instructors</a> (?) <a href="../simulation_user_admin/create_user.jsp"></a></li>
-                <li><a href="../simulation_user_admin/create_user.jsp">Find Student</a> (?) </li>
-                <li><a href="bulk_invite.jsp">Invite Student to Register </a> <a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></li>
+			    <li><a href="administrate_running_sim_add_instructor.jsp">Add Instructors</a>  <a href="helptext/add_instructor.jsp" target="helpinright">(?) </a></li>
+                <li><a href="facilitate_find_student.jsp">Find Student</a><a href="helptext/find_student.jsp" target="helpinright"> (?) </a></li>
+                <li><a href="bulk_invite.jsp">Invite Student(s) to Register </a><a href="helptext/bulk_invite_help.jsp" target="helpinright">(?) </a></li>
                 <li><a href="../simulation_user_admin/create_user.jsp">Register Student </a> <a href="helptext/create_user_help.jsp" target="helpinright">(?)</a></li>
                 </ul>      
               <p>&nbsp;</p>
               <h2>Advanced Tools </h2>
       <p>Below are listed instructor activities that are either rare, or in development.</p>
       <ul>
-        <li><a href="create_set_of_running_sims.jsp">Create Set of Running Simulations</a></li>
-        <li>Create a Login Message</li>
+        <li><a href="create_set_of_running_sims.jsp">Create Set of Running Simulations</a><a href="helptext/add_instructor.jsp"  target="helpinright"> (?)</a></li>
+        <li><a href="facilitate_create_login_message.jsp">Create a Login Message</a><a href="helptext/create_running_sim_help.jsp" target="helpinright"> (?)</a></li>
         </ul>
       <p align="center"></p>			</td>
 		</tr>
