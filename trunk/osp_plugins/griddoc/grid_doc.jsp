@@ -37,7 +37,11 @@
 <p><%= cs.getBigString() %></p>
 <table width="95%" border="1" cellspacing="2" cellpadding="2">
 <tr>
-<td valign="top"><%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
+<% if (gpd.getNumRows() > 0) { %>
+<td valign="top">
+	<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %>
+</td>
+<% } %>
 <% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
 
 	GridData gdTop = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), ii, 0);

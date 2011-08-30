@@ -92,10 +92,8 @@ public class GridPageData {
 
 			String col_name = (String) request.getParameter("col_name");
 
-			System.out.println("adding col: " + col_name);
-
 			// Load in number of cols
-			gpd.loadColumns(schema, cs, simId, rsId);
+			gpd.loadColumnNames(schema, cs, simId, rsId);
 
 			newGD.setRowNum(0);
 			newGD.setColNum(gpd.getNumCols() + 1);
@@ -108,16 +106,22 @@ public class GridPageData {
 
 			String row_name = (String) request.getParameter("row_name");
 
-			System.out.println("adding row: " + row_name);
-
-			// Load in number of cols
-			gpd.loadRows(schema, cs, simId, rsId);
+			// Load in row names
+			gpd.loadRowNames(schema, cs, simId, rsId);
 
 			newGD.setRowNum(gpd.getNumRows() + 1);
 			newGD.setColNum(0);
 			newGD.setCellData(row_name);
 			newGD.saveMe(schema);
 
+		}
+		
+		String del_col = (String) request.getParameter("del_col");
+		if (del_col != null) {
+			String col = (String) request.getParameter("col");
+			
+			List objectsToDelete = getCol(schema, simId, cs.getId(), rsId, new Long(col));
+			
 		}
 
 	}
@@ -136,19 +140,27 @@ public class GridPageData {
 		GridPageData gpd = new GridPageData();
 
 		// Load in number of cols
-		gpd.loadColumns(schema, cs, simId, rsId);
+		gpd.loadColumnNames(schema, cs, simId, rsId);
 
 		// Load in number of rows
-		gpd.loadRows(schema, cs, simId, rsId);
+		gpd.loadRowNames(schema, cs, simId, rsId);
 
 		return gpd;
 	}
 
-	public void loadColumns(String schema, CustomizeableSection cs, Long simId,
+	/**
+	 * Loads the data into the col
+	 * 
+	 * @param schema
+	 * @param cs
+	 * @param simId
+	 * @param rsId
+	 */
+	public void loadColumnNames(String schema, CustomizeableSection cs, Long simId,
 			Long rsId) {
 
 		// Load in number of cols
-		List cols = getBaseCols(schema, simId, cs.getId(), rsId);
+		List cols = getCol(schema, simId, cs.getId(), rsId, new Long(0));
 
 		if (cols == null) {
 			this.setNumCols(0);
@@ -167,10 +179,18 @@ public class GridPageData {
 		}
 	}
 
-	public void loadRows(String schema, CustomizeableSection cs, Long simId,
+	/**
+	 * 
+	 * @param schema
+	 * @param cs
+	 * @param simId
+	 * @param rsId
+	 */
+	public void loadRowNames(String schema, CustomizeableSection cs, Long simId,
 			Long rsId) {
 
-		List rows = getBaseRows(schema, simId, cs.getId(), rsId);
+		List rows = getRow(schema, simId, cs.getId(), rsId, new Long(0));
+		
 		if (rows == null) {
 			this.setNumRows(0);
 			this.setRowNames(new ArrayList<String>());
@@ -200,8 +220,8 @@ public class GridPageData {
 	 * @param rsId
 	 * @return
 	 */
-	public static List getBaseRows(String schema, Long simId, Long csId,
-			Long rsId) {
+	public static List getRow(String schema, Long simId, Long csId,
+			Long rsId, Long colNumber) {
 
 		if ((rsId == null) || (simId == null) || (csId == null)) {
 			return new ArrayList();
@@ -212,8 +232,10 @@ public class GridPageData {
 		List returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery(
-						"from GridData where simId = :simId and csId = :csId and rsId = :rsId and colNum = 0") //$NON-NLS-1$
-				.setLong("simId", simId).setLong("csId", csId)
+						"from GridData where simId = :simId and csId = :csId and rsId = :rsId and colNum = :colNumber") //$NON-NLS-1$
+				.setLong("simId", simId)
+				.setLong("csId", csId)
+				.setLong("colNumber", colNumber)
 				.setLong("rsId", rsId).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -230,8 +252,8 @@ public class GridPageData {
 	 * @param rsId
 	 * @return
 	 */
-	public static List getBaseCols(String schema, Long simId, Long csId,
-			Long rsId) {
+	public static List getCol(String schema, Long simId, Long csId,
+			Long rsId, Long rowNumber) {
 
 		if ((rsId == null) || (simId == null) || (csId == null)) {
 			return new ArrayList();
@@ -242,8 +264,10 @@ public class GridPageData {
 		List returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery(
-						"from GridData where simId = :simId and csId = :csId and rsId = :rsId and rowNum = 0") //$NON-NLS-1$
-				.setLong("simId", simId).setLong("csId", csId)
+						"from GridData where simId = :simId and csId = :csId and rsId = :rsId and rowNum = :rowNumber") //$NON-NLS-1$
+				.setLong("simId", simId)
+				.setLong("csId", csId)
+				.setLong("rowNumber", rowNumber)
 				.setLong("rsId", rsId).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

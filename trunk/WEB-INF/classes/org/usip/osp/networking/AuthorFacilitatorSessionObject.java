@@ -510,6 +510,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			Long o_id = new Long(objid);
 
 			if (objectType.equalsIgnoreCase("simulation")) {
+				System.out.println("deleting simulation");
 				if (Simulation.deleteSimulation(schema, new Long(o_id))) {
 					this.sim_id = null;
 					User user = this.giveMeUser();
@@ -2126,7 +2127,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				new_simulation.setVersion(simulation_version);
 				new_simulation.setCreation_org(creation_org);
 
+				new_simulation.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
 				new_simulation.saveMe(schema);
+				
+				@SuppressWarnings("unused")
+				SimEditors se = new SimEditors(schema, new_simulation.getId(), 
+						this.user_id, userDisplayName, this.userDisplayName);
 
 				this.sim_id = new_simulation.getId();
 

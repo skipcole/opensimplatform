@@ -1,5 +1,7 @@
 package org.usip.osp.baseobjects;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -405,6 +407,30 @@ public class USIP_OSP_Util {
 		 
 		 System.out.println(returnString);
 		 return returnString;
+	}
+
+	/**
+	 * Copies in the values from the Simulation passed in.
+	 * 
+	 * @param objectBeingCopied
+	 */
+	public static void copyInBasicValues(Object receivingObject, Object objectBeingCopied, Class theClassAtHand) {
+	
+		Field[] fields = theClassAtHand.getDeclaredFields();
+		for (int i = 0; i < fields.length; i++) {
+	
+			// Don't attempt to set final (constant) fields.
+			int modifiers = fields[i].getModifiers();
+	
+			if (!(Modifier.isFinal(modifiers))) {
+				fields[i].setAccessible(true);
+				try {
+					fields[i].set(receivingObject, fields[i].get(objectBeingCopied));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }
