@@ -30,7 +30,7 @@ import sun.misc.BASE64Encoder;
 @Entity
 @Table(name = "BASEUSERTABLE")
 @Proxy(lazy = false)
-public class BaseUser {
+public class BaseUser implements Comparable{
 
     @Id
     @GeneratedValue
@@ -116,13 +116,56 @@ public class BaseUser {
     }
     
     /**
+     * 
+     * @param partialName
+     * @return
+     */
+    public static List <BaseUser> searchByNameOrUsername(String partialName){
+    	
+    	List <BaseUser> listOne = searchUserByName(partialName);
+    	List <BaseUser> listTwo = searchUserByUserName(partialName);
+    	
+    	Collections.sort(listOne);
+    	Collections.sort(listTwo);
+    	
+    	List <BaseUser> finalList = new ArrayList();
+    	
+    	// Add everything from list two into the final list
+       	for (ListIterator li2 = listTwo.listIterator(); li2.hasNext();) {
+       		BaseUser bu2 = (BaseUser) li2.next();
+       		
+       		finalList.add(bu2);
+       	}
+    	
+       	for (ListIterator li = listOne.listIterator(); li.hasNext();) {
+       		BaseUser bu1 = (BaseUser) li.next();
+       		
+       		boolean foundAlready = false;
+       		
+           	for (ListIterator li2 = listTwo.listIterator(); li2.hasNext();) {
+           		BaseUser bu2 = (BaseUser) li2.next();
+           		
+           		if (bu1.getId().equals(bu2.getId())){
+           			foundAlready = true;
+           		}
+           	}
+           	
+           	if (!foundAlready){
+           		finalList.add(bu1);
+           	}
+       		
+       	}
+    	return finalList;
+    }
+    
+    /**
      * Searches the database by the name of the user.
      * 
      * @param schema
      * @param partialName
      * @return
      */
-    public static List searchUserByName(String partialName){
+    public static List <BaseUser> searchUserByName(String partialName){
     	
     	partialName = "%" + partialName + "%";
     	
@@ -139,8 +182,32 @@ public class BaseUser {
                 MultiSchemaHibernateUtil.principalschema, true).close();
         
         return sList;
+         
+    }
+    
+    /**
+     * 
+     * @param partialName
+     * @return
+     */
+    public static List <BaseUser> searchUserByUserName(String partialName){
+    	
+    	partialName = "%" + partialName + "%";
+    	
+        MultiSchemaHibernateUtil.beginTransaction(
+                MultiSchemaHibernateUtil.principalschema, true);
+
+        List sList = MultiSchemaHibernateUtil.getSession(
+                MultiSchemaHibernateUtil.principalschema, true).createQuery(
+                "from BaseUser where username like :partialName  ")
+                .setString("partialName", partialName)
+                .list(); //$NON-NLS-1$ 
         
-        
+        MultiSchemaHibernateUtil.getSession(
+                MultiSchemaHibernateUtil.principalschema, true).close();
+
+        return sList;
+         
     }
     
     /** Handles the updating of a base user. */
@@ -542,6 +609,17 @@ public class BaseUser {
 
 	public void setTransit_id(Long transit_id) {
 		this.transit_id = transit_id;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+
+		if (arg0 == null){
+			return 0;
+		}
+		BaseUser bu1 = (BaseUser) arg0;
+		
+		return this.getLast_name().compareTo(bu1.getLast_name());
 	}
 
 }
