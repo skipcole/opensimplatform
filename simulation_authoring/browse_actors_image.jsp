@@ -64,6 +64,14 @@
 }
 -->
 </style>
+<style type="text/css">
+<!--
+img.sample_image {
+	max-width:200px;
+	max-height:200px;
+}
+-->
+</style>
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
@@ -83,7 +91,7 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Browse Actor Images for <%= actorOnScratchPad.getActorName() %></h1>
-              <table width="100%" border="0">
+              <table width="100%" border="1" cellspacing="0">
 			         <%
 					 List imageList = afso.getImageFiles();
 					 
@@ -95,9 +103,9 @@
 			
 		%>
                 <tr>
-                  <td><img src="<%= fileLoc %>" alt="image" /></td>
-                  <td><%= fileName %></td>
-                  <td><a href="browse_actors_image.jsp?setimage=true&selectimage=<%= selectimage %>&img_name=<%= fileName %>">Select</a></td>
+                  <td valign="top"><img src="<%= fileLoc %>" alt="image" class="sample_image" /></td>
+                  <td valign="top"><%= fileName %></td>
+                  <td valign="top"><a href="browse_actors_image.jsp?setimage=true&selectimage=<%= selectimage %>&img_name=<%= fileName %>">Select</a></td>
                 </tr>
 				
 		<% } %>

@@ -90,6 +90,13 @@ public class SessionObjectBase {
 		} catch (Exception e){
 			OSPErrors.storeInternalWarning
 				("Error encountered trying to get simulation in SOB " + e.getMessage(), this);
+			
+			simulation = new Simulation();
+			
+		}
+		
+		if (simulation == null){
+			simulation = new Simulation();
 		}
 
 		return simulation;

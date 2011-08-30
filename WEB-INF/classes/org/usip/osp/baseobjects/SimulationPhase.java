@@ -30,7 +30,7 @@ import org.usip.osp.sharing.ObjectPackager;
 @Entity
 @Table(name = "PHASES")
 @Proxy(lazy=false)
-public class SimulationPhase implements Comparable{
+public class SimulationPhase implements Comparable, SimulationSubObject{
 	
 	
 	public static final int ROUND_BASED = 1;
@@ -314,6 +314,18 @@ public class SimulationPhase implements Comparable{
 		differenceString += "</PHASE_COMPARE>\r\n";
 		
 		return differenceString;
+	}
+
+	@Override
+	public List getAllForSimulation(String schema, Long simId) {
+		return SimPhaseAssignment.getPhasesForSim(schema, simId);
+	}
+
+	@Override
+	public void copyInBasicValues(Object arg) {
+
+		USIP_OSP_Util.copyInBasicValues(this, arg, SimulationPhase.class);
+		
 	}
 	
 }

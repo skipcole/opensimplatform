@@ -1,7 +1,5 @@
 package org.usip.osp.baseobjects;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.*;
 
 import javax.persistence.*;
@@ -834,6 +832,7 @@ public class Simulation implements ExportableObject, Comparable {
 	public static boolean deleteSimulation(String schema, Long sim_id) {
 
 		if (!(Simulation.checkIfDeletable(schema, sim_id))) {
+			System.out.println("can't delete");
 			return false;
 		}
 
@@ -844,7 +843,7 @@ public class Simulation implements ExportableObject, Comparable {
 		// Delete Actors
 
 		// Delete
-
+		System.out.println("deleting sim: " + sim_id);
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).delete(sim);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -860,33 +859,9 @@ public class Simulation implements ExportableObject, Comparable {
 	 */
 	public void copyIn(Simulation oldSimulation) {
 
-		copyInBasicValues(oldSimulation);
+		USIP_OSP_Util.copyInBasicValues(this, oldSimulation, Simulation.class);
 		
 		//TODO Do deep copy
 
-	}
-
-	/**
-	 * Copies in the values from the Simulation passed in.
-	 * 
-	 * @param os
-	 */
-	public void copyInBasicValues(Simulation os) {
-
-		Field[] fields = Simulation.class.getDeclaredFields();
-		for (int i = 0; i < fields.length; i++) {
-
-			// Don't attempt to set final (constant) fields.
-			int modifiers = fields[i].getModifiers();
-
-			if (!(Modifier.isFinal(modifiers))) {
-				fields[i].setAccessible(true);
-				try {
-					fields[i].set(this, fields[i].get(os));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 } // End of Simulation

@@ -1043,7 +1043,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	}
 
 	/**
-	 * Gets a list of classes that are
+	 * Gets a list of classes that are 
 	 * 
 	 * @param schema
 	 * @return
