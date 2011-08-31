@@ -64,7 +64,7 @@ body {
   </ul>
   <p>e.) Click on the link 'CREATE' in the top banner. This will take you to the 'Control Panel' shown below.</p>
   <blockquote>
-    <p><img src="images/tut_sim_auth_1_page1_controlpanel.PNG" alt="Control Panel" width="546" height="470" border="1" /></p>
+    <p><img src="images/tut_sim_auth_1_page1_controlpanel.PNG" alt="Control Panel" width="621" height="555" border="1" /></p>
   </blockquote>
   <p>e.) Read through the steps involved in creating a simulation, then click on step 1, &quot;Create New Simulation&quot; to move on.</p>
 </blockquote>

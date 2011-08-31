@@ -52,7 +52,7 @@ body {
    <blockquote>
      <p><strong>Tip: Make sure you select the conversation 'orange_chat' that you created before. </strong></p>
      <blockquote>
-       <p><img src="images/tut_sim_auth_1_page12_customize_market.PNG" alt="customize market" width="616" height="588" border="1" /></p>
+       <p><img src="images/tut_sim_auth_1_page12_customize_market.PNG" alt="customize market" width="855" height="676" border="1" /></p>
      </blockquote>
      <p>&nbsp;</p>
      <p>Tip: You will not see the 'Market' listed in the universal sections. This is because one selects the actors that can participate in a meeting room, and not all of them may have been selected. These selections will show up when you look at the individual actors, which is the next step.</p>

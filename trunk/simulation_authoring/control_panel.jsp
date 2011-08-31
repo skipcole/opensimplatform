@@ -71,6 +71,10 @@
               <% } // End of if have not set simulation for edits. %>
               </p>
 <br />
+
+<% 
+			if (afso.sim_id != null) {
+%>
       <table width="100%" border="0" cellspacing="2" cellpadding="1">
         <tr valign="top"> 
           <td colspan="3"><h2>Step</h2></td>
@@ -139,9 +143,12 @@
             <td><a href="publish_sim.jsp">Publish Simulation</a></td>
             </tr>
       </table>
+      
+ <% } // end of if sim_id != null %>
       <p>&nbsp;</p>			</td>
 		</tr>
-		</table>	</td>
+		</table>
+        </td>
   </tr>
   <tr> 
     <td>
@@ -155,6 +162,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>
