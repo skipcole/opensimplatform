@@ -47,7 +47,7 @@ body {
   <p>a.) Observe the 'Add Simulation Objects' pages. On this page one adds things to a simulation: conversations, documents, parameters that can change, etc. </p>
   <blockquote>
     <p>It will be possible to reach many of these 'object creation' pages from other places, but this is one convenient place to quickly access the objects that your simulation may need. We are creating a conversation at this point in anticipation that it will used later. In a following step, you will see where. </p>
-    <p><img src="images/tut_sim_auth_1_page10_add_objects.PNG" alt="add objects page" width="692" height="390" border="1" /></p>
+    <p><img src="images/tut_sim_auth_1_page10_add_objects.PNG" alt="add objects page" width="719" height="431" border="1" /></p>
   </blockquote>
   <p>We will only be creating a conversation here. The other items will be covered in future authoring tutorials.</p>
 <table width="100%" border="1" cellspacing="2" cellpadding="0">

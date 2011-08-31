@@ -44,17 +44,17 @@ body {
 <br />
 <h1>Step 2. Creating your simulation</h1>
 <blockquote>
-  <p>a.) Fill in the information on the creation page as shown in the image below. </p>
+<p>a.) Fill in the information on the creation page as shown in the image below. </p>
   <blockquote>
-    <p>Tip: If other people are using the same server to do this tutorial, you may want to enter your initials for the 'Simulation Version', just to keep track of which one you created.</p>
+    <p>Tip: If other people are using the same server to do this tutorial, you may want to enter your initials for the 'Simulation Version', to help identify it as yours.</p>
     <p>Tip: Only the name and verision of the simulation are really required for entry. All information that you enter here (and pretty much anywhere else in the platform) can be edited later on. </p>
+  <p><img src="images/tut_sim_auth_1_page2_createsim.PNG" alt="Create Simulation" width="607" height="278" border="1" /></p>
+</blockquote>
+  <p>b.) Hit the 'Create' button at the bottom of the form. You should then see the information has been stored, as shown below.</p>
+  <blockquote>
+    <p><img src="images/tut_sim_auth_1_page2_createsim_2.PNG" alt="Screen after creating simulation" width="541" height="262" border="1" /></p>
+    <p>c.) Select the link at the bottom which states &quot;Next Step: Simulation Objectives&quot; to move on to the next step.</p>
   </blockquote>
-</blockquote>
-<p align="center"><img src="images/tut_sim_auth_1_page2_createsim.PNG" alt="Create Simulation" width="560" height="379" border="1" /></p>
-<blockquote>
-  <p>b.) Hit the 'Create' button at the bottom of the form. You should then see the simulation you just created listed at the bottom of the page.  </p>
-  <p>c.) Select the link at the bottom which states &quot;Next Step: Simulation Objectives&quot; to move on to the next step.</p>
-</blockquote>
 <p>&nbsp;</p>
 <!-- InstanceEndEditable -->
 <table  border="0" align="center" cellspacing="5">

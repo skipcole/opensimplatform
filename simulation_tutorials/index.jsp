@@ -59,7 +59,7 @@ body {
       </li>
     </ol>
   </li>
-  <li><a href="../USIP_OSP_Facilitator_Training.ppt">Simulation Facilitation Presentation </a>-  We have some incredible improvements lately making it even easier for instructors to use the USIP OSP. So the tutorial that was here has been temporarily replaced with a power point presentation. (The power point presentation will eventually be turned into an instructional video, and a hands on tutorial brought up to date and returned to its place here.) <br />
+  <li><a href="http://www.youtube.com/watch?v=HDHZnqTqg1w">Simulation Facilitation Presentation </a>- This tutorial will walk you through the basic tasks that an instructor needs to perform.<br />
     <br />
   </li>
   <li><em><strong>In Progress! </strong></em>Simulation Authoring 2 - In this tutorial you will begin to incorporate more advanced features, such as documents that the players can edit, into a simulation.</li>

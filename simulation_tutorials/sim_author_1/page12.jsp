@@ -74,7 +74,7 @@ body {
    </blockquote>
    <p>d.) You will be taken to a page where you can customize the 'Cast' page.</p>
    <blockquote>
-     <p><img src="images/tut_sim_auth_1_page12_customize_cast.PNG" alt="Customize Cast" width="662" height="448" border="1" /></p>
+     <p><img src="images/tut_sim_auth_1_page12_customize_cast.PNG" alt="Customize Cast" width="814" height="508" border="1" /></p>
    </blockquote>
    <p>e.) Select 'Yes' for the question &quot;Cast page will display control characters               
      <label> </label>
@@ -83,9 +83,9 @@ body {
    <blockquote>
      <table width="70%" border="1" cellspacing="2" cellpadding="0">
     <tr>
-      <td><h2 align="center"><strong>Tip: The Difference between 'Save' and 'Save and Add'</strong></h2>
-        <p>When you 'Save' changes to a customized section being added, you are just changing the way it will look or behave. You are not modifying which actors will have it during the current phase you are working on.</p>
-        <p>When you 'Save and Add' a section you are not only making changes to it, you are also adding it to the actor being worked on (or all actors if you working on the universal sections) during the current phase that you are working on.</p></td>
+      <td><h2 align="center"><strong>Tip:  'Save and Add'</strong></h2>
+        <p>When you 'Save and Add' a section you are not only making changes to it, you are also adding it to the actor being worked on (or all actors if you working on the universal sections) during the current phase that you are working on.</p>
+<p>After you have 'Saved and Added' a section, you will have the option to 'Save' changes to it later on. Modifying it will not affect which actors will have access to it.</p></td>
     </tr>
   </table>
    </blockquote>
