@@ -6,6 +6,7 @@
 
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	afso.backPage = "select_simulation.jsp";
 
 	if (!(afso.isLoggedin())) {
 		response.sendRedirect("../blank.jsp");
@@ -50,7 +51,8 @@
       <blockquote>
         <p>On this page you may take the following actions on the simulations listed below. If you need to create a new simulation, <a href="create_simulation.jsp">click here</a>. </p>
           <ol>
-            <li>Edit. This will queue up the simultation for viewing. But if you do not have permission to edit it, or if it has been published and is locked from editing, you will not be able to select it for editing..</li>
+            <li>Edit. This will queue up the simultation for viewing. But if you do not have permission to edit it, or if it has been published and is locked from editing, you will not be able to select it for editing.</li>
+            <li>Review. </li>
             <!-- li>Copy. This will allow you to create a copy of the simulation.</li -->
             <li>Rename. This will allow you to change basic simulation information: name, version or name of creating organization.</li>
             <!-- li>Delete. This will remove the simulation from this platform. If the simulation has running games created on this platform with users assigned to it. It will not be able to delete it. </li -->
@@ -80,6 +82,12 @@
 							<input type="submit" name="edit" value="Edit"  <%= SimEditAuthorization.getDisabledCode(canEdit) %> />
                     	</form>
 					</td>
+                    <td align="right">
+                      <form id="form1" name="form1" method="post" action="review_sim.jsp">
+                        <input type="hidden" name="loadSim" value="true" />
+                        <input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
+                        <input type="submit" name="button" id="button" value="Review" />
+                      </form></td>
 					<!-- td align="right">
 						<form action="copy_simulation.jsp" method="get">
 							<input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
