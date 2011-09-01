@@ -11,8 +11,6 @@
 		return;
 	}
 	
-	afso.backPage = "review_sim.jsp";
-	
 	String loadSim = (String) request.getParameter("loadSim");
 	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))) {
 		afso.sim_id = new Long((String) request.getParameter("sim_id"));
@@ -22,6 +20,14 @@
 	
 	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
+	}
+	
+	boolean canEdit = false;
+	
+	int canEditCode = SimEditAuthorization.checkAuthorizedToEdit(afso.schema, simulation.getId(), afso.user_id);
+	
+	if (canEditCode == SimEditAuthorization.SIM_CAN_BE_EDITED){
+		canEdit = true;
 	}
 	
 
@@ -117,33 +123,33 @@ h3.trigger a:hover { color: #ccc; }
 	          <h2>1. Simulation Name: </h2>
 			  <blockquote>
 			    <p><%= simulation.getDisplayName() %></p>
-			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation.jsp">edit</a>)<% } %></p>
+			    <p><% if (canEdit) { %>(<a href="create_simulation.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  <h2>2. Simulation Learning Objectives</h2>
 			  <blockquote>
 			    <p><%= simulation.getLearning_objvs() %></p>
-			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
+			    <p><% if (canEdit) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  <h2>3. Simulation Audience</h2>
 			  <blockquote>
 			    <p><%= simulation.getAudience() %></p>
-			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_audience.jsp">edit</a>)<% } %></p>
+			    <p><% if (canEdit) { %>(<a href="create_simulation_audience.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  
 		<h2>4. Simulation Introduction</h2>
 			  <blockquote>
 			    <p><%= simulation.getIntroduction() %></p>
-			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_introduction.jsp">edit</a>)<% } %></p>
+			    <p><% if (canEdit) { %>(<a href="create_simulation_introduction.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 			  
 		<h2>5. Simulation Planned Play Ideas </h2>
 			  <blockquote>
 			    <p><%= simulation.getPlannedPlayIdeas() %></p>
-			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_planned_play_ideas.jsp">edit</a>)<% } %></p>
+			    <p><% if (canEdit) { %>(<a href="create_simulation_planned_play_ideas.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  
@@ -162,7 +168,7 @@ h3.trigger a:hover { color: #ccc; }
 	}
 %>
 			      </p>
-			    <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_phases.jsp">edit</a>)<% } %></p>
+			    <p><% if (canEdit) { %>(<a href="create_simulation_phases.jsp">edit</a>)<% } %></p>
 			  </blockquote>
 			  <blockquote><hr /></blockquote>
 		  
@@ -195,14 +201,14 @@ h3.trigger a:hover { color: #ccc; }
 		    <% } // End of loop over Actors %>
 		    
 		    <P><div>
-		    <% if (afso.isAuthor()) { %>(<a href="create_actors.jsp">create another actor </a>)(<a href="assign_actor_to_simulation.jsp">assign another actor </a>)<% } %>
+		    <% if (canEdit) { %>(<a href="create_actors.jsp">create another actor </a>)(<a href="assign_actor_to_simulation.jsp">assign another actor </a>)<% } %>
             </div></P>
 		    <hr />
 		    </blockquote>
           <h2>9. Simulation Special Features </h2>
 		      <blockquote>
 		        <p>&nbsp;</p>
-		        <p><% if (afso.isAuthor()) { %>(<a href="incorporate_underlying_model.jsp">edit</a>)<% } %></p>
+		        <p><% if (canEdit) { %>(<a href="incorporate_underlying_model.jsp">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
 		      <h2>10. Simulation Default Sections (for each phase) </h2>
@@ -254,7 +260,7 @@ h3.trigger a:hover { color: #ccc; }
 		          <% } %>
 		          </table>
 		  
-		      <p><% if (afso.isAuthor()) { %>(<a href="set_specific_sim_sections.jsp?actor_index=0">edit</a>)<% } %></p>
+		      <p><% if (canEdit) { %>(<a href="set_specific_sim_sections.jsp?actor_index=0">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
 		      <h2>11. Simulation Specific Sections </h2>
@@ -277,7 +283,7 @@ h3.trigger a:hover { color: #ccc; }
 			  	} // End of loop over sim sections.
 				%>
 		        </p>
-		        <p><% if (afso.isAuthor()) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
+		        <p><% if (canEdit) { %>(<a href="create_simulation_objectives.jsp">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
               <h2>12. Sections by Player </h2>
@@ -286,12 +292,12 @@ h3.trigger a:hover { color: #ccc; }
 		      <h2>13. Simulation 'After Action Report' Starter Text </h2>
 		      <blockquote>
 		        <p><%= simulation.getAarStarterText() %></p>
-		        <p><% if (afso.isAuthor()) { %>(<a href="create_aar_starter_text.jsp">edit</a>)<% } %></p>
+		        <p><% if (canEdit) { %>(<a href="create_aar_starter_text.jsp">edit</a>)<% } %></p>
 		        <hr />
 		        </blockquote>
 		      <p>&nbsp;</p>
 		      <blockquote>
-		        <% if (afso.isAuthor()) { %>
+		        <% if (canEdit) { %>
 		        <p align="center"><a href="../simulation_authoring_play/playweb.jsp" target="_top">On 
 		          To Play Test the Simulation</a></p>
             <p align="center"><a href="publish_sim.jsp">On To Publish the Simulation</a></p>
@@ -303,11 +309,9 @@ h3.trigger a:hover { color: #ccc; }
               <%@ include file="select_message.jsp" %></p>
                   </blockquote>
             <% } // End of if have not set simulation for edits. %>
-            <% if (afso.isAuthor()) { %>
-            <a href="create_aar_starter_text.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
-            <% } else { %>
-	  	    <a href="../simulation_facilitation/instructor_home.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
-		    <% } %>			</td>
+
+            <a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a>
+			</td>
 		</tr>
 		</table>	</td>
   </tr>
