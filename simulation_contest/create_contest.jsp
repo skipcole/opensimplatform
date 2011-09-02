@@ -71,10 +71,12 @@
                   <td valign="top">Contest Name</td>
               <td valign="top"><input type="text" name="contest_name" value="<%= contest.getContestName() %>" /></td>
             </tr>
-                <tr>
+                <!--tr>
+                
+      TODO - took this out for now, 9/2/11.
                   <td valign="top">Contest Logo</td>
                   <td valign="top"><input type="hidden" name="MAX_FILE_SIZE" value="100000" /><input name="uploadedfile" type="file" tabindex="5" /></td>
-                </tr>
+                </tr -->
                 <tr>
                   <td valign="top">Contest Short Description</td>
                   <td valign="top"><label for="short_description"></label>

@@ -156,12 +156,9 @@ public class ContestParticipatingOrganization {
 			this.setCaptcha_from_user(captchacode);
 			
 			if (checkComplete(this)){
-				System.out.println("complete info");
 				this.registrationDate = new Date();
 				this.setReadyToMoveToNextStep(true);
 				this.saveMe();
-			} else {
-				System.out.println("in complete info");
 			}
 		}
 
@@ -221,6 +218,20 @@ public class ContestParticipatingOrganization {
 		}
 		
 		return (!(foundDeficit));
+		
+	}
+	
+	public static ContestParticipatingOrganization getById(String cpoId) {
+		
+		Long id = null;
+		try {
+			id = new Long (cpoId);
+			
+		} catch (Exception e){
+			return new ContestParticipatingOrganization();
+		}
+		
+		return getById(id);
 		
 	}
 
