@@ -51,10 +51,10 @@
       <blockquote>
         <p>On this page you may take the following actions on the simulations listed below. If you need to create a new simulation, <a href="create_simulation.jsp">click here</a>. </p>
           <ol>
-            <li>Edit. This will queue up the simultation for viewing. But if you do not have permission to edit it, or if it has been published and is locked from editing, you will not be able to select it for editing.</li>
-            <li>Review. </li>
+            <li>Edit. If you have permission to edit the simulation, and it has not been published and hence locked from editing, you will be able to select the simulation to edit it.</li>
+            <li>Review. You will be able to review a simulation here.</li>
             <!-- li>Copy. This will allow you to create a copy of the simulation.</li -->
-            <li>Rename. This will allow you to change basic simulation information: name, version or name of creating organization.</li>
+            <li>Rename. This allows authors who can edit the simulation to change basic  information: name, version and name of creating organization.</li>
             <!-- li>Delete. This will remove the simulation from this platform. If the simulation has running games created on this platform with users assigned to it. It will not be able to delete it. </li -->
           </ol>
           <table width="100%">

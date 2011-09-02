@@ -109,12 +109,10 @@ public class ContestParticipatingOrganization {
 	 * @param request
 	 * @return
 	 */
-	public static ContestParticipatingOrganization processInitialRegistration(
+	public void processInitialRegistration(
 			HttpServletRequest request) {
 
 		String sending_page = request.getParameter("sending_page");
-
-		ContestParticipatingOrganization cpo = new ContestParticipatingOrganization();
 
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("contest_registration"))) {
 			
@@ -137,37 +135,44 @@ public class ContestParticipatingOrganization {
 			
 			
 			try {
-				cpo.setContestId(new Long(contest_id));
+				this.setContestId(new Long(contest_id));
 			} catch (Exception e){
-				cpo.errorMsg = "No contest selected.";
-				return cpo;
+				this.errorMsg = "No contest selected.";
 			}
 			
-			cpo.setRegistrantFirstName(first_name);
-			cpo.setRegistrantLastName(last_name);
-			cpo.setRegistrantEmailAddress(email_address);
-			cpo.setRegistrantEmailAddress2(email_address2);
-			cpo.setPhoneNumber(phone_number);
-			cpo.setOrganizationName(org_name);
-			cpo.setDepartmentName(dept_name);
-			cpo.setDivisionName(div_name);
-			cpo.setAddressLine1(address_line1);
-			cpo.setAddressLine2(address_line2);
-			cpo.setCity(city);
-			cpo.setState(state_province);
-			cpo.setPostalCode(postal_code);
-			cpo.setCaptcha_from_user(captchacode);
+			this.setRegistrantFirstName(first_name);
+			this.setRegistrantLastName(last_name);
+			this.setRegistrantEmailAddress(email_address);
+			this.setRegistrantEmailAddress2(email_address2);
+			this.setPhoneNumber(phone_number);
+			this.setOrganizationName(org_name);
+			this.setDepartmentName(dept_name);
+			this.setDivisionName(div_name);
+			this.setAddressLine1(address_line1);
+			this.setAddressLine2(address_line2);
+			this.setCity(city);
+			this.setState(state_province);
+			this.setPostalCode(postal_code);
+			this.setCaptcha_from_user(captchacode);
 			
-			if (checkComplete(cpo)){
-				cpo.registrationDate = new Date();
-				cpo.setReadyToMoveToNextStep(true);
-				cpo.saveMe();
+			if (checkComplete(this)){
+				System.out.println("complete info");
+				this.registrationDate = new Date();
+				this.setReadyToMoveToNextStep(true);
+				this.saveMe();
+			} else {
+				System.out.println("in complete info");
 			}
 		}
 
-		return cpo;
 	}
 
+	/**
+	 * Checks to see if the cpo object created is complete.
+	 * 
+	 * @param cpo
+	 * @return
+	 */
 	public static boolean checkComplete(ContestParticipatingOrganization cpo){
 		
 		boolean foundDeficit = false;
@@ -205,6 +210,12 @@ public class ContestParticipatingOrganization {
 		}
 
 		if (!(cpo.getCaptcha_from_user().equalsIgnoreCase(cpo.getCaptcha_in_session())) ){
+			
+			System.out.println("");
+			System.out.println("captcha from user: " + cpo.getCaptcha_from_user());
+			System.out.println("captcha in session: " + cpo.getCaptcha_in_session());
+			System.out.println("");
+			
 			cpo.errorMsg += "Must match captcha value.";
 			foundDeficit = true;
 		}

@@ -5,10 +5,10 @@
 	errorPage="/error.jsp" %>
 <%
 	
-	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
-	
-	if ((pso == null) || (!(pso.isLoggedin()))) {
-		response.sendRedirect("../blank.jsp");
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+
+	if (!(afso.isLoggedin())) {
+		response.sendRedirect("index.jsp");
 		return;
 	}
 	
@@ -53,28 +53,28 @@
       <td>Old Username (email address): </td>
       <td>
         <label>
-        <input type="password" name="old_username" />
+        <input type="textfield" name="old_username" />
         </label></td>
     </tr>
     <tr>
       <td>New Username  (email address): </td>
       <td>
         <label>
-        <input type="password" name="new_username" />
+        <input type="textfield" name="new_username" />
         </label></td>
     </tr>
     <tr>
       <td>Confirm New Username (email address): </td>
       <td>
         <label>
-        <input type="password" name="new_username2" />
+        <input type="textfield" name="new_username2" />
         </label></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
       <td><label>
         <input type="hidden" name="sending_page" value="change_password" /> 
-        <input type="submit" name="update" id="update" value="Update" disabled="disabled" />
+        <input type="submit" name="update" id="update" value="Update"  />
         </label></td>
     </tr>
   </table>
