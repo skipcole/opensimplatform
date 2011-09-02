@@ -46,7 +46,7 @@
                       <td>Allows one to enter a simulation as a particular player. </td>
                     </tr>
                     <tr valign="top">
-                      <td>Reset Password </td>
+                      <td><a href="../simulation_user_admin/change_userpassword.jsp">Reset Password </a></td>
                       <td>Allows an admin to reset a player password. </td>
                     </tr>
 					<tr valign="top">

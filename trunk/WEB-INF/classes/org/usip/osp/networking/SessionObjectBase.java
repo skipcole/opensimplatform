@@ -43,6 +43,7 @@ import org.usip.osp.persistence.UILanguageObject;
  */
 public class SessionObjectBase {
 
+	public static final int NO_ACTION = -1;
 	public static final int ALL_GOOD = 0;
 	public static final int CAPTCHA_WRONG = 1;
 	public static final int USERNAME_MISMATCH = 2;
@@ -499,7 +500,7 @@ public class SessionObjectBase {
 		return ua;
 	}
 
-	/** Assigns a user to a simulation. */
+	/** Allows a user to change his or her password. */
 	public int changePassword(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
@@ -530,6 +531,61 @@ public class SessionObjectBase {
 
 				if (bu == null) {
 					return WRONG_OLD_PASSWORD;
+				}
+
+				bu.setPassword(new_password);
+				bu.setTempPassword(false);
+				bu.setTemppasswordCleartext("");
+				bu.saveMe();
+
+				if ((forcepasswordchange != null)
+						&& (forcepasswordchange.equalsIgnoreCase("true"))) {
+					return FORCED_PASSWORD_CHANGED;
+				} else {
+					return PASSWORDS_CHANGED;
+				}
+			}
+		}
+
+		return ALL_GOOD;
+	}
+	
+	/** Allows an admin to change his or her password. */
+	public int changeUserPassword(HttpServletRequest request) {
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String update = (String) request.getParameter("update");
+		String user_email = (String) request.getParameter("user_email");
+		
+		if ((sending_page == null)
+				|| (!(sending_page.equalsIgnoreCase("change_userpassword")))) {
+			return NO_ACTION;
+		}
+		
+		BaseUser bu = BaseUser.getByUsername(user_email);
+		
+		if (bu == null){
+			return USER_NOT_FOUND;
+		}
+
+		String forcepasswordchange = request
+				.getParameter("forcepasswordchange");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("change_userpassword"))) {
+
+			if (update != null) {
+				String old_password = request.getParameter("old_password");
+				String new_password = request.getParameter("new_password");
+				String new_password2 = request.getParameter("new_password2");
+
+				if ((old_password == null) || (new_password == null)
+						|| (new_password == null)) {
+					return INSUFFICIENT_INFORMATION;
+				}
+
+				if (!(new_password.equals(new_password2))) {
+					return PASSWORDS_MISMATCH;
 				}
 
 				bu.setPassword(new_password);

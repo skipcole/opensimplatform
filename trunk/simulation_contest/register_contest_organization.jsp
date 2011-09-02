@@ -14,7 +14,7 @@
 
 	Contest contest = Contest.getContest(request);
 	
-	cpo = ContestParticipatingOrganization.processInitialRegistration(request);
+	cpo.processInitialRegistration(request);
 	
 	if (cpo.isReadyToMoveToNextStep()){
 		response.sendRedirect("register_contest_organization_step2.jsp");
@@ -49,7 +49,7 @@
 %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="120" valign="top"><img src="<%= contest.getContestLogo() %>" width="120" height="100" border="0" /></td>
+    <td width="120" valign="top">&nbsp;</td>
     <td width="80%" valign="middle"><h1 class="header">&nbsp;<%= contest.getContestName() %>    </h1></td>
 
   </tr>
@@ -71,7 +71,7 @@
 			  <br />
             <blockquote>
               <p>Please enter the information below:</p>
-              <p>&nbsp;</p>
+              <p><font color="#FF0000"><%= cpo.getErrorMsg() %></font></p>
               
               <form id="form1" name="form1" method="post" action="register_contest_organization.jsp">
               
