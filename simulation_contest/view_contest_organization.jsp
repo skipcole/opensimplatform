@@ -10,8 +10,23 @@
 	errorPage="/error.jsp" %>
 <%
 
-	String cpo_id = (String) request.getParameter("cpo_id");	
+	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+	
+	if (!(afso.isLoggedin())) {
+		response.sendRedirect("../blank.jsp");
+		return;
+	}
+
+	String cpo_id = (String) request.getParameter("cpo_id");
+		
 	ContestParticipatingOrganization cpo = ContestParticipatingOrganization.getById(cpo_id);
+	
+	ContestTeam contestTeam = ContestTeam.handleCreateTeam(request);
+	
+	String contest_id = (String) request.getParameter("contest_id");
+	
+	System.out.println("cpo: " + cpo_id);
+	System.out.println("c_id: " + contest_id);
 	
 
 %>
@@ -54,105 +69,149 @@
 			  <h1>Contest<a href="../simulation_facilitation/helptext/create_running_sim_help.jsp" target="helpinright"></a> Participating Organization</h1>
 			  <br />
             <blockquote>
-              <p><font color="#FF0000"><%= cpo.getErrorMsg() %></font></p>
-         
+              
+              
               
               <table width="100%" border="0">
                 <tr>
-                  <td colspan="3"><strong>You</strong></td>
+                  <td colspan="3"><strong>Registrant</strong></td>
                   </tr>
                 <tr>
                   <td>&nbsp;</td>
-                  <td>Your First Name <span class="redstar">*</span></td>
+                  <td> First Name</td>
                   <td><%= cpo.getRegistrantFirstName() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
-                  <td>Your Last Name <span class="redstar">*</span></td>
+                  <td> Last Name</td>
                   <td><%= cpo.getRegistrantLastName() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
-                  <td>Your Email Address <span class="redstar">*</span></td>
+                  <td> Email Address</td>
                   <td><%= cpo.getRegistrantEmailAddress() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
-                  <td>Verify Email Address <span class="redstar">*</span></td>
-                  <td><%= cpo.getRegistrantEmailAddress2() %></td>
-                </tr>
-                <tr>
-                  <td>&nbsp;</td>
-                  <td>Your Phone Number</td>
+                  <td>Phone Number</td>
                   <td><%= cpo.getPhoneNumber() %></td>
                 </tr>
                 <tr>
-                  <td colspan="3"><strong>Your Organization</strong></td>
+                  <td colspan="3"><strong>Organization</strong></td>
                   </tr>
                 <tr>
                   <td>&nbsp;</td>
-                  <td>Organization Name <span class="redstar">*</span></td>
+                  <td>Organization Name</td>
                   <td><%= cpo.getOrganizationName() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
-                  <td>Department Name (if applicable)</td>
+                  <td>Department Name</td>
                   <td><%= cpo.getDepartmentName() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
-                  <td>Division Name (if applicable)</td>
+                  <td>Division Name</td>
                   <td><%= cpo.getDivisionName() %></td>
-                </tr>
+                  </tr>
                 <tr>
-                  <td colspan="3"><strong>Your Address at Your Organization</strong></td>
+                  <td colspan="3"><strong> Address</strong></td>
                   </tr>
                 <tr>
                   <td>&nbsp;</td>
                   <td>Address Line 1</td>
                   <td><%= cpo.getAddressLine1() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
                   <td>Address Line 2</td>
                   <td><%= cpo.getAddressLine2() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
                   <td>City</td>
                   <td><%= cpo.getCity() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
                   <td>State/Province</td>
                   <td><%= cpo.getState() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
                   <td>Postal Code</td>
                   <td><%= cpo.getPostalCode() %></td>
-                </tr>
+                  </tr>
                 <tr>
                   <td colspan="3">&nbsp;</td>
-                </tr>
+                  </tr>
                 <tr>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
                   <td>&nbsp;</td>
-                </tr>
+                  </tr>
+                </table>
+              <h2><br />
+                Notes</h2>
+              <table width="100%" border="1">
                 <tr>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-                  <td>
-                  </td>
-                </tr>
-              </table>
-              <p>Notes</p>
-              <p>Button to send First Email (to add more admins)</p>
-              <p>Button to send Second Email (to add more team members)</p>
-<p>&nbsp;</p>
-	          
-			</blockquote>
+                  <td><%= cpo.getPostalCode() %></td>
+                  </tr>
+                </table>
+                <p>&nbsp;</p>
+              <h2>Teams</h2>
+              <ul>
+                <li><a href="view_contest_team.jsp">Team X - Contest A</a></li>
+                <li>Team Y - Contest A</li>
+              </ul>
+              <p>(Click on a team name to see information on it.)</p>
+              <p>&nbsp;</p>
+              <h2>Create a New Contest Team              </h2>
+              <form id="form1" name="form1" method="post" action="">
+              <input type="hidden" name="sending_page" value="new_contest_team" />
+              <input type="hidden" name="cpo_id" value="<%= cpo.getId() %>" /> 
+              
+              
+                <table width="100%" border="1">
+                  <tr>
+                    <td valign="top">Contest</td>
+                    <td valign="top">
+                    	<select name="contest_id" id="contest_id">
+<%			
+	for (ListIterator li = Contest.getAll().listIterator(); li.hasNext();) {
+		Contest theContest = (Contest) li.next();		
+%>
+        <option value="<%= theContest.getId() %>"><%= theContest.getContestName() %></option>
+<% } %>
+                </select>
+                    
+                    
+                    </td>
+                  </tr>
+                  <tr>
+                    <td valign="top">Team Name:</td>
+                    <td valign="top">
+                      <label for="textfield"></label>
+                      <input type="text" name="textfield" id="textfield" />
+                      </td>
+                  </tr>
+                  <tr>
+                    <td valign="top">Max Number of Players per Team:</td>
+                    <td valign="top"><label for="textfield2"></label>
+                      <input type="text" name="textfield2" id="textfield2" /></td>
+                    </tr>
+                  <tr>
+                    <td valign="top">Admin Notes:</td>
+                    <td valign="top"><textarea name="textarea" id="textarea" cols="45" rows="5"></textarea></td>
+                  </tr>
+                  <tr>
+                    <td valign="top">&nbsp;</td>
+                    <td valign="top"><input type="submit" name="button" id="button" value="Submit" /></td>
+                  </tr>
+                </table>
+            </form>
+              <p>&nbsp;</p>
+</blockquote>
             <p align="center">&nbsp;</p>
 <p>&nbsp;</p>
 </td>

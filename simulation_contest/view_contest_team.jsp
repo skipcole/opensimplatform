@@ -15,9 +15,6 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
-	
-	Contest contest = Contest.getContest(request);
-	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -45,45 +42,26 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  <h1>Review Contest Participating Organizations</h1>
+			  <h1>View Contest<a href="../simulation_facilitation/helptext/create_running_sim_help.jsp" target="helpinright"></a> Team</h1>
 			  <br />
             <blockquote>
-              <p>Here you can review the organizations participating in contests on this system.</p>
-              <form id="form1" name="form1" method="post" action="review_contest_participating_orgs.jsp">
-                <select name="contest_id" id="contest_id">
-                  <option value="0">[All Contests]</option>
-<%			
-	for (ListIterator li = Contest.getAll().listIterator(); li.hasNext();) {
-		Contest theContest = (Contest) li.next();		
-%>
-        <option value="<%= theContest.getId() %>"><%= theContest.getContestName() %></option>
-<% } %>
-                </select>
-                <input type="submit" name="button" id="button" value="Submit" />
-              </form>
-              <p>&nbsp;</p>
-              <table width="80%" border = "1">
-                <tr> 
-                  <td valign="top"><h2>Contest Participating Organization</h2></td>
-                  <td valign="top"><h2>Contest</h2></td>
-            </tr>
-                <%
-			
-				for (ListIterator li = ContestParticipatingOrganization.getAll().listIterator(); li.hasNext();) {
-					ContestParticipatingOrganization cpo = (ContestParticipatingOrganization) li.next();
-				
-		%>
-                <tr> 
-                  <td><a href="view_contest_organization.jsp?cpo_id=<%= cpo.getId() %>"><%= cpo.getOrganizationName() %></a></td>
-                  <td>&nbsp;</td>
-            </tr>
-                <%
-			}
-		%>
-            </table>
-              <p>&nbsp;</p>
-	          
-			</blockquote>
+              <p>Here you can create a contest to have multiple teams creating simulations. </p>
+              <p>Contest:</p>
+              <p>Contest Participating Organization:</p>
+              <p>Team X - Instructor Code</p>
+              <p>Team X - Student Code</p>
+              <p>Button to send First Email (to add more admins)</p>
+              <blockquote>
+                <p>Welcome. To check on the members of your team, go to this web site. To allow another player to register as an Team administrator, got to this web site.</p>
+              </blockquote>
+              <p>Button to send Second Email (to add more team members)</p>
+              <blockquote>
+                <p>Welcome. Forward the email below to your students.</p>
+                <p>Welcome Contestant.<br />
+                  To participate in this contest you must be registered on this USIP OSP platform. If you don't already have an account, go to this web site. If you do, log into the platform, go to your profile page and enter in the contest code xxx. </p>
+              </blockquote>
+              <p></p>
+            </blockquote>
             <p align="center">&nbsp;</p>
 <p>&nbsp;</p>
 </td>
@@ -102,3 +80,5 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
+<%
+%>

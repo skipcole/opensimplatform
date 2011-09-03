@@ -3,6 +3,7 @@ package org.usip.osp.coursemanagementinterface;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 
@@ -40,6 +41,15 @@ public class ContestTeam {
 	private String teamWebSite;
 	
 	private String teamRegistrationCode;
+	
+	
+	public ContestTeam() {
+		
+	}
+	
+	public static ContestTeam handleCreateTeam(HttpServletRequest request){
+		return null;
+	}
 
 	public Long getId() {
 		return id;
