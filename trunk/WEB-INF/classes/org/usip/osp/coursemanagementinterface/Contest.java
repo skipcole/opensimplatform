@@ -138,7 +138,8 @@ public class Contest {
 
 	/**
 	 * Gets a contest based on the contest id passed in, or if there was no contest
-	 * id passed in, tries to return the first contest found.
+	 * id passed in, tries to return the first contest found. If a contest id of "0"
+	 * has been passed in, it just returns a new contest.
 	 * 
 	 * @param request
 	 * @return
@@ -153,6 +154,11 @@ public class Contest {
 				|| (contest_id.length() == 0)) {
 			return getFirstContest();
 		} else {
+			
+			if (contest_id.equalsIgnoreCase("0")){
+				return new Contest();
+			}
+			
 			try {
 				Long cId = new Long(contest_id);
 				contest = Contest.getById(cId);
