@@ -1,4 +1,4 @@
-package org.usip.osp.coursemanagementinterface;
+package com.seachangesimulations.osp.contests;
 
 import java.util.*;
 
@@ -62,8 +62,60 @@ public class ContestTeam {
 		this.contestId = contestId;
 		this.teamName = teamName;
 		
+		this.creationDate = new java.util.Date();
+		
+		// Create random keys for access.
+		Random randChars = new Random();
+		
+		this.teamAdminRegistrationCode = (Long.toString(Math.abs(randChars.nextLong()),
+				36));
+		this.teamStudentRegistrationCode = (Long.toString(Math.abs(randChars.nextLong()),
+				36));
+		
+		
 		this.saveMe();
 		
+	}
+	
+	/**
+	 * Takes the string passed in and pulls out a new contest team.
+	 * @param ctId
+	 * @return
+	 */
+	public static ContestTeam getById(String ctId) {
+		
+		Long id = null;
+		
+		try {
+			id = new Long (ctId);
+			
+		} catch (Exception e){
+			return new ContestTeam();
+		}
+		
+		return getById(id);
+		
+	}
+	
+	/**
+	 * Pulls the ContestTeam out of the root database base
+	 * on its id.
+	 * @param ctId
+	 * @return
+	 */
+	public static ContestTeam getById(Long ctId) {
+
+		MultiSchemaHibernateUtil.beginTransaction(
+				MultiSchemaHibernateUtil.principalschema, true);
+
+		ContestTeam ct = (ContestTeam) MultiSchemaHibernateUtil
+				.getSession(MultiSchemaHibernateUtil.principalschema, true)
+				.get(ContestTeam.class, ctId);
+
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+
+		return ct;
 	}
 	
 	/**

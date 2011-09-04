@@ -3,7 +3,8 @@ package org.usip.osp.persistence;
 import javax.persistence.*;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.coursemanagementinterface.Contest;
+
+import com.seachangesimulations.osp.contests.Contest;
 
 /**
  * This represents the address of a student. It is linked by user id to the user.

@@ -5,7 +5,7 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
-	org.usip.osp.coursemanagementinterface.*,	
+	com.seachangesimulations.osp.contests.*,	
 	org.hibernate.*" 
 	errorPage="/error.jsp" %>
 <%
@@ -166,8 +166,9 @@
 				
 				for (ListIterator li = contestTeams.listIterator(); li.hasNext();) {
 					ContestTeam theContestTeam = (ContestTeam) li.next();
+					Contest theContest = Contest.getById(theContestTeam.getContestId());
 				%>
-                <li><a href="view_contest_team.jsp?ct_id=<%= theContestTeam.getId() %>"><%= theContestTeam.getTeamName() %> - Contest Id: <%= theContestTeam.getId() %></a></li>
+                <li><a href="view_contest_team.jsp?ct_id=<%= theContestTeam.getId() %>"><%= theContestTeam.getTeamName() %> - Contest: <%= theContest.getContestName() %></a></li>
                 <% } %>
               </ul>
               <p>(Click on a team name to see information on it.)</p>

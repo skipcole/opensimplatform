@@ -1,4 +1,4 @@
-package org.usip.osp.coursemanagementinterface;
+package com.seachangesimulations.osp.contests;
 
 import java.util.Date;
 import java.util.List;

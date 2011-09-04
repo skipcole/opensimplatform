@@ -5,7 +5,7 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
-	org.usip.osp.coursemanagementinterface.*,	
+	com.seachangesimulations.osp.contests.*,	
 	org.hibernate.*" 
 	errorPage="/error.jsp" %>
 <%
