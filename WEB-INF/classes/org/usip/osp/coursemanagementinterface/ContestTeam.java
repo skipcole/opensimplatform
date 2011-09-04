@@ -1,11 +1,14 @@
 package org.usip.osp.coursemanagementinterface;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.util.*;
+
+import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.SchemaInformationObject;
 
 /*
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -30,6 +33,8 @@ public class ContestTeam {
 	
 	private Long contestParticipatingOrgId;
 	
+	private Long maxTeamMembers;
+	
 	private String teamName;
 	
 	private String teamDescription;
@@ -40,15 +45,71 @@ public class ContestTeam {
 	
 	private String teamWebSite;
 	
-	private String teamRegistrationCode;
+	private String teamAdminRegistrationCode;
+	
+	private String teamStudentRegistrationCode;
+	
+	private Date creationDate = new java.util.Date();
 	
 	
 	public ContestTeam() {
 		
 	}
 	
+	public ContestTeam(Long cpoId, Long contestId, String teamName){
+		
+		this.contestParticipatingOrgId = cpoId;
+		this.contestId = contestId;
+		this.teamName = teamName;
+		
+		this.saveMe();
+		
+	}
+	
+	/**
+	 * Returns all of the contests teams for a particular organization.
+	 * 
+	 * @param cpoId
+	 * @return
+	 */
+	public static List<ContestTeam> getAllForCPO(Long cpoId) {
+
+		MultiSchemaHibernateUtil.beginTransaction(
+				MultiSchemaHibernateUtil.principalschema, true);
+
+		List<ContestTeam> returnList = MultiSchemaHibernateUtil
+				.getSession(MultiSchemaHibernateUtil.principalschema, true)
+				.createQuery("from ContestTeam where contestParticipatingOrgId = :cpoId")
+				.setLong("cpoId", cpoId)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+
+		return returnList;
+	}
+	
 	public static ContestTeam handleCreateTeam(HttpServletRequest request){
-		return null;
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		ContestTeam ct = new ContestTeam();
+		
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("new_contest_team"))){
+			
+			String cpo_id = (String) request.getParameter("cpo_id");
+			String contest_id = (String) request.getParameter("contest_id");
+			String team_name = (String) request.getParameter("team_name");
+			String max_players = (String) request.getParameter("max_players");
+			String team_notes = (String) request.getParameter("team_notes");
+			
+			ct = new ContestTeam(new Long(cpo_id), new Long (contest_id), team_name);
+			
+		}
+		
+		return ct;
+		
 	}
 
 	public Long getId() {
@@ -115,13 +176,42 @@ public class ContestTeam {
 		this.teamWebSite = teamWebSite;
 	}
 
-	public String getTeamRegistrationCode() {
-		return teamRegistrationCode;
+	public Long getMaxTeamMembers() {
+		return maxTeamMembers;
 	}
 
-	public void setTeamRegistrationCode(String teamRegistrationCode) {
-		this.teamRegistrationCode = teamRegistrationCode;
+	public void setMaxTeamMembers(Long maxTeamMembers) {
+		this.maxTeamMembers = maxTeamMembers;
+	}
+
+	public String getTeamAdminRegistrationCode() {
+		return teamAdminRegistrationCode;
+	}
+
+	public void setTeamAdminRegistrationCode(String teamAdminRegistrationCode) {
+		this.teamAdminRegistrationCode = teamAdminRegistrationCode;
+	}
+
+	public String getTeamStudentRegistrationCode() {
+		return teamStudentRegistrationCode;
+	}
+
+	public void setTeamStudentRegistrationCode(String teamStudentRegistrationCode) {
+		this.teamStudentRegistrationCode = teamStudentRegistrationCode;
 	}
 	
+	/**
+	 * Saves this object back to the main database.
+	 * 
+	 */
+	public void saveMe() {
+		MultiSchemaHibernateUtil.beginTransaction(
+				MultiSchemaHibernateUtil.principalschema, true);
+		MultiSchemaHibernateUtil.getSession(
+				MultiSchemaHibernateUtil.principalschema, true).saveOrUpdate(
+				this);
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+	}
 	
 }

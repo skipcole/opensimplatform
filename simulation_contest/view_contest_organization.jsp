@@ -155,19 +155,25 @@
                 Notes</h2>
               <table width="100%" border="1">
                 <tr>
-                  <td><%= cpo.getPostalCode() %></td>
+                  <td><%= cpo.getOrganizationNotes() %></td>
                   </tr>
                 </table>
                 <p>&nbsp;</p>
               <h2>Teams</h2>
               <ul>
-                <li><a href="view_contest_team.jsp">Team X - Contest A</a></li>
-                <li>Team Y - Contest A</li>
+              	<% 
+				List contestTeams = ContestTeam.getAllForCPO(cpo.getId());
+				
+				for (ListIterator li = contestTeams.listIterator(); li.hasNext();) {
+					ContestTeam theContestTeam = (ContestTeam) li.next();
+				%>
+                <li><a href="view_contest_team.jsp?ct_id=<%= theContestTeam.getId() %>"><%= theContestTeam.getTeamName() %> - Contest Id: <%= theContestTeam.getId() %></a></li>
+                <% } %>
               </ul>
               <p>(Click on a team name to see information on it.)</p>
               <p>&nbsp;</p>
               <h2>Create a New Contest Team              </h2>
-              <form id="form1" name="form1" method="post" action="">
+              <form id="form1" name="form1" method="post" action="view_contest_organization.jsp">
               <input type="hidden" name="sending_page" value="new_contest_team" />
               <input type="hidden" name="cpo_id" value="<%= cpo.getId() %>" /> 
               
@@ -192,17 +198,17 @@
                     <td valign="top">Team Name:</td>
                     <td valign="top">
                       <label for="textfield"></label>
-                      <input type="text" name="textfield" id="textfield" />
+                      <input type="text" name="team_name" id="team_name" />
                       </td>
                   </tr>
                   <tr>
                     <td valign="top">Max Number of Players per Team:</td>
                     <td valign="top"><label for="textfield2"></label>
-                      <input type="text" name="textfield2" id="textfield2" /></td>
+                      <input type="text" name="max_players" id="max_players" /></td>
                     </tr>
                   <tr>
                     <td valign="top">Admin Notes:</td>
-                    <td valign="top"><textarea name="textarea" id="textarea" cols="45" rows="5"></textarea></td>
+                    <td valign="top"><textarea name="team_notes" id="team_notes" cols="45" rows="5"></textarea></td>
                   </tr>
                   <tr>
                     <td valign="top">&nbsp;</td>
