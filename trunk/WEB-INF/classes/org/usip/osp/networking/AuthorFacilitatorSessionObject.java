@@ -11,7 +11,6 @@ import javax.servlet.http.*;
 
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.communications.*;
-import org.usip.osp.coursemanagementinterface.Contest;
 import org.usip.osp.coursemanagementinterface.UserRegistrationInvite;
 import org.usip.osp.persistence.*;
 import org.apache.log4j.Logger;
@@ -19,6 +18,7 @@ import org.usip.osp.sharing.*;
 import org.usip.osp.specialfeatures.*;
 
 import com.oreilly.servlet.MultipartRequest;
+import com.seachangesimulations.osp.contests.Contest;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 

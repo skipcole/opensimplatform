@@ -1,10 +1,13 @@
-package org.usip.osp.coursemanagementinterface;
+package com.seachangesimulations.osp.contests;
+
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /*
  * This file is part of the USIP Open Simulation Platform.<br>
@@ -27,6 +30,8 @@ public class ContestTeamMember {
 	
 	private Long userId;
 	
+	private Long contestTeamId;
+	
 	private Long contestId;
 	
 	private Long contestParticipatingOrgId;
@@ -47,6 +52,14 @@ public class ContestTeamMember {
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+
+	public Long getContestTeamId() {
+		return contestTeamId;
+	}
+
+	public void setContestTeamId(Long contestTeamId) {
+		this.contestTeamId = contestTeamId;
 	}
 
 	public Long getContestId() {
@@ -73,6 +86,22 @@ public class ContestTeamMember {
 		this.teamAdministrator = teamAdministrator;
 	}
 	
+	public static List<ContestTeamMember> getAllTeam(Long ctId) {
+
+		MultiSchemaHibernateUtil.beginTransaction(
+				MultiSchemaHibernateUtil.principalschema, true);
+
+		List<ContestTeamMember> returnList = MultiSchemaHibernateUtil
+				.getSession(MultiSchemaHibernateUtil.principalschema, true)
+				.createQuery("from ContestTeamMember where x = :cpoId")
+				.setLong("cpoId", ctId)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil
+				.commitAndCloseTransaction(MultiSchemaHibernateUtil.principalschema);
+
+		return returnList;
+	}
 	
 	
 }

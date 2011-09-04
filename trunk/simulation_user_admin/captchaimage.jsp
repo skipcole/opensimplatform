@@ -4,6 +4,7 @@
 	java.awt.image.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.coursemanagementinterface.*,
+	com.seachangesimulations.osp.contests.*,
 	javax.imageio.*,
 	java.awt.geom.*"%>
 <%

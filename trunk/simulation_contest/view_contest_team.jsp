@@ -5,7 +5,7 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
-	org.usip.osp.coursemanagementinterface.*,	
+	com.seachangesimulations.osp.contests.*,	
 	org.hibernate.*" 
 	errorPage="/error.jsp" %>
 <%
@@ -15,6 +15,19 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
+	
+	String ct_id = (String) request.getParameter("ct_id");
+	
+	ContestTeam ct = new ContestTeam();
+	Contest contest = new Contest();
+	ContestParticipatingOrganization cpo = new ContestParticipatingOrganization();
+	
+	if ((ct_id != null) && (!( ct_id.equalsIgnoreCase("null") ))){
+		ct = ContestTeam.getById(ct_id);
+		contest = Contest.getById(ct.getContestId());
+		cpo = ContestParticipatingOrganization.getById(ct.getContestParticipatingOrgId());
+	}
+	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -45,11 +58,13 @@
 			  <h1>View Contest<a href="../simulation_facilitation/helptext/create_running_sim_help.jsp" target="helpinright"></a> Team</h1>
 			  <br />
             <blockquote>
-              <p>Here you can create a contest to have multiple teams creating simulations. </p>
-              <p>Contest:</p>
-              <p>Contest Participating Organization:</p>
-              <p>Team X - Instructor Code</p>
-              <p>Team X - Student Code</p>
+              <p><strong>Team: <%= ct.getTeamName() %></strong></p>
+              <p><strong>Contest: <%= contest.getContestName() %></strong></p>
+              <p><strong>Contest Participating Organization: <%= cpo.getOrganizationName() %></strong></p>
+              <p><strong>Instructor Code: <%= ct.getTeamAdminRegistrationCode() %></strong>:</p>
+              <p><strong>Student Code: <%= ct.getTeamStudentRegistrationCode() %></strong>:</p>
+              <p>Team Members</p>
+              <p>&nbsp;</p>
               <p>Button to send First Email (to add more admins)</p>
               <blockquote>
                 <p>Welcome. To check on the members of your team, go to this web site. To allow another player to register as an Team administrator, got to this web site.</p>
