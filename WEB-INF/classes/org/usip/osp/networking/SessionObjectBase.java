@@ -57,14 +57,15 @@ public class SessionObjectBase {
 	public static final int USER_FOUND = 10;
 	public static final int USER_NOT_FOUND = 11;
 	public static final int INSUFFICIENT_PRIVLEGE = 12;
-	
-	////////////////////////////////////////////
+
+	// //////////////////////////////////////////
 	public static final int ADMIN_LOGIN = 0;
 	public static final int AUTHOR_LOGIN = 1;
 	public static final int FACILITATOR_LOGIN = 2;
 	public static final int PLAYER_LOGIN = 3;
-	////////////////////////////////////////////
-	
+
+	// //////////////////////////////////////////
+
 	public SessionObjectBase() {
 
 	}
@@ -81,22 +82,23 @@ public class SessionObjectBase {
 	public Simulation giveMeSim() {
 
 		Simulation simulation = new Simulation();
-		
+
 		if (sim_id == null) {
 			return simulation;
 		}
 
 		try {
 			simulation = Simulation.getById(schema, sim_id);
-		} catch (Exception e){
-			OSPErrors.storeInternalWarning
-				("Error encountered trying to get simulation in SOB " + e.getMessage(), this);
-			
+		} catch (Exception e) {
+			OSPErrors.storeInternalWarning(
+					"Error encountered trying to get simulation in SOB "
+							+ e.getMessage(), this);
+
 			simulation = new Simulation();
-			
+
 		}
-		
-		if (simulation == null){
+
+		if (simulation == null) {
 			simulation = new Simulation();
 		}
 
@@ -106,6 +108,8 @@ public class SessionObjectBase {
 
 	/** Schema of the database that the user is working in. */
 	public String schema = ""; //$NON-NLS-1$
+
+	public String schemaDisplayName = ""; //$NON-NLS-1$
 
 	/** The page to take them back to if needed. */
 	public String backPage = "index.jsp"; //$NON-NLS-1$
@@ -549,22 +553,22 @@ public class SessionObjectBase {
 
 		return ALL_GOOD;
 	}
-	
+
 	/** Allows an admin to change his or her password. */
 	public int changeUserPassword(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String update = (String) request.getParameter("update");
 		String user_email = (String) request.getParameter("user_email");
-		
+
 		if ((sending_page == null)
 				|| (!(sending_page.equalsIgnoreCase("change_userpassword")))) {
 			return NO_ACTION;
 		}
-		
+
 		BaseUser bu = BaseUser.getByUsername(user_email);
-		
-		if (bu == null){
+
+		if (bu == null) {
 			return USER_NOT_FOUND;
 		}
 
@@ -624,174 +628,227 @@ public class SessionObjectBase {
 		}
 	}
 
-	public String captcha_code = "";
+	/** The captcha set by the captcha jsp that the user must match. */
+	public String sessionCaptchaCode = "";
 
 	/** Indicates if the schema has been specified. */
 	public boolean sioSet = false;
 
+	/** Holds the value of the User Assignment Object, if it was passed in. */
+	public Long uaId = null;
+	
+	/** Holds the value of the User Registration Information Object, if it was passed in. */
+	public Long uriId = null;
+	
+	/** Holds the value of the Contest Team Object, if it was passed in. */
+	public Long ctId = null;
+	
 	/**
-	 * Handles the auto-registration of players.
+	 * Handles the auto-registration of players. This method can be called
+	 * reached in several ways 1.) When a student responds to a bulk invite. 2.)
+	 * When a student responds to an invite to a particular simulation. 3.) When
+	 * a student responds to a contest invitation.
 	 * 
 	 * @param request
 	 * @return
 	 */
 	public User handleAutoRegistration(HttpServletRequest request) {
 
+		// Get clean values to prepare to return.
 		User user = new User();
-		sioSet = false;
+		errorMsg = "";
+
+		// Determine the type of registration (bulk, specific sim, contest) being attempted.
+		setRegistrationType(request);
+
+		// Set the schema if it was passed in
+		setSchema(request);
 
 		String command = request.getParameter("command"); //$NON-NLS-1$
-
+		
 		// Coming here from user action.
 		if ((command != null) && (command.equalsIgnoreCase("Register"))) {
 
-			String captchacode = USIP_OSP_Util.cleanNulls(request
-					.getParameter("captchacode"));
-
-			/* Must have a schema id to now where to put the registered user. */
-			String schema = request.getParameter("schema"); //$NON-NLS-1$
-
-			if (schema == null) {
-				return user;
-			}
-			sioSet = true;
-
-			String uri_id = (String) request.getParameter("uri");
-
-			UserRegistrationInvite uri = new UserRegistrationInvite();
-			boolean recordSaveToURI = false;
-
-			if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
-				uri = UserRegistrationInvite.getById(schema, new Long(uri_id));
-				recordSaveToURI = true;
-			}
-
+			// Create a helper object and use it to load data into the user
+			// object
 			OSP_UserAdmin osp_ua = new OSP_UserAdmin(this);
-
 			osp_ua.getUserNameDetails(request);
+			osp_ua.loadUserWithData(user);
 
-			user.setBu_first_name(osp_ua.get_first_name());
-			user.setBu_full_name(osp_ua.get_full_name());
-			user.setBu_last_name(osp_ua.get_last_name());
-			user.setBu_middle_name(osp_ua.get_middle_name());
-			user.setBu_username(osp_ua.get_email());
-			user.setUser_name(osp_ua.get_email());
-
-			String confirm_email = request.getParameter("confirm_email"); //$NON-NLS-1$
-			String password = request.getParameter("password"); //$NON-NLS-1$
-			String confirm_password = request.getParameter("confirm_password"); //$NON-NLS-1$
-
-			boolean returnForLackOfInformation = false;
-
-			if (!(captchacode.equalsIgnoreCase(captcha_code))) {
-				errorMsg += "Incorrect Captcha Code<br/>";
-				errorCode = CAPTCHA_WRONG;
-				returnForLackOfInformation = true;
-			}
-
-			if (!(user.getUserName().equalsIgnoreCase(confirm_email))) {
-				errorMsg += "Email Addresses did not match<br/>";
-				errorCode = USERNAME_MISMATCH;
-				returnForLackOfInformation = true;
-			}
-
-			if (!(password.equalsIgnoreCase(confirm_password))) {
-				errorMsg += "Passwords did not match<br/>";
-				errorCode = PASSWORDS_MISMATCH;
-				returnForLackOfInformation = true;
-			}
+			// Verify that all required information has been submitted, else
+			// return
+			boolean returnForLackOfInformation = returnUnFinishedUserRegGauntlet(
+					user, request.getParameter("captchacode"), osp_ua);
 
 			if (returnForLackOfInformation) {
 				return user;
 			}
 
-			if (User.getByUsername(schema, user.getUserName()) != null) {
-				errorMsg += "This username/email already has been registered. <br/>";
-				return user;
-			}
+			try {
 
-			if (!(osp_ua.hasEnoughInfoToCreateUser())) {
-				return user;
-			} else {
+				user = new User(schema, user.getUserName(),
+						request.getParameter("password"),
+						user.getBu_first_name(), user.getBu_last_name(),
+						user.getBu_middle_name(), user.getBu_full_name(),
+						false, false, false);
 
-				try {
-
-					user = new User(schema, user.getUserName(), password, user
-							.getBu_first_name(), user.getBu_last_name(), user
-							.getBu_middle_name(), user.getBu_full_name(),
-							false, false, false);
-
-					if (recordSaveToURI) {
-						uri.setEmailAddressRegistered(user.getUserName());
-						uri.setRegistrationDate(new Date());
-						uri.saveMe();
-					}
-
-					String ua_id = request.getParameter("ua_id");
-					if ((ua_id != null) && (!(ua_id.equalsIgnoreCase("null")))) {
-						this.uaId = new Long(ua_id);
-						UserAssignment ua = UserAssignment
-								.getById(schema, uaId);
-						user.setUser_name(ua.getUsername());
-						user.setBu_username(ua.getUsername());
-
-						ua.setUser_id(user.getId());
-						ua.advanceStatus(UserAssignment.STATUS_REGISTERED);
-						ua.saveMe(schema);
-					}
-
-				} catch (Exception e) {
-					errorMsg = e.getMessage();
+				// ///////////////////////////////////////
+				if (uriId != null) {
+					UserRegistrationInvite uri = UserRegistrationInvite
+							.getById(schema, uriId);
+					uri.setEmailAddressRegistered(user.getUserName());
+					uri.setRegistrationDate(new Date());
+					uri.saveMe();
 				}
 
-				// Set so they forward on to the 'Thank You for registering'
-				// page.
-				forward_on = true;
-			}
+				// ///////////////////////////////////////
+				if (uaId != null) {
+					UserAssignment ua = UserAssignment.getById(schema, uaId);
+					//user.setUser_name(ua.getUsername());
+					//user.setBu_username(ua.getUsername());
 
-		}
-
-		// Coming here from Bulk Invite.
-		// Get the schema id that has been sent in. If there is none, then allow
-		// user to select organizational database.
-		String schema_id = (String) request.getParameter("schema_id");
-		String uri_id = (String) request.getParameter("uri");
-		String initial_entry = (String) request.getParameter("initial_entry");
-
-		SchemaInformationObject sio = new SchemaInformationObject();
-		UserRegistrationInvite uri = new UserRegistrationInvite();
-
-		if ((schema_id != null) && (!(schema_id.equalsIgnoreCase("null")))) {
-			sio = SchemaInformationObject.getById(new Long(schema_id));
-
-			sioSet = true;
-
-			if ((uri_id != null) && (!(uri_id.equalsIgnoreCase("null")))) {
-				uri = UserRegistrationInvite.getById(sio.getSchema_name(),
-						new Long(uri_id));
-
-				if (initial_entry != null) {
-					user.setBu_username(uri.getOriginalInviteEmailAddress());
+					ua.setUser_id(user.getId());
+					ua.advanceStatus(UserAssignment.STATUS_REGISTERED);
+					ua.saveMe(schema);
 				}
+
+			} catch (Exception e) {
+				errorMsg += e.getMessage();
+				OSPErrors.storeWebErrors(e, request);
 			}
-		}
 
-		// coming here from User Assignment Invite.
-		String schema = (String) request.getParameter("schema");
-		if (schema != null) {
-			this.schema = schema;
-			this.sioSet = true;
-		}
+			// Set so they forward on to the 'Thank You for registering' page.
+			forward_on = true;
 
-		String ua_id = request.getParameter("ua_id");
-		if (ua_id != null) {
-			this.uaId = new Long(ua_id);
+		} // End of if this is a registration attempt.
+
+		handleComingFromBulkInvite(request, user);
+
+		handleComingFromInstructorAssignedRole(user);
+
+		return user;
+	}
+
+	private void handleComingFromInstructorAssignedRole(User user) {
+		
+		if (uaId != null) {
 			UserAssignment ua = UserAssignment.getById(schema, uaId);
 			user.setUser_name(ua.getUsername());
 			user.setBu_username(ua.getUsername());
 		}
+		
+	}
 
-		return user;
+	private void setRegistrationType(HttpServletRequest request) {
+		
+		this.uaId = null;
+		this.uriId = null;
+		this.ctId = null;
+
+		// A 'User Assignment ID' indicates this is from an invitation to join a
+		// simulation.
+		String ua_id = request.getParameter("ua_id");
+
+		// A UserRegistrationInvite ID indicates this is from a bulk invite.
+		String uri_id = (String) request.getParameter("uri");
+
+		// A Contest Team ID this is from an invitation to join a contest team.
+		String ct_id = (String) request.getParameter("ct_id");
+		
+		if (USIP_OSP_Util.stringFieldHasValue(ua_id)) {
+			this.uaId = new Long(ua_id);
+		}
+		
+		if (USIP_OSP_Util.stringFieldHasValue(uri_id)) {
+			this.uriId = new Long(uri_id);
+		}
+		
+		if (USIP_OSP_Util.stringFieldHasValue(ct_id)) {
+			this.ctId = new Long(ct_id);
+		}
+		
+	}
+
+	/** Sets the schema selected to be the one that was passed in. */
+	private void setSchema(HttpServletRequest request) {
+
+		String schema = (String) request.getParameter("schema");
+		sioSet = false;
+		if (USIP_OSP_Util.stringFieldHasValue(schema)) {
+
+			try {
+				SchemaInformationObject sio = SchemaInformationObject
+						.lookUpSIOByName(schema);
+				if (sio != null) {
+					this.schema = schema;
+					this.schemaDisplayName = sio.getSchema_organization();
+					this.sioSet = true;
+				}
+			} catch (Exception e) {
+				errorMsg += "Invalid Database Selected.<br/>";
+				OSPErrors.storeWebErrors(e, request);
+			}
+
+		}
+
+	}
+
+	/**
+	 * Checks to see if this has been activated from a bulk invitation email.
+	 * 
+	 * @param request
+	 * @param user
+	 */
+	private void handleComingFromBulkInvite(HttpServletRequest request,
+			User user) {
+
+		String initial_entry = (String) request.getParameter("initial_entry");
+
+		UserRegistrationInvite uri = new UserRegistrationInvite();
+
+		if ((uriId != null) && (USIP_OSP_Util.stringFieldHasValue(initial_entry))
+				&& (USIP_OSP_Util.stringFieldHasValue(schema))
+		){
+			uri = UserRegistrationInvite.getById(schema, uriId);
+			user.setBu_username(uri.getOriginalInviteEmailAddress());
+		}
+	}
+
+	/**
+	 * Checks to see if requisit information has been passed in.
+	 * 
+	 * @param user
+	 * @param captchacodeTypedByUser
+	 * @param osp_ua
+	 * @return
+	 */
+	public boolean returnUnFinishedUserRegGauntlet(User user,
+			String captchacodeTypedByUser, OSP_UserAdmin osp_ua) {
+
+		boolean returnForLackOfInformation = false;
+
+		if (!(captchacodeTypedByUser.equalsIgnoreCase(sessionCaptchaCode))) {
+			errorMsg += "Incorrect Captcha Code<br/>";
+			errorCode = CAPTCHA_WRONG;
+			returnForLackOfInformation = true;
+		}
+
+		if (User.getByUsername(schema, user.getUserName()) != null) {
+			errorMsg += "This username/email already has been registered. <br/>";
+			returnForLackOfInformation = true;
+		}
+
+		if (!(osp_ua.hasEnoughInfoToCreateUser(true))) {
+			// This loads its own error information.
+			returnForLackOfInformation = true;
+		}
+
+		if (schema == null) {
+			errorMsg += "No database selected.<br/>";
+			returnForLackOfInformation = true;
+		}
+
+		return returnForLackOfInformation;
 	}
 
 	/**
@@ -821,7 +878,7 @@ public class SessionObjectBase {
 		}
 	}
 
-	public Long uaId = null;
+
 
 	/**
 	 * Handles the entry of the player to the confirmation page.
@@ -878,8 +935,8 @@ public class SessionObjectBase {
 				&& (attempting_login.equalsIgnoreCase("true"))) {
 
 			BaseUser bu = validate(request);
-			
-			if (bu != null){
+
+			if (bu != null) {
 				pso.languageCode = bu.getPreferredLanguageCode().intValue();
 				pso.user_id = bu.getId();
 				pso.user_name = bu.getUsername();
@@ -1006,11 +1063,11 @@ public class SessionObjectBase {
 
 				// send email to user at both email addresses
 				Emailer.quickPostMail(schema, new_username,
-						"Username Changed on USIP OSP System", message, user
-								.getUserName(), user.getUserName());
+						"Username Changed on USIP OSP System", message,
+						user.getUserName(), user.getUserName());
 				Emailer.quickPostMail(schema, old_username,
-						"Username Changed on USIP OSP System", message, user
-								.getUserName(), user.getUserName());
+						"Username Changed on USIP OSP System", message,
+						user.getUserName(), user.getUserName());
 
 				return USERNAME_CHANGED;
 			} // end if found base user in database.

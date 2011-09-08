@@ -462,6 +462,7 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.Contest.class);
 		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestParticipatingOrganization.class);
 		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestTeam.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestTeamMember.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorApplication.class);
 		
 		ac.addAnnotatedClass(org.usip.osp.persistence.UILanguageObject.class);

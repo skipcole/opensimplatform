@@ -122,7 +122,7 @@ body {
             <td colspan="2"><div align="right"><span class="style1"><a href="simulation_user_admin/retrieve_password.jsp"><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "forgot_password") %></a></span></div></td>
           </tr>
           <tr>
-            <td colspan="2"><div align="right"><a href="simulation_user_admin/auto_registration_form.jsp" class="style1">Register</a></div></td>
+            <td colspan="2"><div align="right"></div></td>
           </tr>
         </table>
 

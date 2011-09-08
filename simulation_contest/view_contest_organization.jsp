@@ -168,7 +168,7 @@
 					ContestTeam theContestTeam = (ContestTeam) li.next();
 					Contest theContest = Contest.getById(theContestTeam.getContestId());
 				%>
-                <li><a href="view_contest_team.jsp?ct_id=<%= theContestTeam.getId() %>"><%= theContestTeam.getTeamName() %> - Contest: <%= theContest.getContestName() %></a></li>
+                <li><a href="view_contest_team.jsp?ct_id=<%= theContestTeam.getId() %>"><%= theContestTeam.getTeamName() %> - Contest: <%= theContest.getContestName() %> : Database: <%= theContestTeam.getTeamSchema() %></a></li>
                 <% } %>
               </ul>
               <p>(Click on a team name to see information on it.)</p>
@@ -210,6 +210,23 @@
                   <tr>
                     <td valign="top">Admin Notes:</td>
                     <td valign="top"><textarea name="team_notes" id="team_notes" cols="45" rows="5"></textarea></td>
+                  </tr>
+                  <tr>
+                    <td valign="top">Database:</td>
+                    <td valign="top">
+                                  <select name="team_schema" tabindex="8">
+			  <%
+			  	
+				List ghostList = SchemaInformationObject.getAll();
+			  
+			  	for (ListIterator<SchemaInformationObject> li = ghostList.listIterator(); li.hasNext();) {
+            		SchemaInformationObject this_sg = (SchemaInformationObject) li.next();
+				%>
+				<option value="<%= this_sg.getSchema_name() %>"><%= this_sg.getSchema_organization() %></option>
+			<% } %>
+              </select>
+                    
+                    </td>
                   </tr>
                   <tr>
                     <td valign="top">&nbsp;</td>
