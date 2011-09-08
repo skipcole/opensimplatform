@@ -76,8 +76,8 @@
 	} else {
 	
 		AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
-  		afso.captcha_code = sImageCode;
-		System.out.println("afso contest reg " + sImageCode);
+  		afso.sessionCaptchaCode = sImageCode;
+		System.out.println("afso  reg " + sImageCode);
 	}
   out.clear();
 

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
+import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.SchemaInformationObject;
 
@@ -51,16 +52,19 @@ public class ContestTeam {
 	
 	private Date creationDate = new java.util.Date();
 	
+	private String teamSchema;
+	
 	
 	public ContestTeam() {
 		
 	}
 	
-	public ContestTeam(Long cpoId, Long contestId, String teamName){
+	public ContestTeam(Long cpoId, Long contestId, String teamName, String teamSchema){
 		
 		this.contestParticipatingOrgId = cpoId;
 		this.contestId = contestId;
 		this.teamName = teamName;
+		this.teamSchema = teamSchema;
 		
 		this.creationDate = new java.util.Date();
 		
@@ -141,6 +145,11 @@ public class ContestTeam {
 		return returnList;
 	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public static ContestTeam handleCreateTeam(HttpServletRequest request){
 		
 		String sending_page = (String) request.getParameter("sending_page");
@@ -155,8 +164,9 @@ public class ContestTeam {
 			String team_name = (String) request.getParameter("team_name");
 			String max_players = (String) request.getParameter("max_players");
 			String team_notes = (String) request.getParameter("team_notes");
+			String team_schema = (String) request.getParameter("team_schema");
 			
-			ct = new ContestTeam(new Long(cpo_id), new Long (contest_id), team_name);
+			ct = new ContestTeam(new Long(cpo_id), new Long (contest_id), team_name, team_schema);
 			
 		}
 		
@@ -252,6 +262,22 @@ public class ContestTeam {
 		this.teamStudentRegistrationCode = teamStudentRegistrationCode;
 	}
 	
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getTeamSchema() {
+		return teamSchema;
+	}
+
+	public void setTeamSchema(String teamSchema) {
+		this.teamSchema = teamSchema;
+	}
+
 	/**
 	 * Saves this object back to the main database.
 	 * 

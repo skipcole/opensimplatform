@@ -70,14 +70,30 @@ body {
               <h1>Self Registration Page </h1>
               <br />
 			
-      <p>To participate in online simulations using this sytem, you will need to be registered in the system.</p>
-
+      <p>To participate in online simulations, or to author or instruct simulations using this sytem, you will need to be registered on it.</p>
+      <p><% if (false) { %></p>
+      <p>if registering for a contest</p>
+      <blockquote>
+        <p>if email address on link found</p>
+        <blockquote>
+          <p>look up user and confirm registation for Team X in Contest A</p>
+          </blockquote>
+        <p>else</p>
+        <blockquote>
+          <p>if you already are registered on this platform, and would like to get added onto Team X in Contest A, please enter your username and password. </p>
+          <p>Otherwise, fill in the registration information below.</p>
+        </blockquote>
+      </blockquote>
+      <p>end of if registering for contest</p>
+      <p><% } %></p>
       <p align="center" class="style1"><%= sob.errorMsg %></p>
 	  	<%
 			sob.errorMsg = "";
 	
 		%>
       <form action="auto_registration_page.jsp" method="post" name="form1" id="form1">
+      <input type="hidden" name="schema" value="<%= schema %>" />
+      
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           
           <tr>
@@ -119,20 +135,19 @@ body {
     </tr>
     <% if (sob.sioSet) { %>
 		<input type="hidden" name="schema" value="<%= sob.schema %>" />
-		<!--
+		
 	     	<tr>
-            <td valign="top">Organizational Database: <a href="helptext/org_database.jsp" target="helpinright">(?):</a></td>
+            <td valign="top"><strong>Organizational Database: <a href="helptext/org_database.jsp" target="helpinright">(?):</a></strong></td>
               <td valign="top">
-              <input type=hidden name="schema_id" value="">
-			  <input type=hidden name="uri" value="">
+              <%= this_sg.getSchema_organization() %>
 			</td>
             </tr>
-         -->
+        
      <% } else { %>
 <tr>
             <td valign="top"><strong>Organizational Database <a href="helptext/org_database.jsp" target="helpinright">(?)</a>:</strong></td>
               <td valign="top">
-              <select name="schema_id" tabindex="8">
+              <select name="schema" tabindex="8">
 			  <%
 			  	
 				List ghostList = SchemaInformationObject.getAll();
@@ -140,7 +155,7 @@ body {
 			  	for (ListIterator<SchemaInformationObject> li = ghostList.listIterator(); li.hasNext();) {
             		SchemaInformationObject this_sg = (SchemaInformationObject) li.next();
 				%>
-				<option value="<%= this_sg.getId() %>"><%= this_sg.getSchema_organization() %></option>
+				<option value="<%= this_sg.getSchemaName() %>"><%= this_sg.getSchema_organization() %></option>
 			<% } %>
               </select>              </td>
 			</tr>  
@@ -167,6 +182,8 @@ Captcha Code <a href="helptext/captcha_code.jsp"  target="helpinright">(?)</a>: 
                 
                 <input type="hidden" name="sending_page" value="create_users" /> 
                 <input type="hidden" name="ua_id" value="<%= sob.uaId %>" />
+                <input type="hidden" name="uri_id" value="<%= sob.uriId %>" />
+                <input type="hidden" name="ct_id" value="<%= sob.ctId %>" />
                 <input type="submit" name="command" value="Register" tabindex="10"   />			</td>
             </tr>
           </table>

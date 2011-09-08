@@ -151,7 +151,7 @@ public class InstructorApplication {
 		
 		String sending_page = request.getParameter("sending_page");
 		
-		System.out.println("c1: " + sob.captcha_code);
+		System.out.println("c1: " + sob.sessionCaptchaCode);
 			
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("instructor_application")) ){
 			
@@ -175,7 +175,7 @@ public class InstructorApplication {
 			String captchacode = USIP_OSP_Util.cleanNulls(request
 					.getParameter("captchacode"));
 			
-			if ((captchacode == null) || (!(captchacode.equalsIgnoreCase(sob.captcha_code)))){
+			if ((captchacode == null) || (!(captchacode.equalsIgnoreCase(sob.sessionCaptchaCode)))){
 				sob.errorMsg += "Incorrect Captcha Code<br/>";
 				sob.errorCode = SessionObjectBase.CAPTCHA_WRONG;
 

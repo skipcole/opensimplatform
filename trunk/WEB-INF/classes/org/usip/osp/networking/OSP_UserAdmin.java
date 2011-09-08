@@ -49,6 +49,12 @@ public class OSP_UserAdmin {
 	/** Password of the user. */
 	private String _password = ""; //$NON-NLS-1$
 	
+	/** Confirm password of the user. */
+	private String _confirm_password = ""; //$NON-NLS-1$
+	
+	/** Password of the user. */
+	private String _confirm_email = ""; //$NON-NLS-1$
+	
 	private String _phoneNumber = "";
 	
 	private String _profileNotes = "";
@@ -114,10 +120,10 @@ public class OSP_UserAdmin {
 		this._email = request.getParameter("email"); //$NON-NLS-1$
 		this._password = request.getParameter("password"); //$NON-NLS-1$
 		
+		this._confirm_email = request.getParameter("confirm_email"); //$NON-NLS-1$
+		this._confirm_password = request.getParameter("confirm_password"); //$NON-NLS-1$
+		
 		this._first_name = request.getParameter("first_name"); //$NON-NLS-1$
-		
-		
-		System.out.println("OSP user amdin. get user name details: first name was: " + this._first_name);
 		
 		this._last_name = request.getParameter("last_name"); //$NON-NLS-1$
 		this._middle_name = request.getParameter("middle_name"); //$NON-NLS-1$
@@ -200,7 +206,7 @@ public class OSP_UserAdmin {
 			// /////////////////////////////////
 			if (command.equalsIgnoreCase("Save")) { //$NON-NLS-1$
 
-				if (!hasEnoughInfoToCreateUser()) {
+				if (!hasEnoughInfoToCreateUser(false)) {
 					return user;
 				} else {
 
@@ -236,24 +242,34 @@ public class OSP_UserAdmin {
 	 * Verifies that the minimal amount of information has been passed in to create a user.
 	 * @return
 	 */
-	protected boolean hasEnoughInfoToCreateUser() {
-
-		Logger.getRootLogger().debug("p is " + this._password); //$NON-NLS-1$
-		Logger.getRootLogger().debug("f is " + this._full_name); //$NON-NLS-1$
-		Logger.getRootLogger().debug("e is " + this._email); //$NON-NLS-1$
+	protected boolean hasEnoughInfoToCreateUser(boolean verifyConfirmPasswordsEmails) {
+		
+		boolean hasEnoughInfo = true;
 		
 		if (this._password.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
 			this.sob.errorMsg += "Must enter password.<br/>"; //$NON-NLS-1$
-			return false;
+			hasEnoughInfo = false;
 		} else if (this._full_name.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
 			this.sob.errorMsg += "Must enter name.<br/>"; //$NON-NLS-1$
-			return false;
+			hasEnoughInfo = false;
 		} else if (this._email.trim().equalsIgnoreCase("")) { //$NON-NLS-1$
 			this.sob.errorMsg += "Must enter email address.<br/>"; //$NON-NLS-1$
-			return false;
+			hasEnoughInfo = false;
+		}
+		
+		if (verifyConfirmPasswordsEmails){
+			if (!(this._email.equalsIgnoreCase(this._confirm_email))) {
+				this.sob.errorMsg += "Email Addresses did not match<br/>";
+				hasEnoughInfo = false;
+			}
+
+			if (!(this._password.equalsIgnoreCase(this._confirm_password))) {
+				this.sob.errorMsg += "Passwords did not match<br/>";
+				hasEnoughInfo = false;
+			}
 		}
 
-		return true;
+		return hasEnoughInfo;
 	}
 	
 	/**
@@ -369,6 +385,21 @@ public class OSP_UserAdmin {
 
 	public void set_timeZone(String timeZone) {
 		_timeZone = timeZone;
+	}
+
+	/**
+	 * Loads a user with information found in this object.
+	 * @param user
+	 */
+	public void loadUserWithData(User user) {
+		
+		user.setBu_first_name(this.get_first_name());
+		user.setBu_full_name(this.get_full_name());
+		user.setBu_last_name(this.get_last_name());
+		user.setBu_middle_name(this.get_middle_name());
+		user.setBu_username(this.get_email());
+		user.setUser_name(this.get_email());
+		
 	}
 	
 	
