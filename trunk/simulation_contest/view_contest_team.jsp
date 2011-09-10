@@ -30,6 +30,9 @@
 	
 	String additionNotes = ContestTeamMember.handleContestTeamAddition(request);
 	
+	 ContestTeamMember.handleConfirmUser(request);
+
+	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -83,8 +86,8 @@
                   <td><strong><%= ct.getTeamStudentRegistrationCode() %></strong></td>
                 </tr>
                 <tr>
-                  <td><strong>Database</strong></td>
-                  <td><strong><%= ct.getTeamStudentRegistrationCode() %></strong></td>
+                  <td><strong>Schema</strong></td>
+                  <td><strong><%= ct.getTeamSchema() %></strong></td>
                 </tr>
               </table>
               <p>&nbsp;</p>
@@ -92,18 +95,38 @@
               <blockquote>
                 <h3>Confirmed Members</h3>
               
-                <p>
+                <ol>
                   <% 
-				List contestTeamMembers = ContestTeamMember.getAllTeamMembers(ct.getId());
+				List contestTeamMembersConfirmed = ContestTeamMember.getAllConfirmedTeamMembers(ct.getId(), true);
 				
-				for (ListIterator li = contestTeamMembers.listIterator(); li.hasNext();) {
+				for (ListIterator li = contestTeamMembersConfirmed.listIterator(); li.hasNext();) {
 					ContestTeamMember theContestTeamMember = (ContestTeamMember) li.next();
 					BaseUser bu = BaseUser.getByUserId(theContestTeamMember.getUserId());
 				%>
-                  <%= bu.getId() %> <br />
+                  <li><%= bu.getFull_name() %>, <%= bu.getUsername() %> </li>
                   <% } %>
-                </p>
+                </ol>
                 <h3>Unconfirmed Members</h3>
+              
+                <ol>
+                  <% 
+				List contestTeamMembersUn = ContestTeamMember.getAllConfirmedTeamMembers(ct.getId(), false);
+				
+				for (ListIterator li = contestTeamMembersUn.listIterator(); li.hasNext();) {
+					ContestTeamMember theContestTeamMember = (ContestTeamMember) li.next();
+					BaseUser bu = BaseUser.getByUserId(theContestTeamMember.getUserId());
+				%><form id="form2" name="form2" method="post" action="view_contest_team.jsp">
+              <input type="hidden" name="contest_id" value="<%= contest.getId() %>" />
+              <input type="hidden" name="cpo_id" value="<%= cpo.getId() %>" />
+              <input type="hidden" name="ct_id" value="<%= ct.getId() %>" />
+              <input type="hidden" name="ctm_id" value="<%= theContestTeamMember.getId() %>" />
+              <input type="hidden" name="sending_page" value="confirm_contest_member" />
+                  <li><%= bu.getFull_name() %>, <%= bu.getUsername() %> 
+                  <input type="submit" name="button2" id="button2" value="Confirm" />
+                  </li>
+                  </form>
+                  <% } %>
+                </ol>
                 </blockquote>
                 <p>&nbsp; <%= additionNotes %> </p>
                 <h2>Add Team Member</h2>
