@@ -62,6 +62,12 @@ public class GridData {
 	@Lob
 	private String cellData;
 	
+	public static void main(String args[]){
+		System.out.println("h");
+		
+		GridData x = new GridData(new Long(1), new Long(1),new Long(1), "1", "1");
+		x.saveMe("test");
+	}
 	public GridData(){
 		
 	}

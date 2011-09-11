@@ -1,0 +1,22 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>com.seachangesimulations.osp.griddoc.GridDocCustomizer</customizerClassName>
+  <creatingOrganization>com.seachangesimulations.osp.</creatingOrganization>
+  <uniqueName>Grid Document</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>../osp_plugins/griddoc/make_grid_doc_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A grid that players can fill in.</description>
+  <url></url>
+  <directory>../osp_plugins/griddoc/</directory>
+  <page__file__name>grid_doc.jsp</page__file__name>
+  <rec__tab__heading>Grid Doc</rec__tab__heading>
+  <sample__image>griddoc.png</sample__image>
+  <control__section>false</control__section>
+  <databaseClassNames>com.seachangesimulations.osp.griddoc.GridData</databaseClassNames>
+  <isPluginSection>true</isPluginSection>
+  <pluginDirectory>griddoc</pluginDirectory>
+  <pluginVersion>1.0</pluginVersion>
+</org.usip.osp.baseobjects.CustomizeableSection>

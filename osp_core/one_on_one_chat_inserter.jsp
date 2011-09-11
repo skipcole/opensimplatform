@@ -14,8 +14,7 @@
 	
 	String status_code = pso.insertChatLine(request);
 	
-%>
-<?xml version="1.0"?>
+%><?xml version="1.0" encoding="utf-8"?>
 <response>
  <status><%= status_code %></status>
 </response>
