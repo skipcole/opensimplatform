@@ -17,7 +17,16 @@
   <h3>Classes</h3>
 </blockquote>
 <ol>
-  <li>Class One </li>
+  <li>Class One**</li>
+  <li>Class Two</li>
+</ol>
+<blockquote>
+  <p>** This object is saved back to the database.</p>
+  <h3>JSPs</h3>
+</blockquote>
+<ol>
+  <li>JSP Display One </li>
+  <li>JSP Customize Two</li>
 </ol>
 <h2>Technical Details On How it Works</h2>
 <p><br />

@@ -14,9 +14,19 @@
   <h3>Classes</h3>
 </blockquote>
 <ol>
-  <li>GridData</li>
-  <li>GridDocCustomizer</li>
-  <li>GridPageDocument</li>
+  <li>GridData** - Holds individual cells of data.</li>
+  <li>GridDocCustomizer - Allows for the customization of the Grid Document by the Simulatino Author.</li>
+  <li>GridPageDocument - Holds data about the page beind </li>
+</ol>
+<blockquote>
+  <p>** This object is saved back to the database.</p>
+  <h3>JSPs</h3>
+</blockquote>
+<ol>
+  <li>edit_grid_data.jsp - Provides interface to user to edit the data in a cell.</li>
+  <li>grid_doc.jsp - Displays the Grid Document.</li>
+  <li>grid_doc_linear_print.jsp - Allows for the printing of the document in a linear (non-matrix) format.</li>
+  <li>make_grid_doc_page.jsp - Interface for the author to create the Grid Document page.</li>
 </ol>
 <p>&nbsp;</p>
 <h2>Technical Details On How it Works</h2>

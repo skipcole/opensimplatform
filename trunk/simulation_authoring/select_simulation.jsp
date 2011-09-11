@@ -62,6 +62,14 @@
               <td colspan="5"><hr /></td>
             </tr>
             <%
+				if ((simList == null) || (simList.size() == 0)) {
+			%>
+            <tr>
+              <td><p><strong>No simulations found on this platform.</strong></p></td></tr>
+            <%
+				}
+			%>
+            <%
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
