@@ -110,12 +110,14 @@ body {
           </tr>
           <tr> 
             <td colspan="2"><font color="#FF0000"><%= errorMsg %></font>
-									<script>
+<!-- script>
+//Commenting this out for now, since chat now works on IE
+
 				var browser = jQuery.uaMatch(navigator.userAgent).browser;
 				if (browser != "mozilla"){
 					document.write("<b>Please Note: This software has only been tested on Chrome and Firefox. It may work on other platforms, but you may experience some inconveniences. Our apologies in advance.</b>" );
 				}
-</script>
+</script  -->
 			</td>
           </tr>
           <tr>

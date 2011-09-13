@@ -203,11 +203,18 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 	}
 
 	/**
+	 * Saves the document without recording actor id.
+	 * 
+	 */
+	public void saveMe(String schema) {
+		saveMe(schema, null);
+	}
+	/**
 	 * Saves the object to the database.
 	 * 
 	 * @param schema
 	 */
-	public void saveMe(String schema) {
+	public void saveMe(String schema, Long actorId) {
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
@@ -219,10 +226,26 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 		}
 		
 		// Save the history of what it is at this moment in time
-		SharedDocumentVersionHistory sdvh = new SharedDocumentVersionHistory(schema, this, session);
+		SharedDocumentVersionHistory sdvh = new SharedDocumentVersionHistory(schema, this, session, actorId);
 		
 		// Save to record the version number 
 		this.version = sdvh.getVersionNum();
+		
+		session.saveOrUpdate(this);
+		
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	/**
+	 * Saves a copy of this document, but does not save it as a new version.
+	 * 
+	 * @param schema
+	 */
+	public void saveUnversioned(String schema) {
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		
+		Session session = MultiSchemaHibernateUtil.getSession(schema);
 		
 		session.saveOrUpdate(this);
 		
@@ -256,6 +279,14 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 
 	}
 	
+	/**
+	 * Returns all of the documents for a running simulation.
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param rs_id
+	 * @return
+	 */
 	public static List getAllDocumentsForRunningSim(String schema, Long sim_id, Long rs_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -346,7 +377,7 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 		sd.setRs_id(rsid);
 		sd.setSim_id(sid);
 		
-		sd.saveMe(schema);
+		sd.saveUnversioned(schema);
 		
 		sd.setUniqueDocTitle(this.getUniqueDocTitle() + "copy: " + sd.getId());
 		
@@ -489,7 +520,7 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 	}
 	
 	/**
-	 * Pulls the simulation out of the database base on its id and schema.
+	 * Pulls the object out of the database base on its id and schema.
 	 * @param schema
 	 * @param sim_id
 	 * @return
