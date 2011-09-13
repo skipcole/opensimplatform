@@ -94,7 +94,7 @@
         <% } %>
       </table>
       <p>* Feature not yet implemented</p>
-      <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      <p><a href="customize_section_pages/core/make_onelink_page.jsp"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

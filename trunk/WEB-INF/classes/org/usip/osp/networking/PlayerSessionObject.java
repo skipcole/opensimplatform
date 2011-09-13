@@ -1858,7 +1858,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 					.getParameter("write_document_text");
 
 			sd.setBigString(write_document_text);
-			sd.saveMe(schema);
+			
+			System.out.println("Actor id: --------------------->" + this.actorId);
+			sd.saveMe(schema, this.actorId);
 
 		} // End of if coming from this page and have added text
 

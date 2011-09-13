@@ -42,10 +42,13 @@
 		<tr>
 			<td width="120"><img src="../../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Customize One Link Page</h1>
-              <br />
-      <form action="make_onelink_page.jsp" method="post" name="form2" id="form2">
-        <% if (cs.getId() != null) {
+              <h1>Customize One Link Page</h1>              
+               <p>A 'one link' is an address to a web address that can incorporated into your simulation. You can, for example, put a link to a video that is accessible either over the Internet, or on your private network. </p>
+               <p>Since web addresses do frequently change, the instructor will be able to modify the address you enter her to make sure that it is always up to date.</p>
+               <p>.<br />
+               </p>
+               <form action="make_onelink_page.jsp" method="post" name="form2" id="form2">
+                 <% if (cs.getId() != null) {
 	   %>
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %> 
@@ -55,6 +58,7 @@
             </p>
 <p><strong>One Link Object that points to web address.</strong></p>
           <blockquote>
+          <table width="80%"><tr><td valign="top">
             <p>
             <select name="ol_id" id="ol_id">
             <option value="0">None Selected</option>
@@ -68,6 +72,9 @@
         	<% } %>  
             </select>  
             </p>
+            </td>
+            <td align="right" valign="top"><a href="../../make_create_onelink_page.jsp">Create a new 'One Link.'</a></td>
+            </tr></table>
           </blockquote>
 
               
@@ -111,7 +118,7 @@
             </p>
             <p>&nbsp;</p>
           </blockquote>
-      </form>      <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
+    </form>      <a href="<%= afso.backPage %>"><img src="../../../Templates/images/back.gif" alt="Back" border="0"/></a>			</td>
 		</tr>
 		</table>	</td>
   </tr>

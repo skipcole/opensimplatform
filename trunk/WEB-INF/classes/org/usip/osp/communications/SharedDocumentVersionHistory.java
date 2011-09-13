@@ -6,7 +6,9 @@ import java.util.*;
 import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.RunningSimulation;
+import org.usip.osp.networking.SessionObjectBase;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.OSPErrors;
 
 /**
  * This class represents previous versions of documents.
@@ -37,6 +39,8 @@ public class SharedDocumentVersionHistory {
 	private Long docId;
 
 	private Long versionNum= new Long(1);
+	
+	private Long actorId = null;
 
 	/** Contents of this version of the document. */
 	@Lob
@@ -49,9 +53,10 @@ public class SharedDocumentVersionHistory {
 	}
 
 	public SharedDocumentVersionHistory(String schema, SharedDocument sd,
-			Session session) {
+			Session session, Long actorId) {
 		this.docId = sd.getId();
 		this.docText = sd.getBigString();
+		this.actorId = actorId;
 		this.saveDate = new Date();
 
 		List<Long> versionList = null;
@@ -122,6 +127,14 @@ public class SharedDocumentVersionHistory {
 		this.saveDate = saveDate;
 	}
 
+	public Long getActorId() {
+		return actorId;
+	}
+
+	public void setActorId(Long actorId) {
+		this.actorId = actorId;
+	}
+
 	public static void main(String args[]) {
 
 		System.out.println("sdvh");
@@ -132,6 +145,87 @@ public class SharedDocumentVersionHistory {
 		sd1.saveMe("test");
 		sd1.setBigString("Hello3");
 		sd1.saveMe("test");
+
+	}
+	
+	/**
+	 * Pulls the object out of the database base on its id and schema.
+	 * @param schema
+	 * @param sim_id
+	 * @return
+	 */
+	public static SharedDocument getById(String schema, Long sim_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		SharedDocument sd = (SharedDocument) MultiSchemaHibernateUtil
+				.getSession(schema).get(SharedDocument.class, sim_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return sd;
+
+	}
+	
+	/**
+	 * Pulls a version out of history based on its base shared document number and version number.
+	 * 
+	 * @param schema
+	 * @param sdId
+	 * @param verNum
+	 * @return
+	 */
+	public static SharedDocumentVersionHistory getByDocIdAndVerNumber(
+			SessionObjectBase sob, Long sdId, Long verNum) {
+
+		SharedDocumentVersionHistory sdvh = new SharedDocumentVersionHistory();
+		
+		MultiSchemaHibernateUtil.beginTransaction(sob.schema);
+		String hql_string = "from SharedDocumentVersionHistory where DOC_ID = :sdId AND versionNum = :verNum"; //$NON-NLS-1$ //$NON-NLS-2$
+		List returnList = MultiSchemaHibernateUtil.getSession(sob.schema)
+			.createQuery(hql_string)
+			.setLong("sdId", sdId)
+			.setLong("verNum", verNum)
+			.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(sob.schema);
+
+		if ((returnList != null) && (returnList.size() == 1)){
+			sdvh = (SharedDocumentVersionHistory) returnList.get(0);
+		} else if (returnList.size() > 1){
+			// This should not happen, report error.
+			String docVer = "doc: " + sdId + ", " + verNum;
+			OSPErrors.storeInternalWarning("Multiple docs withsame version: " + docVer, sob);
+		}
+		return sdvh;
+
+	}
+	
+	/**
+	 * Returns all versions of a document.
+	 * 
+	 * @param schema
+	 * @param sdId
+	 * @param verNum
+	 * @return
+	 */
+	public static List getAllVersionsOfDocument(String schema, Long sdId) {
+		
+		List returnList = new ArrayList();
+		
+		if (sdId == null){
+			return returnList;
+		}
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		String hql_string = "from SharedDocumentVersionHistory where DOC_ID = :sdId"; //$NON-NLS-1$ //$NON-NLS-2$
+		returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hql_string)
+			.setLong("sdId", sdId)
+			.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
 
 	}
 

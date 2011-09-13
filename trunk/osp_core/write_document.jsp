@@ -66,6 +66,6 @@
 		</script>
 		  </p>
 </form>
-
+Document Version <%= sd.getVersion() %> To see a previous version, <a href="review_document_version_history.jsp?sd_id=<%= sd.getId() %>">click here</a>.
 </body>
 </html>
