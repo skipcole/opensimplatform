@@ -37,7 +37,6 @@ public class TipsCustomizer extends Customizer {
 	public TipsCustomizer(HttpServletRequest request, SessionObjectBase pso,
 			CustomizeableSection cs) {
 		
-		System.out.println("created tc");
 		this.cs = cs;
 
 		loadSimCustomizeSection(request, pso, cs);
@@ -121,14 +120,10 @@ public class TipsCustomizer extends Customizer {
 		List bssdoas = BaseSimSectionDepObjectAssignment.getObjectsForSection(sob.schema, cs.getId());
 		
 		if ((bssdoas == null) || (bssdoas.size() == 0)){
-			System.out.println("bssdoas is null");
 			tip = new Tips();
 		} else {
-			System.out.println("bssdoas not null");
 			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) bssdoas.get(0);
-			System.out.println(bssdoa.getObjectId());
 			tip = (Tips) BaseSimSectionDepObjectAssignment.pullOutObject(sob.schema, bssdoa);
-			System.out.println(tip);
 		}
 
 	}

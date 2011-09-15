@@ -318,8 +318,6 @@ public class ContestTeamMember {
 
 		user.saveMe(ct.getTeamSchema());
 		
-		System.out.println("added team user into " + ct.getTeamSchema());
-		
 		ctm.confirmed = true;
 		ctm.saveMe();
 	}

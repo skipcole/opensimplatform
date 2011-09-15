@@ -74,13 +74,10 @@ public class ExperienceExportObject {
 	private ArrayList<InjectFiringHistory> setOfIFH = new ArrayList<InjectFiringHistory>();
 
 	public static void main(String args[]) {
-		System.out.println("Hello World");
 
 		XStream xstream = new XStream();
 
 		ExperienceExportObject eeo = new ExperienceExportObject();
-
-		System.out.println(xstream.toXML(eeo));
 
 	}
 

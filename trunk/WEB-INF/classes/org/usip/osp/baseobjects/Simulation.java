@@ -321,8 +321,6 @@ public class Simulation implements ExportableObject, Comparable {
 		a.setLearning_objvs("a");
 		b.setLearning_objvs("a");
 
-		System.out.println(Simulation.compare(a, b, true));
-
 	}
 
 	/**
@@ -832,7 +830,6 @@ public class Simulation implements ExportableObject, Comparable {
 	public static boolean deleteSimulation(String schema, Long sim_id) {
 
 		if (!(Simulation.checkIfDeletable(schema, sim_id))) {
-			System.out.println("can't delete");
 			return false;
 		}
 

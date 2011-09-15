@@ -208,11 +208,6 @@ public class ContestParticipatingOrganization {
 
 		if (!(cpo.getCaptcha_from_user().equalsIgnoreCase(cpo.getCaptcha_in_session())) ){
 			
-			System.out.println("");
-			System.out.println("captcha from user: " + cpo.getCaptcha_from_user());
-			System.out.println("captcha in session: " + cpo.getCaptcha_in_session());
-			System.out.println("");
-			
 			cpo.errorMsg += "Must match captcha value.";
 			foundDeficit = true;
 		}

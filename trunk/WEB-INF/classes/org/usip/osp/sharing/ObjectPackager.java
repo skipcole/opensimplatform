@@ -43,15 +43,6 @@ public class ObjectPackager {
 		return "</" + thisClass.getName() + ">";
 	}
 
-	public static void main(String[] args) {
-
-		// Logger.getRootLogger().debug(packageSimulation("test", new Long(1)));
-
-		// play();
-
-		// ObjectPackager.packageUsers("test");
-		System.out.println(ObjectPackager.packageUsers("test"));
-	}
 
 	public static void play() {
 		BaseSimSection bss_intro = new BaseSimSection(

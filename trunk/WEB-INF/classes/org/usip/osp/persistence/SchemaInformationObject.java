@@ -165,8 +165,6 @@ public class SchemaInformationObject {
 
 		List x = getAllOrderedByEmailServerNumber();
 
-		System.out.println("got all"); //$NON-NLS-1$
-
 		for (ListIterator li = x.listIterator(); li.hasNext();) {
 			SchemaInformationObject sio = (SchemaInformationObject) li.next();
 

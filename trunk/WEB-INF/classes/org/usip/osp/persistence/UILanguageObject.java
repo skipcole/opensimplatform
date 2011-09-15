@@ -127,7 +127,6 @@ public class UILanguageObject {
 		while (e.hasMoreElements()) {
 
 			String key = (String) e.nextElement();
-			System.out.println(key + " = " + englishLanguageResourceBundle.getString(key));
 			engHash.put(key, englishLanguageResourceBundle.getString(key));
 
 		}

@@ -147,8 +147,6 @@ public class BishopsRoleVotes {
 
 		String getString = "from BishopsRoleVotes where running_sim_id = :rs_id and userId = :user_id and choice = :choiceNum ";
 
-		//System.out.println(getString);
-
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<BishopsRoleVotes> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString)
