@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.ListIterator;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
+import org.usip.osp.baseobjects.core.OneLinkCustomizer;
 import org.usip.osp.networking.AuthorFacilitatorSessionObject;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -170,20 +173,19 @@ public class OneLink implements SimSectionDependentObject{
 	 * @param sim_id
 	 * @return
 	 */
-	public static OneLink getOneLinkForRunningSim(String schema, Long gv_id, Long rs_id) {
+	public static OneLink getOneLinkForRunningSim(String schema, Long olId, Long rsId) {
 
 		OneLink this_gv = null;
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		String hql_string = "from OneLink where RS_ID = " + rs_id  //$NON-NLS-1$
-		+ " AND BASE_ID = '" + gv_id + "'"; //$NON-NLS-1$ //$NON-NLS-2$
+		String hql_string = "from OneLink where RS_ID = :rsId AND BASE_ID = :olId"; //$NON-NLS-1$ //$NON-NLS-2$
 		
-		Logger.getRootLogger().debug("----------------------------------"); //$NON-NLS-1$
-		Logger.getRootLogger().debug(hql_string);
-		Logger.getRootLogger().debug("----------------------------------"); //$NON-NLS-1$
-		
-		List varFound = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		List varFound = MultiSchemaHibernateUtil.getSession(schema)
+		.createQuery(hql_string)
+		.setLong("rsId", rsId)
+		.setLong("olId", olId)
+		.list();
 		
 		if (varFound == null){
 			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -203,6 +205,30 @@ public class OneLink implements SimSectionDependentObject{
 
 		return this_gv;
 
+	}
+	
+	/**
+	 * Checks to see if the OneLink has been modified, and returns the original or modified version.
+	 * 
+	 * @param request
+	 * @param schema
+	 * @param ol
+	 * @return
+	 */
+	public static OneLink checkForRunningSimOneLinkUpdate(HttpServletRequest request, String schema, OneLink ol){
+		
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if ((sending_page != null) && (  sending_page.equalsIgnoreCase("set_one_link")  ) ) {
+			String newValue = (String) request.getParameter("new_value");
+		
+			if (newValue != null) {
+				ol.setStartingValue(newValue);
+				ol.saveMe(schema);
+			}
+		}
+		
+		return ol;
 	}
 	
 	public String generateForwardOnTag(){
@@ -249,13 +275,15 @@ public class OneLink implements SimSectionDependentObject{
 	 * @param the_sim_id
 	 * @return
 	 */
-	public static List getAllBaseOneLinksForSim(String schema, Long the_sim_id) {
+	public static List getAllBaseOneLinksForSim(String schema, Long simId) {
 		
-		String hql_string = "from OneLink where SIM_ID = " + the_sim_id.toString()  //$NON-NLS-1$
-			+ " AND RS_ID is null"; //$NON-NLS-1$
+		String hql_string = "from OneLink where SIM_ID = :simId AND RS_ID is null"; //$NON-NLS-1$
 	
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hql_string).list();
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hql_string)
+			.setLong("simId", simId)
+			.list();
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return returnList;
@@ -338,6 +366,34 @@ public class OneLink implements SimSectionDependentObject{
 	public void setSimId(Long theId) {
 		this.sim_id = theId;
 		
+	}
+	
+	/**
+	 * Handles the creation of a one link item.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String handleOneLink(HttpServletRequest request, PlayerSessionObject pso) {
+
+		String cs_id = (String) request.getParameter("cs_id");
+
+		OneLinkCustomizer olc = new OneLinkCustomizer();
+
+		CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
+		olc = new OneLinkCustomizer(request, pso, cs);
+
+		String forwardOnString = "";
+
+		OneLink ol = OneLink.getById(pso.schema, olc.getOlId());
+
+		if (!(pso.preview_mode)) {
+			ol = OneLink.getOneLinkForRunningSim(pso.schema, olc.getOlId(),
+					pso.getRunningSimId());
+			forwardOnString = ol.generateForwardOnTag();
+		}
+
+		return forwardOnString;
 	}
 
 	

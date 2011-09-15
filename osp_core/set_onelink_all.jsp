@@ -3,7 +3,7 @@
 	language="java" 
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
-	org.usip.osp.communications.*,
+	org.usip.osp.specialfeatures.*,
 	org.usip.osp.baseobjects.*,
 	org.usip.osp.baseobjects.core.*" 
 	errorPage="/error.jsp" %>
@@ -30,13 +30,26 @@
 </h2>
 <p><%
 					
-					List theDocs = SharedDocument.getAllDocumentsForRunningSim(pso.schema, pso.sim_id, pso.getRunningSimId());
+					List theOLs = OneLink.getAllBaseOneLinksForSim(pso.schema, pso.sim_id);
 					//Collections.sort(theDocs);
-					for (ListIterator li = theDocs.listIterator(); li.hasNext();) {
-						SharedDocument sd = (SharedDocument) li.next();
+					
+					if ((theOLs != null) && (theOLs.size() > 0)) {
+%>
+<blockquote>
+<table border="1" width="100%">
+<%
+					int ii = 0;
+					for (ListIterator li = theOLs.listIterator(); li.hasNext();) {
+						OneLink ol = (OneLink) li.next();
+						ii += 1;
 					%>
-              <a href="write_document.jsp?sendingDocId=true&doc_id=<%= sd.getId() %>"><%= sd.getDisplayTitle() %></a><br />
-                    <% } %>
+
+<tr>
+<td><%= ii %>.</td><td><a href="onelink_set_page.jsp?sendingOLId=true&ol_id=<%= ol.getId() %>"><%= ol.getName() %></a></td><td><%= ol.getNotes() %></td></tr>
+                    <% } // End of loop over one links. %>
+</table>
+</blockquote>
+<% } // End of if there are one links. %>
             
 </p>
 <p>&nbsp;</p>

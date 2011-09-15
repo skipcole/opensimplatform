@@ -2487,34 +2487,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		return returnList;
 	}
-
-	/**
-	 * Handles the creation of a one link item.
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public String handleOneLink(HttpServletRequest request) {
-
-		String cs_id = (String) request.getParameter("cs_id");
-
-		OneLinkCustomizer olc = new OneLinkCustomizer();
-
-		CustomizeableSection cs = CustomizeableSection.getById(schema, cs_id);
-		olc = new OneLinkCustomizer(request, this, cs);
-
-		String forwardOnString = "";
-
-		OneLink ol = OneLink.getById(schema, olc.getOlId());
-
-		if (!(preview_mode)) {
-			ol = OneLink.getOneLinkForRunningSim(schema, olc.getOlId(),
-					getRunningSimId());
-			forwardOnString = ol.generateForwardOnTag();
-		}
-
-		return forwardOnString;
-	}
 	
 	/**
 	 * Returns the link to the message page.

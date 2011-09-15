@@ -17,29 +17,32 @@
 	}
 	
 	String cs_id = (String) request.getParameter("cs_id");
+	String ol_id = (String) request.getParameter("ol_id");
 		
 	OneLinkCustomizer olc = new OneLinkCustomizer();
-	
-	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
-	olc = new OneLinkCustomizer(request, pso, cs);
-	
+	OneLink baseOL = new OneLink();
+	OneLink rsOL = new OneLink();
 	String forwardOnString = "";
+	Long olId = null;
 	
-	OneLink ol = OneLink.getById(pso.schema, olc.getOlId());
+	if (USIP_OSP_Util.stringFieldHasValue(cs_id)){
+		CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
+		olc = new OneLinkCustomizer(request, pso, cs);
+		baseOL = OneLink.getById(pso.schema, olc.getOlId());
+		olId = olc.getOlId();
+	}
+	
+	if (USIP_OSP_Util.stringFieldHasValue(ol_id)){
+		olId = new Long(ol_id);
+		baseOL = OneLink.getById(pso.schema, olId);
+	}
 	
 	if (!(pso.preview_mode)) {	
-		ol = OneLink.getOneLinkForRunningSim(pso.schema, olc.getOlId(), pso.getRunningSimId());
+		rsOL = OneLink.getOneLinkForRunningSim(pso.schema, olId, pso.getRunningSimId());
 		
-		String sending_page = (String) request.getParameter("sending_page");
-
-		if ((sending_page != null) && (  sending_page.equalsIgnoreCase("set_one_link")  ) ) {
-			String newValue = (String) request.getParameter("new_value");
-		
-			if (newValue != null) {
-				ol.setStartingValue(newValue);
-				ol.saveMe(pso.schema);
-			}
-		}
+		rsOL = OneLink.checkForRunningSimOneLinkUpdate(request, pso.schema, rsOL);
+	} else {
+		rsOL = baseOL;
 	}
 	
 %>
@@ -53,15 +56,16 @@
 On this page you can set the web site that the 'One Link' page for another player is pointing to.
 <form name="form1" method="post" action="onelink_set_page.jsp">
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
+<input type="hidden" name="ol_id" value="<%= ol_id %>">
 <input type="hidden" name="sending_page" value="set_one_link">
 <table width="95%" border="0" cellspacing="2" cellpadding="2">
   <tr valign="top"> 
     <td><p>Current Link:</p></td>
-    <td><p><%= ol.getStartingValue() %></p></td>
+    <td><p><%= rsOL.getStartingValue() %></p></td>
     </tr>
     <tr>
-    <td>New Link :</td>
-                <td><input type="text" name="new_value" value="<%= ol.getStartingValue() %>" /></td>
+    <td><p>New Link :</p></td>
+                <td><input type="text" name="new_value" value="<%= rsOL.getStartingValue() %>" width="80" /></td>
   </tr>
     <tr>
       <td>&nbsp;</td>
