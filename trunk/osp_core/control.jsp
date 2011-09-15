@@ -74,7 +74,7 @@
 <table width="95%" border="0" cellpadding="2" cellspacing="2">
   <tr valign="top">
     <td valign="top"><a href="set_onelink_all.jsp">Change a Fixed (One) Link </a></td>
-    <td valign="top">&nbsp;</td>
+    <td valign="top">Allows the editing of any fixed link pages accessed by the simulation.</td>
   </tr>
   <tr valign="top">
     <td valign="top"><a href="write_document_list_all.jsp">Edit simulation document </a></td>

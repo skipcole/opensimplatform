@@ -16,7 +16,8 @@
 		return;
 	}
 	
-	String forwardOnString = pso.handleOneLink(request);
+	String forwardOnString = OneLink.handleOneLink(request, pso);
+	System.out.println(forwardOnString);
 %>
 <html>
 <head>
