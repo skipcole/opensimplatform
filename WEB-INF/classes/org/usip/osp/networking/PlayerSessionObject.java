@@ -316,7 +316,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			// Set the date to be the date in which the Running Sim will be run.
 			this.dateOffset = this.getDateOffset(running_sim);
-			System.out.println("your date offset is : " + dateOffset);
 
 			actorId = ua.getActor_id();
 			Actor actor = Actor.getById(schema, actorId);
@@ -563,7 +562,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 				alarmXML += "<sim_event_text>" + Alert.getMultipleAlertText()
 						+ "</sim_event_text>";
 				myHighestAlertNumber = runningSimHighestChange;
-				System.out.println(alarmXML);
 			} else {
 
 				Alert this_alert = my_alerts.get(0);
@@ -1332,9 +1330,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 							String send_real_world = request
 									.getParameter("send_real_world");
 
-							System.out.println(" send_real_world was: "
-									+ send_real_world);
-
 							if ((send_real_world != null)
 									&& (send_real_world
 											.equalsIgnoreCase("true"))) {
@@ -1428,7 +1423,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 			for (ListIterator<Actor> lia = simulation.getActors(schema)
 					.listIterator(); lia.hasNext();) {
 				Actor act = lia.next();
-				System.out.println("checking actor: " + act.getActorName());
 
 				// Add to the eligible actor lists actors that are not already
 				// marked as recipients
@@ -1859,7 +1853,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			sd.setBigString(write_document_text);
 			
-			System.out.println("Actor id: --------------------->" + this.actorId);
 			sd.saveMe(schema, this.actorId);
 
 		} // End of if coming from this page and have added text

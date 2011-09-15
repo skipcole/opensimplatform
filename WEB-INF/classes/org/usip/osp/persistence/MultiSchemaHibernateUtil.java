@@ -161,8 +161,6 @@ public class MultiSchemaHibernateUtil {
 		Logger.getRootLogger().warn("user is " + username); //$NON-NLS-1$
 		Logger.getRootLogger().warn("    done in initializeConnection     "); //$NON-NLS-1$
 
-		System.out.println("test conn was: " + testConn());
-
 	}
 
 	/**
@@ -219,22 +217,7 @@ public class MultiSchemaHibernateUtil {
 
 			for (Enumeration e = setOfPluginTables.keys(); e.hasMoreElements();){
 				String key = (String) e.nextElement();
-				
-				System.out.println("                ");
-				System.out.println("                ");
-				System.out.println("                ");
-				System.out.println("                ");
-				System.out.println("                ");
-				System.out.println("key                " + key);
-				System.out.println("                ");
-				System.out.println("                ");
-				System.out.println("                ");
-				System.out.println("                ");
-				System.out.println("                ");
-				System.out.println("                ");
-				
-				
-				
+								
 				Class nClass;
 				try {
 					nClass = Class.forName(key);

@@ -308,7 +308,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 				String rsn = "BetaTest " + timeStart + " " + bu.getInitials();
 
-				System.out.println("rsn is " + rsn);
 				// Create Running Simulation
 				RunningSimulation rs = sim.addNewRunningSimulation(rsn, schema,
 						this.user_id, this.userDisplayName, TimeZone
@@ -1004,8 +1003,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				.hasMoreElements();) {
 			String pname = (String) e.nextElement();
 			String vname = (String) request.getParameter(pname);
-
-			System.out.println("p/v: " + pname + "/" + vname);
 
 			if (pname.startsWith("actor_")) {
 				pname = pname.replaceAll("actor_", "");
@@ -1914,7 +1911,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					Long thisTarget = USIP_OSP_Util.stringToLong(pname);
 					if (thisTarget != null) {
 						targettedPeople.add(thisTarget);
-						System.out.println("targetted peoples: " + thisTarget);
 					}
 				}
 			}
@@ -2244,8 +2240,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 */
 	public void handleCreateActor(HttpServletRequest request) {
 
-		System.out.println("handleCreateActor");
-
 		String update_actor = (String) request.getParameter("update_actor");
 		String actorid = (String) request.getParameter("actorid");
 		String clear_button = (String) request.getParameter("clear_button");
@@ -2263,7 +2257,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			createOrUpdateActor(request, actorOnScratchPad);
 
 		} else if (create_actor != null) {
-			System.out.println("Creating Actor");
 			Actor newActor = new Actor();
 			newActor.setImageFilename("no_image_default.jpg");
 			createOrUpdateActor(request, newActor);
@@ -2942,7 +2935,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				for (Enumeration e2 = actors.elements(); e2.hasMoreElements();) {
 					Long a_id_2 = (Long) e2.nextElement();
 					String key = a_id_1 + "_" + a_id_2;
-					System.out.println("put in key: " + key);
 					returnTable.put(key, "set");
 				}
 			}
@@ -3373,8 +3365,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		message += "or just copy and paste this link " + reset_url
 				+ " into your web browser.";
 
-		System.out.println(message);
-
 		Vector ccs = new Vector();
 		Vector bccs = new Vector();
 
@@ -3666,8 +3656,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			if ((universal_color != null)
 					&& (universal_color.equalsIgnoreCase("true"))) {
 
-				System.out.println("base id is " + ssa.getBase_sec_id());
-
 				for (ListIterator lia = SimulationSectionAssignment
 						.getUniversals(schema, ssa.getId()).listIterator(); lia
 						.hasNext();) {
@@ -3738,9 +3726,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			System.out.println(sdanao);
 			if (sdanao.equalsIgnoreCase("create_null")) {
-
-				System.out.println("actor_being_worked_on_id"
-						+ actor_being_worked_on_id);
 
 				Long from_actor_being_worked_on_id = null;
 				Long from_phase_id = null;
@@ -4417,9 +4402,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							String relativePath = "../osp_core/images/actors/"
 									+ fName;
 
-							// System.out.println(fullFileLoc);
-							// System.out.println(relativePath);
-
 							thisImageVector.add(relativePath);
 							thisImageVector.add(fName);
 
@@ -4542,8 +4524,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 					if (pname.startsWith("ii_assign_")) {
 						pname = pname.replaceAll("ii_assign_", "");
-						System.out.println("pname gets vname: " + pname
-								+ " gets " + vname);
 
 						if ((vname == null) || (vname.equalsIgnoreCase(""))
 								|| (vname.equalsIgnoreCase("null"))) {

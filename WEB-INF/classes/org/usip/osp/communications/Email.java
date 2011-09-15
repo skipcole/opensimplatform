@@ -447,8 +447,6 @@ public class Email {
 		String hqlString = "from Email where sim_id = :sim_id and " +
 				"running_sim_id = :running_sim_id and invitePrototype is true order by id";
 		
-		System.out.println(hqlString);
-		
 		List tempList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)
 			.setLong("sim_id", sim_id)
@@ -637,7 +635,6 @@ public class Email {
 		String[] lines = text.split("\n");
 
         for (String this_line : lines) {
-            System.out.println("Count is: " + this_line);
             returnString += ">" + this_line;
         }
 
@@ -650,7 +647,6 @@ public class Email {
 	 */
 	public void sendMe(SchemaInformationObject sio){
 
-		System.out.println("im in send me");
 		if (this.sendInRealWorld){
 			// Do real world send stuff.
 			Vector to = getListOfRecipients(sio.getSchema_name(), this.getId(), 

@@ -130,10 +130,8 @@ public class SimEditors {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		if ((returnList == null) || (returnList.size() == 0)){
-			System.out.println("checkIfAuthorized is false");
 			return false;
 		} else {
-			System.out.println("checkIfAuthorized is true");
 			return true;
 		}
 	}

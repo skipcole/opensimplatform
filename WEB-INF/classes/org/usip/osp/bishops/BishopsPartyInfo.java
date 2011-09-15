@@ -209,7 +209,6 @@ public class BishopsPartyInfo implements CopiedObject{
 		BishopsPartyInfo bpi_bumper = BishopsPartyInfo.getById(schema, bpi_id);
 
 		int oldIndex = bpi_bumper.getPartyIndex();
-		System.out.println("oldIndex is " + oldIndex + ", newIndex is " + newIndex);
 
 		List survivors = getAllForRunningSim(schema, rs_id, false);
 
@@ -222,7 +221,6 @@ public class BishopsPartyInfo implements CopiedObject{
 			// Get the id of the bpi being bumped
 			BishopsPartyInfo bpi_getting_bumped = getByPosition(schema, rs_id, newIndex);
 
-			System.out.println("bpi_getting_bumped is " + bpi_getting_bumped.getId());
 			if (bpi_getting_bumped != null) {
 				bpi_getting_bumped.setPartyIndex(oldIndex);
 				bpi_getting_bumped.saveMe(schema);
@@ -354,10 +352,7 @@ public class BishopsPartyInfo implements CopiedObject{
 
 				String marked_inactive = (String) request.getParameter("marked_inactive");
 
-				System.out.println("marked_inactive is " + marked_inactive);
-
 				if ((marked_inactive != null) && (marked_inactive.equalsIgnoreCase("on"))) {
-					System.out.println("setting inactive");
 					bpi.setInActive(true);
 				} else {
 					bpi.setInActive(false);

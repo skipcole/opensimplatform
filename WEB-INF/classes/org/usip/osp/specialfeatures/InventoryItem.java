@@ -221,7 +221,6 @@ public class InventoryItem implements SimSectionDependentObject {
 	}
 
 	public static void main(String args[]) {
-		System.out.println("Hello World!");
 
 		InventoryItem x = new InventoryItem("tool2", "useful2",
 				"use sparingly2", new Long(1), true);
