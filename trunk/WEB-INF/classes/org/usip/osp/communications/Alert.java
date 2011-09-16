@@ -286,11 +286,6 @@ public class Alert implements TimeLineInterface {
 		return returnList;
 	}
 
-	public static void main(String args[]) {
-		System.out.println("Hello World");
-		System.out.println(getHighestAlertNumber("test", new Long(1)));
-
-	}
 
 	/**
 	 * Get the highest Alert number for a running simulation

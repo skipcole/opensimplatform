@@ -63,7 +63,7 @@
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery.autocomplete.js"></script>
 <link rel="stylesheet" href="../third_party_libraries/jquery/jquery.autocomplete.css" type="text/css" />
 </head>

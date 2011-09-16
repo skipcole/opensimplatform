@@ -16,7 +16,7 @@
 %>
 <html>
 <head>
-<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
 <title>Simulation <%= pso.simulation_name %>, Version , Session <%= pso.run_sim_name %></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">

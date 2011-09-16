@@ -371,7 +371,6 @@ public class BishopsPartyInfo implements CopiedObject{
 				storeNameInCache(pso.schema, request, bpi.getId(), bpi.getBPIName());
 
 				if (bpi.getPartyIndex() != newPI) {
-					System.out.println("bpi.getPartyIndex() was " + bpi.getPartyIndex() + ", newPI was: " + newPI);
 					BishopsPartyInfo.insertIndex(pso.schema, pso.getRunningSimId(), bpi.getId(), newPI);
 				}
 			}

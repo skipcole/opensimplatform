@@ -65,7 +65,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
-<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.4.1.js"></script>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
 <script type="text/javascript">
 	<%		// The print out statement below fills in the hashtable and lists important details regarding the actors.  %>
 	<%= pso.generateChatHelpLines(request, theseConversations, new Long(cs_id)) %>

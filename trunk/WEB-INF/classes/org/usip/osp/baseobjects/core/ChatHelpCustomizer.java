@@ -64,8 +64,6 @@ public class ChatHelpCustomizer extends Customizer {
 			String pname = (String) e.nextElement();
 			String vname = (String) request.getParameter(pname);
 
-			System.out.println("p/v: " + pname + "/" + vname);
-
 			if (pname.startsWith("constant_actor_")) {
 				pname = pname.replaceAll("constant_actor_", "");
 
