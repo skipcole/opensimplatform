@@ -62,7 +62,6 @@ public class WriteDocumentListCustomizer extends Customizer {
 
 				if (pname.startsWith("doc_id_")) {
 					if ((vname != null) && (!(vname.equalsIgnoreCase("0")))) {
-						System.out.println("p/v: " + pname + "/" + vname);
 
 						pname = pname.replaceAll("doc_id_", "");
 
@@ -135,7 +134,6 @@ public class WriteDocumentListCustomizer extends Customizer {
 			for (ListIterator li = docsAvailable.listIterator(); li.hasNext();) {
 
 				SharedDocument sd = (SharedDocument) li.next();
-				System.out.println(sd.getId() + " " + sd.getDisplayTitle());
 
 				for (ListIterator lit = thisSetOfBSSDOA.listIterator(); lit.hasNext();) {
 
@@ -143,8 +141,6 @@ public class WriteDocumentListCustomizer extends Customizer {
 
 					String classOfSD = SharedDocument.class.toString();
 					classOfSD = classOfSD.replace("class ", "");
-					
-					System.out.println(this_bssdoa.getClassName() + " and |" + classOfSD + "|");
 					
 					if (this_bssdoa.getClassName().equalsIgnoreCase(classOfSD)) {
 

@@ -78,20 +78,16 @@ public class CommunicationsHub {
 
 	}
 	public static void main(String args[]){
-		System.out.println("hello world");
 		
 		CommunicationsHub ch = new CommunicationsHub();
 		ch.setTimeStamp(new java.util.Date());
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy HH:mm:ss z");
 		
-		System.out.println(sdf.format(ch.getTimeStamp()));
-		
 		List x = getAllForRunningSim("test", new Long(2));
 		
 		for (ListIterator<CommunicationsHub> li = getAllForRunningSim("test", new Long(2)).listIterator(); li.hasNext();) {
 			CommunicationsHub this_sp = li.next();
-			System.out.println("id is: " + this_sp.getMsgId() + ", class is " + this_sp.getMsgClass());
 			
 			MultiSchemaHibernateUtil.beginTransaction("test");
 			

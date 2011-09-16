@@ -675,7 +675,6 @@ public class Email {
 	 */
 	public static Vector getListOfRecipients(String schema, Long e_id, Long rs_id, boolean targetingActor, int recipientType){
 		
-		System.out.println("im in get list");
 		Vector <String> returnVector = new Vector();
 		
 		List recipients = new ArrayList();

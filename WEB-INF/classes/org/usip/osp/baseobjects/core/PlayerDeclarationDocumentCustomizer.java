@@ -43,8 +43,6 @@ public class PlayerDeclarationDocumentCustomizer extends Customizer {
 				String pname = (String) e.nextElement();
 				String vname = (String) request.getParameter(pname);
 
-				System.out.println("p/v: " + pname + "/" + vname);
-
 				if (pname.startsWith("actor_with_doc_")) {
 					pname = pname.replaceAll("actor_with_doc_", "");
 

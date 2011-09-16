@@ -40,7 +40,7 @@ org.usip.osp.baseobjects.*" %>
 <title>USIP Open Simulation Platform Login</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="usip_osp.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="third_party_libraries/jquery/jquery-1.4.1.js"></script>
+<script type="text/javascript" src="third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
 <style type="text/css">
 <!--
 .style1 {font-size: small}

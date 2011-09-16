@@ -262,9 +262,6 @@ public class USIP_OSP_Util {
 		AuthorFacilitatorSessionObject afso = (AuthorFacilitatorSessionObject) request.getSession().getAttribute("afso");
 		SessionObjectBase sob = (SessionObjectBase) request.getSession().getAttribute("sob");
 		
-		System.out.println ("sob is " + sob);
-		System.out.println ("pso is " + pso);
-		
 		if (pso != null){
 			sob = (SessionObjectBase) pso;
 		}
@@ -405,7 +402,6 @@ public class USIP_OSP_Util {
 		 
 		 String returnString = new String(sb);
 		 
-		 System.out.println(returnString);
 		 return returnString;
 	}
 
