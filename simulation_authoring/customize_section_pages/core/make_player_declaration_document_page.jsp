@@ -57,7 +57,6 @@
                   <%
 		  	List docsAvailable = SharedDocument.getAllBaseDocumentsForSim(afso.schema, afso.sim_id);
 			
-			System.out.println("there are " + docsAvailable.size() + " available");
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
 
 		  %>

@@ -121,7 +121,6 @@
 			if (afso.actor_being_worked_on_id.equals(new Long(0))) {
 				actors_name_string = " every actor ";
 			} else {
-				System.out.println("actor id : " + afso.actor_being_worked_on_id);
 				actors_name_string = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, new Long(0), request, afso.actor_being_worked_on_id);
 			}
 			

@@ -67,10 +67,7 @@
 
 	String sent_from = request.getParameter("sent_from");
 	
-	System.out.println("whatever image code: " + sImageCode);
-	
 	if ((sent_from != null) && (sent_from.equalsIgnoreCase("contest_reg"))){
-		System.out.println("sent from contest reg " + sImageCode);
 		ContestParticipatingOrganization cpo = ContestParticipatingOrganization.getCPO(request.getSession(true));
 		cpo.setCaptcha_in_session(sImageCode);
 	} else {

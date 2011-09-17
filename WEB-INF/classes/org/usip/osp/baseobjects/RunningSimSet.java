@@ -155,7 +155,6 @@ public class RunningSimSet {
     	for (ListIterator li = returnList.listIterator(); li.hasNext();) {
     		RunningSimSetAssignment rss = (RunningSimSetAssignment) li.next();
 			
-    		System.out.println("xxxxxxxxxxxxxxxxxx: " + rss.getRs_id());
 			returnHashtable.put(rss.getRs_id(), "set");
 			
     	}

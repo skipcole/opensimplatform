@@ -38,7 +38,6 @@
 	EmailRecipients er = 
 		EmailRecipients.getEmailRecipientsLine(pso.schema, email.getId(), pso.getRunningSimId(), pso.getActorId());
 	
-	System.out.println(pso.schema + ", " +  email.getId() + ", " +   pso.getRunningSimId() + ", " +   pso.getActorId());
 	
 	if (er != null) {
 		er.setHasBeenRead(true);

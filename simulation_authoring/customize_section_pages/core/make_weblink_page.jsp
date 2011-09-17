@@ -59,9 +59,7 @@
               <h1>Customize Weblink Page</h1>
               <br />
       <form action="make_weblink_page.jsp" method="post" name="form2" id="form2">
-        <% if (cs.getId() != null) {
-	  	System.out.println("cs id was :" + cs.getId());
-	   %>
+        <% if (cs.getId() != null) {	   %>
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %> 
         <blockquote>
@@ -101,14 +99,11 @@
 			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
 			
-			System.out.println("already has it is " + 	hasItAlready);
-			
 			String actors_name_string = "fill it in from cache";
 			
 			if (afso.actor_being_worked_on_id.equals(new Long(0))) {
 				actors_name_string = " every actor ";
 			} else {
-				System.out.println("actor id : " + afso.actor_being_worked_on_id);
 				actors_name_string = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, new Long(0), request, afso.actor_being_worked_on_id);
 			}
 			%>

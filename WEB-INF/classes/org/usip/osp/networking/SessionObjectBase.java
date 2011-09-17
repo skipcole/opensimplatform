@@ -971,14 +971,11 @@ public class SessionObjectBase {
 	public static int debugNumber = 1;
 
 	public void debugTag() {
-		System.out.println(new java.util.Date().toString() + " shot: "
-				+ debugNumber);
 		debugNumber += 1;
 		System.out.flush();
 	}
 
 	public void debugTag(String marker) {
-		System.out.println("!!!!! Marker: " + marker);
 		debugTag();
 	}
 

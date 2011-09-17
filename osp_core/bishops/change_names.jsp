@@ -23,8 +23,6 @@
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("change_name"))){
           
 		String new_name = (String) request.getParameter("new_name");
-		
-		//System.out.println("creating assumed id " + new_name);
 
 		ActorAssumedIdentity aai = ActorAssumedIdentity.getAssumedIdentity(pso.schema, pso.getActorId(), pso.getRunningSimId());
 		if (aai == null){

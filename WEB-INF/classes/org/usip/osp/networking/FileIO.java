@@ -200,7 +200,6 @@ public class FileIO {
 		if (outFile.exists()){
 		
 			String fileExtension = getFileExtension(filePathAndName);
-			System.out.println("file extension: " + fileExtension);
 			int endIndex = filePathAndName.length() - fileExtension.length();
 			String reducedFilePathAndName = filePathAndName.substring(0, endIndex);
 			

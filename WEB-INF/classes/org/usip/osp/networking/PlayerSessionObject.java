@@ -2015,7 +2015,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 						"rs_id", runningSimId).list();
 
 		if ((returnList == null) || (returnList.size() == 0)) {
-			//System.out.println("No player document found, creating new one."); //$NON-NLS-1$
 
 			bneeds.setBase_id(new Long(-1));
 			bneeds.setRs_id(runningSimId);
@@ -2041,7 +2040,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 				runningSimId).list();
 
 		if ((returnList == null) || (returnList.size() == 0)) {
-			//System.out.println("No player document found, creating new one."); //$NON-NLS-1$
 
 			bsolutions.setBase_id(new Long(-2));
 			bsolutions.setRs_id(runningSimId);

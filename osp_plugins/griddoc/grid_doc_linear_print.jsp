@@ -29,22 +29,18 @@
 	String myNumRows = (String) contents.get("myNumRows_" + pso.getRunningSimId());
 	
 	if (myNumCols == null){
-		//System.out.println("putting in 0");
 		contents.put("myNumCols_" + pso.getRunningSimId(), "0");
 		cs.saveMe(pso.schema);
 	} else {
 		numCols = new Long(myNumCols).intValue();
-		//System.out.println("nc is " + numCols);
 	}
 	
 	/////////////////////////////
 	if (myNumRows == null){
-		//System.out.println("putting in 0");
 		contents.put("myNumRows_" + pso.getRunningSimId(), "0");
 		cs.saveMe(pso.schema);
 	} else {
 		numRows = new Long(myNumRows).intValue();
-		//System.out.println("nr is " + numRows);
 	}
 	
 		

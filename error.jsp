@@ -20,7 +20,6 @@
 		error = OSPErrors.processForm(request);
 		formProcessed = true;
 	} else {
-		System.out.println("storing web errors");
 		error = OSPErrors.storeWebErrors(exception, request);
 	}
 

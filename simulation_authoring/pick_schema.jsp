@@ -5,7 +5,6 @@
 	
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	System.out.println("user id is " + afso.user_id);
 	BaseUser bu = BaseUser.getByUserId(afso.user_id);
 	
 	List ghostList = BaseUser.getAuthorizedSchemas(afso.user_id);

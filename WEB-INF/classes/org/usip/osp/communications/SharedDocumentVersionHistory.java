@@ -137,7 +137,6 @@ public class SharedDocumentVersionHistory {
 
 	public static void main(String args[]) {
 
-		System.out.println("sdvh");
 		SharedDocument sd1 = new SharedDocument();
 		sd1.setBigString("Hello");
 		sd1.saveMe("test");

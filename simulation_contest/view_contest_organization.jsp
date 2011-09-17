@@ -25,9 +25,6 @@
 	
 	String contest_id = (String) request.getParameter("contest_id");
 	
-	System.out.println("cpo: " + cpo_id);
-	System.out.println("c_id: " + contest_id);
-	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

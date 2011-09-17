@@ -24,13 +24,9 @@
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	
-	System.out.println("sending page: " + sending_page);
-	
 	
 	if ((sending_page != null) && (sending_page.equalsIgnoreCase("advanced_phase_features"))){
 		String metaphase = (String) request.getParameter("metaphase");
-		
-		System.out.println("metaphase id: " + metaphase);
 		
 		if (metaphase.equalsIgnoreCase("0")){
 			spOnScratchPad.setMetaPhaseId(null);

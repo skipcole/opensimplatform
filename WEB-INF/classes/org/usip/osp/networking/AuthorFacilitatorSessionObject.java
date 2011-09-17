@@ -509,7 +509,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			Long o_id = new Long(objid);
 
 			if (objectType.equalsIgnoreCase("simulation")) {
-				System.out.println("deleting simulation");
 				if (Simulation.deleteSimulation(schema, new Long(o_id))) {
 					this.sim_id = null;
 					User user = this.giveMeUser();
@@ -3724,7 +3723,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					.getParameter("actor_being_worked_on_id");
 			String sdanao_text = (String) request.getParameter("sdanao_text");
 
-			System.out.println(sdanao);
 			if (sdanao.equalsIgnoreCase("create_null")) {
 
 				Long from_actor_being_worked_on_id = null;
@@ -4113,7 +4111,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 					pname = pname.replaceAll("rsid_", "");
 
 					if ((vname != null) && (vname.equalsIgnoreCase("on"))) {
-						System.out.println(pname + " will be added to set.");
 
 						@SuppressWarnings("unused")
 						RunningSimSetAssignment rssa = new RunningSimSetAssignment(
@@ -4342,7 +4339,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	public static void main(String args[]) {
-		System.out.println("hi");
 
 		Calendar y = new GregorianCalendar();
 
@@ -4354,13 +4350,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		try {
 			Date g = sdf.parse("10/18/2010 9");
-			System.out.println(g.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// Calendar.set(year + 1900, month, date, hrs, min)
-
-		System.out.println("bye");
 
 	}
 

@@ -235,8 +235,6 @@ public class PSO_SectionMgmt {
 				} catch (Exception er){
 					er.printStackTrace();
 				}
-
-				//System.out.println("its: " + this.customizableSectionOnScratchPad.getMyCustomizer());
 				
 				this.customizableSectionOnScratchPad.getMyCustomizer().handleCustomizeSection(request, this.afso,
 						this.customizableSectionOnScratchPad);
