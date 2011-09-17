@@ -89,11 +89,9 @@ Player      </td>
 		String checkedSpanish = "";
 		
 		if (sob.languageCode == UILanguageObject.ENGLISH_LANGUAGE_CODE){
-			System.out.println("its in english");
 			checkedEnglish = " selected=\"selected\" ";
 		} else if (sob.languageCode == UILanguageObject.SPANISH_LANGUAGE_CODE) {
 			checkedSpanish = " selected=\"selected\" ";
-			System.out.println("its in spanish");
 		} else {
 			System.out.println("its in unknown");
 		}

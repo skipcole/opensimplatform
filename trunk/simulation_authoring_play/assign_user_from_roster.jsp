@@ -40,9 +40,6 @@
 	String user_assignment_id = request.getParameter("user_assignment_id");
 	String actor_to_add_to_simulation = request.getParameter("actor_to_add_to_simulation");
 	
-	System.out.println(user_assignment_id);
-	System.out.println(actor_to_add_to_simulation);
-	
 	UserAssignment ua = new UserAssignment();
 	Actor act = new Actor();
 	

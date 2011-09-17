@@ -78,7 +78,7 @@
 					UserAssignment ua = new UserAssignment();
 					theUsersAssigned.add(ua);
 				} else {
-					System.out.println("userlist null");
+					System.out.println("userlist not null");
 				}
 				
 				User user_assigned = new User();

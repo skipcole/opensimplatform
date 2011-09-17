@@ -18,9 +18,6 @@
 	
 	TimeLine tl = TimeLine.getTimeLineForPresenation(request, pso);
 	
-	System.out.println(tl.timelineURL);
-	System.out.println(tl.runStart);
-	
 %>
 <html>
     <head>

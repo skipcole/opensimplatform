@@ -105,13 +105,11 @@ public class BaseUser implements Comparable{
     }
     
     public static void main(String args[]){
-    	System.out.println("Hello World!");
     	
     	List mList = searchUserByName("ip");
     	
     	for (ListIterator li = mList.listIterator(); li.hasNext();) {
 			BaseUser bu = (BaseUser) li.next();
-			System.out.println(bu.getUsername());
     	}
     }
     

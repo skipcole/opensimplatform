@@ -51,7 +51,6 @@ public class USIP_OSP_Cache {
 						USIP_OSP_ContextListener.CACHEON_UI_LOCALIZED_LANGUAGE);
 
 		if ((allLangHash == null) || (allLangHash.size() == 0)) {
-			System.out.println("all lang was null");
 			allLangHash = new Hashtable();
 			// load languages
 			UILanguageObject.loadLanguages();

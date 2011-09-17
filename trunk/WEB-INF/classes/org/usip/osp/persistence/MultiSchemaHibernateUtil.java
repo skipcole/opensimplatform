@@ -577,7 +577,6 @@ public class MultiSchemaHibernateUtil {
 				setOfPluginTables.put(newClass, "set");
 			} catch (ClassNotFoundException e) {
 				System.out.println("It was: " + newClass);
-				System.out.println("It was: " + newClass);
 				System.out.flush();
 				e.printStackTrace();
 			}

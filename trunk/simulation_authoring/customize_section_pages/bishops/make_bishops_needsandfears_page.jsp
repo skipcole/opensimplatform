@@ -66,7 +66,6 @@
               <br />
       <form action="make_bishops_needsandfears_page.jsp" method="post" name="form2" id="form2">
         <% if (cs.getId() != null) {
-	  	System.out.println("cs id was :" + cs.getId());
 	   %>
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
         <% } %>

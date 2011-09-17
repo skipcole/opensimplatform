@@ -75,7 +75,6 @@
 	
 	String thisActorIsTargetted = "";
 					
-	System.out.println("actor id: " + act.getId());
 	if (targets.contains(act.getId())){
 		thisActorIsTargetted= "checked=\"checked\"";
 	}

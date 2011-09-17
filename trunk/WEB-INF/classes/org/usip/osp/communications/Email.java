@@ -451,14 +451,6 @@ public class Email implements Comparable {
 	}
 	
 
-	public static void main(String args[]){
-		System.out.println("Hello World!");
-		List x = getAllTo("test", new Long(1), new Long(1));
-		List xx = getDraftsOrSent("test", new Long(1), new Long(1), true);
-		List xy = getDraftsOrSent("test", new Long(1), new Long(1), false);
-		System.out.println("Hello World!");
-		
-	}
 	/**
 	 * Returns all of the email directed to an actor during a simulation.
 	 * 

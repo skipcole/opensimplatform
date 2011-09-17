@@ -17,14 +17,11 @@
 	
 	RunningSimulation rs = pso.giveMeRunningSim();
 	
-	//System.out.println("blah: " + pso.schema +  " " + cs.getId() + " " + rs.getId());
-	
 	SharedDocument sd = new SharedDocument();
 	
 	List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), rs.getId());
 	
 	if ((setOfDocs != null) && (setOfDocs.size() > 0) ){
-		//System.out.println("im back in here getting 0.");
 		sd = (SharedDocument) setOfDocs.get(0);
 	}
 	

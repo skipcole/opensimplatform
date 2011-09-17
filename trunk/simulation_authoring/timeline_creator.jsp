@@ -80,8 +80,6 @@
 				
 				String start_hour = hour_sdf.format(afso.timelineOnScratchPad.getTimeline_start_date());
 				
-				System.out.println(start_hour);
-				
 String selected_0	 = "";
 String selected_1	 = "";
 String selected_2	 = "";

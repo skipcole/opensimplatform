@@ -105,7 +105,6 @@ public class GridDocCustomizer extends Customizer{
 		String do_add_row = (String) request.getParameter("do_add_row");
 		
 		if (do_add_col != null) {
-			//System.out.println("do add col");
 			numCols += 1;	
 			contents.put("myNumCols_" + pso.getRunningSimId(), numCols + "");
 			
@@ -115,8 +114,7 @@ public class GridDocCustomizer extends Customizer{
 			cs.saveMe(pso.schema);
 		}
 		
-		if (do_add_row != null) {
-			//System.out.println("do add row");
+		if (do_add_row != null) {;
 			numRows += 1;	
 			contents.put("myNumRows_" + pso.getRunningSimId(), numRows + "");
 			

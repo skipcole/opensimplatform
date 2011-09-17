@@ -17,7 +17,7 @@
 	}
 	
 	String forwardOnString = OneLink.handleOneLink(request, pso);
-	System.out.println(forwardOnString);
+
 %>
 <html>
 <head>

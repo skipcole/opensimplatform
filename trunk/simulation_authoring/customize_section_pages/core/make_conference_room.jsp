@@ -69,7 +69,6 @@
 						Conversation this_conv = (Conversation) li.next(); 
 						
 						String selected = "";		
-						System.out.println("this conv / conv " + this_conv.getId() + "/" + conv.getId());
 						
 						if ((conv.getId() != null) && (this_conv.getId().equals(conv.getId()))) {
 							selected = "selected=\"selected\"";
@@ -107,8 +106,6 @@
 			<%
 							boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
-			
-			System.out.println("already has it is " + 	hasItAlready);
 			%>
             <p>
               <label>

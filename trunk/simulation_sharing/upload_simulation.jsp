@@ -25,18 +25,14 @@
 	String sending_page = (String) mpr.getParameter("sending_page");
 	
 	if ( (sending_page != null) && (sending_page.equalsIgnoreCase("upload_simulation"))){
-		System.out.println("yippy skippy");
 		
 				String initFileName = mpr.getOriginalFileName("uploadedfile");
 
 				if ((initFileName != null) && (initFileName.trim().length() > 0)) {
 
 					String savedFileName = mpr.getOriginalFileName("uploadedfile");
-					System.out.println(savedFileName);
 
 					File fileData = mpr.getFile("uploadedfile");
-
-					System.out.println("File is " + initFileName);
 
 					saveSuccess = FileIO.saveSimulationXMLFile(mpr.getFile("uploadedfile"), savedFileName);
 

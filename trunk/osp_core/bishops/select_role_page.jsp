@@ -32,13 +32,11 @@
 	
 		if (firstChoice != null){
 			selectedFirst = firstChoice.getBishopsPartyInfoId();
-			System.out.println("first was: " + selectedFirst);
 			
 		}
 		
 		if (secondChoice != null){
 			selectedSecond = secondChoice.getBishopsPartyInfoId();
-			System.out.println("2 was: " + selectedSecond);
 		}
 		
 		if (thirdChoice != null){

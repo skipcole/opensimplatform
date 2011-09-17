@@ -19,7 +19,6 @@
 	Simulation simulation = new Simulation();
 	
 	if (afso.sim_id != null){
-		System.out.println("loading sim " + afso.sim_id);
 		simulation = afso.giveMeSim();
 	}
 	

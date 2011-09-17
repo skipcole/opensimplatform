@@ -83,8 +83,6 @@
 			boolean hasItAlready = SimulationSectionAssignment.determineIfActorHasThisSectionAtThisPhase(afso.schema, 
 				afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, cs.getId());
 			
-			System.out.println("already has it is " + 	hasItAlready);
-			
 			String actors_name_string = "fill it in from cache";
 			
 			if (afso.actor_being_worked_on_id.equals(new Long(0))) {

@@ -517,10 +517,6 @@ public class TimeLine implements SimSectionDependentObject {
 		
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
 		
-		System.out.println(sdf.format(now));
-		System.out.println(sdf.format(half));
-		System.out.println(sdf.format(then));
-		
 		
 	}
 }

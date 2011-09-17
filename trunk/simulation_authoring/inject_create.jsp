@@ -11,7 +11,6 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	String select_recipients = (String) request.getParameter("select_recipients");
-	System.out.println("select_recipients was: " + select_recipients);
 	
 	String sending_page = (String) request.getParameter("sending_page");
 	
@@ -130,8 +129,7 @@
 						InjectActorAssignments targ = (InjectActorAssignments) liInjId.next();
 						targets.add(targ.getActor_id());	
 					}
-					
-					System.out.println("number targets: " + targets.size());
+
 					
 					if ((inj.getId() != null) && ( targets.size() > 0 )) {
 						allSelected = "";
@@ -149,7 +147,6 @@
 					
 					String thisActorIsTargetted = "";
 					
-					System.out.println("actor id: " + act.getId());
 					if (targets.contains(act.getId())){
 						thisActorIsTargetted= "checked=\"checked\"";
 					}

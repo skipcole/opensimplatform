@@ -198,9 +198,7 @@ public class BaseSimSectionDepObjectAssignment {
 	public static void main(String args[]){
 		
 		boolean b = BaseSimSectionDepObjectAssignment.checkObjectInUse("test", new Long(2), "org.usip.osp.communications.SharedDocument");
-	
 
-			System.out.println(b);
 		
 	}
 	

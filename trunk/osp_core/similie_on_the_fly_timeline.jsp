@@ -18,9 +18,6 @@
 	
 	TimeLine tl = new TimeLine();
 	
-	System.out.println(tl.timelineURL);
-	System.out.println(tl.runStart);
-	
 %>
 <html>
     <head>
