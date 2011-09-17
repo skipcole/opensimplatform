@@ -16,7 +16,7 @@
 		return;
 	}
 	
-	Email email = pso.handleEmailWrite(request);
+	Email email = Emailer.handleEmailWrite(request, pso);
 	
 	// mail has been sent. remove draft id, and return to email page.
 	if (pso.forward_on){

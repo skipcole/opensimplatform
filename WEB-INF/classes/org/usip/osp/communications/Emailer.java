@@ -3,11 +3,15 @@ package org.usip.osp.communications;
 import java.io.*;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.activation.*;
 
 import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.baseobjects.UserAssignment;
+import org.usip.osp.networking.PlayerSessionObject;
+import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.persistence.SchemaInformationObject;
@@ -252,5 +256,235 @@ public class Emailer {
 		return session;
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Email handleEmailWrite(HttpServletRequest request, PlayerSessionObject pso) {
+
+		Email email = new Email();
+
+		pso.forward_on = false;
+
+		String reply_to = request.getParameter("reply_to");
+		String forward_to = request.getParameter("forward_to");
+		String queue_up = request.getParameter("queue_up");
+		String email_clear = request.getParameter("email_clear");
+		String email_delete_draft = request.getParameter("email_delete_draft");
+		String sending_page = request.getParameter("sending_page");
+
+		if ((reply_to != null) && (reply_to.equalsIgnoreCase("true"))) {
+			String reply_id = request.getParameter("reply_id");
+			String reply_to_actor_id = request
+					.getParameter("reply_to_actor_id");
+
+			Email emailIAmReplyingTo = Email
+					.getById(pso.schema, new Long(reply_id));
+
+			email.setId(null);
+			email.setFromActor(pso.getActorId());
+
+			email.setFromActorName(pso.getActorName());
+			email.setHasBeenSent(false);
+			email.setSubjectLine("Re: " + emailIAmReplyingTo.getSubjectLine());
+			email.setMsgtext(" \n"
+					+ markTextAsReplyOrForwardText(emailIAmReplyingTo
+							.getMsgtext()));
+
+			email.setSim_id(emailIAmReplyingTo.getSim_id());
+			email.setRunning_sim_id(emailIAmReplyingTo.getRunning_sim_id());
+
+			email.setReply_email(true);
+			email.setThread_id(emailIAmReplyingTo.getId());
+			email.saveMe(pso.schema);
+
+			String reply_to_name = USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id,
+					pso.runningSimId, request, new Long(reply_to_actor_id));
+
+			EmailRecipients er = new EmailRecipients(pso.schema, email.getId(),
+					pso.runningSimId, pso.sim_id, new Long(reply_to_actor_id),
+					reply_to_name, EmailRecipients.RECIPIENT_TO);
+
+			pso.draft_email_id = email.getId();
+
+		} else if ((forward_to != null)
+				&& (forward_to.equalsIgnoreCase("true"))) {
+			String forward_id = request.getParameter("forward_id");
+			Email emailIAmReplyingTo = Email.getById(pso.schema, new Long(
+					forward_id));
+
+			email.setId(null);
+			email.setFromActor(pso.getActorId());
+			email.setFromActorName(pso.getActorName());
+			email.setHasBeenSent(false);
+			email.setSubjectLine("Fwd: " + emailIAmReplyingTo.getSubjectLine());
+			email.setMsgtext(Email
+					.markTextAsReplyOrForwardText(emailIAmReplyingTo
+							.getMsgtext()));
+			email.setReply_email(true);
+			email.setThread_id(emailIAmReplyingTo.getId());
+			email.saveMe(pso.schema);
+
+			pso.draft_email_id = email.getId();
+
+		} else if ((queue_up != null) && (queue_up.equalsIgnoreCase("true"))) {
+			String email_id = request.getParameter("email_id");
+			pso.draft_email_id = new Long(email_id);
+			email = Email.getById(pso.schema, pso.draft_email_id);
+
+		} else if (email_clear != null) {
+			email = new Email();
+			pso.draft_email_id = null;
+
+		} else if ((email_delete_draft != null) && (pso.draft_email_id != null)) {
+			email = Email.getById(pso.schema, pso.draft_email_id);
+			email.setEmail_deleted(true);
+			email.saveMe(pso.schema);
+
+			email = new Email();
+			pso.draft_email_id = null;
+
+		} else if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("writing_email"))) {
+
+			String add_recipient = request.getParameter("add_recipient");
+			String email_save = request.getParameter("email_save");
+			String email_send = request.getParameter("email_send");
+			String remove_recipient = request.getParameter("remove_recipient");
+
+			boolean doSave = false;
+
+			if ((remove_recipient != null) || (add_recipient != null)
+					|| (email_save != null) || (email_send != null)) {
+
+				doSave = true;
+
+			}
+
+			if (doSave) {
+
+				String form_email_id = request.getParameter("draft_email_id");
+				if ((form_email_id != null)
+						&& (!(form_email_id.equalsIgnoreCase("null")))) {
+					pso.draft_email_id = new Long(form_email_id);
+					email.setId(pso.draft_email_id);
+				}
+
+				if (email_send != null) {
+
+					// must have gotten a draft id when adding a recipient for
+					// the email.
+					if (pso.draft_email_id != null) {
+
+						pso.emailRecipients = Email.getRecipientsOfAnEmail(pso.schema,
+								pso.draft_email_id, EmailRecipients.RECIPIENT_TO);
+
+						if ((pso.emailRecipients != null)
+								&& (pso.emailRecipients.size() > 0)) {
+
+							email.setHasBeenSent(true);
+							email.setSendDate(new java.util.Date());
+							email.setToActors(Email.generateListOfRecipients(
+									pso.schema, email.getId(),
+									EmailRecipients.RECIPIENT_TO));
+
+							String send_real_world = request
+									.getParameter("send_real_world");
+
+							if ((send_real_world != null)
+									&& (send_real_world
+											.equalsIgnoreCase("true"))) {
+								email.setSendInRealWorld(true);
+							} else {
+								email.setSendInRealWorld(false);
+							}
+
+							pso.forward_on = true;
+						} else {
+							pso.errorMsg = "no recipients";
+						}
+					}
+				}
+
+				email.setFromActor(pso.getActorId());
+				email.setFromActorName(pso.getActorName());
+				email.setFromUser(pso.user_id);
+				email.setMsgDate(new java.util.Date());
+				email.setMsgtext(USIP_OSP_Util.cleanNulls(request
+						.getParameter("email_text")));
+				email.setHtmlMsgText(USIP_OSP_Util.cleanNulls(request
+						.getParameter("email_text")));
+				email.setRunning_sim_id(pso.runningSimId);
+				email.setSim_id(pso.sim_id);
+				email.setSubjectLine(USIP_OSP_Util.cleanNulls(request
+						.getParameter("email_subject")));
+
+				email.saveMe(pso.schema);
+				pso.draft_email_id = email.getId();
+				
+				// Forward on here indicates that the email was sent
+				if (pso.forward_on){
+					email.alertPlayersOfNewEmail(pso, pso.schema, request);
+				}
+
+				// Send real world email if called for.
+				if ((pso.forward_on) && (email.isSendInRealWorld())) {
+					SchemaInformationObject sio = SchemaInformationObject
+							.lookUpSIOByName(pso.schema);
+					email.sendInGameEmailOutside(pso, sio);
+				}
+
+				if (add_recipient != null) {
+					String email_rep = request.getParameter("email_recipient");
+
+					if ((email_rep != null)
+							&& (email_rep.toString().length() > 0)) {
+
+						String aname = USIP_OSP_Cache.getActorName(pso.schema,
+								pso.sim_id, pso.runningSimId, request, new Long(
+										email_rep));
+
+						@SuppressWarnings("unused")
+						EmailRecipients er = new EmailRecipients(pso.schema,
+								pso.draft_email_id, pso.runningSimId, pso.sim_id, new Long(
+										email_rep), aname,
+								EmailRecipients.RECIPIENT_TO);
+					}
+				} else if (remove_recipient != null) {
+					String removed_email = request
+							.getParameter("removed_email");
+					if (removed_email != null) {
+						EmailRecipients.removeMe(pso.schema,
+								new Long(removed_email));
+					}
+				}
+			} // end of if saving.
+		} // end of if writing email.
+
+		pso.setUpEligibleActors();
+
+		return email;
+	}
+
+	/**
+	 * Puts the ">" symbol in front of each line of an email that is being
+	 * replied to or forwarded.
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public static String markTextAsReplyOrForwardText(String text) {
+
+		String returnString = "";
+
+		String[] lines = text.split("<br>");
+
+		for (String this_line : lines) {
+			returnString += "> " + this_line + "<br>";
+		}
+
+		return returnString;
+	}
 
 }
