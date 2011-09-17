@@ -71,7 +71,7 @@
     <td valign="top">&nbsp;</td>
     <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a><%= boldEnd %></td>
     <td valign="top"><%= email.getFromActorName() %></td>
-    <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+    <td valign="top"><%= boldStart %><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSendDate() %></a></td>
     <td align="center" valign="top">&nbsp;</td>
   </tr>
 <% } %>
@@ -96,7 +96,7 @@
     <td valign="top">&nbsp;</td>
     <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
     <td valign="top"><%= email.getToActors() %></td>
-    <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
+    <td valign="top"><a href="view_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSendDate() %></a></td>
 	<td align="center">x</td>
   </tr>
   <% } %>

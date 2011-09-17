@@ -1,6 +1,7 @@
 package org.usip.osp.communications;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
@@ -43,7 +44,7 @@ import org.usip.osp.persistence.SchemaInformationObject;
  */
 @Entity
 @Proxy(lazy=false)
-public class Email {
+public class Email implements Comparable {
 	
 	/** Email can be to a particular user, or to an actor. Email that is to 'an actor' gets
 	 * sent to each user assigned to that role while email that is sent to a particular user
@@ -217,14 +218,6 @@ public class Email {
 		this.invitePrototype = invitePrototype;
 	}
 
-	public static String getOrderByDesc() {
-		return orderByDesc;
-	}
-
-	public static void setOrderByDesc(String orderByDesc) {
-		Email.orderByDesc = orderByDesc;
-	}
-
 	public boolean isHasBeenSent() {
 		return hasBeenSent;
 	}
@@ -382,8 +375,6 @@ public class Email {
 		this.sendDate = sendDate;
 	}
 
-	private static String orderByDesc = " order by id desc " ;
-
 	
 	/**
 	 * Returns all of the email directed to an actor during a simulation.
@@ -458,7 +449,16 @@ public class Email {
 		return tempList;
 	
 	}
+	
 
+	public static void main(String args[]){
+		System.out.println("Hello World!");
+		List x = getAllTo("test", new Long(1), new Long(1));
+		List xx = getDraftsOrSent("test", new Long(1), new Long(1), true);
+		List xy = getDraftsOrSent("test", new Long(1), new Long(1), false);
+		System.out.println("Hello World!");
+		
+	}
 	/**
 	 * Returns all of the email directed to an actor during a simulation.
 	 * 
@@ -467,7 +467,7 @@ public class Email {
 	 * @param actor_id
 	 * @return
 	 */
-	public static List getAllTo(String schema, Long running_sim_id, Long actor_id){
+	public static List <Email> getAllTo(String schema, Long running_sim_id, Long actor_id){
 		
 		ArrayList returnList = new ArrayList();
 		
@@ -478,7 +478,7 @@ public class Email {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String hqlString = "from EmailRecipients where " +
-				"running_sim_id = :rsid and actor_id = :aid" + orderByDesc;
+			"running_sim_id = :rsid and actor_id = :aid";
 		
 		List tempList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)
@@ -499,6 +499,8 @@ public class Email {
 			
 		}
 		
+		Collections.sort(returnList);
+		
 		return returnList;
 	
 	}
@@ -515,15 +517,19 @@ public class Email {
 		
 		String getDrafts = "0";
 		
+		String hqlString = "";
+		
 		if (getSent){
-			getDrafts = "1";
+			hqlString = "from Email where " +
+				"running_sim_id = :rsid and fromActor = :aid and hasbeenSent = '1' " +
+				"and email_deleted = '0' order by sendDate desc ";
+		} else {
+			hqlString = "from Email where " +
+			"running_sim_id = :rsid and fromActor = :aid and hasbeenSent = '0' " +
+			"and email_deleted = '0' order by msgDate desc ";			
 		}
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		String hqlString = "from Email where " +
-				"running_sim_id = :rsid and fromActor = :aid and hasbeenSent = '" + getDrafts 
-				+ "' and email_deleted = '0'" + orderByDesc;
 		
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
 			.createQuery(hqlString)
@@ -784,7 +790,11 @@ public class Email {
 				}
 				
 				if ((toUserName != null) && (toUserName.trim().length() > 0)){
-					Emailer.postMail(sio, toUserName, this.getSubjectLine(), this.getMsgtext(), this.getHtmlMsgText(), sio.getEmailNoreplyAddress(),
+					
+					String msg = putInNotRealityWarnings(this.getMsgtext());
+					String htmlMsg = putInNotRealityWarnings(this.getHtmlMsgText());
+					
+					Emailer.postMail(sio, toUserName, this.getSubjectLine(), msg, htmlMsg, sio.getEmailNoreplyAddress(),
 							null, null, null);
 					
 					//Alert emailAlert = new Alert(pso.sim_id, pso.getRunningSimId(), Alert.TYPE_EMAIL,
@@ -799,6 +809,35 @@ public class Email {
 		
 		return true;
 		
+	}
+	
+	public static final String warningText =
+		"<br />==========================================================<br />" +
+		"This is a simulation email! This is not real!" +
+		"<br />==========================================================<br /><br />";
+		
+	public static String putInNotRealityWarnings(String inputString){
+		
+		return warningText + inputString + warningText;
+	}
+	
+	
+	@Override
+	public int compareTo(Object eCompared) {
+		
+		Email email = (Email) eCompared;
+		
+		if (this.hasBeenSent){
+			if ((this.sendDate == null) || (email.sendDate == null)){
+				return 0;
+			}
+			return this.sendDate.compareTo(email.sendDate);
+		} else {
+			if ((this.msgDate == null) || (email.msgDate == null)){
+				return 0;
+			}
+			return this.msgDate.compareTo(email.msgDate);
+		}
 	}
 	
 }
