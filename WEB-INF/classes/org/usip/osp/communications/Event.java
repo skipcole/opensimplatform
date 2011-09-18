@@ -1,6 +1,7 @@
 package org.usip.osp.communications;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -17,6 +18,7 @@ import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.SimPhaseAssignment;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.sharing.ExportableObject;
 
@@ -252,11 +254,14 @@ public class Event implements TimeLineInterface, SimSectionDependentObject, Expo
 	 */
 	public static List<TimeLineInterface> getAllForTimeLine(String schema, Long timelineid) {
 
+		if (timelineid == null){
+			return new ArrayList();
+		}
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<TimeLineInterface> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from Event where timelineId = :timelineId")
-				.setString("timelineId", timelineid.toString())
+				.setLong("timelineId", timelineid)
 				.list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

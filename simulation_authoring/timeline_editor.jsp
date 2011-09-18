@@ -38,7 +38,7 @@
 		simulation = afso.giveMeSim();
 	}
 	
-	Event event = afso.handleAddTimeLineEvents(request, afso.timelineOnScratchPad.getId());
+	Event event = TimeLine.handleAddTimeLineEvents(request, afso.timelineOnScratchPad.getId(), afso);
 			
 	String Timeline_ajax_url = "";
 	String Timeline_urlPrefix = "http://static.simile.mit.edu/timeline/api-2.3.0/";
@@ -57,33 +57,24 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-		
-		<link type="text/css" href="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/themes/cupertino/jquery.ui.all.css" rel="stylesheet" />
-	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/js/jquery-1.4.2.min.js"></script>
-	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.core.js"></script>
-	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.widget.js"></script>
-	<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/development-bundle/ui/jquery.ui.datepicker.js"></script>
-	<script type="text/javascript">
-	$(function() {
-		$("#datepicker").datepicker();
-		$('#dateselector').datepicker("setDate", new Date(2000,1,01) );
+        
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"> </script>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-1.8.4/js/jquery-ui-1.8.4.custom.min.js"> </script>
+<link type="text/css" href="../third_party_libraries/jquery/jquery-ui-1.8.4/css/cupertino/jquery-ui-1.8.4.custom.css" rel="stylesheet" />	
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-ui-timepicker-addon.js"></script>
+        
+<script type="text/javascript">
 
-	});
-	</script>
+$(document).ready(function(){
 
-       <!-- script>
- 			Timeline_ajax_url="<  %= Timeline_ajax_url % >";
- 			Timeline_urlPrefix='< % = Timeline_urlPrefix % >';       
- 			Timeline_parameters='bundle=true';
- 		</script>
- 		<script src="< % = timeLineSrc % >" type="text/javascript">
- 		</script -->
+	$('#event_time').datetimepicker();
+	
+});
+
+</script>
         
         <script>Timeline_urlPrefix = "<%= Timeline_urlPrefix %>";</script>
         <script src="<%= timeLineSrc %>" type="text/javascript"></script>
-        
-   		<!-- script type="text/javascript">var Timeline_ajax_url = "../third_party_libraries/timeline_2.3.0/timeline_ajax/simile-ajax-api.js?bundle=false";</script -->
-		<!-- script src="../third_party_libraries/timeline_2.3.0/timeline_js/timeline-api.js?bundle=false" type="text/javascript"></script -->
 
         
     <script>
@@ -133,10 +124,19 @@
 </head>
 
     <body onLoad="onLoad();" onResize="onResize();">
-        <% 
+        <p>
+          <% 
 			if (afso.sim_id != null) {
 		%>
+        <% if (USIP_OSP_Util.stringFieldHasValue(afso.errorMsg)) { %>
+        	<p><h1><font color="#FF0000"><%= afso.errorMsg %></font></h1></p>
+        <% } 
+			
+			afso.errorMsg = "";
+		
+		%>
     
+        </p>
         <h2>Add Events to Your Timeline</h2>
 
     <div id="my-timeline" style="height: 300px; border: 1px solid #aaa"></div>
@@ -205,30 +205,18 @@
             </label></td>
           </tr>
           <tr>
-            <td valign="top"><strong>Event Date</strong></td>
+            <td valign="top"><strong>Event Date and Time</strong></td>
             <td valign="top">
 			<%
-				SimpleDateFormat sdf_startdate = new SimpleDateFormat("MM/dd/yyyy");
+				SimpleDateFormat sdf_startdate = new SimpleDateFormat("MM/dd/yyyy kk:mm");
 				String start_date_formatted = sdf_startdate.format(new java.util.Date());
 				if (event.getEventStartTime() != null) {
 					 start_date_formatted = sdf_startdate.format(event.getEventStartTime());
 				}
 			%>
-			<input name="timeline_event_date" type="text" id="datepicker" value="<%= start_date_formatted %>">
-			(mm/dd/yyyy)</td>
+			<input name="timeline_event_date" type="text" id="event_time" value="<%= start_date_formatted %>">
+			(mm/dd/yyyy hh:mm)</td>
       </tr>
-          <tr>
-            <td valign="top"><strong>Hour</strong></td>
-            <td valign="top"><label>
-<input type="text" name="event_hour" id="event_hour" value="<%= event.getEventStartHour() %>">            
-(24 Hour Clock)</label></td>
-          </tr>
-          <tr>
-            <td valign="top"><strong>Minute</strong></td>
-            <td valign="top"><label>
-              <input type="text" name="event_minute" id="event_minute" value="<%= event.getEventStartMinute() %>">
-            </label></td>
-          </tr>
           <tr>
             <td valign="top">&nbsp;</td>
             <td valign="top"><label>
@@ -257,10 +245,15 @@
 		
 		for (ListIterator li = Event.getAllForTimeLine(afso.schema, timeLineId).listIterator(); li.hasNext();) {
 			Event event_l = (Event) li.next();
+			
+			String displayEventTime = "";
+			if (event_l.getEventStartTime() != null) {
+				displayEventTime = short_sdf.format(event_l.getEventStartTime());
+			}
 			%>
             <tr>
               <td width="60%" valign="top"><%= event_l.getEventTitle() %></td>
-              <td width="20%" valign="top"><%= short_sdf.format(event_l.getEventStartTime()) %>
+              <td width="20%" valign="top"><%= displayEventTime %>
              </td>
             <td width="10%" valign="top"><a href="timeline_editor.jsp?remove_event=true&event_id=<%= event_l.getId() %>">Remove </a></td>
             <td width="10%" valign="top"><a href="timeline_editor.jsp?edit_event=true&event_id=<%= event_l.getId() %>&timeline_id=<%= timeline_id %>">Edit </a></td>

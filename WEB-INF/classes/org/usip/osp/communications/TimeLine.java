@@ -519,4 +519,110 @@ public class TimeLine implements SimSectionDependentObject {
 		
 		
 	}
+	
+	/**
+	 * Handles the creation of timeline events.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Event handleAddTimeLineEvents(HttpServletRequest request,
+			Long timeLineId, SessionObjectBase sob) {
+
+		Event event = new Event();
+
+		if (timeLineId == null) {
+			return event;
+		}
+
+		TimeLine timeline = TimeLine.getById(sob.schema, timeLineId);
+
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("timeline_creator"))) {
+
+			String command = (String) request.getParameter("command");
+
+			if (command.equalsIgnoreCase("Update")) {
+				String event_id = (String) request.getParameter("event_id");
+
+				event.setId(new Long(event_id));
+				sob.draft_event_id = event.getId();
+
+			}
+
+			if (command.equalsIgnoreCase("Clear")) {
+				sob.draft_event_id = null;
+			} else { // coming here as update or as create.
+
+				String event_type = (String) request.getParameter("event_type");
+
+				int eventTypeInt = 1;
+
+				try {
+					eventTypeInt = new Long(event_type).intValue();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				event.setEventType(eventTypeInt);
+				
+				String eventTitle = (String) request.getParameter("event_title");
+				
+				if (!(USIP_OSP_Util.stringFieldHasValue(eventTitle))){
+					eventTitle = "No Title Provided";
+				}
+				
+				event.setEventTitle(eventTitle);
+				event.setEventMsgBody((String) request
+						.getParameter("event_text"));
+
+				String timeline_event_date = (String) request
+						.getParameter("timeline_event_date");
+
+				System.out.println(timeline_event_date);
+
+				SimpleDateFormat sdf_startdate = new SimpleDateFormat(
+						"MM/dd/yyyy HH:mm");
+
+				// set this to a safe date (now) in case the date entered does not parse well.
+				event.setEventStartTime(new java.util.Date());
+				try {
+					Date ted = sdf_startdate.parse(timeline_event_date);
+					event.setEventStartTime(ted);
+
+				} catch (Exception e) {
+					sob.errorMsg = "The date and time that you entered, \"" + timeline_event_date + "\", could not be interpreted. " + 
+						"The date was set to your current time.";
+				}
+				event.setSimId(sob.sim_id);
+
+				event.setPhaseId(sob.phase_id);
+
+				// //////////////////////////////////////////
+				event.setTimelineId(timeline.getId());
+
+				event.saveMe(sob.schema);
+			}
+
+		}
+
+		String remove_event = (String) request.getParameter("remove_event");
+		String edit_event = (String) request.getParameter("edit_event");
+
+		String event_id = (String) request.getParameter("event_id");
+
+		if ((remove_event != null) && (remove_event.equalsIgnoreCase("true"))) {
+			Event.removeMe(sob.schema, new Long(event_id));
+			sob.draft_event_id = null;
+		}
+
+		if ((edit_event != null) && (edit_event.equalsIgnoreCase("true"))) {
+			event = Event.getById(sob.schema, new Long(event_id));
+			sob.draft_event_id = event.getId();
+		}
+
+		return event;
+	}
 }
