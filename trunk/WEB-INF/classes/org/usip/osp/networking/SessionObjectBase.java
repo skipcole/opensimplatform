@@ -126,6 +126,9 @@ public class SessionObjectBase {
 	/** Error message to be shown to the user. */
 	public String errorMsg = ""; //$NON-NLS-1$
 
+	/** An event that is being worked on. */
+	public Long draft_event_id;
+	
 	/**
 	 * We use a language code to indicate what language to show the interface
 	 * in. It can be set by the simulation, or over ridden by the player.

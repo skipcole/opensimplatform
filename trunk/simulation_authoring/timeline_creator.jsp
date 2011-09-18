@@ -240,7 +240,7 @@ String selected_23	 = "";
           <table width="100%">
 		  <tr>
               <td>Timeline Name </td>
-              <td>Add an Existing Inject </td>
+              <!-- td>Add an Existing Inject </td -->
               <td>&nbsp;</td>
               <td>Add a New Event </td>
             </tr>
@@ -254,7 +254,7 @@ String selected_23	 = "";
             
             <tr> 
               <td><a href="timeline_creator.jsp?queueup=true&t_id=<%= tim.getId().toString() %>"><%= tim.getName() %></a></td>
-              <td><a href="timeline_inject_adder.jsp?queueup=true&timeline_id=<%= tim.getId().toString() %>">Add Inject </a></td>
+              <!-- td><a href="timeline_inject_adder.jsp?queueup=true&timeline_id=<%= tim.getId().toString() %>">Add Inject </a></td -->
               <td>&nbsp;</td>
               <td><a href="timeline_editor.jsp?timeline_id=<%= tim.getId().toString() %>">Add Events </a></td>
             </tr>
