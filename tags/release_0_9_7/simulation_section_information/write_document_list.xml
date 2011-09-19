@@ -1,0 +1,20 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+   <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.WriteDocumentListCustomizer</customizerClassName>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Write Document List</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_write_document_list_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A section to allow a player to select from a set of documents to edit.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_document_list.jsp</page__file__name>
+  <rec__tab__heading>Write Document List</rec__tab__heading>
+  <sample__image>write_document_list.png</sample__image>
+  <control__section>false</control__section>
+  <confers__read__ability>true</confers__read__ability>
+  <confers__write__ability>true</confers__write__ability>
+</org.usip.osp.baseobjects.CustomizeableSection>

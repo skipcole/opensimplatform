@@ -1,0 +1,12 @@
+<org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Bishops Post Links</uniqueName>
+  <version>1</version>
+  <description>A page to allow players to select their role to play.</description>
+  <url></url>
+  <directory>../osp_core/bishops/</directory>
+  <page__file__name>select_role_page.jsp</page__file__name>
+  <rec__tab__heading>Select Role Page</rec__tab__heading>
+  <sample__image>select_role_page.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.BaseSimSection>

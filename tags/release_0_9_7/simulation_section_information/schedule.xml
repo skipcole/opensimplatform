@@ -1,0 +1,12 @@
+<org.usip.osp.baseobjects.BaseSimSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Schedule</uniqueName>
+  <version>1</version>
+  <description>A place for the players to read the schedule that their instructor has written.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <rec__tab__heading>Schedule</rec__tab__heading>
+  <sample__image>schedule.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.BaseSimSection>

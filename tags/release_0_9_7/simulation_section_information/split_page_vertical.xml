@@ -1,0 +1,16 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Split Page (Vertical)</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_split_page_vertical.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A page that can show one section on the left, and one on the right.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>split_page_vertical.jsp</page__file__name>
+  <rec__tab__heading>Split Page Vertical</rec__tab__heading>
+  <sample__image>split_page_vertical.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.CustomizeableSection>
