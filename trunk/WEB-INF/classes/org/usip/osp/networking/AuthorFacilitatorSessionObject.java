@@ -4141,8 +4141,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 	public String getBaseList(HttpServletRequest request) {
 
-		List baseList = USIP_OSP_Cache.getBaseSectionInformation(schema,
-				request);
+		List baseList = BaseSimSection.getAll(schema);
+			
+			//USIP_OSP_Cache.getBaseSectionInformation(schema,request);
+		
 
 		String returnString = "";
 
@@ -4165,7 +4167,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @return
 	 */
 	public List getUncustomizedSections(HttpServletRequest request) {
-		List uc = USIP_OSP_Cache.getCustomSectionInformation(schema, request);
+		//List uc = USIP_OSP_Cache.getCustomSectionInformation(schema, request);
+		
+		List uc = CustomizeableSection.getAllUncustomized(schema);
 
 		if (uc == null) {
 			uc = new ArrayList();

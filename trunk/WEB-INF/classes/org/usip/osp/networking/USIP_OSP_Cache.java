@@ -521,13 +521,6 @@ public class USIP_OSP_Cache {
 
 	}
 
-	public static final String CACHED_TABLE_LONG_HASHTABLE = "long_hashtable";
-	public static final String CACHED_TABLE_LONG_STRING = "long_string";
-	public static final String CACHED_TABLE_LONG_LONG = "long_long";
-	public static final String CACHED_TABLE_STRING_VECTOR = "string_vector";
-	public static final String CACHED_TABLE_LIST = "list";
-	public static final String CACHED_TABLE_LONG_LIST = "long_list";
-
 	/**
 	 * Pulls the hashtable from the context.
 	 * 
@@ -541,7 +534,7 @@ public class USIP_OSP_Cache {
 		ServletContext context = request.getSession().getServletContext();
 		Hashtable cacheWeWant = new Hashtable();
 
-		if (dType.equalsIgnoreCase(CACHED_TABLE_STRING_VECTOR)) {
+		if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_STRING_VECTOR)) {
 			cacheWeWant = (Hashtable<String, Vector>) context
 					.getAttribute(hashkey);
 
@@ -565,7 +558,7 @@ public class USIP_OSP_Cache {
 				cacheWeWant = new Hashtable<String, Hashtable>();
 				context.setAttribute(hashkey, cacheWeWant);
 			}
-		} else if (dType.equalsIgnoreCase(CACHED_TABLE_LONG_HASHTABLE)) {
+		} else if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_HASHTABLE)) {
 			cacheWeWant = (Hashtable<Long, Hashtable>) context
 					.getAttribute(hashkey);
 
@@ -573,7 +566,7 @@ public class USIP_OSP_Cache {
 				cacheWeWant = new Hashtable<Long, Hashtable>();
 				context.setAttribute(hashkey, cacheWeWant);
 			}
-		} else if (dType.equalsIgnoreCase(CACHED_TABLE_LONG_STRING)) {
+		} else if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_STRING)) {
 			cacheWeWant = (Hashtable<Long, String>) context
 					.getAttribute(hashkey);
 
@@ -581,14 +574,14 @@ public class USIP_OSP_Cache {
 				cacheWeWant = new Hashtable<Long, String>();
 				context.setAttribute(hashkey, cacheWeWant);
 			}
-		} else if (dType.equalsIgnoreCase(CACHED_TABLE_LONG_LONG)) {
+		} else if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_LONG)) {
 			cacheWeWant = (Hashtable<Long, Long>) context.getAttribute(hashkey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<Long, Long>();
 				context.setAttribute(hashkey, cacheWeWant);
 			}
-		} else if (dType.equalsIgnoreCase(CACHED_TABLE_LONG_LIST)) {
+		} else if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_LIST)) {
 			cacheWeWant = (Hashtable<String, List>) context
 					.getAttribute(hashkey);
 
@@ -846,12 +839,6 @@ public class USIP_OSP_Cache {
 		return simulationName;
 	}
 
-	/** Used to keep track of sections that an author can add. */
-	public static final String CACHEON_BASE_SECTIONS = "base_section_info"; //$NON-NLS-1$
-
-	/** Used to keep track of sections that an author can add. */
-	public static final String CACHEON_CUSTOMIZED_SECTIONS = "custom_section_info"; //$NON-NLS-1$
-
 	/** Flag used to indicate that cache may need updated. */
 	public static boolean cacheon_customized_sections_invalidated = true;
 
@@ -868,12 +855,12 @@ public class USIP_OSP_Cache {
 		ServletContext context = request.getSession().getServletContext();
 
 		List thisListOfBaseSections = (List<BaseSimSection>) context
-				.getAttribute(CACHEON_BASE_SECTIONS);
+				.getAttribute(USIP_OSP_ContextListener.CACHEON_BASE_SECTIONS);
 
 		if ((thisListOfBaseSections == null)
 				|| (thisListOfBaseSections.size() == 0)) {
 			thisListOfBaseSections = BaseSimSection.getAll(schema);
-			context.setAttribute(CACHEON_BASE_SECTIONS, thisListOfBaseSections);
+			context.setAttribute(USIP_OSP_ContextListener.CACHEON_BASE_SECTIONS, thisListOfBaseSections);
 		}
 
 		return thisListOfBaseSections;
@@ -892,14 +879,14 @@ public class USIP_OSP_Cache {
 		ServletContext context = request.getSession().getServletContext();
 
 		List thisListOfCustomSections = (List<CustomizeableSection>) context
-				.getAttribute(CACHEON_CUSTOMIZED_SECTIONS);
+				.getAttribute(USIP_OSP_ContextListener.CACHEON_CUSTOMIZED_SECTIONS);
 
 		if ((cacheon_customized_sections_invalidated)
 				|| (thisListOfCustomSections == null)
 				|| (thisListOfCustomSections.size() == 0)) {
 			thisListOfCustomSections = CustomizeableSection
 					.getAllUncustomized(schema);
-			context.setAttribute(CACHEON_CUSTOMIZED_SECTIONS,
+			context.setAttribute(USIP_OSP_ContextListener.CACHEON_CUSTOMIZED_SECTIONS,
 					thisListOfCustomSections);
 			cacheon_customized_sections_invalidated = false;
 		}
