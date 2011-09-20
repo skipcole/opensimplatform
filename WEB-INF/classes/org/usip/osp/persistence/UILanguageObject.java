@@ -135,7 +135,6 @@ public class UILanguageObject {
 
 		while (ss.hasMoreElements()) {
 			String key = (String) ss.nextElement();
-			System.out.println(key + " = " + spanishLanguageResourceBundle.getString(key));
 			spanHash.put(key, spanishLanguageResourceBundle.getString(key));
 		}
 

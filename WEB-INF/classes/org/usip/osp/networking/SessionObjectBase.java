@@ -1075,4 +1075,7 @@ public class SessionObjectBase {
 			return ALL_GOOD;
 		}
 	}
+	
+	public String gameTime = "na-noo na-noo";
+	
 } // End of class

@@ -5,15 +5,14 @@ org.usip.osp.networking.*,
 org.usip.osp.persistence.*,
 org.usip.osp.baseobjects.*" %>
 <%
-
-
-	USIP_OSP_Util.cleanConnections();
 	
 	String errorMsg = "";
 	
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	pso.detectLanguageChange(request);
+	
+	USIP_OSP_Util.cleanConnections();
 		
 	BaseUser bu = SessionObjectBase.handleLoginAttempt(request, pso);
 	

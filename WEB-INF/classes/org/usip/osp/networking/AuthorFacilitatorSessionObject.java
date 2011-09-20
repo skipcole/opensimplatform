@@ -3614,12 +3614,18 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 	}
 
+	/**
+	 * Resets the web cache for this schema.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public boolean handleResetWebCache(HttpServletRequest request) {
 
 		String sending_page = (String) request.getParameter("sending_page");
 
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("reset"))) {
-			USIP_OSP_ContextListener.resetWebCache(request);
+			USIP_OSP_ContextListener.resetWebCache(request, schema);
 			return true;
 		} else {
 			return false;

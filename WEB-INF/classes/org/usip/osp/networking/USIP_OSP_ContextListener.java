@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.apache.log4j.*;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 
 /*
  * 
@@ -111,36 +112,19 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	 * Utility method that ultimately leads on to resetWebCache(ServletContext)
 	 * @param request
 	 */
-	public static void resetWebCache(HttpServletRequest request) {
+	public static void resetWebCache(HttpServletRequest request, String schema) {
 		
-		resetWebCache(request.getSession());
+		resetWebCache(request.getSession(), schema);
 		
-	}
-	
-	/**
-	 * Used to reset a specific part of the cache.
-	 * 
-	 * @param request
-	 * @param cacheName
-	 */
-	public static boolean resetSpecificWebCache(HttpServletRequest request, String cacheName) {
-		
-		try {
-			request.getSession().getServletContext().setAttribute(cacheName, new Hashtable());
-		} catch (Exception e){
-			e.printStackTrace();
-			return false;
-		}
-		return true;
 	}
 	
 	/**
 	 * Utility method that ultimately leads on to resetWebCache(ServletContext)
 	 * @param request
 	 */
-	public static void resetWebCache(HttpSession session) {
+	public static void resetWebCache(HttpSession session, String schema) {
 		
-		resetWebCache(session.getServletContext());
+		resetWebCache(session.getServletContext(), schema);
 	}
 	
 	/**
@@ -149,8 +133,11 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	 * 
 	 * @param sce
 	 */
-	public static void resetWebCache(ServletContext context) {
+	public static void resetWebCache(ServletContext context, String schema) {
 
+		// Moving to cached based on schema name, this now does nothing. It missed the real
+		// caches.
+		
 		Field field[] = USIP_OSP_ContextListener.class.getFields();
 
 		for (int ii = 0; ii < field.length; ++ii) {
@@ -165,6 +152,10 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 
 				try {
 					String field_value = (String) field[ii].get(null);
+					
+					String completeHashKey = USIP_OSP_Cache.makeSchemaSpecificHashKey(schema, field_value);
+					System.out.println(" reseting cache: " + completeHashKey);
+					
 					if (fieldName.contains("_L_S_")){ //$NON-NLS-1$
 						context.setAttribute(field_value, new Hashtable<Long, String>());
 					} else {
@@ -200,13 +191,18 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	public static final String CACHED_TABLE_LONG_LIST = "long_list";
 
 	/**
-	 * Calls the resetWebCache method to assure that empty hashtables have been set up for all of the cached values.
 	 */
 	public void contextInitialized(ServletContextEvent sce) {
 
-		ServletContext context = sce.getServletContext();
+		// SC - 9/20/2011. 
+		// I don't think we need this, and moving to a 'schema based cache' makes it more 
+		// difficult and error prone to enable.
+		// ServletContext context = sce.getServletContext();
+		// USIP_OSP_ContextListener.resetWebCache(context);
 		
-		USIP_OSP_ContextListener.resetWebCache(context);
+		// Running into problem hitting the database before tomcat has restarted completely
+		// since the logout page leads automatically back to the login page. This may need to change.
+		//USIP_OSP_Util.completedStartup = true;
 
 	}
 
