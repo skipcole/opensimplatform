@@ -87,7 +87,6 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	
 	public static final String CACHEON_LOGGED_IN_PLAYERS = "loggedInPlayers"; //$NON-NLS-1$
 	
-	
 	public static final String CACHEON_LOGGED_IN_USERS = "loggedInUsers"; //$NON-NLS-1$
 	
 	public static final String CACHEON_USER_ASSIGNMENTS = "user_assignments"; //$NON-NLS-1$
@@ -159,6 +158,8 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 			String fieldName = field[ii].getName();
 			int mod = field[ii].getModifiers();
 			String modifiers = Modifier.toString(mod);
+			
+			System.out.println(fieldName);
 
 			if (modifiers.equalsIgnoreCase("public static final")) { //$NON-NLS-1$
 
@@ -176,10 +177,27 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 					Logger.getRootLogger().warn("While trying to set field: " + fieldName); //$NON-NLS-1$
 				}
 			}
-
 		}
 
 	}
+
+	/** Used to keep track of sections that an author can add. */
+	public static final String CACHEON_CUSTOMIZED_SECTIONS = "custom_section_info"; //$NON-NLS-1$
+
+	/** Used to keep track of sections that an author can add. */
+	public static final String CACHEON_BASE_SECTIONS = "base_section_info"; //$NON-NLS-1$
+
+	public static final String CACHED_TABLE_LONG_HASHTABLE = "long_hashtable";
+
+	public static final String CACHED_TABLE_LONG_STRING = "long_string";
+
+	public static final String CACHED_TABLE_LONG_LONG = "long_long";
+
+	public static final String CACHED_TABLE_STRING_VECTOR = "string_vector";
+
+	public static final String CACHED_TABLE_LIST = "list";
+
+	public static final String CACHED_TABLE_LONG_LIST = "long_list";
 
 	/**
 	 * Calls the resetWebCache method to assure that empty hashtables have been set up for all of the cached values.

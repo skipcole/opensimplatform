@@ -132,7 +132,7 @@ public class ChatController {
 			getCachedHashtable(
 					request,
 					USIP_OSP_ContextListener.CACHEON_CONVERSATIONS,
-					USIP_OSP_Cache.CACHED_TABLE_STRING_VECTOR);
+					USIP_OSP_ContextListener.CACHED_TABLE_STRING_VECTOR);
 
 		String conversationKey = getConvKey(pso, conv_id);
 

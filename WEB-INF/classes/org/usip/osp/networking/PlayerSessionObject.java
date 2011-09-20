@@ -336,7 +336,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			Hashtable<Long, String> roundNames = USIP_OSP_Cache
 					.getCachedHashtable(request,
 							USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
-							USIP_OSP_Cache.CACHED_TABLE_LONG_STRING);
+							USIP_OSP_ContextListener.CACHED_TABLE_LONG_STRING);
 
 			String cachedRoundName = roundNames.get(runningSimId);
 
@@ -354,7 +354,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			// by another user.
 			Hashtable<Long, Long> phaseIds = USIP_OSP_Cache.getCachedHashtable(
 					request, USIP_OSP_ContextListener.CACHEON_PHASE_IDS,
-					USIP_OSP_Cache.CACHED_TABLE_LONG_LONG);
+					USIP_OSP_ContextListener.CACHED_TABLE_LONG_LONG);
 
 			Long cachedPhaseId = phaseIds.get(runningSimId);
 			if (cachedPhaseId == null) {
@@ -462,7 +462,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		Hashtable<Long, Hashtable> loggedInPlayers = USIP_OSP_Cache
 				.getCachedHashtable(request,
 						USIP_OSP_ContextListener.CACHEON_LOGGED_IN_PLAYERS,
-						USIP_OSP_Cache.CACHED_TABLE_LONG_HASHTABLE);
+						USIP_OSP_ContextListener.CACHED_TABLE_LONG_HASHTABLE);
 
 		Hashtable thisSetOfPlayers = loggedInPlayers.get(this.runningSimId);
 
@@ -1667,7 +1667,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		Hashtable<Long, String> phaseNames = USIP_OSP_Cache.getCachedHashtable(
 				request,
 				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID,
-				USIP_OSP_Cache.CACHED_TABLE_LONG_STRING);
+				USIP_OSP_ContextListener.CACHED_TABLE_LONG_STRING);
 
 		String cachedPhaseName = phaseNames.get(this.runningSimId);
 
