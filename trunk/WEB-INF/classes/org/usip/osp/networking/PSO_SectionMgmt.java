@@ -532,7 +532,7 @@ public class PSO_SectionMgmt {
 		}
 		
 		// Reset web cache
-		USIP_OSP_ContextListener.resetWebCache(request);
+		USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
 
 	}
 
@@ -584,7 +584,7 @@ public class PSO_SectionMgmt {
 		}
 		
 		// Reset web cache
-		USIP_OSP_ContextListener.resetWebCache(request);
+		USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
 
 	}
 
@@ -1169,7 +1169,7 @@ public class PSO_SectionMgmt {
 						customizableSectionOnScratchPad.getId(), _tab_heading, conv.getConv_actor_assigns(afso.schema));
 				
 				// Reset web cache
-				USIP_OSP_ContextListener.resetWebCache(request);
+				USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
 				
 				// send them back
 				afso.forward_on = true;
@@ -1181,8 +1181,10 @@ public class PSO_SectionMgmt {
 				// add section to the applicable actors
 				addSectionFromProcessCustomPage(customizableSectionOnScratchPad.getId(), _tab_pos, _tab_heading, request,
 						_universal);
-				afso.forward_on = true;				// Reset web cache
-				USIP_OSP_ContextListener.resetWebCache(request);
+				afso.forward_on = true;				
+				// Reset web cache
+				USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
+
 				
 				return null;
 			}

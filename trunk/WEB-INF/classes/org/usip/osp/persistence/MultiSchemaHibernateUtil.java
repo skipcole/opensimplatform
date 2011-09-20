@@ -160,6 +160,8 @@ public class MultiSchemaHibernateUtil {
 		Logger.getRootLogger().warn("url is " + url); //$NON-NLS-1$
 		Logger.getRootLogger().warn("user is " + username); //$NON-NLS-1$
 		Logger.getRootLogger().warn("    done in initializeConnection     "); //$NON-NLS-1$
+		
+		List x = Simulation.getAll("test");
 
 	}
 

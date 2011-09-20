@@ -433,7 +433,7 @@ public class USIP_OSP_Cache {
 			return "";
 		}
 
-		Hashtable<String, String> user_names_hash = getCachedHashtable(request,
+		Hashtable<String, String> user_names_hash = getCachedHashtable(request, schema,
 				USIP_OSP_ContextListener.CACHEON_USER_NAMES, "string");
 
 		String user_name = user_names_hash.get(schema + "_" + user_id);
@@ -467,7 +467,7 @@ public class USIP_OSP_Cache {
 		}
 
 		Hashtable<String, String> user_assignments_hash = getCachedHashtable(
-				request, USIP_OSP_ContextListener.CACHEON_USER_ASSIGNMENTS,
+				request, schema, USIP_OSP_ContextListener.CACHEON_USER_ASSIGNMENTS,
 				"string");
 
 		String user_id = user_assignments_hash.get(schema + "_" + rs_id + "_"
@@ -520,7 +520,30 @@ public class USIP_OSP_Cache {
 		}
 
 	}
+	
+	public static String makeSchemaSpecificHashKey(String schema, String hashKey){
+		return schema + "_" + hashKey;
+	}
 
+	/**
+	 * Used to reset a specific part of the cache.
+	 * 
+	 * @param request
+	 * @param cacheName
+	 */
+	public static boolean resetSpecificWebCache(HttpServletRequest request, String schema,
+			String hashKey) {
+		
+		String schemaSpecificKey = makeSchemaSpecificHashKey(schema, hashKey);
+		
+		try {
+			request.getSession().getServletContext().setAttribute(schemaSpecificKey, new Hashtable());
+		} catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * Pulls the hashtable from the context.
 	 * 
@@ -529,74 +552,77 @@ public class USIP_OSP_Cache {
 	 * @return
 	 */
 	public static Hashtable getCachedHashtable(HttpServletRequest request,
-			String hashkey, String dType) {
+			String schema, String hashKey, String dType) {
+		
+		//Make this a schema specific cache
+		String schemaSpecificKey = makeSchemaSpecificHashKey(schema, hashKey);
 
 		ServletContext context = request.getSession().getServletContext();
 		Hashtable cacheWeWant = new Hashtable();
 
 		if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_STRING_VECTOR)) {
 			cacheWeWant = (Hashtable<String, Vector>) context
-					.getAttribute(hashkey);
+					.getAttribute(schemaSpecificKey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<String, Vector>();
-				context.setAttribute(hashkey, cacheWeWant);
+				context.setAttribute(schemaSpecificKey, cacheWeWant);
 			}
 		} else if (dType.equalsIgnoreCase("string")) {
 			cacheWeWant = (Hashtable<String, String>) context
-					.getAttribute(hashkey);
+					.getAttribute(schemaSpecificKey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<String, String>();
-				context.setAttribute(hashkey, cacheWeWant);
+				context.setAttribute(schemaSpecificKey, cacheWeWant);
 			}
 		} else if (dType.equalsIgnoreCase("hashtable")) {
 			cacheWeWant = (Hashtable<String, Hashtable>) context
-					.getAttribute(hashkey);
+					.getAttribute(schemaSpecificKey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<String, Hashtable>();
-				context.setAttribute(hashkey, cacheWeWant);
+				context.setAttribute(schemaSpecificKey, cacheWeWant);
 			}
 		} else if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_HASHTABLE)) {
 			cacheWeWant = (Hashtable<Long, Hashtable>) context
-					.getAttribute(hashkey);
+					.getAttribute(schemaSpecificKey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<Long, Hashtable>();
-				context.setAttribute(hashkey, cacheWeWant);
+				context.setAttribute(schemaSpecificKey, cacheWeWant);
 			}
 		} else if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_STRING)) {
 			cacheWeWant = (Hashtable<Long, String>) context
-					.getAttribute(hashkey);
+					.getAttribute(schemaSpecificKey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<Long, String>();
-				context.setAttribute(hashkey, cacheWeWant);
+				context.setAttribute(schemaSpecificKey, cacheWeWant);
 			}
 		} else if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_LONG)) {
-			cacheWeWant = (Hashtable<Long, Long>) context.getAttribute(hashkey);
+			cacheWeWant = (Hashtable<Long, Long>) context.getAttribute(schemaSpecificKey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<Long, Long>();
-				context.setAttribute(hashkey, cacheWeWant);
+				context.setAttribute(schemaSpecificKey, cacheWeWant);
 			}
 		} else if (dType.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_LIST)) {
 			cacheWeWant = (Hashtable<String, List>) context
-					.getAttribute(hashkey);
+					.getAttribute(schemaSpecificKey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable<String, List>();
-				context.setAttribute(hashkey, cacheWeWant);
+				context.setAttribute(schemaSpecificKey, cacheWeWant);
 			}
 		} else {
 			Logger.getLogger("root").warn(
 					"getCachedHash hashtable type not set");
-			cacheWeWant = (Hashtable) context.getAttribute(hashkey);
+			cacheWeWant = (Hashtable) context.getAttribute(schemaSpecificKey);
 
 			if (cacheWeWant == null) {
 				cacheWeWant = new Hashtable();
-				context.setAttribute(hashkey, cacheWeWant);
+				context.setAttribute(schemaSpecificKey, cacheWeWant);
 			}
 		}
 
@@ -617,7 +643,7 @@ public class USIP_OSP_Cache {
 			return null;
 		}
 
-		Hashtable<String, String> user_ids_hash = getCachedHashtable(request,
+		Hashtable<String, String> user_ids_hash = getCachedHashtable(request, schema,
 				USIP_OSP_ContextListener.CACHEON_USER_IDS, "string");
 
 		String userId = user_ids_hash.get(schema + "_" + user_name);
@@ -649,7 +675,7 @@ public class USIP_OSP_Cache {
 			HttpServletRequest request) {
 
 		Hashtable<String, Hashtable> allUserNameTables = getCachedHashtable(
-				request,
+				request, schema,
 				USIP_OSP_ContextListener.CACHEON_AUTOCOMPLETE_PLAYER_USERNAMES,
 				"hashtable");
 
@@ -677,7 +703,7 @@ public class USIP_OSP_Cache {
 			HttpServletRequest request) {
 
 		Hashtable<String, Hashtable> allUserNameTables = getCachedHashtable(
-				request,
+				request, schema,
 				USIP_OSP_ContextListener.CACHEON_AUTOCOMPLETE_USERNAMES,
 				"hashtable");
 
@@ -706,7 +732,7 @@ public class USIP_OSP_Cache {
 			HttpServletRequest request, Long rs_id, Long a_id) {
 
 		Hashtable<String, Hashtable> allInjectsFiredTable = getCachedHashtable(
-				request, USIP_OSP_ContextListener.CACHEON_INJECTS_FIRED,
+				request, schema, USIP_OSP_ContextListener.CACHEON_INJECTS_FIRED,
 				"hashtable");
 
 		Hashtable thisSetOfTables = (Hashtable) allInjectsFiredTable

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.communications.*;
+import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.networking.USIP_OSP_ContextListener;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
@@ -183,7 +184,8 @@ public class SimulationSectionAssignment implements WebObject {
 		reorder(schema, sid, aid, pid);
 		
 		// Clean web cache out
-		USIP_OSP_ContextListener.resetWebCache(request);
+		USIP_OSP_Cache.resetSpecificWebCache(request, schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
+
 
 	}
 	

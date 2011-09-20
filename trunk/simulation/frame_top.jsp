@@ -45,6 +45,9 @@
 -->
 </style>
 <script type="text/javascript">
+
+var gaveLogoutWarning = false;
+
 function getSimRound()
   {
 
@@ -60,8 +63,12 @@ function getSimRound()
 			var sim_phase = $("sim_phase",myFunction).text();
 			
 			if (my_status == "logout"){
-				alert("You have been logged out.");
-			 	top.document.location="../logout.jsp";
+				if (!(gaveLogoutWarning)) {
+					gaveLogoutWarning = true;	// Just give the warning once.
+					alert("You have been logged out.");
+					top.document.location="../logout.jsp";
+				}
+			 	
 			} else {
 				document.getElementById('sim_phase_div').innerHTML = sim_phase;
         	}
