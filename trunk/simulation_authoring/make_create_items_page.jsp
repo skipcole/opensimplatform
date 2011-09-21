@@ -40,7 +40,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>CreateInventory Items </h1>
+              <h1>Create Inventory Items </h1>
               <br />
     <p>Items are things that players can keep in their inventories and give to each other. 
     <form action="make_create_items_page.jsp" method="post" name="form2" id="form2">

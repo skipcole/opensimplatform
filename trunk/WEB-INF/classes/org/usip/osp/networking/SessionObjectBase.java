@@ -1076,6 +1076,7 @@ public class SessionObjectBase {
 		}
 	}
 	
-	public String gameTime = "na-noo na-noo";
+	public boolean gameClockDisplayed = false;
+	public String gameTime = "";
 	
 } // End of class

@@ -556,6 +556,11 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.SetOfLinks.class);
 		ac.addAnnotatedClass(org.usip.osp.specialfeatures.Trigger.class);
 		
+		// Game Timing Events
+		ac.addAnnotatedClass(com.seachangesimulations.osp.gametime.GameClock.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.gametime.GameClockEvent.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.gametime.GameClockPhaseInstructions.class);
+		
 		Logger.getRootLogger().debug("classes added"); //$NON-NLS-1$
 	}
 	
