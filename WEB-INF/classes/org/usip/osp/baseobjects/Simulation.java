@@ -56,6 +56,16 @@ public class Simulation implements ExportableObject, Comparable {
 	public void setTransitId(Long transitId) {
 		this.transitId = transitId;
 	}
+	
+	private boolean usesGameClock = false;
+
+	public boolean isUsesGameClock() {
+		return usesGameClock;
+	}
+
+	public void setUsesGameClock(boolean usesGameClock) {
+		this.usesGameClock = usesGameClock;
+	}
 
 	/** Name of this Simulation. */
 	@Column(name = "SIM_NAME")

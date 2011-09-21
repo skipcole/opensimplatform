@@ -58,7 +58,7 @@
   </tr>
   <tr valign="top">
     <td valign="top"><a href="similie_review_phases_timeline.jsp?timeline_to_show=phases">Review Phase Changes</a></td>
-    <td valign="top">&nbsp;</td>
+    <td valign="top">Allows you to see a history of all of the phase changes.</td>
   </tr>
   <tr valign="top">
     <td valign="top"><a href="finger.jsp" -->View Last Logins </a></td>
@@ -88,7 +88,16 @@
     <td width="32%" valign="top"><a href="make_rating_announcement.jsp">Make Rating Announcement </a></td>
     <td width="68%" valign="top">On this  page will be able to send a message including a 'star' rating to tell your students how they are doing. </td>
   </tr>
+  <% if (simulation.isUsesGameClock()){ %>
+  <tr valign="top">
+    <td valign="top"><a href="sim_time_controls.jsp">Simulation Timer Controls</a></td>
+    <td valign="top">Allows you to start/stop/pause/reset etc. the game clock.</td>
+  </tr>
+  <% } %>
 </table>
 <p>&nbsp; </p>
+
+
+
 </body>
 </html>

@@ -51,7 +51,7 @@ var gaveLogoutWarning = false;
 function getSimRound()
   {
 
-  	$.get('sim_round_server.jsp', {
+  	$.get('sim_phase_server.jsp', {
 		'running_sim_id': "<%= pso.getRunningSimId() %>", 
 		'from_actor': "<%= pso.getActorId() %>", 
 		'from_tab': "<%= tabposition %>"}, 
@@ -100,9 +100,17 @@ function timedCount()
               <area shape="rect" coords="1,12,23,22" href="simwebui.jsp?addten=true" target="_top" alt="resize smaller">
             </map></td>
     <td width="120" valign="top"><a href="about.jsp" target="mainFrame"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header"><%= pso.simulation_org %></h1>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;</h1>
     
-    <table width="80%" border="0" cellspacing="2" cellpadding="2">
+    <table width="100%" border="0" cellspacing="2" cellpadding="2">
+        <tr>
+          <td colspan="3" valign="top"><span class="header"><%= pso.simulation_org %></span></td>
+          <td align="right" valign="top">
+          <% if (pso.gameClockDisplayed){ %>
+          	<div id="sim_time">Now</div>
+          <% } %>
+          </td>
+        </tr>
         <tr> 
           <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "scenario") %></td>
           <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "session") %></td>
