@@ -18,6 +18,6 @@
 %><?xml version="1.0"?>
 <response>
  <my_status><%= status_code %></my_status>
- <sim_round><%= pso.getSimulation_round() %></sim_round>
+ <sim_time><%= pso.getGameTime(request) %></sim_time>
  <sim_phase><%= pso.getPhaseName() %></sim_phase>
 </response>

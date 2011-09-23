@@ -59,7 +59,7 @@ function getSimRound()
 		function(myFunction){
 		
 			var my_status = $("my_status",myFunction).text();
-			var sim_round = $("sim_round",myFunction).text();
+			var sim_time = $("sim_time",myFunction).text();
 			var sim_phase = $("sim_phase",myFunction).text();
 			
 			if (my_status == "logout"){
@@ -71,6 +71,7 @@ function getSimRound()
 			 	
 			} else {
 				document.getElementById('sim_phase_div').innerHTML = sim_phase;
+				document.getElementById('sim_time_div').innerHTML = sim_time;
         	}
 			
 		} , 'xml');
@@ -99,16 +100,13 @@ function timedCount()
               <area shape="rect" coords="1,1,23,11" href="simwebui.jsp?lessten=true" target="_top" alt="resize smaller">
               <area shape="rect" coords="1,12,23,22" href="simwebui.jsp?addten=true" target="_top" alt="resize smaller">
             </map></td>
-    <td width="120" valign="top"><a href="about.jsp" target="mainFrame"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
-    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png"><h1 class="header">&nbsp;</h1>
-    
+    <td width="120" valign="top" background="../Templates/images/top_fade.png"><a href="about.jsp" target="mainFrame"><img src="../Templates/images/logo_top.png" width="120" height="100" border="0" /></a></td>
+    <td width="80%" valign="middle"  background="../Templates/images/top_fade.png">    
     <table width="100%" border="0" cellspacing="2" cellpadding="2">
         <tr>
           <td colspan="3" valign="top"><span class="header"><%= pso.simulation_org %></span></td>
           <td align="right" valign="top">
-          <% if (pso.gameClockDisplayed){ %>
-          	<div id="sim_time">Now</div>
-          <% } %>
+          	<div id="sim_time_div"></div>
           </td>
         </tr>
         <tr> 
@@ -117,7 +115,6 @@ function timedCount()
           <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "your_role") %></td>
           <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "phase") %>
 		</td>
-          <!-- td>Round</td -->
         </tr>
         <tr> 
           <td><strong><a href="../osp_core/introduction.jsp" target="mainFrame"><%= pso.simulation_name %></a></strong></td>
@@ -143,11 +140,6 @@ function timedCount()
         </tr>
       </table>	  
 	  </div>    </td>
-  </tr>
-  <tr>
-    <td width="120" valign="top" bgcolor="#475DB0">&nbsp;</td>
-    <td width="120" valign="top"><img src="../Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
   </tr>
 </table>
 </td>

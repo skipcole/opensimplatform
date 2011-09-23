@@ -241,6 +241,17 @@ public class USIP_OSP_Util {
 		}
 		return true;
 	}
+	
+	
+	public static boolean stringFieldMatches(String a, String b){
+		
+		if ((a == null) || (b == null)){
+			return false;
+		}
+		
+		return (a.equalsIgnoreCase(b));
+		
+	}
 
 	public static boolean findMatchingLong(ArrayList list, Long longLookedFor) {
 

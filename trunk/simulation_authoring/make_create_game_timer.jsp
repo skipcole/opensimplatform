@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
-	org.usip.osp.specialfeatures.*" 
+	com.seachangesimulations.osp.gametime.*"
 	errorPage="/error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -13,13 +13,37 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
-	
-	InventoryItem thisItem = afso.handleCreateItems(request);
-	
+		
 	Simulation sim = new Simulation();	
 	
 	if (afso.sim_id != null){
 		sim = afso.giveMeSim();
+	}
+	
+	String sending_page = (String) request.getParameter("sending_page");
+	
+	if ((USIP_OSP_Util.stringFieldHasValue(sending_page)) && 
+		(sending_page.equalsIgnoreCase("game_timer"))) {
+			
+		String game_timer = (String) request.getParameter("game_timer");
+		
+		if ((game_timer != null) && (game_timer.equalsIgnoreCase("yes"))){
+			sim.setUsesGameClock(true);
+			sim.saveMe(afso.schema);
+		} else {
+			sim.setUsesGameClock(false);
+			sim.saveMe(afso.schema);
+		}
+	}
+	
+	boolean usesTimer = sim.isUsesGameClock();
+	
+	String checkedYes = "";
+	String checkedNo = " checked=\"checked\" ";
+	
+	if (usesTimer) {
+		checkedYes = " checked=\"checked\" ";
+		checkedNo = "";
 	}
 	
 %>
@@ -43,22 +67,62 @@
               <h1>Game Timer</h1>
               <br />
     <p>A game timer allows you to display the time in a simulation to the players. 
-    <form action="make_create_items_page.jsp" method="post" name="form2" id="form2">
+    <form action="make_create_game_timer.jsp" method="post" name="form2" id="form2">
+      
+      <input type="hidden" name="sending_page" value="game_timer" />
       
       <h2>Simulation Uses Game Timer</h2>
       <table width="100%" border="0">
         <tr>
-          <td><input type="radio" name="game_timer" id="game_timer_yes" value="game_timer" />
+          <td><input type="radio" name="game_timer" id="game_timer_yes" value="yes" <%= checkedYes %> />
             <label for="game_timer_yes">Yes</label></td>
-          <td><input type="radio" name="game_timer" id="game_timer_no" value="game_timer" />
+          <td><input name="game_timer" type="radio" id="game_timer_no" value="no" <%= checkedNo %> />
             <label for="game_timer_no">No</label></td>
           <td><input type="submit" name="button" id="button" value="Submit" /></td>
         </tr>
       </table>
       <p>&nbsp;</p>
     </form>
-<p>Below are listed all of the phases ...</p>
-<p>Work in progress.</p>
+<p>Below are listed all of the phases for this simulation. Each phase may have its own unique behaviour, or follow in          </p>
+<table width="100%" border="1" cellspacing="2" cellpadding="2">
+  <tr> 
+              <td width="20%" valign="top"><h2>Phase Name</h2></td>
+              <td width="40" valign="top"><h2>Game Time Controls</h2></td>
+              <td valign="top"><h2>Edit Controls</h2></td>
+              </tr>
+       <%
+	   
+	   List phaseList = SimulationPhase.getAllForSim(afso.schema, afso.sim_id);
+	   
+		for (ListIterator li = phaseList.listIterator(); li.hasNext();) {
+			SimulationPhase sp = (SimulationPhase) li.next();
+			
+			GameClockPhaseInstructions gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(afso, afso.schema, sp.getId(),  afso.sim_id);
+			
+			System.out.println("getting gcpi: " + afso.sim_id + ", " + sp.getId());
+			
+			String controlNotes = "";
+			
+			if (gcpi == null) {
+				controlNotes = "No controller.";
+			} else {
+				controlNotes = "add synopsis.";
+			}
+			
+			
+		%>
+        <form id="form2" name="form2" method="post" action="make_create_game_timer_phase_instructions.jsp">
+        <input type="hidden" name="phase_id" value="<%= sp.getId() %>" />
+            <tr>
+              <td valign="top"><%= sp.getPhaseName() %> </td>
+              <td valign="top"><%= controlNotes %></td>
+              <td><input type="submit" name="command" value="Edit Controls"  /></td>
+            </tr>
+            </form>
+<%
+	}  // End of loop over phases.
+%>
+        </table>
 <p>&nbsp;</p>
       <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
@@ -76,6 +140,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>
