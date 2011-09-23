@@ -14,6 +14,9 @@ import org.usip.osp.persistence.*;
 import org.usip.osp.sharing.*;
 import org.usip.osp.specialfeatures.*;
 
+import com.seachangesimulations.osp.gametime.GameClockEvent;
+import com.seachangesimulations.osp.gametime.GameClockPhaseInstructions;
+
 /**
  * This object contains all of the session information for the participant and
  * is the main interface to all of the java objects that the participant will
@@ -131,7 +134,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 	 * Once a player has selected a running sim, do not let them back out and
 	 * choose another without logging out and logging in.
 	 */
-	public boolean hasSelectedRunningSim = false;
+	// TODO I don't think this was working as planned. Need to forward to login page if necessary
+	//public boolean hasSelectedRunningSim = false;
 
 	/**
 	 * This is called from the top of the players frame to determine where they
@@ -309,6 +313,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 			sim_id = ua.getSim_id();
 
 			Simulation simulation = Simulation.getById(schema, sim_id);
+			
+			if (simulation.isUsesGameClock()){
+				this.simUsesGameClock = true;
+			}
 
 			runningSimId = ua.getRunning_sim_id();
 			RunningSimulation running_sim = RunningSimulation.getById(schema,
@@ -332,6 +340,11 @@ public class PlayerSessionObject extends SessionObjectBase {
 			// Load information from the pertinent objects to be displayed.
 			loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
 
+			// Turn on instructions if necessary
+			if (simulation.isUsesGameClock()){
+				GameClockPhaseInstructions.activatePhaseInstructions(request, this);
+			}
+			
 			// ////////////////////////////////////////////////////////////////////////
 			Hashtable<Long, String> roundNames = USIP_OSP_Cache
 					.getCachedHashtable(request, schema,
@@ -375,11 +388,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 			ut.setRunning_sim_id(runningSimId);
 			ut.saveMe(schema);
 
-			this.hasSelectedRunningSim = true;
-
 			forward_on = true;
 
-		}
+		} // End of if coming from select simulation page.
 	}
 
 	/**
@@ -1002,77 +1013,49 @@ public class PlayerSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * Advances game round, and propogates values to new round.
-	 * 
-	 */
-	public void advanceRound(HttpServletRequest request) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil
-				.getSession(schema).get(RunningSimulation.class, runningSimId);
-
-		running_sim.setRound(running_sim.getRound() + 1);
-
-		Logger.getRootLogger().debug("Round is " + running_sim.getRound());
-
-		this.simulation_round = running_sim.getRound() + "";
-
-		Hashtable<Long, String> roundNames = (Hashtable<Long, String>) request
-				.getSession().getServletContext().getAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
-		roundNames.put(runningSimId, this.simulation_round);
-		request.getSession().getServletContext().setAttribute(
-				USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES, roundNames);
-
-		propagateValues();
-
-		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(running_sim);
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		// ////////////////////////////////////////////////////
-		// 9/27/09 - We are not using rounds right now, but I added the code
-		// below for when
-		// we are. So the stuff below this is completely untried.
-		Alert al = new Alert();
-		al.setType(Alert.TYPE_UNDEFINED);
-		al.saveMe(schema);
-
-		// Let people know that there is a change to catch.
-		storeNewHighestChangeNumber(request, al.getId());
-
-	}
-
-	/**
 	 * 
 	 * @param phase_id
 	 * @param request
 	 */
-	public void changePhase(String r_phase_id, HttpServletRequest request) {
+	public static void changePhase(HttpServletRequest request, PlayerSessionObject pso) {
 
+		String sending_page = (String) request.getParameter("sending_page");
+		
+		if (!(USIP_OSP_Util.stringFieldMatches(sending_page, "change_phase"))){
+			
+			return;
+			
+		}
+		
 		String notify_via_email = (String) request
 				.getParameter("notify_via_email");
 
-		String previousPhase = this.phaseName;
+		String previousPhase = pso.phaseName;
 
 		try {
 
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-			phase_id = new Long(r_phase_id);
-			RunningSimulation running_sim = (RunningSimulation) MultiSchemaHibernateUtil
-					.getSession(schema).get(RunningSimulation.class,
-							runningSimId);
-			running_sim.setPhase_id(phase_id);
-			Logger.getRootLogger().debug(
-					"set rs " + runningSimId + " to " + phase_id);
-			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(
-					running_sim);
+			// Save exit event in game history.
+			if (pso.simUsesGameClock){
+				GameClockPhaseInstructions gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(
+						pso, pso.schema, pso.phase_id, pso.sim_id);
+				
+				if (gcpi != null){
+					GameClockEvent.createEvent(pso.schema, gcpi, pso.getRunningSimId(), "Entered Phase");
+				}
+			}
+			
+			pso.phase_id = new Long(request.getParameter("phase_id"));
+			
+			RunningSimulation rs = RunningSimulation.getById(pso.schema, pso.runningSimId);
+			rs.setPhase_id(pso.phase_id);
+			rs.saveMe(pso.schema);
+			
+			// Activate the clock on this phase.
+			GameClockPhaseInstructions.activatePhaseInstructions(request, pso);
 
-			SimulationPhase sp = (SimulationPhase) MultiSchemaHibernateUtil
-					.getSession(schema).get(SimulationPhase.class, phase_id);
+			SimulationPhase sp = SimulationPhase.getById(pso.schema, pso.phase_id);
 
-			this.phaseName = sp.getPhaseName();
+			pso.phaseName = sp.getPhaseName();
 
 			// Store new phase name in web cache.
 			Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) request
@@ -1081,20 +1064,18 @@ public class PlayerSessionObject extends SessionObjectBase {
 					.getAttribute(
 							USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
 
-			phaseNames.put(runningSimId, this.phaseName);
+			phaseNames.put(pso.runningSimId, pso.phaseName);
 			request.getSession().getServletContext().setAttribute(
 					USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID,
 					phaseNames);
 
-			Logger.getRootLogger().debug("setting phase change alert");
-
 			// //////////////////////////////////////////////////////////////////
 			// Store new phase id in the web cache
-			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session
+			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) pso.session
 					.getServletContext().getAttribute(
 							USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
 
-			phaseIds.put(runningSimId, phase_id);
+			phaseIds.put(pso.runningSimId, pso.phase_id);
 
 			request.getSession().getServletContext().setAttribute(
 					USIP_OSP_ContextListener.CACHEON_PHASE_IDS, phaseIds);
@@ -1106,33 +1087,33 @@ public class PlayerSessionObject extends SessionObjectBase {
 			al.setType(Alert.TYPE_PHASECHANGE);
 
 			String phaseChangeNotice = "Phase has changed from '"
-					+ previousPhase + "' to '" + this.phaseName + "'.";
+					+ previousPhase + "' to '" + pso.phaseName + "'.";
 
 			// Will need to add email text, etc.
 			al.setAlertMessage(phaseChangeNotice);
 			al.setAlertEmailMessage(phaseChangeNotice);
 			al.setAlertPopupMessage(phaseChangeNotice);
-			al.setSim_id(sim_id);
-			al.setRunning_sim_id(runningSimId);
-			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(al);
+			al.setSim_id(pso.sim_id);
+			al.setRunning_sim_id(pso.runningSimId);
+			al.saveMe(pso.schema);
 
 			// Let people know that there is a change to catch.
-			storeNewHighestChangeNumber(request, al.getId());
+			pso.storeNewHighestChangeNumber(request, al.getId());
 
 			if ((notify_via_email != null)
 					&& (notify_via_email.equalsIgnoreCase("true"))) {
 
 				Hashtable uniqList = new Hashtable();
 
-				for (ListIterator<UserAssignment> li = running_sim
-						.getUser_assignments(schema).listIterator(); li
+				for (ListIterator<UserAssignment> li = rs
+						.getUser_assignments(pso.schema).listIterator(); li
 						.hasNext();) {
 					UserAssignment ua = li.next();
 					uniqList.put(ua.getUser_id(), "set");
 				}
 
 				SchemaInformationObject sio = SchemaInformationObject
-						.lookUpSIOByName(schema);
+						.lookUpSIOByName(pso.schema);
 
 				for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
 					Long key = (Long) e.nextElement();
@@ -1142,53 +1123,37 @@ public class PlayerSessionObject extends SessionObjectBase {
 					// user id.
 					BaseUser bu = BaseUser.getByUserId(key);
 
-					// String actor_name =
-					// USIP_OSP_Cache.getActorName(pso.schema, pso.sim_id,
-					// pso.getRunningSimId(), request, caa.getActor_id());
-
 					String subject = "Simulation Phase Change";
 					String message = "Simulation phase has changed.";
 
 					Vector cced = null;
 					Vector bcced = new Vector();
-					bcced.add(user_name);
+					bcced.add(pso.user_name);
 
 					Emailer.postMail(sio, bu.getUsername(), subject, message,
-							message, sio.getEmailNoreplyAddress(), user_name,
+							message, sio.getEmailNoreplyAddress(), pso.user_name,
 							cced, bcced);
 
 				}
 			}
 
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 			if (sp.isCopyInObjects()) {
 				// Should move this to work via an interface.
 				List objectToCopy = BishopsPartyInfo.getAllForRunningSim(
-						schema, runningSimId, false);
+						pso.schema, pso.runningSimId, false);
 
 				for (ListIterator<BishopsPartyInfo> li = objectToCopy
 						.listIterator(); li.hasNext();) {
 					BishopsPartyInfo bpi = li.next();
 
-					bpi.copyToNewVersion(schema);
+					bpi.copyToNewVersion(pso.schema);
 				}
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// Someday, I'll find a way to enter this final block in without causing
-		// a spurious error.
-		/*
-		 * finally {
-		 * 
-		 * try{ MultiSchemaHibernateUtil.commitAndCloseTransaction(schema); }
-		 * catch (org.hibernate.TransactionException te){ // Do nothing } catch
-		 * (Exception real_e){
-		 * Logger.getRootLogger().debug("Exception of type: " +
-		 * real_e.getClass()); } }
-		 */
 
 	}
 
@@ -1260,9 +1225,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 							.getRootLogger()
 							.debug(
 									"forwarin on to : " + sim.getLastPhaseId(this.schema).toString()); //$NON-NLS-1$
-					this
-							.changePhase(sim.getLastPhaseId(this.schema)
-									.toString(), request);
+					changePhase(request, this);
 
 					// Forward them back
 					this.forward_on = true;
@@ -1636,23 +1599,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	/** Round being displayed */
 	private String simulation_round = "0"; //$NON-NLS-1$
-
-	public String getSimulation_round() {
-
-		Hashtable<Long, String> roundNames = (Hashtable<Long, String>) session
-				.getServletContext().getAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES);
-
-		if (runningSimId != null) {
-			simulation_round = roundNames.get(runningSimId);
-
-			return simulation_round;
-
-		} else {
-			return "";
-		}
-
-	}
 
 	/**
 	 * Store it in the web cache, if this has not been done already by another

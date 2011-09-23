@@ -213,6 +213,13 @@ public class OSPErrors {
 
     }
     
+    /**
+     * Provides a warning of something abnormal.
+     * 
+     * @param warningText
+     * @param sob
+     * @return
+     */
     public static OSPErrors storeInternalWarning(String warningText,  SessionObjectBase sob){
     	
     	OSPErrors err = new OSPErrors();

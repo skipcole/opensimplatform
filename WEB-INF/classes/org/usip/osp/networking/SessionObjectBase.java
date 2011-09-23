@@ -23,6 +23,8 @@ import org.usip.osp.persistence.OSPErrors;
 import org.usip.osp.persistence.SchemaInformationObject;
 import org.usip.osp.persistence.UILanguageObject;
 
+import com.seachangesimulations.osp.gametime.GamePhaseCurrentTime;
+
 /**
  * This object contains all of the methods and data to create users, and to
  * allow users to log in as either an administrator, author, instructor or
@@ -1076,7 +1078,20 @@ public class SessionObjectBase {
 		}
 	}
 	
-	public boolean gameClockDisplayed = false;
-	public String gameTime = "";
+	protected boolean simUsesGameClock = false;
+	private GamePhaseCurrentTime gpct = null;
+	
+	public String getGameTime(HttpServletRequest request) {
+		
+		if (!simUsesGameClock){
+			return "";
+		}
+		
+		if (gpct == null){
+			GamePhaseCurrentTime.pullGPCTFromCache(request, schema, sim_id, runningSimId, phase_id);
+		}
+		return gpct.getGameTime(request, this);
+	}
+	
 	
 } // End of class

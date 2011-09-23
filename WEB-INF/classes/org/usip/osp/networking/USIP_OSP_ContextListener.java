@@ -107,6 +107,7 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	/** Used to keep track of which injects have been fired during a game. */
 	public static final String CACHEON_INJECTS_FIRED = "injects_fired"; //$NON-NLS-1$
 	
+	public static final String CACHEON_GAMETIMER = "usip_osp_game_timer";
 	
 	/**
 	 * Utility method that ultimately leads on to resetWebCache(ServletContext)
@@ -189,6 +190,8 @@ public class USIP_OSP_ContextListener implements ServletContextListener {
 	public static final String CACHED_TABLE_LIST = "list";
 
 	public static final String CACHED_TABLE_LONG_LIST = "long_list";
+	
+	public static final String CACHED_TABLE_LONG_GPCT = "long_gpct";
 
 	/**
 	 */
