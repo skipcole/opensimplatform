@@ -5,8 +5,6 @@
 	errorPage="/error.jsp" %>
 <%
 
-	PlayerSessionObject.handleInitialEntry(request);
-
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	if (!(pso.isLoggedin())) {
@@ -14,14 +12,16 @@
 		return;
 	}
 	
+	
+	PlayerSessionObject.handleInitialEntry(request);	
+	
+	pso.handleLoadPlayerScenario(request);
+	
 	if (pso.forward_on) {
 		pso.forward_on = false;
 		response.sendRedirect("simwebui.jsp?tabposition=1");
 		return;
-	}	
-	
-	pso.handleLoadPlayerScenario(request);
-	
+	}
 
 	
 	// Don't know schema yet for sure, so get the base user for the name

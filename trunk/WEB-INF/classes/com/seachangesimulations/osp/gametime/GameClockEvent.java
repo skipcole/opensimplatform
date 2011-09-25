@@ -47,10 +47,12 @@ public class GameClockEvent implements ExportableObject{
     /** Running simulation id. */
     private Long rsId;
     
+	private String dateFormat = "MM/dd/yy HH:mm:ss a";
+	
 	/** formatting on time output. */
-	private java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
-			"MM/dd/yy HH:mm:ss a");
-    
+	@Transient
+	private java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(dateFormat);
+
     /** Time event occurred. */
     private java.util.Date eventDate = new java.util.Date();
     
@@ -87,6 +89,10 @@ public class GameClockEvent implements ExportableObject{
 	/** Indicates if this timer has been initialized. */
 	private boolean initialized = false;
     
+	
+	public GameClockEvent() {
+		System.out.println("game clock event created");
+	}
 	/**
 	 * Pulls the game clock event out of the database base on its id and schema.
 	 * 
@@ -314,6 +320,8 @@ public class GameClockEvent implements ExportableObject{
 	public static GameClockEvent createEvent(String schema,
 			GameClockPhaseInstructions gcpi, Long rsId, String eventMsg) {
 		
+		System.out.println("GameClockEvent createEvent");
+		
 		GameClockEvent gce = new GameClockEvent();
 		
 		gce.setGcpiId(gcpi.getId());
@@ -322,9 +330,26 @@ public class GameClockEvent implements ExportableObject{
 		gce.setSimId(gcpi.getSimId());
 		gce.setRsId(rsId);
 		gce.setPhaseId(gcpi.getPhaseId());
+		
+		//gce.setCurrentInterval(gcpi.)
+		
 		gce.saveMe(schema);
 		
 		return gce;
 	}
+	public java.text.SimpleDateFormat getSdf() {
+		return sdf;
+	}
+	public void setSdf(java.text.SimpleDateFormat sdf) {
+		this.sdf = sdf;
+	}
+	public String getDateFormat() {
+		return dateFormat;
+	}
+	public void setDateFormat(String dateFormat) {
+		this.dateFormat = dateFormat;
+	}
+	
+	
 	
 }

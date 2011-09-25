@@ -72,7 +72,7 @@ public class GameClockPhaseInstructions  implements ExportableObject{
     private long plannedDuration = 0;
     
     /** If time is chunked into things (such as days, months, etc.) how many seconds per chunk. */
-    private long timeInterval = 0;
+    private long currentInterval = 0;
     
     /** It time is chunked into things (such as days, months, etc.) the display name of the chunk. */
     private String intervalName = "";
@@ -149,27 +149,30 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 	 * @return
 	 */
 	public static GameClockPhaseInstructions getByPhaseAndSimId(
-			SessionObjectBase sob,
-			String schema, Long phaseId, Long simId) {
+			SessionObjectBase sob, Long phaseId, Long simId) {
 
+		System.out.println("GameClockPhaseInstructions.getByPhaseAndSim");
+		
 		if ((phaseId == null) || (simId == null)){
+			System.out.println("GameClockPhaseInstructions.getByPhaseAndSim  nullness");
 			return null;
 		}
 		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.beginTransaction(sob.schema);
 
 		List<GameClockPhaseInstructions> startList = MultiSchemaHibernateUtil
-		.getSession(schema)
+		.getSession(sob.schema)
 		.createQuery("from GameClockPhaseInstructions where simId = :simId and phaseId = :phaseId")
 			.setLong("simId", simId)
 			.setLong("phaseId", phaseId)
 			.list(); //$NON-NLS-1$
 
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(sob.schema);
 		
 		if ((startList == null) || (startList.size() == 0)){
 			return null;
 		} else if (startList.size() == 1){
+			System.out.println("GameClockPhaseInstructions.getByPhaseAndSim   got one !!!!!!!!!!!1");
 			return (GameClockPhaseInstructions) startList.get(0);
 		} else {
 			OSPErrors.storeInternalWarning("Duplicate GCPI phase: " + phaseId + ", simId " + simId, sob);
@@ -195,7 +198,58 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 			(sending_page.equalsIgnoreCase("edit_gcpi"))) {
 			
 			String phase_id = (String) request.getParameter("phase_id");
-			gcpi = new GameClockPhaseInstructions(sob.schema, sob.sim_id, new Long(phase_id));
+			
+			gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(sob, sob.sim_id, new Long(phase_id));
+			
+			if (gcpi == null){
+				gcpi = new GameClockPhaseInstructions(sob.schema, sob.sim_id, new Long(phase_id));
+			}
+			
+			String timer_type = (String) request.getParameter("timer_type");
+			
+			if (USIP_OSP_Util.stringFieldHasValue(timer_type)){
+				gcpi.timerType = new Long(timer_type).intValue();
+			}
+			
+			
+			switch (gcpi.timerType){
+				case (GCPI_CONST):
+					gcpi.setTextSynopsis("constant");
+					break;
+				case (GCPI_UP_TIME):
+					gcpi.setTextSynopsis("up time");
+					break;
+				case (GCPI_UP_RUNNING_TIME):
+					gcpi.setTextSynopsis("up running time");
+					break;
+				case (GCPI_UP_INTERVAL):
+					String seconds_per_interval = (String) request.getParameter("seconds_per_interval");
+					String interval_name = (String) request.getParameter("interval_name");
+					
+					Long secondsPerInterval = new Long(0);
+					
+					try {
+						secondsPerInterval = new Long (seconds_per_interval);
+					} catch (Exception e){
+						secondsPerInterval = new Long(0);
+					}
+					gcpi.setCurrentInterval(secondsPerInterval * 1000); // Convert to milliseconds
+					gcpi.setIntervalName(interval_name);
+					gcpi.setTextSynopsis("Count up in " + interval_name + " of " + secondsPerInterval + " seconds.");
+					break;
+				case (GCPI_DOWN_TIME):
+					gcpi.setTextSynopsis("down time");
+					break;
+				case (GCPI_DOWN_RUNNING_TIME):
+					gcpi.setTextSynopsis("down running time");
+					break;
+				case (GCPI_DOWN_INTERVAL):
+					gcpi.setTextSynopsis("down interval");
+					break;
+			}
+			
+			gcpi.saveMe(sob.schema);
+			
 
 		}
 		
@@ -244,6 +298,14 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 		this.timerType = timerType;
 	}
 
+	public long getCurrentInterval() {
+		return currentInterval;
+	}
+
+	public void setCurrentInterval(long currentInterval) {
+		this.currentInterval = currentInterval;
+	}
+
 	public String getIntervalName() {
 		return intervalName;
 	}
@@ -276,14 +338,6 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 		this.plannedDuration = plannedDuration;
 	}
 
-	public long getTimeInterval() {
-		return timeInterval;
-	}
-
-	public void setTimeInterval(long timeInterval) {
-		this.timeInterval = timeInterval;
-	}
-
 	public String getTextSynopsis() {
 		return textSynopsis;
 	}
@@ -297,8 +351,10 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 			HttpServletRequest request,
 			PlayerSessionObject pso) {
 		
+		System.out.println("activatePhaseInstructions");
+		
 		GameClockPhaseInstructions gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(
-				pso, pso.schema, pso.phase_id, pso.sim_id);
+				pso, pso.phase_id, pso.sim_id);
 		
 		if (gcpi == null){	// There are no instructions for this phase.
 			return;
@@ -308,6 +364,7 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 		GameClockEvent maxGCE = GameClockEvent.getLastEvent(pso.schema, gcpi.getId());
 		
 		if (maxGCE == null){
+			//maxGCE = GameClockEvent.createEvent(pso.schema, gcpi, pso.getRunningSimId(), "Initial Event Occurred");
 			maxGCE = GameClockEvent.createEvent(pso.schema, gcpi, pso.getRunningSimId(), "Initial Event Occurred");
 		}
 		
@@ -316,6 +373,29 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 		// Store it in the cache
 		GamePhaseCurrentTime.putGPCTInCache(request, pso.schema, pso.sim_id, pso.getRunningSimId(), pso.phase_id, gpct);
 		
+	}
+	
+	public GamePhaseCurrentTime generateInitialGamePhaseCurrentTime(){
+		
+		GamePhaseCurrentTime gpct = new GamePhaseCurrentTime();
+		/*
+		gpct.setCurrentInterval(this.currentInterval);
+		gpct.setCurrentIntervalStartTime(new java.util.Date());
+		gpct.setCurrentIntervalStartTimeLong(this.getcu);
+		gpct.setDateTripPoint(dateTripPoint);
+		gpct.setInitialized(initialized);
+		gpct.setIntervalName(intervalName);
+		gpct.setLongTripPoint(longTripPoint);
+		gpct.setPhaseId(phaseId);
+		gpct.setRsId(rsId);
+		gpct.setSdf(sdf);
+		gpct.setSimId(simId);
+		gpct.setTimeInterval(timeInterval);
+		gpct.setTimeOffset(timeOffset);
+		gpct.setTimerType(timerType);
+		*/
+		
+		return gpct;
 	}
 	
 }

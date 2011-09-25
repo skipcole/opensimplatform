@@ -340,8 +340,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 			// Load information from the pertinent objects to be displayed.
 			loadSimInfoForDisplay(request, simulation, running_sim, actor, sp);
 
+			System.out.println("xxxxxxxxxxxxxxxx");
 			// Turn on instructions if necessary
 			if (simulation.isUsesGameClock()){
+				System.out.println("xxxxxxxxxxxxxxxx activate");
 				GameClockPhaseInstructions.activatePhaseInstructions(request, this);
 			}
 			
@@ -1037,7 +1039,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			// Save exit event in game history.
 			if (pso.simUsesGameClock){
 				GameClockPhaseInstructions gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(
-						pso, pso.schema, pso.phase_id, pso.sim_id);
+						pso, pso.phase_id, pso.sim_id);
 				
 				if (gcpi != null){
 					GameClockEvent.createEvent(pso.schema, gcpi, pso.getRunningSimId(), "Entered Phase");

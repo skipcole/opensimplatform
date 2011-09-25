@@ -87,8 +87,8 @@
 <table width="100%" border="1" cellspacing="2" cellpadding="2">
   <tr> 
               <td width="20%" valign="top"><h2>Phase Name</h2></td>
-              <td width="40" valign="top"><h2>Game Time Controls</h2></td>
-              <td valign="top"><h2>Edit Controls</h2></td>
+              <td width="70" valign="top"><h2>Game Time Controls</h2></td>
+              <td width="10%" valign="top"><h2>Edit Controls</h2></td>
               </tr>
        <%
 	   
@@ -97,7 +97,7 @@
 		for (ListIterator li = phaseList.listIterator(); li.hasNext();) {
 			SimulationPhase sp = (SimulationPhase) li.next();
 			
-			GameClockPhaseInstructions gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(afso, afso.schema, sp.getId(),  afso.sim_id);
+			GameClockPhaseInstructions gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(afso, sp.getId(),  afso.sim_id);
 			
 			System.out.println("getting gcpi: " + afso.sim_id + ", " + sp.getId());
 			
@@ -106,7 +106,7 @@
 			if (gcpi == null) {
 				controlNotes = "No controller.";
 			} else {
-				controlNotes = "add synopsis.";
+				controlNotes = gcpi.getTextSynopsis();
 			}
 			
 			
