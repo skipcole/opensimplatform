@@ -1081,6 +1081,12 @@ public class SessionObjectBase {
 	protected boolean simUsesGameClock = false;
 	private GamePhaseCurrentTime gpct = null;
 	
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public String getGameTime(HttpServletRequest request) {
 		
 		if (!simUsesGameClock){
@@ -1088,10 +1094,20 @@ public class SessionObjectBase {
 		}
 		
 		if (gpct == null){
-			GamePhaseCurrentTime.pullGPCTFromCache(request, schema, sim_id, runningSimId, phase_id);
+			gpct = GamePhaseCurrentTime.pullGPCTFromCache(request, schema, sim_id, runningSimId, phase_id);
 		}
 		return gpct.getGameTime(request, this);
 	}
+
+	public GamePhaseCurrentTime getGpct() {
+		return gpct;
+	}
+
+	public void setGpct(GamePhaseCurrentTime gpct) {
+		this.gpct = gpct;
+	}
+	
+	
 	
 	
 } // End of class

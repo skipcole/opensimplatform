@@ -68,7 +68,7 @@
       <table width="100%" border="1" cellspacing="0">
         <tr>
           <td valign="top">1.
-            <input type="radio" name="timer_type" value="1" />
+            <input type="radio" name="timer_type" value="<%= GameClockPhaseInstructions.GCPI_CONST %>" <%= USIP_OSP_Util.matchSelected(GameClockPhaseInstructions.GCPI_CONST, gcpi.getTimerType(), " checked=\"checked\" ") %> />
             <label for="radio2"></label></td>
           <td valign="top">Constant Value</td>
           <td valign="top"><label for="textfield"></label>
@@ -77,7 +77,7 @@
         </tr>
         <tr>
           <td valign="top">2.
-            <input type="radio" name="timer_type" value="2" /></td>
+            <input name="timer_type" type="radio" value="<%= GameClockPhaseInstructions.GCPI_UP_TIME %>"  <%= USIP_OSP_Util.matchSelected(GameClockPhaseInstructions.GCPI_UP_TIME, gcpi.getTimerType(), " checked=\"checked\" ") %>  /></td>
           <td valign="top">&nbsp;</td>
           <td valign="top">&nbsp;</td>
         </tr>
@@ -85,39 +85,39 @@
           <td valign="top">3. 
             
             <label for="radio">
-              <input type="radio" name="timer_type" value="3" />
+              <input type="radio" name="timer_type" value="<%= GameClockPhaseInstructions.GCPI_UP_RUNNING_TIME %>"  <%= USIP_OSP_Util.matchSelected(GameClockPhaseInstructions.GCPI_UP_RUNNING_TIME, gcpi.getTimerType(), " checked=\"checked\" ") %>  />
             </label></td>
           <td valign="top">&nbsp;</td>
           <td valign="top">&nbsp;</td>
         </tr>
         <tr>
           <td valign="top">4.            
-            <input type="radio" name="timer_type" value="4" /></td>
+            <input type="radio" name="timer_type" value="<%= GameClockPhaseInstructions.GCPI_UP_INTERVAL %>"  <%= USIP_OSP_Util.matchSelected(GameClockPhaseInstructions.GCPI_UP_INTERVAL, gcpi.getTimerType(), " checked=\"checked\" ") %> /></td>
           <td valign="top">Intervals</td>
           <td valign="top"><p>Seconds per Interval 
             <label for="textfield2"></label>
-            <input type="text" name="textfield2" id="textfield2" />
+            <input type="text" name="seconds_per_interval" />
           </p>
             <p>Name of Interval 
               <label for="textfield3"></label>
-              <input type="text" name="textfield3" id="textfield3" />
+              <input type="text" name="interval_name" id="textfield3" />
             </p></td>
         </tr>
         <tr>
           <td valign="top">5.
-            <input type="radio" name="timer_type" value="5" /></td>
+            <input type="radio" name="timer_type" value="<%= GameClockPhaseInstructions.GCPI_DOWN_TIME %>"  <%= USIP_OSP_Util.matchSelected(GameClockPhaseInstructions.GCPI_DOWN_TIME, gcpi.getTimerType(), " checked=\"checked\" ") %>  /></td>
           <td valign="top">&nbsp;</td>
           <td valign="top">&nbsp;</td>
         </tr>
         <tr>
           <td valign="top">6.
-            <input type="radio" name="timer_type" value="6" /></td>
+            <input type="radio" name="timer_type" value="<%= GameClockPhaseInstructions.GCPI_DOWN_RUNNING_TIME %>"  <%= USIP_OSP_Util.matchSelected(GameClockPhaseInstructions.GCPI_DOWN_RUNNING_TIME, gcpi.getTimerType(), " checked=\"checked\" ") %>  /></td>
           <td valign="top">&nbsp;</td>
           <td valign="top">&nbsp;</td>
         </tr>
         <tr>
           <td valign="top">7.
-            <input type="radio" name="timer_type" value="7" /></td>
+            <input type="radio" name="timer_type" value="<%= GameClockPhaseInstructions.GCPI_DOWN_INTERVAL %>"  <%= USIP_OSP_Util.matchSelected(GameClockPhaseInstructions.GCPI_DOWN_INTERVAL, gcpi.getTimerType(), " checked=\"checked\" ") %>  /></td>
           <td valign="top">&nbsp;</td>
           <td valign="top">&nbsp;</td>
         </tr>

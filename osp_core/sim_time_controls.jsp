@@ -3,7 +3,7 @@
 	language="java" 
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
-	org.usip.osp.communications.*,
+	com.seachangesimulations.osp.gametime.*,
 	org.usip.osp.baseobjects.*" 
 	errorPage="/error.jsp" 
 %>
@@ -11,6 +11,14 @@
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
 	response.setHeader("Cache-Control", "no-cache");
+
+	boolean hasClock = false;
+	
+	GameClockPhaseInstructions gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(pso, pso.phase_id, pso.sim_id);
+		
+	if (gcpi != null){
+		hasClock = true;
+	}
 	
 %>
 <html>
@@ -34,6 +42,7 @@ width:100%;
 
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
 
+<% if (hasClock) { %>
 <script type="text/javascript">
 		function addMessages(xml) {
 			
@@ -52,7 +61,7 @@ width:100%;
 <script type="text/javascript">
 		function updateMsg() {
 
-			$.get("sim_time_server.jsp",
+			$.get("../simulation/sim_phase_server.jsp",
 				{ 
 				dumbie: Math.random()
 				}, 
@@ -66,31 +75,65 @@ width:100%;
 		
 		}
 </script>
-
+<% } // end of if has clock %>
 <!-------------------------------------------------------------------------------->
 </head>
-<body onLoad="updateMsg();">
+
+<body 
+<% if (hasClock) { %>
+onLoad="updateMsg();"
+<% } // end of if has clock %>
+>
+
+<% if (hasClock) { %>
 <p>Time Currently Displayed:<div id="messagewindow"><span id="loading">Loading...</span></div>
 </p>
 
 <h2>&nbsp;</h2>
+<p>Clock for this Phase: <%= gcpi.getTextSynopsis() %></p>
 <h2>Control Actions</h2>
-<ul>
-  <li>Pause Clock</li>
-  <li>Reset Clock</li>
-  <li><a href="#constant_string">Set to Constant Message </a></li>
-  <li>Start Clock</li>
-</ul>
-<p>&nbsp;</p>
+
+<% if (gcpi.getTimerType() == GameClockPhaseInstructions.GCPI_UNDEFINED) { %>
+<p>Timer found, but it is undefined type.</p>
+<% } else if (gcpi.getTimerType() == GameClockPhaseInstructions.GCPI_CONST) { %>
 <h2>Set to Constant Message<a name="constant_string"></a></h2>
 <form name="form1" method="post" action="sim_time_set_time.jsp">
   <p>
     <label for="textfield"></label>
-    <input type="text" name="newtime" id="textfield" value="<%= pso.gameTime %>" />
+    <input type="text" name="newtime" id="textfield" value="<%= pso.getGameTime(request) %>" />
   </p>
   <p>
     <input type="submit" name="button" id="button" value="Submit">
   </p>
 </form>
+
+<% } else if (gcpi.getTimerType() == GameClockPhaseInstructions.GCPI_UP_TIME) { %>
+<p>Controls not yet defined.</p>
+<% } else if (gcpi.getTimerType() == GameClockPhaseInstructions.GCPI_UP_RUNNING_TIME) { %>
+<p>Controls not yet defined.</p>
+<% } else if (gcpi.getTimerType() == GameClockPhaseInstructions.GCPI_UP_INTERVAL) { %>
+<p>Controls not yet defined.</p>
+<ul>
+  <li>Pause Clock</li>
+  <li>Reset Clock</li>
+  <li>Start Clock</li>
+</ul>
+<% } else if (gcpi.getTimerType() == GameClockPhaseInstructions.GCPI_DOWN_TIME) { %>
+<p>Controls not yet defined.</p>
+<% } else if (gcpi.getTimerType() == GameClockPhaseInstructions.GCPI_DOWN_RUNNING_TIME) { %>
+<p>Controls not yet defined.</p>
+<% } else if (gcpi.getTimerType() == GameClockPhaseInstructions.GCPI_DOWN_INTERVAL) { %>
+<p>Controls not yet defined.</p>
+<% } else { %>
+<p>Timer found, its type is set out of bounds.</p>
+<% } %>
+	
+	
+
+<p>&nbsp;</p>
+
+<% } else { %>
+<p>No Clock for this Phase. </p>
+<% } %>
 </body>
 </html>
