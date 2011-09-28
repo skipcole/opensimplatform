@@ -1536,21 +1536,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		String admin_pass = (String) request.getParameter("admin_pass");
 		String admin_email = (String) request.getParameter("admin_email");
 
-		/*
-		 * String db_org = (String) request.getParameter("db_org"); String
-		 * db_notes = (String) request.getParameter("db_notes");
-		 * 
-		 * String email_smtp = (String) request.getParameter("email_smtp");
-		 * String email_user = (String) request.getParameter("email_user");
-		 * String email_pass = (String) request.getParameter("email_pass");
-		 * String email_user_address = (String) request
-		 * .getParameter("email_user_address"); String email_server_number =
-		 * (String) request .getParameter("email_server_number");
-		 * 
-		 * String email_status = DatabaseCreator.checkEmailStatus(email_smtp,
-		 * email_user, email_pass, email_user_address);
-		 */
-
 		if ((sending_page != null) && (cleandb != null)
 				&& (sending_page.equalsIgnoreCase("clean_db"))) {
 
@@ -1667,70 +1652,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		return DatabaseCreator.handleCreateOrUpdateDB(request, adminUserId);
 
-	}
-
-	/**
-	 * Recreates the root database that will hold information on the other
-	 * schemas and user information.
-	 * 
-	 * @param request
-	 */
-	public String handleCreateRootDB(HttpServletRequest request) {
-
-		String returnMsg = "";
-
-		String sending_page = request.getParameter("sending_page");
-		String wipe_database_key = request.getParameter("wipe_database_key");
-
-		boolean clearedToWipeDB = false;
-
-		if ((wipe_database_key != null)
-				&& (wipe_database_key.equals(USIP_OSP_Properties
-						.getValue("wipe_database_key")))) {
-			clearedToWipeDB = true;
-		}
-
-		if (clearedToWipeDB && (sending_page != null)
-				&& (sending_page.equalsIgnoreCase("install_root_db"))) {
-
-			MultiSchemaHibernateUtil.recreateRootDatabase();
-			returnMsg = "Root schema should now contain empty tables.";
-
-			// Entering the correct key is equivalent to having logged in.
-			this.loggedin = true;
-
-			// If the user/developer has been editing simulations, remove
-			// reference to old simulations.
-			this.sim_id = null;
-
-			this.forward_on = true;
-			this.backPage = "install_db.jsp";
-
-			return returnMsg;
-
-		} else if ((sending_page != null)
-				&& (sending_page.equalsIgnoreCase("install_root_db"))) {
-			returnMsg = "Wrong key entered.";
-		}
-
-		return returnMsg;
-
-	}
-
-	public static final int INSTALL_ERROR_NO_PROP = 1;
-	public static final int INSTALL_ERROR_NO_CONN = 2;
-
-	public static int checkInstall(HttpServletRequest request) {
-
-		if (!(USIP_OSP_Properties.isFoundPropertiesFile())) {
-			return INSTALL_ERROR_NO_PROP;
-		}
-
-		if (!MultiSchemaHibernateUtil.testConn()) {
-			return INSTALL_ERROR_NO_CONN;
-		}
-
-		return 0;
 	}
 
 	/**
@@ -4641,6 +4562,16 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return actor;
 	}
 
+	/** Effectively logs in the user based on their having entered the correct wipe database key.
+	 * 
+	 * @param afso
+	 * @param io
+	 */
+	public static void setFromInstallObject(AuthorFacilitatorSessionObject afso, InstallationObject io){
+		
+		afso.loggedin = io.isInstallationLogin();
+		
+	}
 
 
 } // End of class

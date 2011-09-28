@@ -8,21 +8,21 @@
 	errorPage="/error.jsp" %>
 
 <%
+
+		InstallationObject installObject = InstallationObject.getInstallationObject(request.getSession(true));
 	
-	int checkInstall = AuthorFacilitatorSessionObject.checkInstall(request);
+	int checkInstall = InstallationObject.checkInstall(request);
 	
 	if (checkInstall != 0) {
-		response.sendRedirect("steps.jsp?reason_failed=" + checkInstall);
+		response.sendRedirect("index.jsp?reason_failed=" + checkInstall);
 		return;
 	}
-
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	String error_msg = afso.handleCreateRootDB(request);
+	String error_msg = installObject.handleCreateRootDB(request);
 	
-	if (afso.forward_on){
-		afso.forward_on = false;
-		response.sendRedirect(afso.backPage);
+	if (installObject.forward_on){
+		installObject.forward_on = false;
+		response.sendRedirect(installObject.backPage);
 		return;
 	}
 
@@ -111,6 +111,3 @@ body {
   Open Source Software Project</a>. </p>
 </body>
 </html>
-<%
-	
-%>

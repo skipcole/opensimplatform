@@ -3,6 +3,8 @@ package org.usip.osp.persistence;
 import java.util.*;
 import javax.persistence.*;
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.apache.log4j.*;
 
 /**
@@ -39,6 +41,12 @@ public class SchemaInformationObject {
 
 	/** Organization for which this schema has been created. */
 	private String schema_organization;
+	
+	private String schemaOrganizationLogo;
+	
+	private String schemaOrganizationBanner;
+	
+	private String schemaOrganizationWebsite;	
 
 	/** Creation date of this schema */
 	private Date creationDate;
@@ -248,6 +256,30 @@ public class SchemaInformationObject {
 
 	public void setSchema_organization(String schema_organization) {
 		this.schema_organization = schema_organization;
+	}
+
+	public String getSchemaOrganizationLogo() {
+		return schemaOrganizationLogo;
+	}
+
+	public void setSchemaOrganizationLogo(String schemaOrganizationLogo) {
+		this.schemaOrganizationLogo = schemaOrganizationLogo;
+	}
+
+	public String getSchemaOrganizationBanner() {
+		return schemaOrganizationBanner;
+	}
+
+	public void setSchemaOrganizationBanner(String schemaOrganizationBanner) {
+		this.schemaOrganizationBanner = schemaOrganizationBanner;
+	}
+
+	public String getSchemaOrganizationWebsite() {
+		return schemaOrganizationWebsite;
+	}
+
+	public void setSchemaOrganizationWebsite(String schemaOrganizationWebsite) {
+		this.schemaOrganizationWebsite = schemaOrganizationWebsite;
 	}
 
 	/**
@@ -496,6 +528,25 @@ public class SchemaInformationObject {
 		}
 		
 		return false;
+	}
+
+	public void loadInfoIntoSessionObjectBase(PlayerSessionObject pso) {
+
+		pso.schema = this.getSchema_name();
+		pso.schemaOrg = this.getSchema_organization();
+		
+		// Set these away from the default if information has been entered.
+		if (USIP_OSP_Util.stringFieldHasValue(this.schemaOrganizationBanner)){
+			pso.setSchemaOrgBanner(this.getSchemaOrganizationBanner());
+		}
+		
+		if (USIP_OSP_Util.stringFieldHasValue(this.schemaOrganizationBanner)){
+			pso.setSchemaOrgLogo(this.getSchemaOrganizationLogo());
+		}
+		
+		pso.setSchemaOrgName(this.getSchema_organization());
+		pso.setSchemaOrgWebsite(this.getSchemaOrganizationBanner());
+		
 	}
 
 }

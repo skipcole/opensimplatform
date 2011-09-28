@@ -431,10 +431,6 @@ public class USIP_OSP_Util {
 			}
 		}
 
-		if (lastDecimal > 0) {
-			sb.setCharAt(lastDecimal, '.');
-		}
-
 		String returnString = new String(sb);
 
 		return returnString;

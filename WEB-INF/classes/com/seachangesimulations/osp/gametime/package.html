@@ -10,7 +10,32 @@
   <li>GameClockEvent - Holds record of events. This IS persisted to the database.</li>
   <li>GamePhaseCurrentTime - Holds all of the current information in the clock. This is Not-Persisted to the database.</li>
 </ul>
-<p>Sequence of Events</p>
+<p>In general, information is copied amongst the objects in the following sequence.</p>
+<ul>
+  <li>GameClockPhaseInstructions --&gt; GameClockEvent (Once, when game is enabled..)</li>
+  <li>GameClockEvent --&gt; GamePhaseCurrentTime (Many times, when current time is pulled from last snapshot stored in database.)</li>
+  <li>GamePhaseCurrentTime --&gt; GameClockEvent (Many times, when current time is stored, upon an event, back to the database.)</li>
+</ul>
+<h2>Sequence of Events</h2>
+<ol>
+  <li>Simulation Author creates a GameClockPhaseInstructions object by leaving instructions for the phase.<br>
+    <strong>Author --&gt; 
+  GameClockPhaseInstructions</strong></li>
+  <li>When an instructor enables a simulation, phase information is copied into the first event.<br>
+    <strong>GameClockPhaseInstructions --&gt; GameClockEvent    </strong><br>
+  </li>
+  <li>When a player logged into the simulation triggers the looking for the current game time, information from the stored GameClockEvent is copied into a GamePhaseCurrentTime object.<br>
+  <strong>GameClockEvent --&gt; GamePhaseCurrentTime </strong></li>
+  <li>The GamePhaseCurrentTime that the player looked at is stored in the web cache. All subsequent looks into the current time will look at that until an event (such as the changing of phase or the increment of a game interval), triggers the creation of a new GameClockEvent.<br>
+    <strong>GamePhaseCurrentTime --&gt; Web Cache (USIP_OSP_Cache)<br>
+    Web Cache (USIP_OSP_Cache) --&gt; GamePhaseCurrentTime
+  </strong></li>
+  <li>When a game event (such as the changing of a phase) triggers the storing of a new GameClockEvent, information is copied from the current time back to the database.<br>
+  <strong>GamePhaseCurrentTime --&gt;     GameClockEvent</strong></li>
+  <li>If an event is a phase change, a new GameClockEvent for the newly entered phase will be created, and the GamePhaseCurrent time will be pulled from that event and stored in Cache.<br>
+    <strong>GameClockEvent --&gt; GamePhaseCurrentTime </strong><br>
+  </li>
+</ol>
 <h2>Package Specification</h2>
 
 ##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####

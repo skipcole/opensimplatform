@@ -32,17 +32,25 @@
                       <td>Allows you to archive and restore database components  (users, simulation sections, running simulations. simulations, etc.) for archival or transport purposes.</td>
                     </tr>
                     <tr valign="top">
-                      <td><a href="../simulation_contest/contest_administration.jsp">Administrate Contests</a></td>
+                      <td><a href="../simulation_contest/contest_administration.jsp">Contest Administration</a></td>
                       <td>Allows you to set up contests and administer them.</td>
+                    </tr>
+                    <tr valign="top">
+                      <td><a href="simulation_maintenancerelated.jsp">Database Administration</a></td>
+                      <td>Allows one to see all of the installed databases, and to edit or install a new database. 
+                      Also here one can send test the email system and set the next planned down time.                      </td>
+                    </tr>
+                    <tr valign="top">
+                      <td>Email Administration</td>
+                      <td>&nbsp;</td>
                     </tr>
                     <tr valign="top">
                       <td><a href="simulation_admin_extensionrelated.jsp">Extension Tasks</a></td>
                       <td>Allows you to import experience from other simulations, or add new simulation sections or models to your USIP OSP installation.</td>
                     </tr>
                     <tr valign="top">
-                      <td><a href="simulation_maintenancerelated.jsp">Maintenance Tasks</a></td>
-                      <td>Allows one to see all of the installed databases, and to edit or install a new database. 
-                      Also here one can send test the email system and set the next planned down time.                      </td>
+                      <td>Organization Administration</td>
+                      <td>Allows you to add organizations (and their logos) on to this platform.</td>
                     </tr>
                     <tr valign="top">
                       <td><a href="software_development_section.jsp">Software Development Tasks</a></td>
