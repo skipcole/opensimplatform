@@ -125,8 +125,7 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 	 * @param schema
 	 * @return
 	 */
-	public static List<GameClockPhaseInstructions> getAllForSim(Long simId,
-			String schema) {
+	public static List<GameClockPhaseInstructions> getAllForSim(String schema, Long simId) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
@@ -361,8 +360,11 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 		}
 		
 		// Get highest history, and then pull the snapshot from it.
-		GameClockEvent maxGCE = GameClockEvent.getLastEvent(pso.schema, gcpi.getId());
+		GameClockEvent maxGCE = GameClockEvent.getLastEventForPhase(pso.schema, gcpi.getId());
 		
+		/*
+		 * TODO Get this sorted out.
+		 
 		if (maxGCE == null){
 			//maxGCE = GameClockEvent.createEvent(pso.schema, gcpi, pso.getRunningSimId(), "Initial Event Occurred");
 			maxGCE = GameClockEvent.createEvent(pso.schema, gcpi, pso.getRunningSimId(), "Initial Event Occurred");
@@ -372,7 +374,7 @@ public class GameClockPhaseInstructions  implements ExportableObject{
 		
 		// Store it in the cache
 		GamePhaseCurrentTime.putGPCTInCache(request, pso.schema, pso.sim_id, pso.getRunningSimId(), pso.phase_id, gpct);
-		
+		*/
 	}
 	
 	public GamePhaseCurrentTime generateInitialGamePhaseCurrentTime(){

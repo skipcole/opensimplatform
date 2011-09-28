@@ -49,7 +49,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				.getAttribute("pso");
 
 		if (pso == null) {
-			Logger.getRootLogger().warn("pso is new");
+			Logger.getRootLogger().debug("pso is new");
 			pso = new PlayerSessionObject();
 			pso.session = session;
 		}
@@ -1038,12 +1038,18 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			// Save exit event in game history.
 			if (pso.simUsesGameClock){
+				/*
 				GameClockPhaseInstructions gcpi = GameClockPhaseInstructions.getByPhaseAndSimId(
 						pso, pso.phase_id, pso.sim_id);
 				
 				if (gcpi != null){
+					// Create event on leaving last phase
+					GameClockEvent.createEvent(pso.schema, gcpi, pso.getRunningSimId(), "Exited Phase");
+					
+					// Create event on entering new phase
 					GameClockEvent.createEvent(pso.schema, gcpi, pso.getRunningSimId(), "Entered Phase");
 				}
+				*/
 			}
 			
 			pso.phase_id = new Long(request.getParameter("phase_id"));
@@ -1737,83 +1743,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 
 		return sendToPage;
-	}
-
-	/**
-	 * If user has selected an author, instructor or admin entry point into the
-	 * system, this is called to set their AFSO object.
-	 * 
-	 * @param request
-	 * @param schema_id
-	 */
-	public static void handleInitialEntry(HttpServletRequest request) {
-
-		String initial_entry = (String) request.getParameter("initial_entry");
-
-		if ((initial_entry != null) && (initial_entry.equalsIgnoreCase("true"))) {
-
-			PlayerSessionObject pso = PlayerSessionObject.getPSO(request
-					.getSession(true));
-
-			String schema_id = (String) request.getParameter("schema_id");
-
-			SchemaInformationObject sio = SchemaInformationObject
-					.getById(new Long(schema_id));
-
-			pso.schema = sio.getSchema_name();
-			pso.schemaOrg = sio.getSchema_organization();
-
-			User user = null;
-			BaseUser bu = null;
-
-			if (pso.user_id != null) {
-				user = User.getById(pso.schema, pso.user_id);
-				bu = BaseUser.getByUserId(pso.user_id);
-			}
-
-			if (user != null) {
-				pso.user_id = user.getId();
-
-				pso.userDisplayName = bu.getFull_name();
-				pso.user_name = bu.getUsername();
-
-				pso.loggedin = true;
-				pso.preview_mode = false;
-
-				pso.languageCode = bu.getPreferredLanguageCode().intValue();
-
-				user.setLastLogin(new Date());
-				user.saveJustUser(pso.schema);
-
-				pso.myUserTrailGhost.setTrail_id(user.getTrail_id());
-				pso.myUserTrailGhost.setUser_id(pso.user_id);
-
-				Hashtable<Long, UserTrailGhost> loggedInUsers = (Hashtable<Long, UserTrailGhost>) request
-						.getSession()
-						.getServletContext()
-						.getAttribute(
-								USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS);
-
-				if (loggedInUsers == null) {
-					loggedInUsers = new Hashtable();
-					request.getSession().getServletContext().setAttribute(
-							USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS,
-							loggedInUsers);
-				}
-
-				loggedInUsers.put(user.getId(), pso.myUserTrailGhost);
-
-				sio.setLastLogin(new Date());
-				sio.saveMe();
-
-			} else {
-				pso.loggedin = false;
-				Logger
-						.getRootLogger()
-						.warn(
-								"handling initial entry into simulation and got null user");
-			}
-		}
 	}
 
 	/**

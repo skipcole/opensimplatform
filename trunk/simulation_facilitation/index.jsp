@@ -6,6 +6,6 @@
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<p>You should be redirected to the login page. If you are not, <a href="../blank.jsp">click here</a>. </p>
+<p>You should be redirected to the login page. If you are not, <a href="../login.jsp">click here</a>. </p>
 </body>
 </html>

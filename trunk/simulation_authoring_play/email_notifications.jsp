@@ -12,7 +12,7 @@
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
 	
@@ -231,7 +231,7 @@ Email has not been enabled on this server. Please contact your administrator if 
 } // End of if email has been enabled.
 
 %> 		
-                <a href="../blank.jsp">Next 
+                <a href="../login.jsp">Next 
                 Step: Enter Simulation </a></p>
               <p>&nbsp;</p></td>
 		</tr>

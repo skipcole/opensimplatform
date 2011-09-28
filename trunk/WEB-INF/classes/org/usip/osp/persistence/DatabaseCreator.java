@@ -11,6 +11,9 @@ public class DatabaseCreator {
 
 	static String db_schema = "";
 	static String db_org  = "";
+	static String db_logo  = "";
+	static String db_banner  = "";
+	static String db_website  = "";
 	static String db_notes  = "";
 	static String email_smtp  = "";
 	static String email_user  = "";
@@ -114,6 +117,9 @@ public class DatabaseCreator {
 	public static void loadUpParameters(HttpServletRequest request) {
 		db_schema = (String) request.getParameter("db_schema");
 		db_org = (String) request.getParameter("db_org");
+		db_logo = (String) request.getParameter("db_logo");
+		db_banner = (String) request.getParameter("db_banner");
+		db_website = (String) request.getParameter("db_website");
 		db_notes = (String) request.getParameter("db_notes");
 		email_smtp = (String) request.getParameter("email_smtp");
 		email_user = (String) request.getParameter("email_user");
@@ -160,6 +166,9 @@ public class DatabaseCreator {
 		// Fill SIO
 		sio.setSchema_name(db_schema);
 		sio.setSchema_organization(db_org);
+		sio.setSchemaOrganizationLogo(db_logo);
+		sio.setSchemaOrganizationBanner(db_banner);
+		sio.setSchemaOrganizationWebsite(db_website);
 		sio.setNotes(db_notes);
 		sio.setEmail_smtp(email_smtp);
 		sio.setSmtp_auth_user(email_user);

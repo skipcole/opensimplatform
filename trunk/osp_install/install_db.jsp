@@ -8,13 +8,17 @@
 	errorPage="/error.jsp" %>
 
 <%
-	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+		InstallationObject installObject = InstallationObject.getInstallationObject(request.getSession(true));
 	
-	if (!(afso.isLoggedin())) {
+	if (!(installObject.isInstallationLogin())) {
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
+		AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
+		
+		AuthorFacilitatorSessionObject.setFromInstallObject(afso, installObject);
+		
 	String error_msg = afso.handleCreateDB(request);
 	
 	if (afso.forward_on){
@@ -25,6 +29,9 @@
 	
 	String db_schema = afso.getClean(request, "db_schema");
 	String db_org = afso.getClean(request, "db_org");
+	String db_logo = afso.getClean(request, "db_logo");
+	String db_banner = afso.getClean(request, "db_banner");
+	String db_website = afso.getClean(request, "db_website");
 	String db_notes = afso.getClean(request, "db_notes");
 	
 	String admin_first = afso.getClean(request, "admin_first");
@@ -117,6 +124,19 @@ body {
               <tr> 
                 <td valign="top">Organization</td>
                 <td valign="top"><input type="text" name="db_org" value="<%= db_org %>" /></td>
+              </tr>
+              <tr>
+                <td valign="top">Organization Logo</td>
+                <td valign="top">
+                <input type="text" name="db_logo"  value="<%= db_logo %>" /></td>
+              </tr>
+              <tr>
+                <td valign="top">Organization Banner</td>
+                <td valign="top"><input type="text" name="db_banner" value="<%= db_banner %>" /></td>
+              </tr>
+              <tr>
+                <td valign="top">Organization Website</td>
+                <td valign="top"><input type="text" name="db_website" value="<%= db_website %>" /></td>
               </tr>
               <tr>
                 <td valign="top">DB Notes</td>

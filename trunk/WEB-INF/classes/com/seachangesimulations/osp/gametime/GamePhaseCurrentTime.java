@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.networking.SessionObjectBase;
@@ -40,10 +41,14 @@ public class GamePhaseCurrentTime {
 
 	/** Running simulation id. */
 	private Long rsId;
+	
+	/** Id of the GameClockPhaseInstruction under control at this time. */
+	private Long gcpiId;
 
+	private String dateFormat = "MM/dd/yy HH:mm:ss a";
+	
 	/** formatting on time output. */
-	private java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
-			"MM/dd/yy HH:mm:ss a");
+	private java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(dateFormat);
 
 	/** If counting toward some deadline, this is it. */
 	private Date dateTripPoint = new java.util.Date();
@@ -143,19 +148,6 @@ public class GamePhaseCurrentTime {
 		return returnString;
 	}
 
-	public static void main(String args[]) {
-		System.out.println("Hello");
-
-		GamePhaseCurrentTime gpct = new GamePhaseCurrentTime();
-
-		System.out.println(gpct.sdf.format(new java.util.Date()));
-		while (gpct.currentInterval < 3) {
-			gpct.getGameTime(null, null);
-		}
-		System.out.println(gpct.sdf.format(new java.util.Date()));
-
-	}
-
 	public String getGameTime(HttpServletRequest request, SessionObjectBase sob) {
 		return calculateGameTime(request);
 	}
@@ -227,6 +219,22 @@ public class GamePhaseCurrentTime {
 
 	public void setRsId(Long rsId) {
 		this.rsId = rsId;
+	}
+
+	public Long getGcpiId() {
+		return gcpiId;
+	}
+
+	public void setGcpiId(Long gcpiId) {
+		this.gcpiId = gcpiId;
+	}
+
+	public String getDateFormat() {
+		return dateFormat;
+	}
+
+	public void setDateFormat(String dateFormat) {
+		this.dateFormat = dateFormat;
 	}
 
 	public java.text.SimpleDateFormat getSdf() {
