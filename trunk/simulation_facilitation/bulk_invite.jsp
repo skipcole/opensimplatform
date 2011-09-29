@@ -15,7 +15,7 @@
 	afso.backPage = "bulk_invite.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
 	

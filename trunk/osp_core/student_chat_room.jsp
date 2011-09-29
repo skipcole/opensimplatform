@@ -332,7 +332,7 @@ function parseXml(xml)
 </form></TD>
   </TR>
 </table>
-<p>Actors in this conversation:</p>
+<p>People in this conversation:</p>
 <UL><% 
 		for (Enumeration e = this_set_of_actors.elements(); e.hasMoreElements();){
 			ActorGhost act = (ActorGhost) e.nextElement();

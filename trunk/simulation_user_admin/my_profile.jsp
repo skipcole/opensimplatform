@@ -10,7 +10,7 @@
 	SessionObjectBase sob = USIP_OSP_Util.getSessionObjectBaseIfFound(request);
 		
 	if ((sob == null) || (!(sob.isLoggedin()))) {
-		response.sendRedirect("../blank.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
 	

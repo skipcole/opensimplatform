@@ -21,16 +21,15 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * This class represents a particular conversation amongst a group of actors.
  */
 /*
- *         This file is part of the USIP Open Simulation Platform.<br>
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
- * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  */
 @Entity
 @Table(name = "CONVERSATIONS")
@@ -40,7 +39,7 @@ public class Conversation implements SimSectionDependentObject {
 	public Conversation() {
 
 	}
-	
+
 	public Conversation(String uniqName, String docNotes, Long _sim_id) {
 		this.uniqueConvName = uniqName;
 		this.conversationNotes = docNotes;
@@ -58,7 +57,7 @@ public class Conversation implements SimSectionDependentObject {
 
 	/** This is a chat help conversation. */
 	public static final int TYPE_CHAT_HELP = 3;
-	
+
 	/** This is a caucus conversation. */
 	public static final int TYPE_CAUCUS = 4;
 
@@ -67,7 +66,10 @@ public class Conversation implements SimSectionDependentObject {
 
 	/** This is a chat room that the player can invite people to leave or enter. */
 	public static final int TYPE_RS_USER_CONTROLLED_CAUCUS = 6;
-	
+
+	/** This is a chat room that the player can invite people to leave or enter. */
+	public static final int TYPE_STUDENT_CHAT = 7;
+
 	/** Unique identifier of this name. */
 	private String uniqueConvName = ""; //$NON-NLS-1$
 
@@ -102,13 +104,13 @@ public class Conversation implements SimSectionDependentObject {
 
 	@Column(name = "CONV_TYPE")
 	private int conversationType = TYPE_UNDEFINED;
-	
+
 	@Lob
 	private String conversationNotes = "";
 
 	@Transient
 	private List<ConvActorAssignment> conv_actor_assigns = null;
-	
+
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
@@ -119,23 +121,24 @@ public class Conversation implements SimSectionDependentObject {
 	public void setTransitId(Long transit_id) {
 		this.transit_id = transit_id;
 	}
-	
+
 	/**
 	 * Returns a list of all conversations associated with a particular
 	 * simulation.
 	 */
 	public static List getAllBaseForSim(String schema, Long simid) {
 
-		if (simid == null){
+		if (simid == null) {
 			return new ArrayList();
 		}
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Conversation where sim_id = :simid and rs_id is null")
-				.setLong("simid", simid)
-				.list(); //$NON-NLS-1$
+		List<Conversation> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from Conversation where sim_id = :simid and rs_id is null")
+				.setLong("simid", simid).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -150,37 +153,42 @@ public class Conversation implements SimSectionDependentObject {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from Conversation where sim_id = " + simid + " and rs_id = " + rs_id).list(); //$NON-NLS-1$ //$NON-NLS-2$
+		List<Conversation> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from Conversation where sim_id = " + simid + " and rs_id = " + rs_id).list(); //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
 	 * @return
 	 */
-	public String getListOfActors(String schema, SessionObjectBase sob, HttpServletRequest request){
-		
+	public String getListOfActors(String schema, SessionObjectBase sob,
+			HttpServletRequest request) {
+
 		String returnString = ""; //$NON-NLS-1$
-		
+
 		List cca_list = getConv_actor_assigns(schema);
-		
-		for (ListIterator<ConvActorAssignment> bi = cca_list.listIterator(); bi.hasNext();) {
+
+		for (ListIterator<ConvActorAssignment> bi = cca_list.listIterator(); bi
+				.hasNext();) {
 			ConvActorAssignment caa = bi.next();
-			
-			String a_name = USIP_OSP_Cache.getActorName(sob.schema, sob.sim_id, sob.getRunningSimId(), request, caa.getActor_id());
+
+			String a_name = USIP_OSP_Cache.getActorName(sob.schema, sob.sim_id,
+					sob.getRunningSimId(), request, caa.getActor_id());
 
 			returnString += a_name + "-"; //$NON-NLS-1$
 		}
-		
-		if (returnString.length() > 0){
-			returnString = returnString.substring(0, returnString.length() -1 );
+
+		if (returnString.length() > 0) {
+			returnString = returnString.substring(0, returnString.length() - 1);
 		}
-		
+
 		return returnString;
 	}
 
@@ -193,19 +201,23 @@ public class Conversation implements SimSectionDependentObject {
 	 * @param section_id
 	 * @return
 	 */
-	public static List getActorsConversationsForSimSection(String schema, Long aid, Long rs_id, Long section_id) {
+	public static List getActorsConversationsForSimSection(String schema,
+			Long aid, Long rs_id, Long section_id) {
 
 		List returnList = new ArrayList();
 
-		List baseList = SimSectionRSDepOjbectAssignment.getAllForRunningSimSection(schema, rs_id, section_id);
+		List baseList = SimSectionRSDepOjbectAssignment
+				.getAllForRunningSimSection(schema, rs_id, section_id);
 
-		for (ListIterator<SimSectionRSDepOjbectAssignment> li = baseList.listIterator(); li.hasNext();) {
+		for (ListIterator<SimSectionRSDepOjbectAssignment> li = baseList
+				.listIterator(); li.hasNext();) {
 			SimSectionRSDepOjbectAssignment ssrsdoa = li.next();
 
-			List actorsAssignedToThisConversation = ConvActorAssignment.getAllForConversation(schema, ssrsdoa
-					.getObjectId());
+			List actorsAssignedToThisConversation = ConvActorAssignment
+					.getAllForConversation(schema, ssrsdoa.getObjectId());
 
-			for (ListIterator<ConvActorAssignment> bi = actorsAssignedToThisConversation.listIterator(); bi.hasNext();) {
+			for (ListIterator<ConvActorAssignment> bi = actorsAssignedToThisConversation
+					.listIterator(); bi.hasNext();) {
 				ConvActorAssignment caa = bi.next();
 
 				if (caa.getActor_id().equals(aid)) {
@@ -228,13 +240,16 @@ public class Conversation implements SimSectionDependentObject {
 	 * @param section_id
 	 * @return
 	 */
-	public static List getAllConversationsForSimSection(String schema, Long aid, Long rs_id, Long section_id) {
+	public static List getAllConversationsForSimSection(String schema,
+			Long aid, Long rs_id, Long section_id) {
 
 		List returnList = new ArrayList();
 
-		List baseList = SimSectionRSDepOjbectAssignment.getAllForRunningSimSection(schema, rs_id, section_id);
+		List baseList = SimSectionRSDepOjbectAssignment
+				.getAllForRunningSimSection(schema, rs_id, section_id);
 
-		for (ListIterator<SimSectionRSDepOjbectAssignment> li = baseList.listIterator(); li.hasNext();) {
+		for (ListIterator<SimSectionRSDepOjbectAssignment> li = baseList
+				.listIterator(); li.hasNext();) {
 			SimSectionRSDepOjbectAssignment bssdoa = li.next();
 
 			Conversation conv = new Conversation();
@@ -258,13 +273,15 @@ public class Conversation implements SimSectionDependentObject {
 		List baseList = getAllPrivateChatForSim(schema, simid);
 		ArrayList returnList = new ArrayList();
 
-		for (ListIterator<Conversation> li = baseList.listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = baseList.listIterator(); li
+				.hasNext();) {
 			Conversation conv_id = li.next();
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(schema).get(Conversation.class,
-					conv_id.getId());
+			Conversation conv = (Conversation) MultiSchemaHibernateUtil
+					.getSession(schema)
+					.get(Conversation.class, conv_id.getId());
 
 			if (conv.hasActor(schema, aid)) {
 				returnList.add(conv);
@@ -288,35 +305,45 @@ public class Conversation implements SimSectionDependentObject {
 
 		String getSQL = "from Conversation where sim_id = " + simid + " and conv_type = " + TYPE_PRIVATE; //$NON-NLS-1$ //$NON-NLS-2$
 
-		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getSQL).list();
+		List<Conversation> returnList = MultiSchemaHibernateUtil
+				.getSession(schema).createQuery(getSQL).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
-	
-	public static List getAllChatHelpConversationsForHelper(String schema, Long sim_id, Long section_id,
-			Long rs_id, Long actor1){
-		
-		ArrayList returnList  = new ArrayList<Conversation>();
-		
-		List <Actor> actList  = Actor.getAllForSimulation(schema, sim_id);
-		
+
+	/**
+	 * 
+	 * @param schema
+	 * @param sim_id
+	 * @param section_id
+	 * @param rs_id
+	 * @param actor1
+	 * @return
+	 */
+	public static List getAllChatHelpConversationsForHelper(String schema,
+			Long sim_id, Long section_id, Long rs_id, Long actor1) {
+
+		ArrayList returnList = new ArrayList<Conversation>();
+
+		List<Actor> actList = Actor.getAllForSimulation(schema, sim_id);
+
 		for (ListIterator<Actor> li = actList.listIterator(); li.hasNext();) {
 
 			Actor act = li.next();
-			
-			Conversation conv = Conversation.getChatHelpConversation(schema, sim_id, section_id,
-					rs_id, act.getId(), actor1);
-			
-			if (conv != null){
+
+			Conversation conv = Conversation.getChatHelpConversation(schema,
+					sim_id, section_id, rs_id, act.getId(), actor1);
+
+			if (conv != null) {
 				returnList.add(conv);
 			}
 		}
-		
+
 		return returnList;
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
@@ -327,23 +354,25 @@ public class Conversation implements SimSectionDependentObject {
 	 * @param actor2
 	 * @return
 	 */
-	public static Conversation getChatHelpConversation(String schema, Long sim_id, Long section_id,
-			Long rs_id, Long actor1, Long actor2){
-		
+	public static Conversation getChatHelpConversation(String schema,
+			Long sim_id, Long section_id, Long rs_id, Long actor1, Long actor2) {
+
 		// Look for conversation named like, "Chat Help, S1, SEC99, RS2, A7, A9"
-		
+
 		String actorIdPiece = "";
-		if (actor1.intValue() < actor2.intValue()){
+		if (actor1.intValue() < actor2.intValue()) {
 			actorIdPiece = ", A" + actor1 + ", A" + actor2;
 		} else {
 			actorIdPiece = ", A" + actor2 + ", A" + actor1;
 		}
-		
-		String uniqName = "Chat Help, S" + sim_id + ", SEC" + section_id + ", RS" + rs_id + actorIdPiece;
-		
-		Conversation conv = Conversation.getByUniqueIdentifier(schema, uniqName, TYPE_CHAT_HELP);
-		
-		if (conv == null){
+
+		String uniqName = "Chat Help, S" + sim_id + ", SEC" + section_id
+				+ ", RS" + rs_id + actorIdPiece;
+
+		Conversation conv = Conversation.getByUniqueIdentifier(schema,
+				uniqName, TYPE_CHAT_HELP);
+
+		if (conv == null) {
 			conv = new Conversation();
 			conv.setSim_id(sim_id);
 			conv.setSimId(sim_id);
@@ -351,47 +380,55 @@ public class Conversation implements SimSectionDependentObject {
 			conv.setRs_id(rs_id);
 			conv.setUniqueConvName(uniqName);
 			conv.saveMe(schema);
-			
+
 			ConvActorAssignment caa1 = new ConvActorAssignment();
 			caa1.setActor_id(actor1);
 			caa1.setConv_id(conv.getId());
 			caa1.setRunning_sim_id(rs_id);
 			caa1.setSimId(sim_id);
 			caa1.saveMe(schema);
-			
+
 			ConvActorAssignment caa2 = new ConvActorAssignment();
 			caa2.setActor_id(actor2);
 			caa2.setConv_id(conv.getId());
 			caa2.setRunning_sim_id(rs_id);
 			caa2.setSimId(sim_id);
 			caa2.saveMe(schema);
-			
+
 		}
-		
+
 		return conv;
-		
+
 	}
-	
-	public static Conversation getByUniqueIdentifier(String schema, String uniqueConvName, int conv_type) {
+
+	/**
+	 * 
+	 * @param schema
+	 * @param uniqueConvName
+	 * @param conv_type
+	 * @return
+	 */
+	public static Conversation getByUniqueIdentifier(String schema,
+			String uniqueConvName, int conv_type) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String getSQL = "from Conversation where uniqueConvName = :uniqueConvName and conv_type = :conv_type"; //$NON-NLS-1$
 
-		List<Conversation> returnList = MultiSchemaHibernateUtil.getSession(schema)
-			.createQuery(getSQL)
-			.setString("uniqueConvName", uniqueConvName)
-			.setInteger("conv_type", conv_type)
-			.list();
+		List<Conversation> returnList = MultiSchemaHibernateUtil
+				.getSession(schema).createQuery(getSQL)
+				.setString("uniqueConvName", uniqueConvName)
+				.setInteger("conv_type", conv_type).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-		if ((returnList == null) || (returnList.size() == 0)){
+		if ((returnList == null) || (returnList.size() == 0)) {
 			return null;
-		} else if (returnList.size() == 1){
+		} else if (returnList.size() == 1) {
 			return returnList.get(0);
 		} else {
-			Logger.getRootLogger().warn("multiple conversations with same unique id found");
+			Logger.getRootLogger().warn(
+					"multiple conversations with same unique id found");
 			return returnList.get(0);
 		}
 	}
@@ -399,15 +436,19 @@ public class Conversation implements SimSectionDependentObject {
 	/**
 	 * Returns a list of all conversations associated with a particular
 	 * simulation.
+	 * 
 	 */
-	public static List getAllPrivateChatForASection(String schema, Long section_id) {
+	public static List getAllPrivateChatForASection(String schema,
+			Long section_id) {
 
 		// Get set of Base objects for this section
-		List conversationsBSSDOAs = BaseSimSectionDepObjectAssignment.getObjectsForSection(schema, section_id);
+		List conversationsBSSDOAs = BaseSimSectionDepObjectAssignment
+				.getObjectsForSection(schema, section_id);
 
 		List returnList = new ArrayList<Conversation>();
 
-		for (ListIterator<BaseSimSectionDepObjectAssignment> li = conversationsBSSDOAs.listIterator(); li.hasNext();) {
+		for (ListIterator<BaseSimSectionDepObjectAssignment> li = conversationsBSSDOAs
+				.listIterator(); li.hasNext();) {
 
 			BaseSimSectionDepObjectAssignment bssdoa = li.next();
 			Conversation conv = new Conversation();
@@ -427,9 +468,11 @@ public class Conversation implements SimSectionDependentObject {
 	 */
 	public static void deleteAllPrivateChatForSim(String schema, Long sim_id) {
 
-		List currentPrivChats = Conversation.getAllPrivateChatForSim(schema, sim_id);
+		List currentPrivChats = Conversation.getAllPrivateChatForSim(schema,
+				sim_id);
 
-		for (ListIterator<Conversation> li = currentPrivChats.listIterator(); li.hasNext();) {
+		for (ListIterator<Conversation> li = currentPrivChats.listIterator(); li
+				.hasNext();) {
 
 			Conversation conv = li.next();
 
@@ -447,7 +490,8 @@ public class Conversation implements SimSectionDependentObject {
 	 */
 	public boolean hasActor(String schema, Long actor_id) {
 
-		for (ListIterator<ConvActorAssignment> li = this.getConv_actor_assigns(schema).listIterator(); li.hasNext();) {
+		for (ListIterator<ConvActorAssignment> li = this.getConv_actor_assigns(
+				schema).listIterator(); li.hasNext();) {
 			ConvActorAssignment caa = li.next();
 
 			if (actor_id.equals(caa.getActor_id())) {
@@ -522,13 +566,16 @@ public class Conversation implements SimSectionDependentObject {
 	}
 
 	public List<ConvActorAssignment> getConv_actor_assigns(String schema) {
-		if ((this.conv_actor_assigns == null) || (this.conv_actor_assigns.size() == 0)){
-			this.conv_actor_assigns = ConvActorAssignment.getAllForConversation(schema, this.getId());
+		if ((this.conv_actor_assigns == null)
+				|| (this.conv_actor_assigns.size() == 0)) {
+			this.conv_actor_assigns = ConvActorAssignment
+					.getAllForConversation(schema, this.getId());
 		}
 		return this.conv_actor_assigns;
 	}
 
-	public void setConv_actor_assigns(List<ConvActorAssignment> conv_actor_assigns) {
+	public void setConv_actor_assigns(
+			List<ConvActorAssignment> conv_actor_assigns) {
 		this.conv_actor_assigns = conv_actor_assigns;
 	}
 
@@ -549,7 +596,8 @@ public class Conversation implements SimSectionDependentObject {
 	}
 
 	@Override
-	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id, Object templateObject) {
+	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id,
+			Object templateObject) {
 
 		Conversation templateConv = (Conversation) templateObject;
 
@@ -561,13 +609,14 @@ public class Conversation implements SimSectionDependentObject {
 		new_conv.setUniqueConvName(templateConv.getUniqueConvName());
 		new_conv.setConversationNotes(templateConv.getConversationNotes());
 		new_conv.setConversationType(templateConv.getConversationType());
-		
+
 		new_conv.saveMe(schema);
 
 		List<ConvActorAssignment> modifiedAssignments = new ArrayList<ConvActorAssignment>();
 		// Loop over the assignments gotten, and change the conversation id
-		for (ListIterator<ConvActorAssignment> li = ConvActorAssignment.getAllForConversation(schema,
-				templateConv.getId()).listIterator(); li.hasNext();) {
+		for (ListIterator<ConvActorAssignment> li = ConvActorAssignment
+				.getAllForConversation(schema, templateConv.getId())
+				.listIterator(); li.hasNext();) {
 			ConvActorAssignment conv_ass = li.next();
 
 			ConvActorAssignment new_conv_ass = new ConvActorAssignment();
@@ -576,7 +625,8 @@ public class Conversation implements SimSectionDependentObject {
 			new_conv_ass.setRunning_sim_id(rs_id);
 			new_conv_ass.setConv_id(new_conv.getId());
 			new_conv_ass.setActor_id(conv_ass.getActor_id());
-			new_conv_ass.setCan_be_added_removed(conv_ass.isCan_be_added_removed());
+			new_conv_ass.setCan_be_added_removed(conv_ass
+					.isCan_be_added_removed());
 			new_conv_ass.setInitially_present(conv_ass.isInitially_present());
 			new_conv_ass.setRole(conv_ass.getRole());
 			new_conv_ass.setRoom_owner(conv_ass.isRoom_owner());
@@ -606,7 +656,8 @@ public class Conversation implements SimSectionDependentObject {
 	public static Conversation getById(String schema, Long id2) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(schema).get(Conversation.class, id2);
+		Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(
+				schema).get(Conversation.class, id2);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -627,7 +678,7 @@ public class Conversation implements SimSectionDependentObject {
 	@Override
 	public void setSimId(Long theId) {
 		setSim_id(theId);
-		
+
 	}
 
 	public String getUniqueConvName() {
@@ -636,6 +687,49 @@ public class Conversation implements SimSectionDependentObject {
 
 	public void setUniqueConvName(String uniqueConvName) {
 		this.uniqueConvName = uniqueConvName;
+	}
+
+	public static Conversation getStudentChatForSim(String schema, Long simId,
+			Long rsId) {
+
+		Conversation conv = new Conversation();
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<Conversation> returnList = null;
+
+		if (rsId == null) {
+			String getSQL = "from Conversation where sim_id = :simid and rs_id is null and conv_type = "
+					+ TYPE_STUDENT_CHAT; //$NON-NLS-1$
+
+			returnList = MultiSchemaHibernateUtil.getSession(schema)
+					.createQuery(getSQL)
+					.setLong("simId", simId)
+					.list();
+		} else {
+			String getSQL = "from Conversation where sim_id = :simid and rs_id = :rsId and conv_type = "
+					+ TYPE_STUDENT_CHAT; //$NON-NLS-1$
+
+			returnList = MultiSchemaHibernateUtil.getSession(schema)
+					.createQuery(getSQL)
+					.setLong("simId", simId)
+					.setLong("rsId", rsId)
+					.list();
+		}
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		if (returnList == null) {
+			conv = new Conversation("student_conv",
+					"Student Converation for Simulation", simId);
+			conv.setConversationType(TYPE_STUDENT_CHAT);
+			conv.setRs_id(rsId);
+			conv.saveMe(schema);
+		} else {
+			conv = (Conversation) returnList.get(0);
+		}
+
+		return conv;
 	}
 
 }

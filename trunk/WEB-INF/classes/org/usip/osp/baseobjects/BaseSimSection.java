@@ -219,7 +219,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		// The set of base simulation sections are read out of
 		// XML files stored in the simulation_section_information directory.
 
-		Logger.getRootLogger().debug("Looking for files at: " + fileLocation); //$NON-NLS-1$
+		Logger.getRootLogger().warn("Looking for files at: " + fileLocation); //$NON-NLS-1$
 
 		File locDir = new File(fileLocation);
 
@@ -229,11 +229,13 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 			String fName = files[ii].getName();
 
+			System.out.println(fName);
+			
 			try {
 				readInXMLFile(schema, files[ii]);
 			} catch (Exception e) {
 				Logger.getRootLogger()
-						.debug("problem reading in file " + fName); //$NON-NLS-1$
+						.warn("problem reading in file " + fName); //$NON-NLS-1$
 				Logger.getRootLogger().debug(e.getMessage());
 			}
 		}
@@ -241,6 +243,14 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		return "Read in Base Simulation Section Information."; //$NON-NLS-1$
 	}
 
+	/**
+	 * returns all files found in a particular directory.
+	 * 
+	 * @param fileLocation
+	 * @param locDir
+	 * @param fileTypes
+	 * @return
+	 */
 	public static File[] getFilesFromDirectory(String fileLocation,
 			File locDir, String fileTypes) {
 
