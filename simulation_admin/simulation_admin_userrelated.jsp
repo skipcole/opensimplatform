@@ -5,7 +5,7 @@
 	afso.backPage = "../simulation_admin/simulation_admin_userrelated.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
 %>

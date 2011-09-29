@@ -14,7 +14,7 @@
 	pso.backPage = "push_injects_for_player.jsp";
 	
 	if (!(pso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
 	

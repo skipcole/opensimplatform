@@ -1,0 +1,19 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>false</hasCustomizer>
+  <customizerClassName></customizerClassName>
+  <creatingOrganization>Sea Change Simulations, LLC</creatingOrganization>
+  <uniqueName>Student Chat Room</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_student_chat_room.jsp</specificMakePage>
+  <pageTitle>Student Chat Room/pageTitle>
+  <bigString>In this room you may chat with the other players.</bigString>
+  <description>A page to allow the players to chat.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>student_chat_room.jsp</page__file__name>
+  <rec__tab__heading>Student Chat</rec__tab__heading>
+  <sample__image>student_chat_room.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.CustomizeableSection>

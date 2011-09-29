@@ -11,7 +11,7 @@
 	afso.backPage = AuthorFacilitatorSessionObject.getBaseSimURL() + "/simulation_authoring/set_universal_sim_sections.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
 	

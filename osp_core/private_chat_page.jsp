@@ -12,7 +12,7 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	
 	if (!(pso.isLoggedin())) {
-		response.sendRedirect("../blank.jsp");
+		response.sendRedirect("../login.jsp");
 		return;
 	}
 	
