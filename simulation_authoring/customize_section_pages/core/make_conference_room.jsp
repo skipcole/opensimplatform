@@ -81,10 +81,11 @@
 	              Or <a href="../../make_create_conversation_page.jsp"> create a new</a> conversation.</p>
 	        </td></tr>
           </table>
-          <p>Title that will appear for this room.</p>
-          <p><input type="text" name="page_title" id="page_title" value="<%= cs.getPageTitle() %>" />
+          <p><strong>Title that will appear for this room</strong>.
+<input type="text" name="page_title" id="page_title" value="<%= cs.getPageTitle() %>" />
           </p>
-          <p>Enter any text that will appear on this page. <br>
+          <p>&nbsp;</p>
+          <p><strong>Text that will appear on this page. </strong><br>
           </p>
           <p>
               <textarea id="text_page_text" name="text_page_text" style="height: 120px; width: 480px;"><%= cs.getBigString() %></textarea>

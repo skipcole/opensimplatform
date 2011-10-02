@@ -689,6 +689,120 @@ public class Conversation implements SimSectionDependentObject {
 		this.uniqueConvName = uniqueConvName;
 	}
 
+	/**
+	 * Responds to items selected on the create conversation page.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Conversation handleCreateConversation(HttpServletRequest request,
+			SessionObjectBase sob) {
+	
+		Conversation conv = new Conversation();
+		conv.setConversationType(TYPE_CAUCUS);
+	
+		// If the player cleared the form, return the blank document.
+		String clear_button = (String) request.getParameter("clear_button");
+		if (clear_button != null) {
+			return conv;
+		}
+	
+		// If we got passed in a doc id, use it to retrieve the doc we are
+		// working on.
+		String conv_id = (String) request.getParameter("conv_id");
+	
+		String queueup = (String) request.getParameter("queueup");
+		if ((queueup != null) && (queueup.equalsIgnoreCase("true"))
+				&& (conv_id != null) && (conv_id.trim().length() > 0)) {
+			conv = getById(sob.schema, new Long(conv_id));
+			return conv;
+		}
+	
+		// If player just entered this page from a different form, just return
+		// the blank document
+		String sending_page = (String) request.getParameter("sending_page");
+		if ((sending_page == null)
+				|| (!(sending_page
+						.equalsIgnoreCase("make_create_conversation_page")))) {
+			return conv;
+		}
+	
+		// If we got down to here, we must be doing some real work on a
+		// document.
+		String uniq_conv_name = (String) request.getParameter("uniq_conv_name");
+		String conv_notes = (String) request.getParameter("conv_notes");
+		String conv_type = (String) request.getParameter("conv_type");
+		
+		int conv_type_int = Conversation.TYPE_CAUCUS;
+		
+		try {
+			conv_type_int = new Long(conv_type).intValue();
+		} catch (Exception e){
+			e.printStackTrace();
+			conv_type_int = Conversation.TYPE_CAUCUS;
+		}
+	
+		// Do create if called.
+		String create_conv = (String) request.getParameter("create_conv");
+		if ((create_conv != null)) {
+			Logger.getRootLogger().debug(
+					"creating conv of uniq name: " + uniq_conv_name);
+			conv = new Conversation(uniq_conv_name, conv_notes, sob.sim_id);
+			conv.setConversationType(conv_type_int);
+			conv.saveMe(sob.schema);
+		}
+	
+		// Do update if called.
+		String update_conv = (String) request.getParameter("update_conv");
+		if ((update_conv != null)) {
+			Logger.getRootLogger().debug(
+					"updating conv of uniq title: " + uniq_conv_name);
+			conv = getById(sob.schema, new Long(conv_id));
+			conv.setUniqueConvName(uniq_conv_name);
+			conv.setConversationNotes(conv_notes);
+			conv.setSim_id(sob.sim_id);
+			conv.setConversationType(conv_type_int);
+			conv.saveMe(sob.schema);
+	
+		}
+	
+		// Need to clean out current actor assignments for this conversation
+		ConvActorAssignment.removeAllForConversation(sob.schema, conv.getId());
+	
+		Hashtable setOfUserRoles = new Hashtable();
+	
+		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+			String param_name = (String) e.nextElement();
+	
+			if (param_name.startsWith("role_")) {
+				String this_a_id = param_name.replaceFirst("role_", "");
+	
+				setOfUserRoles.put(this_a_id,
+						(String) request.getParameter(param_name));
+	
+			}
+		}
+	
+		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+			String param_name = (String) e.nextElement();
+	
+			if (param_name.startsWith("actor_cb_")) {
+				if ((request.getParameter(param_name) != null)
+						&& (request.getParameter(param_name)
+								.equalsIgnoreCase("true"))) {
+					String this_a_id = param_name.replaceFirst("actor_cb_", "");
+					Logger.getRootLogger().debug(
+							"adding " + this_a_id + " in schema" + sob.schema
+									+ " to sim_id " + sob.sim_id);
+					conv.addActor(this_a_id, sob.schema, sob.sim_id,
+							(String) setOfUserRoles.get(this_a_id));
+				}
+			}
+	
+		}
+		return conv;
+	}
+
 	public static Conversation getStudentChatForSim(String schema, Long simId,
 			Long rsId) {
 

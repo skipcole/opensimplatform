@@ -8,7 +8,7 @@
 	afso.backPage = "create_simulation_phases.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../login.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	

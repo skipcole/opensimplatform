@@ -48,7 +48,6 @@
                 <h3>Tried and True Objects</h3>
               </blockquote>
               <ul>
-                <li><a href="make_create_conversation_page.jsp">Add Conversation</a> <a href="helptext/add_conversation.jsp" target="helpinright">(?)</a> - Add a place for players to communicate. </li>
                 <li><a href="make_create_document_page.jsp">Add Document</a> <a href="helptext/add_document.jsp" target="helpinright">(?)</a> - Add a document to the simulation.</li>
                 <li><a href="make_create_document_notifications_page.jsp">Add Document Change Notification</a> <a href="helptext/add_document_change_notification.jsp" target="helpinright">(?)</a> - Create an alert to notify a player that a document has changed.</li>
                 <li><a href="injects.jsp">Add Inject</a> <a href="helptext/create_injects_help.jsp" target="helpinright">(?)</a> - Add events that can happen to students during the simulation.</li>

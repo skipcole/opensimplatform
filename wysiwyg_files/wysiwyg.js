@@ -25,8 +25,9 @@
 	                  WYSIWYG Height, Width, and CSS Directory.
 \* ---------------------------------------------------------------------- */
 
-rootDir = "../wysiwyg_files/";
-
+//if (rootDir == null) {
+	rootDir = "../wysiwyg_files/";
+//}
 // Images Directory
 imagesDir = rootDir + "icons/";
 
@@ -228,7 +229,11 @@ viewTextMode = 0;
   Arguments   : textarea_id - ID of textarea to replace
 \* ---------------------------------------------------------------------- */
 function generate_wysiwyg(textareaID) {
- 
+	
+	if (!(typeof newRootDir === 'undefined')) {
+		redefineImageLocations();
+	}
+
   	// Hide the textarea 
 	document.getElementById(textareaID).style.display = 'none'; 
 	
@@ -779,4 +784,47 @@ function viewText(n) {
 \* ---------------------------------------------------------------------- */
 function updateTextArea(n) {
   document.getElementById(n).value = document.getElementById("wysiwyg" + n).contentWindow.document.body.innerHTML;
+};
+
+function redefineImageLocations(){
+	
+	imagesDir = newRootDir + "icons/";
+
+	popupsDir = newRootDir + "popups/";
+
+// List of available actions and their respective ID and images
+ToolbarList = {
+//Name              buttonID                 buttonTitle           buttonImage                            buttonImageRollover
+	"selectfont":     ['SelectFont',           'SelectFont',         imagesDir + 'select_font.gif',        imagesDir + 'select_font_on.gif'],
+	"selectsize":     ['SelectSize',           'SelectSize',         imagesDir + 'select_size.gif',        imagesDir + 'select_size_on.gif'],
+  "bold":           ['Bold',                 'Bold',               imagesDir + 'bold.gif',               imagesDir + 'bold_on.gif'],
+  "italic":         ['Italic',               'Italic',             imagesDir + 'italics.gif',            imagesDir + 'italics_on.gif'],
+  "underline":      ['Underline',            'Underline',          imagesDir + 'underline.gif',          imagesDir + 'underline_on.gif'],
+	"strikethrough":  ['Strikethrough',        'Strikethrough',      imagesDir + 'strikethrough.gif',      imagesDir + 'strikethrough_on.gif'],
+	"seperator":      ['',                     '',                   imagesDir + 'seperator.gif',          imagesDir + 'seperator.gif'],
+	"subscript":      ['Subscript',            'Subscript',          imagesDir + 'subscript.gif',          imagesDir + 'subscript_on.gif'],
+	"superscript":    ['Superscript',          'Superscript',        imagesDir + 'superscript.gif',        imagesDir + 'superscript_on.gif'],
+	"justifyleft":    ['Justifyleft',          'Justifyleft',        imagesDir + 'justify_left.gif',       imagesDir + 'justify_left_on.gif'],
+	"justifycenter":  ['Justifycenter',        'Justifycenter',      imagesDir + 'justify_center.gif',     imagesDir + 'justify_center_on.gif'],
+	"justifyright":   ['Justifyright',         'Justifyright',       imagesDir + 'justify_right.gif',      imagesDir + 'justify_right_on.gif'],
+	"unorderedlist":  ['InsertUnorderedList',  'InsertUnorderedList',imagesDir + 'list_unordered.gif',     imagesDir + 'list_unordered_on.gif'],
+	"orderedlist":    ['InsertOrderedList',    'InsertOrderedList',  imagesDir + 'list_ordered.gif',       imagesDir + 'list_ordered_on.gif'],
+	"outdent":        ['Outdent',              'Outdent',            imagesDir + 'indent_left.gif',        imagesDir + 'indent_left_on.gif'],
+	"indent":         ['Indent',               'Indent',             imagesDir + 'indent_right.gif',       imagesDir + 'indent_right_on.gif'],
+	"cut":            ['Cut',                  'Cut',                imagesDir + 'cut.gif',                imagesDir + 'cut_on.gif'],
+	"copy":           ['Copy',                 'Copy',               imagesDir + 'copy.gif',               imagesDir + 'copy_on.gif'],
+  "paste":          ['Paste',                'Paste',              imagesDir + 'paste.gif',              imagesDir + 'paste_on.gif'],
+	"forecolor":      ['ForeColor',            'ForeColor',          imagesDir + 'forecolor.gif',          imagesDir + 'forecolor_on.gif'],
+	"backcolor":      ['BackColor',            'BackColor',          imagesDir + 'backcolor.gif',          imagesDir + 'backcolor_on.gif'],
+	"undo":           ['Undo',                 'Undo',               imagesDir + 'undo.gif',               imagesDir + 'undo_on.gif'],
+	"redo":           ['Redo',                 'Redo',               imagesDir + 'redo.gif',               imagesDir + 'redo_on.gif'],
+	"inserttable":    ['InsertTable',          'InsertTable',        imagesDir + 'insert_table.gif',       imagesDir + 'insert_table_on.gif'],
+	"insertimage":    ['InsertImage',          'InsertImage',        imagesDir + 'insert_picture.gif',     imagesDir + 'insert_picture_on.gif'],
+	"createlink":     ['CreateLink',           'CreateLink',         imagesDir + 'insert_hyperlink.gif',   imagesDir + 'insert_hyperlink_on.gif'],
+	"viewSource":     ['ViewSource',           'ViewSource',         imagesDir + 'view_source.gif',        imagesDir + 'view_source_on.gif'],
+	"viewText":       ['ViewText',             'ViewText',           imagesDir + 'view_text.gif',          imagesDir + 'view_text_on.gif'],
+	"help":           ['Help',                 'Help',               imagesDir + 'help.gif',               imagesDir + 'help_on.gif']
+};
+
+
 };

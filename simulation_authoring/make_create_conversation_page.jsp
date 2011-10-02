@@ -6,13 +6,22 @@
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	Conversation thisConv = afso.handleCreateConversation(request);
+	Conversation thisConv = Conversation.handleCreateConversation(request, afso);
 	
 	Simulation sim = new Simulation();	
 	
 	if (afso.sim_id != null){
 		sim = afso.giveMeSim();
 	}
+	
+	String checkedRegular = "checked=\"checked\"";
+	String checkedStudent = "";
+	
+	if (thisConv.getConversationType() == Conversation.TYPE_STUDENT_CHAT) {
+		checkedRegular = "";
+		checkedStudent = "checked=\"checked\"";
+	}
+		
 	
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -47,6 +56,14 @@
                   <textarea name="conv_notes" id="conv_notes" cols="45" rows="5"><%= thisConv.getConversationNotes() %></textarea>
                 </label></td>
               </tr>
+             <tr>
+              <td align="left" valign="top">Type of Chat</td>
+              <td align="left" valign="top"><input name="conv_type" type="radio" value="<%= Conversation.TYPE_CAUCUS %>" <%= checkedRegular %> />
+                <label for="radio">Regular / 
+                  <input type="radio" name="conv_type" value="<%= Conversation.TYPE_STUDENT_CHAT %>" <%= checkedStudent %> />
+                </label>
+                Student</td>
+            </tr>
               <tr>
                 <td>&nbsp;</td>
                 <td>	      <p>Select the Actors to be included in this conversation, and if desired, assign them a designated role <a href="actors_chat_role_help.jsp" target="helpinright">(?)</a>. </p>
@@ -124,7 +141,7 @@
       </table>
       <p><br />
       * This feature has not yet been implemented.</p>
-      <p><a href="<%= afso.backPage %>"><img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
+      <p><a href="customize_section_pages/core/make_conference_room.jsp"<img src="../Templates/images/back.gif" alt="Back" border="0"/></a></p>			</td>
 		</tr>
 		</table>	</td>
   </tr>

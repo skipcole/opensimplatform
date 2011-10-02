@@ -10,6 +10,7 @@ import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.networking.USIP_OSP_Cache;
 import org.usip.osp.networking.USIP_OSP_ContextListener;
+import org.usip.osp.persistence.BaseUser;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 /**
@@ -353,8 +354,7 @@ public class ChatController {
 			return returnVector;
 		}
 
-		Conversation conv = new Conversation();
-		conv.setId(conv_id);
+		Conversation conv = Conversation.getById(pso.schema,conv_id);
 
 		for (ListIterator<ConvActorAssignment> ais = conv
 				.getConv_actor_assigns(pso.schema).listIterator(); ais.hasNext();) {
@@ -363,15 +363,32 @@ public class ChatController {
 
 			Long a_id = caa.getActor_id();
 
-			Logger.getRootLogger().debug("actors id was " + a_id); //$NON-NLS-1$
-			
 			Actor act = Actor.getById(pso.schema, a_id);
 			
-			ActorGhost ag = new ActorGhost(act);
+			if (conv.getConversationType() == Conversation.TYPE_STUDENT_CHAT){
+				// Need to get all users playing this actor, and add them.
+				List studentsForActor = 
+					UserAssignment.getAllForActorInARunningSim(pso.schema, 
+							act.getId(), pso.getRunningSimId());
+				for (ListIterator li = studentsForActor.listIterator(); li.hasNext();) {
+					UserAssignment ua = (UserAssignment) li.next();
+					
+					if (ua.getUser_id() != null){
+						BaseUser bu = BaseUser.getByUserId(ua.getUser_id());
+						ActorGhost ag = new ActorGhost();
+						ag.setId(ua.getUser_id());
+						ag.setName(bu.getFull_name());
+						returnVector.add(ag);
+					}
+				}
+				
+				
+			} else {
+				ActorGhost ag = new ActorGhost(act);
+				ag.setName(act.getActorName(pso.schema, pso.getRunningSimId(), request));
+				returnVector.add(ag);
+			}
 			
-			ag.setName(act.getActorName(pso.schema, pso.getRunningSimId(), request));
-
-			returnVector.add(ag);
 		}
 
 		return returnVector;

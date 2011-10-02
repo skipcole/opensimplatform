@@ -1417,10 +1417,21 @@ public class PSO_SectionMgmt {
 	public CustomizeableSection handleMakeImagePage(HttpServletRequest request) {
 
 		customizableSectionOnScratchPad = new CustomizeableSection();
+		
+		System.out.println("     handleMakeImagePage         ");
+		System.out.println("     handleMakeImagePage         ");
+		System.out.println("     handleMakeImagePage         ");
+		System.out.flush();
+		
 
 		try {
-			MultipartRequest mpr = new MultipartRequest(request, USIP_OSP_Properties.getValue("uploads"));
+			MultipartRequest mpr = new MultipartRequest(request, USIP_OSP_Properties.getValue("uploads"), 9999999);
 
+			System.out.println("     in try          ");
+			System.out.println("              ");
+			System.out.println("              ");
+			System.out.flush();
+			
 			if (mpr != null) {
 				_custom_section_id = (String) mpr.getParameter("custom_page");
 				customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
@@ -1430,9 +1441,16 @@ public class PSO_SectionMgmt {
 				sending_page = (String) mpr.getParameter("sending_page");
 				save_page = (String) mpr.getParameter("save_page");
 				save_and_add = (String) mpr.getParameter("save_and_add");
+				
+				System.out.println("     in if          ");
+				System.out.println("              ");
+				System.out.println("              ");
 
 				if ((sending_page != null) && ((save_page != null) || (save_and_add != null))) {
 
+					System.out.println("     in save          ");
+					System.out.println("              ");
+					System.out.println("              ");
 					// If this is the original custom page, make a new page
 					makeCopyOfCustomizedSectionIfNeeded();
 
@@ -1447,13 +1465,23 @@ public class PSO_SectionMgmt {
 					afso.makeUploadDir();
 					String initFileName = mpr.getOriginalFileName("uploadedfile");
 
-					Logger.getRootLogger().debug("init file was: " + initFileName);
+					Logger.getRootLogger().warn("init file was: " + initFileName);
 
-					if ((initFileName != null) && (initFileName.trim().length() > 0)) {
+					if (USIP_OSP_Util.stringFieldHasValue(initFileName)) {
+						
+						System.out.println("     in intfilename  has value        ");
+						System.out.println("              ");
+						System.out.println("   initFileName is           " + initFileName);
+						
 						customizableSectionOnScratchPad.getContents().put("image_file_name", initFileName);
 
 						for (Enumeration e = mpr.getFileNames(); e.hasMoreElements();) {
 							String fn = (String) e.nextElement();
+							
+							System.out.println("     in loop          ");
+							System.out.println("              ");
+							System.out.println("    fn is          " + fn);
+							
 
 							FileIO.saveImageFile(OSPSimMedia.SIM_IMAGE, initFileName, mpr.getFile(fn));
 						}
@@ -1475,7 +1503,8 @@ public class PSO_SectionMgmt {
 
 			} // End of if mpr != null
 		} catch (Exception mpr_e) {
-			Logger.getRootLogger().debug("error : " + mpr_e.getMessage());
+			Logger.getRootLogger().warn("error : " + mpr_e.getMessage());
+			mpr_e.printStackTrace();
 			_custom_section_id = (String) request.getParameter("custom_page");
 			customizableSectionOnScratchPad = CustomizeableSection.getById(afso.schema, _custom_section_id);
 

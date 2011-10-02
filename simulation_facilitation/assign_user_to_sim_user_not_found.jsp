@@ -8,7 +8,7 @@
 	afso.backBackPageCode = 1;
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../login.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	

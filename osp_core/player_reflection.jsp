@@ -13,7 +13,7 @@
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 		
 	if (!(pso.isLoggedin())) {
-		response.sendRedirect("../login.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 
