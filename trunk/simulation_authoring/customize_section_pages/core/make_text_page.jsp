@@ -21,9 +21,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <title>Open Simulation Platform Control Page</title>
+
+<script language="javascript1.2">
+			var redefineImages = true;
+			newRootDir = "../../../wysiwyg_files/";
+</script>
 <script language="JavaScript" type="text/javascript" src="../../../wysiwyg_files/wysiwyg.js">
 </script>
-
 
 
 <link href="../../../usip_osp.css" rel="stylesheet" type="text/css" />
@@ -89,6 +93,3 @@
 <p align="center">&nbsp;</p>
 </body>
 </html>
-<%
-	
-%>

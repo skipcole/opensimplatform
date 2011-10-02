@@ -222,7 +222,15 @@ public class UserAssignment{
 		return returnList;
 	}
 	
-	public static List getAllForActorInARunningSim(String schema, Long actor_id, Long running_sim_id) {
+	/**
+	 * Gets all of the users assignments for people playing an actor in a simulation.
+	 * 
+	 * @param schema
+	 * @param actor_id
+	 * @param running_sim_id
+	 * @return
+	 */
+	public static List <UserAssignment> getAllForActorInARunningSim(String schema, Long actor_id, Long running_sim_id) {
 		
 		List returnList = new ArrayList<UserAssignment>();
 		

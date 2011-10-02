@@ -8,7 +8,7 @@
 	//afso.backPage = afso.getBaseSimURL() + "/simulation_authoring/create_simulation_section.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../login.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	

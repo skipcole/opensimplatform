@@ -9,7 +9,7 @@
 	afso.backPage = "../simulation_authoring/create_simulation.jsp";
 	
 	if (!(afso.isLoggedin())) {
-		response.sendRedirect("../login.jsp");
+		response.sendRedirect("../blank.jsp");
 		return;
 	}
 	
