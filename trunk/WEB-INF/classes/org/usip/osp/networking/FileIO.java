@@ -52,7 +52,7 @@ public class FileIO {
 		packaged_sim_dir = base_web_dir + "simulation_sharing" + File.separator
 				+ "packaged_simulations" + File.separator;
 		upgrade_files_dir = base_web_dir + "software_upgrade_files" + File.separator;
-		sim_image_dir = base_web_dir + "simulation" + File.separator + "images"
+		sim_image_dir = base_web_dir + "osp_core" + File.separator + "images"
 				+ File.separator;
 		sim_experience_dir = base_web_dir + "simulation_admin" + File.separator
 			+ "experience_archives" + File.separator;

@@ -274,7 +274,7 @@ public class CustomizeableSection extends BaseSimSection {
 	
 	public String simImage(String baseWebDirectory){
 		String imageName = (String) getContents().get("image_file_name"); //$NON-NLS-1$
-		String fullfilename = baseWebDirectory + "/simulation/images/" + imageName; //$NON-NLS-1$
+		String fullfilename = baseWebDirectory + "/osp_core/images/" + imageName; //$NON-NLS-1$
 	
 		return fullfilename;
 		
@@ -416,6 +416,8 @@ public class CustomizeableSection extends BaseSimSection {
 	public static CustomizeableSection getByUniqueName(String schema, String uniqueName,
 			SessionObjectBase sob){
 		
+		System.out.println("|" + uniqueName + "|");
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		String queryString = "from BaseSimSection where uniqueName = :uniqueName"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -428,7 +430,7 @@ public class CustomizeableSection extends BaseSimSection {
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
-		if (returnList == null){
+		if ((returnList == null) || (returnList.size() == 0)){
 			return new CustomizeableSection();
 		} else if (returnList.size() > 1) {
 			OSPErrors.storeInternalWarning("Duplicate unique key found: " + uniqueName, sob);
