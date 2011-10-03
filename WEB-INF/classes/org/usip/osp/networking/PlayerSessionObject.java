@@ -2100,23 +2100,28 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
 	public ArrayList<String> getChat(HttpServletRequest request) {
 		String status_code = ChatController.NO_NEW_MSG + "";
 
 		String show_all = (String) request.getParameter("show_all");
 
-		String conversation = (String) request.getParameter("conversation");
+		String conv_id = (String) request.getParameter("conversation");
 		String start_index = (String) request.getParameter("start_index");
 
 		String xml_msgs = "";
 
-		if (conversation != null) {
+		if (conv_id != null) {
 			if (show_all != null) {
 				xml_msgs = ChatController.getXMLConversation(start_index,
-						conversation, this, request, 0);
+						conv_id, this, request, 0);
 			} else {
 				xml_msgs = ChatController.getXMLConversation(start_index,
-						conversation, this, request, 100);
+						conv_id, this, request, 100);
 			}
 		}
 

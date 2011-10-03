@@ -650,14 +650,14 @@ public class Conversation implements SimSectionDependentObject {
 	/**
 	 * 
 	 * @param schema
-	 * @param id2
+	 * @param convId
 	 * @return
 	 */
-	public static Conversation getById(String schema, Long id2) {
+	public static Conversation getById(String schema, Long convId) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		Conversation conv = (Conversation) MultiSchemaHibernateUtil.getSession(
-				schema).get(Conversation.class, id2);
+				schema).get(Conversation.class, convId);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

@@ -814,6 +814,7 @@ public class ObjectPackager {
 		}
 
 		afso.sim_id = simRead.getId();
+		afso.saveLastSimEdited();
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Actors");
 		unpackageActors(schema, re.getId(), xmlText, simRead.getId(), xstream,
