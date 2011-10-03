@@ -421,32 +421,69 @@ public class SimulationSectionAssignment implements WebObject {
 	 * Returns a list of the base sim section ids for the simulation whose id
 	 * was passed in.
 	 * 
+	 * This gets all of the simulation sections, even if they are generic ones, actually
+	 * in use in the simulaiton. And it also gets all simulation sections that have been
+	 * created particularly for this simulation. Which are not necessarily in direct usage
+	 * as simulations sections!  Some of these sections may be linked to, but not included
+	 * as directly as simulations sections. Note: We will need to update the links to make sure
+	 * that they work after the export/import process.
+	 * 
 	 * @param schema
 	 * @param sid
 	 * @return
 	 */
-	public static List<Long> getBaseIdsBySim(String schema, Long sid) {
+	public static List<Long> getBaseIdsBySim(String schema, Long simId) {
 
-		if (sid == null) {
-
-			Logger.getRootLogger().warn("sid: " + sid); //$NON-NLS-1$
+		if (simId == null) {
 			return new ArrayList<Long>();
 		} else {
+			
+			Hashtable completeList = new Hashtable();
 
-			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSectionAssignment ss where SIM_ID = " //$NON-NLS-1$
-					+ sid.toString() + " order by ss.base_sec_id"; //$NON-NLS-1$
-
-			Logger.getRootLogger().debug(getHQL);
+			//////////////////////////////
+			String getHQL = "select DISTINCT ss.base_sec_id from SimulationSectionAssignment ss " +
+				"where SIM_ID = :simId order by ss.base_sec_id"; //$NON-NLS-1$
 
 			MultiSchemaHibernateUtil.beginTransaction(schema);
 
-			List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
+			List firstList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(getHQL)
+				.setLong("simId", simId)
+				.list();
+			
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			///////////////////////////////
+			String getHQL2 = "select id from BaseSimSection " +
+			"where simId = :simId"; //$NON-NLS-1$
 
-			if (returnList == null) {
-				returnList = new ArrayList();
+			MultiSchemaHibernateUtil.beginTransaction(schema);
+
+			List secondList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(getHQL2)
+				.setLong("simId", simId)
+				.list();
+		
+			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+			/////////////////////////////////
+			for (ListIterator lia = firstList.listIterator(); lia.hasNext();) {
+				Long sectionId = (Long) lia.next();
+				
+				completeList.put(sectionId, "set");
 			}
-
-			Logger.getRootLogger().debug("get # ids: " + returnList.size()); //$NON-NLS-1$
+			
+			for (ListIterator lia = secondList.listIterator(); lia.hasNext();) {
+				Long sectionId = (Long) lia.next();
+				
+				completeList.put(sectionId, "set");
+			}
+			
+			List returnList = new ArrayList<Long>();
+			
+			for (Enumeration e = completeList.keys(); e.hasMoreElements();) {
+				Long key = (Long) e.nextElement();
+				returnList.add(key);
+			}
+			
 
 			return returnList;
 		}

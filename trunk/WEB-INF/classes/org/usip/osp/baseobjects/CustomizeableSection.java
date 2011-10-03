@@ -10,6 +10,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.core.Customizer;
 import org.usip.osp.networking.*;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.persistence.OSPErrors;
 import org.usip.osp.sharing.ObjectPackager;
 import org.apache.log4j.*;
 /**
@@ -408,6 +409,32 @@ public class CustomizeableSection extends BaseSimSection {
 			return ("customize_page.jsp?custom_page=" + this.getId());
 		} else {
 			return (this.getSpecificMakePage() + "?custom_page=" + this.getId());
+		}
+		
+	}
+	
+	public static CustomizeableSection getByUniqueName(String schema, String uniqueName,
+			SessionObjectBase sob){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String queryString = "from BaseSimSection where uniqueName = :uniqueName"; //$NON-NLS-1$ //$NON-NLS-2$
+
+		List<CustomizeableSection> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(queryString)
+				.setString("uniqueName", uniqueName)
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		if (returnList == null){
+			return new CustomizeableSection();
+		} else if (returnList.size() > 1) {
+			OSPErrors.storeInternalWarning("Duplicate unique key found: " + uniqueName, sob);
+			return new CustomizeableSection();
+		}	else {
+			return (CustomizeableSection) returnList.get(0);
 		}
 		
 	}

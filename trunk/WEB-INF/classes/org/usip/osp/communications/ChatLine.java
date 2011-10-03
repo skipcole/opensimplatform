@@ -79,13 +79,19 @@ public class ChatLine implements Comparable{
      * 
      * @return	Returns the chatline packaged in xml.
      */
-    public String packageIntoXML(PlayerSessionObject afso, HttpServletRequest request, long timeZoneOffset){
+    public String packageIntoXML(PlayerSessionObject afso, HttpServletRequest request, 
+    		long timeZoneOffset, int convType){
     	
     	String time_string = this.sdf.format(new Date(this.msgDate.getTime() + timeZoneOffset));
     	
     	String returnString = "<message>"; //$NON-NLS-1$
     	
-    	String actorName = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.getRunningSimId(), request, this.fromActor);
+    	String actorName = "";
+    	if (convType == Conversation.TYPE_STUDENT_CHAT){
+    		actorName = USIP_OSP_Cache.getUSERName(afso.schema, request, this.fromUser);
+    	} else {
+    		actorName = USIP_OSP_Cache.getActorName(afso.schema, afso.sim_id, afso.getRunningSimId(), request, this.fromActor);
+    	}
     	
     	returnString += "     <conversation>" + this.conversation_id + "</conversation>"; //$NON-NLS-1$ //$NON-NLS-2$
     	returnString += "     <time>" + time_string + "</time>"; //$NON-NLS-1$ //$NON-NLS-2$

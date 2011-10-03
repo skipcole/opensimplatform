@@ -1,7 +1,10 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.baseobjects.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.baseobjects.*,
+	org.usip.osp.baseobjects.core.*,
+	org.usip.osp.networking.*" 
 	errorPage="/error.jsp" %>
 
 <%
@@ -12,13 +15,8 @@
 		return;
 	}
 	
-	String bodyText = "";
-	
-	String cs_id = (String) request.getParameter("cs_id");
-	
-	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
-    
-	bodyText = (String) cs.getBigString();
+
+	CustomizeableSection cs = TextPageCustomizer.getTextPageCS(request, pso);
 	
 %>
 <html>
@@ -28,6 +26,6 @@
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<%= bodyText %>
+<%= cs.getBigString() %>
 </body>
 </html>
