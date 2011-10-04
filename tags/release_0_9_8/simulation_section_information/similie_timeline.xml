@@ -1,0 +1,25 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_similietimeline_page.jsp</specificMakePage>
+  <contents/>
+  <pageTitle></pageTitle>
+  <bigString></bigString>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.SimilieTimelineCustomizer</customizerClassName>
+  <numDependentObjects>0</numDependentObjects>
+  <creatingOrganization>USIP</creatingOrganization>
+  <uniqueName>similie_timeline</uniqueName>
+  <version>1</version>
+  <description>Displays a timeline based on the open source Similie Timeline from MIT. </description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>similie_timeline.jsp</page__file__name>
+  <rec__tab__heading>Timeline</rec__tab__heading>
+  <sample__image>similie_timeline.png</sample__image>
+  <control__section>false</control__section>
+  <cust__lib__name></cust__lib__name>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendString></sendString>
+</org.usip.osp.baseobjects.CustomizeableSection>

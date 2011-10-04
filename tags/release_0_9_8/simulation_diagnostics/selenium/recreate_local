@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>recreate_local</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">recreate_local</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/usip_osp/osp_install/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>installbody</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Click here</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>installrootdb</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Back']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Click Here</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>db_schema</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>db_org</td>
+	<td>USIP</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>db_user</td>
+	<td>root</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>db_pass</td>
+	<td>brock_s</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>admin_first</td>
+	<td>Skip</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>admin_last</td>
+	<td>Cole</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>admin_full</td>
+	<td>Skip Cole</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>admin_email</td>
+	<td>me@skipcole.com</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>new_admin_user_cbox</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>admin_pass</td>
+	<td>a</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>cleandb</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Back']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Login to Tool</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>username</td>
+	<td>me@skipcole.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>a</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>Submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>name=null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

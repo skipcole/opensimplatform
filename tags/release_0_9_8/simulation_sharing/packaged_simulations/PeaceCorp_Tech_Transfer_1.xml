@@ -1,0 +1,885 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SIM_PACKAGE_OBJECT>
+<OSP_VERSION>0.9.0</OSP_VERSION>
+<EXPORT_DATE>10/11/10 3:05 PM</EXPORT_DATE>
+<org.usip.osp.baseobjects.SimulationVersion>
+  <transitId>4</transitId>
+  <name>P.C. Tech Transfer</name>
+  <version>1</version>
+  <softwareVersion>0.9.0</softwareVersion>
+  <finePoints></finePoints>
+</org.usip.osp.baseobjects.SimulationVersion>
+<org.usip.osp.baseobjects.Simulation>
+  <transitId>4</transitId>
+  <name>P.C. Tech Transfer</name>
+  <version>1</version>
+  <softwareVersion>0.9.0</softwareVersion>
+  <blurb>A simulation to walk people new to bringing an innovation to market through some of the steps they will pass through.</blurb>
+  <allowPlayerAutoreg>false</allowPlayerAutoreg>
+  <introduction>&lt;P&gt;&quot;Apply strengths to needs.&quot; &lt;/P&gt;&#x0D;&lt;P&gt;That is the Peace Corps&apos; change model, and it holds true for both the Peace Corps Volunteer and their Host Country Agency. &lt;/P&gt;&#x0D;&lt;P&gt;In this simulations, we will explore how you can identify critical needs in a TT scenario, and how you can apply your individual strengths to help address those needs.&lt;/P&gt;</introduction>
+  <learningObjvs>This simulation is to prepare PCV&apos;s to&amp;nbsp;walk new inventors through the processes of bringing an innovation to market.&lt;BR&gt;</learningObjvs>
+  <audience>The primary participants in Version 1 of this simulation are PCV&apos;s, PCT&apos;s and PCMX programming and training staff. Ideally we will be able to include Technology Managers from CONACYT Centers too.</audience>
+  <plannedPlayIdeas>&lt;P&gt;Two technologies are disclosed to the OTT.&lt;/P&gt;&#x0D;&lt;P&gt;The TT process must be followed to identify which, if eaither, should go to market. &lt;/P&gt;&#x0D;&lt;P&gt;And How?&lt;/P&gt;</plannedPlayIdeas>
+  <aarStarterText></aarStarterText>
+  <creationOrg>Peace Corp</creationOrg>
+  <creator>Skip Cole</creator>
+  <copyrightString>PeaceCorp 2010</copyrightString>
+  <isReadyForPublicListing>false</isReadyForPublicListing>
+  <listingKeyWords></listingKeyWords>
+  <lastEditDate class="sql-timestamp">2010-10-11 15:03:02.0</lastEditDate>
+</org.usip.osp.baseobjects.Simulation>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>4</sim__id>
+  <transit__id>20</transit__id>
+  <name>Inventor</name>
+  <public__description>Someone who invents something</public__description>
+  <semi__public__description>Like Albert Einstein</semi__public__description>
+  <private__description>His hair looks funny.</private__description>
+  <imageFilename>no_image_default.jpg</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>4</sim__id>
+  <transit__id>21</transit__id>
+  <name>Center Director</name>
+  <public__description>Wants the technology to make money and get lots and lots of publicity for him and his center. It is very important to him that this becomes a commercial success.&lt;br&gt;</public__description>
+  <semi__public__description>&lt;br&gt;</semi__public__description>
+  <private__description>Doesn&apos;t like the Principal Investigator A, but wants to use the invention for his own career advancement.&lt;br&gt;</private__description>
+  <imageFilename>no_image_default.jpg</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>4</sim__id>
+  <transit__id>22</transit__id>
+  <name>Center Technology Manager</name>
+  <public__description>Formerly the Director of Vinculacion. Has no direct tech transfer experience. Took a class on the &apos;Quick Look&apos; method and a class on business planning. Wants to create a success story, but is getting enormous pressure to bring in, or grow, sponsored research projects.&lt;br&gt;</public__description>
+  <semi__public__description>&lt;br&gt;</semi__public__description>
+  <private__description>Trusts his Peace Corp volunteer.</private__description>
+  <imageFilename>no_image_default.jpg</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>4</sim__id>
+  <transit__id>23</transit__id>
+  <name>Control</name>
+  <public__description>&lt;br&gt;</public__description>
+  <semi__public__description>&lt;br&gt;</semi__public__description>
+  <private__description>&lt;br&gt;</private__description>
+  <imageFilename>no_image_default.jpg</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>true</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>4</sim__id>
+  <transit__id>24</transit__id>
+  <name>Investigator A</name>
+  <public__description>Person who made the discovery. Is eligible for a percentage (up to 70%) of resulting royalties. Wants to be a millionaire.&lt;br&gt;</public__description>
+  <semi__public__description>&lt;br&gt;</semi__public__description>
+  <private__description>Feels he will not get anything out of this product getting to market.&lt;br&gt;Wants to publish as many papers as possible.&lt;br&gt;</private__description>
+  <imageFilename>no_image_default.jpg</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>4</sim__id>
+  <transit__id>25</transit__id>
+  <name>Investigator B</name>
+  <public__description>Helped Principal Investigator A. Participated in the discovery. Wants a portion of the royalties.&lt;br&gt;</public__description>
+  <semi__public__description>&lt;br&gt;</semi__public__description>
+  <private__description>Thinks there is a better way to do the same innovation. Would like to found his own company to offer the invention as a service.&lt;br&gt;</private__description>
+  <imageFilename>no_image_default.jpg</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+<org.usip.osp.baseobjects.Actor>
+  <sim__id>4</sim__id>
+  <transit__id>26</transit__id>
+  <name>Volunteer 1</name>
+  <public__description>Works in the Technology Transferring office of the inventing center. Has no background in tech transfer, but has lots of U.S. business experience. Is smart, highly motivated and wants to create a success story with this technology.&lt;br&gt;</public__description>
+  <semi__public__description>&lt;br&gt;</semi__public__description>
+  <private__description>Lacks confidence in the Center&apos;s Technology Manager. Pre-service Training (PST) is their only exposure to the tech transfer process.&lt;br&gt;</private__description>
+  <imageFilename>no_image_default.jpg</imageFilename>
+  <imageThumbFilename></imageThumbFilename>
+  <defaultColorChatBubble>FFFFFF</defaultColorChatBubble>
+  <control__actor>false</control__actor>
+  <npc>false</npc>
+  <isShown>true</isShown>
+</org.usip.osp.baseobjects.Actor>
+
+
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>21</transit__id>
+  <name>Intellectual Property</name>
+  <notes>Identify if IP rights exist</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>false</lastPhase>
+  <copyInObjects>false</copyInObjects>
+  <phaseStartDate class="sql-timestamp">2001-01-01 09:00:53.0</phaseStartDate>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>0</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>22</transit__id>
+  <name>Started</name>
+  <notes>The first phase of the simulation.</notes>
+  <firstPhase>true</firstPhase>
+  <lastPhase>false</lastPhase>
+  <copyInObjects>false</copyInObjects>
+  <phaseStartDate class="sql-timestamp">2001-01-01 09:00:29.0</phaseStartDate>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>1</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>23</transit__id>
+  <name>Completed</name>
+  <notes>The last phase of the simulation.</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>true</lastPhase>
+  <copyInObjects>false</copyInObjects>
+  <phaseStartDate class="sql-timestamp">2001-01-01 09:00:29.0</phaseStartDate>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>9999</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+
+<org.usip.osp.baseobjects.SimPhaseAssignment>
+  <sim__id>4</sim__id>
+  <phase__id>21</phase__id>
+  <transit__id>21</transit__id>
+</org.usip.osp.baseobjects.SimPhaseAssignment>
+<org.usip.osp.baseobjects.SimPhaseAssignment>
+  <sim__id>4</sim__id>
+  <phase__id>22</phase__id>
+  <transit__id>22</transit__id>
+</org.usip.osp.baseobjects.SimPhaseAssignment>
+<org.usip.osp.baseobjects.SimPhaseAssignment>
+  <sim__id>4</sim__id>
+  <phase__id>23</phase__id>
+  <transit__id>23</transit__id>
+</org.usip.osp.baseobjects.SimPhaseAssignment>
+
+
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>1</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>AAR</uniqueName>
+  <version>1</version>
+  <description>An &apos;after action report&apos; (AAR) is a document written after an event describing what happened and what the lessons learned were. Adding this section to a simulation adds a page showing the after action report that the instructor has written. This is generally considered the essential final step of a simulation: to provide feedback to the players on how they have done, and give them thoughts to reflect upon.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <rec__tab__heading>AAR</rec__tab__heading>
+  <sample__image>aar.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>8</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Change Phase</uniqueName>
+  <version>1</version>
+  <description>A section to allow the game controller to change the phase of a simulation.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <rec__tab__heading>Change Phase</rec__tab__heading>
+  <sample__image>change_phase.png</sample__image>
+  <control__section>true</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>22</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Introduction</uniqueName>
+  <version>1</version>
+  <description>The introductory text will be shown here.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <rec__tab__heading>Introduction</rec__tab__heading>
+  <sample__image>introduction.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>35</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Schedule</uniqueName>
+  <version>1</version>
+  <description>A place for the players to read the schedule that their instructor has written.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <rec__tab__heading>Schedule</rec__tab__heading>
+  <sample__image>schedule.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>48</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Write AAR</uniqueName>
+  <version>1</version>
+  <description>A section to write the after action report.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <rec__tab__heading>Write AAR</rec__tab__heading>
+  <sample__image>write_aar.png</sample__image>
+  <control__section>true</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>285</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName>Introduction</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>286</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName>Schedule</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>287</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName>AAR</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>288</transit__id>
+  <sim__id>4</sim__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>289</transit__id>
+  <sim__id>4</sim__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>290</transit__id>
+  <sim__id>4</sim__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>291</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>20</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>292</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>20</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>293</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>20</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>294</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>21</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>295</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>21</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>296</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>21</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>297</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>22</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>298</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>22</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>299</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>22</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>300</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>301</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>302</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>303</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>24</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>304</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>24</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>305</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>24</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>306</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>25</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>307</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>25</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>308</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>25</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>309</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>26</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>22</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>310</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>26</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>35</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>311</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>26</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName></baseUniqueName>
+  <baseVersion></baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>true</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>312</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>21</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Change Phase</tab__heading>
+  <base__sec__id>8</base__sec__id>
+  <baseUniqueName>Change Phase</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>313</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>21</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>48</base__sec__id>
+  <baseUniqueName>Write AAR</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>314</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>3</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Change Phase</tab__heading>
+  <base__sec__id>8</base__sec__id>
+  <baseUniqueName>Change Phase</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>315</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>22</phase__id>
+  <tab__position>4</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>48</base__sec__id>
+  <baseUniqueName>Write AAR</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>316</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Change Phase</tab__heading>
+  <base__sec__id>8</base__sec__id>
+  <baseUniqueName>Change Phase</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>change_phase.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>317</transit__id>
+  <sim__id>4</sim__id>
+  <actor__id>23</actor__id>
+  <phase__id>23</phase__id>
+  <tab__position>3</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Write AAR</tab__heading>
+  <base__sec__id>48</base__sec__id>
+  <baseUniqueName>Write AAR</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>write_aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+
+<org.usip.osp.communications.TimeLine>
+  <adjustToRunningSimStartTime>false</adjustToRunningSimStartTime>
+  <simId>4</simId>
+  <timeline__category>1</timeline__category>
+  <description></description>
+  <transit__id>1</transit__id>
+</org.usip.osp.communications.TimeLine>
+
+<SIM_MEDIA_OBJECTS>
+</SIM_MEDIA_OBJECTS></SIM_PACKAGE_OBJECT>

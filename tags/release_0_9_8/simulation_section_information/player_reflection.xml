@@ -1,0 +1,16 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Player Reflection</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>make_reflection_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A section to allow the players to express their impressions, reflect upon their experience, etc.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>player_reflection.jsp</page__file__name>
+  <rec__tab__heading>Reflection</rec__tab__heading>
+  <sample__image>player_reflection.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.CustomizeableSection>

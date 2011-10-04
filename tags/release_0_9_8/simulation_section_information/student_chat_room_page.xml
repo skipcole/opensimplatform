@@ -1,0 +1,19 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.ConferenceRoom</customizerClassName>
+  <creatingOrganization>org.usip.osp.baseobjects</creatingOrganization>
+  <uniqueName>student_chat Room</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_student_chat_room.jsp</specificMakePage>
+  <pageTitle>student_chat Room Title</pageTitle>
+  <bigString>In this room you may communicate with the actors listed.</bigString>
+  <description>A page to allow several actors to communicate privately.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>student_chat_room.jsp</page__file__name>
+  <rec__tab__heading>Meeting</rec__tab__heading>
+  <sample__image>student_chat_room.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.CustomizeableSection>

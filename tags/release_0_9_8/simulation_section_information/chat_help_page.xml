@@ -1,0 +1,21 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>org.usip.osp.baseobjects.core.ChatHelpCustomizer</customizerClassName>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Chat Help Page</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>customize_section_pages/core/make_chat_help_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A page to allow any actor given this section the ability to chat with one or more fixed participants. For example, if 
+  Actors X and Y are givent his section, and the designated person is the 'Help Desk Monitor,' then Actor X will have a section with a
+  one on one chat with the Help Desk Monitor, and Actor Y will have a one-on-one chat window with the Help Desk Monitor, and the Help Desk 
+  Monitor will have one page with 2 private chat windows. One of these will be with Actor X and one will be with Actor Y.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>chat_help_page.jsp</page__file__name>
+  <rec__tab__heading>Chat Help Page</rec__tab__heading>
+  <sample__image>chat_help_page.png</sample__image>
+  <control__section>false</control__section>
+</org.usip.osp.baseobjects.CustomizeableSection>

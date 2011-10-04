@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SIM_PACKAGE_OBJECT>
+<OSP_VERSION>0.9.6</OSP_VERSION>
+<EXPORT_DATE>8/4/11 5:42 AM</EXPORT_DATE>
+<org.usip.osp.baseobjects.SimulationVersion>
+  <transitId>5</transitId>
+  <name>Test Prototype</name>
+  <version>1.0.0</version>
+  <softwareVersion>0.9.6</softwareVersion>
+  <finePoints></finePoints>
+</org.usip.osp.baseobjects.SimulationVersion>
+<org.usip.osp.baseobjects.Simulation>
+  <transitId>5</transitId>
+  <name>Test Prototype</name>
+  <version>1.0.0</version>
+  <softwareVersion>0.9.6</softwareVersion>
+  <blurb></blurb>
+  <allowPlayerAutoreg>false</allowPlayerAutoreg>
+  <introduction>Introduction</introduction>
+  <learningObjvs>Learning Objectives&lt;br&gt;</learningObjvs>
+  <hiddenLearningObjectives>Hidden Learning Objectives&lt;br&gt;</hiddenLearningObjectives>
+  <audience>Audience</audience>
+  <plannedPlayIdeas>Planned Play Ideas&lt;br&gt;</plannedPlayIdeas>
+  <aarStarterText></aarStarterText>
+  <creationOrg>Sea Change Simulations, LLC</creationOrg>
+  <creator></creator>
+  <copyrightString></copyrightString>
+  <isInternallyPublished>false</isInternallyPublished>
+  <isExternallyPublished>false</isExternallyPublished>
+  <listingKeyWords></listingKeyWords>
+  <lastEditDate class="sql-timestamp">2011-08-04 05:41:10.0</lastEditDate>
+  <simEditingRestrictions>0</simEditingRestrictions>
+  <publishedState>0</publishedState>
+</org.usip.osp.baseobjects.Simulation>
+<org.usip.osp.baseobjects.PlannedPlaySessionParameters>
+  <transitId>5</transitId>
+  <minNumPlayers>1</minNumPlayers>
+  <maxNumPlayers>2</maxNumPlayers>
+  <minPlayTime>3</minPlayTime>
+  <recommendedPlayTime>4</recommendedPlayTime>
+  <plannedPlayIdeas>Planned Play Ideas&lt;br&gt;</plannedPlayIdeas>
+</org.usip.osp.baseobjects.PlannedPlaySessionParameters>
+
+
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>17</transit__id>
+  <name>Started</name>
+  <notes>The first phase of the simulation.</notes>
+  <firstPhase>true</firstPhase>
+  <lastPhase>false</lastPhase>
+  <copyInObjects>false</copyInObjects>
+  <phaseStartDate class="sql-timestamp">2001-01-01 09:00:02.0</phaseStartDate>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>1</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+<org.usip.osp.baseobjects.SimulationPhase>
+  <transit__id>18</transit__id>
+  <name>Completed</name>
+  <notes>The last phase of the simulation.</notes>
+  <firstPhase>false</firstPhase>
+  <lastPhase>true</lastPhase>
+  <copyInObjects>false</copyInObjects>
+  <phaseStartDate class="sql-timestamp">2001-01-01 09:00:02.0</phaseStartDate>
+  <timePasses>false</timePasses>
+  <time__passage__mechanism>0</time__passage__mechanism>
+  <time__advances__automatically>false</time__advances__automatically>
+  <order>9999</order>
+</org.usip.osp.baseobjects.SimulationPhase>
+
+<org.usip.osp.baseobjects.SimPhaseAssignment>
+  <sim__id>5</sim__id>
+  <phase__id>17</phase__id>
+  <transit__id>17</transit__id>
+</org.usip.osp.baseobjects.SimPhaseAssignment>
+<org.usip.osp.baseobjects.SimPhaseAssignment>
+  <sim__id>5</sim__id>
+  <phase__id>18</phase__id>
+  <transit__id>18</transit__id>
+</org.usip.osp.baseobjects.SimPhaseAssignment>
+
+
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>1</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>AAR</uniqueName>
+  <version>1</version>
+  <description>An &apos;after action report&apos; (AAR) is a document written after an event describing what happened and what the lessons learned were. Adding this section to a simulation adds a page showing the after action report that the instructor has written. This is generally considered the essential final step of a simulation: to provide feedback to the players on how they have done, and give them thoughts to reflect upon.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <rec__tab__heading>AAR</rec__tab__heading>
+  <sample__image>aar.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <isPluginSection>false</isPluginSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>21</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Introduction</uniqueName>
+  <version>1</version>
+  <description>The introductory text will be shown here.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <rec__tab__heading>Introduction</rec__tab__heading>
+  <sample__image>introduction.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <isPluginSection>false</isPluginSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+<org.usip.osp.baseobjects.BaseSimSection>
+  <transit__id>34</transit__id>
+  <creatingOrganization>org.usip.osp.</creatingOrganization>
+  <uniqueName>Schedule</uniqueName>
+  <version>1</version>
+  <description>A place for the players to read the schedule that their instructor has written.</description>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <rec__tab__heading>Schedule</rec__tab__heading>
+  <sample__image>schedule.png</sample__image>
+  <control__section>false</control__section>
+  <authorGeneratedSimulationSection>false</authorGeneratedSimulationSection>
+  <isPluginSection>false</isPluginSection>
+  <confers__read__ability>false</confers__read__ability>
+  <confers__write__ability>false</confers__write__ability>
+  <sendRsId>false</sendRsId>
+  <sendActorId>false</sendActorId>
+  <sendUserId>false</sendUserId>
+</org.usip.osp.baseobjects.BaseSimSection>
+
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>1623</transit__id>
+  <sim__id>5</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>17</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Introduction</tab__heading>
+  <base__sec__id>21</base__sec__id>
+  <baseUniqueName>Introduction</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>introduction.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>1624</transit__id>
+  <sim__id>5</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>17</phase__id>
+  <tab__position>2</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>Schedule</tab__heading>
+  <base__sec__id>34</base__sec__id>
+  <baseUniqueName>Schedule</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>schedule.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+<org.usip.osp.baseobjects.SimulationSectionAssignment>
+  <transit__id>1625</transit__id>
+  <sim__id>5</sim__id>
+  <actor__id>0</actor__id>
+  <phase__id>18</phase__id>
+  <tab__position>1</tab__position>
+  <tabColor>FFFFFF</tabColor>
+  <tab__heading>AAR</tab__heading>
+  <base__sec__id>1</base__sec__id>
+  <baseUniqueName>AAR</baseUniqueName>
+  <baseVersion>1</baseVersion>
+  <url></url>
+  <directory>../osp_core/</directory>
+  <page__file__name>aar.jsp</page__file__name>
+  <addedAsUniversalSection>false</addedAsUniversalSection>
+  <simSubSection>false</simSubSection>
+  <simSubSectionIndex>0</simSubSectionIndex>
+</org.usip.osp.baseobjects.SimulationSectionAssignment>
+
+
+<SIM_MEDIA_OBJECTS>
+</SIM_MEDIA_OBJECTS></SIM_PACKAGE_OBJECT>
