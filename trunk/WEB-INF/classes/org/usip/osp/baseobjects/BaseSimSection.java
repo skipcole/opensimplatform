@@ -701,7 +701,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		String queryString = "from BaseSimSection where " + "DTYPE='BaseSimSection' OR DTYPE='CustomizeableSection'"; //$NON-NLS-1$ //$NON-NLS-2$
+		String queryString = "from BaseSimSection where DTYPE='BaseSimSection' OR DTYPE='CustomizeableSection'"; //$NON-NLS-1$ //$NON-NLS-2$
 		List<BaseSimSection> returnList = MultiSchemaHibernateUtil.getSession(
 				schema).createQuery(queryString).list();
 

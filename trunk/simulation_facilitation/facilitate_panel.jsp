@@ -1,4 +1,12 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" import="java.io.*,java.util.*,java.text.*,java.sql.*,org.usip.osp.baseobjects.*,org.usip.osp.networking.*,org.usip.osp.persistence.*" errorPage="/error.jsp" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" 
+import="java.io.*,java.util.*,
+java.text.*,
+java.sql.*,
+org.usip.osp.baseobjects.*,
+org.usip.osp.communications.*,
+org.usip.osp.networking.*,
+org.usip.osp.persistence.*" 
+errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
@@ -65,24 +73,54 @@
                 <p>&nbsp;</p>
                 <table width="100%" border="0" cellspacing="2" cellpadding="1">
         
+        <%
+				int stepIndex = 1;
+		%>
         <tr valign="top"> 
-          <td>1. </td>
+          <td>
+			<%= stepIndex %>. </td>
             <td><a href="facilitate_create_running_sim.jsp">Create Running Simulation</a> <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>
             </tr>
+         <%
+		 	stepIndex += 1;
+		 %>
         <tr valign="top">
-          <td>2.</td>
+          <td><%= stepIndex %>.</td>
             <td><a href="facilitate_create_schedule_page.jsp">Create Schedule Page</a> <a href="helptext/create_schedule_help.jsp"  target="helpinright">(?)</a></td>
           </tr>
+          
+          <%
+		  List starterDocs = SharedDocument.getAllStarterBaseDocumentsForSim(afso.schema, afso.sim_id, afso.getRunningSimId());
+		  
+		  for (ListIterator li = starterDocs.listIterator(); li.hasNext();) {
+			SharedDocument sd = (SharedDocument) li.next();
+			
+			stepIndex += 1;
+		  %>
         <tr valign="top"> 
-          <td>3.</td>
+          <td><%= stepIndex %>.</td>          
+          <td><a href="facilitate_write_starter_document.jsp?sendingDocId=true&doc_id=<%= sd.getId() %>">Edit starter Doc </a></td>
+        </tr>
+          <% } %>
+        <%
+		 	stepIndex += 1;
+		 %>
+        <tr valign="top"> 
+          <td><%= stepIndex %>.</td>
             <td><a href="facilitate_assign_user_to_simulation.jsp">Assign Players</a> <a href="helptext/assign_players_help.jsp" target="helpinright">(?)</a> </td>
             </tr>
+        <%
+		 	stepIndex += 1;
+		 %>
         <tr valign="top"> 
-          <td>4.</td>
+          <td><%= stepIndex %>.</td>
             <td><a href="facilitate_enable_simulation.jsp">Enable/Disable Simulation</a> <a href="helptext/enable_sim_help.jsp" target="helpinright">(?)</a></td>
             </tr>
+        <%
+		 	stepIndex += 1;
+		 %>
         <tr valign="top">
-          <td>5.</td>
+          <td><%= stepIndex %>.</td>
           <td><a href="facilitate_email_notifications.jsp">Notify Players via Email</a><a href="helptext/email_notify_help.jsp" target="helpinright"> (?) </a></td>
         </tr>
       </table>

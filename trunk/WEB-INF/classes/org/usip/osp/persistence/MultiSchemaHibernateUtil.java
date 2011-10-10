@@ -444,12 +444,6 @@ public class MultiSchemaHibernateUtil {
 	 */
 	public static void addRootSchemaClasses(AnnotationConfiguration ac) {
 		
-		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.Contest.class);
-		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestParticipatingOrganization.class);
-		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestTeam.class);
-		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestTeamMember.class);
-		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorApplication.class);
-		
 		ac.addAnnotatedClass(org.usip.osp.persistence.UILanguageObject.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.BaseUser.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.OSPErrors.class);
@@ -457,6 +451,13 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.persistence.RestoreEvents.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.RestoreResults.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.SchemaInformationObject.class);
+		
+		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.Contest.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestParticipatingOrganization.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestTeam.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.contests.ContestTeamMember.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.InstructorApplication.class);
+
 		
 	}
 

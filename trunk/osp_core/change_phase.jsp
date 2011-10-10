@@ -37,9 +37,9 @@
 </head>
 
 <body>
-<h1>Greetings Controller </h1>
+<h1>Change Phase </h1>
 
-<p>Change phase to one of the phases listed below.</p>
+<p>Below you may change the phase of the simulation. This will notify all of the players and potentially give them all a different set of tools to use.</p>
           <table width="100%" border="1" cellspacing="2" cellpadding="2">
             <tr> 
               <td width="20%" valign="top"><h2>Phase Name</h2></td>

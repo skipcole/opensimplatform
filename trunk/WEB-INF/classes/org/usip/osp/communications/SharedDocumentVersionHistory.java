@@ -1,6 +1,8 @@
 package org.usip.osp.communications;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.*;
 
 import org.hibernate.Session;
@@ -79,8 +81,6 @@ public class SharedDocumentVersionHistory {
 				versionNum = new Long (oldMaxVersionNum.intValue() + 1);
 			}
 		}
-		
-
 
 		// save
 		session.saveOrUpdate(this);
@@ -227,5 +227,5 @@ public class SharedDocumentVersionHistory {
 		return returnList;
 
 	}
-
+	
 }
