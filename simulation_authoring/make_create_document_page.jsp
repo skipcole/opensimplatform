@@ -11,7 +11,7 @@
 	
 	afso.backPage = "make_create_document_page.jsp";
 	
-	SharedDocument this_sd = afso.handleCreateDocument(request);
+	SharedDocument this_sd = SharedDocument.handleCreateDocument(request, afso);
 	
 	
 %>
@@ -59,18 +59,38 @@
                 
                 </td>
               </tr>
+              <tr>
+                <td valign="top">Starter Document</td>
+                <td valign="top">
+                <%
+				
+					String notStarterDoc = " checked=\"checked\" ";
+					String isStarterDoc = "";
+					
+					if (this_sd.isStarterDoc()){
+						notStarterDoc = "";
+						isStarterDoc = " checked=\"checked\" ";
+					}
+				%>
+                
+                <label for="starter_doc_no">No 
+                  <input name="starter_doc" type="radio" id="starter_doc_no" value="false" <%= notStarterDoc %>  tabindex="4" /></label>
+                  <label for="starter_doc_yes">/ Yes 
+                    <input type="radio" name="starter_doc" id="starter_doc_yes" value="true" <%= isStarterDoc %>  tabindex="5" />
+                  </label></td>
+              </tr>
               <tr><td>&nbsp;</td><td>
               
               <% if (this_sd.getId() == null) { %>
               
-              <input type="submit" name="create_doc" value="Create" tabindex="4" />
+              <input type="submit" name="create_doc" value="Create" tabindex="6" />
               
               <%
 				} else {
 				%>
-                <input type="hidden" name="shared_doc_id" value="<%= this_sd.getId() %>" tabindex="5" />
+                <input type="hidden" name="shared_doc_id" value="<%= this_sd.getId() %>" tabindex="7" />
                 <input type="submit" name="clear_button" value="Clear" tabindex="6" />
-                <input type="submit"  name="update_doc" value="Update Document" tabindex="7" /> 
+                <input type="submit"  name="update_doc" value="Update Document" tabindex="8" /> 
                 <%
 					}
 				%>

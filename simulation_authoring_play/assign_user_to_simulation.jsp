@@ -100,7 +100,7 @@
           </tr>
         <%
 		
-		int ii = 5;
+		int tabIndex = 5;
 		
 			// Loop over all actors in the simulation
 			for (ListIterator li = simulation.getActors(afso.schema).listIterator(); li.hasNext();) {
@@ -109,6 +109,7 @@
 				// For each actor, get all of their user assignments
 				List theUsersAssigned = UserAssignment.getUsersAssigned(afso.schema, running_simulation.getId(), act.getId());
 				
+				// Even if no actors have been assigned, we still want to display that actor.
 				if ((theUsersAssigned == null) || (theUsersAssigned.size() == 0)){
 					theUsersAssigned = new ArrayList();
 					UserAssignment ua = new UserAssignment();
@@ -128,6 +129,8 @@
 						user_assigned = User.getById(afso.schema, ua.getUser_id());
 					} else if ((ua.getUser_id() != null) && (ua.getUser_id().intValue() == -1) ){
 						bgColor = "FFFFFF";
+						user_assigned = new User();
+						user_assigned.setBu_username("<font color=\"#FF0000\">Not Assigned</font>");
 					} else {
 						bgColor = "FFCCCC";
 						user_assigned = new User();
@@ -146,19 +149,19 @@
 					<a href="assign_user_to_simulation.jsp?command=add_assignment&amp;simulation_adding_to=<%= simulation.getId() %>&amp;running_simulation_adding_to=<%= running_simulation.getId() %>&amp;actor_to_add_to_simulation=<%= act.getId() %>"><img src="../simulation_authoring/images/add.png" width="26" height="22" border="0" /></a>
                   <% } %>                  </td>
               <td>
-              <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= ii %>"/>  <a href="assign_user_from_roster.jsp?user_assignment_id=<%= ua.getId() %>&actor_to_add_to_simulation=<%= act.getId() %>">(or AFR)            </a></td>
+              <input name="user_to_add_to_simulation" type="text" style="width: 200px;" value="" id="userNameAjax<%= act.getId() %>" class="userNameAjax<%= act.getId() %>" tabindex="<%= tabIndex %>"/>  <a href="assign_user_from_roster.jsp?user_assignment_id=<%= ua.getId() %>&actor_to_add_to_simulation=<%= act.getId() %>">(or AFR)            </a></td>
               <td> <input type="hidden" name="sending_page" value="assign_user_to_simulation" /> 
 			    <input type="hidden" name="user_assignment_id" value="<%= ua.getId() %>" />
                 <input type="hidden" name="actor_to_add_to_simulation" value="<%= act.getId() %>" /> 
                 <input type="hidden" name="simulation_adding_to" value="<%= simulation.getId() %>" /> 
                 <input type="hidden" name="running_simulation_adding_to" value="<%= running_simulation.getId() %>" /> 
-                <input type="submit" name="command" value="Assign User" tabindex="<%= ii + 1 %>" /></td>
+                <input type="submit" name="command" value="Assign User" tabindex="<%= tabIndex + 1 %>" /></td>
             </form>
           </tr>
         <%
 				} // End of loop over user assignments
 				
-				ii += 2;
+				tabIndex += 2;
 		  	}
 			// End of loop over results set of Actors
 		%>

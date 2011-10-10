@@ -1229,8 +1229,16 @@ public class SessionObjectBase {
 		}
 	}	
 	
-	
-	
+	/** ID of Actor being played. */
+	protected Long actorId;
+
+	public Long getActorId() {
+		return actorId;
+	}
+
+	public void setActorId(Long actorId) {
+		this.actorId = actorId;
+	}
 	
 	
 } // End of class

@@ -7,6 +7,9 @@ log4j.appender.stdout.layout.ConversionPattern=%d{ABSOLUTE} %5p %c{1}:%L - %m%n
 # Root logger option
 log4j.rootLogger=WARN, stdout
 
+# If you need debug output, comment out the line above, and uncomment out the line below.
+#log4j.rootLogger=DEBUG, stdout
+
 # Hibernate logging options (INFO only shows startup messages)
 #log4j.logger.org.hibernate=INFO
 
