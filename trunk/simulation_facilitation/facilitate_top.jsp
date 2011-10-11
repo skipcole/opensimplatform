@@ -31,6 +31,9 @@
 		if (ftab.equalsIgnoreCase("my_sims")){
 			tabColorMySims = "9AABE1";
 		}
+		if (ftab.equalsIgnoreCase("launch")){
+			tabColorMySims = "9AABE1";
+		}
 		if (ftab.equalsIgnoreCase("misc")){
 			tabColorMisc = "9AABE1";
 		}
@@ -56,6 +59,9 @@ body {
 }
 -->
 </style>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script>
 </head>
 <body onLoad="">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

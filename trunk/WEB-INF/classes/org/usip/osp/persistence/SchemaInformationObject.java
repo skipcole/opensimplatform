@@ -42,11 +42,11 @@ public class SchemaInformationObject {
 	/** Organization for which this schema has been created. */
 	private String schema_organization;
 	
-	private String schemaOrganizationLogo;
+	private String schemaOrganizationLogo = "";
 	
-	private String schemaOrganizationBanner;
+	private String schemaOrganizationBanner = "";
 	
-	private String schemaOrganizationWebsite;	
+	private String schemaOrganizationWebsite = "";	
 
 	/** Creation date of this schema */
 	private Date creationDate;

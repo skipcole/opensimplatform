@@ -3,14 +3,12 @@ package org.usip.osp.baseobjects;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.communications.CommunicationsHub;
-import org.usip.osp.communications.ConvActorAssignment;
-import org.usip.osp.communications.Conversation;
-import org.usip.osp.communications.Alert;
-import org.usip.osp.communications.Emailer;
+import org.usip.osp.communications.*;
 import org.usip.osp.coursemanagementinterface.InstructorRunningSimAssignments;
+import org.usip.osp.networking.*;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.sharing.ImportedExperienceObject;
 import org.usip.osp.specialfeatures.InventoryItem;
@@ -33,7 +31,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "RUNNING_SIM")
 @Proxy(lazy = false)
-public class RunningSimulation implements ImportedExperienceObject{
+public class RunningSimulation implements ImportedExperienceObject {
 
 	/** Database id of this Running Simulation. */
 	@Id
@@ -46,7 +44,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 
 	/** Id of the instructor that created this running simulation. */
 	private Long creator_id;
-	
+
 	private String creatorName;
 
 	@Column(name = "RS_NAME")
@@ -127,7 +125,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 	@Column(name = "RS_AAR")
 	@Lob
 	private String aar_text = ""; //$NON-NLS-1$
-	
+
 	private String timeZone = "PST";
 
 	public String getTimeZone() {
@@ -159,8 +157,8 @@ public class RunningSimulation implements ImportedExperienceObject{
 	 * @param sim
 	 * @param schema
 	 */
-	public RunningSimulation(String name, Simulation sim, String schema, Long creator_id, 
-			String creatorName, String timeZoneString) {
+	public RunningSimulation(String name, Simulation sim, String schema,
+			Long creator_id, String creatorName, String timeZoneString) {
 
 		this.name = name;
 		this.aar_text = sim.getAarStarterText();
@@ -171,10 +169,10 @@ public class RunningSimulation implements ImportedExperienceObject{
 		this.timeZone = timeZoneString;
 
 		this.saveMe(schema);
-		
+
 		/** Add the creator as the first instructor to this running simulation. */
-		InstructorRunningSimAssignments irsa = new InstructorRunningSimAssignments(schema, this.getId(), creator_id);
-		
+		InstructorRunningSimAssignments irsa = new InstructorRunningSimAssignments(
+				schema, this.getId(), creator_id);
 
 		// Create the dependent object (shared documents, conversations,
 		// variables, etc.)
@@ -207,7 +205,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 	 * @param emailText
 	 * @return
 	 */
-	public static void enableAndPrep(String schema, Long s_id,  Long rs_id) {
+	public static void enableAndPrep(String schema, Long s_id, Long rs_id) {
 
 		Logger.getRootLogger().debug("Enabling Sim."); //$NON-NLS-1$
 
@@ -245,7 +243,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 				.getSimDependencies(schema, sim.getId());
 
 		// Create a table to list all of the objects we have created.
-		Hashtable uniqueSimObjects = new Hashtable();		
+		Hashtable uniqueSimObjects = new Hashtable();
 
 		// Loop over dependent object assignments found for this simulation
 		for (ListIterator<BaseSimSectionDepObjectAssignment> lc = depObjectAssignments
@@ -269,6 +267,10 @@ public class RunningSimulation implements ImportedExperienceObject{
 				try {
 					Class objClass = Class.forName(bssdoa.getClassName());
 
+					System.out.println(objClass);
+					System.out.println(bssdoa.getObjectId());
+					System.out.flush();
+					
 					// We start and finish the transaction here since the next
 					// step will also involve a transaction.
 					MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -277,7 +279,8 @@ public class RunningSimulation implements ImportedExperienceObject{
 									bssdoa.getObjectId());
 					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
-					// Create object - uses its own hibernate transaction to create object.
+					// Create object - uses its own hibernate transaction to
+					// create object.
 					thisRSVersionsId = template_obj.createRunningSimVersion(
 							schema, sim.getId(), this.id, template_obj);
 
@@ -288,7 +291,8 @@ public class RunningSimulation implements ImportedExperienceObject{
 				if (thisRSVersionsId == null) {
 					System.out.println("bad add on: " + uniqueKey);
 				} else {
-					// Add the objects to a hashtable based on the base template object
+					// Add the objects to a hashtable based on the base template
+					// object
 					// (so template object shared by multiple sections only
 					// contribute one new object).
 					uniqueSimObjects.put(uniqueKey, thisRSVersionsId);
@@ -309,17 +313,20 @@ public class RunningSimulation implements ImportedExperienceObject{
 			ssrsdoa.saveMe(schema);
 
 		}
-		
+
 		// Get objects that may not have been assigned.
-		List iItems = InventoryItem.getAllActorAssignedForSim(schema, this.sim_id);
-		for (ListIterator<InventoryItem> iList = iItems.listIterator(); iList.hasNext();) {
+		List iItems = InventoryItem.getAllActorAssignedForSim(schema,
+				this.sim_id);
+		for (ListIterator<InventoryItem> iList = iItems.listIterator(); iList
+				.hasNext();) {
 			InventoryItem this_item = iList.next();
-			
-			//Make copy for this running sim.
-			this_item.createRunningSimVersion(schema, this.sim_id, this.getId(), this_item);
-			
+
+			// Make copy for this running sim.
+			this_item.createRunningSimVersion(schema, this.sim_id,
+					this.getId(), this_item);
+
 		}
-		
+
 	}
 
 	public List<RunningSimulation> getAll(
@@ -335,15 +342,14 @@ public class RunningSimulation implements ImportedExperienceObject{
 	 * @param schema
 	 * @return
 	 */
-	public static List<RunningSimulation> getAllForSim(Long simid,
-			String schema) {
+	public static List<RunningSimulation> getAllForSim(Long simid, String schema) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List<RunningSimulation> returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery("from RunningSimulation where sim_id = :sim_id")
-					.setLong("sim_id", simid).list(); //$NON-NLS-1$
+				.setLong("sim_id", simid).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -365,7 +371,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 	public void setCreator_id(Long creator_id) {
 		this.creator_id = creator_id;
 	}
-	
+
 	public String getCreatorName() {
 		return creatorName;
 	}
@@ -525,7 +531,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 	 * public void setConversations(List<Conversation> conversations) {
 	 * this.conversations = conversations; }
 	 */
-	
+
 	private boolean importedRecord = false;
 
 	public boolean isImportedRecord() {
@@ -535,7 +541,7 @@ public class RunningSimulation implements ImportedExperienceObject{
 	public void setImportedRecord(boolean importedRecord) {
 		this.importedRecord = importedRecord;
 	}
-	
+
 	private String creatorEmail = "";
 
 	public String getCreatorEmail() {
@@ -551,11 +557,82 @@ public class RunningSimulation implements ImportedExperienceObject{
 
 	public void setTransitId(Long transitId) {
 		transit_id = transitId;
-		
+
 	}
-	
+
 	public Long getTransitId() {
 		return transit_id;
 	}
 
+	public static RunningSimulation getRSForInstructor(
+			HttpServletRequest request, AuthorFacilitatorSessionObject afso) {
+
+		RunningSimulation runningSimulation = new RunningSimulation();
+
+		String newRunningSim = (String) request.getParameter("newRunningSim");
+
+		if (USIP_OSP_Util.stringFieldMatches(newRunningSim, "true")) {
+			afso.setRunningSimId(null);
+			return runningSimulation;
+		}
+
+		String rs_id = (String) request.getParameter("rs_id");
+
+		if ((rs_id != null) && (!(rs_id.equalsIgnoreCase("null")))) {
+			runningSimulation = RunningSimulation.getById(afso.schema,
+					new Long(rs_id));
+			afso.setRunningSimId(new Long(rs_id));
+		} else {
+			if (afso.getRunningSimId() != null) {
+				runningSimulation = RunningSimulation.getById(afso.schema,
+						afso.getRunningSimId());
+			}
+		}
+
+		afso.saveLastSimEdited();
+		afso.saveLastRunningSimEdited();
+
+		return runningSimulation;
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param simulation
+	 */
+	public static void handleAddRunningSimulation(HttpServletRequest request,
+			Simulation simulation, AuthorFacilitatorSessionObject afso) {
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String addRunningSimulation = (String) request
+				.getParameter("addRunningSimulation");
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("create_running_sim"))
+				&& (addRunningSimulation != null)) {
+
+			String rsn = (String) request.getParameter("running_sim_name");
+
+			if (!(USIP_OSP_Util.stringFieldHasValue(rsn))) {
+
+				afso.errorMsg = "Running Simulation Name must not be blank.";
+				return;
+
+			}
+
+			String timezone = (String) request.getParameter("timezone");
+
+			RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
+					afso.schema, afso.user_id, afso.userDisplayName, timezone);
+
+			afso.sim_id = rs.getSim_id();
+			afso.runningSimId = rs.getId();
+
+			afso.saveLastSimEdited();
+			afso.saveLastRunningSimEdited();
+			
+			afso.forward_on = true;
+
+		} // End of if coming from this page and have added running simulation
+	}
 }

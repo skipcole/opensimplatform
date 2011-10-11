@@ -22,17 +22,20 @@ function getHelp() {
 			return false; 
 		});
 
-    /* attach the hide function to the body */
+    /* attach the hide function to the body 
 		$('body').click(function() {
 			$('#help-bubble').css('display','none');
 			return false; 
 		});
+		*/
 
     /* attach the hide function to the close button on the div */
 		$('a[target="help-close"]').click(function() {
 			$('#help-bubble').css('display','none');
 			return false; 
 		});
+		
+
 }
 
 $(document).ready(function() {

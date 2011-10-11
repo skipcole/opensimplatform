@@ -143,6 +143,19 @@ body {
                 <td valign="top">Organization</td>
                 <td valign="top"><input type="text" name="db_org" value="<%= sio.getSchema_organization() %>" /></td>
               </tr>
+                            <tr>
+                <td valign="top">Organization Logo</td>
+                <td valign="top">
+                <input type="text" name="db_logo"  value="<%= sio.getSchemaOrganizationLogo() %>" /></td>
+              </tr>
+              <tr>
+                <td valign="top">Organization Banner</td>
+                <td valign="top"><input type="text" name="db_banner" value="<%= sio.getSchemaOrganizationBanner() %>" /></td>
+              </tr>
+              <tr>
+                <td valign="top">Organization Website</td>
+                <td valign="top"><input type="text" name="db_website" value="<%= sio.getSchemaOrganizationWebsite() %>" /></td>
+              </tr>
               <tr>
                 <td valign="top">DB Notes</td>
                 <td valign="top"><textarea name="db_notes" cols="40" rows="2"><%= sio.getNotes() %></textarea></td>

@@ -91,7 +91,7 @@
 
 %>        <blockquote>
           <div align="center">
-            <p align="left"><a href="facilitate_create_running_sim.jsp">&lt;- 
+            <p align="left"><a href="facilitate_panel.jsp">&lt;- 
         Back</a></p>
           </div>
           </blockquote>			</td>

@@ -1419,19 +1419,39 @@ public class PSO_SectionMgmt {
 
 		// Determine if setting sim to edit.
 		String sending_page = (String) request.getParameter("sending_page");
-
-		String command = (String) request.getParameter("command");
+		String command_save = (String) request.getParameter("command_save");
+		String command_save_and_proceed = (String) request.getParameter("command_save_and_proceed");
 
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("create_schedule"))) {
-			Logger.getRootLogger().debug("good to here.");
 
-			if ((command != null) && (command.equalsIgnoreCase("Save"))) {
-				Logger.getRootLogger().debug("good to here now.");
+			if (command_save != null) {
 				RunningSimulation rs = afso.giveMeRunningSim();
-
+				System.out.println("normal save");
 				rs.setSchedule((String) request.getParameter("sim_schedule"));
 				rs.saveMe(afso.schema);
-
+			}
+			
+			if (command_save_and_proceed != null) {
+				RunningSimulation rs = afso.giveMeRunningSim();
+				System.out.println("normal save and proceed");
+				rs.setSchedule((String) request.getParameter("sim_schedule"));
+				rs.saveMe(afso.schema);
+				
+				afso.sim_id = rs.getSim_id();
+				afso.setRunningSimId(rs.getId());
+				afso.forward_on = true;
+				
+				List starterDocs = SharedDocument.getAllStarterBaseDocumentsForSim(afso.schema, afso.sim_id, afso.getRunningSimId());
+				  
+				if (starterDocs.size() > 0){
+					SharedDocument sd = (SharedDocument) starterDocs.get(0);
+					afso.backPage = 
+						"facilitate_write_starter_document.jsp?sendingDocId=true&doc_id=" 
+						+ sd.getId()
+						+ "&starterDocIndex=0";
+				} else {
+					afso.backPage = "facilitate_assign_user_to_simulation.jsp";
+				}
 			}
 		}
 

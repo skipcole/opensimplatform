@@ -446,6 +446,7 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 		sd.setEditable(this.isEditable());
 		sd.setRs_id(rsid);
 		sd.setSim_id(this.getSim_id());
+		sd.setStarterDoc(this.isStarterDoc());
 
 		sd.setRs_id(rsid);
 		sd.setSim_id(sid);
@@ -798,8 +799,30 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 					.getParameter("write_document_text");
 
 			sd.setBigString(write_document_text);
-			
 			sd.saveMe(sob.schema, sob.getActorId());
+
+		} // End of if coming from this page and have added text
+
+	}
+	
+	public static void handleWriteStarterDocument(HttpServletRequest request,
+			SharedDocument sd, SessionObjectBase sob) {
+
+		String sending_page = (String) request.getParameter("sending_page");
+
+		if ((sending_page != null) && (sending_page.equalsIgnoreCase("write_document"))) {
+
+			String command_save = (String) request.getParameter("command_save");
+			String command_save_and_proceed = (String) request.getParameter("command_save_and_proceed");
+
+			String write_document_text = (String) request
+					.getParameter("write_document_text");
+			
+			if ((command_save != null) || (command_save_and_proceed != null) ){
+				sd.setBigString(write_document_text);
+				sd.saveMe(sob.schema, sob.getActorId());
+			}
+			
 
 		} // End of if coming from this page and have added text
 

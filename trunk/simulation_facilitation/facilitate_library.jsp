@@ -43,17 +43,21 @@
       <blockquote>
         
         <p>Below are all of the currently published Simulations for your organization.</p>
-        <p>Click on the name of the simulation template to begin preparing a play 
-          session.</p>
+        </blockquote>
+      <ul>
+        <li>Click on the name of the simulation to review it.</li>
+        <li>Clicking on the 'Launch Game' button will lead you through the short path of initiating a game (entering in schedule information, assigning players, etc.) You do not need to complete all steps in that path at one sitting, but can come back to it later via the 'My Sims' section above.</li>
+      </ul>
+      <blockquote>
         <table width="100%" border="1" cellspacing="0" cellpadding="2">
           <tr valign="top"> 
             <td width="15%"><strong>Name / Version</strong></td>
             <td width="16%"><strong>Author</strong></td>
             <td width="16%"><strong>Keywords</strong></td>
             <td width="16%"><strong>Publish Date</strong></td>
-            <td width="16%"><strong>Review</strong></td>
             <td width="16%"><strong>User Comments</strong></td>
-          </tr>
+            <td width="16%"><strong>Launch Game</strong></td>
+            </tr>
           <% 
 		  
 		  java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMM dd yyyy");
@@ -69,23 +73,30 @@
 			
 			%>
           <tr valign="top"> 
-            <td><a href="facilitateweb.jsp?loadSim=true&sim_id=<%= sim.getId() %>" target="_top"><%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
+            <td>
+              <a href="facilitator_review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">
+                <%= sim.getSimulationName() %> : <%= sim.getVersion() %></a></td>
             <td><%= sim.getCreation_org() %></td>
             <td><%= sim.getListingKeyWords() %></td>
             <td><%= pubDate %></td>
-            <td><a href="facilitator_review_sim.jsp?loadSim=true&sim_id=<%= sim.getId() %>">Review</a></td>
             <td><a href="sim_ratings.jsp?sim_id=<%= sim.getId() %>">
-			<% if (true) { %>
-            None
-            <% } else { %>
-            *****
-            <% } %>
-            </a>
-            </td>
-          </tr>
+              <% if (true) { %>
+              None
+              <% } else { %>
+              *****
+              <% } %>
+              </a>
+              </td>
+            <td><form id="form1" name="form1" method="post" action="facilitateweb.jsp?ftab=launch" target="_top">
+              <input type="hidden" name="sim_id" value="<%= sim.getId() %>" />
+              <input type="hidden" name="loadSim" value="true" />
+              <input type="hidden" name="newRunningSim" value="true" />
+              <input type="submit" name="button" id="button" value="Launch" />
+              </form></td>
+            </tr>
           <% } %>
         </table>
-<br>
+  <br>
       </blockquote>
       <p align="center"></p>
 

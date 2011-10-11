@@ -11,6 +11,15 @@
 	String topPage = "facilitate_top.jsp?ftab=" + ftab;
 	String mainPage = "instructor_home.jsp?ftab=" + ftab;
 	
+	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))){
+		String sim_id = (String) request.getParameter("sim_id");
+		
+		afso.sim_id = new Long(sim_id);
+		
+		 mainPage = "facilitate_panel.jsp";
+		
+	}
+	
 	if (ftab != null) {
 		
 		if (ftab.equalsIgnoreCase("home")){
@@ -22,19 +31,13 @@
 		if (ftab.equalsIgnoreCase("my_sims")){
 			mainPage = "facilitate_view_running_sims.jsp?ftab=my_sims";
 		}
+		if (ftab.equalsIgnoreCase("launch")){
+			mainPage = "facilitate_create_running_sim.jsp?ftab=launch";
+		}
 		if (ftab.equalsIgnoreCase("misc")){
 			mainPage = "misc_tools.jsp?ftab=misc";
 		}
 	
-	}
-	
-	if ((loadSim != null) && (loadSim.equalsIgnoreCase("true"))){
-		String sim_id = (String) request.getParameter("sim_id");
-		
-		afso.sim_id = new Long(sim_id);
-		
-		 mainPage = "facilitate_panel.jsp";
-		
 	}
 
 %>
