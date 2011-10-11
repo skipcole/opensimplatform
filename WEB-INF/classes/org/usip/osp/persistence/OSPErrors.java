@@ -244,9 +244,17 @@ public class OSPErrors {
     	SchemaInformationObject sio = null;
     	
     	if (sob == null){
-    		// Do something noticeable
+    		// TODO Do something noticeable
     		return null;
     	}
+    	
+    	return saveAndEmailError(err, exception, sob.schema, sob.user_id);
+    }
+    
+    public static OSPErrors saveAndEmailError(OSPErrors err, Throwable exception, 
+    		String schema, Long userId){
+    	
+    	SchemaInformationObject sio = null;
     	
     	try {
     		StringWriter sw = new StringWriter();
@@ -259,16 +267,16 @@ public class OSPErrors {
     		pw.close();
     		
     		// Must have logged in, so record additional information if found.
-    		if (sob != null){
-    			err.setUserId(sob.user_id);
-    			err.setdBschema(sob.schema);
+    		if (userId != null){
+    			err.setUserId(userId);
+    			err.setdBschema(schema);
     			
-    			User user = sob.giveMeUser();
+    			User user = User.getById(schema, userId);
     			if (user != null){
     				err.setUserEmail(user.getUserName());
     			}
     			
-    			sio = SchemaInformationObject.lookUpSIOByName(sob.schema);
+    			sio = SchemaInformationObject.lookUpSIOByName(schema);
     		}
     		
     	} catch (Exception e){
@@ -284,6 +292,7 @@ public class OSPErrors {
     	
     	return err;
     }
+
     
     /**
      * Emails the error, if email has been enabled.

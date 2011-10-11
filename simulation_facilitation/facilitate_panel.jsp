@@ -22,20 +22,13 @@ errorPage="/error.jsp" %>
 		simulation = afso.giveMeSim();
 	}
 	
-	RunningSimulation running_simulation = new RunningSimulation();
-	String rs_id = (String) request.getParameter("rs_id");
+	RunningSimulation running_simulation = RunningSimulation.getRSForInstructor(request, afso);
 	
-	if ((rs_id != null) && (!(rs_id.equalsIgnoreCase("null")))) {
-		running_simulation = RunningSimulation.getById(afso.schema, new Long(rs_id));
-		afso.setRunningSimId(new Long(rs_id));
-	} else {
-		if (afso.getRunningSimId() != null) {
-			running_simulation = RunningSimulation.getById(afso.schema, afso.getRunningSimId());
-		}
+	boolean editMode = false;
+	
+	if (running_simulation.getId() != null) {
+		editMode = true;	
 	}
-	
-	afso.saveLastSimEdited();
-	afso.saveLastRunningSimEdited();
 	
 %>
 
@@ -48,6 +41,9 @@ errorPage="/error.jsp" %>
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -58,7 +54,7 @@ errorPage="/error.jsp" %>
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1 align="center">Simulation Launch &amp; Monitor Pad </h1>
+              <h1 align="center">Simulation Launch Checklist </h1>
 			  
 			  <blockquote>
               <% if (afso.sim_id != null) { %>
@@ -76,11 +72,14 @@ errorPage="/error.jsp" %>
         <%
 				int stepIndex = 1;
 		%>
-        <tr valign="top"> 
+        
+        <% if (editMode) { %>
+         <tr valign="top"> 
           <td>
 			<%= stepIndex %>. </td>
-            <td><a href="facilitate_create_running_sim.jsp">Create Running Simulation</a> <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>
+            <td><a href="facilitate_change_running_sim_name.jsp?rs_id=<%= running_simulation.getId() %>">Edit Running Simulation</a> <a href="helptext/create_running_sim_help.jsp" target="helpinright">(?)</a></td>
             </tr>
+          <% } // End of if in edit mode %>
          <%
 		 	stepIndex += 1;
 		 %>
@@ -92,6 +91,11 @@ errorPage="/error.jsp" %>
           <%
 		  List starterDocs = SharedDocument.getAllStarterBaseDocumentsForSim(afso.schema, afso.sim_id, afso.getRunningSimId());
 		  
+		  
+		  System.out.println("rs id is " + afso.getRunningSimId());
+		  
+		  int starterDocIndex = 0;
+		  
 		  for (ListIterator li = starterDocs.listIterator(); li.hasNext();) {
 			SharedDocument sd = (SharedDocument) li.next();
 			
@@ -99,9 +103,11 @@ errorPage="/error.jsp" %>
 		  %>
         <tr valign="top"> 
           <td><%= stepIndex %>.</td>          
-          <td><a href="facilitate_write_starter_document.jsp?sendingDocId=true&doc_id=<%= sd.getId() %>">Edit starter Doc </a></td>
+          <td><a href="facilitate_write_starter_document.jsp?sendingDocId=true&doc_id=<%= sd.getId() %>&starterDocIndex=<%= starterDocIndex %>">Edit Starter Doc : <%= sd.getDisplayTitle() %> </a></td>
         </tr>
-          <% } %>
+          <%
+		  	++starterDocIndex;
+		   } %>
         <%
 		 	stepIndex += 1;
 		 %>

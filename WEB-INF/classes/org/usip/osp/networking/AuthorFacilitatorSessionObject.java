@@ -3248,38 +3248,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * 
-	 * @param request
-	 * @param simulation
-	 */
-	public void handleAddRunningSimulation(HttpServletRequest request,
-			Simulation simulation) {
-
-		String sending_page = (String) request.getParameter("sending_page");
-		String addRunningSimulation = (String) request
-				.getParameter("addRunningSimulation");
-
-		if ((sending_page != null)
-				&& (sending_page.equalsIgnoreCase("create_running_sim"))
-				&& (addRunningSimulation != null)) {
-
-			String rsn = (String) request.getParameter("running_sim_name");
-
-			if ((rsn != null) && (rsn.trim().length() > 0)) {
-
-				String timezone = (String) request.getParameter("timezone");
-
-				RunningSimulation rs = simulation.addNewRunningSimulation(rsn,
-						schema, this.user_id, this.userDisplayName, timezone);
-
-				runningSimId = rs.getId();
-			} else {
-				this.errorMsg = "Running Simulation Name must not be blank.";
-			}
-		} // End of if coming from this page and have added running simulation
-	}
-
-	/**
 	 * Returns a vector indicating which radio box was selected.
 	 * 
 	 * @param currentVarId

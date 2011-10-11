@@ -35,6 +35,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Open Simulation Platform Control Page</title>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
@@ -87,11 +90,10 @@
                 <% } %>
 			  </blockquote>
 			  <br />
-			  	<% if (afso.getRunningSimId() != null) { %>
-					<a href="select_running_sim_for_dashboard.jsp">Select a different Running Simulation </a><br/>
+					<a href="select_running_sim_for_dashboard.jsp">Select a Running Simulation to Display</a><br/>
 					<br/>
-				<% } %>
-                  <p align="center"></p></td>
+
+				</td>
               </tr>
             </table></td>
         </tr>

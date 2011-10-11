@@ -27,6 +27,9 @@
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -37,7 +40,7 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-			  <h1>View Running Simulations</h1>
+			  <h1>My Running Simulations</h1>
 			  <br />
             <blockquote> 
 
@@ -52,9 +55,11 @@
 				%>
               <table width="100%" border = "1">
                 <tr>
-                  <td valign="top"><h2>Simulation</h2></td> 
-                  <td valign="top"><h2>Running Simulation</h2></td>
-              <td valign="top"><h2>Phase</h2></td>
+                  <td valign="top"><strong>Simulation</strong></td> 
+                  <td valign="top"><strong>Running Simulation</strong></td>
+                  <td valign="top"><strong>Time Zone</strong></td>
+                  <td valign="top"><strong>Enabled</strong></td>
+              <td valign="top"><strong>Phase</strong></td>
             </tr>
                 <%
 				
@@ -64,6 +69,8 @@
                 <tr>
                   <td valign="top"><%= rsil.getSimName() %></td> 
                   <td valign="top"><a href="facilitate_panel.jsp?rs_id=<%= rsil.getRsId() %>"><%= rsil.getRsName() %></a></td>
+                  <td valign="top"><%= rsil.getTimeZone() %></td>
+                  <td valign="top"><%= rsil.isEnabled() %></td>
               <td valign="top"><%= rsil.getPhaseName() %></td>
             </tr>
                 <%

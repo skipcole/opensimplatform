@@ -17,6 +17,12 @@
 	
 	Simulation simulation = afso.handleCreateSchedulePage(request);
 	
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
+		return;
+	}
+	
 	RunningSimulation rs = afso.giveMeRunningSim();
 	
 %>
@@ -30,6 +36,9 @@
 
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
@@ -56,14 +65,13 @@
                   <blockquote>
                     <p><strong>Simulation</strong>: <%= simulation.getDisplayName() %></p>
 		  <p><strong>Running Simulation</strong>: <%= rs.getRunningSimulationName() %></p>
+                  <p> Below are notes from the simulation author on how he or she felt this simulation should be conducted.                  </p>
                   </blockquote>
-                  <p> Below are notes from the simulation author on how he or she felt this simulation would be conducted.</p>
-                  <p>Below that is a place where you can enter the specific schedule page for your students. This page will give them important information on when they can and should login and any other details. You will be able to give the players announcements during the simulation, but this page will set the initial expectations.</p>
                   <div align="center">
                     <table width="80%" border="1">
 	                  <tr>
 	                    <td><div align="center">
-	                      <h2>Notes from the Simulation Author </h2>
+	                      <h2>Notes from the Simulation Author(s) </h2>
 	                    </div></td>
                       </tr>
 	                  <tr>
@@ -71,7 +79,9 @@
 	      </tr>
                     </table>
                   </div>
-                  <p>&nbsp;</p>
+                  <blockquote>
+                    <p>Below here, you can enter the specific schedule information for your students. This page can give them important information on when they should login, other game play details you want to stress to them, and set initial expectations.</p>
+                  </blockquote>
                   <form action="facilitate_create_schedule_page.jsp" method="post" name="form2" id="form2">
                     <blockquote>
                       <p>
@@ -85,7 +95,11 @@
                       </p>
             <p> 
               <input type="hidden" name="sending_page" value="create_schedule" />
-              <input type="submit" name="command" value="Save" />
+              
+              <table width="100%"><tr>
+              <td><input type="submit" name="command_save" value="Save" /></td>
+              <td><input type="submit" name="command_save_and_proceed" value="Save and Proceed" /></td>
+              </tr></table>
               </p>
           </blockquote>
                   </form>
@@ -96,10 +110,8 @@
 
 %>
                   <blockquote>
-                    <p>&nbsp;</p>
-                  </blockquote>
-                  <p align="center"><a href="facilitate_assign_user_to_simulation.jsp">Next Step: Assign Users</a></p>
-                  <a href="facilitate_create_running_sim.jsp">&lt;-- Back</a>			</td>
+                    <p><a href="facilitate_panel.jsp">To Monitor Pad and Check List</a> </p>
+                  </blockquote></td>
 		</tr>
 		</table>	</td>
   </tr>
