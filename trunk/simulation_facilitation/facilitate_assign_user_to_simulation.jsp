@@ -168,10 +168,13 @@
 	}// end of if afso.simulation.id has been set.
 %>
       </blockquote>
-      <p>Note: Rows in pink represent unregistered players that have been assigned a role in the simulation.</p>
-      <p align="center"><a href="facilitate_enable_simulation.jsp">Next Step: Enable Simulation</a></p>     
-	   <p align="left"><a href="facilitate_create_schedule_page.jsp">&lt;-- 
-        Back</a></p>			</td>
+      <h6>Note: Rows in pink represent unregistered players that have been assigned a role in the simulation.</h6>
+      <p align="center">When you are done assigning users, <a href="facilitate_enable_simulation.jsp">click here to move to the next step.</a></p>     
+	   <p align="left">&nbsp;</p>
+	   <blockquote>
+	     <p align="left"><a href="facilitate_panel.jsp">To Simulation Launch Checklist</a></p>
+	     </blockquote>
+	   <p align="left">&nbsp;</p></td>
 		</tr>
 		</table>	</td>
   </tr>

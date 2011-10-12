@@ -226,8 +226,11 @@ Email has not been enabled on this server. Please contact your administrator if 
 
 %> 		
 
-                    <a href="facilitate_panel.jsp">Home</a>
-              <p><a href="facilitate_enable_simulation.jsp">&lt;-- Back </a></p></td>
+              <p align="center">&nbsp;</p>                          
+              <blockquote>
+                <p><a href="facilitate_panel.jsp">To Simulation Launch Checklist</a><a href="facilitate_enable_simulation.jsp"></a></p>
+                <p>&nbsp;</p>
+              </blockquote></td>
 		</tr>
 		</table>	</td>
   </tr>

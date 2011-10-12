@@ -110,8 +110,9 @@
 
 %>
                   <blockquote>
-                    <p><a href="facilitate_panel.jsp">To Monitor Pad and Check List</a> </p>
-                  </blockquote></td>
+                    <p><a href="facilitate_panel.jsp">To Simulation Launch Checklist</a> </p>
+                    <p>&nbsp;</p>
+                </blockquote></td>
 		</tr>
 		</table>	</td>
   </tr>

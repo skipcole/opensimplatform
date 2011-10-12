@@ -26,12 +26,6 @@
 	
 		afso.handleEnableSim(request);
 		
-		if (afso.forward_on){
-			afso.forward_on = false;
-			response.sendRedirect("facilitate_email_notifications.jsp");
-			return;
-		}
-		
 		running_sim = (RunningSimulation) afso.giveMeRunningSim();
 	}
 	//////////////////////////////////////////////////////
@@ -98,7 +92,11 @@
         </table>
     </form>
     <p>&nbsp;</p>
-        </blockquote>
+    <p align="center">When you are done, <a href="facilitate_email_notifications.jsp">click here to move to the next step and notify your players.</a></p>
+    <p align="left"></p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+              </blockquote>
       <% } // end of if running_sim.id has been set. %>
         <%
 		
@@ -106,10 +104,8 @@
 
 %>        <blockquote>
           <div align="center">
-            <p><a href="facilitate_email_notifications.jsp">Next 
-              Step: Send Invitation Emails </a></p>
-            <p align="left"><a href="facilitate_assign_user_to_simulation.jsp">&lt;- 
-        Back</a></p>
+            <p align="left"><a href="facilitate_panel.jsp">To Simulation Launch Checklist</a></p>
+            <p align="left"><a href="facilitate_assign_user_to_simulation.jsp"></a></p>
           </div>
           </blockquote>			</td>
 		</tr>
