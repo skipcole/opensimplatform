@@ -108,7 +108,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
 		ObjectPackager.unpackageSim(filename, this.schema, sim_name,
-				sim_version, upgrade_file_name, this, user_id, this.userDisplayName, this.user_email);
+				sim_version, upgrade_file_name, this, user_id,
+				this.userDisplayName, this.user_email);
 
 	}
 
@@ -1866,11 +1867,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				new_simulation.setVersion(simulation_version);
 				new_simulation.setCreation_org(creation_org);
 
-				new_simulation.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
+				new_simulation
+						.setSimEditingRestrictions(Simulation.CAN_BE_EDITED_BY_SPECIFIC_USERS);
 				new_simulation.saveMe(schema);
-				
+
 				@SuppressWarnings("unused")
-				SimEditors se = new SimEditors(schema, new_simulation.getId(), 
+				SimEditors se = new SimEditors(schema, new_simulation.getId(),
 						this.user_id, userDisplayName, this.userDisplayName);
 
 				this.sim_id = new_simulation.getId();
@@ -2092,7 +2094,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 			if (!(simHasActor)) {
 				saa = new SimActorAssignment(schema, sim_id,
-						actorOnScratchPad.getId(), SimActorAssignment.TYPE_REQUIRED);
+						actorOnScratchPad.getId(),
+						SimActorAssignment.TYPE_REQUIRED);
 			} else {
 				saa = SimActorAssignment.getBySimIdAndActorId(schema, sim_id,
 						actorOnScratchPad.getId());
@@ -3478,7 +3481,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return sd;
 	}
 
-
 	public String getMetaPhaseName(HttpServletRequest request, Long metaPhaseId) {
 
 		if (metaPhaseId == null) {
@@ -3860,9 +3862,8 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public String getBaseList(HttpServletRequest request) {
 
 		List baseList = BaseSimSection.getAll(schema);
-			
-			//USIP_OSP_Cache.getBaseSectionInformation(schema,request);
-		
+
+		// USIP_OSP_Cache.getBaseSectionInformation(schema,request);
 
 		String returnString = "";
 
@@ -3885,8 +3886,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @return
 	 */
 	public List getUncustomizedSections(HttpServletRequest request) {
-		//List uc = USIP_OSP_Cache.getCustomSectionInformation(schema, request);
-		
+		// List uc = USIP_OSP_Cache.getCustomSectionInformation(schema,
+		// request);
+
 		List uc = CustomizeableSection.getAllUncustomized(schema);
 
 		if (uc == null) {
@@ -4358,11 +4360,46 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 * @param afso
 	 * @param io
 	 */
-	public static void setFromInstallObject(AuthorFacilitatorSessionObject afso, InstallationObject io){
-		
+	public static void setFromInstallObject(
+			AuthorFacilitatorSessionObject afso, InstallationObject io) {
+
 		afso.loggedin = io.isInstallationLogin();
-		
+
 	}
 
+	public void moveFromEditStarterPage(HttpServletRequest request) {
+
+		// If we are proceeding, we need to see if we need to go to another
+		// starter document, or to the the assign players page.
+		String starterDocIndex = (String) request
+				.getParameter("starterDocIndex");
+
+		int starter_doc_index = new Long(starterDocIndex).intValue();
+
+		String command_save_and_proceed = (String) request
+				.getParameter("command_save_and_proceed");
+
+		if (command_save_and_proceed != null) {
+
+			forward_on = true;
+
+			backPage = "facilitate_assign_user_to_simulation.jsp";
+
+			List starterDocs = SharedDocument.getAllStarterBaseDocumentsForSim(
+					schema, sim_id, getRunningSimId());
+
+			if ((starter_doc_index + 1) < starterDocs.size()) {
+				starter_doc_index += 1;
+				SharedDocument sd_next = (SharedDocument) starterDocs
+						.get(starter_doc_index);
+
+				backPage = "facilitate_write_starter_document.jsp?sendingDocId=true&doc_id="
+						+ sd_next.getId()
+						+ "&starterDocIndex="
+						+ starter_doc_index;
+
+			}
+		}
+	}
 
 } // End of class

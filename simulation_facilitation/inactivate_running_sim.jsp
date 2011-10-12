@@ -1,7 +1,9 @@
 <%@ page 
 	contentType="text/html; charset=UTF-8" 
 	language="java" 
-	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.hibernate.*" 
+	import="java.sql.*,java.util.*,org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,org.hibernate.*" 
 	errorPage="/error.jsp" %>
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -24,8 +26,6 @@
 	
 		String action = (String) request.getParameter("action");
 		String rsid = (String) request.getParameter("rsid");
-		
-		System.out.println("a/r " + action + "/" + rsid);
 		
 		if (action != null) {
 		
@@ -84,7 +84,7 @@
                         <td><h2>Inactivate /Activate</h2></td>
                       </tr>
                       <%
-		  	List rsList = RunningSimulation.getAllForSim(this_sim, afso.schema);
+		  	List rsList = RunningSimulation.getAllForSim(this_sim.getId(), afso.schema);
 			
 			for (ListIterator li = rsList.listIterator(); li.hasNext();) {
 				RunningSimulation rs = (RunningSimulation) li.next();

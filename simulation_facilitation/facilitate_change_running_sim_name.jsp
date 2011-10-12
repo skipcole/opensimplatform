@@ -83,18 +83,23 @@
                 <td width="66%"> <input type="submit" name="command" value="Update" /></td>
               </tr>
         </table>
+      <p>&nbsp;</p>
     </form>
     </blockquote>
-        <%
+              <p>
+                <%
 		
 	}// end of if  rs_id has not been passed in
 
-%>        <blockquote>
-          <div align="center">
-            <p align="left"><a href="facilitate_panel.jsp">&lt;- 
-        Back</a></p>
+%>        
+              When you are done, you many <a href="facilitate_create_schedule_page.jsp">click here to move to the next step.</a></p>
+              <p>&nbsp;</p>
+              <blockquote>
+                <div align="center">
+            <p align="left"><a href="facilitate_panel.jsp">To Simulation Launch Checklist</a></p>
+            <p align="left">&nbsp;</p>
           </div>
-          </blockquote>			</td>
+        </blockquote>			</td>
 		</tr>
 		</table>	</td>
   </tr>

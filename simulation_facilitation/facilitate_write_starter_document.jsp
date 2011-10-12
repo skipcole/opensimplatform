@@ -27,34 +27,16 @@
 	
 	SharedDocument.handleWriteStarterDocument(request, sd, afso);
 	
-	// If we are proceeding, we need to see if we need to go to another 
-	// starter document, or to the the assign players page.
+	// Need this here so can be passed back, below in a hidden field.
 	String starterDocIndex = (String)  request.getParameter("starterDocIndex");
-	
-	int starter_doc_index = new Long(starterDocIndex).intValue();
-	
-	String command_save_and_proceed = (String) request.getParameter("command_save_and_proceed");
-	
-	if (command_save_and_proceed != null) {
-		
-		String nextURL = "facilitate_assign_user_to_simulation.jsp";
-		
-		List starterDocs = SharedDocument.getAllStarterBaseDocumentsForSim(afso.schema, afso.sim_id, afso.getRunningSimId());	
-		
-		if ((starter_doc_index + 1) < starterDocs.size()){
-			starter_doc_index += 1;
-			SharedDocument sd_next = (SharedDocument) starterDocs.get(starter_doc_index);
 			
-			nextURL = "facilitate_write_starter_document.jsp?sendingDocId=true&doc_id=" + sd_next.getId()
-+ "&starterDocIndex=" + starter_doc_index;
-			
-		} 
-		
-		response.sendRedirect(nextURL);
-		return;
-		
-	}
+	afso.moveFromEditStarterPage(request);
 
+	if (afso.forward_on){
+		afso.forward_on = false;
+		response.sendRedirect(afso.backPage);
+		return;
+	}
 	
 %>
 <html>
@@ -96,6 +78,12 @@
 </tr></table>
 
 </form>
-Document Version <%= sd.getVersion() %> To see a previous version, <a href="../osp_core/review_document_version_history.jsp?sd_id=<%= sd.getId() %>">click here</a>.
+<p>Document Version <%= sd.getVersion() %> To see a previous version, <a href="../osp_core/review_document_version_history.jsp?sd_id=<%= sd.getId() %>">click here</a>.
+</p>
+<p>&nbsp;</p>
+<blockquote>
+  <p><a href="facilitate_panel.jsp">To Simulation Launch Checklist</a></p>
+</blockquote>
+<p>&nbsp;</p>
 </body>
 </html>
