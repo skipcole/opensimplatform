@@ -25,6 +25,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<script src="media/Scripts/swfobject_modified.js" type="text/javascript"></script>
 <body>
 <%= cs.getBigString() %>
 </body>
