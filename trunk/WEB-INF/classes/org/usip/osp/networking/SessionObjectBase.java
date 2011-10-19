@@ -584,12 +584,10 @@ public class SessionObjectBase {
 				&& (sending_page.equalsIgnoreCase("change_userpassword"))) {
 
 			if (update != null) {
-				String old_password = request.getParameter("old_password");
 				String new_password = request.getParameter("new_password");
 				String new_password2 = request.getParameter("new_password2");
 
-				if ((old_password == null) || (new_password == null)
-						|| (new_password == null)) {
+				if ((new_password == null) || (new_password2 == null)) {
 					return INSUFFICIENT_INFORMATION;
 				}
 

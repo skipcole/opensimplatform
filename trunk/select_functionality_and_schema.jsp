@@ -108,11 +108,11 @@ body {
                 
               <% if(user_in_this_schema.isSim_instructor()) {  %>  
               <td width="25%" valign="top"><p align="center"><a href="<%= pso.getLinkToMessages(this_sg, "INSTRUCTOR") %>"><img src="images/instructors.png" alt="Instructor Login" width="140" height="120"></a></p>
-                <p>Use this section to create running simulations, invite students and perform other common instructor tasks.</p></td>
+                <p>Use this section to initiate and monitor simulations.</p></td>
               <% } // end of if is instructor. %>
                 
               <td width="25%" valign="top"><p align="center"><a href="<%= pso.getLinkToMessages(this_sg, "PLAYER") %>"><img src="images/players.png" alt="Player Login" width="140" height="120"></a></p>
-                <p>Use this section to enter into a simulated world either as a student or a control character.</p></td>
+                <p>Use this section to enter into a simulation.</p></td>
             </tr>
           </table>
           </td></tr>

@@ -25,6 +25,7 @@
 
 	int returnCode = afso.changeUserPassword(request);
 	
+	System.out.println("rc: " + returnCode);
 
 	
 %>
@@ -60,7 +61,9 @@
                 <% } %>
                 
 <% } else if (returnCode == SessionObjectBase.USER_NOT_FOUND) { %>
-			  	<h1 class="style1">User with that password not found</h1>
+			  	<h1 class="style1">User not found</h1>
+                <% } else if (returnCode == SessionObjectBase.INSUFFICIENT_INFORMATION) { %>
+			  	<h1 class="style1">Must enter email address and new password twice.</h1>
 			  	<% } else if (returnCode == SessionObjectBase.PASSWORDS_MISMATCH) { %>
 			  	<h1 class="style1">New Passwords Did Not Match</h1>
 			  	<% } else if (returnCode == SessionObjectBase.NO_ACTION){ %>

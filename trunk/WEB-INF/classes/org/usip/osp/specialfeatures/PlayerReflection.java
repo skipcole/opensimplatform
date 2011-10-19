@@ -3,7 +3,10 @@ package org.usip.osp.specialfeatures;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
+
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.networking.PlayerSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 
@@ -235,4 +238,46 @@ public class PlayerReflection implements Comparable{
 	public void setActor_name(String actor_name) {
 		this.actor_name = actor_name;
 	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static PlayerReflection handlePlayerReflection(HttpServletRequest request,
+			PlayerSessionObject pso) {
+
+		PlayerReflection playerReflection = new PlayerReflection();
+		
+		String cs_id_string = (String) request.getParameter("cs_id");
+
+		Long cs_id = null;
+
+		if (cs_id_string != null) {
+			cs_id = new Long(cs_id_string);
+			
+			playerReflection = PlayerReflection.getPlayerReflection
+				(pso.schema, cs_id, pso.runningSimId, pso.getActorId(), pso.user_id);
+			
+		} else {
+			return new PlayerReflection();
+		}
+
+		String sending_page = (String) request.getParameter("sending_page");
+		String update_text = (String) request.getParameter("update_text");
+
+		if ((sending_page != null) && (update_text != null)
+				&& (sending_page.equalsIgnoreCase("player_reflection"))) {
+			String player_reflection_text = (String) request
+					.getParameter("player_reflection_text");
+
+			playerReflection.setU_id(pso.user_id);
+			playerReflection.setBigString(player_reflection_text);
+			playerReflection.save(pso.schema);
+
+		} // End of if coming from this page and have added text
+
+		return playerReflection;
+	}
+
 }

@@ -96,6 +96,9 @@ function loadInfo(dropdownlist){
 </style>
 
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script>
 </head>
 <body onLoad="loadFirstInfo();">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
