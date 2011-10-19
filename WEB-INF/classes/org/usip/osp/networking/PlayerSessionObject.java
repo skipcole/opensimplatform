@@ -1302,45 +1302,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	}
 
-	/**
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public PlayerReflection handlePlayerReflection(HttpServletRequest request) {
-
-		String cs_id_string = (String) request.getParameter("cs_id");
-
-		Long cs_id = null;
-
-		if (cs_id_string != null) {
-			cs_id = new Long(cs_id_string);
-		} else {
-			Logger.getRootLogger().warn(
-					"Null CS_ID sent to pso.handlePlayerReflection");
-			return new PlayerReflection();
-		}
-
-		PlayerReflection playerReflection = PlayerReflection
-				.getPlayerReflection(schema, cs_id, runningSimId, actorId,
-						user_id);
-
-		String sending_page = (String) request.getParameter("sending_page");
-		String update_text = (String) request.getParameter("update_text");
-
-		if ((sending_page != null) && (update_text != null)
-				&& (sending_page.equalsIgnoreCase("player_reflection"))) {
-			String player_reflection_text = (String) request
-					.getParameter("player_reflection_text");
-
-			playerReflection.setU_id(this.user_id);
-			playerReflection.setBigString(player_reflection_text);
-			playerReflection.save(schema);
-
-		} // End of if coming from this page and have added text
-
-		return playerReflection;
-	}
 
 	/**
 	 * 
@@ -1778,6 +1739,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 	 */
 	public void changeActorsColor(String actor_id, String newColor) {
 
+		System.out.println("actor_id: " +  actor_id + ", newColor: " + newColor);
+		
 		for (Enumeration e = myActors.elements(); e.hasMoreElements();) {
 			ActorGhost ag = (ActorGhost) e.nextElement();
 
@@ -2044,10 +2007,21 @@ public class PlayerSessionObject extends SessionObjectBase {
 		String name = (String) request.getParameter("name");
 		String conversation = (String) request.getParameter("conversation");
 		String start_index = (String) request.getParameter("start_index");
+		
+		String conversation_type = (String) request.getParameter("conversation_type");
+		if (conversation_type == null) {
+			conversation_type = "";
+		}
 
 		if ((message != null) && (message.trim().length() > 0)) {
-			ChatController.insertChatLine(user_id, getActorId(), start_index,
+			
+			if (conversation_type.equalsIgnoreCase("student")){
+			ChatController.insertChatLine(user_id, user_id, start_index,
 					message, conversation, this, request, new Date());
+			} else {
+				ChatController.insertChatLine(user_id, getActorId(), start_index,
+						message, conversation, this, request, new Date());				
+			}
 		}
 		return status_code;
 	}
@@ -2081,7 +2055,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		String xml_msgs = "";
 
-		if (conv_id != null) {
+		if (USIP_OSP_Util.stringFieldHasValue(conv_id)) {
 			if (show_all != null) {
 				xml_msgs = ChatController.getXMLConversation(start_index,
 						conv_id, this, request, 0);

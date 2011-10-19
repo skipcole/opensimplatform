@@ -17,7 +17,7 @@
 		return;
 	}
 
-	PlayerReflection playerReflection = pso.handlePlayerReflection(request);
+	PlayerReflection playerReflection = PlayerReflection.handlePlayerReflection(request, pso);
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	
@@ -44,7 +44,7 @@
     <label>
     <input type="submit" name="update_text" value="Save">
     </label>
-  (Feel free to save your reflections frequently as you type. <strong><em>Make sure</em></strong> you save your final reflections.)</p>
+  (Feel free to save your work frequently as you type. <strong><em>Make sure</em></strong> you save your work.)</p>
 <input type="hidden" name="sending_page" value="player_reflection" />
 <input type="hidden" name="cs_id" value="<%= cs_id %>" />
   

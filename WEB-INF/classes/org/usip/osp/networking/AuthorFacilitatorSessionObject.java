@@ -305,8 +305,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			BaseUser bu = BaseUser.getByUsername(this_email);
 
 			if (bu != null) {
-				returnString += "found user:" + this_email + "<br />";
-
+				returnString += "Found registered user for beta-testing: " + this_email + "<br />";
+				returnString += "<blockquote>";
+				
 				String rsn = "BetaTest " + timeStart + " " + bu.getInitials();
 
 				// Create Running Simulation
@@ -324,10 +325,11 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 							this.schema, sim.getId(), rs.getId(), act.getId(),
 							bu.getId());
 
-					returnString += "          added user as "
-							+ act.getActorName();
+					returnString += "Added " + this_email + " as "	+ act.getActorName() + "<br />";
 
 				}
+				
+				returnString += "</blockquote>";
 
 				RunningSimulation.enableAndPrep(this.schema, sim.getId(),
 						rs.getId());
@@ -749,10 +751,19 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 						confirmURL += "&ua_id=" + ua.getId();
 						confirmURL += "&er_id=" + er.getId();
 
+						String htmlCustomizedMessage = customizedMessage;
+						String linkedConfirm = "<A HREF=\"" + confirmURL + "\">" + confirmURL
+							+ "</A>";
+						
+						htmlCustomizedMessage = customizedMessage.replace(
+								"[confirm_receipt]", linkedConfirm);
+						
 						customizedMessage = customizedMessage.replace(
 								"[confirm_receipt]", confirmURL);
+				
+						
 						email.setMsgtext(customizedMessage);
-						email.setHtmlMsgText(customizedMessage);
+						email.setHtmlMsgText(htmlCustomizedMessage);
 						email.saveMe(schema);
 
 						email.sendMe(sio);

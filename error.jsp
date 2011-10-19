@@ -33,8 +33,7 @@
 <link href="usip_osp.css" rel="stylesheet" type="text/css" />
 </head>
 <body onLoad="">
-<table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
-<table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
+<table width="620" bgcolor="#FFFFFF" align="left" border="1" cellspacing="0" cellpadding="2">
 <tr> 
     <td>
 		
@@ -113,7 +112,6 @@
     <p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p></td>
   </tr>
 </table>
-</td></tr></table>
 
 <p>&nbsp;</p>
 

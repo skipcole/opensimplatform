@@ -95,13 +95,13 @@ function timedCount()
 <body bgcolor="#FFFFFF" onLoad="timedCount();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr  background="images/<%= pso.getSchemaOrgBanner() %>" >
-    <td width="23" valign="top"><span class="header"><img src="../Templates/images/resize.gif" width="23" height="22" border="0" usemap="#Map"></span>
+    <td width="23" valign="top"  background="images/<%= pso.getSchemaOrgBanner() %>" ><span class="header"><img src="../Templates/images/resize.gif" width="23" height="22" border="0" usemap="#Map"></span>
             <map name="Map">
               <area shape="rect" coords="1,1,23,11" href="simwebui.jsp?lessten=true" target="_top" alt="resize smaller">
               <area shape="rect" coords="1,12,23,22" href="simwebui.jsp?addten=true" target="_top" alt="resize smaller">
             </map></td>
-    <td width="120" valign="top"><a href="about.jsp" target="mainFrame"><img src="images/<%= pso.getSchemaOrgLogo() %>" width="120" height="100" border="0" /></a></td>
-    <td width="80%" valign="middle"  background="">    
+    <td width="120" valign="top"  background="images/<%= pso.getSchemaOrgBanner() %>" ><a href="about.jsp" target="mainFrame"><img src="images/<%= pso.getSchemaOrgLogo() %>" width="120" height="100" border="0" /></a></td>
+    <td width="80%" valign="middle"   background="images/<%= pso.getSchemaOrgBanner() %>" >    
     <table width="100%" border="0" cellspacing="2" cellpadding="2">
         <tr>
           <td colspan="3" valign="top"><span class="header"><%= pso.simulation_org %></span></td>
@@ -124,7 +124,7 @@ function timedCount()
           <!-- td><strong><div id="sim_round_div">Loading...</div></strong></td -->
         </tr>
       </table>    </td>
-    <td align="right" width="20%"> 
+    <td align="right" width="20%"   background="images/<%= pso.getSchemaOrgBanner() %>" > 
 
 	  <div align="center">
 	    <table border="0" cellspacing="1" cellpadding="0">

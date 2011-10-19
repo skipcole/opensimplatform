@@ -24,11 +24,16 @@
 	
 	Conversation conv = new Conversation();
 	
+	String conversation_type = "normal";
+	
 	if (!(pso.preview_mode)){
 		ssrsdoa = SimSectionRSDepOjbectAssignment.getOneForRunningSimSection
 			(pso.schema, pso.getRunningSimId(), new Long(cs_id), 0);
 		
 		conv = Conversation.getById(pso.schema, ssrsdoa.getObjectId());
+		if (conv.getConversationType() == Conversation.TYPE_STUDENT_CHAT) {
+			conversation_type = "student";	
+		}
 
 		this_set_of_actors = pso.getActorsForConversation(ssrsdoa.getObjectId(), request);
 	}
@@ -152,7 +157,6 @@ function formatString(mTime, message, actorName, msgSender){
 	
 	var formattedHTML =  ('<table width=100% bgcolor=#' + actor_colors[msgSender] + ' ><tr><td><span class=\"style1\">(' + mTime + ') </span>From ' + actorName + ': ' + message + ' </td></tr></table>' );
 	
-	
   	return formattedHTML;
 	
 }
@@ -182,6 +186,7 @@ function formatString(mTime, message, actorName, msgSender){
 							conversation: $("#conversation<%= conv.getId() %>").val(),
 							start_index: start_index,
 							action: "postmsg",
+							conversation_type: <%= conversation_type %>,
 							time: timestamp
 						}, function(xml) {
 					$("#msg<%= conv.getId() %>").empty();
@@ -253,7 +258,7 @@ function parseXml(xml)
 				}
 				);
 
-			setTimeout('updateMsg()', 2000);
+			setTimeout('updateMsg()', 1000);
 		
 		}
 </script>
