@@ -186,7 +186,7 @@ function formatString(mTime, message, actorName, msgSender){
 							conversation: $("#conversation<%= conv.getId() %>").val(),
 							start_index: start_index,
 							action: "postmsg",
-							conversation_type: <%= conversation_type %>,
+							conversation_type: "<%= conversation_type %>",
 							time: timestamp
 						}, function(xml) {
 					$("#msg<%= conv.getId() %>").empty();
