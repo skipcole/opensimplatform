@@ -92,7 +92,7 @@ body {
 	
 		%>
       <form action="auto_registration_page.jsp" method="post" name="form1" id="form1">
-      <input type="hidden" name="schema" value="<%= schema %>" />
+      <input type="hidden" name="schema" value="<%= sob.schema %>" />
       
         <table width="80%" border="0" cellspacing="0" cellpadding="0">
           
@@ -139,7 +139,7 @@ body {
 	     	<tr>
             <td valign="top"><strong>Organizational Database: <a href="helptext/org_database.jsp" target="helpinright">(?):</a></strong></td>
               <td valign="top">
-              <%= this_sg.getSchema_organization() %>
+              <%= sob.schemaDisplayName %>
 			</td>
             </tr>
         
@@ -155,7 +155,7 @@ body {
 			  	for (ListIterator<SchemaInformationObject> li = ghostList.listIterator(); li.hasNext();) {
             		SchemaInformationObject this_sg = (SchemaInformationObject) li.next();
 				%>
-				<option value="<%= this_sg.getSchemaName() %>"><%= this_sg.getSchema_organization() %></option>
+				<option value="<%= this_sg.getSchema_name() %>"><%= this_sg.getSchema_organization() %></option>
 			<% } %>
               </select>              </td>
 			</tr>  
