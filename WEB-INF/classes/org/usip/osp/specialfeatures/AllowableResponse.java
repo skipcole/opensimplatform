@@ -13,8 +13,8 @@ import org.apache.log4j.*;
  * This class represents one specific choice in a set of answers that a player may select. For example,
  * the question might be "Do you want steak, or fish?" There would be one allowable response for steak and
  * another for fish.
- *
- *
+ */
+/*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
  * The USIP Open Simulation Platform is free software; you can redistribute it and/or
