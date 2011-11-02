@@ -215,6 +215,8 @@ public class MultiSchemaHibernateUtil {
 
 			Logger.getRootLogger().warn("! root database "); //$NON-NLS-1$
 			addSchemaClasses(config);
+			addPluginSchemaClasses(config, schema);
+			
 			// make a static list of the plugin tables
 
 			for (Enumeration e = setOfPluginTables.keys(); e.hasMoreElements();){
@@ -247,7 +249,7 @@ public class MultiSchemaHibernateUtil {
 		initializeConnection(tempURL, config);
 
 		Logger.getRootLogger().warn("! root database "); //$NON-NLS-1$
-		addPluginSchemaClasses(config, schema);
+		addPluginSchemaClassesToDatabase(config, schema);
 
 		return config;
 	}
@@ -574,7 +576,7 @@ public class MultiSchemaHibernateUtil {
 	 * @param ac
 	 * @param schema
 	 */
-	public static void addPluginSchemaClasses(AnnotationConfiguration ac, String schema) {
+	public static void addPluginSchemaClassesToDatabase(AnnotationConfiguration ac, String schema) {
 		// Check for Add-ons
 		List additionalClasses = BaseSimSection.getUniqSetOfDatabaseClassNames(schema, true);
 		
@@ -590,6 +592,20 @@ public class MultiSchemaHibernateUtil {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static void addPluginSchemaClasses(AnnotationConfiguration ac, String schema){
+		//TODO This is a cheat for now. Need to learn how to get these honestly.
+		
+		// Do majic and get list
+		
+		// Add them.
+		ac.addAnnotatedClass(com.seachangesimulations.osp.gametime.GameClockPhaseInstructions.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.gametime.GameClockEvent.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.griddoc.GridData.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.questions.QuestionAndResponse.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.questions.PlayerAnswer.class);
+		
 	}
 
 }

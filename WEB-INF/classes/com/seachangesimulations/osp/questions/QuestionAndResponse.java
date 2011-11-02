@@ -1,5 +1,9 @@
 package com.seachangesimulations.osp.questions;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,7 @@ import javax.persistence.Lob;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
+import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.sharing.ExportableObject;
 
@@ -27,6 +32,24 @@ import org.usip.osp.sharing.ExportableObject;
 @Proxy(lazy=false)
 public class QuestionAndResponse implements ExportableObject{
 	
+	/** Zero element constructor required by Hibernate. */
+	public QuestionAndResponse() {
+		
+	}
+	
+	public QuestionAndResponse(String schema, Long simId, Long csId, int index, String qid, String q, String a) {
+		
+		this.simId = simId;
+		this.customSectionId = csId;
+		this.questionIndex = index;
+		this.questionIdentifier = qid;
+		this.question = q;
+		this.answer = a;
+		
+		this.saveMe(schema);
+		
+	}
+	
     /** Unique id. */
 	@Id @GeneratedValue
     private Long id;
@@ -36,6 +59,11 @@ public class QuestionAndResponse implements ExportableObject{
 	private Long transitId;
 	
 	private Long customSectionId;
+	
+	private int questionIndex = 0;
+	
+	/** Question id for author (Q1, Q2, etc.) */
+	private String questionIdentifier = "";
 	
 	@Lob
 	private String question = "";
@@ -76,6 +104,54 @@ public class QuestionAndResponse implements ExportableObject{
 		return qAndR;
 
 	}
+	
+	/** Returns all of the questionAndResponse objects for a section for a sim. */
+    public static List <QuestionAndResponse> getAllForSimAndCustomSection(String schema, Long simId, Long csId){
+        
+    	if ((simId == null) || (csId == null)){
+    		return new ArrayList();
+    	}
+    	
+    	List <BaseSimSectionDepObjectAssignment> bsdoa = 
+    		BaseSimSectionDepObjectAssignment.getObjectsForSection(schema, csId);
+    	
+    	ArrayList <QuestionAndResponse> returnList = new ArrayList();
+    	
+		for (ListIterator li = bsdoa.listIterator(); li.hasNext();) {
+			BaseSimSectionDepObjectAssignment this_bsdoa = (BaseSimSectionDepObjectAssignment) li.next();
+			
+			QuestionAndResponse qar = QuestionAndResponse.getById(schema, this_bsdoa.getObjectId());
+			
+			returnList.add(qar);
+			
+		}
+    	/*
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List <QuestionAndResponse> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from QuestionAndResponse where simId = :simId and customSectionId = :csId order by questionIndex")
+				.setLong("simId", simId)
+				.setLong("csId", csId)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		*/
+
+		return returnList;
+    }
+    
+    /** Cleans out all of the questions for this custom section in this sim. */
+    public static void deleteAllForSimAndCustomSection(String schema, Long simId, Long csId){
+    	
+    	List deleteList = getAllForSimAndCustomSection(schema, simId, csId);
+    	
+    	MultiSchemaHibernateUtil.beginTransaction(schema);
+		for (ListIterator li = deleteList.listIterator(); li.hasNext();) {
+			QuestionAndResponse qAndR = (QuestionAndResponse) li.next();
+			MultiSchemaHibernateUtil.getSession(schema).delete(qAndR);
+		}
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+    }
 
 	public Long getId() {
 		return id;
@@ -99,6 +175,22 @@ public class QuestionAndResponse implements ExportableObject{
 
 	public void setCustomSectionId(Long customSectionId) {
 		this.customSectionId = customSectionId;
+	}
+
+	public int getQuestionIndex() {
+		return questionIndex;
+	}
+
+	public void setQuestionIndex(int questionIndex) {
+		this.questionIndex = questionIndex;
+	}
+
+	public String getQuestionIdentifier() {
+		return questionIdentifier;
+	}
+
+	public void setQuestionIdentifier(String questionIdentifier) {
+		this.questionIdentifier = questionIdentifier;
 	}
 
 	public String getQuestion() {

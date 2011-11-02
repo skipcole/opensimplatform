@@ -41,7 +41,7 @@
       <% 
 	  	ArrayList loss = new ArrayList();
 		
-		for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
+		for (ListIterator li = FileIO.getListOfSavedSims(afso.schema).listIterator(); li.hasNext();) {
 			String sim = (String) li.next();
 			loss.add(sim);	
 		}

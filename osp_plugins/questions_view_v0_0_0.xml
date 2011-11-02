@@ -1,0 +1,22 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>com.seachangesimulations.osp.questions.QuestionCustomizer</customizerClassName>
+  <creatingOrganization>com.seachangesimulations.osp.</creatingOrganization>
+  <uniqueName>Questions View</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>../osp_plugins/questions/make_questions_view_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>A place to see the answers that the players have given to the questions.</description>
+  <url></url>
+  <directory>../osp_plugins/questions/</directory>
+  <page__file__name>questions_view.jsp</page__file__name>
+  <rec__tab__heading>Questions View</rec__tab__heading>
+  <sample__image>questions.png</sample__image>
+  <control__section>false</control__section>
+  <databaseClassNames></databaseClassNames>
+  <isPluginSection>true</isPluginSection>
+  <pluginDirectory>questions</pluginDirectory>
+  <pluginVersion>1.0</pluginVersion>
+</org.usip.osp.baseobjects.CustomizeableSection>

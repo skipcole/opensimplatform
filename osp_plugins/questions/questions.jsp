@@ -5,7 +5,7 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
-	com.seachangesimulations.osp.griddoc.*" 
+	com.seachangesimulations.osp.questions.*" 
 	errorPage="/error.jsp" %>
 
 <%
@@ -19,100 +19,70 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
-	GridPageData.handleChanges(request, cs, pso.schema, pso.sim_id, pso.getRunningSimId());
-	
-	GridPageData gpd = GridPageData.loadPage(pso.schema, cs, pso.sim_id, pso.getRunningSimId());
+	QuestionCustomizer.handleChanges(request, cs, pso.schema, pso.sim_id, pso.getRunningSimId(), pso.getActorId(), pso.user_id);
 	
 	Hashtable contents = cs.getContents();
 	
 %>
 <html>
 <head>
-<title>Grid Doc</title>
+<title>Questions Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<h1><%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_PAGETITLE) %></h1>
+<h1><%=  QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_PAGETITLE) %></h1>
 <p><%= cs.getBigString() %></p>
-<table width="95%" border="1" cellspacing="2" cellpadding="2">
-<tr>
-<% if (gpd.getNumRows() > 0) { %>
-<td valign="top">
-	<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %>
-</td>
-<% } %>
-<% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
+<form name="form1" method="post" action="questions.jsp">
+<input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
+<input type="hidden" name="sending_page" value="questions" />
+<table border="1" cellspacing="0">
+<%
 
-	GridData gdTop = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), ii, 0);
-			
+	boolean answersHaveBeenSubmitted = false;
+	
+	List <QuestionAndResponse> qAndRList = QuestionAndResponse.getAllForSimAndCustomSection(pso.schema, pso.sim_id, cs.getId());
+	
+	if (qAndRList.size() == 0) {
+		QuestionAndResponse qar = new QuestionAndResponse();
+		qAndRList.add(qar);
+	}
+
+	int questionIndex = 1;
+	
+		for (ListIterator li = qAndRList.listIterator(); li.hasNext();) {
+			QuestionAndResponse this_qar = (QuestionAndResponse) li.next();
+			PlayerAnswer this_pa = PlayerAnswer.getByQuestionRunningSimAndUserIds(pso.schema, this_qar.getId(), pso.getRunningSimId(), pso.user_id);
 %>
-<td valign="top"><strong><%= gdTop.getCellData() %></strong>
-	<% if (ii == gpd.getNumCols()) { %>
-	<form name="form2" method="post" action="../griddoc/grid_doc.jsp">
-    <input type="hidden" name="cs_id" value="<%= cs_id %>">
-    <input type="hidden" name="col" value="<%= ii + "" %>">
-    <input type="submit" name="del_col" id="button" value="-"  onclick="return confirm('Are you sure you want to delete this column?');">
-  	</form>
-    <% } %>
-  </td>
+<tr><td valign="top">
+	<%= this_qar.getQuestionIdentifier() %>
+	<input type="hidden" name="q_id_<%= this_qar.getId() %>" value="<%= this_qar.getId() %>" />
+	</td><td valign="top">Question</td><td valign="top"><%= this_qar.getQuestion() %></td></tr>
 
-<% } %>
-</tr>
-
-<% for (int jj = 1 ; jj <= gpd.getNumRows() ; ++jj) { 
-
-GridData gdRow = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), 0, jj);
-
+<% if (!(this_pa.isSubmitted())) { %>
+<tr><td valign="top">&nbsp;</td><td valign="top">Your Answer</td><td valign="top">
+  <textarea name="answer_<%= this_qar.getId() %>" id="answer_<%= this_qar.getId() %>" cols="45" rows="5"><%= this_pa.getPlayerAnswer() %></textarea></td></tr>
+<% } else { 
+	answersHaveBeenSubmitted = true;
 %>
-<tr>
-<td valign="top"><strong><%= gdRow.getCellData() %></strong>
-<% if (jj == gpd.getNumRows() ) { %>
-<form name="form2" method="post" action="../griddoc/grid_doc.jsp">
-    <input type="hidden" name="cs_id" value="<%= cs_id %>">
-    <input type="hidden" name="row" value="<%= jj + "" %>">
-    <input type="submit" name="del_row" id="button" value="-"  onclick="return confirm('Are you sure you want to delete this row?');">
-  	</form>
+<tr><td valign="top">&nbsp;</td><td valign="top">Your Answer</td><td valign="top"><%= this_pa.getPlayerAnswer() %></td></tr>
+<tr><td valign="top">&nbsp;</td><td valign="top">Instructor's Answer</td><td valign="top"><%= this_qar.getAnswer() %></td></tr>
 <% } %>
-</td>
-<% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
 
-GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), ii, jj);
-
-%> 
-
-<td valign="top"><%= gdCell.getCellData() %><br /> <a href="../griddoc/edit_grid_data.jsp?gd_id=<%= gdCell.getId() %>&cs_id=<%= cs_id %>&col_num=<%= ii %>&row_num=<%= jj %>">Edit</a> </td>
-
-<% } %>
-</tr>
-<% } %>
+<% } // end of loop over questions %>
 </table>
-<form name="form1" method="post" action="../griddoc/grid_doc.jsp">
-<input type="hidden" name="cs_id" value="<%= cs_id %>">
 
-<table width="100%" border="1" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>Add <%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_COLUMN) %></td>
-    <td>
-      <label>
-        <input type="text" name="col_name" id="col_name_textfield">
-        </label>
-    
-    </td>
-    <td><label>
-      <input type="submit" name="do_add_col" id="do_add_col" value="Submit">
-    </label></td>
-  </tr>
-  <tr>
-    <td>Add <%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
-    <td><label>
-      <input type="text" name="row_name" id="row_name_textfield">
-    </label></td>
-    <td><input type="submit" name="do_add_row" id="button2" value="Submit"></td>
-  </tr>
-</table>
+<% if (!(answersHaveBeenSubmitted)) { %>
+  <p>
+    <input type="submit" name="command_save" id="save" value="Save">
+  </p>
+  <p align="right">
+    <input type="submit" name="command_submit" id="submit_final" value="Submit">
+  </p>
+<% } %>
 </form>
-<p><a href="../griddoc/grid_doc_linear_print.jsp?cs_id=<%= cs_id %>" target="_blank">Print Out Page</a></p>
+<p>&nbsp;</p>
+
 
 </body>
 </html>

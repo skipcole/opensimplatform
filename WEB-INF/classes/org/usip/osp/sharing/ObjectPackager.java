@@ -700,7 +700,7 @@ public class ObjectPackager {
 		XStream xstream = new XStream(new DomDriver());
 		xstream.alias("sim", SimulationVersion.class); //$NON-NLS-1$
 
-		String fileLocation = FileIO.packaged_sim_dir + File.separator
+		String fileLocation = FileIO.packaged_sim_dir + schema + File.separator
 				+ fileloc;
 
 		Logger.getRootLogger().debug(
@@ -759,7 +759,7 @@ public class ObjectPackager {
 		Hashtable bssIdMappings = new Hashtable();
 		Hashtable injectIdMappings = new Hashtable();
 
-		String fileLocation = FileIO.packaged_sim_dir + File.separator
+		String fileLocation = FileIO.packaged_sim_dir + schema + File.separator
 				+ fileName;
 
 		Logger.getRootLogger().debug(

@@ -116,6 +116,7 @@ public class PSO_SectionMgmt {
 	private String save_and_add = ""; //$NON-NLS-1$
 
 	/**
+	 * Loads all of the standard variables passed in with a Simulation Section edit submission.
 	 * 
 	 * @param request
 	 */
@@ -1356,7 +1357,7 @@ public class PSO_SectionMgmt {
 
 					// ///////////////////////////////////////
 					// Do file upload piece
-					afso.makeUploadDir();
+					FileIO.makeUploadDir();
 					String initFileName = mpr.getOriginalFileName("uploadedfile");
 
 					Logger.getRootLogger().warn("init file was: " + initFileName);

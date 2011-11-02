@@ -21,18 +21,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
 <head>
-<title>Create Simulation</title>
+<title>Simulation Play Testing</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
-
-<frameset rows="*" cols="75%,25%" border="1">
   <frameset rows="150,90%" border="0">
     <frame src="play_top.jsp">
     <frame name="bodyinleft" src="play_panel.jsp">
   </frameset>
-  
-  <frame name="helpinright" src="../simulation_facilitation/helptext/facilitation_basichelp.jsp">
-</frameset>
 <noframes><body>
 
 </body></noframes>

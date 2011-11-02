@@ -81,6 +81,9 @@ public class DatabaseCreator {
 
 				return error_msg;
 			}
+			
+			// Created the directory for exported/impoted simulations to reside.
+			FileIO.makeSchemaSpecificDirectories(db_schema);
 
 			// Only if we are creating a new Schema Information Object will we
 			// recreate the database.
