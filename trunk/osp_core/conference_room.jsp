@@ -330,7 +330,7 @@ function parseXml(xml)
     <TD width="25%"><form id="chatform<%= conv.getId() %>" >
 	<table>
     <tr><td valign="top">Your Text:</td>
-  <td valign="top"> <textarea name="chatmsgbox" cols="40" rows="2" id="msg<%= conv.getId() %>"   ></textarea></td></tr></table>
+  <td valign="top"> <textarea name="chatmsgbox" cols="32" rows="4" id="msg<%= conv.getId() %>"   ></textarea></td></tr></table>
 	      <input type="hidden" id="author<%= conv.getId() %>" value="You" />
     		<input type="hidden" id="conversation<%= conv.getId() %>" value="<%= conv.getId() %>" />
           <BR>

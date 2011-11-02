@@ -65,7 +65,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	public List tempSimSecList = new ArrayList();
 
 	static {
-		makeUploadDir();
+		FileIO.makeUploadDir();
 
 	}
 
@@ -1474,6 +1474,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		this.backPage = "install_confirmation.jsp?schema=" + schema
 				+ "&emailstatus=" + email_msg;
 
+		// Created the directory for exported/impoted simulations to reside.
+		FileIO.makeSchemaSpecificDirectories(db_schema);
+		
 		// Trying a reset here to get the plugin tables to be recognized at
 		// first go.
 		MultiSchemaHibernateUtil.resetSessionForSchema();
@@ -2048,7 +2051,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		if (saveActor) {
 			Logger.getRootLogger().debug("saving actor");
-			makeUploadDir();
+			FileIO.makeUploadDir();
 
 			String _sim_id = (String) request.getParameter("sim_id");
 			Simulation sim = Simulation.getById(schema, sim_id);
@@ -2183,7 +2186,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
 
 			Logger.getRootLogger().debug("saving actor image");
-			makeUploadDir();
+			FileIO.makeUploadDir();
 
 			String _sim_id = (String) mpr.getParameter("sim_id");
 			Simulation sim = Simulation.getById(schema, sim_id);
@@ -2360,26 +2363,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 				Logger.getRootLogger().warn(e_ignored.getMessage());
 			}
 		}
-	}
-
-	public static void makeUploadDir() {
-
-		try {
-			new File("uploads").mkdir();
-		} catch (Exception e) {
-			e.printStackTrace();
-			Logger.getRootLogger().debug(
-					"attempt to make dir: " + e.getMessage());
-		}
-
-	}
-
-	/** Its a work in progress. */
-	public String getEvents() {
-
-		String eventText = "";
-
-		return eventText;
 	}
 
 	/**
@@ -2889,11 +2872,9 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	 */
 	public String handlePackageSim(String _sim_id, String fileName) {
 
-		FileIO.saveSimulationXMLFile(
+		return FileIO.saveSimulationXMLFile(this,
 				ObjectPackager.packageSimulation(schema, new Long(_sim_id)),
 				fileName);
-
-		return fileName;
 	}
 
 	/**

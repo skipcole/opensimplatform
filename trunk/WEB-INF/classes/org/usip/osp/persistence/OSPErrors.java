@@ -243,12 +243,22 @@ public class OSPErrors {
     	
     	SchemaInformationObject sio = null;
     	
-    	if (sob == null){
-    		// TODO Do something noticeable
-    		return null;
+    	String schema = null;
+    	Long userId = null;
+    	
+    	if (sob != null){
+    		schema = sob.schema;
+    		userId = sob.user_id;
     	}
     	
-    	return saveAndEmailError(err, exception, sob.schema, sob.user_id);
+    	if (sob == null){
+    		sio = SchemaInformationObject.getFirstUpEmailServer();
+    		schema = sio.getSchema_name();
+    		// the first user created is always the first admin.
+    		userId = new Long(1);
+    	}
+    	
+    	return saveAndEmailError(err, exception, schema, userId);
     }
     
     public static OSPErrors saveAndEmailError(OSPErrors err, Throwable exception, 

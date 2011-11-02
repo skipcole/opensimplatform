@@ -1,0 +1,39 @@
+<%@ page 
+	contentType="text/html; charset=UTF-8" 
+	language="java" 
+	import="java.sql.*,java.util.*,
+	org.usip.osp.networking.*,
+	org.usip.osp.persistence.*,
+	org.usip.osp.baseobjects.*,
+	com.seachangesimulations.osp.questions.*" 
+	errorPage="/error.jsp" %>
+
+<%
+	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
+	
+	if (!(pso.isLoggedin())) {
+		response.sendRedirect("../blank.jsp");
+		return;
+	}
+
+	String cs_id = (String) request.getParameter("cs_id");
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
+	
+	Hashtable contents = cs.getContents();
+	
+%>
+<html>
+<head>
+<title>Questions View Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
+<body>
+<h1><%=  QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_PAGETITLE) %></h1>
+<p><%= cs.getBigString() %></p>
+
+<p>Get all questions for cs section and running sim, ordered by index, grouped by userid</p>
+<p>loop over them, and show the players answers</p>
+<p>&nbsp;</p>
+</body>
+</html>

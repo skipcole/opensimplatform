@@ -1,0 +1,22 @@
+<org.usip.osp.baseobjects.CustomizeableSection>
+  <hasCustomizer>true</hasCustomizer>
+  <customizerClassName>com.seachangesimulations.osp.questions.QuestionCustomizer</customizerClassName>
+  <creatingOrganization>com.seachangesimulations.osp.</creatingOrganization>
+  <uniqueName>Questions</uniqueName>
+  <version>1</version>
+  <thisIsACustomizedSection>false</thisIsACustomizedSection>
+  <hasASpecificMakePage>true</hasASpecificMakePage>
+  <specificMakePage>../osp_plugins/questions/make_questions_page.jsp</specificMakePage>
+  <bigString></bigString>
+  <description>Questions that can be asked of students and submitted.</description>
+  <url></url>
+  <directory>../osp_plugins/questions/</directory>
+  <page__file__name>questions.jsp</page__file__name>
+  <rec__tab__heading>Questions</rec__tab__heading>
+  <sample__image>questions.png</sample__image>
+  <control__section>false</control__section>
+  <databaseClassNames>com.seachangesimulations.osp.questions.QuestionAndResponse,com.seachangesimulations.osp.questions.PlayerAnswer</databaseClassNames>
+  <isPluginSection>true</isPluginSection>
+  <pluginDirectory>questions</pluginDirectory>
+  <pluginVersion>1.0</pluginVersion>
+</org.usip.osp.baseobjects.CustomizeableSection>

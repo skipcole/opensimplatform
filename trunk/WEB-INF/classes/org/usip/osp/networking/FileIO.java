@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
+import org.usip.osp.persistence.OSPErrors;
 import org.apache.log4j.*;
 
 /**
@@ -350,11 +351,11 @@ public class FileIO {
 	 * @param fileName
 	 * @return
 	 */
-	public static boolean saveSimulationXMLFile(String fileContents,
+	public static String saveSimulationXMLFile(SessionObjectBase sob, String fileContents,
 			String fileName) {
 
 		try {
-			File outFile = new File(packaged_sim_dir + fileName);
+			File outFile = new File(packaged_sim_dir + sob.schema + File.separator + fileName);
 
 			FileWriter outFW = new FileWriter(outFile);
 
@@ -363,17 +364,18 @@ public class FileIO {
 			outFW.close();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			OSPErrors.storeInternalErrors(e, sob);
+			return "Could not save file: " + e.getMessage();
 		}
 
-		return false;
+		return "Saved " + fileName;
 	}
 
-	public static boolean saveSimulationXMLFile(File uploadedFile,
+	public static boolean saveSimulationXMLFile(SessionObjectBase sob, File uploadedFile,
 			String fileName) {
 
 		try {
-			File outFile = new File(packaged_sim_dir + fileName);
+			File outFile = new File(packaged_sim_dir + sob.schema + File.separator + fileName);
 
 			// FileWriter outFW = new FileWriter(outFile);
 
@@ -393,7 +395,7 @@ public class FileIO {
 			return true;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			OSPErrors.storeInternalErrors(e, sob);
 		}
 
 		return false;
@@ -403,9 +405,9 @@ public class FileIO {
 	 * Returns a list of files found in the saved sims directory.
 	 * @return
 	 */
-	public static List getListOfSavedSims() {
+	public static List getListOfSavedSims(String schema) {
 
-		return getListOfFiles(packaged_sim_dir);
+		return getListOfFiles(schema, packaged_sim_dir + schema + File.separator);
 
 	}
 	
@@ -413,9 +415,9 @@ public class FileIO {
 	 * Returns a list of files found in the import experience directory.
 	 * @return
 	 */
-	public static List getListOfExperienceImportFiles() {
+	public static List getListOfExperienceImportFiles(String schema) {
 
-		return getListOfFiles(sim_experience_dir);
+		return getListOfFiles(schema, sim_experience_dir);
 
 	}
 
@@ -423,9 +425,9 @@ public class FileIO {
 	 * Returns a list of files found in the saved user archives directory.
 	 * @return
 	 */
-	public static List getListOfUserArchives() {
+	public static List getListOfUserArchives(String schema) {
 
-		return getListOfFiles(archives_dir);
+		return getListOfFiles(schema, archives_dir);
 
 	}
 
@@ -433,22 +435,22 @@ public class FileIO {
 	 * 
 	 * @return
 	 */
-	public static List getListOfFiles(String fileLocation) {
+	public static List getListOfFiles(String schema, String fileLocation) {
 
 		File locDir = new File(fileLocation);
 
 		ArrayList returnList = new ArrayList();
 
 		if (locDir == null) {
-			Logger.getRootLogger().debug(
-					"Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
+			Logger.getRootLogger().warn(
+					"Problem finding files at " + packaged_sim_dir + schema + File.separator); //$NON-NLS-1$
 		} else {
 
 			File files[] = locDir.listFiles();
 
 			if (files == null) {
-				Logger.getRootLogger().debug(
-						"Problem finding files at " + packaged_sim_dir); //$NON-NLS-1$
+				Logger.getRootLogger().warn(
+						"Problem finding files at " + packaged_sim_dir + schema + File.separator); //$NON-NLS-1$
 			} else {
 				for (int ii = 0; ii < files.length; ii++) {
 
@@ -552,6 +554,35 @@ public class FileIO {
 		}
 
 		return new String(tempBuffer);
+	}
+
+	/**
+	 * Makes directory necessary for image uploads. 
+	 * 
+	 */
+	public static void makeUploadDir() {
+	
+		try {
+			new File("uploads").mkdir();
+		} catch (Exception e) {
+			e.printStackTrace();
+			OSPErrors.storeInternalErrors(e, null);
+		}
+	
+	}
+	/**
+	 * Makes the directory with the schema name in the path so people working in other schemas don't
+	 * see each other's exported files.
+	 * 
+	 * @param schema
+	 */
+	public static void makeSchemaSpecificDirectories(String schema){
+		try {
+			new File(packaged_sim_dir + schema ).mkdir();
+		} catch (Exception e) {
+			e.printStackTrace();
+			OSPErrors.storeInternalErrors(e, null);
+		}
 	}
 
 }

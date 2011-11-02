@@ -4,7 +4,7 @@
 	import="java.sql.*,java.util.*,
 	org.usip.osp.networking.*,
 	org.usip.osp.baseobjects.*,
-	com.seachangesimulations.osp.griddoc.*" 
+	com.seachangesimulations.osp.questions.*" 
 	errorPage="/error.jsp" %>
 <% 
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
@@ -40,28 +40,11 @@
 		<tr>
 			<td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Customize Grid Document Page</h1>
-              <p>This creates a grid of data that the users can add or subtract from. They can add Columns or Rows and then fill in the cells where they interesect. </p>
-              <table width="90%" border="1">
-                <tr>
-                  <td>Column Descriptor </td>
-                  <td>Col 1 </td>
-                  <td>Col 2 </td>
-                </tr>
-                <tr>
-                  <td>Row 1 </td>
-                  <td>edit</td>
-                  <td>edit</td>
-                </tr>
-                <tr>
-                  <td>Row 2 </td>
-                  <td>edit</td>
-                  <td>edi</td>
-                </tr>
-              </table>
-              <p> <br />
+              <h1>Customize Questions Page</h1>
+              <p>This creates a table of questions that can be presented to the student. They may save their answers, but when they hit submit, the questions can no longer be edited, and they see any information that the instructor has left for them.</p>
+              <p><br />
                       </p>
-              <form action="../griddoc/make_grid_doc_page.jsp" method="post" name="form2" id="form2">
+              <form action="../questions/make_questions_page.jsp" method="post" name="form2" id="form2">
         <% if (cs.getId() != null) {
 	   %>
         <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
@@ -77,7 +60,7 @@
               <tr>
                 <td valign="top">Page Title </td>
                 <td valign="top"><label>
-                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_PAGETITLE %>" value="<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_PAGETITLE) %>" />
+                  <input type="text" name="<%= QuestionCustomizer.KEY_FOR_PAGETITLE %>" value="<%=  QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_PAGETITLE) %>" />
                 </label></td>
               </tr>
               <tr>
@@ -86,18 +69,50 @@
                   <textarea name="cs_bigstring" id="textarea" cols="45" rows="5"><%= cs.getBigString() %></textarea>
                   </label></td>
               </tr>
+              </table>
+              <br />
+              <table width="100%" border="1" cellspacing="0">
+<%
+	List <QuestionAndResponse> qAndRList = QuestionAndResponse.getAllForSimAndCustomSection(afso.schema, afso.sim_id, cs.getId());
+	
+	if (qAndRList.size() == 0) {
+		QuestionAndResponse qar = new QuestionAndResponse();
+		qar.setQuestionIdentifier("Q-1");
+		qAndRList.add(qar);
+	}
+
+	int questionIndex = 1;
+	
+		for (ListIterator li = qAndRList.listIterator(); li.hasNext();) {
+			QuestionAndResponse this_qar = (QuestionAndResponse) li.next();
+%>
               <tr>
-                <td valign="top">New Column</td>
-                <td valign="top"><label>
-                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_NEW_COLUMN %>" 
-                  value="<%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_COLUMN) %>" />
-                </label></td>
+                <td valign="top">Question #</td>
+                <td valign="top">
+                  <input type="text" name="qtag_<%= questionIndex %>" id="qtag_<%= questionIndex %>" value="<%= this_qar.getQuestionIdentifier() %>" /></td>
               </tr>
               <tr>
-                <td valign="top">New Row </td>
-                <td valign="top"><label>
-                  <input type="text" name="<%= GridDocCustomizer.KEY_FOR_NEW_ROW %>" value="<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %>" />
-                </label></td>
+                <td valign="top">Question</td>
+                <td valign="top"><label for="question_<%= questionIndex %>"></label>
+                  <textarea name="question_<%= questionIndex %>" id="question_<%= questionIndex %>" cols="45" rows="5"><%= this_qar.getQuestion() %></textarea></td>
+              </tr>
+              <tr>
+                <td valign="top">Answer</td>
+                <td valign="top"><label for="answer_<%= questionIndex %>"></label>
+                  <textarea name="answer_<%= questionIndex %>" id="answer_<%= questionIndex %>" cols="45" rows="5"><%= this_qar.getAnswer() %></textarea></td>
+              </tr>
+<%
+	++questionIndex;
+	}
+
+%>
+              <tr>
+                <td valign="top">&nbsp;</td>
+                <td valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td valign="top">&nbsp;</td>
+                <td valign="top"><input type="submit" name="AddNewQuestion" id="AddNewQuestion" value="Add New Question" /></td>
               </tr>
               </table>
               

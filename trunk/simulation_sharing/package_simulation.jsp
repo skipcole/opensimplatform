@@ -24,8 +24,7 @@
 		String sim_id = (String) request.getParameter("sim_id");
 		String filename = (String) request.getParameter("filename");
 		
-		saveMsg = "File saved to " + 
-		afso.handlePackageSim(sim_id, filename);
+		saveMsg = afso.handlePackageSim(sim_id, filename);
 	}
 	
 %>
@@ -88,7 +87,7 @@
 		
 		ArrayList loss = new ArrayList();
 		
-		for (ListIterator li = FileIO.getListOfSavedSims().listIterator(); li.hasNext();) {
+		for (ListIterator li = FileIO.getListOfSavedSims(afso.schema).listIterator(); li.hasNext();) {
 			String sim = (String) li.next();
 			loss.add(sim);	
 		}
@@ -97,7 +96,7 @@
 		
 		for (ListIterator li = loss.listIterator(); li.hasNext();) {
 			String sim = (String) li.next(); %>
-        <li><a href="./packaged_simulations/<%= sim %>" target="_new"><%= sim %></a></li>
+        <li><a href="./packaged_simulations/<%= afso.schema %>/<%= sim %>" target="_new"><%= sim %></a></li>
 	  <% } %>
           </ul>
         </p>

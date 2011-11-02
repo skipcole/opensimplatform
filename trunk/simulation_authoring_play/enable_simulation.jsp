@@ -41,17 +41,10 @@
 
 <title>Open Simulation Platform Control Page</title>
 
-
-
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-<!--
-.style1 {
-	color: #FF0000;
-	font-weight: bold;
-}
--->
-</style>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script>
 </head>
 <body onLoad=""  bgcolor="#00FFFF">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0"><tr><td>
