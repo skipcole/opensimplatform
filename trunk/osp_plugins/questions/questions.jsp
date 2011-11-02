@@ -57,16 +57,16 @@
 <tr><td valign="top">
 	<%= this_qar.getQuestionIdentifier() %>
 	<input type="hidden" name="q_id_<%= this_qar.getId() %>" value="<%= this_qar.getId() %>" />
-	</td><td valign="top">Question</td><td valign="top"><%= this_qar.getQuestion() %></td></tr>
+	</td><td valign="top"><strong>Question</strong></td><td valign="top"><%= this_qar.getQuestion() %></td></tr>
 
 <% if (!(this_pa.isSubmitted())) { %>
-<tr><td valign="top">&nbsp;</td><td valign="top">Your Answer</td><td valign="top">
+<tr><td valign="top">&nbsp;</td><td valign="top"><strong>Your Answer</strong></td><td valign="top">
   <textarea name="answer_<%= this_qar.getId() %>" id="answer_<%= this_qar.getId() %>" cols="45" rows="5"><%= this_pa.getPlayerAnswer() %></textarea></td></tr>
 <% } else { 
 	answersHaveBeenSubmitted = true;
 %>
-<tr><td valign="top">&nbsp;</td><td valign="top">Your Answer</td><td valign="top"><%= this_pa.getPlayerAnswer() %></td></tr>
-<tr><td valign="top">&nbsp;</td><td valign="top">Instructor's Answer</td><td valign="top"><%= this_qar.getAnswer() %></td></tr>
+<tr><td valign="top">&nbsp;</td><td valign="top"><strong>Your Answer</strong></td><td valign="top"><%= this_pa.getPlayerAnswer() %></td></tr>
+<tr><td valign="top">&nbsp;</td><td valign="top"><strong>Instructor's Answer</strong></td><td valign="top"><%= this_qar.getAnswer() %></td></tr>
 <% } %>
 
 <% } // end of loop over questions %>

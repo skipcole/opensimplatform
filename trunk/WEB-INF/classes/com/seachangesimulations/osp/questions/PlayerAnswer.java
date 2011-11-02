@@ -49,6 +49,8 @@ public class PlayerAnswer  implements ExportableObject{
 	
 	private boolean submitted = false;
 	
+	private java.util.Date timeSubmitted = new java.util.Date();
+	
 	@Override
 	public Long getTransitId() {
 		return transitId;
@@ -176,6 +178,14 @@ public class PlayerAnswer  implements ExportableObject{
 
 	public void setSubmitted(boolean submitted) {
 		this.submitted = submitted;
+	}
+
+	public java.util.Date getTimeSubmitted() {
+		return timeSubmitted;
+	}
+
+	public void setTimeSubmitted(java.util.Date timeSubmitted) {
+		this.timeSubmitted = timeSubmitted;
 	}
 	
 }

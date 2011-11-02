@@ -31,8 +31,14 @@ public class QuestionCustomizer extends Customizer {
 	public void handleCustomizeSection(HttpServletRequest request,
 			SessionObjectBase afso, CustomizeableSection cs) {
 
-		Logger.getRootLogger().debug(
-				"QuestionCustomizer.handleCustomizeSection"); //$NON-NLS-1$
+		String sending_page = request.getParameter("sending_page");
+		
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("questions_view"))) {
+			
+			handleCustomizeQuestionsView(request, afso, cs);
+			return;
+		}
 
 		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
@@ -107,6 +113,11 @@ public class QuestionCustomizer extends Customizer {
 		}
 
 	}
+	
+	public void handleCustomizeQuestionsView(HttpServletRequest request,
+			SessionObjectBase afso, CustomizeableSection cs) {
+		
+	}
 
 	@Override
 	public void loadSimCustomizeSection(HttpServletRequest request,
@@ -169,6 +180,7 @@ public class QuestionCustomizer extends Customizer {
 						this_pa.setPlayerAnswer(playerAnswer);
 
 						if (finalSubmission) {
+							this_pa.setTimeSubmitted(new java.util.Date());
 							this_pa.setSubmitted(true);
 						}
 						this_pa.saveMe(schema);
