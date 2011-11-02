@@ -13,6 +13,7 @@ import javax.persistence.Lob;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
+import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.sharing.ExportableObject;
 
@@ -209,6 +210,18 @@ public class QuestionAndResponse implements ExportableObject{
 		this.answer = answer;
 	}
 	
-	
+	public static List<QuestionAndResponse> getAllForSim(String schema, Long simId) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<QuestionAndResponse> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery("from QuestionAndResponse where simId = :simId")
+				.setLong("simId", simId).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	}
 
 }
