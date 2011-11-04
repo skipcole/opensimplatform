@@ -12,6 +12,7 @@ import org.usip.osp.specialfeatures.*;
 
 import sun.misc.*;
 
+import com.seachangesimulations.osp.questions.QuestionAndResponse;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.*;
@@ -302,6 +303,19 @@ public class ObjectPackager {
 			thisTip.setId(null);
 			returnString += xstream.toXML(thisTip)
 					+ USIP_OSP_Util.lineTerminator;
+		}
+		
+		/////////////////////////////////////////////
+		// TODO need to find a way to get this to work as a plugin (and not be hard coded here.)
+		// Copy InventoryItems
+		List<QuestionAndResponse> questList = QuestionAndResponse.getAllForSim(schema,
+				sim_id);
+		for (ListIterator<QuestionAndResponse> qList = questList.listIterator(); qList
+				.hasNext();) {
+			QuestionAndResponse inv = qList.next();
+			inv.setTransitId(inv.getId());
+			inv.setId(null);
+			returnString += xstream.toXML(inv) + USIP_OSP_Util.lineTerminator;
 		}
 
 		// /////////////////////////////////////////////////////
@@ -1181,6 +1195,8 @@ public class ObjectPackager {
 		classNames.add(Tips.class.toString().replaceFirst("class ", ""));
 		classNames.add(TimelineObjectAssignment.class.toString().replaceFirst(
 				"class ", ""));
+		classNames.add(QuestionAndResponse.class.toString()
+				.replaceFirst("class ", ""));
 
 		for (ListIterator<String> li_i = classNames.listIterator(); li_i
 				.hasNext();) {

@@ -14,6 +14,7 @@ import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Actor;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
 import org.usip.osp.baseobjects.RunningSimulation;
+import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.sharing.ExportableObject;
 
@@ -31,7 +32,7 @@ import org.usip.osp.sharing.ExportableObject;
  */
 @Entity
 @Proxy(lazy=false)
-public class QuestionAndResponse implements ExportableObject{
+public class QuestionAndResponse implements ExportableObject, SimSectionDependentObject{
 	
 	/** Zero element constructor required by Hibernate. */
 	public QuestionAndResponse() {
@@ -222,6 +223,13 @@ public class QuestionAndResponse implements ExportableObject{
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
+	}
+
+	@Override
+	public Long createRunningSimVersion(String schema, Long sim_id, Long rs_id,
+			Object templateObject) {
+		
+		return this.getId();
 	}
 
 }

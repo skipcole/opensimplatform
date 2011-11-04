@@ -17,7 +17,11 @@
 		return;
 	}
 
-	PlayerReflection playerReflection = PlayerReflection.handlePlayerReflection(request, pso);
+	PlayerReflection playerReflection = new PlayerReflection();
+	
+	if (!(pso.preview_mode)) {
+			playerReflection = PlayerReflection.handlePlayerReflection(request, pso);
+	}
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	

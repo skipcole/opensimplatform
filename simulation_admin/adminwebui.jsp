@@ -16,14 +16,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
-<frameset rows="*" cols="75%,25%" border="1">
   <frameset rows="150,90%" border="0">
     <frame src="admin_top.jsp">
     <frame name="bodyinleft" src="simulation_admin.jsp">
   </frameset>
   
-  <frame name="helpinright" src="helptext/admin_basichelp.jsp">
-</frameset>
 <noframes><body>
 
 </body></noframes>
