@@ -1,6 +1,8 @@
 package org.usip.osp.baseobjects;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.ListIterator;
@@ -186,18 +188,50 @@ public class UserAssignment{
 	 * @param rsid
 	 * @return
 	 */
-	public static List getAllForRunningSim(String schema, Long rsid) {
+	public static List<UserAssignment> getAllForRunningSim(String schema, Long rsid) {
 		
 		List returnList = new ArrayList<UserAssignment>();
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		returnList =  MultiSchemaHibernateUtil.getSession(schema).createQuery("from UserAssignment where running_sim_id = " +  //$NON-NLS-1$
-				rsid.toString()).list();
+		returnList =  MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery("from UserAssignment where running_sim_id = :rsid")
+			.setLong("rsid", rsid)
+			.list();
 		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
 		return returnList;
+	}
+	
+	/**
+	 * Returns a list of user ids for people in this simulation.
+	 * 
+	 * @param schema
+	 * @param rsid
+	 * @return
+	 */
+	public static List<Long> getUniqueSetOfUsers(String schema, Long rsid){
+		
+		Hashtable userSet = new Hashtable <Long, String>();
+		
+		for (ListIterator<UserAssignment> li = getAllForRunningSim(schema, rsid).listIterator(); li.hasNext();) {
+			UserAssignment ua = li.next();
+			
+			if (ua.getUser_id() != null){
+				userSet.put(ua.getUser_id(),"set");
+			}
+		}
+		
+		ArrayList <Long> returnList = new ArrayList();
+		
+		for (Enumeration e = userSet.keys(); e.hasMoreElements();) {
+			Long key = (Long) e.nextElement();
+			returnList.add(key);
+		}
+		Collections.sort(returnList);
+		return returnList;
+		
 	}
 	
 	/**

@@ -38,7 +38,7 @@
             <p>User Archives Found</p>
             
             <UL>
-            <% for (ListIterator li = FileIO.getListOfUserArchives().listIterator(); li.hasNext();) {
+            <% for (ListIterator li = FileIO.getListOfUserArchives(afso.schema).listIterator(); li.hasNext();) {
 			
 				String fileName = (String) li.next(); 
 				%>

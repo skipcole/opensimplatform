@@ -38,44 +38,50 @@
 <h1><%=  QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_PAGETITLE) %></h1>
 <p><%= cs.getBigString() %></p>
 
+<table cellspacing="0" border="1" width="90%">
+<tr><td><strong>Q. </strong></td><td><strong>User</strong></td><td><strong>Answer</strong></td>
+  <td><strong>Submitted</strong></td>
+</tr>
 <%
 
 	List<QuestionAndResponse> qAndRList = QuestionAndResponse.getAllForSim(pso.schema, pso.sim_id); 
 
-			// Loop over all actors in the simulation
-			for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
-				Actor act = (Actor) li.next();
-				
-				// For each actor, get all of their user assignments
-				List theUsersAssigned = UserAssignment.getUsersAssigned(pso.schema, pso.getRunningSimId(), act.getId());
-					
-				// Loop over all of the user assignments
-				for (ListIterator liua = theUsersAssigned.listIterator(); liua.hasNext();) {
-					UserAssignment ua = (UserAssignment) liua.next();
-					
-					if (ua.getUser_id() != null) {
-						
-						//loop over questions
-						for (ListIterator lq = qAndRList.listIterator(); lq.hasNext();) {
-							QuestionAndResponse this_qar = (QuestionAndResponse) lq.next();
-					
-							PlayerAnswer pa = 
-								PlayerAnswer.getByQuestionRunningSimAndUserIds
-								(pso.schema, this_qar.getId(), pso.getRunningSimId(),  ua.getUser_id());
-					%>
-                    Actor <%= act.getId() %>, User <%= ua.getUser_id() %>, <%= this_qar.getQuestionIdentifier() %>, <%= pa.getPlayerAnswer() %><br />
-                    <%
-						} // end of loop over questions
-					} // end of if user id != null
-					
-				} // end of loop over user assignments
-				
-			} // End of loop over actors
-			
+	//loop over questions
+	for (ListIterator lq = qAndRList.listIterator(); lq.hasNext();) {
+		QuestionAndResponse this_qar = (QuestionAndResponse) lq.next();
 %>
-                    
-<p>Get all questions for cs section and running sim, ordered by index, grouped by userid</p>
-<p>loop over them, and show the players answers</p>
+<tr><td><strong><%= this_qar.getQuestionIdentifier() %></strong></td>
+<td><strong>Author's Answer</strong></td>
+<td><strong><%= this_qar.getAnswer() %></strong></td>
+<td>&nbsp;</td>
+</tr>
+<%
+					
+			// Loop over all of the user assignments
+			for (ListIterator liua = UserAssignment.getUniqueSetOfUsers(pso.schema, pso.getRunningSimId())
+				.listIterator(); liua.hasNext();) {
+					
+				Long ua = (Long) liua.next();
+				
+					PlayerAnswer pa = 
+						PlayerAnswer.getByQuestionRunningSimAndUserIds
+						(pso.schema, this_qar.getId(), pso.getRunningSimId(),  ua);
+%>
+               <tr><td><%= this_qar.getQuestionIdentifier() %></td>
+               <td>
+			   <%= USIP_OSP_Cache.getUSERName(pso.schema, request, ua) %>
+               </td>
+               
+               <td><%= pa.getPlayerAnswer() %></td>
+                 <td><% if (pa.isSubmitted()) { %><%= pa.getTimeSubmitted() %><% } %></td>
+               </tr>
+<%
+			} // end of loop over user ids
+	} // End of loop over questions
+			
+%>                    
+</table>
+
 <p>&nbsp;</p>
 </body>
 </html>

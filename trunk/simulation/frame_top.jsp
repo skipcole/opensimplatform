@@ -147,7 +147,7 @@ function timedCount()
     </td>
   </tr>
 </table>
-<table cellpadding="4" border="1">
+<table cellpadding="4" cellspacing="0" border="1">
 	  <tr> 
 	  	<%
 			int ii = 1;

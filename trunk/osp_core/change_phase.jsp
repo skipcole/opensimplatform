@@ -41,10 +41,10 @@
 
 <p>Below you may change the phase of the simulation. This will notify all of the players and potentially give them all a different set of tools to use.</p>
           <table width="100%" border="1" cellspacing="2" cellpadding="2">
-            <tr> 
+            <tr>
+              <td width="20%" valign="top">&nbsp;</td> 
               <td width="20%" valign="top"><h2>Phase Name</h2></td>
               <td width="80%" valign="top"><h2>Phase Notes</h2></td>
-              <td width="40" valign="top"><h2>N.O.</h2></td>
               <td width="40" valign="top"><h2>Change to this Phase</h2></td>
               <td width="40" valign="top"><h2>Email Players</h2></td>
             </tr>
@@ -68,9 +68,9 @@
         <form id="form2" name="form2" method="post" action="change_phase.jsp">
 <input type="hidden" name="sending_page" value="change_phase" />
             <tr>
+              <td valign="top"><%= sp.getOrder() + "" %></td>
               <td valign="top"><%= sp.getPhaseName() %>  <%= flagNotes %></td>
               <td valign="top"><%= sp.getNotes() %></td> 
-              <td valign="top"><%= sp.getOrder() + "" %></td>
               <% if (!(sp.getId().equals(pso.phase_id))) { %>
               <td valign="top">
               	<input type="hidden" name="phase_id" value="<%= sp.getId() %>" />
