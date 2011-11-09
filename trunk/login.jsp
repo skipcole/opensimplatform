@@ -10,24 +10,47 @@ org.usip.osp.baseobjects.*" %>
 	
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
 	
+	//errorMsg += "2";
+	
 	pso.detectLanguageChange(request);
 	
+	//errorMsg += "3";
+		
 	USIP_OSP_Util.cleanConnections();
+	
+	//errorMsg += "4";
 		
 	BaseUser bu = SessionObjectBase.handleLoginAttempt(request, pso);
 	
+	//errorMsg += "5";
+	
+	// If they have logged on, forward them on.
 	if ((bu != null) && (pso.isLoggedin())){
 
+	//errorMsg += "6";
+	
 		if (bu.isTempPassword()){
+			
+		//errorMsg += "7";
+				
 			response.sendRedirect("simulation_user_admin/change_password.jsp?forcepasswordchange=true");
 		} else {
+			
+				//errorMsg += "8";
+				
 			response.sendRedirect("select_functionality_and_schema.jsp");
 		}
 		
+			//errorMsg +="9";
 		return;
 	}
 	
+		//errorMsg += "10";
+	
 	String attempting_login = (String) request.getParameter("attempting_login");
+	
+		//errorMsg += "11";
+		
 	// If we got here, the login attempt failed.
 	if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))) {
 		errorMsg = "Incorrect username/password combination.";
@@ -108,7 +131,7 @@ body {
             <td> <input type="submit" name="Submit" value="Submit" > </td>
           </tr>
           <tr> 
-            <td colspan="2"><font color="#FF0000"><%= errorMsg %></font>
+            <td colspan="2"><font color="#FF0000"> <%= errorMsg %> </font>
 <!-- script>
 //Commenting this out for now, since chat now works on IE
 

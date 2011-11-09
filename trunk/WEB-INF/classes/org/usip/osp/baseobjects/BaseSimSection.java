@@ -44,6 +44,8 @@ public class BaseSimSection implements Comparable, ExportableObject {
 	 */
 	public static void main(String args[]) {
 
+			List x = getPluginClassNames("test");
+
 		// BaseSimSection.readNewBaseSimSectionsFromXMLFiles("test");
 
 		// BaseSimSection.readBaseSimSectionsFromXMLFiles();
@@ -54,6 +56,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		 * for (ListIterator la = bList.listIterator(); la.hasNext();) {
 		 * BaseSimSection bss = (BaseSimSection) la.next();
 		 */
+			/*
 		CustomizeableSection bss = new CustomizeableSection();
 		bss.setConfers_read_ability(true);
 		bss.setBigString("<H1>Broadcast stuff</H1><p>words</p>"); //$NON-NLS-1$
@@ -63,7 +66,7 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		Logger.getRootLogger().debug("--------------------"); // //$NON-NLS-1$
 		Logger.getRootLogger().debug(ObjectPackager.getObjectXML(bss));
-
+		*/
 		/*
 		 * int aliquot = 2; int numPrinted = 0; if (sss.length() > aliquot) {
 		 * while (numPrinted < sss.length()) { char[] c = new char[aliquot]; int
@@ -228,8 +231,6 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		for (int ii = 0; ii < files.length; ii++) {
 
 			String fName = files[ii].getName();
-
-			System.out.println(fName);
 			
 			try {
 				readInXMLFile(schema, files[ii]);
@@ -241,6 +242,45 @@ public class BaseSimSection implements Comparable, ExportableObject {
 		}
 
 		return "Read in Base Simulation Section Information."; //$NON-NLS-1$
+	}
+	
+	
+	public static List getPluginClassNames(String schema) {
+
+		ArrayList<String> classNames = new ArrayList();
+		
+		// The set of base simulation sections are read out of
+		// XML files stored in the simulation_section_information directory.
+
+		Logger.getRootLogger().warn("Looking for files at: " + FileIO.getPlugin_dir()); //$NON-NLS-1$
+
+		File locDir = new File(FileIO.getPlugin_dir());
+
+		File files[] = getFilesFromDirectory(FileIO.getPlugin_dir(), locDir, ".xml");
+
+		for (int ii = 0; ii < files.length; ii++) {
+
+			String fName = files[ii].getName();
+			
+			try {
+				String fullBSS = FileIO.getFileContents(files[ii]);
+
+				Object bRead = unpackageXML(fullBSS);
+
+				if (bRead != null) {
+					CustomizeableSection cs = (CustomizeableSection) bRead;
+					System.out.println(cs.getDatabaseClassNames());
+					classNames.add(cs.getDatabaseClassNames());
+				}
+				
+			} catch (Exception e) {
+				Logger.getRootLogger()
+						.warn("problem reading in file " + fName); //$NON-NLS-1$
+				Logger.getRootLogger().debug(e.getMessage());
+			}
+		}
+
+		return classNames; //$NON-NLS-1$
 	}
 
 	/**
@@ -351,7 +391,6 @@ public class BaseSimSection implements Comparable, ExportableObject {
 
 		String fullBSS = FileIO.getFileContents(thisFile);
 
-		// BaseSimSection bRead = unpackageXML(fullBSS);
 		Object bRead = unpackageXML(fullBSS);
 
 		if (bRead != null) {

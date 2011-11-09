@@ -239,7 +239,7 @@
   <description>A section to display announcements to the players.</description>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <rec__tab__heading>Announcements</rec__tab__heading>
   <sample__image>announcements.png</sample__image>
   <control__section>false</control__section>
@@ -1052,7 +1052,7 @@
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -1070,7 +1070,7 @@
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -1145,7 +1145,7 @@
   <baseVersion>1</baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>false</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
