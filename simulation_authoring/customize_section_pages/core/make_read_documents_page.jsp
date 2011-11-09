@@ -23,7 +23,10 @@
 <title>Open Simulation Platform Control Page</title>
 <script language="JavaScript" type="text/javascript" src="../../../wysiwyg_files/wysiwyg.js">
 </script>
-<link href="../../../usip_osp.css" rel="stylesheet" type="text/css" />
+<link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="../help-bubble.js">
+</script>
 </head>
 <body onLoad="">
 <table width="100%" bgcolor="#FFFFFF" align="left" border="0" cellspacing="0" cellpadding="0">
@@ -55,7 +58,7 @@
                         
 						%>
                         <tr>
-                          <td width="75%" valign="top">Document <%= ii %> <a href="helptext/make_read_documents_help.jsp" target="helpinright">(?)</a></td>
+                          <td width="75%" valign="top">Document <%= ii %> <a href="../../helptext/make_read_documents_help.jsp" target="helpinright">(?)</a></td>
                           <td width="75%" valign="top"><%
 		  	if (!((docsAvailable == null) || (docsAvailable.size() == 0))){
 

@@ -339,6 +339,8 @@ public class USIP_OSP_Util {
 				} catch (Exception e) {
 					MultiSchemaHibernateUtil.commitAndCloseTransaction(sio
 							.getSchema_name());
+					
+					e.printStackTrace();
 				}
 
 			}

@@ -598,7 +598,7 @@ public class MultiSchemaHibernateUtil {
 		//TODO This is a cheat for now. Need to learn how to get these honestly.
 		
 		// Do majic and get list
-		
+		//getPluginClassNames
 		// Add them.
 		ac.addAnnotatedClass(com.seachangesimulations.osp.gametime.GameClockPhaseInstructions.class);
 		ac.addAnnotatedClass(com.seachangesimulations.osp.gametime.GameClockEvent.class);

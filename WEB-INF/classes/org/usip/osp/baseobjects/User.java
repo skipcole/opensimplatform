@@ -379,6 +379,14 @@ public class User implements Comparable{
 	 */
 	public static User getById(String schema, Long u_id){
 		
+		// -1 is used to indicate that this user is a stand dummy in a user assignment.
+		if ((u_id == null) || (u_id.intValue() == -1)){
+			User user = new User();
+			BaseUser bu = new BaseUser();
+			user.loadBUInfo(bu);
+			return user;
+		}
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		User user = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class, u_id);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

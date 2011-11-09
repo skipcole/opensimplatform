@@ -246,9 +246,14 @@ public class StudentDashboardLine implements Comparable<StudentDashboardLine> {
 
 				if (ua.getUser_id() != null) {
 					sdl.setStudentRegistered(true);
-					User user_assigned = User.getById(schema, ua.getUser_id());
-					sdl.setStudentName(user_assigned.getBu_full_name());
 					sdl.setStudentId(ua.getUser_id());
+					
+					if (ua.getUser_id().intValue() != -1){
+						User user_assigned = User.getById(schema, ua.getUser_id());
+						sdl.setStudentName(user_assigned.getBu_full_name());
+					} else {
+						sdl.setStudentName(ua.getUsername());
+					}
 				} else {
 					sdl.setStudentRegistered(false);
 					sdl.setStudentName(ua.getTempStudentName());

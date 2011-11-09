@@ -126,7 +126,7 @@
 					} else if ((ua.getUser_id() != null) && (ua.getUser_id().intValue() == -1) ){
 						bgColor = "FFFFFF";
 						user_assigned = new User();
-						user_assigned.setBu_full_name("<font color=\"#FF0000\">Not Assigned</font>");
+						user_assigned.setBu_full_name(ua.getUsername());
 					} else {
 						bgColor = "FFCCCC";
 						user_assigned = new User();

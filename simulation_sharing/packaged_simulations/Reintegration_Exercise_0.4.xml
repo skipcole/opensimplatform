@@ -886,7 +886,7 @@ representative to the project, you have several key concerns:&#x0D;
   <description>A section to display announcments to the players.</description>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <rec__tab__heading>Announcements</rec__tab__heading>
   <sample__image>announcements.png</sample__image>
   <control__section>false</control__section>
@@ -1748,7 +1748,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -1764,7 +1764,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -1780,7 +1780,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -1796,7 +1796,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -1812,7 +1812,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>false</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2306,7 +2306,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2322,7 +2322,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2338,7 +2338,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2354,7 +2354,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2370,7 +2370,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>false</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2590,7 +2590,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>true</simSubSection>
   <simSubSectionIndex>3</simSubSectionIndex>
@@ -2607,7 +2607,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>true</simSubSection>
   <simSubSectionIndex>3</simSubSectionIndex>
@@ -2624,7 +2624,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>true</simSubSection>
   <simSubSectionIndex>3</simSubSectionIndex>
@@ -2641,7 +2641,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>true</simSubSection>
   <simSubSectionIndex>3</simSubSectionIndex>
@@ -2690,7 +2690,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2706,7 +2706,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2722,7 +2722,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2738,7 +2738,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -2754,7 +2754,7 @@ representative to the project, you have several key concerns:&#x0D;
   <base__sec__id>19</base__sec__id>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>false</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -3810,7 +3810,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -4189,7 +4189,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion>1</baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>false</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -4207,7 +4207,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -4225,7 +4225,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -4243,7 +4243,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -4261,7 +4261,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -4373,7 +4373,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -4391,7 +4391,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>
@@ -4409,7 +4409,7 @@ representative to the project, you have several key concerns:&#x0D;
   <baseVersion></baseVersion>
   <url></url>
   <directory>../osp_core/</directory>
-  <page__file__name>show_announcements.jsp</page__file__name>
+  <page__file__name>announcements.jsp</page__file__name>
   <addedAsUniversalSection>true</addedAsUniversalSection>
   <simSubSection>false</simSubSection>
   <simSubSectionIndex>0</simSubSectionIndex>

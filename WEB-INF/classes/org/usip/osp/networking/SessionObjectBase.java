@@ -390,6 +390,7 @@ public class SessionObjectBase {
 				}
 
 				if (command.equalsIgnoreCase("Add")) {
+					ua.setUser_id(new Long(-1));
 					ua.saveMe(schema);
 					backPage = "../simulation_facilitation/facilitate_assign_user_to_simulation.jsp";
 					return ua;
@@ -1237,6 +1238,9 @@ public class SessionObjectBase {
 	public void setActorId(Long actorId) {
 		this.actorId = actorId;
 	}
+	
+	/** Used to indicate if we need to tell the player they have a new announcement. */
+	private int currentAlertLevel = 0;
 	
 	
 } // End of class
