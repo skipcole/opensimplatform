@@ -77,7 +77,7 @@ Player      </td>
     </tr>
         <tr>
           <td valign="top"><strong>Time Zone: </strong></td>
-          <td valign="top">N/A</td>
+          <td valign="top"><%= userOnScratchPad.getTimeZoneOffset() %></td>
         </tr>
         <tr>
           <td valign="top"><strong>Phone Number: </strong></td>

@@ -1239,8 +1239,15 @@ public class SessionObjectBase {
 		this.actorId = actorId;
 	}
 	
-	/** Used to indicate if we need to tell the player they have a new announcement. */
-	private int currentAlertLevel = 0;
+	private boolean showPhaseChanges = false;
+
+	public boolean isShowPhaseChanges() {
+		return showPhaseChanges;
+	}
+
+	public void setShowPhaseChanges(boolean showPhaseChanges) {
+		this.showPhaseChanges = showPhaseChanges;
+	}
 	
 	
 } // End of class

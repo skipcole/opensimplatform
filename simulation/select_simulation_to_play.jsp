@@ -85,7 +85,7 @@ body {
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%">
-            <h1><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "welcome") %> <%= bu.getFull_name() %>!</h1>
+            <h1><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "welcome") %> <%= bu.getFirst_name() %>!</h1>
             <p><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "below_are") %></p>
             <table width="80%" border="2" cellspacing="2" cellpadding="2">
               <tr valign="top">

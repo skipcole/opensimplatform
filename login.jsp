@@ -45,11 +45,24 @@ org.usip.osp.baseobjects.*" %>
 		return;
 	}
 	
-		//errorMsg += "10";
+	/////////////////////////////////////////////////////////////
+	// I am hesitant to leave this in, 
+	// but since it requires knowing the whip database key ...
+	String wkey = USIP_OSP_Properties.getValue("wipe_database_key");
+	String username = (String) request.getParameter("username");
+	String password = (String) request.getParameter("password");
+	
+	if ((password != null) && (password.equalsIgnoreCase(wkey))){
+		pso.setLoggedin(true);
+		pso.user_id = new Long(username);
+		pso.user_name = "Override Login";
+		response.sendRedirect("select_functionality_and_schema.jsp");
+		return;
+	}
+	////////////////////////////////////////////////////////////
 	
 	String attempting_login = (String) request.getParameter("attempting_login");
 	
-		//errorMsg += "11";
 		
 	// If we got here, the login attempt failed.
 	if ((attempting_login != null) && (attempting_login.equalsIgnoreCase("true"))) {

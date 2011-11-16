@@ -287,6 +287,7 @@ public class OSP_UserAdmin {
 		bu.updateMe(this._first_name, this._full_name, this._last_name, this._middle_name);
 	
 		user.setPhoneNumber(_phoneNumber);
+		user.setTimeZoneOffset(_timeZone);
 		
 		// Need to do 'just user' or we over write the changes we just made.
 		user.saveJustUser(sob.schema);
