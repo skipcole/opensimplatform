@@ -74,10 +74,10 @@
 
 <% if (!(answersHaveBeenSubmitted)) { %>
   <p>
-    <input type="submit" name="command_save" id="save" value="Save">
+    <input type="submit" name="command_save" id="save" value="Save Partial Work">
   </p>
   <p align="right">
-    <input type="submit" name="command_submit" id="submit_final" value="Submit">
+    <input type="submit" name="command_submit" id="submit_final" value="Submit Final Answer"  onClick="return confirm('Are you sure you want to submit your answer(s)?');">
   </p>
 <% } %>
 </form>

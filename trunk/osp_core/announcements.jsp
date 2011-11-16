@@ -11,6 +11,16 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
+	
+	String showpc = request.getParameter("showpc");
+	
+	if (showpc != null) {
+		if (showpc.equalsIgnoreCase("true")) {
+			pso.setShowPhaseChanges(true);
+		} else {
+			pso.setShowPhaseChanges(false);
+		}
+	}
 		
 %>
 <html>
@@ -27,10 +37,14 @@
 </h2>
 <table width="95%" border="0" cellspacing="2" cellpadding="2">
   <tr valign="top"> 
-    <td><p><%= RunningSimulation.getActorAlertText(pso.schema, pso.getRunningSimId(), pso.getActorId()) %></p>
+    <td><p><%= RunningSimulation.getActorAlertText(pso.schema, pso.getRunningSimId(), pso.getActorId(), pso) %></p>
     </td>
   </tr>
 </table>
-<p>&nbsp;</p>
+<% if (pso.isShowPhaseChanges()) { %>
+<p><a href="announcements.jsp?showpc=false">Hide Phase Changes</a></p>
+<% } else { %>
+<p><a href="announcements.jsp?showpc=true">Show Phase Changes</a></p>
+<% } %>
 </body>
 </html>

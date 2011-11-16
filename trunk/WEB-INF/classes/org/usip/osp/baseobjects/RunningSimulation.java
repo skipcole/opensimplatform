@@ -498,7 +498,7 @@ public class RunningSimulation implements ImportedExperienceObject {
 	 * sim.
 	 */
 	public static String getActorAlertText(String schema, Long rs_id,
-			Long act_id) {
+			Long act_id, SessionObjectBase sob) {
 
 		String returnString = ""; //$NON-NLS-1$
 
@@ -515,8 +515,16 @@ public class RunningSimulation implements ImportedExperienceObject {
 			al = (Alert) MultiSchemaHibernateUtil.getSession(schema).get(
 					Alert.class, al.getId());
 			if (al.checkActor(act_id)) {
-				returnString += ("<B>" + al.getTimeOfAlert() + "</B><BR>" + al.getAlertMessage() + "<hr>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			}
+				
+				if (sob.isShowPhaseChanges()){
+					returnString += ("<B>" + al.getTimeOfAlert() + "</B><BR>" + al.getAlertMessage() + "<hr>"); //$NON-NLS-1$
+				} else {
+					if ((al.getType() != 5) && (al.getType() != 1)){
+						returnString += ("<B>" + al.getTimeOfAlert() + "</B><BR>" + al.getAlertMessage() + "<hr>"); //$NON-NLS-1$
+					}
+				}
+				
+				}
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
