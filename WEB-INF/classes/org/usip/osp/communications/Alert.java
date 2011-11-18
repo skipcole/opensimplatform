@@ -61,6 +61,16 @@ public class Alert implements TimeLineInterface {
 	 * pop-up windows.
 	 */
 	public static final int TYPE_MULTIPLE = 99;
+	
+	public static final int ALERT_LEVEL_NONE = 0;
+
+	public static final int ALERT_LEVEL_MILDEST = 100;
+	
+	public static final int ALERT_LEVEL_MILD = 200;
+	
+	public static final int ALERT_LEVEL_BIG = 300;
+	
+	public static final int ALERT_LEVEL_CRITICAL = 400;
 
 	/** Database id of this Alert. */
 	@Id
@@ -71,6 +81,8 @@ public class Alert implements TimeLineInterface {
 	@Column(name = "ALERT_TYPE")
 	private int type = 0;
 
+	//private int alertLevel = 0;
+	
 	@Lob
 	private String alertMessage = ""; //$NON-NLS-1$
 
@@ -394,5 +406,15 @@ public class Alert implements TimeLineInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/*
+	public int getAlertLevel() {
+		return alertLevel;
+	}
+
+	public void setAlertLevel(int alertLevel) {
+		this.alertLevel = alertLevel;
+	}
+	*/
 
 }

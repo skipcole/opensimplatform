@@ -10,12 +10,17 @@
 		//response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	System.out.println("in hidden frame");
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script type="text/javascript" src="../third_party_libraries/sticky_full/sticky.full.js"></script>
+<link rel="stylesheet" href="../third_party_libraries/sticky_full/sticky.full.css" type="text/css" />
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
@@ -36,7 +41,7 @@ function getSimEvent()
 				alert(sim_event_text);
 			 	top.document.location="simwebui.jsp?tabposition=1";
 			} else if (sim_event_type == "email"){
-				alert(sim_event_text);
+				top.topFrame.stickyAlert(sim_event_text);
 			} else if (sim_event_type == "event"){
 				alert(sim_event_text);
 			} else if (sim_event_type == "news"){
@@ -48,6 +53,7 @@ function getSimEvent()
 			} else if (sim_event_type == "multiple"){
 				alert(sim_event_text);
 			}
+			
 		
 		}, 'xml');
 
@@ -64,15 +70,14 @@ function timedCount()
 {
 	getSimEvent()
 	sendHeartbeat()
-	setTimeout("timedCount()", 2000)
+	setTimeout("timedCount()", 7000)
 }
 
 
 </script>
+
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
 </head>
 <body onLoad="timedCount();">
 </body>
-<HEAD>
-<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
-</HEAD>
 </html>

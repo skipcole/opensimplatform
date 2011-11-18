@@ -6,9 +6,6 @@
 </head>
 
 <body>
-<p>Welcome to this guide for making OSP Plugins. </p>
-
-<p>Below </p>
 <h1>[Name] Plugin</h1>
 <h2>Description</h2>
 <p>This plugin allows the user to ...</p>

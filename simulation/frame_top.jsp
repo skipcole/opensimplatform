@@ -17,6 +17,9 @@
 <html>
 <head>
 <script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
+<script type="text/javascript" src="../third_party_libraries/sticky_full/sticky.full.js"></script>
+<link rel="stylesheet" href="../third_party_libraries/sticky_full/sticky.full.css" type="text/css" />
+
 <title>Simulation <%= pso.simulation_name %>, Version , Session <%= pso.run_sim_name %></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
@@ -81,8 +84,8 @@ function getSimRound()
   
 function timedCount()
 {
-	getSimRound()
-	setTimeout("timedCount()", 1000)
+	getSimRound();
+	setTimeout("timedCount()", 10000);
 }
 </script>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">
@@ -91,6 +94,13 @@ function timedCount()
 .style1 {font-size: 9pt}
 -->
 </style>
+
+<script>
+function stickyAlert(alertWords) {
+    $.sticky(alertWords);
+}
+</script> 
+
 </head>
 <body bgcolor="#FFFFFF" onLoad="timedCount();">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
