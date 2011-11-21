@@ -99,7 +99,13 @@ body {
           <a href="view_customized_section_usage.jsp?bss_id=<%= bss.getId().toString() %>">view usage</a>
           <% } else { %>
           <a href="delete_object.jsp?object_type=bss&objid=<%= bss.getId().toString() %>&object_info=<%= nameToSend %>">delete</a>
-          <% } %></td>
+          <% } %>
+          <form id="section_form" name="section_form" method="post" action="<%= bss.getMakePage() %>" target="bodyinleft">
+<input type="hidden" name="tab_heading" value="<%= bss.getRec_tab_heading() %>" />
+<input name="edit_this_section" type="submit" value="Edit This Section" />
+</form>
+          
+          </td>
       </tr>
         <%  
 			} // End of if for this simulation

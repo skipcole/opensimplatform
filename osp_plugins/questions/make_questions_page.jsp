@@ -99,7 +99,12 @@
               <tr>
                 <td valign="top">Answer</td>
                 <td valign="top"><label for="answer_<%= questionIndex %>"></label>
-                  <textarea name="answer_<%= questionIndex %>" id="answer_<%= questionIndex %>" cols="45" rows="5"><%= this_qar.getAnswer() %></textarea></td>
+                  <textarea name="answer_<%= questionIndex %>" id="answer_<%= questionIndex %>" cols="45" rows="5"><%= this_qar.getAnswer() %></textarea>
+                    		<script language="javascript1.2">
+  			generate_wysiwyg('answer_<%= questionIndex %>');
+		</script>
+                  
+                  </td>
               </tr>
 <%
 	++questionIndex;
