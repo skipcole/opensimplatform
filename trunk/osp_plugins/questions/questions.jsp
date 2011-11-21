@@ -27,6 +27,9 @@
 <html>
 <head>
 <title>Questions Page</title>
+<script language="JavaScript" type="text/javascript" src="../../wysiwyg_files/wysiwyg.js">
+</script>
+<script type="text/javascript" src="../third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
@@ -61,7 +64,14 @@
 
 <% if (!(this_pa.isSubmitted())) { %>
 <tr><td valign="top">&nbsp;</td><td valign="top"><strong>Your Answer</strong></td><td valign="top">
-  <textarea name="answer_<%= this_qar.getId() %>" id="answer_<%= this_qar.getId() %>" cols="45" rows="5"><%= this_pa.getPlayerAnswer() %></textarea></td></tr>
+  <textarea name="answer_<%= this_qar.getId() %>" id="answer_<%= this_qar.getId() %>"  style="height: 310px; width: 710px;"><%= this_pa.getPlayerAnswer() %></textarea>
+  
+  		<script language="javascript1.2">
+  			generate_wysiwyg('answer_<%= this_qar.getId() %>');
+		</script>
+  
+  
+  </td></tr>
 <% } else { 
 	answersHaveBeenSubmitted = true;
 %>
