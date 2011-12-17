@@ -11,11 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 
 import org.hibernate.annotations.Proxy;
-import org.usip.osp.baseobjects.Actor;
-import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
-import org.usip.osp.baseobjects.RunningSimulation;
-import org.usip.osp.baseobjects.SimSectionDependentObject;
+import org.usip.osp.baseobjects.*;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
+import org.usip.osp.sharing.CollectUpForPackaging;
 import org.usip.osp.sharing.ExportableObject;
 
 /*
@@ -32,7 +30,7 @@ import org.usip.osp.sharing.ExportableObject;
  */
 @Entity
 @Proxy(lazy=false)
-public class QuestionAndResponse implements ExportableObject, SimSectionDependentObject{
+public class QuestionAndResponse implements ExportableObject, SimSectionDependentObject, CollectUpForPackaging{
 	
 	/** Zero element constructor required by Hibernate. */
 	public QuestionAndResponse() {
@@ -230,6 +228,19 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 			Object templateObject) {
 		
 		return this.getId();
+	}
+
+	@Override
+	public List getAllForSimulation(String schema, Long simId) {
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
+				"from QuestionAndResponse where simId = :simId")
+				.setLong("sim_id", simId).list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
 	}
 
 }

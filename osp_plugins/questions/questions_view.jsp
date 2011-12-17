@@ -39,8 +39,8 @@
 <p><%= cs.getBigString() %></p>
 
 <table cellspacing="0" border="1" width="90%">
-<tr><td><strong>Q. </strong></td><td><strong>User</strong></td><td><strong>Answer</strong></td>
-  <td><strong>Submitted</strong></td>
+<tr><td valign="top"><strong>Q. </strong></td><td valign="top"><strong>User</strong></td><td valign="top"><strong>Answer</strong></td>
+  <td valign="top"><strong>Submitted</strong></td>
 </tr>
 <%
 
@@ -50,10 +50,10 @@
 	for (ListIterator lq = qAndRList.listIterator(); lq.hasNext();) {
 		QuestionAndResponse this_qar = (QuestionAndResponse) lq.next();
 %>
-<tr><td><strong><%= this_qar.getQuestionIdentifier() %></strong></td>
-<td><strong>Author's Answer</strong></td>
-<td><strong><%= this_qar.getAnswer() %></strong></td>
-<td>&nbsp;</td>
+<tr><td valign="top"><strong><%= this_qar.getQuestionIdentifier() %></strong></td>
+<td valign="top"><strong>Author's Answer</strong></td>
+<td valign="top"><strong><%= this_qar.getAnswer() %></strong></td>
+<td valign="top">&nbsp;</td>
 </tr>
 <%
 					
@@ -67,13 +67,13 @@
 						PlayerAnswer.getByQuestionRunningSimAndUserIds
 						(pso.schema, this_qar.getId(), pso.getRunningSimId(),  ua);
 %>
-               <tr><td><%= this_qar.getQuestionIdentifier() %></td>
-               <td>
+               <tr><td valign="top"><%= this_qar.getQuestionIdentifier() %></td>
+               <td valign="top">
 			   <%= USIP_OSP_Cache.getUSERName(pso.schema, request, ua) %>
                </td>
                
-               <td><%= pa.getPlayerAnswer() %></td>
-                 <td><% if (pa.isSubmitted()) { %><%= pa.getTimeSubmitted() %><% } %></td>
+               <td valign="top"><%= pa.getPlayerAnswer() %></td>
+                 <td valign="top"><% if (pa.isSubmitted()) { %><%= pa.getTimeSubmitted() %><% } %></td>
                </tr>
 <%
 			} // end of loop over user ids

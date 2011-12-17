@@ -49,7 +49,7 @@
                       <td>Allows you to import experience from other simulations, or add new simulation sections or models to your USIP OSP installation.</td>
                     </tr>
                     <tr valign="top">
-                      <td>Organization Administration</td>
+                      <td><a href="organization_administration.jsp">Organization Administration</a></td>
                       <td>Allows you to add organizations (and their logos) on to this platform.</td>
                     </tr>
                     <tr valign="top">

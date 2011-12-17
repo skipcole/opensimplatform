@@ -29,49 +29,6 @@ import java.util.StringTokenizer;
 @Proxy(lazy = false)
 public class Alert implements TimeLineInterface {
 
-	/** This alert is of an undefined type. */
-	public static final int TYPE_UNDEFINED = 0;
-
-	/** An announcement has been made and may be seen on the announcement page. */
-	public static final int TYPE_RUN_ENABLED = 1;
-
-	/** An announcement has been made and may be seen on the announcement page. */
-	public static final int TYPE_ANNOUNCEMENT = 2;
-
-	/** New news is available from a news source accessible to the player. */
-	public static final int TYPE_NEWS = 3;
-
-	/** An event for the player. */
-	public static final int TYPE_EVENT = 4;
-
-	/** The phase of the simulation has changed. */
-	public static final int TYPE_PHASECHANGE = 5;
-
-	/** An incoming for the player. */
-	public static final int TYPE_MEMO = 6;
-	
-	/** An announcement has been made and may be seen on the announcement page. */
-	public static final int TYPE_RATING_ANNOUNCEMENT = 7;
-	
-	/** An announcement has been made and may be seen on the announcement page. */
-	public static final int TYPE_EMAIL = 8;
-
-	/**
-	 * Multiple events have occured for the user. (Don't pester with continuous
-	 * pop-up windows.
-	 */
-	public static final int TYPE_MULTIPLE = 99;
-	
-	public static final int ALERT_LEVEL_NONE = 0;
-
-	public static final int ALERT_LEVEL_MILDEST = 100;
-	
-	public static final int ALERT_LEVEL_MILD = 200;
-	
-	public static final int ALERT_LEVEL_BIG = 300;
-	
-	public static final int ALERT_LEVEL_CRITICAL = 400;
-
 	/** Database id of this Alert. */
 	@Id
 	@GeneratedValue
@@ -197,19 +154,19 @@ public class Alert implements TimeLineInterface {
 	public static String getTypeText(int a_type){
 		switch (a_type) {
 		
-		case TYPE_ANNOUNCEMENT:
+		case AlertLevels.TYPE_ANNOUNCEMENT:
 			return "announcement";
-		case TYPE_EVENT:
+		case AlertLevels.TYPE_EVENT:
 			return "event";
-		case TYPE_MEMO:
+		case AlertLevels.TYPE_MEMO:
 			return "memo";
-		case TYPE_NEWS:
+		case AlertLevels.TYPE_NEWS:
 			return "news";
-		case TYPE_PHASECHANGE:
+		case AlertLevels.TYPE_PHASECHANGE:
 			return "phase_change";
-		case Alert.TYPE_EMAIL:
+		case AlertLevels.TYPE_EMAIL:
 			return "email";
-		case Alert.TYPE_MULTIPLE:
+		case AlertLevels.TYPE_MULTIPLE:
 			return "multiple";
 		}
 

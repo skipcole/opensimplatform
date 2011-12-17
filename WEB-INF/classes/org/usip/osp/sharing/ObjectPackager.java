@@ -10,8 +10,6 @@ import org.usip.osp.networking.*;
 import org.usip.osp.persistence.*;
 import org.usip.osp.specialfeatures.*;
 
-import sun.misc.*;
-
 import com.seachangesimulations.osp.questions.QuestionAndResponse;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -305,6 +303,8 @@ public class ObjectPackager {
 					+ USIP_OSP_Util.lineTerminator;
 		}
 		
+		// Get all Plugin packages that implement the CollectUpForPackaging
+	
 		/////////////////////////////////////////////
 		// TODO need to find a way to get this to work as a plugin (and not be hard coded here.)
 		// Copy InventoryItems
@@ -334,6 +334,50 @@ public class ObjectPackager {
 		}
 
 		return returnString;
+	}
+	
+	public static void main(String args[]){
+		System.out.println("help");
+		
+		getListOfPluginObjectsForTransfer("test");
+		
+	}
+	
+	/**
+	 * This returns a list of plugin objects that need to be packaged up for putting in a
+	 * simulation export file.
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public static List<CollectUpForPackaging> getListOfPluginObjectsForTransfer(String schema) {
+		
+		ArrayList returnList = new ArrayList();
+		
+		List additionalClasses = BaseSimSection.getUniqSetOfDatabaseClassNames(schema, true);
+		
+		for (ListIterator<String> acListIter = additionalClasses.listIterator(); acListIter.hasNext();) {
+			String newClass = acListIter.next();
+			try {
+				Class nClass = Class.forName(newClass);
+				
+				Class [] theInterfaces = nClass.getInterfaces();
+
+				for (int ii = 0; ii < theInterfaces.length; ++ii){
+					Class classBeingChecked = theInterfaces[ii];
+					if (classBeingChecked.toString().equalsIgnoreCase(CollectUpForPackaging.class.toString())){
+						returnList.add(classBeingChecked);
+					}
+
+				}
+			} catch (ClassNotFoundException e) {
+				System.out.println("It was: " + newClass);
+				System.out.flush();
+				e.printStackTrace();
+			}
+		}
+		
+		return returnList;
 	}
 
 	/**

@@ -19,8 +19,9 @@
 	
 	if (!(pso.preview_mode)) {
 		setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.getRunningSimId());
+	} else {
+		setOfDocs = SharedDocument.getSetOfBaseDocsForSection(pso.schema, cs.getId());
 	}
-
 
 %>
 <html>
@@ -45,7 +46,8 @@
 	<h1><%= sd.getDisplayTitle() %></h1>
 	<%= sd.getBigString() %>
 <p>&nbsp;</p>
-<%
+<p>
+  <%
 	}
 %>
 </body>
