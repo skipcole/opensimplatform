@@ -31,7 +31,7 @@
 		
 		if ((player_target != null) && (player_target.equalsIgnoreCase("some"))){
 			pso.alertInQueueText = announcement_text;
-			pso.alertInQueueType = Alert.TYPE_EVENT;
+			pso.alertInQueueType = AlertLevels.TYPE_EVENT;
 			pso.backPage = "push_injects.jsp";
 			response.sendRedirect("select_actors.jsp");
 			return;

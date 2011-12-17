@@ -735,7 +735,7 @@ public class Email implements Comparable {
 		Alert al = new Alert();
 		al.setSpecific_targets(true);
 		
-		al.setType(Alert.TYPE_EMAIL);
+		al.setType(AlertLevels.TYPE_EMAIL);
 		
 		String alertMessage = "You have mail.";
 		al.setAlertMessage(alertMessage);

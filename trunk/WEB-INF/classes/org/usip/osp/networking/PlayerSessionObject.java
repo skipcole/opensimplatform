@@ -559,7 +559,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			} else if (my_alerts.size() > 2) {
 				alarmXML += "<numAlarms>1</numAlarms>";
 				alarmXML += "<sim_event_type>"
-						+ Alert.getTypeText(Alert.TYPE_MULTIPLE)
+						+ Alert.getTypeText(AlertLevels.TYPE_MULTIPLE)
 						+ "</sim_event_type>";
 				alarmXML += "<sim_event_text>" + Alert.getMultipleAlertText()
 						+ "</sim_event_text>";
@@ -796,7 +796,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				.getSession(schema).get(RunningSimulation.class, runningSimId);
 
 		Alert al = new Alert();
-		al.setType(Alert.TYPE_ANNOUNCEMENT);
+		al.setType(AlertLevels.TYPE_ANNOUNCEMENT);
 		al.setAlertMessage(news);
 		al.setRunning_sim_id(runningSimId);
 		al.setSim_id(sim_id);
@@ -836,7 +836,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		al.setType(alertInQueueType);
 		
 		// TODO - this seemed to matter.
-		al.setType(Alert.TYPE_ANNOUNCEMENT);
+		al.setType(AlertLevels.TYPE_ANNOUNCEMENT);
 				
 		al.setAlertMessage(alertInQueueText);
 
@@ -1081,7 +1081,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 			Alert al = new Alert();
 
-			al.setType(Alert.TYPE_PHASECHANGE);
+			al.setType(AlertLevels.TYPE_PHASECHANGE);
 
 			String phaseChangeNotice = "Phase has changed from '"
 					+ previousPhase + "' to '" + pso.phaseName + "'.";
@@ -1263,7 +1263,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			if ((player_target != null) // Sending Inject to some players
 					&& (player_target.equalsIgnoreCase("some"))) { //$NON-NLS-1$
 				this.alertInQueueText = announcement_text;
-				this.alertInQueueType = Alert.TYPE_EVENT;
+				this.alertInQueueType = AlertLevels.TYPE_EVENT;
 				return true;
 
 			} else { // Sending inject to all players
@@ -1324,7 +1324,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			if ((player_target != null)
 					&& (player_target.equalsIgnoreCase("some"))) {
 				alertInQueueText = announcement_text;
-				alertInQueueType = Alert.TYPE_ANNOUNCEMENT;
+				alertInQueueType = AlertLevels.TYPE_ANNOUNCEMENT;
 				backPage = "make_announcement.jsp";
 				this.forward_on = true;
 				return;
@@ -1371,7 +1371,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			if ((player_target != null)
 					&& (player_target.equalsIgnoreCase("some"))) {
 				alertInQueueText = announcement_text;
-				alertInQueueType = Alert.TYPE_RATING_ANNOUNCEMENT;
+				alertInQueueType = AlertLevels.TYPE_RATING_ANNOUNCEMENT;
 				backPage = "make_rating_announcement.jsp";
 				this.forward_on = true;
 				return;
@@ -1434,7 +1434,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 				Alert al = new Alert();
 				al.setSpecific_targets(true);
-				al.setType(Alert.TYPE_MEMO);
+				al.setType(AlertLevels.TYPE_MEMO);
 				al.setThe_specific_targets(sdanao.getActor_id().toString());
 				al.setAlertMessage(sdanao.getNotificationText());
 				al.setAlertPopupMessage(sdanao.getNotificationText());

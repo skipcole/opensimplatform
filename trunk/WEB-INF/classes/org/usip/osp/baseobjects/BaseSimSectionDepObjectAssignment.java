@@ -21,17 +21,16 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  * section.
  *
  */
-/* 
- *         This file is part of the USIP Open Simulation Platform.<br>
+/*
+ * This file is part of the USIP Open Simulation Platform.<br>
  * 
- *         The USIP Open Simulation Platform is free software; you can
- *         redistribute it and/or modify it under the terms of the new BSD Style
- *         license associated with this distribution.<br>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- *         The USIP Open Simulation Platform is distributed WITHOUT ANY
- *         WARRANTY; without even the implied warranty of MERCHANTABILITY or
- *         FITNESS FOR A PARTICULAR PURPOSE. <BR>
- * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  */
 @Entity
 @Table(name = "BSSDOA")
@@ -42,7 +41,7 @@ public class BaseSimSectionDepObjectAssignment {
 	public BaseSimSectionDepObjectAssignment() {
 
 	}
-	
+
 	/**
 	 * Creates and saves the object to the database.
 	 * 
@@ -53,19 +52,20 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param sim_id
 	 * @param schema
 	 */
-	public BaseSimSectionDepObjectAssignment(Long cs_id, String className, int do_index, Long objId, Long sim_id,
-			String schema){
+	public BaseSimSectionDepObjectAssignment(Long cs_id, String className,
+			int do_index, Long objId, Long sim_id, String schema) {
 		this.setBss_id(cs_id);
 		this.setClassName(className);
 		this.setDepObjIndex(do_index);
 		this.setObjectId(objId);
 		this.setSim_id(sim_id);
-		
+
 		this.saveMe(schema);
 	}
 
-	public static BaseSimSectionDepObjectAssignment getIfExistsElseCreateIt(String schema, Long bss_id,
-			String className, Long objectId, Long sim_id) {
+	public static BaseSimSectionDepObjectAssignment getIfExistsElseCreateIt(
+			String schema, Long bss_id, String className, Long objectId,
+			Long sim_id) {
 
 		BaseSimSectionDepObjectAssignment bssdoa = new BaseSimSectionDepObjectAssignment();
 
@@ -75,14 +75,15 @@ public class BaseSimSectionDepObjectAssignment {
 				+ " and sim_id = " + sim_id; //$NON-NLS-1$
 
 		Logger.getRootLogger().debug(getString);
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List docList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
+		List docList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(getString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
-		if ((docList != null) && (docList.size() > 0)){
+
+		if ((docList != null) && (docList.size() > 0)) {
 			bssdoa = (BaseSimSectionDepObjectAssignment) docList.get(0);
 			return bssdoa;
 		} else {
@@ -102,25 +103,30 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param bss_id
 	 * @return
 	 */
-	public static Hashtable<Long, Long> getIndexIdHashtable(String schema, Long bss_id) {
+	public static Hashtable<Long, Long> getIndexIdHashtable(String schema,
+			Long bss_id) {
 
-		Hashtable <Long, Long> returnHash = new Hashtable<Long, Long>();
+		Hashtable<Long, Long> returnHash = new Hashtable<Long, Long>();
 
 		if (bss_id == null) {
-			Logger.getRootLogger().warn("Warning! getIndexIdHashtable get null bss_id"); //$NON-NLS-1$
+			Logger.getRootLogger().warn(
+					"Warning! getIndexIdHashtable get null bss_id"); //$NON-NLS-1$
 			return returnHash;
 		}
 
 		List checkList = getObjectsForSection(schema, bss_id);
-		
+
 		Logger.getRootLogger().warn(" checklist size: " + checkList.size()); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		for (ListIterator<BaseSimSectionDepObjectAssignment> li = checkList.listIterator(); li.hasNext();) {
+		for (ListIterator<BaseSimSectionDepObjectAssignment> li = checkList
+				.listIterator(); li.hasNext();) {
 			BaseSimSectionDepObjectAssignment bssdoa = li.next();
 
-			Logger.getRootLogger().warn("index/id:" + bssdoa.getDepObjIndex() + "/" + bssdoa.getId()); //$NON-NLS-1$ //$NON-NLS-2$
-			returnHash.put(new Long(bssdoa.getDepObjIndex()), bssdoa.getObjectId());
+			Logger.getRootLogger()
+					.warn("index/id:" + bssdoa.getDepObjIndex() + "/" + bssdoa.getId()); //$NON-NLS-1$ //$NON-NLS-2$
+			returnHash.put(new Long(bssdoa.getDepObjIndex()),
+					bssdoa.getObjectId());
 
 		}
 
@@ -141,7 +147,8 @@ public class BaseSimSectionDepObjectAssignment {
 		List deleteList = getObjectsForSection(schema, bss_id);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		for (ListIterator<BaseSimSectionDepObjectAssignment> li = deleteList.listIterator(); li.hasNext();) {
+		for (ListIterator<BaseSimSectionDepObjectAssignment> li = deleteList
+				.listIterator(); li.hasNext();) {
 			BaseSimSectionDepObjectAssignment bssdoa = li.next();
 
 			MultiSchemaHibernateUtil.getSession(schema).delete(bssdoa);
@@ -165,7 +172,8 @@ public class BaseSimSectionDepObjectAssignment {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(getString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -180,39 +188,43 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param bss_id
 	 * @return
 	 */
-	public static List <BaseSimSectionDepObjectAssignment> getObjectsForSection(String schema, Long bss_id) {
+	public static List<BaseSimSectionDepObjectAssignment> getObjectsForSection(
+			String schema, Long bss_id) {
 
 		String getString = "from BaseSimSectionDepObjectAssignment where bss_id = '" + bss_id //$NON-NLS-1$
 				+ "' order by dep_obj_index"; //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List <BaseSimSectionDepObjectAssignment> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getString).list();
+		List<BaseSimSectionDepObjectAssignment> returnList = MultiSchemaHibernateUtil
+				.getSession(schema).createQuery(getString).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 
 	}
-	
-	public static void main(String args[]){
-		
-		boolean b = BaseSimSectionDepObjectAssignment.checkObjectInUse("test", new Long(2), "org.usip.osp.communications.SharedDocument");
 
-		
+	public static void main(String args[]) {
+
+		boolean b = BaseSimSectionDepObjectAssignment.checkObjectInUse("test",
+				new Long(2), "org.usip.osp.communications.SharedDocument");
+
 	}
-	
-	public static boolean checkObjectInUse (String schema, Long obj_id, String obj_class){
-		
-		List x = BaseSimSectionDepObjectAssignment.getObjectUsages(schema, obj_id, obj_class);
-		
-		if ((x == null) || (x.size() == 0)){
+
+	public static boolean checkObjectInUse(String schema, Long obj_id,
+			String obj_class) {
+
+		List x = BaseSimSectionDepObjectAssignment.getObjectUsages(schema,
+				obj_id, obj_class);
+
+		if ((x == null) || (x.size() == 0)) {
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Gets all of the base sim section objects where a particular object has been added.
 	 * (Used to find out if an object is in use.
@@ -221,87 +233,99 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param bss_id
 	 * @return
 	 */
-	public static List <BaseSimSectionDepObjectAssignment> getObjectUsages(String schema, Long obj_id, String obj_class) {
+	public static List<BaseSimSectionDepObjectAssignment> getObjectUsages(
+			String schema, Long obj_id, String obj_class) {
 
 		String getString = "from BaseSimSectionDepObjectAssignment where objectId = :obj_id and "
 				+ "className = :obj_class "; //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List <BaseSimSectionDepObjectAssignment> returnList = 
-			MultiSchemaHibernateUtil.getSession(schema).createQuery(getString)
-			.setLong("obj_id", obj_id)
-			.setString("obj_class", obj_class)
-			.list();
+		List<BaseSimSectionDepObjectAssignment> returnList = MultiSchemaHibernateUtil
+				.getSession(schema).createQuery(getString)
+				.setLong("obj_id", obj_id).setString("obj_class", obj_class)
+				.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 
 	}
-	
+
 	/**
 	 * Gets a single shared document for a simulation section. 
 	 * @param schema
 	 * @param bss_id_s
 	 * @return
 	 */
-	public static SharedDocument getSharedDocumentForSection(String schema, String bss_id_s) {
+	public static SharedDocument getSharedDocumentForSection(String schema,
+			String bss_id_s) {
 
 		Logger.getRootLogger().debug("bss_id is: " + bss_id_s); //$NON-NLS-1$
 		Long bss_id = null;
-		
+
 		try {
 			bss_id = new Long(bss_id_s);
-		} catch (Exception e){
+		} catch (Exception e) {
 			Logger.getRootLogger().debug(e.getMessage());
 		}
-		
-		if (bss_id == null){
+
+		if (bss_id == null) {
 			return null;
 		}
-		
+
 		List startList = getObjectsForSection(schema, bss_id);
-		
-		if ((startList == null) || (startList.size() == 0)){
+
+		if ((startList == null) || (startList.size() == 0)) {
 			return null;
 		} else {
-			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment)startList.get(0);
-			
-			SharedDocument sd = SharedDocument.getById(schema, bssdoa.getObjectId());
-			
+			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) startList
+					.get(0);
+
+			SharedDocument sd = SharedDocument.getById(schema,
+					bssdoa.getObjectId());
+
 			return sd;
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
 	 * @param bss_id
 	 * @return
 	 */
-	public static List getSharedDocumentsForSection(String schema, Long bss_id) {
-		
+	public static List<SharedDocument> getSharedDocumentsForSection(
+			String schema, Long bss_id) {
+
 		List returnList = new ArrayList();
-		
-		if (bss_id == null){
+
+		if (bss_id == null) {
 			return returnList;
 		}
-		
+
 		List startList = getObjectsForSection(schema, bss_id);
-		
-		if ((startList == null) || (startList.size() == 0)){
+
+		if ((startList == null) || (startList.size() == 0)) {
 			return returnList;
 		} else {
-			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment)startList.get(0);
-			
-			if (bssdoa.className.equalsIgnoreCase(SharedDocument.class.toString())){
-				SharedDocument sd = SharedDocument.getById(schema, bssdoa.getObjectId());
-				returnList.add(sd);
+
+			for (ListIterator<BaseSimSectionDepObjectAssignment> li = startList
+					.listIterator(); li.hasNext();) {
+				BaseSimSectionDepObjectAssignment bssdoa = li.next();
+				
+				String sharedDocClassName = SharedDocument.class.toString();
+				sharedDocClassName = sharedDocClassName.replaceFirst("class ", "");
+				
+				if (bssdoa.getClassName().equalsIgnoreCase(sharedDocClassName)) {
+					SharedDocument sd = SharedDocument.getById(schema,
+							bssdoa.getObjectId());
+					returnList.add(sd);
+				}
 			}
 		}
-		
+
 		return returnList;
 
 	}
@@ -314,7 +338,8 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param bssdoa
 	 * @return
 	 */
-	public static SimSectionDependentObject pullOutObject(String schema, BaseSimSectionDepObjectAssignment bssdoa) {
+	public static SimSectionDependentObject pullOutObject(String schema,
+			BaseSimSectionDepObjectAssignment bssdoa) {
 
 		Object obj = null;
 
@@ -322,7 +347,8 @@ public class BaseSimSectionDepObjectAssignment {
 
 		try {
 			Class objClass = Class.forName(bssdoa.getClassName());
-			obj = MultiSchemaHibernateUtil.getSession(schema).get(objClass, bssdoa.getObjectId());
+			obj = MultiSchemaHibernateUtil.getSession(schema).get(objClass,
+					bssdoa.getObjectId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -345,12 +371,12 @@ public class BaseSimSectionDepObjectAssignment {
 
 	/** The id of this object used to pull it out of the database if necessary. */
 	private Long objectId;
-	
+
 	/**
 	 * If the dependent object associated with this section depends upon the actor's id, then this is true.
 	 */
 	private boolean actor_dependent = false;
-	
+
 	/** If the dependent objects associated with this section are associated with a particular actor, this is its id. */
 	private Long actor_id;
 
@@ -368,7 +394,7 @@ public class BaseSimSectionDepObjectAssignment {
 	 * name and not an index.
 	 */
 	private String uniqueTagName;
-	
+
 	/** Id used when objects are exported and imported moving across databases. */
 	private Long transit_id;
 
@@ -467,11 +493,13 @@ public class BaseSimSectionDepObjectAssignment {
 	 * @param sim_id
 	 * @return
 	 */
-	public static BaseSimSectionDepObjectAssignment getById(String schema, Long bssdoa_id) {
+	public static BaseSimSectionDepObjectAssignment getById(String schema,
+			Long bssdoa_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) MultiSchemaHibernateUtil
-				.getSession(schema).get(BaseSimSectionDepObjectAssignment.class, bssdoa_id);
+				.getSession(schema).get(
+						BaseSimSectionDepObjectAssignment.class, bssdoa_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

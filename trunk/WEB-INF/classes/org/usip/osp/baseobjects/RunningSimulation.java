@@ -219,7 +219,7 @@ public class RunningSimulation implements ImportedExperienceObject {
 		Alert startEvent = new Alert();
 		startEvent.setSim_id(sim.getId());
 		startEvent.setRunning_sim_id(rs_id);
-		startEvent.setType(Alert.TYPE_RUN_ENABLED);
+		startEvent.setType(AlertLevels.TYPE_RUN_ENABLED);
 		startEvent.setAlertMessage("Simulation Enabled.");
 		startEvent.setTimeOfAlert(rs.getEnabledDate());
 		startEvent.saveMe(schema);

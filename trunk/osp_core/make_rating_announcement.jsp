@@ -96,7 +96,7 @@ To All Players </label>
 	for (ListIterator li = pso.getAllAnnouncements().listIterator(); li.hasNext();) {
 			Alert al = (Alert) li.next();
 			
-			if (al.getType() == Alert.TYPE_RATING_ANNOUNCEMENT) {
+			if (al.getType() == AlertLevels.TYPE_RATING_ANNOUNCEMENT) {
 %>
   <tr>
   	<td valign="top"><% if ((!al.isSpecific_targets())) { %>All<% } else { %>
