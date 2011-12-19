@@ -236,7 +236,7 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
 				"from QuestionAndResponse where simId = :simId")
-				.setLong("sim_id", simId).list(); //$NON-NLS-1$
+				.setLong("simId", simId).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

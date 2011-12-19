@@ -304,7 +304,8 @@ public class ObjectPackager {
 		}
 		
 		// Get all Plugin packages that implement the CollectUpForPackaging
-	
+		List<String> listOfPlugins = getListOfPluginObjectsForTransfer(schema);
+		
 		/////////////////////////////////////////////
 		// TODO need to find a way to get this to work as a plugin (and not be hard coded here.)
 		// Copy InventoryItems
@@ -339,8 +340,24 @@ public class ObjectPackager {
 	public static void main(String args[]){
 		System.out.println("help");
 		
-		getListOfPluginObjectsForTransfer("test");
+		List<String> listOfPlugins = getListOfPluginObjectsForTransfer("test");
 		
+		for (ListIterator<String> acListIter = listOfPlugins.listIterator(); acListIter.hasNext();) {
+			String newClass = acListIter.next();
+			System.out.println(newClass);
+			
+			try {
+
+				Class c   = Class.forName(newClass); 
+				CollectUpForPackaging cufp = (CollectUpForPackaging) c.newInstance();
+				
+				cufp.getAllForSimulation("test", new Long(1));
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		} 
 	}
 	
 	/**
@@ -350,7 +367,7 @@ public class ObjectPackager {
 	 * @param schema
 	 * @return
 	 */
-	public static List<CollectUpForPackaging> getListOfPluginObjectsForTransfer(String schema) {
+	public static List<String> getListOfPluginObjectsForTransfer(String schema) {
 		
 		ArrayList returnList = new ArrayList();
 		
@@ -358,6 +375,8 @@ public class ObjectPackager {
 		
 		for (ListIterator<String> acListIter = additionalClasses.listIterator(); acListIter.hasNext();) {
 			String newClass = acListIter.next();
+			
+			System.out.println("newClass is " + newClass);
 			try {
 				Class nClass = Class.forName(newClass);
 				
@@ -366,7 +385,8 @@ public class ObjectPackager {
 				for (int ii = 0; ii < theInterfaces.length; ++ii){
 					Class classBeingChecked = theInterfaces[ii];
 					if (classBeingChecked.toString().equalsIgnoreCase(CollectUpForPackaging.class.toString())){
-						returnList.add(classBeingChecked);
+						System.out.println("     adding " + newClass);
+						returnList.add(newClass);
 					}
 
 				}
