@@ -93,6 +93,9 @@
 </form>
 <p>&nbsp;</p>
 
+<% if ((answersHaveBeenSubmitted)) { %>
+<%=  QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_POSTANSWERTEXT) %>
+<% } %>
 
 </body>
 </html>

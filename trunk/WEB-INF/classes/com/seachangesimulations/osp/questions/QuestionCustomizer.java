@@ -26,6 +26,7 @@ import org.usip.osp.networking.SessionObjectBase;
 public class QuestionCustomizer extends Customizer {
 
 	public static final String KEY_FOR_PAGETITLE = "questions_page_title"; //$NON-NLS-1$
+	public static final String KEY_FOR_POSTANSWERTEXT = "questions_post_answer_text"; //$NON-NLS-1$
 
 	@Override
 	public void handleCustomizeSection(HttpServletRequest request,
@@ -51,6 +52,9 @@ public class QuestionCustomizer extends Customizer {
 
 			cs.getContents().put(KEY_FOR_PAGETITLE,
 					request.getParameter(KEY_FOR_PAGETITLE));
+			
+			cs.getContents().put(KEY_FOR_POSTANSWERTEXT,
+					request.getParameter(KEY_FOR_POSTANSWERTEXT));
 
 			cs.saveMe(afso.schema);
 

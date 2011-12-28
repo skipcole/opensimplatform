@@ -33,6 +33,7 @@ public class FileIO {
 	private static String model_dir = ""; //$NON-NLS-1$
 	private static String base_web_dir = ""; //$NON-NLS-1$
 	public static String packaged_sim_dir = ""; //$NON-NLS-1$
+	public static String diagnostic_dir = ""; //$NON-NLS-1$
 	public static String upgrade_files_dir = ""; //$NON-NLS-1$
 	private static String sim_image_dir = ""; //$NON-NLS-1$
 	public static String sim_experience_dir = ""; //$NON-NLS-1$
@@ -52,6 +53,8 @@ public class FileIO {
 				+ File.separator + "actors" + File.separator;
 		packaged_sim_dir = base_web_dir + "simulation_sharing" + File.separator
 				+ "packaged_simulations" + File.separator;
+		diagnostic_dir = base_web_dir + "simulation_diagnostics" + File.separator
+		+ "tests" + File.separator;
 		upgrade_files_dir = base_web_dir + "software_upgrade_files" + File.separator;
 		sim_image_dir = base_web_dir + "osp_core" + File.separator + "images"
 				+ File.separator;
@@ -370,6 +373,27 @@ public class FileIO {
 
 		return "Saved " + fileName;
 	}
+	
+	public static String saveSimulationXMLFileDirectly(SessionObjectBase sob, String fileContents,
+			String fullFilePath) {
+
+		try {
+			File outFile = new File(fullFilePath);
+
+			FileWriter outFW = new FileWriter(outFile);
+
+			outFW.write(fileContents);
+
+			outFW.close();
+
+		} catch (Exception e) {
+			OSPErrors.storeInternalErrors(e, sob);
+			return "Could not save file: " + e.getMessage();
+		}
+
+		return "Saved " + fullFilePath;
+	}
+	
 
 	public static boolean saveSimulationXMLFile(SessionObjectBase sob, File uploadedFile,
 			String fileName) {

@@ -112,12 +112,26 @@
 
 %>
               <tr>
-                <td valign="top">&nbsp;</td>
-                <td valign="top">&nbsp;</td>
+                <td valign="top">Post Answer Text</td>
+                <td valign="top"><textarea name="<%= QuestionCustomizer.KEY_FOR_POSTANSWERTEXT %>" id="post_answer_text_<%= questionIndex %>" cols="45" rows="5"><%=  QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_POSTANSWERTEXT) %></textarea></td>
               </tr>
               <tr>
-                <td valign="top">&nbsp;</td>
-                <td valign="top"><input type="submit" name="AddNewQuestion" id="AddNewQuestion" value="Add New Question" /></td>
+                <td valign="top">Allow Phase Change</td>
+                <td valign="top"><select name="phase_id">
+                          <% 
+						
+						for (ListIterator li = SimPhaseAssignment.getPhasesForSim(afso.schema, afso.sim_id).listIterator(); li.hasNext();) {
+							SimulationPhase sp = (SimulationPhase) li.next();
+							
+							String selected_p = "";
+							
+							if (sp.getId().intValue() == afso.phase_id.intValue()) {
+								selected_p = "selected";
+							}	
+				%>
+                          <option value="<%= sp.getId().toString() %>" <%= selected_p %>><%= sp.getPhaseName() %></option>
+                          <% } %>
+                          </select></td>
               </tr>
               </table>
               

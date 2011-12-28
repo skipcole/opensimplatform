@@ -1092,6 +1092,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			al.setAlertPopupMessage(phaseChangeNotice);
 			al.setSim_id(pso.sim_id);
 			al.setRunning_sim_id(pso.runningSimId);
+			al.setUserId(pso.user_id);
 			al.saveMe(pso.schema);
 
 			// Let people know that there is a change to catch.

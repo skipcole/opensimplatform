@@ -42,9 +42,9 @@
           </tr>
         <tr valign="top">
           <td>&nbsp;</td>
-          <td><a href="../simulation_diagnostics/import_export_copy_test.jsp">Import / Copy Tests</a></td>
+          <td><a href="../simulation_diagnostics/import_export_copy_test.jsp">Export / Import Tests</a></td>
           <td>&nbsp;</td>
-          <td>These tests check the import/export and copy processes to verify that a simulation remains the same (varying only in minor version number changes) throughout these transformtions. </td>
+          <td>These tests check the import/export processes to verify that a simulation remains the same (varying only in minor version number changes) throughout these transformtions. </td>
         </tr>
         <tr valign="top"> 
           <td width="2%">&nbsp;</td>
