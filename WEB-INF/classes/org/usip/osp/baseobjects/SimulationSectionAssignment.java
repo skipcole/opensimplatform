@@ -484,6 +484,8 @@ public class SimulationSectionAssignment implements WebObject {
 				returnList.add(key);
 			}
 			
+			Collections.sort(returnList);
+			
 
 			return returnList;
 		}

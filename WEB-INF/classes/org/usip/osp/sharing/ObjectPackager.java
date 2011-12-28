@@ -818,7 +818,7 @@ public class ObjectPackager {
 	 * @param fileName
 	 * @param schema
 	 */
-	public static void unpackageSim(String fileName, String schema,
+	public static Long unpackageSim(String fileName, String fileLocation, String schema,
 			String sim_name, String sim_version, String upgradeFileName,
 			AuthorFacilitatorSessionObject afso, Long userId, String userDisplayName, String userName) {
 
@@ -837,9 +837,6 @@ public class ObjectPackager {
 		Hashtable bssIdMappings = new Hashtable();
 		Hashtable injectIdMappings = new Hashtable();
 
-		String fileLocation = FileIO.packaged_sim_dir + schema + File.separator
-				+ fileName;
-
 		Logger.getRootLogger().debug(
 				"looking for file to unpack at " + fileLocation); //$NON-NLS-1$
 
@@ -852,13 +849,17 @@ public class ObjectPackager {
 		String xmlText = FileIO.getPartialFileContents(new File(fileLocation),
 				"<SIM_MEDIA_OBJECTS>", true);
 
-		xmlText = processUpgradeChanges(xmlText, upgradeFileName);
+		if (upgradeFileName != null){
+			xmlText = processUpgradeChanges(xmlText, upgradeFileName);
+		}
 
 		String xmlMedia = FileIO.getPartialFileContents(new File(fileLocation),
 				"<SIM_MEDIA_OBJECTS>", false);
 
-		xmlMedia = processUpgradeChanges(xmlMedia, upgradeFileName);
-
+		if (upgradeFileName != null){
+			xmlMedia = processUpgradeChanges(xmlMedia, upgradeFileName);
+		}
+		
 		String simString = getObjectFromFile(xmlText,
 				makeOpenTag(Simulation.class), //$NON-NLS-1$
 				makeCloseTag(Simulation.class)); //$NON-NLS-1$
@@ -950,6 +951,8 @@ public class ObjectPackager {
 				xstream, bssIdMappings, actorIdMappings);
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Import Complete");
+		
+		return simRead.getId();
 
 	}
 
@@ -1391,7 +1394,10 @@ public class ObjectPackager {
 			} else if (key.equalsIgnoreCase(TimelineObjectAssignment.class
 					.toString().replaceFirst("class ", ""))) {
 				ssdo = (TimelineObjectAssignment) xstream.fromXML(sd_string);
-			} else {
+			} else if (key.equalsIgnoreCase(QuestionAndResponse.class
+					.toString().replaceFirst("class ", ""))) {
+				ssdo = (QuestionAndResponse) xstream.fromXML(sd_string);
+			}  else {
 				Logger
 						.getRootLogger()
 						.warn(

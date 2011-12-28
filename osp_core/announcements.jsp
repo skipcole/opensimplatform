@@ -45,6 +45,14 @@
 <p><a href="announcements.jsp?showpc=false">Hide Phase Changes</a></p>
 <% } else { %>
 <p><a href="announcements.jsp?showpc=true">Show Phase Changes</a></p>
+<p>
+  <% } %>
+</p>
+<% if (true) { %>
+<form name="form1" method="post" action="">
+  <input type="submit" name="button" id="button" value="Submit">
+</form>
 <% } %>
+<p>&nbsp;</p>
 </body>
 </html>

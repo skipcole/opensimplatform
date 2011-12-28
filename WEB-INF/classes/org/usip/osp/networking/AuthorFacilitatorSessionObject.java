@@ -107,7 +107,10 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		Logger.getRootLogger().debug("unpacking " + filename); //$NON-NLS-1$
 
-		ObjectPackager.unpackageSim(filename, this.schema, sim_name,
+		String fileLocation = FileIO.packaged_sim_dir + schema + File.separator
+		+ filename;
+		
+		ObjectPackager.unpackageSim(filename, fileLocation, this.schema, sim_name,
 				sim_version, upgrade_file_name, this, user_id,
 				this.userDisplayName, this.user_email);
 
@@ -2830,6 +2833,24 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return fileName;
 
 	}
+	
+	public static String getDefaultDiagnosticXMLFileName(Simulation simulation, String ver) {
+
+		Date saveDate = new java.util.Date();
+
+		String fileName = simulation.getSimulationName() + "_"
+				+ simulation.getVersion() + "_"
+				+ savedFilesDateFormat.format(saveDate);
+
+		fileName = USIP_OSP_Util.cleanStringForFileName(fileName) + "_" + ver;
+
+		fileName = cleanName(fileName);
+
+		fileName += ".xml";
+
+		return fileName;
+
+	}
 
 	public String getDefaultUserArchiveXMLFileName() {
 
@@ -2913,6 +2934,37 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		}
 
 		return returnString;
+	}
+	
+	public String handleExportImportExportTest(String _sim_id, String fileName){
+		
+		String returnString = "";
+		
+		String fullFilePath = FileIO.diagnostic_dir + fileName;
+		
+		returnString += FileIO.saveSimulationXMLFileDirectly(this,
+				ObjectPackager.packageSimulation(schema, new Long(_sim_id)),
+				fullFilePath);
+		
+		Simulation sim = Simulation.getById(schema, new Long(_sim_id));
+		
+		Long simId = ObjectPackager.unpackageSim(fileName, fullFilePath, schema, sim.getSimulationName() + "_test", 
+				sim.getVersion() + "_test", null, this, 
+				this.user_id, this.userDisplayName, this.user_name);
+		
+		returnString += "<br />Sim unpacked with new id " + simId + "<br />";
+		
+		fileName = fileName.replaceFirst("_ver_a", "_ver_b");
+		
+		fullFilePath = FileIO.diagnostic_dir + fileName;
+		
+		returnString += FileIO.saveSimulationXMLFileDirectly(this,
+				ObjectPackager.packageSimulation(schema, simId),
+				fullFilePath);
+			
+		return returnString;
+		
+		
 	}
 
 	/**
