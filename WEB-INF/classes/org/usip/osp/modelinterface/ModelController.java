@@ -2,8 +2,11 @@ package org.usip.osp.modelinterface;
 
 import java.util.List;
 
+
+
 /**
- * This abstract class is sub-classed by objects that can implement a particular model in a simulation.
+ * This abstract class is sub-classed by objects that can implement a particular 
+ * model in a simulation.
  */
  /* 
  *         This file is part of the USIP Open Simulation Platform.<br>

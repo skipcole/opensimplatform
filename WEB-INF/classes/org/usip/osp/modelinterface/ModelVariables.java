@@ -9,8 +9,8 @@ import org.hibernate.annotations.Proxy;
 
 /**
  * This class represents a variable that is held in a particular model.
- *
- * 
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can

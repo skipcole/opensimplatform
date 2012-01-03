@@ -1,8 +1,5 @@
 package org.usip.osp.modelinterface;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
@@ -11,17 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.USIP_OSP_Properties;
 import org.usip.osp.baseobjects.USIP_OSP_Util;
-import org.usip.osp.networking.FileIO;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.apache.log4j.*;
 
 /**
- * This class holds the important definition information for a model that has been added to the system.
- *
- * 
+ * This class holds the important definition information for a model that has been 
+ * added to the system.
+ */
+ /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
  * 
  *         The USIP Open Simulation Platform is free software; you can
@@ -156,91 +151,6 @@ public class ModelDefinitionObject implements Comparable{
 		this.filelocation = filelocation;
 	}
 
-	/**
-	 * Reads the model definition objects from xml files, but does not save them to the database.
-	 * 
-	 * @param schema
-	 * @return Returns a string indicating success, or not.
-	 * 
-	 */
-	public static List screenModelsFromXMLFiles(String schema) {
-
-		ArrayList returnList = new ArrayList();
-		
-		// The set of base simulation sections are read out of
-		// XML files stored in the simulation_section_information directory.
-
-		String fileLocation = FileIO.getModel_dir(); //$NON-NLS-1$
-
-		File locDir = new File(fileLocation);
-
-		if (locDir == null) {
-			Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
-			return returnList;
-		} else {
-
-			File files[] = locDir.listFiles();
-
-			if (files == null) {
-				Logger.getRootLogger().debug("Problem finding files at " + fileLocation); //$NON-NLS-1$
-				return returnList;
-			} else {
-				for (int ii = 0; ii < files.length; ii++) {
-
-					String fName = files[ii].getName();
-
-					if (fName.endsWith(".xml")) { //$NON-NLS-1$
-
-						try {
-							String fullFileLoc = fileLocation + fName;
-							returnList.add(ModelDefinitionObject.readAheadXML(schema, files[ii], fullFileLoc));
-							
-						} catch (Exception e) {
-							Logger.getRootLogger().debug("problem reading in file " + fName); //$NON-NLS-1$
-							Logger.getRootLogger().debug(e.getMessage());
-						}
-					}
-
-				}
-			}
-
-			return returnList;
-		} // end of if found files.
-	} // end of method 
-	
-	/**
-	 * Returns an object from an xml file without saving it.
-	 * @param schema
-	 * @param thisFile
-	 * @param customLibName
-	 * @return
-	 */
-	public static Object readAheadXML(String schema, File thisFile, String fullFileLoc) {
-
-		String fullModel = FileIO.getFileContents(thisFile);
-
-		Object bRead = unpackageXML(fullModel);
-		
-		ModelDefinitionObject mdo = (ModelDefinitionObject) bRead;
-		
-		// Using the directory field temporarily just to pass back location on where the file read is.
-		mdo.setFilelocation(fullFileLoc);
-		
-		return mdo;
-	}
-	
-	/**
-	 * 
-	 * @param xmlString
-	 * @return
-	 */
-	public static ModelDefinitionObject unpackageXML(String xmlString) {
-
-		XStream xstream = new XStream(new DomDriver());
-		xstream.alias("mdo", ModelDefinitionObject.class); //$NON-NLS-1$
-
-		return (ModelDefinitionObject) xstream.fromXML(xmlString);
-	}
 	
 	/**
 	 * Creates the 
@@ -257,30 +167,6 @@ public class ModelDefinitionObject implements Comparable{
 		
 	}
 	
-	/**
-	 * Returns all base sim sections.
-	 * 
-	 * @param schema
-	 * @return
-	 */
-	public static List<ModelDefinitionObject> getAll(String schema) {
-
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List<ModelDefinitionObject> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from ModelDefinitionObject").list(); //$NON-NLS-1$
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		if (returnList == null) {
-			returnList = new ArrayList<ModelDefinitionObject>();
-		}
-
-		Collections.sort(returnList);
-
-		return returnList;
-	}
-
 	@Override
 	public int compareTo(Object obj) {
 		ModelDefinitionObject bss = (ModelDefinitionObject) obj;

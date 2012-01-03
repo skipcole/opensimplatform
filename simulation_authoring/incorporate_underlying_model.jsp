@@ -43,13 +43,8 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Add Simulation Object</h1>
-              <ul>
-                <li>Add Document - Add a document to the simulation that the players and instructors will be able to read (and or modify).</li>
-              </ul>
-              <h1>&nbsp;</h1>
               <h1>(Coming Someday) Incorporate Underlying Model </h1>
-              <br />
+<br />
       <blockquote> 
         <% 
 			if (afso.sim_id != null) {
@@ -67,8 +62,7 @@
           <p>&nbsp;</p>
           <p>&nbsp;</p>
       </blockquote>
-      <p align="center"><a href="set_universal_sim_sections.jsp?actor_index=0">Next 
-        Step: Assign Simulation Sections to Actors</a></p>
+      <p align="center"></p>
       <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>

@@ -37,11 +37,9 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 		
 	}
 	
-	public QuestionAndResponse(String schema, Long simId, Long csId, int index, String qid, String q, String a) {
+	public QuestionAndResponse(String schema, Long simId, String qid, String q, String a) {
 		
 		this.simId = simId;
-		this.customSectionId = csId;
-		this.questionIndex = index;
 		this.questionIdentifier = qid;
 		this.question = q;
 		this.answer = a;
@@ -57,10 +55,6 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 	private Long simId;
 	
 	private Long transitId;
-	
-	private Long customSectionId;
-	
-	private int questionIndex = 0;
 	
 	/** Question id for author (Q1, Q2, etc.) */
 	private String questionIdentifier = "";
@@ -120,9 +114,12 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 		for (ListIterator li = bsdoa.listIterator(); li.hasNext();) {
 			BaseSimSectionDepObjectAssignment this_bsdoa = (BaseSimSectionDepObjectAssignment) li.next();
 			
-			QuestionAndResponse qar = QuestionAndResponse.getById(schema, this_bsdoa.getObjectId());
+			if (this_bsdoa.getClassName().contains("QuestionAndResponse")){
+				QuestionAndResponse qar = QuestionAndResponse.getById(schema, this_bsdoa.getObjectId());
 			
-			returnList.add(qar);
+				returnList.add(qar);
+			}
+			
 			
 		}
     	/*
@@ -169,22 +166,6 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 		this.simId = simId;
 	}
 
-	public Long getCustomSectionId() {
-		return customSectionId;
-	}
-
-	public void setCustomSectionId(Long customSectionId) {
-		this.customSectionId = customSectionId;
-	}
-
-	public int getQuestionIndex() {
-		return questionIndex;
-	}
-
-	public void setQuestionIndex(int questionIndex) {
-		this.questionIndex = questionIndex;
-	}
-
 	public String getQuestionIdentifier() {
 		return questionIdentifier;
 	}
@@ -208,7 +189,7 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	
+
 	public static List<QuestionAndResponse> getAllForSim(String schema, Long simId) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);

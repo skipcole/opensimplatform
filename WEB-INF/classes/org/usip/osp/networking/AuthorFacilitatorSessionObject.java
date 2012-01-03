@@ -840,38 +840,6 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 	}
 
 	/**
-	 * Handles commands submitted on the install simulation sections page.
-	 * 
-	 * @param request
-	 */
-	public void handleInstallModels(HttpServletRequest request) {
-
-		String command = request.getParameter("command");
-		String fullfileloc = request.getParameter("fullfileloc");
-		String loaded_id = request.getParameter("loaded_id");
-
-		if (command != null) {
-			if (command.equalsIgnoreCase("Load")) {
-				Logger.getRootLogger().debug(
-						"Will be loading file from: " + fullfileloc);
-				BaseSimSection
-						.readInXMLFile(this.schema, new File(fullfileloc));
-
-			} else if (command.equalsIgnoreCase("Reload")) {
-				Logger.getRootLogger().debug(
-						"Will be reloading file from: " + fullfileloc);
-				BaseSimSection.reloadXMLFile(this.schema,
-						new File(fullfileloc), new Long(loaded_id));
-				// save
-			} else if (command.equalsIgnoreCase("Unload")) {
-				Logger.getRootLogger().debug(
-						"Will be unloading bss id: " + loaded_id);
-				BaseSimSection.removeBSS(this.schema, loaded_id);
-			}
-		}
-	}
-
-	/**
 	 * Takes the request parameters passed them and loads them as session
 	 * variables.
 	 * 

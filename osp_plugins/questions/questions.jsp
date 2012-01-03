@@ -67,6 +67,7 @@
   <textarea name="answer_<%= this_qar.getId() %>" id="answer_<%= this_qar.getId() %>"  style="height: 310px; width: 710px;"><%= this_pa.getPlayerAnswer() %></textarea>
   
   		<script language="javascript1.2">
+			newRootDir = "../../wysiwyg_files/";
   			generate_wysiwyg('answer_<%= this_qar.getId() %>');
 		</script>
   
@@ -95,6 +96,16 @@
 
 <% if ((answersHaveBeenSubmitted)) { %>
 <%=  QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_POSTANSWERTEXT) %>
+
+	<% 
+	
+	String allowingPhaseChange = QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_PHASE_CHANGE); 
+	
+	if (allowingPhaseChange.equalsIgnoreCase("yes")) {   %>
+	<p>	<form name="form2" method="post" action="">
+	  <input type="submit" name="button" id="button" value="Submit">
+</form></p>
+<% } %>
 <% } %>
 
 </body>
