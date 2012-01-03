@@ -204,6 +204,34 @@ public class BaseSimSectionDepObjectAssignment {
 		return returnList;
 
 	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param bssId
+	 * @param className
+	 * @return
+	 */
+	public static List<BaseSimSectionDepObjectAssignment> getObjectsForSection(
+			String schema, Long bssId, String className) {
+
+		String getString = "from BaseSimSectionDepObjectAssignment where " +
+			"bss_id = :bssId and className = :className order by dep_obj_index"; //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List<BaseSimSectionDepObjectAssignment> returnList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(getString)
+				.setLong("bssId", bssId)
+				.setString("className", className)
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+
+	}
 
 	public static void main(String args[]) {
 

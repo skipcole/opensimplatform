@@ -11,7 +11,7 @@
 <%
 	AuthorFacilitatorSessionObject afso = AuthorFacilitatorSessionObject.getAFSO(request.getSession(true));
 	
-	afso.handleInstallModels(request);        
+	ModelSystemController.handleInstallModels(request, afso.schema);        
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -50,7 +50,7 @@ body {
   <td valign="top"><div align="right"><strong>State</strong></div></td>
   <td valign="top"><strong>Action</strong></td>
   </tr>
-	<% for (ListIterator li = ModelDefinitionObject.screenModelsFromXMLFiles(afso.schema).listIterator(); li.hasNext();) {
+	<% for (ListIterator li = ModelSystemController.screenModelsFromXMLFiles(afso.schema).listIterator(); li.hasNext();) {
 			ModelDefinitionObject mdo = (ModelDefinitionObject) li.next(); 
 			
 			Long loaded_id = ModelDefinitionObject.checkInstalled(afso.schema, mdo);
@@ -62,7 +62,7 @@ body {
 			}
 			
 			%>
-            <tr><td valign="top"><%= mdo.getCreatingOrganization() %></td><td valign="top"><div align="right">
+            <tr><td valign="top"><%= mdo.getModelName() %></td><td valign="top"><div align="right">
             <% if (loaded) { %>
             Loaded
             <% } else { %>

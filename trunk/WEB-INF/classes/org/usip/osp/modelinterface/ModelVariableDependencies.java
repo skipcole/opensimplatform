@@ -8,9 +8,12 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 
 /**
- * This class represents dependencies that may exist between variables in a model. For example,
- * if the formula for a particular value 'x' is "x = y + z", then it is not possible to know x without
- * providing y and z. This information is important to provide to the simulation author(s) as they create 
+ * This class represents dependencies that may exist between variables in a model. 
+ * For example,
+ * if the formula for a particular value 'x' is "x = y + z", then it is not possible 
+ * to know x without
+ * providing y and z. This information is important to provide to the simulation 
+ * author(s) as they create 
  * their model based simulations.
  */
  /* 
