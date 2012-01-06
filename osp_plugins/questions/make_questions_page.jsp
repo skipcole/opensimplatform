@@ -42,6 +42,7 @@
                   <p><br />
                   </p>
                   <form action="../questions/make_questions_page.jsp" method="post" name="form2" id="form2">
+                    <input type="hidden" name="sending_page" value="make_questions_page" />
                     <% if (cs.getId() != null) {
 	   %>
                     <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
@@ -77,7 +78,7 @@
                         <%
 	List <QuestionAndResponse> qAndRList = QuestionAndResponse.getAllForSim(afso.schema, afso.sim_id);
 	
-		Hashtable currentQuestions = QuestionCustomizer.getMyQuestions(afso.schema, cs.getId(), "com.seachangesimulations.osp.questions");
+		Hashtable currentQuestions = QuestionCustomizer.getMyQuestions(afso.schema, cs.getId(), QuestionAndResponse.class.toString());
 	
 		for (ListIterator li = qAndRList.listIterator(); li.hasNext();) {
 			QuestionAndResponse this_qar = (QuestionAndResponse) li.next();
@@ -127,7 +128,7 @@
  %>
                           <input type="radio" name="<%= QuestionCustomizer.KEY_FOR_PHASE_CHANGE %>" id="<%= QuestionCustomizer.KEY_FOR_PHASE_CHANGE %>_no" value="yes" <%= phase_change_yes %> />
                             Yes /
-                              <input name="<%= QuestionCustomizer.KEY_FOR_PHASE_CHANGE %>_no" type="radio" id="radio2" value="no" <%= phase_change_no %> />
+                              <input name="<%= QuestionCustomizer.KEY_FOR_PHASE_CHANGE %>" type="radio" id="<%= QuestionCustomizer.KEY_FOR_PHASE_CHANGE %>_no" value="no" <%= phase_change_no %> />
                               No</td>
                         </tr>
                         <tr>
@@ -191,7 +192,6 @@
                       <p>
                         <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                         <input type="hidden" name="save_results" value="true" />
-                        <input type="hidden" name="sending_page" value="make_cast_page" />
                       </p>
                       <p>&nbsp;</p>
                     </blockquote>

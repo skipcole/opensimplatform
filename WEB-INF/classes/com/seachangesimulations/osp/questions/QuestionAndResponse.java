@@ -119,20 +119,8 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 			
 				returnList.add(qar);
 			}
-			
-			
+				
 		}
-    	/*
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-
-		List <QuestionAndResponse> returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(
-				"from QuestionAndResponse where simId = :simId and customSectionId = :csId order by questionIndex")
-				.setLong("simId", simId)
-				.setLong("csId", csId)
-				.list(); //$NON-NLS-1$
-
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		*/
 
 		return returnList;
     }

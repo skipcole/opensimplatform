@@ -35,10 +35,10 @@ public class QuestionCustomizer extends Customizer {
 			SessionObjectBase afso, CustomizeableSection cs) {
 
 		String sending_page = request.getParameter("sending_page");
-		
+
 		if ((sending_page != null)
 				&& (sending_page.equalsIgnoreCase("questions_view"))) {
-			
+
 			handleCustomizeQuestionsView(request, afso, cs);
 			return;
 		}
@@ -54,72 +54,96 @@ public class QuestionCustomizer extends Customizer {
 
 			cs.getContents().put(KEY_FOR_PAGETITLE,
 					request.getParameter(KEY_FOR_PAGETITLE));
-			
+
 			cs.getContents().put(KEY_FOR_POSTANSWERTEXT,
 					request.getParameter(KEY_FOR_POSTANSWERTEXT));
-			
-			String allow_phase_change = request.getParameter(KEY_FOR_PHASE_CHANGE);
-			
-			cs.getContents().put(KEY_FOR_PHASE_CHANGE,
-					allow_phase_change);
-			
-			String phase_id = request.getParameter(KEY_FOR_PHASE_ID);
 
+			// Need to save to make sure that cs has a valid id going forward.
 			cs.saveMe(afso.schema);
-			
+
 			// Need to create Base Sim Section Dependent Objects to signal these
 			// QandRs are for this one.
 			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema,
 					cs.getId());
-			
-			if (allow_phase_change.equalsIgnoreCase("yes")) {
-				@SuppressWarnings("unused")
-				BaseSimSectionDepObjectAssignment bssdoaPhaseId = 
-					new BaseSimSectionDepObjectAssignment(
-						cs.getId(), SimulationPhase.class.toString(),
-						1, new Long(phase_id), afso.sim_id, afso.schema);
-			}
 
-			// Need to remove any previous questions and answers for this section also.
-			QuestionAndResponse.deleteAllForSimAndCustomSection(afso.schema,
-					afso.sim_id, cs.getId());
-			
-			// Loop over the request passed in and pull out questions and
-			// response.
-			for (Enumeration<String> e = request.getParameterNames(); e
-					.hasMoreElements();) {
-				String param_name = (String) e.nextElement();
-				String value_name = (String) request.getParameter(param_name);
+			if ((sending_page != null)
+					&& (sending_page.equalsIgnoreCase("make_questions_page"))) {
+				String allow_phase_change = request
+						.getParameter(KEY_FOR_PHASE_CHANGE);
 
-				if (param_name.startsWith("question_")) {
-					
-					System.out.println(param_name + " is " + value_name);
-					param_name = param_name.replaceAll("question_", "");
-					
-					String position = (String) request.getParameter("position_" + param_name);
+				cs.getContents().put(KEY_FOR_PHASE_CHANGE, allow_phase_change);
 
-					Long questionId = null;
-					Long questionPosition = null;
-					
-					try {
-						questionId = new Long(param_name);
-						questionPosition = new Long(position);
-					} catch (Exception er){
-						
-					}
-					
-					if ((questionId != null) && (questionPosition != null)){
-						BaseSimSectionDepObjectAssignment bssdoaQandR = new BaseSimSectionDepObjectAssignment(
-								cs.getId(), "com.seachangesimulations.osp.questions",
-								questionPosition.intValue(), questionId, afso.sim_id, afso.schema);
-					}
+				String phase_id = request.getParameter(KEY_FOR_PHASE_ID);
+
+				if (allow_phase_change.equalsIgnoreCase("yes")) {
+					@SuppressWarnings("unused")
+					BaseSimSectionDepObjectAssignment bssdoaPhaseId = new BaseSimSectionDepObjectAssignment(
+							cs.getId(), SimulationPhase.class.toString(), 1,
+							new Long(phase_id), afso.sim_id, afso.schema);
 				}
-			} // end of loop over parameter names
+				
+				cs.saveMe(afso.schema);
+			}
+			
+
+			// Need to remove any previous questions and answers for this
+			// section also.
+			// QuestionAndResponse.deleteAllForSimAndCustomSection(afso.schema,
+			// afso.sim_id, cs.getId());
+
+			addQuestionsToThisSection(afso.schema, afso.sim_id, cs.getId(),
+					request);
 
 		}
 
 	}
-	
+
+	/**
+	 * Adds questions selected in checkboxes to this section.
+	 * 
+	 * @param schema
+	 * @param simId
+	 * @param csId
+	 * @param request
+	 */
+	public static void addQuestionsToThisSection(String schema, Long simId,
+			Long csId, HttpServletRequest request) {
+
+		// Loop over the request passed in and pull out questions and
+		// response.
+		for (Enumeration<String> e = request.getParameterNames(); e
+				.hasMoreElements();) {
+			String param_name = (String) e.nextElement();
+			String value_name = (String) request.getParameter(param_name);
+
+			if (param_name.startsWith("question_")) {
+
+				System.out.println(param_name + " is " + value_name);
+				param_name = param_name.replaceAll("question_", "");
+
+				String position = (String) request.getParameter("position_"
+						+ param_name);
+
+				Long questionId = null;
+				Long questionPosition = null;
+
+				try {
+					questionId = new Long(param_name);
+					questionPosition = new Long(position);
+				} catch (Exception er) {
+
+				}
+
+				if ((questionId != null) && (questionPosition != null)) {
+					BaseSimSectionDepObjectAssignment bssdoaQandR = new BaseSimSectionDepObjectAssignment(
+							csId, QuestionAndResponse.class.toString(),
+							questionPosition.intValue(), questionId, simId,
+							schema);
+				}
+			}
+		} // end of loop over parameter names
+	}
+
 	/**
 	 * Gets the phase id for a question to find out what phase can next be entered.
 	 * 
@@ -127,26 +151,27 @@ public class QuestionCustomizer extends Customizer {
 	 * @param csId
 	 * @return
 	 */
-	public static Long getPhaseId(String schema, Long csId){
-		
-		List bsdoaFound = 
-			BaseSimSectionDepObjectAssignment.getObjectsForSection(schema, csId, SimulationPhase.class.toString());
-		
-		if (bsdoaFound.size() == 0){
+	public static Long getPhaseId(String schema, Long csId) {
+
+		List bsdoaFound = BaseSimSectionDepObjectAssignment
+				.getObjectsForSection(schema, csId,
+						SimulationPhase.class.toString());
+
+		if (bsdoaFound.size() == 0) {
 			return null;
 		} else if (bsdoaFound.size() > 1) {
 			return null;
 		} else {
-			BaseSimSectionDepObjectAssignment bsdoa 
-				= (BaseSimSectionDepObjectAssignment) bsdoaFound.get(0);
-			
+			BaseSimSectionDepObjectAssignment bsdoa = (BaseSimSectionDepObjectAssignment) bsdoaFound
+					.get(0);
+
 			return bsdoa.getObjectId();
 		}
 	}
-	
+
 	public void handleCustomizeQuestionsView(HttpServletRequest request,
 			SessionObjectBase afso, CustomizeableSection cs) {
-		
+
 	}
 
 	@Override
@@ -165,7 +190,8 @@ public class QuestionCustomizer extends Customizer {
 
 	/* Takes the answers from the player */
 	public static void handleChanges(HttpServletRequest request,
-			CustomizeableSection cs, String schema, Long simId, Long rsId, Long actorId, Long userId) {
+			CustomizeableSection cs, String schema, Long simId, Long rsId,
+			Long actorId, Long userId) {
 
 		String sending_page = request.getParameter("sending_page");
 		String command_save = request.getParameter("command_save");
@@ -181,7 +207,7 @@ public class QuestionCustomizer extends Customizer {
 				&& (sending_page.equalsIgnoreCase("questions"))) {
 
 			if ((command_save != null) || (command_submit != null)) {
-							
+
 				for (Enumeration<String> e = request.getParameterNames(); e
 						.hasMoreElements();) {
 
@@ -201,7 +227,8 @@ public class QuestionCustomizer extends Customizer {
 								.getByQuestionRunningSimAndUserIds(schema, qId,
 										rsId, userId);
 
-						// Setting these values to what was passed in, since if this is new they will be blank.
+						// Setting these values to what was passed in, since if
+						// this is new they will be blank.
 						this_pa.setRunningSimId(rsId);
 						this_pa.setUserId(userId);
 						this_pa.setQuestionId(qId);
@@ -220,7 +247,7 @@ public class QuestionCustomizer extends Customizer {
 		}
 
 	}
-	
+
 	/**
 	 * Handles the creation of questions to be added to the simulation. This
 	 * method is called at the top of the jsp. It can be called for several
@@ -253,31 +280,29 @@ public class QuestionCustomizer extends Customizer {
 		// working on.
 		String question_id = (String) request.getParameter("question_id");
 		if ((question_id != null) && (question_id.trim().length() > 0)) {
-			this_question = QuestionAndResponse.getById(sob.schema,
-					new Long(question_id));
+			this_question = QuestionAndResponse.getById(sob.schema, new Long(
+					question_id));
 		}
 
 		// If player just entered this page from a different form, just return
 		// the blank document
 		String sending_page = (String) request.getParameter("sending_page");
 		if ((sending_page == null)
-				|| (!(sending_page
-						.equalsIgnoreCase("create_question")))) {
+				|| (!(sending_page.equalsIgnoreCase("create_question")))) {
 			return this_question;
 		}
 
 		// If we got down to here, we must be doing some real work on a
 		// document.
 		String qtag = (String) request.getParameter("qtag");
-		String question = (String) request
-				.getParameter("question");
-		String answer = (String) request
-				.getParameter("answer");
+		String question = (String) request.getParameter("question");
+		String answer = (String) request.getParameter("answer");
 
 		// Do create if called.
 		String create_doc = (String) request.getParameter("create_question");
 		if ((create_doc != null)) {
-			this_question = new QuestionAndResponse(sob.schema, sob.sim_id, qtag, question, answer);
+			this_question = new QuestionAndResponse(sob.schema, sob.sim_id,
+					qtag, question, answer);
 			this_question.saveMe(sob.schema);
 
 		}
@@ -296,7 +321,7 @@ public class QuestionCustomizer extends Customizer {
 		return this_question;
 
 	}
-	
+
 	/**
 	 * Returns the ids and postions for this set of questions for this section.
 	 * 
@@ -305,22 +330,22 @@ public class QuestionCustomizer extends Customizer {
 	 * @param className
 	 * @return
 	 */
-	public static Hashtable getMyQuestions(String schema, Long bs_id, String className){
-		
+	public static Hashtable getMyQuestions(String schema, Long bs_id,
+			String className) {
+
 		Hashtable returnHash = new Hashtable();
-		
-		List bssdoas = 
-			BaseSimSectionDepObjectAssignment
-				.getObjectsForSection(schema, bs_id, className);
-			
+
+		List bssdoas = BaseSimSectionDepObjectAssignment.getObjectsForSection(
+				schema, bs_id, className);
+
 		for (ListIterator<BaseSimSectionDepObjectAssignment> li = bssdoas
 				.listIterator(); li.hasNext();) {
 			BaseSimSectionDepObjectAssignment bssdoa = li.next();
-			
+
 			returnHash.put(bssdoa.getObjectId(), bssdoa.getDepObjIndex() + "");
-			
+
 		}
-		
+
 		return returnHash;
 
 	}

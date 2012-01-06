@@ -265,24 +265,28 @@ public class RunningSimulation implements ImportedExperienceObject {
 			if (createdObjId == null) {
 
 				try {
-					Class objClass = Class.forName(bssdoa.getClassName());
 
-					System.out.println(objClass);
-					System.out.println(bssdoa.getObjectId());
-					System.out.flush();
-					
-					// We start and finish the transaction here since the next
-					// step will also involve a transaction.
-					MultiSchemaHibernateUtil.beginTransaction(schema);
-					SimSectionDependentObject template_obj = (SimSectionDependentObject) MultiSchemaHibernateUtil
-							.getSession(schema).get(objClass,
-									bssdoa.getObjectId());
-					MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+					// Some objects don't need to be copied. For these we leave the 
+					// "class " part of the class.toString() portion intact.
+					if (!(bssdoa.getClassName().startsWith("class "))) {
 
-					// Create object - uses its own hibernate transaction to
-					// create object.
-					thisRSVersionsId = template_obj.createRunningSimVersion(
-							schema, sim.getId(), this.id, template_obj);
+						Class objClass = Class.forName(bssdoa.getClassName());
+
+						// We start and finish the transaction here since the
+						// next
+						// step will also involve a transaction.
+						MultiSchemaHibernateUtil.beginTransaction(schema);
+						SimSectionDependentObject template_obj = (SimSectionDependentObject) MultiSchemaHibernateUtil
+								.getSession(schema).get(objClass,
+										bssdoa.getObjectId());
+						MultiSchemaHibernateUtil
+								.commitAndCloseTransaction(schema);
+
+						// Create object - uses its own hibernate transaction
+						thisRSVersionsId = template_obj
+								.createRunningSimVersion(schema, sim.getId(),
+										this.id, template_obj);
+					}
 
 				} catch (Exception er) {
 					er.printStackTrace();
@@ -515,16 +519,16 @@ public class RunningSimulation implements ImportedExperienceObject {
 			al = (Alert) MultiSchemaHibernateUtil.getSession(schema).get(
 					Alert.class, al.getId());
 			if (al.checkActor(act_id)) {
-				
-				if (sob.isShowPhaseChanges()){
+
+				if (sob.isShowPhaseChanges()) {
 					returnString += ("<B>" + al.getTimeOfAlert() + "</B><BR>" + al.getAlertMessage() + "<hr>"); //$NON-NLS-1$
 				} else {
-					if ((al.getType() != 5) && (al.getType() != 1)){
+					if ((al.getType() != 5) && (al.getType() != 1)) {
 						returnString += ("<B>" + al.getTimeOfAlert() + "</B><BR>" + al.getAlertMessage() + "<hr>"); //$NON-NLS-1$
 					}
 				}
-				
-				}
+
+			}
 		}
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -638,7 +642,7 @@ public class RunningSimulation implements ImportedExperienceObject {
 
 			afso.saveLastSimEdited();
 			afso.saveLastRunningSimEdited();
-			
+
 			afso.forward_on = true;
 
 		} // End of if coming from this page and have added running simulation

@@ -41,7 +41,8 @@
 			<td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Customize Questions View Page</h1>
-              <p>Allows one to select which questions will be seen on this page.</p>
+              <p>Allows one to create a page where the instructor can see the answers entered by the students.</p>
+              <p>Coming soon: the ability to select which questions will be seen on this page.</p>
               <p><br />
                       </p>
               <form action="../questions/make_questions_view_page.jsp" method="post" name="form2" id="form2">
