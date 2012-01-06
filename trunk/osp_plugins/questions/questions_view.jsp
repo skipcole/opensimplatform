@@ -56,9 +56,15 @@
 <td valign="top">&nbsp;</td>
 </tr>
 <%
+
+	List uas = new ArrayList();
+	
+	if (!(pso.preview_mode)) {
+		uas = UserAssignment.getUniqueSetOfUsers(pso.schema, pso.getRunningSimId());
+	}
 					
 			// Loop over all of the user assignments
-			for (ListIterator liua = UserAssignment.getUniqueSetOfUsers(pso.schema, pso.getRunningSimId())
+			for (ListIterator liua = uas
 				.listIterator(); liua.hasNext();) {
 					
 				Long ua = (Long) liua.next();
