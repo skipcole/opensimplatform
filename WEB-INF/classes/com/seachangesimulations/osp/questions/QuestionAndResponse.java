@@ -87,6 +87,12 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
+	/** Returns the QuestionAndResponse with the id passed in. 
+	 * 
+	 * @param schema
+	 * @param q_id
+	 * @return
+	 */
 	public static QuestionAndResponse getById(String schema, Long q_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -125,7 +131,7 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 		return returnList;
     }
     
-    /** Cleans out all of the questions for this custom section in this sim. */
+    /* Cleans out all of the questions for this custom section in this sim.
     public static void deleteAllForSimAndCustomSection(String schema, Long simId, Long csId){
     	
     	List deleteList = getAllForSimAndCustomSection(schema, simId, csId);
@@ -136,7 +142,7 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 			MultiSchemaHibernateUtil.getSession(schema).delete(qAndR);
 		}
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-    }
+    } */
 
 	public Long getId() {
 		return id;

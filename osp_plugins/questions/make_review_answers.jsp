@@ -38,10 +38,12 @@
                 <td width="120"><img src="../../Templates/images/white_block_120.png" /></td>
                 <td width="100%"><br />
                   <h1>Customize Review Answers Page</h1>
+                  <p>This creates a page to allow users to see the answers to questions they have previously answered.</p>
                   <p>Allows one to select which sets of questions and answers will be seen on this page.</p>
                   <p><br />
                   </p>
                   <form action="../questions/make_questions_view_page.jsp" method="post" name="form2" id="form2">
+                  <input type="hidden" name="sending_page" value="make_review_answers_page" />
                     <% if (cs.getId() != null) {
 	   %>
                     <input type="hidden" name="cs_id" value="<%= cs.getId() %>" />
@@ -54,43 +56,55 @@
                     <blockquote>
                       <table width="100%" border="1" cellspacing="0">
                         <tr>
-                          <td valign="top">Page Title </td>
+                          <td valign="top"><strong>Page Title </strong></td>
                           <td valign="top"><label>
                               <input type="text" name="<%= QuestionCustomizer.KEY_FOR_PAGETITLE %>" value="<%=  QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_PAGETITLE) %>" />
                             </label></td>
                         </tr>
                         <tr>
-                          <td valign="top">Page Introduction</td>
+                          <td valign="top"><strong>Page Introduction</strong></td>
                           <td valign="top"><label>
                               <textarea name="cs_bigstring" id="textarea" cols="45" rows="5"><%= cs.getBigString() %></textarea>
                             </label></td>
                         </tr>
                       </table>
                       <p>&nbsp;</p>
-                      <p>Questions to Include<br />
+                      <p><strong>Questions to Include</strong><br />
                       </p>
                       <table width="100%" border="1" cellspacing="0">
                         <tr>
-                          <td>Include</td>
-                          <td>Question</td>
-                          <td>Answer</td>
+                          <td width="34%"><strong>Include</strong></td>
+                          <td width="31%"><strong>Question Tag</strong></td>
+                          <td width="35%"><strong>Position</strong></td>
                         </tr>
                         <%
 	List <QuestionAndResponse> qAndRList = QuestionAndResponse.getAllForSim(afso.schema, afso.sim_id);
-
-	int questionIndex = 1;
+	
+		Hashtable currentQuestions = QuestionCustomizer.getMyQuestions(afso.schema, cs.getId(), QuestionAndResponse.class.toString());
 	
 		for (ListIterator li = qAndRList.listIterator(); li.hasNext();) {
 			QuestionAndResponse this_qar = (QuestionAndResponse) li.next();
+			
+			String checked = "";
+			String position = (String) currentQuestions.get(this_qar.getId());
+			
+			if (position != null) {
+				checked = "checked=\"checked\"";	
+			} else {
+				position = "";
+			}
+			
+			
 %>
                         <tr>
-                          <td valign="top"><input type="checkbox" name="checkbox" id="checkbox" />
+                          <td valign="top"><input type="checkbox" name="question_<%= this_qar.getId() %>" id="checkbox" <%= checked %> />
                           <label for="checkbox"></label></td>
                           <td valign="top"><%= this_qar.getQuestionIdentifier() %></td>
-                          <td valign="top"><%= this_qar.getAnswer() %></td>
+                          <td valign="top">
+                          <input name="position_<%= this_qar.getId() %>" type="text" id="position_<%= this_qar.getId() %>" size="4" maxlength="4" value="<%= position %>" /></td>
                         </tr>
                         <%
-	++questionIndex;
+
 	}
 
 %>
@@ -120,12 +134,12 @@
                       <% } else { %>
                       <p>
                         <input type="submit" name="save_page" value="Save" />
-                        This section has already been added to <%= actors_name_string %> for phase <%= USIP_OSP_Cache.getPhaseNameById(request, afso.schema, afso.phase_id) %>.</p>
+                      This section has already been added to <%= actors_name_string %> for phase <%= USIP_OSP_Cache.getPhaseNameById(request, afso.schema, afso.phase_id) %>.</p>
                       <% } %>
                       <p>
                         <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />
                         <input type="hidden" name="save_results" value="true" />
-                        <input type="hidden" name="sending_page" value="make_cast_page" />
+                        
                       </p>
                       <p>&nbsp;</p>
                     </blockquote>

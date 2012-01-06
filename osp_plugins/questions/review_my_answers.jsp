@@ -44,8 +44,8 @@
 </tr>
 <%
 
-	List<QuestionAndResponse> qAndRList = QuestionAndResponse.getAllForSim(pso.schema, pso.sim_id); 
-
+	List <QuestionAndResponse> qAndRList = QuestionAndResponse.getAllForSimAndCustomSection(pso.schema, pso.sim_id, cs.getId());
+	
 	//loop over questions
 	for (ListIterator lq = qAndRList.listIterator(); lq.hasNext();) {
 		QuestionAndResponse this_qar = (QuestionAndResponse) lq.next();
@@ -56,10 +56,15 @@
 <td valign="top">&nbsp;</td>
 </tr>
 <%
+
+	List uas = new ArrayList();
+	
+	if (!(pso.preview_mode)) {
+		uas = UserAssignment.getUniqueSetOfUsers(pso.schema, pso.getRunningSimId());
+	}
 					
 			// Loop over all of the user assignments
-			for (ListIterator liua = UserAssignment.getUniqueSetOfUsers(pso.schema, pso.getRunningSimId())
-				.listIterator(); liua.hasNext();) {
+			for (ListIterator liua = uas.listIterator(); liua.hasNext();) {
 					
 				Long ua = (Long) liua.next();
 				

@@ -15,6 +15,14 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
+	
+	
+	String sending_page = (String) request.getParameter("sending_page");
+	
+	if ((sending_page != null) && (sending_page.equalsIgnoreCase("change_phase"))) {
+		PlayerSessionObject.changePhase(request, pso);	
+		return;
+	}
 
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
@@ -102,7 +110,12 @@
 	String allowingPhaseChange = QuestionCustomizer.getPageStringValue(cs, QuestionCustomizer.KEY_FOR_PHASE_CHANGE); 
 	
 	if (allowingPhaseChange.equalsIgnoreCase("yes")) {   %>
-	<p>	<form name="form2" method="post" action="">
+	<p>	<form name="form2" method="post" action="questions.jsp">
+    <input type="hidden" name="sending_page" value="change_phase" />
+    <input type="hidden" name="phase_id" value="<%= QuestionCustomizer.getPhaseId(pso.schema, cs.getId()) %>" />
+    <input type="hidden" name="notify_via_email" value="no" />
+    		
+		
 	  <input type="submit" name="button" id="button" value="Submit">
 </form></p>
 <% } %>

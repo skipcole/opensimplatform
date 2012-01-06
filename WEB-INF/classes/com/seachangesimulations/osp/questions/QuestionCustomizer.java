@@ -36,12 +36,24 @@ public class QuestionCustomizer extends Customizer {
 
 		String sending_page = request.getParameter("sending_page");
 
-		if ((sending_page != null)
-				&& (sending_page.equalsIgnoreCase("questions_view"))) {
-
-			handleCustomizeQuestionsView(request, afso, cs);
+		if (sending_page == null) {
 			return;
 		}
+		
+		// There are three pages that legitmately send one here. If not coming from 
+		// one of these, send them back.
+		if (!(
+				
+				(sending_page.equalsIgnoreCase("make_questions_page")) ||
+				(sending_page.equalsIgnoreCase("instructor_questions_view")) ||
+				(sending_page.equalsIgnoreCase("make_review_answers_page"))
+				
+		)) {
+
+			return;
+		}
+		
+		//if (sending_page.equalsIgnoreCase("make_review_answers_page")
 
 		String save_results = request.getParameter("save_results"); //$NON-NLS-1$
 
@@ -55,8 +67,6 @@ public class QuestionCustomizer extends Customizer {
 			cs.getContents().put(KEY_FOR_PAGETITLE,
 					request.getParameter(KEY_FOR_PAGETITLE));
 
-			cs.getContents().put(KEY_FOR_POSTANSWERTEXT,
-					request.getParameter(KEY_FOR_POSTANSWERTEXT));
 
 			// Need to save to make sure that cs has a valid id going forward.
 			cs.saveMe(afso.schema);
@@ -66,8 +76,13 @@ public class QuestionCustomizer extends Customizer {
 			BaseSimSectionDepObjectAssignment.removeAllForSection(afso.schema,
 					cs.getId());
 
+			// The make questions page has some additonal options.
 			if ((sending_page != null)
 					&& (sending_page.equalsIgnoreCase("make_questions_page"))) {
+				
+				cs.getContents().put(KEY_FOR_POSTANSWERTEXT,
+						request.getParameter(KEY_FOR_POSTANSWERTEXT));
+				
 				String allow_phase_change = request
 						.getParameter(KEY_FOR_PHASE_CHANGE);
 
@@ -167,11 +182,6 @@ public class QuestionCustomizer extends Customizer {
 
 			return bsdoa.getObjectId();
 		}
-	}
-
-	public void handleCustomizeQuestionsView(HttpServletRequest request,
-			SessionObjectBase afso, CustomizeableSection cs) {
-
 	}
 
 	@Override
