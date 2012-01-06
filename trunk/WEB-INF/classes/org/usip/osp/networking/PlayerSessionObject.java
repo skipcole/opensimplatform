@@ -1101,38 +1101,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			if ((notify_via_email != null)
 					&& (notify_via_email.equalsIgnoreCase("true"))) {
 
-				Hashtable uniqList = new Hashtable();
-
-				for (ListIterator<UserAssignment> li = rs
-						.getUser_assignments(pso.schema).listIterator(); li
-						.hasNext();) {
-					UserAssignment ua = li.next();
-					uniqList.put(ua.getUser_id(), "set");
-				}
-
-				SchemaInformationObject sio = SchemaInformationObject
-						.lookUpSIOByName(pso.schema);
-
-				for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
-					Long key = (Long) e.nextElement();
-					Logger.getRootLogger().debug("need to email " + key);
-
-					// Need to get user email address from the key, which is the
-					// user id.
-					BaseUser bu = BaseUser.getByUserId(key);
-
-					String subject = "Simulation Phase Change";
-					String message = "Simulation phase has changed.";
-
-					Vector cced = null;
-					Vector bcced = new Vector();
-					bcced.add(pso.user_name);
-
-					Emailer.postMail(sio, bu.getUsername(), subject, message,
-							message, sio.getEmailNoreplyAddress(), pso.user_name,
-							cced, bcced);
-
-				}
+				notifyPlayersByEmailOfPhaseChange(pso, rs);
 			}
 
 
@@ -1153,6 +1122,41 @@ public class PlayerSessionObject extends SessionObjectBase {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public static void notifyPlayersByEmailOfPhaseChange(PlayerSessionObject pso, RunningSimulation rs){
+		Hashtable uniqList = new Hashtable();
+
+		for (ListIterator<UserAssignment> li = rs
+				.getUser_assignments(pso.schema).listIterator(); li
+				.hasNext();) {
+			UserAssignment ua = li.next();
+			uniqList.put(ua.getUser_id(), "set");
+		}
+
+		SchemaInformationObject sio = SchemaInformationObject
+				.lookUpSIOByName(pso.schema);
+
+		for (Enumeration e = uniqList.keys(); e.hasMoreElements();) {
+			Long key = (Long) e.nextElement();
+			Logger.getRootLogger().debug("need to email " + key);
+
+			// Need to get user email address from the key, which is the
+			// user id.
+			BaseUser bu = BaseUser.getByUserId(key);
+
+			String subject = "Simulation Phase Change";
+			String message = "Simulation phase has changed.";
+
+			Vector cced = null;
+			Vector bcced = new Vector();
+			bcced.add(pso.user_name);
+
+			Emailer.postMail(sio, bu.getUsername(), subject, message,
+					message, sio.getEmailNoreplyAddress(), pso.user_name,
+					cced, bcced);
+
+		}
 	}
 
 	public List eligibleActors = new ArrayList();
