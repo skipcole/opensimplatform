@@ -72,6 +72,7 @@
 					PlayerAnswer pa = 
 						PlayerAnswer.getByQuestionRunningSimAndUserIds
 						(pso.schema, this_qar.getId(), pso.getRunningSimId(),  ua);
+						
 %>
                <tr><td valign="top"><%= this_qar.getQuestionIdentifier() %></td>
                <td valign="top">

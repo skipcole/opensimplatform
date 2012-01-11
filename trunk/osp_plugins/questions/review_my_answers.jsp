@@ -71,6 +71,8 @@
 					PlayerAnswer pa = 
 						PlayerAnswer.getByQuestionRunningSimAndUserIds
 						(pso.schema, this_qar.getId(), pso.getRunningSimId(),  ua);
+						
+									 if ((ua != null) && (ua.intValue() == pso.user_id.intValue())){
 %>
                <tr><td valign="top"><%= this_qar.getQuestionIdentifier() %></td>
                <td valign="top">
@@ -81,6 +83,7 @@
                  <td valign="top"><% if (pa.isSubmitted()) { %><%= pa.getTimeSubmitted() %><% } %></td>
                </tr>
 <%
+			 } // end of if this is this user's answer for them to see
 			} // end of loop over user ids
 	} // End of loop over questions
 			

@@ -116,7 +116,7 @@
     <input type="hidden" name="notify_via_email" value="no" />
     		
 		
-	  <input type="submit" name="button" id="button" value="Submit">
+	  <input type="submit" name="button" id="button" value="Advance Simulation">
 </form></p>
 <% } %>
 <% } %>

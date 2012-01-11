@@ -911,6 +911,10 @@ public class SessionObjectBase {
 				ua.saveMe(schema);
 
 				if (ua.getUser_id() != null) {
+					
+					if (ua.getUser_id().intValue() == -1){
+						return USER_NOT_FOUND;
+					}
 					return USER_FOUND;
 				} else {
 					return USER_NOT_FOUND;
