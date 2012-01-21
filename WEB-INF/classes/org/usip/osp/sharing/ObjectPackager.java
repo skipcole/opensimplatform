@@ -836,6 +836,7 @@ public class ObjectPackager {
 		Hashtable phaseIdMappings = new Hashtable();
 		Hashtable bssIdMappings = new Hashtable();
 		Hashtable injectIdMappings = new Hashtable();
+		Hashtable objectMappings = new Hashtable();
 
 		Logger.getRootLogger().debug(
 				"looking for file to unpack at " + fileLocation); //$NON-NLS-1$
@@ -905,7 +906,7 @@ public class ObjectPackager {
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Phases");
 		unpackagePhases(schema, re.getId(), xmlText, simRead.getId(), xstream,
-				metaPhaseIdMappings, phaseIdMappings);
+				metaPhaseIdMappings, phaseIdMappings, objectMappings);
 
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Injects");
 		unpackageInjects(schema, re.getId(), xmlText, simRead.getId(), xstream,
@@ -935,7 +936,7 @@ public class ObjectPackager {
 		RestoreResults.createAndSaveNotes(re.getId(),
 				"Unpacking Simulation Objects");
 		unpackageSimObjects(schema, re.getId(), xmlText, simRead.getId(),
-				xstream, bssIdMappings, actorIdMappings, afso);
+				xstream, bssIdMappings, actorIdMappings, objectMappings, afso);
 
 		RestoreResults.createAndSaveNotes(re.getId(),
 				"Unpacking Timeline Simulation Objects");
@@ -1228,12 +1229,9 @@ public class ObjectPackager {
 
 	public static void unpackageSimObjects(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable bssIdMappings, Hashtable actorIdMappings,
+			Hashtable bssIdMappings, Hashtable actorIdMappings, Hashtable objectMappings,
 			SessionObjectBase sob) {
 
-		System.out.println("sims id is " + sim_id);
-
-		Hashtable objectMappings = new Hashtable();
 		Hashtable conversationMappings = new Hashtable();
 		Hashtable sharedDocumentMappings = new Hashtable();
 		Hashtable timelineMappings = new Hashtable();
@@ -1292,8 +1290,15 @@ public class ObjectPackager {
 
 			this_bssdoa.setSim_id(sim_id);
 
+			// putting objects that don't need to be copied on a running sim basis in without
+			// removing the 'class ' part of the string. Need to remove this when looking up object
+			String cName =  this_bssdoa.getClassName();
+			if (cName.startsWith("class ")){
+				cName = cName.replaceFirst("class ", "");
+			}
+			
 			// get the id of the object from the hashtable.
-			String fetchKey = this_bssdoa.getClassName() + "_"
+			String fetchKey = cName + "_"
 					+ this_bssdoa.getObjectId();
 			Long newObjectId = (Long) objectMappings.get(fetchKey);
 			this_bssdoa.setObjectId(newObjectId);
@@ -1467,7 +1472,7 @@ public class ObjectPackager {
 					} catch (Exception eee) {
 						eee.printStackTrace();
 					}
-
+					
 					objectMappings.put(key + "_" + ssdo.getTransitId(), ssdo
 							.getId());
 
@@ -1800,7 +1805,7 @@ public class ObjectPackager {
 	 */
 	public static void unpackagePhases(String schema, Long reId,
 			String fullString, Long sim_id, XStream xstream,
-			Hashtable metaPhaseIdMappings, Hashtable phaseIdMappings) {
+			Hashtable metaPhaseIdMappings, Hashtable phaseIdMappings, Hashtable objectMappings) {
 
 		List phases = getSetOfObjectFromFile(fullString,
 				makeOpenTag(SimulationPhase.class),
@@ -1831,6 +1836,8 @@ public class ObjectPackager {
 					.getPhaseName(), "Phase added to simulation");
 
 			phaseIdMappings.put(this_phase.getTransit_id(), this_phase.getId());
+			String fetchKey = SimulationPhase.class.toString().replaceFirst("class ", "");
+			objectMappings.put(fetchKey + "_" + this_phase.getTransit_id(), this_phase.getId());
 
 			@SuppressWarnings("unused")
 			SimPhaseAssignment spa = new SimPhaseAssignment(schema, sim_id,
