@@ -163,11 +163,14 @@ body {
             </table>
             <p>If you think that you should have more simulation assignments than shown above, please contact your instructor.</p>
             <p><hr /></p>
+            <%
+					List simList = Simulation.getAllPublishedAutoRegisterable(pso.schema);
+					if ((simList != null) && (simList.size() > 0)) {
+			%>
             <p>Below are publically accessible simulations. You may select one of these and commence play immediately. </p>
             <blockquote>
         <table>
           <%
-		List simList = Simulation.getAllPublishedAutoRegisterable(pso.schema);
 		
 		for (ListIterator li = simList.listIterator(); li.hasNext();) {
 			Simulation sim = (Simulation) li.next();
@@ -180,6 +183,7 @@ body {
           </tr -->
            
 <%	} // End of loop over auto-reg sims    %>
+<% } // End of if found auto-reg sims %>
         </table>
       </blockquote>
             <p>&nbsp;</p>			</td>
