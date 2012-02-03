@@ -78,9 +78,19 @@ org.usip.osp.baseobjects.*" %>
 <script type="text/javascript" src="third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
 <style type="text/css">
 <!--
+input.logininfo { 
+	font-size:12px;
+	font-family:Arial, Helvetica, sans-serif;
+	}
+-->
+</style>
+
+<style type="text/css">
+<!--
 .style1 {font-size: small}
 -->
 </style>
+
 <style type="text/css">
 <!--
 body {
@@ -125,23 +135,23 @@ body {
         <input type="hidden" name="pageLanguage" value=<%= pso.languageCode %>>
         <input type="hidden" name="attempting_login" value="true">
 
-        <table width="58%" cellspacing="0" cellpadding="0" align="center" border="0">
+        <table width="70%" cellspacing="0" cellpadding="0" align="center" border="0">
           <tr>
             <td>&nbsp;</td>
             <td><h1><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "login") %></h1></td>
           </tr>
           <tr> 
-            <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "username") %></td>
-            <td> <input type="text" name="username"></td>
+            <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "username") %>: &nbsp;</td>
+            <td><input name="username" type="text" size="30" class="logininfo"  /></td>
           </tr>
           <tr> 
-            <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "password") %></td>
-            <td> <input type="password" name="password"> </td>
+            <td><%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "password") %>: &nbsp;</td>
+            <td><input name="password" type="password" size="30" class="logininfo" /> </td>
           </tr>
           
           <tr> 
             <td>&nbsp;</td>
-            <td> <input type="submit" name="Submit" value="Submit" > </td>
+            <td><input type="submit" name="Submit" value="Submit" > </td>
           </tr>
           <tr> 
             <td colspan="2"><font color="#FF0000"> <%= errorMsg %> </font>

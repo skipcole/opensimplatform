@@ -137,6 +137,13 @@ public class CSVInterpreter {
 		}
 	}
 
+	/** Reads in a single line of user data.
+	 * 
+	 * @param schema
+	 * @param daLine
+	 * @param importMapping
+	 * @return
+	 */
 	public static String readInLineOfUserData(String schema, String daLine,
 			Hashtable importMapping) {
 

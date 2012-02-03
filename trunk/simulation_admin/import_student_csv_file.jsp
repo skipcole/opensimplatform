@@ -54,8 +54,8 @@
               <p>The following statements about the file you import must be true:</p>
               <ol>
                 <li>Any line not meant to be imported should be commented out with a '#' symbol in the first position of the line.</li>
-                <li>The first line should list the fields that are contained in the file. (Email, First Name, Last Name, etc.)</li>
-                <li>The first field of the first non-commented line </li>
+                <li>The first line should list the fields that are contained in the file. (Email, First Name, Last Name, etc.) A template file you can enter data into is <a href="import_student_csv_template.csv">located here</a>.</li>
+                <li>You can enter the user's intial password in the 'Password' field, or just enter the word 'Initials.' If you do that later, the user's initials will become their first password. For example, a user named Able Baker would have the intial password of 'AB'.</li>
               </ol>
 
             
