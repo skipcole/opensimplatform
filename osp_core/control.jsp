@@ -36,12 +36,22 @@
     <td valign="top">This page will allow you to change the phase of the simulation.      </td>
   </tr>
   <tr valign="top">
-    <td valign="top"><a href="become_player.jsp">Change Your Role </a></td>
-    <td valign="top">This page allows you to become another player in the current simulation. (You will be able to change back, since the 'control' page will follow you.) </td>
-  </tr>
-  <tr valign="top">
     <td valign="top"><a href="make_announcement.jsp">Make Announcement</a> </td>
     <td valign="top">Push Annoucements out to your players. </td>
+  </tr>
+  <!-- tr valign="top">
+    <td valign="top"><a href="change_player.jsp">Swap/Remove/Add Players</a> </td>
+    <td valign="top">This page allows you to change who is playing. </td>
+  </tr
+  -->
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Additional Functions </h2>
+<table width="95%" border="0" cellspacing="2" cellpadding="2">
+  <tr valign="top">
+    <td valign="top"><a href="become_player.jsp">Change Your Role </a></td>
+    <td valign="top">This page allows you to become another player in the current simulation. (You will be able to change back, since the 'control' page will follow you.) </td>
   </tr>
   <tr valign="top">
     <td valign="top"><a href="push_injects.jsp">Push Inject </a></td>
@@ -53,7 +63,7 @@
   </tr
   -->
   <tr valign="top">
-    <td valign="top"><a href="similie_review_timeline.jsp">Review Injects Sent</a> </td>
+    <td valign="top"><a href="similie_review_timeline.jsp">Review Injects Sent</a></td>
     <td valign="top">Allows you to look at a timeline of the injects you have sent out. </td>
   </tr>
   <tr valign="top">
@@ -62,15 +72,16 @@
   </tr>
   <tr valign="top">
     <td valign="top"><a href="finger.jsp" -->View Last Logins </a></td>
-    <td valign="top">This page allows you to see when your players have logged in. (in repair shop)    </td>
+    <td valign="top">This page allows you to see when your players have logged in. (in repair shop) </td>
   </tr>
   <tr valign="top">
-    <td valign="top"><a href="write_aar.jsp">Write AAR</a> </td>
+    <td valign="top"><a href="write_aar.jsp">Write AAR</a></td>
     <td valign="top">This page allows you to work on the 'After Action Report'. </td>
   </tr>
 </table>
+<p></p>
 <p>&nbsp;</p>
-<h2>Additional Fuctions</h2>
+<h2>Advanced Fuctions</h2>
 <table width="95%" border="0" cellpadding="2" cellspacing="2">
   <tr valign="top">
     <td valign="top"><a href="set_onelink_all.jsp">Change a Fixed (One) Link </a></td>

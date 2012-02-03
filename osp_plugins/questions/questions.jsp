@@ -66,7 +66,7 @@
 			PlayerAnswer this_pa = PlayerAnswer.getByQuestionRunningSimAndUserIds(pso.schema, this_qar.getId(), pso.getRunningSimId(), pso.user_id);
 %>
 <tr><td valign="top">
-	<%= this_qar.getQuestionIdentifier() %>
+	<pre><%= this_qar.getQuestionIdentifier() %></pre>
 	<input type="hidden" name="q_id_<%= this_qar.getId() %>" value="<%= this_qar.getId() %>" />
 	</td><td valign="top"><strong>Question</strong></td><td valign="top"><%= this_qar.getQuestion() %></td></tr>
 
@@ -114,9 +114,8 @@
     <input type="hidden" name="sending_page" value="change_phase" />
     <input type="hidden" name="phase_id" value="<%= QuestionCustomizer.getPhaseId(pso.schema, cs.getId()) %>" />
     <input type="hidden" name="notify_via_email" value="no" />
-    		
-		
-	  <input type="submit" name="button" id="button" value="Advance Simulation">
+	  <input type="submit" name="button" id="button" value="Advance Simulation" onClick="return confirm('Are you sure you want to advance the simulation to the next phase?');">
+      
 </form></p>
 <% } %>
 <% } %>
