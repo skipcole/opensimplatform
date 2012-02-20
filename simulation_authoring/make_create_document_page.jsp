@@ -63,7 +63,7 @@
                 </td>
               </tr>
               <tr>
-                <td valign="top">Starter Document</td>
+                <td valign="top">Starter Document <a href="helptext/starter_document.jsp" target="helpinright">(?)</a>:</td>
                 <td valign="top">
                 <%
 				
@@ -80,6 +80,25 @@
                   <input name="starter_doc" type="radio" id="starter_doc_no" value="false" <%= notStarterDoc %>  tabindex="4" /></label>
                   <label for="starter_doc_yes">/ Yes 
                     <input type="radio" name="starter_doc" id="starter_doc_yes" value="true" <%= isStarterDoc %>  tabindex="5" />
+                  </label></td>
+              </tr>
+              <tr>
+                <td>Linked Document <a href="helptext/linked_document.jsp" target="helpinright">(?)</a>:</td>
+                <td><%
+				
+					String notLinkedDoc = " checked=\"checked\" ";
+					String isLinkedDoc = "";
+					
+					if (this_sd.runningSimulationSetLinkedObject()){
+						notLinkedDoc = "";
+						isLinkedDoc = " checked=\"checked\" ";
+					}
+				%>
+                  <label for="Linked_doc_no2">No
+                    <input name="Linked_doc" type="radio" id="Linked_doc_no2" value="false" <%= notLinkedDoc %>  tabindex="4" />
+                  </label>
+                  <label for="Linked_doc_yes">/ Yes
+                    <input type="radio" name="Linked_doc" id="Linked_doc_yes" value="true" <%= isLinkedDoc %>  tabindex="5" />
                   </label></td>
               </tr>
               <tr><td>&nbsp;</td><td>

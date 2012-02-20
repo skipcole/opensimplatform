@@ -396,5 +396,10 @@ public class OneLink implements SimSectionDependentObject{
 		return forwardOnString;
 	}
 
-	
+
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

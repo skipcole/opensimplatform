@@ -19,10 +19,13 @@
 	RunningSimulation running_simulation = new RunningSimulation();
 	if (afso.getRunningSimId() != null){
 		running_simulation = afso.giveMeRunningSim();
-		afso.sim_id = running_simulation.getSim_id();
+
 		// TODO - Open questions do we change the 'last sim edit field' ?
 	}
 	
+	// TODO make it consistent. sim_id has to be the id appropriate to the running sim.
+	afso.sim_id = running_simulation.getSim_id();
+			
 	Simulation simulation = new Simulation();
 	if (afso.sim_id != null){
 		simulation = afso.giveMeSim();
@@ -51,7 +54,7 @@
                   <h1>Welcome!  </h1>
    
 			  <% if (afso.getRunningSimId() != null) { %>
-				<strong>Your Dasbhoard showing participants in Running Simulation <a href="facilitate_panel.jsp"><%= running_simulation.getRunningSimulationName() %></a> </strong> <br/><br />
+				<strong>Your Dasbhoard showing participants in Running Simulation <a href="facilitate_panel.jsp"><%= running_simulation.getRunningSimulationName() %></a> </strong> of the simulation <%= simulation.getSimulationName() %><br/><br />
 			<blockquote>				
 				<table width="100%" border="1">
         <tr>

@@ -828,4 +828,10 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 
 	}
 
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

@@ -218,4 +218,10 @@ public class QuestionAndResponse implements ExportableObject, SimSectionDependen
 		return returnList;
 	}
 
+
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

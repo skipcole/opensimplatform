@@ -339,5 +339,9 @@ public class Event implements TimeLineInterface, SimSectionDependentObject, Expo
 		return null;
 	}
 
-	
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

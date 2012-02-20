@@ -218,4 +218,10 @@ public class TimelineObjectAssignment implements ExportableObject, SimSectionDep
 	}
 
 
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

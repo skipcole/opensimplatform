@@ -625,4 +625,11 @@ public class TimeLine implements SimSectionDependentObject {
 
 		return event;
 	}
+	
+
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

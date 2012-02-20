@@ -237,4 +237,10 @@ public class ConvActorAssignment implements SimSectionDependentObject {
 		return null;
 	}
 	
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }
