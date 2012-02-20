@@ -845,5 +845,11 @@ public class Conversation implements SimSectionDependentObject {
 
 		return conv;
 	}
+	
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

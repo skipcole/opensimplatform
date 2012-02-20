@@ -361,4 +361,10 @@ public class Tips implements SimSectionDependentObject, ImportedExperienceObject
 		
 	}
 	
+
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

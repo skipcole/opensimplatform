@@ -27,16 +27,8 @@
 	
 	pso.handleBecomePlayer(request);
 	
-	String lessten = request.getParameter("lessten");
-	String addten = request.getParameter("addten");
-	
-	if ((lessten != null) && (lessten.equalsIgnoreCase("true"))){
-		pso.topFrameHeight -= 10;
-	} else if ((addten != null) && (addten.equalsIgnoreCase("true"))){
-		pso.topFrameHeight += 10;
-	} else {
-		pso.handleSimWeb(request);
-	}
+	pso.handleSimWeb(request);
+
 	
 %>
 <html>

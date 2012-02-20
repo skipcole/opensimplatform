@@ -277,7 +277,7 @@ function loadInfo(dropdownlist){
                                   </select>
                                 </p>
                                 <p><a href="catalog_of_installed_sections.jsp">View Catalog of Sections</a> </p>
-                                <p><a href="catalog_of_customized_sections.jsp">View Catalog of Customized Section</a></p>
+                                <p><a href="catalog_of_customized_sections_by_sim.jsp">View Catalog of Customized Section</a></p>
                               </blockquote>                          </td>
                           <td valign="top">Tab Heading: 
                             <input type="text" name="tab_heading" />

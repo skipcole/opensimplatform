@@ -28,6 +28,8 @@ errorPage="/error.jsp" %>
 	
 	if (running_simulation.getId() != null) {
 		editMode = true;	
+		afso.sim_id = running_simulation.getSim_id();
+		simulation = afso.giveMeSim();
 	}
 	
 %>

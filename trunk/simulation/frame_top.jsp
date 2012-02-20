@@ -173,7 +173,7 @@ function stickyAlert(alertWords) {
 					divId = "highlighted";
 				}
 		%>
-    	<td bgcolor="#<%= ssg.getTabColor() %>"> <a href="simwebui.jsp?tabposition=<%= ii %>" target="_parent">
+    	<td bgcolor="#<%= ssg.getTabColor() %>"> <a href="simwebui.jsp?tabposition=<%= ii %>&phase=<%= pso.phase_id %>" target="_parent">
 	      <div align="center" class="<%= divId %>"><%= ssg.getTabHeading() %></div></a></td>
 		<%
 			++ii;

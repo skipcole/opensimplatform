@@ -2,7 +2,7 @@ package org.usip.osp.baseobjects;
 
 /**
  * This interface ensures that simulation objects that are associated with a particular simulation section 
- * can be created whne the running simulation is enabled.
+ * can be created when the running simulation is enabled.
  */
  /* 
  *         This file is part of the USIP Open Simulation Platform.<br>
@@ -57,5 +57,12 @@ public interface SimSectionDependentObject {
 	
 	
 	public void saveMe(String schema);
+	
+	/**
+	 * Indicates if this object can be linked for a set of running simulations, such that 
+	 * if one instance of it is changed, all instances of it can be changed.
+	 * @return
+	 */
+	public boolean runningSimulationSetLinkedObject();
 	
 }

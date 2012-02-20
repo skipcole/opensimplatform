@@ -133,6 +133,20 @@ public class PlayerSessionObject extends SessionObjectBase {
 	 * @param request
 	 */
 	public void handleSimWeb(HttpServletRequest request) {
+		
+		String phase_passed_in = request.getParameter("phase");
+		
+		if (handlingResize(request)){
+			return;
+		}
+		
+		if (phase_passed_in != null){
+			Long desired_phase = new Long(phase_passed_in);
+			if (desired_phase.intValue() != this.phase_id.intValue()){
+				this.bottomFrame = "frame_stale.jsp";
+				return;
+			}
+		}
 
 		if (request.getParameter("tabposition") != null) {
 			this.tabposition = request.getParameter("tabposition"); //$NON-NLS-1$
@@ -151,9 +165,6 @@ public class PlayerSessionObject extends SessionObjectBase {
 			List simSecList = getSimSecList(request);
 
 			try {
-				// List simSecList = SimulationSectionAssignment
-				// .getBySimAndActorAndPhase(this.schema, this.sim_id,
-				// this.actorId, this.phase_id);
 
 				if (tabpos <= simSecList.size()) {
 					SimulationSectionGhost ss = (SimulationSectionGhost) simSecList
@@ -167,6 +178,29 @@ public class PlayerSessionObject extends SessionObjectBase {
 			}
 		}
 
+	}
+
+	/**
+	 * Detects if users is just adjusting size of top frame. If so, then handles the size
+	 * change and returns.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private boolean handlingResize(HttpServletRequest request) {
+
+		String lessten = request.getParameter("lessten");
+		String addten = request.getParameter("addten");
+		
+		if ((lessten != null) && (lessten.equalsIgnoreCase("true"))){
+			this.topFrameHeight -= 10;
+			return true;
+		} else if ((addten != null) && (addten.equalsIgnoreCase("true"))){
+			this.topFrameHeight += 10;
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**

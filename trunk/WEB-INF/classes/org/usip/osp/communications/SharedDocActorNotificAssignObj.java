@@ -296,5 +296,11 @@ public class SharedDocActorNotificAssignObj implements SimSectionDependentObject
 		// correct conversation id.
 		return null;
 	}
+	
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
