@@ -424,5 +424,10 @@ public class GenericVariable implements SimSectionDependentObject{
 		
 	}
 
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

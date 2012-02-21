@@ -102,7 +102,7 @@ public class RunningSimSetAssignment {
 	}
 
 	/**
-	 * Returns all of the actors found in a schema for a particular simulation
+	 * Returns all of the running sim set assignments found in a schema for a particular running sim set id.
 	 * 
 	 * @param schema
 	 * @return
@@ -129,6 +129,8 @@ public class RunningSimSetAssignment {
 	 */
 	public static List <RunningSimSetAssignment> getAllForRunningSimulation(String schema, Long rs_id){
 	    
+		System.out.println("getting for rs_id " + rs_id);
+		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 	
 		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(

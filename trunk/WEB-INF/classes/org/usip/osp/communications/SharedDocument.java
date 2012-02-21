@@ -1,6 +1,7 @@
 package org.usip.osp.communications;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -11,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.BaseSimSectionDepObjectAssignment;
+import org.usip.osp.baseobjects.RunningSimSet;
+import org.usip.osp.baseobjects.RunningSimulation;
 import org.usip.osp.baseobjects.SimSectionDependentObject;
 import org.usip.osp.baseobjects.SimSectionRSDepOjbectAssignment;
 import org.usip.osp.networking.SessionObjectBase;
@@ -305,6 +308,29 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 		return returnList;
 
 	}
+	
+	/** Gets the running sim version of a base document.
+	 * 
+	 * @param schema
+	 * @param base_id
+	 * @param rs_id
+	 * @return
+	 */
+	public static List getRSVersionOfBaseDocument(String schema, Long base_id, Long rs_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		String hql_string = "from SharedDocument where BASE_ID = :base_id AND RS_ID = :rs_id"; //$NON-NLS-1$ //$NON-NLS-2$
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(hql_string)
+				.setLong("base_id", base_id)
+				.setLong("rs_id", rs_id)				
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+
+	}
 
 	/**
 	 * Returns the number of starter documents.
@@ -447,6 +473,8 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 		sd.setRs_id(rsid);
 		sd.setSim_id(this.getSim_id());
 		sd.setStarterDoc(this.isStarterDoc());
+		
+		sd.setRunningSimulationSetLinkedObject(this.isRunningSimulationSetLinkedObject);
 
 		sd.setRs_id(rsid);
 		sd.setSim_id(sid);
@@ -743,11 +771,18 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 		String doc_starter_text = (String) request
 				.getParameter("doc_starter_text");
 		String starter_doc = (String) request.getParameter("starter_doc");
+		String linked_doc = (String) request.getParameter("linked_doc");
 
 		boolean isStarterDoc = false;
 
 		if ((starter_doc != null) && (starter_doc.equalsIgnoreCase("true"))) {
 			isStarterDoc = true;
+		}
+		
+		boolean isLinkedDoc = false;
+		
+		if ((linked_doc != null) && (linked_doc.equalsIgnoreCase("true"))) {
+			isLinkedDoc = true;
 		}
 
 		// Do create if called.
@@ -757,6 +792,7 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 					sob.sim_id);
 			this_sd.setBigString(doc_starter_text);
 			this_sd.setStarterDoc(isStarterDoc);
+			this_sd.setRunningSimulationSetLinkedObject(isLinkedDoc);
 			this_sd.saveMe(sob.schema);
 
 		}
@@ -771,6 +807,7 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 			this_sd.setSim_id(sob.sim_id);
 			this_sd.setBigString(doc_starter_text);
 			this_sd.setStarterDoc(isStarterDoc);
+			this_sd.setRunningSimulationSetLinkedObject(isLinkedDoc);
 			this_sd.saveMe(sob.schema);
 
 		}
@@ -791,15 +828,37 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String update_text = (String) request.getParameter("update_text");
+		
+		String write_document_text = (String) request.getParameter("write_document_text");
 
 		if ((sending_page != null) && (update_text != null)
 				&& (sending_page.equalsIgnoreCase("write_document"))) {
-
-			String write_document_text = (String) request
-					.getParameter("write_document_text");
-
-			sd.setBigString(write_document_text);
-			sd.saveMe(sob.schema, sob.getActorId());
+			
+			if (sd.isRunningSimulationSetLinkedObject()){
+				System.out.println(" This is a linked document.");
+				
+				for (Enumeration e = RunningSimSet.getAllRunningSimsInSameSet(sob.schema, sob.getRunningSimId()); e.hasMoreElements();) {
+					Long rs_id = (Long) e.nextElement();
+					
+					System.out.println("r s id is : " + rs_id);
+					
+					List rsList = getRSVersionOfBaseDocument(sob.schema, sd.base_id, rs_id);
+					
+					if (rsList.size() == 1){
+						SharedDocument linkedDoc = (SharedDocument) rsList.get(0);
+						System.out.println("saved doc id is " + linkedDoc.getId());
+						linkedDoc.setBigString(write_document_text);
+						linkedDoc.saveMe(sob.schema, sob.getActorId());
+						
+					} else {
+						System.out.println("big problme inm multiple docs");
+					}
+				}
+				
+			} else {
+				sd.setBigString(write_document_text);
+				sd.saveMe(sob.schema, sob.getActorId());
+			}
 
 		} // End of if coming from this page and have added text
 
@@ -828,10 +887,21 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 
 	}
 
+	private boolean isRunningSimulationSetLinkedObject = false;
+	
 	@Override
 	public boolean runningSimulationSetLinkedObject() {
-		// TODO Auto-generated method stub
-		return false;
+		return isRunningSimulationSetLinkedObject;
 	}
 
+	public boolean isRunningSimulationSetLinkedObject() {
+		return isRunningSimulationSetLinkedObject;
+	}
+
+	public void setRunningSimulationSetLinkedObject(
+			boolean isRunningSimulationSetLinkedObject) {
+		this.isRunningSimulationSetLinkedObject = isRunningSimulationSetLinkedObject;
+	}
+
+	
 }
