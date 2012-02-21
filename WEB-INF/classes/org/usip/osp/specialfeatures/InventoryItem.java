@@ -447,4 +447,10 @@ public class InventoryItem implements SimSectionDependentObject {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 
+	@Override
+	public boolean runningSimulationSetLinkedObject() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }

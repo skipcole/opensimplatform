@@ -3,6 +3,7 @@
 	language="java" 
 	import="java.sql.*,java.util.*,org.usip.osp.networking.*,org.usip.osp.persistence.*,org.usip.osp.baseobjects.*,org.usip.osp.communications.*" 
 	errorPage="/error.jsp" %>
+    	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
 	PlayerSessionObject pso = PlayerSessionObject.getPSO(request.getSession(true));
@@ -13,18 +14,16 @@
 	}
 	
 	SharedDocument sd = new SharedDocument();
-	String editInstructions = "";
 	
 	String cs_id = (String) request.getParameter("cs_id");
 	String sendingDocId = (String) request.getParameter("sendingDocId");
 	String doc_id = (String) request.getParameter("doc_id");
 	
+	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
+	
 	if ((sendingDocId != null) && (sendingDocId.equalsIgnoreCase("true"))){
 		sd = SharedDocument.getById(pso.schema, new Long(doc_id));
 	} else {
-		
-		CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
-		editInstructions = cs.getBigString();
 	
 		List setOfDocs = SharedDocument.getSetOfDocsForSection(pso.schema, cs.getId(), pso.getRunningSimId());
 	
@@ -48,7 +47,11 @@
 </head>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<p><%= editInstructions %></p>
+<p><%= cs.getBigString() %></p>
+
+<% if (sd.isRunningSimulationSetLinkedObject()){ %>
+<p> This is a shared document. Changes to it will also change the versions of it in the following running simulations: <%= RunningSimSet.getListOfRunningSimsInSameSets(pso.schema, pso.getRunningSimId()) %></p>
+<% } %>
 
 <form name="form1" method="post" action="write_document.jsp">
 <input type="submit" name="update_text" value="Submit">

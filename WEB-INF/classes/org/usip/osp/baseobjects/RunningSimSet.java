@@ -141,12 +141,12 @@ public class RunningSimSet {
 	}
 	
     /**
-     * 
+     * Returns a hashtable where the key is the id of a running sim, and the value is just the string 'set'. 
      * @param schema
      * @param rs_set_id
      * @return
      */
-    public static Hashtable getHashSetOfRunningSims(String schema, Long rs_set_id){
+    public static Hashtable <Long, String> getHashSetOfRunningSims(String schema, Long rs_set_id){
     	
     	Hashtable returnHashtable = new Hashtable();
     	
@@ -168,7 +168,7 @@ public class RunningSimSet {
 	 * @param schema
 	 * @return
 	 */
-	public static List getAllForRunningSimulation(String schema, Long rs_id){
+	public static List <RunningSimSet> getAllForRunningSimulation(String schema, Long rs_id){
 	    
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 	
@@ -179,6 +179,58 @@ public class RunningSimSet {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	
 		return returnList;
+	}
+	
+	/**
+	 * 
+	 */
+	public static String getListOfRunningSimsInSameSets(String schema, Long rs_id){
+		
+		String returnString = "";
+		
+		for (Enumeration e = getAllRunningSimsInSameSet(schema, rs_id); e.hasMoreElements();) {
+			Long key = (Long) e.nextElement();
+			
+			RunningSimulation rs = RunningSimulation.getById(schema, key);
+			
+			returnString += rs.getName() + ", ";
+		}
+		
+		if (returnString.length() > 2){
+			returnString = returnString.substring(0, returnString.length() -2);
+		}
+		
+		return returnString;
+		
+	}
+	/**
+	 * 
+	 * @param schema
+	 * @param rs_id
+	 * @return
+	 */
+	public static Enumeration getAllRunningSimsInSameSet(String schema, Long rs_id){
+
+		// We get all of the sets that this running sim is in.
+		List listOfSets = RunningSimSetAssignment.getAllForRunningSimulation(schema, rs_id);
+		
+		Hashtable fullHash = new Hashtable();
+		
+    	for (ListIterator li = listOfSets.listIterator(); li.hasNext();) {
+    		RunningSimSetAssignment rssa = (RunningSimSetAssignment) li.next();
+    		
+    		System.out.println("rss id " + rssa.getId());
+    		
+    		// Get a list (as in the keys of this hashtable) of all the running sims found for this set.
+    		Hashtable thisSet = getHashSetOfRunningSims(schema, rssa.getRs_set_id());
+    		
+    		System.out.println("size of thisSet: " + thisSet.size());
+    		
+    		fullHash.putAll(thisSet);
+    	}
+    	
+    	return fullHash.keys();
+		
 	}
 	
 }

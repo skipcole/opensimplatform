@@ -48,7 +48,7 @@
               <tr><td valign="top">Document Display Title <a href="helptext/document_display_title_help.jsp" target="helpinright">(?)</a>:</td>
             <td valign="top"><input name="doc_display_title" type="text" size="60" value="<%= this_sd.getDisplayTitle() %>" tabindex="2" /></td></tr>
               <tr>
-                <td valign="top">Document Starter Text (?):</td>
+                <td valign="top">Initial Document Text (?):</td>
                 <td valign="top">
                 <textarea id="doc_starter_text" name="doc_starter_text" style="height: 300px; width: 400px;" tabindex="3"><%= this_sd.getBigString() %></textarea>
                           <script language="JavaScript" type="text/javascript" src="../wysiwyg_files/wysiwyg.js">
@@ -94,25 +94,25 @@
 						isLinkedDoc = " checked=\"checked\" ";
 					}
 				%>
-                  <label for="Linked_doc_no2">No
-                    <input name="Linked_doc" type="radio" id="Linked_doc_no2" value="false" <%= notLinkedDoc %>  tabindex="4" />
+                  <label for="linked_doc_no">No
+                    <input name="linked_doc" type="radio" id="linked_doc_no" value="false" <%= notLinkedDoc %>  tabindex="6" />
                   </label>
-                  <label for="Linked_doc_yes">/ Yes
-                    <input type="radio" name="Linked_doc" id="Linked_doc_yes" value="true" <%= isLinkedDoc %>  tabindex="5" />
+                  <label for="linked_doc_yes">/ Yes
+                    <input type="radio" name="linked_doc" id="linked_doc_yes" value="true" <%= isLinkedDoc %>  tabindex="7" />
                   </label></td>
               </tr>
               <tr><td>&nbsp;</td><td>
               
               <% if (this_sd.getId() == null) { %>
               
-              <input type="submit" name="create_doc" value="Create" tabindex="6" />
+              <input type="submit" name="create_doc" value="Create" tabindex="8" />
               
               <%
 				} else {
 				%>
-                <input type="hidden" name="shared_doc_id" value="<%= this_sd.getId() %>" tabindex="7" />
-                <input type="submit" name="clear_button" value="Clear" tabindex="6" />
-                <input type="submit"  name="update_doc" value="Update Document" tabindex="8" /> 
+                <input type="hidden" name="shared_doc_id" value="<%= this_sd.getId() %>" tabindex="9" />
+                <input type="submit" name="clear_button" value="Clear" tabindex="8" />
+                <input type="submit"  name="update_doc" value="Update Document" tabindex="10" /> 
                 <%
 					}
 				%>
