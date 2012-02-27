@@ -1208,12 +1208,12 @@ public class SessionObjectBase {
 						.getSession()
 						.getServletContext()
 						.getAttribute(
-								USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS);
+								USIP_OSP_ContextListener.getCacheonLoggedInUsers(sio.getSchema_name()));
 	
 				if (loggedInUsers == null) {
 					loggedInUsers = new Hashtable();
 					request.getSession().getServletContext().setAttribute(
-							USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS,
+							USIP_OSP_ContextListener.getCacheonLoggedInUsers(sio.getSchema_name()),
 							loggedInUsers);
 				}
 	

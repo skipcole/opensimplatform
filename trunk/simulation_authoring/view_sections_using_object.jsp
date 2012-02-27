@@ -44,17 +44,32 @@
               <br />
       <blockquote>
           <p>
+          <table border="1">
+          <tr>
+            <td><strong>Recommended Tab Heading</strong></td><td><strong>Section Description</strong></td></tr>
 		  <% 
+		  
+		  Hashtable sectionsShown = new Hashtable();
+		  
 		  List theBss = BaseSimSectionDepObjectAssignment.getObjectUsages(afso.schema, new Long(obj_id), obj_class);
 		  
 		  for (ListIterator li = theBss.listIterator(); li.hasNext();) {
 			BaseSimSectionDepObjectAssignment bssdoa = (BaseSimSectionDepObjectAssignment) li.next();
 			
+			CustomizeableSection custSec = CustomizeableSection.getById(afso.schema, bssdoa.getBss_id().toString());
+			
+			// Only show if not shown before
+			if (sectionsShown.get(custSec.getId()) == null) {
 		  %>
-          <%= bssdoa.getId() %><br />
+          <tr><td><%= custSec.getRec_tab_heading() %></td><td><%= custSec.getDescription() %></td></tr>
           <%
-		 }
+		  		// Record that it has been shown already.
+		  	sectionsShown.put(custSec.getId(), "set");
+		 	}  // end of if it has not been shown before
+			
+		  } // End of loop over bssdoa's
 		  %>
+          </table>
           </p>
       </blockquote>
       <blockquote>

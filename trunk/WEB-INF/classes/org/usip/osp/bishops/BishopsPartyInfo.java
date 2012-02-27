@@ -432,16 +432,16 @@ public class BishopsPartyInfo implements CopiedObject{
 	public static void storeNameInCache(String schema,  HttpServletRequest request, Long bpi_id, String bpi_name){
 		ServletContext context = request.getSession().getServletContext();
 
-		Hashtable<String, String> bpi_names_hash = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES);
+		Hashtable<String, String> bpi_names_hash = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.getCacheonBpiNames(schema));
 
 		if (bpi_names_hash == null){
 			bpi_names_hash = new Hashtable<String, String>();
-			context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
+			context.setAttribute(USIP_OSP_ContextListener.getCacheonBpiNames(schema), bpi_names_hash);
 		}
 		
 		bpi_names_hash.put(schema + "_" +  bpi_id, bpi_name);
 		
-		context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
+		context.setAttribute(USIP_OSP_ContextListener.getCacheonBpiNames(schema), bpi_names_hash);
 	}
 	
 	/**
@@ -458,11 +458,11 @@ public class BishopsPartyInfo implements CopiedObject{
 		
 		ServletContext context = request.getSession().getServletContext();
 
-		Hashtable<String, String> bpi_names_hash = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES);
+		Hashtable<String, String> bpi_names_hash = (Hashtable<String, String>) context.getAttribute(USIP_OSP_ContextListener.getCacheonBpiNames(schema));
 
 		if (bpi_names_hash == null) {
 			bpi_names_hash = new Hashtable<String, String>();
-			context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
+			context.setAttribute(USIP_OSP_ContextListener.getCacheonBpiNames(schema), bpi_names_hash);
 		}
 
 		String bpi_name = bpi_names_hash.get(schema + "_" +  bpi_id);
@@ -473,7 +473,7 @@ public class BishopsPartyInfo implements CopiedObject{
 			bpi_name = bpi.getBPIName();
 			bpi_names_hash.put(schema + "_" +  bpi_id, bpi.getBPIName());
 			
-			context.setAttribute(USIP_OSP_ContextListener.CACHEON_BPI_NAMES, bpi_names_hash);
+			context.setAttribute(USIP_OSP_ContextListener.getCacheonBpiNames(schema), bpi_names_hash);
 		}
 
 		return bpi_name;

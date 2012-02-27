@@ -134,9 +134,8 @@ public class ChatController {
 		// /////////////////////////////////////////////////////
 		// The conversation is pulled out of the context Hashtable
 		Hashtable<String, Vector> conversation_cache = USIP_OSP_Cache
-				.getCachedHashtable(request, pso.schema,
-						USIP_OSP_ContextListener.CACHEON_CONVERSATIONS,
-						USIP_OSP_ContextListener.CACHED_TABLE_STRING_VECTOR);
+				.getCachedHashtable(request,
+						USIP_OSP_ContextListener.getCacheonConversations(pso.schema));
 
 		String conversationKey = getConvKey(pso, conv_id);
 

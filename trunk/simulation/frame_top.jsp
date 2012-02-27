@@ -85,7 +85,7 @@ function getSimRound()
 function timedCount()
 {
 	getSimRound();
-	setTimeout("timedCount()", 10000);
+	setTimeout("timedCount()", 3000);
 }
 </script>
 <link href="../usip_osp.css" rel="stylesheet" type="text/css">

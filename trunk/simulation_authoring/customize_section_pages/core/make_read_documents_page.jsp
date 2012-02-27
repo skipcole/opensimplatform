@@ -96,6 +96,12 @@
                         <script language="javascript1.2">
   			generate_wysiwyg('make_read_document_page_text');
 		</script>
+                    <strong>Modify Section Description</strong></p>
+          <blockquote>
+            <p>
+              <textarea name="cs_description" cols="80" rows="3" id="cs_description"><%= cs.getDescription() %></textarea>
+            </p>
+          </blockquote>
                       </p>
                       <p>
                         <input type="hidden" name="custom_page" value="<%= afso.getMyPSO_SectionMgmt().get_custom_section_id() %>" />

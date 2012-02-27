@@ -45,6 +45,14 @@ import com.seachangesimulations.osp.gametime.GamePhaseCurrentTime;
  */
 public class USIP_OSP_Cache {
 
+	/**
+	 * Loads cache on interface text.
+	 * 
+	 * @param request
+	 * @param languageCode
+	 * @param textKey
+	 * @return
+	 */
 	public static String getInterfaceText(HttpServletRequest request,
 			int languageCode, String textKey) {
 
@@ -52,7 +60,7 @@ public class USIP_OSP_Cache {
 				.getSession()
 				.getServletContext()
 				.getAttribute(
-						USIP_OSP_ContextListener.CACHEON_UI_LOCALIZED_LANGUAGE);
+						USIP_OSP_ContextListener.getCacheonUILocalizedLanguage());
 
 		if ((allLangHash == null) || (allLangHash.size() == 0)) {
 			allLangHash = new Hashtable();
@@ -67,7 +75,7 @@ public class USIP_OSP_Cache {
 			request.getSession()
 					.getServletContext()
 					.setAttribute(
-							USIP_OSP_ContextListener.CACHEON_UI_LOCALIZED_LANGUAGE,
+							USIP_OSP_ContextListener.getCacheonUILocalizedLanguage(),
 							allLangHash);
 
 		}
@@ -99,7 +107,7 @@ public class USIP_OSP_Cache {
 				.getSession()
 				.getServletContext()
 				.getAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_ID);
+						USIP_OSP_ContextListener.getCacheonPhaseNamesById(schema));
 
 		if (phase_name_by_id_cache == null) {
 			phase_name_by_id_cache = new Hashtable();
@@ -120,7 +128,7 @@ public class USIP_OSP_Cache {
 		request.getSession()
 				.getServletContext()
 				.setAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_ID,
+						USIP_OSP_ContextListener.getCacheonPhaseNamesById(schema),
 						phase_name_by_id_cache);
 
 		return phaseName;
@@ -150,7 +158,7 @@ public class USIP_OSP_Cache {
 				.getSession()
 				.getServletContext()
 				.getAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_METAPHASE_NAMES_BY_ID);
+						USIP_OSP_ContextListener.getCacheonMetaphaseNamesById(schema));
 
 		if (meta_phase_name_by_id_cache == null) {
 			meta_phase_name_by_id_cache = new Hashtable();
@@ -172,7 +180,7 @@ public class USIP_OSP_Cache {
 		request.getSession()
 				.getServletContext()
 				.setAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_METAPHASE_NAMES_BY_ID,
+						USIP_OSP_ContextListener.getCacheonMetaphaseNamesById(schema),
 						meta_phase_name_by_id_cache);
 
 		return metaPhaseName;
@@ -324,52 +332,23 @@ public class USIP_OSP_Cache {
 	 * @return
 	 */
 	public static Hashtable getAlertNumberHashtableForRunningSim(
-			HttpServletRequest request) {
+			HttpServletRequest request, String schema) {
 
 		// The conversation is pulled out of the context
 		Hashtable<Long, Long> highestAlertNumberHashtable = (Hashtable<Long, Long>) request
 				.getSession().getServletContext()
-				.getAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS);
+				.getAttribute(USIP_OSP_ContextListener.getCacheonAlertNumbers(schema));
 
 		if (highestAlertNumberHashtable == null) {
 			highestAlertNumberHashtable = new Hashtable();
 			request.getSession()
 					.getServletContext()
 					.setAttribute(
-							USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
+							USIP_OSP_ContextListener.getCacheonAlertNumbers(schema),
 							highestAlertNumberHashtable);
 		}
 
 		return highestAlertNumberHashtable;
-	}
-
-	/**
-	 * TODO: Yes we should be doing this with transactions to avoid race
-	 * conditions.
-	 * 
-	 * @param request
-	 * @param running_sim_id
-	 * @return
-	 */
-	public static Long getNextHighestChangeNumber(HttpServletRequest request,
-			Long running_sim_id) {
-
-		Hashtable<Long, Long> highestChangeNumberHashtable = getAlertNumberHashtableForRunningSim(request);
-
-		Long changeNumber = highestChangeNumberHashtable.get(running_sim_id);
-
-		Long nextChangeNumber = new Long(changeNumber.intValue() + 1);
-
-		highestChangeNumberHashtable.put(running_sim_id, nextChangeNumber);
-
-		// I don't know if this next step is needed.
-		request.getSession()
-				.getServletContext()
-				.setAttribute(USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
-						highestChangeNumberHashtable);
-
-		return changeNumber;
-
 	}
 
 	/**
@@ -386,7 +365,7 @@ public class USIP_OSP_Cache {
 		ServletContext context = request.getSession().getServletContext();
 
 		Hashtable<String, String> actor_thumbs = (Hashtable<String, String>) context
-				.getAttribute(USIP_OSP_ContextListener.CACHEON_ACTOR_THUMBS);
+				.getAttribute(USIP_OSP_ContextListener.getCacheonActorThumbs(schema));
 
 		if (actor_thumbs == null) {
 			actor_thumbs = new Hashtable<String, String>();
@@ -453,7 +432,7 @@ public class USIP_OSP_Cache {
 		}
 
 		Hashtable<String, String> user_names_hash = getCachedHashtable(request,
-				schema, USIP_OSP_ContextListener.CACHEON_USER_NAMES, "string");
+				USIP_OSP_ContextListener.getCacheonUserNames(schema));
 
 		String user_name = user_names_hash.get(schema + "_" + user_id);
 
@@ -472,13 +451,15 @@ public class USIP_OSP_Cache {
 
 	/**
 	 * 
+	 * Returns the number of users assigned, or the string UNASSIGNED.
+	 * 
 	 * @param schema
 	 * @param rs_id
 	 * @param a_id
 	 * @param request
 	 * @return
 	 */
-	public static String getUserAssigned(String schema, Long rs_id, Long a_id,
+	public static String getNumberofUsersAssigned(String schema, Long rs_id, Long a_id,
 			HttpServletRequest request) {
 
 		if ((rs_id == null) || (a_id == null)) {
@@ -486,61 +467,48 @@ public class USIP_OSP_Cache {
 		}
 
 		Hashtable<String, String> user_assignments_hash = getCachedHashtable(
-				request, schema,
-				USIP_OSP_ContextListener.CACHEON_USER_ASSIGNMENTS, "string");
+				request, USIP_OSP_ContextListener.getCacheonUserAssignments(schema));
 
-		String user_id = user_assignments_hash.get(schema + "_" + rs_id + "_"
-				+ a_id);
+		String numberOfUsers = user_assignments_hash.get(rs_id + "_" + a_id);
 
-		if (user_id == null) {
-			loadRunningSimsUserAssignments_dont_use(schema, rs_id,
-					user_assignments_hash);
+		if (numberOfUsers == null) {
+			// get running sim to get sim id.
+			RunningSimulation rs = RunningSimulation.getById(schema, rs_id);
+			
+			// Get list of actors in the sim
+			List actors_in_sim = SimActorAssignment.getActorsAssignmentsForSim(
+					schema, rs.getSim_id());
 
-			user_id = user_assignments_hash.get(schema + "_" + rs_id + "_"
-					+ a_id);
-		}
+			/*
+			 * Loop over the actors for this running simulation and load all. If user is
+			 * not assigned to actor, put string '0' into hashtable. We should
+			 * not leave the number null, or else we will keep hitting the database.
+			 */
+			for (ListIterator<SimActorAssignment> li = actors_in_sim.listIterator(); li
+					.hasNext();) {
+				SimActorAssignment this_saa = li.next();
 
-		return user_id;
+				List usersAssigned = UserAssignment.getUsersAssigned(schema, rs_id, this_saa.getActorId());
 
-	}
-
-	public static final String UNASSIGNED = "unassigned";
-
-	/*
-	 * Loop over the actors for this running simulation and load all. If user is
-	 * not assigned to actor, put string 'unassigned' into hashtable We should
-	 * Not leave the user_id null, or else we will keep hitting the database.
-	 */
-	public static void loadRunningSimsUserAssignments_dont_use(String schema,
-			Long rs_id, Hashtable user_assignments_hash) {
-
-		Logger.getRootLogger().debug("doing loadRunningSimsUserAssignments");
-
-		RunningSimulation rs = RunningSimulation.getById(schema, rs_id);
-		List actors_in_sim = SimActorAssignment.getActorsAssignmentsForSim(
-				schema, rs.getSim_id());
-
-		// Loop over all of the actors that should be assigned.
-		for (ListIterator<SimActorAssignment> li = actors_in_sim.listIterator(); li
-				.hasNext();) {
-			SimActorAssignment this_saa = li.next();
-
-			User user = UserAssignment.get_A_UserAssigned_dont_use(schema,
-					rs_id, this_saa.getActorId());
-
-			if (user != null) { // If found, enter their user_id into the
-				// hashtable
-				user_assignments_hash.put(
-						schema + "_" + rs_id + "_" + this_saa.getActorId(),
-						user.getId().toString());
-			} else { // If not found, enter 'unassigned'
-				user_assignments_hash.put(
-						schema + "_" + rs_id + "_" + this_saa.getActorId(),
-						UNASSIGNED);
+				if (usersAssigned.size() > 0) { // If found, put number of users into hashtable
+					user_assignments_hash.put(
+							rs_id + "_" + this_saa.getActorId(), usersAssigned.size() + "");
+				} else { // If not found, enter 'unassigned'
+					user_assignments_hash.put(
+							rs_id + "_" + this_saa.getActorId(),
+							UNASSIGNED);
+				}
 			}
+
+			numberOfUsers = user_assignments_hash.get(rs_id + "_"+ a_id);
 		}
 
+		return numberOfUsers;
+
 	}
+
+	public static final String UNASSIGNED = "0";
+
 
 	public static String makeSchemaSpecificHashKey(String schema, String hashKey) {
 		return schema + "_" + hashKey;
@@ -568,100 +536,23 @@ public class USIP_OSP_Cache {
 	}
 
 	/**
-	 * Pulls the hashtable from the context.
+	 * Pulls the hashtable from the context. This method assumes that a schema specific hashKey
+	 * has been sent in if this hashtable should be schema specific.
 	 * 
 	 * @param context
 	 * @param hashkey
 	 * @return
 	 */
-	public static Hashtable getCachedHashtable(HttpServletRequest request,
-			String schema, String hashKey, String dType) {
-
-		// Make this a schema specific cache
-		String schemaSpecificKey = makeSchemaSpecificHashKey(schema, hashKey);
+	public static Hashtable getCachedHashtable(HttpServletRequest request, String hashKey) {
 
 		ServletContext context = request.getSession().getServletContext();
 		Hashtable cacheWeWant = new Hashtable();
 
-		if (dType
-				.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_STRING_VECTOR)) {
-			cacheWeWant = (Hashtable<String, Vector>) context
-					.getAttribute(schemaSpecificKey);
+		cacheWeWant = (Hashtable) context.getAttribute(hashKey);
 
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable<String, Vector>();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
-		} else if (dType.equalsIgnoreCase("string")) {
-			cacheWeWant = (Hashtable<String, String>) context
-					.getAttribute(schemaSpecificKey);
-
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable<String, String>();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
-		} else if (dType.equalsIgnoreCase("hashtable")) {
-			cacheWeWant = (Hashtable<String, Hashtable>) context
-					.getAttribute(schemaSpecificKey);
-
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable<String, Hashtable>();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
-		} else if (dType
-				.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_HASHTABLE)) {
-			cacheWeWant = (Hashtable<Long, Hashtable>) context
-					.getAttribute(schemaSpecificKey);
-
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable<Long, Hashtable>();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
-		} else if (dType
-				.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_STRING)) {
-			cacheWeWant = (Hashtable<Long, String>) context
-					.getAttribute(schemaSpecificKey);
-
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable<Long, String>();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
-		} else if (dType
-				.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_LONG)) {
-			cacheWeWant = (Hashtable<Long, Long>) context
-					.getAttribute(schemaSpecificKey);
-
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable<Long, Long>();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
-		} else if (dType
-				.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_LIST)) {
-			cacheWeWant = (Hashtable<String, List>) context
-					.getAttribute(schemaSpecificKey);
-
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable<String, List>();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
-		} else if (dType
-				.equalsIgnoreCase(USIP_OSP_ContextListener.CACHED_TABLE_LONG_GPCT)) {
-			cacheWeWant = (Hashtable<Long, GamePhaseCurrentTime>) context
-					.getAttribute(schemaSpecificKey);
-
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable<Long, GamePhaseCurrentTime>();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
-		} else {
-			Logger.getLogger("root").warn(
-					"getCachedHash hashtable type not set");
-			cacheWeWant = (Hashtable) context.getAttribute(schemaSpecificKey);
-
-			if (cacheWeWant == null) {
-				cacheWeWant = new Hashtable();
-				context.setAttribute(schemaSpecificKey, cacheWeWant);
-			}
+		if (cacheWeWant == null) {
+			cacheWeWant = new Hashtable();
+			context.setAttribute(hashKey, cacheWeWant);
 		}
 
 		return cacheWeWant;
@@ -681,8 +572,7 @@ public class USIP_OSP_Cache {
 			return null;
 		}
 
-		Hashtable<String, String> user_ids_hash = getCachedHashtable(request,
-				schema, USIP_OSP_ContextListener.CACHEON_USER_IDS, "string");
+		Hashtable<String, String> user_ids_hash = getCachedHashtable(request, USIP_OSP_ContextListener.getCacheonUserIds(schema));
 
 		String userId = user_ids_hash.get(schema + "_" + user_name);
 
@@ -713,9 +603,7 @@ public class USIP_OSP_Cache {
 			HttpServletRequest request) {
 
 		Hashtable<String, Hashtable> allUserNameTables = getCachedHashtable(
-				request, schema,
-				USIP_OSP_ContextListener.CACHEON_AUTOCOMPLETE_PLAYER_USERNAMES,
-				"hashtable");
+				request, USIP_OSP_ContextListener.getCacheonAutocompletePlayerUsernames(schema));
 
 		Hashtable thisUserNameTable = (Hashtable) allUserNameTables.get(schema);
 
@@ -741,9 +629,7 @@ public class USIP_OSP_Cache {
 			HttpServletRequest request) {
 
 		Hashtable<String, Hashtable> allUserNameTables = getCachedHashtable(
-				request, schema,
-				USIP_OSP_ContextListener.CACHEON_AUTOCOMPLETE_USERNAMES,
-				"hashtable");
+				request, USIP_OSP_ContextListener.getCacheonAutocompleteUsernames(schema));
 
 		Hashtable thisUserNameTable = (Hashtable) allUserNameTables.get(schema);
 
@@ -771,8 +657,7 @@ public class USIP_OSP_Cache {
 			HttpServletRequest request, Long rs_id, Long a_id) {
 
 		Hashtable<String, Hashtable> allInjectsFiredTable = getCachedHashtable(
-				request, schema,
-				USIP_OSP_ContextListener.CACHEON_INJECTS_FIRED, "hashtable");
+				request, USIP_OSP_ContextListener.getCacheonInjectsFired(schema));
 
 		Hashtable thisSetOfTables = (Hashtable) allInjectsFiredTable
 				.get(schema);
@@ -879,7 +764,7 @@ public class USIP_OSP_Cache {
 		// The conversation is pulled out of the context Hashtable
 		Hashtable<Long, String> simulation_name_by_id_cache = (Hashtable) request
 				.getSession().getServletContext()
-				.getAttribute(USIP_OSP_ContextListener.CACHEON_SIM_NAMES_BY_ID);
+				.getAttribute(USIP_OSP_ContextListener.getCacheonSimNamesById(schema));
 
 		if (simulation_name_by_id_cache == null) {
 			simulation_name_by_id_cache = new Hashtable();
@@ -899,7 +784,7 @@ public class USIP_OSP_Cache {
 
 		request.getSession()
 				.getServletContext()
-				.setAttribute(USIP_OSP_ContextListener.CACHEON_SIM_NAMES_BY_ID,
+				.setAttribute(USIP_OSP_ContextListener.getCacheonSimNamesById(schema),
 						simulation_name_by_id_cache);
 
 		return simulationName;
@@ -921,13 +806,13 @@ public class USIP_OSP_Cache {
 		ServletContext context = request.getSession().getServletContext();
 
 		List thisListOfBaseSections = (List<BaseSimSection>) context
-				.getAttribute(USIP_OSP_ContextListener.CACHEON_BASE_SECTIONS);
+				.getAttribute(USIP_OSP_ContextListener.getCacheonBaseSections(schema));
 
 		if ((thisListOfBaseSections == null)
 				|| (thisListOfBaseSections.size() == 0)) {
 			thisListOfBaseSections = BaseSimSection.getAll(schema);
 			context.setAttribute(
-					USIP_OSP_ContextListener.CACHEON_BASE_SECTIONS,
+					USIP_OSP_ContextListener.getCacheonBaseSections(schema),
 					thisListOfBaseSections);
 		}
 
@@ -940,7 +825,7 @@ public class USIP_OSP_Cache {
 	 * @param schema
 	 * @param request
 	 * @return
-	 */
+
 	public static List getCustomSectionInformation(String schema,
 			HttpServletRequest request) {
 
@@ -962,5 +847,6 @@ public class USIP_OSP_Cache {
 
 		return thisListOfCustomSections;
 	}
+	*/
 
 }
