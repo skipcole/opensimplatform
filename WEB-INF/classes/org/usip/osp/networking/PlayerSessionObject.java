@@ -216,7 +216,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		// Get phase id from the cache
 		Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) session
 				.getServletContext().getAttribute(
-						USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
+						USIP_OSP_ContextListener.getCacheonPhaseIds(schema));
 
 		Long cachedPhaseId = phaseIds.get(runningSimId);
 
@@ -234,7 +234,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		Hashtable<String, List<SimulationSectionGhost>> sim_section_info = (Hashtable<String, List<SimulationSectionGhost>>) session
 				.getServletContext().getAttribute(
-						USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
+						USIP_OSP_ContextListener.getCacheonSimSecInfo(schema));
 
 		if (sim_section_info == null) {
 			sim_section_info = new Hashtable<String, List<SimulationSectionGhost>>();
@@ -268,7 +268,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 			sim_section_info.put(hashKey, returnList);
 
 			session.getServletContext().setAttribute(
-					USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO,
+					USIP_OSP_ContextListener.getCacheonSimSecInfo(schema),
 					sim_section_info);
 
 			if (this.isControlCharacter()) {
@@ -372,16 +372,15 @@ public class PlayerSessionObject extends SessionObjectBase {
 			
 			// ////////////////////////////////////////////////////////////////////////
 			Hashtable<Long, String> roundNames = USIP_OSP_Cache
-					.getCachedHashtable(request, schema,
-							USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
-							USIP_OSP_ContextListener.CACHED_TABLE_LONG_STRING);
+					.getCachedHashtable(request,
+							USIP_OSP_ContextListener.getCacheonRoundNames(schema));
 
 			String cachedRoundName = roundNames.get(runningSimId);
 
 			if (cachedRoundName == null) {
 				roundNames.put(runningSimId, simulation_round);
 				request.getSession().getServletContext().setAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_ROUND_NAMES,
+						USIP_OSP_ContextListener.getCacheonRoundNames(schema),
 						roundNames);
 			}
 
@@ -391,14 +390,13 @@ public class PlayerSessionObject extends SessionObjectBase {
 			// Store it in the web cache, if this has not been done already
 			// by another user.
 			Hashtable<Long, Long> phaseIds = USIP_OSP_Cache.getCachedHashtable(
-					request, schema, USIP_OSP_ContextListener.CACHEON_PHASE_IDS,
-					USIP_OSP_ContextListener.CACHED_TABLE_LONG_LONG);
+					request, USIP_OSP_ContextListener.getCacheonPhaseIds(schema));
 
 			Long cachedPhaseId = phaseIds.get(runningSimId);
 			if (cachedPhaseId == null) {
 				phaseIds.put(runningSimId, phase_id);
 				request.getSession().getServletContext().setAttribute(
-						USIP_OSP_ContextListener.CACHEON_PHASE_IDS, phaseIds);
+						USIP_OSP_ContextListener.getCacheonPhaseIds(schema), phaseIds);
 
 			}
 			// //////////////////////////////////////////////////////////////////////
@@ -444,17 +442,18 @@ public class PlayerSessionObject extends SessionObjectBase {
 			myUserTrailGhost.setUser_id(this.user_id);
 			myUserTrailGhost.setActor_id(actor_id);
 			myUserTrailGhost.setRunning_sim_id(running_sim_id);
+			
 			// Player starts on tab 1, always.
 			myUserTrailGhost.setTab_position(new Long(1));
 
 			Hashtable<Long, UserTrailGhost> loggedInUsers = (Hashtable<Long, UserTrailGhost>) request
 					.getSession().getServletContext().getAttribute(
-							USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS);
+							USIP_OSP_ContextListener.getCacheonLoggedInUsers(schema));
 
 			if (loggedInUsers == null) {
 				loggedInUsers = new Hashtable();
 				request.getSession().getServletContext().setAttribute(
-						USIP_OSP_ContextListener.CACHEON_LOGGED_IN_USERS,
+						USIP_OSP_ContextListener.getCacheonLoggedInUsers(schema),
 						loggedInUsers);
 			}
 
@@ -481,7 +480,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session
 				.getServletContext()
 				.getAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
+						USIP_OSP_ContextListener.getCacheonPhaseNamesByRsId(schema));
 
 		if (runningSimId != null) {
 			phaseName = phaseNames.get(runningSimId);
@@ -496,9 +495,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 	public void storeUserInfoInSessionInformation(HttpServletRequest request) {
 
 		Hashtable<Long, Hashtable> loggedInPlayers = USIP_OSP_Cache
-				.getCachedHashtable(request, schema,
-						USIP_OSP_ContextListener.CACHEON_LOGGED_IN_PLAYERS,
-						USIP_OSP_ContextListener.CACHED_TABLE_LONG_HASHTABLE);
+				.getCachedHashtable(request, 
+						USIP_OSP_ContextListener.getCacheonLoggedInPlayers(schema));
 
 		Hashtable thisSetOfPlayers = loggedInPlayers.get(this.runningSimId);
 
@@ -987,7 +985,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		// Get cache of alert numbers
 		Hashtable<Long, Long> highestAlertNumber = USIP_OSP_Cache
-				.getAlertNumberHashtableForRunningSim(request);
+				.getAlertNumberHashtableForRunningSim(request, schema);
 
 		// Get the highest change number for this simulation
 		Long runningSimHighestAlert = (Long) highestAlertNumber
@@ -1004,7 +1002,7 @@ public class PlayerSessionObject extends SessionObjectBase {
 				highestAlertNumber.put(runningSimId, runningSimHighestAlert);
 
 				request.getSession().getServletContext().setAttribute(
-						USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
+						USIP_OSP_ContextListener.getCacheonAlertNumbers(schema),
 						highestAlertNumber);
 			} else {
 				runningSimHighestAlert = new Long(0);
@@ -1025,14 +1023,14 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		// Get the hashtable to store it in from the cache
 		Hashtable<Long, Long> highestChangeNumber = USIP_OSP_Cache
-				.getAlertNumberHashtableForRunningSim(request);
+				.getAlertNumberHashtableForRunningSim(request, schema);
 
 		// put it back into the hashtable
 		highestChangeNumber.put(runningSimId, newHighestAlertNumber);
 
 		// Make sure that this hashtable is stored back in the context.
 		request.getSession().getServletContext().setAttribute(
-				USIP_OSP_ContextListener.CACHEON_ALERT_NUMBERS,
+				USIP_OSP_ContextListener.getCacheonAlertNumbers(schema),
 				highestChangeNumber);
 
 	}
@@ -1093,23 +1091,23 @@ public class PlayerSessionObject extends SessionObjectBase {
 					.getSession()
 					.getServletContext()
 					.getAttribute(
-							USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
+							USIP_OSP_ContextListener.getCacheonPhaseNamesByRsId(pso.schema));
 
 			phaseNames.put(pso.runningSimId, pso.phaseName);
 			request.getSession().getServletContext().setAttribute(
-					USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID,
+					USIP_OSP_ContextListener.getCacheonPhaseNamesByRsId(pso.schema),
 					phaseNames);
 
 			// //////////////////////////////////////////////////////////////////
 			// Store new phase id in the web cache
 			Hashtable<Long, Long> phaseIds = (Hashtable<Long, Long>) pso.session
 					.getServletContext().getAttribute(
-							USIP_OSP_ContextListener.CACHEON_PHASE_IDS);
+							USIP_OSP_ContextListener.getCacheonPhaseIds(pso.schema));
 
 			phaseIds.put(pso.runningSimId, pso.phase_id);
 
 			request.getSession().getServletContext().setAttribute(
-					USIP_OSP_ContextListener.CACHEON_PHASE_IDS, phaseIds);
+					USIP_OSP_ContextListener.getCacheonPhaseIds(pso.schema), phaseIds);
 			// //////////////////////////////////////////////////////////////////
 			// ///////
 
@@ -1585,16 +1583,14 @@ public class PlayerSessionObject extends SessionObjectBase {
 			SimulationPhase sp) {
 
 		Hashtable<Long, String> phaseNames = USIP_OSP_Cache.getCachedHashtable(
-				request, schema,
-				USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID,
-				USIP_OSP_ContextListener.CACHED_TABLE_LONG_STRING);
+				request, USIP_OSP_ContextListener.getCacheonPhaseNamesByRsId(schema));
 
 		String cachedPhaseName = phaseNames.get(this.runningSimId);
 
 		if (cachedPhaseName == null) {
 			phaseNames.put(this.runningSimId, sp.getPhaseName());
 			request.getSession().getServletContext().setAttribute(
-					USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID,
+					USIP_OSP_ContextListener.getCacheonPhaseNamesByRsId(schema),
 					phaseNames);
 
 			System.out.println("cachedPhaseName is " + sp.getPhaseName());

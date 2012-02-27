@@ -21,6 +21,7 @@
 	
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
+	// This is the entry point if they have come here from a page listing docs (eg. write_document_list.jsp)
 	if ((sendingDocId != null) && (sendingDocId.equalsIgnoreCase("true"))){
 		sd = SharedDocument.getById(pso.schema, new Long(doc_id));
 	} else {

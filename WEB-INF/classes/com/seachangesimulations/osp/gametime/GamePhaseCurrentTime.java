@@ -168,8 +168,7 @@ public class GamePhaseCurrentTime {
 			Long phaseId) {
 
 		Hashtable databaseHash = USIP_OSP_Cache.getCachedHashtable(request,
-				schema, USIP_OSP_ContextListener.CACHEON_GAMETIMER,
-				USIP_OSP_ContextListener.CACHED_TABLE_LONG_GPCT);
+				USIP_OSP_ContextListener.getCacheonGametimer(schema));
 
 		GamePhaseCurrentTime gpct = (GamePhaseCurrentTime) databaseHash
 				.get(rsId);
@@ -186,12 +185,9 @@ public class GamePhaseCurrentTime {
 	public static void putGPCTInCache(HttpServletRequest request,
 			String schema, Long simId, Long rsId, Long phaseId,
 			GamePhaseCurrentTime gpct) {
-		
-		System.out.println("putGPCTInCache " + simId + "/" + rsId + "/" + phaseId + "/" + gpct);
 
 		Hashtable databaseHash = USIP_OSP_Cache.getCachedHashtable(request,
-				schema, USIP_OSP_ContextListener.CACHEON_GAMETIMER,
-				USIP_OSP_ContextListener.CACHED_TABLE_LONG_GPCT);
+				USIP_OSP_ContextListener.getCacheonGametimer(schema));
 
 		databaseHash.put(rsId, gpct);
 

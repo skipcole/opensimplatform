@@ -118,10 +118,10 @@
 			
 			if (!(act.getId().equals(pso.getActorId()))) {
 			
-			String userAssigned = USIP_OSP_Cache.getUserAssigned(pso.schema, pso.getRunningSimId(), act.getId(), request);
+			String userAssigned = USIP_OSP_Cache.getNumberofUsersAssigned(pso.schema, pso.getRunningSimId(), act.getId(), request);
 			
 			boolean thisActorAssignedToUser = true;
-			if (userAssigned.equalsIgnoreCase("unassigned")) {
+			if (userAssigned.equalsIgnoreCase("0")) {
 				thisActorAssignedToUser = false;
 			}
 				

@@ -2346,7 +2346,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		Hashtable<Long, String> phaseNames = (Hashtable<Long, String>) session
 				.getServletContext()
 				.getAttribute(
-						USIP_OSP_ContextListener.CACHEON_L_S_PHASE_NAMES_BY_RS_ID);
+						USIP_OSP_ContextListener.getCacheonPhaseNamesByRsId(schema));
 
 		if (runningSimId != null) {
 			phaseName = phaseNames.get(runningSimId);

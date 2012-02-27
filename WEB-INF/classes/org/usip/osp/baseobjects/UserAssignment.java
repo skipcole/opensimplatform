@@ -396,13 +396,23 @@ public class UserAssignment{
 	}
 	
 	
+	/** Returns a list of users assigned.
+	 * 
+	 * @param schema
+	 * @param rid
+	 * @param aid
+	 * @return
+	 */
 	public static List getUsersAssigned (String schema, Long rid, Long aid) {
 		
-		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
+		String hqlString = "from UserAssignment where RUNNING_SIM_ID = :rid and ACTOR_ID = :aid"; //$NON-NLS-1$ //$NON-NLS-2$
 		
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		
-		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString).list();
+		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString)
+		.setLong("rid", rid)
+		.setLong("aid", aid)
+		.list();
 		
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 		
@@ -411,44 +421,13 @@ public class UserAssignment{
 	}
 	
 	/**
-	 * This is only used for one thing now: to see if a user has been assigned,
-	 * so if it is arbitrary if 1 or more have been assigned. This should be simplified and removed.
+	 * TODO - Now that multiple users can be added, this is defunct, but still used.
+	 * 
 	 * @param schema
 	 * @param rid
 	 * @param aid
 	 * @return
 	 */
-	public static User get_A_UserAssigned_dont_use (String schema, Long rid, Long aid) {
-		
-		String hqlString = "from UserAssignment where RUNNING_SIM_ID = " + rid + " and ACTOR_ID = " + aid; //$NON-NLS-1$ //$NON-NLS-2$
-		
-		//Logger.getRootLogger().debug(hqlString);
-		
-		MultiSchemaHibernateUtil.beginTransaction(schema);
-		
-		List <UserAssignment> userList = MultiSchemaHibernateUtil.getSession(schema).createQuery(hqlString).list();
-		
-		User returnUser = null;
-		if ((userList != null) && (userList.size() > 0)){
-			UserAssignment ua = userList.get(0);
-			
-			if (ua.getUser_id() != null){
-				returnUser = (User) MultiSchemaHibernateUtil.getSession(schema).get(User.class,ua.getUser_id());
-			
-				returnUser.loadMyDetails();
-				Logger.getRootLogger().debug(returnUser.getBu_username());
-			}
-		} else{
-			Logger.getRootLogger().debug("no user assigned found."); //$NON-NLS-1$
-		}
-		
-		
-		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
-		return returnUser;
-		
-	}
-	
 	public static UserAssignment getUserAssignment (String schema, Long rid, Long aid) {
 		
 		String hqlString = "from UserAssignment where RUNNING_SIM_ID = :running_sim_id and ACTOR_ID = :actor_id"; //$NON-NLS-1$

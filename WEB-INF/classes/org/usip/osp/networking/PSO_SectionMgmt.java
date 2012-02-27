@@ -533,7 +533,7 @@ public class PSO_SectionMgmt {
 		}
 		
 		// Reset web cache
-		USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
+		USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.getCacheonSimSecInfo(afso.schema));
 
 	}
 
@@ -585,7 +585,7 @@ public class PSO_SectionMgmt {
 		}
 		
 		// Reset web cache
-		USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
+		USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.getCacheonSimSecInfo(afso.schema));
 
 	}
 
@@ -839,6 +839,7 @@ public class PSO_SectionMgmt {
 			// Update page values
 			customizableSectionOnScratchPad.setBigString(make_read_document_page_text);
 			customizableSectionOnScratchPad.setRec_tab_heading(_tab_heading);
+			customizableSectionOnScratchPad.setDescription(_cs_description);
 			customizableSectionOnScratchPad.saveMe(afso.schema);
 
 			return customizableSectionOnScratchPad;
@@ -1170,7 +1171,7 @@ public class PSO_SectionMgmt {
 						customizableSectionOnScratchPad.getId(), _tab_heading, conv.getConv_actor_assigns(afso.schema));
 				
 				// Reset web cache
-				USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
+				USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.getCacheonSimSecInfo(this.afso.schema));
 				
 				// send them back
 				afso.forward_on = true;
@@ -1184,7 +1185,7 @@ public class PSO_SectionMgmt {
 						_universal);
 				afso.forward_on = true;				
 				// Reset web cache
-				USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
+				USIP_OSP_Cache.resetSpecificWebCache(request, this.afso.schema, USIP_OSP_ContextListener.getCacheonSimSecInfo(this.afso.schema));
 
 				
 				return null;
@@ -1312,11 +1313,6 @@ public class PSO_SectionMgmt {
 	public CustomizeableSection handleMakeImagePage(HttpServletRequest request) {
 
 		customizableSectionOnScratchPad = new CustomizeableSection();
-		
-		System.out.println("     handleMakeImagePage         ");
-		System.out.println("     handleMakeImagePage         ");
-		System.out.println("     handleMakeImagePage         ");
-		System.out.flush();
 		
 
 		try {

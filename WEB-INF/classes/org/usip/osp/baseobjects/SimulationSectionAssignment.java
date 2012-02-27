@@ -184,7 +184,7 @@ public class SimulationSectionAssignment implements WebObject {
 		reorder(schema, sid, aid, pid);
 		
 		// Clean web cache out
-		USIP_OSP_Cache.resetSpecificWebCache(request, schema, USIP_OSP_ContextListener.CACHEON_SIM_SEC_INFO);
+		USIP_OSP_Cache.resetSpecificWebCache(request, schema, USIP_OSP_ContextListener.getCacheonSimSecInfo(schema));
 
 
 	}

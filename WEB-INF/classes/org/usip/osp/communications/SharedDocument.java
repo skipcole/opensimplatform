@@ -590,16 +590,19 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 
 		List<SharedDocument> returnList = new ArrayList<SharedDocument>();
 
-		String getString = "from SimSectionRSDepOjbectAssignment where section_id = '" + section_id + "' " //$NON-NLS-1$ //$NON-NLS-2$
-				+ " and rs_id = " + rs_id //$NON-NLS-1$
+		String getString = "from SimSectionRSDepOjbectAssignment where section_id = :section_id " //$NON-NLS-1$ //$NON-NLS-2$
+				+ " and rs_id = :rs_id " //$NON-NLS-1$
 				+ " and className = 'org.usip.osp.communications.SharedDocument' order by ssrsdoa_index"; //$NON-NLS-1$
 
-		Logger.getRootLogger().debug(getString);
+		Logger.getRootLogger().warn(getString);
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List docList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery(getString).list();
+				.createQuery(getString)
+				.setLong("section_id", section_id)
+				.setLong("rs_id", rs_id)
+				.list();
 
 		if (docList != null) {
 			Logger.getRootLogger().debug(
@@ -828,7 +831,6 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 
 		String sending_page = (String) request.getParameter("sending_page");
 		String update_text = (String) request.getParameter("update_text");
-		
 		String write_document_text = (String) request.getParameter("write_document_text");
 
 		if ((sending_page != null) && (update_text != null)
@@ -840,15 +842,19 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 				for (Enumeration e = RunningSimSet.getAllRunningSimsInSameSet(sob.schema, sob.getRunningSimId()); e.hasMoreElements();) {
 					Long rs_id = (Long) e.nextElement();
 					
-					System.out.println("r s id is : " + rs_id);
-					
 					List rsList = getRSVersionOfBaseDocument(sob.schema, sd.base_id, rs_id);
 					
 					if (rsList.size() == 1){
 						SharedDocument linkedDoc = (SharedDocument) rsList.get(0);
-						System.out.println("saved doc id is " + linkedDoc.getId());
+
 						linkedDoc.setBigString(write_document_text);
 						linkedDoc.saveMe(sob.schema, sob.getActorId());
+						
+						// Update this here so text shown on page updates immediately
+						if (sd.getId().intValue() == linkedDoc.getId().intValue()){
+							sd.setBigString(write_document_text);
+						}
+							
 						
 					} else {
 						System.out.println("big problme inm multiple docs");
@@ -860,7 +866,7 @@ public class SharedDocument implements SimSectionDependentObject, Comparable {
 				sd.saveMe(sob.schema, sob.getActorId());
 			}
 
-		} // End of if coming from this page and have added text
+		} // End of if coming from this page and have modified the text
 
 	}
 	
