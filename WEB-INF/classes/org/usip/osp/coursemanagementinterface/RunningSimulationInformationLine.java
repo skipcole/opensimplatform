@@ -140,6 +140,11 @@ public class RunningSimulationInformationLine {
 				if (rs.getPhase_id() != null) {
 					sp = SimulationPhase.getById(afso.schema, rs.getPhase_id()
 							.toString());
+					
+					// 2/29/2012.  Bullet plating in case RS has been created then Phase removed.
+					if (sp == null) {
+						sp = new SimulationPhase();
+					}
 				}
 
 				if (InstructorRunningSimAssignments.checkIsInstructor(

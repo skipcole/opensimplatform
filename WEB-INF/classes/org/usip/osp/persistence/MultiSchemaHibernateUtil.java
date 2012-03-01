@@ -525,6 +525,8 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(org.usip.osp.communications.WebLinkObjects.class);
 		
 		// Course Management Classes
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.ClassOfStudents.class);
+		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.ClassOfStudentsAssignments.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.Course.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.CourseStudentAssignments.class);
 		ac.addAnnotatedClass(org.usip.osp.coursemanagementinterface.RequiredAcknowledgment.class);
