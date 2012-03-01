@@ -4233,7 +4233,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 
 		// Handle what happens when they get here after creating a user.
 
-		if (u_id != null) {
+		if ((u_id != null) && (!(u_id.equalsIgnoreCase("null")))) {
 			User user = new User();
 			user = User.getById(schema, new Long(u_id));
 
