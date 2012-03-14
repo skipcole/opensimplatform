@@ -609,6 +609,7 @@ public class Conversation implements SimSectionDependentObject {
 		new_conv.setUniqueConvName(templateConv.getUniqueConvName());
 		new_conv.setConversationNotes(templateConv.getConversationNotes());
 		new_conv.setConversationType(templateConv.getConversationType());
+		new_conv.setBase_conv_id(templateConv.getBase_conv_id());
 
 		new_conv.saveMe(schema);
 

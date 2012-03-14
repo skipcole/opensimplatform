@@ -57,6 +57,7 @@
       <ul>
         <li><a href="create_set_of_running_sims.jsp">Create Set of Running Simulations</a><a href="helptext/add_instructor.jsp"  target="helpinright"> (?)</a></li>
         <li><a href="facilitate_create_login_message.jsp">Create a Login Message</a><a href="helptext/create_running_sim_help.jsp" target="helpinright"> (?)</a></li>
+        <li><a href="facilitate_import_student_csv_file.jsp">Upload CSV File of Student Data</a> (?)</li>
         </ul>
       <p align="center"></p>			</td>
 		</tr>
