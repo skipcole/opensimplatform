@@ -297,6 +297,7 @@ public class BaseUser implements Comparable {
 		}
 
 		password = BaseUser.hashPassword(password);
+		username = username.toLowerCase();
 
 		MultiSchemaHibernateUtil.beginTransaction(
 				MultiSchemaHibernateUtil.principalschema, true);
@@ -307,7 +308,7 @@ public class BaseUser implements Comparable {
 			sList = MultiSchemaHibernateUtil
 					.getSession(MultiSchemaHibernateUtil.principalschema, true)
 					.createQuery(
-							"from BaseUser where USERNAME = :username AND PASSWORD = :password ")
+							"from BaseUser where lower(USERNAME) = :username AND PASSWORD = :password ")
 					.setString("username", username)
 					.setString("password", password).list(); //$NON-NLS-1$ 
 		} catch (Exception e) {

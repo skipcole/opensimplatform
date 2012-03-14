@@ -218,7 +218,7 @@ width:100%;
 	%>
 		
   <tr valign="top"> 
-    <td width="40%"> Your conversation with <%= this_a_name %> <img src = "<%= this_a_thumb %>" alt = "<%= this_a_name %>" >
+    <td width="40%"> Your conversation with <%= this_a_name %> <img src = "<%= this_a_thumb %>" width="40" height="25" alt = "<%= this_a_name %>" >
     (<I><span id="actorpresent<%= caa.getActor_id().toString() %>">Checking status ...</span></I>)<br>
 				<form id="chatform<%= conv.getId() %>" >
   <p>&nbsp;&nbsp;<textarea cols="40" rows="5" id="msg<%= conv.getId() %>" ></textarea>

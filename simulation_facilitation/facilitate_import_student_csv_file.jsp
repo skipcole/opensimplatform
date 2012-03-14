@@ -50,7 +50,7 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Import Student Information</h1>
-              <p>This page will allow you to import a set of students directly into the platform. The student information has to first be put into a 'comma separated values' (CSV) file. A template file for doing this is <a href="import_student_csv_template.csv">located here</a>.</p>
+              <p>This page will allow you to import a set of students directly into the platform. The student information has to first be put into a 'comma separated values' (CSV) file. A template file for doing this is <a href="import_student_csv_template.csv" target="_new">located here</a>.</p>
               <p>The following statements about the file you import must be true:</p>
               <ol>
                 <li>Any line not meant to be imported should be commented out with a '#' symbol in the first position of the line.</li>
@@ -60,7 +60,7 @@
               <p>Please also note that:</p>
               <ol>
                 <li>The student's email address will become their user name.</li>
-                <li>Importing students into the platform does not immediately give them access to any simulations. You will need to assing them a role in a simulation before they will actually be able to log in and do anything.</li>
+                <li>Importing students into the platform does not immediately give them access to any simulations. You will need to assign them a role in a simulation before they will actually be able to log in and do anything.</li>
               </ol>
               <p>Follow the steps below to perform the import.</p>
 
@@ -83,15 +83,21 @@
               <td valign="top">2.</td> 
               <td valign="top"><p>Enter Class Name:
                 <label for="textfield"></label>
-                <input type="text" name="textfield" id="textfield" />
+                <input type="text" name="class_name" id="class_name" />
               </p>
                 <p>or Select it from your current list of classes:</p>
                 <p>&nbsp;</p></td>
             </tr>
             <tr>
               <td valign="top">3</td>
-              <td valign="top"><input type="submit" name="import" value="Import" /></td>
+              <td valign="top">Press this 
+                <input type="submit" name="import" value="Import" /> 
+                button</td>
               </tr>
+            <tr>
+              <td valign="top">4. </td>
+              <td valign="top">You will be taken to a page where you will need to confirm the students entered.</td>
+            </tr>
             </table>
     <p>      </p>
   </form>

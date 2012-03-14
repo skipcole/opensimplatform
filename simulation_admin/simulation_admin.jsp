@@ -53,6 +53,10 @@
                       <td>Allows you to add organizations (and their logos) on to this platform.</td>
                     </tr>
                     <tr valign="top">
+                      <td><a href="class_administration.jsp">Class Administration</a></td>
+                      <td>Completely experimental.</td>
+                    </tr>
+                    <tr valign="top">
                       <td><a href="software_development_section.jsp">Software Development Tasks</a></td>
                       <td>Section useful to developers only.</td>
                     </tr>

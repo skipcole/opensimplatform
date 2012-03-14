@@ -1,6 +1,7 @@
 package org.usip.osp.coursemanagementinterface;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
@@ -8,9 +9,11 @@ import java.util.ListIterator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.User;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /*
@@ -26,7 +29,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 @Entity
 @Proxy(lazy = false)
-public class ClassOfStudents {
+public class ClassOfStudents implements Comparable{
 
 	@Id
 	@GeneratedValue
@@ -35,6 +38,43 @@ public class ClassOfStudents {
 	private String className = "";
 	
 	private java.util.Date creationDate = new java.util.Date();
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	public java.util.Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(java.util.Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public ClassOfStudents() {
+		
+	}
+	
+	public ClassOfStudents(String schema, String className) {
+		
+		this.className = className;
+		
+		this.saveMe(schema);
+		
+		
+	}
 	
 	/**
 	 * Saves the object back to the database.
@@ -47,6 +87,27 @@ public class ClassOfStudents {
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
+	}
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static int createClass(HttpServletRequest request){
+		
+		String addClass = request.getParameter("add_class");
+		String className = request.getParameter("class_name");
+		String schema = request.getParameter("schema");
+		
+		if ((addClass != null) && (addClass.equalsIgnoreCase("true"))){
+			System.out.println("creatin class");
+			
+			ClassOfStudents cos = new ClassOfStudents(schema, className);
+			
+			return 1;
+		}
+		
+		return 0;
 	}
 	
 	/**
@@ -94,6 +155,71 @@ public class ClassOfStudents {
 			returnList.add(cos);
 		}
 
+
+		return returnList;
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @return
+	 */
+	public static List getAll(String schema){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery("from ClassOfStudents")
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		Collections.sort(returnList);
+
+		return returnList;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		
+		ClassOfStudents cos = (ClassOfStudents) arg0;
+		
+		return this.getClassName().compareTo(cos.getClassName());
+		
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param classId
+	 * @return
+	 */
+	public static List getAllInstructorsForClass(String schema, Long classId){
+		
+		if (classId == null){
+			return new ArrayList();
+		}
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List tempList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery("from ClassOfStudentsAssignments where classId = :classId and instructor is true")
+				.setLong("classId", classId)
+				.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+		
+		ArrayList returnList = new ArrayList();
+		
+		for (ListIterator li = tempList.listIterator(); li.hasNext();) {
+			ClassOfStudentsAssignments cosa = (ClassOfStudentsAssignments) li.next();
+			
+			User user = User.getById(schema, cosa.getUserId());
+			
+			returnList.add(cosa);
+		}
+
+		Collections.sort(returnList);
 
 		return returnList;
 	}

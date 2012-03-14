@@ -41,7 +41,6 @@
 		
 		if (thirdChoice != null){
 			selectedThird = thirdChoice.getBishopsPartyInfoId();
-			System.out.println("3 was: " + selectedThird);
 		}		
 	
 	}
