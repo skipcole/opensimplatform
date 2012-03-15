@@ -943,10 +943,11 @@ public class ObjectPackager {
 		unpackageTimelineObjects(schema, re.getId(), xmlText, simRead.getId(),
 				xstream, bssIdMappings, actorIdMappings, injectIdMappings);
 
+		// This is not working, and will probably need to go away sc 3/15/12
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Tips");
 		unpackageTips(schema, re.getId(), xmlText, simRead.getId(), xstream,
 				bssIdMappings, actorIdMappings, afso);
-
+		
 		RestoreResults.createAndSaveNotes(re.getId(), "Unpacking Media");
 		unpackageSimMedia(schema, re.getId(), xmlMedia, simRead.getId(),
 				xstream, bssIdMappings, actorIdMappings);
