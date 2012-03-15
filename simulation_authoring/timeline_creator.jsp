@@ -67,10 +67,19 @@
       </tr>
 
       <tr>
+        <td valign="top">Type:</td>
+        <td valign="top"><p>Historical</p>
+        <p>Current</p></td>
+      </tr>
+      <tr>
             <td valign="top"><strong>Start Date: </strong></td>
             <td valign="top">
 			<%
 				SimpleDateFormat sdf_startdate = new SimpleDateFormat("MM/dd/yyyy");
+				if (afso.timelineOnScratchPad.getTimeline_start_date() == null){
+					afso.timelineOnScratchPad.setTimeline_start_date(new java.util.Date());	
+				}
+				
 				String start_date_formatted = sdf_startdate.format(afso.timelineOnScratchPad.getTimeline_start_date());
 			%>
 			<input name="timeline_start_date" type="text" id="datepicker" value="<%= start_date_formatted %>"></td>

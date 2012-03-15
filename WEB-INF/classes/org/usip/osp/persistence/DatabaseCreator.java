@@ -26,6 +26,41 @@ public class DatabaseCreator {
 	static String email_server_number  = "";
 	static String email_status  = "";
 	
+	
+	/** This method is the web facing version of the database creation routine. The other
+	 * time a database may be created is for testing purposes.
+	 * 
+	 * @param request
+	 * @param adminUserId
+	 * @return
+	 */
+	public static String handleCreateOrUpdateDB(HttpServletRequest request,
+			Long adminUserId) {
+
+		
+		String sending_page = (String) request.getParameter("sending_page");
+		String command = (String) request.getParameter("command");
+
+		if ((sending_page == null) || (command == null)) {
+			return "";
+		}
+
+		if (command.equalsIgnoreCase("Clear")) {
+			return "";
+		}
+		
+		String sio_id = (String) request.getParameter("sio_id");
+		String loadss = (String) request.getParameter("loadss");
+		
+		if ((command.equalsIgnoreCase("Update"))
+				|| (command.equalsIgnoreCase("Create"))) {
+			
+			loadUpParameters(request);
+		}
+		
+		return handleCreateOrUpdateDB(command, sio_id, loadss, adminUserId);
+		
+	}
 	/**
 	 * Creates or updates a database based on the parameters passed in.
 	 * 
@@ -33,32 +68,22 @@ public class DatabaseCreator {
 	 * @param request
 	 * @return
 	 */
-	public static String handleCreateOrUpdateDB(HttpServletRequest request,
+	public static String handleCreateOrUpdateDB( 
+			String command, String sio_id, String loadss,
 			Long adminUserId) {
 
 		String error_msg = "";
-
-		String sending_page = (String) request.getParameter("sending_page");
-		String command = (String) request.getParameter("command");
-
-		if ((sending_page == null) || (command == null)) {
-			return error_msg;
-		}
-
-		if (command.equalsIgnoreCase("Clear")) {
-			return error_msg;
-		}
-
+		
 		SchemaInformationObject sio = new SchemaInformationObject();
+		
 		if (command.equalsIgnoreCase("Update")) {
-			String sio_id = (String) request.getParameter("sio_id");
 			sio = SchemaInformationObject.getById(new Long(sio_id));
 		}
 
 		if ((command.equalsIgnoreCase("Update"))
 				|| (command.equalsIgnoreCase("Create"))) {
 			
-			loadUpParameters(request);
+			// Parameters have already been loaded by loadUpParameters(request);
 			
 			sio = fillSIO();
 
@@ -89,8 +114,6 @@ public class DatabaseCreator {
 			// recreate the database.
 			if (command.equalsIgnoreCase("Create")) {
 				MultiSchemaHibernateUtil.recreateDatabase(sio);
-
-				String loadss = (String) request.getParameter("loadss");
 
 				if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
 					BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema, FileIO.getBase_section_web_dir());
@@ -127,17 +150,47 @@ public class DatabaseCreator {
 		email_smtp = (String) request.getParameter("email_smtp");
 		email_user = (String) request.getParameter("email_user");
 		email_pass = (String) request.getParameter("email_pass");
+		
 		email_user_address = (String) request
 				.getParameter("email_user_address");
-
 		email_tech_address = (String) request
-				.getParameter("email_user_address");
-		email_noreply_address = (String) request
 				.getParameter("email_tech_address");
+		email_noreply_address = (String) request
+				.getParameter("email_noreply_address");
 
 		email_server_number = (String) request
 				.getParameter("email_server_number");
+		
 		email_status = checkEmailStatus(email_smtp, email_user,
+				email_pass, email_user_address);
+		
+	}
+	
+	
+	public static void loadTestDBParameters(HttpServletRequest request, 
+			String _db_schema, String _db_org, String _db_logo, String _db_banner,
+			String _db_website, String _db_notes, String _email_smtp, String _email_user,
+			String _email_pass, String _email_user_address, String _email_tech_address,
+			String _email_noreply_address, String _email_server_number) {
+		
+		DatabaseCreator.db_schema = 			_db_schema;
+		DatabaseCreator.db_org = 				_db_org;
+		DatabaseCreator.db_logo = 				_db_logo;
+		DatabaseCreator.db_banner = 			_db_banner;
+		
+		DatabaseCreator.db_website = 			_db_website;
+		DatabaseCreator.db_notes = 				_db_notes;
+		DatabaseCreator.email_smtp = 			_email_smtp;
+		DatabaseCreator.email_user = 			_email_user;
+		DatabaseCreator.email_pass = 			_email_pass;
+		DatabaseCreator.email_user_address = 	_email_user_address;
+
+		DatabaseCreator.email_tech_address = 	_email_tech_address;
+		DatabaseCreator.email_noreply_address = _email_noreply_address;
+
+		DatabaseCreator.email_server_number = 	_email_server_number;
+		
+		DatabaseCreator.email_status = checkEmailStatus(email_smtp, email_user,
 				email_pass, email_user_address);
 		
 	}

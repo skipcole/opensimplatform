@@ -19,7 +19,11 @@
 	String sendingDocId = (String) request.getParameter("sendingDocId");
 	String doc_id = (String) request.getParameter("doc_id");
 	
-	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
+	CustomizeableSection cs = new CustomizeableSection();
+	
+	if ((cs_id != null) && (!(cs_id.equalsIgnoreCase("null")))){
+		cs = CustomizeableSection.getById(pso.schema, cs_id);
+	}
 	
 	// This is the entry point if they have come here from a page listing docs (eg. write_document_list.jsp)
 	if ((sendingDocId != null) && (sendingDocId.equalsIgnoreCase("true"))){

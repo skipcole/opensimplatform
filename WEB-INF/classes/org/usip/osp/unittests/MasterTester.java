@@ -1,9 +1,12 @@
 package org.usip.osp.unittests;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.specialfeatures.*;
 
-//import junit.framework.*;
+import org.junit.*;
 
 /*
  * 
@@ -24,12 +27,20 @@ public class MasterTester{
 
     public static void main(String args[]){
     	
+    	MasterTester mt = new MasterTester();
+    	mt.testCalculate();
+    	
+    	// Create Database
     	
     	
     }
     
-    public static void test1(){
-    	//assertTrue(true);
-    }
+	@Test
+	public void testCalculate() {
+		assert(true);
+		
+	}
+    
+
 
 }
