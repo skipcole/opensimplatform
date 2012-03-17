@@ -1366,7 +1366,7 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		DatabaseCreator.loadUpParameters(request);
 
 		// Fill SIO
-		SchemaInformationObject sio = DatabaseCreator.fillSIO();
+		SchemaInformationObject sio = DatabaseCreator.fillSIO(new SchemaInformationObject());
 
 		if (!(MultiSchemaHibernateUtil.testConn())) {
 			return ("<BR> Failed to create database connection to the database "
@@ -1394,12 +1394,12 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
 			BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema,
 					FileIO.getBase_section_web_dir());
+			
+			BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema,
+					FileIO.getPlugin_dir());
+			MultiSchemaHibernateUtil.createPluginTables(sio);
 		}
 		// /////////
-
-		BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema,
-				FileIO.getPlugin_dir());
-		MultiSchemaHibernateUtil.createPluginTables(sio);
 
 		String admin_first = (String) request.getParameter("admin_first");
 		String admin_middle = (String) request.getParameter("admin_middle");
@@ -2904,35 +2904,93 @@ public class AuthorFacilitatorSessionObject extends SessionObjectBase {
 		return returnString;
 	}
 	
+	/** This exports the simulation to a file, and then imports it back from that file,
+	 * and then finally exports it to a second file. If the first exported file and the
+	 * second imported file are the same (barring small differences such as time stamp) then
+	 * the export import functionality is working correctly for a simulation such as one
+	 * that was used as the test case. (More complex simulations with additional features
+	 * have obviously not been tested.)
+	 * 
+	 * @param _sim_id
+	 * @param fileName
+	 * @return
+	 */
 	public String handleExportImportExportTest(String _sim_id, String fileName){
+		
+		if (!(this.isAdmin)){
+			return "Not authorized";
+		}
 		
 		String returnString = "";
 		
-		String fullFilePath = FileIO.diagnostic_dir + fileName;
 		
+		// Determine the file names. (The first simulation will need to be saved
+		// to file, then used, and then modified (to remove transit ids) and the
+		// saved again.
+		String fullFilePathFirstExport = FileIO.diagnostic_dir + fileName;;
+		fileName = fileName.replaceFirst("_ver_a", "_ver_b");
+		String fullFilePathSecondExport = FileIO.diagnostic_dir + fileName;;
+		
+		//String fullFilePath = FileIO.diagnostic_dir + fileName;
+		
+		// Get Sim as one large String.
+		String completeSimInAString_VersionA = ObjectPackager.packageSimulation(schema, new Long(_sim_id));
+				
+		// Save the file for the first time.
 		returnString += FileIO.saveSimulationXMLFileDirectly(this,
-				ObjectPackager.packageSimulation(schema, new Long(_sim_id)),
-				fullFilePath);
+				completeSimInAString_VersionA,
+				fullFilePathFirstExport);
 		
-		Simulation sim = Simulation.getById(schema, new Long(_sim_id));
+		String originalSimName = "";
+		String originalSimVer = "";
 		
-		Long simId = ObjectPackager.unpackageSim(fileName, fullFilePath, schema, sim.getSimulationName() + "_test", 
-				sim.getVersion() + "_test", null, this, 
+		{
+			Simulation sim = Simulation.getById(schema, new Long(_sim_id));
+			originalSimName = sim.getSimulationName();
+			originalSimVer = sim.getVersion();
+		}
+		
+		// Need to clean out test schema, then unpackage there. If the sim
+		// begins in a clean schema, and then exports to the test schema, many little things 
+		// like actor_ids will map automatically. This will let us do a good comparison.
+		DatabaseCreator.createOrCleanUnitTestSchema("true", this.user_id);
+		
+		Long simId = ObjectPackager.unpackageSim(fileName, fullFilePathFirstExport, DatabaseCreator.UNITTESTSCHEMA, originalSimName + "_test", 
+				originalSimVer + "_test", null, this, 
 				this.user_id, this.userDisplayName, this.user_name);
 		
 		returnString += "<br />Sim unpacked with new id " + simId + "<br />";
 		
-		fileName = fileName.replaceFirst("_ver_a", "_ver_b");
+		String completeSimInAString_VersionB = ObjectPackager.packageSimulation(DatabaseCreator.UNITTESTSCHEMA, simId);
 		
-		fullFilePath = FileIO.diagnostic_dir + fileName;
+		completeSimInAString_VersionB = cleanForComparison(completeSimInAString_VersionB);
 		
 		returnString += FileIO.saveSimulationXMLFileDirectly(this,
-				ObjectPackager.packageSimulation(schema, simId),
-				fullFilePath);
+				completeSimInAString_VersionB,
+				fullFilePathSecondExport);
+		
+		// Remove some things such as sim id and transit id so they don't clutter up the comparison.
+		completeSimInAString_VersionA = cleanForComparison(completeSimInAString_VersionA);
+		
+		returnString += "<br />Cleaned out transit id differences. <br />";
+		// Save the file.
+		returnString += FileIO.saveSimulationXMLFileDirectly(this,
+				completeSimInAString_VersionA,
+				fullFilePathFirstExport);
 			
 		return returnString;
 		
 		
+	}
+	
+	public static String cleanForComparison(String a){
+		
+		String b = a.replaceAll("<transitId>[0-9]*</transitId>", "<transitId>0</transitId>");
+		
+		//b = b.replaceAll("<sim__id>[0-9]*</sim__id>", "<sim__id>0</sim__id>");
+		b = b.replaceAll("<transit__id>[0-9]*</transit__id>", "<transit__id>0</transit__id>");
+		
+		return b;
 	}
 
 	/**

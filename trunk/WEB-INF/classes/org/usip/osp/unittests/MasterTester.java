@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.usip.osp.baseobjects.*;
+import org.usip.osp.persistence.DatabaseCreator;
+import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.usip.osp.specialfeatures.*;
 
 import org.junit.*;
@@ -21,26 +23,36 @@ import org.junit.*;
  * PURPOSE. <BR>
  * 
  */
-public class MasterTester{
-    
-    public static Simulation testSim1 = new Simulation();
+public class MasterTester {
 
-    public static void main(String args[]){
-    	
-    	MasterTester mt = new MasterTester();
-    	mt.testCalculate();
-    	
-    	// Create Database
-    	
-    	
-    }
-    
+	public static Simulation testSim1 = new Simulation();
+
+	public static void main(String args[]) {
+
+		System.out.println("hello");
+
+
+			MasterTester mt = new MasterTester();
+			mt.createDB();
+
+	}
+
+	@Test
+	public void createDB() {
+		// Create Database
+		// Need to clean out test schema, then unpackage there. If the sim
+		// begins in a clean schema, and then exports to the test schema, many
+		// little things
+		// like actor_ids will map automatically. This will let us do a good
+		// comparison.
+		DatabaseCreator.createOrCleanUnitTestSchema("true", new Long(
+				1));
+	}
+
 	@Test
 	public void testCalculate() {
-		assert(true);
-		
-	}
-    
+		assert (true);
 
+	}
 
 }

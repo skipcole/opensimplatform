@@ -80,17 +80,62 @@ public class MultiSchemaHibernateUtil {
 		return temp_conn_string;
 
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean checkRootDatabaseCreated() {
+
+		List users = new ArrayList();
+
+		Connection conn = null;
+		
+		try {
+
+			conn = MysqlDatabase.getConnection(conn_string);
+			Statement stmt = conn.createStatement();
+			ResultSet rst = stmt.executeQuery("select * from baseusertable");
+
+			while (rst.next()) {
+				users.add(rst.getString(1));
+			}
+
+			conn.close();
+
+		} catch (Exception e) {
+			Logger.getRootLogger().warn("Problem getting users");
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				conn.close();
+			} catch (Exception e1) {
+				Logger.getRootLogger().warn("Could not close connection in pso.");
+			}
+		}
+
+		boolean returnValue = false;
+
+		if (users == null) {
+			returnValue = false;
+		} else if (users.size() > 0) {
+			returnValue = true;
+		}
+
+		return returnValue;
+	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean checkDatabaseCreated() {
+	public boolean checkSchemaDatabaseCreated() {
 
 		List users = new ArrayList();
 
 		Connection conn = null;
-
+		
 		try {
 
 			conn = MysqlDatabase.getConnection(conn_string);
@@ -104,13 +149,14 @@ public class MultiSchemaHibernateUtil {
 			conn.close();
 
 		} catch (Exception e) {
-			Logger.getRootLogger().debug("Problem getting users");
+			Logger.getRootLogger().warn("Problem getting users");
+			e.printStackTrace();
 			return false;
 		} finally {
 			try {
 				conn.close();
 			} catch (Exception e1) {
-				Logger.getRootLogger().debug("Could not close connection in pso.");
+				Logger.getRootLogger().warn("Could not close connection in pso.");
 			}
 		}
 
@@ -188,6 +234,22 @@ public class MultiSchemaHibernateUtil {
 		}
 
 		return true;
+	}
+	
+	public static boolean testConnToSchema(String _schema){
+		SessionFactory factory = (SessionFactory) MultiSchemaHibernateUtil.setOfSessionFactories.get(_schema);
+		
+		if (factory == null){
+			Configuration config = MultiSchemaHibernateUtil.getInitializedConfiguration(MultiSchemaHibernateUtil.principalschema, true);
+			factory = config.buildSessionFactory();
+			setOfSessionFactories.put(_schema, factory);
+			
+			return true;
+		}
+		
+		else {
+			return testConn();
+		}
 	}
 
 	/**
@@ -273,7 +335,7 @@ public class MultiSchemaHibernateUtil {
 		SessionFactory factory = (SessionFactory) setOfSessionFactories.get(schema);
 
 		if (factory == null) {
-			Logger.getRootLogger().debug("starting with schema : " + schema); //$NON-NLS-1$
+			Logger.getRootLogger().warn("starting with schema : " + schema); //$NON-NLS-1$
 			Configuration config = MultiSchemaHibernateUtil.getInitializedConfiguration(schema, root);
 			factory = config.buildSessionFactory();
 			setOfSessionFactories.put(schema, factory);
@@ -317,11 +379,11 @@ public class MultiSchemaHibernateUtil {
 	 * Recreates a simulation database TODO must also store database information
 	 * in the root schema
 	 * 
-	 * @param dbi
+	 * @param sio
 	 */
-	public static void recreateDatabase(SchemaInformationObject dbi) {
+	public static void recreateDatabase(SchemaInformationObject sio) {
 
-		Configuration config = MultiSchemaHibernateUtil.getInitializedConfiguration(dbi.getSchema_name(), false);
+		Configuration config = MultiSchemaHibernateUtil.getInitializedConfiguration(sio.getSchema_name(), false);
 
 		new SchemaExport(config).create(true, true);
 	}
@@ -445,6 +507,10 @@ public class MultiSchemaHibernateUtil {
 	 * @param ac
 	 */
 	public static void addRootSchemaClasses(AnnotationConfiguration ac) {
+		
+		System.out.println("                    ");
+		System.out.println("          added root schema classes.          ");
+		System.out.println("                    ");
 		
 		ac.addAnnotatedClass(org.usip.osp.persistence.UILanguageObject.class);
 		ac.addAnnotatedClass(org.usip.osp.persistence.BaseUser.class);
