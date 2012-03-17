@@ -394,10 +394,6 @@ public class SchemaInformationObject {
 					.get(0);
 			returnSIO = sio;
 		}
-
-		MultiSchemaHibernateUtil.getSession(
-				MultiSchemaHibernateUtil.principalschema, true)
-				.getTransaction().commit();
 		MultiSchemaHibernateUtil.getSession(
 				MultiSchemaHibernateUtil.principalschema, true).close();
 

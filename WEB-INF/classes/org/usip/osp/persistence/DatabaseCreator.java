@@ -3,6 +3,8 @@ package org.usip.osp.persistence;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.usip.osp.baseobjects.BaseSimSection;
 import org.usip.osp.baseobjects.User;
 import org.usip.osp.networking.FileIO;
@@ -10,23 +12,22 @@ import org.usip.osp.networking.FileIO;
 public class DatabaseCreator {
 
 	static String db_schema = "";
-	static String db_org  = "";
-	static String db_logo  = "";
-	static String db_banner  = "";
-	static String db_website  = "";
-	static String db_notes  = "";
-	static String email_smtp  = "";
-	static String email_user  = "";
-	static String email_pass  = "";
-	static String email_user_address  = "";
+	static String db_org = "";
+	static String db_logo = "";
+	static String db_banner = "";
+	static String db_website = "";
+	static String db_notes = "";
+	static String email_smtp = "";
+	static String email_user = "";
+	static String email_pass = "";
+	static String email_user_address = "";
 
-	static String email_tech_address  = "";
-	static String email_noreply_address  = "";
+	static String email_tech_address = "";
+	static String email_noreply_address = "";
 
-	static String email_server_number  = "";
-	static String email_status  = "";
-	
-	
+	static String email_server_number = "";
+	static String email_status = "";
+
 	/** This method is the web facing version of the database creation routine. The other
 	 * time a database may be created is for testing purposes.
 	 * 
@@ -37,7 +38,6 @@ public class DatabaseCreator {
 	public static String handleCreateOrUpdateDB(HttpServletRequest request,
 			Long adminUserId) {
 
-		
 		String sending_page = (String) request.getParameter("sending_page");
 		String command = (String) request.getParameter("command");
 
@@ -48,19 +48,20 @@ public class DatabaseCreator {
 		if (command.equalsIgnoreCase("Clear")) {
 			return "";
 		}
-		
+
 		String sio_id = (String) request.getParameter("sio_id");
 		String loadss = (String) request.getParameter("loadss");
-		
+
 		if ((command.equalsIgnoreCase("Update"))
 				|| (command.equalsIgnoreCase("Create"))) {
-			
+
 			loadUpParameters(request);
 		}
-		
+
 		return handleCreateOrUpdateDB(command, sio_id, loadss, adminUserId);
-		
+
 	}
+
 	/**
 	 * Creates or updates a database based on the parameters passed in.
 	 * 
@@ -68,24 +69,23 @@ public class DatabaseCreator {
 	 * @param request
 	 * @return
 	 */
-	public static String handleCreateOrUpdateDB( 
-			String command, String sio_id, String loadss,
-			Long adminUserId) {
+	public static String handleCreateOrUpdateDB(String command, String sio_id,
+			String loadss, Long adminUserId) {
 
 		String error_msg = "";
-		
+
 		SchemaInformationObject sio = new SchemaInformationObject();
-		
-		if (command.equalsIgnoreCase("Update")) {
+
+		if ((sio_id != null) && (!(sio_id.equalsIgnoreCase("null")))) {
 			sio = SchemaInformationObject.getById(new Long(sio_id));
 		}
 
 		if ((command.equalsIgnoreCase("Update"))
 				|| (command.equalsIgnoreCase("Create"))) {
-			
+
 			// Parameters have already been loaded by loadUpParameters(request);
-			
-			sio = fillSIO();
+
+			sio = fillSIO(sio);
 
 			String ps = MultiSchemaHibernateUtil.principalschema;
 
@@ -93,9 +93,17 @@ public class DatabaseCreator {
 				error_msg += "<BR> Failed to create database connection";
 				return error_msg;
 			}
+			
+			if (!(MultiSchemaHibernateUtil.testConnToSchema(MultiSchemaHibernateUtil.principalschema))) {
+				return "Cannot connect to principal schema.";
+			}
 
-			// Store SIO. If a schema object with the same name already exist, return error
+			// Store SIO. If a schema object with the same name already exist,
+			// return error
 			try {
+				System.out.println(sio.getId());
+				System.out.println(sio.getSchema_name());
+				System.out.flush();
 				sio.saveMe();
 			} catch (Exception e) {
 
@@ -106,7 +114,7 @@ public class DatabaseCreator {
 
 				return error_msg;
 			}
-			
+
 			// Created the directory for exported/impoted simulations to reside.
 			FileIO.makeSchemaSpecificDirectories(db_schema);
 
@@ -116,7 +124,13 @@ public class DatabaseCreator {
 				MultiSchemaHibernateUtil.recreateDatabase(sio);
 
 				if ((loadss != null) && (loadss.equalsIgnoreCase("true"))) {
-					BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema, FileIO.getBase_section_web_dir());
+					BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema,
+							FileIO.getBase_section_web_dir());
+					
+					BaseSimSection.readBaseSimSectionsFromXMLFiles(db_schema,
+							FileIO.getPlugin_dir());
+					MultiSchemaHibernateUtil.createPluginTables(sio);
+					
 				}
 			}
 
@@ -135,6 +149,43 @@ public class DatabaseCreator {
 
 	}
 	
+	public static final String UNITTESTSCHEMA = "ospunittests";
+
+	public static void createOrCleanUnitTestSchema(String loadss, Long adminUserId) {
+		
+		String _db_schema = 	UNITTESTSCHEMA;
+		String _db_org = 		"Unit Test Schema";
+		String _db_logo = 		"sea_change_sims_logo.png";
+		String _db_banner = 	"sea_change_sims_banner.png";
+		String _db_website = 	"http://www.seachangesimulations.com";
+		String _db_notes = 		"This is a Unit Test Schema. Don't you dare put anything important in here.";
+		String _email_smtp = "";
+		String _email_user = "";
+		String _email_pass = "";
+		String _email_user_address = "";
+		String _email_tech_address = "";
+		String _email_noreply_address = "";
+		String _email_server_number = "0";
+
+		loadTestDBParameters(_db_schema, _db_org, _db_logo, _db_banner,
+				_db_website, _db_notes, _email_smtp, _email_user, _email_pass,
+				_email_user_address, _email_tech_address,
+				_email_noreply_address, _email_server_number);
+		
+		SchemaInformationObject sio = SchemaInformationObject.lookUpSIOByName(UNITTESTSCHEMA);
+		
+		if (sio == null){
+			sio = new SchemaInformationObject();
+			sio.setSchema_name(UNITTESTSCHEMA);
+			sio.saveMe();
+		} else {
+			System.out.println("sio was not null. sio id is : " + sio.getId());
+			
+		}
+		
+		handleCreateOrUpdateDB("Create", sio.getId().toString(), loadss, adminUserId);
+	}
+
 	/**
 	 * Takes the SIO parameters out of the request object.
 	 * 
@@ -150,7 +201,7 @@ public class DatabaseCreator {
 		email_smtp = (String) request.getParameter("email_smtp");
 		email_user = (String) request.getParameter("email_user");
 		email_pass = (String) request.getParameter("email_pass");
-		
+
 		email_user_address = (String) request
 				.getParameter("email_user_address");
 		email_tech_address = (String) request
@@ -160,39 +211,39 @@ public class DatabaseCreator {
 
 		email_server_number = (String) request
 				.getParameter("email_server_number");
-		
-		email_status = checkEmailStatus(email_smtp, email_user,
-				email_pass, email_user_address);
-		
-	}
-	
-	
-	public static void loadTestDBParameters(HttpServletRequest request, 
-			String _db_schema, String _db_org, String _db_logo, String _db_banner,
-			String _db_website, String _db_notes, String _email_smtp, String _email_user,
-			String _email_pass, String _email_user_address, String _email_tech_address,
-			String _email_noreply_address, String _email_server_number) {
-		
-		DatabaseCreator.db_schema = 			_db_schema;
-		DatabaseCreator.db_org = 				_db_org;
-		DatabaseCreator.db_logo = 				_db_logo;
-		DatabaseCreator.db_banner = 			_db_banner;
-		
-		DatabaseCreator.db_website = 			_db_website;
-		DatabaseCreator.db_notes = 				_db_notes;
-		DatabaseCreator.email_smtp = 			_email_smtp;
-		DatabaseCreator.email_user = 			_email_user;
-		DatabaseCreator.email_pass = 			_email_pass;
-		DatabaseCreator.email_user_address = 	_email_user_address;
 
-		DatabaseCreator.email_tech_address = 	_email_tech_address;
+		email_status = checkEmailStatus(email_smtp, email_user, email_pass,
+				email_user_address);
+
+	}
+
+	public static void loadTestDBParameters(String _db_schema, String _db_org,
+			String _db_logo, String _db_banner, String _db_website,
+			String _db_notes, String _email_smtp, String _email_user,
+			String _email_pass, String _email_user_address,
+			String _email_tech_address, String _email_noreply_address,
+			String _email_server_number) {
+
+		DatabaseCreator.db_schema = _db_schema;
+		DatabaseCreator.db_org = _db_org;
+		DatabaseCreator.db_logo = _db_logo;
+		DatabaseCreator.db_banner = _db_banner;
+
+		DatabaseCreator.db_website = _db_website;
+		DatabaseCreator.db_notes = _db_notes;
+		DatabaseCreator.email_smtp = _email_smtp;
+		DatabaseCreator.email_user = _email_user;
+		DatabaseCreator.email_pass = _email_pass;
+		DatabaseCreator.email_user_address = _email_user_address;
+
+		DatabaseCreator.email_tech_address = _email_tech_address;
 		DatabaseCreator.email_noreply_address = _email_noreply_address;
 
-		DatabaseCreator.email_server_number = 	_email_server_number;
-		
+		DatabaseCreator.email_server_number = _email_server_number;
+
 		DatabaseCreator.email_status = checkEmailStatus(email_smtp, email_user,
 				email_pass, email_user_address);
-		
+
 	}
 
 	/**
@@ -214,11 +265,9 @@ public class DatabaseCreator {
 			return SchemaInformationObject.EMAIL_STATE_UNVERIFIED;
 		}
 	}
-	
-	public static SchemaInformationObject fillSIO(){
-		
-		SchemaInformationObject sio = new SchemaInformationObject();
-		
+
+	public static SchemaInformationObject fillSIO(SchemaInformationObject sio ) {
+
 		// Fill SIO
 		sio.setSchema_name(db_schema);
 		sio.setSchema_organization(db_org);
@@ -234,7 +283,7 @@ public class DatabaseCreator {
 		sio.setEmailNoreplyAddress(email_noreply_address);
 		sio.setEmailState(email_status);
 		sio.setEmailServerNumber(new Long(email_server_number));
-		
+
 		return sio;
 	}
 
