@@ -86,6 +86,10 @@ public class User implements Comparable{
 	
 	@Transient
 	private Long bu_language = new Long(UILanguageObject.ENGLISH_LANGUAGE_CODE);
+	
+	@Transient
+	/** Temporary information associated with a user object, such as a class number. */
+	private String temporaryTag = "";
 
 	public User() {
 
@@ -568,6 +572,15 @@ public class User implements Comparable{
 	public void setBu_language(Long buLanguage) {
 		bu_language = buLanguage;
 	}
+	
+	public String getTemporaryTag() {
+		return temporaryTag;
+	}
+
+	public void setTemporaryTag(String temporaryTag) {
+		this.temporaryTag = temporaryTag;
+	}
+
 
 	public Date getLastLogin() {
 		return lastLogin;

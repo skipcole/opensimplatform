@@ -89,7 +89,7 @@ public class CSVInterpreter {
 										returnString += "Found First Line <br />";
 									}
 								} else {
-									returnString += readInLineOfUserData(
+									returnString += readAndSaveLineOfUserData(
 											schema, daLine, importMappings);
 								}
 							}
@@ -128,8 +128,6 @@ public class CSVInterpreter {
 	 */
 	public static List <User> parseCSV(HttpServletRequest request, String schema) {
 
-		String returnString = "";
-
 		ArrayList returnList = new ArrayList();
 		
 		Hashtable importMappings = new Hashtable();
@@ -146,21 +144,23 @@ public class CSVInterpreter {
 
 			if ((sending_page != null)
 					&& (sending_page.equalsIgnoreCase("import_csv"))) {
+				
+				String class_name = (String) mpr.getParameter("class_name");
+				String class_id = (String) mpr.getParameter("class_id");
 
-				returnString = "Importing CSV File ";
+				Logger.getRootLogger().warn("Importing CSV File ");
 
 				String initFileName = mpr.getOriginalFileName("uploadedfile");
 
 				if ((initFileName != null)
 						&& (initFileName.trim().length() > 0)) {
 
-					returnString += mpr.getOriginalFileName("uploadedfile")
-							+ "<br />";
+					Logger.getRootLogger().warn("Importing CSV File " + mpr.getOriginalFileName("uploadedfile"));
 
 					File fileData = mpr.getFile("uploadedfile");
 
 					Logger.getRootLogger()
-							.debug("File is " + fileData.length());
+							.warn("File is " + fileData.length());
 
 					if (fileData.length() <= max_file_longvalue) {
 
@@ -172,23 +172,26 @@ public class CSVInterpreter {
 						boolean foundFirstLine = false;
 						while (daLine != null) {
 							if (daLine.startsWith("#")) {
-								returnString += daLine + "<br />";
+								// Ignore comments
 							} else {
 
 								if (!foundFirstLine) {
 									// If its anything other then '
 									if (!(daLine.startsWith("Email"))) {
-										returnString += " File does not seem to be in the correct format";
+										Logger.getRootLogger()
+										.warn("File does not seem to be in the correct format");
+										
 										return returnList;
 									} else {
 										readInFileColumnHeadings(daLine,
 												importMappings);
 										foundFirstLine = true;
-										returnString += "Found First Line <br />";
+										Logger.getRootLogger()
+										.warn("Found First Line");
 									}
 								} else {
-									returnString += readInLineOfUserData(
-											schema, daLine, importMappings);
+									returnList.add(parseLineOfUserData(
+											schema, daLine, importMappings));
 								}
 							}
 
@@ -198,17 +201,16 @@ public class CSVInterpreter {
 						br.close();
 
 					} else {
-						returnString += "But selected csv file too large.";
+						Logger.getRootLogger()
+						.warn("But selected csv file too large.");
 					}
 
 				}
 			}
 		} catch (java.io.IOException ioe) {
-			returnString += "Ready for Import";
 			Logger.getRootLogger().warn(
 					"Entered Import Page: " + ioe.getMessage());
 		} catch (Exception e) {
-			returnString += e.getMessage();
 			Logger.getRootLogger().debug(e.getMessage());
 			e.printStackTrace();
 		}
@@ -242,7 +244,7 @@ public class CSVInterpreter {
 	 * @param importMapping
 	 * @return
 	 */
-	public static String readInLineOfUserData(String schema, String daLine,
+	public static String readAndSaveLineOfUserData(String schema, String daLine,
 			Hashtable importMapping) {
 
 		String returnString = "";
@@ -331,4 +333,86 @@ public class CSVInterpreter {
 
 		return returnString;
 	}
+	
+	/**
+	 * Pulls user out of a line of data pulled in.
+	 * 
+	 * @param schema
+	 * @param daLine
+	 * @param importMapping
+	 * @return
+	 */
+	public static User parseLineOfUserData(String schema, String daLine,
+			Hashtable importMapping) {
+
+		StringTokenizer str = new StringTokenizer(daLine, ",");
+
+		User user = new User();
+
+		boolean pullPasswordFromName = false;
+		int ii = 1;
+		/* Looping over all of the fields that have been read in. */
+		while (str.hasMoreTokens()) {
+			Long mapKey = new Long(ii);
+
+			String fieldName = (String) importMapping.get(mapKey);
+			String fieldValue = str.nextToken().trim();
+
+			if (fieldName != null) {
+				if (fieldName.equalsIgnoreCase("Email")) {
+					user.setBu_username(fieldValue);
+					user.setUser_name(user.getBu_username());
+					
+					User tempUser = User.getByUsername(schema, fieldValue);
+
+					if (!(tempUser == null)) {
+						user.setTemporaryTag("User already existed");
+						user.setId(tempUser.getId());
+					}
+
+				} else if (fieldName.equalsIgnoreCase("First Name")) {
+					user.setBu_first_name(fieldValue);
+				} else if (fieldName.equalsIgnoreCase("Last Name")) {
+					user.setBu_last_name(fieldValue);
+				}  else if (fieldName.equalsIgnoreCase("Author")) {
+					if (fieldValue.equalsIgnoreCase("true")){
+						user.setSim_author(true);
+					}
+				}  else if (fieldName.equalsIgnoreCase("Instructor")) {
+					if (fieldValue.equalsIgnoreCase("true")){
+						user.setSim_instructor(true);
+					}
+				} else if (fieldName.equalsIgnoreCase("Password")) {
+
+					if (fieldValue.equalsIgnoreCase("Initials")) {
+						pullPasswordFromName = true;
+					} else {
+						user.setBu_password(fieldValue);
+					}
+
+				} else {
+					System.out.println("unaccounted for field: " + fieldValue);
+				}
+			} else {
+				System.out.println("field null for ii = " + ii + ", field:"
+						+ str.nextToken().trim());
+			}
+
+			++ii;
+		} // End of loop over tokens. All data should be loaded by now.
+
+		if (pullPasswordFromName) {
+			BaseUser bu = new BaseUser();
+			bu.setFirst_name(user.getBu_first_name());
+			bu.setMiddle_name(user.getBu_middle_name());
+			bu.setLast_name(user.getBu_last_name());
+			user.setBu_password(bu.getInitials());
+		}
+
+		user.setBu_full_name(user.getBu_first_name() + " "
+				+ user.getBu_last_name());
+
+		return user;
+	}
+
 }

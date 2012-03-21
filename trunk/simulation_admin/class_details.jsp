@@ -23,21 +23,7 @@
 		cos = ClassOfStudents.getById(afso.schema, new Long(classId));
 	}
 	
-	String errorMessage = "";
-	
-	String add_instructor = request.getParameter("add_instructor");
-	if ((add_instructor != null) && (add_instructor.equalsIgnoreCase("true"))) {
-		String instructor_username = request.getParameter("instructor_username");
-		System.out.println("adding instructor: " + instructor_username );
-		User user = User.getByUsername(afso.schema, instructor_username);
-		
-		if (user == null) {
-			errorMessage = "User not found.";
-		} else {
-			ClassOfStudentsAssignments cosa = new ClassOfStudentsAssignments(afso.schema, cos.getId(), user.getId(), true);	
-		}
-			
-	}
+	String errorMessage =  ClassOfStudents.addMembers(request, afso, cos);
 		
 
 %>
@@ -83,16 +69,16 @@
 			  <p>Instructors</p>
 			  <blockquote>
               <% 
-			  	List instructors = ClassOfStudents.getAllInstructorsForClass(afso.schema, cos.getId());
+			  	List instructors = ClassOfStudents.getMembers(afso.schema, cos.getId(), true);
 				%>
                 <ol>
-                               <%
+               <%
 			
 				for (ListIterator li = instructors.listIterator(); li.hasNext();) {
 					User user = (User) li.next();
 					
 					%>
-                    <li><%= user.getUserName() %></li>
+                    <li><%= user.getUserName() %> <a href="class_details.jsp?remove_member=true&cosa_id=<%= user.getTemporaryTag() %>&class_id=<%= classId %>">(remove)</a></li>
                     <% } %>
                     </ol>
 			    <p></p>
@@ -109,11 +95,33 @@
 			      </form>
 			    </blockquote>
 			  <p>&nbsp;</p>
-			  <p>Students<br />
-			    </p>
-			  <blockquote>
-			    
-			    
+			  <p>Students</p>
+              <blockquote>
+              <% 
+			  	List students = ClassOfStudents.getMembers(afso.schema, cos.getId(), false);
+				%>
+                <ol>
+               <%
+			
+				for (ListIterator lis = students.listIterator(); lis.hasNext();) {
+					User user = (User) lis.next();
+					
+					%>
+                    <li><%= user.getUserName() %> <a href="class_details.jsp?remove_member=true&cosa_id=<%= user.getTemporaryTag() %>&class_id=<%= classId %>">(remove)</a></li>
+                    <% } %>
+                    </ol>
+			    <p></p>
+                			    <form id="form_add_student" name="form_add_student" method="post" action="class_details.jsp">
+                <input type="hidden" name="class_id" value="<%= classId %>" />
+                <input type="hidden" name="add_student" value="true">
+			      <p>
+			        <label for="textfield"></label>
+			        <input type="text" name="student_username" id="student_username" />
+			        </p>
+			      <p>
+			        <input type="submit" name="button" id="button" value="Add Student" />
+			        </p>
+			      </form>
 			    
 			    </blockquote>
 
