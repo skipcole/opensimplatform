@@ -69,7 +69,7 @@
               <p>Follow the steps below to perform the import.</p>
 
             
-    <form enctype="multipart/form-data" action="../simulation_admin/import_student_csv_file.jsp" method="post">
+    <form enctype="multipart/form-data" action="facilitate_import_students_confirm.jsp" method="post">
       
       <input type="hidden" name="sending_page" value="import_csv" />
           <table width="50%" border="1" cellspacing="2" cellpadding="2">
@@ -120,7 +120,7 @@ for (ListIterator li = classesOfStudents.listIterator(); li.hasNext();) {
             <tr>
               <td valign="top">3</td>
               <td valign="top">Press this 
-                <input type="submit" name="import" value="Import" disabled="disabled" /> 
+                <input type="submit" name="import" value="Import" /> 
                 button</td>
               </tr>
             <tr>

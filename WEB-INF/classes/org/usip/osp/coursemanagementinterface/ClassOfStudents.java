@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.baseobjects.User;
+import org.usip.osp.networking.AuthorFacilitatorSessionObject;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /*
@@ -29,16 +30,16 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
  */
 @Entity
 @Proxy(lazy = false)
-public class ClassOfStudents implements Comparable{
+public class ClassOfStudents implements Comparable {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private String className = "";
-	
+
 	private java.util.Date creationDate = new java.util.Date();
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -64,18 +65,17 @@ public class ClassOfStudents implements Comparable{
 	}
 
 	public ClassOfStudents() {
-		
+
 	}
-	
+
 	public ClassOfStudents(String schema, String className) {
-		
+
 		this.className = className;
-		
+
 		this.saveMe(schema);
-		
-		
+
 	}
-	
+
 	/**
 	 * Saves the object back to the database.
 	 * 
@@ -88,28 +88,28 @@ public class ClassOfStudents implements Comparable{
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 	}
+
 	/**
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public static int createClass(HttpServletRequest request){
-		
+	public static int createClass(HttpServletRequest request) {
+
 		String addClass = request.getParameter("add_class");
 		String className = request.getParameter("class_name");
 		String schema = request.getParameter("schema");
-		
-		if ((addClass != null) && (addClass.equalsIgnoreCase("true"))){
-			System.out.println("creatin class");
-			
+
+		if ((addClass != null) && (addClass.equalsIgnoreCase("true"))) {
+
 			ClassOfStudents cos = new ClassOfStudents(schema, className);
-			
+
 			return 1;
 		}
-		
+
 		return 0;
 	}
-	
+
 	/**
 	 * Pulls the object out of the database base on its id and schema.
 	 * 
@@ -127,50 +127,51 @@ public class ClassOfStudents implements Comparable{
 
 		return classOfStudents;
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
 	 * @param userId
 	 * @return
 	 */
-	public static List getAllForInstructor(String schema, Long userId){
+	public static List <ClassOfStudents> getAllForInstructor(String schema, Long userId) {
 
 		ArrayList returnList = new ArrayList();
-		
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List tempList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from ClassOfStudentsAssignments where userId = :userId and instructor is true")
-				.setLong("userId", userId)
-				.list(); //$NON-NLS-1$
+		List tempList = MultiSchemaHibernateUtil
+				.getSession(schema)
+				.createQuery(
+						"from ClassOfStudentsAssignments where userId = :userId and instructor is true")
+				.setLong("userId", userId).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 		for (ListIterator li = tempList.listIterator(); li.hasNext();) {
-			ClassOfStudentsAssignments cosa = (ClassOfStudentsAssignments) li.next();
-			
-			ClassOfStudents cos = ClassOfStudents.getById(schema, cosa.getClassId());
-			
+			ClassOfStudentsAssignments cosa = (ClassOfStudentsAssignments) li
+					.next();
+
+			ClassOfStudents cos = ClassOfStudents.getById(schema,
+					cosa.getClassId());
+
 			returnList.add(cos);
 		}
 
-
 		return returnList;
 	}
-	
+
 	/**
 	 * 
 	 * @param schema
 	 * @return
 	 */
-	public static List getAll(String schema){
-		
+	public static List getAll(String schema) {
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List returnList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from ClassOfStudents")
-				.list(); //$NON-NLS-1$
+				.createQuery("from ClassOfStudents").list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
@@ -181,41 +182,50 @@ public class ClassOfStudents implements Comparable{
 
 	@Override
 	public int compareTo(Object arg0) {
-		
+
 		ClassOfStudents cos = (ClassOfStudents) arg0;
-		
+
 		return this.getClassName().compareTo(cos.getClassName());
-		
+
 	}
-	
+
 	/**
+	 * Gets the members of a class, either instructors or students.
 	 * 
 	 * @param schema
 	 * @param classId
+	 * @param instructor
 	 * @return
 	 */
-	public static List <User> getAllInstructorsForClass(String schema, Long classId){
-		
-		if (classId == null){
+	public static List<User> getMembers(String schema, Long classId,
+			boolean instructor) {
+
+		if (classId == null) {
 			return new ArrayList();
 		}
-		
+
+		String hqlQuery = "from ClassOfStudentsAssignments where classId = :classId and instructor is false";
+
+		if (instructor) {
+			hqlQuery = "from ClassOfStudentsAssignments where classId = :classId and instructor is true";
+		}
+
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
 		List tempList = MultiSchemaHibernateUtil.getSession(schema)
-				.createQuery("from ClassOfStudentsAssignments where classId = :classId and instructor is true")
-				.setLong("classId", classId)
-				.list(); //$NON-NLS-1$
+				.createQuery(hqlQuery).setLong("classId", classId).list(); //$NON-NLS-1$
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-		
+
 		ArrayList returnList = new ArrayList();
-		
+
 		for (ListIterator li = tempList.listIterator(); li.hasNext();) {
-			ClassOfStudentsAssignments cosa = (ClassOfStudentsAssignments) li.next();
-			
+			ClassOfStudentsAssignments cosa = (ClassOfStudentsAssignments) li
+					.next();
+
 			User user = User.getById(schema, cosa.getUserId());
-			
+			user.setTemporaryTag(cosa.getId().toString());
+
 			returnList.add(user);
 		}
 
@@ -223,5 +233,64 @@ public class ClassOfStudents implements Comparable{
 
 		return returnList;
 	}
-	
+
+	public static String addMembers(HttpServletRequest request,
+			AuthorFacilitatorSessionObject afso, ClassOfStudents cos) {
+
+		String errorMessage = "";
+
+		String add_instructor = request.getParameter("add_instructor");
+		if ((add_instructor != null)
+				&& (add_instructor.equalsIgnoreCase("true"))) {
+			String instructor_username = request
+					.getParameter("instructor_username");
+
+			User user = User.getByUsername(afso.schema, instructor_username);
+
+			if (user == null) {
+				errorMessage = "User not found.";
+			} else {
+				@SuppressWarnings("unused")
+				ClassOfStudentsAssignments cosa = new ClassOfStudentsAssignments(
+						afso.schema, cos.getId(), user.getId(), true);
+				
+				errorMessage = "User " + instructor_username + " added as instructor";
+			}
+
+		}
+		
+		String add_student = request.getParameter("add_student");
+		if ((add_student != null)
+				&& (add_student.equalsIgnoreCase("true"))) {
+			String student_username = request
+					.getParameter("student_username");
+
+			User user = User.getByUsername(afso.schema, student_username);
+
+			if (user == null) {
+				errorMessage = "User not found.";
+			} else {
+				@SuppressWarnings("unused")
+				ClassOfStudentsAssignments cosa = new ClassOfStudentsAssignments(
+						afso.schema, cos.getId(), user.getId(), false);
+				
+				errorMessage = "User " + student_username + " added as student";
+			}
+
+		}
+		
+		String remove_member = request.getParameter("remove_member");
+		if ((remove_member != null)
+				&& (remove_member.equalsIgnoreCase("true"))) {
+			
+			String cosa_id = request.getParameter("cosa_id");
+			
+			ClassOfStudentsAssignments.deleteAssignment(afso.schema, new Long(cosa_id));
+			
+			errorMessage = "Removed Member";
+			
+		}
+		return errorMessage;
+	}
+
 }

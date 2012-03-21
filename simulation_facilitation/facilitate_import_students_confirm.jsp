@@ -14,7 +14,7 @@
 			return;
 		}
 		
-		String importResults = CSVInterpreter.importCSV(request, afso.schema);
+		List importList = CSVInterpreter.parseCSV(request, afso.schema);
 
 
 %>
@@ -49,55 +49,53 @@
 		<tr>
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
-              <h1>Import Student Information</h1>
+              <h1>Confirm Student Import  Information</h1>
               <p>Below are the students to be imported for this class.</p>
               
               <form id="form1" name="form1" method="post" action="">
-              <table width="100%" border="0">
+              <table width="100%" border="1" cellpadding="2" cellspacing="0">
                 <tr>
-                  <td>First Name</td>
-                  <td>Last Name</td>
-                  <td>User Name</td>
-                  <td>Password</td>
-                  <td>Include</td>
+                  <td valign="top">First Name</td>
+                  <td valign="top">Last Name</td>
+                  <td valign="top">User Name</td>
+                  <td valign="top">Temporary<br />
+                    Password</td>
+                  <td valign="top">Class</td>
+                  <td valign="top">Include</td>
                 </tr>
-                <tr>
-                  <td><label for="textfield"></label>
-                    <input type="text" name="textfield" id="textfield" /></td>
-                  <td>
-                   
-                    <input type="text" name="textfield2" id="textfield2" />
-                  </td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-                  <td>&nbsp;</td>
-                </tr>
-              </table>
-              </form>
-              <p>&nbsp;</p>
-              <p>&nbsp;</p>
-              <p>The following statements about the file you import must be true:</p>
-              <ol>
-                <li>Any line not meant to be imported should be commented out with a '#' symbol in the first position of the line.</li>
-                <li>The first line should list the fields that are contained in the file. (Email, First Name, Last Name, etc.) A template file you can enter data into is <a href="import_student_csv_template.csv">located here</a>.</li>
-                <li>You can enter the user's intial password in the 'Password' field, or just enter the word 'Initials.' If you do that later, the user's initials will become their first password. For example, a user named Able Baker would have the intial password of 'AB'.</li>
-                </ol>
-              <p>Please also note that:</p>
-              <ol>
-                <li>The student's email address will become their user name.</li>
-                <li>Importing students into the platform does not immediately give them access to any simulations. You will need to assign them a role in a simulation before they will actually be able to log in and do anything.</li>
-              </ol>
-              <p>Follow the steps below to perform the import.</p>
+<%
+	
 
-            
-    <form enctype="multipart/form-data" action="../simulation_admin/import_student_csv_file.jsp" method="post">
-      
-      <input type="hidden" name="sending_page" value="import_csv" />
-      <p>      </p>
-  </form>
-    <blockquote><%= importResults %></blockquote>
-    <p>&nbsp;</p>
-    <p align="center">&nbsp;</p></td>
+	int ii = 0;
+			for (ListIterator li = importList.listIterator(); li.hasNext();) {
+				
+				ii += 1;
+				
+				User user = (User) li.next();
+				
+%>
+                <tr>
+                  <td valign="top">
+                    <input type="text" name="user_first_name_<%= ii %>" id="user_first_name_<%= ii %>" value="<%= user.getBu_first_name() %>" /></td>
+                  <td valign="top">
+                   
+                    <input type="text" name="user_last_name_<%= ii %>" id="user_last_name_<%= ii %>" value="<%= user.getBu_last_name() %>" />
+                  </td>
+                  <td valign="top"><input type="text" name="user_name_<%= ii %>" id="user_name_<%= ii %>" value="<%= user.getUserName() %>" /></td>
+                  <td valign="top">&nbsp;</td>
+                  <td valign="top">&nbsp;</td>
+                  <td valign="top"><input type="checkbox" name="checkbox" id="checkbox" />
+                    <label for="checkbox"></label></td>
+                </tr>
+<%
+			} // end of loop over students.
+%>
+
+              </table>
+              <p>x
+                <input type="submit" name="button" id="button" value="Cancel" />
+              </p>
+              </form></td>
 		</tr>
 		</table>	</td>
   </tr>
