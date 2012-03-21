@@ -33,9 +33,6 @@
 	color: #FF0000;
 	font-weight: bold;
 }
-.tempred {
-	color: #F00;
-}
 -->
 </style>
 
@@ -53,8 +50,32 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
               <h1>Import Student Information</h1>
-              <p class="tempred">Functionality in Progress</p>
-              <p>This page will allow you to import a set of students directly into the platform. The student information has to first be put into a 'comma separated values' (CSV) file. A template file for doing this is <a href="import_student_csv_template.csv" target="_new">located here</a>.</p>
+              <p>Below are the students to be imported for this class.</p>
+              
+              <form id="form1" name="form1" method="post" action="">
+              <table width="100%" border="0">
+                <tr>
+                  <td>First Name</td>
+                  <td>Last Name</td>
+                  <td>User Name</td>
+                  <td>Password</td>
+                  <td>Include</td>
+                </tr>
+                <tr>
+                  <td><label for="textfield"></label>
+                    <input type="text" name="textfield" id="textfield" /></td>
+                  <td>
+                   
+                    <input type="text" name="textfield2" id="textfield2" />
+                  </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+              </table>
+              </form>
+              <p>&nbsp;</p>
+              <p>&nbsp;</p>
               <p>The following statements about the file you import must be true:</p>
               <ol>
                 <li>Any line not meant to be imported should be commented out with a '#' symbol in the first position of the line.</li>
@@ -72,63 +93,7 @@
     <form enctype="multipart/form-data" action="../simulation_admin/import_student_csv_file.jsp" method="post">
       
       <input type="hidden" name="sending_page" value="import_csv" />
-          <table width="50%" border="1" cellspacing="2" cellpadding="2">
-            <tr>
-              <td valign="top">Step</td>
-              <td valign="top">&nbsp;</td>
-            </tr>
-            <tr>
-              <td valign="top">1.</td> 
-              <td valign="top"><input type="hidden" name="MAX_FILE_SIZE" value="200000" />
-                Select file to upload: 
-                   <input name="uploadedfile" type="file" tabindex="5" /></td>
-            </tr>
-            <tr>
-              <td valign="top">2.</td> 
-              <td valign="top"><p>Enter Class Name:
-                <label for="textfield"></label>
-                <input type="text" name="class_name" id="class_name" />
-              </p>
-                
-                
-<%
-
-	List classesOfStudents = ClassOfStudents.getAll(afso.schema);
-	
-if (classesOfStudents.size() > 0) {  %>
-
-<p>or Select it from your current list of classes:</p>
-<select name="class_id" id="class_id">
-<%
-			
-for (ListIterator li = classesOfStudents.listIterator(); li.hasNext();) {
-					ClassOfStudents cos = (ClassOfStudents) li.next();
-				
-		%>
-        <option value="<%= cos.getId() %>"><%= cos.getClassName() %></option><br />
-                        <%
-			} // End of loop over classes.
-			
-			%>
-			</select>
-	<% }  // End of if we have classes  %>
-                
-                
-                
-                </td>
-            </tr>
-            <tr>
-              <td valign="top">3</td>
-              <td valign="top">Press this 
-                <input type="submit" name="import" value="Import" disabled="disabled" /> 
-                button</td>
-              </tr>
-            <tr>
-              <td valign="top">4. </td>
-              <td valign="top">You will be taken to a page where you will need to confirm the students entered.</td>
-            </tr>
-            </table>
-    <p>      </p>
+      <p>      </p>
   </form>
     <blockquote><%= importResults %></blockquote>
     <p>&nbsp;</p>

@@ -79,6 +79,7 @@
     <td valign="top"><label>
     <textarea name="party_needs" id="party_needs" cols="45" rows="5"  style="height: 120px; width: 480px;"><%= bpi.getNeedsDoc() %></textarea>
     	<script language="javascript1.2">
+			newRootDir = "../../wysiwyg_files/";
 			wysiwygWidth = 480;
 			wysiwygHeight = 120;
   			generate_wysiwyg('party_needs');
@@ -90,6 +91,7 @@
     <td valign="top"><label>
       <textarea name="party_fears" id="party_fears"  style="height: 120px; width: 480px;"><%= bpi.getFearsDoc() %></textarea>
           	<script language="javascript1.2">
+			newRootDir = "../../wysiwyg_files/";
 			wysiwygWidth = 480;
 			wysiwygHeight = 120;
   			generate_wysiwyg('party_fears');

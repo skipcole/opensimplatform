@@ -80,7 +80,10 @@
               </table>
             </form>
               <p><span class="redstar">*</span> Indicates a required field.</p>
-              <p>&nbsp;</p>
+              <% if (returnCode == 1) { %>
+              <p>Class Created. <br />
+                You may review all classes here <a href="class_review.jsp">xxx</a></p>
+              <% } %>
 <p>&nbsp;</p>
 	          
 			</blockquote>

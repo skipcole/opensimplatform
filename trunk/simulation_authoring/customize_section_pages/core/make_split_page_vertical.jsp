@@ -14,6 +14,12 @@
 		return;
 	}
 	
+		SimulationSectionAssignment sLeft =  SimulationSectionAssignment.getSubSection(afso.schema, cs.getId(), 1 , afso.sim_id,
+			afso.actor_being_worked_on_id, afso.phase_id);
+			
+		SimulationSectionAssignment sRight =  SimulationSectionAssignment.getSubSection(afso.schema, cs.getId(), 2 , afso.sim_id,
+			afso.actor_being_worked_on_id, afso.phase_id);
+	
 
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">
@@ -46,16 +52,23 @@
             <td>&nbsp;</td>
               <td valign="top">Page on Left</td>
               <td valign="top">
-              <select name="select_left" id="select">
+              <select name="select_left" id="select_left">
               	<%
 					List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id, true);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
+					
 					SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
-				%>
-                <option value="<%= ss.getId() %>"><%= ss.getTab_heading() %></option>
+
+                	String selected = "";
+                
+               	 	if (ss.getId().intValue() == sLeft.getId().intValue()){
+                		selected = "selected=\"selected\"";
+                	}
+                		%>
+                <option value="<%= ss.getId() %>" <%= selected %>><%= ss.getTab_heading() %></option>
               	<%
-					}
+					} // End of loop over list
 				%>
               </select>
               </td>
@@ -64,14 +77,22 @@
             <td>&nbsp;</td>
               <td valign="top">Page on Right</td>
               <td valign="top">
-                            <select name="select_right" id="select">
+                            <select name="select_right" id="select_right">
               	<%
 					// List allList = SimulationSectionAssignment.getBySimAndActorAndPhase(afso.schema, afso.sim_id, afso.actor_being_worked_on_id, afso.phase_id);
 					
 				for (ListIterator li = allList.listIterator(); li.hasNext();) {
 					SimulationSectionAssignment ss = (SimulationSectionAssignment) li.next();
+					
+					String selected = "";
+                
+               	 	if (ss.getId().intValue() == sRight.getId().intValue()){
+                		selected = "selected=\"selected\"";
+                	}
+					
+					
 				%>
-                <option value="<%= ss.getId() %>"><%= ss.getTab_heading() %></option>
+                <option value="<%= ss.getId() %>" <%= selected %>><%= ss.getTab_heading() %></option>
               	<%
 					}
 				%>

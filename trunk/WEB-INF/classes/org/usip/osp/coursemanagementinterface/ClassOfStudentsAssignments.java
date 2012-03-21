@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.Simulation;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /*
@@ -27,12 +28,55 @@ public class ClassOfStudentsAssignments {
 	private Long id;
 
 	private Long classId;
-	
+
 	private Long userId;
-	
+
 	private boolean instructor = false;
-	
+
 	private java.util.Date assignmentDate = new java.util.Date();
+
+	public ClassOfStudentsAssignments() {
+
+	}
+
+	public ClassOfStudentsAssignments(String schema, Long classId, Long userId, boolean instructor) {
+		this.classId = classId;
+		this.userId = userId;
+		this.instructor = instructor;
+		this.saveMe(schema);
+	}
+	
+	/**
+	 * Deletes the assignment.
+	 * 
+	 * @param schema
+	 * @param cosaId
+	 */
+	public static void deleteAssignment(String schema, Long cosaId){
+		
+		ClassOfStudentsAssignments cosa = ClassOfStudentsAssignments.getById(schema, cosaId);
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).delete(cosa);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
+	/**
+	 * 
+	 * @param schema
+	 * @param cosa_id
+	 * @return
+	 */
+	public static ClassOfStudentsAssignments getById(String schema, Long cosa_id) {
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		ClassOfStudentsAssignments cosa = (ClassOfStudentsAssignments) MultiSchemaHibernateUtil
+				.getSession(schema).get(ClassOfStudentsAssignments.class, cosa_id);
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return cosa;
+	}
 
 	public Long getId() {
 		return id;
@@ -73,7 +117,7 @@ public class ClassOfStudentsAssignments {
 	public void setAssignmentDate(java.util.Date assignmentDate) {
 		this.assignmentDate = assignmentDate;
 	}
-	
+
 	/**
 	 * Saves the object back to the database.
 	 * 

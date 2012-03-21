@@ -63,8 +63,7 @@
 <p>Select a class from the list below:</p>
 <p>&nbsp;</p>
 
-               
-               <%
+<%
 			
 				for (ListIterator li = classesOfStudents.listIterator(); li.hasNext();) {
 					ClassOfStudents cos = (ClassOfStudents) li.next();
@@ -72,10 +71,10 @@
 		%>
         <a href="class_details.jsp?class_id=<%= cos.getId() %>"><%= cos.getClassName() %></a><br />
                         <%
-			} // End of loop over contests.
+			} // End of loop over classes.
 			
 			
-	} else { // End of if there are contests.
+	} else { // End of if there are classes.
 	
 		%>
         No classes found on this system. 

@@ -17,8 +17,12 @@
 	//SimulationSectionAssignment ss = (SimulationSectionAssignment) simSecList.get(tabpos - 1);
 	//String leftFrame = ss.generateURLforBottomFrame(running_sim_id, actor_id);
 	String cs_id = (String) request.getParameter("cs_id");
-	System.out.println("cs id was : " + cs_id);
 	
+	String leftFrame = "split_page_placeholder.jsp";
+	String rightFrame = "split_page_placeholder.jsp";
+	
+	if (!(pso.preview_mode)) {
+		
 	SimulationSectionAssignment sLeft =  SimulationSectionAssignment.getSubSection(pso.schema, new Long (cs_id), 1 , pso.sim_id,
 			pso.getActorId(), pso.phase_id);
 			
@@ -26,15 +30,14 @@
 	SimulationSectionAssignment sRight =  SimulationSectionAssignment.getSubSection(pso.schema, new Long (cs_id), 2 , pso.sim_id,
 			pso.getActorId(), pso.phase_id);
 	
-	String leftFrame = "../simulation/frame_bottom.jsp";
-	String rightFrame = "../simulation/frame_bottom.jsp";
-	
 	if (sLeft != null){
 		leftFrame = sLeft.generateURLforBottomFrame(pso.getActorId());
 	}
 	if (sRight != null) {
 		rightFrame = sRight.generateURLforBottomFrame(pso.getActorId());
 	}
+	
+	} // end of not if in preview mode.
     %>
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
