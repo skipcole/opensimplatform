@@ -25,6 +25,7 @@
 		cs = CustomizeableSection.getById(pso.schema, cs_id);
 	}
 	
+		if (!(pso.preview_mode)) {
 	// This is the entry point if they have come here from a page listing docs (eg. write_document_list.jsp)
 	if ((sendingDocId != null) && (sendingDocId.equalsIgnoreCase("true"))){
 		sd = SharedDocument.getById(pso.schema, new Long(doc_id));
@@ -38,6 +39,8 @@
 	}
 	
 	SharedDocument.handleWriteDocument(request, sd, pso);
+	
+		}  // end of if we are in preview mode.
 	
 
 %>

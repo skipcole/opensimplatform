@@ -1,5 +1,0 @@
-# Put your data below.
-# If the password field is 'Initials' then the player's two intials will be their intial password. Otherwise it is set to whatever you enter into the password column.
-# The first line below is a sample line, and is comment out.
-Email,First Name,Last Name,Password
-#test@seachangesimulations.com,John,Doe,Initials

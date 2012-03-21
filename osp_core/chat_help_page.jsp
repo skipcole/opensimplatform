@@ -25,12 +25,20 @@
 	
 	ArrayList constantPeople = chc.getConstantActors();
 	
-	Actor this_actor = pso.giveMeActor();
+	Actor this_actor = new Actor();
+	
+	if (!(pso.preview_mode)) {
+	
+		this_actor = pso.giveMeActor();
+    
+	}
 	
 	// Keep a set of actors to loop over check on if online.
 	Hashtable setOfActors = new Hashtable();
 
 	ArrayList theseConversations = new ArrayList();
+	
+	if (!(pso.preview_mode)) {
 	// Loop over the conversations for this Actor
 	for (ListIterator<Long> li = constantPeople.listIterator(); li.hasNext();) {
 		Long constantActorId = (Long) li.next();
@@ -57,6 +65,7 @@
 		}
 
 	}
+	} // end of not in preview mode.
 	
 %>
 <html>

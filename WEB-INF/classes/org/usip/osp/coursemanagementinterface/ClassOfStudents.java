@@ -194,7 +194,7 @@ public class ClassOfStudents implements Comparable{
 	 * @param classId
 	 * @return
 	 */
-	public static List getAllInstructorsForClass(String schema, Long classId){
+	public static List <User> getAllInstructorsForClass(String schema, Long classId){
 		
 		if (classId == null){
 			return new ArrayList();
@@ -216,7 +216,7 @@ public class ClassOfStudents implements Comparable{
 			
 			User user = User.getById(schema, cosa.getUserId());
 			
-			returnList.add(cosa);
+			returnList.add(user);
 		}
 
 		Collections.sort(returnList);

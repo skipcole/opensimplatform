@@ -23,10 +23,20 @@
 		cos = ClassOfStudents.getById(afso.schema, new Long(classId));
 	}
 	
+	String errorMessage = "";
+	
 	String add_instructor = request.getParameter("add_instructor");
 	if ((add_instructor != null) && (add_instructor.equalsIgnoreCase("true"))) {
 		String instructor_username = request.getParameter("instructor_username");
 		System.out.println("adding instructor: " + instructor_username );
+		User user = User.getByUsername(afso.schema, instructor_username);
+		
+		if (user == null) {
+			errorMessage = "User not found.";
+		} else {
+			ClassOfStudentsAssignments cosa = new ClassOfStudentsAssignments(afso.schema, cos.getId(), user.getId(), true);	
+		}
+			
 	}
 		
 
@@ -67,7 +77,7 @@
 			<td width="120"><img src="../Templates/images/white_block_120.png" /></td>
 			<td width="100%"><br />
 			  <h1>Class Details</h1>
-			  <p>&nbsp;</p>
+			  <p><font color="#FF0000"><%= errorMessage %></font></p>
 			  <p>Class: <%= cos.getClassName() %></p>
 			  <p>Creation Date</p>
 			  <p>Instructors</p>
@@ -82,7 +92,7 @@
 					User user = (User) li.next();
 					
 					%>
-                    <li><%= user.getId() %></li>
+                    <li><%= user.getUserName() %></li>
                     <% } %>
                     </ol>
 			    <p></p>

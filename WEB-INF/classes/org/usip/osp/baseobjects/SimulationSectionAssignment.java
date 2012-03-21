@@ -13,8 +13,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 import org.apache.log4j.*;
 
 /**
- * This class represents a section assigned to an actor at a particular phase. A
- * better name for the class might be 'SimulationSectionAssignment.'
+ * This class represents a section assigned to an actor at a particular phase. 
  * 
  */
 /*
@@ -574,16 +573,33 @@ public class SimulationSectionAssignment implements WebObject {
 
 	}
 
+	/**
+	 * 
+	 * @param schema
+	 * @param cs_id
+	 * @param index
+	 * @param sid
+	 * @param aid
+	 * @param pid
+	 * @return
+	 */
 	public static SimulationSectionAssignment getSubSection(String schema, Long cs_id, int index, Long sid, Long aid,
 			Long pid) {
 
-		String getHQL = "from SimulationSectionAssignment where SIM_ID = " + sid + " AND ACTOR_ID = " + aid //$NON-NLS-1$ //$NON-NLS-2$
-				+ " AND PHASE_ID = " + pid + " and simSubSection is true " + " and displaySectionId = " + cs_id //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ " and simSubSectionIndex = " + index + " order by TAB_POS"; //$NON-NLS-1$ //$NON-NLS-2$
+		String getHQL = "from SimulationSectionAssignment where SIM_ID = :sid AND ACTOR_ID = :aid" 
+				+ " AND PHASE_ID = :pid and simSubSection is true and displaySectionId = :cs_id "
+				+ " and simSubSectionIndex = :index order by TAB_POS"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 
-		List returnList = MultiSchemaHibernateUtil.getSession(schema).createQuery(getHQL).list();
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+		.createQuery(getHQL)
+		.setLong("sid", sid)
+		.setLong("aid", aid)
+		.setLong("pid", pid)
+		.setLong("cs_id", cs_id)
+		.setInteger("index", index)
+		.list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 

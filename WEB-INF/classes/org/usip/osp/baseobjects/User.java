@@ -91,37 +91,6 @@ public class User implements Comparable{
 
 	}
 	
-	/*
-	 * Creates an entry for the base user in this schema with the permissions passed in.
-	 * 
-	 * @param schema
-	 * @param bu
-	 * @param sim_creator
-	 * @param sim_instructor
-	 * @param admin
-	 *
-	public User(String schema, BaseUser bu, boolean sim_creator,
-			boolean sim_instructor, boolean admin) {
-		
-		this.setId(bu.getId());
-
-		this.user_name = bu.getUsername();
-		this.sim_author = sim_creator;
-		this.sim_instructor = sim_instructor;
-		this.admin = admin;
-
-		try {
-			MultiSchemaHibernateUtil.beginTransaction(schema);
-
-			MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
-
-			MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	*/
 	
 	/**
 	 * Creates a base user and user object in the schema passed in.
@@ -154,10 +123,6 @@ public class User implements Comparable{
 		bu.setLast_name(last_name);
 		bu.setMiddle_name(middle_name);
 		bu.saveMe();
-
-		Logger.getRootLogger().debug("-----------------"); //$NON-NLS-1$
-		Logger.getRootLogger().debug("bu id " + bu.getId()); //$NON-NLS-1$
-		Logger.getRootLogger().debug("-----------------"); //$NON-NLS-1$
 
 		this.setId(bu.getId());
 

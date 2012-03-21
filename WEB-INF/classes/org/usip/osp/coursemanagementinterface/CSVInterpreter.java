@@ -117,6 +117,104 @@ public class CSVInterpreter {
 
 		return returnString;
 	}
+	
+	/**
+	 * This method returns a list of users, but does not automatically add them. It allows for the
+	 * instructor to confirm the upload.
+	 * 
+	 * @param request
+	 * @param schema
+	 * @return
+	 */
+	public static List <User> parseCSV(HttpServletRequest request, String schema) {
+
+		String returnString = "";
+
+		ArrayList returnList = new ArrayList();
+		
+		Hashtable importMappings = new Hashtable();
+
+		try {
+			MultipartRequest mpr = new MultipartRequest(request,
+					USIP_OSP_Properties.getValue("uploads"));
+
+			String sending_page = (String) mpr.getParameter("sending_page");
+
+			String MAX_FILE_SIZE = (String) mpr.getParameter("MAX_FILE_SIZE");
+
+			Long max_file_longvalue = new Long(MAX_FILE_SIZE).longValue();
+
+			if ((sending_page != null)
+					&& (sending_page.equalsIgnoreCase("import_csv"))) {
+
+				returnString = "Importing CSV File ";
+
+				String initFileName = mpr.getOriginalFileName("uploadedfile");
+
+				if ((initFileName != null)
+						&& (initFileName.trim().length() > 0)) {
+
+					returnString += mpr.getOriginalFileName("uploadedfile")
+							+ "<br />";
+
+					File fileData = mpr.getFile("uploadedfile");
+
+					Logger.getRootLogger()
+							.debug("File is " + fileData.length());
+
+					if (fileData.length() <= max_file_longvalue) {
+
+						BufferedReader br = new BufferedReader(new FileReader(
+								fileData));
+
+						String daLine = br.readLine();
+
+						boolean foundFirstLine = false;
+						while (daLine != null) {
+							if (daLine.startsWith("#")) {
+								returnString += daLine + "<br />";
+							} else {
+
+								if (!foundFirstLine) {
+									// If its anything other then '
+									if (!(daLine.startsWith("Email"))) {
+										returnString += " File does not seem to be in the correct format";
+										return returnList;
+									} else {
+										readInFileColumnHeadings(daLine,
+												importMappings);
+										foundFirstLine = true;
+										returnString += "Found First Line <br />";
+									}
+								} else {
+									returnString += readInLineOfUserData(
+											schema, daLine, importMappings);
+								}
+							}
+
+							daLine = br.readLine();
+						}
+
+						br.close();
+
+					} else {
+						returnString += "But selected csv file too large.";
+					}
+
+				}
+			}
+		} catch (java.io.IOException ioe) {
+			returnString += "Ready for Import";
+			Logger.getRootLogger().warn(
+					"Entered Import Page: " + ioe.getMessage());
+		} catch (Exception e) {
+			returnString += e.getMessage();
+			Logger.getRootLogger().debug(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return returnList;
+	}
 
 	/**
 	 * Reads in a line expecting them to be the titles of the columns.
