@@ -333,6 +333,11 @@ public class BishopsPartyInfo implements CopiedObject{
 		if ((sending_page != null) && (sending_page.equalsIgnoreCase("add_party"))) {
 
 			String command = (String) request.getParameter("command");
+			
+			// Not sure why we need this, but we are getting an error SC. 3/22/12
+			if (command == null) {
+				command = "";
+			}
 
 			if (command.equalsIgnoreCase("Clear")) {
 

@@ -184,6 +184,12 @@ public class GridData {
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
 	
+	public static void deleteGridData(String schema, GridData gd){
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+		MultiSchemaHibernateUtil.getSession(schema).delete(gd);
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+	}
+	
 	/**
 	 * Pulls the simulation out of the database base on its id and schema.
 	 * 

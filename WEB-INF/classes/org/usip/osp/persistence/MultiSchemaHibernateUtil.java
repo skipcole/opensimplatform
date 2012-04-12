@@ -491,7 +491,7 @@ public class MultiSchemaHibernateUtil {
 		ac.setProperty("hibernate.connection.isolation", "1"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		ac.setProperty("hibernate.c3p0.min_size", "0"); //$NON-NLS-1$ //$NON-NLS-2$
-		ac.setProperty("hibernate.c3p0.max_size", "45"); //$NON-NLS-1$ //$NON-NLS-2$
+		ac.setProperty("hibernate.c3p0.max_size", "20"); //$NON-NLS-1$ //$NON-NLS-2$
 		ac.setProperty("hibernate.c3p0.timeout", "300"); //$NON-NLS-1$ //$NON-NLS-2$
 		ac.setProperty("hibernate.c3p0.max_statements", "50"); //$NON-NLS-1$ //$NON-NLS-2$
 		ac.setProperty("hibernate.c3p0.idle_test_period", "300"); //$NON-NLS-1$ //$NON-NLS-2$

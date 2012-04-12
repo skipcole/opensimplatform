@@ -2050,6 +2050,9 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 		if ((message != null) && (message.trim().length() > 0)) {
 			
+			message = message.replaceAll(">", " ");
+			message = message.replaceAll("<", " ");
+			
 			if (conversation_type.equalsIgnoreCase("student")){
 			ChatController.insertChatLine(user_id, user_id, start_index,
 					message, conversation, this, request, new Date());
