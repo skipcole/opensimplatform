@@ -1,14 +1,12 @@
 package com.seachangesimulations.osp.griddoc;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.usip.osp.baseobjects.CustomizeableSection;
 import org.usip.osp.baseobjects.SimulationPhase;
+import org.usip.osp.baseobjects.SimulationSectionAssignment;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -92,13 +90,15 @@ public class GridPageData {
 
 			String col_name = (String) request.getParameter("col_name");
 
-			// Load in number of cols
-			gpd.loadColumnNames(schema, cs, simId, rsId);
+			if ((col_name != null) && (col_name.trim().length() > 0)){
+				// Load in number of cols
+				gpd.loadColumnNames(schema, cs, simId, rsId);
 
-			newGD.setRowNum(0);
-			newGD.setColNum(gpd.getNumCols() + 1);
-			newGD.setCellData(col_name);
-			newGD.saveMe(schema);
+				newGD.setRowNum(0);
+				newGD.setColNum(gpd.getNumCols() + 1);
+				newGD.setCellData(col_name);
+				newGD.saveMe(schema);
+			}
 
 		}
 
@@ -106,13 +106,15 @@ public class GridPageData {
 
 			String row_name = (String) request.getParameter("row_name");
 
-			// Load in row names
-			gpd.loadRowNames(schema, cs, simId, rsId);
+			if ((row_name != null) && (row_name.trim().length() > 0)){
+				// Load in row names
+				gpd.loadRowNames(schema, cs, simId, rsId);
 
-			newGD.setRowNum(gpd.getNumRows() + 1);
-			newGD.setColNum(0);
-			newGD.setCellData(row_name);
-			newGD.saveMe(schema);
+				newGD.setRowNum(gpd.getNumRows() + 1);
+				newGD.setColNum(0);
+				newGD.setCellData(row_name);
+				newGD.saveMe(schema);
+			}
 
 		}
 		
@@ -121,6 +123,11 @@ public class GridPageData {
 			String col = (String) request.getParameter("col");
 			
 			List objectsToDelete = getCol(schema, simId, cs.getId(), rsId, new Long(col));
+			
+			for (ListIterator <GridData >li = objectsToDelete.listIterator(); li.hasNext();) {
+				GridData dataToDelete = li.next();
+				GridData.deleteGridData(schema, dataToDelete);
+			}
 			
 		}
 
@@ -221,7 +228,7 @@ public class GridPageData {
 	 * @return
 	 */
 	public static List getRow(String schema, Long simId, Long csId,
-			Long rsId, Long colNumber) {
+			Long rsId, Long rowNumber) {
 
 		if ((rsId == null) || (simId == null) || (csId == null)) {
 			return new ArrayList();
@@ -232,10 +239,10 @@ public class GridPageData {
 		List returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery(
-						"from GridData where simId = :simId and csId = :csId and rsId = :rsId and colNum = :colNumber") //$NON-NLS-1$
+						"from GridData where simId = :simId and csId = :csId and rsId = :rsId and rowNum = :rowNumber") //$NON-NLS-1$
 				.setLong("simId", simId)
 				.setLong("csId", csId)
-				.setLong("colNumber", colNumber)
+				.setLong("rowNumber", rowNumber)
 				.setLong("rsId", rsId).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
@@ -252,8 +259,8 @@ public class GridPageData {
 	 * @param rsId
 	 * @return
 	 */
-	public static List getCol(String schema, Long simId, Long csId,
-			Long rsId, Long rowNumber) {
+	public static List<GridData> getCol(String schema, Long simId, Long csId,
+			Long rsId, Long colNumber) {
 
 		if ((rsId == null) || (simId == null) || (csId == null)) {
 			return new ArrayList();
@@ -264,10 +271,10 @@ public class GridPageData {
 		List returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery(
-						"from GridData where simId = :simId and csId = :csId and rsId = :rsId and rowNum = :rowNumber") //$NON-NLS-1$
+						"from GridData where simId = :simId and csId = :csId and rsId = :rsId and colNum = :colNumber") //$NON-NLS-1$
 				.setLong("simId", simId)
 				.setLong("csId", csId)
-				.setLong("rowNumber", rowNumber)
+				.setLong("colNumber", colNumber)
 				.setLong("rsId", rsId).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);

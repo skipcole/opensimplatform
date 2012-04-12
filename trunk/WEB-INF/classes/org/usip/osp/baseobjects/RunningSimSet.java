@@ -219,12 +219,8 @@ public class RunningSimSet {
     	for (ListIterator li = listOfSets.listIterator(); li.hasNext();) {
     		RunningSimSetAssignment rssa = (RunningSimSetAssignment) li.next();
     		
-    		System.out.println("rss id " + rssa.getId());
-    		
     		// Get a list (as in the keys of this hashtable) of all the running sims found for this set.
     		Hashtable thisSet = getHashSetOfRunningSims(schema, rssa.getRs_set_id());
-    		
-    		System.out.println("size of thisSet: " + thisSet.size());
     		
     		fullHash.putAll(thisSet);
     	}

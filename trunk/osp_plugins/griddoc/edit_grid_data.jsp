@@ -65,6 +65,7 @@
 		  <%= gd.getCellData() %>
 		  </textarea>
 		<script language="javascript1.2">
+			newRootDir = "../../wysiwyg_files/";
   			generate_wysiwyg('grid_text');
 		</script>
   </p>
@@ -72,6 +73,6 @@
   <input type="submit" name="update" id="button" value="Submit">
   </label>
 </form>
-<p><a href="../../osp_core/grid_doc.jsp?cs_id=<%= cs_id %>">&lt;- Back</a></p>
+<p><a href="grid_doc.jsp?cs_id=<%= cs_id %>">&lt;- Back</a></p>
 </body>
 </html>
