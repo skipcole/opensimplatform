@@ -23,8 +23,6 @@
 	
 	GridPageData gpd = GridPageData.loadPage(pso.schema, cs, pso.sim_id, pso.getRunningSimId());
 	
-	Hashtable contents = cs.getContents();
-	
 %>
 <html>
 <head>
@@ -42,16 +40,16 @@
 	<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %>
 </td>
 <% } %>
-<% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
+<% for (int iiLoopOverCols = 1 ; iiLoopOverCols <= gpd.getNumCols() ; ++iiLoopOverCols) { 
 
-	GridData gdTop = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), ii, 0);
+	GridData gdTop = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), iiLoopOverCols, 0);
 			
 %>
 <td valign="top"><strong><%= gdTop.getCellData() %></strong>
-	<% if (ii == gpd.getNumCols()) { %>
+	<% if (iiLoopOverCols == gpd.getNumCols()) { %>
 	<form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
-    <input type="hidden" name="col" value="<%= ii + "" %>">
+    <input type="hidden" name="col" value="<%= iiLoopOverCols + "" %>">
     <input type="submit" name="del_col" id="button" value="-"  onclick="return confirm('Are you sure you want to delete this column?');">
   	</form>
     <% } %>
@@ -60,37 +58,38 @@
 <% } %>
 </tr>
 
-<% for (int jj = 1 ; jj <= gpd.getNumRows() ; ++jj) { 
+<% for (int iiLoopOverRows = 1 ; iiLoopOverRows <= gpd.getNumRows() ; ++iiLoopOverRows) { 
 
-GridData gdRow = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), 0, jj);
+GridData gdRow = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), 0, iiLoopOverRows);
 
 %>
 <tr>
 <td valign="top"><strong><%= gdRow.getCellData() %></strong>
-<% if (jj == gpd.getNumRows() ) { %>
+<% if (iiLoopOverRows == gpd.getNumRows() ) { %>
 <form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
-    <input type="hidden" name="row" value="<%= jj + "" %>">
+    <input type="hidden" name="row" value="<%= iiLoopOverRows + "" %>">
     <input type="submit" name="del_row" id="button" value="-"  onclick="return confirm('Are you sure you want to delete this row?');">
   	</form>
 <% } %>
 </td>
-<% for (int ii = 1 ; ii <= gpd.getNumCols() ; ++ii) { 
+<% for (int iiSecondLoopOverCols = 1 ; iiSecondLoopOverCols <= gpd.getNumCols() ; ++iiSecondLoopOverCols) { 
 
-GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), ii, jj);
+GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), iiSecondLoopOverCols, iiLoopOverRows);
 
 %> 
 
-<td valign="top"><%= gdCell.getCellData() %><br /> <a href="edit_grid_data.jsp?gd_id=<%= gdCell.getId() %>&cs_id=<%= cs_id %>&col_num=<%= ii %>&row_num=<%= jj %>">Edit</a> </td>
+<td valign="top"><%= gdCell.getCellData() %><br /> <a href="edit_grid_data.jsp?gd_id=<%= gdCell.getId() %>&cs_id=<%= cs_id %>&col_num=<%= iiSecondLoopOverCols %>&row_num=<%= iiLoopOverRows %>">Edit</a> </td>
 
-<% } %>
+<% } // End of loop over cols %>
 </tr>
-<% } %>
+<% } // End of loop over tows %>
 </table>
-<form name="form1" method="post" action="grid_doc.jsp">
-<input type="hidden" name="cs_id" value="<%= cs_id %>">
+
 
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
+<form name="form_addcol" method="post" action="grid_doc.jsp">
+<input type="hidden" name="cs_id" value="<%= cs_id %>">
   <tr>
     <td>Add <%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_COLUMN) %></td>
     <td>
@@ -103,6 +102,9 @@ GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.g
       <input type="submit" name="do_add_col" id="do_add_col" value="Submit">
     </label></td>
   </tr>
+</form>
+<form name="form_addrow" method="post" action="grid_doc.jsp">
+<input type="hidden" name="cs_id" value="<%= cs_id %>">
   <tr>
     <td>Add <%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %></td>
     <td><label>
@@ -110,8 +112,8 @@ GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.g
     </label></td>
     <td><input type="submit" name="do_add_row" id="button2" value="Submit"></td>
   </tr>
+  </form>
 </table>
-</form>
 <p><a href="grid_doc_linear_print.jsp?cs_id=<%= cs_id %>" target="_blank">Print Out Page</a></p>
 
 </body>

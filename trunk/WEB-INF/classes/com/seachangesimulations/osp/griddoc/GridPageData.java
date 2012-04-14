@@ -74,6 +74,8 @@ public class GridPageData {
 	public static void handleChanges(HttpServletRequest request,
 			CustomizeableSection cs, String schema, Long simId, Long rsId) {
 
+		System.out.println("*****  handlin changes");
+		
 		String do_add_col = (String) request.getParameter("do_add_col");
 		String do_add_row = (String) request.getParameter("do_add_row");
 
@@ -81,16 +83,24 @@ public class GridPageData {
 		GridData newGD = new GridData();
 
 		if ((do_add_col != null) || (do_add_row != null)) {
+			System.out.println("not col, not row");
 			newGD.setCsId(cs.getId());
 			newGD.setSimId(simId);
 			newGD.setRsId(rsId);
 		}
 
+		// Adding Column
 		if (do_add_col != null) {
+			
+			System.out.println("add col");
 
 			String col_name = (String) request.getParameter("col_name");
+			
+			System.out.println("add col " + col_name);
 
 			if ((col_name != null) && (col_name.trim().length() > 0)){
+				
+				System.out.println("col name not null");
 				// Load in number of cols
 				gpd.loadColumnNames(schema, cs, simId, rsId);
 
@@ -102,9 +112,12 @@ public class GridPageData {
 
 		}
 
+		// Adding row
 		if (do_add_row != null) {
 
 			String row_name = (String) request.getParameter("row_name");
+			
+			System.out.println("add row " + row_name);
 
 			if ((row_name != null) && (row_name.trim().length() > 0)){
 				// Load in row names
@@ -118,11 +131,15 @@ public class GridPageData {
 
 		}
 		
+		
+		// Deleting Column
 		String del_col = (String) request.getParameter("del_col");
 		if (del_col != null) {
 			String col = (String) request.getParameter("col");
 			
-			List objectsToDelete = getCol(schema, simId, cs.getId(), rsId, new Long(col));
+			System.out.println("deleting col " + col);
+			
+			List objectsToDelete = getCellItemsForColumn(schema, simId, cs.getId(), rsId, new Long(col));
 			
 			for (ListIterator <GridData >li = objectsToDelete.listIterator(); li.hasNext();) {
 				GridData dataToDelete = li.next();
@@ -130,6 +147,24 @@ public class GridPageData {
 			}
 			
 		}
+		
+		// Deleting Row
+		String del_row = (String) request.getParameter("del_row");
+		if (del_row != null) {
+			String row = (String) request.getParameter("row");
+			
+			System.out.println("deleting row " + row);
+			
+			List objectsToDelete = getCellItemsForRow(schema, simId, cs.getId(), rsId, new Long(row));
+			
+			for (ListIterator <GridData >li = objectsToDelete.listIterator(); li.hasNext();) {
+				GridData dataToDelete = li.next();
+				GridData.deleteGridData(schema, dataToDelete);
+			}
+			
+		}
+		
+		System.out.println("*****   done handlin changes");
 
 	}
 
@@ -165,9 +200,11 @@ public class GridPageData {
 	 */
 	public void loadColumnNames(String schema, CustomizeableSection cs, Long simId,
 			Long rsId) {
+		
+		System.out.println("in loadColumnNames");
 
 		// Load in number of cols
-		List cols = getCol(schema, simId, cs.getId(), rsId, new Long(0));
+		List cols = getCellItemsForRow(schema, simId, cs.getId(), rsId, new Long(0));
 
 		if (cols == null) {
 			this.setNumCols(0);
@@ -196,7 +233,9 @@ public class GridPageData {
 	public void loadRowNames(String schema, CustomizeableSection cs, Long simId,
 			Long rsId) {
 
-		List rows = getRow(schema, simId, cs.getId(), rsId, new Long(0));
+		System.out.println("in loadRowNames");
+		
+		List rows = getCellItemsForColumn(schema, simId, cs.getId(), rsId, new Long(0));
 		
 		if (rows == null) {
 			this.setNumRows(0);
@@ -227,8 +266,10 @@ public class GridPageData {
 	 * @param rsId
 	 * @return
 	 */
-	public static List getRow(String schema, Long simId, Long csId,
+	public static List getCellItemsForRow(String schema, Long simId, Long csId,
 			Long rsId, Long rowNumber) {
+		
+		System.out.println("     in getRow, row: " + rowNumber);
 
 		if ((rsId == null) || (simId == null) || (csId == null)) {
 			return new ArrayList();
@@ -259,8 +300,10 @@ public class GridPageData {
 	 * @param rsId
 	 * @return
 	 */
-	public static List<GridData> getCol(String schema, Long simId, Long csId,
+	public static List<GridData> getCellItemsForColumn(String schema, Long simId, Long csId,
 			Long rsId, Long colNumber) {
+		
+		System.out.println("     in getCol  col:" + colNumber);
 
 		if ((rsId == null) || (simId == null) || (csId == null)) {
 			return new ArrayList();
