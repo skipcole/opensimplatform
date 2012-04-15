@@ -37,7 +37,7 @@
 <tr>
 <% if (gpd.getNumRows() > 0) { %>
 <td valign="top">
-	<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %>
+	<h1><%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_NEW_ROW) %></h1>
 </td>
 <% } %>
 <% for (int iiLoopOverCols = 1 ; iiLoopOverCols <= gpd.getNumCols() ; ++iiLoopOverCols) { 
@@ -45,7 +45,7 @@
 	GridData gdTop = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), iiLoopOverCols, 0);
 			
 %>
-<td valign="top"><strong><%= gdTop.getCellData() %></strong>
+<td valign="top"><h1><%= gdTop.getCellData() %></h1>
 	<% if (iiLoopOverCols == gpd.getNumCols()) { %>
 	<form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
@@ -87,6 +87,7 @@ GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.g
 </tr>
 <% } // End of loop over tows %>
 </table>
+<br />
 
 
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
@@ -118,7 +119,7 @@ GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.g
   </tr>
   </form>
 </table>
-<p><a href="grid_doc_linear_print.jsp?cs_id=<%= cs_id %>" target="_blank">Print Out Page</a></p>
+<p>&nbsp;</p>
 
 </body>
 </html>

@@ -33,7 +33,7 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 @Proxy(lazy=false)
 public class GridData {
 
-    /** Database id of this Inject. */
+    /** Database id of this GridData. */
 	@Id
 	@GeneratedValue
     private Long id;

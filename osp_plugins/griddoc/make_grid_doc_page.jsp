@@ -108,7 +108,7 @@
               <td width="72%" valign="top">
               <%
 			  
-			  	String currentFixedSetting = (String) cs.getContents().get(GridDocCustomizer.KEY_FOR_FIXED_COL_NAMES);
+			  	String currentFixedSetting = (String) cs.getContents().get(GridDocCustomizer.KEY_FOR_FIXED_COL);
 			  	
 				String selectedFixedNo = "checked=\"checked\"";
 				String selectedFixedYes = "";

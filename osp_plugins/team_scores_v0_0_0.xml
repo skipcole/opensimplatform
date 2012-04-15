@@ -6,7 +6,7 @@
   <version>1</version>
   <thisIsACustomizedSection>false</thisIsACustomizedSection>
   <hasASpecificMakePage>true</hasASpecificMakePage>
-  <specificMakePage>../osp_plugins/griddoc/make_team_scores_page.jsp</specificMakePage>
+  <specificMakePage>../osp_plugins/team_scores/make_team_scores_page.jsp</specificMakePage>
   <bigString></bigString>
   <description>Scores that players can see across connected running sims.</description>
   <url></url>
@@ -15,7 +15,7 @@
   <rec__tab__heading>Team Scores</rec__tab__heading>
   <sample__image>griddoc.png</sample__image>
   <control__section>false</control__section>
-  <databaseClassNames>com.seachangesimulations.osp.griddoc.TeamScores</databaseClassNames>
+  <databaseClassNames>com.seachangesimulations.osp.teamscores.TeamScores,com.seachangesimulations.osp.teamscores.TeamScoresTimePeriod</databaseClassNames>
   <isPluginSection>true</isPluginSection>
   <pluginDirectory>team_scores</pluginDirectory>
   <pluginVersion>1.0</pluginVersion>
