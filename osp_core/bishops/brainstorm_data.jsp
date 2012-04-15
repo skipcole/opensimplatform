@@ -50,6 +50,7 @@
 		  <%= docOnBlock.getBigString() %>
 		  </textarea>
 		<script language="javascript1.2">
+			newRootDir = "../../wysiwyg_files/";
   			generate_wysiwyg('grid_text');
 		</script>
   </p>

@@ -50,7 +50,9 @@
 	<form name="form2" method="post" action="grid_doc.jsp">
     <input type="hidden" name="cs_id" value="<%= cs_id %>">
     <input type="hidden" name="col" value="<%= iiLoopOverCols + "" %>">
+    <% if (!(gpd.isFixedCols())) { %>
     <input type="submit" name="del_col" id="button" value="-"  onclick="return confirm('Are you sure you want to delete this column?');">
+    <% } // end of if not fixed cols %>
   	</form>
     <% } %>
   </td>
@@ -88,6 +90,7 @@ GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.g
 
 
 <table width="100%" border="1" cellspacing="0" cellpadding="0">
+<% if (!(gpd.isFixedCols())) { %>
 <form name="form_addcol" method="post" action="grid_doc.jsp">
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
   <tr>
@@ -103,6 +106,7 @@ GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.g
     </label></td>
   </tr>
 </form>
+<% } // end of if not fixed cols %>
 <form name="form_addrow" method="post" action="grid_doc.jsp">
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
   <tr>
