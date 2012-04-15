@@ -29,6 +29,10 @@ public class GridDocCustomizer extends Customizer{
 	public static final String KEY_FOR_PAGETITLE = "griddoc_page_title"; //$NON-NLS-1$
 	public static final String KEY_FOR_NEW_COLUMN = "grid_doc_new_col"; //$NON-NLS-1$
 	public static final String KEY_FOR_NEW_ROW = "grid_doc_new_row"; //$NON-NLS-1$
+	
+	public static final String KEY_FOR_FIXED_COL = "grid_doc_fixed_col"; //$NON-NLS-1$
+	public static final String KEY_FOR_FIXED_COL_NAMES = "grid_doc_fixed_col_names"; //$NON-NLS-1$
+	public static final String KEY_FOR_COLOR_CHANGEABLE = "grid_doc_color_changeable"; //$NON-NLS-1$
 
 	@SuppressWarnings("unchecked")
 	public void handleCustomizeSection(HttpServletRequest request, 
@@ -49,6 +53,11 @@ public class GridDocCustomizer extends Customizer{
 			cs.getContents().put(KEY_FOR_NEW_COLUMN, request.getParameter(KEY_FOR_NEW_COLUMN));
 			
 			cs.getContents().put(KEY_FOR_NEW_ROW, request.getParameter(KEY_FOR_NEW_ROW));
+			
+			////////////////////
+			cs.getContents().put(KEY_FOR_FIXED_COL, request.getParameter(KEY_FOR_FIXED_COL));
+			cs.getContents().put(KEY_FOR_FIXED_COL_NAMES, request.getParameter(KEY_FOR_FIXED_COL_NAMES));
+			cs.getContents().put(KEY_FOR_COLOR_CHANGEABLE, request.getParameter(KEY_FOR_COLOR_CHANGEABLE));
 
 			cs.saveMe(afso.schema);
 

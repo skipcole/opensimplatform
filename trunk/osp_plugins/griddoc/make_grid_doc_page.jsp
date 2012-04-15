@@ -101,6 +101,60 @@
               </tr>
               </table>
               
+          <p><strong>Additional Parameters</strong></p>
+          <table width="100%" border="1" cellspacing="0" cellpadding="2">
+            <tr>
+              <td width="28%" valign="top">Fixed Columns</td>
+              <td width="72%" valign="top">
+              <%
+			  
+			  	String currentFixedSetting = (String) cs.getContents().get(GridDocCustomizer.KEY_FOR_FIXED_COL_NAMES);
+			  	
+				String selectedFixedNo = "checked=\"checked\"";
+				String selectedFixedYes = "";
+				
+				if ((currentFixedSetting != null) && (currentFixedSetting.equalsIgnoreCase("yes"))) {
+					selectedFixedNo = "";
+					selectedFixedYes = "checked=\"checked\"";
+				}
+			  %>
+              <input name="<%= GridDocCustomizer.KEY_FOR_FIXED_COL %>" type="radio" id="<%= GridDocCustomizer.KEY_FOR_FIXED_COL %>_no" value="no" <%= selectedFixedNo %>  />
+                <label for="radio"></label>
+                No / 
+                <input type="radio" name="<%= GridDocCustomizer.KEY_FOR_FIXED_COL %>" id="<%= GridDocCustomizer.KEY_FOR_FIXED_COL %>_yes" value="yes" <%= selectedFixedYes %> />
+                <label for="radio2">Yes<br />
+                </label>
+                <label for="textfield"></label>
+                If 'Yes' enter Column Names
+                <input type="text" name="<%= GridDocCustomizer.KEY_FOR_FIXED_COL_NAMES %>" 
+                  value="<%= GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_FIXED_COL_NAMES) %>" />
+                <label for="radio2">                  <br />
+                </label></td>
+            </tr>
+            <tr>
+              <td valign="top">Can Change Row Color</td>
+              <td valign="top">
+              <%
+			  String currentColorSetting = (String) cs.getContents().get(GridDocCustomizer.KEY_FOR_COLOR_CHANGEABLE);
+			  
+			  	String selectedColorChangeableNo = "checked=\"checked\"";
+				String selectedColorChangeableYes = "";
+				
+				if ((currentColorSetting != null) && (currentColorSetting.equalsIgnoreCase("yes"))) {
+					selectedColorChangeableNo = "";
+					selectedColorChangeableYes = "checked=\"checked\"";
+				}
+			  %>
+              
+              
+              <input type="radio" name="<%= GridDocCustomizer.KEY_FOR_COLOR_CHANGEABLE %>" id="<%= GridDocCustomizer.KEY_FOR_COLOR_CHANGEABLE %>_no" value="no" <%= selectedColorChangeableNo %> />
+
+No /
+<input type="radio" name="<%= GridDocCustomizer.KEY_FOR_COLOR_CHANGEABLE %>" id="<%= GridDocCustomizer.KEY_FOR_COLOR_CHANGEABLE %>_yes" value="yes" <%= selectedColorChangeableYes %> />
+<label for="radio4">Yes</label></td>
+            </tr>
+          </table>
+          <p>&nbsp;</p>
           <p><strong>Modify Section Description</strong></p>
           <blockquote>
             <p>
