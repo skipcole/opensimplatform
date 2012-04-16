@@ -191,7 +191,7 @@ public class GridData {
 	}
 	
 	/**
-	 * Pulls the simulation out of the database base on its id and schema.
+	 * Pulls the object out of the database base on its id and schema.
 	 * 
 	 * @param schema
 	 * @param gd_id

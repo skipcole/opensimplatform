@@ -95,10 +95,6 @@
     <td valign="top"><a href="email_player.jsp">Email your Players</a> </td>
     <td valign="top">Send an email to players in this simulation. </td>
   </tr>
-  <tr valign="top">
-    <td width="32%" valign="top"><a href="make_rating_announcement.jsp">Make Rating Announcement </a></td>
-    <td width="68%" valign="top">On this  page will be able to send a message including a 'star' rating to tell your students how they are doing. </td>
-  </tr>
   <% if (simulation.isUsesGameClock()){ %>
   <tr valign="top">
     <td valign="top"><a href="sim_time_controls.jsp">Simulation Timer Controls</a></td>
