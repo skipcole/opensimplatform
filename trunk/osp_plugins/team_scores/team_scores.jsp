@@ -5,7 +5,7 @@
 	org.usip.osp.networking.*,
 	org.usip.osp.persistence.*,
 	org.usip.osp.baseobjects.*,
-	com.seachangesimulations.osp.questions.*" 
+	com.seachangesimulations.osp.teamscores.*" 
 	errorPage="/error.jsp" %>
 
 <%
@@ -15,15 +15,12 @@
 		response.sendRedirect("../blank.jsp");
 		return;
 	}
-	
-	
-	String sending_page = (String) request.getParameter("sending_page");
-	
-
 
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
+
+	TeamScoresTimePeriod.checkForPeriodCreation(request, pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId());
 	
 %>
 <html>
@@ -71,7 +68,23 @@
 <p>
 
   		
-  running sim id:  <br />
+<form name="form1" method="post" action="team_scores.jsp">
+<input type="hidden" name="cs_id" value="<%= cs_id %>">
+<input type="hidden" name="sending_page" value="create_tstp" />
+<table width="100%" border="1" cellspacing="0" cellpadding="2">
+  <tr>
+    <td>Create Scoring Period: </td>
+    <td><input type="text" name="tstp_name" id="textfield"></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" name="button" id="button" value="Submit"></td>
+  </tr>
+</table>
+</form>
+<p>&nbsp;</p>
+
+<p><br />
   
   
   

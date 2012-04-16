@@ -674,6 +674,9 @@ public class MultiSchemaHibernateUtil {
 		ac.addAnnotatedClass(com.seachangesimulations.osp.questions.QuestionAndResponse.class);
 		ac.addAnnotatedClass(com.seachangesimulations.osp.questions.PlayerAnswer.class);
 		
+		ac.addAnnotatedClass(com.seachangesimulations.osp.teamscores.TeamScores.class);
+		ac.addAnnotatedClass(com.seachangesimulations.osp.teamscores.TeamScoresTimePeriod.class);
+		
 	}
 
 }

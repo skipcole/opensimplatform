@@ -1,6 +1,6 @@
 <org.usip.osp.baseobjects.CustomizeableSection>
   <hasCustomizer>true</hasCustomizer>
-  <customizerClassName>com.seachangesimulations.osp.griddoc.TeamScoresCustomizer</customizerClassName>
+  <customizerClassName>com.seachangesimulations.osp.teamscores.TeamScoresCustomizer</customizerClassName>
   <creatingOrganization>com.seachangesimulations.osp.</creatingOrganization>
   <uniqueName>Team Scores</uniqueName>
   <version>1</version>
