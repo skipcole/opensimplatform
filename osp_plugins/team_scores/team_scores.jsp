@@ -52,17 +52,37 @@
     <td><%= rsTemp.getName() %></td>
 	<% } // end of loop over running sims in set. %>
   </tr>
+<%	// Loop over Scoring Periods
+
+List tstps = TeamScoresTimePeriod.getAllForSectionAndSim(pso.schema, cs.getId(), pso.sim_id);
+
+		for (ListIterator li = tstps.listIterator(); li.hasNext();) {
+			TeamScoresTimePeriod tstp = (TeamScoresTimePeriod) li.next();
+
+%>
   <tr>
-    <td>&nbsp;</td>
+    <td><%= tstp.getPeriodDescription() %></td>
     <% 
 	simSets = RunningSimSet.getAllRunningSimsInSameSet(pso.schema, pso.getRunningSimId());
 	for (; simSets.hasMoreElements();) {
-			Long key = (Long) simSets.nextElement();
+			Long rsId = (Long) simSets.nextElement();
 	
 	%>
-    <td> rsid: <%= key + "" %> </td>
+    <td>
+    <% TeamScores thisScore = 
+		TeamScores.getBySimSectionRunningSimTimePeriod(pso.schema, pso.sim_id, cs.getId(), rsId, tstp.getId()); %>
+     <%= thisScore.getScoreValue() %> 
+     
+     <% if (pso.isControlCharacter()) { %>
+     <br />
+     <a href="team_scores_enter.jsp?ts_id=<%= thisScore.getId() %>&cs_id=<%= cs_id %>&rs_id=<%= rsId %>&tstp_id=<%= tstp.getId() %>">Enter Score</a>
+     <% } %>
+    </td>
     <% } %>
   </tr>
+<% // End of loop over Scoring Periods
+} 
+%>
 </table>
 <p>&nbsp;</p>
 <p>
