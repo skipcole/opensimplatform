@@ -71,7 +71,10 @@ List tstps = TeamScoresTimePeriod.getAllForSectionAndSim(pso.schema, cs.getId(),
     <td>
     <% TeamScores thisScore = 
 		TeamScores.getBySimSectionRunningSimTimePeriod(pso.schema, pso.sim_id, cs.getId(), rsId, tstp.getId()); %>
-     <%= thisScore.getScoreValue() %> 
+     
+     <% for (int iiD = 0; iiD < thisScore.getScoreValue() ; ++iiD) { %>
+     <img src="../../simulation/images/dove_30by30.png" width="30" height="30" alt="dove">
+     <% } //end of loop over doves. %>
      
      <% if (pso.isControlCharacter()) { %>
      <br />

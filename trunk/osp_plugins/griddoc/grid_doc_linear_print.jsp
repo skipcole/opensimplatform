@@ -19,29 +19,7 @@
 	String cs_id = (String) request.getParameter("cs_id");
 	CustomizeableSection cs = CustomizeableSection.getById(pso.schema, cs_id);
 	
-	int numCols = 0;
-	int numRows = 0;
-	
-	Hashtable contents = cs.getContents();
-	
-	// Get num cols/rows from hashtable
-	String myNumCols = (String) contents.get("myNumCols_" + pso.getRunningSimId());
-	String myNumRows = (String) contents.get("myNumRows_" + pso.getRunningSimId());
-	
-	if (myNumCols == null){
-		contents.put("myNumCols_" + pso.getRunningSimId(), "0");
-		cs.saveMe(pso.schema);
-	} else {
-		numCols = new Long(myNumCols).intValue();
-	}
-	
-	/////////////////////////////
-	if (myNumRows == null){
-		contents.put("myNumRows_" + pso.getRunningSimId(), "0");
-		cs.saveMe(pso.schema);
-	} else {
-		numRows = new Long(myNumRows).intValue();
-	}
+	GridPageData gpd = GridPageData.loadPage(pso.schema, cs, pso.sim_id, pso.getRunningSimId());
 	
 		
 %>
@@ -52,35 +30,41 @@
 </head>
 <link href="../../usip_osp.css" rel="stylesheet" type="text/css" />
 <body>
-<h1><%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_PAGETITLE) %></h1>
+<%=  GridDocCustomizer.getPageStringValue(cs, GridDocCustomizer.KEY_FOR_PAGETITLE) %></h1>
+<p><%= cs.getBigString() %></p>
+
 <table width="95%" border="1" cellspacing="2" cellpadding="2">
 
-<% for (int jj = 1 ; jj <= numRows ; ++jj) { 
+<% for (int iiLoopOverRows = 1 ; iiLoopOverRows <= gpd.getNumRows() ; ++iiLoopOverRows) { 
 
-	String thisRowName = (String) contents.get("rowname_" + pso.getRunningSimId() + "_" + jj); %>
+GridData gdRow = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), 0, iiLoopOverRows);
 
+%>
 <tr>
-<td valign="top"><h1><strong><%= thisRowName %></strong></h1></td>
-</tr>
-<% for (int ii = 1 ; ii <= numCols ; ++ii) { 
+<td valign="top"><h1><%= gdRow.getCellData() %></h1>
 
-	String rowData = (String) contents.get("rowData_" + pso.getRunningSimId() + "_" + ii + "_ " + jj);
-	if (rowData == null) {
-		rowData = "";
-		contents.put("rowData_" + pso.getRunningSimId() + "_" + ii + "_ " + jj, rowData);
-	}
-	
-	String thisColName = (String) contents.get("colname_" + pso.getRunningSimId() + "_" + ii);
+<% for (int iiSecondLoopOverCols = 1 ; iiSecondLoopOverCols <= gpd.getNumCols() ; ++iiSecondLoopOverCols) { 
+
+GridData gdCellName = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), iiSecondLoopOverCols, 0);
+
+GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.getRunningSimId(), iiSecondLoopOverCols, iiLoopOverRows);
+
 %> 
+<blockquote>
+<h2><%= gdCellName.getCellData() %></h2>
+<blockquote>
+<%= gdCell.getCellData() %>
+</blockquote>
+</blockquote>
 
-<tr><td valign="top"><blockquote><h2><%= thisColName %></h2><%= rowData %></blockquote></td></tr>
-
-<% } %>
+<% } // End of loop over cols %>
+</td>
 </tr>
-<% } %>
+<% } // End of loop over tows %>
 </table>
+<br />
 <p>&nbsp;</p>
-
+<a href="grid_doc.jsp?cs_id=<%= cs_id %>">&lt;- Back</a>
 <p>&nbsp;</p>
 
 </body>

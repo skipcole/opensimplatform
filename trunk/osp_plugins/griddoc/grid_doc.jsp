@@ -119,7 +119,7 @@ GridData gdCell = GridData.getGridData(pso.schema, pso.sim_id, cs.getId(), pso.g
   </tr>
   </form>
 </table>
-<p>&nbsp;</p>
+<p><a href="grid_doc_linear_print.jsp?cs_id=<%= cs_id %>">Print Out Page</a></p>
 
 </body>
 </html>
