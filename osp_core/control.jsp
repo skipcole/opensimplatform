@@ -39,6 +39,10 @@
     <td valign="top"><a href="make_announcement.jsp">Make Announcement</a> </td>
     <td valign="top">Push Annoucements out to your players. </td>
   </tr>
+  <tr valign="top">
+    <td valign="top"><a href="last_logins.jsp">Last Logins</a></td>
+    <td valign="top">Lets you see when a student has logged in, and drill down to see all of their activity.</td>
+  </tr>
   <!-- tr valign="top">
     <td valign="top"><a href="change_player.jsp">Swap/Remove/Add Players</a> </td>
     <td valign="top">This page allows you to change who is playing. </td>

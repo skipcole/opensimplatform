@@ -18,6 +18,8 @@
 		simulation = pso.giveMeSim();
 	}
 	
+	RunningSimulation rs = pso.giveMeRunningSim();
+	
 %>
 <html>
 <head>
@@ -43,6 +45,7 @@
   <%
   
   		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+		sdf.setTimeZone(TimeZone.getTimeZone(rs.getTimeZone()));
 		
   		for (ListIterator li = simulation.getActors(pso.schema).listIterator(); li.hasNext();) {
 			Actor act = (Actor) li.next();

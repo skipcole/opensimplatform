@@ -19,6 +19,8 @@
 		user = User.getById(pso.schema, new Long(user_id));
 	}
 	
+	RunningSimulation rs = pso.giveMeRunningSim();
+	
 	
 %>
 <html>
@@ -45,6 +47,9 @@
   <%
   
   	java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yy HH:mm a");
+	if ((rs != null) && (rs.getId() != null)) {
+		sdf.setTimeZone(TimeZone.getTimeZone(rs.getTimeZone()));
+	}
   
   	List uLogins = UserTrail.getAllForUser(pso.schema, user.getId());
 	
@@ -67,9 +72,5 @@
 </table>
 </blockquote>
 <p>&nbsp;</p>
-<p><a href="finger.jsp">Back</a></p>
 </body>
 </html>
-<%
-	
-%>
