@@ -31,7 +31,7 @@ import org.apache.log4j.*;
 @Entity
 @Table(name = "ACTORS")
 @Proxy(lazy=false)
-public class Actor implements ExportableObject{
+public class Actor implements ExportableObject, Comparable{
 
 	public Actor (){
 		

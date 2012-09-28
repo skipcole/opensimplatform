@@ -18,6 +18,8 @@
 	
 	pso.backPage = "email.jsp";
 	
+	Emailer.deleteDraftEmail(request, pso);
+	
 	pso.setEmailSection(request);
 	
 	List emailToList = new ArrayList();
@@ -114,13 +116,17 @@
 	for (ListIterator li = draftList.listIterator(); li.hasNext();) {
 		Email email = (Email) li.next();
      %>
+     <form name="form1" method="post" action="email.jsp">
         <tr>
           <td valign="top">&nbsp;</td>
           <td valign="top"><a href="write_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getSubjectLine() %></a></td>
           <td valign="top">&nbsp;</td>
           <td valign="top"><a href="write_email.jsp?queue_up=true&comingfrom=em&email_id=<%= email.getId() %>"><%= email.getMsgDate() %></a></td>
-          <td valign="top"><input type="submit" name="email_delete_draft" id="email_delete_draft" value="Delete Draft"  onClick="return confirm('Are you sure you want to delete this draft?');"></td>
+          <td valign="top">
+          <input type="hidden" name="id_to_delete" value="<%= email.getId() %>" />
+          <input type="submit" name="email_delete_draft" id="email_delete_draft" value="Delete Draft"  onClick="return confirm('Are you sure you want to delete this draft?');"></td>
         </tr>
+        </form>
         <% } %>
       </table>
       <h2>Draft Messages</h2></td>
