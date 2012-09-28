@@ -16,6 +16,10 @@
 		return;
 	}
 	
+	String email_save = request.getParameter("email_save");
+	
+	System.out.println("EEEEEEEEEEEEEEEE:" + email_save);
+	
 	Email email = Emailer.handleEmailWrite(request, pso);
 	
 	if (pso.add_recipients){
@@ -59,6 +63,9 @@
 </head>
 
 <body>
+<table align="center" border="0">
+<tr><td>
+
 <% if (pso.errorMsg.equalsIgnoreCase("no recipients")) { 
 	pso.errorMsg = "";
 %>
@@ -76,9 +83,12 @@ alert("You must add recipients to the 'To' line to send email.");
 <table width="360" border="1" cellspacing="0" cellpadding="0">
 
   <tr>
-    <td colspan="2" valign="top"><input type="submit" name="email_save" id="email_save" value="Save Email">
+    <td colspan="2" valign="top">
+    <input type="image"  name="email_save" id="email_save" value="Save" src="images/save.png" alt="save">
+    <input type="submit" name="email_save2"  value="Save Email2">
       <input type="submit" name="email_send" value="Send Email">
-      <input type="submit" name="email_clear" id="email_clear" value="Clear"></td>
+      <input type="submit" name="email_clear" id="email_clear" value="Clear">
+      <input type="image" name="send" id="send" src="images/send_email.png"></td>
     </tr>
   <tr>
     <td valign="top"><input type="submit" name="add_to" id="add_to" value="TO:"></td>
@@ -150,6 +160,7 @@ alert("You must add recipients to the 'To' line to send email.");
     <label></label>
   </p>
 </form>
+</td></tr></table>
 </body>
 </html>
 

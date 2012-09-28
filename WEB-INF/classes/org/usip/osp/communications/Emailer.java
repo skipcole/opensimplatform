@@ -337,7 +337,11 @@ public class Emailer {
 
 		Email email = new Email();
 
+		if (pso.draft_email_id != null) {
+			email = Email.getById(pso.schema, pso.draft_email_id);
+		}
 		pso.forward_on = false;
+		pso.add_recipients = false;
 
 		String reply_to = request.getParameter("reply_to");
 		String forward_to = request.getParameter("forward_to");
@@ -371,8 +375,7 @@ public class Emailer {
 
 			if ((email_save != null) || (email_send != null)
 					|| (add_to != null) || (add_cc != null)
-					|| (add_bcc != null)
-			) {
+					|| (add_bcc != null)) {
 
 				email = saveEmail(email_send, request, pso);
 
@@ -477,45 +480,109 @@ public class Emailer {
 
 	public static void addRecipients(HttpServletRequest request,
 			PlayerSessionObject pso) {
+		
 		String add_recipient = request.getParameter("add_recipient");
+		
+		
 		if (add_recipient != null) {
-			String email_rep = request.getParameter("email_recipient");
-
-			if ((email_rep != null) && (email_rep.toString().length() > 0)) {
-
+			String add_type = request.getParameter("add_type");
+			List idList = USIP_OSP_Util.getIdsOfCheckBoxes("actor_", request);
+			
+			// remove original list of recipients
+			removeOriginals(pso, request);
+			
+	  		for (ListIterator li =  idList.listIterator(); li.hasNext();) {
+				String actId = (String) li.next();
+				
+				// Add ones that do exist.
 				String aname = USIP_OSP_Cache.getActorName(pso.schema,
 						pso.sim_id, pso.runningSimId, request, new Long(
-								email_rep));
+								actId));
 
-				@SuppressWarnings("unused")
-				EmailRecipients er = new EmailRecipients(pso.schema,
-						pso.draft_email_id, pso.runningSimId, pso.sim_id,
-						new Long(email_rep), aname,
-						EmailRecipients.RECIPIENT_TO);
-			}
+				if (add_type.equalsIgnoreCase("cc")){
+					@SuppressWarnings("unused")
+					EmailRecipients er = new EmailRecipients(pso.schema,
+							pso.draft_email_id, pso.runningSimId, pso.sim_id,
+							new Long(actId), aname,
+							EmailRecipients.RECIPIENT_CC);
+				} else if (add_type.equalsIgnoreCase("bcc")){
+					@SuppressWarnings("unused")
+					EmailRecipients er = new EmailRecipients(pso.schema,
+							pso.draft_email_id, pso.runningSimId, pso.sim_id,
+							new Long(actId), aname,
+							EmailRecipients.RECIPIENT_BCC);
+				} else {
+					@SuppressWarnings("unused")
+					EmailRecipients er = new EmailRecipients(pso.schema,
+							pso.draft_email_id, pso.runningSimId, pso.sim_id,
+							new Long(actId), aname,
+							EmailRecipients.RECIPIENT_TO);
+				}
+				
+	  		}	
 		}
+	}
 
-		/*
-		 * else if (remove_recipient != null) { String removed_email = request
-		 * .getParameter("removed_email"); if (removed_email != null) {
-		 * EmailRecipients.removeMe(pso.schema, new Long(removed_email)); } }
-		 */
+	private static void removeOriginals(PlayerSessionObject pso,
+			HttpServletRequest request) {
+		
+		List emailRecipients = new ArrayList();
+		
+		String add_type = request.getParameter("add_type");
+		
+		if (add_type.equalsIgnoreCase("cc")){
+			emailRecipients = Email.getRecipientsOfAnEmail(pso.schema,
+					pso.draft_email_id, EmailRecipients.RECIPIENT_CC);
+		} else if (add_type.equalsIgnoreCase("bcc")){
+			emailRecipients = Email.getRecipientsOfAnEmail(pso.schema,
+					pso.draft_email_id, EmailRecipients.RECIPIENT_BCC);
+		} else {
+			emailRecipients = Email.getRecipientsOfAnEmail(pso.schema,
+					pso.draft_email_id, EmailRecipients.RECIPIENT_TO);
+		}
+		
+  		for (ListIterator li =  emailRecipients.listIterator(); li.hasNext();) {
+  			EmailRecipients er = (EmailRecipients) li.next();
+			er.removeMe(pso.schema, er.getId());
+  		}
+
 	}
 
 	public static void deleteDraftEmail(HttpServletRequest request,
 			PlayerSessionObject pso) {
 
-		String email_delete_draft = request.getParameter("email_delete_draft");
-		if ((email_delete_draft != null) && (pso.draft_email_id != null)) {
-			Email email = Email.getById(pso.schema, pso.draft_email_id);
-			email.setEmail_deleted(true);
-			email.saveMe(pso.schema);
+		System.out.println("deletin");
+		
+		String id_to_delete = request.getParameter("id_to_delete");
+		
+		System.out.println("gone to be: " + id_to_delete);
+		
 
-			email = new Email();
-			pso.draft_email_id = null;
+		if (id_to_delete != null) {
+			String email_delete_draft = request
+					.getParameter("email_delete_draft");
 
+			Long idToDelete = null;
+
+			try {
+				idToDelete = new Long(id_to_delete);
+			} catch (Exception e) {
+				System.out.println("problem deleting " + idToDelete);
+				return;
+			}
+
+			// Get rid of draft id if it is the same as this one being deleted.
+			if ((idToDelete != null) && (pso.draft_email_id != null)
+					&& (idToDelete.intValue() == pso.draft_email_id.intValue())) {
+				pso.draft_email_id = null;
+			}
+
+			if (idToDelete != null) {
+				Email email = Email.getById(pso.schema, idToDelete);
+				email.setEmail_deleted(true);
+				email.saveMe(pso.schema);
+			}
 		}
-
 	}
 
 	/**
