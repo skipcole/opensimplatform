@@ -72,7 +72,7 @@ org.usip.osp.baseobjects.*" %>
 %>
 <html>
 <head>
-<title>USIP Open Simulation Platform Login</title>
+<title>Prototype Simulation Platform Login</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="usip_osp.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="third_party_libraries/jquery/jquery-1.6.3.min.js"></script>
@@ -102,30 +102,12 @@ body {
 </style>
 </head>
 <body onLoad="">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="120" valign="top"><img src="Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "USIP_OSP_HEADER") %></h1></td>
-    <td align="right" background="Templates/images/top_fade.png" width="20%"> 
-
-	  <div align="center"></div>	  </td>
-  </tr>
-  <tr>
-    <td width="120" valign="top"><img src="Templates/images/logo_bot.png" width="120" height="20" /></td>
-    <td height="20" colspan="2" valign="bottom" bgcolor="#475DB0"></td>
-  </tr>
-  <tr>
-  	<td width="120" align="right" valign="top">&nbsp;</td>
-    <td colspan="1" valign="top"><br /></td>
-    <td width="194" align="right" valign="top">		</td>
-  </tr>
-</table>
 <p>&nbsp;</p>
 <table width="720" border="0" cellspacing="0" cellpadding="0" align="center" background="Templates/images/page_bg.png">
 
   <tr> 
     <td colspan="3" background="Templates/images/page_bg.png" ><P>&nbsp;</P>
-      <h1 align="center">&nbsp;&nbsp;&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "USIP_OSP_HEADER") %> <br>
+      <h1 align="center">&nbsp;&nbsp;&nbsp;Prototype Simulation Platform<br>
         &nbsp;&nbsp;&nbsp;(Release <%= USIP_OSP_Properties.getRelease() %>)<br> 
         <br>
       </h1>
@@ -209,7 +191,5 @@ body {
   </tr>
 
 </table>
-
-<p align="center">The <a href="http://www.usip.org">USIP</a> Open Simulation Platform is a <a href="http://code.google.com/p/opensimplatform/">USIP Open Source Software Project</a>. </p>
 </body>
 </html>

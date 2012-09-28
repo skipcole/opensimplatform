@@ -6,6 +6,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.*;
 
 import org.apache.log4j.Logger;
+import org.hibernate.tool.hbm2x.StringUtils;
 import org.usip.osp.baseobjects.*;
 import org.usip.osp.baseobjects.core.*;
 import org.usip.osp.bishops.*;
@@ -1193,6 +1194,8 @@ public class PlayerSessionObject extends SessionObjectBase {
 
 	public List eligibleActors = new ArrayList();
 	public List emailRecipients = new ArrayList();
+	public List emailRecipientsCC = new ArrayList();
+	public List emailRecipientsBCC = new ArrayList();
 
 
 	/**
@@ -1202,6 +1205,10 @@ public class PlayerSessionObject extends SessionObjectBase {
 		if (draft_email_id != null) {
 			emailRecipients = Email.getRecipientsOfAnEmail(schema,
 					draft_email_id, EmailRecipients.RECIPIENT_TO);
+			emailRecipientsCC = Email.getRecipientsOfAnEmail(schema,
+					draft_email_id, EmailRecipients.RECIPIENT_CC);
+			emailRecipientsBCC = Email.getRecipientsOfAnEmail(schema,
+					draft_email_id, EmailRecipients.RECIPIENT_BCC);
 		} else {
 			emailRecipients = new ArrayList();
 		}
@@ -2157,5 +2164,37 @@ public class PlayerSessionObject extends SessionObjectBase {
 		}
 		
 	}
+	
+	public static final int EMAIL_INBOX = 0;
+	public static final int EMAIL_SENT = 1;
+	public static final int EMAIL_DRAFTS = 2;
+	
+	private int emailSection = EMAIL_INBOX;
+
+	public boolean add_recipients = false;
+	
+	public static final int ADD_TO = 0;
+	public static final int ADD_CC = 1;
+	public static final int ADD_BCC = 2;
+	
+	public int add_type = ADD_TO;
+
+	public int getEmailSection() {
+		return emailSection;
+	}
+
+	public void setEmailSection(int emailSection) {
+		this.emailSection = emailSection;
+	}
+	
+	public void setEmailSection(HttpServletRequest request){
+		String email_section = (String) request.getParameter("email_section");
+		
+		if (StringUtils.isNumeric(email_section)){
+			this.setEmailSection(new Long(email_section).intValue());
+		}
+	}
+	
+	
 	
 }
