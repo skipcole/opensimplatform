@@ -1,12 +1,14 @@
 package com.seachangesimulations.osp.griddoc;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.*;
 
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Proxy;
 import org.usip.osp.baseobjects.Simulation;
+import org.usip.osp.baseobjects.USIP_OSP_Util;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 /**
@@ -20,70 +22,73 @@ import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 /*
  * This file is part of the USIP Open Simulation Platform.<br>
  * 
- * The USIP Open Simulation Platform is free software; you can redistribute it and/or
- * modify it under the terms of the new BSD Style license associated with this
- * distribution.<br>
+ * The USIP Open Simulation Platform is free software; you can redistribute it
+ * and/or modify it under the terms of the new BSD Style license associated with
+ * this distribution.<br>
  * 
- * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY; without
- * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- * PURPOSE. <BR>
- * 
+ * The USIP Open Simulation Platform is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. <BR>
  */
 @Entity
-@Proxy(lazy=false)
+@Proxy(lazy = false)
 public class GridData {
 
-    /** Database id of this GridData. */
+	/** Database id of this GridData. */
 	@Id
 	@GeneratedValue
-    private Long id;
-	
+	private Long id;
+
 	private Long simId;
-	
+
 	private Long rsId;
-	
+
 	private Long csId;
-	
+
 	/** In case this is tied to a particular object. */
 	private Long objectId;
-	
+
 	private Long versionNum;
-	
+
 	private int rowNum;
-	
+
 	private int colNum;
-	
+
 	/** In case this is ever used out to 3-d. */
 	private int zNum;
-	
+
 	/** Just in case it is needed. */
 	private String evenMoreMetaData;
-	
+
 	@Lob
 	private String cellData;
-	
-	public static void main(String args[]){
-		
-		GridData x = new GridData(new Long(1), new Long(1),new Long(1), "1", "1");
+
+	public static void main(String args[]) {
+
+		GridData x = new GridData(new Long(1), new Long(1), new Long(1), "1",
+				"1");
 		x.saveMe("test");
 	}
-	public GridData(){
-		
+
+	public GridData() {
+
 	}
-	
-	public GridData(Long simId, Long rsId, Long csId, String row_num, String col_num){
-		
+
+	public GridData(Long simId, Long rsId, Long csId, String row_num,
+			String col_num) {
+
 		this.simId = simId;
 		this.rsId = rsId;
 		this.csId = csId;
-		
+
 		try {
-			this.rowNum = new Long (row_num).intValue();
-			this.colNum = new Long (col_num).intValue();
-		} catch (Exception e){
-			Logger.getRootLogger().warn("bady row or column number sent to grid doc");
+			this.rowNum = new Long(row_num).intValue();
+			this.colNum = new Long(col_num).intValue();
+		} catch (Exception e) {
+			Logger.getRootLogger().warn(
+					"bady row or column number sent to grid doc");
 		}
-		
+
 	}
 
 	public Long getId() {
@@ -167,8 +172,8 @@ public class GridData {
 	}
 
 	public String getCellData() {
-		
-		if (cellData == null){
+
+		if (cellData == null) {
 			cellData = "";
 		}
 		return cellData;
@@ -183,13 +188,13 @@ public class GridData {
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
-	
-	public static void deleteGridData(String schema, GridData gd){
+
+	public static void deleteGridData(String schema, GridData gd) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).delete(gd);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
-	
+
 	/**
 	 * Pulls the object out of the database base on its id and schema.
 	 * 
@@ -200,14 +205,14 @@ public class GridData {
 	public static GridData getById(String schema, Long gd_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
-		GridData gridData = (GridData) MultiSchemaHibernateUtil
-				.getSession(schema).get(GridData.class, gd_id);
+		GridData gridData = (GridData) MultiSchemaHibernateUtil.getSession(
+				schema).get(GridData.class, gd_id);
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return gridData;
 	}
-	
+
 	/**
 	 * Returns the data point found at the location specified for that custom
 	 * section and running simulation.
@@ -245,11 +250,59 @@ public class GridData {
 		} else if (tempList.size() > 1) {
 
 			System.out.println("multiple data at same point. We have problem.");
-			return new GridData();
+			return combineData(schema, simId, csId,
+					rsId, colNum, rowNum);
 		} else {
 			GridData gd = (GridData) tempList.get(0);
 			return gd;
 		}
+	}
+
+	/**
+	 * emergency fix 4/29
+	 * 
+	 * @param schema
+	 * @param simId
+	 * @param csId
+	 * @param rsId
+	 * @param colNum
+	 * @param rowNum
+	 * @return
+	 */
+	public static GridData combineData(String schema, Long simId, Long csId,
+			Long rsId, int colNum, int rowNum) {
+
+		GridData combinedData = new GridData();
+		
+		combinedData.setSimId(simId);
+		combinedData.setCsId(csId);
+		combinedData.setRsId(rsId);
+		combinedData.setColNum(colNum);
+		combinedData.setRowNum(rowNum);
+		
+		String hqlQuery = "from GridData where simId = :simId and "
+				+ "csId = :csId and rsId = :rsId and colNum = :colNum and rowNum = :rowNum"; //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		List tempList = MultiSchemaHibernateUtil.getSession(schema)
+				.createQuery(hqlQuery).setLong("simId", simId)
+				.setLong("csId", csId).setLong("rsId", rsId)
+				.setInteger("colNum", colNum).setInteger("rowNum", rowNum)
+				.list();
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		for (ListIterator<GridData> li = tempList.listIterator(); li.hasNext();) {
+			GridData dataToDelete = li.next();
+			
+			combinedData.setCellData(combinedData.getCellData() + "<br /><hr /><br />" + USIP_OSP_Util.lineTerminator + dataToDelete.getCellData());
+			combinedData.saveMe(schema);
+			
+			GridData.deleteGridData(schema, dataToDelete);
+		}
+
+		return combinedData;
 	}
 
 }

@@ -1165,7 +1165,7 @@ public class ObjectPackager {
 			String fullString, Long sim_id, XStream xstream,
 			Hashtable bssIdMappings, Hashtable actorIdMappings,
 			SessionObjectBase sob) {
-
+/*
 		List<String> tips_list = getSetOfObjectFromFile(fullString,
 				makeOpenTag(Tips.class), makeCloseTag(Tips.class));
 
@@ -1201,6 +1201,7 @@ public class ObjectPackager {
 			}
 
 		}
+		*/
 	}
 
 	/** A list, key-ed on object class and transit id, of all of the new ids */
@@ -1513,7 +1514,7 @@ public class ObjectPackager {
 			SimulationSectionAssignment this_ss = (SimulationSectionAssignment) xstream
 					.fromXML(act_string);
 
-			if (this_ss.getActor_id() != null) {
+			if ((this_ss.getActor_id() != null) && (this_ss.getPhase_id() != null)) {
 				this_ss.setSim_id(sim_id);
 				this_ss.setActor_id((Long) actorIdMappings.get(this_ss
 						.getActor_id()));

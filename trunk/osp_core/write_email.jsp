@@ -18,6 +18,19 @@
 	
 	Email email = Emailer.handleEmailWrite(request, pso);
 	
+	if (pso.add_recipients){
+		if (pso.add_type == PlayerSessionObject.ADD_TO){
+			response.sendRedirect("email_recipients.jsp?add_to=to");
+			return;
+		} else if (pso.add_type == PlayerSessionObject.ADD_CC){
+			response.sendRedirect("email_recipients.jsp?add_to=cc");
+			return;
+		} if (pso.add_type == PlayerSessionObject.ADD_BCC){
+			response.sendRedirect("email_recipients.jsp?add_to=bcc");
+			return;
+		}
+	}
+	
 	// mail has been sent. remove draft id, and return to email page.
 	if (pso.forward_on){
 		pso.forward_on = false;
@@ -61,55 +74,60 @@ alert("You must add recipients to the 'To' line to send email.");
 
 <br>
 <table width="360" border="1" cellspacing="0" cellpadding="0">
+
   <tr>
-    <td valign="top">Subject: </td>
-    <td valign="top"><label>
-<input name="email_subject" type="text" id="email_subject" size="60" value="<%= email.getSubjectLine() %>">
-</label></td>
+    <td colspan="2" valign="top"><input type="submit" name="email_save" id="email_save" value="Save Email">
+      <input type="submit" name="email_send" value="Send Email">
+      <input type="submit" name="email_clear" id="email_clear" value="Clear"></td>
     </tr>
   <tr>
-    <td valign="top">To:</td>
-    <td valign="top">
-          <select name="removed_email" id="removed_email">
+    <td valign="top"><input type="submit" name="add_to" id="add_to" value="TO:"></td>
+    <td valign="top">&nbsp;
         <%
   		for (ListIterator li =  pso.emailRecipients.listIterator(); li.hasNext();) {
 			EmailRecipients er = (EmailRecipients) li.next();
 			
 			%>
-        <option value="<%= er.getId() %>"><%= er.getActorName() %></option>
+        <%= er.getActorName() %>;
         <% 
 			}  // end of loop over email recipients
 		%>
-      </select>
-
-      <label>
-      <input type="submit" name="remove_recipient" id="remove_recipient" value="Remove Recipient">
-      </label>      <label>
-      </label></td>
+</td>
     </tr>
-  <tr>
-    <td valign="top">&nbsp;</td>
-    <td valign="top">&nbsp;</td>
-  </tr>
-  <tr>
-    <td colspan="2" valign="top"><hr /></td>
-    </tr>
-  <tr>
-    <td valign="top">Address Book: </td>
-    <td valign="top"><select name="email_recipient" id="email_recipient">
-        <%
-  		for (ListIterator li =  pso.eligibleActors.listIterator(); li.hasNext();) {
-			Actor act = (Actor) li.next();
+      <tr>
+    <td valign="top"><input type="submit" name="add_cc" id="add_cc" value="CC:"></td>
+    <td valign="top">&nbsp;
+            <%
+  		for (ListIterator li =  pso.emailRecipientsCC.listIterator(); li.hasNext();) {
+			EmailRecipients er = (EmailRecipients) li.next();
 			
-			if (!(act.getId().equals(pso.getActorId()))) {
 			%>
-        <option value="<%= act.getId() %>"><%= act.getActorName(pso.schema, pso.getRunningSimId(), request) %></option>
+        <%= er.getActorName() %>;
         <% 
-			} // end of if this is not the same actor
-			}  // end of loop over emails
+			}  // end of loop over email recipients
 		%>
-      </select>
-      <input type="submit" name="add_recipient" id="add_recipient" value="Add Recipient">    </td>
+    
+    </td>
+  </tr>
+      <tr>
+        <td valign="top"><input type="submit" name="add_bcc" id="add_bcc" value="BCC:"></td>
+        <td valign="top">&nbsp;
+                <%
+  		for (ListIterator li =  pso.emailRecipientsBCC.listIterator(); li.hasNext();) {
+			EmailRecipients er = (EmailRecipients) li.next();
+			
+			%>
+        <%= er.getActorName() %>;
+        <% 
+			}  // end of loop over email recipients
+		%>
+        </td>
+      </tr>
+      <tr>
+    <td valign="top">Subject: </td>
+    <td valign="top"><label>
+<input name="email_subject" type="text" id="email_subject" size="60" value="<%= email.getSubjectLine() %>">
+</label></td>
     </tr>
 </table>
 <br>
@@ -123,35 +141,8 @@ alert("You must add recipients to the 'To' line to send email.");
 		</script>
   </p>
 <p>
-  <label>
-  <input type="checkbox" name="send_real_world" value="true">Send as Real World Email Also
-  </label> 
+ 
 </p>
-<table width="360" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="50%"><input type="submit" name="email_save" id="email_save" value="Save Email"></td>
-    <td width="50%" bgcolor="#FF99FF"><input type="submit" name="email_send" value="Send Email"></td>
-    <td width="50%"><div align="right">
-      <label>
-      <input type="submit" name="email_clear" id="email_clear" value="Clear">
-      </label>
-    </div></td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td><div align="right">
-      <label>
-      <input type="submit" name="email_delete_draft" id="email_delete_draft" value="Delete Draft"  onClick="return confirm('Are you sure you want to delete this draft?');">
-      </label>
-    </div></td>
-  </tr>
-</table>
 <p><a href="<%= inbox_page %>">Back to Inbox</a></p>
 
 <p>&nbsp;</p>

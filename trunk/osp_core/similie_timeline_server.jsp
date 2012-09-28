@@ -15,10 +15,6 @@
 	
 	String textToShow = TimeLine.serveUpTimeLine(request, response, pso);
 	
-	System.out.println(" in s timeline server");
-		
-	System.out.println(textToShow);
-	
 %><?xml version="1.0" encoding="utf-8"?>
 <data>
 <%= textToShow %>

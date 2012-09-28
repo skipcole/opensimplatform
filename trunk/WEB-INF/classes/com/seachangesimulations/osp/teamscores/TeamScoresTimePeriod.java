@@ -2,6 +2,7 @@ package com.seachangesimulations.osp.teamscores;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,27 +11,28 @@ import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.annotations.Proxy;
+import org.usip.osp.baseobjects.RunningSimSet;
 import org.usip.osp.persistence.MultiSchemaHibernateUtil;
 
 import com.seachangesimulations.osp.griddoc.GridData;
 
 @Entity
-@Proxy(lazy=false)
+@Proxy(lazy = false)
 public class TeamScoresTimePeriod {
 
-    /** Database id of this Inject. */
+	/** Database id of this Inject. */
 	@Id
 	@GeneratedValue
-    private Long id;
-	
+	private Long id;
+
 	private Long simId;
-	
+
 	private Long csId;
-	
+
 	private Long rsId;
-	
+
 	private String periodDescription;
-	
+
 	private Date periodDate;
 
 	public Long getId() {
@@ -80,27 +82,28 @@ public class TeamScoresTimePeriod {
 	public void setPeriodDate(Date periodDate) {
 		this.periodDate = periodDate;
 	}
-	
+
 	public TeamScoresTimePeriod() {
-		
+
 	}
-	
-	public TeamScoresTimePeriod(String schema, String periodDescription, Long simId, Long csId, Long rsId){
-		
+
+	public TeamScoresTimePeriod(String schema, String periodDescription,
+			Long simId, Long csId, Long rsId) {
+
 		this.periodDescription = periodDescription;
 		this.simId = simId;
 		this.csId = csId;
 		this.rsId = rsId;
-		
+
 		this.saveMe(schema);
 	}
-	
+
 	public void saveMe(String schema) {
 		MultiSchemaHibernateUtil.beginTransaction(schema);
 		MultiSchemaHibernateUtil.getSession(schema).saveOrUpdate(this);
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 	}
-	
+
 	public static TeamScoresTimePeriod getById(String schema, Long tstp_id) {
 
 		MultiSchemaHibernateUtil.beginTransaction(schema);
@@ -111,11 +114,12 @@ public class TeamScoresTimePeriod {
 
 		return tstp;
 	}
-	
+
 	/** Returns all of the sections for a particular section and sim. */
-	public static List <TeamScoresTimePeriod> getAllForSectionAndSim(String schema, Long csId, Long simId){
-		
-		if ((simId == null) || (csId == null)) {
+	public static List<TeamScoresTimePeriod> getAllForSectionAndRunningSim(
+			String schema, Long csId, Long rsId) {
+
+		if ((rsId == null) || (csId == null)) {
 			return new ArrayList();
 		}
 
@@ -124,30 +128,45 @@ public class TeamScoresTimePeriod {
 		List returnList = MultiSchemaHibernateUtil
 				.getSession(schema)
 				.createQuery(
-						"from TeamScoresTimePeriod where simId = :simId and csId = :csId") //$NON-NLS-1$
-				.setLong("simId", simId)
-				.setLong("csId", csId)
-				.list();
+						"from TeamScoresTimePeriod where rsId = :rsId and csId = :csId") //$NON-NLS-1$
+				.setLong("rsId", rsId).setLong("csId", csId).list();
 
 		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
 
 		return returnList;
 	}
-	
-	public static void checkForPeriodCreation(HttpServletRequest request, String schema,
-			Long simId, Long csId, Long rsId){
-		
+
+	/**
+	 * Checks to see if someone is creating a time period for running sims all in the same set.
+	 * 
+	 * @param request
+	 * @param schema
+	 * @param simId
+	 * @param csId
+	 * @param rsId
+	 */
+	public static void checkForPeriodCreation(HttpServletRequest request,
+			String schema, Long simId, Long csId, Long rsId) {
+
 		String sending_page = (String) request.getParameter("sending_page");
-		
-		if ((sending_page != null) && (sending_page.equalsIgnoreCase("create_tstp"))) {
-			
+
+		if ((sending_page != null)
+				&& (sending_page.equalsIgnoreCase("create_tstp"))) {
+
 			String tstp_name = (String) request.getParameter("tstp_name");
-			
-			@SuppressWarnings("unused")
-			TeamScoresTimePeriod tstp = new TeamScoresTimePeriod(schema, tstp_name, simId, csId, rsId);
+
+			Enumeration simSets = RunningSimSet.getAllRunningSimsInSameSet(
+					schema, rsId);
+
+			for (; simSets.hasMoreElements();) {
+				Long thisRsId = (Long) simSets.nextElement();
+				@SuppressWarnings("unused")
+				TeamScoresTimePeriod tstp = new TeamScoresTimePeriod(schema,
+						tstp_name, simId, csId, thisRsId);
+			}
+
 		}
-		
+
 	}
-	
-	
+
 }

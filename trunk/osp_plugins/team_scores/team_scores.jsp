@@ -54,7 +54,7 @@
   </tr>
 <%	// Loop over Scoring Periods
 
-List tstps = TeamScoresTimePeriod.getAllForSectionAndSim(pso.schema, cs.getId(), pso.sim_id);
+List tstps = TeamScoresTimePeriod.getAllForSectionAndRunningSim(pso.schema, cs.getId(), pso.getRunningSimId());
 
 		for (ListIterator li = tstps.listIterator(); li.hasNext();) {
 			TeamScoresTimePeriod tstp = (TeamScoresTimePeriod) li.next();
@@ -90,7 +90,7 @@ List tstps = TeamScoresTimePeriod.getAllForSectionAndSim(pso.schema, cs.getId(),
 <p>&nbsp;</p>
 <p>
 
-  		
+ <% if (pso.isControlCharacter()) { %> 		
 <form name="form1" method="post" action="team_scores.jsp">
 <input type="hidden" name="cs_id" value="<%= cs_id %>">
 <input type="hidden" name="sending_page" value="create_tstp" />
@@ -105,6 +105,7 @@ List tstps = TeamScoresTimePeriod.getAllForSectionAndSim(pso.schema, cs.getId(),
   </tr>
 </table>
 </form>
+<% } // end of if actor is control %>
 <p>&nbsp;</p>
 
 <p><br />

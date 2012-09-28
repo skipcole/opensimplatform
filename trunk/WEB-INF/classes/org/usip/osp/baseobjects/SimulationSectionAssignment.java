@@ -1073,9 +1073,12 @@ public class SimulationSectionAssignment implements WebObject {
 
 			Logger.getRootLogger().debug("             comparing " + ss_old.getBase_sec_id() + " and " //$NON-NLS-1$ //$NON-NLS-2$
 					+ ssa_base_id);
-			if (ss_old.getBase_sec_id().equals(ssa_base_id)) {
-				Logger.getRootLogger().debug("             found match!"); //$NON-NLS-1$
-				foundThisSection = true;
+			
+			if ((ss_old != null) && (ss_old.getBase_sec_id() != null) && (ssa_base_id != null)){
+				if (ss_old.getBase_sec_id().equals(ssa_base_id)) {
+					Logger.getRootLogger().debug("             found match!"); //$NON-NLS-1$
+					foundThisSection = true;
+				}
 			}
 
 		}
