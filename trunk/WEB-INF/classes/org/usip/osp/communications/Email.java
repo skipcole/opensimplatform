@@ -563,6 +563,69 @@ public class Email implements Comparable {
 	
 	}
 	
+	/** Returns all of the recipients (To, CC, and BCC) */
+	public static List <EmailRecipients> getAllRecipients(String schema, Long email_id){
+		
+		MultiSchemaHibernateUtil.beginTransaction(schema);
+
+		String hqlString = "from EmailRecipients where email_id = :email_id";
+		
+		List returnList = MultiSchemaHibernateUtil.getSession(schema)
+			.createQuery(hqlString)
+			.setLong("email_id", email_id)
+			.list(); //$NON-NLS-1$
+
+		MultiSchemaHibernateUtil.commitAndCloseTransaction(schema);
+
+		return returnList;
+	
+	}
+	
+	public static String getStringListOfAllRecipients(String schema, Long email_id){
+		
+		String returnString = "  ";
+		
+		List starterList = getAllRecipients(schema, email_id);
+		
+		for (ListIterator<EmailRecipients> li = starterList.listIterator(); li.hasNext();) {
+			EmailRecipients this_er = li.next();
+		
+			returnString += this_er.getActor_id() + ", ";
+			
+		}
+		
+		// Remove final 2 characters.
+		returnString = (String) returnString.subSequence(0, returnString.length() - 2);
+		
+		// Remove final space (is there any?).
+		returnString = returnString.trim();
+		
+		return returnString;
+	}
+	
+	public static String generateListOfAllRecipients(String schema, Long email_id){
+		
+		String returnString = "  ";
+		
+		List starterList = getAllRecipients(schema, email_id);
+		
+		for (ListIterator<EmailRecipients> li = starterList.listIterator(); li.hasNext();) {
+			EmailRecipients this_er = li.next();
+		
+			returnString += this_er.getActorName() + ", ";
+			
+		}
+		
+		// Remove final 2 characters.
+		returnString = (String) returnString.subSequence(0, returnString.length() - 2);
+		
+		// Remove final space (is there any?).
+		returnString = returnString.trim();
+		
+		return returnString;
+		
+	}
+	
 	
 	/**
 	 * Generates a comma separated list of the email recipients.

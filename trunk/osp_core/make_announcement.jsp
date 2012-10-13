@@ -63,6 +63,7 @@ To All Players </label>
     <label></label>
   </p>
 </form>
+<h2 align="center">&nbsp;</h2>
 <h2 align="center">
   Current Announcements Displayed Here</h2>
 <table width="80%" border="1" align="center">
@@ -84,12 +85,7 @@ To All Players </label>
 <%
 	}
 %>
-</table>
-<div align="center"></div>
-<p align="center">&nbsp;</p>
-
-<p>&nbsp; </p>
-<p>&nbsp;</p>
+</table><p>&nbsp;</p>
 </body>
 </html>
 <%

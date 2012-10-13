@@ -30,7 +30,7 @@
         var eventSource = new Timeline.DefaultEventSource();
         var bandInfos = [
         Timeline.createBandInfo({
-			timeZone:       -5,
+			timeZone:       -4,
              eventSource:    eventSource,
             date:           "<%= tl.runStart %>",
             width:          "80%", 
@@ -38,7 +38,7 @@
             intervalPixels: <%= tl.shortIntervalPixelDistance %>
         }),
         Timeline.createBandInfo({
-			timeZone:       -5,
+			timeZone:       -4,
             overview:       true,
             eventSource:    eventSource,
             date:           "<%= tl.runStart %>",
