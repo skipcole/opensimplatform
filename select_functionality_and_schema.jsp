@@ -61,7 +61,8 @@ body {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="120" valign="top"><img src="Templates/images/logo_top.png" width="120" height="100" border="0" /></td>
-    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp;<%= USIP_OSP_Cache.getInterfaceText(request, pso.languageCode, "USIP_OSP_HEADER") %>    </h1></td>
+    <td width="80%" valign="middle"  background="Templates/images/top_fade.png"><h1 class="header">&nbsp; Sea Change Online Roleplay Platform<br>
+&nbsp;&nbsp;&nbsp;(Special PDC Release)</h1></td>
     <td align="right" background="Templates/images/top_fade.png" width="20%"> 
 
 	  <div align="center"></div>	  </td>

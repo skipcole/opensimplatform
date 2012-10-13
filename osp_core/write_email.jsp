@@ -60,9 +60,32 @@
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 <link href="../usip_osp.css" rel="stylesheet" type="text/css" />
+
+<style>
+
+input#email_save{
+    background: #fff url('images/save.png') no-repeat top left;
+    padding-left: 38px;
+    height: 38px;
+	background-color:#FFFFFF
+}
+input#email_send{
+    background: #fff url('images/send_email.png') no-repeat top left;
+    padding-left: 38px;
+    height: 38px;
+	background-color:#FFFFFF
+}
+input#email_clear{
+    background: #fff url('images/clear_email.png') no-repeat top left;
+    padding-left: 38px;
+    height: 38px;
+	background-color:#FFFFFF
+}
+</style>
+
 </head>
 
-<body>
+<body bgcolor="#FFFFFF">
 <table align="center" border="0">
 <tr><td>
 
@@ -84,11 +107,15 @@ alert("You must add recipients to the 'To' line to send email.");
 
   <tr>
     <td colspan="2" valign="top">
-    <input type="image"  name="email_save" id="email_save" value="Save" src="images/save.png" alt="save">
-    <input type="submit" name="email_save2"  value="Save Email2">
-      <input type="submit" name="email_send" value="Send Email">
-      <input type="submit" name="email_clear" id="email_clear" value="Clear">
-      <input type="image" name="send" id="send" src="images/send_email.png"></td>
+    <table border="0"><tr><td>
+    <input type="submit"  name="email_save" id="email_save" alt="save" value="" ><br />Save</input></td>
+    <td>&nbsp;&nbsp;</td>
+        <td><input type="submit"  name="email_send" id="email_send" alt="send" value="" ><br />Send</input></td>
+        <td>&nbsp;&nbsp;</td>
+        <td><input type="submit"  name="email_clear" id="email_clear" alt="clear" value="" ><br />Clear</input></td>
+    </tr>
+    </table>
+      </td>
     </tr>
   <tr>
     <td valign="top"><input type="submit" name="add_to" id="add_to" value="TO:"></td>

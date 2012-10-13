@@ -380,6 +380,11 @@ public class Emailer {
 				email = saveEmail(email_send, request, pso);
 
 			}
+			
+			if (email_send != null){
+				String allRecievers = Email.getStringListOfAllRecipients(pso.schema, pso.draft_email_id);
+				generateEmailNotifications(request, pso, allRecievers);
+			}
 
 			if (add_to != null) {
 				pso.add_recipients = true;
@@ -397,6 +402,29 @@ public class Emailer {
 		pso.setUpEligibleActors();
 
 		return email;
+	}
+	
+	private static void generateEmailNotifications(HttpServletRequest request,
+			PlayerSessionObject pso, String targets){
+		Alert al = new Alert();
+		al.setSpecific_targets(true);
+		
+		al.setType(AlertLevels.TYPE_EMAIL);
+				
+		al.setAlertMessage("New Email");
+
+		//String shortIntro = USIP_OSP_Util.cleanAndShorten("New Email", 20)
+		//		+ " ...";
+		
+		String shortIntro = "New email in your inbox.";
+
+		al.setAlertPopupMessage("There is a new announcement: " + shortIntro);
+		al.setThe_specific_targets(targets);
+		al.setRunning_sim_id(pso.getRunningSimId());
+		al.saveMe(pso.schema);
+
+		// Let people know that there is a change to catch.
+		pso.storeNewHighestChangeNumber(request, al.getId());
 	}
 
 	private static Email saveEmail(String email_send,

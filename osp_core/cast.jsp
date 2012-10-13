@@ -87,7 +87,7 @@
     <% } %>
     <p><strong>Public Description</strong><br />
         <%= this_actor.getPublic_description() %></p>
-    <p><strong>Semi-public Description</strong><br />
+    <p><br />
 	<%= this_actor.getSemi_public_description() %></p>
 
 	<p><strong>Private Description</strong> <br>

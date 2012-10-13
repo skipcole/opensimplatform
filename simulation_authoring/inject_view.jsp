@@ -65,8 +65,8 @@
 		  %>
             <tr>
               <td valign="top">&nbsp;</td>
-              <td valign="top">inject name:</td>
-              <td colspan="2" valign="top"><%= da_inject.getInject_name() %></td>
+              <td valign="top"><strong>inject name:</strong></td>
+              <td colspan="2" valign="top"><strong><%= da_inject.getInject_name() %></strong></td>
             </tr>
             <tr>
               <td valign="top">&nbsp;</td>
@@ -98,7 +98,7 @@
             </tr>
           <% } // end of loop over inject groups %>
             </table>
-            </td></tr></table>
+          </td></tr></table>
       <% } else { // End of if have set simulation id. %>
       <blockquote>
         <p>

@@ -23,7 +23,7 @@
 </head>
 
 <body>
-<h2>Announcements</h2>
+<h2>Bad Announcements</h2>
 <table width="95%" border="0" cellspacing="2" cellpadding="2">
   <tr valign="top"> 
     <td><p>&nbsp;</p>

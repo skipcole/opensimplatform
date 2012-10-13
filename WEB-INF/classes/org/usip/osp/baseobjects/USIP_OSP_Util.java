@@ -350,6 +350,18 @@ public class USIP_OSP_Util {
 
 	public static final String lineTerminator = "\r\n"; //$NON-NLS-1$
 
+	public static void showFormInput(HttpServletRequest request) {
+		
+		System.out.println("showing vorm value");
+		
+		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {
+			String param_name = (String) e.nextElement();
+			
+			String value = request.getParameter(param_name);
+			
+			System.out.println("p/v: " + param_name + " / " + value);
+		}
+	}
 	/**
 	 * returns a list of strings containing the value ( generally assumed to be
 	 * an id) from the checkboxes of a form.

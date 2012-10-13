@@ -107,8 +107,8 @@ body {
 
   <tr> 
     <td colspan="3" background="Templates/images/page_bg.png" ><P>&nbsp;</P>
-      <h1 align="center">&nbsp;&nbsp;&nbsp;Prototype Simulation Platform<br>
-        &nbsp;&nbsp;&nbsp;(Release <%= USIP_OSP_Properties.getRelease() %>)<br> 
+      <h1 align="center">&nbsp;&nbsp;&nbsp;Sea Change Online Roleplay Platform<br>
+        &nbsp;&nbsp;&nbsp;(Special PDC Release)<br> 
         <br>
       </h1>
 	  <div align="center">
@@ -185,8 +185,7 @@ body {
         </table>
 		</td></tr></table>
 		</div>
-	  </center>
-      <p align="center">&nbsp;</p>
+	  <p align="center">&nbsp;</p>
     </td>
   </tr>
 
